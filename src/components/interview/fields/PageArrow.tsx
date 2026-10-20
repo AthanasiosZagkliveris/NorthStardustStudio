@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef } from "react";
 
+import NavArrow from "../../controls/NavArrow.tsx";
 import { tileGapLevel } from "../tiles/SectionTiles.tsx";
 
 /** How many page arrows are drawn now: the page's two (previous and next) share the one level. */
@@ -63,18 +64,15 @@ export default function PageArrow({
     }, []);
 
     return (
-        <button
+        <NavArrow
             ref={node}
-            type="button"
             className="page-arrow"
-            data-direction={direction}
-            aria-label={direction === "previous" ? "Previous page" : "Next page"}
-            title={label ?? (direction === "previous" ? "Previous page" : "Next page")}
+            direction={direction}
+            label={direction === "previous" ? "Previous page" : "Next page"}
+            title={label}
             disabled={disabled}
             onClick={onClick}
-        >
-            {direction === "previous" ? "‹" : "›"}
-        </button>
+        />
     );
 
 }

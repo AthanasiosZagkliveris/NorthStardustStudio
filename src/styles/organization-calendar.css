@@ -1270,17 +1270,6 @@
 
 }
 
-.org-calendar-dropdown{
-
-    width:auto;
-    max-width:100%;
-
-    min-height:var(--card-cell-height, 44px);
-
-    font-size:var(--font-body);
-    text-align:left;
-
-}
 
 .org-calendar-multi{
 
@@ -1292,21 +1281,6 @@
 
 }
 
-.org-calendar-multi-list{
-
-    position:absolute;
-    z-index:5;
-
-    top:calc(100% + 4px);
-    left:0;
-
-    display:grid;
-
-    gap:var(--gap-6);
-
-    min-width:100%;
-
-}
 
 .org-calendar-multi-actions{
 
@@ -1342,22 +1316,6 @@
 
 }
 
-.org-calendar-task-link{
-
-    padding:0;
-
-    border:0;
-
-    background:none;
-    color:var(--bg-primary);
-
-    font:inherit;
-    text-decoration:underline;
-
-    cursor:pointer;
-
-}
-
 .org-calendar-task-add{
 
     margin-left:auto;
@@ -1381,14 +1339,7 @@
 
 }
 
-.org-calendar-multi > .org-calendar-dropdown{
 
-    font-family:inherit;
-    letter-spacing:normal;
-
-    background:var(--bg-surface);
-
-}
 
 /* ==========================================================
    THE CALENDAR'S CONTROLS ARE THE APP'S: its small buttons (the
@@ -1406,28 +1357,7 @@
 
 }
 
-.org-calendar-multi > .org-calendar-dropdown{
 
-    padding:7.5px var(--select-padding-right) 7.5px var(--select-padding-left);
-
-    background-image:var(--select-chevron);
-    background-repeat:no-repeat;
-    background-position:right var(--select-chevron-inset) center;
-    background-size:12px 8px;
-
-}
-
-.org-calendar-multi-list{
-
-    padding:4px;
-
-    border:0;
-    border-radius:var(--radius-lg);
-
-    background:var(--bg-surface);
-    box-shadow:var(--box-inset), 0 12px 28px var(--shadow-ink-18);
-
-}
 
 .org-calendar-multi-list > .tick-field{
 
@@ -1443,5 +1373,20 @@
 .org-calendar-multi-actions{
 
     padding:4px 10px 6px;
+
+}
+
+/* The cells that open a list of ticks (Dates, Include) are the option picker's dropdowns (CalendarFunnel's MultiPick draws its markup and classes); the list is as wide as its words, at least the cell. */
+.org-calendar-multi-list{
+
+    width:max-content;
+    min-width:100%;
+    max-width:none;
+
+}
+
+.org-calendar-multi-list > .option-picker-option{
+
+    display:flex;
 
 }

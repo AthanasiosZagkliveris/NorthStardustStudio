@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
+import TextLink from "./interview/fields/TextLink.tsx";
+import NavArrow from "./controls/NavArrow.tsx";
 import { CalendarTaskAnnotation, OrganizationService } from "../services/OrganizationService";
 import { NotepadService } from "../services/NotepadService";
 import { CalendarTask, getCalendarTasks } from "../services/CalendarTaskService";
@@ -664,27 +666,13 @@ export default function OrganizationCalendarPanel({
 
                     <div className="org-calendar-month-nav">
 
-                        <button
-                            type="button"
-                            className="org-calendar-month-nav-button"
-                            aria-label="Previous month"
-                            onClick={() => goToMonth(-1)}
-                        >
-                            ‹
-                        </button>
+                        <NavArrow className="org-calendar-month-nav-button" direction="previous" label="Previous month" onClick={() => goToMonth(-1)} />
 
                         <span className="org-calendar-month-label">
                             {MONTH_LABELS[viewMonth]} {viewYear}
                         </span>
 
-                        <button
-                            type="button"
-                            className="org-calendar-month-nav-button"
-                            aria-label="Next month"
-                            onClick={() => goToMonth(1)}
-                        >
-                            ›
-                        </button>
+                        <NavArrow className="org-calendar-month-nav-button" direction="next" label="Next month" onClick={() => goToMonth(1)} />
 
                     </div>
 
@@ -769,9 +757,9 @@ export default function OrganizationCalendarPanel({
                                     <span className="org-calendar-agenda-date">{isoToDisplay(task.date, dateFormat)}</span>
                                     {task.label && <span className="org-calendar-task-kind">{task.label}</span>}
                                     {task.noteId
-                                        ? <button type="button" className="org-calendar-task-link" onClick={() => NotepadService.open([task.noteId as string])}>{task.name}</button>
+                                        ? <TextLink className="org-calendar-task-link" onClick={() => NotepadService.open([task.noteId as string])}>{task.name}</TextLink>
                                         : onOpenTask
-                                            ? <button type="button" className="org-calendar-task-link" title={task.originLabel + " " + task.sectionTitle} onClick={() => onOpenTask(task.systemNumber, task.sectionNumber)}>{task.name ?? task.description}</button>
+                                            ? <TextLink className="org-calendar-task-link" title={task.originLabel + " " + task.sectionTitle} onClick={() => onOpenTask(task.systemNumber, task.sectionNumber)}>{task.name ?? task.description}</TextLink>
                                             : <span className="org-calendar-agenda-text">{task.name ?? task.description}</span>}
                                 </div>
                             ))}
@@ -820,24 +808,22 @@ export default function OrganizationCalendarPanel({
 
                                             {task.noteId
                                                 ? (
-                                                    <button
-                                                        type="button"
+                                                    <TextLink
                                                         className="org-calendar-task-link"
                                                         onClick={() => NotepadService.open([task.noteId as string])}
                                                     >
                                                         {task.name}
-                                                    </button>
+                                                    </TextLink>
                                                 )
                                                 : onOpenTask
                                                 ? (
-                                                    <button
-                                                        type="button"
+                                                    <TextLink
                                                         className="org-calendar-task-link"
                                                         title={task.originLabel + " " + task.sectionTitle}
                                                         onClick={() => onOpenTask(task.systemNumber, task.sectionNumber)}
                                                     >
                                                         {task.name ?? task.description}
-                                                    </button>
+                                                    </TextLink>
                                                 )
                                                 : <span>{task.name ?? task.description}</span>}
 

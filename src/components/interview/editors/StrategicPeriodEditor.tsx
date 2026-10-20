@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode, useState } from "react";
 
+import FoldArrow from "../fields/FoldArrow.tsx";
 import TextBox from "../../controls/TextBox.tsx";
 import CardShell from "../cards/CardShell.tsx";
 import FieldLabel from "../../controls/FieldLabel.tsx";
@@ -36,7 +37,6 @@ import NumberedListInput from "../fields/NumberedListInput.tsx";
 import InfoNote from "../fields/InfoNote.tsx";
 import CardNameInput from "../cards/CardNameInput.tsx";
 import CardNav from "../cards/CardNav.tsx";
-import LabelArrow from "../fields/LabelArrow.tsx";
 import { useGroupView } from "./groupView.ts";
 import SectionTiles, { DialogHeading, type SectionTile } from "../tiles/SectionTiles.tsx";
 import CardBoxes, { type CardBox } from "../cards/CardBoxes.tsx";
@@ -843,9 +843,9 @@ function ObjectiveList({
 
                                         <div className="strategy-box-head">
                                             <span className="strategy-box-number">
-                                                <LabelArrow
+                                                <FoldArrow variant="label"
                                                     open={!foldedInitiatives.includes(objective.id)}
-                                                    label={`${!foldedInitiatives.includes(objective.id) ? "Minimize" : "Maximize"} Objective ${objectiveIndex + 1} initiatives`}
+                                                    name={`${!foldedInitiatives.includes(objective.id) ? "Minimize" : "Maximize"} Objective ${objectiveIndex + 1} initiatives`}
                                                     onToggle={() => setFoldedInitiatives(current => current.includes(objective.id) ? current.filter(id => id !== objective.id) : [...current, objective.id])}
                                                 />
                                                 Initiatives

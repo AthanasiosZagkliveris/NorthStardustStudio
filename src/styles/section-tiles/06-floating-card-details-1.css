@@ -200,17 +200,18 @@
 
 }
 
-/* THE TAGS ABOVE AND BELOW A FLOATING CARD (its title and the time it was recorded) ARE DRAWN AS THE CARD IS: its ground (the card's hue), its ink, its corners and its raised edge and shadow, with 6px between the words and the tag's edges. */
+/* THE TAGS ABOVE AND BELOW A FLOATING CARD (its title and the time it was recorded) ARE DRAWN AS THE CARD IS: its ground (the card's hue), its ink, its corners and its raised edge and shadow, with 6px above and below the words and 12px at the sides. */
 .floating-overlay :is(.floating-card-caption, .floating-card-recorded) {
 
-    padding: 6px;
+    padding: 6px 12px;
 
     border-radius: var(--radius-lg);
 
     background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
     box-shadow: var(--box-inset), 0 8px 20px var(--shadow-ink-18);
 
-    color: var(--text-default);
+    /* The card's label colour: the darker tint of its hue. */
+    color: hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
     text-shadow: none;
 
 }
@@ -1102,9 +1103,3 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
 }
 
 
-/* A PAIR STANDS IN PLACE OF THE CARD IT WAS OPENED FROM: it draws that card again above the card it leads to, so the card under it is not drawn (its scrim stays). */
-.floating-overlay:has(~ .floating-overlay-pair) .floating-card-item {
-
-    visibility: hidden;
-
-}

@@ -55,7 +55,7 @@ describe("the documents' references", () => {
     });
 
     it("find a name the code lacks", () => {
-        const references = extractReferences("The `--no-such-token` and `.no-such-class` in `NoSuchFile.tsx`, and `--info-gap` in `LabelArrow.tsx`.");
+        const references = extractReferences("The `--no-such-token` and `.no-such-class` in `NoSuchFile.tsx`, and `--info-gap` in `FoldArrow.tsx`.");
         const missing = missingReferences(references, code);
         expect(missing).toEqual({ properties: ["--no-such-token"], classes: ["no-such-class"], files: ["NoSuchFile.tsx"] });
     });

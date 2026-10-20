@@ -1,6 +1,6 @@
 import { CSSProperties, useContext, useMemo, useState } from "react";
+import FoldArrow from "../fields/FoldArrow.tsx";
 import TileGrid from "./TileGrid.tsx";
-import LabelArrow from "../fields/LabelArrow.tsx";
 import { BUSINESS_COST_FREQUENCIES, BUSINESS_RESOURCE_STATUSES } from "../../../framework/engine/AnswerUtils.ts";
 import { OpenCardContext, plainTitle, tileName } from "./SectionTiles.tsx";
 import CardTile, { Dots, SYMBOLS, inwardOrigin } from "./CardTile.tsx";
@@ -73,7 +73,7 @@ function MenuHead({ title, open, onToggle, controls }: { title: string; open: bo
     return (
         <div className="capability-overview-menu-head">
             <strong>{title}</strong>
-            <LabelArrow open={open} controls={controls} label={(open ? "Fold " : "Unfold ") + title} onToggle={onToggle} />
+            <FoldArrow variant="label" open={open} controls={controls} name={(open ? "Fold " : "Unfold ") + title} onToggle={onToggle} />
         </div>
     );
 }

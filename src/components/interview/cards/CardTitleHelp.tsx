@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 
+import FoldArrow from "../fields/FoldArrow.tsx";
 import InfoNote, { InfoPoint } from "../fields/InfoNote.tsx";
-import LabelArrow from "../fields/LabelArrow.tsx";
 import "../../../styles/title-arrow.css";
 import { consumeKey } from "../fields/consumeKey.ts";
 
@@ -95,9 +95,9 @@ export default function CardTitleHelp({
                 {note && note.length > 0 && <InfoNote label={title} points={note} fullList />}
 
                 {enabled && (
-                    <LabelArrow
+                    <FoldArrow variant="label"
                         open={open}
-                        label={(open ? "Hide help for " : "Show help for ") + title}
+                        name={(open ? "Hide help for " : "Show help for ") + title}
                         controls={panelId}
                         onToggle={onToggle}
                     />

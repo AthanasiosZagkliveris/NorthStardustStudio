@@ -7,7 +7,6 @@ import MonthYearPicker from "../../components/interview/fields/MonthYearPicker";
 import type { StrategyMonthValue } from "../../framework/engine/AnswerUtils.ts";
 import FoldArrow from "../../components/interview/fields/FoldArrow";
 import InfoNote, { InfoText } from "../../components/interview/fields/InfoNote";
-import LabelArrow from "../../components/interview/fields/LabelArrow";
 import NumberedListInput from "../../components/interview/fields/NumberedListInput";
 import OptionPicker from "../../components/interview/fields/OptionPicker";
 import BulletRail from "../../components/interview/rails/BulletRail";
@@ -64,7 +63,7 @@ function ColourBox() {
 
 function Fold({ label }: { label: boolean }) {
     const [open, setOpen] = useState(true);
-    return label ? <span className="field-label"><LabelArrow open={open} label="Responsibilities" onToggle={() => setOpen(!open)} />Responsibilities</span> : <FoldArrow open={open} label="Initiatives" onToggle={() => setOpen(!open)} />;
+    return label ? <span className="field-label"><FoldArrow variant="label" open={open} name="Responsibilities" onToggle={() => setOpen(!open)} />Responsibilities</span> : <FoldArrow open={open} label="Initiatives" onToggle={() => setOpen(!open)} />;
 }
 
 function DayPopup() {

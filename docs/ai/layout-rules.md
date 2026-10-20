@@ -424,7 +424,7 @@ Text that goes bold under the pointer (`--hover-bold`) gets 0.05em of tracking O
 
 ### The label arrow (2026-10-14)
 
-One fold arrow (`LabelArrow.tsx`, `label-arrow.css`) for an arrow that stands beside a label or a text and shows or hides what belongs to it.
+One fold arrow (`FoldArrow.tsx`, `label-arrow.css`) for an arrow that stands beside a label or a text and shows or hides what belongs to it.
 Today: the chapter titles of 3. Infrastructure & Capability (right of the title and its "i"), and, left of the label and inside it, a founder's Responsibilities and Completed, a card's Links and the Initiatives of an Objective.
 - No frame and no ground: only the triangle. At rest an outline in the card's tint (the "+" box's colour); under the pointer and the keyboard focus the same triangle filled.
 - The shape is the Completed arrow's (11px wide and 18px high pointing right, 18 x 11px pointing down, at an 18px label); the size scales with the label's letters (1em high). The line is 2px, inside the shape, like the "+" box's. The colour is the card's tint (the "+" box's).
@@ -774,7 +774,7 @@ drawn only in a dialog that its tile opens.
 - **The label arrow and its drop-down help.** This page has NO "Hide Help" /
   "Need Help?" button (`Conversation.tsx` passes the page's `titleHelpArrows`
   condition; the other pages keep theirs). Each card title has a **label arrow**
-  (`LabelArrow.tsx`, `label-arrow.css`, drawn by `CardTitleHelp.tsx`) after its text
+  (`FoldArrow.tsx`, `label-arrow.css`, drawn by `CardTitleHelp.tsx`) after its text
   and its "i", 8px from the previous item of the title row, centred on
   the title's line: pointing right while the title's help is hidden (the default),
   down while open. It is NOT the 36px fold arrow: it is the label arrow (see "The
@@ -990,7 +990,7 @@ drawn only in a dialog that its tile opens.
   Responsibilities fold arrow, the list numbers and the Completed arrow all start at ONE x, the marker column's (17.2px from the card's edge, measured on the glyphs); a wrapped line of an
   item aligns under its first line's text (hanging). A two-digit number is wider than the column: the column grows and the list's text follows it. **The head:** the number and the name are on
   ONE line -- one line height (28px), so the same baseline (246.5) and vertical centre (240.2) -- and the number, in tabular figures (every single digit 18.3px), ends **8px** (measured
-  8.01) before the name. **Both fold arrows are the label arrow** (`LabelArrow`, see "The label arrow": an outline triangle in the card's tint that fills under the pointer and the keyboard focus, no ground and no ring): the
+  8.01) before the name. **Both fold arrows are the label arrow** (`FoldArrow` (variant label), see "The label arrow": an outline triangle in the card's tint that fills under the pointer and the keyboard focus, no ground and no ring): the
   Responsibilities row and the Completed row are the same row of one component. **The arrow does not move when it is toggled:** open and closed it has ONE margin, so its box and the label after it stay where they are; the glyph turns about its centre and is shifted by 0.1945em when open, so its left edge stays on the markers' x. The glyph starts on the markers' x and the label after it starts where a tick box's words start (26px from the edge). Lists: line height 1.45 (`--section-tile-line-height`, 26.1px at 18px), 6px between
   items (item pitch 32.1px, a wrapped item 52.2px + 6), 12px between blocks (the Completed block 12px under the list, its struck items 6px apart
   under it). The head: number, 8px, name; the roles 12px under it. **Four cells of one size** -- `--founder-cell` (108px, what "Annually" needs) x 45px
@@ -1360,7 +1360,7 @@ Written from the asset contracts in `src/library`; the library runner (`npm run 
 
 One frameless triangle beside a label or a title that shows or hides what belongs to it. Outline at rest, filled under the pointer and the keyboard focus; right while hidden, down while open.
 
-- **Kind:** fold arrow. **Code:** `src/components/interview/fields/LabelArrow.tsx`. **Stylesheet:** `src/styles/label-arrow.css`.
+- **Kind:** fold arrow. **Code:** `src/components/interview/fields/FoldArrow.tsx`. **Stylesheet:** `src/styles/label-arrow.css`.
 - **Parts:** button (the hit area); triangle (svg polygon, 2px line inside its edge).
 - **States:** rest, hover, focus, closed, open.
 - **Used in:** chapter titles of 3. Infrastructure & Capability; a founder's Responsibilities and Completed; a card's Links; the Initiatives of an Objective.
@@ -1724,7 +1724,7 @@ The owner's rules of one round, each global: made in a shared component, token o
 2. **A card opens on the half of the page its tile is not in** (`otherColumn`, `acrossFrom`): over the frame on the other half; a card opened from a tile inside a dialog (a category's, the Inventory's, the Completed's) goes by that tile's place.
 3. **The background of a floating card is shaded once, and only where nothing shades it already** (`.floating-chapter-shade`, see rule 22.16): a press on it closes the card.
 4. **A legal card floats on 3. Infrastructure & Capability** (a founder's "L." link, an Inventory tile): the Legal Entity editor is mounted with its tiles not drawn (`cardsOnly`), and what is typed is saved to the Identity System's answer (`changeLegalEntity`).
-5. **Every floating card shows its record time under it** ("Recorded 17/10/2026 14:13", `CardRecordService`): set the first time the card is made or opened, kept in the organization's document (`cardTimes`). The record tag stands 12px under the card, as the title tag stands 12px over it; both tags are drawn as the card is (its ground, ink, corners, raised edge and shadow) with 6px between their words and their edges.
+5. **Every floating card shows its record time under it** ("Recorded 17/10/2026 14:13", `CardRecordService`): set the first time the card is made or opened, kept in the organization's document (`cardTimes`). The record tag stands 12px under the card, as the title tag stands 12px over it; both tags are drawn as the card is (its ground, ink, corners, raised edge and shadow) with 6px above and below their words and 12px at the sides.
 6. **A founder's floating card keeps its pairs side by side** (Salary | Frequency, Working Hours | Delivery Hours): where the card is too narrow for each label beside its cell, the label stands over its cell. The funnel ends where the Start date's calendar box ends.
 7. **A legal requirement's Type cell** takes all the room after its label.
 
@@ -1787,7 +1787,7 @@ One section for the three rounds of the day, merged by topic; each rule is globa
 21. **A generated card adds, never removes**: it serves what the cards connected to it serve (the card that made it, every other card that names it), the user may add others, and nothing a connected card serves is taken off it (the ticks keep them); what it gains never changes those cards (`connectedOfferings`, `withInheritedOfferings`).
 22. **A frequency belongs to its group**: a card offers only what its group offers (a card with no group the groups of its master tile together); a card that CHANGES its category or group starts its Frequency again ("Select", or the only one its new group offers; its unit and a named "other" with it, the price stays), and one the group lacks, found on an older card, moves to the group's first (docs/design/19). A hand-made landlord or lessor card shows its group's own extras.
 23. **One Notes panel column**: the card notes and the notes of each Organization stand in one scrolling column, 16px padded; a card note is a note's box (12px padding, 6px between its lines, glow on the pointer, ring on the focus).
-24. **Shared components** (every place that needs one uses it, never its own markup): Back (`BackButton`), remove (`RemoveButton`), funnel (`FunnelButton`), add (`AddButton`: wide, box, tile), number cell (`NumberCell`), tick box (`TickBox`), field label (`FieldLabel`), date (`DateCellInput`), month (`MonthYearPicker`), text link (`TextLink`), dropdown (`OptionPicker`), optional note (`OptionalNote`, one note class: `business-foundation-note`), tick with its words (`TickField`), popup (`PopupPanel`, `usePopupDismiss`), Legal Entity row (`FieldRow`), free text (`TextField`: grows, list writing, its CSS height is the floor), name (`NameCell`) the folding card's head (`CardHead`: arrow, number, mark, name, actions, summary) tooltip (`TooltipBox`, `useAboveTip`), the card's outer box (`CardShell`) and the grid of tiles (`TileGrid`), label arrow (`LabelArrow`, also the Inventory menu's) and fold arrow (`FoldArrow`, cards and sections).
+24. **Shared components** (every place that needs one uses it, never its own markup): Back (`BackButton`), remove (`RemoveButton`), funnel (`FunnelButton`), add (`AddButton`: wide, box, tile), number cell (`NumberCell`), tick box (`TickBox`), field label (`FieldLabel`), date (`DateCellInput`), month (`MonthYearPicker`), text link (`TextLink`), dropdown (`OptionPicker`), optional note (`OptionalNote`, one note class: `business-foundation-note`), tick with its words (`TickField`), popup (`PopupPanel`, `usePopupDismiss`), Legal Entity row (`FieldRow`), free text (`TextField`: grows, list writing, its CSS height is the floor), name (`NameCell`) the folding card's head (`CardHead`: arrow, number, mark, name, actions, summary) tooltip (`TooltipBox`, `useAboveTip`), the card's outer box (`CardShell`) and the grid of tiles (`TileGrid`), label arrow (`FoldArrow` (variant label), also the Inventory menu's) and fold arrow (`FoldArrow`, cards and sections).
 
 **Where the rules of the fields are** (labels, cells, gaps): sizes of cells and the closed set of widths, section 4; alignment of labels and cells, section 5; shared components and states (rest, hover, focus, disabled), section 6; lists, grids and card layouts, section 7; dates and formats, section 15; texts and names, section 16; and rules 22.1 to 22.11 above (the one reaction of a cell, the gaps 12 and 6, the one label, the one date and month field). The reactions are tabulated in docs/design/20-reactions.md.
 25. **One funnel**: `FunnelButton` (the "+" box with the one drawn funnel, filled while it leaves something out) opens every filter or sort: a founder's Responsibilities, the card notes, the Inventory, a section's sort.

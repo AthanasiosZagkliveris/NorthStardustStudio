@@ -2,6 +2,14 @@
 
 This document describes the current situation, one dated section per state, the newest on top. What changed, and when, is written in the log (`04-log.md`), not here.
 
+## State on 2026-10-20, the last of the day (third part)
+
+- **One fold arrow**: `FoldArrow` (`interview/fields/FoldArrow.tsx`), two sizes by `variant` (`card`, `label`); `LabelArrow` no longer exists. Used by the card heads, the groups, the labels, the title help, `FoldHead` and the Notes' close arrow. Left: the typed ▸ / ▾ of the Process library's rows (a page not reachable in this app version).
+- **One navigation arrow**: `NavArrow` (`controls/NavArrow.tsx`): the page arrows (`PageArrow`, which adds the level it stands at), the carousel's, the card navigation's, the calendar's month arrows and the date popup's steps.
+- **One text link**: `TextLink` for "Go there" and the calendar's task links.
+- **A dropdown is the option picker's**, also the calendar's list of ticks (`CalendarFunnel`).
+- **A tooltip says something new**: `TitleTooltips` leaves out a title that repeats the element's words, name or value, except where the words are cut short.
+
 ## State on 2026-10-20, the last of the day (second part)
 
 - **A control loads its own style.** A shared control's rules are in a sheet the control imports (`add-button.css`, `text-field.css`, `fold-arrow.css`, `title-arrow.css`, `option-picker.css`, `remove-button.css`), never only in a page's sheet: the Notes panel and the header are on every page. Found by looking at the Notes panel on the System Selection page.

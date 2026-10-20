@@ -1,4 +1,5 @@
 import BackButton from "../../controls/BackButton.tsx";
+import NavArrow from "../../controls/NavArrow.tsx";
 import { CSSProperties, RefObject, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { type CarouselStep } from "./SectionTileTypes.ts";
 import { arrowLevel } from "./SectionTileGeometry.tsx";
@@ -221,30 +222,24 @@ export function CarouselArrows({ target, step, hue, back }: { target: RefObject<
     }
     return (
         <>
-            <button
-                type="button"
+            <NavArrow
                 className={"page-arrow carousel-arrow" + (arrowOnTab && at.side === "left" ? " carousel-arrow-on-tab" : "")}
                 data-completed={target.current?.querySelector(COMPLETED_CARD) ? "" : undefined}
-                data-direction="previous"
-                aria-label={"Previous " + step.what}
+                direction="previous"
+                label={"Previous " + step.what}
                 title={"Previous " + step.what + " (←)"}
                 style={{ left: at.left, top: at.top, "--strategy-theme-hue": hue, ...(at.tab ? { "--tab-edge": at.tab.edge } : {}) } as CSSProperties}
                 onClick={step.previous}
-            >
-                ‹
-            </button>
-            <button
-                type="button"
+            />
+            <NavArrow
                 className={"page-arrow carousel-arrow" + (arrowOnTab && at.side === "right" ? " carousel-arrow-on-tab" : "")}
                 data-completed={target.current?.querySelector(COMPLETED_CARD) ? "" : undefined}
-                data-direction="next"
-                aria-label={"Next " + step.what}
+                direction="next"
+                label={"Next " + step.what}
                 title={"Next " + step.what + " (→)"}
                 style={{ right: at.right, top: at.top, "--strategy-theme-hue": hue, ...(at.tab ? { "--tab-edge": at.tab.edge } : {}) } as CSSProperties}
                 onClick={step.next}
-            >
-                ›
-            </button>
+            />
             {step.items && step.items.length > 1 && step.go && (
                 // The rail under the arrows (the right one's): a bullet for each of the list, this one's lit. A card's bullet says its name in a tooltip (a card is named by the user); a SECTION'S bullet has its name beside it (the tiles' names are given), where the window has the room for it.
                 <nav

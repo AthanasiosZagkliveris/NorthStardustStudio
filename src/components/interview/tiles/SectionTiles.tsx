@@ -479,7 +479,7 @@ export default function SectionTiles({
                     hue={floatingTile.channel || floatingTile.isChannelCard?.(floating.id) ? CHANNEL_TILE_HUE : floatingTile.hueFor?.(floating.id) ?? hue}
                     incomplete={!!shownIncomplete?.has(floating.id)}
                     label={floatingTile.title}
-                    attrs={{ "data-floating": floating.tileId, "data-card-id": floating.id }}
+                    attrs={{ "data-floating": floating.tileId, "data-card-id": floating.id, ...(floating.under && stackUnder ? { "data-pair": stackUnder.item.key } : {}) }}
                     step={!floating.fresh && !floating.alone && !floating.under && floatingTile.id !== "overview" && floatingTile.id !== "completed" && siblingCards.length > 1 && siblingCards.some(item => item === floating.id || item === "founder-" + floating.id) ? { what: "card", previous: () => stepFloating(-1), next: () => stepFloating(1), items: floatingItems, current: floatingAt, go: (id: string) => { if (id !== floating.id) { goFloating(id); } } } : undefined}
                     cards={(() => {
                         // (A requirement and the expense it made are drawn together only where a LINK was pressed -- the tile's link, a card's link symbol; opened by its own tile or box, a card is alone.)

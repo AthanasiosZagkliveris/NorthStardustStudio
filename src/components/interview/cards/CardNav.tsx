@@ -1,4 +1,5 @@
 import "../../../styles/status-shape.css";
+import NavArrow from "../../controls/NavArrow.tsx";
 import "../../../styles/bullet-rail.css";
 
 /**
@@ -64,26 +65,8 @@ export default function CardNav({
             <nav className="strategy-card-nav" aria-label={kind + " navigation"}>
 
                 <div className="strategy-card-nav-arrows">
-                    <button
-                        type="button"
-                        className="page-arrow"
-                        data-direction="previous"
-                        aria-label={"Previous " + kind}
-                        title={"Previous " + kind}
-                        onClick={() => onGo(ids[index === 0 ? last : index - 1])}
-                    >
-                        ‹
-                    </button>
-                    <button
-                        type="button"
-                        className="page-arrow"
-                        data-direction="next"
-                        aria-label={"Next " + kind}
-                        title={"Next " + kind}
-                        onClick={() => onGo(ids[index === last ? 0 : index + 1])}
-                    >
-                        ›
-                    </button>
+                    <NavArrow className="page-arrow" direction="previous" label={"Previous " + kind} onClick={() => onGo(ids[index === 0 ? last : index - 1])} />
+                    <NavArrow className="page-arrow" direction="next" label={"Next " + kind} onClick={() => onGo(ids[index === last ? 0 : index + 1])} />
                 </div>
 
                 <ol className="bullet-rail-list">

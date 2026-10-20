@@ -9,6 +9,27 @@ import { aboveTipPosition, TooltipBox } from "./Tooltip.tsx";
  * native one. The words stay the element's: an element with no text of its own is named by them (`aria-label`), any other is described by them
  * (`aria-description`), and `data-tip` keeps them for the next time. Escape closes the tip.
  */
+/** The words of a text without its marks, to compare two texts. */
+const plain = (text: string) => text.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+
+/**
+ * WHETHER A TIP SAYS ANYTHING THE ELEMENT DOES NOT: one that only repeats what is written on the element (its words, its name, its value) is left out -- unless
+ * those words are cut short on the screen (an ellipsis), where the tip is the whole of them.
+ */
+function worthShowing(element: HTMLElement, tip: string): boolean {
+    const own = plain([element.textContent ?? "", element.hasAttribute("data-tip-named") ? "" : element.getAttribute("aria-label") ?? "", "value" in element ? String((element as HTMLInputElement).value) : ""].join(" "));
+    const words = plain(tip).split(" ").filter(Boolean);
+    if (words.length === 0) {
+        return false;
+    }
+    const ownWords = new Set(own.split(" "));
+    if (!words.every(word => ownWords.has(word))) {
+        return true;
+    }
+    const cut = (node: HTMLElement) => node.scrollWidth > node.clientWidth + 1 || node.scrollHeight > node.clientHeight + 1;
+    return [element, ...element.querySelectorAll<HTMLElement>("*")].some(node => cut(node) && getComputedStyle(node).overflow !== "visible");
+}
+
 export default function TitleTooltips() {
     const [tip, setTip] = useState<{ text: string; element: HTMLElement; x: number | null } | null>(null);
     const box = useRef<HTMLDivElement | null>(null);
@@ -27,6 +48,7 @@ export default function TitleTooltips() {
                     if (!element.hasAttribute("aria-label") && !element.hasAttribute("aria-labelledby")) {
                         if (!(element.textContent ?? "").trim()) {
                             element.setAttribute("aria-label", title);
+                            element.setAttribute("data-tip-named", "");
                         } else if (!element.hasAttribute("aria-description")) {
                             element.setAttribute("aria-description", title);
                         }
@@ -39,7 +61,7 @@ export default function TitleTooltips() {
         const over = (event: PointerEvent) => {
             const element = reach(event.target);
             const text = element ? take(element) : null;
-            setTip(element && text ? { text, element, x: event.clientX } : null);
+            setTip(element && text && worthShowing(element, text) ? { text, element, x: event.clientX } : null);
         };
         const move = (event: PointerEvent) => {
             setTip(current => current && current.x !== null && current.element.contains(event.target as Node) ? { ...current, x: event.clientX } : current);
@@ -47,7 +69,7 @@ export default function TitleTooltips() {
         const focus = (event: FocusEvent) => {
             const element = reach(event.target);
             const text = element ? take(element) : null;
-            setTip(element && text ? { text, element, x: null } : null);
+            setTip(element && text && worthShowing(element, text) ? { text, element, x: null } : null);
         };
         const away = () => setTip(null);
         const key = (event: KeyboardEvent) => {

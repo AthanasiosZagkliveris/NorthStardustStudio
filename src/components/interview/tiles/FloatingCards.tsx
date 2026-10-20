@@ -241,7 +241,7 @@ export function FloatingCards({
     return createPortal(
         <div
             ref={overlay}
-            className={"section-tile-overlay floating-overlay" + (pair ? " floating-overlay-pair" : "") + " business-foundation business-engagement business-capability"}
+            className={"section-tile-overlay floating-overlay business-foundation business-engagement business-capability"}
             data-carousel={step ? "" : undefined}
             // (The overlay starts under the app header and scrolls: the header is the only edge that cuts a card.)
             style={place ? { top: place.band } : undefined}

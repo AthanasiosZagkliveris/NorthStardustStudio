@@ -370,7 +370,7 @@ describe("the 'i' of a coloured card", () => {
         // The tint is the card's hue's; the ground is the surface's own.
         expect(edges).toMatch(/--info-ink: hsl\(var\(--strategy-theme-hue, 0\) var\(--theme-text-ink\)\);/);
         expect(edges).toMatch(/--info-fill: color-mix\(in srgb, hsl\(var\(--strategy-theme-hue, 0\) var\(--theme-bg-ground\)\)/);
-        expect(edges).toMatch(/\.floating-card-caption \{[^}]*--info-ink: var\(--text-default\);/);
+        expect(edges).toMatch(/\.floating-card-caption \{[^}]*--info-ink: hsl\(var\(--strategy-theme-hue, 0\) var\(--theme-text-ink\)\);/);
     });
 
 });

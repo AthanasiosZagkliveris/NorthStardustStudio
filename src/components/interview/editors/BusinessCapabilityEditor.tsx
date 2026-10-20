@@ -160,7 +160,6 @@ import type { OpenPage } from "../tiles/jumpTo.ts";
 import { useItemFolds } from "../fields/useItemFolds.ts";
 import FoldArrow from "../fields/FoldArrow.tsx";
 import CardTitleHelp from "../cards/CardTitleHelp.tsx";
-import LabelArrow from "../fields/LabelArrow.tsx";
 import CapabilityOverview from "../tiles/CapabilityOverview.tsx";
 import { floorRows, tileLines, tileMarks } from "../tiles/capabilityFloor.ts";
 import CardNameInput from "../cards/CardNameInput.tsx";
@@ -2179,9 +2178,9 @@ export default function BusinessCapabilityEditor({
 
                         <FieldLabel className="business-foundation-label">
                             {responsibilities.length > 0 && (
-                                <LabelArrow
+                                <FoldArrow variant="label"
                                     open={responsibilitiesOpen}
-                                    label={(responsibilitiesOpen ? "Minimize " : "Maximize ") + "Responsibilities of " + founderLabel}
+                                    name={(responsibilitiesOpen ? "Minimize " : "Maximize ") + "Responsibilities of " + founderLabel}
                                     onToggle={() => setResponsibilityFolds(current =>
                                         new Map(current).set(founder.id, !responsibilitiesOpen)
                                     )}
@@ -2250,9 +2249,9 @@ export default function BusinessCapabilityEditor({
                                             {/* The same row as Responsibilities': the label arrow, inside the label. */}
                                             <span className="business-foundation-label-info business-capability-responsibilities-head business-capability-completed-head">
                                                 <FieldLabel className="business-foundation-label">
-                                                    <LabelArrow
+                                                    <FoldArrow variant="label"
                                                         open={doneOpen}
-                                                        label={(doneOpen ? "Minimize " : "Maximize ") + "completed responsibilities of " + founderLabel}
+                                                        name={(doneOpen ? "Minimize " : "Maximize ") + "completed responsibilities of " + founderLabel}
                                                         onToggle={() => setCompletedOpen(current => toggledIn(current, doneKey))}
                                                     />
                                                     {"Completed " + done.length}
@@ -3497,7 +3496,7 @@ export default function BusinessCapabilityEditor({
                 {/* The same row as a founder's Responsibilities: the fold arrow, the label, how many. */}
                 <span className="business-foundation-label-info business-capability-responsibilities-head business-capability-links-head">
                     <FieldLabel className="business-foundation-label">
-                        <LabelArrow open={open} label={(open ? "Minimize " : "Maximize ") + "Links of this card"} onToggle={() => setLinksOpen(current => toggledIn(current, id))} />
+                        <FoldArrow variant="label" open={open} name={(open ? "Minimize " : "Maximize ") + "Links of this card"} onToggle={() => setLinksOpen(current => toggledIn(current, id))} />
                         Links
                     </FieldLabel>
                     <FieldLabel className="field-label-muted business-capability-responsibilities-count">{links.length}</FieldLabel>
@@ -3537,6 +3536,8 @@ export default function BusinessCapabilityEditor({
         // (From a founder's card, below it, the two stacked as a pair is; from the Inventory, the card alone.)
         const detail: OpenRequest = { tile: "legal-entity-expenses", card: id, alone: under === undefined, under: under !== undefined };
         setLegalUnder(under ?? null);
+        // (A pair already standing -- an activity a responsibility led to -- gives its place to this one.)
+        setPair(null);
         // (Where this page can save the Legal Entity's answer, the card floats here: over the page, as every card.)
         if (legalEntity !== undefined && onChangeLegalEntity) {
             document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail }));

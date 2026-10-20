@@ -1,5 +1,5 @@
-import LabelArrow from "../../components/interview/fields/LabelArrow";
 import { PALETTE } from "../../framework/engine/Palette";
+import FoldArrow from "../../components/interview/fields/FoldArrow.tsx";
 import type { AssetContract, AssetVariant } from "../contract";
 import Sample, { GROUNDS } from "./Sample";
 
@@ -9,7 +9,7 @@ export default function LabelArrowSamples({ asset }: { asset: AssetContract }) {
 
     const sample = (variant: AssetVariant, hue: number, ground: string, state: string, open: boolean) => {
 
-        const arrow = <LabelArrow open={open} label={(open ? "Hide " : "Show ") + variant.id} onToggle={() => undefined} />;
+        const arrow = <FoldArrow variant="label" open={open} name={(open ? "Hide " : "Show ") + variant.id} onToggle={() => undefined} />;
 
         return (
             <Sample key={[variant.id, hue, ground, state].join("|")} variant={variant.id} hue={hue} ground={ground} state={state}>

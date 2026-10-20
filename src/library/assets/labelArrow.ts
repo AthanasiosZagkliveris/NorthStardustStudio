@@ -1,7 +1,7 @@
 import type { AssetContract } from "../contract.ts";
 
 /**
- * The label arrow (LabelArrow.tsx, label-arrow.css; rulebook "The label
+ * The label arrow (FoldArrow.tsx (variant label), label-arrow.css; rulebook "The label
  * arrow", 2026-10-14): the trial asset of the library. The numbers are
  * the ones the rulebook gives; the runner measures the real component
  * against them.
@@ -10,7 +10,7 @@ export const labelArrow: AssetContract = {
     name: "Label arrow",
     kind: "fold arrow",
     summary: "One frameless triangle beside a label or a title that shows or hides what belongs to it. Outline at rest, filled under the pointer and the keyboard focus; right while hidden, down while open.",
-    component: "src/components/interview/fields/LabelArrow.tsx",
+    component: "src/components/interview/fields/FoldArrow.tsx",
     stylesheet: "src/styles/label-arrow.css",
     parts: ["button (the hit area)", "triangle (svg polygon, 2px line inside its edge)"],
     states: ["rest", "hover", "focus", "closed", "open"],

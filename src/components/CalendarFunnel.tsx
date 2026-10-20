@@ -35,25 +35,25 @@ function MultiPick<T extends string>({
     usePopupDismiss(open, [box], () => setOpen(false), { escape: false });
 
     return (
-        <div className="org-calendar-multi" ref={box}>
+        <div className="option-picker org-calendar-multi" data-size="hug" ref={box}>
             <button
                 type="button"
-                className="interview-input org-calendar-dropdown"
+                className="interview-input option-picker-trigger"
                 aria-haspopup="listbox"
                 aria-expanded={open}
                 aria-label={label}
                 onClick={() => setOpen(current => !current)}
             >
-                {label}: {selected.size === options.length ? "All" : selected.size + " of " + options.length}
+                <span className="option-picker-value">{label}: {selected.size === options.length ? "All" : selected.size + " of " + options.length}</span>
             </button>
             {open && (
-                <div className="org-calendar-multi-list" role="group" aria-label={label}>
+                <div className="option-picker-list org-calendar-multi-list" role="group" aria-label={label}>
                     <div className="org-calendar-multi-actions">
                         <button type="button" className="org-calendar-chip" onClick={() => onChange(new Set(options.map(option => option.id)))}>All</button>
                         <button type="button" className="org-calendar-chip" onClick={() => onChange(new Set())}>None</button>
                     </div>
                     {options.map(option => (
-                        <TickField key={option.id} className="org-calendar-funnel-kind" checked={selected.has(option.id)} onChange={(event) => {
+                        <TickField key={option.id} className="option-picker-option org-calendar-funnel-kind" checked={selected.has(option.id)} onChange={(event) => {
                                     const next = new Set(selected);
                                     if (event.target.checked) {
                                         next.add(option.id);

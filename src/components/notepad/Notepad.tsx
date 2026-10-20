@@ -1,5 +1,6 @@
 import { KeyboardEvent, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import FoldHead from "../controls/FoldHead";
+import FoldArrow from "../interview/fields/FoldArrow";
 import TextField from "../controls/TextField.tsx";
 import AddButton from "../controls/AddButton.tsx";
 import TickBox from "../controls/TickBox.tsx";
@@ -432,16 +433,7 @@ export function NotepadPanel() {
                 >
                     + Add note
                 </AddButton>
-                <button
-                    type="button"
-                    className="strategy-box-toggle notepad-close"
-                    aria-expanded="false"
-                    aria-label="Close notes"
-                    title="Fold the notes away"
-                    onClick={() => NotepadService.close()}
-                >
-                    ▸
-                </button>
+                <FoldArrow open={false} name="Close notes" className="notepad-close" onToggle={() => NotepadService.close()} />
             </div>
 
             {/* ONE scrolling column, padded as every card is: the card notes, then the notes of each Organization. */}

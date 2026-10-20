@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode, RefObject, useRef, useState } from "react";
 
+import NavArrow from "../../controls/NavArrow.tsx";
 import { usePopupDismiss } from "../../controls/PopupPanel.tsx";
 import { useFloatingPanel } from "../../../hooks/useFloatingPanel.ts";
 
@@ -51,11 +52,11 @@ export function DatePopupHead({ title, backLong, back, forward, forwardLong }: {
 }) {
     return (
         <div className="date-cell-popup-head">
-            <button type="button" className="date-cell-popup-step" aria-label={backLong.label} onClick={backLong.onClick}>«</button>
-            <button type="button" className="date-cell-popup-step" aria-label={back.label} onClick={back.onClick}>‹</button>
+            <NavArrow className="date-cell-popup-step" direction="previous" long label={backLong.label} onClick={backLong.onClick} />
+            <NavArrow className="date-cell-popup-step" direction="previous" label={back.label} onClick={back.onClick} />
             <span className="date-cell-popup-title" aria-live="polite">{title}</span>
-            <button type="button" className="date-cell-popup-step" aria-label={forward.label} onClick={forward.onClick}>›</button>
-            <button type="button" className="date-cell-popup-step" aria-label={forwardLong.label} onClick={forwardLong.onClick}>»</button>
+            <NavArrow className="date-cell-popup-step" direction="next" label={forward.label} onClick={forward.onClick} />
+            <NavArrow className="date-cell-popup-step" direction="next" long label={forwardLong.label} onClick={forwardLong.onClick} />
         </div>
     );
 }

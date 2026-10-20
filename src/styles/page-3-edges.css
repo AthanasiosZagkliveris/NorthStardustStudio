@@ -163,7 +163,7 @@
 
 .floating-card-caption {
 
-    --info-ink: var(--text-default);
+    --info-ink: hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
 
     --info-fill: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
@@ -248,7 +248,7 @@
 
 .floating-overlay .floating-card-caption .info-note > .info-note-button.info-note-button {
 
-    --info-ink: var(--text-default);
+    --info-ink: hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
 
     --info-fill: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 

@@ -107,32 +107,10 @@
 
 }
 
+/* "Go there" is the app's text link (TextLink, text-links.css); the place says only that it keeps its size. */
 .review-go{
 
     flex:none;
-
-    padding:0;
-
-    border:0;
-
-    background:none;
-
-    font:inherit;
-    font-size:var(--font-body);
-
-    color:var(--text-primary);
-
-    text-decoration:underline;
-    text-underline-offset:0.2em;
-
-    cursor:pointer;
-
-}
-
-.review-go:focus-visible{
-
-    outline:2px solid var(--line-primary);
-    outline-offset:2px;
 
 }
 

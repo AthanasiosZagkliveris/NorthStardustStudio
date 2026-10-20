@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import TextLink from "../components/interview/fields/TextLink";
 import FoldHead from "../components/controls/FoldHead";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -177,9 +178,9 @@ function OrganizationReview({ name, items, current, onGo }: {
                                                 <li className="review-item" key={group.id + index}>
                                                     <span className="review-item-text">{item.text}</span>
                                                     {item.place && (
-                                                        <button type="button" className="review-go" onClick={() => onGo(item.place!)}>
+                                                        <TextLink className="review-go" onClick={() => onGo(item.place!)}>
                                                             Go there
-                                                        </button>
+                                                        </TextLink>
                                                     )}
                                                 </li>
                                             ))}
