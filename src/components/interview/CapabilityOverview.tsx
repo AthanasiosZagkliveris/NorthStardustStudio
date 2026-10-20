@@ -467,6 +467,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                                 links={row.links}
                                 tone={row.tone}
                                 missing={row.missing}
+                                inactive={row.status === "completed"}
                                 label={kindName(row) + ": " + tileName(plainTitle(row.name), tileLines(row, format))}
                                 title={row.kind === "legal" && !onOpenLegal ? "Recorded under 1. Identity System, Legal Entity" : undefined}
                                 origin={inwardOrigin(index, shown.length, across)}

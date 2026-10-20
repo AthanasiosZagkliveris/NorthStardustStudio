@@ -240,3 +240,8 @@ label:has(> .brand-tick-box) :is(span, strong, em) {
 .legal-entity-card {
     --label-color: hsl(var(--legal-label-hue, 172) var(--theme-text-ink));
 }
+
+/* A CARD FLOATING OVER ANOTHER (a legal expense opened from a founder's responsibility, or from the Inventory) is alone: the arrows and the rail of the card under it are not drawn while it is covered. */
+.floating-overlay:has(~ .floating-overlay) :is(.carousel-arrow, .carousel-rail) {
+    visibility: hidden;
+}

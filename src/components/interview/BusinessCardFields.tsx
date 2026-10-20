@@ -922,6 +922,14 @@ export function BusinessCard({
 
     nameLink,
 
+    legal = false,
+
+    placeholder,
+
+    emptyName,
+
+    foldLabel,
+
     children
 
 }: {
@@ -932,7 +940,15 @@ export function BusinessCard({
     /** Absent for a card whose name belongs to another page. */
     onName?: (next: string) => void;
     /** For a card whose name belongs to another page (a Customer Channel's): its name is a link to that page, as an investigated activity's name is. */
-    nameLink?: { title: string; onClick: () => void };
+    nameLink?: { title: string; onClick: () => void; className?: string; ariaLabel?: string };
+    /** A Legal Entity card (a requirement, an expense, a founder): the same card, in the Legal Entity page's own box, head and number (`legal-entity-*`). */
+    legal?: boolean;
+    /** What the empty name box says (default: the kind and "name"). */
+    placeholder?: string;
+    /** What a shown name reads when it is empty (default: "Unnamed" and the kind). */
+    emptyName?: string;
+    /** What the fold arrow says (default: the kind and number). */
+    foldLabel?: string;
     open: boolean;
     /** Absent for a card that is always open: it has no fold arrow. */
     onToggle?: () => void;
@@ -985,6 +1001,7 @@ export function BusinessCard({
     return (
         <MissingScope lacking={stored} cardId={(anchor ?? "").replace(/^founder-/, "") || undefined}>{(lacking) => (
         <CardShell
+            legal={legal}
             input={false}
             engagement={false}
             className={className}
@@ -998,27 +1015,28 @@ export function BusinessCard({
                 and the folded summary on a row of its own under the
                 name. */}
             <CardHead
-                className={"strategy-box-head" + (onToggle || headRow ? " fold-card-head fold-card-fixed" : "") + (fixedFolded && !open ? " fold-card-head-fixed" : "")}
+                className={(legal ? "legal-entity-card-head" : "strategy-box-head") + (onToggle || headRow || legal ? " fold-card-head fold-card-fixed" : "") + (fixedFolded && !open ? " fold-card-head-fixed" : "")}
                 onToggle={onToggle}
                 open={open}
-                foldLabel={who}
+                foldLabel={foldLabel ?? who}
                 number={number}
+                legal={legal}
                 mark={anchor && <FieldMark label={kind + " " + number + (name.trim() ? ": " + name.trim() : "")} card />}
                 name={(
                     <NameCell
                         editing={editable}
                         ariaLabel={who + " name"}
-                        placeholder={kind + " name"}
+                        placeholder={placeholder ?? kind + " name"}
                         disabled={disabled}
                         value={name}
                         onChange={onName}
                         link={nameLink && {
-                            className: "business-capability-child-name",
+                            className: nameLink.className ?? "business-capability-child-name",
                             title: nameLink.title,
-                            ariaLabel: "Open " + nameLink.title,
+                            ariaLabel: nameLink.ariaLabel ?? (nameLink.className ? undefined : "Open " + nameLink.title),
                             onClick: nameLink.onClick
                         }}
-                        empty={"Unnamed " + kind.toLocaleLowerCase()}
+                        empty={emptyName ?? "Unnamed " + kind.toLocaleLowerCase()}
                     />
                 )}
                 actions={actions}

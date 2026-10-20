@@ -1,8 +1,7 @@
+import { BusinessCard } from "./BusinessCardFields.tsx";
 import { CSSProperties, ReactNode, useEffect } from "react";
 
 import CardShell from "./CardShell.tsx";
-import CardHead from "./CardHead.tsx";
-import NameCell from "./NameCell.tsx";
 import FieldLabel from "../FieldLabel.tsx";
 import {
     FOUNDER_CREDENTIAL_TYPES,
@@ -333,27 +332,19 @@ export default function FoundersProfileEditor({
 
         return (
 
-            <CardShell
+            /* Named on the Legal Entity page, so the name is shown rather than asked, and there is no ×. */
+            <BusinessCard
                 legal
                 key={founder.id}
-                data-anchor={"founder-profile-" + founder.id}
+                anchor={"founder-profile-" + founder.id}
+                kind="Founder"
+                number={index + 1}
+                name={founder.name}
+                emptyName=""
+                open={open}
+                onToggle={always ? undefined : () => folds.toggle(founder.id)}
+                summary={typeof summary === "string" ? summary : undefined}
             >
-
-                {/* Named on the Legal Entity page, so the name is
-                    shown rather than asked, and there is no ×. */}
-                <CardHead
-                    className="legal-entity-card-head fold-card-head fold-card-fixed"
-                    legal
-                    onToggle={always ? undefined : () => folds.toggle(founder.id)}
-                    open={open}
-                    foldLabel={who}
-                    number={index + 1}
-                    name={<NameCell editing={false} ariaLabel={who + " name"} placeholder="" value={founder.name} empty="" />}
-                >
-                    {!open && summary && (
-                        <span className="business-card-summary" title={typeof summary === "string" ? summary : undefined}>{summary}</span>
-                    )}
-                </CardHead>
 
                 {open && (
                     <div className="legal-entity-grid">
@@ -424,7 +415,7 @@ export default function FoundersProfileEditor({
                     </div>
                 )}
 
-            </CardShell>
+            </BusinessCard>
 
         );
 

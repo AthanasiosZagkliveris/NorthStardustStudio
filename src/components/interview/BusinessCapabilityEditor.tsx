@@ -3748,7 +3748,7 @@ export default function BusinessCapabilityEditor({
                     type="button"
                     className="business-capability-responsibility-link"
                     title={"Open “" + entry.name + "”"}
-                    onClick={() => entry.kind === "legal" ? openLegalExpense(entry.id) : openPair(founderId, entry.id)}
+                    onClick={() => entry.kind === "legal" ? openLegalExpense(entry.id, true) : openPair(founderId, entry.id)}
                 >
                     {entry.name}
                 </TextLink>
@@ -3764,7 +3764,7 @@ export default function BusinessCapabilityEditor({
             return;
         }
         onOpenLegalEntity?.();
-        window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: "legal-entity-expenses", card: id } })), 700);
+        window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: "legal-entity-expenses", card: id, alone } })), 700);
     }
 
     /** Opens a parent and its child together, stacked, over whatever is open (Back returns to it). */

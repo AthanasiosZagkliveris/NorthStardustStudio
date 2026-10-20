@@ -238,7 +238,7 @@ export default function SectionTiles({
             const from = opener.current ?? (cardsOnly ? document.querySelector<HTMLElement>(".answer-columns.business-capability > .business-foundation-card") : null) ?? document.body;
             if (request.card && found.cardFor) {
                 // (Over the other column of the tile that holds it, where it stands on the page: at the one level of every card.)
-                openFloating(found, request.card, document.querySelector<HTMLElement>(`.section-tile[data-tile="${CSS.escape(found.id)}"]`) ?? from, "column", request.fresh === true, false, true, request.alone === true);
+                openFloating(found, request.card, document.querySelector<HTMLElement>(`.section-tile[data-tile="${CSS.escape(found.id)}"]`) ?? from, "column", request.fresh === true, false, request.alone !== true, request.alone === true);
             } else if (request.box) {
                 setFloating(null);
                 // (From its own tile where it stands on screen: the dialog takes its place and size from it, not from the page.)
