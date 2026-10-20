@@ -88,8 +88,7 @@
 }
 
 
-.notepad-close,
-.notepad-chip-remove {
+.notepad-close {
 
     flex: none;
 
@@ -116,8 +115,7 @@
 }
 
 .notepad-close:hover,
-.notepad-close:focus-visible,
-.notepad-chip-remove:focus-visible {
+.notepad-close:focus-visible {
 
     border-color: var(--box-border);
     color: var(--text-default);
@@ -357,14 +355,6 @@
 .notepad-chip-gone .notepad-chip-open {
 
     color: var(--text-subtle);
-
-}
-
-.notepad-chip-remove {
-
-    width: 24px;
-    height: 24px;
-    margin-right: 2px;
 
 }
 
@@ -634,11 +624,6 @@ html.notepad-picking [data-pick-hover] {
 }
 
 /* A chip's own ×: only its glyph turns bold. */
-.notepad-chip-remove:hover {
-
-    font-weight: 700;
-
-}
 
 /* A note's Date: a tick; ticked, its label is the day to pick. */
 .notepad-date{

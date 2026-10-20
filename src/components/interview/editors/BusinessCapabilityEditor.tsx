@@ -1087,10 +1087,9 @@ export default function BusinessCapabilityEditor({
         const onSlot = (patch: Partial<BusinessResourceSlotValue>) =>
             onChange(applySlot(capability, patch));
 
-        // (A people card, which can also need an investigation, calls the Activity status "Needs Activity".)
         const options = BUSINESS_RESOURCE_STATUSES.filter(
             status => allowed.includes(status.id)
-        ).map(status => status.id === "activity" && allowed.includes("investigation") ? { ...status, label: "Needs Activity" } : status);
+        );
 
         // The statuses added with the "+" (a further supplier: the installer, the insurer ...), each a row of its own.
         const extraRows = slot.extraStatuses ?? [];
@@ -1159,8 +1158,7 @@ export default function BusinessCapabilityEditor({
                 {/* The status rows added with the "+": the status (Partners & Suppliers or Activity), the × that takes the row away, then the same rows as the first. */}
                 {extraRows.map((row, position) => {
                     const rowLabel = what + " status " + (position + 2);
-                    const rowStatuses = BUSINESS_RESOURCE_STATUSES.filter(status => (BUSINESS_EXTRA_STATUS_IDS as readonly string[]).includes(status.id))
-                        .map(status => status.id === "activity" && allowed.includes("investigation") ? { ...status, label: "Needs Activity" } : status);
+                    const rowStatuses = BUSINESS_RESOURCE_STATUSES.filter(status => (BUSINESS_EXTRA_STATUS_IDS as readonly string[]).includes(status.id));
                     const patchRow = (base: BusinessCapabilityValue, patch: Partial<BusinessStatusRow>) => applySlot(base, {
                         extraStatuses: extraRows.map(entry => entry.id === row.id ? { ...entry, ...patch } : entry)
                     });
@@ -3811,7 +3809,6 @@ export default function BusinessCapabilityEditor({
                         <TextLink
                             type="button"
                             className="business-capability-child-name"
-                            title={"Open " + madeFrom.name}
                             aria-label={"Open " + madeFrom.name}
                             onClick={() => openPair(activity.id, madeFrom.id)}
                         >

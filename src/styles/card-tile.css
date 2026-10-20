@@ -91,7 +91,6 @@ button.card-tile-symbol[aria-pressed="true"] {
 }
 
 .card-tile-symbol-activity { background: var(--bg-budget); }
-.card-tile-symbol-investigation { background: var(--bg-caution); }
 .card-tile-symbol-partner { background: var(--bg-add); }
 .card-tile-symbol-provider { background: var(--bg-info); }
 .card-tile-symbol-resource { background: var(--line-faint); }

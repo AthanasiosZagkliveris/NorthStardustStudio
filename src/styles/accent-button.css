@@ -8,6 +8,10 @@
 .org-calendar-chip,
 .org-calendar-month-nav-button {
 
+    /* ONE BUTTON HEIGHT: 44px (--add-button-height, layout-rules "Heights"); the place sets its width and padding only. */
+    box-sizing: border-box;
+    min-height: var(--add-button-height);
+
     border: 1px solid var(--accent-line);
     border-radius: var(--radius-md);
 

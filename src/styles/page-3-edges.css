@@ -25,9 +25,10 @@
 /* THE CARDS. */
 .section-tile-overlay.business-capability :is(.business-capability-slot, .business-founder-open, .business-capability-activity):not(.delivery-card) {
 
-    border-color: var(--box-edge);
+    /* A CARD IS NOT A TILE: no inner light or shade (that is a tile's), a wireframe in the card's own line, and the drop shadow. */
+    border: 1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
-    box-shadow: var(--box-inset), var(--card-drop, 0 0 0 0 transparent);
+    box-shadow: var(--card-drop, 0 0 0 0 transparent);
 
 }
 
@@ -78,9 +79,10 @@
 ========================================================== */
 .section-tile-overlay.business-capability :is(.delivery-card) {
 
-    border-color: var(--box-edge);
+    /* A CARD IS NOT A TILE: no inner light or shade (that is a tile's), a wireframe in the card's own line, and the drop shadow. */
+    border: 1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
-    box-shadow: var(--box-inset), var(--card-drop, 0 0 0 0 transparent);
+    box-shadow: var(--card-drop, 0 0 0 0 transparent);
 
 }
 

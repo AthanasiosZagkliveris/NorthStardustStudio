@@ -337,7 +337,7 @@ table.business-relationship-table {
 /* The Goal, the Objective and what is in them stand on the card's hue in every reading mode (never the neutral card ground). */
 .strategy-goal-card .strategy-goal-box,
 .strategy-goal-card .strategy-objective-box,
-.strategy-goal-card .strategy-goal-box [class*="strategy-"][class*="-box"]:not(.strategy-box-remove):not(.strategy-box-toggle):not(.strategy-box-add):not(.strategy-box-tiles) {
+.strategy-goal-card .strategy-goal-box [class*="strategy-"][class*="-box"]:not(.strategy-box-remove):not(.strategy-box-toggle):not(.plus-box):not(.strategy-box-tiles) {
 
     background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
@@ -882,99 +882,8 @@ table.business-relationship-table {
 
 }
 
-/* THE "+" BESIDE A CARD'S x: adds a card related to this one (a Theme's Goal, a Goal's Objective, an Objective's or a Metric's Metric). The same 32px square as the x, its plus drawn in two bars, the accent ink at rest, filled with it under the pointer. */
-.strategy-box-add {
-
-    position: relative;
-
-    width: var(--size-box-button);
-
-    height: var(--size-box-button);
-
-    flex: none;
-
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    padding: 0;
-
-    color: var(--accent-ink, var(--text-default));
-
-    border: 2px solid var(--accent-ink, var(--text-default));
-
-    border-radius: var(--radius-md);
-
-    background: transparent;
-
-    font: inherit;
-
-    font-size: 0;
-
-    line-height: 1;
-
-    cursor: pointer;
-
-    transition: background-color .15s ease, color .15s ease;
-
-}
-
-.strategy-box-add::before,
-.strategy-box-add::after {
-
-    content: "";
-
-    position: absolute;
-
-    top: 50%;
-
-    left: 50%;
-
-    width: 14px;
-
-    height: 2px;
-
-    margin: -1px 0 0 -7px;
-
-    border-radius: 1px;
-
-    background: currentColor;
-
-}
-
-.strategy-box-add::after {
-
-    transform: rotate(90deg);
-
-}
-
-.strategy-box-add:is(:hover, :focus-visible):not(:disabled) {
-
-    color: var(--x-ground, var(--bg-surface));
-
-    background: var(--accent-ink, var(--text-default));
-
-}
-
-.strategy-box-add:focus-visible {
-
-    outline: 2px solid var(--focus-ring-ink, var(--line-primary));
-
-    outline-offset: 2px;
-
-}
-
-.strategy-box-add:disabled {
-
-    cursor: not-allowed;
-
-    opacity: .6;
-
-}
-
-.strategy-box-actions:has(> .strategy-box-add) {
+/* (The "+" beside a card's x is the shared AddButton box, `.plus-box`.) */
+.strategy-box-actions:has(> .plus-box) {
 
     /* (12px between the "+" and the x, as between the "i" and the "+".) */
     gap: var(--gap-12);

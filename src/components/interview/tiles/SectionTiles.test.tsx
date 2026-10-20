@@ -1279,7 +1279,7 @@ describe("Inventory: a tile's circle and the legend's circles never add up", () 
         expect(names().sort()).toEqual(["Ann", "Bo", "Hackney", "Kettle", "Loom"]);
         // A legend circle first: only the tiles connected to a provider (the Loom).
         const legend = () => screen.getByRole("group", { name: "Show only tiles with a connection" });
-        fireEvent.click(within(legend()).getAllByRole("button").find(button => /supplier/i.test(button.title))!);
+        fireEvent.click(within(legend()).getAllByRole("button").find(button => /supplier/i.test(button.getAttribute("aria-label") ?? ""))!);
         expect(names()).toEqual(["Loom"]);
         const pressedLegend = () => within(legend()).getAllByRole("button").filter(button => button.getAttribute("aria-pressed") === "true");
         expect(pressedLegend()).toHaveLength(1);
@@ -1410,7 +1410,7 @@ describe("the Inventory funnel menu", () => {
         render(<Harness />);
         const menu = openFunnel();
         const order = [...menu.querySelectorAll<HTMLElement>(".capability-overview-costs-head .capability-overview-costs-order button")];
-        expect(order.map(button => [button.textContent, button.getAttribute("aria-label"), button.title])).toEqual([["↑", "Low to high", "Low to high"], ["↓", "High to low", "High to low"]]);
+        expect(order.map(button => [button.textContent, button.getAttribute("aria-label")])).toEqual([["↑", "Low to high"], ["↓", "High to low"]]);
         expect(order.map(button => button.getAttribute("aria-pressed"))).toEqual(["false", "false"]);
         fireEvent.click(order[1]);
         expect(order.map(button => button.getAttribute("aria-pressed"))).toEqual(["false", "true"]);
@@ -1590,20 +1590,21 @@ describe("the table mode: surface, columns, sizes", () => {
         expect(heads(document.querySelector<HTMLElement>(".capability-overview-table") ?? table)).toContain("Status");
     });
 
-    it("sizes the table's text in three steps of the type scale with the A- / A+ buttons, 14px by default below 1600 wide", () => {
+    it("sizes the table's text in three steps of the type scale with the S / M / L toggle, 14px by default below 1600 wide", () => {
         Object.defineProperty(window, "innerWidth", { configurable: true, value: 1366 });
         render(<Harness />);
         const table = openTable();
         const size = () => document.querySelector<HTMLElement>(".capability-overview-table")!.getAttribute("data-size");
         expect(size()).toBe("small");
         expect(table.style.getPropertyValue("--table-font")).toBe("var(--font-small)");
-        fireEvent.click(screen.getByRole("button", { name: "Larger text" }));
+        fireEvent.click(screen.getByRole("button", { name: "Standard text" }));
         expect(size()).toBe("body");
         fireEvent.click(screen.getByRole("button", { name: "Larger text" }));
         expect(size()).toBe("large");
-        expect((screen.getByRole("button", { name: "Larger text" }) as HTMLButtonElement).disabled).toBe(true);
-        fireEvent.click(screen.getByRole("button", { name: "Smaller text" }));
+        fireEvent.click(screen.getByRole("button", { name: "Standard text" }));
         expect(size()).toBe("body");
+        fireEvent.click(screen.getByRole("button", { name: "Smaller text" }));
+        expect(size()).toBe("small");
     });
 
     it("draws the table on an opaque calm surface per theme with a sticky heading", () => {

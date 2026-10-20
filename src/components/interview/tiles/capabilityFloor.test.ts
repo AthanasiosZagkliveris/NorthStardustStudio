@@ -133,7 +133,7 @@ describe("the floor", () => {
         expect(workspaceLinks.find(link => link.id === "p1")!.type).toBe("partner");
         const types = new Set(list.flatMap(row => row.links.map(link => link.type)));
         for (const type of types) {
-            expect(["activity", "investigation", "partner", "provider", "resource"]).toContain(type);
+            expect(["activity", "partner", "provider", "resource"]).toContain(type);
         }
         // The partner sees what it provides, and the activity investigating a resource is seen from that resource.
         expect(list.find(row => row.id === "p1")!.links.map(link => link.id)).toContain("workspace");

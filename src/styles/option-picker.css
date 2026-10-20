@@ -221,3 +221,45 @@
     z-index:30;
 
 }
+
+/* ONE DROP-DOWN CELL, EVERYWHERE (the Country of a Legal Entity, a Frequency, the calendar's Show / Dates / Include, a document's Period): the field's box -- no stroke, the recessed ground, 6px corners, the body size at regular weight, the text colour -- the glow under the pointer and the ring on the focus. A place sets only its width; no page draws a dropdown of its own. */
+.option-picker .option-picker-trigger.interview-input{
+    border:1px solid transparent;
+    border-radius:var(--radius-md);
+    background-color:var(--bg-surface);
+    box-shadow:var(--cell-inset-recess);
+    color:var(--text-default);
+    font-weight:400;
+    text-transform:none;
+}
+.option-picker .option-picker-trigger.interview-input:hover:not(:focus, :focus-visible, :disabled, [aria-expanded="true"]){
+    box-shadow:var(--cell-inset-recess), 0 0 0 4px color-mix(in srgb, var(--glow-color) calc(18% * var(--hover-lift, 1)), transparent);
+}
+.option-picker .option-picker-trigger.interview-input:is(:focus-visible, [aria-expanded="true"]){
+    outline:none;
+    box-shadow:var(--cell-inset-recess), 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+}
+
+/* THE DROP-DOWN OF SEVERAL CHOICES (MultiPicker, OptionPicker.tsx): the same cell and list; its list is as wide as its words (at least the cell) with All and None above the ticks. */
+.multi-picker{
+    position:relative;
+    flex:0 0 auto;
+    min-width:0;
+}
+.multi-picker-list{
+    display:grid;
+    gap:var(--gap-6);
+    width:max-content;
+    min-width:100%;
+    max-width:none;
+}
+.multi-picker-list > .option-picker-option{
+    display:flex;
+    align-items:center;
+    gap:var(--gap-8);
+}
+.multi-picker-actions{
+    display:flex;
+    gap:var(--gap-6);
+    padding:4px 10px 6px;
+}

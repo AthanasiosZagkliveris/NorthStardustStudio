@@ -60,7 +60,6 @@ export default function ResponsibilityFilter({
 
             <FunnelButton
                 aria-label={label}
-                title={label}
                 aria-expanded={open}
                 aria-haspopup="true"
                 active={off.size > 0}

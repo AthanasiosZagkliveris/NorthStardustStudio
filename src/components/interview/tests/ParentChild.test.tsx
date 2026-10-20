@@ -198,7 +198,7 @@ describe("the Activity row under the card's Status", () => {
         let latest: Capability | null = null;
         render(<Spy initial={seeded({ slot: { status: "costs", activityId: "" } })} spy={value => { latest = value; }} />);
         openAdminCard();
-        chooseStatus("Needs Activity");
+        chooseStatus("Activity");
         expect(activitiesOf(latest!).map(activity => activity.id)).toEqual(["activity-mill"]);
         expect(latest!.resources.hr[0].slots[0]).toMatchObject({ status: "activity", activityId: "" });
         expect(screen.getByRole("button", { name: "Resource 1 activity: Select" })).toBeTruthy();
@@ -209,8 +209,8 @@ describe("the Activity row under the card's Status", () => {
         openAdminCard();
         fireEvent.click(screen.getByRole("button", { name: "Add Status to Resource 1" }));
         fireEvent.click(screen.getByRole("button", { name: /^Resource 1 status 2/ }));
-        expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual(expect.arrayContaining(["Partners & Suppliers", "Needs Activity"]));
-        fireEvent.click(screen.getByRole("option", { name: "Needs Activity" }));
+        expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual(expect.arrayContaining(["Partners & Suppliers", "Activity"]));
+        fireEvent.click(screen.getByRole("option", { name: "Activity" }));
         expect(screen.getByRole("button", { name: "Resource 1 status 2 activity: Select" })).toBeTruthy();
     });
 

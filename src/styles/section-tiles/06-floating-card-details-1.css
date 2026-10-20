@@ -208,7 +208,8 @@
     border-radius: var(--radius-lg);
 
     background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
-    box-shadow: var(--box-inset), 0 8px 20px var(--shadow-ink-18);
+    border: 1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+    box-shadow: 0 8px 20px var(--shadow-ink-18);
 
     /* The card's label colour: the darker tint of its hue. */
     color: hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));

@@ -105,7 +105,7 @@ describe("a channel's resources, in its cell", () => {
         expect(chip.textContent).toContain("#1");
         expect(chip.textContent).not.toContain("3.2.1");
         expect(chip.textContent).toContain("Post reels");
-        expect(chip.querySelector("button")?.getAttribute("title")).toBe("#1 Post reels");
+        expect(chip.querySelector("button")?.getAttribute("aria-label")).toBe("#1 Post reels");
         // Pinterest shares the action: the resource serves it too.
         const shared = screen.getByRole("list", { name: "Resources serving Channel 2 through shared actions" });
         // "via shared action" in WORDS (no symbol); the shared action is a link to its line.

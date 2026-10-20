@@ -346,7 +346,7 @@ iv. Other -> Specify/Name
 
 #### 2. Activities - i (Active # - number ( in red coulour))
 
-- Add activities directly or create them from resources marked Needs Investigation or Activity.
+- Add activities directly or create them from resources marked Activity.
 - Activities do not record costs directly. Any resulting cost is recorded under the relevant Resource, Partnership \& Provider.
 - Assign one responsible person to each activity.
 
@@ -479,7 +479,7 @@ On a Resource card (at Costs) **Frequency**, and on a Partner / Provider card **
 
 #### 2. Activities
 
-- Add activities directly or create them from resources marked Needs Investigation or Activity.
+- Add activities directly or create them from resources marked Activity.
 - Activities do not record costs directly. Any resulting cost is recorded under the relevant Resource, Partnership \& Provider.
 - Assign one responsible person to each activity.
 

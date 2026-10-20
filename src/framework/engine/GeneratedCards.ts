@@ -24,7 +24,7 @@ const partnersOf = (value: BusinessCapabilityValue): BusinessPartnerValue[] =>
 /** Every card id a Status names: the supplier or partner where its status says so, and the activity where it says so (a card that has changed its status keeps the old id in its fields, but no longer names it). */
 function namedBy(slot: BusinessResourceSlotValue): string[] {
     const pick = (status: string, providerId: string, activityId: string) =>
-        [["partners-suppliers", "rent"].includes(status) ? providerId : "", ["activity", "investigation"].includes(status) ? activityId : ""];
+        [["partners-suppliers", "rent"].includes(status) ? providerId : "", status === "activity" ? activityId : ""];
     return [...pick(slot.status, slot.providerId, slot.activityId), ...(slot.extraStatuses ?? []).flatMap(row => pick(row.status, row.providerId, row.activityId))].filter(id => id !== "");
 }
 

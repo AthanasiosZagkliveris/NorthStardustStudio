@@ -1,5 +1,7 @@
 import { CSSProperties, FocusEvent, Fragment, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 
+import AddButton from "../../controls/AddButton.tsx";
+import RemoveButton from "../../controls/RemoveButton.tsx";
 import NumberCell from "../../controls/NumberCell.tsx";
 import CardShell from "../cards/CardShell.tsx";
 import FieldLabel from "../../controls/FieldLabel.tsx";
@@ -654,18 +656,14 @@ export default function BusinessEngagementEditor({
                                     )}
                                 </span>
                             )}
-                            <button
-                                type="button"
-                                className="strategy-box-remove numbered-list-remove"
+                            <RemoveButton className="numbered-list-remove"
                                 aria-label={"Remove action " + (line + 1) + " from " + label}
-                                title={"Remove action " + (line + 1) + " from this row"}
                                 disabled={disabled}
                                 onClick={() => write(withRowLines(
                                     answers, channelId, stageId,
                                     items.filter((_text, index) => index !== line),
                                     items.map((_text, index) => index).filter(index => index !== line)
-                                ))}
-                            />
+                                ))} />
                         </>
                     );
                 }}
@@ -2027,16 +2025,10 @@ export default function BusinessEngagementEditor({
                                     );
                                     // (In a channel's card the "+" stands in the heading's row, above the stages' x column; it is not drawn once every stage is placed.)
                                     const addStagePlus = (
-                                        <button
-                                            type="button"
-                                            className="strategy-box-add"
+                                        <AddButton shape="box" small
                                             aria-label="Add Journey Stage"
-                                            title="Add Journey Stage"
                                             disabled={disabled}
-                                            onClick={addStage}
-                                        >
-                                            +
-                                        </button>
+                                            onClick={addStage} />
                                     );
 
                                     return (

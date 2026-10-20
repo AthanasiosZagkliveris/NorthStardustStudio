@@ -74,13 +74,13 @@
 }
 
 /* The "+" and the tiles symbol keep their own ground (the generic "-box" ground of a card must not paint them): none at rest, the accent ink under the pointer or the keyboard. */
-:is(.strategy-theme-dialog, .strategy-goal-card) :is(.strategy-box-add, .strategy-box-tiles) {
+:is(.strategy-theme-dialog, .strategy-goal-card) :is(.plus-box, .strategy-box-tiles) {
 
     background: transparent !important;
 
 }
 
-:is(.strategy-theme-dialog, .strategy-goal-card) :is(.strategy-box-add, .strategy-box-tiles):is(:hover, :focus-visible):not(:disabled) {
+:is(.strategy-theme-dialog, .strategy-goal-card) :is(.plus-box, .strategy-box-tiles):is(:hover, :focus-visible):not(:disabled) {
 
     background: var(--accent-ink, var(--text-default)) !important;
 

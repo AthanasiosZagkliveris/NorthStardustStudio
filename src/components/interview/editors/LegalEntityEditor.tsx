@@ -964,16 +964,10 @@ export default function LegalEntityEditor({
      */
     function removeFieldButton(what: string, onRemove: () => void) {
         return (
-            <button
-                type="button"
-                className="legal-entity-field-remove"
+            <RemoveButton
                 aria-label={"Remove " + what}
-                title={"Remove " + what}
                 disabled={disabled}
-                onClick={onRemove}
-            >
-                ×
-            </button>
+                onClick={onRemove} />
         );
     }
 
@@ -1141,7 +1135,6 @@ export default function LegalEntityEditor({
 
                 <RemoveButton
                     aria-label={"Remove " + noun.toLowerCase() + " " + (index + 1)}
-                    title={"Remove " + noun.toLowerCase() + " " + (index + 1)}
                     disabled={disabled}
                     onClick={() => onNext(entries.filter(
                         (_candidate, position) => position !== index
@@ -1549,7 +1542,6 @@ export default function LegalEntityEditor({
                             <div className="legal-entity-founder-end">
                                 <RemoveButton className="card-remove"
                                     aria-label={"Remove founder " + (index + 1)}
-                                    title={"Remove founder " + (index + 1)}
                                     disabled={disabled}
                                     onClick={() => removeFounder(index)}
                 />
@@ -1777,7 +1769,6 @@ export default function LegalEntityEditor({
                     {entity.formation.registrationNumber.trim() !== "" && (
                         <RemoveButton
                             aria-label="Remove registration number"
-                            title="Remove registration number"
                             disabled={disabled}
                             onClick={() => {
                                 const [next, ...rest] = entity.formation.additionalNumbers;
@@ -1977,7 +1968,6 @@ export default function LegalEntityEditor({
                     actions={(
                         <RemoveButton className="card-remove"
                             aria-label={"Remove legal requirement " + (index + 1)}
-                            title={"Remove legal requirement " + (index + 1)}
                             disabled={disabled}
                             onClick={() => update({
                                 requirements: entity.requirements.filter(
@@ -2127,7 +2117,6 @@ export default function LegalEntityEditor({
                     actions={expense.fromRequirement === "" && (
                         <RemoveButton className="card-remove"
                             aria-label={"Remove expense " + (index + 1)}
-                            title={"Remove expense " + (index + 1)}
                             disabled={disabled}
                             onClick={() => update({
                                 expenses: entity.expenses.filter(

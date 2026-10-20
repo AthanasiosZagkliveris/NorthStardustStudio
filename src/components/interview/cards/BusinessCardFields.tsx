@@ -740,16 +740,10 @@ export function BusinessRemove({
 }) {
 
     return (
-        <button
-            type="button"
-            className={"strategy-box-remove" + (cell ? "" : " card-remove")}
+        <RemoveButton className={"" + (cell ? "" : " card-remove")}
             aria-label={"Remove " + what}
-            title={"Remove " + what}
             disabled={disabled}
-            onClick={onRemove}
-        >
-            ×
-        </button>
+            onClick={onRemove} />
     );
 
 }
@@ -812,7 +806,6 @@ export function BusinessStep({
     return (
         <RemoveButton
             aria-label={"Remove this " + what}
-            title={"Remove this " + what}
             disabled={disabled}
             onClick={onClick}
         />
@@ -842,14 +835,11 @@ export function BusinessAddButton({
 }) {
 
     return (
-        <button
-            type="button"
-            className={"strategy-add-button" + (span ? " card-list-add" : "")}
+        <AddButton className={"" + (span ? " card-list-add" : "")}
             disabled={disabled}
-            onClick={onAdd}
-        >
+            onClick={onAdd}>
             {"+ Add " + label}
-        </button>
+        </AddButton>
     );
 
 }

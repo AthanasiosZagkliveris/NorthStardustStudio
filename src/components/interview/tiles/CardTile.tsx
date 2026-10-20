@@ -17,7 +17,6 @@ import "../../../styles/card-tile.css";
 
 export const SYMBOLS: Record<FloorLink["type"], string> = {
     activity: "Activity",
-    investigation: "Investigate",
     partner: "Partner",
     provider: "Supplier",
     resource: "Resource",

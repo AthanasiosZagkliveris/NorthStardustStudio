@@ -259,17 +259,11 @@ export default function ChannelResources(props: ChannelResourcesProps) {
                 <div className="business-channel-resources-head">
                     <FieldLabel className="business-channel-field-label">{props.heading}</FieldLabel>
                     {!isolating && (
-                        <button
-                            type="button"
-                            className="strategy-box-add"
+                        <AddButton shape="box" small
                             aria-label={"Add expense to " + what}
-                            title="Add expense"
                             aria-expanded={menuOpen}
                             disabled={disabled}
-                            onClick={() => setMenuOpen(open => !open)}
-                        >
-                            +
-                        </button>
+                            onClick={() => setMenuOpen(open => !open)} />
                     )}
                 </div>
             )}
@@ -588,16 +582,10 @@ function ChannelResourceCard({
                     onChange={(event) => onWrite({ capability: withRenamedCard(capability, card.id, event.target.value) })}
                 />
                 {!outerRemove && (
-                    <button
-                        type="button"
-                        className="notepad-chip-remove business-channel-resource-remove"
+                    <RemoveButton className="business-channel-resource-remove"
                         aria-label={"Take " + label + " off the channel"}
-                        title="Take it off the channel (and its card off Offering's Capability)"
                         disabled={disabled}
-                        onClick={onRemove}
-                    >
-                        ×
-                    </button>
+                        onClick={onRemove} />
                 )}
             </div>
 
@@ -634,7 +622,6 @@ function ChannelResourceCard({
                             <button
                                 type="button"
                                 className="notepad-chip-open"
-                                title={"#" + (actionOrder(actionId, channelId) ?? "") + " " + text(actionId)}
                                 aria-label={"#" + (actionOrder(actionId, channelId) ?? "") + " " + text(actionId)}
                                 onClick={() => onOpenAction?.(actionId)}
                             >
@@ -643,18 +630,13 @@ function ChannelResourceCard({
                                 </span>
                                 <span className="notepad-chip-description">{text(actionId)}</span>
                             </button>
-                            <button
-                                type="button"
-                                className="notepad-chip-remove"
+                            <RemoveButton
                                 aria-label={"Unlink action " + text(actionId) + " from " + label}
                                 disabled={disabled}
                                 onClick={() => {
                                     onWrite({ engagement: withResourceAction(engagement, link.id, actionId, false) });
                                     UndoService.offer("Action unlinked.", () => onWrite({ engagement: withResourceAction(latestEngagement.current, link.id, actionId, true) }));
-                                }}
-                            >
-                                ×
-                            </button>
+                                }} />
                         </li>
                     ))}
                 </ul>

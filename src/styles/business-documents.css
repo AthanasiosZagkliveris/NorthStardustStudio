@@ -116,8 +116,7 @@
 
 }
 
-.business-documents-tab:focus-visible,
-.business-documents-button:focus-visible{
+.business-documents-tab:focus-visible{
 
     outline:2px solid var(--line-primary);
     outline-offset:2px;
@@ -131,12 +130,6 @@
     flex-wrap:wrap;
 
     gap:var(--gap-12);
-
-}
-
-.business-documents-button{
-
-    padding:10px 20px;
 
 }
 

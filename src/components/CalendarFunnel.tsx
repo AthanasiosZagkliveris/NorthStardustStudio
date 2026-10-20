@@ -1,8 +1,8 @@
-import { useRef, useState } from "react";
-import { usePopupDismiss } from "./controls/PopupPanel.tsx";
-import TickField from "./controls/TickField.tsx";
+import { useState } from "react";
+import AddButton from "./controls/AddButton.tsx";
 import TextBox from "./controls/TextBox.tsx";
-import OptionPicker from "./interview/fields/OptionPicker.tsx";
+import RemoveButton from "./controls/RemoveButton.tsx";
+import OptionPicker, { MultiPicker } from "./interview/fields/OptionPicker.tsx";
 import DateCellInput from "./interview/fields/DateCellInput";
 
 import { CARD_DATE_KINDS, type CardDateKind } from "../framework/engine/CalendarCardDates";
@@ -16,60 +16,6 @@ export const CALENDAR_INCLUDES: readonly { id: string; label: string; nouns: rea
     { id: "founders", label: "Founders", nouns: ["Founder"] },
     { id: "legal", label: "Legal & Organization", nouns: ["Expense", "Organization"] }
 ];
-
-/** A drop-down cell with a check box for each of its options (what is shown is counted on the cell). */
-function MultiPick<T extends string>({
-    label,
-    options,
-    selected,
-    onChange
-}: {
-    label: string;
-    options: readonly { id: T; label: string }[];
-    selected: ReadonlySet<T>;
-    onChange: (next: ReadonlySet<T>) => void;
-}) {
-    const [open, setOpen] = useState(false);
-    const box = useRef<HTMLDivElement | null>(null);
-
-    usePopupDismiss(open, [box], () => setOpen(false), { escape: false });
-
-    return (
-        <div className="option-picker org-calendar-multi" data-size="hug" ref={box}>
-            <button
-                type="button"
-                className="interview-input option-picker-trigger"
-                aria-haspopup="listbox"
-                aria-expanded={open}
-                aria-label={label}
-                onClick={() => setOpen(current => !current)}
-            >
-                <span className="option-picker-value">{label}: {selected.size === options.length ? "All" : selected.size + " of " + options.length}</span>
-            </button>
-            {open && (
-                <div className="option-picker-list org-calendar-multi-list" role="group" aria-label={label}>
-                    <div className="org-calendar-multi-actions">
-                        <button type="button" className="org-calendar-chip" onClick={() => onChange(new Set(options.map(option => option.id)))}>All</button>
-                        <button type="button" className="org-calendar-chip" onClick={() => onChange(new Set())}>None</button>
-                    </div>
-                    {options.map(option => (
-                        <TickField key={option.id} className="option-picker-option org-calendar-funnel-kind" checked={selected.has(option.id)} onChange={(event) => {
-                                    const next = new Set(selected);
-                                    if (event.target.checked) {
-                                        next.add(option.id);
-                                    } else {
-                                        next.delete(option.id);
-                                    }
-                                    onChange(next);
-                                }}>
-                            <span>{option.label}</span>
-                        </TickField>
-                    ))}
-                </div>
-            )}
-        </div>
-    );
-}
 
 /**
  * THE CALENDAR'S FUNNEL, three drop-down cells: the PERIOD listed (the month grid alone, Today, Tomorrow, This week, Next week, This month, This year, Xmas, or one the
@@ -140,14 +86,7 @@ export default function CalendarFunnel({
                     />
                 </label>
                 {chosen?.custom && (
-                    <button
-                        type="button"
-                        className="org-calendar-chip"
-                        aria-label={"Remove the period " + chosen.label}
-                        onClick={() => onRemovePeriod(chosen.id)}
-                    >
-                        Remove
-                    </button>
+                    <RemoveButton aria-label={"Remove the period " + chosen.label} onClick={() => onRemovePeriod(chosen.id)} />
                 )}
             </div>
 
@@ -162,19 +101,22 @@ export default function CalendarFunnel({
                     />
                     <DateCellInput ariaLabel="Period from" value={from} onChange={setFrom} />
                     <DateCellInput ariaLabel="Period to" value={to} onChange={setTo} />
-                    <button type="button" className="org-calendar-chip" disabled={!from || !to} onClick={save}>Save</button>
-                    <button type="button" className="org-calendar-chip" onClick={() => setAdding(false)}>Cancel</button>
+                    <AddButton
+                        disabled={!from || !to}
+                        onClick={save}>Save</AddButton>
+                    <AddButton
+                        onClick={() => setAdding(false)}>Cancel</AddButton>
                 </div>
             )}
 
             <div className="org-calendar-funnel-row">
-                <MultiPick
+                <MultiPicker
                     label="Dates"
                     options={CARD_DATE_KINDS.map(kind => ({ id: kind.id, label: kind.label }))}
                     selected={kinds}
                     onChange={onKinds}
                 />
-                <MultiPick
+                <MultiPicker
                     label="Include"
                     options={CALENDAR_INCLUDES.map(entry => ({ id: entry.id, label: entry.label }))}
                     selected={includes}

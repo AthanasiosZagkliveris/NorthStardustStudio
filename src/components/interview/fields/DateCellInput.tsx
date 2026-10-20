@@ -274,8 +274,6 @@ export default function DateCellInput({
 
                     aria-label="Open calendar"
 
-                    title="Open calendar"
-
                     aria-expanded={open}
 
                     aria-haspopup="dialog"

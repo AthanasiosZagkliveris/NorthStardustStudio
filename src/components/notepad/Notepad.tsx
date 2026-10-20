@@ -301,14 +301,9 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
                                     {available[link.id] === false && <span className="notepad-chip-gone-word"> · No longer available</span>}
                                 </span>
                             </button>
-                            <button
-                                type="button"
-                                className="notepad-chip-remove"
+                            <RemoveButton
                                 aria-label={"Remove link " + link.label}
-                                onClick={() => NotepadService.removeLink(note.id, link.id)}
-                            >
-                                ×
-                            </button>
+                                onClick={() => NotepadService.removeLink(note.id, link.id)} />
                         </li>
                     ))}
                 </ul>

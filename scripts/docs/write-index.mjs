@@ -54,6 +54,7 @@ const DESIGN = [
   ["docs/design/23-shared-components.md", "current design", "Which components are shared, which are not, what is left to unify. Dated states, newest on top.", false],
   ["docs/design/24-help-texts.md", "current design", "The help texts of the app.", true],
   ["docs/design/25-popups.md", "current design", "Pop-ups in six categories, with their placement rules.", true],
+  ["docs/design/26-tooltips.md", "current design", "Which controls have a tooltip, what it says, and the five rules.", true],
   ["docs/design/card-scan-2026-10-15.md", "snapshot", "A snapshot of every card written by scripts/cards/report.mjs.", false]
 ];
 const SPEC = [

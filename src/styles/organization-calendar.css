@@ -354,8 +354,8 @@
 
 .org-calendar-month-nav-button{
 
-    width:30px;
-    height:30px;
+    width:var(--add-button-height);
+    height:var(--add-button-height);
 
     display:inline-flex;
 
@@ -1184,29 +1184,7 @@
 
 }
 
-.org-calendar-funnel-kinds{
 
-    display:grid;
-
-    gap:var(--gap-4);
-
-    padding:8px 10px;
-
-    border:1px solid var(--box-border);
-    border-radius:var(--radius-lg);
-
-}
-
-.org-calendar-funnel-kind{
-
-    display:flex;
-    align-items:center;
-
-    gap:var(--gap-8);
-
-    font-size:var(--font-small);
-
-}
 
 .org-calendar-agenda{
 
@@ -1271,24 +1249,8 @@
 }
 
 
-.org-calendar-multi{
-
-    position:relative;
-
-    flex:0 0 auto;
-
-    min-width:0;
-
-}
 
 
-.org-calendar-multi-actions{
-
-    display:flex;
-
-    gap:var(--gap-6);
-
-}
 
 /* A day's event: what the date is, the card's name as a link, and (on hovering) a button that adds a note. */
 .org-calendar-task{
@@ -1359,59 +1321,7 @@
 
 
 
-.org-calendar-multi-list > .tick-field{
 
-    padding:8px 10px;
 
-    border-radius:var(--radius-md);
 
-    font-size:var(--font-body);
-    line-height:1.5;
 
-}
-
-.org-calendar-multi-actions{
-
-    padding:4px 10px 6px;
-
-}
-
-/* The cells that open a list of ticks (Dates, Include) are the option picker's dropdowns (CalendarFunnel's MultiPick draws its markup and classes); the list is as wide as its words, at least the cell. */
-.org-calendar-multi-list{
-
-    width:max-content;
-    min-width:100%;
-    max-width:none;
-
-}
-
-.org-calendar-multi-list > .option-picker-option{
-
-    display:flex;
-
-}
-
-/* THE CALENDAR'S DROP-DOWN CELLS (Show, Dates, Include) ARE BUTTONS THAT OPEN A LIST, not fields you write in: the accent button's look (accent-button.css) with the dropdown's chevron in the accent ink, not the recessed field. */
-.org-calendar-panel .option-picker .option-picker-trigger.interview-input{
-
-    border:1px solid var(--accent-line);
-    background-color:var(--accent-ground);
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%230b57d0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-    box-shadow:none;
-
-    color:var(--accent-ink);
-
-    font-weight:500;
-    letter-spacing:0.1em;
-    text-transform:uppercase;
-
-}
-
-.org-calendar-panel .option-picker .option-picker-trigger.interview-input:hover:not(:disabled),
-.org-calendar-panel .option-picker .option-picker-trigger.interview-input[aria-expanded="true"]{
-
-    border-color:var(--accent-line);
-    background-color:var(--accent-ground-hover);
-    box-shadow:inset 0 0 0 1px var(--wired-ring, currentColor);
-
-}

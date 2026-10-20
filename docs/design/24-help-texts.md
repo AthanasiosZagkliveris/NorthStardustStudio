@@ -171,7 +171,7 @@ What was covered: every page of the four systems, every master tile opened, the 
 
 | Label | Opens in | Rows | Points | Characters | Text |
 |---|---|---|---|---|---|
-| Activities | tile dialog | 12 | 3 | 269 | Add activities directly or create them from resources marked Needs Investigation or Needs Activity. Activities do not record costs directly. Any resulting cost ... |
+| Activities | tile dialog | 12 | 3 | 269 | Add activities directly or create them from resources marked Activity. Activities do not record costs directly. Any resulting cost ... |
 
 **Delivery**
 

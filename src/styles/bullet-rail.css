@@ -558,7 +558,8 @@
 
     border-right: 0;
 
-    box-shadow: -4px 4px 12px color-mix(in srgb, var(--rail-left-edge) 18%, transparent);
+    /* (A shadow, not a glow: the ink shadow every card has, not the edge colour, which in the dark mode is light.) */
+    box-shadow: -4px 4px 12px var(--shadow-ink-18);
 
     --rail-dot: color-mix(in srgb, var(--rail-left-edge) 38%, transparent);
     --rail-dot-active: var(--rail-left-edge);
@@ -579,7 +580,7 @@
 
     border-left: 0;
 
-    box-shadow: 4px 4px 12px color-mix(in srgb, var(--rail-right-edge) 18%, transparent);
+    box-shadow: 4px 4px 12px var(--shadow-ink-18);
 
     --rail-dot: color-mix(in srgb, var(--rail-right-edge) 38%, transparent);
     --rail-dot-active: var(--rail-right-edge);

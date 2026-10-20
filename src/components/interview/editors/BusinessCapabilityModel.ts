@@ -32,7 +32,7 @@ export const SECTIONS = {
         workspace: ["Where the organization's work is carried out."],
         responsibilities: ["This list is developed automatically."],
         activities: [
-            "Add activities directly or create them from resources marked Needs Investigation or Needs Activity.",
+            "Add activities directly or create them from resources marked Activity.",
             "Activities do not record costs directly. Any resulting cost is recorded under the relevant Resource, Partner or Supplier.",
             "Assign one responsible person to each activity."
         ],

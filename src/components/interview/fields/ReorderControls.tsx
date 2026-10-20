@@ -1,4 +1,6 @@
 import { DragEvent, KeyboardEvent, MouseEvent, ReactNode, useLayoutEffect, useRef, useState } from "react";
+import AddButton from "../../controls/AddButton.tsx";
+import RemoveButton from "../../controls/RemoveButton.tsx";
 import { usePopupDismiss } from "../../controls/PopupPanel.tsx";
 import FunnelButton from "../../controls/FunnelButton.tsx";
 import { createPortal } from "react-dom";
@@ -138,7 +140,6 @@ export default function BoxActions({
                     <FunnelButton
                         ref={sortButtonRef}
                         aria-label={`Sort ${label}`}
-                        title={`Sort ${label}`}
                         aria-expanded={menuOpen}
                         aria-haspopup="menu"
                         disabled={disabled}
@@ -188,34 +189,17 @@ export default function BoxActions({
             )}
 
             {onAdd && (
-                <button
-                    type="button"
-                    className="strategy-box-add"
+                <AddButton shape="box" small
                     aria-label={`Add ${addLabel ?? "card"}`}
-                    title={`Add ${addLabel ?? "card"}`}
                     disabled={disabled}
-                    onClick={onAdd}
-                >
-                    {/* The + is drawn in CSS, as the x is. */}
-                    +
-                </button>
+                    onClick={onAdd} />
             )}
 
             {onRemove && (
-                <button
-                    type="button"
-                    className="strategy-box-remove card-remove"
+                <RemoveButton className="card-remove"
                     aria-label={`Remove ${label}`}
-                    title={`Remove ${label}`}
                     disabled={disabled}
-                    onClick={onRemove}
-                >
-                    {/* A fallback only -- the X actually shown is
-                        drawn in CSS so it sits dead centre at any
-                        size. See "Delete controls" in
-                        conversation.css. */}
-                    ×
-                </button>
+                    onClick={onRemove} />
             )}
 
         </div>

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import AddButton from "../components/controls/AddButton.tsx";
 import { useNavigate } from "react-router-dom";
 
 import AppFooter from "../components/AppFooter";
@@ -211,52 +212,37 @@ export default function BusinessDocuments() {
                                 onChange={(next) => setUntilYear(Number(next.split(" ")[1]) || planYearCount)}
                             />
                         </div>
-                        <button
-                            type="button"
-                            className="business-documents-button"
-                            onClick={exportCsv}
-                        >
+                        <AddButton
+                            onClick={exportCsv}>
                             Export CSV
-                        </button>
-                        <button
-                            type="button"
-                            className="business-documents-button"
+                        </AddButton>
+                        <AddButton
                             disabled={!anySession}
                             onClick={() => anySession && reviewManager.exportMarkdown(anySession, "Foundation",
-                                businessForecastContent(loaded.sessions, period, lastYear))}
-                        >
+                                businessForecastContent(loaded.sessions, period, lastYear))}>
                             Export Markdown
-                        </button>
-                        <button
-                            type="button"
-                            className="business-documents-button"
+                        </AddButton>
+                        <AddButton
                             disabled={!anySession}
                             onClick={() => anySession && reviewManager.exportPdf(anySession, "Foundation",
-                                businessForecastContent(loaded.sessions, period, lastYear))}
-                        >
+                                businessForecastContent(loaded.sessions, period, lastYear))}>
                             Export PDF
-                        </button>
+                        </AddButton>
                     </div>
                 )}
 
                 {documentId !== "forecast" && (
                 <div className="business-documents-actions">
-                    <button
-                        type="button"
-                        className="business-documents-button"
+                    <AddButton
                         disabled={!anySession}
-                        onClick={() => anySession && reviewManager.exportMarkdown(anySession, "Foundation", content)}
-                    >
+                        onClick={() => anySession && reviewManager.exportMarkdown(anySession, "Foundation", content)}>
                         Export Markdown
-                    </button>
-                    <button
-                        type="button"
-                        className="business-documents-button"
+                    </AddButton>
+                    <AddButton
                         disabled={!anySession}
-                        onClick={() => anySession && reviewManager.exportPdf(anySession, "Foundation", content)}
-                    >
+                        onClick={() => anySession && reviewManager.exportPdf(anySession, "Foundation", content)}>
                         Export PDF
-                    </button>
+                    </AddButton>
                 </div>
                 )}
 

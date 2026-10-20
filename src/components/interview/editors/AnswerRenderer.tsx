@@ -1,4 +1,5 @@
 import { CSSProperties, ReactNode, useEffect, useMemo, useState } from "react";
+import RemoveButton from "../../controls/RemoveButton.tsx";
 import TextBox from "../../controls/TextBox.tsx";
 import CardShell from "../cards/CardShell.tsx";
 import TextField from "../../controls/TextField.tsx";
@@ -1567,7 +1568,6 @@ function SingleAnswerRenderer({
                                         type="button"
                                         className="dynamic-table-row-move-up"
                                         aria-label="Move item up"
-                                        title="Move item up"
                                         disabled={disabled || index === 0}
                                         onClick={() => moveItem(index, -1)}
                                     >
@@ -1578,7 +1578,6 @@ function SingleAnswerRenderer({
                                         type="button"
                                         className="dynamic-table-row-move-down"
                                         aria-label="Move item down"
-                                        title="Move item down"
                                         disabled={disabled || index === items.length - 1}
                                         onClick={() => moveItem(index, 1)}
                                     >
@@ -1589,22 +1588,15 @@ function SingleAnswerRenderer({
 
                                 <div className="dynamic-table-row-delete-add">
 
-                                    <button
-                                        type="button"
-                                        className="dynamic-table-row-remove"
+                                    <RemoveButton
                                         aria-label={items.length <= 1 ? "Clear item" : "Remove item"}
-                                        title={items.length <= 1 ? "Clear item" : "Remove item"}
                                         disabled={disabled}
-                                        onClick={() => removeItem(item.id)}
-                                    >
-                                        −
-                                    </button>
+                                        onClick={() => removeItem(item.id)} />
 
                                     <button
                                         type="button"
                                         className="dynamic-table-row-add"
                                         aria-label="Add item"
-                                        title="Add item"
                                         disabled={disabled}
                                         onClick={addItem}
                                     >
@@ -1778,7 +1770,6 @@ function SingleAnswerRenderer({
                                                 type="button"
                                                 className="dynamic-table-row-move-up"
                                                 aria-label="Move entry up"
-                                                title="Move entry up"
                                                 disabled={disabled || index === 0}
                                                 onClick={() => moveCardItem(activeCard.id, index, -1)}
                                             >
@@ -1789,7 +1780,6 @@ function SingleAnswerRenderer({
                                                 type="button"
                                                 className="dynamic-table-row-move-down"
                                                 aria-label="Move entry down"
-                                                title="Move entry down"
                                                 disabled={disabled || index === activeItems.length - 1}
                                                 onClick={() => moveCardItem(activeCard.id, index, 1)}
                                             >
@@ -1800,22 +1790,15 @@ function SingleAnswerRenderer({
 
                                         <div className="dynamic-table-row-delete-add">
 
-                                            <button
-                                                type="button"
-                                                className="dynamic-table-row-remove"
+                                            <RemoveButton
                                                 aria-label={activeItems.length <= 1 ? "Clear entry" : "Remove entry"}
-                                                title={activeItems.length <= 1 ? "Clear entry" : "Remove entry"}
                                                 disabled={disabled}
-                                                onClick={() => removeCardItem(activeCard.id, item.id)}
-                                            >
-                                                −
-                                            </button>
+                                                onClick={() => removeCardItem(activeCard.id, item.id)} />
 
                                             <button
                                                 type="button"
                                                 className="dynamic-table-row-add"
                                                 aria-label="Add entry"
-                                                title="Add entry"
                                                 disabled={disabled}
                                                 onClick={() => addCardItem(activeCard.id)}
                                             >
@@ -1926,20 +1909,14 @@ function SingleAnswerRenderer({
 
                             <div key={card.id} className="profile-card">
 
-                                <button
-                                    type="button"
-                                    className="profile-card-remove"
+                                <RemoveButton
                                     aria-label={
                                         cards.length <= 1
                                             ? `Clear ${cardLabel} ${index + 1}`
                                             : `Remove ${cardLabel} ${index + 1}`
                                     }
-                                    title={cards.length <= 1 ? "Clear" : "Remove"}
-                                    disabled={disabled}
-                                    onClick={() => removeCard(card.id)}
-                                >
-                                    ×
-                                </button>
+    disabled={disabled}
+    onClick={() => removeCard(card.id)} />
 
                                 <ProfileCardInner>
 
@@ -1994,7 +1971,6 @@ function SingleAnswerRenderer({
                             type="button"
                             className="profile-card-add-tile"
                             aria-label={`Add ${cardLabel}`}
-                            title={`Add ${cardLabel}`}
                             disabled={disabled}
                             onClick={addCard}
                         >

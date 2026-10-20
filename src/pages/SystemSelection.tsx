@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import AddButton from "../components/controls/AddButton.tsx";
 import { useEffect, useState } from "react";
 
 import { capabilities, getCapabilityColor } from "../data/capabilities";
@@ -296,13 +297,10 @@ export default function SystemSelection() {
                                     <p className="workspace-documents-text">
                                         Turn the Foundation answers into a Business Plan, a Business Model Canvas and a Financial Forecast.
                                     </p>
-                                    <button
-                                        type="button"
-                                        className="workspace-documents-button"
-                                        onClick={() => navigate("/documents")}
-                                    >
+                                    <AddButton
+                                        onClick={() => navigate("/documents")}>
                                         Business Documents
-                                    </button>
+                                    </AddButton>
                                 </div>
                             )}
 

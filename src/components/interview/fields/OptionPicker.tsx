@@ -1,5 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
+import AddButton from "../../controls/AddButton.tsx";
+import TickField from "../../controls/TickField.tsx";
 import { usePopupDismiss } from "../../controls/PopupPanel.tsx";
 import { useFloatingPanel } from "../../../hooks/useFloatingPanel.ts";
 
@@ -616,5 +618,64 @@ export function ValuePicker({ choices, value, onChange, ...rest }: Omit<OptionPi
             value={chosen ? chosen.label : ""}
             onChange={(label) => onChange(choices.find(choice => choice.label === label)?.value ?? "")}
         />
+    );
+}
+
+/**
+ * THE DROP-DOWN OF SEVERAL CHOICES: the same drop-down cell (this file's trigger and list, the same classes) whose list is a tick for each option, with All and None; what is
+ * ticked is counted on the cell ("Dates: 7 of 10"). A value of one choice is `OptionPicker`; this is the same control for a set.
+ */
+export function MultiPicker<T extends string>({
+    label,
+    options,
+    selected,
+    onChange
+}: {
+    label: string;
+    options: readonly { id: T; label: string }[];
+    selected: ReadonlySet<T>;
+    onChange: (next: ReadonlySet<T>) => void;
+}) {
+    const [open, setOpen] = useState(false);
+    const box = useRef<HTMLDivElement | null>(null);
+
+    usePopupDismiss(open, [box], () => setOpen(false), { escape: false });
+
+    return (
+        <div className="option-picker multi-picker" data-size="hug" ref={box}>
+            <button
+                type="button"
+                className="interview-input option-picker-trigger"
+                aria-haspopup="listbox"
+                aria-expanded={open}
+                aria-label={label}
+                onClick={() => setOpen(current => !current)}
+            >
+                <span className="option-picker-value">{label}: {selected.size === options.length ? "All" : selected.size + " of " + options.length}</span>
+            </button>
+            {open && (
+                <div className="option-picker-list multi-picker-list" role="group" aria-label={label}>
+                    <div className="multi-picker-actions">
+                        <AddButton
+                            onClick={() => onChange(new Set(options.map(option => option.id)))}>All</AddButton>
+                        <AddButton
+                            onClick={() => onChange(new Set())}>None</AddButton>
+                    </div>
+                    {options.map(option => (
+                        <TickField key={option.id} className="option-picker-option" checked={selected.has(option.id)} onChange={(event) => {
+                                    const next = new Set(selected);
+                                    if (event.target.checked) {
+                                        next.add(option.id);
+                                    } else {
+                                        next.delete(option.id);
+                                    }
+                                    onChange(next);
+                                }}>
+                            <span>{option.label}</span>
+                        </TickField>
+                    ))}
+                </div>
+            )}
+        </div>
     );
 }

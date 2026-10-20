@@ -6419,8 +6419,7 @@ export const BUSINESS_WORKSPACE_KINDS = [
  * list. See the editor, which carries each one out.
  *
  * Rent and Buy are a space's or a vehicle's own words for what
- * were Provided and Costs. "Needs Investigation" is kept for the people
- * cards alone (BUSINESS_PEOPLE_STATUS_IDS).
+ * were Provided and Costs. ("Needs Investigation" is no longer a status: an earlier answer's is cleared and said in the card's description.)
  */
 export const BUSINESS_RESOURCE_STATUSES = [
     {
@@ -6444,11 +6443,6 @@ export const BUSINESS_RESOURCE_STATUSES = [
         explanation: "It can be created, developed or established internally by the founders."
     },
     {
-        id: "investigation",
-        label: "Needs Investigation",
-        explanation: "It is not yet known and requires research."
-    },
-    {
         id: "buy",
         label: "Buy",
         explanation: "It is bought. Record its price."
@@ -6463,8 +6457,8 @@ export const BUSINESS_RESOURCE_STATUSES = [
 /** The statuses a RESOURCE CARD offers. (A space's are BUSINESS_WORKSPACE_STATUS_IDS; a people card adds one, BUSINESS_PEOPLE_STATUS_IDS.) */
 export const BUSINESS_RESOURCE_CARD_STATUS_IDS = ["exists", "partners-suppliers", "activity", "costs"] as const;
 
-/** A people card's (Admin Team, Delivery Team): the common ones, and Needs Investigation. */
-export const BUSINESS_PEOPLE_STATUS_IDS = ["exists", "partners-suppliers", "activity", "investigation", "costs"] as const;
+/** A people card's (Admin Team, Delivery Team): the common ones. */
+export const BUSINESS_PEOPLE_STATUS_IDS = ["exists", "partners-suppliers", "activity", "costs"] as const;
 
 /** The groups whose cards are people. */
 export const BUSINESS_PEOPLE_GROUP_IDS = ["admin-team", "delivery-team"] as const;
@@ -8305,13 +8299,14 @@ function asBusinessResourceSlot(
         }
     } else if (context.legacy) {
         status = cardStatusOf(rawStatus);
-        if (status === "investigation" && !(BUSINESS_PEOPLE_GROUP_IDS as readonly string[]).includes(groupId)) {
-            status = "";
-            earlierStatus = "Needs Investigation";
-        }
     } else {
         // (Provided and Partners were one status already, before the nine categories.)
         status = rawStatus === "provided" || rawStatus === "professional" ? "partners-suppliers" : rawStatus;
+    }
+    // Needs Investigation is no longer a status, on any card: it is cleared and said in the description.
+    if (status === "investigation") {
+        status = "";
+        earlierStatus = "Needs Investigation";
     }
 
     const read = asBusinessCost(slot.cost);

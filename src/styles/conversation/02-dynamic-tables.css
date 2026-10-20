@@ -802,8 +802,7 @@
 
 }
 
-.dynamic-table-repeatable-add,
-.dynamic-table-repeatable-remove{
+.dynamic-table-repeatable-add{
 
     flex:0 0 auto;
 
@@ -826,19 +825,6 @@
    control spans the full width of the list, below the last entry,
    so it reads as "add one more" rather than as another entry of
    its own. */
-.dynamic-table-repeatable-remove{
-
-    width:28px;
-    height:28px;
-
-    border-radius:50%;
-
-    font-size:var(--font-small);
-    line-height:1;
-
-    background:var(--bg-remove);
-
-}
 
 .dynamic-table-repeatable-add{
 
@@ -856,15 +842,13 @@
 
 }
 
-.dynamic-table-repeatable-add:hover:not(:disabled),
-.dynamic-table-repeatable-remove:hover:not(:disabled){
+.dynamic-table-repeatable-add:hover:not(:disabled){
 
     filter:brightness(1.1);
 
 }
 
-.dynamic-table-repeatable-add:disabled,
-.dynamic-table-repeatable-remove:disabled{
+.dynamic-table-repeatable-add:disabled{
 
     opacity:0.5;
 
@@ -1287,7 +1271,6 @@
 
 }
 
-.dynamic-table-row-remove,
 .dynamic-table-row-add{
 
     display:inline-flex;
@@ -1313,26 +1296,6 @@
     cursor:pointer;
 
     transition:filter .15s ease, opacity .15s ease;
-
-}
-
-.dynamic-table-row-remove{
-
-    background:var(--bg-remove);
-
-}
-
-.dynamic-table-row-remove:hover:not(:disabled){
-
-    filter:brightness(1.1);
-
-}
-
-.dynamic-table-row-remove:disabled{
-
-    background:var(--bg-remove-disabled);
-
-    cursor:not-allowed;
 
 }
 

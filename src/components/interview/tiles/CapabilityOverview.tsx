@@ -1,4 +1,8 @@
 import { CSSProperties, useContext, useMemo, useState } from "react";
+import InfoNote from "../fields/InfoNote.tsx";
+import RemoveButton from "../../controls/RemoveButton.tsx";
+import NumberCell from "../../controls/NumberCell.tsx";
+import SegmentedToggle from "../../controls/SegmentedToggle.tsx";
 import FoldArrow from "../fields/FoldArrow.tsx";
 import TileGrid from "./TileGrid.tsx";
 import { BUSINESS_COST_FREQUENCIES, BUSINESS_RESOURCE_STATUSES } from "../../../framework/engine/AnswerUtils.ts";
@@ -36,7 +40,7 @@ import "../../../styles/capability-overview.css";
     Workspace, the Founders and the Legal Entity's expenses as tiles of the page's own make (the same tile, the same size, the same text sizes, TileFace),
     each in the colour of the section it stands in on the page (Infrastructure, Offering's Capability, a Customer Channel's teal; a legal expense in the
     Legal Entity's neutral card ground). A tile says, as labelled lines, where it belongs (Section, Group, Subgroup), then its status and its cost, and
-    carries a small coloured dot for each link (an activity it made, an investigation, a Partner, a Provider). The funnel at the top right holds every
+    carries a small coloured dot for each link (an activity it made, a Partner, a Provider). The funnel at the top right holds every
     filter (what to include, where it belongs -- several places at once, each row in exactly one --, status, payment frequency, cost range, connected
     only) and the orders. Pressing a tile opens its card floating (OpenCardContext); a legal expense belongs to the Identity System, so its tile is only shown.
 */
@@ -366,19 +370,23 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                         }}
                     />
                     {/* The cost order: two small arrow buttons beside the label -- up is low to high, down is high to low (the active one is pressed). */}
-                    <div className="capability-overview-costs-order" role="group" aria-label="Cost order">
-                        <button type="button" aria-label="Low to high" title="Low to high" aria-pressed={filter.sort === "cost-asc"} onClick={() => patch({ sort: filter.sort === "cost-asc" ? "page" : "cost-asc" })}>{"↑"}</button>
-                        <button type="button" aria-label="High to low" title="High to low" aria-pressed={filter.sort === "cost-desc"} onClick={() => patch({ sort: filter.sort === "cost-desc" ? "page" : "cost-desc" })}>{"↓"}</button>
-                    </div>
+                    <SegmentedToggle
+                        className="capability-overview-costs-order"
+                        label="Cost order"
+                        allowClear
+                        options={[{ id: "cost-asc", label: "\u2191", name: "Low to high" }, { id: "cost-desc", label: "\u2193", name: "High to low" }]}
+                        value={filter.sort === "cost-asc" || filter.sort === "cost-desc" ? filter.sort : ""}
+                        onChange={(next) => patch({ sort: next === "" ? "page" : next })}
+                    />
                 </div>
                 <div className="capability-overview-costs-range">
                     <label>
                         From
-                        <input type="text" inputMode="decimal" value={filter.min} onChange={(event) => patch({ min: event.target.value })} />
+                        <NumberCell value={filter.min} onChange={(event) => patch({ min: event.target.value })} />
                     </label>
                     <label>
                         To
-                        <input type="text" inputMode="decimal" value={filter.max} onChange={(event) => patch({ max: event.target.value })} />
+                        <NumberCell value={filter.max} onChange={(event) => patch({ max: event.target.value })} />
                     </label>
                 </div>
             </div>
@@ -391,42 +399,47 @@ export default function CapabilityOverview({ rows, format = String, currency = "
             <div className="capability-overview-bar">
                 <span className="capability-overview-count">{shown.length} of {rows.length}</span>
                 {rows.some(row => row.missing) && (
-                    <span className="capability-overview-incomplete" title="A card that lacks a required answer is shown here, red, but counted nowhere else until it is fixed.">
+                    <span className="capability-overview-incomplete">
                         {rows.filter(row => row.missing).length} incomplete
+                        <InfoNote label="Incomplete" points={["A card that lacks a required answer is shown here, red, but counted nowhere else until it is fixed."]} />
                     </span>
                 )}
-                <span className="capability-overview-legend" role="group" aria-label="Show only tiles with a connection">
-                    {(["activity", "investigation", "partner", "provider", "resource"] as const).map(type => (
-                        <button
-                            type="button"
-                            key={type}
-                            className="capability-overview-legend-item"
-                            aria-pressed={connection === type}
-                            title={connection === type ? "Show all again" : "Show only tiles connected to a " + SYMBOLS[type]}
-                            onClick={() => {
-                                setFocus(null);
-                                setConnection(current => current === type ? "" : type);
-                            }}
-                        >
-                            <i className={"card-tile-symbol card-tile-symbol-" + type} aria-hidden="true" />{SYMBOLS[type]}
-                        </button>
-                    ))}
-                </span>
+                <SegmentedToggle
+                    className="capability-overview-legend"
+                    label="Show only tiles with a connection"
+                    allowClear
+                    options={(["activity", "partner", "provider", "resource"] as const).map(type => ({
+                        id: type,
+                        name: "Show only tiles connected to a " + SYMBOLS[type],
+                        label: <><i className={"card-tile-symbol card-tile-symbol-" + type} aria-hidden="true" />{SYMBOLS[type]}</>
+                    }))}
+                    value={connection}
+                    onChange={(next) => {
+                        setFocus(null);
+                        setConnection(next);
+                    }}
+                />
                 {focus && (
                     <span className="capability-overview-chip">
                         {"Connected to " + focus.name}
-                        <button type="button" aria-label="Clear: show all tiles again" onClick={() => setFocus(null)}>×</button>
+                        <RemoveButton aria-label="Clear: show all tiles again" onClick={() => setFocus(null)} />
                     </span>
                 )}
-                <span className="capability-overview-views" role="group" aria-label="View">
-                    <button type="button" aria-pressed={view === "tiles"} onClick={() => setView("tiles")}>Tiles</button>
-                    <button type="button" aria-pressed={view === "table"} onClick={() => setView("table")}>Table</button>
-                </span>
+                <SegmentedToggle
+                    className="capability-overview-views"
+                    label="View"
+                    options={[{ id: "tiles", label: "Tiles" }, { id: "table", label: "Table" }]}
+                    value={view}
+                    onChange={(next) => next && setView(next)}
+                />
                 {view === "table" && (
-                    <span className="capability-overview-sizes" role="group" aria-label="Table text size">
-                        <button type="button" aria-label="Smaller text" title="Smaller text" disabled={tableSize === 0} onClick={() => setTableSize(current => Math.max(0, current - 1))}>{"A\u2212"}</button>
-                        <button type="button" aria-label="Larger text" title="Larger text" disabled={tableSize === TABLE_SIZES.length - 1} onClick={() => setTableSize(current => Math.min(TABLE_SIZES.length - 1, current + 1))}>{"A+"}</button>
-                    </span>
+                    <SegmentedToggle
+                        className="capability-overview-sizes"
+                        label="Table text size"
+                        options={TABLE_SIZES.map((size, at) => ({ id: size.id, label: ["S", "M", "L"][at], name: ["Smaller text", "Standard text", "Larger text"][at] }))}
+                        value={TABLE_SIZES[tableSize].id}
+                        onChange={(next) => { const at = TABLE_SIZES.findIndex(size => size.id === next); if (at >= 0) { setTableSize(at); } }}
+                    />
                 )}
                 <BoxActions
                     label="all tiles (filter and sort)"

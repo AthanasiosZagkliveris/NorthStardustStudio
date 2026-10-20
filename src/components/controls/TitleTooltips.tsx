@@ -3,37 +3,57 @@ import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { aboveTipPosition, TooltipBox } from "./Tooltip.tsx";
 
 /**
- * THE TOOLTIP OF EVERY `title` (docs/design/23-shared-components.md): a `title` attribute is drawn by the browser as a plain white rectangle with a black
- * frame and letters, in whatever the system's mode is, whatever the app's reading mode is. This host, mounted once, takes the `title` of an element the
- * pointer or the keyboard reaches and shows its words in the app's own tooltip (`TooltipBox`: its letters, size, frame and place), so no place draws a
- * native one. The words stay the element's: an element with no text of its own is named by them (`aria-label`), any other is described by them
- * (`aria-description`), and `data-tip` keeps them for the next time. Only a control has a tip (a button, a link, a field, a tick); the `title` of anything else is taken away and not shown. Escape closes the tip.
+ * THE APP'S TOOLTIP (the rules are in docs/design/26-tooltips.md). The browser draws a `title` as a plain white rectangle with a black frame and letters, in whatever
+ * mode the system is in; this host, mounted once, takes the `title` of an element away and shows words in the app's own tooltip (`TooltipBox`) -- but only where a
+ * tooltip is of use:
+ *  1. only a CONTROL that is pressed (a button, a link, a tab, a menu item, a summary) has one -- never a field (it has its label and its value), a tick (its words), a tile or a card
+ *     (they are text), a label or a heading;
+ *  2. an ICON with no words of its own (the "i", the ×, the +, an arrow, the funnel) says its name;
+ *  3. a control whose words are CUT SHORT by an ellipsis says them whole;
+ *  4. a control says what its words do not (a key it answers to, where it goes: three words or more it does not already have);
+ *  5. never the words it already shows (its text, its name, its value).
+ * The words stay the element's: it keeps its name (`aria-label`) or is described by them (`aria-description`). Escape closes the tip.
  */
+
 /** The words of a text without its marks, to compare two texts. */
 const plain = (text: string) => text.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim();
 
-/** What a person presses, ticks, picks or writes in: only a control has a tip. */
-const CONTROL = "button, a[href], input, select, textarea, summary, [role=button], [role=tab], [role=menuitem], [role=checkbox], [role=switch], [role=combobox], [role=option], [role=link]";
+/** What is pressed: rule 1. (A field, a tick, a tile, a card, a label is not here.) */
+const PRESSED = "button, a[href], summary, [role=button], [role=tab], [role=menuitem], [role=link]";
 
-/**
- * WHETHER A TIP SAYS ANYTHING THE ELEMENT DOES NOT: one that only repeats what is written on the element (its words, its name, its value) is left out -- unless
- * those words are cut short on the screen (an ellipsis), where the tip is the whole of them.
- */
-function worthShowing(element: HTMLElement, tip: string): boolean {
-    if (!element.matches(CONTROL)) {
-        return false;
+/** The words an element shows. */
+const shown = (element: HTMLElement) => (element.textContent ?? "").trim();
+
+/** Rule 3: the words of the element, or of a part of it, run past its edge and are cut (side to side only; a part drawn only to measure is hidden). */
+const isCut = (element: HTMLElement) => [element, ...element.querySelectorAll<HTMLElement>("*")].some(node => {
+    const style = getComputedStyle(node);
+    return style.overflowX !== "visible" && style.visibility !== "hidden" && node.scrollWidth > node.clientWidth + 1;
+});
+
+/** What the tooltip of an element says, or null where it has none (the five rules above). */
+export function tipOf(element: HTMLElement): string | null {
+    if (!element.matches(PRESSED) || element.matches("input, select, textarea")) {
+        return null;
     }
-    const own = plain([element.textContent ?? "", element.hasAttribute("data-tip-named") ? "" : element.getAttribute("aria-label") ?? "", "value" in element ? String((element as HTMLInputElement).value) : ""].join(" "));
-    const words = plain(tip).split(" ").filter(Boolean);
-    if (words.length === 0) {
-        return false;
+    const given = element.getAttribute("data-tip");
+    const name = element.getAttribute("data-tip-named") === null ? element.getAttribute("aria-label") : null;
+    const words = shown(element);
+    // 2. An icon says its name (the title it was given, else its accessible name).
+    if (words.length <= 2) {
+        return given ?? name ?? null;
     }
-    const ownWords = new Set(own.split(" "));
-    if (!words.every(word => ownWords.has(word))) {
-        return true;
+    if (!given) {
+        return null;
     }
-    const cut = (node: HTMLElement) => node.scrollWidth > node.clientWidth + 1 || node.scrollHeight > node.clientHeight + 1;
-    return [element, ...element.querySelectorAll<HTMLElement>("*")].some(node => cut(node) && getComputedStyle(node).textOverflow === "ellipsis");
+    // 5. Never what it already shows.
+    const own = new Set(plain([words, name ?? ""].join(" ")).split(" "));
+    const extra = plain(given).split(" ").filter(word => word && !own.has(word));
+    if (extra.length === 0) {
+        // 3. Unless its words are cut short.
+        return isCut(element) ? given : null;
+    }
+    // 4. What the words do not say.
+    return extra.length >= 3 || isCut(element) ? given : null;
 }
 
 export default function TitleTooltips() {
@@ -43,39 +63,53 @@ export default function TitleTooltips() {
     const id = useId();
 
     useEffect(() => {
-        const take = (element: HTMLElement): string | null => {
+        /** Takes the native title away, keeping its words on the element (`data-tip`) and its name or description. */
+        const take = (element: HTMLElement) => {
             const title = element.getAttribute("title");
-            if (title !== null) {
-                element.removeAttribute("title");
-                // (A box that repeats its own words in its title -- a text area, a cell -- needs no tip.)
-                const repeats = (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) ? element.value === title : false;
-                if (title.trim() && !repeats) {
-                    element.setAttribute("data-tip", title);
-                    if (!element.hasAttribute("aria-label") && !element.hasAttribute("aria-labelledby")) {
-                        if (!(element.textContent ?? "").trim()) {
-                            element.setAttribute("aria-label", title);
-                            element.setAttribute("data-tip-named", "");
-                        } else if (!element.hasAttribute("aria-description")) {
-                            element.setAttribute("aria-description", title);
-                        }
-                    }
+            if (title === null) {
+                return;
+            }
+            element.removeAttribute("title");
+            if (!title.trim()) {
+                return;
+            }
+            element.setAttribute("data-tip", title);
+            if (!element.hasAttribute("aria-label") && !element.hasAttribute("aria-labelledby")) {
+                if (!shown(element)) {
+                    element.setAttribute("aria-label", title);
+                    element.setAttribute("data-tip-named", "");
+                } else if (!element.hasAttribute("aria-description")) {
+                    element.setAttribute("aria-description", title);
                 }
             }
-            return element.getAttribute("data-tip");
         };
-        const reach = (target: EventTarget | null) => (target instanceof Element ? target.closest<HTMLElement>("[title], [data-tip]") : null);
+        const reach = (target: EventTarget | null) => {
+            if (!(target instanceof Element)) {
+                return null;
+            }
+            // (Every title under the pointer is taken away, so the browser never draws one; the nearest pressed control may have a tip.)
+            const titled = target.closest<HTMLElement>("[title]");
+            if (titled) {
+                take(titled);
+            }
+            const element = target.closest<HTMLElement>(PRESSED);
+            if (element) {
+                take(element);
+            }
+            return element;
+        };
         const over = (event: PointerEvent) => {
             const element = reach(event.target);
-            const text = element ? take(element) : null;
-            setTip(element && text && worthShowing(element, text) ? { text, element, x: event.clientX } : null);
+            const text = element ? tipOf(element) : null;
+            setTip(element && text ? { text, element, x: event.clientX } : null);
         };
         const move = (event: PointerEvent) => {
             setTip(current => current && current.x !== null && current.element.contains(event.target as Node) ? { ...current, x: event.clientX } : current);
         };
         const focus = (event: FocusEvent) => {
             const element = reach(event.target);
-            const text = element ? take(element) : null;
-            setTip(element && text && worthShowing(element, text) ? { text, element, x: null } : null);
+            const text = element ? tipOf(element) : null;
+            setTip(element && text ? { text, element, x: null } : null);
         };
         const away = () => setTip(null);
         const key = (event: KeyboardEvent) => {

@@ -711,3 +711,25 @@
     font-variant-numeric: tabular-nums;
 
 }
+
+/* The legend is the segmented toggle (SegmentedToggle): a dot and its word on one line in each option. */
+.capability-overview-legend .date-format-toggle-option {
+
+    display: inline-flex;
+    align-items: center;
+    gap: var(--gap-6);
+
+    white-space: nowrap;
+
+}
+
+/* THE FILTER AND SORT WINDOW stands in the colour of the card it belongs to (the Inventory's hue): its ground, its wireframe and its ink are the card's. */
+.strategy-sort-menu-wide {
+
+    border: 1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+
+    background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+    color: hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
+
+}

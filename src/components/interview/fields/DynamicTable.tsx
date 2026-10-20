@@ -1,5 +1,6 @@
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
+import RemoveButton from "../../controls/RemoveButton.tsx";
 import TextBox from "../../controls/TextBox.tsx";
 import TextField from "../../controls/TextField.tsx";
 import FieldRenderer from "./FieldRenderer";
@@ -1386,23 +1387,10 @@ function DynamicTable({
 
                         </div>
 
-                        <button
-
-                            type="button"
-
+                        <RemoveButton
                             disabled={disabled}
-
-                            className="dynamic-table-repeatable-remove"
-
                             aria-label={`Remove this ${column.title}`}
-
-                            title={`Remove this ${column.title}`}
-
-                            onClick={() => removeMethodEntry(rowIndex, column.id, entryIndex)}
-
-                        >
-                            −
-                        </button>
+                            onClick={() => removeMethodEntry(rowIndex, column.id, entryIndex)} />
 
                     </div>
 
@@ -1417,8 +1405,6 @@ function DynamicTable({
                     className="dynamic-table-repeatable-add"
 
                     aria-label={`Add another ${column.title}`}
-
-                    title={`Add another ${column.title}`}
 
                     onClick={() => addMethodEntry(rowIndex, column.id)}
 
@@ -1923,8 +1909,6 @@ function DynamicTable({
 
                                             aria-label="Move row up"
 
-                                            title="Move row up"
-
                                             onClick={() => moveRow(rowIndex, -1)}
 
                                         >
@@ -1941,8 +1925,6 @@ function DynamicTable({
 
                                             aria-label="Move row down"
 
-                                            title="Move row down"
-
                                             onClick={() => moveRow(rowIndex, 1)}
 
                                         >
@@ -1953,18 +1935,9 @@ function DynamicTable({
 
                                     <div className="dynamic-table-row-delete-add">
 
-                                        <button
-
-                                            type="button"
-
+                                        <RemoveButton
                                             disabled={disabled}
-
-                                            className="dynamic-table-row-remove"
-
                                             aria-label={value.length <= 1 ? "Clear row" : "Delete row"}
-
-                                            title={value.length <= 1 ? "Clear row" : "Delete row"}
-
                                             onClick={() =>
 
                                                 deleteRow(
@@ -1973,11 +1946,7 @@ function DynamicTable({
 
                                                 )
 
-                                            }
-
-                                        >
-                                            −
-                                        </button>
+                                            } />
 
                                         <button
 
@@ -1988,8 +1957,6 @@ function DynamicTable({
                                             className="dynamic-table-row-add"
 
                                             aria-label="Add row"
-
-                                            title="Add row"
 
                                             onClick={() => addRow(rowIndex)}
 

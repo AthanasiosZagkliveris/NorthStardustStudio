@@ -25,6 +25,8 @@
 
     flex:1;
 
+    min-height:var(--add-button-height);
+
     padding:9px 14px;
 
     border:none;

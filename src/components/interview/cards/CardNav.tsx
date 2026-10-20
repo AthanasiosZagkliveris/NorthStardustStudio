@@ -53,7 +53,6 @@ export default function CardNav({
             type="button"
             className="strategy-box-tiles"
             aria-label={"Show the " + kind + "s as tiles"}
-            title={"Show the " + kind + "s as tiles"}
             onClick={onTiles}
         >
             {/* Four diagonal arrows pointing at the centre. */}

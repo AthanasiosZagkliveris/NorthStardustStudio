@@ -24,9 +24,9 @@ describe("a resource's status (stage C)", () => {
         expect(statusInGroup("buy", "devices-tools")).toBe("costs");
         expect(statusInGroup("exists", "premises")).toBe("exists");
         expect(statusInGroup("activity", "premises")).toBe("activity");
-        // (Needs Investigation belongs to the people cards: elsewhere it is cleared.)
+        // (Needs Investigation is no status on any card: it is cleared.)
         expect(statusInGroup("investigation", "premises")).toBe("");
-        expect(statusInGroup("investigation", "admin-team")).toBe("investigation");
+        expect(statusInGroup("investigation", "admin-team")).toBe("");
         expect(statusInGroup("", "premises")).toBe("");
     });
 
@@ -53,7 +53,7 @@ describe("a resource's status (stage C)", () => {
         expect(isCostingStatus("rent")).toBe(false);
     });
 
-    test("Needs Investigation is for the people cards only: on any other card an old answer's is cleared and said in its description", () => {
+    test("Needs Investigation is no status: an old answer's is cleared, on a people card too, and said in its description", () => {
         const value = asBusinessCapabilityValue({
             resources: { equipment: [{ id: "computing", name: "", slots: [slot("a", "investigation")] }] },
             workspace: { kind: "dedicated", status: "investigation" }
@@ -66,12 +66,13 @@ describe("a resource's status (stage C)", () => {
             formatVersion: 3,
             resources: { hr: [{ id: "admin-team", name: "", slots: [slot("p", "investigation")] }] }
         });
-        expect(people.resources.hr[0].slots[0].status).toBe("investigation");
+        expect(people.resources.hr[0].slots[0].status).toBe("");
+        expect(people.resources.hr[0].slots[0].description).toBe("Earlier status: Needs Investigation.");
     });
 
-    test("a resource card offers four statuses, a people card five and a space or a vehicle four of its own", () => {
+    test("a resource card offers four statuses, a people card the same and a space or a vehicle four of its own", () => {
         expect(BUSINESS_RESOURCE_CARD_STATUS_IDS).toEqual(["exists", "partners-suppliers", "activity", "costs"]);
-        expect(BUSINESS_PEOPLE_STATUS_IDS).toEqual(["exists", "partners-suppliers", "activity", "investigation", "costs"]);
+        expect(BUSINESS_PEOPLE_STATUS_IDS).toEqual(["exists", "partners-suppliers", "activity", "costs"]);
         expect(BUSINESS_WORKSPACE_STATUS_IDS).toEqual(["exists", "rent", "activity", "buy"]);
         for (const group of ["premises", "workshop-storage", "company-vehicles", "delivery-vehicles"]) {
             expect(resourceStatusIds(group)).toEqual(["exists", "rent", "activity", "buy"]);

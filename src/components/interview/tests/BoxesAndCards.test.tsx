@@ -66,7 +66,7 @@ describe("the opened cards, their cells and the Back button have no stroke eithe
         expect(edges).toMatch(/--box-edge: color-mix\(in srgb, var\(--box-light\) 55%, transparent\) color-mix\(in srgb, var\(--box-shade\) 55%, transparent\) color-mix\(in srgb, var\(--box-shade\) 55%, transparent\) color-mix\(in srgb, var\(--box-light\) 55%, transparent\);/);
         expect(edges).toMatch(/--cell-edge: color-mix\(in srgb, var\(--cell-light\) 55%, transparent\)/);
         // The cards: founder, resource / partner / provider (business-capability-slot), activity.
-        expect(edges).toMatch(/\.section-tile-overlay\.business-capability :is\(\.business-capability-slot, \.business-founder-open, \.business-capability-activity\):not\(\.delivery-card\) \{[^}]*border-color: var\(--box-edge\);[^}]*box-shadow: var\(--box-inset\), var\(--card-drop, 0 0 0 0 transparent\);/);
+        expect(edges).toMatch(/\.section-tile-overlay\.business-capability :is\(\.business-capability-slot, \.business-founder-open, \.business-capability-activity\):not\(\.delivery-card\) \{[^}]*border: 1px solid hsl\(var\(--strategy-theme-hue, 0\) var\(--theme-line-edge\)\);[^}]*box-shadow: var\(--card-drop, 0 0 0 0 transparent\);/);
         // The cells and the x, lighter; the Back button of a floating card.
         expect(edges).toMatch(/:is\(\.interview-input, \.option-picker-trigger\):not\(:focus\)[^{]*\{[^}]*border-color: var\(--cell-edge\);[^}]*box-shadow: var\(--cell-inset\);/);
         // (The x is the app's one remove button and keeps its own look: no rule of the edges names it.)
@@ -99,7 +99,7 @@ describe("the Delivery cards take the same edges, in one block that can be taken
         const at = edges.indexOf("THE WORKSPACE FORM AND THE DELIVERY CARDS");
         expect(at).toBeGreaterThan(0);
         const block = edges.slice(at, edges.indexOf("THE FOLD ARROWS"));
-        expect(block).toMatch(/:is\(\.delivery-card\) \{[^}]*border-color: var\(--box-edge\);[^}]*box-shadow: var\(--box-inset\)/);
+        expect(block).toMatch(/:is\(\.delivery-card\) \{[^}]*border: 1px solid hsl\(var\(--strategy-theme-hue, 0\) var\(--theme-line-edge\)\);[^}]*box-shadow: var\(--card-drop/);
         expect(block).toMatch(/:is\(\.delivery-card\) :is\(\.interview-input, \.option-picker-trigger\):not\(:focus\) \{[^}]*border-color: var\(--cell-edge\);[^}]*box-shadow: var\(--cell-inset\);/);
         // Nothing before the block names them except to leave them out.
         const general = edges.slice(0, at);

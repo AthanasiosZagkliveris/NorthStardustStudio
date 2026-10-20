@@ -27,11 +27,23 @@ describe("TitleTooltips", () => {
         expect(screen.getByRole("tooltip").textContent).toBe("Adds a note");
     });
 
-    it("shows nothing for what is not a control, and nothing for a control that only repeats its own words", () => {
+    it("shows nothing for what is not a pressed control, and nothing for a control that only repeats its own words", () => {
         render(<><TitleTooltips /><div title="A tile that is only text" data-testid="tile">Words</div><button type="button" title="Add founder" data-testid="same">Add founder</button></>);
         act(() => { fireEvent.pointerOver(screen.getByTestId("tile"), { clientX: 5, clientY: 5 }); });
         expect(screen.queryByRole("tooltip")).toBeNull();
         act(() => { fireEvent.pointerOver(screen.getByTestId("same"), { clientX: 5, clientY: 5 }); });
+        expect(screen.queryByRole("tooltip")).toBeNull();
+    });
+
+    it("says the name of an icon that has no title", () => {
+        render(<><TitleTooltips /><button type="button" aria-label="Frequency: what this means" data-testid="i">i</button></>);
+        act(() => { fireEvent.pointerOver(screen.getByTestId("i"), { clientX: 5, clientY: 5 }); });
+        expect(screen.getByRole("tooltip").textContent).toBe("Frequency: what this means");
+    });
+
+    it("has no tip for a dropdown cell, whose value is on it", () => {
+        render(<><TitleTooltips /><button type="button" aria-haspopup="listbox" title="United Kingdom" data-testid="dd"><span>United Kingdom</span></button></>);
+        act(() => { fireEvent.pointerOver(screen.getByTestId("dd"), { clientX: 5, clientY: 5 }); });
         expect(screen.queryByRole("tooltip")).toBeNull();
     });
 

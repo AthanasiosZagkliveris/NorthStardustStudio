@@ -1,5 +1,7 @@
 import { Fragment, FocusEvent, MouseEvent, useCallback, useEffect, useMemo, useState } from "react";
 
+import AddButton from "../../controls/AddButton.tsx";
+import RemoveButton from "../../controls/RemoveButton.tsx";
 import TextBox from "../../controls/TextBox.tsx";
 import OptionPicker, { ValuePicker } from "../fields/OptionPicker.tsx";
 import TextField from "../../controls/TextField.tsx";
@@ -504,7 +506,6 @@ function RowActions({
                     disabled={disabled || !canMoveUp}
                     className="dynamic-table-row-move-up"
                     aria-label={`Move ${itemLabel} up`}
-                    title={`Move ${itemLabel} up`}
                     onClick={onMoveUp}
                 >
                     ▲
@@ -515,7 +516,6 @@ function RowActions({
                     disabled={disabled || !canMoveDown}
                     className="dynamic-table-row-move-down"
                     aria-label={`Move ${itemLabel} down`}
-                    title={`Move ${itemLabel} down`}
                     onClick={onMoveDown}
                 >
                     ▼
@@ -525,23 +525,16 @@ function RowActions({
 
             <div className="dynamic-table-row-delete-add">
 
-                <button
-                    type="button"
+                <RemoveButton
                     disabled={disabled}
-                    className="dynamic-table-row-remove"
                     aria-label={isOnlyRow ? `Clear ${itemLabel}` : `Remove ${itemLabel}`}
-                    title={isOnlyRow ? `Clear ${itemLabel}` : `Remove ${itemLabel}`}
-                    onClick={onRemove}
-                >
-                    −
-                </button>
+                    onClick={onRemove} />
 
                 <button
                     type="button"
                     disabled={disabled}
                     className="dynamic-table-row-add"
                     aria-label={`Add ${itemLabel}`}
-                    title={`Add ${itemLabel}`}
                     onClick={onAdd}
                 >
                     +
@@ -1078,14 +1071,11 @@ function ProcessCard({
                     onChange={(nextSteps) => onChange({ ...process, sops: [{ ...sop, steps: nextSteps }] })}
                 />
 
-                <button
-                    type="button"
-                    className="process-library-add-link process-library-add-sop-link"
+                <AddButton className="process-library-add-sop-link"
                     onClick={() => onChange({ ...process, sops: [...sops, createBlankProcessSop()] })}
-                    disabled={disabled}
-                >
+                    disabled={disabled}>
                     + Add SOP (this process has more than one procedure)
-                </button>
+                </AddButton>
 
             </div>
 

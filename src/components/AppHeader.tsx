@@ -53,7 +53,6 @@ export default function AppHeader({ organizationName, focusable = false, reloada
                     type="button"
                     className="header-tool app-reload"
                     aria-label="Reload the app and refresh the examples"
-                    title="Reload the app and refresh the examples"
                     onClick={() => { onReload?.(); window.location.reload(); }}
                 >
                     <svg className="header-tool-icon" viewBox="0 0 20 20" aria-hidden="true">

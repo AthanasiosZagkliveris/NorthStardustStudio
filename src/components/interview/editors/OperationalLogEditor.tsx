@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import AddButton from "../../controls/AddButton.tsx";
 import TickField from "../../controls/TickField.tsx";
 import { ValuePicker } from "../fields/OptionPicker.tsx";
 import {
@@ -352,17 +353,14 @@ export default function OperationalLogEditor({
                 </TickField>
 
                 {(filterProcessKey !== NO_FILTER || filterOwner !== NO_FILTER || showLatestOnly) && (
-                    <button
-                        type="button"
-                        className="operational-log-clear-filters"
+                    <AddButton
                         onClick={() => {
                             setFilterProcessKey(NO_FILTER);
                             setFilterOwner(NO_FILTER);
                             setShowLatestOnly(false);
-                        }}
-                    >
+                        }}>
                         Clear filters
-                    </button>
+                    </AddButton>
                 )}
 
             </div>
@@ -410,13 +408,10 @@ export default function OperationalLogEditor({
                     </button>
 
                     {confirmingDelete && (
-                        <button
-                            type="button"
-                            className="operational-log-clear-filters"
-                            onClick={() => setConfirmingDelete(false)}
-                        >
+                        <AddButton
+                            onClick={() => setConfirmingDelete(false)}>
                             Cancel
-                        </button>
+                        </AddButton>
                     )}
 
                     {!confirmingDelete && deletableRows.length === 0 && (

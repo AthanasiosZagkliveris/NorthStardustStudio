@@ -63,6 +63,7 @@ Status: **index**, updated 2026-10-20. One line per document: where it is, what 
 | [design/23-shared-components.md](design/23-shared-components.md) | current design | Which components are shared, which are not, what is left to unify. Dated states, newest on top. | 2026-10-20 |
 | [design/24-help-texts.md](design/24-help-texts.md) | current design | The help texts of the app. | 2026-10-20 |
 | [design/25-popups.md](design/25-popups.md) | current design | Pop-ups in six categories, with their placement rules. | 2026-10-20 |
+| [design/26-tooltips.md](design/26-tooltips.md) | current design | Which controls have a tooltip, what it says, and the five rules. | 2026-10-20 |
 | [design/card-scan-2026-10-15.md](design/card-scan-2026-10-15.md) | snapshot | A snapshot of every card written by scripts/cards/report.mjs. | 2026-10-15 |
 
 ## The specifications (`specifications/`)

@@ -1,4 +1,6 @@
 import { Fragment, useEffect, useMemo, useState } from "react";
+import AddButton from "../components/controls/AddButton.tsx";
+import RemoveButton from "../components/controls/RemoveButton.tsx";
 import NumberCell from "../components/controls/NumberCell.tsx";
 import TextBox from "../components/controls/TextBox.tsx";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -272,15 +274,11 @@ export default function GlobalSettings() {
                                     <th scope="col">Frequency</th>
                                     <th scope="col" className="settings-number-column">Useful life (years)</th>
                                     <th scope="col">
-                                        <button
-                                            type="button"
-                                            className="strategy-add-button settings-reset"
-                                            title="Set every group back to its default years"
+                                        <AddButton className="settings-reset" title="Set every group back to its default years"
                                             disabled={USEFUL_LIFE_GROUPS.every(group => (settings.usefulLife[group.id] ?? "") === (DEFAULT_USEFUL_LIFE[group.id] ?? ""))}
-                                            onClick={() => change({ usefulLife: { ...DEFAULT_USEFUL_LIFE } })}
-                                        >
+                                            onClick={() => change({ usefulLife: { ...DEFAULT_USEFUL_LIFE } })}>
                                             Reset
-                                        </button>
+                                        </AddButton>
                                     </th>
                                 </tr>
                             </thead>
@@ -320,14 +318,10 @@ export default function GlobalSettings() {
                                                         </td>
                                                         <td>
                                                             {groupYears !== (DEFAULT_USEFUL_LIFE[group.id] ?? "") && (
-                                                                <button
-                                                                    type="button"
-                                                                    className="strategy-add-button settings-reset"
-                                                                    title={"Set " + group.label + " back to " + (DEFAULT_USEFUL_LIFE[group.id] ?? "") + " years"}
-                                                                    onClick={() => change({ usefulLife: { ...settings.usefulLife, [group.id]: DEFAULT_USEFUL_LIFE[group.id] ?? "" } })}
-                                                                >
+                                                                <AddButton className="settings-reset" title={"Set " + group.label + " back to " + (DEFAULT_USEFUL_LIFE[group.id] ?? "") + " years"}
+                                                                    onClick={() => change({ usefulLife: { ...settings.usefulLife, [group.id]: DEFAULT_USEFUL_LIFE[group.id] ?? "" } })}>
                                                                     Reset
-                                                                </button>
+                                                                </AddButton>
                                                             )}
                                                         </td>
                                                     </tr>
@@ -397,14 +391,10 @@ export default function GlobalSettings() {
                                                 </td>
                                                 <td>
                                                     {years !== (DEFAULT_AMORTISATION[group.id] ?? "") && (
-                                                        <button
-                                                            type="button"
-                                                            className="strategy-add-button settings-reset"
-                                                            title={"Set " + group.label + " back to " + (DEFAULT_AMORTISATION[group.id] ?? "") + " years"}
-                                                            onClick={() => change({ amortisation: { ...settings.amortisation, [group.id]: DEFAULT_AMORTISATION[group.id] ?? "" } })}
-                                                        >
+                                                        <AddButton className="settings-reset" title={"Set " + group.label + " back to " + (DEFAULT_AMORTISATION[group.id] ?? "") + " years"}
+                                                            onClick={() => change({ amortisation: { ...settings.amortisation, [group.id]: DEFAULT_AMORTISATION[group.id] ?? "" } })}>
                                                             Reset
-                                                        </button>
+                                                        </AddButton>
                                                     )}
                                                 </td>
                                             </tr>
@@ -500,28 +490,19 @@ export default function GlobalSettings() {
                                             />
                                         </td>
                                         <td>
-                                            <button
-                                                type="button"
-                                                className="strategy-box-remove"
+                                            <RemoveButton
                                                 aria-label={"Remove channel " + (index + 1)}
-                                                title={"Remove channel " + (index + 1)}
-                                                onClick={() => change({ channelFees: settings.channelFees.filter(entry => entry.id !== row.id) })}
-                                            >
-                                                ×
-                                            </button>
+                                                onClick={() => change({ channelFees: settings.channelFees.filter(entry => entry.id !== row.id) })} />
                                         </td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
                     </div>
-                    <button
-                        type="button"
-                        className="strategy-add-button"
-                        onClick={() => change({ channelFees: [...settings.channelFees, createChannelFeeRow()] })}
-                    >
+                    <AddButton
+                        onClick={() => change({ channelFees: [...settings.channelFees, createChannelFeeRow()] })}>
                         + Add channel
-                    </button>
+                    </AddButton>
                 </section>
 
             </main>

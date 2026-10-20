@@ -49,8 +49,8 @@ export const FLOOR_KINDS: readonly { id: FloorKind; label: string; one: string }
 export interface FloorLink {
     id: string;
     name: string;
-    /** "activity", "investigation" (an activity that investigates), "partner" or "provider"; the Legal Entity's "expense" and "registration" (what an expense is for). */
-    type: "activity" | "investigation" | "partner" | "provider" | "resource" | "expense" | "registration";
+    /** "activity", "partner" or "provider"; the Legal Entity's "expense" and "registration" (what an expense is for). */
+    type: "activity" | "partner" | "provider" | "resource" | "expense" | "registration";
 }
 
 /** The colour a tile keeps from the section it stands in on the page. */

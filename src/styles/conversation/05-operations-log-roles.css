@@ -182,40 +182,6 @@
 
 }
 
-.operational-log-clear-filters{
-
-    border:1px solid var(--box-border);
-    border-radius:var(--radius-md);
-
-    background:var(--bg-surface);
-
-    color:var(--text-subtle);
-
-    font:inherit;
-    font-size:var(--font-small);
-    font-weight:600;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-
-    padding:8px 12px;
-
-    height:38px;
-
-    cursor:pointer;
-
-    transition:background-color .15s ease, border-color .15s ease, color .15s ease;
-
-}
-
-.operational-log-clear-filters:hover{
-
-    background:var(--bg-primary-tint);
-
-    border-color:var(--line-primary);
-
-    color:var(--text-primary);
-
-}
-
 .operational-log-scroll{
 
     overflow-x:auto;

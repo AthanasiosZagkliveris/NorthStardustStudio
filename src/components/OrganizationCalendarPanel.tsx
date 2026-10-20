@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
+import AddButton from "./controls/AddButton.tsx";
+import SegmentedToggle from "./controls/SegmentedToggle.tsx";
 import TextLink from "./interview/fields/TextLink.tsx";
 import NavArrow from "./controls/NavArrow.tsx";
 import { CalendarTaskAnnotation, OrganizationService } from "../services/OrganizationService";
@@ -615,25 +617,12 @@ export default function OrganizationCalendarPanel({
 
                         <span className="org-calendar-date-format-label">Date presentation</span>
 
-                        <div className="date-format-toggle-group" role="group" aria-label="Date presentation">
-
-                            <button
-                                type="button"
-                                className={`date-format-toggle-option${dateFormat === "US" ? " date-format-toggle-option-active" : ""}`}
-                                onClick={() => PreferencesService.setDateFormat("US")}
-                            >
-                                MM/DD (US)
-                            </button>
-
-                            <button
-                                type="button"
-                                className={`date-format-toggle-option${dateFormat === "EU" ? " date-format-toggle-option-active" : ""}`}
-                                onClick={() => PreferencesService.setDateFormat("EU")}
-                            >
-                                DD/MM (EU)
-                            </button>
-
-                        </div>
+                        <SegmentedToggle
+                            label="Date presentation"
+                            options={[{ id: "US", label: "MM/DD (US)" }, { id: "EU", label: "DD/MM (EU)" }]}
+                            value={dateFormat}
+                            onChange={(next) => next && PreferencesService.setDateFormat(next)}
+                        />
 
                     </div>
 
@@ -775,15 +764,12 @@ export default function OrganizationCalendarPanel({
                             <h3 className="org-calendar-selected-title">
                                 {isoToDisplay(selectedDate, dateFormat)}
                                 {selectedDateTasks.length > 0 && (
-                                    <button
-                                        type="button"
-                                        className="org-calendar-chip org-calendar-expand"
+                                    <AddButton className="org-calendar-expand"
                                         onClick={() => setNotesOpen(current => selectedDateTasks.every(task => current.has(task.taskId))
                                             ? new Set([...current].filter(id => !selectedDateTasks.some(task => task.taskId === id)))
-                                            : new Set([...current, ...selectedDateTasks.map(task => task.taskId)]))}
-                                    >
+                                            : new Set([...current, ...selectedDateTasks.map(task => task.taskId)]))}>
                                         {selectedDateTasks.every(task => notesOpen.has(task.taskId)) ? "Collapse all" : "Expand all"}
-                                    </button>
+                                    </AddButton>
                                 )}
                             </h3>
 
@@ -828,13 +814,10 @@ export default function OrganizationCalendarPanel({
                                                 : <span>{task.name ?? task.description}</span>}
 
                                             {!noteShown && (
-                                                <button
-                                                    type="button"
-                                                    className="org-calendar-chip org-calendar-task-add"
-                                                    onClick={() => setNotesOpen(current => new Set(current).add(task.taskId))}
-                                                >
+                                                <AddButton className="org-calendar-task-add"
+                                                    onClick={() => setNotesOpen(current => new Set(current).add(task.taskId))}>
                                                     Add Note
-                                                </button>
+                                                </AddButton>
                                             )}
 
                                         </div>
