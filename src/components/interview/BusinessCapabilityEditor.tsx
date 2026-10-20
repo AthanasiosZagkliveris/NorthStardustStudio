@@ -337,6 +337,13 @@ export function newActivityFor(scope: Scope, startDate: string, offeringIds: rea
 }
 
 /** The day a card starts (a resource, an activity), "" where it is not found: what a card MADE from it starts on. */
+/** A card that changes its category or its group starts its Frequency again: "Select" (empty), or the one frequency its new group offers (nothing is chosen where nothing is to choose). Its unit and a named "other" frequency go with it; the price stays. */
+export function costInGroup(cost: BusinessCostValue, place: Scope, groupId: string): BusinessCostValue {
+    const offered = groupId && groupId !== NO_GROUP ? frequencyIdsOf(place, groupId) : [];
+    const sole = offered.length === 1 ? offered[0] : "";
+    return { ...cost, frequency: sole, frequencyOther: "", unit: sole === "per-unit" ? (unitsOf(place, groupId)[0] ?? "unit") : "" };
+}
+
 function startOfCard(capability: BusinessCapabilityValue, id: string): string {
     const slots = [...Object.values(capability.resources).flatMap(subsections => subsections.flatMap(subsection => subsection.slots)), ...capability.offering.resources];
     const activities = [...capability.activities.flatMap(category => category.activities), ...capability.offering.activities];
@@ -3371,7 +3378,7 @@ export default function BusinessCapabilityEditor({
             return base;
         }
         // The statuses follow the group: a space's or vehicle's Rent and Buy are another card's Partners & Suppliers and Costs, and the other way back.
-        found = { ...found, status: statusInGroup(found.status, subId) };
+        found = { ...found, status: statusInGroup(found.status, subId), cost: costInGroup(found.cost, "infrastructure", subId) };
         const target = without[groupId] ?? [];
         const has = target.some(subsection => subsection.id === subId);
         const placed = has
@@ -3422,7 +3429,7 @@ export default function BusinessCapabilityEditor({
                     onPick: (id) => {
                         if (id && id !== slot.category) {
                             const group = soleGroupOf(offeringGroupsOf(id));
-                            onSlot({ category: id, group, status: statusInGroup(slot.status, group) });
+                            onSlot({ category: id, group, status: statusInGroup(slot.status, group), cost: costInGroup(slot.cost, "offering", group) });
                         }
                     },
                     onNew: () => undefined,
@@ -3438,7 +3445,7 @@ export default function BusinessCapabilityEditor({
                     custom: undefined,
                     onPick: (id) => {
                         if (id && id !== slot.group) {
-                            onSlot({ group: id, status: statusInGroup(slot.status, id) });
+                            onSlot({ group: id, status: statusInGroup(slot.status, id), cost: costInGroup(slot.cost, "offering", id) });
                         }
                     },
                     onNew: () => undefined,
@@ -3552,7 +3559,7 @@ export default function BusinessCapabilityEditor({
         const setCategory = (category: string, made?: BusinessCategoryValue) => {
             const place = capability.offering.professionals.some(entry => entry.id === partner.id) || capability.offering.providers.some(entry => entry.id === partner.id) ? "offering" : "infrastructure";
             const groups = category === "partners" || category === "suppliers" ? BUSINESS_PARTNER_GROUPS[place][category] : [];
-            const moved = patchPartner(capability, partner.id, { category, group: soleGroupOf(groups) });
+            const moved = patchPartner(capability, partner.id, { category, group: soleGroupOf(groups), cost: costInGroup(partner.cost, place, soleGroupOf(groups)) });
             const used = new Set([...moved.professionals, ...moved.providers, ...moved.offering.professionals, ...moved.offering.providers].map(entry => entry.category));
             // (A category the user made and never named, and no card uses, is dropped again.)
             onChange({
@@ -3605,7 +3612,7 @@ export default function BusinessCapabilityEditor({
             onPick: (id) => {
                 const picked = options.find(entry => entry.id === id);
                 if (picked && picked !== current) {
-                    onChange(patchPartner(capability, partner.id, { category: picked.type, group: picked.id }));
+                    onChange(patchPartner(capability, partner.id, { category: picked.type, group: picked.id, cost: costInGroup(partner.cost, scope, picked.id) }));
                 }
             },
             onNew: () => undefined,
@@ -3750,10 +3757,10 @@ export default function BusinessCapabilityEditor({
     }
 
     /** A legal expense belongs to the Identity System: its page opens, and the card with it. */
-    function openLegalExpense(id: string) {
+    function openLegalExpense(id: string, alone = false) {
         // (Where this page can save the Legal Entity's answer, the card floats here: over the page, as every card.)
         if (legalEntity !== undefined && onChangeLegalEntity) {
-            document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: "legal-entity-expenses", card: id } }));
+            document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: "legal-entity-expenses", card: id, alone } }));
             return;
         }
         onOpenLegalEntity?.();
@@ -4053,7 +4060,7 @@ export default function BusinessCapabilityEditor({
         );
 
         return (
-            <MissingScope lacking={missingById.get(activity.id) ?? []} key={activity.id}>{(lacking) => (
+            <MissingScope lacking={missingById.get(activity.id) ?? []} cardId={activity.id} key={activity.id}>{(lacking) => (
             <div
                 className={"business-capability-activity business-capability-slot" + (activity.completed ? " business-capability-activity-completed" : "")}
                 data-anchor={activity.id}
@@ -4561,7 +4568,7 @@ export default function BusinessCapabilityEditor({
                 const classes = inventoryClassification(
                     capability, legalEntityFounders, legalExpenses, asFinancialFoundationValue(financialFoundation), organisationCurrency, openingDate, globalSettings
                 );
-                return <CapabilityOverview rows={rows.map(row => ({ ...row, ...(classes.get(row.id) ?? classes.get("salary-" + row.id) ?? classes.get("legal-" + row.id)) }))} format={moneyFormatter(organisationCurrency)} currency={organisationCurrency} onOpenLegal={legalEntity !== undefined && onChangeLegalEntity ? openLegalExpense : undefined} />;
+                return <CapabilityOverview rows={rows.map(row => ({ ...row, ...(classes.get(row.id) ?? classes.get("salary-" + row.id) ?? classes.get("legal-" + row.id)) }))} format={moneyFormatter(organisationCurrency)} currency={organisationCurrency} onOpenLegal={legalEntity !== undefined && onChangeLegalEntity ? (id: string) => openLegalExpense(id, true) : undefined} />;
             }
         };
     }

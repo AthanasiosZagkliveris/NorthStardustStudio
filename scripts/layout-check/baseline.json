@@ -120,12 +120,6 @@
   "rule": "number → name gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|card side margin|legal-expense-expense-~ › Date|Expenses > Expense 1: Certificate of Assumed Name filing",
-  "example": "quillfield-automation-llc.json",
-  "page": "Identity System › ^2\\. Organization",
-  "rule": "card side margin"
- },
- {
   "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|a picker shows its whole displayed text|legal-expense-expense-~ › Expense 1 linked registration: New York Department of State: KC-2026-0817|Expenses > Expense 1: Certificate of Assumed Name filing",
   "example": "quillfield-automation-llc.json",
   "page": "Identity System › ^2\\. Organization",
@@ -180,12 +174,6 @@
   "rule": "number → name gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|card side margin|legal-expense-expense-~ › Date|Expenses (floating card)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Identity System › ^2\\. Organization",
-  "rule": "card side margin"
- },
- {
   "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|a picker shows its whole displayed text|legal-expense-expense-~ › Expense 1 linked registration: New York Department of State: KC-2026-0817|Expenses (floating card)",
   "example": "quillfield-automation-llc.json",
   "page": "Identity System › ^2\\. Organization",
@@ -202,12 +190,6 @@
   "example": "quillfield-automation-llc.json",
   "page": "Identity System › ^2\\. Organization",
   "rule": "number → name gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|card side margin|legal-expense-expense-~ › Date|Expenses (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Identity System › ^2\\. Organization",
-  "rule": "card side margin"
  },
  {
   "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|a card added with the + box and left blank is removed again|Expenses|",

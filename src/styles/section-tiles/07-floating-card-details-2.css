@@ -776,10 +776,10 @@ body:has(.floating-overlay) .section-tile-overlay:not(.floating-overlay) > .caro
 
 }
 
-/* (The card's 1px edge is inside its width: the padding is less by that, so the name cell and the cells stand where a Resource card's do.) */
+/* (The card's padding is the card padding, as every floating card's is, so the name cell and the cells stand where a Resource card's do: 13px from the card's outer edge, its 1px edge and 12px.) */
 .floating-card-body .legal-entity-card {
 
-    padding: calc(var(--card-padding) - 1px);
+    padding: var(--card-padding);
 
 }
 

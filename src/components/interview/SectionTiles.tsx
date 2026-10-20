@@ -171,14 +171,14 @@ export default function SectionTiles({
 
     /* A floating card: THAT card alone, centred (FloatingCard). `centre` says over what: the page's card area, the card of the
        page the tile stands in (a card just added), or the tile's group (the Workspace). */
-    const openFloating = (tile: SectionTile, id: string, from: HTMLElement, centre: FloatingCentre, fresh = false, pointer = false, linked = false) => {
+    const openFloating = (tile: SectionTile, id: string, from: HTMLElement, centre: FloatingCentre, fresh = false, pointer = false, linked = false, alone = false) => {
         tile.opening?.();
         openedByPointer.current = pointer;
         // The column of the page the tile stands in (Infrastructure's card or Offering's Capability's), or -- the Workspace -- its tile group.
         const anchor = centre === "group"
             ? from.closest<HTMLElement>(".section-tiles-box")
             : otherColumn(sectionAnchor(from));
-        setFloating({ tileId: tile.id, id, opener: from, anchor, fresh, linked });
+        setFloating({ tileId: tile.id, id, opener: from, anchor, fresh, linked, alone });
     };
 
     /** What pressing a tile opens: its card (a tile of one), a new blank card (a tile of none), or its dialog. */
@@ -238,7 +238,7 @@ export default function SectionTiles({
             const from = opener.current ?? (cardsOnly ? document.querySelector<HTMLElement>(".answer-columns.business-capability > .business-foundation-card") : null) ?? document.body;
             if (request.card && found.cardFor) {
                 // (Over the other column of the tile that holds it, where it stands on the page: at the one level of every card.)
-                openFloating(found, request.card, document.querySelector<HTMLElement>(`.section-tile[data-tile="${CSS.escape(found.id)}"]`) ?? from, "column", request.fresh === true, false, true);
+                openFloating(found, request.card, document.querySelector<HTMLElement>(`.section-tile[data-tile="${CSS.escape(found.id)}"]`) ?? from, "column", request.fresh === true, false, true, request.alone === true);
             } else if (request.box) {
                 setFloating(null);
                 // (From its own tile where it stands on screen: the dialog takes its place and size from it, not from the page.)
@@ -477,7 +477,7 @@ export default function SectionTiles({
                     incomplete={!!shownIncomplete?.has(floating.id)}
                     label={floatingTile.title}
                     attrs={{ "data-floating": floating.tileId, "data-card-id": floating.id }}
-                    step={!floating.fresh && floatingTile.id !== "overview" && floatingTile.id !== "completed" && siblingCards.length > 1 && siblingCards.some(item => item === floating.id || item === "founder-" + floating.id) ? { what: "card", previous: () => stepFloating(-1), next: () => stepFloating(1), items: floatingItems, current: floatingAt, go: (id: string) => { if (id !== floating.id) { goFloating(id); } } } : undefined}
+                    step={!floating.fresh && !floating.alone && floatingTile.id !== "overview" && floatingTile.id !== "completed" && siblingCards.length > 1 && siblingCards.some(item => item === floating.id || item === "founder-" + floating.id) ? { what: "card", previous: () => stepFloating(-1), next: () => stepFloating(1), items: floatingItems, current: floatingAt, go: (id: string) => { if (id !== floating.id) { goFloating(id); } } } : undefined}
                     cards={(() => {
                         // (A requirement and the expense it made are drawn together only where a LINK was pressed -- the tile's link, a card's link symbol; opened by its own tile or box, a card is alone.)
                         const pair = floating.linked ? floatingTile.pairOf?.(floating.id) : null;

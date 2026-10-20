@@ -743,6 +743,14 @@ html.notepad-picking [data-pick-hover] {
 /* THE CARD NOTES (Notepad.tsx, CardNotes): a group like the Organization's, then one note-box for each card -- its name, its page, its text. The panel's one column is padded 16px; a
    head is its fold arrow, its name, its count and the funnel on one line (12px apart, the funnel ending where the boxes end); a box is a note's box (12px padding, a note's corners and
    ground), its three lines 6px apart, set as a note's text is (the body size, no tracking). The pointer on a box is the glow; the keyboard's focus, the ring. */
+/* The funnel in the panel has no card hue to take its tone from (the hue 0 it would fall back to is red): it is the neutral one, the text colour on the panel's ground. */
+.notepad-card-notes-head .funnel-box {
+
+    --plus-ground: var(--bg-surface);
+    --plus-fill: var(--text-default);
+
+}
+
 .notepad-card-notes-head {
 
     display: flex;

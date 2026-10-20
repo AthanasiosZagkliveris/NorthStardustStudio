@@ -2,6 +2,16 @@
 
 This document describes the current situation, one dated section per state, the newest on top. What changed, and when, is written in the log (`04-log.md`), not here.
 
+## What is missing as a component (2026-10-20)
+
+Counted in the code, not yet components:
+
+| Candidate | Why | Where |
+|---|---|---|
+| `PopupPanel` (open, place, close on a press outside and on Escape, the z-order above the card's controls) | 15 files write their own outside-press and Escape closing; 6 place a popup with `useFloatingPanel`; the colour picker's popup painted under the card's x and arrows because it had none of the shared parts | `ColourPicker`, `OptionPicker`, `InfoNote`, `ReorderControls`, `ResponsibilityFilter`, `CalendarFunnel`, `ThemeSwitch`, `CardTitleHelp`, `SuggestedInput`, the date popup (`useDatePopup` is the start) |
+| `TickField` (the label, its `TickBox` and its text) | the tick's label is written by hand in 15 places with 4 class families (`business-foundation-tick`, `legal-entity-switch`, `business-capability-done`, the filters'); their look is one rule now (`cell-focus.css`), their markup is not | `LegalEntityEditor`, `BusinessCardFields`, `BusinessFoundationEditor`, `Notepad`, `ResponsibilityFilter`, `OperationalLogEditor`, `BusinessCapabilityEditor`, `BrandStyleEditor`, `CalendarFunnel` |
+| `FieldRow` (a label and its cell, beside or above) | `BusinessField` has 69 uses in the Business editors, the Legal Entity page has its own rows (`legal-entity-field`, 8) | `BusinessCardFields`, `LegalEntityEditor` |
+
 ## What is left on 2026-10-19
 
 The survey below was re-counted in the code on this date; two of its figures were out of date (no raw date inputs are left; the plain text boxes are about 40 in the components, not 106).

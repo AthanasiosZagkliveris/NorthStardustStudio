@@ -231,6 +231,8 @@ export interface FloatingOpen {
     anchor: HTMLElement | null;
     /** Opened by pressing a LINK (a tile's link line, a card's link symbol) rather than its own tile or box: a linked pair is then drawn together. */
     linked?: boolean;
+    /** Opened from the Inventory or the Completed tile: alone, no carousel. */
+    alone?: boolean;
     /** Added by the "+" box a moment ago: removed again on closing while it is still completely blank. */
     fresh: boolean;
     /** What the box name above the card says where it is not the tile's title (a subcategory's name). */
@@ -271,4 +273,4 @@ export interface FloatingItem {
     note?: InfoPoint[];
 }
 
-export interface OpenRequest { card?: string; tile?: string; box?: string; /** A card just made: left blank, it is taken away when it is closed. */ fresh?: boolean }
+export interface OpenRequest { card?: string; tile?: string; box?: string; /** A card just made: left blank, it is taken away when it is closed. */ fresh?: boolean; /** Opened from the Inventory or the Completed tile: the card alone, with no arrows and no rail, as every card opened from them. */ alone?: boolean }

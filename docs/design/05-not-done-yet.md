@@ -10,6 +10,8 @@ Status: **living list**, written 2026-10-14. Remove an item when it is done and 
 - The grid of `CapabilityOverview` (the Inventory): its columns come from the stylesheet; it stays.
 - Not copies, so not joined: `NumberedListInput` and `SuggestedInput` (editors), the fold arrow and the label arrow (two controls by decision), the image-holder label, the sub-channel head, the Brand column headings.
 
+**To add as components** (counted, in `23-shared-components.md`, "What is missing as a component"): `PopupPanel` (15 files close their own popups), `TickField`, `FieldRow`.
+
 **Not looked at in a browser**: the tooltips (the Roadmap bars, the action symbols, the noted fields, the card tiles' tips) and the Process library and Operational log pages (they are not reachable in this version of the app). The tests cover them.
 
 **Waiting for the owner**: the proposals in `19-frequency-options.md` (frequency groups); the generated cards' inputs beyond "adding, not removing"; trying the branch once.

@@ -225,3 +225,16 @@
     padding-bottom: 3px;
     margin-bottom: -3px;
 }
+
+/* ONE LABEL LOOK, EVERY LABEL: the label of a tick (a tick field, an optional field's tick, a switch, a "Completed" tick) is the field label: regular, the body size, the card's label colour (--label-color) -- never the text colour a place gave its own tick text. */
+label:has(> .brand-tick-box),
+label:has(> .brand-tick-box) :is(span, strong, em) {
+    color: var(--label-color);
+    font-size: var(--font-body);
+    font-weight: 400;
+}
+
+/* The Legal Entity cards (floating or in their dialog) have the label colour of the Legal Entity page's own frames. */
+.legal-entity-card {
+    --label-color: hsl(var(--legal-label-hue, 172) var(--theme-text-ink));
+}

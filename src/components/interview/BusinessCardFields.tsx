@@ -1,4 +1,5 @@
-import { createContext, CSSProperties, ReactNode, useContext, useEffect, useRef, useState } from "react";
+import { freshCards } from "./freshCards.ts";
+import { createContext, CSSProperties, ReactNode, useContext, useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 import TextBox from "../TextBox.tsx";
 import CardShell from "./CardShell.tsx";
@@ -53,11 +54,12 @@ const NO_MISSING: readonly string[] = [];
 export const MissingFieldsContext = createContext<readonly string[]>([]);
 
 /**
- * A card just made (it still lacks its Name when it opens) is quiet while it is open: nothing flashes at someone who is only starting it. It shows what it lacks
- * the next time it is opened.
+ * A card just made and still open (freshCards) is quiet: nothing flashes at someone who is only starting it. Every other card shows what it lacks in its fields
+ * exactly when its tile flashes: one rule for the tile and the fields, so a card the tile calls incomplete is never silent in the card.
  */
-export function MissingScope({ lacking, children }: { lacking: readonly string[]; children: (shown: readonly string[]) => ReactNode }) {
-    const [quiet] = useState(() => lacking.includes("Name"));
+export function MissingScope({ lacking, cardId, children }: { lacking: readonly string[]; cardId?: string; children: (shown: readonly string[]) => ReactNode }) {
+    useSyncExternalStore(freshCards.subscribe, freshCards.snapshot);
+    const quiet = cardId !== undefined && freshCards.has(cardId);
     const shown = quiet ? NO_MISSING : lacking;
     return <MissingFieldsContext.Provider value={shown}>{children(shown)}</MissingFieldsContext.Provider>;
 }
@@ -1009,7 +1011,7 @@ export function BusinessCard({
     const editable = onName !== undefined && (open || !onToggle);
 
     return (
-        <MissingScope lacking={stored}>{(lacking) => (
+        <MissingScope lacking={stored} cardId={(anchor ?? "").replace(/^founder-/, "") || undefined}>{(lacking) => (
         <CardShell
             input={false}
             engagement={false}

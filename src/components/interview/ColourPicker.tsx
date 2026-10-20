@@ -173,7 +173,7 @@ export default function ColourPicker({
     };
 
     return (
-        <div className="colour-picker" ref={boxRef}>
+        <div className="colour-picker" ref={boxRef} style={open ? { zIndex: 100 } : undefined}>
 
             <button
                 ref={triggerRef}

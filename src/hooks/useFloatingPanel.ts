@@ -176,9 +176,17 @@ export function useFloatingPanel(
         window.addEventListener("scroll", place, true);
         window.addEventListener("resize", place);
 
+        // A panel whose content changes size while it is open (the colour picker's HEX, RGB and HSL) is placed again: it never keeps the place of its old size.
+        let observer: ResizeObserver | null = null;
+        if (typeof ResizeObserver !== "undefined" && panelRef.current) {
+            observer = new ResizeObserver(() => place());
+            observer.observe(panelRef.current);
+        }
+
         return () => {
             window.removeEventListener("scroll", place, true);
             window.removeEventListener("resize", place);
+            observer?.disconnect();
         };
 
     }, [open, place]);
