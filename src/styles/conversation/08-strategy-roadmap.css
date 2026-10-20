@@ -1035,7 +1035,6 @@
    everywhere, which is a different signal and a requirement.
 ========================================================== */
 
-.strategy-add-button:hover:not(:disabled),
 .strategy-box-action:hover:not(:disabled),
 .strategy-box-toggle:hover,
 .roadmap-bar:hover{

@@ -27,4 +27,12 @@ describe("TitleTooltips", () => {
         expect(screen.getByRole("tooltip").textContent).toBe("Adds a note");
     });
 
+    it("shows nothing for what is not a control, and nothing for a control that only repeats its own words", () => {
+        render(<><TitleTooltips /><div title="A tile that is only text" data-testid="tile">Words</div><button type="button" title="Add founder" data-testid="same">Add founder</button></>);
+        act(() => { fireEvent.pointerOver(screen.getByTestId("tile"), { clientX: 5, clientY: 5 }); });
+        expect(screen.queryByRole("tooltip")).toBeNull();
+        act(() => { fireEvent.pointerOver(screen.getByTestId("same"), { clientX: 5, clientY: 5 }); });
+        expect(screen.queryByRole("tooltip")).toBeNull();
+    });
+
 });

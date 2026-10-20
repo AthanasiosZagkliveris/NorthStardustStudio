@@ -246,3 +246,8 @@ label:has(> .brand-tick-box) :is(span, strong, em) {
 .floating-overlay:has(~ .floating-overlay) :is(.carousel-arrow, .carousel-rail) {
     visibility: hidden;
 }
+
+/* EVERY CONTROL ANSWERS A PRESS (R5, docs/design/20-reactions.md): under the pointer it has its hover reaction (each kind's own: the glow, the filled ground, the thickened letters); while it is pressed it darkens a little more, whatever kind it is. A field has its focus ring for the same. */
+:is(button, [role="button"], [role="tab"], [role="menuitem"], summary, a[href]):not(:disabled, [aria-disabled="true"]):active {
+    filter: brightness(0.93);
+}

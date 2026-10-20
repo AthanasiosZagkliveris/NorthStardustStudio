@@ -20,6 +20,7 @@ What the app does when a part of it is pointed at, pressed, focused, ticked, ope
 | R10 | **Halo** (the tile that opened a card) | A steady ring 2px and a glow in the opened card's tint (the Completed grey for a completed card) round the tile or box that holds the card now shown, while the card is open; the list line that opens it is bold and underlined. It follows the card when the arrows step. | Not flashing: the flashing glow is only the error. |
 | R11 | **Error glow** (an incomplete card) | The tile flashes a red glow; its line in a tile's list is red, bold and flashing and comes first. | A card just made and still open is not flagged. Any other card is flagged in its fields exactly when its tile flashes (one lacking its Name too). |
 | R12 | **Deactivated** (disabled, frozen, completed) | Flat, no reaction, the muted ground; the not-allowed cursor. | A **completed card** is the exception: it keeps the shapes of an open card in four greys only (card ground, cells' ground, line, text), its tab, bullets, arrows and halo grey too; only its Completed row is live. |
+| R14 | **Press** (a control held down) | Every button, tab, menu item, summary and link darkens a little more (`filter: brightness(0.93)`, `cell-focus.css`); a field has its ring. | One rule for every control. |
 | R13 | **Close** (a card that pops up) | A click anywhere outside it, and Escape, close it. | Calendars, the colour picker, a dropdown's list, the funnel, notes, the tile views. |
 
 ## 2. By component

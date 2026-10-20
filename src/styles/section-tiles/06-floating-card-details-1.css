@@ -244,9 +244,10 @@
 
 /* A PAIR OPENED OVER A CARD takes its place: the card under it (the same parent, at the same place) is hidden while the pair stands, so no ghost layer shows
    between the two cards (not even when the page drew that card again after the pair opened); Back brings it back. */
-.floating-overlay:has(~ .floating-overlay),
+/* (Written with the overlay's own three classes: its `display: block` (04-tile-slot-and-floating-card.css) has them, and a shorter selector here lost to it -- a second pair opened over a first was drawn over it.) */
+.section-tile-overlay.floating-overlay.business-foundation:has(~ .floating-overlay),
 /* (Whichever order they were made in: every other card layer is hidden while a pair stands.) */
-body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
+body:has([data-pair]) .section-tile-overlay.floating-overlay.business-foundation:not(:has([data-pair])) {
 
     /* (Not just invisible: a child that sets its own visibility would still show behind the pair.) */
     display: none;

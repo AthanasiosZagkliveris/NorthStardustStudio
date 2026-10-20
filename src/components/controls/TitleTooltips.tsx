@@ -7,16 +7,22 @@ import { aboveTipPosition, TooltipBox } from "./Tooltip.tsx";
  * frame and letters, in whatever the system's mode is, whatever the app's reading mode is. This host, mounted once, takes the `title` of an element the
  * pointer or the keyboard reaches and shows its words in the app's own tooltip (`TooltipBox`: its letters, size, frame and place), so no place draws a
  * native one. The words stay the element's: an element with no text of its own is named by them (`aria-label`), any other is described by them
- * (`aria-description`), and `data-tip` keeps them for the next time. Escape closes the tip.
+ * (`aria-description`), and `data-tip` keeps them for the next time. Only a control has a tip (a button, a link, a field, a tick); the `title` of anything else is taken away and not shown. Escape closes the tip.
  */
 /** The words of a text without its marks, to compare two texts. */
 const plain = (text: string) => text.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+
+/** What a person presses, ticks, picks or writes in: only a control has a tip. */
+const CONTROL = "button, a[href], input, select, textarea, summary, [role=button], [role=tab], [role=menuitem], [role=checkbox], [role=switch], [role=combobox], [role=option], [role=link]";
 
 /**
  * WHETHER A TIP SAYS ANYTHING THE ELEMENT DOES NOT: one that only repeats what is written on the element (its words, its name, its value) is left out -- unless
  * those words are cut short on the screen (an ellipsis), where the tip is the whole of them.
  */
 function worthShowing(element: HTMLElement, tip: string): boolean {
+    if (!element.matches(CONTROL)) {
+        return false;
+    }
     const own = plain([element.textContent ?? "", element.hasAttribute("data-tip-named") ? "" : element.getAttribute("aria-label") ?? "", "value" in element ? String((element as HTMLInputElement).value) : ""].join(" "));
     const words = plain(tip).split(" ").filter(Boolean);
     if (words.length === 0) {
