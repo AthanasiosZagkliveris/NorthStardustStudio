@@ -1,4 +1,5 @@
 import { CSSProperties, useContext, useMemo, useState } from "react";
+import TextLink from "../fields/TextLink.tsx";
 import InfoNote from "../fields/InfoNote.tsx";
 import RemoveButton from "../../controls/RemoveButton.tsx";
 import NumberCell from "../../controls/NumberCell.tsx";
@@ -150,7 +151,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
     const [folded, setFolded] = useState<ReadonlySet<string>>(new Set(["include", "sort", "belongs", "columns"]));
     // The table: the columns hidden and the text size (the middle step, the body size), kept while the overview stays open.
     const [hiddenColumns, setHiddenColumns] = useState<ReadonlySet<string>>(new Set());
-    const [tableSize, setTableSize] = useState(() => typeof window !== "undefined" && window.innerWidth < 1600 ? 0 : 1);
+    const [tableSize, setTableSize] = useState(() => typeof window !== "undefined" && window.innerWidth < 1900 ? 0 : 1);
     const toggleFold = (block: string) => setFolded(current => {
         const next = new Set(current);
         if (!next.delete(block)) {
@@ -491,9 +492,9 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                 >
                     <thead>
                         <tr>
-                            <th scope="col">Name</th>
+                            <th scope="col" data-col="name">Name</th>
                             {TABLE_COLUMNS.filter(column => !hiddenColumns.has(column.id)).map(column => (
-                                <th scope="col" key={column.id} className={column.id === "cost" ? "capability-overview-number" : undefined}>
+                                <th scope="col" key={column.id} data-col={column.id} className={column.id === "cost" ? "capability-overview-number" : undefined}>
                                     {column.id === "cost" && currency ? column.label + " (" + currency + ")" : column.label}
                                 </th>
                             ))}
@@ -502,14 +503,14 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                     <tbody>
                         {shown.flatMap(row => tableRows(row, plainAmount, currency).map((line, at) => (
                             <tr key={row.kind + row.id + ":" + at} className={at > 0 ? "capability-overview-table-extra" : undefined}>
-                                <th scope="row">
+                                <th scope="row" data-col="name">
                                     {at > 0 || row.kind === "legal"
                                         ? row.name
-                                        : <button type="button" className="capability-overview-name" onClick={(event) => open(row, event.detail > 0)}>{row.name}</button>}
+                                        : <TextLink className="capability-overview-name" onClick={(event) => open(row, event.detail > 0)}>{row.name}</TextLink>}
                                 </th>
                                 {TABLE_COLUMNS.filter(column => !hiddenColumns.has(column.id)).map(column => column.id === "linked"
                                     ? (
-                                        <td key={column.id}>
+                                        <td key={column.id} data-col="linked">
                                             {at === 0 && (
                                                 <Dots
                                                     id={row.id}
@@ -524,7 +525,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                                             )}
                                         </td>
                                     )
-                                    : <td key={column.id} className={column.id === "cost" ? "capability-overview-number" : undefined}>{line[column.id]}</td>)}
+                                    : <td key={column.id} data-col={column.id} className={column.id === "cost" ? "capability-overview-number" : undefined}>{line[column.id]}</td>)}
                             </tr>
                         )))}
                     </tbody>

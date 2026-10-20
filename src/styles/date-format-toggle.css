@@ -61,8 +61,8 @@
 
 }
 
-.date-format-toggle-option-active,
-.date-format-toggle-option-active:hover{
+.date-format-toggle-option.date-format-toggle-option-active,
+.date-format-toggle-option.date-format-toggle-option-active:hover{
 
     background:var(--bg-primary);
 

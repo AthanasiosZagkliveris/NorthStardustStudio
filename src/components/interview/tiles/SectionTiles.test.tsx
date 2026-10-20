@@ -1590,7 +1590,7 @@ describe("the table mode: surface, columns, sizes", () => {
         expect(heads(document.querySelector<HTMLElement>(".capability-overview-table") ?? table)).toContain("Status");
     });
 
-    it("sizes the table's text in three steps of the type scale with the S / M / L toggle, 14px by default below 1600 wide", () => {
+    it("sizes the table's text in three steps of the type scale with the S / M / L toggle, 14px by default below 1900 wide", () => {
         Object.defineProperty(window, "innerWidth", { configurable: true, value: 1366 });
         render(<Harness />);
         const table = openTable();

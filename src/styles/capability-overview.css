@@ -46,50 +46,11 @@
 
 .capability-overview-views {
 
-    display: inline-flex;
-    gap: var(--gap-4);
-
     margin-left: auto;
 
 }
 
-.capability-overview-views button,
-.capability-overview-name {
 
-    padding: 2px 10px;
-
-    border: 1px solid var(--line-card);
-    border-radius: var(--radius-sm);
-
-    background: var(--bg-surface);
-
-    color: inherit;
-
-    font: inherit;
-
-    cursor: pointer;
-
-}
-
-.capability-overview-name {
-
-    padding: 0;
-
-    border: 0;
-
-    background: none;
-
-    text-align: left;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-
-}
-
-.capability-overview-views button[aria-pressed="true"] {
-
-    background: var(--bg-button-hover);
-
-}
 
 .capability-overview button:focus-visible {
 
@@ -233,37 +194,7 @@
 }
 
 /* The legend's circles are toggles; a pressed one is ringed. */
-.capability-overview-legend-item {
 
-    display: inline-flex;
-    align-items: center;
-    gap: var(--gap-4);
-
-    padding: 2px 8px 2px 4px;
-
-    border: 1px solid transparent;
-    border-radius: 999px;
-
-    background: none;
-
-    color: inherit;
-
-    font: inherit;
-
-    cursor: pointer;
-
-}
-
-.capability-overview-legend-item[aria-pressed="true"] {
-
-    border-color: var(--focus-ring-ink);
-
-    background: var(--bg-button-hover);
-
-    font-weight: 600;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-
-}
 
 .capability-overview-chip {
 
@@ -278,22 +209,6 @@
 
 }
 
-.capability-overview-chip button {
-
-    padding: 0 6px;
-
-    border: 0;
-    border-radius: 999px;
-
-    background: none;
-
-    color: inherit;
-
-    font: inherit;
-
-    cursor: pointer;
-
-}
 
 /* The scrolling area's bar: thin, no arrows (overriding the app-wide *::-webkit-scrollbar { display: none }). */
 .capability-overview-scroll::-webkit-scrollbar {
@@ -420,34 +335,7 @@
 
 }
 
-.capability-overview-costs-order button {
-    min-width: 0;
 
-    border: 1px solid var(--line-card);
-    border-radius: var(--radius-sm);
-
-    background: var(--bg-surface);
-
-    color: inherit;
-
-    font: inherit;
-    text-transform: uppercase;
-    white-space: nowrap;
-    text-decoration: none;
-
-    cursor: pointer;
-
-}
-
-.capability-overview-costs-order button[aria-pressed="true"] {
-
-    background: var(--bg-button-hover);
-
-    font-weight: 700;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-    text-decoration: none;
-
-}
 
 /* A block's label with its fold arrow (the section cards' title arrow, small): the label left, the arrow right. */
 .capability-overview-menu-head {
@@ -501,24 +389,13 @@
 
 }
 
-.capability-overview-costs-order button {
-
-    flex: 0 0 auto;
-
-    width: 24px;
-    height: 24px;
-    padding: 0;
-
-    line-height: 1;
-    font-size: var(--font-small);
-    text-align: center;
-
-}
 
 /* The table: nine columns that fit the panel (no sideways scroll); a second cost's line carries the name dimmed. */
 .capability-overview-table {
 
     table-layout: auto;
+
+    min-width: 100%;
 
 }
 
@@ -543,16 +420,50 @@
 
 }
 
-/* Short columns never break a word (Type, Section, Cost, Frequency, Status, Linked); Name, Category and Group take the rest and wrap between words. */
+/* Short columns never break a word (Type, Section, Cost, Frequency, Cost Nature, Behaviour, Status, Linked); Name, Category and Group take the rest and wrap between words. */
 .capability-overview-table :is(th, td) {
 
     overflow-wrap: normal;
 
 }
 
-.capability-overview-table :is(th, td):is(:nth-child(2), :nth-child(3), :nth-child(6), :nth-child(7), :nth-child(8), :nth-child(9)) {
+.capability-overview-table :is(th, td)[data-col]:not([data-col="category"], [data-col="group"]) {
 
     white-space: nowrap;
+
+}
+
+/* The name is a link on one row, cut by an ellipsis, between 14 and 22rem; the table scrolls sideways where the columns do not fit the panel, its heading and its name column staying. */
+.capability-overview-table :is(th, td)[data-col="name"] {
+
+    min-width: 14rem;
+    max-width: 22rem;
+
+    white-space: nowrap;
+
+}
+
+.capability-overview-table-mode .capability-overview-scroll {
+
+    overflow-x: auto;
+
+}
+
+.capability-overview-table tbody th[data-col="name"] {
+
+    position: sticky;
+    left: 0;
+    z-index: 1;
+
+    background: var(--table-ground);
+
+    text-align: left;
+
+}
+
+.capability-overview-table tbody tr:nth-child(even) > th[data-col="name"] {
+
+    background: color-mix(in srgb, var(--table-ink) 5%, var(--table-ground));
 
 }
 
@@ -678,30 +589,7 @@
 
 }
 
-.capability-overview-sizes button {
 
-    padding: 2px 8px;
-
-    border: 1px solid var(--line-card);
-    border-radius: var(--radius-sm);
-
-    background: var(--bg-surface);
-
-    color: inherit;
-
-    font: inherit;
-
-    cursor: pointer;
-
-}
-
-.capability-overview-sizes button:disabled {
-
-    opacity: 0.4;
-
-    cursor: default;
-
-}
 
 /* Numbers align to the right in a table, in figures of one width; the currency is written once, in the column's header. */
 .capability-overview-table .capability-overview-number {
@@ -731,5 +619,12 @@
     background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
     color: hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
+
+}
+
+/* A name in the table is the app's text link at the table's own size. */
+.capability-overview-table .capability-overview-name {
+
+    font-size: inherit;
 
 }
