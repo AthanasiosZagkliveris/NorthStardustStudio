@@ -275,7 +275,7 @@ export default function GlobalSettings() {
                                     <th scope="col">Frequency</th>
                                     <th scope="col" className="settings-number-column">Useful life (years)</th>
                                     <th scope="col">
-                                        <AddButton className="settings-reset" title="Set every group back to its default years"
+                                        <AddButton className="settings-reset" title="Reset every group to its default years"
                                             disabled={USEFUL_LIFE_GROUPS.every(group => (settings.usefulLife[group.id] ?? "") === (DEFAULT_USEFUL_LIFE[group.id] ?? ""))}
                                             onClick={() => change({ usefulLife: { ...DEFAULT_USEFUL_LIFE } })}>
                                             Reset
@@ -319,7 +319,7 @@ export default function GlobalSettings() {
                                                         </td>
                                                         <td>
                                                             {groupYears !== (DEFAULT_USEFUL_LIFE[group.id] ?? "") && (
-                                                                <AddButton className="settings-reset" title={"Set " + group.label + " back to " + (DEFAULT_USEFUL_LIFE[group.id] ?? "") + " years"}
+                                                                <AddButton className="settings-reset" title={"Reset " + group.label + " to " + (DEFAULT_USEFUL_LIFE[group.id] ?? "") + " years"}
                                                                     onClick={() => change({ usefulLife: { ...settings.usefulLife, [group.id]: DEFAULT_USEFUL_LIFE[group.id] ?? "" } })}>
                                                                     Reset
                                                                 </AddButton>
@@ -392,7 +392,7 @@ export default function GlobalSettings() {
                                                 </td>
                                                 <td>
                                                     {years !== (DEFAULT_AMORTISATION[group.id] ?? "") && (
-                                                        <AddButton className="settings-reset" title={"Set " + group.label + " back to " + (DEFAULT_AMORTISATION[group.id] ?? "") + " years"}
+                                                        <AddButton className="settings-reset" title={"Reset " + group.label + " to " + (DEFAULT_AMORTISATION[group.id] ?? "") + " years"}
                                                             onClick={() => change({ amortisation: { ...settings.amortisation, [group.id]: DEFAULT_AMORTISATION[group.id] ?? "" } })}>
                                                             Reset
                                                         </AddButton>

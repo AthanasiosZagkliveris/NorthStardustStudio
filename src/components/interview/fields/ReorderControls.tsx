@@ -128,8 +128,8 @@ export default function BoxActions({
                 if (side) {
                     const box = dialogNode.getBoundingClientRect();
                     left = side === "right" ? box.right + 8 : box.left - 8 - width;
-                    // (Its top stands on the top of the table or the tiles, its foot at the dialog's foot.)
-                    top = Math.max(dialogNode.querySelector(".capability-overview-scroll")?.getBoundingClientRect().top ?? box.top, 8);
+                    // (Its top stands on the dialog's top edge, its foot at the dialog's foot.)
+                    top = Math.max(box.top, 8);
                     menu.style.left = left + "px";
                     menu.style.top = top + "px";
                     menu.style.maxHeight = Math.max(160, Math.min(box.bottom - top, window.innerHeight - top - 12)) + "px";

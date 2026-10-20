@@ -1,15 +1,15 @@
-import { KeyboardEvent, MouseEvent, ReactNode, RefObject, useId, useLayoutEffect, useRef, useState } from "react";
+import { KeyboardEvent, ReactNode, RefObject, useId, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 /**
- * WHERE A TOOLTIP STANDS: ABOVE THE TEXT IT IS ABOUT, never over it: its bottom is 6px over the element's top (a line above), its middle under the cursor
- * (or on the element's middle from the keyboard, or its right edge on the element's right edge); where there is no room above, 6px under the element. Kept inside the window.
+ * WHERE A TOOLTIP STANDS, ONE PLACE FOR EVERY ONE: ABOVE THE CONTROL IT IS ABOUT, never over it: its bottom is 6px over the control's top, its middle on the control's middle
+ * (or its right edge on the control's right edge); where there is no room above, 6px under the control. Kept inside the window. It never follows the pointer.
  */
-export function aboveTipPosition(at: DOMRect, size: DOMRect, point: { x: number } | null, alignRight = false): { left: number; top: number } {
+export function aboveTipPosition(at: DOMRect, size: DOMRect, alignRight = false): { left: number; top: number } {
     const gap = 6;
     const above = at.top - gap - size.height;
     return {
-        left: Math.max(8, Math.min(alignRight ? at.right - size.width : (point ? point.x : at.left + at.width / 2) - size.width / 2, window.innerWidth - 8 - size.width)),
+        left: Math.max(8, Math.min(alignRight ? at.right - size.width : at.left + at.width / 2 - size.width / 2, window.innerWidth - 8 - size.width)),
         top: above >= 8 ? above : at.bottom + gap
     };
 }
@@ -19,7 +19,7 @@ export function aboveTipPosition(at: DOMRect, size: DOMRect, point: { x: number 
  * centred on it and kept inside the window; below it only where there is no room above. Escape closes it. Nothing but the label's text is the icon's
  * tooltip: the icon keeps its own accessible name.
  *
- * Under the POINTER it stands a line above the hovered text -- 6px over its top, its middle under the cursor -- and never over the text; where there is no room above, 6px under the text. From the keyboard it stands centred on its icon.
+ * It stands where aboveTipPosition says, from the pointer and from the keyboard alike.
  *
  * Used as a hook: spread props on the icon and draw node anywhere next to it (it is drawn on the page body).
  */
@@ -32,8 +32,7 @@ export function useAboveTip<T extends HTMLElement>(text: string, options: {
     props: {
         ref: RefObject<T | null>;
         "aria-describedby": string | undefined;
-        onMouseEnter: (event?: MouseEvent<T>) => void;
-        onMouseMove: (event: MouseEvent<T>) => void;
+        onMouseEnter: () => void;
         onMouseLeave: () => void;
         onFocus: () => void;
         onBlur: () => void;
@@ -47,8 +46,6 @@ export function useAboveTip<T extends HTMLElement>(text: string, options: {
     const tip = useRef<HTMLDivElement | null>(null);
     const [position, setPosition] = useState<{ left: number; top: number } | null>(null);
     const id = useId();
-    // Where the pointer is (null while the tip was opened from the keyboard).
-    const pointer = useRef<{ x: number; y: number } | null>(null);
 
     useLayoutEffect(() => {
         const icon = anchor.current;
@@ -58,7 +55,7 @@ export function useAboveTip<T extends HTMLElement>(text: string, options: {
             return;
         }
         const place = () => {
-            setPosition(aboveTipPosition((options.box ? options.box(icon) : icon).getBoundingClientRect(), panel.getBoundingClientRect(), pointer.current, options.alignRight));
+            setPosition(aboveTipPosition((options.box ? options.box(icon) : icon).getBoundingClientRect(), panel.getBoundingClientRect(), options.alignRight));
         };
         place();
         window.addEventListener("scroll", place, true);
@@ -73,18 +70,9 @@ export function useAboveTip<T extends HTMLElement>(text: string, options: {
         props: {
             ref: anchor,
             "aria-describedby": open ? id : undefined,
-            onMouseEnter: (event?: MouseEvent<T>) => {
-                pointer.current = event ? { x: event.clientX, y: event.clientY } : null;
-                setOpen(true);
-            },
-            onMouseMove: (event: MouseEvent<T>) => {
-                pointer.current = { x: event.clientX, y: event.clientY };
-            },
+            onMouseEnter: () => setOpen(true),
             onMouseLeave: () => setOpen(false),
-            onFocus: () => {
-                pointer.current = null;
-                setOpen(true);
-            },
+            onFocus: () => setOpen(true),
             onBlur: () => setOpen(false),
             onKeyDown: (event: KeyboardEvent) => {
                 if (event.key === "Escape" && open) {

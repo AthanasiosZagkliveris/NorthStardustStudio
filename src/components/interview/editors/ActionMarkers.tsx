@@ -110,7 +110,7 @@ function ActionSymbol({
                 className={"action-symbol action-symbol-" + kind + " " + markTint(kind, colour)}
                 aria-label={label}
                 aria-pressed={pressed}
-                onMouseEnter={(event) => { tip.props.onMouseEnter(event); onHover?.(true); }}
+                onMouseEnter={() => { tip.props.onMouseEnter(); onHover?.(true); }}
                 onMouseLeave={() => { tip.props.onMouseLeave(); onHover?.(false); }}
                 onFocus={() => { tip.props.onFocus(); onHover?.(true); }}
                 onBlur={() => { tip.props.onBlur(); onHover?.(false); }}

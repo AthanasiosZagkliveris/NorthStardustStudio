@@ -21,6 +21,10 @@ export default function FoldArrow({
 
     variant = "card",
 
+    direction,
+
+    pressed,
+
     className,
 
     onToggle
@@ -34,6 +38,9 @@ export default function FoldArrow({
     name?: string;
     controls?: string;
     variant?: "card" | "label";
+    /** A label arrow that chooses instead of folding (the cost order): it points up or down and is pressed or not. */
+    direction?: "up" | "down";
+    pressed?: boolean;
     className?: string;
     onToggle: () => void;
 
@@ -46,7 +53,9 @@ export default function FoldArrow({
             <button
                 type="button"
                 className={"label-arrow" + (className ? " " + className : "")}
-                aria-expanded={open}
+                aria-expanded={direction ? undefined : open}
+                aria-pressed={direction ? pressed : undefined}
+                data-direction={direction}
                 aria-controls={controls}
                 aria-label={accessibleName}
                 onClick={onToggle}

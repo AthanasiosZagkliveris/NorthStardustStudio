@@ -182,7 +182,7 @@ export function LevelSize({
                     // No range written inside: a square holds three digits,
                     // not "36–48". It is in the box's name, its tooltip
                     // and the section's "i".
-                    title={"Recommended " + range + " px"}
+                    title={"Recommended size: " + range + " px"}
                     disabled={disabled}
                     value={value}
                     onChange={(event) => {

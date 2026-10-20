@@ -94,7 +94,7 @@
 
 }
 
-@container page-card (max-width: 1099.98px) {
+@container page-card (max-width: 699px) {
 
     .answer-columns.business-capability > .section-tiles-completed {
 

@@ -86,11 +86,12 @@
 
 }
 
-/* THE WINDOW'S ARROWS follow the card's tint: its ink for the line and the glyph, its ground for the glyph when filled. */
-.capability-overview-menu .nav-arrow-vertical {
+/* THE COST ORDER: two fold arrows that choose (up: low to high, down: high to low), at the body size, a cell gap apart. */
+.capability-overview-menu .capability-overview-costs-order .label-arrow {
 
-    --accent-ink: hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
-    --x-ground: hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
+    --label-arrow-size: var(--font-body);
+
+    margin: 0;
 
 }
 
@@ -178,6 +179,31 @@
 
     white-space: nowrap;
     text-overflow: ellipsis;
+
+}
+
+.capability-overview-menu .business-foundation-tick-label {
+
+    /* (A tick's words are the text colour; the room under the line keeps the tails of g, j, p, q, y from being cut by the ellipsis' clip.) */
+    padding-bottom: 0.25em;
+    margin-bottom: -0.25em;
+
+    color: var(--text-default);
+
+}
+
+/* Outward, the window's top is the dialog's top: no gap above it. */
+.strategy-sort-menu.strategy-sort-menu-wide[data-outward] {
+
+    margin-top: 0;
+
+}
+
+/* A field's label sits close over its cell: the label gap is 6px from the line's foot, so the line is no taller than its letters. */
+.capability-overview-menu-fields label:not(.business-foundation-tick),
+.capability-overview-costs-range label {
+
+    line-height: 1.15;
 
 }
 
@@ -640,15 +666,30 @@
 
 }
 
-/* The size buttons beside Tiles / Table. */
+/* The text sizes beside Tiles / Table: "Aa" in the size each chooses (14, 18, 24px), a gap after the views. */
 .capability-overview-sizes {
 
-    display: inline-flex;
-    gap: var(--gap-4);
+    margin-left: var(--space-field);
 
 }
 
+.capability-overview-size-aa[data-size="small"] {
 
+    font-size: var(--font-small);
+
+}
+
+.capability-overview-size-aa[data-size="body"] {
+
+    font-size: var(--font-body);
+
+}
+
+.capability-overview-size-aa[data-size="large"] {
+
+    font-size: var(--font-h3);
+
+}
 
 /* Numbers align to the right in a table, in figures of one width; the currency is written once, in the column's header. */
 .capability-overview-table .capability-overview-number {

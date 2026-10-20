@@ -111,7 +111,7 @@ describe("a channel's resources, in its cell", () => {
         // "via shared action" in WORDS (no symbol); the shared action is a link to its line.
         expect(shared.textContent).toContain("via shared action");
         expect(shared.querySelector("svg, [role=img]")).toBeNull();
-        expect(shared.querySelector("button")?.getAttribute("title")).toBe("Created on Social Media › Instagram");
+        expect(shared.querySelector("button")?.getAttribute("title")).toBe("Created by the channel Social Media › Instagram");
     });
 
     it("\"shared action\" is a link that goes to the action's line; one link per action (#N) when the card is shared through several", () => {

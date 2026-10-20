@@ -54,7 +54,7 @@ export default function FocusModeButton() {
             <AddButton className="header-tool focus-mode-enter"
                 aria-label="Focus"
                 aria-pressed={on}
-                title="Focus: the page alone"
+                title="Show the page alone"
                 onClick={() => FocusModeService.set(true)}>
                 <FocusIcon />
                 <span className="header-tool-word">Focus</span>

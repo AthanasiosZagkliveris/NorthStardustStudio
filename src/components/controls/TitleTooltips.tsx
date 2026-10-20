@@ -57,7 +57,7 @@ export function tipOf(element: HTMLElement): string | null {
 }
 
 export default function TitleTooltips() {
-    const [tip, setTip] = useState<{ text: string; element: HTMLElement; x: number | null } | null>(null);
+    const [tip, setTip] = useState<{ text: string; element: HTMLElement } | null>(null);
     const box = useRef<HTMLDivElement | null>(null);
     const [position, setPosition] = useState<{ left: number; top: number } | null>(null);
     const id = useId();
@@ -101,15 +101,12 @@ export default function TitleTooltips() {
         const over = (event: PointerEvent) => {
             const element = reach(event.target);
             const text = element ? tipOf(element) : null;
-            setTip(element && text ? { text, element, x: event.clientX } : null);
-        };
-        const move = (event: PointerEvent) => {
-            setTip(current => current && current.x !== null && current.element.contains(event.target as Node) ? { ...current, x: event.clientX } : current);
+            setTip(element && text ? { text, element } : null);
         };
         const focus = (event: FocusEvent) => {
             const element = reach(event.target);
             const text = element ? tipOf(element) : null;
-            setTip(element && text ? { text, element, x: null } : null);
+            setTip(element && text ? { text, element } : null);
         };
         const away = () => setTip(null);
         const key = (event: KeyboardEvent) => {
@@ -118,7 +115,6 @@ export default function TitleTooltips() {
             }
         };
         document.addEventListener("pointerover", over, true);
-        document.addEventListener("pointermove", move, true);
         document.addEventListener("pointerdown", away, true);
         document.addEventListener("pointerleave", away, true);
         document.addEventListener("focusin", focus, true);
@@ -126,7 +122,6 @@ export default function TitleTooltips() {
         document.addEventListener("keydown", key, true);
         return () => {
             document.removeEventListener("pointerover", over, true);
-            document.removeEventListener("pointermove", move, true);
             document.removeEventListener("pointerdown", away, true);
             document.removeEventListener("pointerleave", away, true);
             document.removeEventListener("focusin", focus, true);
@@ -149,7 +144,7 @@ export default function TitleTooltips() {
             setPosition(null);
             return;
         }
-        setPosition(aboveTipPosition(tip.element.getBoundingClientRect(), box.current.getBoundingClientRect(), tip.x === null ? null : { x: tip.x }));
+        setPosition(aboveTipPosition(tip.element.getBoundingClientRect(), box.current.getBoundingClientRect()));
     }, [tip]);
 
     return tip ? <TooltipBox id={id} boxRef={box} position={position}>{tip.text}</TooltipBox> : null;

@@ -53,7 +53,7 @@
 
 }
 
-@container page-card (max-width: 1099.98px){
+@container page-card (max-width: 699px){
 
     .answer-columns.business-foundation.business-engagement.business-capability > .business-foundation-card:is(:nth-child(1), :nth-child(2)){
 

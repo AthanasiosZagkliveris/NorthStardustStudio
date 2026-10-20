@@ -96,6 +96,15 @@
 
 }
 
+/* THE RECTANGULAR TILES (Inventory, Completed): the title is the tile's only word, so it has no rule under it. */
+.section-tiles-completed .section-tile-title {
+
+    padding-bottom: 0;
+
+    border-bottom: 0;
+
+}
+
 .section-tiles-completed[data-squeezed] .section-tile-title {
 
     font-size: var(--font-small);

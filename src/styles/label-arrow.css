@@ -74,9 +74,23 @@
 
 }
 
-.label-arrow:is(:hover, :focus-visible) > svg > polygon {
+.label-arrow:is(:hover, :focus-visible) > svg > polygon,
+.label-arrow[aria-pressed="true"] > svg > polygon {
 
     fill: currentColor;
+
+}
+
+/* An arrow that chooses (the cost order): up or down, turned about its centre, filled while pressed. */
+.label-arrow[data-direction="down"] > svg {
+
+    transform: rotate(90deg);
+
+}
+
+.label-arrow[data-direction="up"] > svg {
+
+    transform: rotate(-90deg);
 
 }
 

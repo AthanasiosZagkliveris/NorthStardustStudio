@@ -3,7 +3,6 @@ import TextLink from "../fields/TextLink.tsx";
 import InfoNote from "../fields/InfoNote.tsx";
 import RemoveButton from "../../controls/RemoveButton.tsx";
 import NumberCell from "../../controls/NumberCell.tsx";
-import NavArrow from "../../controls/NavArrow.tsx";
 import RadioChoice from "../../controls/RadioChoice.tsx";
 import FoldArrow from "../fields/FoldArrow.tsx";
 import TileGrid from "./TileGrid.tsx";
@@ -378,24 +377,25 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                         chosen={filter.costsOnly ? ["costs"] : []}
                         onChange={(next) => {
                             patch({ costsOnly: next.length > 0 });
-                            // (Isolating the costs hides Status and Linked from the table, the user can tick them back; turning it off shows them again.)
+                            // (Isolating the costs hides Status, Linked and Channel from the table, the user can tick them back; turning it off shows them again.)
                             setHiddenColumns(current => {
                                 const kept = new Set(current);
-                                ["status", "linked"].forEach(column => next.length > 0 ? kept.add(column) : kept.delete(column));
+                                ["status", "linked", "channel"].forEach(column => next.length > 0 ? kept.add(column) : kept.delete(column));
                                 return kept;
                             });
                         }}
                     />
                     {/* The cost order: two small arrow buttons beside the label -- up is low to high, down is high to low (the active one is pressed). */}
                     <div className="capability-overview-costs-order" role="group" aria-label="Cost order">
-                        {([["cost-asc", "previous", "Low to high"], ["cost-desc", "next", "High to low"]] as const).map(([id, direction, name]) => (
-                            <NavArrow
+                        {([["cost-asc", "up", "Low to high"], ["cost-desc", "down", "High to low"]] as const).map(([id, direction, name]) => (
+                            <FoldArrow
                                 key={id}
-                                vertical
+                                variant="label"
+                                open={false}
                                 direction={direction}
-                                label={name}
-                                aria-pressed={filter.sort === id}
-                                onClick={() => patch({ sort: filter.sort === id ? "page" : id })}
+                                pressed={filter.sort === id}
+                                name={name}
+                                onToggle={() => patch({ sort: filter.sort === id ? "page" : id })}
                             />
                         ))}
                     </div>
@@ -443,7 +443,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                 {focus && (
                     <span className="capability-overview-chip">
                         {"Connected to " + focus.name}
-                        <RemoveButton aria-label="Clear: show all tiles again" onClick={() => setFocus(null)} />
+                        <RemoveButton aria-label="Show all tiles again" onClick={() => setFocus(null)} />
                     </span>
                 )}
                 <RadioChoice
@@ -459,13 +459,13 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                         className="capability-overview-sizes"
                         label="Table text size"
                         group="capability-overview-size"
-                        options={TABLE_SIZES.map((size, at) => ({ id: size.id, label: ["S", "M", "L"][at], name: ["Smaller text", "Standard text", "Larger text"][at] }))}
+                        options={TABLE_SIZES.map((size, at) => ({ id: size.id, label: <span className="capability-overview-size-aa" data-size={size.id}>Aa</span>, name: ["Smaller text", "Standard text", "Larger text"][at] }))}
                         value={TABLE_SIZES[tableSize].id}
                         onChange={(next) => { const at = TABLE_SIZES.findIndex(size => size.id === next); if (at >= 0) { setTableSize(at); } }}
                     />
                 )}
                 <BoxActions
-                    label="all tiles (filter and sort)"
+                    label="all tiles"
                     menuContent={menu}
                     keepOpen
                 />

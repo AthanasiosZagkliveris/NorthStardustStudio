@@ -758,7 +758,7 @@ drawn only in a dialog that its tile opens.
   (`--space-column`, 12px, between them), tops level, each as tall as its
   content; each card takes the page's 13px side padding on its outer side only,
   so they are equally wide and never overlap. Only when the page (`page-card`
-  container) is under 1100px wide are they stacked, Infrastructure above
+  container) is under 700px wide (as on every page of chapters) are they stacked, Infrastructure above
   Capability, each the page's full width (nothing then to line up across them).
   **The column title is the card's one label and its first row** -- "1.
   INFRASTRUCTURE", "2. OFFERING'S CAPABILITY" (the `answer-column-label` caps
@@ -958,7 +958,7 @@ drawn only in a dialog that its tile opens.
   "Heating & Gas", "Online Presence & Communication", "Sales & Customer", "Partners", "Add Other", "Add Resource", "Add Activity", "Add Partner",
   "Add Provider", "Unnamed Subsection", "Unnamed Activity", "Untitled Category"; single words are unchanged. It is the visible text only (what is stored is as it was) and what the user
   types is never altered.
-- **Page 3 scrolls in its cards.** In a window from 1212px wide and 560px high (the two
+- **Page 3 scrolls in its cards.** In a window from about 812px wide (the page card 700px) and 560px high (the two
   cards side by side) the PAGE does not scroll: the app header, the page heading with its
   underline and the footer stay, and each card keeps its title row ("1. INFRASTRUCTURE
   ▸", "2. OFFERING'S CAPABILITY ▸", on the card's own ground) fixed at its top while the
@@ -974,7 +974,7 @@ drawn only in a dialog that its tile opens.
   body 694px high (1278 of content), Offering's 502 (no bar); 1366 x 800, 173 to 724px,
   494px (1157 of content) and 453 (no bar). The document is exactly the window high (one bar
   at most, the card's). Rails and links: a rail bullet scrolls its card's body to the
-  top; `jumpTo` scrolls the element into view inside its `.card-scroll`. Stacked (under 1212px)
+  top; `jumpTo` scrolls the element into view inside its `.card-scroll`. Stacked (under 812px)
   or in a window under 560px high the page scrolls as the other pages do and the body does not.
 - **The Founders' dialog.** The same frame as every dialog. Its content (`FounderCards.tsx`) depends on the number of founders: **1 to 4** founders:
   every founder's card OPEN (no fold arrow), side by side in ONE row, the row centred; **5 to 8**: two balanced rows of open cards (5 is 3 + 2, 6 is
@@ -1803,3 +1803,7 @@ One section for the three rounds of the day, merged by topic; each rule is globa
 34. **A card opened from a link is that card alone**: a legal expense opened from a founder's Responsibilities (or from the Inventory) is the one card, over the card it was opened from: not with its requirement, with no arrows and no rail of its own, and the arrows and rail of the card under it are not drawn while it covers them (`.floating-overlay:has(~ .floating-overlay)`).
 35. **Every card is `BusinessCard`**: the Business, Brand, Strategy and Financial cards and the Legal Entity page's (a requirement, an expense, a founder: `legal`, its own box, head and number, "legal-entity-*") are one component with one head (`CardHead`), one name cell (`NameCell`) and one outer box (`CardShell`); the legal one differs by its box's class only.
 36. **A completed card's tile is the completed grey, wherever it stands**: in the Inventory too (`inactive` on the card tile), as the Completed tile's cards and the completed floating card are.
+
+## One shape for every page of chapters (2026-10-21)
+
+The chapters (the page's cards) and the master tiles in them are the same on every page of a window: the cards stand side by side down to a page card of 700px (a window of about 812px) and stack only below it, on Page 3 as on Brand, Strategy, Identity; the four tiles of a card are one size by the window's width and height, the room of the Inventory and Completed row (the squeezed row, 56px and its gap) being kept under the cards on EVERY page, whether the page has the row or not, so that the same window gives the same tiles. The gap between the tiles is 12px, and follows the tile only where the window's height makes the tiles under 85% of what the width would give. The rectangular tiles (Inventory, Completed) have no rule under their title.

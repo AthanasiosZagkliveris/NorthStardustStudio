@@ -2,6 +2,10 @@
 
 This document describes the current situation, one dated section per state, the newest on top. What changed, and when, is written in the log (`04-log.md`), not here.
 
+## State on 2026-10-21, the Inventory window
+
+`FoldArrow` (label) can also choose: with `direction` (up or down) and `pressed` it is the cost order's arrow (the outlined triangle, filled on hover and while chosen); the vertical `NavArrow` keeps the 32px square with a 24px-base triangle for the moves of a row. `RadioChoice` is also the table's text size ("Aa" in three sizes). `OptionPicker` has `keepWidth` (a hugging dropdown alone in its row keeps its longest option's width).
+
 ## State on 2026-10-20, the Inventory
 
 `RadioChoice` (a round with a bullet and its word; Units / %, Tiles / Table) is the one component of a choice drawn as rounds; `SegmentedToggle` stays for the choices drawn as joined buttons (the date presentation, the table text size). The legend is `TextLink`s with `aria-pressed` (the chosen one underlined and bold, text-links.css). The cost order is two `NavArrow vertical` with `aria-pressed` (filled when chosen, nav-arrow.css).

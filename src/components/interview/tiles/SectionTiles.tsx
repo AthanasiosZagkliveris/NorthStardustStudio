@@ -113,16 +113,15 @@ export default function SectionTiles({
             const top = box.getBoundingClientRect().top + window.scrollY;
             const footer = document.querySelector<HTMLElement>(".workspace-footer")?.offsetHeight ?? 64;
             // (the footer and its 12px, the card's 12px padding, the gap between the two rows)
-            // (A page with the Inventory and Completed row under its cards keeps the least of that row in the window: the row is squeezed, the cards keep their size.)
-            const below = document.querySelector<HTMLElement>(".section-tiles-completed");
-            const reserved = below ? SQUEEZED_ROW_MIN + 12 : 0;
+            // (EVERY page keeps the room of the Inventory and Completed row under its cards, whether it has one or not: the chapters and their tiles are the same size on every page of a window, the row squeezed where there is one.)
+            const reserved = SQUEEZED_ROW_MIN + 12;
             const side = Math.floor((window.innerHeight - top - footer - 12 - 12 - 12 - reserved) / bigRows);
             box.style.setProperty("--quad-max-side", Math.max(side, 150) + "px");
             // The type of the four tiles from the type scale by their size: 24px titles and 18px lists from 250px a side, else 18px and 14px.
             const actual = Math.min((box.clientWidth - 12) / 2, Math.max(side, 150));
-            // (Where the window's height makes the tiles smaller than the width would, the gap between them follows, from 12px: the same proportion.)
             const natural = (box.clientWidth - 12) / 2;
-            const gap = natural > 0 ? Math.max(6, Math.min(12, Math.round(12 * actual / natural))) : 12;
+            // (Where the window's height makes the tiles much smaller than the width would -- under 85% -- the gap between them follows, from 12px: the same proportion; a little smaller keeps the 12px.)
+            const gap = natural > 0 && actual / natural < 0.85 ? Math.max(6, Math.min(12, Math.round(12 * actual / natural))) : 12;
             box.style.setProperty("--space-card", gap + "px");
             if (actual >= 250) {
                 box.setAttribute("data-large", "");

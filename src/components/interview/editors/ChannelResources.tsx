@@ -306,7 +306,7 @@ export default function ChannelResources(props: ChannelResourcesProps) {
                                 <button
                                     type="button"
                                     className="notepad-chip-open"
-                                    title={"Created on " + channelName(link.channelId)}
+                                    title={"Created by the channel " + channelName(link.channelId)}
                                     onClick={() => props.onOpenCard?.(card)}
                                 >
                                     <span className="notepad-chip-tag">{costCardName(card)}</span>
@@ -546,7 +546,7 @@ function ChannelResourceCard({
                 {content}
                 <RemoveButton className="card-remove business-channel-resource-x"
                     aria-label={"Take " + label + " off the channel"}
-                    title="Take it off the channel (and its card off Offering's Capability)"
+                    title="Take it off the channel, and its card off Offering's Capability"
                     disabled={disabled}
                     onClick={onRemove}
                 />

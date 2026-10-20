@@ -664,7 +664,7 @@ describe("the tiles' stylesheet", () => {
     it("sets the page's two cards side by side in the page's two equal columns, stacked only under 1100px", () => {
         const page = stylesheet("conversation.css");
         expect(page).toMatch(/\.business-capability > \.business-foundation-card ?\{ ?grid-column: ?auto;[^}]*align-self: ?start; ?\}/);
-        expect(page).toMatch(/@container page-card \(max-width: 1099\.98px\) ?\{ ?[^}]*\.business-capability > \.business-foundation-card:is\(:nth-child\(1\), :nth-child\(2\)\) ?\{ ?grid-column: ?1 \/ -1;/);
+        expect(page).toMatch(/@container page-card \(max-width: 699px\) ?\{ ?[^}]*\.business-capability > \.business-foundation-card:is\(:nth-child\(1\), :nth-child\(2\)\) ?\{ ?grid-column: ?1 \/ -1;/);
     });
 
     it("draws no rule down the left of a group of sections any more", () => {
@@ -1410,7 +1410,7 @@ describe("the Inventory funnel menu", () => {
         render(<Harness />);
         const menu = openFunnel();
         const order = [...menu.querySelectorAll<HTMLElement>(".capability-overview-costs-head .capability-overview-costs-order button")];
-        expect(order.map(button => [button.textContent, button.getAttribute("aria-label")])).toEqual([["▲", "Low to high"], ["▼", "High to low"]]);
+        expect(order.map(button => [button.textContent, button.getAttribute("aria-label")])).toEqual([["", "Low to high"], ["", "High to low"]]);
         expect(order.map(button => button.getAttribute("aria-pressed"))).toEqual(["false", "false"]);
         fireEvent.click(order[1]);
         expect(order.map(button => button.getAttribute("aria-pressed"))).toEqual(["false", "true"]);

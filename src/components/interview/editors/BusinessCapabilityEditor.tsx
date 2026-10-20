@@ -2421,7 +2421,7 @@ export default function BusinessCapabilityEditor({
                                 <NumberCell kind="int"
                                     className="business-capability-plan-count"
                                     aria-label={what + " number of instalments"}
-                                    title="Number of instalments (1 to 99)"
+                                    title="Number of instalments, from 1 to 99"
                                     placeholder="No."
                                     disabled={disabled}
                                     value={plan.count}
