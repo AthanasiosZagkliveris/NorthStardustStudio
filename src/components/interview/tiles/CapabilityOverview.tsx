@@ -3,6 +3,8 @@ import TextLink from "../fields/TextLink.tsx";
 import InfoNote from "../fields/InfoNote.tsx";
 import RemoveButton from "../../controls/RemoveButton.tsx";
 import NumberCell from "../../controls/NumberCell.tsx";
+import NavArrow from "../../controls/NavArrow.tsx";
+import RadioChoice from "../../controls/RadioChoice.tsx";
 import SegmentedToggle from "../../controls/SegmentedToggle.tsx";
 import FoldArrow from "../fields/FoldArrow.tsx";
 import TileGrid from "./TileGrid.tsx";
@@ -114,6 +116,7 @@ export function tableRows(row: FloorRow, format: (amount: number) => string = St
         // (An activity's category is the third line of its path; a Customer Channel's card has the group "Channel".)
         category: legal ? "" : row.kind === "activity" ? row.path[2] ?? "" : row.path[1] ?? "",
         group: legal ? "" : subgroupOf(row),
+        channel: (row.channels ?? []).join(", "),
         status: legal ? "" : row.statusLabel
     };
     // (The currency is written once, in the column's header; a cost in another currency than the organisation's says its own code.)
@@ -136,6 +139,7 @@ export const TABLE_COLUMNS = [
     { id: "section", label: "Section" },
     { id: "category", label: "Category" },
     { id: "group", label: "Group" },
+    { id: "channel", label: "Channel" },
     { id: "cost", label: "Cost" },
     { id: "frequency", label: "Frequency" },
     { id: "nature", label: "Cost Nature" },
@@ -383,14 +387,18 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                         }}
                     />
                     {/* The cost order: two small arrow buttons beside the label -- up is low to high, down is high to low (the active one is pressed). */}
-                    <SegmentedToggle
-                        className="capability-overview-costs-order"
-                        label="Cost order"
-                        allowClear
-                        options={[{ id: "cost-asc", label: "\u2191", name: "Low to high" }, { id: "cost-desc", label: "\u2193", name: "High to low" }]}
-                        value={filter.sort === "cost-asc" || filter.sort === "cost-desc" ? filter.sort : ""}
-                        onChange={(next) => patch({ sort: next === "" ? "page" : next })}
-                    />
+                    <div className="capability-overview-costs-order" role="group" aria-label="Cost order">
+                        {([["cost-asc", "previous", "Low to high"], ["cost-desc", "next", "High to low"]] as const).map(([id, direction, name]) => (
+                            <NavArrow
+                                key={id}
+                                vertical
+                                direction={direction}
+                                label={name}
+                                aria-pressed={filter.sort === id}
+                                onClick={() => patch({ sort: filter.sort === id ? "page" : id })}
+                            />
+                        ))}
+                    </div>
                 </div>
                 <div className="capability-overview-costs-range">
                     <label>
@@ -417,33 +425,34 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                         <InfoNote label="Incomplete" points={["A card that lacks a required answer is shown here, red, but counted nowhere else until it is fixed."]} />
                     </span>
                 )}
-                <SegmentedToggle
-                    className="capability-overview-legend"
-                    label="Show only tiles with a connection"
-                    allowClear
-                    options={(["activity", "partner", "provider", "resource"] as const).map(type => ({
-                        id: type,
-                        name: "Show only tiles connected to a " + SYMBOLS[type],
-                        label: <><i className={"card-tile-symbol card-tile-symbol-" + type} aria-hidden="true" />{SYMBOLS[type]}</>
-                    }))}
-                    value={connection}
-                    onChange={(next) => {
-                        setFocus(null);
-                        setConnection(next);
-                    }}
-                />
+                <div className="capability-overview-legend" role="group" aria-label="Show only tiles with a connection">
+                    {(["resource", "activity", "partner", "provider"] as const).map(type => (
+                        <TextLink
+                            key={type}
+                            aria-pressed={connection === type}
+                            aria-label={"Show only tiles connected to a " + SYMBOLS[type]}
+                            onClick={() => {
+                                setFocus(null);
+                                setConnection(connection === type ? "" : type);
+                            }}
+                        >
+                            <i className={"card-tile-symbol card-tile-symbol-" + type} aria-hidden="true" />{SYMBOLS[type]}
+                        </TextLink>
+                    ))}
+                </div>
                 {focus && (
                     <span className="capability-overview-chip">
                         {"Connected to " + focus.name}
                         <RemoveButton aria-label="Clear: show all tiles again" onClick={() => setFocus(null)} />
                     </span>
                 )}
-                <SegmentedToggle
+                <RadioChoice
                     className="capability-overview-views"
                     label="View"
+                    group="capability-overview-view"
                     options={[{ id: "tiles", label: "Tiles" }, { id: "table", label: "Table" }]}
                     value={view}
-                    onChange={(next) => next && setView(next)}
+                    onChange={setView}
                 />
                 {view === "table" && (
                     <SegmentedToggle

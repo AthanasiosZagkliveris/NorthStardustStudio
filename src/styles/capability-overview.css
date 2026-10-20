@@ -89,6 +89,8 @@
 /* The From and To cells are cells: one height, 44px. */
 .capability-overview-costs-range .number-cell {
 
+    min-width: 0;
+
     width: 100%;
     height: var(--control-square);
 
@@ -102,9 +104,8 @@
 
 }
 
-/* A long label WRAPS inside the menu. */
+/* A long head or field label WRAPS inside the menu (a tick or an order is one line, cut by an ellipsis). */
 .capability-overview-menu strong,
-.capability-overview-menu .business-foundation-tick-label,
 .capability-overview-menu-fields label {
 
     white-space: normal;
@@ -139,8 +140,41 @@
 
 }
 
+/* THE WINDOW'S ROWS stand on one pitch, 32px: a tick, an order. Every line is ONE line; a line too long for the window is cut by an ellipsis. */
+.capability-overview-menu .capability-overview-menu-body,
+.capability-overview-menu .capability-overview-menu-sub {
+
+    gap: 0;
+
+}
+
+.capability-overview-menu .business-foundation-tick {
+
+    min-height: var(--size-box-button);
+
+    align-items: center;
+
+}
+
+.capability-overview-menu .business-foundation-tick-label,
+.strategy-sort-menu-wide .strategy-sort-option {
+
+    overflow: hidden;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+}
+
 /* The orders are the dropdown's options: the body size, regular, no capitals. */
 .strategy-sort-menu-wide .strategy-sort-option {
+
+    display: flex;
+    align-items: center;
+
+    box-sizing: border-box;
+    height: var(--size-box-button);
+    padding-block: 0;
 
     font-size: var(--font-body);
     letter-spacing: normal;
@@ -253,12 +287,6 @@
 
 /* THE COSTS of the tiles shown, with the cost order and range under them. */
 
-.capability-overview-costs-range input[type="text"] {
-
-    width: 6.5em;
-
-}
-
 .capability-overview-costs-range label {
 
     display: flex;
@@ -337,7 +365,7 @@
     display: flex;
     flex-wrap: nowrap;
     align-items: flex-end;
-    gap: var(--space-label);
+    gap: var(--space-cell);
 
 }
 
@@ -433,14 +461,14 @@
 
 }
 
-/* Short columns never break a word (Type, Section, Cost, Frequency, Cost Nature, Behaviour, Status, Linked); Name, Category and Group take the rest and wrap between words. */
+/* Short columns never break a word (Type, Section, Cost, Frequency, Cost Nature, Behaviour, Status, Linked); Name, Category, Group and Channel take the rest and wrap between words. */
 .capability-overview-table :is(th, td) {
 
     overflow-wrap: normal;
 
 }
 
-.capability-overview-table :is(th, td)[data-col]:not([data-col="category"], [data-col="group"]) {
+.capability-overview-table :is(th, td)[data-col]:not([data-col="category"], [data-col="group"], [data-col="channel"]) {
 
     white-space: nowrap;
 
@@ -613,14 +641,20 @@
 
 }
 
-/* The legend is the segmented toggle (SegmentedToggle): a dot and its word on one line in each option. */
-.capability-overview-legend .date-format-toggle-option {
+/* The legend: the four kinds as text options (TextLink, the chosen one underlined), a dot before each word, a gap apart. */
+.capability-overview-legend {
+
+    display: flex;
+    align-items: center;
+    gap: var(--space-cell);
+
+}
+
+.capability-overview-legend .text-link {
 
     display: inline-flex;
     align-items: center;
     gap: var(--gap-6);
-
-    white-space: nowrap;
 
 }
 

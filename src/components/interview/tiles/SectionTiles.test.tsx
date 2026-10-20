@@ -1410,7 +1410,7 @@ describe("the Inventory funnel menu", () => {
         render(<Harness />);
         const menu = openFunnel();
         const order = [...menu.querySelectorAll<HTMLElement>(".capability-overview-costs-head .capability-overview-costs-order button")];
-        expect(order.map(button => [button.textContent, button.getAttribute("aria-label")])).toEqual([["↑", "Low to high"], ["↓", "High to low"]]);
+        expect(order.map(button => [button.textContent, button.getAttribute("aria-label")])).toEqual([["▲", "Low to high"], ["▼", "High to low"]]);
         expect(order.map(button => button.getAttribute("aria-pressed"))).toEqual(["false", "false"]);
         fireEvent.click(order[1]);
         expect(order.map(button => button.getAttribute("aria-pressed"))).toEqual(["false", "true"]);
@@ -1458,8 +1458,8 @@ describe("the Inventory funnel menu", () => {
         const css = stylesheet("capability-overview.css");
         expect(css.includes(".capability-overview-menu { gap: var(--space-field); padding: var(--space-field); }")).toBe(true);
         expect(css.includes(".capability-overview-menu-body, .capability-overview-menu-sub, .capability-overview-menu-fields, .capability-overview-costs { display: flex; flex-direction: column; gap: var(--space-label); }")).toBe(true);
-        expect(css.includes(".capability-overview-costs-order, .capability-overview-costs-range { display: flex; flex-wrap: nowrap; align-items: flex-end; gap: var(--space-label); }")).toBe(true);
-        expect(stylesheet("conversation.css").includes("width:250px;")).toBe(true);
+        expect(css.includes(".capability-overview-costs-order, .capability-overview-costs-range { display: flex; flex-wrap: nowrap; align-items: flex-end; gap: var(--space-cell); }")).toBe(true);
+        expect(stylesheet("conversation.css").includes("width:max-content;")).toBe(true);
     });
 
 });
@@ -1472,7 +1472,7 @@ describe("the Inventory table", () => {
     }) as never;
 
     it("maps a card to Section, Category, Group, Cost and Frequency, one line for one cost", () => {
-        expect(tableRows(row({}))).toEqual([{ type: "Resource", section: "Infrastructure", category: "Equipment", group: "Specialized", status: "Costs", cost: "7200", frequency: "One-time", nature: "", behaviour: "" }]);
+        expect(tableRows(row({}))).toEqual([{ type: "Resource", section: "Infrastructure", category: "Equipment", group: "Specialized", channel: "", status: "Costs", cost: "7200", frequency: "One-time", nature: "", behaviour: "" }]);
         expect(tableRows(row({ path: ["Offering's Capability", "Resources"] }))[0]).toMatchObject({ section: "Offering", category: "Resources", group: "" });
     });
 
@@ -1486,7 +1486,7 @@ describe("the Inventory table", () => {
 
     it("fills a Legal Entity expense with Section Legal Entity, Type Expense, name, cost and frequency only", () => {
         const [line] = tableRows(row({ kind: "legal", path: ["Identity System", "Legal Entity", "Expenses"], status: "", statusLabel: "", amount: 120, frequency: "annually", frequencyLabel: "Annually" }));
-        expect(line).toEqual({ type: "Expense", section: "Legal Entity", category: "", group: "", status: "", cost: "120", frequency: "Annually", nature: "", behaviour: "" });
+        expect(line).toEqual({ type: "Expense", section: "Legal Entity", category: "", group: "", channel: "", status: "", cost: "120", frequency: "Annually", nature: "", behaviour: "" });
     });
 
     it("shows the eleven columns in order, the second cost's line dimmed with the name repeated, the links as bullets only (their text a tooltip)", () => {
@@ -1494,9 +1494,9 @@ describe("the Inventory table", () => {
         const loom = { ...createBusinessResourceSlot(), name: "Loom", status: "partners-suppliers", providerId: "p1" };
         render(<Harness initial={{ ...base, providers: [{ ...createBusinessPartner("Hackney"), id: "p1", category: "suppliers", group: "business-services" }], resources: { equipment: [{ id: "devices-tools", name: "", slots: [loom] }] } }} />);
         fireEvent.click(tileButton(/^Inventory/));
-        fireEvent.click(screen.getByRole("button", { name: "Table" }));
+        fireEvent.click(screen.getByRole("radio", { name: "Table" }));
         const table = document.querySelector(".capability-overview-table")!;
-        expect([...table.querySelectorAll("th[scope=col]")].map(head => head.textContent)).toEqual(["Name", "Type", "Section", "Category", "Group", "Cost", "Frequency", "Cost Nature", "Behaviour", "Status", "Linked"]);
+        expect([...table.querySelectorAll("th[scope=col]")].map(head => head.textContent)).toEqual(["Name", "Type", "Section", "Category", "Group", "Channel", "Cost", "Frequency", "Cost Nature", "Behaviour", "Status", "Linked"]);
         const linked = table.querySelector("tbody tr td:last-child")!;
         expect(linked.textContent).toBe("");
         const bullets = [...linked.querySelectorAll<HTMLElement>(".card-tile-symbol")];
@@ -1565,7 +1565,7 @@ describe("the table mode: surface, columns, sizes", () => {
 
     const openTable = () => {
         fireEvent.click(tileButton(/^Inventory/));
-        fireEvent.click(screen.getByRole("button", { name: "Table" }));
+        fireEvent.click(screen.getByRole("radio", { name: "Table" }));
         return document.querySelector<HTMLElement>(".capability-overview-table")!;
     };
     const heads = (table: HTMLElement) => [...table.querySelectorAll("thead th")].map(head => head.textContent);
@@ -1575,7 +1575,7 @@ describe("the table mode: surface, columns, sizes", () => {
         const priced = { ...createBusinessResourceSlot(), name: "Loom", status: "costs", cost: { price: "10", frequency: "monthly", frequencyOther: "", currency: "" } };
         render(<Harness initial={{ ...base, resources: { equipment: [{ id: "devices-tools", name: "", slots: [priced] }] } }} />);
         const table = openTable();
-        expect(heads(table)).toEqual(["Name", "Type", "Section", "Category", "Group", "Cost", "Frequency", "Cost Nature", "Behaviour", "Status", "Linked"]);
+        expect(heads(table)).toEqual(["Name", "Type", "Section", "Category", "Group", "Channel", "Cost", "Frequency", "Cost Nature", "Behaviour", "Status", "Linked"]);
         fireEvent.click(screen.getByRole("button", { name: /Sort all tiles/i }));
         const menu = document.querySelector<HTMLElement>(".strategy-sort-menu-wide")!;
         fireEvent.click(within(menu).getByRole("button", { name: "Unfold Columns" }));

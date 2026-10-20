@@ -50,3 +50,11 @@
     cursor: not-allowed;
 
 }
+
+/* Pressed (a choice of the arrows, like the cost order): filled as under the pointer. */
+.nav-arrow-vertical[aria-pressed="true"] {
+
+    background: var(--accent-ink, var(--text-default));
+    color: var(--x-ground, var(--bg-surface));
+
+}

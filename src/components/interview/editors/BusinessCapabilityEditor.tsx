@@ -1,3 +1,4 @@
+import RadioChoice from "../../controls/RadioChoice.tsx";
 import ListStatic from "../fields/ListStatic.tsx";
 import TickField from "../../controls/TickField.tsx";
 import TextBox from "../../controls/TextBox.tsx";
@@ -536,7 +537,24 @@ export default function BusinessCapabilityEditor({
      */
     // (A card just made and still open is not flagged: the floor reads freshCards, and this renders again when that changes.)
     useSyncExternalStore(freshCards.subscribe, freshCards.snapshot);
-    const floor = floorRows(capability, legalExpenses, channelToneIds);
+    /** The channels each card is under, by name ("Social Media › Instagram"): the cards the channels hold, and the Partner or Supplier a held card is connected to. */
+    const channelNamesById = (() => {
+        const names = new Map<string, string[]>();
+        const add = (id: string, name: string) => names.set(id, [...new Set([...(names.get(id) ?? []), name])]);
+        engagementValue.channelResources.forEach(link => {
+            const channel = engagementValue.segments.find(entry => entry.segmentId === link.segmentId)?.channels.find(entry => entry.id === link.channelId);
+            if (channel) {
+                add(link.resourceId, [channel.category, channel.name.trim() || "Unnamed channel"].filter(Boolean).join(" › "));
+            }
+        });
+        [...Object.values(capability.resources).flat().flatMap(entry => entry.slots), ...capability.offering.resources].forEach(slot => {
+            if (usesSupplier(slot.status) && slot.providerId) {
+                (names.get(slot.id) ?? []).forEach(name => add(slot.providerId, name));
+            }
+        });
+        return names;
+    })();
+    const floor = floorRows(capability, legalExpenses, channelToneIds, channelNamesById);
     const missingById = new Map(floor.filter(row => row.missing).map(row => [row.id, row.missing!] as const));
     const floorById = new Map(floor.map(row => [row.id, row]));
     const formatMoney = moneyFormatter(organisationCurrency ?? "");
@@ -802,30 +820,15 @@ export default function BusinessCapabilityEditor({
             <BusinessField label="Offerings" className="business-offering-field">
                 {/* With several Offerings: what the shares count in -- Units (each starts at 1) or 100% (each starts equal). */}
                 {offeringChoices.length > 0 && current.length > 1 && (
-                    <div className="business-offering-mode" role="radiogroup" aria-label={name + " shares count in"}>
-                        <label className="business-offering-mode-option">
-                            <input
-                                type="radio"
-                                name={name + ":mode"}
-                                aria-label={name + " shares in units"}
-                                disabled={disabled}
-                                checked={inUnits}
-                                onChange={() => onNext({ offeringIds: current, offeringShares: unitOfferingShares(current) })}
-                            />
-                            <span>Units</span>
-                        </label>
-                        <label className="business-offering-mode-option">
-                            <input
-                                type="radio"
-                                name={name + ":mode"}
-                                aria-label={name + " shares in percent"}
-                                disabled={disabled}
-                                checked={!inUnits}
-                                onChange={() => onNext({ offeringIds: current, offeringShares: equalOfferingShares(current) })}
-                            />
-                            <span>%</span>
-                        </label>
-                    </div>
+                    <RadioChoice
+                        className="business-offering-mode"
+                        label={name + " shares count in"}
+                        group={name + ":mode"}
+                        disabled={disabled}
+                        options={[{ id: "units", label: "Units", name: name + " shares in units" }, { id: "percent", label: "%", name: name + " shares in percent" }]}
+                        value={inUnits ? "units" : "percent"}
+                        onChange={(next) => onNext({ offeringIds: current, offeringShares: next === "units" ? unitOfferingShares(current) : equalOfferingShares(current) })}
+                    />
                 )}
                 {/* With several Offerings, the percent of the card each carries; said first, above the numbers. */}
                 {offeringChoices.length > 0 && current.length > 1 && (

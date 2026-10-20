@@ -1,0 +1,26 @@
+/* THE RADIO CHOICE (RadioChoice): the options side by side, each a round with a bullet and its word on one line. */
+.radio-choice {
+
+    display: flex;
+    align-items: center;
+
+    gap: var(--space-cell);
+
+    font-size: var(--font-body);
+
+    color: var(--text-default);
+
+}
+
+.radio-choice-option {
+
+    display: inline-flex;
+    align-items: center;
+
+    gap: var(--gap-6);
+
+    white-space: nowrap;
+
+    cursor: pointer;
+
+}

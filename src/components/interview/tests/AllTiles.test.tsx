@@ -73,7 +73,7 @@ describe("the table", () => {
         const [line] = tableRows(byId(rows, "a"), amount => String(amount), "EUR");
         expect(line.cost).toBe("1250.5");
         render(<CapabilityOverview rows={rows} currency="EUR" format={amount => "€" + amount} />);
-        fireEvent.click(screen.getByRole("button", { name: "Table" }));
+        fireEvent.click(screen.getByRole("radio", { name: "Table" }));
         const heads = [...document.querySelectorAll("th[scope=col]")];
         const costHead = heads.find(head => head.textContent?.startsWith("Cost"))!;
         expect(costHead.textContent).toBe("Cost (EUR)");

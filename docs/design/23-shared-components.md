@@ -2,6 +2,10 @@
 
 This document describes the current situation, one dated section per state, the newest on top. What changed, and when, is written in the log (`04-log.md`), not here.
 
+## State on 2026-10-20, the Inventory
+
+`RadioChoice` (a round with a bullet and its word; Units / %, Tiles / Table) is the one component of a choice drawn as rounds; `SegmentedToggle` stays for the choices drawn as joined buttons (the date presentation, the table text size). The legend is `TextLink`s with `aria-pressed` (the chosen one underlined and bold, text-links.css). The cost order is two `NavArrow vertical` with `aria-pressed` (filled when chosen, nav-arrow.css).
+
 ## State on 2026-10-20, the sweep of hand-made controls
 
 Replaced by the existing components: every x (`RemoveButton`), every + box and labelled add (`AddButton`, shapes wide / box / tile, `look` for the primary, secondary, confirmation and help looks), the move of a row (`NavArrow` vertical), the header's tools, text links (`TextLink`), the drop-down of several choices (`MultiPicker`), a choice among a few shown at once (`SegmentedToggle`).

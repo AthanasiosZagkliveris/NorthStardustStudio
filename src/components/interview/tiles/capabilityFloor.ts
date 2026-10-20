@@ -82,6 +82,8 @@ export interface FloorRow {
     /** Its dates, the first line of its tile ("01/10/2026 - 05/11/2026"), and its warranty ("Warranty until 05/11/2028"). */
     dates?: string;
     warranty?: string;
+    /** The Customer Channels it is under ("Social Media › Instagram"), when a channel made it or it is connected to a card one made. */
+    channels?: string[];
 }
 
 /** An ISO day in the form the date boxes show (the reader's own). */
@@ -115,7 +117,8 @@ const statusLabel = (id: string) => BUSINESS_RESOURCE_STATUSES.find(entry => ent
 export function floorRows(
     capability: BusinessCapabilityValue,
     legalExpenses: readonly LegalEntityExpenseValue[] = [],
-    channelIds: ReadonlySet<string> = new Set()
+    channelIds: ReadonlySet<string> = new Set(),
+    channelNames: ReadonlyMap<string, readonly string[]> = new Map()
 ): FloorRow[] {
 
     const rows: Omit<FloorRow, "tone">[] = [];
@@ -328,6 +331,7 @@ export function floorRows(
     return rows.map(row => ({
         ...row,
         ...(lacking.has(row.id) && !freshCards.has(row.id) ? { missing: lacking.get(row.id) } : {}),
+        ...(channelNames.has(row.id) ? { channels: [...channelNames.get(row.id)!] } : {}),
         tone: row.kind === "legal"
             ? "legal" as const
             : channelIds.has(row.id) ? "channel" as const : row.path[0] === OFFERING ? "offering" as const : "infrastructure" as const

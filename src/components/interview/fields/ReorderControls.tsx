@@ -93,15 +93,28 @@ export default function BoxActions({
         }
         const place = () => {
             menu.style.maxHeight = "";
+            menu.style.width = "";
+            menu.style.minWidth = "";
             const dialog = button.closest<HTMLElement>(".section-tile-dialog")?.getBoundingClientRect();
             const width = menu.getBoundingClientRect().width;
             const anchor = button.getBoundingClientRect();
             let left: number;
             let top: number;
-            if (dialog && window.innerWidth - dialog.right - 8 - 12 >= width) {
-                left = dialog.right + 8;
+            // OUTWARD: right of the dialog if it fits, else left of it, else (the room being under the narrowest the window reads in) the side with more room, narrowed to it;
+            // inside the dialog, under the funnel, only where neither side has that room.
+            const roomRight = dialog ? window.innerWidth - dialog.right - 8 - 12 : 0;
+            const roomLeft = dialog ? dialog.left - 8 - 12 : 0;
+            const side = roomRight >= width ? "right" : roomLeft >= width ? "left" : Math.max(roomRight, roomLeft) >= 240 ? (roomRight >= roomLeft ? "right" : "left") : null;
+            if (dialog && side) {
+                const room = side === "right" ? roomRight : roomLeft;
+                if (room < width) {
+                    menu.style.width = room + "px";
+                    menu.style.minWidth = room + "px";
+                }
+                const used = Math.min(width, room);
+                left = side === "right" ? dialog.right + 8 : dialog.left - 8 - used;
                 top = Math.max(dialog.top, 8);
-                menu.setAttribute("data-outward", "");
+                menu.setAttribute("data-outward", side);
             } else {
                 left = Math.max(8, Math.min(anchor.right - width, window.innerWidth - 8 - width));
                 top = anchor.bottom + 4;

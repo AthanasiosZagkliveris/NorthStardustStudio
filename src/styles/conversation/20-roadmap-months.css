@@ -141,9 +141,10 @@
 /* The funnel's drop-down with filters in it (the Inventory overlay): wider, scrolling, a bullet before the chosen order. */
 .strategy-sort-menu-wide{
 
-    /* A fixed, narrow menu: its long labels wrap onto a second line instead of widening it; held inside the window. */
-    width:250px;
-    max-width:calc(100vw - 24px);
+    /* As wide as its longest line (every line is ONE line; a line too long for the room is cut by an ellipsis and says itself whole), held inside the window. */
+    width:max-content;
+    min-width:280px;
+    max-width:min(420px, calc(100vw - 24px));
 
     overflow-y:auto;
 

@@ -412,26 +412,6 @@ body:has([data-pair]) .section-tile-overlay.floating-overlay.business-foundation
     top: 0;
     right: 0;
 
-    display: flex;
-    align-items: center;
-
-    gap: var(--space-cell);
-
-    font-size: var(--font-body);
-
-    color: var(--text-default);
-
-}
-
-.business-offering-mode-option {
-
-    display: inline-flex;
-    align-items: center;
-
-    gap: var(--gap-6);
-
-    cursor: pointer;
-
 }
 
 /* A COLUMN PAGE DRAWN AS TILES (Identity's Definition and Ethics, Brand's Ambassador, Strategy's Situation & Direction): ONE card of four tiles, 2 x 2, the card as wide as one of
