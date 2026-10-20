@@ -5,7 +5,6 @@ import RemoveButton from "../../controls/RemoveButton.tsx";
 import NumberCell from "../../controls/NumberCell.tsx";
 import NavArrow from "../../controls/NavArrow.tsx";
 import RadioChoice from "../../controls/RadioChoice.tsx";
-import SegmentedToggle from "../../controls/SegmentedToggle.tsx";
 import FoldArrow from "../fields/FoldArrow.tsx";
 import TileGrid from "./TileGrid.tsx";
 import { BUSINESS_COST_FREQUENCIES, BUSINESS_RESOURCE_STATUSES } from "../../../framework/engine/AnswerUtils.ts";
@@ -66,6 +65,7 @@ function FunnelPicker({ label, options, value, onChange }: { label: string; opti
             label={label}
             placeholder={any}
             hug
+            keepWidth
             tight
             options={labels}
             sizeFor={labels}
@@ -455,9 +455,10 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                     onChange={setView}
                 />
                 {view === "table" && (
-                    <SegmentedToggle
+                    <RadioChoice
                         className="capability-overview-sizes"
                         label="Table text size"
+                        group="capability-overview-size"
                         options={TABLE_SIZES.map((size, at) => ({ id: size.id, label: ["S", "M", "L"][at], name: ["Smaller text", "Standard text", "Larger text"][at] }))}
                         value={TABLE_SIZES[tableSize].id}
                         onChange={(next) => { const at = TABLE_SIZES.findIndex(size => size.id === next); if (at >= 0) { setTableSize(at); } }}

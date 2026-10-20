@@ -1597,13 +1597,13 @@ describe("the table mode: surface, columns, sizes", () => {
         const size = () => document.querySelector<HTMLElement>(".capability-overview-table")!.getAttribute("data-size");
         expect(size()).toBe("small");
         expect(table.style.getPropertyValue("--table-font")).toBe("var(--font-small)");
-        fireEvent.click(screen.getByRole("button", { name: "Standard text" }));
+        fireEvent.click(screen.getByRole("radio", { name: "Standard text" }));
         expect(size()).toBe("body");
-        fireEvent.click(screen.getByRole("button", { name: "Larger text" }));
+        fireEvent.click(screen.getByRole("radio", { name: "Larger text" }));
         expect(size()).toBe("large");
-        fireEvent.click(screen.getByRole("button", { name: "Standard text" }));
+        fireEvent.click(screen.getByRole("radio", { name: "Standard text" }));
         expect(size()).toBe("body");
-        fireEvent.click(screen.getByRole("button", { name: "Smaller text" }));
+        fireEvent.click(screen.getByRole("radio", { name: "Smaller text" }));
         expect(size()).toBe("small");
     });
 

@@ -86,6 +86,21 @@
 
 }
 
+/* THE WINDOW'S ARROWS follow the card's tint: its ink for the line and the glyph, its ground for the glyph when filled. */
+.capability-overview-menu .nav-arrow-vertical {
+
+    --accent-ink: hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
+    --x-ground: hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
+
+}
+
+/* A dropdown of the window hugs its longest option (OptionPicker `hug`); the label above it does not stretch it. */
+.capability-overview-menu-fields label:not(.business-foundation-tick) {
+
+    align-items: flex-start;
+
+}
+
 /* The From and To cells are cells: one height, 44px. */
 .capability-overview-costs-range .number-cell {
 
@@ -371,6 +386,9 @@
 
 /* The two cells of a pair stand one cell gap apart. */
 .capability-overview-costs-range {
+
+    /* (The cells take the window's width; they never make it wider.) */
+    contain: inline-size;
 
     gap: var(--space-cell);
 

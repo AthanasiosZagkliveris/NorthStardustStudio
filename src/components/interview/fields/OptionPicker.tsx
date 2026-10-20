@@ -125,6 +125,9 @@ interface OptionPickerProps {
      */
     hug?: boolean;
 
+    /** A hugging picker keeps its longest option's width even when it stands alone in its row (the funnel window's Status and Frequency), instead of taking the row. */
+    keepWidth?: boolean;
+
     /**
      * Fills the column it stands in, and asks for exactly the width its widest option (with the words of
      * `sizeFor`) needs: pickers that all `fill` one column make it as wide as the widest of them, and
@@ -196,6 +199,7 @@ export default function OptionPicker({
     searchPlaceholder = "Type to search",
 
     hug = false,
+    keepWidth = false,
 
     fill = false,
     tight = false,
@@ -239,7 +243,7 @@ export default function OptionPicker({
         }
         const others = [...row.querySelectorAll("input:not([type=checkbox]):not([type=file]), textarea, select, .date-cell, .month-picker, .option-picker")]
             .filter(control => !containerRef.current!.contains(control));
-        setAlone(others.length === 0);
+        setAlone(!keepWidth && others.length === 0);
     });
     const optionsKey = [placeholder, ...options, "\u0001", ...sizeFor, tight ? "tight" : ""].join("\u0000");
 

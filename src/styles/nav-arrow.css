@@ -19,7 +19,8 @@
     color: var(--accent-ink, var(--text-default));
 
     font: inherit;
-    font-size: 12px;
+    /* (The glyph is drawn as a shape below: a triangle with a 24px base.) */
+    font-size: 0;
     line-height: 1;
 
     cursor: pointer;
@@ -56,5 +57,24 @@
 
     background: var(--accent-ink, var(--text-default));
     color: var(--x-ground, var(--bg-surface));
+
+}
+
+.nav-arrow-vertical::before {
+
+    content: "";
+
+    width: 24px;
+    height: 12px;
+
+    background: currentColor;
+
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+
+}
+
+.nav-arrow-vertical[data-direction="next"]::before {
+
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
 
 }

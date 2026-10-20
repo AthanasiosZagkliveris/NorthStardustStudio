@@ -91,42 +91,65 @@ export default function BoxActions({
         if (!menuOpen || !menu || !button) {
             return;
         }
+        const dialogNode = button.closest<HTMLElement>(".section-tile-dialog");
+        // The window is drawn outside the dialog's box: it takes the card's colour (its hue) from the dialog.
+        if (dialogNode) {
+            menu.style.setProperty("--strategy-theme-hue", getComputedStyle(dialogNode).getPropertyValue("--strategy-theme-hue") || "0");
+        }
+        const freeDialog = () => {
+            if (dialogNode) {
+                ["width", "marginLeft", "marginRight", "maxWidth"].forEach(property => { dialogNode.style[property as "width"] = ""; });
+            }
+        };
         const place = () => {
+            freeDialog();
             menu.style.maxHeight = "";
             menu.style.width = "";
             menu.style.minWidth = "";
-            const dialog = button.closest<HTMLElement>(".section-tile-dialog")?.getBoundingClientRect();
+            const dialog = dialogNode?.getBoundingClientRect();
             const width = menu.getBoundingClientRect().width;
             const anchor = button.getBoundingClientRect();
             let left: number;
             let top: number;
-            // OUTWARD: right of the dialog if it fits, else left of it, else (the room being under the narrowest the window reads in) the side with more room, narrowed to it;
-            // inside the dialog, under the funnel, only where neither side has that room.
-            const roomRight = dialog ? window.innerWidth - dialog.right - 8 - 12 : 0;
-            const roomLeft = dialog ? dialog.left - 8 - 12 : 0;
-            const side = roomRight >= width ? "right" : roomLeft >= width ? "left" : Math.max(roomRight, roomLeft) >= 240 ? (roomRight >= roomLeft ? "right" : "left") : null;
-            if (dialog && side) {
-                const room = side === "right" ? roomRight : roomLeft;
-                if (room < width) {
-                    menu.style.width = room + "px";
-                    menu.style.minWidth = room + "px";
+            // ALWAYS OUTWARD: right of the dialog if it fits, else left of it, else the dialog gives way (it narrows, its left edge kept) so that the window stands whole
+            // on its right; inside the dialog, under the funnel, only where even that would leave the dialog under 640px.
+            const margin = 8 + 12;
+            if (dialog && dialogNode) {
+                const roomRight = window.innerWidth - dialog.right - margin;
+                const roomLeft = dialog.left - margin;
+                let side: "right" | "left" | null = roomRight >= width ? "right" : roomLeft >= width ? "left" : null;
+                if (!side && window.innerWidth - width - margin - dialog.left >= 640) {
+                    dialogNode.style.marginLeft = dialog.left + "px";
+                    dialogNode.style.marginRight = "auto";
+                    dialogNode.style.width = window.innerWidth - width - margin - dialog.left + "px";
+                    dialogNode.style.maxWidth = "none";
+                    side = "right";
                 }
-                const used = Math.min(width, room);
-                left = side === "right" ? dialog.right + 8 : dialog.left - 8 - used;
-                top = Math.max(dialog.top, 8);
-                menu.setAttribute("data-outward", side);
-            } else {
-                left = Math.max(8, Math.min(anchor.right - width, window.innerWidth - 8 - width));
-                top = anchor.bottom + 4;
-                menu.removeAttribute("data-outward");
+                if (side) {
+                    const box = dialogNode.getBoundingClientRect();
+                    left = side === "right" ? box.right + 8 : box.left - 8 - width;
+                    // (Its top stands on the top of the table or the tiles, its foot at the dialog's foot.)
+                    top = Math.max(dialogNode.querySelector(".capability-overview-scroll")?.getBoundingClientRect().top ?? box.top, 8);
+                    menu.style.left = left + "px";
+                    menu.style.top = top + "px";
+                    menu.style.maxHeight = Math.max(160, Math.min(box.bottom - top, window.innerHeight - top - 12)) + "px";
+                    menu.setAttribute("data-outward", side);
+                    return;
+                }
             }
+            left = Math.max(8, Math.min(anchor.right - width, window.innerWidth - 8 - width));
+            top = anchor.bottom + 4;
+            menu.removeAttribute("data-outward");
             menu.style.left = left + "px";
             menu.style.top = top + "px";
             menu.style.maxHeight = Math.max(160, window.innerHeight - top - 12) + "px";
         };
         place();
         window.addEventListener("resize", place);
-        return () => window.removeEventListener("resize", place);
+        return () => {
+            window.removeEventListener("resize", place);
+            freeDialog();
+        };
     }, [menuOpen]);
 
     // Clicking away or pressing Escape closes the menu -- what any
