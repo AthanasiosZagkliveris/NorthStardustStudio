@@ -169,63 +169,6 @@
 
 }
 
-.notepad-group-head {
-
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--gap-8);
-
-    padding: 4px 0;
-
-    border: 0;
-    border-bottom: 1px solid var(--line-rule);
-
-    background: none;
-
-    font: inherit;
-    font-size: var(--font-body);
-    font-weight: 600;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-    text-align: start;
-
-    color: var(--text-default);
-
-    cursor: pointer;
-
-}
-
-.notepad-group-head::before {
-
-    content: "\25B8";
-    flex: none;
-    color: var(--text-subtle);
-
-}
-
-.notepad-group-head[aria-expanded="true"]::before {
-
-    content: "\25BE";
-
-}
-
-.notepad-group-name {
-
-    flex: 1 1 auto;
-    min-width: 0;
-    overflow-wrap: anywhere;
-
-}
-
-.notepad-group-count {
-
-    font-weight: 400;
-    font-size: var(--font-small);
-
-    color: var(--text-subtle);
-
-}
-
 .notepad-group-notes {
 
     display: flex;
@@ -733,11 +676,6 @@ html.notepad-picking [data-pick-hover] {
 }
 
 /* The fold arrow that slides the notes away is as large as the page's other fold arrows. */
-.notepad-close{
-
-    font-size:20px;
-
-}
 
 
 /* THE CARD NOTES (Notepad.tsx, CardNotes): a group like the Organization's, then one note-box for each card -- its name, its page, its text. The panel's one column is padded 16px; a

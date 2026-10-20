@@ -2,7 +2,7 @@ import type { AssetContract } from "../contract.ts";
 import { lookHeight } from "../componentTokens.ts";
 
 /**
- * The fold arrow (FoldArrow.tsx, .strategy-box-toggle in conversation.css):
+ * The fold arrow (FoldArrow.tsx, .strategy-box-toggle in fold-arrow.css):
  * the standard 36px arrow every folding card, group and section head carries.
  * A triangle drawn with borders from the button's middle (11 x 18 pointing
  * right while folded, 18 x 11 pointing down while open), in the text colour;
@@ -15,7 +15,7 @@ export const foldArrow: AssetContract = {
     kind: "fold arrow",
     summary: "The standard 36px fold arrow: a solid triangle, right while folded and down while open. A ground and a card-line stroke under the pointer; a primary stroke under the keyboard focus.",
     component: "src/components/interview/fields/FoldArrow.tsx",
-    stylesheet: "src/styles/conversation.css",
+    stylesheet: "src/styles/fold-arrow.css",
     alsoStylesheets: ["src/styles/card-folding.css"],
     parts: ["button (36px square, 1px stroke, transparent at rest)", "triangle (::before, drawn with borders from the button's middle)"],
     states: ["rest", "hover", "focus", "open", "closed"],

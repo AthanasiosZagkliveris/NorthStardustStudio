@@ -281,8 +281,8 @@ describe("notes by Organization", () => {
         render(<MemoryRouter><NotepadPanel /></MemoryRouter>);
         act(() => { NotepadService.open(); });
 
-        const heads = screen.getAllByRole("button", { name: /Lumen|Quillfield|General/ }).filter(button => button.classList.contains("notepad-group-head"));
-        expect(heads.map(head => head.textContent)).toEqual(["Lumen1", "Quillfield1", "General1"]);
+        const heads = screen.getAllByRole("button", { name: /(Minimize|Maximize) (Lumen|Quillfield|General)/ });
+        expect(heads.map(head => head.closest(".fold-head")?.querySelector(".fold-head-name")?.textContent! + head.closest(".fold-head")?.querySelector(".fold-head-count")?.textContent)).toEqual(["Lumen1", "Quillfield1", "General1"]);
         expect(heads.map(head => head.getAttribute("aria-expanded"))).toEqual(["true", "false", "false"]);
         expect((screen.getAllByRole("textbox", { name: "Note" }) as HTMLTextAreaElement[]).map(box => box.value)).toEqual(["About Lumen"]);
 

@@ -12,7 +12,8 @@ function render(ui: Parameters<typeof renderBase>[0], options?: Parameters<typeo
 }
 import { useState } from "react";
 
-import BusinessEngagementEditor, { channelNameOptions, stageIsUsual, stageOptionsFor } from "../editors/BusinessEngagementEditor";
+import BusinessEngagementEditor from "../editors/BusinessEngagementEditor";
+import { channelNameOptions, stageIsUsual, stageOptionsFor } from "../editors/BusinessEngagementModel";
 import {
     BUSINESS_CHANNEL_CATEGORIES,
     BUSINESS_CHANNEL_OTHER,

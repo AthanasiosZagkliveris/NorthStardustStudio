@@ -1,4 +1,5 @@
 import { KeyboardEvent, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import FoldHead from "../controls/FoldHead";
 import TextField from "../controls/TextField.tsx";
 import AddButton from "../controls/AddButton.tsx";
 import TickBox from "../controls/TickBox.tsx";
@@ -382,16 +383,7 @@ function NoteGroup({ group, focusNoteIds }: { group: NoteGroupValue; focusNoteId
     const id = "notepad-group-" + (group.id || "general");
     return (
         <section className="notepad-group" aria-label={group.name}>
-            <button
-                type="button"
-                className="notepad-group-head"
-                aria-expanded={open}
-                aria-controls={id}
-                onClick={() => setOpen(current => !current)}
-            >
-                <span className="notepad-group-name">{group.name}</span>
-                <span className="notepad-group-count">{group.notes.length}</span>
-            </button>
+            <FoldHead className="notepad-group-head" open={open} label={group.name} name={group.name} count={group.notes.length} onToggle={() => setOpen(current => !current)} />
             {open && (
                 <div className="notepad-group-notes" id={id}>
                     {group.notes.map(note => (
@@ -442,7 +434,8 @@ export function NotepadPanel() {
                 </AddButton>
                 <button
                     type="button"
-                    className="notepad-close"
+                    className="strategy-box-toggle notepad-close"
+                    aria-expanded="false"
                     aria-label="Close notes"
                     title="Fold the notes away"
                     onClick={() => NotepadService.close()}
@@ -628,10 +621,7 @@ function CardNotes() {
     return (
         <section className="notepad-group notepad-card-notes" aria-label="Card notes">
             <div className="notepad-card-notes-head">
-                <button type="button" className="notepad-group-head" aria-expanded={open} onClick={() => setOpen(current => !current)}>
-                    <span className="notepad-group-name">Card notes</span>
-                    <span className="notepad-group-count">{shown.length}</span>
-                </button>
+                <FoldHead className="notepad-group-head" open={open} label="Card notes" name="Card notes" count={shown.length} onToggle={() => setOpen(current => !current)} />
                 {open && pages.length > 1 && (
                     <ResponsibilityFilter
                         off={off}

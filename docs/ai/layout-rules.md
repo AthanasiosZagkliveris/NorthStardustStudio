@@ -1566,7 +1566,7 @@ The way back out of a dialog or card: a left-pointing triangle and the word Back
 
 The standard 36px fold arrow: a solid triangle, right while folded and down while open. A ground and a card-line stroke under the pointer; a primary stroke under the keyboard focus.
 
-- **Kind:** fold arrow. **Code:** `src/components/interview/fields/FoldArrow.tsx`. **Stylesheet:** `src/styles/conversation.css` (also `src/styles/card-folding.css`).
+- **Kind:** fold arrow. **Code:** `src/components/interview/fields/FoldArrow.tsx`. **Stylesheet:** `src/styles/fold-arrow.css` (also `src/styles/card-folding.css`).
 - **Parts:** button (36px square, 1px stroke, transparent at rest); triangle (::before, drawn with borders from the button's middle).
 - **States:** rest, hover, focus, open, closed.
 - **Used in:** every folding card, group and section head; the Segment card's arrow column, the Relationship Type rows, the Customer Engagement reference rows.

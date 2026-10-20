@@ -1,3 +1,5 @@
+import "../../../styles/fold-arrow.css";
+
 /**
  * The fold arrow every folding card, group and section head carries:
  * ▾ open, ▸ folded, named "Minimize …" / "Maximize …" after what it

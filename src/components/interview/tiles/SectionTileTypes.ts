@@ -233,6 +233,8 @@ export interface FloatingOpen {
     linked?: boolean;
     /** Opened from the Inventory or the Completed tile: alone, no carousel. */
     alone?: boolean;
+    /** Opened from a card that stays open (a founder's responsibility): drawn BELOW that card, as a pair (StackUnderContext). */
+    under?: boolean;
     /** Added by the "+" box a moment ago: removed again on closing while it is still completely blank. */
     fresh: boolean;
     /** What the box name above the card says where it is not the tile's title (a subcategory's name). */
@@ -273,4 +275,4 @@ export interface FloatingItem {
     note?: InfoPoint[];
 }
 
-export interface OpenRequest { card?: string; tile?: string; box?: string; /** A card just made: left blank, it is taken away when it is closed. */ fresh?: boolean; /** Opened from the Inventory or the Completed tile: the card alone, with no arrows and no rail, as every card opened from them. */ alone?: boolean }
+export interface OpenRequest { card?: string; tile?: string; box?: string; /** A card just made: left blank, it is taken away when it is closed. */ fresh?: boolean; /** Opened from the Inventory or the Completed tile: the card alone, with no arrows and no rail, as every card opened from them. */ alone?: boolean; /** Opened from a card that stays open: stacked below it (StackUnderContext). */ under?: boolean }

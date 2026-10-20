@@ -2,6 +2,14 @@
 
 This document describes the current situation, one dated section per state, the newest on top. What changed, and when, is written in the log (`04-log.md`), not here.
 
+## State on 2026-10-20, at the end
+
+`FoldHead` (`src/components/controls/FoldHead.tsx`) is the head of a folding group outside the cards: the card's fold arrow (`FoldArrow`), the name in the card head's type (body size, bold, tracked), the count and a rule under them. The Review's Organizations and the Notes panel's groups (the Organizations' and the card notes) are drawn with it; the Review keeps its Organization name at the section's size and its groups as subheads. `FoldArrow` loads its own stylesheet (`fold-arrow.css`), so a page that does not load the interview sheets draws it as every card does.
+
+A card opened from another card that stays open stands BELOW it as a pair (`StackUnderContext`, `DialogLevels.tsx`): the page that holds the open card gives it, live, and `SectionTiles` draws it with the card it opened (a legal expense under a founder's card). The Inventory's card is alone.
+
+Left, on purpose: the typed arrows of the Process library's rows (a page not reachable in this app version), the Notes panel's close arrow (the drawn arrow, its own action), the Business fields and the founders' cards' rows, `NumberedListInput` and `SuggestedInput`.
+
 ## State on 2026-10-20, last
 
 `FieldHead` (in `interview/FieldRow.tsx`) draws the label of a field with its "i", mark and status line for the Business fields (`BusinessField`) and the Legal Entity page's (`FieldRow`): 867 field rows compared against the build before by their markup: the same. `Tile` draws every tile, `TileGrid` every tile grid, `BusinessCard` every card.

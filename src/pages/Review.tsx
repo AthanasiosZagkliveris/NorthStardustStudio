@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import FoldHead from "../components/controls/FoldHead";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import AppFooter from "../components/AppFooter";
@@ -144,16 +145,13 @@ function OrganizationReview({ name, items, current, onGo }: {
         <section className="review-organization" aria-label={name}>
 
             <h2 className="review-organization-title">
-                <button
-                    type="button"
-                    className="review-organization-head"
-                    aria-expanded={open}
-                    aria-controls={id}
-                    onClick={() => setOpen(value => !value)}
-                >
-                    <span className="review-organization-name">{name}</span>
-                    <span className="review-group-count">{items.length === 0 ? "Nothing open" : String(items.length)}</span>
-                </button>
+                <FoldHead
+                    open={open}
+                    label={name}
+                    name={name}
+                    count={items.length === 0 ? "Nothing open" : String(items.length)}
+                    onToggle={() => setOpen(value => !value)}
+                />
             </h2>
 
             {open && (

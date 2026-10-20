@@ -115,7 +115,7 @@ describe("the asset contracts", () => {
     it("gives the fold arrow the size, the stroke, the triangle and the focus its stylesheets draw", () => {
         const fold = assets.find(asset => asset.name === "Fold arrow")!;
         const g = fold.geometry;
-        const css = stylesheet("conversation.css");
+        const css = stylesheet("fold-arrow.css");
         expect(css).toContain(".strategy-box-toggle{ position:relative; width:var(--fold-arrow-size); height:var(--fold-arrow-size);");
         expect(stylesheet("components.generated.css")).toContain("--fold-arrow-size: " + g.size + "px;");
         expect(css).toContain("border:" + g.strokeWidth + "px solid transparent; border-radius:var(--radius-md);");

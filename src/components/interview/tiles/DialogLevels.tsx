@@ -1,6 +1,6 @@
 import { createContext, Fragment, ReactNode, useContext, useEffect, useLayoutEffect, useRef } from "react";
 import InfoNote, { InfoPoint, InfoText } from "../fields/InfoNote.tsx";
-import { type TileAdd, type CrumbNote, type DialogRail } from "./SectionTileTypes.ts";
+import { type TileAdd, type CrumbNote, type DialogRail, type FloatingItem } from "./SectionTileTypes.ts";
 import { drawnTitle } from "./SectionTileGeometry.tsx";
 
 /**
@@ -163,6 +163,13 @@ export const OpenCardContext = createContext<((id: string, caption: string | und
 
 
 /** The subcategory box a dialog opens on, if its tile was opened from a list item that names one. */
+/**
+ * THE CARD A CARD IS OPENED UNDER: a card a founder's responsibility leads to (a legal expense, drawn by another editor) opens
+ * BELOW the founder's card, the two stacked as every pair is -- the page that holds the open card gives it here (live, as it
+ * draws it) and what to do when the pair is closed.
+ */
+export const StackUnderContext = createContext<{ item: FloatingItem; clear: () => void } | null>(null);
+
 export const InitialBoxContext = createContext<string | null>(null);
 
 

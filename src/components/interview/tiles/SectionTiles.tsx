@@ -5,7 +5,7 @@ import { cardNameOf } from "../cards/cardNames.ts";
 import "../../../styles/section-tiles.css";
 import { type SectionTile, type TileLink, type TileAdd, type OpenRequest, type FloatingCentre, type FloatingOpen } from "./SectionTileTypes.ts";
 import { cardsFloatOnly, sectionAnchor, otherColumn, acrossFrom, gridColumns, tailPlacement, tileName, plainTitle, CHANNEL_TILE_HUE } from "./SectionTileGeometry.tsx";
-import { restoreFocus, trackPointer, OpenCardContext, InitialBoxContext } from "./DialogLevels.tsx";
+import { restoreFocus, trackPointer, OpenCardContext, InitialBoxContext, StackUnderContext } from "./DialogLevels.tsx";
 import { TileFace, TileLinks, TilePlus, useTileAim } from "./TileParts.tsx";
 import { SQUEEZED_ROW_MIN } from "./CarouselArrows.tsx";
 import { OPEN_EVENT, FloatingCards, TileDialog } from "./FloatingCards.tsx";
@@ -172,14 +172,14 @@ export default function SectionTiles({
 
     /* A floating card: THAT card alone, centred (FloatingCard). `centre` says over what: the page's card area, the card of the
        page the tile stands in (a card just added), or the tile's group (the Workspace). */
-    const openFloating = (tile: SectionTile, id: string, from: HTMLElement, centre: FloatingCentre, fresh = false, pointer = false, linked = false, alone = false) => {
+    const openFloating = (tile: SectionTile, id: string, from: HTMLElement, centre: FloatingCentre, fresh = false, pointer = false, linked = false, alone = false, under = false) => {
         tile.opening?.();
         openedByPointer.current = pointer;
         // The column of the page the tile stands in (Infrastructure's card or Offering's Capability's), or -- the Workspace -- its tile group.
         const anchor = centre === "group"
             ? from.closest<HTMLElement>(".section-tiles-box")
             : otherColumn(sectionAnchor(from));
-        setFloating({ tileId: tile.id, id, opener: from, anchor, fresh, linked, alone });
+        setFloating({ tileId: tile.id, id, opener: from, anchor, fresh, linked, alone, under });
     };
 
     /** What pressing a tile opens: its card (a tile of one), a new blank card (a tile of none), or its dialog. */
@@ -203,6 +203,7 @@ export default function SectionTiles({
 
     // The dialog this set of tiles stands in was opened on one of them (a link or a "+" of the tile above it names it): that one opens at once.
     const initialBox = useContext(InitialBoxContext);
+    const stackUnder = useContext(StackUnderContext);
     const initialOpened = useRef(false);
     // (Until it has opened, the dialog these tiles stand in is not shown: the card asked for is the first thing seen.)
     const [initialPending, setInitialPending] = useState(initialBox !== null);
@@ -239,7 +240,7 @@ export default function SectionTiles({
             const from = opener.current ?? (cardsOnly ? document.querySelector<HTMLElement>(".answer-columns.business-capability > .business-foundation-card") : null) ?? document.body;
             if (request.card && found.cardFor) {
                 // (Over the other column of the tile that holds it, where it stands on the page: at the one level of every card.)
-                openFloating(found, request.card, document.querySelector<HTMLElement>(`.section-tile[data-tile="${CSS.escape(found.id)}"]`) ?? from, "column", request.fresh === true, false, request.alone !== true, request.alone === true);
+                openFloating(found, request.card, document.querySelector<HTMLElement>(`.section-tile[data-tile="${CSS.escape(found.id)}"]`) ?? from, "column", request.fresh === true, false, request.alone !== true && request.under !== true, request.alone === true, request.under === true);
             } else if (request.box) {
                 setFloating(null);
                 // (From its own tile where it stands on screen: the dialog takes its place and size from it, not from the page.)
@@ -474,15 +475,19 @@ export default function SectionTiles({
                     key={floating.tileId + ":" + floating.id}
                     anchor={floating.anchor}
                     fresh={floating.fresh}
+                    pair={floating.under && stackUnder !== null}
                     hue={floatingTile.channel || floatingTile.isChannelCard?.(floating.id) ? CHANNEL_TILE_HUE : floatingTile.hueFor?.(floating.id) ?? hue}
                     incomplete={!!shownIncomplete?.has(floating.id)}
                     label={floatingTile.title}
                     attrs={{ "data-floating": floating.tileId, "data-card-id": floating.id }}
-                    step={!floating.fresh && !floating.alone && floatingTile.id !== "overview" && floatingTile.id !== "completed" && siblingCards.length > 1 && siblingCards.some(item => item === floating.id || item === "founder-" + floating.id) ? { what: "card", previous: () => stepFloating(-1), next: () => stepFloating(1), items: floatingItems, current: floatingAt, go: (id: string) => { if (id !== floating.id) { goFloating(id); } } } : undefined}
+                    step={!floating.fresh && !floating.alone && !floating.under && floatingTile.id !== "overview" && floatingTile.id !== "completed" && siblingCards.length > 1 && siblingCards.some(item => item === floating.id || item === "founder-" + floating.id) ? { what: "card", previous: () => stepFloating(-1), next: () => stepFloating(1), items: floatingItems, current: floatingAt, go: (id: string) => { if (id !== floating.id) { goFloating(id); } } } : undefined}
                     cards={(() => {
                         // (A requirement and the expense it made are drawn together only where a LINK was pressed -- the tile's link, a card's link symbol; opened by its own tile or box, a card is alone.)
                         const pair = floating.linked ? floatingTile.pairOf?.(floating.id) : null;
                         const one = (id: string, caption: string, node: ReactNode) => ({ key: id, caption, kind: floatingTile.kindFor?.(id) ?? floatingTile.cardKind ?? "card" as const, node, note: floatingTile.noteFor?.(id) ?? floatingTile.note });
+                        if (floating.under && stackUnder) {
+                            return [stackUnder.item, one(floating.id, floating.caption ?? floatingTile.groupFor?.(floating.id) ?? floatingTile.group ?? floatingTile.title, floatingCard)];
+                        }
                         if (pair) {
                             const parent = floatingTile.cardFor?.(pair.parent.id);
                             const child = floatingTile.cardFor?.(pair.child.id);
@@ -492,7 +497,7 @@ export default function SectionTiles({
                         }
                         return [one(floating.id, floating.caption ?? floatingTile.groupFor?.(floating.id) ?? floatingTile.group ?? floatingTile.title, floatingCard)];
                     })()}
-                    onClose={closeFloating}
+                    onClose={() => { closeFloating(); if (floating.under) { stackUnder?.clear(); } }}
                 />
                 </OpenCardContext.Provider>
             )}
