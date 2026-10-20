@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
+import { usePopupDismiss } from "../PopupPanel.tsx";
 import { useFloatingPanel } from "../../hooks/useFloatingPanel.ts";
 
 import { consumeKey } from "./consumeKey.ts";
@@ -306,23 +307,7 @@ export default function OptionPicker({
 
     // Clicking anywhere else, or pressing Escape, closes without
     // choosing -- both are what a popover is expected to do.
-    useEffect(() => {
-
-        if (!open) {
-            return;
-        }
-
-        function onPointerDown(event: MouseEvent) {
-            if (!containerRef.current?.contains(event.target as Node)) {
-                setOpen(false);
-            }
-        }
-
-        document.addEventListener("mousedown", onPointerDown);
-
-        return () => document.removeEventListener("mousedown", onPointerDown);
-
-    }, [open]);
+    usePopupDismiss(open, [containerRef], () => setOpen(false), { escape: false });
 
     // The list takes focus when it opens, so the arrow keys reach
     // it without the user having to Tab into a thing that just

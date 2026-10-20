@@ -1,9 +1,8 @@
 import { CSSProperties, PointerEvent as ReactPointerEvent, useEffect, useRef, useState } from "react";
 
+import PopupPanel from "../PopupPanel.tsx";
 import TextBox from "../TextBox.tsx";
 import NumberCell from "../NumberCell.tsx";
-import { useFloatingPanel } from "../../hooks/useFloatingPanel.ts";
-import { consumeKey } from "./consumeKey.ts";
 import OptionPicker from "./OptionPicker.tsx";
 
 /**
@@ -84,7 +83,6 @@ export default function ColourPicker({
 
     const rgb = hexToRgb(value);
     const [open, setOpen] = useState(false);
-    const [free, setFree] = useState(false);
     const [code, setCode] = useState<Code>("HEX");
 
     // The hue is kept apart from the colour: a grey or a black has none of its own, and dragging across one must not lose it.
@@ -94,8 +92,6 @@ export default function ColourPicker({
     const boxRef = useRef<HTMLDivElement | null>(null);
     const areaRef = useRef<HTMLDivElement | null>(null);
     const hueRef = useRef<HTMLDivElement | null>(null);
-
-    const { panelRef, panelStyle } = useFloatingPanel(open, triggerRef, undefined, free);
 
     // What is typed in the hex cell beside the box moves the picker too (keeping the hue where the colour has none).
     useEffect(() => {
@@ -107,34 +103,6 @@ export default function ColourPicker({
             });
         }
     }, [value]);
-
-    useEffect(() => {
-
-        if (!open) {
-            return;
-        }
-
-        const away = (event: MouseEvent) => {
-            if (!boxRef.current?.contains(event.target as Node)) {
-                setOpen(false);
-            }
-        };
-        const escape = (event: KeyboardEvent) => {
-            if (event.key === "Escape") {
-                consumeKey(event);
-                setOpen(false);
-            }
-        };
-
-        document.addEventListener("mousedown", away, true);
-        document.addEventListener("keydown", escape);
-
-        return () => {
-            document.removeEventListener("mousedown", away, true);
-            document.removeEventListener("keydown", escape);
-        };
-
-    }, [open]);
 
     const commit = (next: Hsv) => {
         setHsv(next);
@@ -173,7 +141,7 @@ export default function ColourPicker({
     };
 
     return (
-        <div className="colour-picker" ref={boxRef} style={open ? { zIndex: 100 } : undefined}>
+        <div className="colour-picker" ref={boxRef}>
 
             <button
                 ref={triggerRef}
@@ -189,13 +157,11 @@ export default function ColourPicker({
                         setOpen(false);
                         return;
                     }
-                    setFree(!!triggerRef.current?.closest(".business-capability, .section-tile-overlay, .section-tile-dialog, .strategy-sort-menu"));
                     setOpen(true);
                 }}
             />
 
-            {open && (
-                <div ref={panelRef} className="date-cell-popup colour-popup" style={panelStyle} role="dialog" aria-label={ariaLabel}>
+            <PopupPanel open={open} onClose={() => setOpen(false)} anchorRef={triggerRef} insideRefs={[boxRef]} className="date-cell-popup colour-popup" ariaLabel={ariaLabel}>
 
                     <div
                         ref={areaRef}
@@ -275,8 +241,7 @@ export default function ColourPicker({
                     </div>
                     )}
 
-                </div>
-            )}
+            </PopupPanel>
 
         </div>
     );

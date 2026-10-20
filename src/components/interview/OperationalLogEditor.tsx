@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
+import TickField from "../TickField.tsx";
 import { ValuePicker } from "./OptionPicker.tsx";
-import TickBox from "../TickBox.tsx";
 import {
     OperationalLogAnswerValue,
     ProcessRecordValue,
@@ -345,16 +345,11 @@ export default function OperationalLogEditor({
 
                 </label>
 
-                <label className="operational-log-filter operational-log-filter-checkbox">
-
-                    <TickBox
-                        checked={showLatestOnly}
-                        onChange={(event) => setShowLatestOnly(event.target.checked)}
-                    />
+                <TickField className="operational-log-filter operational-log-filter-checkbox" checked={showLatestOnly} onChange={(event) => setShowLatestOnly(event.target.checked)}>
 
                     <span>Latest change per Process only</span>
 
-                </label>
+                </TickField>
 
                 {(filterProcessKey !== NO_FILTER || filterOwner !== NO_FILTER || showLatestOnly) && (
                     <button

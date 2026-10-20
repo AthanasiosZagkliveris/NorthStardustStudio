@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
+import { usePopupDismiss } from "./PopupPanel.tsx";
+import TickField from "./TickField.tsx";
 import TextBox from "./TextBox.tsx";
 import OptionPicker from "./interview/OptionPicker.tsx";
-import TickBox from "./TickBox.tsx";
 import DateCellInput from "./interview/DateCellInput";
 
 import { CARD_DATE_KINDS, type CardDateKind } from "../framework/engine/CalendarCardDates";
@@ -31,18 +32,7 @@ function MultiPick<T extends string>({
     const [open, setOpen] = useState(false);
     const box = useRef<HTMLDivElement | null>(null);
 
-    useEffect(() => {
-        if (!open) {
-            return;
-        }
-        const close = (event: MouseEvent) => {
-            if (!box.current?.contains(event.target as Node)) {
-                setOpen(false);
-            }
-        };
-        document.addEventListener("mousedown", close);
-        return () => document.removeEventListener("mousedown", close);
-    }, [open]);
+    usePopupDismiss(open, [box], () => setOpen(false), { escape: false });
 
     return (
         <div className="org-calendar-multi" ref={box}>
@@ -63,10 +53,7 @@ function MultiPick<T extends string>({
                         <button type="button" className="org-calendar-chip" onClick={() => onChange(new Set())}>None</button>
                     </div>
                     {options.map(option => (
-                        <label key={option.id} className="org-calendar-funnel-kind">
-                            <TickBox
-                                checked={selected.has(option.id)}
-                                onChange={(event) => {
+                        <TickField key={option.id} className="org-calendar-funnel-kind" checked={selected.has(option.id)} onChange={(event) => {
                                     const next = new Set(selected);
                                     if (event.target.checked) {
                                         next.add(option.id);
@@ -74,10 +61,9 @@ function MultiPick<T extends string>({
                                         next.delete(option.id);
                                     }
                                     onChange(next);
-                                }}
-                            />
+                                }}>
                             <span>{option.label}</span>
-                        </label>
+                        </TickField>
                     ))}
                 </div>
             )}

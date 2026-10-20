@@ -1,10 +1,11 @@
 import { CSSProperties, ReactNode, useEffect, useRef } from "react";
+import FieldRow from "./FieldRow.tsx";
+import TickField from "../TickField.tsx";
 import TextBox from "../TextBox.tsx";
 import CardShell from "./CardShell.tsx";
 import CardHead from "./CardHead.tsx";
 import NameCell from "./NameCell.tsx";
 import AddButton from "../AddButton.tsx";
-import TickBox from "../TickBox.tsx";
 import FieldLabel from "../FieldLabel.tsx";
 import NumberCell from "../NumberCell.tsx";
 import RemoveButton from "../RemoveButton.tsx";
@@ -948,52 +949,10 @@ export default function LegalEntityEditor({
         info?: InfoPoint[]
     ) {
         return (
-            /* One field of several in a column: its own holder (for
-               its key, FieldKeys.ts), which adds no box of its own. */
-            <div className="legal-entity-pair">
-                {onRemove
-                    ? (
-                        <span
-                            className={
-                                "legal-entity-label-row" +
-                                (nested ? " legal-entity-label-nested" : "")
-                            }
-                        >
-                            <FieldLabel className="legal-entity-label">{label}<FieldMark label={label} /><FieldStatus label={label} /></FieldLabel>
-                            {removeFieldButton(label, onRemove)}
-                        </span>
-                    )
-                    : info
-                        ? (
-                            <span
-                                className={
-                                    "legal-entity-label-info" +
-                                    (nested ? " legal-entity-label-nested" : "")
-                                }
-                            >
-                                <FieldLabel className="legal-entity-label">
-                                    <InfoText text={label}>
-                                        <InfoNote label={label} points={info} />
-                                    </InfoText>
-                                    <FieldMark label={label} />
-                                    <FieldStatus label={label} />
-                                </FieldLabel>
-                            </span>
-                        )
-                        : (
-                            <span
-                                className={
-                                    "field-label legal-entity-label" +
-                                    (nested ? " legal-entity-label-nested" : "")
-                                }
-                            >
-                                {label}
-                                <FieldMark label={label} />
-                                <FieldStatus label={label} />
-                            </span>
-                        )}
+            /* One field of several in a column: its own holder (for its key, FieldKeys.ts), which adds no box of its own. */
+            <FieldRow pair nested={nested} label={label} info={info} remove={onRemove ? removeFieldButton(label, onRemove) : undefined}>
                 {control}
-            </div>
+            </FieldRow>
         );
     }
 
@@ -1126,43 +1085,18 @@ export default function LegalEntityEditor({
         labelExtra?: ReactNode
     ) {
         return (
-            <div className={"legal-entity-field" + (wide ? " legal-entity-field-wide" : "") + (side ? " legal-entity-field-side" : "")}>
-                {onRemove
-                    ? (
-                        <span className="legal-entity-label-row">
-                            {/* An optional field can carry a note too. */}
-                            {info
-                                ? (
-                                    <span className="legal-entity-label-info">
-                                        <FieldLabel className="legal-entity-label">
-                                            <InfoText text={label}>
-                                                <InfoNote label={label} points={info} fullList />
-                                            </InfoText>
-                                            <FieldMark label={label} />
-                                            <FieldStatus label={label} keyLabel={keyLabel} />
-                                        </FieldLabel>
-                                    </span>
-                                )
-                                : <FieldLabel className="legal-entity-label">{label}<FieldMark label={label} /><FieldStatus label={label} keyLabel={keyLabel} /></FieldLabel>}
-                            {removeFieldButton(label, onRemove)}
-                        </span>
-                    )
-                    : info
-                        ? (
-                            <span className="legal-entity-label-info">
-                                <FieldLabel className="legal-entity-label">
-                                    <InfoText text={label}>
-                                        <InfoNote label={label} points={info} />
-                                    </InfoText>
-                                    <FieldMark label={label} keyLabel={keyLabel} />
-                                    <FieldStatus label={label} keyLabel={keyLabel} />
-                                    {labelExtra}
-                                </FieldLabel>
-                            </span>
-                        )
-                        : <FieldLabel className="legal-entity-label">{label}<FieldMark label={label} keyLabel={keyLabel} /><FieldStatus label={label} keyLabel={keyLabel} />{labelExtra}</FieldLabel>}
+            <FieldRow
+                label={label}
+                info={info}
+                fullList={!!onRemove}
+                keyLabel={keyLabel}
+                labelExtra={labelExtra}
+                wide={wide}
+                side={side}
+                remove={onRemove ? removeFieldButton(label, onRemove) : undefined}
+            >
                 {control}
-            </div>
+            </FieldRow>
         );
     }
 
@@ -1274,15 +1208,9 @@ export default function LegalEntityEditor({
                     <div className="legal-entity-activity-code">
                         <div className="legal-entity-activity-code-tick">
                             <span className="legal-entity-switch-cell">
-                                <label className="legal-entity-switch">
-                                    <TickBox
-                                        aria-label={"Has a " + profile.activityCode}
-                                        disabled={disabled}
-                                        checked={entity.organisation.activityCodeOn}
-                                        onChange={(event) => updateOrganisation({ activityCodeOn: event.target.checked })}
-                                    />
+                                <TickField className="legal-entity-switch" aria-label={"Has a " + profile.activityCode} disabled={disabled} checked={entity.organisation.activityCodeOn} onChange={(event) => updateOrganisation({ activityCodeOn: event.target.checked })}>
                                     <span className="legal-entity-switch-label">{profile.activityCode}</span>
-                                </label>
+                                </TickField>
                                 <InfoNote
                                     label={profile.activityCode}
                                     points={[
@@ -1488,18 +1416,13 @@ export default function LegalEntityEditor({
             */}
             <div className="legal-entity-switch-row">
 
-                <label className="legal-entity-switch">
-                    <TickBox
-                        disabled={disabled}
-                        checked={entity.capitalApplies}
-                        onChange={(event) => update({
+                <TickField className="legal-entity-switch" disabled={disabled} checked={entity.capitalApplies} onChange={(event) => update({
                             capitalApplies: event.target.checked
-                        })}
-                    />
+                        })}>
                     <span className="legal-entity-switch-label">
                         Founders contribute capital to this organization
                     </span>
-                </label>
+                </TickField>
 
                 <InfoNote label="Founders contribute capital" points={INFO.capital} />
 
@@ -1960,18 +1883,12 @@ export default function LegalEntityEditor({
                         {/* The tick and its words, then their "i" OUTSIDE the
                             label, so reading the note never toggles the tick. */}
                         <span className="legal-entity-switch-cell">
-                        <label className="legal-entity-switch">
-                            <TickBox
-                                aria-label={"Registered for " + profile.consumptionTax}
-                                disabled={disabled}
-                                checked={entity.tax.consumptionTaxStatus === "yes"}
-                                onChange={(event) => updateTax({
+                        <TickField className="legal-entity-switch" aria-label={"Registered for " + profile.consumptionTax} disabled={disabled} checked={entity.tax.consumptionTaxStatus === "yes"} onChange={(event) => updateTax({
                                     consumptionTaxStatus:
                                         (event.target.checked ? "yes" : "no") as LegalEntityTaxStatus
-                                })}
-                            />
+                                })}>
                             <span className="legal-entity-switch-label">{profile.consumptionTax}</span>
-                        </label>
+                        </TickField>
                         <InfoNote label={profile.consumptionTax} points={consumptionTaxNote} fullList />
                         </span>
                         {entity.tax.consumptionTaxStatus === "yes" && expenseSymbol("tax-consumption-number", true)}
@@ -2151,14 +2068,9 @@ export default function LegalEntityEditor({
                         {/* Under the reference (the next row's first column): whether 6.'s expenses are
                             offered this requirement in their Links. */}
                         <div className="legal-entity-offer-line">
-                        <label className="legal-entity-switch legal-entity-offer">
-                            <TickBox
-                                disabled={disabled}
-                                checked={requirement.offerInExpenses}
-                                onChange={(event) => offerInExpenses(index, event.target.checked)}
-                            />
+                        <TickField className="legal-entity-switch legal-entity-offer" disabled={disabled} checked={requirement.offerInExpenses} onChange={(event) => offerInExpenses(index, event.target.checked)}>
                             <span className="legal-entity-switch-label">Add to Legal Entity Expenses</span>
-                        </label>
+                        </TickField>
                         {expenseSymbol(requirement.id)}
                         </div>
 

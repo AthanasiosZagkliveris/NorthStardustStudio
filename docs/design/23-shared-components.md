@@ -2,15 +2,19 @@
 
 This document describes the current situation, one dated section per state, the newest on top. What changed, and when, is written in the log (`04-log.md`), not here.
 
-## What is missing as a component (2026-10-20)
+## State on 2026-10-20, later
 
-Counted in the code, not yet components:
+Three components that were missing are written (the counts are the ones in the list they leave):
 
-| Candidate | Why | Where |
-|---|---|---|
-| `PopupPanel` (open, place, close on a press outside and on Escape, the z-order above the card's controls) | 15 files write their own outside-press and Escape closing; 6 place a popup with `useFloatingPanel`; the colour picker's popup painted under the card's x and arrows because it had none of the shared parts | `ColourPicker`, `OptionPicker`, `InfoNote`, `ReorderControls`, `ResponsibilityFilter`, `CalendarFunnel`, `ThemeSwitch`, `CardTitleHelp`, `SuggestedInput`, the date popup (`useDatePopup` is the start) |
-| `TickField` (the label, its `TickBox` and its text) | the tick's label is written by hand in 15 places with 4 class families (`business-foundation-tick`, `legal-entity-switch`, `business-capability-done`, the filters'); their look is one rule now (`cell-focus.css`), their markup is not | `LegalEntityEditor`, `BusinessCardFields`, `BusinessFoundationEditor`, `Notepad`, `ResponsibilityFilter`, `OperationalLogEditor`, `BusinessCapabilityEditor`, `BrandStyleEditor`, `CalendarFunnel` |
-| `FieldRow` (a label and its cell, beside or above) | `BusinessField` has 69 uses in the Business editors, the Legal Entity page has its own rows (`legal-entity-field`, 8) | `BusinessCardFields`, `LegalEntityEditor` |
+| Component | File | Draws | Places |
+|---|---|---|---|
+| `TickField` | `src/components/TickField.tsx` | A tick and its words as one `<label>` (the words clickable, the tick the one `TickBox`); the class a place passes is its row's layout, the look of the words is one rule (`.tick-field`, `cell-focus.css`) | 13 (the tick fields, the optional fields', the switches, the options, the filters') |
+| `PopupPanel`, `usePopupDismiss` | `src/components/PopupPanel.tsx` | `usePopupDismiss`: a press outside closes a popup and Escape closes it and goes no further. `PopupPanel`: a panel drawn outside the boxes around its control (in the dialog's overlay, else on the page), placed free of them and again when its size changes, in the hue of its control's box, with the focus on it where asked | `PopupPanel`: the info note, the colour picker; `usePopupDismiss`: those two and the option picker, the suggested input, the date and month popups, the theme switch, the calendar's period menu, the reorder menu and the responsibility filter (10) |
+| `FieldRow` | `interview/FieldRow.tsx` | A label and its control as a cell of the Legal Entity page's grid: the label with its "i", mark, status line, link symbol and ×; beside or above; wide; a pair of a column, nested | the page's two row helpers (`field`, `labelled`) |
+
+Still their own: the dismissal of the floating card itself, the Notes panel, the calendar panel, the card title help and the channel resources (they close a layer, not a popup); the Business fields (`BusinessField`, 69 uses: its own class family, its lacks and its tick) and the founders' cards' rows.
+
+Checked in a browser against the build before (9 pages, both examples, the dialogs and the floating cards): the rows, labels, ticks, heads, cards, texts, dropdowns, info notes and colour pickers are the same; the colour picker, the info note, a dropdown, the date popup and the notes funnel close by a press outside and by Escape.
 
 ## What is left on 2026-10-19
 

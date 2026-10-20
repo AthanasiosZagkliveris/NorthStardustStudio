@@ -1,11 +1,11 @@
 import ListStatic from "./ListStatic.tsx";
+import TickField from "../TickField.tsx";
 import TextBox from "../TextBox.tsx";
 import { CSSProperties, ReactNode, useRef, useState } from "react";
 
 import CardShell from "./CardShell.tsx";
 import CardHead from "./CardHead.tsx";
 import NameCell from "./NameCell.tsx";
-import TickBox from "../TickBox.tsx";
 import FieldLabel from "../FieldLabel.tsx";
 import { cardNameMissing } from "../../framework/engine/SystemCardCompleteness.ts";
 import { workHue } from "../../framework/engine/WorkColours.ts";
@@ -640,11 +640,7 @@ export default function BusinessFoundationEditor({
                                 box every time someone asked what it
                                 meant.
                             */
-                            <label className="business-foundation-tick business-foundation-tick-inline">
-                                <TickBox
-                                    disabled={disabled}
-                                    checked={asked}
-                                    onChange={(event) => {
+                            <TickField className="business-foundation-tick business-foundation-tick-inline" disabled={disabled} checked={asked} onChange={(event) => {
                                         const next = { ...current };
                                         if (event.target.checked) {
                                             next[part.id] = "";
@@ -652,12 +648,11 @@ export default function BusinessFoundationEditor({
                                             delete next[part.id];
                                         }
                                         onNext(next);
-                                    }}
-                                />
+                                    }}>
                                 <FieldLabel className="business-foundation-label">
                                     {part.title}
                                 </FieldLabel>
-                            </label>
+                            </TickField>
                         ) : (
                             /* Glued to the name's last word, as every
                                label's "i" is (see InfoText). */
@@ -1424,27 +1419,19 @@ export default function BusinessFoundationEditor({
                                         Profile first, then choose them here.
                                     </p>
                                 ) : needs.map(need => (
-                                    <label
-                                        className="business-foundation-tick"
-                                        key={need}
-                                    >
-                                        <TickBox
-                                            disabled={disabled}
-                                            checked={
+                                    <TickField className="business-foundation-tick" key={need} disabled={disabled} checked={
                                                 offering.needsAddressed.includes(need)
-                                            }
-                                            onChange={(event) => change({
+                                            } onChange={(event) => change({
                                                 needsAddressed: event.target.checked
                                                     ? [...offering.needsAddressed, need]
                                                     : offering.needsAddressed.filter(
                                                         entry => entry !== need
                                                     )
-                                            })}
-                                        />
+                                            })}>
                                         <span className="business-foundation-tick-label">
                                             {need}
                                         </span>
-                                    </label>
+                                    </TickField>
                                 ))}
 
                             </div>

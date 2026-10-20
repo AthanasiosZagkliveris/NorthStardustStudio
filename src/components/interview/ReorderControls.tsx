@@ -1,10 +1,10 @@
-import { DragEvent, KeyboardEvent, MouseEvent, ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { DragEvent, KeyboardEvent, MouseEvent, ReactNode, useLayoutEffect, useRef, useState } from "react";
+import { usePopupDismiss } from "../PopupPanel.tsx";
 import FunnelButton from "../FunnelButton.tsx";
 import { createPortal } from "react-dom";
 
 import { useFloatingPanel } from "../../hooks/useFloatingPanel.ts";
 
-import { consumeKey } from "./consumeKey.ts";
 
 /**
  * The controls a reorderable box carries: remove, and optionally a
@@ -117,36 +117,7 @@ export default function BoxActions({
     // Clicking away or pressing Escape closes the menu -- what any
     // popover is expected to do, and without them the only way out
     // would be to pick something.
-    useEffect(() => {
-
-        if (!menuOpen) {
-            return;
-        }
-
-        function onPointerDown(event: globalThis.MouseEvent) {
-            if (!menuRef.current?.contains(event.target as Node) && !wideRef.current?.contains(event.target as Node)) {
-                setMenuOpen(false);
-            }
-        }
-
-        function onKeyDown(event: globalThis.KeyboardEvent) {
-            if (event.key === "Escape") {
-                // Consumed, or it closes the menu and leaves the
-                // page in one press (see consumeKey).
-                consumeKey(event);
-                setMenuOpen(false);
-            }
-        }
-
-        document.addEventListener("mousedown", onPointerDown);
-        document.addEventListener("keydown", onKeyDown);
-
-        return () => {
-            document.removeEventListener("mousedown", onPointerDown);
-            document.removeEventListener("keydown", onKeyDown);
-        };
-
-    }, [menuOpen]);
+    usePopupDismiss(menuOpen, [menuRef, wideRef], () => setMenuOpen(false));
 
     const showSort = (!!onSort && !!sortOptions?.length) || !!menuContent;
 

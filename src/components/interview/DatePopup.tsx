@@ -1,7 +1,7 @@
-import { CSSProperties, ReactNode, RefObject, useEffect, useRef, useState } from "react";
+import { CSSProperties, ReactNode, RefObject, useRef, useState } from "react";
 
+import { usePopupDismiss } from "../PopupPanel.tsx";
 import { useFloatingPanel } from "../../hooks/useFloatingPanel.ts";
-import { consumeKey } from "./consumeKey.ts";
 
 /**
  * THE POPUP OF THE DATE CELL AND THE MONTH PICKER, what the two share: it opens under its cell (upwards where there is no room, and free of the card's clipping inside a card, a dialog or a menu), it closes on a press outside it and on Escape (which goes no further), and its head is the same four steps around a title. The two draw their own days or months; the popup's classes (\`date-cell-popup-*\`) are the one look.
@@ -21,28 +21,7 @@ export function useDatePopup(anchor: RefObject<HTMLElement | null>): {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const { panelRef, panelStyle } = useFloatingPanel(open, anchor, undefined, free);
 
-    useEffect(() => {
-        if (!open) {
-            return;
-        }
-        function onPointerDown(event: MouseEvent) {
-            if (!containerRef.current?.contains(event.target as Node)) {
-                setOpen(false);
-            }
-        }
-        function onKeyDown(event: KeyboardEvent) {
-            if (event.key === "Escape") {
-                consumeKey(event);
-                setOpen(false);
-            }
-        }
-        document.addEventListener("mousedown", onPointerDown, true);
-        document.addEventListener("keydown", onKeyDown);
-        return () => {
-            document.removeEventListener("mousedown", onPointerDown, true);
-            document.removeEventListener("keydown", onKeyDown);
-        };
-    }, [open]);
+    usePopupDismiss(open, [containerRef], () => setOpen(false), { capture: true });
 
     return {
         open,

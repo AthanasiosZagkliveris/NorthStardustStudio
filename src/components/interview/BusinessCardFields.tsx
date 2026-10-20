@@ -1,4 +1,5 @@
 import { freshCards } from "./freshCards.ts";
+import TickField from "../TickField.tsx";
 import { createContext, CSSProperties, ReactNode, useContext, useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 import TextBox from "../TextBox.tsx";
@@ -6,7 +7,6 @@ import CardShell from "./CardShell.tsx";
 import CardHead from "./CardHead.tsx";
 import NameCell from "./NameCell.tsx";
 import AddButton from "../AddButton.tsx";
-import TickBox from "../TickBox.tsx";
 import FieldLabel from "../FieldLabel.tsx";
 import RemoveButton from "../RemoveButton.tsx";
 import OptionPicker from "./OptionPicker.tsx";
@@ -177,18 +177,12 @@ export function BusinessField({
                 ? (
                     <>
                         <span className="business-foundation-label-info">
-                            <label className="business-foundation-tick business-foundation-tick-inline">
-                                <TickBox
-                                    aria-label={tick.ariaLabel}
-                                    disabled={tick.disabled}
-                                    checked={tick.on}
-                                    onChange={(event) => tick.onChange(event.target.checked)}
-                                />
+                            <TickField className="business-foundation-tick business-foundation-tick-inline" aria-label={tick.ariaLabel} disabled={tick.disabled} checked={tick.on} onChange={(event) => tick.onChange(event.target.checked)}>
                                 <FieldLabel className="business-foundation-label">
                                     {label}
                                     <FieldMark label={label} keyLabel={fieldId} />
                                 </FieldLabel>
-                            </label>
+                            </TickField>
                             {info && <InfoNote label={label} points={info} fullList />}
                         </span>
                         <FieldStatus label={label} keyLabel={fieldId} />
@@ -478,11 +472,7 @@ export function OptionalField({
                 a label toggles the tick it belongs to.
             */}
             <span className="business-foundation-label-info optional-field-head">
-                <label className="business-foundation-tick business-foundation-tick-inline">
-                    <TickBox
-                        disabled={disabled}
-                        checked={shown}
-                        onChange={(event) => {
+                <TickField className="business-foundation-tick business-foundation-tick-inline" disabled={disabled} checked={shown} onChange={(event) => {
                             if (event.target.checked) {
                                 setOpen(true);
                                 setFocusOnOpen(true);
@@ -491,13 +481,12 @@ export function OptionalField({
                             } else {
                                 setOpen(false);
                             }
-                        }}
-                    />
+                        }}>
                     <FieldLabel className="business-foundation-label">
                         {label}
                         <FieldMark label={label} keyLabel={fieldId} />
                     </FieldLabel>
-                </label>
+                </TickField>
                 {info && <InfoNote label={label} points={info} fullList />}
             </span>
 
@@ -635,28 +624,12 @@ export function BusinessTicks({
         <>
             {options.map(option => row(option, (
 
-                <label className={"business-foundation-tick" + (option.indent ? " business-foundation-tick-indented" : "") + (option.blocked ? " business-foundation-tick-blocked" : "")} key={option.id}>
-
-                    <TickBox
-                        /* The group's name in front of the box's
-                           own, because a page can hold the same
-                           five stages a dozen times over and
-                           "Discovery" alone says nothing about
-                           which one is being read out.
-
-                           It carries the WHOLE of the visible
-                           label, meaning included -- an accessible
-                           name has to contain the label a speech
-                           user can see (SC 2.5.3). */
-                        aria-label={
+                <TickField className={"business-foundation-tick" + (option.indent ? " business-foundation-tick-indented" : "") + (option.blocked ? " business-foundation-tick-blocked" : "")} key={option.id} aria-label={
                             name + ": " + option.label +
                             (option.meaning === undefined
                                 ? ""
                                 : ": " + option.meaning)
-                        }
-                        disabled={disabled || !!option.blocked}
-                        checked={!option.blocked && chosen.includes(option.id)}
-                        onChange={(event) => onChange(
+                        } disabled={disabled || !!option.blocked} checked={!option.blocked && chosen.includes(option.id)} onChange={(event) => onChange(
                             event.target.checked
                                 // Kept in the order the LIST gives,
                                 // not the order they were ticked, so
@@ -668,8 +641,7 @@ export function BusinessTicks({
                                         id === option.id || chosen.includes(id)
                                     )
                                 : chosen.filter(id => id !== option.id)
-                        )}
-                    />
+                        )}>
 
                     <span className="business-foundation-tick-label">
                         {option.meaning === undefined
@@ -686,7 +658,7 @@ export function BusinessTicks({
 
                     {option.blocked && <span className="business-foundation-tick-note">{option.blocked}</span>}
 
-                </label>
+                </TickField>
 
             )))}
         </>

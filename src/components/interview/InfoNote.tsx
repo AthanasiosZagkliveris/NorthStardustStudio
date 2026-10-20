@@ -1,13 +1,11 @@
-import { Children, CSSProperties, ReactNode, useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
+import { Children, ReactNode, useRef, useState } from "react";
 
 import { openUrl } from "@tauri-apps/plugin-opener";
 
-import { useFloatingPanel } from "../../hooks/useFloatingPanel.ts";
+import PopupPanel from "../PopupPanel.tsx";
 
 import { isAcceptedUrl, Source, sourceLabel } from "../../framework/engine/Sources.ts";
 
-import { consumeKey } from "./consumeKey.ts";
 import TextLink from "./TextLink.tsx";
 
 /**
@@ -179,53 +177,8 @@ export default function InfoNote({
     const containerRef = useRef<HTMLSpanElement | null>(null);
     const buttonRef = useRef<HTMLButtonElement | null>(null);
 
-    // No ceiling: three bullets are short by construction, so the
-    // only cap that should ever apply is the window's own, which
-    // the hook supplies when the note will not otherwise fit.
-    // Free of the boxes around it (a table's scroller, a one-line label).
-    const { panelRef, panelStyle } = useFloatingPanel(open, buttonRef, undefined, true);
+    // (Placed, drawn outside the boxes around its button, in the hue of the box it opens from, and closed by a press outside or Escape: PopupPanel.)
 
-    // Clicking anywhere else closes it, as a popover is expected to.
-    useEffect(() => {
-
-        if (!open) {
-            return;
-        }
-
-        function onPointerDown(event: MouseEvent) {
-            if (!containerRef.current?.contains(event.target as Node) && !panelRef.current?.contains(event.target as Node)) {
-                setOpen(false);
-            }
-        }
-
-        document.addEventListener("mousedown", onPointerDown);
-
-        return () => document.removeEventListener("mousedown", onPointerDown);
-
-    }, [open, panelRef]);
-
-    // The note is drawn OUTSIDE the boxes around its button (in the dialog's overlay, else the page): a card or a dialog that clips its content, or a glass
-    // ground that makes "fixed" relative to itself, never cuts it off. It keeps the hue of the box it opens from.
-    const [hue, setHue] = useState<string>("");
-    useEffect(() => {
-        if (open && buttonRef.current) {
-            setHue(getComputedStyle(buttonRef.current).getPropertyValue("--strategy-theme-hue").trim());
-        }
-    }, [open]);
-    const host = open ? buttonRef.current?.closest<HTMLElement>(".section-tile-overlay") ?? document.body : null;
-
-    // The note takes focus when it opens, so a screen reader reads
-    // it rather than leaving the reader on a button whose page has
-    // silently changed. `preventScroll` for the reason OptionPicker
-    // documents: focusing scrolls, and scrolling moves the anchor
-    // the placement was just measured against.
-    useEffect(() => {
-
-        if (open) {
-            panelRef.current?.focus({ preventScroll: true });
-        }
-
-    }, [open, panelRef]);
 
     const shown = fullList ? points : points.slice(0, 3);
 
@@ -249,24 +202,7 @@ export default function InfoNote({
                 i
             </button>
 
-            {open && host && createPortal(
-                <div
-                    className={"info-note-panel" + (size === "wide" ? " info-note-panel-wide" : size === "double" ? " info-note-panel-double" : "")}
-                    ref={panelRef}
-                    style={{ ...panelStyle, ...(hue ? { "--strategy-theme-hue": hue } : {}) } as CSSProperties}
-                    role="dialog"
-                    aria-label={label}
-                    tabIndex={-1}
-                    onKeyDown={(event) => {
-                        if (event.key === "Escape") {
-                            // Consumed, or it closes the note and
-                            // leaves the page in one press (see
-                            // consumeKey).
-                            consumeKey(event);
-                            close();
-                        }
-                    }}
-                >
+            <PopupPanel open={open} onClose={(reason) => reason === "escape" ? close() : setOpen(false)} anchorRef={buttonRef} insideRefs={[containerRef]} className={"info-note-panel" + (size === "wide" ? " info-note-panel-wide" : size === "double" ? " info-note-panel-double" : "")} ariaLabel={label} focusOnOpen>
                     {/* One point is a sentence, not a list. */}
                     {shown.length === 1 && typeof shown[0] === "string"
                         ? (
@@ -359,9 +295,7 @@ export default function InfoNote({
                                 ))}
                             </ul>
                         )}
-                </div>,
-                host
-            )}
+            </PopupPanel>
 
         </span>
     );

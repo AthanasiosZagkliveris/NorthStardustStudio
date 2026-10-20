@@ -1,5 +1,6 @@
 import { KeyboardEvent, useEffect, useRef, useState } from "react";
 
+import { usePopupDismiss } from "../PopupPanel.tsx";
 import { useAutoGrow } from "../../hooks/useAutoGrow.ts";
 import { useFloatingPanel } from "../../hooks/useFloatingPanel.ts";
 
@@ -91,23 +92,7 @@ export default function SuggestedInput({
 
     const { panelRef, panelStyle } = useFloatingPanel(open, containerRef);
 
-    useEffect(() => {
-
-        if (!open) {
-            return;
-        }
-
-        function onPointerDown(event: MouseEvent) {
-            if (!containerRef.current?.contains(event.target as Node)) {
-                setOpen(false);
-            }
-        }
-
-        document.addEventListener("mousedown", onPointerDown);
-
-        return () => document.removeEventListener("mousedown", onPointerDown);
-
-    }, [open]);
+    usePopupDismiss(open, [containerRef], () => setOpen(false), { escape: false });
 
     // `preventScroll` for the reason OptionPicker documents:
     // focusing scrolls, and scrolling moves the anchor the

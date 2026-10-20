@@ -1,9 +1,9 @@
 import ListStatic from "./ListStatic.tsx";
+import TickField from "../TickField.tsx";
 import TextBox from "../TextBox.tsx";
 import { toneHue } from "./CardTile.tsx";
 import CardShell from "./CardShell.tsx";
 import AddButton from "../AddButton.tsx";
-import TickBox from "../TickBox.tsx";
 import FieldLabel from "../FieldLabel.tsx";
 import NumberCell from "../NumberCell.tsx";
 import "../../styles/system-confirmation.css";
@@ -4166,17 +4166,11 @@ export default function BusinessCapabilityEditor({
 
                 {/* Done, at the very end (the one card order: fields,
                     Description, links, then the card's state), on the left with the other ticks. */}
-                <label className="business-capability-done">
-                    <TickBox
-                        aria-label={"Activity " + number + " completed"}
-                        disabled={disabled}
-                        checked={activity.completed}
-                        onChange={(event) => onActivity({
+                <TickField className="business-capability-done" aria-label={"Activity " + number + " completed"} disabled={disabled} checked={activity.completed} onChange={(event) => onActivity({
                             completed: event.target.checked
-                        })}
-                    />
+                        })}>
                     <span>Completed</span>
-                </label>
+                </TickField>
 
                 {/* THE CARDS THAT CHOOSE THIS ACTIVITY (a resource whose status is Activity or Needs Activity): a link each, unless the name already is the link to the one that made it. */}
                 {linksSection(activity.id, [...Object.values(capability.resources).flat().flatMap(entry => entry.slots), ...capability.offering.resources]

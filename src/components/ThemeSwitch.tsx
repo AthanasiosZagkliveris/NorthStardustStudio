@@ -1,5 +1,6 @@
 import { KeyboardEvent, useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
 
+import { usePopupDismiss } from "./PopupPanel.tsx";
 import { ThemeService, ThemeChoice, type Theme } from "../services/ThemeService";
 import { consumeKey } from "./interview/consumeKey";
 
@@ -87,18 +88,7 @@ export default function ThemeSwitch() {
     const listRef = useRef<HTMLDivElement | null>(null);
 
     // A click anywhere else closes it without choosing.
-    useEffect(() => {
-        if (!open) {
-            return;
-        }
-        function onPointerDown(event: MouseEvent) {
-            if (!containerRef.current?.contains(event.target as Node)) {
-                setOpen(false);
-            }
-        }
-        document.addEventListener("mousedown", onPointerDown);
-        return () => document.removeEventListener("mousedown", onPointerDown);
-    }, [open]);
+    usePopupDismiss(open, [containerRef], () => setOpen(false), { escape: false });
 
     // The list takes the keyboard as it opens.
     useEffect(() => {
