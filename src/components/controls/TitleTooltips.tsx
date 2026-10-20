@@ -27,7 +27,7 @@ function worthShowing(element: HTMLElement, tip: string): boolean {
         return true;
     }
     const cut = (node: HTMLElement) => node.scrollWidth > node.clientWidth + 1 || node.scrollHeight > node.clientHeight + 1;
-    return [element, ...element.querySelectorAll<HTMLElement>("*")].some(node => cut(node) && getComputedStyle(node).overflow !== "visible");
+    return [element, ...element.querySelectorAll<HTMLElement>("*")].some(node => cut(node) && getComputedStyle(node).textOverflow === "ellipsis");
 }
 
 export default function TitleTooltips() {
