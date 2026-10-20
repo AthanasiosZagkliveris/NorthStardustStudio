@@ -26,7 +26,7 @@ Status: **index**, updated 2026-10-20. One line per document: where it is, what 
 | [ai/review-checklist.md](ai/review-checklist.md) | rules | What to check when reviewing a table, tile, card, page or control, and the proof before saying done. | 2026-10-20 |
 | [ai/code-map.md](ai/code-map.md) | reference | Where things are in src: the folders and what is in each; the rules for a new file. | 2026-10-20 |
 | [ai/app-guide.md](ai/app-guide.md) | reference | Where each part of the app is, what it is for, with the code locations. | 2026-10-20 |
-| [ai/layout-rules.md](ai/layout-rules.md) | rules | The measured rulebook of the Foundation pages (tokens, sizes, alignment, interactions) and the layout check. | 2026-10-20 |
+| [ai/layout-rules.md](ai/layout-rules.md) | rules | The measured rulebook of the Foundation pages (tokens, sizes, alignment, interactions) and the layout check. | 2026-10-21 |
 | [ai/tile-and-card-pattern.md](ai/tile-and-card-pattern.md) | rules | How tiles, frames, cards, rails and dialogs are built; the global rules. | 2026-10-20 |
 | [ai/card-kinds.md](ai/card-kinds.md) | reference | The kinds of card, where each one's code is, how its head is built. | 2026-10-20 |
 | [ai/customer-engagement-layout.md](ai/customer-engagement-layout.md) | rules | Layout of the Customer Engagement tables, the channel resources and the action markers. | 2026-10-20 |
@@ -62,10 +62,10 @@ Status: **index**, updated 2026-10-20. One line per document: where it is, what 
 | [design/20-reactions.md](design/20-reactions.md) | current design | How elements react to the pointer and the keyboard. | 2026-10-20 |
 | [design/21-text-links.md](design/21-text-links.md) | current design | The text link: look and behaviour. | 2026-10-20 |
 | [design/22-free-text-categories.md](design/22-free-text-categories.md) | current design | Free texts in four categories. | 2026-10-20 |
-| [design/23-shared-components.md](design/23-shared-components.md) | current design | Which components are shared, which are not, what is left to unify. Dated states, newest on top. | 2026-10-20 |
+| [design/23-shared-components.md](design/23-shared-components.md) | current design | Which components are shared, which are not, what is left to unify. Dated states, newest on top. | 2026-10-21 |
 | [design/24-help-texts.md](design/24-help-texts.md) | current design | The help texts of the app. | 2026-10-20 |
 | [design/25-popups.md](design/25-popups.md) | current design | Pop-ups in six categories, with their placement rules. | 2026-10-20 |
-| [design/26-tooltips.md](design/26-tooltips.md) | current design | Which controls have a tooltip, what it says, and the five rules. | 2026-10-20 |
+| [design/26-tooltips.md](design/26-tooltips.md) | current design | Which controls have a tooltip, what it says, and the five rules. | 2026-10-21 |
 | [design/card-scan-2026-10-15.md](design/card-scan-2026-10-15.md) | snapshot | A snapshot of every card written by scripts/cards/report.mjs. | 2026-10-15 |
 
 ## The specifications (`specifications/`)

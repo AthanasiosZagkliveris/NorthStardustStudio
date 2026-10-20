@@ -93,7 +93,7 @@ export function Dots({ id, name, links, focusId, onFocus }: {
 /** One circle: its tooltip stands above it (the app's tooltip), not wherever the browser puts a title. */
 function Dot({ link, id, name, focusId, onFocus }: { link: FloorLink; id: string; name: string; focusId?: string | null; onFocus?: () => void }) {
     const text = SYMBOLS[link.type] + ": " + link.name;
-    const button = useAboveTip<HTMLButtonElement>(text + " (show only what " + name + " is connected to)");
+    const button = useAboveTip<HTMLButtonElement>(text + ". Click to show only what " + name + " is connected to");
     const plain = useAboveTip<HTMLSpanElement>(text);
     return onFocus
         ? (

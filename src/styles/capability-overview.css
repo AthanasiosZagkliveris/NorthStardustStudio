@@ -669,7 +669,7 @@
 /* The text sizes beside Tiles / Table: "Aa" in the size each chooses (14, 18, 24px), a gap after the views. */
 .capability-overview-sizes {
 
-    margin-left: var(--space-field);
+    margin-left: var(--gap-16);
 
 }
 
@@ -727,6 +727,10 @@
     background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
     color: hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
+
+    /* The glow under the pointer and the ring on the focus of what stands in the window are the card's tint, never the app's blue. */
+    --glow-color: hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
+    --focus-ring-ink: hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
 
 }
 

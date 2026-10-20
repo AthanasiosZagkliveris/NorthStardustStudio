@@ -32,7 +32,8 @@ import {
     sortFloor,
     subgroupOf,
     tileLines,
-    tileMarks
+    tileMarks,
+    placeOf
 } from "./capabilityFloor.ts";
 import "../../../styles/capability-overview.css";
 
@@ -227,7 +228,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                         { id: "activity", label: "Activities" },
                         { id: UNITED, label: "Partners & Suppliers" },
                         { id: "legal", label: "Legal expenses" }
-                    ]}
+                    ].filter(option => rows.some(row => option.id === UNITED ? row.kind === "partner" || row.kind === "provider" : row.kind === option.id))}
                     chosen={toOptionIds(filter.kinds)}
                     onChange={(next) => patch({ kinds: new Set(fromOptionIds(next) as FloorKind[]) })}
                 /></div>}
@@ -258,7 +259,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                 {/* Step 1: ONE place (the ticked one; ticking another moves the tick, ticking it again clears: all). Changing it clears step 2. */}
                 <BusinessTicks
                     name="Belongs to"
-                    options={FLOOR_PLACES.map(place => ({ id: place.id, label: place.label }))}
+                    options={FLOOR_PLACES.filter(place => rows.some(row => placeOf(row) === place.id)).map(place => ({ id: place.id, label: place.label }))}
                     chosen={filter.place === "" ? [] : [filter.place]}
                     onChange={(next) => {
                         const now = next.filter(id => id !== filter.place)[0] ?? "";
@@ -347,7 +348,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                     Status
                     <FunnelPicker
                         label="Status"
-                        options={[...BUSINESS_RESOURCE_STATUSES.map(status => ({ id: status.id as string, label: status.label as string })), { id: "completed", label: "Completed" }]}
+                        options={[...BUSINESS_RESOURCE_STATUSES.map(status => ({ id: status.id as string, label: status.label as string })), { id: "completed", label: "Completed" }].filter(option => option.id === filter.status || rows.some(row => row.status === option.id))}
                         value={filter.status}
                         onChange={(status) => patch({ status })}
                     />
@@ -356,7 +357,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                     Frequency
                     <FunnelPicker
                         label="Frequency"
-                        options={BUSINESS_COST_FREQUENCIES.map(entry => ({ id: entry.id as string, label: entry.label as string }))}
+                        options={BUSINESS_COST_FREQUENCIES.map(entry => ({ id: entry.id as string, label: entry.label as string })).filter(option => option.id === filter.frequency || rows.some(row => row.frequency === option.id))}
                         value={filter.frequency}
                         onChange={(frequency) => patch({ frequency })}
                     />

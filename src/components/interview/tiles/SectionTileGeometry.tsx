@@ -130,8 +130,14 @@ export function tileName(title: string, items: readonly string[] = []): string {
  */
 export function tileGapLevel(): number | null {
     const slots = Array.from(document.querySelectorAll<HTMLElement>(".section-tiles-quad .section-tile-slot"));
-    const first = slots[0]?.getBoundingClientRect();
-    const second = first ? slots.map(slot => slot.getBoundingClientRect()).find(box => box.top > first.bottom - 4) : undefined;
+    // (Measured where the tiles are laid out, not where they are drawn: a tile grown under the pointer must not move the arrows.)
+    const laidOut = (slot: HTMLElement) => {
+        const parent = slot.offsetParent as HTMLElement | null;
+        const top = (parent ? parent.getBoundingClientRect().top + parent.clientTop - parent.scrollTop : 0) + slot.offsetTop;
+        return { top, bottom: top + slot.offsetHeight };
+    };
+    const first = slots[0] ? laidOut(slots[0]) : undefined;
+    const second = first ? slots.map(laidOut).find(box => box.top > first.bottom - 4) : undefined;
     if (first && second) {
         return (first.bottom + second.top) / 2;
     }

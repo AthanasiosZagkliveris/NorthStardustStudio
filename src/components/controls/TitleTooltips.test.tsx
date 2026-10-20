@@ -8,12 +8,12 @@ describe("TitleTooltips", () => {
     afterEach(() => cleanup());
 
     it("shows a title in the app's tooltip and keeps the name of an icon with no text", () => {
-        render(<><TitleTooltips /><button type="button" title="Fold the notes away" data-testid="icon" /></>);
+        render(<><TitleTooltips /><button type="button" title="Fold the notes" data-testid="icon" /></>);
         const icon = screen.getByTestId("icon");
         act(() => { fireEvent.pointerOver(icon, { clientX: 10, clientY: 10 }); });
         expect(icon.hasAttribute("title")).toBe(false);
-        expect(icon.getAttribute("aria-label")).toBe("Fold the notes away");
-        expect(screen.getByRole("tooltip").textContent).toBe("Fold the notes away");
+        expect(icon.getAttribute("aria-label")).toBe("Fold the notes");
+        expect(screen.getByRole("tooltip").textContent).toBe("Click to hide the notes");
         act(() => { fireEvent.keyDown(document, { key: "Escape" }); });
         expect(screen.queryByRole("tooltip")).toBeNull();
     });
@@ -38,7 +38,7 @@ describe("TitleTooltips", () => {
     it("says the name of an icon that has no title", () => {
         render(<><TitleTooltips /><button type="button" aria-label="Frequency: what this means" data-testid="i">i</button></>);
         act(() => { fireEvent.pointerOver(screen.getByTestId("i"), { clientX: 5, clientY: 5 }); });
-        expect(screen.getByRole("tooltip").textContent).toBe("Frequency: what this means");
+        expect(screen.getByRole("tooltip").textContent).toBe("Click to learn about Frequency");
     });
 
     it("has no tip for a dropdown cell, whose value is on it", () => {

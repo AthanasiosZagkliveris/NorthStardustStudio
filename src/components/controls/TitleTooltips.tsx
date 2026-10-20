@@ -1,6 +1,6 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 
-import { aboveTipPosition, TooltipBox } from "./Tooltip.tsx";
+import { aboveTipPosition, hueOf, TooltipBox } from "./Tooltip.tsx";
 
 /**
  * THE APP'S TOOLTIP (the rules are in docs/design/26-tooltips.md). The browser draws a `title` as a plain white rectangle with a black frame and letters, in whatever
@@ -30,6 +30,42 @@ const isCut = (element: HTMLElement) => [element, ...element.querySelectorAll<HT
     return style.overflowX !== "visible" && style.visibility !== "hidden" && node.scrollWidth > node.clientWidth + 1;
 });
 
+/**
+ * THE WORDS OF A TOOLTIP: what a click does, said the same way everywhere ("Click to remove Offering 2", "Click to learn about Revenue", "Click to search, or press Ctrl+K"). A control's
+ * accessible name or title is written as a name ("Remove Offering 2", "Revenue: what this means"); this turns it into the sentence a tooltip says. A name that is already a sentence ("Click to ...") stays.
+ */
+export function tipWords(text: string): string {
+    const clean = text.trim();
+    if (/^click to /i.test(clean)) {
+        return clean;
+    }
+    // A key in brackets at the end ("(Ctrl+K)", "(Escape)", "(←)"): said as "or press ...".
+    const keyed = /^(.*?)\s*\((Ctrl\+\w+|Escape|Esc|Enter|[←→↑↓])\)$/.exec(clean);
+    if (keyed) {
+        return tipWords(keyed[1]) + ", or press " + keyed[2];
+    }
+    const rules: [RegExp, (match: RegExpExecArray) => string][] = [
+        [/^(.+): what this means$/i, m => "Click to learn about " + m[1]],
+        [/^(?:minimize|fold) (.+)$/i, m => "Click to hide " + m[1]],
+        [/^(?:maximize|unfold) (.+)$/i, m => "Click to show " + m[1]],
+        [/^previous (.+)$/i, m => "Click to go to the previous " + m[1]],
+        [/^next (.+)$/i, m => "Click to go to the next " + m[1]],
+        [/^sort$/i, () => "Click to sort"],
+        [/^sort (.+)$/i, m => "Click to filter and sort " + m[1]],
+        [/^search$/i, () => "Click to search"],
+        [/^back$/i, () => "Click to go back"],
+        [/^(low to high|high to low)$/i, m => "Click to order the costs from " + m[1].toLowerCase()],
+        [/^(remove|delete|add|open|close|move|show|hide|exit|reset|take|choose|clear|select|expand|collapse|edit|search) (.+)$/i, m => "Click to " + m[1].toLowerCase() + " " + m[2]]
+    ];
+    for (const [pattern, say] of rules) {
+        const match = pattern.exec(clean);
+        if (match) {
+            return say(match);
+        }
+    }
+    return clean;
+}
+
 /** What the tooltip of an element says, or null where it has none (the five rules above). */
 export function tipOf(element: HTMLElement): string | null {
     if (!element.matches(PRESSED) || element.matches("input, select, textarea")) {
@@ -40,7 +76,8 @@ export function tipOf(element: HTMLElement): string | null {
     const words = shown(element);
     // 2. An icon says its name (the title it was given, else its accessible name).
     if (words.length <= 2) {
-        return given ?? name ?? null;
+        const said = given ?? name;
+        return said ? tipWords(said) : null;
     }
     if (!given) {
         return null;
@@ -50,10 +87,10 @@ export function tipOf(element: HTMLElement): string | null {
     const extra = plain(given).split(" ").filter(word => word && !own.has(word));
     if (extra.length === 0) {
         // 3. Unless its words are cut short.
-        return isCut(element) ? given : null;
+        return isCut(element) ? tipWords(given) : null;
     }
     // 4. What the words do not say.
-    return extra.length >= 3 || isCut(element) ? given : null;
+    return extra.length >= 3 || isCut(element) ? tipWords(given) : null;
 }
 
 export default function TitleTooltips() {
@@ -147,5 +184,5 @@ export default function TitleTooltips() {
         setPosition(aboveTipPosition(tip.element.getBoundingClientRect(), box.current.getBoundingClientRect()));
     }, [tip]);
 
-    return tip ? <TooltipBox id={id} boxRef={box} position={position}>{tip.text}</TooltipBox> : null;
+    return tip ? <TooltipBox id={id} boxRef={box} position={position} hue={hueOf(tip.element)}>{tip.text}</TooltipBox> : null;
 }

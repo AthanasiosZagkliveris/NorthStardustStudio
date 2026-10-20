@@ -1,4 +1,4 @@
-import { KeyboardEvent, ReactNode, RefObject, useId, useLayoutEffect, useRef, useState } from "react";
+import { CSSProperties, KeyboardEvent, ReactNode, RefObject, useId, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 /**
@@ -81,7 +81,7 @@ export function useAboveTip<T extends HTMLElement>(text: string, options: {
             }
         },
         node: open
-            ? <TooltipBox id={id} boxRef={tip} position={position} className="action-tip">{text}</TooltipBox>
+            ? <TooltipBox id={id} boxRef={tip} position={position} className="action-tip" hue={anchor.current ? hueOf(anchor.current) : ""}>{text}</TooltipBox>
             : null
     };
 
@@ -90,11 +90,18 @@ export function useAboveTip<T extends HTMLElement>(text: string, options: {
 /**
  * THE TOOLTIP'S BOX, drawn by every tooltip of the app (the icons', the action symbols', the Roadmap's bars', the noted fields'): the dark label on the page body, hidden until it is placed so it never shows for a frame in the wrong spot. Each place chooses where it stands (`position`) and what it says (`children`); `className` adds only that place's own inside look.
  */
-export function TooltipBox({ id, boxRef, position, className, children }: {
+/** The card's hue a control stands in (the tooltip takes the card's tint, as every pop-up does), or "" where the control stands in no card. */
+export function hueOf(element: HTMLElement): string {
+    return getComputedStyle(element).getPropertyValue("--strategy-theme-hue").trim();
+}
+
+export function TooltipBox({ id, boxRef, position, className, hue, children }: {
     id: string;
     boxRef: RefObject<HTMLDivElement | null>;
     position: { left: number; top: number } | null;
     className?: string;
+    /** The hue of the card the control stands in. */
+    hue?: string;
     children: ReactNode;
 }) {
     return createPortal(
@@ -103,7 +110,8 @@ export function TooltipBox({ id, boxRef, position, className, children }: {
             id={id}
             role="tooltip"
             ref={boxRef}
-            style={position ? { left: position.left, top: position.top } : { left: 0, top: 0, visibility: "hidden" }}
+            data-tint={hue ? "" : undefined}
+            style={{ ...(position ? { left: position.left, top: position.top } : { left: 0, top: 0, visibility: "hidden" }), ...(hue ? { "--strategy-theme-hue": hue } : {}) } as CSSProperties}
         >
             {children}
         </div>,

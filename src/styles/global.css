@@ -1015,7 +1015,12 @@ h6 {
   z-index: 1000;
 
   max-width: min(360px, calc(100vw - 16px));
-  padding: 4px 8px;
+  /* One row of the pop-up cells' pitch: 32px, the words centred in it. */
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  min-height: var(--size-box-button);
+  padding: 0 12px;
 
   border: 1px solid var(--tooltip-border);
   border-radius: var(--radius-md);
@@ -1342,3 +1347,9 @@ label:has(> input[type="checkbox"]:not(:disabled)):hover > :not(input),
 }
 
 /* The dark theme dims the page less visibly (its text is light): the backdrop needs no lift. */
+
+/* A tooltip over a card is the card's family: its ground the tooltip's own mixed with the card's hue, its line the card's accent line. */
+.app-tooltip[data-tint] {
+  border-color: hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
+  background: color-mix(in srgb, var(--tooltip-bg) 78%, hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent)));
+}

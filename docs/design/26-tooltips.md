@@ -14,13 +14,22 @@ A tooltip is a small dark label above a control, in the app's own style (`Toolti
 
 A tooltip is one line, at most 360px wide, **in one place for every control**: its bottom 6px over the control's top and its middle on the control's middle (its right edge on the control's right edge where the control says so), under the control (6px) only where there is no room above, kept inside the window. It **never follows the pointer**. It opens under the pointer and on the keyboard focus, closes on Escape, on a press and when the pointer leaves. (This is the same place for the keyboard and the pointer: `aboveTipPosition`, `Tooltip.tsx`.)
 
-### How its words are written
+### How its words are written (2026-10-21)
 
-1. A verb first, in the imperative, for what a press does ("Show the page alone", "Reset every group to its default years", "Take it off the channel"); a noun phrase for what a control is or shows ("Number of instalments, from 1 to 99", "Recommended size: 36 to 48 px").
-2. The app's own terms are capitalised as everywhere else in the app (Offering, Resource, Status, Infrastructure & Capability, page names); no other word is.
-3. No full stop, no colon that joins a verb to its object, no brackets for a sentence (a comma instead). Brackets only for a key: "Search (Ctrl+K)", "Exit focus (Escape)", "Previous card (←)".
-4. "Reset ... to ..." for a return to a default; "Show ..." / "Hide ..." for what a control reveals; "Open ..." for what a press opens; "Add ..." and "Remove ..." for the + and the ×; "Created by ..." for the origin of a card.
-5. One line, no longer than it has to be.
+A tooltip says what a click does, in one sentence that begins "Click to ...": "Click to remove Offering 2", "Click to show Include", "Click to learn about Revenue", "Click to search, or press Ctrl+K". A control's name or title is written as a name (what a screen reader says: "Remove Offering 2", "Revenue: what this means"); one function (`tipWords`, `TitleTooltips.tsx`) turns it into the sentence, so no place writes its own and no two say the same thing two ways.
+
+| The name or title | The tooltip says |
+|---|---|
+| X: what this means (the "i") | Click to learn about X |
+| Minimize X, Fold X | Click to hide X |
+| Maximize X, Unfold X | Click to show X |
+| Remove X, Delete X, Add X, Open X, Close X, Move X up, Show X, Hide X, Reset X, Exit X ... | Click to remove X, delete, add, open, close, move, show, hide, reset, exit ... |
+| Previous X, Next X | Click to go to the previous X, Click to go to the next X |
+| Sort X (the funnel) | Click to filter and sort X |
+| Low to high, High to low (the cost order) | Click to order the costs from low to high, from high to low |
+| a name followed by a key: Search (Ctrl+K), Exit focus (Escape), Previous card (←) | the sentence, then ", or press Ctrl+K" |
+
+The app's own terms keep their capitals (Offering, Resource, Status, page names); no full stop; one line. A tile's circle says what it is, then what a click does: "Supplier: Hackney. Click to show only what Loom is connected to."
 
 ## 2. The list: which controls have one, and what it says
 
@@ -44,26 +53,26 @@ A tooltip is one line, at most 360px wide, **in one place for every control**: i
 
 `title` is the way a place gives words to the host (`title="..."` on a button or a link); the host removes it, gives the control its name (`aria-label` where it has no words, `aria-description` where it has) and decides by the rules. A place never writes a `title` that is its `aria-label`. The Roadmap's bars, the card tiles' tips, the action symbols and the noted fields draw their own through `useAboveTip` (the same box, the same placement).
 
-## 4. Every tooltip the code writes itself (a `title`), as of 2026-10-21
+## 4. The tooltips the code writes itself (a `title`), as of 2026-10-21
 
-The icons' tooltips (the "i", the ×, the +, the arrows, the funnel) are their accessible names (rule 2), written where each control is made; they are not repeated here. This is the list of the words a place writes by hand, with what each said before the review of 2026-10-21.
+The icons' tooltips (the "i", the ×, the +, the arrows, the funnel, the fold arrows) are their accessible names turned into the sentence of section 3 by `tipWords`. The words a place writes by hand are names too, and are said the same way:
 
-| Where | Says now | Said before |
+| Where | Written as | Said |
 |---|---|---|
-| Focus button (header) | Show the page alone | Focus: the page alone |
-| Focus button, while on | Exit focus (Escape) | (same) |
-| Search button | Search (Ctrl+K) | (same) |
-| "+" of Theme, Status, Performer, Resource, milestone | Add Theme / Add Status / Add Performer / Add Resource / Add milestone | (same) |
-| A box that holds a size (Brand style) | Recommended size: <range> px | Recommended <range> px |
-| The number of instalments | Number of instalments, from 1 to 99 | Number of instalments (1 to 99) |
-| A card a channel made, in the channel's list | Created by the channel <channel> | Created on <channel> |
-| A card taken off a channel | Take it off the channel, and its card off Offering's Capability | Take it off the channel (and its card off Offering's Capability) |
-| Show only the actions of a resource | Show only the actions of this resource / Show every action again | (same) |
-| A name that opens a card or a page | Open <name> / Open <name> on 3. Infrastructure & Capability | (same) |
-| A step of the carousel | Previous <what> (←) / Next <what> (→) | (same) |
-| Global Settings, a group's years | Reset <group> to <n> years | Set <group> back to <n> years |
-| Global Settings, every group | Reset every group to its default years | Set every group back to its default years |
-| Global Settings, the link to the page | Open the Infrastructure & Capability page | (same) |
-| The Inventory's funnel | Sort all tiles | Sort all tiles (filter and sort) |
-| The Inventory's chip × | Show all tiles again | Clear: show all tiles again |
-| A tile's symbol | <symbol> (show only what <name> is connected to) | (same, to be reviewed with the card tiles) |
+| Focus button (header) | Show the page alone | Click to show the page alone |
+| Focus button, while on | Exit focus (Escape) | Click to exit focus, or press Escape |
+| Search button | Search (Ctrl+K) | Click to search, or press Ctrl+K |
+| A card a channel made, in the channel's list | Open the card created by the channel <channel> | Click to open the card created by the channel <channel> |
+| A card taken off a channel | Take it off the channel, and its card off Offering's Capability | Click to take it off the channel, and its card off Offering's Capability |
+| Global Settings, a group's years | Reset <group> to <n> years | Click to reset <group> to <n> years |
+| Global Settings, every group | Reset every group to its default years | Click to reset every group to its default years |
+| A name that opens a card or a page | Open <name> | Click to open <name> |
+| A step of the carousel | Previous <what> (←) / Next <what> (→) | Click to go to the previous <what>, or press ← |
+| The Inventory's funnel | Sort all tiles | Click to filter and sort all tiles |
+| The Inventory's chip × | Show all tiles again | Click to show all tiles again |
+| A fold arrow of the funnel | Unfold Include | Click to show Include |
+| A tile's circle | <symbol>: <name> | <symbol>: <name>. Click to show only what <card> is connected to |
+
+### Look of a tooltip
+
+One pop-up cell of the 32px pitch (the words centred, 12px at each side), the body size at weight 500, the tooltip's own ground; over a card its ground and line are mixed with the card's hue (the pop-ups' rule, `review-criteria.md` section 6).

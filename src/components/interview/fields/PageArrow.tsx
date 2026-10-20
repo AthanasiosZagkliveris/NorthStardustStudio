@@ -49,11 +49,13 @@ export default function PageArrow({
         // (The tiles settle to their size a little after the page is drawn: measured again until they have.)
         const later = [100, 250, 500, 900, 1500].map(delay => window.setTimeout(level, delay));
         window.addEventListener("resize", level);
+        window.addEventListener("tiles-fit", level);
         const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(level);
         observer?.observe(document.body);
         return () => {
             later.forEach(timer => window.clearTimeout(timer));
             window.removeEventListener("resize", level);
+            window.removeEventListener("tiles-fit", level);
             observer?.disconnect();
             // (Only when the last arrow of the page goes: the other one of the pair, still there, keeps standing at it.)
             mounted -= 1;

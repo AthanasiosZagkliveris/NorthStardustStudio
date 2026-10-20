@@ -441,9 +441,12 @@ export default function BusinessCapabilityEditor({
         squeeze();
         const later = window.setTimeout(squeeze, 300);
         window.addEventListener("resize", squeeze);
+        // (The cards above give the row its room: measured again when they have their size.)
+        window.addEventListener("tiles-fit", squeeze);
         return () => {
             window.clearTimeout(later);
             window.removeEventListener("resize", squeeze);
+            window.removeEventListener("tiles-fit", squeeze);
         };
     });
 

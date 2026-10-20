@@ -121,6 +121,13 @@
 
 }
 
+/* The Inventory tile, the first of the row, grows outwards: upwards and to the left, about its bottom-right corner. */
+.section-tiles-completed .section-tile-slot:first-child {
+
+    transform-origin: 100% 100% !important;
+
+}
+
 /* THE ROW UNDER OFFERING'S CAPABILITY (Inventory, Completed) has tiles of the page's own size. The card above keeps at least 320px (its title and a row
    of tiles) and scrolls inside for the rest. */
 .answer-columns.business-capability > .section-tiles-completed {

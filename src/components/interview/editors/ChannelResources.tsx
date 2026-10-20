@@ -306,7 +306,7 @@ export default function ChannelResources(props: ChannelResourcesProps) {
                                 <button
                                     type="button"
                                     className="notepad-chip-open"
-                                    title={"Created by the channel " + channelName(link.channelId)}
+                                    title={"Open the card created by the channel " + channelName(link.channelId)}
                                     onClick={() => props.onOpenCard?.(card)}
                                 >
                                     <span className="notepad-chip-tag">{costCardName(card)}</span>
