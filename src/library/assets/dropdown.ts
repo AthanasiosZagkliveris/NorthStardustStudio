@@ -15,7 +15,7 @@ export const dropdown: AssetContract = {
     name: "Dropdown",
     kind: "dropdown",
     summary: "A drawn dropdown: a 44px trigger in one of the standard widths (or hugging its widest option) with a chevron, and a floating list of 43px options exactly as wide as the trigger.",
-    component: "src/components/interview/OptionPicker.tsx",
+    component: "src/components/interview/fields/OptionPicker.tsx",
     stylesheet: "src/styles/option-picker.css",
     alsoStylesheets: ["src/styles/global.css", "src/styles/conversation.css"],
     parts: ["trigger (button.interview-input with the value, a hidden copy of every option, and a drawn chevron)", "list (role listbox, floating under the trigger)", "option (role option; the chosen one bold, aria-selected)"],

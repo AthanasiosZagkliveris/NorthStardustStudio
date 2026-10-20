@@ -1,4 +1,4 @@
-import TextBox from "./TextBox.tsx";
+import TextBox from "./controls/TextBox.tsx";
 interface CapabilityInputProps {
 
     value: string;

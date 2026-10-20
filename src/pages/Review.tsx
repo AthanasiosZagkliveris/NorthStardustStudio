@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import AppFooter from "../components/AppFooter";
 import AppHeader from "../components/AppHeader";
-import { fieldLocation } from "../components/interview/openField";
+import { fieldLocation } from "../components/interview/tiles/openField";
 import { systems } from "../data/systems";
 import { nothingOpen, type ReviewGroup, type ReviewItem, type ReviewPlace } from "../framework/engine/ReviewItems";
 import { capabilities } from "../data/capabilities";

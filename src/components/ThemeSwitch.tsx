@@ -1,8 +1,8 @@
 import { KeyboardEvent, useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
 
-import { usePopupDismiss } from "./PopupPanel.tsx";
+import { usePopupDismiss } from "./controls/PopupPanel.tsx";
 import { ThemeService, ThemeChoice, type Theme } from "../services/ThemeService";
-import { consumeKey } from "./interview/consumeKey";
+import { consumeKey } from "./interview/fields/consumeKey";
 
 import "../styles/option-picker.css";
 import "../styles/theme-switch.css";

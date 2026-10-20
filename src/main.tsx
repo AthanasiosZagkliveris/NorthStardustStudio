@@ -23,7 +23,7 @@ import App from "./App";
 import "./styles/text-links.css";
 import "./styles/cell-focus.css";
 import "./styles/back-button.css";
-import { installTextLinkMarquee } from "./components/interview/textLinks.ts";
+import { installTextLinkMarquee } from "./components/interview/fields/textLinks.ts";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { ThemeService } from "./services/ThemeService";
 

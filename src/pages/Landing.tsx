@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import TextBox from "../components/TextBox.tsx";
+import TextBox from "../components/controls/TextBox.tsx";
 import { useNavigate } from "react-router-dom";
 
 import AppHeader from "../components/AppHeader";

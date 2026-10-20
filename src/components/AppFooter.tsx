@@ -1,4 +1,4 @@
-import BackButton from "./BackButton.tsx";
+import BackButton from "./controls/BackButton.tsx";
 import "../styles/workspace.css";
 
 interface AppFooterProps {

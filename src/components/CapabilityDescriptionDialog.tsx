@@ -1,4 +1,4 @@
-import BackButton from "./BackButton.tsx";
+import BackButton from "./controls/BackButton.tsx";
 import { Capability } from "../types/capability";
 import { CapabilityDescription } from "../framework/engine/CapabilityDescriptions.ts";
 import { getCapabilityIcon } from "../data/capabilityIcons.ts";

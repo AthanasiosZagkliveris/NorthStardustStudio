@@ -1,11 +1,11 @@
 import { Fragment, useEffect, useMemo, useState } from "react";
-import NumberCell from "../components/NumberCell.tsx";
-import TextBox from "../components/TextBox.tsx";
+import NumberCell from "../components/controls/NumberCell.tsx";
+import TextBox from "../components/controls/TextBox.tsx";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import AppFooter from "../components/AppFooter";
 import AppHeader from "../components/AppHeader";
-import { limitedNumberText, NUMBER_LIMITS, numberInputMode, type NumberLimit } from "../components/interview/numberInput";
+import { limitedNumberText, NUMBER_LIMITS, numberInputMode, type NumberLimit } from "../components/interview/fields/numberInput";
 import {
     asGlobalSettings,
     capitalisationLimitOf,
@@ -26,8 +26,8 @@ import { StorageService } from "../services/StorageService";
 import { AnswerType } from "../framework/enums/AnswerType";
 import { asBusinessCapabilityValue, asLegalEntityValue } from "../framework/engine/AnswerUtils";
 import { asFinancialFoundationValue, costStartDates, derivedPlanStart, withPlanStart, type FinancialFoundationValue } from "../framework/engine/FinancialModel";
-import FinancialPlanSettings from "../components/interview/FinancialPlanSettings";
-import InfoNote from "../components/interview/InfoNote";
+import FinancialPlanSettings from "../components/interview/editors/FinancialPlanSettings";
+import InfoNote from "../components/interview/fields/InfoNote";
 import { USEFUL_LIFE_MEANING, USEFUL_LIFE_SOURCES, usefulLifePoints } from "../framework/engine/UsefulLifeReferences";
 import { SOURCES } from "../framework/engine/Sources";
 

@@ -2,8 +2,8 @@ import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
-import FinancialFoundationEditor from "./FinancialFoundationEditor";
-import FinancialPlanSettings from "./FinancialPlanSettings";
+import FinancialFoundationEditor from "./editors/FinancialFoundationEditor";
+import FinancialPlanSettings from "./editors/FinancialPlanSettings";
 import { asBusinessCapabilityValue } from "../../framework/engine/AnswerUtils";
 import { asLegalEntityValue } from "../../framework/engine/AnswerUtils";
 import { asFinancialFoundationValue, consolidateCosts, splitAtOpening, type CostLine } from "../../framework/engine/FinancialModel";

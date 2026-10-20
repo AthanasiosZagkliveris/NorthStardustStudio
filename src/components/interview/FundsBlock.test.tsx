@@ -10,7 +10,7 @@ function render(ui: Parameters<typeof renderBase>[0], options?: Parameters<typeo
     return result;
 }
 
-import FinancialFoundationEditor from "./FinancialFoundationEditor";
+import FinancialFoundationEditor from "./editors/FinancialFoundationEditor";
 import { asBusinessCapabilityValue, asLegalEntityValue, createBusinessResourceSlot } from "../../framework/engine/AnswerUtils";
 import { calculatedLines } from "../../framework/engine/CalculatedLines";
 import { launchNeedOf } from "../../framework/engine/ContingencyFunds";

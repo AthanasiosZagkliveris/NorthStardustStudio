@@ -1,8 +1,8 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
-import CapabilityOverview, { tableRows } from "./CapabilityOverview";
-import { DEFAULT_FLOOR_FILTER, filterFloor, floorRows, type FloorRow } from "./capabilityFloor";
+import CapabilityOverview, { tableRows } from "./tiles/CapabilityOverview";
+import { DEFAULT_FLOOR_FILTER, filterFloor, floorRows, type FloorRow } from "./tiles/capabilityFloor";
 import { asBusinessCapabilityValue, createBusinessActivity, createBusinessPartner, createBusinessResourceSlot } from "../../framework/engine/AnswerUtils";
 
 /* G11: Inventory for the new structure: category and group paths, completed activities hidden unless asked for, the currency in the column header,

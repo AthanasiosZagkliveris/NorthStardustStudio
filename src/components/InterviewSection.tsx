@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Section, SectionBlock } from "../framework/model";
-import { questionLineClass } from "./interview/AnswerRenderer.tsx";
+import { questionLineClass } from "./interview/editors/AnswerRenderer.tsx";
 
 interface InterviewSectionProps {
     section: Section;

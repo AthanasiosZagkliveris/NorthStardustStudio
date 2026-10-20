@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 /** An editor's source, as the test runner reads it from the project root. */
-const source = (name: string) => readFileSync("src/components/interview/" + name, "utf8");
+const source = (name: string) => readFileSync("src/components/interview/editors/" + name, "utf8");
 
 describe("the one card order: fields, the Description, the tick-box link lists, then the card's state ticks last", () => {
 

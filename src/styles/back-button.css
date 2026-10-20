@@ -1,5 +1,5 @@
 /* ==========================================================
-   THE BACK BUTTON (src/components/BackButton.tsx): one look wherever it stands -- the tab's: the solid arrow, then the word in capitals, in the card's mid tone;
+   THE BACK BUTTON (src/components/controls/BackButton.tsx): one look wherever it stands -- the tab's: the solid arrow, then the word in capitals, in the card's mid tone;
    under the pointer or the keyboard, bold and the colour of the "+" box, the arrow growing 20% forward. Loaded after every other stylesheet, so no older rule of a
    place's own Back outranks it.
 ========================================================== */

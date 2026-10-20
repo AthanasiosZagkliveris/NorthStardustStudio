@@ -14,7 +14,7 @@ export const foldArrow: AssetContract = {
     name: "Fold arrow",
     kind: "fold arrow",
     summary: "The standard 36px fold arrow: a solid triangle, right while folded and down while open. A ground and a card-line stroke under the pointer; a primary stroke under the keyboard focus.",
-    component: "src/components/interview/FoldArrow.tsx",
+    component: "src/components/interview/fields/FoldArrow.tsx",
     stylesheet: "src/styles/conversation.css",
     alsoStylesheets: ["src/styles/card-folding.css"],
     parts: ["button (36px square, 1px stroke, transparent at rest)", "triangle (::before, drawn with borders from the button's middle)"],

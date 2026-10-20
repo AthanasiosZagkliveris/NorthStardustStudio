@@ -3,7 +3,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
-import LegalEntityEditor from "./LegalEntityEditor";
+import LegalEntityEditor from "./editors/LegalEntityEditor";
 import { asLegalEntityValue, createLegalEntityExpense } from "../../framework/engine/AnswerUtils";
 import { asFinancialFoundationValue, consolidateCosts } from "../../framework/engine/FinancialModel";
 import { asBusinessCapabilityValue } from "../../framework/engine/AnswerUtils";
@@ -91,7 +91,7 @@ describe("the Legal Entity expense card", () => {
 
 describe("what cannot be in the Formation's date", () => {
     it("says a registered company's date is not in the future, nor after the Opening Date", async () => {
-        const { formationIssues } = await import("./LegalEntityEditor.tsx");
+        const { formationIssues } = await import("./editors/LegalEntityEditor.tsx");
         expect(formationIssues({ status: "registered", date: "2999-01-01" })).toHaveLength(1);
         expect(formationIssues({ status: "registered", date: "2020-05-01" }, "2020-01-01")).toHaveLength(1);
         expect(formationIssues({ status: "registered", date: "2020-05-01" }, "2020-09-01")).toEqual([]);

@@ -20,7 +20,7 @@ import {
     forecastCsv,
     forecastView
 } from "../framework/engine/FinancialForecast.ts";
-import OptionPicker from "../components/interview/OptionPicker.tsx";
+import OptionPicker from "../components/interview/fields/OptionPicker.tsx";
 import { contentSectionsHtml, documentMetaHtml } from "../framework/engine/PdfExporter.ts";
 import { OrganizationService } from "../services/OrganizationService";
 import { asGlobalSettings } from "../framework/engine/GlobalSettings";

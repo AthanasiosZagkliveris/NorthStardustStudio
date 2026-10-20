@@ -2,8 +2,8 @@ import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
-import StrategicPeriodEditor from "./StrategicPeriodEditor";
-import StrategicRoadmapEditor from "./StrategicRoadmapEditor";
+import StrategicPeriodEditor from "./editors/StrategicPeriodEditor";
+import StrategicRoadmapEditor from "./editors/StrategicRoadmapEditor";
 import {
     StrategicPeriodValue,
     StrategyRangeValue,

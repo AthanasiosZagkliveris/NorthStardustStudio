@@ -2,7 +2,7 @@ import "../../styles/conversation.css";
 import "../../styles/section-tiles.css";
 import "../../styles/page-3-edges.css";
 
-import InfoNote, { InfoText } from "../../components/interview/InfoNote";
+import InfoNote, { InfoText } from "../../components/interview/fields/InfoNote";
 import { PALETTE } from "../../framework/engine/Palette";
 import type { AssetContract, AssetVariant } from "../contract";
 import Sample, { GROUNDS } from "./Sample";

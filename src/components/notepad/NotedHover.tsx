@@ -1,9 +1,9 @@
 import { RefObject, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
-import { TooltipBox } from "../Tooltip.tsx";
+import { TooltipBox } from "../controls/Tooltip.tsx";
 
 import { NotepadService, type Note } from "../../services/NotepadService";
-import { consumeKey } from "../interview/consumeKey";
-import { placeTooltip } from "../interview/roadmapTooltip";
+import { consumeKey } from "../interview/fields/consumeKey";
+import { placeTooltip } from "../interview/editors/roadmapTooltip";
 
 /*
     A FIELD IN YOUR NOTES, AND ITS NOTES: pointing at one shows the other.

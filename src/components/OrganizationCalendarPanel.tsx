@@ -4,8 +4,8 @@ import { CalendarTaskAnnotation, OrganizationService } from "../services/Organiz
 import { NotepadService } from "../services/NotepadService";
 import { CalendarTask, getCalendarTasks } from "../services/CalendarTaskService";
 import { DateFormat, PreferencesService } from "../services/PreferencesService.ts";
-import { isoToDisplay } from "./interview/DateCellInput.tsx";
-import NotesField from "./interview/NotesField.tsx";
+import { isoToDisplay } from "./interview/fields/DateCellInput.tsx";
+import NotesField from "./interview/fields/NotesField.tsx";
 import CalendarFunnel, { CALENDAR_INCLUDES } from "./CalendarFunnel.tsx";
 import { CARD_DATE_KINDS, type CardDateKind } from "../framework/engine/CalendarCardDates.ts";
 import { type CalendarPeriod, loadCustomPeriods, presetPeriods, saveCustomPeriods } from "../services/CalendarPeriods.ts";

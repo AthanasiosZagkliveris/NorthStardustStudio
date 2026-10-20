@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { useState } from "react";
 
-import { OptionalNote } from "./BusinessCardFields";
+import { OptionalNote } from "./cards/BusinessCardFields";
 import { UndoService } from "../../services/UndoService";
 
 afterEach(cleanup);

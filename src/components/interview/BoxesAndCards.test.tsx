@@ -2,8 +2,8 @@ import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
 import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 
-import BusinessCapabilityEditor from "./BusinessCapabilityEditor";
-import OptionPicker from "./OptionPicker";
+import BusinessCapabilityEditor from "./editors/BusinessCapabilityEditor";
+import OptionPicker from "./fields/OptionPicker";
 import { captionText, closeTile, floatingCardHost, infrastructureCard, offeringCard, openBox, openCard, openTile, tileButton, topDialog } from "../../test/interviewTestUtils";
 import { asBusinessCapabilityValue, createBusinessActivity, createBusinessPartner, createBusinessResourceSlot } from "../../framework/engine/AnswerUtils";
 import { stylesheet } from "../../test/stylesheet";

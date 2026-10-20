@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
-import BusinessCapabilityEditor from "./BusinessCapabilityEditor";
+import BusinessCapabilityEditor from "./editors/BusinessCapabilityEditor";
 import { openTile, topDialog } from "../../test/interviewTestUtils";
 import { incompleteCards } from "../../framework/engine/CardCompleteness";
 import {

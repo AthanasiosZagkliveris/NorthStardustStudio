@@ -1,5 +1,5 @@
 /* ==========================================================
-   THE TEXT LINKS (src/components/interview/textLinks.ts lists their classes; a test says this list and that one agree).
+   THE TEXT LINKS (src/components/interview/fields/textLinks.ts lists their classes; a test says this list and that one agree).
    Every link in text, wherever it stands, is one thing:
    - at rest: the default blue, regular weight, the body size, the letter spacing of a bold (the text does not move when it goes bold), no underline;
    - one row only (a longer text is cut by an ellipsis at rest);

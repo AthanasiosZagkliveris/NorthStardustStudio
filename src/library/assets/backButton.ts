@@ -21,7 +21,7 @@ export const backButton: AssetContract = {
     name: "Back button",
     kind: "navigation button",
     summary: "The way back out of a dialog or card: a left-pointing triangle and the word Back. Plain at rest; the card's tint, thickened, under the pointer and the focus.",
-    component: "src/components/interview/SectionTiles.tsx (the dialog foot's .section-tile-back, the rail tab's .carousel-rail-back)",
+    component: "src/components/interview/tiles/SectionTiles.tsx (the dialog foot's .section-tile-back, the rail tab's .carousel-rail-back)",
     stylesheet: "src/styles/section-tiles.css",
     alsoStylesheets: ["src/styles/label-arrow.css", "src/styles/global.css"],
     parts: ["button", "back-arrow (a solid left-pointing triangle, 0.8em high)", "the word Back (capitals in the rail form)"],

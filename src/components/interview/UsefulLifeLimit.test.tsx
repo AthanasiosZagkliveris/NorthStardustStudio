@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
 import { cleanup, render, screen } from "@testing-library/react";
 
-import BusinessCapabilityEditor from "./BusinessCapabilityEditor";
+import BusinessCapabilityEditor from "./editors/BusinessCapabilityEditor";
 import { openTile } from "../../test/interviewTestUtils";
 import { asBusinessCapabilityValue, createBusinessPartner, createBusinessResourceSlot } from "../../framework/engine/AnswerUtils";
 import { createGlobalSettings } from "../../framework/engine/GlobalSettings";

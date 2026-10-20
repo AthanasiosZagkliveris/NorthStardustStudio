@@ -36,7 +36,7 @@ Tiles open a dialog; a dialog lists card boxes; a card box opens a floating card
 
 ## Where things are in the code
 - Pages and editors: `src/components/interview/*Editor.tsx`; the page shell `src/pages/Conversation.tsx`; Global Settings `src/pages/GlobalSettings.tsx`.
-- Tiles, dialogs, floating cards, carousel: `src/components/interview/SectionTiles.tsx` (+ `CardBoxes.tsx`, `CardTile.tsx`).
+- Tiles, dialogs, floating cards, carousel: `src/components/interview/tiles/SectionTiles.tsx` (+ `CardBoxes.tsx`, `CardTile.tsx`).
 - Data shapes and readers: `src/framework/engine/AnswerUtils.ts`; the money model: `FinancialModel.ts`; settings: `GlobalSettings.ts`; calendar dates: `CalendarCardDates.ts`.
 - Styles: `src/styles/` (tokens in `global.css`; tiles and cards in `section-tiles.css`).
 - Examples: `src/data/examples/`. Rules for AI assistants: `docs/ai/README.md`.

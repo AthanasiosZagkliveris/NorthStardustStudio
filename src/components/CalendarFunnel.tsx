@@ -1,9 +1,9 @@
 import { useRef, useState } from "react";
-import { usePopupDismiss } from "./PopupPanel.tsx";
-import TickField from "./TickField.tsx";
-import TextBox from "./TextBox.tsx";
-import OptionPicker from "./interview/OptionPicker.tsx";
-import DateCellInput from "./interview/DateCellInput";
+import { usePopupDismiss } from "./controls/PopupPanel.tsx";
+import TickField from "./controls/TickField.tsx";
+import TextBox from "./controls/TextBox.tsx";
+import OptionPicker from "./interview/fields/OptionPicker.tsx";
+import DateCellInput from "./interview/fields/DateCellInput";
 
 import { CARD_DATE_KINDS, type CardDateKind } from "../framework/engine/CalendarCardDates";
 import { newCustomPeriod, type CalendarPeriod } from "../services/CalendarPeriods";

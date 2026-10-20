@@ -1,4 +1,4 @@
-import FoldArrow from "../../components/interview/FoldArrow";
+import FoldArrow from "../../components/interview/fields/FoldArrow";
 import { PALETTE } from "../../framework/engine/Palette";
 import type { AssetContract } from "../contract";
 import Sample, { GROUNDS } from "./Sample";

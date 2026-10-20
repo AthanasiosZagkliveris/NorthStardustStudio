@@ -4,7 +4,7 @@ import { useRef } from "react";
 
 import UndoToast, { UNDO_TIME } from "./UndoToast";
 import { offerRemovalUndo, UndoService } from "../services/UndoService";
-import { useRemovalMarks } from "./interview/removalMarks";
+import { useRemovalMarks } from "./interview/cards/removalMarks";
 
 beforeEach(() => {
     vi.useFakeTimers();

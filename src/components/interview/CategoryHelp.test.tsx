@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
-import BusinessCapabilityEditor from "./BusinessCapabilityEditor";
+import BusinessCapabilityEditor from "./editors/BusinessCapabilityEditor";
 import { openTile } from "../../test/interviewTestUtils";
 import { asBusinessCapabilityValue, groupHelpLines } from "../../framework/engine/AnswerUtils";
 

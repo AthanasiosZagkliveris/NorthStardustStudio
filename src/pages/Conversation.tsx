@@ -1,14 +1,14 @@
 import { Fragment, ReactNode, useCallback, useEffect, useRef, useState } from "react";
-import TextBox from "../components/TextBox.tsx";
+import TextBox from "../components/controls/TextBox.tsx";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import AppHeader from "../components/AppHeader";
 import AppFooter from "../components/AppFooter";
-import InterviewHeader from "../components/interview/InterviewHeader";
+import InterviewHeader from "../components/interview/editors/InterviewHeader";
 import InterviewProgress, { SHOW_PROGRESS_LINE } from "../components/InterviewProgress";
 import InterviewSection from "../components/InterviewSection";
 import { groupOf, isCompanion, primaryOf } from "../framework/engine/PageGroups";
-import AnswerRenderer from "../components/interview/AnswerRenderer";
+import AnswerRenderer from "../components/interview/editors/AnswerRenderer";
 
 import { InterviewManager, ReviewManager } from "../framework/application";
 import { InterviewSession } from "../framework/interview";
@@ -61,19 +61,19 @@ import { offerRemovalUndo, UndoService } from "../services/UndoService";
 import { FocusModeService } from "../services/FocusModeService";
 import { useFocusMode } from "../components/FocusModeButton";
 import { systems } from "../data/systems";
-import { focusField, focusText, jumpTo, type OpenPage } from "../components/interview/jumpTo.ts";
-import { FieldPageProvider } from "../components/interview/fieldMarks.tsx";
+import { focusField, focusText, jumpTo, type OpenPage } from "../components/interview/tiles/jumpTo.ts";
+import { FieldPageProvider } from "../components/interview/fields/fieldMarks.tsx";
 import BulletRail from "../components/interview/rails/BulletRail";
-import PageArrow, { pageKey } from "../components/interview/PageArrow";
+import PageArrow, { pageKey } from "../components/interview/fields/PageArrow";
 
 /** The Introduction's place on the PAGES rail, above "1. …". */
 const INTRODUCTION_RAIL_ID = "introduction";
-import ListStatic from "../components/interview/ListStatic";
+import ListStatic from "../components/interview/fields/ListStatic";
 import { drawnAsTiles, pageIndexFromRailId, pageRailItems, sectionRailItems } from "../components/interview/rails/railItems";
 import { pageStatuses } from "../framework/engine/PageStatus";
 import { sectionStatuses } from "../framework/engine/SectionStatus";
 import { scrollToRailSection, useActiveRailSection } from "../components/interview/rails/useActiveRailSection";
-import { toggledIn } from "../components/interview/toggledIn";
+import { toggledIn } from "../components/interview/fields/toggledIn";
 
 import useRailTab from "../hooks/useRailTab.ts";
 import useScrollRules from "../hooks/useScrollRules.ts";

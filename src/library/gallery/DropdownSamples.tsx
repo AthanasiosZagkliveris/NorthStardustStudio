@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import OptionPicker from "../../components/interview/OptionPicker";
+import OptionPicker from "../../components/interview/fields/OptionPicker";
 import { PALETTE } from "../../framework/engine/Palette";
 import type { AssetContract } from "../contract";
 import Sample, { GROUNDS } from "./Sample";

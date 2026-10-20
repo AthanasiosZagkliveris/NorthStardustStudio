@@ -3,7 +3,7 @@ import { frameworkRegistry } from "../../framework/engine/FrameworkRegistry";
 import { registeredFields, parseFieldKey } from "../../framework/engine/FieldKeys";
 import { OrganizationService } from "../../services/OrganizationService";
 import type { NoteLink } from "../../services/NotepadService";
-import { fieldLocation } from "../interview/openField";
+import { fieldLocation } from "../interview/tiles/openField";
 import { pageFields, pageRailItems, sectionRailItems } from "../interview/rails/railItems";
 import type { FrameworkSystem } from "../../types/system";
 

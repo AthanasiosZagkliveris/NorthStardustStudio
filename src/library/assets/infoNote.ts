@@ -19,7 +19,7 @@ export const infoNote: AssetContract = {
     name: "Info note",
     kind: "round button",
     summary: "A 24px round \"i\" after a label that opens a note. A swap of two colours under the pointer (the disc filled, the letter in the ground colour); it never changes size.",
-    component: "src/components/interview/InfoNote.tsx",
+    component: "src/components/interview/fields/InfoNote.tsx",
     stylesheet: "src/styles/conversation.css",
     alsoStylesheets: ["src/styles/section-tiles.css", "src/styles/page-3-edges.css", "src/styles/global.css"],
     parts: ["button (24px disc with a stroke)", "the letter i (bold italic, small size)", "an invisible 24px hit area (::after)"],

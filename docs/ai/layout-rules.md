@@ -1360,7 +1360,7 @@ Written from the asset contracts in `src/library`; the library runner (`npm run 
 
 One frameless triangle beside a label or a title that shows or hides what belongs to it. Outline at rest, filled under the pointer and the keyboard focus; right while hidden, down while open.
 
-- **Kind:** fold arrow. **Code:** `src/components/interview/LabelArrow.tsx`. **Stylesheet:** `src/styles/label-arrow.css`.
+- **Kind:** fold arrow. **Code:** `src/components/interview/fields/LabelArrow.tsx`. **Stylesheet:** `src/styles/label-arrow.css`.
 - **Parts:** button (the hit area); triangle (svg polygon, 2px line inside its edge).
 - **States:** rest, hover, focus, closed, open.
 - **Used in:** chapter titles of 3. Infrastructure & Capability; a founder's Responsibilities and Completed; a card's Links; the Initiatives of an Objective.
@@ -1425,7 +1425,7 @@ A square button with a drawn plus that adds a card or a row. A swap of two colou
 
 A 24px round "i" after a label that opens a note. A swap of two colours under the pointer (the disc filled, the letter in the ground colour); it never changes size.
 
-- **Kind:** round button. **Code:** `src/components/interview/InfoNote.tsx`. **Stylesheet:** `src/styles/conversation.css` (also `src/styles/section-tiles.css`, `src/styles/page-3-edges.css`, `src/styles/global.css`).
+- **Kind:** round button. **Code:** `src/components/interview/fields/InfoNote.tsx`. **Stylesheet:** `src/styles/conversation.css` (also `src/styles/section-tiles.css`, `src/styles/page-3-edges.css`, `src/styles/global.css`).
 - **Parts:** button (24px disc with a stroke); the letter i (bold italic, small size); an invisible 24px hit area (::after).
 - **States:** rest, hover, focus, open.
 - **Used in:** after the label of nearly every field and every section or column title; dialog headers and the box names over a floating card; a tick box's label (outside it).
@@ -1460,7 +1460,7 @@ A 24px round "i" after a label that opens a note. A swap of two colours under th
 
 A 32px square with a drawn X that removes a card or a row. Red stroke and X at rest, filled red under the pointer and the focus; it never changes size.
 
-- **Kind:** remove button. **Code:** `src/components/interview/BusinessCardFields.tsx (RemoveButton) and the other cards that use .strategy-box-remove`. **Stylesheet:** `src/styles/remove-button.css` (also `src/styles/section-tiles.css`, `src/styles/global.css`).
+- **Kind:** remove button. **Code:** `src/components/interview/cards/BusinessCardFields.tsx (RemoveButton) and the other cards that use .strategy-box-remove`. **Stylesheet:** `src/styles/remove-button.css` (also `src/styles/section-tiles.css`, `src/styles/global.css`).
 - **Parts:** button (the square, 2px stroke); two bars (::before, ::after) turned +45 and -45 degrees, drawn from the middle of the box.
 - **States:** rest, hover, focus, disabled.
 - **Used in:** every card's delete and every row's remove (performers, milestones, costs, partners ...); the older removes that share its look: profile cards, brand holder clear, legal entity field remove.
@@ -1532,7 +1532,7 @@ The Pages and Sections rails: a column of items, each a bullet and a label in on
 
 The way back out of a dialog or card: a left-pointing triangle and the word Back. Plain at rest; the card's tint, thickened, under the pointer and the focus.
 
-- **Kind:** navigation button. **Code:** `src/components/interview/SectionTiles.tsx (the dialog foot's .section-tile-back, the rail tab's .carousel-rail-back`. **Stylesheet:** `src/styles/section-tiles.css` (also `src/styles/label-arrow.css`, `src/styles/global.css`).
+- **Kind:** navigation button. **Code:** `src/components/interview/tiles/SectionTiles.tsx (the dialog foot's .section-tile-back, the rail tab's .carousel-rail-back`. **Stylesheet:** `src/styles/section-tiles.css` (also `src/styles/label-arrow.css`, `src/styles/global.css`).
 - **Parts:** button; back-arrow (a solid left-pointing triangle, 0.8em high); the word Back (capitals in the rail form).
 - **States:** rest, hover, focus.
 - **Used in:** the foot of every section dialog; the rail tab beside a dialog's card.
@@ -1566,7 +1566,7 @@ The way back out of a dialog or card: a left-pointing triangle and the word Back
 
 The standard 36px fold arrow: a solid triangle, right while folded and down while open. A ground and a card-line stroke under the pointer; a primary stroke under the keyboard focus.
 
-- **Kind:** fold arrow. **Code:** `src/components/interview/FoldArrow.tsx`. **Stylesheet:** `src/styles/conversation.css` (also `src/styles/card-folding.css`).
+- **Kind:** fold arrow. **Code:** `src/components/interview/fields/FoldArrow.tsx`. **Stylesheet:** `src/styles/conversation.css` (also `src/styles/card-folding.css`).
 - **Parts:** button (36px square, 1px stroke, transparent at rest); triangle (::before, drawn with borders from the button's middle).
 - **States:** rest, hover, focus, open, closed.
 - **Used in:** every folding card, group and section head; the Segment card's arrow column, the Relationship Type rows, the Customer Engagement reference rows.
@@ -1595,7 +1595,7 @@ The standard 36px fold arrow: a solid triangle, right while folded and down whil
 
 A drawn dropdown: a 44px trigger in one of the standard widths (or hugging its widest option) with a chevron, and a floating list of 43px options exactly as wide as the trigger.
 
-- **Kind:** dropdown. **Code:** `src/components/interview/OptionPicker.tsx`. **Stylesheet:** `src/styles/option-picker.css` (also `src/styles/global.css`, `src/styles/conversation.css`).
+- **Kind:** dropdown. **Code:** `src/components/interview/fields/OptionPicker.tsx`. **Stylesheet:** `src/styles/option-picker.css` (also `src/styles/global.css`, `src/styles/conversation.css`).
 - **Parts:** trigger (button.interview-input with the value, a hidden copy of every option, and a drawn chevron); list (role listbox, floating under the trigger); option (role option; the chosen one bold, aria-selected).
 - **States:** rest, hover, focus, open, disabled.
 - **Used in:** every choice of one value on the Foundation pages and in the cards; frequencies, statuses, types, currencies, countries (searchable).
@@ -1638,7 +1638,7 @@ A drawn dropdown: a 44px trigger in one of the standard widths (or hugging its w
 
 The one surface every floating card stands on: 492px wide (a founder's 297px), 8px corners, 12px padding and 12px between everything, a height that follows its contents, an inset light and shade edge and a drop shadow, in the tint of its tile and the colours of the reading mode.
 
-- **Kind:** card base. **Code:** `src/components/interview/SectionTiles.tsx, the FloatingCards component`. **Stylesheet:** `src/styles/section-tiles.css` (also `src/styles/page-3-edges.css`, `src/styles/global.css`).
+- **Kind:** card base. **Code:** `src/components/interview/tiles/SectionTiles.tsx, the FloatingCards component`. **Stylesheet:** `src/styles/section-tiles.css` (also `src/styles/page-3-edges.css`, `src/styles/global.css`).
 - **Parts:** host (a dialog over the dimmed page, placed by its tile); stack (one card, or a parent above its child); item (the box name, then the card); caption (the box name, with the box's "i"); body (the card: its ground, edge and shadow).
 - **States:** rest, open.
 - **Used in:** every floating card on the Foundation pages (Identity, Brand, Business, Strategy); the Resource, Activity, Partner, Provider, Founder, Legal Entity and Brand cards.

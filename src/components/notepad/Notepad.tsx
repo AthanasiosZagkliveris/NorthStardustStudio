@@ -1,8 +1,8 @@
 import { KeyboardEvent, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
-import TextField from "../TextField.tsx";
-import AddButton from "../AddButton.tsx";
-import TickBox from "../TickBox.tsx";
-import RemoveButton from "../RemoveButton.tsx";
+import TextField from "../controls/TextField.tsx";
+import AddButton from "../controls/AddButton.tsx";
+import TickBox from "../controls/TickBox.tsx";
+import RemoveButton from "../controls/RemoveButton.tsx";
 import { useNavigate } from "react-router-dom";
 
 import { NotepadService, type Note, type NoteLink } from "../../services/NotepadService";
@@ -10,14 +10,14 @@ import { UndoService } from "../../services/UndoService";
 import { markFieldsHot } from "./NotedHover";
 import { OrganizationService } from "../../services/OrganizationService";
 import { CardNotesService } from "../../services/CardNotesService";
-import ResponsibilityFilter from "../interview/ResponsibilityFilter.tsx";
+import ResponsibilityFilter from "../interview/fields/ResponsibilityFilter.tsx";
 import { parseFieldKey, registeredFields } from "../../framework/engine/FieldKeys";
-import { consumeKey } from "../interview/consumeKey";
-import DateCellInput, { isoToDisplay } from "../interview/DateCellInput";
+import { consumeKey } from "../interview/fields/consumeKey";
+import DateCellInput, { isoToDisplay } from "../interview/fields/DateCellInput";
 import { PreferencesService } from "../../services/PreferencesService";
 
 import "../../styles/notepad.css";
-import TextLink from "../interview/TextLink.tsx";
+import TextLink from "../interview/fields/TextLink.tsx";
 
 /*
     THE NOTEPAD (NotepadService.ts): the header's "Notes" button, the

@@ -9,7 +9,7 @@ import { FocusModeService } from "../services/FocusModeService";
 
 // The Strategy confirmation is only reached through real Strategy
 // content; a stand-in Foundation page asks for it directly.
-vi.mock("../components/interview/StrategyFoundationEditor.tsx", () => ({
+vi.mock("../components/interview/editors/StrategyFoundationEditor.tsx", () => ({
     default: (props: { guardSituationRefresh?: (apply: () => void) => void }) => (
         <button type="button" onClick={() => props.guardSituationRefresh?.(() => {})}>
             Ask to refresh

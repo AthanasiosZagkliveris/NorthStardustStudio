@@ -1,4 +1,4 @@
-import LabelArrow from "../../components/interview/LabelArrow";
+import LabelArrow from "../../components/interview/fields/LabelArrow";
 import { PALETTE } from "../../framework/engine/Palette";
 import type { AssetContract, AssetVariant } from "../contract";
 import Sample, { GROUNDS } from "./Sample";

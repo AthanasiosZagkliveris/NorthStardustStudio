@@ -13,7 +13,7 @@ export const removeX: AssetContract = {
     name: "Remove x",
     kind: "remove button",
     summary: "A 32px square with a drawn X that removes a card or a row. Red stroke and X at rest, filled red under the pointer and the focus; it never changes size.",
-    component: "src/components/interview/BusinessCardFields.tsx (RemoveButton) and the other cards that use .strategy-box-remove",
+    component: "src/components/interview/cards/BusinessCardFields.tsx (RemoveButton) and the other cards that use .strategy-box-remove",
     stylesheet: "src/styles/remove-button.css",
     alsoStylesheets: ["src/styles/section-tiles.css", "src/styles/global.css"],
     parts: ["button (the square, 2px stroke)", "two bars (::before, ::after) turned +45 and -45 degrees, drawn from the middle of the box"],

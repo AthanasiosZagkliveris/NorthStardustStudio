@@ -10,9 +10,9 @@ function render(ui: Parameters<typeof renderBase>[0], options?: Parameters<typeo
     return result;
 }
 
-import FinancialFoundationEditor from "./FinancialFoundationEditor";
-import FinancialSustainabilityEditor from "./FinancialSustainabilityEditor";
-import FinancialPlanSettings from "./FinancialPlanSettings";
+import FinancialFoundationEditor from "./editors/FinancialFoundationEditor";
+import FinancialSustainabilityEditor from "./editors/FinancialSustainabilityEditor";
+import FinancialPlanSettings from "./editors/FinancialPlanSettings";
 import { asLegalEntityValue } from "../../framework/engine/AnswerUtils";
 import { toggles, typeInto } from "../../test/interviewTestUtils";
 import { asFinancialFoundationValue, asFinancialSustainabilityValue, createFundingSource } from "../../framework/engine/FinancialModel";

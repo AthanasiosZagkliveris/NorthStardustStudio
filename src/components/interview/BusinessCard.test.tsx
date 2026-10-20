@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { cleanup, render, screen } from "@testing-library/react";
 
-import { BusinessCard } from "./BusinessCardFields";
+import { BusinessCard } from "./cards/BusinessCardFields";
 
 afterEach(cleanup);
 
