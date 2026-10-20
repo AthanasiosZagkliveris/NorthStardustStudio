@@ -2,8 +2,8 @@ import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
-import BusinessCapabilityEditor from "./editors/BusinessCapabilityEditor";
-import { offeringCard, openBox, openCard, openTile } from "../../test/interviewTestUtils";
+import BusinessCapabilityEditor from "../editors/BusinessCapabilityEditor";
+import { offeringCard, openBox, openCard, openTile } from "../../../test/interviewTestUtils";
 import {
     asBusinessCapabilityValue,
     billingOf,
@@ -12,9 +12,9 @@ import {
     createBusinessPartner,
     createBusinessResourceSlot,
     optionFrequenciesOf
-} from "../../framework/engine/AnswerUtils";
-import { incompleteCards } from "../../framework/engine/CardCompleteness";
-import { createGlobalSettings } from "../../framework/engine/GlobalSettings";
+} from "../../../framework/engine/AnswerUtils";
+import { incompleteCards } from "../../../framework/engine/CardCompleteness";
+import { createGlobalSettings } from "../../../framework/engine/GlobalSettings";
 
 /* I3: the cost option and billing type of Platforms & Payments, Revenue Partners, Royalties, Insurances and Licences (and the courier's and the campaign's options). */
 

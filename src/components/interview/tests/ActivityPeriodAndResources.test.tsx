@@ -2,9 +2,9 @@ import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
-import BusinessCapabilityEditor from "./editors/BusinessCapabilityEditor";
-import { openTile, topDialog } from "../../test/interviewTestUtils";
-import { incompleteCards } from "../../framework/engine/CardCompleteness";
+import BusinessCapabilityEditor from "../editors/BusinessCapabilityEditor";
+import { openTile, topDialog } from "../../../test/interviewTestUtils";
+import { incompleteCards } from "../../../framework/engine/CardCompleteness";
 import {
     activityDateIssues,
     activityPeriod,
@@ -13,7 +13,7 @@ import {
     createBusinessPartner,
     createBusinessResourceSlot,
     resourcesStartingTooLate
-} from "../../framework/engine/AnswerUtils";
+} from "../../../framework/engine/AnswerUtils";
 
 /* H1: an activity's period, its Start date and Type, the resources it uses, and how many people a performer is. */
 

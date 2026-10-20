@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 
 import { describe, expect, it } from "vitest";
 import { act, cleanup, fireEvent, render as renderBase, screen, within } from "@testing-library/react";
-import { openFolds } from "../../test/openFolds.ts";
+import { openFolds } from "../../../test/openFolds.ts";
 
 /** The page as it opens, its structural sections opened (every fold arrow starts closed: see openFolds). */
 function render(ui: Parameters<typeof renderBase>[0], options?: Parameters<typeof renderBase>[1]) {
@@ -12,7 +12,7 @@ function render(ui: Parameters<typeof renderBase>[0], options?: Parameters<typeo
 }
 import { useState } from "react";
 
-import BusinessEngagementEditor, { channelNameOptions, stageIsUsual, stageOptionsFor } from "./editors/BusinessEngagementEditor";
+import BusinessEngagementEditor, { channelNameOptions, stageIsUsual, stageOptionsFor } from "../editors/BusinessEngagementEditor";
 import {
     BUSINESS_CHANNEL_CATEGORIES,
     BUSINESS_CHANNEL_OTHER,
@@ -26,7 +26,7 @@ import {
     createBusinessCustomerSegment,
     createBusinessResourceSlot,
     createBusinessSegmentEngagement
-} from "../../framework/engine/AnswerUtils";
+} from "../../../framework/engine/AnswerUtils";
 
 /** Opens a fold that is closed; where the item starts OPEN (Customer Engagement, the financial pages) it is left as it is. */
 function openFold(toggle: Element) {

@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 
-import { freshCards } from "./cards/freshCards.ts";
-import { MissingScope } from "./cards/BusinessCardFields.tsx";
+import { freshCards } from "../cards/freshCards.ts";
+import { MissingScope } from "../cards/BusinessCardFields.tsx";
 
 afterEach(() => freshCards.remove("card-1"));
 

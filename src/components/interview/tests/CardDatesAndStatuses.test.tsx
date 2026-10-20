@@ -2,14 +2,14 @@ import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
-import BusinessCapabilityEditor from "./editors/BusinessCapabilityEditor";
-import { infrastructureCard, openBox, openCard, openTile } from "../../test/interviewTestUtils";
+import BusinessCapabilityEditor from "../editors/BusinessCapabilityEditor";
+import { infrastructureCard, openBox, openCard, openTile } from "../../../test/interviewTestUtils";
 import {
     asBusinessCapabilityValue,
     createBusinessActivity,
     createBusinessPartner,
     createBusinessResourceSlot
-} from "../../framework/engine/AnswerUtils";
+} from "../../../framework/engine/AnswerUtils";
 
 /* G2: Start date and End date after the name of every card, a one-option dropdown shown as text, and the status "+". */
 

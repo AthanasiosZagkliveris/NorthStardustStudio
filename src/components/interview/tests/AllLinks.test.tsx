@@ -2,9 +2,9 @@ import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
-import BusinessCapabilityEditor from "./editors/BusinessCapabilityEditor";
-import { captionText, floatingCardHost } from "../../test/interviewTestUtils";
-import { asBusinessCapabilityValue, createBusinessActivity, createBusinessPartner, createBusinessResourceSlot } from "../../framework/engine/AnswerUtils";
+import BusinessCapabilityEditor from "../editors/BusinessCapabilityEditor";
+import { captionText, floatingCardHost } from "../../../test/interviewTestUtils";
+import { asBusinessCapabilityValue, createBusinessActivity, createBusinessPartner, createBusinessResourceSlot } from "../../../framework/engine/AnswerUtils";
 
 afterEach(cleanup);
 

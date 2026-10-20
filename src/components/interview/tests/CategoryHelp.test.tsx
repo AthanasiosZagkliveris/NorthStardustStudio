@@ -1,9 +1,9 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
-import BusinessCapabilityEditor from "./editors/BusinessCapabilityEditor";
-import { openTile } from "../../test/interviewTestUtils";
-import { asBusinessCapabilityValue, groupHelpLines } from "../../framework/engine/AnswerUtils";
+import BusinessCapabilityEditor from "../editors/BusinessCapabilityEditor";
+import { openTile } from "../../../test/interviewTestUtils";
+import { asBusinessCapabilityValue, groupHelpLines } from "../../../framework/engine/AnswerUtils";
 
 /* The help-texts document: a category's "i" says what its groups are, under the category's name in the dialog's header. */
 

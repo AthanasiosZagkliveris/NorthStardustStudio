@@ -2,10 +2,10 @@ import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
-import BusinessCapabilityEditor from "./editors/BusinessCapabilityEditor";
-import { openCard, openTile } from "../../test/interviewTestUtils";
-import { incompleteCards } from "../../framework/engine/CardCompleteness";
-import { asBusinessCapabilityValue, createBusinessActivity, createBusinessResourceSlot } from "../../framework/engine/AnswerUtils";
+import BusinessCapabilityEditor from "../editors/BusinessCapabilityEditor";
+import { openCard, openTile } from "../../../test/interviewTestUtils";
+import { incompleteCards } from "../../../framework/engine/CardCompleteness";
+import { asBusinessCapabilityValue, createBusinessActivity, createBusinessResourceSlot } from "../../../framework/engine/AnswerUtils";
 
 /* G5: the status Activity chooses an activity (the derived "Set up" / "Investigate" activities are gone). */
 

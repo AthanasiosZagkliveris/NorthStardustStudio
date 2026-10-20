@@ -2,9 +2,9 @@ import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
-import BusinessCapabilityEditor from "./editors/BusinessCapabilityEditor";
-import { openBox, openCard, openTile } from "../../test/interviewTestUtils";
-import { incompleteCards, offeringLinksMissing } from "../../framework/engine/CardCompleteness";
+import BusinessCapabilityEditor from "../editors/BusinessCapabilityEditor";
+import { openBox, openCard, openTile } from "../../../test/interviewTestUtils";
+import { incompleteCards, offeringLinksMissing } from "../../../framework/engine/CardCompleteness";
 import {
     asBusinessCapabilityValue,
     asLegalEntityValue,
@@ -13,8 +13,8 @@ import {
     offeringFractions,
     offeringSharesIncomplete,
     offeringSharesTotal
-} from "../../framework/engine/AnswerUtils";
-import { asFinancialFoundationValue, consolidateCosts, offeringCosts, type CostSources } from "../../framework/engine/FinancialModel";
+} from "../../../framework/engine/AnswerUtils";
+import { asFinancialFoundationValue, consolidateCosts, offeringCosts, type CostSources } from "../../../framework/engine/FinancialModel";
 
 /* G10: an Offering card is linked to an Offering (required), with a percent for each when it is linked to several; they total 100%. */
 

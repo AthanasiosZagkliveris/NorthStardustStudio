@@ -2,14 +2,14 @@ import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
-import StrategicPeriodEditor from "./editors/StrategicPeriodEditor";
-import StrategicRoadmapEditor from "./editors/StrategicRoadmapEditor";
+import StrategicPeriodEditor from "../editors/StrategicPeriodEditor";
+import StrategicRoadmapEditor from "../editors/StrategicRoadmapEditor";
 import {
     StrategicPeriodValue,
     StrategyRangeValue,
     asStrategicPeriodValue,
     asStrategyFoundationValue
-} from "../../framework/engine/AnswerUtils";
+} from "../../../framework/engine/AnswerUtils";
 
 afterEach(cleanup);
 

@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
 import { cleanup, render as renderBase, screen } from "@testing-library/react";
-import { openFolds } from "../../test/openFolds.ts";
+import { openFolds } from "../../../test/openFolds.ts";
 
 /** The page as it opens, its structural sections opened (every fold arrow starts closed: see openFolds). */
 function render(ui: Parameters<typeof renderBase>[0], options?: Parameters<typeof renderBase>[1]) {
@@ -10,12 +10,12 @@ function render(ui: Parameters<typeof renderBase>[0], options?: Parameters<typeo
     return result;
 }
 
-import FinancialFoundationEditor from "./editors/FinancialFoundationEditor";
-import { asBusinessCapabilityValue, asLegalEntityValue, createBusinessResourceSlot } from "../../framework/engine/AnswerUtils";
-import { calculatedLines } from "../../framework/engine/CalculatedLines";
-import { launchNeedOf } from "../../framework/engine/ContingencyFunds";
-import { asFinancialFoundationValue, asFinancialSustainabilityValue, assetUnitCostsOf, consolidateCosts, financialPosition, fundingNeeds } from "../../framework/engine/FinancialModel";
-import { createGlobalSettings } from "../../framework/engine/GlobalSettings";
+import FinancialFoundationEditor from "../editors/FinancialFoundationEditor";
+import { asBusinessCapabilityValue, asLegalEntityValue, createBusinessResourceSlot } from "../../../framework/engine/AnswerUtils";
+import { calculatedLines } from "../../../framework/engine/CalculatedLines";
+import { launchNeedOf } from "../../../framework/engine/ContingencyFunds";
+import { asFinancialFoundationValue, asFinancialSustainabilityValue, assetUnitCostsOf, consolidateCosts, financialPosition, fundingNeeds } from "../../../framework/engine/FinancialModel";
+import { createGlobalSettings } from "../../../framework/engine/GlobalSettings";
 
 /* I6: Funding Need shows the cash to raise before the opening and the Operational Contingency Fund. */
 

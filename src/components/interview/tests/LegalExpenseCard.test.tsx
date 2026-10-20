@@ -1,12 +1,12 @@
-import { PreferencesService } from "../../services/PreferencesService.ts";
+import { PreferencesService } from "../../../services/PreferencesService.ts";
 import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
-import LegalEntityEditor from "./editors/LegalEntityEditor";
-import { asLegalEntityValue, createLegalEntityExpense } from "../../framework/engine/AnswerUtils";
-import { asFinancialFoundationValue, consolidateCosts } from "../../framework/engine/FinancialModel";
-import { asBusinessCapabilityValue } from "../../framework/engine/AnswerUtils";
+import LegalEntityEditor from "../editors/LegalEntityEditor";
+import { asLegalEntityValue, createLegalEntityExpense } from "../../../framework/engine/AnswerUtils";
+import { asFinancialFoundationValue, consolidateCosts } from "../../../framework/engine/FinancialModel";
+import { asBusinessCapabilityValue } from "../../../framework/engine/AnswerUtils";
 
 /* H5: a Legal Entity expense has a Date after its name, pays for exactly one registration, and is no place for insurance. */
 
@@ -91,7 +91,7 @@ describe("the Legal Entity expense card", () => {
 
 describe("what cannot be in the Formation's date", () => {
     it("says a registered company's date is not in the future, nor after the Opening Date", async () => {
-        const { formationIssues } = await import("./editors/LegalEntityEditor.tsx");
+        const { formationIssues } = await import("../editors/LegalEntityEditor.tsx");
         expect(formationIssues({ status: "registered", date: "2999-01-01" })).toHaveLength(1);
         expect(formationIssues({ status: "registered", date: "2020-05-01" }, "2020-01-01")).toHaveLength(1);
         expect(formationIssues({ status: "registered", date: "2020-05-01" }, "2020-09-01")).toEqual([]);
@@ -101,7 +101,7 @@ describe("what cannot be in the Formation's date", () => {
 
 describe("what a registration number may hold", () => {
     it("takes digits only, no more than the country's, where its shape is digits", async () => {
-        const { registrationNumberRule, limitedRegistrationNumber } = await import("../../framework/engine/LegalEntityJurisdictions.ts");
+        const { registrationNumberRule, limitedRegistrationNumber } = await import("../../../framework/engine/LegalEntityJurisdictions.ts");
         const eight = registrationNumberRule("8 digits");
         expect(limitedRegistrationNumber("12a34-5678 9", eight)).toBe("12345678");
         expect(limitedRegistrationNumber("SC123456", registrationNumberRule("8 characters"))).toBe("SC123456");

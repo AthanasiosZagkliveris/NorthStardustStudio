@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { unitsOf, type BusinessCostValue } from "../../framework/engine/AnswerUtils.ts";
-import { costInGroup } from "./editors/BusinessCapabilityEditor.tsx";
+import { unitsOf, type BusinessCostValue } from "../../../framework/engine/AnswerUtils.ts";
+import { costInGroup } from "../editors/BusinessCapabilityEditor.tsx";
 
 const cost = { frequency: "monthly", frequencyOther: "x", price: "10", unit: "kg" } as unknown as BusinessCostValue;
 

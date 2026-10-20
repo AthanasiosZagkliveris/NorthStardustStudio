@@ -2,8 +2,8 @@ import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
-import BusinessCapabilityEditor from "./editors/BusinessCapabilityEditor";
-import { openCard, openTile } from "../../test/interviewTestUtils";
+import BusinessCapabilityEditor from "../editors/BusinessCapabilityEditor";
+import { openCard, openTile } from "../../../test/interviewTestUtils";
 import {
     asBusinessCapabilityValue,
     asLegalEntityValue,
@@ -12,8 +12,8 @@ import {
     partnerExtraKeys,
     slotExtraKeys,
     supplierConnections
-} from "../../framework/engine/AnswerUtils";
-import { asFinancialFoundationValue, consolidateCosts, type CostSources } from "../../framework/engine/FinancialModel";
+} from "../../../framework/engine/AnswerUtils";
+import { asFinancialFoundationValue, consolidateCosts, type CostSources } from "../../../framework/engine/FinancialModel";
 
 /* G7: the extras, all optional: where each is offered, how it is kept, and which are costs. */
 

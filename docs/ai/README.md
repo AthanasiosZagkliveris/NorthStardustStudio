@@ -40,4 +40,6 @@ Skills (delivered separately, outside this folder) reference specific files here
 
 ## The app's own map
 
+- **`code-map.md`**: where things are in `src` (the folders, and what is in each), and the rules for a new file.
+
 - **`app-guide.md`**: where each part of the app is, what it is for and what it holds (systems, pages, Global Settings, the Calendar, the tile and card pattern), with the code locations. Start here to find your way in the product.

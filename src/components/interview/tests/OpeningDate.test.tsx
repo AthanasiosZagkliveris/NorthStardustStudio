@@ -2,12 +2,12 @@ import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
-import FinancialFoundationEditor from "./editors/FinancialFoundationEditor";
-import FinancialPlanSettings from "./editors/FinancialPlanSettings";
-import { asBusinessCapabilityValue } from "../../framework/engine/AnswerUtils";
-import { asLegalEntityValue } from "../../framework/engine/AnswerUtils";
-import { asFinancialFoundationValue, consolidateCosts, splitAtOpening, type CostLine } from "../../framework/engine/FinancialModel";
-import { asGlobalSettings } from "../../framework/engine/GlobalSettings";
+import FinancialFoundationEditor from "../editors/FinancialFoundationEditor";
+import FinancialPlanSettings from "../editors/FinancialPlanSettings";
+import { asBusinessCapabilityValue } from "../../../framework/engine/AnswerUtils";
+import { asLegalEntityValue } from "../../../framework/engine/AnswerUtils";
+import { asFinancialFoundationValue, consolidateCosts, splitAtOpening, type CostLine } from "../../../framework/engine/FinancialModel";
+import { asGlobalSettings } from "../../../framework/engine/GlobalSettings";
 
 /* I2: the Opening Date, next to Plan Start, kept in the Global Settings; a card splits by its dates around it. */
 

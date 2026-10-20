@@ -2,9 +2,9 @@ import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
-import BusinessCapabilityEditor from "./editors/BusinessCapabilityEditor";
-import { cardBoxes, infrastructureCard, openBox, openCard, openTile } from "../../test/interviewTestUtils";
-import { asBusinessCapabilityValue, createBusinessResourceSlot } from "../../framework/engine/AnswerUtils";
+import BusinessCapabilityEditor from "../editors/BusinessCapabilityEditor";
+import { cardBoxes, infrastructureCard, openBox, openCard, openTile } from "../../../test/interviewTestUtils";
+import { asBusinessCapabilityValue, createBusinessResourceSlot } from "../../../framework/engine/AnswerUtils";
 
 /* G1: Offering's Resources are grouped like Infrastructure's (nine categories, fixed groups), and no group or category can be added with "Other…". */
 

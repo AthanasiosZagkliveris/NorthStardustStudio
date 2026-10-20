@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
 import { cleanup, fireEvent, render as renderBase, screen } from "@testing-library/react";
-import { openFolds } from "../../test/openFolds.ts";
+import { openFolds } from "../../../test/openFolds.ts";
 
 /** The page as it opens, its structural sections opened (every fold arrow starts closed: see openFolds). */
 function render(ui: Parameters<typeof renderBase>[0], options?: Parameters<typeof renderBase>[1]) {
@@ -10,12 +10,12 @@ function render(ui: Parameters<typeof renderBase>[0], options?: Parameters<typeo
     return result;
 }
 
-import FinancialFoundationEditor from "./editors/FinancialFoundationEditor";
-import FinancialSustainabilityEditor from "./editors/FinancialSustainabilityEditor";
-import FinancialPlanSettings from "./editors/FinancialPlanSettings";
-import { asLegalEntityValue } from "../../framework/engine/AnswerUtils";
-import { toggles, typeInto } from "../../test/interviewTestUtils";
-import { asFinancialFoundationValue, asFinancialSustainabilityValue, createFundingSource } from "../../framework/engine/FinancialModel";
+import FinancialFoundationEditor from "../editors/FinancialFoundationEditor";
+import FinancialSustainabilityEditor from "../editors/FinancialSustainabilityEditor";
+import FinancialPlanSettings from "../editors/FinancialPlanSettings";
+import { asLegalEntityValue } from "../../../framework/engine/AnswerUtils";
+import { toggles, typeInto } from "../../../test/interviewTestUtils";
+import { asFinancialFoundationValue, asFinancialSustainabilityValue, createFundingSource } from "../../../framework/engine/FinancialModel";
 
 /** Opens a fold that is closed; where the item starts OPEN (Customer Engagement, the financial pages) it is left as it is. */
 function openFold(toggle: Element) {

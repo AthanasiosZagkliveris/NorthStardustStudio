@@ -2,9 +2,9 @@ import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
-import BusinessCapabilityEditor from "./editors/BusinessCapabilityEditor";
-import { openCard, openTile } from "../../test/interviewTestUtils";
-import { asBusinessCapabilityValue, createBusinessPartner, createBusinessResourceSlot } from "../../framework/engine/AnswerUtils";
+import BusinessCapabilityEditor from "../editors/BusinessCapabilityEditor";
+import { openCard, openTile } from "../../../test/interviewTestUtils";
+import { asBusinessCapabilityValue, createBusinessPartner, createBusinessResourceSlot } from "../../../framework/engine/AnswerUtils";
 
 /* G3: a status row\x27s partner or supplier is reached in three steps (Category, Group, Name), and the link symbol beside the name opens its card. */
 

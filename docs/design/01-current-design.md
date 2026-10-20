@@ -81,7 +81,7 @@ Eleven of the thirteen chapters of the Foundation are drawn as Master Tiles. The
 
 ## Part C. The interface elements
 
-This part records every kind of element the Foundation capability is built from, by layer, so that nothing is missing when the asset library is written (document 5). It comes from a read of the code on 2026-10-14. It was verified for structure and exports; CSS classes and runtime behaviour were not each checked. Paths: `I/` is `src/components/interview/`, `C/` is `src/components/`.
+This part records every kind of element the Foundation capability is built from, by layer, so that nothing is missing when the asset library is written (document 5). It comes from a read of the code on 2026-10-14. It was verified for structure and exports; CSS classes and runtime behaviour were not each checked. Paths: `I/` is `src/components/interview/`, `C/` is `src/components/`. Since 2026-10-20 the files of `I/` are in its folders `cards/`, `tiles/`, `fields/`, `editors/` and `tests/`, and the shared controls in `C/controls/`: a file is found by its name (see `code-map.md`).
 
 Global rules that apply to every element (2026-10-14; the sizes and states are in the rulebook `docs/ai/layout-rules.md` and in the contracts under `src/library`): an "i" stands 6px after its label's last word (`--info-gap`); text that goes bold under the pointer, or is bold by default, is 0.05em wider (`--bold-tracking`); a wired button (the "i", the "+" box, the remove x, an "Add ..." button) has no fill at rest.
 
