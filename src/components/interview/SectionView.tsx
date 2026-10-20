@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode, useContext, useEffect, useRef, useState } from "react";
 
+import Tile from "./Tile.tsx";
 import TileGrid from "./TileGrid.tsx";
 import AddButton from "../AddButton.tsx";
 import {
@@ -62,20 +63,18 @@ function CategoryTile({
     onAdd: (pointer: boolean) => void;
 }) {
     return (
-        <div
-            className={"section-tile-slot card-tile-slot" + (add ? " section-tile-slot-plus" : "") + (names.length === 0 ? " section-tile-slot-empty" : "") + (period ? " section-tile-slot-period" : "") + (alerts?.some(entry => entry && entry.length > 0) ? " card-tile-incomplete" : "")}
-            style={{ transformOrigin: origin, ...(channel ? { "--strategy-theme-hue": CHANNEL_TILE_HUE } : {}) } as CSSProperties}
-        >
-            <button
-                type="button"
+        <Tile
+            frame={{
+                className: "section-tile-slot card-tile-slot" + (add ? " section-tile-slot-plus" : "") + (names.length === 0 ? " section-tile-slot-empty" : "") + (period ? " section-tile-slot-period" : "") + (alerts?.some(entry => entry && entry.length > 0) ? " card-tile-incomplete" : ""),
+                style: { transformOrigin: origin, ...(channel ? { "--strategy-theme-hue": CHANNEL_TILE_HUE } : {}) } as CSSProperties
+            }}
+            face={<TileFace title={title} empty={names.length === 0} glyph={false} />}
                 className={"section-tile section-tile-category" + (channel ? " section-tile-channel" : "")}
                 data-opens=""
                 data-anchor={anchor ?? "category-" + id}
                 aria-label={tileName(title, names)}
                 onClick={(event) => onOpen(event.detail > 0)}
-            >
-                <TileFace title={title} empty={names.length === 0} glyph={false} />
-            </button>
+        >
             {period && <span className="section-tile-period">{period}</span>}
             {names.length > 0 && (
                 <TileLinks
@@ -94,7 +93,7 @@ function CategoryTile({
                     onClick={(event) => onAdd(event.detail > 0)}
                 />
             )}
-        </div>
+        </Tile>
     );
 }
 

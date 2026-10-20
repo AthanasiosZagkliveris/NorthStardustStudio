@@ -1,4 +1,5 @@
 import { CSSProperties, DragEvent, RefObject, useLayoutEffect, useRef, useState } from "react";
+import Tile from "./Tile.tsx";
 import { stableCardHue } from "../../framework/engine/AnswerUtils.ts";
 import { CHANNEL_TILE_HUE, TileFace, TileLinks, incompleteTitle, type ItemMark } from "./SectionTiles.tsx";
 import { useAboveTip } from "../Tooltip.tsx";
@@ -187,35 +188,31 @@ export default function CardTile({ id, name, unnamed = "", number, linkedLines, 
     // (A tile with linked lines draws its list in a layer of its own over the tile, as a page tile does: a line is a control, the tile's button cannot hold it.)
     const face = <TileFace title={(number !== undefined ? number + ". " : "") + shown} items={linked ? undefined : lines} marks={marks} />;
     return (
-        <div
-            className={"section-tile-slot card-tile-slot" + (faded ? " section-tile-slot-empty" : "") + (missing && missing.length > 0 ? " card-tile-incomplete" : "") + (drag ? " card-tile-movable" : "") + (drag?.dragging ? " card-tile-dragged" : "") + (drag?.over ? " card-tile-drop" : "")}
-            style={style}
-            draggable={drag ? true : undefined}
+        <Tile
+            as={onOpen ? "button" : "div"}
+            frame={{
+            className: "section-tile-slot card-tile-slot" + (faded ? " section-tile-slot-empty" : "") + (missing && missing.length > 0 ? " card-tile-incomplete" : "") + (drag ? " card-tile-movable" : "") + (drag?.dragging ? " card-tile-dragged" : "") + (drag?.over ? " card-tile-drop" : ""),
+            style,
+            draggable: drag ? true : undefined,
             // A press on a circle never starts a drag of the tile (the circle is a pointer, not a handle).
-            onPointerDownCapture={(event) => { onCircle.current = !!(event.target as HTMLElement).closest?.(".card-tile-symbols"); }}
-            onDragStart={drag ? (event) => { if (onCircle.current) { event.preventDefault(); } else { drag.onDragStart(event); } } : undefined}
-            onDragOver={drag?.onDragOver}
-            onDrop={drag?.onDrop}
-            onDragEnd={drag?.onDragEnd}
+            onPointerDownCapture: (event) => { onCircle.current = !!(event.target as HTMLElement).closest?.(".card-tile-symbols"); },
+            onDragStart: drag ? (event) => { if (onCircle.current) { event.preventDefault(); } else { drag.onDragStart(event); } } : undefined,
+            onDragOver: drag?.onDragOver,
+            onDrop: drag?.onDrop,
+            onDragEnd: drag?.onDragEnd
+            }}
+            face={face}
+            className={className}
+            data-own={onOpen && own ? "" : undefined}
+            data-anchor={id}
+            data-card-box={id}
+            data-opens={onOpen ? "" : undefined}
+            role={onOpen ? undefined : "group"}
+            aria-label={label}
+            aria-description={onOpen && missing && missing.length > 0 ? incompleteTitle(missing) : undefined}
+            title={(title ?? shown) + (missing && missing.length > 0 ? ". " + incompleteTitle(missing) : "")}
+            onClick={onOpen ? (event) => onOpen(event.detail > 0) : undefined}
         >
-            {onOpen
-                ? (
-                    <button
-                        type="button"
-                        className={className}
-                        data-own={own ? "" : undefined}
-                        data-anchor={id}
-                        data-card-box={id}
-                        data-opens=""
-                        aria-label={label}
-                        aria-description={missing && missing.length > 0 ? incompleteTitle(missing) : undefined}
-                        title={(title ?? shown) + (missing && missing.length > 0 ? ". " + incompleteTitle(missing) : "")}
-                        onClick={(event) => onOpen(event.detail > 0)}
-                    >
-                        {face}
-                    </button>
-                )
-                : <div className={className} data-anchor={id} data-card-box={id} role="group" aria-label={label} title={(title ?? shown) + (missing && missing.length > 0 ? ". " + incompleteTitle(missing) : "")}>{face}</div>}
             <Dots id={id} name={shown} links={links} focusId={focusId} onFocus={onFocus} />
             {linked && (
                 <TileLinks
@@ -227,6 +224,6 @@ export default function CardTile({ id, name, unnamed = "", number, linkedLines, 
                         onPlain={(event) => { (event.currentTarget as HTMLElement).closest(".section-tile-slot")?.querySelector<HTMLElement>(":scope > .section-tile")?.click(); }}
                     />
             )}
-        </div>
+        </Tile>
     );
 }

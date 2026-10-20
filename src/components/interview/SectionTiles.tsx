@@ -1,4 +1,5 @@
 import { CSSProperties, ReactNode, useContext, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
+import Tile from "./Tile.tsx";
 import { freshCards } from "./freshCards.ts";
 import { cardNameOf } from "./cardNames.ts";
 import "../../styles/section-tiles.css";
@@ -548,17 +549,18 @@ function TileSlot({
     const anyAlert = (!!alerts && alerts.some(entry => !!entry)) || (!!incomplete && held.some(id => incomplete.has(id)));
 
     return (
-        <div
+        <Tile
             ref={slot}
-            className={"section-tile-slot" + (tile.diagram ? " section-tile-slot-diagram" : "") + (tile.inactive ? " section-tile-slot-empty" : "") + ((tile.add && tile.cardFor) || tile.plus ? " section-tile-slot-plus" : "") + (tile.sentence ? " section-tile-slot-sentence" : "") + (anyAlert ? " card-tile-incomplete" : "")}
-            style={style}
-            data-column={at.column}
-            data-row={at.row}
-            {...aimHandlers}
-        >
-            <button
-                type="button"
-                className={"section-tile" + (tile.diagram ? " section-tile-diagram" : "") + (tile.inactive ? " section-tile-inactive" : "") + (tile.channel ? " section-tile-channel" : "") + (tile.completed ? " section-tile-completed" : "")}
+            frame={{
+                className: "section-tile-slot" + (tile.diagram ? " section-tile-slot-diagram" : "") + (tile.inactive ? " section-tile-slot-empty" : "") + ((tile.add && tile.cardFor) || tile.plus ? " section-tile-slot-plus" : "") + (tile.sentence ? " section-tile-slot-sentence" : "") + (anyAlert ? " card-tile-incomplete" : ""),
+                style,
+                "data-column": at.column,
+                "data-row": at.row,
+                ...aimHandlers
+            }}
+            face={<TileFace title={tile.title} empty={tile.empty} glyph={!(tile.add && tile.cardFor)} />}
+            picture={tile.picture ? <span className="section-tile-picture" aria-hidden="true">{tile.picture}</span> : undefined}
+            className={"section-tile" + (tile.diagram ? " section-tile-diagram" : "") + (tile.inactive ? " section-tile-inactive" : "") + (tile.channel ? " section-tile-channel" : "") + (tile.completed ? " section-tile-completed" : "")}
                 data-tile={tile.id}
                 data-anchor={tile.anchor}
                 data-rail={tile.rail}
@@ -576,9 +578,6 @@ function TileSlot({
                     onOpen(event.currentTarget, event.detail > 0);
                 }}
             >
-                <TileFace title={tile.title} empty={tile.empty} glyph={!(tile.add && tile.cardFor)} />
-                {tile.picture && <span className="section-tile-picture" aria-hidden="true">{tile.picture}</span>}
-            </button>
             {items && (
                 <TileLinks
                         items={items}
@@ -611,6 +610,6 @@ function TileSlot({
                     onClick={(event) => { tile.plus?.(); if (!tile.press) { onOpen(event.currentTarget.parentElement?.querySelector<HTMLElement>(":scope > .section-tile") ?? event.currentTarget, event.detail > 0); } }}
                 />
             )}
-        </div>
+        </Tile>
     );
 }

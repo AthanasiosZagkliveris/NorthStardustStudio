@@ -1,5 +1,6 @@
 import { ReactNode, useContext, useState } from "react";
 
+import Tile from "./Tile.tsx";
 import TileGrid from "./TileGrid.tsx";
 import { InitialBoxContext, InnerLevel, OpenCardContext, TileFace, TileLinks, TilePlus, useDialogInnerBack, useDialogInnerStep, type ItemMark, type TileAdd, type TileLink } from "./SectionTiles.tsx";
 import { Dots, inwardOrigin } from "./CardTile.tsx";
@@ -73,22 +74,17 @@ export default function SubTiles({ tiles, label }: { tiles: readonly SubTile[]; 
             {({ across }) => (
             <>
                 {tiles.map((tile, index) => (
-                    <div
+                    <Tile
                         key={tile.id}
-                        className="section-tile-slot card-tile-slot"
-                        style={{ transformOrigin: inwardOrigin(index, tiles.length, across) }}
+                        frame={{ className: "section-tile-slot card-tile-slot", style: { transformOrigin: inwardOrigin(index, tiles.length, across) } }}
+                        face={<TileFace title={tile.title} glyph={false} />}
+                        className="section-tile section-tile-category"
+                        data-tile={tile.id}
+                        data-opens=""
+                        aria-haspopup="dialog"
+                        aria-label={tile.title}
+                        onClick={(event) => { if (tile.card) { openCard?.(tile.card, undefined, undefined, event.detail > 0, false); } else { setOpenId(tile.id); } }}
                     >
-                        <button
-                            type="button"
-                            className="section-tile section-tile-category"
-                            data-tile={tile.id}
-                            data-opens=""
-                            aria-haspopup="dialog"
-                            aria-label={tile.title}
-                            onClick={(event) => { if (tile.card) { openCard?.(tile.card, undefined, undefined, event.detail > 0, false); } else { setOpenId(tile.id); } }}
-                        >
-                            <TileFace title={tile.title} glyph={false} />
-                        </button>
                         {tile.items && tile.items.length > 0 && (
                             <TileLinks
                                     items={tile.items}
@@ -108,7 +104,7 @@ export default function SubTiles({ tiles, label }: { tiles: readonly SubTile[]; 
                                 onClick={(event) => { if (tile.add) { openCard?.(tile.add.onAdd(), undefined, undefined, event.detail > 0, true); } }}
                             />
                         )}
-                    </div>
+                    </Tile>
                 ))}
     </>
     )}
