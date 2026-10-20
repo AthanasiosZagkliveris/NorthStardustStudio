@@ -83,6 +83,18 @@ function MenuHead({ title, open, onToggle, controls }: { title: string; open: bo
     );
 }
 
+/** The Types a place offers in the funnel: Partners and Suppliers are ONE option (whichever of the two the place has), the Channel's cards are "Channel". */
+function placeKindOptions(kinds: readonly FloorType[]): { id: string; label: string }[] {
+    const options: { id: string; label: string }[] = [];
+    for (const kind of kinds) {
+        const option = kind === "partner" || kind === "provider" ? { id: UNITED, label: "Partners & Suppliers" } : kind === "channel" ? { id: kind, label: "Channel" } : { id: kind, label: FLOOR_KINDS.find(entry => entry.id === kind)?.label ?? kind };
+        if (!options.some(entry => entry.id === option.id)) {
+            options.push(option);
+        }
+    }
+    return options;
+}
+
 const SECTION_OF_KIND: Record<FloorKind, string> = {
     founder: "Founders", resource: "Resources", activity: "Activities", partner: "Partners & Suppliers", provider: "Partners & Suppliers", legal: ""
 };
@@ -256,7 +268,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                         <strong>Type</strong>
                         <BusinessTicks
                             name="Type"
-                            options={placeKinds.filter(kind => kind !== "provider").map(kind => kind === "partner" ? { id: UNITED, label: "Partners & Suppliers" } : kind === "channel" ? { id: kind, label: "Channel" } : { id: kind, label: FLOOR_KINDS.find(entry => entry.id === kind)?.label ?? kind })}
+                            options={placeKindOptions(placeKinds)}
                             chosen={toOptionIds(filter.placeKinds)}
                             onChange={(ids) => {
                                 const next = fromOptionIds(ids) as FloorType[];

@@ -29,21 +29,6 @@
 
 }
 
-.capability-overview-legend {
-
-    display: inline-flex;
-    gap: var(--gap-16);
-
-}
-
-.capability-overview-legend span {
-
-    display: inline-flex;
-    align-items: center;
-    gap: var(--gap-4);
-
-}
-
 .capability-overview-views {
 
     margin-left: auto;

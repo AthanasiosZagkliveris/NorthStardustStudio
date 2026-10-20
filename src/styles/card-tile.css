@@ -186,10 +186,9 @@ button.card-tile-symbol[aria-pressed="true"] {
 
 }
 
-/* THE TITLES OF A CATEGORY OR A GROUP are in capitals: on its tile, in the dialog's header while it is open, and in the Inventory filter's Category and Group lists. */
+/* THE TITLES OF A CATEGORY OR A GROUP are in capitals: on its tile and in the dialog's header while it is open. (The words of a tick in the Inventory filter are sentence case, as every tick's.) */
 .section-tile-category .section-tile-title,
-.dialog-heading-sub,
-.capability-overview-menu-titles .business-foundation-tick {
+.dialog-heading-sub {
     text-transform: uppercase;
 }
 
