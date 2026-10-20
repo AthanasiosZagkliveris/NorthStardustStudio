@@ -115,8 +115,8 @@ export function tableRows(row: FloorRow, format: (amount: number) => string = St
         section: legal ? "Legal Entity" : row.path[0] === "Infrastructure" ? "Infrastructure" : "Offering",
         // (An activity's category is the third line of its path; a Customer Channel's card has the group "Channel".)
         category: legal ? "" : row.kind === "activity" ? row.path[2] ?? "" : row.path[1] ?? "",
-        group: legal ? "" : subgroupOf(row),
-        channel: (row.channels ?? []).join(", "),
+        // (A card a channel holds has the group "Channel": the channel's own name follows it, in the Group column.)
+        group: legal ? "" : [subgroupOf(row), ...(row.channels ?? [])].filter(Boolean).join(" · "),
         status: legal ? "" : row.statusLabel
     };
     // (The currency is written once, in the column's header; a cost in another currency than the organisation's says its own code.)
@@ -139,7 +139,6 @@ export const TABLE_COLUMNS = [
     { id: "section", label: "Section" },
     { id: "category", label: "Category" },
     { id: "group", label: "Group" },
-    { id: "channel", label: "Channel" },
     { id: "cost", label: "Cost" },
     { id: "frequency", label: "Frequency" },
     { id: "nature", label: "Cost Nature" },
@@ -378,10 +377,10 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                         chosen={filter.costsOnly ? ["costs"] : []}
                         onChange={(next) => {
                             patch({ costsOnly: next.length > 0 });
-                            // (Isolating the costs hides Status, Linked and Channel from the table, the user can tick them back; turning it off shows them again.)
+                            // (Isolating the costs hides Status and Linked from the table, the user can tick them back; turning it off shows them again.)
                             setHiddenColumns(current => {
                                 const kept = new Set(current);
-                                ["status", "linked", "channel"].forEach(column => next.length > 0 ? kept.add(column) : kept.delete(column));
+                                ["status", "linked"].forEach(column => next.length > 0 ? kept.add(column) : kept.delete(column));
                                 return kept;
                             });
                         }}

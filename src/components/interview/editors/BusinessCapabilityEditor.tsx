@@ -4981,7 +4981,7 @@ export default function BusinessCapabilityEditor({
                             note: SECTIONS.infrastructure.activities
                         }),
                         viewTile({
-                            id: "partners", title: "Partners & Suppliers", what: "Partner or Supplier", scope: "infrastructure", anchor: "section-infrastructure-partners partners-infrastructure-professionals partners-infrastructure-providers",
+                            id: "partners", title: "Partners & Suppliers", what: "Partner", scope: "infrastructure", anchor: "section-infrastructure-partners partners-infrastructure-professionals partners-infrastructure-providers",
                             categories: partnerCategories("infrastructure"), add: partnerAddIn("infrastructure", UNASSIGNED_CATEGORY), note: SECTIONS.infrastructure.partnerships
                         })
                     ]}
@@ -5452,7 +5452,7 @@ export default function BusinessCapabilityEditor({
             }),
 
             viewTile({
-                id: "partners", title: "Partners & Suppliers", what: "Partner or Supplier", scope: "offering",
+                id: "partners", title: "Partners & Suppliers", what: "Partner", scope: "offering",
                 anchor: "section-offering-partners partners-offering-professionals partners-offering-providers",
                 categories: partnerCategories("offering"), add: partnerAddIn("offering", UNASSIGNED_CATEGORY)
             }),

@@ -518,17 +518,6 @@
 
 }
 
-/* The Channel is one row ("Website › Online Store"), cut by an ellipsis past 20rem. */
-.capability-overview-table :is(th, td)[data-col="channel"] {
-
-    max-width: 20rem;
-
-    overflow: hidden;
-
-    text-overflow: ellipsis;
-
-}
-
 /* The name is a link on one row, cut by an ellipsis, between 14 and 22rem; the table scrolls sideways where the columns do not fit the panel, its heading and its name column staying. */
 .capability-overview-table :is(th, td)[data-col="name"] {
 
@@ -677,7 +666,13 @@
 
 }
 
-/* The text sizes beside Tiles / Table: "Aa" in the size each chooses (14, 18, 24px); the five options stand one gap (16px) apart, the same between all of them. */
+/* The text sizes beside Tiles / Table: "Aa" in the size each chooses (14, 18, 24px). Tiles / Table is one group and the text size another: the room of the bar is shared equally by the space before the first group, between the groups and before the funnel. */
+.capability-overview-sizes,
+.capability-overview-bar > .strategy-box-actions {
+
+    margin-left: auto;
+
+}
 
 .capability-overview-size-aa[data-size="small"] {
 

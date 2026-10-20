@@ -34,6 +34,9 @@ export function translucentColour(colour: string): boolean {
 /** What marks a completed activity's card. */
 export const COMPLETED_CARD = ".business-capability-activity-completed";
 
+/** A layer that is the Completed's (its dialog, or a completed card in it): grey, and so is what stands with it. */
+export const completedLayer = (node: HTMLElement | null | undefined): boolean => !!node && (node.matches(".section-tile-dialog-completed") || !!node.querySelector(COMPLETED_CARD));
+
 
 export function tabColours(node: HTMLElement): { bg: string; edge: string; ink: string } | null {
     const opaque = (colour: string) => colour !== "" && colour !== "transparent" && !/rgba\([^)]*,\s*0\)$/.test(colour);
@@ -50,7 +53,7 @@ export function tabColours(node: HTMLElement): { bg: string; edge: string; ink: 
     }
     const style = getComputedStyle(ground);
     // A completed card is grey, and so is what stands with it (the tab, its bullets, the arrows): the Completed line, whatever hue the tile gives its neighbours.
-    if (node.querySelector(COMPLETED_CARD)) {
+    if (completedLayer(node)) {
         const root = getComputedStyle(document.documentElement);
         return { bg: style.backgroundColor, edge: root.getPropertyValue("--line-completed").trim() || style.borderTopColor, ink: root.getPropertyValue("--text-completed-ink").trim() || style.color };
     }
@@ -101,7 +104,7 @@ export function CarouselArrows({ target, step, hue, back }: { target: RefObject<
         const left = Math.max(4, box.left - CAROUSEL_ARROW_GAP - CAROUSEL_ARROW_WIDTH);
         const right = Math.max(4, window.innerWidth - box.right - CAROUSEL_ARROW_GAP - CAROUSEL_ARROW_WIDTH);
         // (The tab's colours walk the layer's boxes and read their styles: kept until the layer is resized, the reading mode changes or the layer is another, not read again at every render -- typing in a card renders it at every key.)
-        const key = (node.querySelector(COMPLETED_CARD) ? "done:" : "") + modeCount + ":" + measureTick.current + ":" + Math.round(box.width) + ":" + node.className;
+        const key = (completedLayer(node) ? "done:" : "") + modeCount + ":" + measureTick.current + ":" + Math.round(box.width) + ":" + node.className;
         if (tabCache.current?.key !== key) {
             tabCache.current = { key, value: tabColours(node) };
         }
@@ -224,7 +227,7 @@ export function CarouselArrows({ target, step, hue, back }: { target: RefObject<
         <>
             <NavArrow
                 className={"page-arrow carousel-arrow" + (arrowOnTab && at.side === "left" ? " carousel-arrow-on-tab" : "")}
-                data-completed={target.current?.querySelector(COMPLETED_CARD) ? "" : undefined}
+                data-completed={completedLayer(target.current) ? "" : undefined}
                 direction="previous"
                 label={"Previous " + step.what}
                 title={"Previous " + step.what + " (←)"}
@@ -233,7 +236,7 @@ export function CarouselArrows({ target, step, hue, back }: { target: RefObject<
             />
             <NavArrow
                 className={"page-arrow carousel-arrow" + (arrowOnTab && at.side === "right" ? " carousel-arrow-on-tab" : "")}
-                data-completed={target.current?.querySelector(COMPLETED_CARD) ? "" : undefined}
+                data-completed={completedLayer(target.current) ? "" : undefined}
                 direction="next"
                 label={"Next " + step.what}
                 title={"Next " + step.what + " (→)"}

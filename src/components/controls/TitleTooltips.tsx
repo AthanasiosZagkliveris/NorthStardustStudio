@@ -55,6 +55,8 @@ export function tipWords(text: string): string {
         [/^search$/i, () => "Click to search"],
         [/^back$/i, () => "Click to go back"],
         [/^(low to high|high to low)$/i, m => "Click to order the costs from " + m[1].toLowerCase()],
+        // The + of Partners & Suppliers adds either.
+        [/^add partner to partners & suppliers$/i, () => "Click to add a Partner or Supplier"],
         // An add says what is added, not where (the + is on the list it adds to): "Add Competitor to Competitors" is "Click to add a Competitor".
         [/^add (.+)$/i, m => {
             const what = m[1].replace(/\s+to\s+.*$/i, "").trim();

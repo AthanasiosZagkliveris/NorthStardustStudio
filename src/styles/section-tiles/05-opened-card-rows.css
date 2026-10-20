@@ -648,8 +648,8 @@
 
 }
 
-/* THE CAROUSEL ARROWS OF A COMPLETED CARD are in its greys too (the tab and its bullets take theirs from the card's measured ground and the Completed line). */
-body .floating-overlay .page-arrow.carousel-arrow[data-completed] {
+/* THE CAROUSEL ARROWS OF A COMPLETED CARD (and of the Completed dialog) are in its greys too (the tab and its bullets take theirs from the card's measured ground and the Completed line). */
+body :is(.floating-overlay, .section-tile-overlay) .page-arrow.carousel-arrow[data-completed] {
 
     color: var(--bg-completed-card);
 
