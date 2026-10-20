@@ -1,6 +1,6 @@
 # The documents of NorthStardustStudio
 
-Status: **index**, updated 2026-10-19. One line per document: where it is, what kind it is, what it holds, when it last changed (the date of its last commit).
+Status: **index**, updated 2026-10-20. One line per document: where it is, what kind it is, what it holds, when it last changed (the date of its last commit).
 
 ## How the documents are kept
 
@@ -14,7 +14,7 @@ Status: **index**, updated 2026-10-19. One line per document: where it is, what 
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [ai/README.md](ai/README.md) | index | The map of this folder: what to read first, what to read for a task. | 2026-10-17 |
+| [ai/README.md](ai/README.md) | index | The map of this folder: what to read first, what to read for a task. | 2026-10-20 |
 | [ai/ai-collaboration-rules.md](ai/ai-collaboration-rules.md) | rules | Standing behavioural rules for an AI assistant: when to ask, when to push, what done requires. | 2026-10-20 |
 | [ai/environment-and-toolchain-playbook.md](ai/environment-and-toolchain-playbook.md) | playbook | The toolchain procedure: sync, typecheck, build, preview, verify. | 2026-10-20 |
 | [ai/verification-and-regression-playbook.md](ai/verification-and-regression-playbook.md) | playbook | What to run after a change; the living list of expected test failures. | 2026-10-20 |

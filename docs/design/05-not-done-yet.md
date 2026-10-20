@@ -6,8 +6,8 @@ Status: **living list**, written 2026-10-14. Remove an item when it is done and 
 
 **To unify** (the counted list, with the reasons, is in `23-shared-components.md`, "What is left"):
 - The tile drawings: the page tile (`TileSlot`), the `SubTiles` tile, the category tile and `CardTile`. Their repeated parts are shared (the links layer, the "+", the hover origin); the skeleton is not, because the copies differ in what they carry (hover origin, data attributes, classes), so one component would need a flag for each difference.
-- The Legal Entity cards' bodies and their own CSS (`legal-entity-*`), and their own number markup.
-- The grids of `CardBoxes` (three across) and `CapabilityOverview` (the Inventory): they measure for themselves.
+- The Legal Entity cards' bodies and their own CSS (`legal-entity-*`): tried on 2026-10-20 and put back, because the shared card's classes change the cards' number, name gap and glass ground; they stay as they are.
+- The grid of `CapabilityOverview` (the Inventory): its columns come from the stylesheet; it stays.
 - Not copies, so not joined: `NumberedListInput` and `SuggestedInput` (editors), the fold arrow and the label arrow (two controls by decision), the image-holder label, the sub-channel head, the Brand column headings.
 
 **Not looked at in a browser**: the tooltips (the Roadmap bars, the action symbols, the noted fields, the card tiles' tips) and the Process library and Operational log pages (they are not reachable in this version of the app). The tests cover them.

@@ -1,9 +1,9 @@
-import { ReactNode, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
-import type { CSSProperties } from "react";
+import { ReactNode, useContext, useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 import { freshCards } from "./freshCards.ts";
 import { OpenCardContext, type ItemMark } from "./SectionTiles.tsx";
-import CardTile, { TILE_GAP, inwardOrigin, pageTileSide, useTilesAcross } from "./CardTile.tsx";
+import CardTile, { inwardOrigin } from "./CardTile.tsx";
+import TileGrid from "./TileGrid.tsx";
 import { AddTile } from "./SectionView.tsx";
 import type { FloorLink, FloorTone } from "./capabilityFloor.ts";
 
@@ -149,8 +149,6 @@ export default function CardBoxes({
     // The tile being dragged and the one it is over.
     const [drag, setDrag] = useState<{ from: number; over: number | null } | null>(null);
 
-    const root = useRef<HTMLDivElement | null>(null);
-    const grid = useRef<HTMLDivElement | null>(null);
     const latest = useRef({ items, add });
     latest.current = { items, add };
 
@@ -180,37 +178,10 @@ export default function CardBoxes({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    // The page's own tile size, and as many across as fit: a tile grows inwards.
-    const pageSide = useMemo(pageTileSide, []);
-    const pageAcross = useTilesAcross(grid, pageSide);
-    // Three across, whatever the card's width: the tile is a third of it, less the two gaps.
-    const [fitSide, setFitSide] = useState<number | null>(null);
-    useLayoutEffect(() => {
-        const node = grid.current;
-        if (!threeAcross || !node) {
-            return;
-        }
-        const measure = () => setFitSide(Math.max(72, Math.floor((node.clientWidth - 2 * TILE_GAP) / 3)));
-        measure();
-        if (typeof ResizeObserver === "undefined") {
-            return;
-        }
-        const observer = new ResizeObserver(measure);
-        observer.observe(node);
-        return () => observer.disconnect();
-    }, [threeAcross]);
-    const side = threeAcross && fitSide ? fitSide : pageSide;
-    const across = threeAcross ? 3 : pageAcross;
-
     return (
-        <div className={"card-boxes" + (className ? " " + className : "")} ref={root}>
-            <div
-                ref={grid}
-                className="section-tiles card-tile-grid"
-                role="group"
-                aria-label={label}
-                style={{ "--section-tile-size": side + "px", gridTemplateColumns: "repeat(" + across + ", " + side + "px)", maxWidth: "none" } as CSSProperties}
-            >
+        <TileGrid label={label} className={className} threeAcross={threeAcross}>
+            {({ across }) => (
+            <>
                 {items.map((item, index) => {
                     const name = item.name.trim() || item.unnamed;
                     return (
@@ -263,8 +234,9 @@ export default function CardBoxes({
                     );
                 })}
                 {add && <AddTile label={add.label} disabled={add.disabled} across={across} after={addNext ? items.length : undefined} onAdd={(pointer) => create(pointer)} />}
-            </div>
-        </div>
+            </>
+            )}
+        </TileGrid>
     );
 
 }
