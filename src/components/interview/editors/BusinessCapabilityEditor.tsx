@@ -5524,8 +5524,11 @@ export default function BusinessCapabilityEditor({
                         {pending.orphans.map(card => "“" + card.name + "”").join(", ")} {pending.orphans.length === 1 ? "was" : "were"} made for this card and no other card is linked to {pending.orphans.length === 1 ? "it" : "them"}. If you continue, {pending.orphans.length === 1 ? "it is" : "they are"} removed.
                     </p>
                     <div className="confirmation-actions">
-                        <button type="button" className="confirmation-button secondary" autoFocus onClick={() => setPending(null)}>Cancel</button>
-                        <button type="button" className="confirmation-button danger" onClick={() => { const { next, orphans, after } = pending; setPending(null); write(withoutCards(next, orphans.map(card => card.id))); after?.(); }}>Continue</button>
+                        <AddButton look="confirmation-button secondary"
+                            autoFocus
+                            onClick={() => setPending(null)}>Cancel</AddButton>
+                        <AddButton look="confirmation-button danger"
+                            onClick={() => { const { next, orphans, after } = pending; setPending(null); write(withoutCards(next, orphans.map(card => card.id))); after?.(); }}>Continue</AddButton>
                     </div>
                 </div>
             </div>

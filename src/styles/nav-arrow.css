@@ -1,0 +1,52 @@
+/* THE VERTICAL NAVIGATION ARROW (NavArrow, `vertical`): the move of a row, up and down. The 32px square of the x and the "+" (--size-box-button), the "+" box's two colours: at rest the ground, a 2px stroke and the glyph in the accent ink; under the pointer the ink filled, the glyph in the ground. */
+.nav-arrow-vertical {
+
+    flex: none;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+    width: var(--size-box-button);
+    height: var(--size-box-button);
+    padding: 0;
+
+    border: 2px solid var(--accent-ink, var(--text-default));
+    border-radius: var(--radius-md);
+
+    background: transparent;
+    color: var(--accent-ink, var(--text-default));
+
+    font: inherit;
+    font-size: 12px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition: background-color .15s ease, color .15s ease;
+
+}
+
+.nav-arrow-vertical:hover:not(:disabled),
+.nav-arrow-vertical:focus-visible {
+
+    background: var(--accent-ink, var(--text-default));
+    color: var(--x-ground, var(--bg-surface));
+
+}
+
+.nav-arrow-vertical:focus-visible {
+
+    outline: 2px solid var(--focus-ring-ink, var(--line-primary));
+    outline-offset: 2px;
+
+}
+
+.nav-arrow-vertical:disabled {
+
+    opacity: .35;
+
+    cursor: not-allowed;
+
+}

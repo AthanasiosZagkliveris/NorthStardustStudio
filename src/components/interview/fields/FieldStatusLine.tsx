@@ -1,3 +1,4 @@
+import TextLink from "./TextLink.tsx";
 /**
  * THE ONE STATUS LINE UNDER A FIELD'S LABEL: what is said about the
  * field besides its answer, in words with a small mark where it has
@@ -46,9 +47,9 @@ export default function FieldStatusLine({
                 {onReset && (
                     <>
                         {" · "}
-                        <button type="button" className="field-status-reset" onClick={onReset}>
+                        <TextLink className="field-status-reset" onClick={onReset}>
                             Reset
-                        </button>
+                        </TextLink>
                     </>
                 )}
             </span>

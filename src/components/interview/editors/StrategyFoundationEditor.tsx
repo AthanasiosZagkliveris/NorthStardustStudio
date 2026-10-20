@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode, useEffect, useRef } from "react";
 
+import AddButton from "../../controls/AddButton.tsx";
 import CardShell from "../cards/CardShell.tsx";
 import FieldLabel from "../../controls/FieldLabel.tsx";
 import {
@@ -303,14 +304,11 @@ export default function StrategyFoundationEditor({
 
                 {/* Where the text came from, and the way back to the draft. */}
                 <div className="strategy-situation-source">
-                    <button
-                        type="button"
-                        className="header-tool strategy-situation-refresh"
+                    <AddButton className="strategy-situation-refresh"
                         disabled={disabled || !situationDraft}
-                        onClick={refreshSituation}
-                    >
-                        <span className="header-tool-word">Refresh</span>
-                    </button>
+                        onClick={refreshSituation}>
+                        Refresh
+                    </AddButton>
                     <InfoNote
                         label="Refresh"
                         points={[!situationDraft

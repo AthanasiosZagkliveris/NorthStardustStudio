@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import TextLink from "../components/interview/fields/TextLink.tsx";
 import AddButton from "../components/controls/AddButton.tsx";
 import { useEffect, useState } from "react";
 
@@ -244,13 +245,9 @@ export default function SystemSelection() {
                     {/* Back to the last place worked, when there is one. */}
                     {lastPlace && (
                         <div className="workspace-continue">
-                            <button
-                                type="button"
-                                className="workspace-continue-button"
-                                onClick={continueWhereLeftOff}
-                            >
+                            <TextLink className="workspace-continue-button" onClick={continueWhereLeftOff}>
                                 {lastPlace.prefix}: {lastPlace.label}
-                            </button>
+                            </TextLink>
                         </div>
                     )}
 

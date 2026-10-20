@@ -1,5 +1,7 @@
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
+import NavArrow from "../../controls/NavArrow.tsx";
+import AddButton from "../../controls/AddButton.tsx";
 import RemoveButton from "../../controls/RemoveButton.tsx";
 import TextBox from "../../controls/TextBox.tsx";
 import TextField from "../../controls/TextField.tsx";
@@ -1396,21 +1398,12 @@ function DynamicTable({
 
                 ))}
 
-                <button
-
-                    type="button"
-
+                <AddButton
                     disabled={disabled}
-
-                    className="dynamic-table-repeatable-add"
-
                     aria-label={`Add another ${column.title}`}
-
-                    onClick={() => addMethodEntry(rowIndex, column.id)}
-
-                >
+                    onClick={() => addMethodEntry(rowIndex, column.id)}>
                     + Add {column.title}
-                </button>
+                </AddButton>
 
             </div>
 
@@ -1899,37 +1892,13 @@ function DynamicTable({
 
                                     <div className="dynamic-table-row-move">
 
-                                        <button
-
-                                            type="button"
-
+                                        <NavArrow vertical direction="previous" label="Move row up"
                                             disabled={disabled || rowIndex === 0}
+                                            onClick={() => moveRow(rowIndex, -1)} />
 
-                                            className="dynamic-table-row-move-up"
-
-                                            aria-label="Move row up"
-
-                                            onClick={() => moveRow(rowIndex, -1)}
-
-                                        >
-                                            ▲
-                                        </button>
-
-                                        <button
-
-                                            type="button"
-
+                                        <NavArrow vertical direction="next" label="Move row down"
                                             disabled={disabled || rowIndex === value.length - 1}
-
-                                            className="dynamic-table-row-move-down"
-
-                                            aria-label="Move row down"
-
-                                            onClick={() => moveRow(rowIndex, 1)}
-
-                                        >
-                                            ▼
-                                        </button>
+                                            onClick={() => moveRow(rowIndex, 1)} />
 
                                     </div>
 
@@ -1948,21 +1917,10 @@ function DynamicTable({
 
                                             } />
 
-                                        <button
-
-                                            type="button"
-
+                                        <AddButton shape="box" small
                                             disabled={disabled}
-
-                                            className="dynamic-table-row-add"
-
                                             aria-label="Add row"
-
-                                            onClick={() => addRow(rowIndex)}
-
-                                        >
-                                            +
-                                        </button>
+                                            onClick={() => addRow(rowIndex)} />
 
                                     </div>
 

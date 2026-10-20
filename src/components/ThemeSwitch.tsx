@@ -1,5 +1,6 @@
 import { KeyboardEvent, useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
 
+import AddButton from "./controls/AddButton.tsx";
 import { usePopupDismiss } from "./controls/PopupPanel.tsx";
 import { ThemeService, ThemeChoice, type Theme } from "../services/ThemeService";
 import { consumeKey } from "./interview/fields/consumeKey";
@@ -160,25 +161,22 @@ export default function ThemeSwitch() {
     return (
         <div className="theme-switch" ref={containerRef}>
 
-            <button
+            <AddButton className="header-tool theme-switch-trigger"
                 ref={triggerRef}
-                type="button"
-                className="header-tool theme-switch-trigger"
                 aria-label={"Reading mode: " + current.label}
                 title={current.title}
                 aria-haspopup="listbox"
                 aria-expanded={open}
                 aria-controls={open ? listId : undefined}
                 onClick={() => open ? close() : start()}
-                onKeyDown={onTriggerKeyDown}
-            >
+                onKeyDown={onTriggerKeyDown}>
                 {/* Auto says "Auto", with the icon of what it comes to now. */}
                 <ThemeIcon value={current.value === "auto" ? resolved : current.value} />
                 <span className="header-tool-word">{current.label}</span>
                 <svg className="theme-switch-chevron" viewBox="0 0 12 8" aria-hidden="true" focusable="false">
                     <path d="M1 1.5 6 6.5 11 1.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-            </button>
+            </AddButton>
 
             {open && (
                 <div

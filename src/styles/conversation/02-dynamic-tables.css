@@ -802,59 +802,11 @@
 
 }
 
-.dynamic-table-repeatable-add{
-
-    flex:0 0 auto;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    border:none;
-
-    color:var(--text-on-fill);
-
-    cursor:pointer;
-
-    transition:filter 0.15s ease;
-
-}
-
 /* The per-entry "-" sits right next to that entry's own control,
    sized to match a single line of it. The trailing "add another"
    control spans the full width of the list, below the last entry,
    so it reads as "add one more" rather than as another entry of
    its own. */
-
-.dynamic-table-repeatable-add{
-
-    width:100%;
-
-    padding:6px 10px;
-
-    border-radius:var(--radius-md);
-
-    font-size:var(--font-small);
-    font-weight:600;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-
-    background:var(--bg-add);
-
-}
-
-.dynamic-table-repeatable-add:hover:not(:disabled){
-
-    filter:brightness(1.1);
-
-}
-
-.dynamic-table-repeatable-add:disabled{
-
-    opacity:0.5;
-
-    cursor:default;
-
-}
 
 /* The totals row sits beneath a table's data rows (only
    rendered when at least one column is marked `sumCheck`,
@@ -1219,103 +1171,6 @@
     align-items:center;
 
     gap:var(--gap-6);
-
-}
-
-.dynamic-table-row-move-up,
-.dynamic-table-row-move-down{
-
-    display:inline-flex;
-
-    align-items:center;
-    justify-content:center;
-
-    width:22px;
-    height:22px;
-
-    flex-shrink:0;
-
-    border:1px solid var(--box-border);
-    border-radius:50%;
-
-    background:var(--bg-surface);
-
-    color:var(--text-subtle);
-
-    font-size:var(--font-small);
-    line-height:1;
-
-    cursor:pointer;
-
-    transition:background-color .15s ease, border-color .15s ease, color .15s ease, opacity .15s ease;
-
-}
-
-.dynamic-table-row-move-up:hover:not(:disabled),
-.dynamic-table-row-move-down:hover:not(:disabled){
-
-    background:var(--bg-primary-tint);
-
-    border-color:var(--line-primary);
-
-    color:var(--text-primary);
-
-}
-
-.dynamic-table-row-move-up:disabled,
-.dynamic-table-row-move-down:disabled{
-
-    opacity:.35;
-
-    cursor:not-allowed;
-
-}
-
-.dynamic-table-row-add{
-
-    display:inline-flex;
-
-    align-items:center;
-    justify-content:center;
-
-    width:28px;
-    height:28px;
-
-    flex-shrink:0;
-
-    border:none;
-    border-radius:50%;
-
-    color:var(--text-on-fill);
-
-    font-size:var(--font-body);
-    font-weight:700;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-    line-height:1;
-
-    cursor:pointer;
-
-    transition:filter .15s ease, opacity .15s ease;
-
-}
-
-.dynamic-table-row-add{
-
-    background:var(--bg-add);
-
-}
-
-.dynamic-table-row-add:hover:not(:disabled){
-
-    filter:brightness(1.1);
-
-}
-
-.dynamic-table-row-add:disabled{
-
-    opacity:.45;
-
-    cursor:not-allowed;
 
 }
 

@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import RemoveButton from "../components/controls/RemoveButton.tsx";
+import AddButton from "../components/controls/AddButton.tsx";
 import TextBox from "../components/controls/TextBox.tsx";
 import { useNavigate } from "react-router-dom";
 
@@ -387,19 +389,9 @@ export default function Landing() {
 
                     </div>
 
-                    <button
-                        type="button"
-                        className="organization-remove"
+                    <RemoveButton
                         aria-label={`Remove ${organization.name || "organization"}`}
-                        title="Remove Organization"
-                        onClick={() => requestRemoveOrganization(organization.id)}
-                    >
-                        {/* A fallback only -- the X actually shown
-                            is drawn in CSS so it sits dead centre
-                            at any size. See "Delete controls" in
-                            conversation.css. */}
-                        ×
-                    </button>
+                        onClick={() => requestRemoveOrganization(organization.id)} />
 
                 </div>
 
@@ -407,31 +399,26 @@ export default function Landing() {
 
         </div>
 
-        <button
-            type="button"
-            className="organization-add-button"
-            onClick={addOrganization}
-        >
-            + Add Organization
-        </button>
+        <div className="organization-actions">
 
-        <button
-            type="button"
-            className="organization-add-button"
-            onClick={() => importInputRef.current?.click()}
-        >
-            Import Organization
-        </button>
+            <AddButton
+                onClick={addOrganization}>
+                + Add Organization
+            </AddButton>
 
-        <button
-            type="button"
-            className="organization-add-button"
-            disabled={!selectedId}
-            title={selectedId ? undefined : "Select an Organization to export"}
-            onClick={exportOrganization}
-        >
-            Export Organization
-        </button>
+            <AddButton
+                onClick={() => importInputRef.current?.click()}>
+                Import Organization
+            </AddButton>
+
+            <AddButton
+                disabled={!selectedId}
+                title={selectedId ? undefined : "Select an Organization to export"}
+                onClick={exportOrganization}>
+                Export Organization
+            </AddButton>
+
+        </div>
 
         <input
             ref={importInputRef}
@@ -503,19 +490,15 @@ export default function Landing() {
 
                 <div className="confirmation-actions">
 
-                    <button
-                        className="confirmation-button secondary"
-                        onClick={cancelRemoveOrganization}
-                    >
+                    <AddButton look="confirmation-button secondary"
+                        onClick={cancelRemoveOrganization}>
                         Cancel
-                    </button>
+                    </AddButton>
 
-                    <button
-                        className="confirmation-button danger"
-                        onClick={confirmRemoveOrganization}
-                    >
+                    <AddButton look="confirmation-button danger"
+                        onClick={confirmRemoveOrganization}>
                         Delete
-                    </button>
+                    </AddButton>
 
                 </div>
 

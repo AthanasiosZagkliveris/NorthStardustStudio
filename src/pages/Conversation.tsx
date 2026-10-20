@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import TextLink from "../components/interview/fields/TextLink.tsx";
+import AddButton from "../components/controls/AddButton.tsx";
 import TextBox from "../components/controls/TextBox.tsx";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -2168,13 +2170,9 @@ export default function Conversation() {
                                             key: page.id,
                                             className: "intro-page",
                                             text: (
-                                                <button
-                                                    type="button"
-                                                    className="intro-page-link"
-                                                    onClick={() => startInterviewAt(pageIndexFromRailId(page.id))}
-                                                >
+                                                <TextLink className="intro-page-link" onClick={() => startInterviewAt(pageIndexFromRailId(page.id))}>
                                                     {page.label.replace(/^\d+\.\s+/, "")}
-                                                </button>
+                                                </TextLink>
                                             )
                                         }))}
                                     />
@@ -2208,13 +2206,10 @@ export default function Conversation() {
                                 wrapper, which the shape does not clip. */}
                             <div className="intro-start">
                                 <span className="start-arrow">
-                                    <button
-                                        type="button"
-                                        className="primary-button start-arrow-button"
-                                        onClick={startInterview}
-                                    >
+                                    <AddButton look="primary-button" className="start-arrow-button"
+                                        onClick={startInterview}>
                                         Start Interview
-                                    </button>
+                                    </AddButton>
                                 </span>
                             </div>
                         </section>
@@ -2340,22 +2335,18 @@ export default function Conversation() {
 
                         <div className="confirmation-actions">
 
-                            <button
-                                className="confirmation-button secondary"
-                                onClick={() => setStrategyPrompt(null)}
-                            >
+                            <AddButton look="confirmation-button secondary"
+                                onClick={() => setStrategyPrompt(null)}>
                                 Cancel
-                            </button>
+                            </AddButton>
 
-                            <button
-                                className="confirmation-button primary confirmation-button-danger"
+                            <AddButton look="confirmation-button primary" className="confirmation-button-danger"
                                 onClick={() => {
                                     strategyPrompt.apply();
                                     setStrategyPrompt(null);
-                                }}
-                            >
+                                }}>
                                 Continue
-                            </button>
+                            </AddButton>
 
                         </div>
 
@@ -2412,19 +2403,15 @@ export default function Conversation() {
                         </ul>
 
                         <div className="confirmation-actions">
-                            <button
-                                className="confirmation-button secondary"
-                                onClick={() => setExportStep("none")}
-                            >
+                            <AddButton look="confirmation-button secondary"
+                                onClick={() => setExportStep("none")}>
                                 Cancel
-                            </button>
+                            </AddButton>
 
-                            <button
-                                className="confirmation-button primary"
-                                onClick={() => openExportOptions()}
-                            >
+                            <AddButton look="confirmation-button primary"
+                                onClick={() => openExportOptions()}>
                                 Continue
-                            </button>
+                            </AddButton>
                         </div>
                     </div>
                 </div>
@@ -2641,20 +2628,16 @@ export default function Conversation() {
                         </div>
 
                         <div className="confirmation-actions">
-                            <button
-                                className="confirmation-button secondary"
-                                onClick={() => setExportStep("none")}
-                            >
+                            <AddButton look="confirmation-button secondary"
+                                onClick={() => setExportStep("none")}>
                                 Cancel
-                            </button>
+                            </AddButton>
 
-                            <button
-                                className="confirmation-button primary"
+                            <AddButton look="confirmation-button primary"
                                 onClick={handleFinalExport}
-                                disabled={!canExport || !canConfirmCapability}
-                            >
+                                disabled={!canExport || !canConfirmCapability}>
                                 Export
-                            </button>
+                            </AddButton>
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 
+import AddButton from "./controls/AddButton.tsx";
 import { OrganizationService } from "../services/OrganizationService";
 
 import "../styles/search.css";
@@ -41,22 +42,19 @@ export default function SearchButton() {
 
     return (
         <>
-            <button
-                type="button"
-                className="header-tool"
+            <AddButton className="header-tool"
                 aria-label="Search"
                 aria-keyshortcuts="Control+K Meta+K"
                 title="Search (Ctrl+K)"
                 aria-haspopup="dialog"
                 aria-expanded={open}
-                onClick={start}
-            >
+                onClick={start}>
                 <svg className="header-tool-icon" viewBox="0 0 20 20" aria-hidden="true">
                     <circle cx="8.5" cy="8.5" r="5.25" fill="none" stroke="currentColor" strokeWidth="1.5" />
                     <path d="M12.5 12.5l4.5 4.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                 </svg>
                 <span className="header-tool-word">Search</span>
-            </button>
+            </AddButton>
 
             {open && organizationId && (
                 <Suspense fallback={null}>

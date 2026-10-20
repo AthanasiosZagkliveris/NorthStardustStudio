@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import AddButton from "./controls/AddButton.tsx";
 import SegmentedToggle from "./controls/SegmentedToggle.tsx";
 import { DateFormat, PreferencesService } from "../services/PreferencesService.ts";
 
@@ -81,12 +82,10 @@ export default function UserPreferencesDialog({
 
                 <div className="confirmation-actions">
 
-                    <button
-                        className="confirmation-button primary"
-                        onClick={save}
-                    >
+                    <AddButton look="confirmation-button primary"
+                        onClick={save}>
                         Save
-                    </button>
+                    </AddButton>
 
                 </div>
 

@@ -1,4 +1,5 @@
 import { Fragment, useEffect, useMemo, useState } from "react";
+import TextLink from "../components/interview/fields/TextLink.tsx";
 import AddButton from "../components/controls/AddButton.tsx";
 import RemoveButton from "../components/controls/RemoveButton.tsx";
 import NumberCell from "../components/controls/NumberCell.tsx";
@@ -328,9 +329,9 @@ export default function GlobalSettings() {
                                                     {assetsOf(group.id).map((slot, at) => (
                                                         <tr className="settings-assets-card" key={slot.id}>
                                                             <th scope="row">
-                                                                <button type="button" className="settings-asset-name" title="Open the Infrastructure & Capability page" onClick={openCardsPage}>
-                                                                    <span className="settings-asset-order">{(at + 1) + "."}</span>{slot.name.trim() || "Unnamed resource"}
-                                                                </button>
+                                                                <TextLink className="settings-asset-name" title="Open the Infrastructure & Capability page" onClick={openCardsPage}>
+                                <span className="settings-asset-order">{(at + 1) + "."}</span>{slot.name.trim() || "Unnamed resource"}
+                            </TextLink>
                                                             </th>
                                                             {(() => {
                                                                 const [amount = "", ...rest] = costText(slot.cost, orgCurrency).split(" ");
@@ -403,9 +404,9 @@ export default function GlobalSettings() {
                                                 return (
                                                     <tr className="settings-assets-card" key={slot.id}>
                                                         <th scope="row">
-                                                            <button type="button" className="settings-asset-name" title="Open the Infrastructure & Capability page" onClick={openCardsPage}>
-                                                                <span className="settings-asset-order">{(at + 1) + "."}</span>{slot.name.trim() || "Unnamed resource"}
-                                                            </button>
+                                                            <TextLink className="settings-asset-name" title="Open the Infrastructure & Capability page" onClick={openCardsPage}>
+                                <span className="settings-asset-order">{(at + 1) + "."}</span>{slot.name.trim() || "Unnamed resource"}
+                            </TextLink>
                                                         </th>
                                                         <td className="settings-number-column">{amount.replace(/^[^0-9-]+/, "")}</td>
                                                         <td>{rest.join(" ")}</td>

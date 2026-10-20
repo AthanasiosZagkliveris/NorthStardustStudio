@@ -1116,21 +1116,15 @@ export default function OrganizationCalendarPanel({
 
                         <div className="confirmation-actions">
 
-                            <button
-                                type="button"
-                                className="confirmation-button secondary"
-                                onClick={() => setTimeConfirmPrompt(null)}
-                            >
+                            <AddButton look="confirmation-button secondary"
+                                onClick={() => setTimeConfirmPrompt(null)}>
                                 No, just this one
-                            </button>
+                            </AddButton>
 
-                            <button
-                                type="button"
-                                className="confirmation-button primary"
-                                onClick={confirmApplyTimeToSiblings}
-                            >
+                            <AddButton look="confirmation-button primary"
+                                onClick={confirmApplyTimeToSiblings}>
                                 Yes, apply to all
-                            </button>
+                            </AddButton>
 
                         </div>
 

@@ -59,20 +59,17 @@ export function NotepadButton() {
     const { notes, view } = useNotepad();
 
     return (
-        <button
-            type="button"
-            className="header-tool"
+        <AddButton className="header-tool"
             aria-expanded={view.open}
             aria-label={"Notes, " + notes.length + (notes.length === 1 ? " note" : " notes")}
-            onClick={() => NotepadService.toggle()}
-        >
+            onClick={() => NotepadService.toggle()}>
             <svg className="header-tool-icon" viewBox="0 0 20 20" aria-hidden="true">
                 <path d="M5 2.5h7.5L16 6v11.5H5z" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
                 <path d="M7.5 9h6M7.5 12h6M7.5 15h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
             <span className="header-tool-word">Notes</span>
             {notes.length > 0 && <span className="header-tool-count">{notes.length}</span>}
-        </button>
+        </AddButton>
     );
 
 }

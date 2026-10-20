@@ -1,5 +1,6 @@
 import { Fragment, FocusEvent, MouseEvent, useCallback, useEffect, useMemo, useState } from "react";
 
+import NavArrow from "../../controls/NavArrow.tsx";
 import AddButton from "../../controls/AddButton.tsx";
 import RemoveButton from "../../controls/RemoveButton.tsx";
 import TextBox from "../../controls/TextBox.tsx";
@@ -501,25 +502,13 @@ function RowActions({
 
             <div className="dynamic-table-row-move">
 
-                <button
-                    type="button"
+                <NavArrow vertical direction="previous" label={`Move ${itemLabel} up`}
                     disabled={disabled || !canMoveUp}
-                    className="dynamic-table-row-move-up"
-                    aria-label={`Move ${itemLabel} up`}
-                    onClick={onMoveUp}
-                >
-                    ▲
-                </button>
+                    onClick={onMoveUp} />
 
-                <button
-                    type="button"
+                <NavArrow vertical direction="next" label={`Move ${itemLabel} down`}
                     disabled={disabled || !canMoveDown}
-                    className="dynamic-table-row-move-down"
-                    aria-label={`Move ${itemLabel} down`}
-                    onClick={onMoveDown}
-                >
-                    ▼
-                </button>
+                    onClick={onMoveDown} />
 
             </div>
 
@@ -530,15 +519,10 @@ function RowActions({
                     aria-label={isOnlyRow ? `Clear ${itemLabel}` : `Remove ${itemLabel}`}
                     onClick={onRemove} />
 
-                <button
-                    type="button"
+                <AddButton shape="box" small
                     disabled={disabled}
-                    className="dynamic-table-row-add"
                     aria-label={`Add ${itemLabel}`}
-                    onClick={onAdd}
-                >
-                    +
-                </button>
+                    onClick={onAdd} />
 
             </div>
 

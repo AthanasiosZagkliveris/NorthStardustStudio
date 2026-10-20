@@ -344,31 +344,14 @@
     box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
 }
 
-.organization-add-button {
+/* The add, import and export buttons: the app's add button, a gap apart. */
+.organization-actions {
 
-    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--gap-12);
 
-    padding: 10px 20px;
-
-    border: 2px dashed var(--line-primary);
-    border-radius: 10px;
-
-    background: var(--bg-surface);
-
-    color: var(--text-primary);
-
-    font-size: var(--font-body);
-    font-weight: 600;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-
-    cursor: pointer;
-
-    transition: background-color .15s ease;
-}
-
-.organization-add-button:hover {
-
-    background: var(--bg-primary-tint);
 }
 
 .organization-hint {

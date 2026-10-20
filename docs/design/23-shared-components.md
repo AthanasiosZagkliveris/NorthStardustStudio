@@ -2,6 +2,12 @@
 
 This document describes the current situation, one dated section per state, the newest on top. What changed, and when, is written in the log (`04-log.md`), not here.
 
+## State on 2026-10-20, the sweep of hand-made controls
+
+Replaced by the existing components: every x (`RemoveButton`), every + box and labelled add (`AddButton`, shapes wide / box / tile, `look` for the primary, secondary, confirmation and help looks), the move of a row (`NavArrow` vertical), the header's tools, text links (`TextLink`), the drop-down of several choices (`MultiPicker`), a choice among a few shown at once (`SegmentedToggle`).
+
+**Still hand-made (not yet replaced; each needs a decision):** the answer-variant cards (`answer-variant-card`: a card chosen among several), the profile card add tile, the fold-all toggles ("Expand all"), the chips of the Notes panel and of a channel's resources (`notepad-chip-open`, `notepad-suggestion`), the sort menu's options (`strategy-sort-option`), the calendar's day cells and the rail items, the date popup's days, the landing cards, the tabs of the Business Documents, the picture boxes, the Process library's expand toggles (a page not reachable in this app version).
+
 ## State on 2026-10-20, the last of the day (third part)
 
 - **One fold arrow**: `FoldArrow` (`interview/fields/FoldArrow.tsx`), two sizes by `variant` (`card`, `label`); `LabelArrow` no longer exists. Used by the card heads, the groups, the labels, the title help, `FoldHead` and the Notes' close arrow. Left: the typed ▸ / ▾ of the Process library's rows (a page not reachable in this app version).

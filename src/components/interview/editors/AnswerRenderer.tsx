@@ -1,4 +1,6 @@
 import { CSSProperties, ReactNode, useEffect, useMemo, useState } from "react";
+import AddButton from "../../controls/AddButton.tsx";
+import NavArrow from "../../controls/NavArrow.tsx";
 import RemoveButton from "../../controls/RemoveButton.tsx";
 import TextBox from "../../controls/TextBox.tsx";
 import CardShell from "../cards/CardShell.tsx";
@@ -1564,25 +1566,13 @@ function SingleAnswerRenderer({
 
                                 <div className="dynamic-table-row-move">
 
-                                    <button
-                                        type="button"
-                                        className="dynamic-table-row-move-up"
-                                        aria-label="Move item up"
+                                    <NavArrow vertical direction="previous" label="Move item up"
                                         disabled={disabled || index === 0}
-                                        onClick={() => moveItem(index, -1)}
-                                    >
-                                        ▲
-                                    </button>
+                                        onClick={() => moveItem(index, -1)} />
 
-                                    <button
-                                        type="button"
-                                        className="dynamic-table-row-move-down"
-                                        aria-label="Move item down"
+                                    <NavArrow vertical direction="next" label="Move item down"
                                         disabled={disabled || index === items.length - 1}
-                                        onClick={() => moveItem(index, 1)}
-                                    >
-                                        ▼
-                                    </button>
+                                        onClick={() => moveItem(index, 1)} />
 
                                 </div>
 
@@ -1593,15 +1583,10 @@ function SingleAnswerRenderer({
                                         disabled={disabled}
                                         onClick={() => removeItem(item.id)} />
 
-                                    <button
-                                        type="button"
-                                        className="dynamic-table-row-add"
+                                    <AddButton shape="box" small
                                         aria-label="Add item"
                                         disabled={disabled}
-                                        onClick={addItem}
-                                    >
-                                        +
-                                    </button>
+                                        onClick={addItem} />
 
                                 </div>
 
@@ -1766,25 +1751,13 @@ function SingleAnswerRenderer({
 
                                         <div className="dynamic-table-row-move">
 
-                                            <button
-                                                type="button"
-                                                className="dynamic-table-row-move-up"
-                                                aria-label="Move entry up"
+                                            <NavArrow vertical direction="previous" label="Move entry up"
                                                 disabled={disabled || index === 0}
-                                                onClick={() => moveCardItem(activeCard.id, index, -1)}
-                                            >
-                                                ▲
-                                            </button>
+                                                onClick={() => moveCardItem(activeCard.id, index, -1)} />
 
-                                            <button
-                                                type="button"
-                                                className="dynamic-table-row-move-down"
-                                                aria-label="Move entry down"
+                                            <NavArrow vertical direction="next" label="Move entry down"
                                                 disabled={disabled || index === activeItems.length - 1}
-                                                onClick={() => moveCardItem(activeCard.id, index, 1)}
-                                            >
-                                                ▼
-                                            </button>
+                                                onClick={() => moveCardItem(activeCard.id, index, 1)} />
 
                                         </div>
 
@@ -1795,15 +1768,10 @@ function SingleAnswerRenderer({
                                                 disabled={disabled}
                                                 onClick={() => removeCardItem(activeCard.id, item.id)} />
 
-                                            <button
-                                                type="button"
-                                                className="dynamic-table-row-add"
+                                            <AddButton shape="box" small
                                                 aria-label="Add entry"
                                                 disabled={disabled}
-                                                onClick={() => addCardItem(activeCard.id)}
-                                            >
-                                                +
-                                            </button>
+                                                onClick={() => addCardItem(activeCard.id)} />
 
                                         </div>
 

@@ -1,5 +1,6 @@
 import logo from "../assets/NORTH STARDUST Organization Framework.svg";
 
+import AddButton from "./controls/AddButton.tsx";
 import SaveStatus from "./SaveStatus";
 import { NotepadButton, NotepadPanel, NotepadPicker } from "./notepad/Notepad";
 import FocusModeButton from "./FocusModeButton";
@@ -49,17 +50,14 @@ export default function AppHeader({ organizationName, focusable = false, reloada
             <ThemeSwitch />
 
             {reloadable && (
-                <button
-                    type="button"
-                    className="header-tool app-reload"
+                <AddButton className="header-tool app-reload"
                     aria-label="Reload the app and refresh the examples"
-                    onClick={() => { onReload?.(); window.location.reload(); }}
-                >
+                    onClick={() => { onReload?.(); window.location.reload(); }}>
                     <svg className="header-tool-icon" viewBox="0 0 20 20" aria-hidden="true">
                         <path d="M16 10a6 6 0 1 1-2-4.5M16 3v3.5h-3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                     <span className="header-tool-word">Reload</span>
-                </button>
+                </AddButton>
             )}
 
             {/* Focus mode: on an interview page. */}

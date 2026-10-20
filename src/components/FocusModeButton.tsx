@@ -1,4 +1,5 @@
 import { useEffect, useSyncExternalStore } from "react";
+import AddButton from "./controls/AddButton.tsx";
 import { createPortal } from "react-dom";
 
 import { FocusModeService } from "../services/FocusModeService";
@@ -50,28 +51,22 @@ export default function FocusModeButton() {
 
     return (
         <>
-            <button
-                type="button"
-                className="header-tool focus-mode-enter"
+            <AddButton className="header-tool focus-mode-enter"
                 aria-label="Focus"
                 aria-pressed={on}
                 title="Focus: the page alone"
-                onClick={() => FocusModeService.set(true)}
-            >
+                onClick={() => FocusModeService.set(true)}>
                 <FocusIcon />
                 <span className="header-tool-word">Focus</span>
-            </button>
+            </AddButton>
 
             {on && createPortal(
-                <button
-                    type="button"
-                    className="header-tool focus-mode-exit"
+                <AddButton className="header-tool focus-mode-exit"
                     title="Exit focus (Escape)"
-                    onClick={() => FocusModeService.set(false)}
-                >
+                    onClick={() => FocusModeService.set(false)}>
                     <FocusIcon exit />
                     <span>Exit focus</span>
-                </button>,
+                </AddButton>,
                 document.body
             )}
         </>

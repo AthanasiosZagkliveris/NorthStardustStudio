@@ -1,3 +1,4 @@
+import AddButton from "./controls/AddButton.tsx";
 import { Component, ErrorInfo, ReactNode } from "react";
 
 interface ErrorBoundaryProps {
@@ -90,12 +91,12 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
                     {this.state.error.message}
                 </p>
                 <div className="error-boundary-actions">
-                    <button type="button" onClick={this.handleReload}>
+                    <AddButton onClick={this.handleReload}>
                         Reload
-                    </button>
-                    <button type="button" onClick={this.handleClearAndReload}>
+                    </AddButton>
+                    <AddButton onClick={this.handleClearAndReload}>
                         Clear Saved Interview &amp; Reload
-                    </button>
+                    </AddButton>
                 </div>
             </div>
         );
