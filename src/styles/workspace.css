@@ -220,6 +220,16 @@
 
     flex-shrink: 0;
 
+    /* The band is not a surface: what stands in it (the Inventory and Completed tiles on page 3) is pressed through it; only its own links and buttons take the pointer. */
+    pointer-events: none;
+
+}
+
+.workspace-footer > *,
+.workspace-footer-actions {
+
+    pointer-events: auto;
+
 }
 
 .workspace-footer-actions {
