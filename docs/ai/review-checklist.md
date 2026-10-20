@@ -2,6 +2,8 @@
 
 Status: **rules**, updated 2026-10-20.
 
+The standard behind each line, with the numbers and how to measure them, is `review-criteria.md`.
+
 Read this before reviewing or changing anything on screen, and tick every line that applies before saying "done". Each line is here because it was missed once. The rules it points to are in `layout-rules.md`, `tile-and-card-pattern.md`, `20-reactions.md`, `23-shared-components.md` and `26-tooltips.md`.
 
 ## 0. Before looking

@@ -40,6 +40,7 @@ Skills (delivered separately, outside this folder) reference specific files here
 
 ## The app's own map
 
+- **`review-criteria.md`**: the standard a screen is judged by (typography, spacing, controls, colour, tiles, cards, tables, pop-up windows, pages, data), how each criterion is measured, and the form of the report.
 - **`review-checklist.md`**: what to check when reviewing a table, tile, card, page or control (components, sizes, colour, reactions, tooltips, layout, data) and the proof before saying done. Read it before any change on screen.
 - **`code-map.md`**: where things are in `src` (the folders, and what is in each), and the rules for a new file.
 

@@ -16,6 +16,7 @@ const AI = [
   ["docs/ai/framework-dsl-grammar.md", "reference", "Grammar of the Markdown that defines a System's content.", true],
   ["docs/ai/framework-conventions-and-patterns.md", "reference", "The architectural patterns and the data model of the framework.", true],
   ["docs/ai/glossary.md", "reference", "One line per project term, with a pointer to where it is explained.", true],
+  ["docs/ai/review-criteria.md", "rules", "The standard a screen is judged by: criteria by kind (type, spacing, controls, colour, tiles, cards, tables, windows, pages, data), how each is measured, the report.", true],
   ["docs/ai/review-checklist.md", "rules", "What to check when reviewing a table, tile, card, page or control, and the proof before saying done.", true],
   ["docs/ai/code-map.md", "reference", "Where things are in src: the folders and what is in each; the rules for a new file.", true],
   ["docs/ai/app-guide.md", "reference", "Where each part of the app is, what it is for, with the code locations.", true],
