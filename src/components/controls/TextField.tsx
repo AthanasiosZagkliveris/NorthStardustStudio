@@ -1,3 +1,4 @@
+import "../../styles/text-field.css";
 import { KeyboardEvent, useCallback, useLayoutEffect, useRef } from "react";
 
 import { useAutoGrow } from "../../hooks/useAutoGrow.ts";

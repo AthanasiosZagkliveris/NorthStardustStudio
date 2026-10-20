@@ -1101,3 +1101,10 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
 
 }
 
+
+/* A PAIR STANDS IN PLACE OF THE CARD IT WAS OPENED FROM: it draws that card again above the card it leads to, so the card under it is not drawn (its scrim stays). */
+.floating-overlay:has(~ .floating-overlay-pair) .floating-card-item {
+
+    visibility: hidden;
+
+}

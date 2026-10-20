@@ -1014,7 +1014,7 @@ h6 {
   position: fixed;
   z-index: 1000;
 
-  max-width: calc(100vw - 16px);
+  max-width: min(360px, calc(100vw - 16px));
   padding: 4px 8px;
 
   border: 1px solid var(--tooltip-border);

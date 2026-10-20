@@ -138,35 +138,6 @@
 
     padding:10px 20px;
 
-    border:1px solid var(--line-primary);
-    border-radius:var(--radius-lg);
-
-    background:var(--bg-surface);
-
-    font-family:inherit;
-    font-weight:500;
-
-    color:var(--text-primary);
-
-    cursor:pointer;
-
-}
-
-.business-documents-button:hover:not(:disabled){
-
-    background:var(--bg-primary-tint);
-
-    text-shadow:var(--hover-bold);
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-
-}
-
-.business-documents-button:disabled{
-
-    opacity:0.5;
-
-    cursor:not-allowed;
-
 }
 
 /* ---------- The plan, as a page ---------- */

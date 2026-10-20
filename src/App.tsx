@@ -1,3 +1,4 @@
+import "./styles/accent-button.css";
 import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import TitleTooltips from "./components/controls/TitleTooltips";

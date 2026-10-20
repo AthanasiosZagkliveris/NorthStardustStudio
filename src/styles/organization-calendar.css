@@ -362,26 +362,8 @@
     align-items:center;
     justify-content:center;
 
-    border:1px solid var(--line-box);
-    border-radius:var(--radius-md);
-
-    background:var(--bg-surface);
-
-    /* Button tier. */
-    font-size:var(--font-body);
+    /* (The look is the accent button's: accent-button.css.) */
     line-height:1;
-
-    cursor:pointer;
-
-    transition:background-color .15s ease, border-color .15s ease;
-
-}
-
-.org-calendar-month-nav-button:hover{
-
-    background:var(--bg-primary-tint);
-
-    border-color:var(--line-primary);
 
 }
 
@@ -1157,23 +1139,6 @@
 
     padding:4px 10px;
 
-    border:1px solid var(--box-border);
-    border-radius:999px;
-
-    background:var(--bg-surface);
-    color:var(--text-default);
-
-    font:inherit;
-    font-size:var(--font-small);
-
-    cursor:pointer;
-
-}
-
-.org-calendar-chip:hover:not(:disabled){
-
-    border-color:var(--line-primary);
-
 }
 
 .org-calendar-chip[aria-pressed="true"]{
@@ -1434,33 +1399,6 @@
    picker's list (no stroke, the raised edge and the drop shadow,
    the rows' padding).
 ========================================================== */
-.org-calendar-month-nav-button,
-.org-calendar-chip{
-
-    border:1px solid var(--accent-line);
-    border-radius:var(--radius-md);
-
-    background:var(--accent-ground);
-    color:var(--accent-ink);
-
-    font-size:var(--font-body);
-    font-weight:500;
-    letter-spacing:0.1em;
-    text-transform:uppercase;
-
-}
-
-.org-calendar-month-nav-button:hover:not(:disabled),
-.org-calendar-chip:hover:not(:disabled){
-
-    border-color:var(--accent-line);
-
-    background:var(--accent-ground-hover);
-
-    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
-
-}
-
 .org-calendar-chip[aria-pressed="true"]{
 
     background:var(--bg-primary);

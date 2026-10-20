@@ -20,7 +20,9 @@ export default function TitleTooltips() {
             const title = element.getAttribute("title");
             if (title !== null) {
                 element.removeAttribute("title");
-                if (title.trim()) {
+                // (A box that repeats its own words in its title -- a text area, a cell -- needs no tip.)
+                const repeats = (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) ? element.value === title : false;
+                if (title.trim() && !repeats) {
                     element.setAttribute("data-tip", title);
                     if (!element.hasAttribute("aria-label") && !element.hasAttribute("aria-labelledby")) {
                         if (!(element.textContent ?? "").trim()) {

@@ -183,49 +183,7 @@
     margin-left: 8px;
     padding: 4px 10px;
 
-    /* THE ADD BUTTON'S LOOK (.strategy-add-button, 07-strategy.css): the accent ink, line and ground, the body size at weight 500, 10% tracking, capitals, the same reactions. */
-    border: 1px solid var(--accent-line);
-    border-radius: var(--radius-md);
-
-    background: var(--accent-ground);
-
-    font: inherit;
-    font-size: var(--font-body);
-    font-weight: 500;
     line-height: 1.4;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-
-    color: var(--accent-ink);
-
-    cursor: pointer;
-
-    transition: background-color .15s ease, box-shadow .15s ease;
-
-}
-
-.header-tool:hover:not(:disabled),
-.header-tool[aria-expanded="true"] {
-
-    background: var(--accent-ground-hover);
-
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
-
-}
-
-.header-tool:focus-visible {
-
-    outline: none;
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
-
-}
-
-.header-tool:disabled {
-
-    color: var(--text-faint);
-    border-color: var(--line-card);
-
-    cursor: not-allowed;
 
 }
 

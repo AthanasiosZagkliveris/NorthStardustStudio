@@ -1,0 +1,10 @@
+/* The add button (AddButton.tsx), loaded by the component so every page that draws one has it (the Notes panel's "+ Add note" on every page). */
+
+.strategy-add-button{
+
+    align-self:flex-start;
+
+    min-height:var(--add-button-height);
+    padding:8px 14px;
+
+}

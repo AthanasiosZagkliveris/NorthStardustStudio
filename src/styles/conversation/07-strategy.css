@@ -178,59 +178,6 @@
 
 }
 
-/* ---------- Add buttons ---------- */
-
-.strategy-add-button{
-
-    align-self:flex-start;
-
-    min-height:var(--add-button-height);
-    padding:8px 14px;
-
-    font-size:var(--font-body);
-    font-weight:500;
-    letter-spacing:0.1em;
-    text-transform:uppercase;
-
-    /* The colour family it sits in (see --accent-* in global.css). */
-    color:var(--accent-ink);
-
-    border:1px solid var(--accent-line);
-    border-radius:var(--radius-md);
-
-    background:var(--accent-ground);
-
-    cursor:pointer;
-
-    transition:background-color .15s ease, box-shadow .15s ease;
-
-}
-
-.strategy-add-button:hover:not(:disabled){
-
-    background:var(--accent-ground-hover);
-
-    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
-
-}
-
-.strategy-add-button:focus-visible{
-
-    outline:none;
-
-    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
-
-}
-
-.strategy-add-button:disabled{
-
-    color:var(--text-faint);
-    border-color:var(--line-card);
-
-    cursor:not-allowed;
-
-}
-
 /* ==========================================================
    Strategic Period page
 

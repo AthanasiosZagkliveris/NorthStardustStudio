@@ -2,6 +2,13 @@
 
 This document describes the current situation, one dated section per state, the newest on top. What changed, and when, is written in the log (`04-log.md`), not here.
 
+## State on 2026-10-20, the last of the day (second part)
+
+- **A control loads its own style.** A shared control's rules are in a sheet the control imports (`add-button.css`, `text-field.css`, `fold-arrow.css`, `title-arrow.css`, `option-picker.css`, `remove-button.css`), never only in a page's sheet: the Notes panel and the header are on every page. Found by looking at the Notes panel on the System Selection page.
+- **The accent button is one rule set** (`accent-button.css`, loaded once in `App`): the add buttons, the header's tools, the Business Documents and Export buttons, the calendar's month arrows, All / None and periods. A place sets only its size and place.
+- **A pair hides the card under it** (`.floating-overlay-pair`).
+- Not the app's: the logo of the Lumen & Loom example is a picture whose own frame cuts the word "LOOM" (the Business Documents' logo patch shows it so).
+
 ## State on 2026-10-20, the last of the day
 
 - **The fold arrow is one**: the outlined triangle (an outline in the ink colour, filled under the pointer and the keyboard focus, 11 x 18 pointing right, 18 x 11 pointing down, no ground, no ring under the pointer). `FoldArrow` draws it everywhere (`fold-arrow.css`), `FoldHead` and the Notes' close arrow too; the title arrow (`title-arrow.css`) draws the same triangle at the title's size. The label arrow (`LabelArrow`, an SVG of the same shape) is the arrow that stands inside a label.

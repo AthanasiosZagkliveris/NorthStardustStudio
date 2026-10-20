@@ -23,56 +23,6 @@
 
 }
 
-/* No resize handle, anywhere: every text box in the app grows with
-   its text (InterviewInput, StrategyTextArea, NotesField and the
-   rest), so dragging one is a second, worse way to size it. */
-textarea{
-
-    width:100%;
-
-    min-height:180px;
-
-    resize:none;
-
-    padding:15px;
-
-    font-family:inherit;
-
-    font-size:var(--font-body);
-
-    line-height:1.6;
-
-    border:1px solid var(--box-border);
-
-    border-radius:var(--radius-lg);
-
-}
-
-/* Hovering a text box glows it light blue -- the same "this one
-   would respond" treatment Profile Cards and the Landing page's
-   Organization rows already use, so the interaction reads the
-   same way across the app. Suppressed while the box is focused so
-   hover never fights the focus state. */
-textarea:hover:not(:focus):not(:disabled){
-
-    box-shadow:var(--cell-inset-recess), 0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
-
-}
-
-textarea:focus{
-
-    outline:none;
-
-    border-color:var(--line-primary);
-
-    /* Focus gets its own, stronger ring -- `outline:none` above
-       removes the browser default, so without this a keyboard user
-       would get a weaker affordance than a mouse user gets on
-       hover. */
-    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
-
-}
-
 /* ==========================================================
    Dividers
 ========================================================== */

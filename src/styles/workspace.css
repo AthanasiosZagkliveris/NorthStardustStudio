@@ -492,29 +492,6 @@
 
     padding: 10px 20px;
 
-    border: 1px solid var(--line-navy);
-    border-radius: var(--radius-lg);
-
-    background: var(--bg-navy);
-
-    font-family: inherit;
-    font-weight: 500;
-
-    color: var(--text-on-fill);
-
-    cursor: pointer;
-
-}
-
-.workspace-documents-button:hover{
-    background: var(--bg-navy-hover);
-    text-shadow: var(--hover-bold);
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-}
-
-.workspace-documents-button:focus-visible{
-    outline: 2px solid var(--line-primary);
-    outline-offset: 2px;
 }
 
 /* ==========================================================
