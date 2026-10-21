@@ -1,3 +1,4 @@
+import PressRow from "../components/controls/PressRow.tsx";
 import { useEffect, useRef, useState } from "react";
 import RemoveButton from "../components/controls/RemoveButton.tsx";
 import AddButton from "../components/controls/AddButton.tsx";
@@ -353,20 +354,10 @@ export default function Landing() {
                         handler to keys pressed on the row ITSELF keeps
                         the field behaving normally.
                     */}
-                    <div
+                    <PressRow
                         className="organization-row-main"
-                        role="button"
-                        tabIndex={0}
-                        onClick={() => selectOrganization(organization.id)}
-                        onKeyDown={(event) => {
-                            if (event.target !== event.currentTarget) {
-                                return;
-                            }
-                            if (event.key === "Enter" || event.key === " ") {
-                                event.preventDefault();
-                                selectOrganization(organization.id);
-                            }
-                        }}
+                        ownKeysOnly
+                        onPress={() => selectOrganization(organization.id)}
                     >
 
                         <h1 className="organization-name">
@@ -387,7 +378,7 @@ export default function Landing() {
 
                         </h1>
 
-                    </div>
+                    </PressRow>
 
                     <RemoveButton
                         aria-label={`Remove ${organization.name || "organization"}`}

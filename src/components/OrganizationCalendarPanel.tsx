@@ -1,3 +1,4 @@
+import PressRow from "./controls/PressRow.tsx";
 import DayButton from "./controls/DayButton.tsx";
 import { useEffect, useRef, useState } from "react";
 
@@ -1016,22 +1017,14 @@ export default function OrganizationCalendarPanel({
 
                     <div className="org-rail-handle-group">
 
-                        <div
+                        <PressRow
                             className={`org-rail-handle org-calendar-handle${activeTab === "calendar" ? " org-rail-handle-active" : ""}`}
-                            role="button"
-                            tabIndex={0}
-                            aria-pressed={activeTab === "calendar"}
-                            onMouseEnter={() => setActiveTab("calendar")}
-                            onFocus={() => setActiveTab("calendar")}
-                            onKeyDown={(event) => {
-                                if (event.key === "Enter" || event.key === " ") {
-                                    event.preventDefault();
-                                    setActiveTab("calendar");
-                                }
-                            }}
+                            pressed={activeTab === "calendar"}
+                            onReach={() => setActiveTab("calendar")}
+                            onPress={() => setActiveTab("calendar")}
                         >
                             <span className="org-rail-handle-label">Calendar</span>
-                        </div>
+                        </PressRow>
 
                         {activeTab === "calendar" && flyoutContent}
 
@@ -1039,22 +1032,14 @@ export default function OrganizationCalendarPanel({
 
                     <div className="org-rail-handle-group">
 
-                        <div
+                        <PressRow
                             className={`org-rail-handle org-rail-handle-capabilities${activeTab === "capabilities" ? " org-rail-handle-active" : ""}`}
-                            role="button"
-                            tabIndex={0}
-                            aria-pressed={activeTab === "capabilities"}
-                            onMouseEnter={() => setActiveTab("capabilities")}
-                            onFocus={() => setActiveTab("capabilities")}
-                            onKeyDown={(event) => {
-                                if (event.key === "Enter" || event.key === " ") {
-                                    event.preventDefault();
-                                    setActiveTab("capabilities");
-                                }
-                            }}
+                            pressed={activeTab === "capabilities"}
+                            onReach={() => setActiveTab("capabilities")}
+                            onPress={() => setActiveTab("capabilities")}
                         >
                             <span className="org-rail-handle-label">Capabilities</span>
-                        </div>
+                        </PressRow>
 
                         {activeTab === "capabilities" && flyoutContent}
 
@@ -1062,22 +1047,14 @@ export default function OrganizationCalendarPanel({
 
                     <div className="org-rail-handle-group">
 
-                        <div
+                        <PressRow
                             className={`org-rail-handle org-rail-handle-systems${activeTab === "systems" ? " org-rail-handle-active" : ""}`}
-                            role="button"
-                            tabIndex={0}
-                            aria-pressed={activeTab === "systems"}
-                            onMouseEnter={() => setActiveTab("systems")}
-                            onFocus={() => setActiveTab("systems")}
-                            onKeyDown={(event) => {
-                                if (event.key === "Enter" || event.key === " ") {
-                                    event.preventDefault();
-                                    setActiveTab("systems");
-                                }
-                            }}
+                            pressed={activeTab === "systems"}
+                            onReach={() => setActiveTab("systems")}
+                            onPress={() => setActiveTab("systems")}
                         >
                             <span className="org-rail-handle-label">Systems</span>
-                        </div>
+                        </PressRow>
 
                         {activeTab === "systems" && flyoutContent}
 

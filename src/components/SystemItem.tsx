@@ -1,3 +1,4 @@
+import PressRow from "./controls/PressRow.tsx";
 import { FrameworkSystem } from "../types/system";
 import { PAGE_STATUS_WORDS, type PageStatus } from "../framework/engine/PageStatus";
 
@@ -37,18 +38,11 @@ export default function SystemItem({
     // page instead of selecting.
     return (
 
-        <li
+        <PressRow
+            as="li"
             className="system-item"
             style={color ? ({ "--system-color": color } as React.CSSProperties) : undefined}
-            role="button"
-            tabIndex={0}
-            onClick={onClick}
-            onKeyDown={(event) => {
-                if (event.key === "Enter" || event.key === " ") {
-                    event.preventDefault();
-                    onClick();
-                }
-            }}
+            onPress={onClick}
         >
 
             <span className="system-number">
@@ -79,7 +73,7 @@ export default function SystemItem({
 
             </span>
 
-        </li>
+        </PressRow>
 
     );
 

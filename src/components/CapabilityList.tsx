@@ -1,3 +1,4 @@
+import PressRow from "./controls/PressRow.tsx";
 import { Capability } from "../types/capability";
 
 import "../styles/capability-list.css";
@@ -28,33 +29,19 @@ export default function CapabilityList({
 
             {capabilities.map((capability) => (
 
-                <div
+                <PressRow
                     key={capability.id}
-                    role="button"
-                    tabIndex={0}
-                    aria-pressed={capability.id === activeCapability}
+                    pressed={capability.id === activeCapability}
                     className={
                         capability.id === activeCapability
                             ? "capability-item active"
                             : "capability-item"
                     }
                     style={{ "--capability-color": capability.color } as React.CSSProperties}
-                    onMouseEnter={() =>
-                        onActiveCapabilityChange(capability.id)
-                    }
-                    onFocus={() =>
-                        onActiveCapabilityChange(capability.id)
-                    }
-                    onClick={() => {
+                    onReach={() => onActiveCapabilityChange(capability.id)}
+                    onPress={() => {
                         onActiveCapabilityChange(capability.id);
                         onCapabilityOpen(capability);
-                    }}
-                    onKeyDown={(event) => {
-                        if (event.key === "Enter" || event.key === " ") {
-                            event.preventDefault();
-                            onActiveCapabilityChange(capability.id);
-                            onCapabilityOpen(capability);
-                        }
                     }}
                 >
                     {/* Sized for its bold, tracked hover and selected
@@ -62,7 +49,7 @@ export default function CapabilityList({
                     <span className="hover-width-reserve" data-reserve={capability.title}>
                         {capability.title}
                     </span>
-                </div>
+                </PressRow>
 
             ))}
 
