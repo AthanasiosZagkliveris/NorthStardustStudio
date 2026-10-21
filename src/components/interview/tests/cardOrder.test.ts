@@ -1,14 +1,20 @@
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 
 import { describe, expect, it } from "vitest";
 
 /** An editor's source, as the test runner reads it from the project root. */
-const source = (name: string) => readFileSync("src/components/interview/editors/" + name, "utf8");
+const EDITORS = "src/components/interview/editors/";
+const source = (name: string) => readFileSync(EDITORS + name, "utf8");
+/** The Infrastructure & Capability editor: the component and the parts it is built from (editors/capability/). */
+const capabilitySource = () => {
+    const parts = readdirSync(EDITORS + "capability", { recursive: true }).filter((file: string) => file.endsWith(".tsx"));
+    return [source("BusinessCapabilityEditor.tsx"), ...parts.map((file: string) => source("capability/" + file))].join("\n");
+};
 
 describe("the one card order: fields, the Description, the tick-box link lists, then the card's state ticks last", () => {
 
     it("puts each Offering's Capability card's Linked to after its Description, last", () => {
-        const text = source("BusinessCapabilityEditor.tsx");
+        const text = capabilitySource();
         for (const card of ["\"Resource \" + number + \" linked Offerings\"", "\"Activity \" + number + \" linked Offerings\"", "\" linked Offerings\","]) {
             const links = text.indexOf(card);
             expect(links).toBeGreaterThan(0);
@@ -23,7 +29,7 @@ describe("the one card order: fields, the Description, the tick-box link lists, 
     });
 
     it("puts an Activity's Completed tick at the very end, after its Description and its links", () => {
-        const text = source("BusinessCapabilityEditor.tsx");
+        const text = capabilitySource();
         const links = text.indexOf("\"Activity \" + number + \" linked Offerings\"");
         const completed = text.indexOf("\"Activity \" + number + \" completed\"");
         const description = text.indexOf("\"Activity \" + number + \" description\"");
