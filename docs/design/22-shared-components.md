@@ -50,12 +50,12 @@ A shared control loads its own stylesheet (it imports it), never only a page's s
 
 A card opened from another card that stays open stands below it as a pair (`StackUnderContext`, `DialogLevels.tsx`). The Inventory's card is alone.
 
-## Not yet checked as hand-made (corrected 2026-10-21)
+## What is hand-made, read one by one (2026-10-21)
 
-The earlier version of this list named controls from their class names alone, and some were wrong: the Strategy boxes' heads are built from shared components (`NumberedName`, `InfoNote`, the + and the × buttons), and the Brand picture tiles are tiles. A control is called hand-made here only after reading its code against the components above.
+Each item below was read in the code against the components above.
 
-- **Read and confirmed hand-made:** the calendar panel's vertical handles (`org-rail-handle`: a `div` with `role="button"` and its own key handling).
-- **Not read yet, so not claimed either way:** the landing list of Systems, the Brand column headings, `NumberedListInput` and `SuggestedInput`, the sub-channel head, the image-holder label.
+- **Not hand-made (they are built from shared components):** the Strategy boxes' heads (`NumberedName`, `InfoNote`, `AddButton`, `RemoveButton`); the Brand column headings (`ColumnHeading`, `GuidanceBullets`); the sub-channel head (`SuggestedInput` or `OptionPicker`, `BusinessRemove`); `NumberedListInput` (one component, six editors); `SuggestedInput` (a text cell with suggestions: it fills in, so it is an input, and it wears the dropdown list's classes); the Brand picture tiles (tiles) and the image holder (a file drop-zone button, with `BusinessRemove` for its ×).
+- **Hand-made, one real duplication:** a `div` or `li` with `role="button"`, `tabIndex`, and its own Enter and Space handler is written six times: the landing's capability items (`CapabilityList`), the System rows (`SystemItem`), and the calendar panel's three vertical handles. A real `<button>` does all of it; only the handles also act on the pointer entering them. The Landing's Organization row has the same pattern on purpose (it holds a text box, so the keys of the row itself only).
 - **Out of reach:** the Process library's expand toggles and typed arrows (a page not reachable in this app version).
 
 ## Short history
