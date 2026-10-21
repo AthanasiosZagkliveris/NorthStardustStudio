@@ -10,7 +10,7 @@ A desktop and web app (Tauri 2, React 19, TypeScript, Vite) that interviews the 
 
 ## Check it
 
-- `npm run verify` runs the typecheck, the tests (the 40s timeout is in `vitest.config.ts`), the token, style, CSS, docs, tables and library checks in order; `npm run check:layout` (dev server up, run alone) is the layout rulebook check.
+- `npm run verify` runs the typecheck, the tests (the 40s timeout is in `vitest.config.ts`), the token, style, CSS, docs, tables and library checks in order; `npm run check:layout` (starts the dev server itself if none is running; run it alone) is the layout rulebook check.
 - `npm run tokens:check`, `npm run lint:styles`, `npm run lint:css`, `npm run docs:check`, `npm run tables:check`, `npm run library:check`.
 - `npm run check:layout` (with the dev server up): every Foundation page against the layout rulebook.
 

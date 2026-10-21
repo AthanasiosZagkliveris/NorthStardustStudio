@@ -420,8 +420,39 @@ export async function runLayoutCheck(page, { base = "http://localhost:1420", pro
     return failures;
 }
 
+/**
+ * THE DEV SERVER: the check needs the app running. Where nothing answers at the address, it starts `npm run dev` itself (and stops it at the end), so
+ * "ERR_CONNECTION_REFUSED" never ends a run; the server it finds already running is left alone.
+ */
+async function ensureServer(base) {
+    const up = async () => { try { return (await fetch(base)).ok; } catch { return false; } };
+    if (await up() || !/^https?:\/\/(localhost|127\.0\.0\.1)/.test(base)) {
+        return () => {};
+    }
+    console.error("No server at " + base + ": starting npm run dev for the check.");
+    const { spawn, execSync } = await import("node:child_process");
+    const child = spawn("npm", ["run", "dev"], { shell: true, stdio: "ignore", cwd: fileURLToPath(new URL("../../", import.meta.url)) });
+    for (let wait = 0; wait < 90 && !(await up()); wait += 1) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+    if (!(await up())) {
+        console.error("The dev server did not start in 90 seconds.");
+    }
+    return () => {
+        try {
+            if (process.platform === "win32") {
+                execSync("taskkill /pid " + child.pid + " /T /F", { stdio: "ignore" });
+            } else {
+                child.kill();
+            }
+        } catch { /* already gone */ }
+    };
+}
+
 // As a script: node scripts/layout-check/run.mjs
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+    const stopServer = await ensureServer(process.env.BASE_URL ?? "http://localhost:1420");
+    process.on("exit", stopServer);
     const { chromium } = await import("playwright");
     const browser = await chromium.launch(process.env.PW_CHANNEL ? { channel: process.env.PW_CHANNEL } : {});
     const page = await browser.newPage();
@@ -446,8 +477,19 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
     const themes = only("CHECK_THEMES") ?? (wide ? WIDE_THEMES : THEMES);
     const exampleFilter = only("CHECK_EXAMPLES");
     for (const example of ["lumen-and-loom-studio.json", "quillfield-automation-llc.json"].filter(name => !exampleFilter || exampleFilter.some(entry => name.includes(entry)))) {
-        await seedExample(page, base, readFileSync(new URL("../../src/data/examples/" + example, import.meta.url), "utf8"));
-        failures.push(...(await runLayoutCheck(page, { base, probe, pages, sizes, themes })).map(failure => ({ example, ...failure })));
+        // (A page that reloads under the script -- the dev server hot-reloading, a slow machine -- makes the run start again, twice at most, instead of ending it.)
+        for (let attempt = 1; ; attempt += 1) {
+            try {
+                await seedExample(page, base, readFileSync(new URL("../../src/data/examples/" + example, import.meta.url), "utf8"));
+                failures.push(...(await runLayoutCheck(page, { base, probe, pages, sizes, themes })).map(failure => ({ example, ...failure })));
+                break;
+            } catch (error) {
+                if (attempt >= 3 || !/context was destroyed|Target closed|net::ERR/.test(String(error))) {
+                    throw error;
+                }
+                console.error("The page changed under the check (" + String(error).split("\n")[0] + "): starting this example again.");
+            }
+        }
     }
     await browser.close();
     // THE BASELINE: the findings known today (BASELINE_FILE). The check fails only on a finding that is NOT in it, so it can run after every change; a finding that is gone is said, and the baseline is rewritten with --write-baseline.
