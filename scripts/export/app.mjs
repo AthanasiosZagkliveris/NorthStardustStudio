@@ -6,9 +6,9 @@
  *   npm run export:app -- --no-verify  export only
  *   npm run export:app -- --out exports/app-2
  *
- * The app = src/ without the tests, the test helpers, the document tests and the component library (except the library files the app itself imports), the dev-only routes of
- * App.tsx (between its "dev-only:start" and "dev-only:end" markers), src-tauri/, public/, index.html, and the settings the build reads. docs/, scripts/, catalogue/ and
- * .github/ are working files and stay out. See docs/design/26-folder-plan.md.
+ * The app = src/ without the tests, the test helpers, the document tests and the component library (except the library files the app itself imports), the pages that App.tsx
+ * loads only in development and their routes (between its "dev-only:start" and "dev-only:end" markers), src-tauri/, public/, index.html, and the settings the build reads.
+ * docs/, scripts/, catalogue/ and .github/ are working files and stay out. See docs/design/26-folder-plan.md.
  */
 import { execSync } from "node:child_process";
 import { copyFileSync, existsSync, lstatSync, mkdirSync, readFileSync, rmSync, rmdirSync, symlinkSync, writeFileSync } from "node:fs";
@@ -26,7 +26,7 @@ if (!OUT.startsWith(join(ROOT, "exports") + sep)) {
 }
 
 const git = (command) => execSync("git " + command, { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 28 }).split("\n").map((line) => line.trim()).filter(Boolean);
-const all = git("ls-files -co --exclude-standard").map((file) => file.replace(/\\/g, "/"));
+const all = git("ls-files -co --exclude-standard").map((file) => file.split("\\").join("/"));
 
 /** What is not part of the app inside src/. */
 const isTest = (file) => /\.test\.(ts|tsx)$/.test(file);
@@ -37,14 +37,39 @@ const inApp = (file) => (file.startsWith("src/") && !outsideApp(file)) || file.s
 const included = new Set(all.filter(inApp));
 const pool = new Set(all);
 
+/** The development-only parts of App.tsx: what lies between the markers (a line comment above the declarations, a JSX comment among the routes). */
+const START = /(\/\/ dev-only:start[^\n]*\n|[ \t]*\{\/\* dev-only:start \*\/\}[^\n]*\n)/;
+const END = /(\/\/ dev-only:end[^\n]*\n|[ \t]*\{\/\* dev-only:end \*\/\}[^\n]*\n)/;
+function devOnlyBlocks(text) {
+    const blocks = [];
+    let rest = text;
+    for (;;) {
+        const start = START.exec(rest);
+        if (!start) break;
+        const after = rest.slice(start.index + start[0].length);
+        const end = END.exec(after);
+        if (!end) throw new Error("App.tsx: a dev-only:start without its dev-only:end");
+        blocks.push(after.slice(0, end.index));
+        rest = after.slice(end.index + end[0].length);
+    }
+    return { blocks, without: (() => { let out = ""; let r = text; for (;;) { const s = START.exec(r); if (!s) return out + r; const a = r.slice(s.index + s[0].length); const e = END.exec(a); out += r.slice(0, s.index); r = a.slice(e.index + e[0].length); } })() };
+}
+const appText = readFileSync(join(ROOT, "src/App.tsx"), "utf8").split("\r\n").join("\n");
+const dev = devOnlyBlocks(appText);
+if (/dev-only/.test(dev.without)) throw new Error("App.tsx: unbalanced dev-only markers");
+const devPages = [...dev.blocks.join("\n").matchAll(/import\(\s*["'](\.\/[^"']+)["']\s*\)/g)]
+    .map((match) => ["", ".tsx", ".ts"].map((extension) => "src/" + match[1].slice(2) + extension).find((candidate) => pool.has(candidate)))
+    .filter(Boolean);
+devPages.forEach((page) => included.delete(page));
+
 /** The files an app file imports (relative specifiers only), resolved to a tracked file. */
 const EXTENSIONS = ["", ".ts", ".tsx", ".js", ".mjs", ".css", ".json", "/index.ts", "/index.tsx"];
 function importsOf(file) {
     if (!/\.(ts|tsx)$/.test(file)) return [];
-    const text = readFileSync(join(ROOT, file), "utf8");
+    const text = file === "src/App.tsx" ? dev.without : readFileSync(join(ROOT, file), "utf8");
     const found = [];
     for (const match of text.matchAll(/(?:from|import)\s*\(?\s*["'](\.{1,2}\/[^"']+)["']/g)) {
-        const target = join(dirname(file), match[1]).replace(/\\/g, "/");
+        const target = join(dirname(file), match[1]).split("\\").join("/");
         const hit = EXTENSIONS.map((extension) => target + extension).find((candidate) => pool.has(candidate));
         found.push({ spec: match[1], hit });
     }
@@ -63,22 +88,21 @@ while (queue.length) {
         if (hit.startsWith("src/library/") && !isTest(hit)) {
             included.add(hit); pulledIn.push(hit);
             if (!seen.has(hit)) { seen.add(hit); queue.push(hit); }
-        } else if (outsideApp(hit) || !inApp(hit)) {
+        } else if (devPages.includes(hit) || outsideApp(hit) || !inApp(hit)) {
             problems.push(file + " imports " + spec + " (" + hit + "), which is not an app file");
         }
     }
 }
+if (problems.length) {
+    console.error("The app imports files that are not in the app:\n  " + problems.join("\n  "));
+    process.exit(1);
+}
 
-/** The dev-only block of App.tsx, and the settings of package.json that only the working files use. */
+/** App.tsx without its development-only parts; package.json without the scripts and the test libraries only the working files use. */
 function transformed(file) {
     const text = readFileSync(join(ROOT, file), "utf8");
     if (file === "src/App.tsx") {
-        const eol = text.includes("\r\n") ? "\r\n" : "\n";
-        const clean = text.replace(/\r\n/g, "\n")
-            .replace(/\/\/ dev-only:start[\s\S]*?\/\/ dev-only:end\n/g, "")
-            .replace(/[ \t]*\{\/\* dev-only:start \*\/\}[\s\S]*?\{\/\* dev-only:end \*\/\}\n/g, "");
-        if (/dev-only/.test(clean)) throw new Error("App.tsx: unbalanced dev-only markers");
-        return clean.replace(/\n/g, eol);
+        return dev.without.split("\n").join(text.includes("\r\n") ? "\r\n" : "\n");
     }
     if (file === "package.json") {
         const pkg = JSON.parse(text);
@@ -90,11 +114,6 @@ function transformed(file) {
         return JSON.stringify(pkg, null, 2) + "\n";
     }
     return null;
-}
-
-if (problems.length) {
-    console.error("The app imports files that are not in the app:\n  " + problems.join("\n  "));
-    process.exit(1);
 }
 
 /* ---- write ---- */
@@ -113,6 +132,7 @@ for (const file of [...included].sort()) {
     count += 1;
 }
 writeFileSync(join(OUT, "README.md"), "# NorthStardustStudio (the app only)\n\nWritten by `npm run export:app` from the working repository: the app's own files, no tests, no documents, no tools. `npm install`, then `npm run dev` or `npm run build`.\n");
+if (devPages.length) console.log("Left out as development-only pages: " + devPages.join(", "));
 console.log("Exported " + count + " files to " + relative(ROOT, OUT) + " (" + pulledIn.length + " library files the app imports came with it" + (pulledIn.length ? ": " + pulledIn.map((file) => file.replace("src/library/", "")).join(", ") : "") + ").");
 
 /* ---- prove it ---- */

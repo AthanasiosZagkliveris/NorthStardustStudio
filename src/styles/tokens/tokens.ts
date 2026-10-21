@@ -32,7 +32,6 @@
  * yet derived from the seeds: that would change values.
  */
 import { PALETTE } from "../../framework/engine/Palette.ts";
-import { cornerSteps } from "../../library/componentTokens.ts";
 
 export const MODES = ["light", "dark", "sepia"] as const;
 export type Mode = (typeof MODES)[number];
@@ -1023,7 +1022,7 @@ export const tintPairs: readonly TintPair[] = [
 ========================================================== */
 
 /** The corner steps, in px. A corner that is not one of these (a circle, a pill, 0, or 1, 2, 3, 10, 12px) keeps its literal until the owner decides. */
-export const corners = cornerSteps();
+export const corners = { "radius-sm": 4, "radius-md": 6, "radius-lg": 8 } as const;
 
 /** The gap scale, in px: --gap-<n> is n px. Named by value on purpose; the by-use names (--space-label, --space-field ...) stay as they are. */
 export const gaps = [2, 4, 6, 8, 12, 16, 24] as const;

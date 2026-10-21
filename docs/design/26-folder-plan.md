@@ -6,7 +6,7 @@ Status: **plan; steps 1 and 2 done 2026-10-22, step 3 open**. Written to answer 
 
 | Kind | Where | Files | Ships with the app? |
 |---|---|---|---|
-| **The app** | `src/` without tests, `src/library/`, `src/docs/` and `src/test/` | 497 | yes |
+| **The app** | `src/` without tests, `src/library/`, `src/docs/`, `src/test/` and the three development-only pages | 494 | yes |
 | The desktop shell | `src-tauri/` | 24 | yes (the desktop build) |
 | The page and its settings | `index.html`, `public/`, `package.json`, `package-lock.json`, `vite.config.ts`, `vitest.config.ts`, `tsconfig*.json` | about 8 | yes (the build reads them) |
 | **Tests** | `src/**/*.test.*` (154 files) and `src/test/` (6) | 160 | no |
@@ -38,7 +38,7 @@ A command `npm run export:app` that copies exactly the app into a clean folder (
 - **Proof it is complete:** the command then runs `npm ci`, `tsc` and `vite build` inside that folder. If the app needs a file that was left out, the build fails and says which.
 - `App.tsx` loads the library's gallery pages only in development; those lines sit between `dev-only:start` and `dev-only:end` markers, and the export leaves them out.
 - `npm run export:app -- --clean` goes further: it installs and builds in the exported folder alone, which also proves the dependency list. Without it the build uses this project's `node_modules` (fast).
-- **What the first run showed:** 556 files, 0 tests, and 27 of the 44 library files come with the app, because `styles/tokens/tokens.ts` imports `library/componentTokens.ts`, which imports the whole library table (`library/data/library.ts`, 8,600 lines). So the library is not only a development tool: the app carries its data. Cutting that link (the corner steps become a small constant in the app) would let the library leave the app entirely; it is a small change, not made yet.
+- **What the first run showed, and what was done about it:** 27 library files came with the app, through `styles/tokens/tokens.ts` -> `library/componentTokens.ts` -> the whole library table (8,600 lines), and through the three development-only pages. `tokens.ts` now holds the three corner numbers itself (a test in `library/componentTokens.test.ts` keeps them equal to the library's), and the export leaves out the pages named in the `dev-only` block of `App.tsx`. The exported app is **526 files with no library file in it**, and it builds after a fresh install.
 
 ### Step 3: the real folders (only if the owner still wants them after step 2)
 Move working files under one folder so that the tree itself shows the split:

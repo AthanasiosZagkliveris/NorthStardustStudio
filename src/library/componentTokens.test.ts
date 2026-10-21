@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { componentTokens, lookHeight, renderComponentTokens } from "./componentTokens.ts";
+import { componentTokens, cornerSteps, lookHeight, renderComponentTokens } from "./componentTokens.ts";
+import { corners } from "../styles/tokens/tokens.ts";
 import { sheetSource, stylesheet } from "../test/stylesheet.ts";
 
 /* The sizes of the components are written once, in the library, and the stylesheets read them
@@ -18,6 +19,10 @@ describe("the component tokens", () => {
         expect(lookHeight("BTN.001")).toBe(32);
         expect(lookHeight("BTN.002")).toBe(24);
         expect(lookHeight("TIK.001")).toBe(24);
+    });
+
+    it("have the corner steps the app's own token file holds (the app does not import the library, so it carries the three numbers itself)", () => {
+        expect(corners).toEqual(cornerSteps());
     });
 
     it("are read by the stylesheets and written by none of them", () => {
