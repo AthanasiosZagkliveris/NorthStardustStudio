@@ -101,7 +101,6 @@ ${table(SPEC)}
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [examples/](examples/) | data | The two example organizations (Quillfield Automation, Lumen & Loom Studio) as JSON; the same files are in \`src/data/examples/\`. | ${date("docs/examples/quillfield-automation-llc.json")} |
 ${ar.map(row).join("\n")}
 `;
 writeFileSync(R + "docs/README.md", idx);

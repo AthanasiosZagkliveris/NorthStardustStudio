@@ -7,7 +7,7 @@ import { organizationReview } from "./ReviewService";
 
 /**
  * THE EXAMPLES ARE COMPLETE: each example organization, read as the app reads it, leaves nothing for the Review to list (no page, section or card is missing
- * what it needs). The examples are the reference for every check; a change to the interface is followed by a change to them (docs/examples).
+ * what it needs). The examples are the reference for every check; a change to the interface is followed by a change to them (src/data/examples).
  */
 beforeEach(() => {
     OrganizationService.flushPendingWrites();

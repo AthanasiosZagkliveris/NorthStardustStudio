@@ -59,7 +59,7 @@ Status: **index**, updated 2026-10-21. One line per document: where it is, what 
 | [design/23-help-texts.md](design/23-help-texts.md) | current design | The help texts of the app. | 2026-10-21 |
 | [design/24-popups.md](design/24-popups.md) | current design | Pop-ups in six categories, with their placement rules. | 2026-10-21 |
 | [design/25-tooltips.md](design/25-tooltips.md) | current design | Which controls have a tooltip, what it says, and the five rules. | 2026-10-21 |
-| [design/26-folder-plan.md](design/26-folder-plan.md) | proposal | The app files, the examples and the working files: what is where, and a three-step plan to separate them. | 2026-10-21 |
+| [design/26-folder-plan.md](design/26-folder-plan.md) | proposal | The app files, the examples and the working files: what is where, and a three-step plan to separate them. | 2026-10-22 |
 
 ## The specifications (`specifications/`)
 
@@ -78,7 +78,6 @@ Status: **index**, updated 2026-10-21. One line per document: where it is, what 
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [examples/](examples/) | data | The two example organizations (Quillfield Automation, Lumen & Loom Studio) as JSON; the same files are in `src/data/examples/`. | 2026-10-18 |
 | [archive/engineering-phase-completion.md](archive/engineering-phase-completion.md) | archive | The engineering phase completion report. | 2026-10-20 |
 | [archive/plans/2026-09-29-workspace-D-duplicate-scenarios-compare.md](archive/plans/2026-09-29-workspace-D-duplicate-scenarios-compare.md) | archive | Brief: workspace features D, duplicate, scenarios, compare (not started). | 2026-10-20 |
 | [archive/plans/2026-09-29-workspace-E-founder-helpers.md](archive/plans/2026-09-29-workspace-E-founder-helpers.md) | archive | Brief: workspace features E, helpers for founders (not started). | 2026-10-20 |

@@ -48,3 +48,7 @@ Desktop.ini
 
 # Downloadable versions of the library documents (npm run library:downloads)
 exports/
+
+# Working folders of the assistant sessions
+.superpowers/
+.scratch/

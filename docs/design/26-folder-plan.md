@@ -1,6 +1,6 @@
 # Folder plan: the app files, the examples and the working files
 
-Status: **plan, nothing moved yet** (2026-10-22). Written to answer one request: at the end the owner needs the app's files only, kept apart from the examples and the working files.
+Status: **plan; step 1 done 2026-10-22, steps 2 and 3 open**. Written to answer one request: at the end the owner needs the app's files only, kept apart from the examples and the working files.
 
 ## What is in the repository now
 
@@ -26,7 +26,7 @@ Status: **plan, nothing moved yet** (2026-10-22). Written to answer one request:
 
 ## The plan, in three steps (each its own small branch)
 
-### Step 1: small and safe
+### Step 1: small and safe (done 2026-10-22)
 - Add `.superpowers/` and `.scratch/` to `.gitignore`.
 - One copy of the examples: `src/data/examples/` stays (the app uses it). `docs/examples/` is removed and the documents point to `src/data/examples/`. `ExampleDrift.test.ts` and `scripts/docs/write-index.mjs` are adjusted.
 - No code moves, no import changes.

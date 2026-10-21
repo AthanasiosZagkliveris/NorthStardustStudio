@@ -37,7 +37,7 @@ Document tests: `src/docs/documentReferences.test.ts` (six documents name only p
 
 A green run proves the logic, not the look. How the app renders and responds to the pointer is checked by the layout check and by looking (steps 5 and 6).
 
-To rewrite the examples after an interface change: `UPDATE_EXAMPLES=1 npx vitest run src/services/ExampleDrift.test.ts` (it writes both examples from the app's own readers); the golden figures are rewritten with `WRITE_GOLDEN=all`.
+To rewrite the examples after an interface change: `UPDATE_EXAMPLES=1 npx vitest run src/services/ExampleDrift.test.ts` (it writes both examples, in `src/data/examples/`, from the app's own readers); the golden figures are rewritten with `WRITE_GOLDEN=all`.
 
 ## Continuous integration
 
