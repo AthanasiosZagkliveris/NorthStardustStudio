@@ -167,7 +167,7 @@ body {
 /* 3. CONTROLS ----------------------------------------------------- */
 
 /* THE SIZES OF A CONTROL come from the library (components.generated.css, written by
-   scripts/library/component-tokens.mjs from src/library/data/library.ts): one height for
+   tools/scripts/library/component-tokens.mjs from src/library/data/library.ts): one height for
    every single-line cell (--card-cell-height), one for the box buttons (--size-box-button)
    and one for the marks (--size-mark), so a cell and its x, plus, calendar, link symbol,
    tick or "i" can be centred on one line; and --control-square, --box-radius,

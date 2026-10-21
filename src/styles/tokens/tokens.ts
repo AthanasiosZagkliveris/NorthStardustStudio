@@ -28,7 +28,7 @@
  *   pairs        which colours meet and the contrast each pair holds.
  *
  * The values were read from the hand-written colors.css of 2026-10-14
- * and proved equal to it (scripts/tokens/compare.mjs). They are not
+ * and proved equal to it (tools/scripts/tokens/compare.mjs). They are not
  * yet derived from the seeds: that would change values.
  */
 import { PALETTE } from "../../framework/engine/Palette.ts";

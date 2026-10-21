@@ -1,7 +1,7 @@
 /**
  * The asset contract (docs/archive/plans/2026-10-14-cleanup-and-library-plans.md, 5.13, layer C): one typed record
  * per asset of the library. The gallery (/library, development only)
- * draws the asset from its record, and scripts/library/run.mjs measures
+ * draws the asset from its record, and tools/scripts/library/run.mjs measures
  * what the record says. Data only: no React here, so that Node can read it.
  */
 

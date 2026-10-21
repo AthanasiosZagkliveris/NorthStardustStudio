@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { generateCss, generateDtcg, generateReport, generateSizesCss, measureAll, parseColour, resolveMode } from "../../../scripts/tokens/build.ts";
+import { generateCss, generateDtcg, generateReport, generateSizesCss, measureAll, parseColour, resolveMode } from "../../../tools/scripts/tokens/build.ts";
 import { MODES, seeds } from "./tokens.ts";
 
 /* The generated colour files are committed; they must be exactly what

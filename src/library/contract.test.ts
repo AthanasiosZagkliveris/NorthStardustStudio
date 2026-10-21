@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { stylesheet } from "../test/stylesheet";
 import { assets } from "./index.ts";
 
-/* The contracts are measured by scripts/library/run.mjs (it needs the
+/* The contracts are measured by tools/scripts/library/run.mjs (it needs the
    dev server and a browser); these tests keep the records themselves
    honest and tied to the stylesheets they describe. */
 describe("the asset contracts", () => {

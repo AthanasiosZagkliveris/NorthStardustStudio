@@ -324,7 +324,7 @@ currency and its frequency; a date cell and its calendar).
 5. **No special case.** A component placed beside another follows this rule without an exception; a new component is
    checked against it before it is placed (docs/design/08-library-system.md).
 
-The check: `node scripts/catalogue/align-check.mjs` opens every master tile and the first two cards of each view, and lists
+The check: `node tools/scripts/catalogue/align-check.mjs` opens every master tile and the first two cards of each view, and lists
 every pair of controls side by side whose centres differ by more than 1px, or whose tops differ when their heights are equal.
 It must list none.
 
@@ -1312,8 +1312,8 @@ New fields follow the rules above and reuse their neighbours' shapes; nothing he
 
 **The progress line** (the thin bar under the Hide Help button) is hidden for now; one switch, `SHOW_PROGRESS_LINE` in `src/components/InterviewProgress.tsx` (false). No check or rule depends on it, and no gap is left behind.
 
-`scripts/layout-check/layout-probe.js` measures a page in the browser;
-`scripts/layout-check/run.mjs` opens every Foundation page of both examples
+`tools/scripts/layout-check/layout-probe.js` measures a page in the browser;
+`tools/scripts/layout-check/run.mjs` opens every Foundation page of both examples
 (`src/data/examples`), every card unfolded, at **1920, 1366 and 768px** in
 **light and dark**, runs the probe and the hover check, and lists the
 failures. **It must report 0 failures.**
@@ -1329,11 +1329,11 @@ across a dividing rule) in every card; section tiles (a square of `--section-til
 
 Run it with the dev server up (`npm run dev`, port 1420):
 
-- **With Node**: `node scripts/layout-check/run.mjs` (needs the
+- **With Node**: `node tools/scripts/layout-check/run.mjs` (needs the
   `playwright` package; not a project dependency). Exits 1 on any failure.
 - **From an agent's Playwright browser tool**: evaluate `run.mjs`'s
   functions with `page` bound (strip its imports and `export`s, fetch the
-  probe from `/scripts/layout-check/layout-probe.js`, the examples from
+  probe from `/tools/scripts/layout-check/layout-probe.js`, the examples from
   `/src/data/examples/`), then call `runLayoutCheck(page, { probe })` for each
   seeded example. The check writes the examples into the browser's storage:
   back up and restore localStorage around it.
@@ -1354,11 +1354,11 @@ The probe's pure helpers are unit-tested in `src/test/layoutProbe.test.ts`.
 
 ### The stylesheets stay clean (2026-10-16)
 
-`npm run lint:css` fails when a stylesheet holds a rule for a class that no component draws, or a declaration that a later one of the same selector always overrides (`scripts/lint/css-usage.mjs`, `css-shadowed.mjs`; the flag remove, with a file, deletes what they list). `node scripts/catalogue/style-snapshot.mjs` with the flag out and a file name writes the box and the computed style of every element of every page, opened tile and first card, in light and dark at 1920px and light at 768px (about 107,000 elements); the flag compare, with two snapshots, lists what differs between two snapshots, so a clean-up can be proved to change nothing. How the stylesheets are laid out: the custom properties of the app are in one TOKENS section at the top of global.css, in seven groups; conversation.css and section-tiles.css are lists of imports over a folder of the same name, one file per topic, in the order of the old single file (the cascade follows that order, so a rule is moved between files only on purpose); a relative url() in those files is one folder deeper. A test or a tool reads such a sheet with its imports in place (scripts/lint/css-imports.ts). A few elements move between two runs of the same code (the Registrations tile of Identity: Organization, the carousel arrows at 768px): those are timing, not the change.
+`npm run lint:css` fails when a stylesheet holds a rule for a class that no component draws, or a declaration that a later one of the same selector always overrides (`tools/scripts/lint/css-usage.mjs`, `css-shadowed.mjs`; the flag remove, with a file, deletes what they list). `node tools/scripts/catalogue/style-snapshot.mjs` with the flag out and a file name writes the box and the computed style of every element of every page, opened tile and first card, in light and dark at 1920px and light at 768px (about 107,000 elements); the flag compare, with two snapshots, lists what differs between two snapshots, so a clean-up can be proved to change nothing. How the stylesheets are laid out: the custom properties of the app are in one TOKENS section at the top of global.css, in seven groups; conversation.css and section-tiles.css are lists of imports over a folder of the same name, one file per topic, in the order of the old single file (the cascade follows that order, so a rule is moved between files only on purpose); a relative url() in those files is one folder deeper. A test or a tool reads such a sheet with its imports in place (tools/scripts/lint/css-imports.ts). A few elements move between two runs of the same code (the Registrations tile of Identity: Organization, the carousel arrows at 768px): those are timing, not the change.
 
 ### The automatic check (after every layout change)
 
-`npm run check:layout` runs the layout probe (`scripts/layout-check/`) on every page of the Quillfield example (1920 wide, light page) and fails only on a finding that is NOT in `scripts/layout-check/baseline.json` (the findings known and accepted so far; random ids of cards made by a "+" are ignored in a finding's key). It says how many known findings are gone. `npm run check:layout:baseline` rewrites the baseline after findings were fixed on purpose; `CHECK_PAGES="Customer Engagement" npm run check:layout` runs one page; without `--quick` (`node scripts/layout-check/run.mjs`) it runs every width, both themes and both examples. A full run takes about 25 minutes; a sub-pixel finding (a gap of 12.95 for 12) can come and go between runs.
+`npm run check:layout` runs the layout probe (`tools/scripts/layout-check/`) on every page of the Quillfield example (1920 wide, light page) and fails only on a finding that is NOT in `tools/scripts/layout-check/baseline.json` (the findings known and accepted so far; random ids of cards made by a "+" are ignored in a finding's key). It says how many known findings are gone. `npm run check:layout:baseline` rewrites the baseline after findings were fixed on purpose; `CHECK_PAGES="Customer Engagement" npm run check:layout` runs one page; without `--quick` (`node tools/scripts/layout-check/run.mjs`) it runs every width, both themes and both examples. A full run takes about 25 minutes; a sub-pixel finding (a gap of 12.95 for 12) can come and go between runs.
 
 **What the baseline holds (2026-10-17, 493 findings, Quillfield, 1920, light).** Re-made after the probe and the app were put back in step (the stale expectations were removed: the 24px "i" and tick rows measured by their own box, the 160px date step, the completed card's grey at 2.5:1, the full-row dropdown, the card rule between fields). What is left is old and not yet decided, kept so the check can fail on anything new: "an i on its words' centre line" (254: a 24px "i" against a word line, a pixel or two), a dialog's Back button at its lower left (45), row gap (30), page 3 type scale (15), number-left / number-to-name / the Performer's dropdown end (13 each), control width (12), and about 40 single findings of the founder card, the floating cards and the section dialogs. Each group is for the owner to accept as it is or to have fixed; fixing one is done in the shared component, then the baseline is rewritten.
 
@@ -1722,7 +1722,7 @@ These are open. Everything the earlier rounds left as "conflicting" or "replaced
 
 - **Strategy Objective owners** are not read into a founder's Responsibilities: the Strategy answers are not available on the Infrastructure page (rule 9).
 - **Incomplete-card flashing** does not cover Customer Engagement's channel and subchannel cards or the Founders Profile cards (rule 11).
-- **Pairs** (rule 7): the survey of every card for the fields that usually have a partner (Working and Delivery Hours; Salary, Cost, Price or Expense with its Frequency) is run by `scripts/catalogue/pair-survey.mjs`; applying it card by card is still to do.
+- **Pairs** (rule 7): the survey of every card for the fields that usually have a partner (Working and Delivery Hours; Salary, Cost, Price or Expense with its Frequency) is run by `tools/scripts/catalogue/pair-survey.mjs`; applying it card by card is still to do.
 - **Hide Help**: the page of 3. Infrastructure & Capability has none; the other pages keep their text button, which starts open.
 - **Reflow at 320px** (WCAG 1.4.10): the 768px floor is a declared exception until the owner rules on it (docs/design/05, 5.8).
 - **The completed card's dropdown chevron** is drawn in the theme's ink, not in `--completed-dim` (a fifth tone in a card of four greys).
