@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { assets } from "../library";
-import { BEGIN, END, renderAssets } from "../../scripts/docs/assets.ts";
+import { BEGIN, END, renderAssets } from "../../tools/scripts/docs/assets.ts";
 
 /* The rulebook's section on the assets is written from the contracts in
    src/library. When this fails: run `npm run docs:assets` and commit the

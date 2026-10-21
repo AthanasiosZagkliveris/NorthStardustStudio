@@ -1,5 +1,5 @@
 {
-  "$description": "NorthStardust colour tokens. Generated from src/styles/tokens/tokens.ts by scripts/tokens/generate.mjs; do not edit. Auto is dark or light as the system says, so it has no group of its own.",
+  "$description": "NorthStardust colour tokens. Generated from src/styles/tokens/tokens.ts by tools/scripts/tokens/generate.mjs; do not edit. Auto is dark or light as the system says, so it has no group of its own.",
   "light": {
     "$type": "color",
     "bg": {

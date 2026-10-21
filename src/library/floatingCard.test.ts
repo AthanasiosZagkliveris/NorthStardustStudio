@@ -1,6 +1,6 @@
 import { sheetSource } from "../test/stylesheet.ts";
 import { describe, expect, it } from "vitest";
-import { collectDefinitions, valuesOf } from "../../scripts/docs/values.ts";
+import { collectDefinitions, valuesOf } from "../../tools/scripts/docs/values.ts";
 import { assets } from "./index.ts";
 import { SCREEN_CLASSES } from "./contract.ts";
 

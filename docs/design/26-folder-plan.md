@@ -1,6 +1,6 @@
 # Folder plan: the app files, the examples and the working files
 
-Status: **plan; steps 1 and 2 done 2026-10-22, step 3 open**. Written to answer one request: at the end the owner needs the app's files only, kept apart from the examples and the working files.
+Status: **plan; all three steps done 2026-10-22**. Written to answer one request: at the end the owner needs the app's files only, kept apart from the examples and the working files.
 
 ## What is in the repository now
 
@@ -13,7 +13,7 @@ Status: **plan; steps 1 and 2 done 2026-10-22, step 3 open**. Written to answer 
 | **The component library** | `src/library/` (36 files besides its tests); its gallery is reached only by `npm run dev` (`import.meta.env.DEV` in `App.tsx`) and is absent from the build | 44 | no (development only) |
 | **The examples** | `src/data/examples/` (two organisations; the app loads them through `services/ExampleOrganizations.ts`) and `docs/examples/` (an identical copy, kept for reading) | 4 | the first pair yes (they are the demo data), the copy no |
 | **Documents** | `docs/` (58) and `src/docs/` (3 tests of the documents) | 61 | no |
-| **Working tools** | `scripts/` (115: library, catalogue, docs, lint, tokens, layout check, cards) and `catalogue/` (26: measures, probes, scans, exports) | 141 | no |
+| **Working tools** | `tools/scripts/` (115: library, catalogue, docs, lint, tokens, layout check, cards) and `tools/catalogue/` (26: measures, probes, scans, exports) | 141 | no |
 | Automation | `.github/workflows/ci.yml` | 1 | no |
 | Not tracked | `dist/`, `exports/`, `.claude/`, `.vscode/`, `.playwright-mcp/`, `node_modules/` (ignored); `.superpowers/` and `.scratch/` are not ignored | | no |
 
@@ -28,23 +28,23 @@ Status: **plan; steps 1 and 2 done 2026-10-22, step 3 open**. Written to answer 
 
 ### Step 1: small and safe (done 2026-10-22)
 - Add `.superpowers/` and `.scratch/` to `.gitignore`.
-- One copy of the examples: `src/data/examples/` stays (the app uses it). `docs/examples/` is removed and the documents point to `src/data/examples/`. `ExampleDrift.test.ts` and `scripts/docs/write-index.mjs` are adjusted.
+- One copy of the examples: `src/data/examples/` stays (the app uses it). `docs/examples/` is removed and the documents point to `src/data/examples/`. `ExampleDrift.test.ts` and `tools/scripts/docs/write-index.mjs` are adjusted.
 - No code moves, no import changes.
 
 ### Step 2: the export of the app files (done 2026-10-22: `npm run export:app`)
 A command `npm run export:app` that copies exactly the app into a clean folder (default `exports/app/`, which git ignores):
 - **Included:** `src/` without `*.test.*`, `src/test/`, `src/docs/` and `src/library/`; `src-tauri/`; `public/`; `index.html`; `package.json` and `package-lock.json` (the scripts that point at tools removed); `vite.config.ts`, `tsconfig.json`, `tsconfig.node.json`.
-- **Left out:** `docs/`, `scripts/`, `catalogue/`, `.github/`, the tests, the library and everything ignored.
+- **Left out:** `docs/`, `tools/scripts/`, `tools/catalogue/`, `.github/`, the tests, the library and everything ignored.
 - **Proof it is complete:** the command then runs `npm ci`, `tsc` and `vite build` inside that folder. If the app needs a file that was left out, the build fails and says which.
 - `App.tsx` loads the library's gallery pages only in development; those lines sit between `dev-only:start` and `dev-only:end` markers, and the export leaves them out.
 - `npm run export:app -- --clean` goes further: it installs and builds in the exported folder alone, which also proves the dependency list. Without it the build uses this project's `node_modules` (fast).
 - **What the first run showed, and what was done about it:** 27 library files came with the app, through `styles/tokens/tokens.ts` -> `library/componentTokens.ts` -> the whole library table (8,600 lines), and through the three development-only pages. `tokens.ts` now holds the three corner numbers itself (a test in `library/componentTokens.test.ts` keeps them equal to the library's), and the export leaves out the pages named in the `dev-only` block of `App.tsx`. The exported app is **526 files with no library file in it**, and it builds after a fresh install.
 
-### Step 3: the real folders (only if the owner still wants them after step 2)
-Move working files under one folder so that the tree itself shows the split:
-- `scripts/`, `catalogue/` and `.github` stay where tools expect them; `scripts/` and `catalogue/` go under `tools/`.
-- Cost: 48 npm scripts and about 100 script files hold paths to `src/`, `docs/` and `scripts/`; the CI file and `docs/README.md` too. Every one is rewritten and the full verify and layout check run again.
-- Moving `src/library/` out of `src/` is a larger change: 30 tests and `App.tsx` import it. Recommended only together with the extraction of the Foundation web app, because that extraction decides what the app keeps.
+### Step 3: the real folders (done 2026-10-22)
+The working files now sit under one folder, so the tree shows the split: **`tools/scripts/`** (was `scripts/`) and **`tools/catalogue/`** (was `catalogue/`). The root holds `src/` (the app and its tests), `src-tauri/`, `public/`, `docs/`, `tools/` and the settings files.
+- All 43 npm scripts, the documents, the tests that read them and the scripts' own paths were rewritten (the scripts' paths to the repository root gained one `../`); every check passes from the new place.
+- `src/library/` stays in `src/`: it is development-only, the app no longer imports it (see step 2), and `export:app` leaves it out.
+- The historical rows of `04-log.md` and the archive keep the paths of their day only where they were not rewritten; a path in the log that starts `scripts/` or `catalogue/` now reads `tools/scripts/` or `tools/catalogue/`.
 
-## Recommendation
-Do step 1 now and step 2 next. Together they give the owner the app files on demand and one copy of the examples, without moving anything the 154 tests and 48 scripts depend on. Step 3 waits for the owner's decision.
+## Result
+The owner asked for the three steps. The app files alone are one command away (`npm run export:app`), the examples exist once, and the working files are under `tools/`.

@@ -7,7 +7,7 @@ Status: **index**, updated 2026-10-21. One line per document: where it is, what 
 - **A change is written in the log** (`design/04-log.md`), newest row on top, and nowhere else. The other documents **describe the present**: each says what is true now, under a dated heading, the newest on top, with its own status line (kind and date) under the title.
 - **Kinds**: *rules* (what must hold; a check enforces most of them), *reference* (how things are, to look up), *current design* (what the app is today), *living list* (an open list: an item leaves it when done and the log records it), *log*, *proposal* (nothing built; in the archive), *specification* (what a page asks and shows), *playbook* (a procedure), *generated* (written by a script; never edit by hand, run its command), *archive* (finished or older; kept for the record).
 - **Where the code and a document disagree, the code is right** and the document is the one to fix. The checks that keep them honest: `npm run docs:check` (generated sections), `npm run tables:check`, `npm run library:check`, and the document-reference test (six documents name only properties, classes and files the code has).
-- **This index is written by `npm run docs:index`** (the lists are in `scripts/docs/write-index.mjs`; a new document is added there). Do not edit it by hand.
+- **This index is written by `npm run docs:index`** (the lists are in `tools/scripts/docs/write-index.mjs`; a new document is added there). Do not edit it by hand.
 - **Who reads what**: an assistant starts with `ai/README.md`; the owner starts with `design/05-not-done-yet.md` (what is open) and `design/04-log.md` (what changed).
 
 ## For the assistant and the rules (`ai/`)
@@ -16,7 +16,7 @@ Status: **index**, updated 2026-10-21. One line per document: where it is, what 
 |---|---|---|---|
 | [ai/README.md](ai/README.md) | index | The map of this folder: what to read first, what to read for a task. | 2026-10-21 |
 | [ai/ai-collaboration-rules.md](ai/ai-collaboration-rules.md) | rules | Standing rules for an AI assistant: commit but do not push, no unrequested changes, when to ask, what done requires, how work flows. | 2026-10-21 |
-| [ai/toolchain-and-verification-playbook.md](ai/toolchain-and-verification-playbook.md) | playbook | What to run after a change (typecheck, tests, the lints and document checks, build, layout check) and the list of expected test failures. | 2026-10-21 |
+| [ai/toolchain-and-verification-playbook.md](ai/toolchain-and-verification-playbook.md) | playbook | What to run after a change (typecheck, tests, the lints and document checks, build, layout check) and the list of expected test failures. | 2026-10-22 |
 | [ai/framework-dsl-grammar.md](ai/framework-dsl-grammar.md) | reference | Grammar of the Markdown that defines a System's content. | 2026-10-20 |
 | [ai/framework-conventions-and-patterns.md](ai/framework-conventions-and-patterns.md) | reference | The architectural patterns and the data model of the framework. | 2026-10-20 |
 | [ai/glossary.md](ai/glossary.md) | reference | One line per project term, with a pointer to where it is explained. | 2026-10-21 |
@@ -38,7 +38,7 @@ Status: **index**, updated 2026-10-21. One line per document: where it is, what 
 | [design/02-references.md](design/02-references.md) | reference | Every decision in the app and the source behind it. | 2026-10-14 |
 | [design/03-research.md](design/03-research.md) | reference | The research record: sources, findings, how they were weighed. | 2026-10-14 |
 | [design/04-log.md](design/04-log.md) | log | History, changes and updates, newest on top. Every change is written here, nowhere else. | 2026-10-22 |
-| [design/05-not-done-yet.md](design/05-not-done-yet.md) | living list | The road, the plans and what has not been done yet. | 2026-10-21 |
+| [design/05-not-done-yet.md](design/05-not-done-yet.md) | living list | The road, the plans and what has not been done yet. | 2026-10-22 |
 | [design/06-catalogue-record.md](design/06-catalogue-record.md) | generated | The catalogue record of the app's pages, fields and cards. | 2026-10-15 |
 | [design/07-structure-tables.md](design/07-structure-tables.md) | generated | The structure tables (npm run tables). | 2026-10-18 |
 | [design/08-library-system.md](design/08-library-system.md) | current design | The library system: tables, library, inventory and logs. | 2026-10-21 |

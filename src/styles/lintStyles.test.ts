@@ -1,9 +1,9 @@
 import { sheetSource } from "../test/stylesheet.ts";
 import { describe, expect, it } from "vitest";
-import baselineFile from "../../scripts/lint/styles-baseline.json";
-import { compareWithBaseline, lintFile, lintStyles, toBaseline, type Baseline } from "../../scripts/lint/styles.ts";
+import baselineFile from "../../tools/scripts/lint/styles-baseline.json";
+import { compareWithBaseline, lintFile, lintStyles, toBaseline, type Baseline } from "../../tools/scripts/lint/styles.ts";
 
-/* The style lint (scripts/lint/styles.ts, npm run lint:styles). The first
+/* The style lint (tools/scripts/lint/styles.ts, npm run lint:styles). The first
    block tests the rules on small snippets; the second runs them on the real
    stylesheets against the recorded baseline, so a new literal colour, corner,
    gap or breakpoint fails the tests. When it fails: use a token, or, if the

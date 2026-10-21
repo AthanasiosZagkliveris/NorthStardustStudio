@@ -10,7 +10,7 @@ One tree, edited in place. There is no separate build tree and no sync step.
 
 - Application source: `src/` (`framework/`, `components/`, `pages/`, `hooks/`, `services/`, `library/`, `styles/`, `data/`, `assets/`, `test/`, `types/`). Where things are: `code-map.md`.
 - Build, test and lint configuration lives at the repository root only: `package.json`, `tsconfig.json`, `vite.config.ts`, `vitest.config.ts`, `index.html`. Nothing inside `src/` configures the build.
-- Scripts: `scripts/` (`tokens/`, `lint/`, `layout-check/`, `library/`, `catalogue/`, `docs/`, `cards/`). Each is run through an `npm run` name (read `package.json`).
+- Scripts: `tools/scripts/` (`tokens/`, `lint/`, `layout-check/`, `library/`, `tools/catalogue/`, `docs/`, `cards/`). Each is run through an `npm run` name (read `package.json`).
 - Desktop shell: `src-tauri/` (Tauri 2). The web build in `dist/` is what Tauri packages.
 
 ## Verify a change, in order
@@ -19,12 +19,12 @@ One tree, edited in place. There is no separate build tree and no sync step.
 2. **Unit tests:** `npx vitest run` (the 40-second timeout is set in `vitest.config.ts`; `npm run verify` runs this and the other checks in order). About 1,480 tests; all must pass. A confirmed, not-yet-fixed bug is written as `it.fails`, never left as a red test (see below). An `it.fails` that starts to pass is itself reported as a failure: root-cause it, it means the tracked behaviour changed.
 3. **The checks that read the code against the rules** (all must be clean):
    - `npm run tokens:check`: the generated colour and size stylesheets match `src/styles/tokens/tokens.ts`.
-   - `npm run lint:styles`: no literal colour, corner, gap or breakpoint outside the tokens (known ones are in `scripts/lint/styles-baseline.json`; a new one fails).
+   - `npm run lint:styles`: no literal colour, corner, gap or breakpoint outside the tokens (known ones are in `tools/scripts/lint/styles-baseline.json`; a new one fails).
    - `npm run lint:css`: no unused or shadowed rule.
    - `npm run docs:check`: the generated parts of the rulebook (`docs:values:check`, `docs:assets:check`) match the code and the library contracts. When it fails, run `npm run docs:values` or `npm run docs:assets`, then read the diff.
    - `npm run tables:check` and `npm run library:check`: the structure tables and the library with its logs are consistent. The other generated documents have `:check` forms too (`library:defaults:check`, `library:components:check`, `library:fields-list:check`, `library:compare:check`, `library:tokens:check`, `library:csv:check`, `library:doc:check`).
 4. **Build:** `npm run build` (`tsc && vite build`). Must succeed.
-5. **Layout check** (for any change to a page, tile, card or style): `npm run check:layout` (it starts `npm run dev` on port 1420 itself when no server answers, and stops it at the end; it restarts an example when a page reloads under it). It opens every Foundation page of the examples at 1920, 1366 and 768 in light and dark and fails on a finding that is not in `scripts/layout-check/baseline.json`. `npm run check:layout:wide` is the long run (three modes, seven windows, both examples); its baseline is not written yet. Rewrite a baseline only by the owner's decision.
+5. **Layout check** (for any change to a page, tile, card or style): `npm run check:layout` (it starts `npm run dev` on port 1420 itself when no server answers, and stops it at the end; it restarts an example when a page reloads under it). It opens every Foundation page of the examples at 1920, 1366 and 768 in light and dark and fails on a finding that is not in `tools/scripts/layout-check/baseline.json`. `npm run check:layout:wide` is the long run (three modes, seven windows, both examples); its baseline is not written yet. Rewrite a baseline only by the owner's decision.
 6. **Look at it** in a browser as the owner sees it, in the way `review-checklist.md` says; the automatic checks do not replace it. `npm run tauri dev` runs the same frontend in the desktop shell.
 7. **Documents:** the log row in `design/04-log.md`, the rule if a rule changed, the examples if the interface changed (`docs/examples`), then `npm run docs:index`.
 8. **Commit** only what was changed. Do not push, merge or tag without the owner's yes.
@@ -39,13 +39,17 @@ A green run proves the logic, not the look. How the app renders and responds to 
 
 To rewrite the examples after an interface change: `UPDATE_EXAMPLES=1 npx vitest run src/services/ExampleDrift.test.ts` (it writes both examples, in `src/data/examples/`, from the app's own readers); the golden figures are rewritten with `WRITE_GOLDEN=all`.
 
+## The console walk
+
+`npm run check:console` opens every Foundation page of both examples with every tile's dialog and reports what the browser console, the page and the network said (errors, warnings, uncaught exceptions, failed requests); it fails on any. Run it after a change to how a page is built, as the layout check shows how a page looks and this shows whether it throws. It starts the dev server itself when none answers.
+
 ## The app files alone
 
 `npm run export:app` copies the app's own files (no tests, documents, tools or catalogue) into `exports/app/` (ignored by git) and builds them there; `-- --clean` also installs in that folder alone. It fails, naming the file, if an app file imports something that was left out. See `docs/design/26-folder-plan.md`.
 
 ## Continuous integration
 
-`.github/workflows/ci.yml` runs on every push and every pull request into `main`: typecheck, unit tests, build, and the checks that need no browser (`tokens:check`, `lint:styles`, `lint:controls`, `lint:css`, `docs:check`, `tables:check`, `library:check`). A second job, `layout`, runs the layout check in headless Chromium on pull requests and when started by hand (`workflow_dispatch`). It is a floor: a person still reads a failure. `lint:controls` (`scripts/lint/shared-controls.mjs`, baseline `shared-controls-baseline.json`) fails when a stylesheet other than a shared control's own sets that control's look (ground, line, letters, height, padding); the 46 second looks that exist are the baseline to remove, not to grow. The layout check waits for the fonts and multiplies its waits by `CHECK_SLOW` (default 1.5; 3 on a busy machine).
+`.github/workflows/ci.yml` runs on every push and every pull request into `main`: typecheck, unit tests, build, and the checks that need no browser (`tokens:check`, `lint:styles`, `lint:controls`, `lint:css`, `docs:check`, `tables:check`, `library:check`). A second job, `layout`, runs the layout check in headless Chromium on pull requests and when started by hand (`workflow_dispatch`). It is a floor: a person still reads a failure. `lint:controls` (`tools/scripts/lint/shared-controls.mjs`, baseline `shared-controls-baseline.json`) fails when a stylesheet other than a shared control's own sets that control's look (ground, line, letters, height, padding); the 46 second looks that exist are the baseline to remove, not to grow. The layout check waits for the fonts and multiplies its waits by `CHECK_SLOW` (default 1.5; 3 on a busy machine).
 
 ## Common failure modes
 

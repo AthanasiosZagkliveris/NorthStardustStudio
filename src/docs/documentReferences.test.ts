@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { definedProperties, extractReferences, missingReferences, type Code } from "../../scripts/docs/refs.ts";
+import { definedProperties, extractReferences, missingReferences, type Code } from "../../tools/scripts/docs/refs.ts";
 
 /* The five documents that hold rules must not name a custom property, a class
    or a file that the code does not have. A document may name a few such things
@@ -34,7 +34,7 @@ const KNOWN_STALE: Record<string, { properties: string[]; classes: string[]; fil
 /* The code: every stylesheet, component and script (names from the glob, text read from disk: a raw import is empty in the test runner). */
 const codePaths = Object.keys(import.meta.glob("../**/*.{css,ts,tsx,json}"));
 const otherPaths = [
-    ...Object.keys(import.meta.glob("../../scripts/**/*.{mjs,ts,js,json}")),
+    ...Object.keys(import.meta.glob("../../tools/scripts/**/*.{mjs,ts,js,json}")),
     ...Object.keys(import.meta.glob("../../docs/**/*.md"))
 ];
 const read = (path: string) => readFileSync(new URL(path, import.meta.url), "utf8");

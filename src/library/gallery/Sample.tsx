@@ -5,7 +5,7 @@ export const GROUNDS = ["page", "card"] as const;
 
 /**
  * One sample of an asset: its variant, palette hue, ground and state are
- * written on the wrapper, where scripts/library/run.mjs reads them.
+ * written on the wrapper, where tools/scripts/library/run.mjs reads them.
  */
 export default function Sample({ variant, hue, ground, state, className, children }: {
     variant: string;

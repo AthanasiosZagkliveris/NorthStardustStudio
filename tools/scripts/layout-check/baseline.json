@@ -1,0 +1,2768 @@
+[
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure (1366 x 1000)|||a list item of a first-row tile has a box at the top of the page||",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure (1366 x 1000)",
+  "rule": "a list item of a first-row tile has a box at the top of the page"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure (1920 x 1000)|||a list item of a first-row tile has a box at the top of the page||",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure (1920 x 1000)",
+  "rule": "a list item of a first-row tile has a box at the top of the page"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure (1366 x 700)|||closing a mouse-opened card draws no ring on its opener||",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure (1366 x 700)",
+  "rule": "closing a mouse-opened card draws no ring on its opener"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^1\\. Definition|light|1920|a tile's list starts 12px under the title's underline|column-tiles › Description, Quillfield Automation is a one-person automation studio in Brooklyn|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^1\\. Definition",
+  "rule": "a tile's list starts 12px under the title's underline"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^1\\. Definition|light|1920|a dialog's Back button stands at its lower left|Description|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^1\\. Definition",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^1\\. Definition|light|1920|a dialog's Back button stands at its lower left|Mission|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^1\\. Definition",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^1\\. Definition|light|1920|a dialog's Back button stands at its lower left|Positioning|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^1\\. Definition",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^1\\. Definition|light|1920|a dialog's Back button stands at its lower left|Vision|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^1\\. Definition",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^1\\. Definition|light|1920|a dialog's Back button stands at its lower left|Philosophy|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^1\\. Definition",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^1\\. Definition|light|1920|a dialog's Back button stands at its lower left|Values|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^1\\. Definition",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^1\\. Definition|light|1920|a dialog's Back button stands at its lower left|Principles|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^1\\. Definition",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^1\\. Definition|light|1920|a dialog's Back button stands at its lower left|Manifesto|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^1\\. Definition",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|a dialog's Back button stands at its lower left|Organization|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Organization",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|a dialog's Back button stands at its lower left|Founders & Ownership|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Organization",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|row gap|legal-section-1 › legal-entity-column-head|Founders & Ownership",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Organization",
+  "rule": "row gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|a dialog's Back button stands at its lower left|Registrations|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Organization",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|a tile's + box is named 'Add <Item> to <tile>'|Add Legal requirement to Additional legal requirements|Registrations",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Organization",
+  "rule": "a tile's + box is named 'Add <Item> to <tile>'"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|a dialog's Back button stands at its lower left|Expenses|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Organization",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|number-left = body-left|legal-expense-expense-~ › legal-entity-card-head fold-card-head fold-card-fixed|Expenses > Expense 1: Certificate of Assumed Name filing",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Organization",
+  "rule": "number-left = body-left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|number → name gap|legal-expense-expense-~ › legal-entity-card-head fold-card-head fold-card-fixed|Expenses > Expense 1: Certificate of Assumed Name filing",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Organization",
+  "rule": "number → name gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|a picker shows its whole displayed text|legal-expense-expense-~ › Expense 1 linked registration: New York Department of State: KC-2026-0817|Expenses > Expense 1: Certificate of Assumed Name filing",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Organization",
+  "rule": "a picker shows its whole displayed text"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|a dialog's Back button stands at its lower left|Jordan Ellis|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Organization",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|number-left = body-left|founder-profile-founder-~ › legal-entity-card-head fold-card-head fold-card-fixed|Jordan Ellis",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Organization",
+  "rule": "number-left = body-left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|number → name gap|founder-profile-founder-~ › legal-entity-card-head fold-card-head fold-card-fixed|Jordan Ellis",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Organization",
+  "rule": "number → name gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|control at its column's left edge|founder-profile-founder-~ › option-picker|Jordan Ellis",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Organization",
+  "rule": "control at its column's left edge"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|card side margin|founder-profile-founder-~ › Rolesi|Jordan Ellis",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Organization",
+  "rule": "card side margin"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|a dialog's Back button stands at its lower left|Capability|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Organization",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|number-left = body-left|legal-expense-expense-~ › legal-entity-card-head fold-card-head fold-card-fixed|Expenses (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Organization",
+  "rule": "number-left = body-left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|number → name gap|legal-expense-expense-~ › legal-entity-card-head fold-card-head fold-card-fixed|Expenses (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Organization",
+  "rule": "number → name gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|a picker shows its whole displayed text|legal-expense-expense-~ › Expense 1 linked registration: New York Department of State: KC-2026-0817|Expenses (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Organization",
+  "rule": "a picker shows its whole displayed text"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|number-left = body-left|legal-expense-expense-~ › legal-entity-card-head fold-card-head fold-card-fixed|Expenses (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Organization",
+  "rule": "number-left = body-left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|number → name gap|legal-expense-expense-~ › legal-entity-card-head fold-card-head fold-card-fixed|Expenses (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Organization",
+  "rule": "number → name gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|a card added with the + box and left blank is removed again|Expenses|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Organization",
+  "rule": "a card added with the + box and left blank is removed again"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|a dialog's Back button stands at its lower left|Aesthetics|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Brand System › Brand System",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|a dialog's Back button stands at its lower left|Body Language|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Brand System › Brand System",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|a dialog's Back button stands at its lower left|Communication & Voice|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Brand System › Brand System",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|a dialog's Back button stands at its lower left|Imprint|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Brand System › Brand System",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|row gap|field-label|Imprint",
+  "example": "quillfield-automation-llc.json",
+  "page": "Brand System › Brand System",
+  "rule": "row gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|a dialog's Back button stands at its lower left|Colours|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Brand System › Brand System",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|a dialog's Back button stands at its lower left|Typography &Text Hierarchy|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Brand System › Brand System",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|a card in a dialog has the shared glass ground (translucent, blurred)|Typography &Text Hierarchy|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Brand System › Brand System",
+  "rule": "a card in a dialog has the shared glass ground (translucent, blurred)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|every text of page 3 is on the type scale (14, 18, 24, 28, 36)|picture-box-~|Typography &Text Hierarchy",
+  "example": "quillfield-automation-llc.json",
+  "page": "Brand System › Brand System",
+  "rule": "every text of page 3 is on the type scale (14, 18, 24, 28, 36)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|every text of page 3 is on the type scale (14, 18, 24, 28, 36)|brand-text-hierarchy › brand-slot-label-line|Typography &Text Hierarchy",
+  "example": "quillfield-automation-llc.json",
+  "page": "Brand System › Brand System",
+  "rule": "every text of page 3 is on the type scale (14, 18, 24, 28, 36)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|a dialog's Back button stands at its lower left|Icon & Logo|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Brand System › Brand System",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|a dialog's Back button stands at its lower left|Brand Images|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Brand System › Brand System",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › ^1\\. Foundation|light|1920|a dialog's Back button stands at its lower left|Segment Description|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › ^1\\. Foundation",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › ^1\\. Foundation|light|1920|the content of a dialog starts at its top (not in the middle)|Profiles|Segment Description",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › ^1\\. Foundation",
+  "rule": "the content of a dialog starts at its top (not in the middle)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › ^1\\. Foundation|light|1920|the content of a dialog starts at its top (not in the middle)|Profiles|Segment Description > Profile 1: The Stretched Operations Manager",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › ^1\\. Foundation",
+  "rule": "the content of a dialog starts at its top (not in the middle)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › ^1\\. Foundation|light|1920|the content of a dialog starts at its top (not in the middle)|Profiles|Segment Description > Profile 2: The Agency Founder",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › ^1\\. Foundation",
+  "rule": "the content of a dialog starts at its top (not in the middle)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › ^1\\. Foundation|light|1920|a dialog's Back button stands at its lower left|Value Proposition|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › ^1\\. Foundation",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › ^1\\. Foundation|light|1920|a dialog's Back button stands at its lower left|Competitors|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › ^1\\. Foundation",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › ^1\\. Foundation|light|1920|number-left = body-left|competitor-~ › Typei|Competitors > Competitor 1: Freelance automation specialists on marketplaces (Upwork, Fiverr)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › ^1\\. Foundation",
+  "rule": "number-left = body-left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › ^1\\. Foundation|light|1920|number → name gap|competitor-~ › Typei|Competitors > Competitor 1: Freelance automation specialists on marketplaces (Upwork, Fiverr)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › ^1\\. Foundation",
+  "rule": "number → name gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › ^1\\. Foundation|light|1920|number-left = body-left|competitor-~ › Typei|Competitors > Competitor 2: Larger AI consultancies and systems integrators",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › ^1\\. Foundation",
+  "rule": "number-left = body-left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › ^1\\. Foundation|light|1920|number → name gap|competitor-~ › Typei|Competitors > Competitor 2: Larger AI consultancies and systems integrators",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › ^1\\. Foundation",
+  "rule": "number → name gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › ^1\\. Foundation|light|1920|a dialog's Back button stands at its lower left|Offerings|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › ^1\\. Foundation",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › ^1\\. Foundation|light|1920|number-left = body-left|offering-~ › Type|Offerings > Offering 1: AI Workflow Audit",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › ^1\\. Foundation",
+  "rule": "number-left = body-left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › ^1\\. Foundation|light|1920|number → name gap|offering-~ › Type|Offerings > Offering 1: AI Workflow Audit",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › ^1\\. Foundation",
+  "rule": "number → name gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › ^1\\. Foundation|light|1920|number-left = body-left|offering-~ › Type|Offerings > Offering 2: Automation Build",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › ^1\\. Foundation",
+  "rule": "number-left = body-left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › ^1\\. Foundation|light|1920|number → name gap|offering-~ › Type|Offerings > Offering 2: Automation Build",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › ^1\\. Foundation",
+  "rule": "number → name gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › ^1\\. Foundation|light|1920|number-left = body-left|competitor-~ › Typei|Competitors (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › ^1\\. Foundation",
+  "rule": "number-left = body-left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › ^1\\. Foundation|light|1920|number → name gap|competitor-~ › Typei|Competitors (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › ^1\\. Foundation",
+  "rule": "number → name gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › ^1\\. Foundation|light|1920|number-left = body-left|competitor-~ › Typei|Competitors (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › ^1\\. Foundation",
+  "rule": "number-left = body-left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › ^1\\. Foundation|light|1920|number → name gap|competitor-~ › Typei|Competitors (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › ^1\\. Foundation",
+  "rule": "number → name gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › ^1\\. Foundation|light|1920|number-left = body-left|offering-~ › Type|Offerings (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › ^1\\. Foundation",
+  "rule": "number-left = body-left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › ^1\\. Foundation|light|1920|number → name gap|offering-~ › Type|Offerings (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › ^1\\. Foundation",
+  "rule": "number → name gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › ^1\\. Foundation|light|1920|number-left = body-left|offering-~ › Type|Offerings (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › ^1\\. Foundation",
+  "rule": "number-left = body-left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › ^1\\. Foundation|light|1920|number → name gap|offering-~ › Type|Offerings (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › ^1\\. Foundation",
+  "rule": "number → name gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a section dialog is the page card area's width, from the heading's underline to the footer|Social Media|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a section dialog is the page card area's width, from the heading's underline to the footer"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a section tile's dialog starts at the heading's underline|Social Media|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a section tile's dialog starts at the heading's underline"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a dialog's Back button stands at its lower left|Social Media|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Social Media",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Social Media",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Social Media",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Social Media",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Social Media",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Social Media",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Social Media > Subchannel 1: LinkedIn",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Social Media > Subchannel 1: LinkedIn",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Social Media > Subchannel 1: LinkedIn",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Social Media > Subchannel 1: LinkedIn",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Social Media > Subchannel 1: LinkedIn",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Social Media > Subchannel 1: LinkedIn",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Social Media > Subchannel 2: Instagram",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Social Media > Subchannel 2: Instagram",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Social Media > Subchannel 2: Instagram",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Social Media > Subchannel 2: Instagram",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Social Media > Subchannel 2: Instagram",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Social Media > Subchannel 2: Instagram",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a section dialog is the page card area's width, from the heading's underline to the footer|Website|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a section dialog is the page card area's width, from the heading's underline to the footer"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a section tile's dialog starts at the heading's underline|Website|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a section tile's dialog starts at the heading's underline"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a dialog's Back button stands at its lower left|Website|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Website",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Website",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Website",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Website",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Website",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Website",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Website > Subchannel 1: Main Website",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Website > Subchannel 1: Main Website",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Website > Subchannel 1: Main Website",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Website > Subchannel 1: Main Website",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Website > Subchannel 1: Main Website",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Website > Subchannel 1: Main Website",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Website > Subchannel 2: Booking / Registration Page",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Website > Subchannel 2: Booking / Registration Page",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Website > Subchannel 2: Booking / Registration Page",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Website > Subchannel 2: Booking / Registration Page",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Website > Subchannel 2: Booking / Registration Page",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Website > Subchannel 2: Booking / Registration Page",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a section dialog is the page card area's width, from the heading's underline to the footer|Email|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a section dialog is the page card area's width, from the heading's underline to the footer"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a section tile's dialog starts at the heading's underline|Email|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a section tile's dialog starts at the heading's underline"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a dialog's Back button stands at its lower left|Email|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Email",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Email",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Email",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Email",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Email",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Email",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Email > Subchannel 1: Newsletter",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Email > Subchannel 1: Newsletter",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Email > Subchannel 1: Newsletter",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Email > Subchannel 1: Newsletter",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Email > Subchannel 1: Newsletter",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Email > Subchannel 1: Newsletter",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Email > Subchannel 2: Direct Email",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Email > Subchannel 2: Direct Email",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Email > Subchannel 2: Direct Email",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Email > Subchannel 2: Direct Email",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Email > Subchannel 2: Direct Email",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Email > Subchannel 2: Direct Email",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a section dialog is the page card area's width, from the heading's underline to the footer|Other|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a section dialog is the page card area's width, from the heading's underline to the footer"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a section tile's dialog starts at the heading's underline|Other|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a section tile's dialog starts at the heading's underline"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a dialog's Back button stands at its lower left|Other|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Other",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Other",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Other",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Other",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Other",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Other",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Other > Subchannel 1: Referral partners (bookkeepers and IT providers)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Other > Subchannel 1: Referral partners (bookkeepers and IT providers)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Other > Subchannel 1: Referral partners (bookkeepers and IT providers)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Other > Subchannel 1: Referral partners (bookkeepers and IT providers)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Other > Subchannel 1: Referral partners (bookkeepers and IT providers)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Other > Subchannel 1: Referral partners (bookkeepers and IT providers)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a section dialog is the page card area's width, from the heading's underline to the footer|In Person|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a section dialog is the page card area's width, from the heading's underline to the footer"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a section tile's dialog starts at the heading's underline|In Person|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a section tile's dialog starts at the heading's underline"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a dialog's Back button stands at its lower left|In Person|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|In Person",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|In Person",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|In Person",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|In Person",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|In Person",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|In Person",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|In Person > Subchannel 1: Event / Talk",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|In Person > Subchannel 1: Event / Talk",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|In Person > Subchannel 1: Event / Talk",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|In Person > Subchannel 1: Event / Talk",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|In Person > Subchannel 1: Event / Talk",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|In Person > Subchannel 1: Event / Talk",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|In Person > Subchannel 2: Studio / Shop",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|In Person > Subchannel 2: Studio / Shop",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|In Person > Subchannel 2: Studio / Shop",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|In Person > Subchannel 2: Studio / Shop",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|In Person > Subchannel 2: Studio / Shop",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|In Person > Subchannel 2: Studio / Shop",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a section dialog is the page card area's width, from the heading's underline to the footer|Direct Payment|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a section dialog is the page card area's width, from the heading's underline to the footer"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a section tile's dialog starts at the heading's underline|Direct Payment|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a section tile's dialog starts at the heading's underline"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a dialog's Back button stands at its lower left|Direct Payment|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Direct Payment",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Direct Payment",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Direct Payment",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Direct Payment",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Direct Payment",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Direct Payment",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Direct Payment > Subchannel 1: Invoice",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Direct Payment > Subchannel 1: Invoice",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Direct Payment > Subchannel 1: Invoice",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Direct Payment > Subchannel 1: Invoice",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Direct Payment > Subchannel 1: Invoice",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Direct Payment > Subchannel 1: Invoice",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Direct Payment > Subchannel 2: Card",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Direct Payment > Subchannel 2: Card",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Direct Payment > Subchannel 2: Card",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Direct Payment > Subchannel 2: Card",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Direct Payment > Subchannel 2: Card",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Direct Payment > Subchannel 2: Card",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a section dialog is the page card area's width, from the heading's underline to the footer|Online / Live|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a section dialog is the page card area's width, from the heading's underline to the footer"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a section tile's dialog starts at the heading's underline|Online / Live|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a section tile's dialog starts at the heading's underline"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a dialog's Back button stands at its lower left|Online / Live|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Online / Live",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Online / Live",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Online / Live",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Online / Live",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Online / Live",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Online / Live",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Online / Live > Subchannel 1: Zoom",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Online / Live > Subchannel 1: Zoom",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Online / Live > Subchannel 1: Zoom",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Online / Live > Subchannel 1: Zoom",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Online / Live > Subchannel 1: Zoom",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Online / Live > Subchannel 1: Zoom",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Online / Live > Subchannel 2: Google Meet",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Online / Live > Subchannel 2: Google Meet",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Online / Live > Subchannel 2: Google Meet",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Online / Live > Subchannel 2: Google Meet",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Online / Live > Subchannel 2: Google Meet",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Online / Live > Subchannel 2: Google Meet",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a section dialog is the page card area's width, from the heading's underline to the footer|File Delivery|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a section dialog is the page card area's width, from the heading's underline to the footer"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a section tile's dialog starts at the heading's underline|File Delivery|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a section tile's dialog starts at the heading's underline"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a dialog's Back button stands at its lower left|File Delivery|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|File Delivery",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|File Delivery",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|File Delivery",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|File Delivery",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|File Delivery",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|File Delivery",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|File Delivery > Subchannel 1: Client Portal",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|File Delivery > Subchannel 1: Client Portal",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|File Delivery > Subchannel 1: Client Portal",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|File Delivery > Subchannel 1: Client Portal",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|File Delivery > Subchannel 1: Client Portal",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|File Delivery > Subchannel 1: Client Portal",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|File Delivery > Subchannel 2: WeTransfer",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|File Delivery > Subchannel 2: WeTransfer",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|File Delivery > Subchannel 2: WeTransfer",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|File Delivery > Subchannel 2: WeTransfer",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|File Delivery > Subchannel 2: WeTransfer",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|File Delivery > Subchannel 2: WeTransfer",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Community (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Community (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Community (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Community (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Community (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Community (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Marketplace (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Marketplace (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Marketplace (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Marketplace (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Marketplace (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Marketplace (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Physical Delivery (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Physical Delivery (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Physical Delivery (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Physical Delivery (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Physical Delivery (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Physical Delivery (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Retail & Wholesale (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Retail & Wholesale (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Retail & Wholesale (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Retail & Wholesale (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Retail & Wholesale (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Retail & Wholesale (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Referral & Affiliates (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Referral & Affiliates (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Referral & Affiliates (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Referral & Affiliates (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Referral & Affiliates (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Referral & Affiliates (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Social Media (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Social Media (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Social Media (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Social Media (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Social Media (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Social Media (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Website (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Website (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Website (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Website (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Website (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Website (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Email (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Email (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Email (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Email (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Email (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Email (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Other (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Other (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Other (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Other (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Other (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Other (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|In Person (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|In Person (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|In Person (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|In Person (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|In Person (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|In Person (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Direct Payment (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Direct Payment (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Direct Payment (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Direct Payment (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Direct Payment (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Direct Payment (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Online / Live (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Online / Live (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Online / Live (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Online / Live (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Online / Live (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Online / Live (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|File Delivery (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|File Delivery (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|File Delivery (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|File Delivery (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|File Delivery (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|File Delivery (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a floating card opens|Community (+ box)|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a floating card opens"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a card added with the + box takes the focus in its name|Community|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a card added with the + box takes the focus in its name"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Community (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Community (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Community (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Community (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Community (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Community (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a floating card opens|Marketplace (+ box)|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a floating card opens"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a card added with the + box takes the focus in its name|Marketplace|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a card added with the + box takes the focus in its name"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Marketplace (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Marketplace (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Marketplace (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Marketplace (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Marketplace (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Marketplace (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a floating card opens|Physical Delivery (+ box)|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a floating card opens"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a card added with the + box takes the focus in its name|Physical Delivery|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a card added with the + box takes the focus in its name"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Physical Delivery (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Physical Delivery (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Physical Delivery (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Physical Delivery (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Physical Delivery (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Physical Delivery (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a floating card opens|Retail & Wholesale (+ box)|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a floating card opens"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a card added with the + box takes the focus in its name|Retail & Wholesale|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a card added with the + box takes the focus in its name"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Retail & Wholesale (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Retail & Wholesale (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Retail & Wholesale (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Retail & Wholesale (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Retail & Wholesale (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Retail & Wholesale (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a floating card opens|Referral & Affiliates (+ box)|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a floating card opens"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a card added with the + box takes the focus in its name|Referral & Affiliates|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a card added with the + box takes the focus in its name"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Referral & Affiliates (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Stretched Operations Manager: what this means|Referral & Affiliates (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › The Agency Founder: what this means|Referral & Affiliates (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › AI Workflow Audit: what this means|Referral & Affiliates (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Build: what this means|Referral & Affiliates (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Automation Care Retainer: what this means|Referral & Affiliates (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a dialog's Back button stands at its lower left|Founders|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a card in a dialog has the shared glass ground (translucent, blurred)|Founders|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a card in a dialog has the shared glass ground (translucent, blurred)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|founder-founder-~ › field-label business-foundation-label|Founders",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "row gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a founder's roles (text) start at the card's content edge|founder-founder-~ › bullet-list-static-text|Founders",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a founder's roles (text) start at the card's content edge"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a founder's bullets hang in the marker column|founder-founder-~ › LI|Founders",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a founder's bullets hang in the marker column"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a founder's head number ends 8px before the name|founder-founder-~ › list-number|Founders",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a founder's head number ends 8px before the name"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a founder's text starts at the card's content edge|founder-founder-~ › field-label business-foundation-label|Founders",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a founder's text starts at the card's content edge"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a founder's Responsibilities numbers hang in the marker column|founder-founder-~ › LI|Founders",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a founder's Responsibilities numbers hang in the marker column"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a founder's Responsibilities text starts at the card's content edge (further right only by a two-digit number)|founder-founder-~ › LI|Founders",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a founder's Responsibilities text starts at the card's content edge (further right only by a two-digit number)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a founder's Completed label starts at the card's content edge|founder-founder-~ › field-label business-foundation-label|Founders",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a founder's Completed label starts at the card's content edge"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a dialog's Back button stands at its lower left|Resources|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a dialog's Back button stands at its lower left|Activities|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › field-label business-foundation-label|Activities > Pre-Operational, Standard client contract templates, Launch the website with booking, Set up bookkeeping and quarterly estimated taxes… > Activity 1: Standard client contract templates",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "row gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Activities > Pre-Operational, Standard client contract templates, Launch the website with booking, Set up bookkeeping and quarterly estimated taxes… > Activity 1: Standard client contract templates",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "the Performer's dropdown ends where the name cell ends"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › field-label business-foundation-label|Activities > Pre-Operational, Standard client contract templates, Launch the website with booking, Set up bookkeeping and quarterly estimated taxes… > Activity 2: Launch the website with booking",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "row gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Activities > Pre-Operational, Standard client contract templates, Launch the website with booking, Set up bookkeeping and quarterly estimated taxes… > Activity 2: Launch the website with booking",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "the Performer's dropdown ends where the name cell ends"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › field-label business-foundation-label|Activities > Pre-Operational, Standard client contract templates, Launch the website with booking, Set up bookkeeping and quarterly estimated taxes… > Activity 3: Set up bookkeeping and quarterly estimated taxes",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "row gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Activities > Pre-Operational, Standard client contract templates, Launch the website with booking, Set up bookkeeping and quarterly estimated taxes… > Activity 3: Set up bookkeeping and quarterly estimated taxes",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "the Performer's dropdown ends where the name cell ends"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Activities > Operational, Investigate Password and credential vault for client logins > Activity 1: Investigate Password and credential vault for client logins",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "the Performer's dropdown ends where the name cell ends"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a dialog's Back button stands at its lower left|Partners & Suppliers|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a picker is as wide as its widest option|partner-~ › Entry 1 currency: USD|Partners & Suppliers > Partners",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a picker is as wide as its widest option"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control width is a size step|resource-~ › Resource 1 number of instalments|Resources > Workspace, Meetup and event costs > Site Hire, Meetup and event costs",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "control width is a size step"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control width is a size step|resource-~ › Resource 1 payment plan type: Instalments|Resources > Workspace, Meetup and event costs > Site Hire, Meetup and event costs",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "control width is a size step"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a picker is as wide as its widest option|resource-~ › Resource 1 currency: USD|Resources > Workspace, Meetup and event costs > Site Hire, Meetup and event costs",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a picker is as wide as its widest option"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a picker is as wide as its widest option|resource-~ › Resource 1 payment plan type: Instalments|Resources > Workspace, Meetup and event costs > Site Hire, Meetup and event costs",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a picker is as wide as its widest option"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|every text of page 3 is on the type scale (14, 18, 24, 28, 36)|resource-~ › business-capability-plan-order|Resources > Workspace, Meetup and event costs > Site Hire, Meetup and event costs",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "every text of page 3 is on the type scale (14, 18, 24, 28, 36)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control width is a size step|activity-~ › Activity 1 linked Offerings share of Automation Build|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build… > Activity 1: Build a reusable automation component library",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "control width is a size step"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control width is a size step|activity-~ › Activity 1 linked Offerings share of Automation Care Retainer|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build… > Activity 1: Build a reusable automation component library",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "control width is a size step"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › field-label business-foundation-label|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build… > Activity 1: Build a reusable automation component library",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "row gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › Activity 1 linked Offerings share of Automation Care Retainer|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build… > Activity 1: Build a reusable automation component library",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "row gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build… > Activity 1: Build a reusable automation component library",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "the Performer's dropdown ends where the name cell ends"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › field-label business-foundation-label|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build… > Activity 2: Create the audit interview guide and roadmap template",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "row gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build… > Activity 2: Create the audit interview guide and roadmap template",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "the Performer's dropdown ends where the name cell ends"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › field-label business-foundation-label|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build… > Activity 3: Define the build handover pack",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "row gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build… > Activity 3: Define the build handover pack",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "the Performer's dropdown ends where the name cell ends"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control width is a size step|activity-~ › Activity 1 linked Offerings share of AI Workflow Audit|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 1: LinkedIn content plan",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "control width is a size step"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control width is a size step|activity-~ › Activity 1 linked Offerings share of Automation Build|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 1: LinkedIn content plan",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "control width is a size step"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control width is a size step|activity-~ › Activity 1 linked Offerings share of Automation Care Retainer|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 1: LinkedIn content plan",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "control width is a size step"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › field-label business-foundation-label|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 1: LinkedIn content plan",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "row gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › End date|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 1: LinkedIn content plan",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "row gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › Activity 1 linked Offerings share of Automation Build|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 1: LinkedIn content plan",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "row gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › Activity 1 linked Offerings share of Automation Care Retainer|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 1: LinkedIn content plan",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "row gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 1: LinkedIn content plan",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "the Performer's dropdown ends where the name cell ends"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control width is a size step|activity-~ › Activity 2 linked Offerings share of AI Workflow Audit|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 2: Start the monthly newsletter",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "control width is a size step"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control width is a size step|activity-~ › Activity 2 linked Offerings share of Automation Build|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 2: Start the monthly newsletter",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "control width is a size step"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control width is a size step|activity-~ › Activity 2 linked Offerings share of Automation Care Retainer|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 2: Start the monthly newsletter",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "control width is a size step"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › field-label business-foundation-label|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 2: Start the monthly newsletter",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "row gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › End date|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 2: Start the monthly newsletter",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "row gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › Activity 2 linked Offerings share of Automation Build|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 2: Start the monthly newsletter",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "row gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › Activity 2 linked Offerings share of Automation Care Retainer|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 2: Start the monthly newsletter",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "row gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 2: Start the monthly newsletter",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "the Performer's dropdown ends where the name cell ends"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › field-label business-foundation-label|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 3: Publish three case studies",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "row gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 3: Publish three case studies",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "the Performer's dropdown ends where the name cell ends"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|partner-qf-~ › field-label business-foundation-label|Partners & Suppliers > Partners, Referral partners (10% of a referred audit) > Partner 1: Referral partners (10% of a referred audit)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "row gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a picker is as wide as its widest option|partner-qf-~ › Referral partners (10% of a referred audit) currency: USD|Partners & Suppliers > Partners, Referral partners (10% of a referred audit) > Partner 1: Referral partners (10% of a referred audit)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a picker is as wide as its widest option"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a picker is as wide as its widest option|partner-~ › Freelance developer (overflow) currency: USD|Partners & Suppliers > Suppliers, Freelance developer (overflow), Card and ACH processing (QuickBooks Payments) > Supplier 1: Freelance developer (overflow)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a picker is as wide as its widest option"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control width is a size step|partner-qf-stripe › Card and ACH processing (QuickBooks Payments) linked Offerings share of AI Workf|Partners & Suppliers > Suppliers, Freelance developer (overflow), Card and ACH processing (QuickBooks Payments) > Supplier 2: Card and ACH processing (QuickBooks Payments)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "control width is a size step"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control width is a size step|partner-qf-stripe › Card and ACH processing (QuickBooks Payments) linked Offerings share of Automati|Partners & Suppliers > Suppliers, Freelance developer (overflow), Card and ACH processing (QuickBooks Payments) > Supplier 2: Card and ACH processing (QuickBooks Payments)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "control width is a size step"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|partner-qf-stripe › field-label business-foundation-label|Partners & Suppliers > Suppliers, Freelance developer (overflow), Card and ACH processing (QuickBooks Payments) > Supplier 2: Card and ACH processing (QuickBooks Payments)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "row gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|partner-qf-stripe › Card and ACH processing (QuickBooks Payments) linked Offerings share of Automati|Partners & Suppliers > Suppliers, Freelance developer (overflow), Card and ACH processing (QuickBooks Payments) > Supplier 2: Card and ACH processing (QuickBooks Payments)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "row gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a picker is as wide as its widest option|partner-qf-stripe › Card and ACH processing (QuickBooks Payments) currency: USD|Partners & Suppliers > Suppliers, Freelance developer (overflow), Card and ACH processing (QuickBooks Payments) > Supplier 2: Card and ACH processing (QuickBooks Payments)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a picker is as wide as its widest option"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a dialog's Back button stands at its lower left|Delivery|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the content of a dialog starts at its top (not in the middle)|Delivery|Delivery",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "the content of a dialog starts at its top (not in the middle)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the content of a dialog starts at its top (not in the middle)|Delivery|Delivery > Delivery 1: AI Workflow Audit",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "the content of a dialog starts at its top (not in the middle)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a Delivery card's number is left-aligned in its box (no space before it)|delivery-~-~ › list-number|Delivery > Delivery 1: AI Workflow Audit",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a Delivery card's number is left-aligned in its box (no space before it)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the content of a dialog starts at its top (not in the middle)|Delivery|Delivery > Delivery 2: Automation Build",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "the content of a dialog starts at its top (not in the middle)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a Delivery card's number is left-aligned in its box (no space before it)|delivery-~-~ › list-number|Delivery > Delivery 2: Automation Build",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a Delivery card's number is left-aligned in its box (no space before it)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a dialog's Back button stands at its lower left|Inventory|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a dialog's Back button stands at its lower left|Completed|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › field-label business-foundation-label|Completed > Activity 1: Register the business name and get an EIN",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "row gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Completed > Activity 1: Register the business name and get an EIN",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "the Performer's dropdown ends where the name cell ends"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › field-label business-foundation-label|Completed > Activity 2: Open a business bank account",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "row gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Completed > Activity 2: Open a business bank account",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "the Performer's dropdown ends where the name cell ends"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a floating founder's card is the founder card width|Founders (list item)|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a floating founder's card is the founder card width"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|founder-founder-~ › field-label business-foundation-label|Founders (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "row gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|card side margin|founder-founder-~ › Start date|Founders (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "card side margin"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a founder's roles (text) start at the card's content edge|founder-founder-~ › bullet-list-static-text|Founders (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a founder's roles (text) start at the card's content edge"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a founder's bullets hang in the marker column|founder-founder-~ › LI|Founders (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a founder's bullets hang in the marker column"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a founder's name starts at the card's content edge|founder-founder-~ › strategy-name-static|Founders (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a founder's name starts at the card's content edge"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a founder's text starts at the card's content edge|founder-founder-~ › field-label business-foundation-label|Founders (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a founder's text starts at the card's content edge"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a founder's two columns of cells are 12px apart (the right one moved to the left)|founder-founder-~ › option-picker|Founders (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a founder's two columns of cells are 12px apart (the right one moved to the left)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a founder's two columns of cells are 12px apart (the right one moved to the left)|founder-founder-~ › Jordan Ellis delivery hours a month|Founders (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a founder's two columns of cells are 12px apart (the right one moved to the left)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a founder's Working Hrs and Delivery Hrs labels are two lines, Salary and Frequency one|founder-founder-~ › Working Hoursi|Founders (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a founder's Working Hrs and Delivery Hrs labels are two lines, Salary and Frequency one"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a founder's Working Hrs and Delivery Hrs labels are two lines, Salary and Frequency one|founder-founder-~ › Delivery Hoursi|Founders (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a founder's Working Hrs and Delivery Hrs labels are two lines, Salary and Frequency one"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › field-label business-foundation-label|Activities (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "row gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › End date|Activities (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "row gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a picker is as wide as its widest option|partner-~ › Entry 1 currency: USD|Partners & Suppliers (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a picker is as wide as its widest option"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a Delivery card's number is left-aligned in its box (no space before it)|delivery-~-~ › list-number|Delivery (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a Delivery card's number is left-aligned in its box (no space before it)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › field-label business-foundation-label|Completed (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "row gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Completed (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "the Performer's dropdown ends where the name cell ends"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Financial Foundation|light|1920|a remove x keeps 12px from the cell beside it and never lies on one|funding-~ › Remove Owner's savings|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Financial Foundation",
+  "rule": "a remove x keeps 12px from the cell beside it and never lies on one"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Financial Foundation|light|1920|a remove x keeps 12px from the cell beside it and never lies on one|funding-~ › Remove SBA Microloan|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Financial Foundation",
+  "rule": "a remove x keeps 12px from the cell beside it and never lies on one"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|a dialog's Back button stands at its lower left|Current Situation|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Strategy System › Strategy System",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|a dialog's Back button stands at its lower left|SWOT Analysis|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Strategy System › Strategy System",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|a dialog's Back button stands at its lower left|Strategic Compass|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Strategy System › Strategy System",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|a dialog's Back button stands at its lower left|Strategic Period|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Strategy System › Strategy System",
+  "rule": "a dialog's Back button stands at its lower left"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|an i on its words' centre line|Adding Themes: what this means|Strategic Period",
+  "example": "quillfield-automation-llc.json",
+  "page": "Strategy System › Strategy System",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|an i one gap after its words|Adding Themes: what this means|Strategic Period",
+  "example": "quillfield-automation-llc.json",
+  "page": "Strategy System › Strategy System",
+  "rule": "an i one gap after its words"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|a floating card opens|Strategic Period (+ box)|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Strategy System › Strategy System",
+  "rule": "a floating card opens"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|a card added with the + box takes the focus in its name|Strategic Period|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Strategy System › Strategy System",
+  "rule": "a card added with the + box takes the focus in its name"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|an i on its words' centre line|Adding Themes: what this means|Strategic Period (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Strategy System › Strategy System",
+  "rule": "an i on its words' centre line"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|an i one gap after its words|Adding Themes: what this means|Strategic Period (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Strategy System › Strategy System",
+  "rule": "an i one gap after its words"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|label gap|theme-~-objective-1 › Start: Select|Strategic Period (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Strategy System › Strategy System",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|card side margin|theme-~-goal-1 › Goal 1. Use the arrow keys to move it, Delete to remove it.|Strategic Period (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Strategy System › Strategy System",
+  "rule": "card side margin"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|card side margin|theme-~-objective-1 › Objective 1. Use the arrow keys to move it, Delete to remove it.|Strategic Period (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Strategy System › Strategy System",
+  "rule": "card side margin"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|head buttons at the side margin|theme-~-goal-1 › strategy-box-head strategy-card-head-flat|Strategic Period (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Strategy System › Strategy System",
+  "rule": "head buttons at the side margin"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|head buttons at the side margin|theme-~-objective-1 › strategy-box-head strategy-card-head-flat|Strategic Period (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Strategy System › Strategy System",
+  "rule": "head buttons at the side margin"
+ }
+]

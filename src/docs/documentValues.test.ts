@@ -1,10 +1,10 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { collectDefinitions, differences, evaluate, sync, tokenRows, valuesOf } from "../../scripts/docs/values.ts";
+import { collectDefinitions, differences, evaluate, sync, tokenRows, valuesOf } from "../../tools/scripts/docs/values.ts";
 import { sheetSource } from "../test/stylesheet.ts";
 
 /* The numbers in the rulebook's token tables must be what the stylesheets give
-   (scripts/docs/values.ts). When this fails: run `npm run docs:values` and
+   (tools/scripts/docs/values.ts). When this fails: run `npm run docs:values` and
    commit the result; the code is right and the table follows it. A row about a
    property the code does not define is listed in NOT_DEFINED until the row is
    removed from the rulebook. */
