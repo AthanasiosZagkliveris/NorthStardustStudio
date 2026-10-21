@@ -6,6 +6,7 @@ Status: **living log**, started 2026-10-14, kept up to date to 2026-10-21. Add a
 
 | Dates | What happened |
 |---|---|
+| 2026-10-22 | Fix: every Capability description was under Foundation and the others were empty. The descriptions file has Windows line endings and the split at its `---` lines expected plain ones, so the whole file became the first Capability's text. The reader now accepts both (`CapabilityDescriptions.ts`), with a test. The reader and the file are unchanged since 28 July 2026, so the fault is old; nothing in this stretch caused it. |
 | 2026-10-22 | The app no longer imports the library: `tokens.ts` holds the three corner numbers (4, 6, 8; a test keeps them equal to the library's), and `export:app` leaves out the development-only pages (Library, Inventory, Looks) named in `App.tsx`'s `dev-only` block. The exported app is 526 files, none of them the library, and builds after a fresh install. |
 | 2026-10-22 | Folder plan step 2: `npm run export:app` (`scripts/export/app.mjs`) writes the app files alone to `exports/app/` (556 files: no tests, documents, tools or catalogue) and builds them there, with `--clean` after a fresh install; `App.tsx` got `dev-only` markers around the gallery routes. Finding: 27 library files travel with the app because `tokens.ts` imports `library/componentTokens.ts`, which imports the whole library table. |
 | 2026-10-22 | Folder plan step 1: `docs/examples/` removed (one copy of the examples, `src/data/examples/`; `ExampleDrift.test.ts` writes only there); `.superpowers/` and `.scratch/` are ignored by git. |
