@@ -3,8 +3,6 @@
 ========================================================== */
 .strategy-add-button,
 .header-tool,
-.business-documents-button,
-.workspace-documents-button,
 .org-calendar-chip {
 
     /* ONE BUTTON HEIGHT: 44px (--add-button-height, layout-rules "Heights"); the place sets its width and padding only. */
@@ -32,8 +30,6 @@
 
 .strategy-add-button:hover:not(:disabled),
 .header-tool:hover:not(:disabled),
-.business-documents-button:hover:not(:disabled),
-.workspace-documents-button:hover:not(:disabled),
 .org-calendar-chip:hover:not(:disabled),
 .header-tool[aria-expanded="true"] {
 
@@ -51,8 +47,6 @@
 
 .strategy-add-button:focus-visible,
 .header-tool:focus-visible,
-.business-documents-button:focus-visible,
-.workspace-documents-button:focus-visible,
 .org-calendar-chip:focus-visible {
 
     outline: none;
@@ -62,8 +56,6 @@
 
 .strategy-add-button:disabled,
 .header-tool:disabled,
-.business-documents-button:disabled,
-.workspace-documents-button:disabled,
 .org-calendar-chip:disabled {
 
     color: var(--text-faint);

@@ -460,9 +460,7 @@ body {
 .primary-button,
 .secondary-button,
 .interview-help-toggle,
-.strategy-add-button,
-.workspace-documents-button,
-.business-documents-button {
+.strategy-add-button {
   font-size: var(--font-body);
 }
 
