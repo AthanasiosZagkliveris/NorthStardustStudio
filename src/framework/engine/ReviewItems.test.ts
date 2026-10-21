@@ -65,15 +65,6 @@ describe("the Review page's items", () => {
         }]);
     });
 
-    test("a Resource that Needs Investigation is a complete answer, not an open item", () => {
-        const sessions = load();
-        const business = sessions[3]!;
-        const page = pageOf(business, AnswerType.BusinessCapability);
-        const capability = asBusinessCapabilityValue(business.getResponse(page.number));
-        business.saveResponse(page.number, { ...capability, resources: { ...capability.resources, workspace: capability.resources.workspace.map(subsection => ({ ...subsection, slots: subsection.slots.map(slot => ({ ...slot, status: "investigation" })) })) } });
-        expect(reviewItems({ sessions, titles, organisationName: "Lumen" }).filter(item => item.group === "open")).toEqual([]);
-    });
-
     test("with several founders, an activity nobody is responsible for is open", () => {
         const sessions = load("Quillfield");
         const business = sessions[3]!;

@@ -1,30 +1,43 @@
 # AI Collaboration Rules
 
-Standing rules for any AI assistant working on this project. These come from explicit developer instruction, not inference — treat them as binding, not as defaults to weigh against convenience.
+Status: **rules**, updated 2026-10-21. It also holds what was in `ai-development-methodology.md` (merged here).
+
+Standing rules for any AI assistant working on this project. They come from explicit instruction by the owner, not from inference: treat them as binding, not as defaults to weigh against convenience.
 
 ## Always
 
-- **Push finished changes automatically, without being asked.** Once a change is verified (see Verification & Regression Playbook), deliver it and write it back to the developer's project files in the same turn it's finished. Don't wait for a separate "go ahead."
-- **"Push" means committed, not just written to disk.** Writing a file back to the developer's project folder is not the end state — an uncommitted working-tree change has no history, isn't on the GitHub remote, and can be silently discarded by an unrelated later git operation (a checkout, a stash, a discard-changes click) with no warning that it happened. Confirmed happening once already: a fully-verified, already-delivered `package.json` change was lost this way, and nothing caught it until an unrelated audit checked the live file byte-for-byte. So no turn that makes a real project-file change is finished while that change is still only in the working tree: either commit it (Claude Code can run `git commit` and `git push` directly — an assistant without shell access must instead end the turn by explicitly asking the developer to do it), or state plainly that the change is delivered but not yet durable. Never leave it ambiguous.
+- **Commit finished, verified work; do not push without the owner's yes.** A change that is only in the working tree has no history and can be lost by an unrelated git operation (a checkout, a stash, a discard). So a turn that changes project files ends with the change committed (only what was changed), or with a plain statement that it is not yet committed. Pushing, merging and tagging wait for the owner. Today the branch `chore/light-cleanup` is not pushed and `main` has not moved; after the owner has tried the app once: merge, push, tag (`design/05-not-done-yet.md`).
+- **Update the documents with the change**: the log row (`design/04-log.md`), the rule or the shared-component state where one changed, the examples (`docs/examples`) when the interface changed, then `npm run docs:index`. Documents are Markdown; PDFs are exports only and are not kept in the project.
+- **Verify before saying done** (`toolchain-and-verification-playbook.md`, `review-checklist.md`). Say what was looked at and what was not.
 
 ## Never
 
-- **Don't make changes that weren't requested.** If a task seems to imply an adjacent change, or an opportunity to improve something nearby, don't take it — surface it as a question or a suggestion instead. This includes: don't apply a design decision to real project files just to test whether a Skill or process works — validate against synthetic or historical examples instead.
+- **Do not make changes that were not requested.** If a task suggests an adjacent change, surface it as a question or a suggestion. Do not apply a design decision to real project files just to test a process; use a synthetic or historical example.
+- **Do not change the layout, style or structure of the app** when the task is content or logic; reuse the existing components and styles (`review-checklist.md`, section 1). A look is fixed in a shared token or component, not in one page.
+- **Do not edit a generated document by hand** (`docs/README.md` says which are generated and by which command).
 
 ## When genuinely unsure
 
-- **Ask, don't guess, on decisions that are expensive to reverse or ambiguous by nature** — e.g. a structural choice with more than one reasonable reading, a priority call between two pieces of pending work. Use a small number of concrete options rather than an open-ended question.
-- **Don't ask about decisions that are cheap to reverse or where one option is clearly better** — e.g. which of two internally-consistent test assertions to trust when one is provably based on a stale assumption. Resolve it, note the reasoning, keep moving.
-- Record the resolution of any genuinely ambiguous decision in whichever `docs/ai/` reference already owns that area (a new pattern in the conventions reference, a triaged failure in the verification playbook, an unfixed problem in `outstanding-findings.md`), so the same question doesn't need to be re-asked in a future session. There is deliberately no separate decision-log file — the knowledge belongs next to the subject it concerns, not in a parallel history.
-
-## On verification
-
-- A change is not "done" until it has actually been verified per the Environment & Toolchain Playbook — not asserted as likely to pass. If a verification step turns up a failure, root-cause it before deciding whether it's a real regression or expected fallout of the change (see Verification & Regression Playbook) — don't default to "probably fine" or "probably broken" without checking.
+- **Ask, do not guess, where the decision is expensive to reverse or ambiguous by nature**: a structural choice with more than one reasonable reading, a priority between two pending pieces of work. Offer a few concrete options, not an open question.
+- **Do not ask where the decision is cheap to reverse or one option is clearly better**: which of two assertions to trust when one rests on a stale assumption. Resolve it, note the reason, go on.
+- **Record the resolution** in the document that already owns the area (a pattern in the conventions reference, a triaged failure in the playbook, an unfixed problem in `outstanding-findings.md`, a decision in the log). There is no separate decision file: the knowledge sits next to its subject.
 
 ## On scope
 
-- If a task's own instructions say to stop at a certain point (e.g. "design only, don't implement" or "review only, don't redesign"), treat that as a hard boundary for that task, not a suggestion — even if continuing further seems like it would be useful.
+If a task says to stop at a point ("design only", "review only"), that is a hard boundary for that task.
+
+## How work flows
+
+1. **Select** the most valuable piece of work and say why it is next.
+2. **Analyse dependencies**: reuse what exists, extend it, or create something new; never duplicate.
+3. **Fill the gaps** where the knowledge is missing: a stable fact needed by more than one task becomes a shared reference; the same kind of knowledge as an existing reference extends it; a fact that goes stale at once (a snapshot of the content) is not written down.
+4. **Implement** with one responsibility per piece. Behaviour belongs to a skill or a component, facts to a reference.
+5. **Validate against a real task** (the real examples, a real earlier change with a known result), not an invented one. Validate one instance before building a whole set on an untested design.
+6. **Integrate**: fix every document that now describes the old flow.
+7. **Report** what was done, what was reused, what was found and what is next, plainly.
+
+Load only the context a task needs. If a reference does not answer a real question, the reference is incomplete: fix it in the same session once the answer is found. Facts are owned by the references, behaviour by skills, decisions by the owner.
 
 ## Stability
 
-This file should rarely change. Add to it only when a genuinely new standing rule is established by explicit instruction — not when an AI assistant infers a preference from how one task happened to go.
+This file changes rarely: when the owner sets a new standing rule, not when an assistant infers a preference from one task.

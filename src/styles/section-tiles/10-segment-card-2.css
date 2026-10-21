@@ -1,0 +1,1017 @@
+.business-subchannel-card .business-subchannel-head .business-subchannel-name {
+
+    font-size: var(--font-h3, 18px);
+    line-height: var(--card-name-line, 44px);
+
+    padding-block: 0;
+
+}
+
+/* THE CHANNEL CARD'S PARTS are framed, so the card reads as its parts: Offerings, each Journey Stage with its Actions, then the links and expenses. 12px inside the card and inside each frame. */
+.business-subchannel-card {
+
+    padding: 12px;
+
+}
+
+.business-subchannel-card .business-channel-td-offerings,
+.business-subchannel-card .business-channel-td-stage,
+.business-subchannel-card .business-channel-td-action,
+.business-subchannel-card .business-channel-td-name {
+
+    box-sizing: border-box;
+
+    padding: 12px;
+
+    border: 1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+
+}
+
+.business-subchannel-card .business-channel-td-offerings,
+.business-subchannel-card .business-channel-td-name {
+
+    border-radius: var(--radius-lg);
+
+}
+
+.business-subchannel-card .business-channel-td-stage {
+
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+
+    border-bottom-width: 0;
+
+    margin-bottom: 0;
+
+}
+
+.business-subchannel-card .business-channel-td-action {
+
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+
+    margin-top: -8px;
+
+}
+
+/* The headings that name the parts: a hairline under each. */
+.business-subchannel-card .business-channel-table th.business-channel-th-offerings,
+.business-subchannel-card .business-channel-table th.business-channel-th-action {
+
+    padding-bottom: 4px;
+
+    border-bottom: 1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+
+}
+
+/* The last part (the links, the expenses, "+ Add Expense") starts at the frame's edge: the nesting indent of the table is not drawn. */
+.business-subchannel-card .business-channel-td-name,
+.business-subchannel-card .business-channel-td-name * {
+
+    margin-left: 0;
+
+}
+
+.business-subchannel-card .business-channel-td-name .business-channel-name {
+
+    padding-left: 0;
+
+    margin-left: 0;
+
+}
+
+.business-subchannel-card .business-channel-td-name .business-channel-nest {
+
+    display: none;
+
+}
+
+/* THE RELATIONSHIP TYPE'S BLOCK stands on one left and one right edge: the type, the Purpose, the table and "+ Add Relationship Type" start and end on the same two lines (the x stands in the corner, above the Purpose's cell). */
+.business-relationship-type-row {
+
+    padding-right: 0;
+
+}
+
+.business-relationship-add {
+
+    margin: 0;
+    padding: 0;
+
+}
+
+.business-relationship-add > * {
+
+    width: 100%;
+
+    margin-left: 0;
+
+}
+
+.business-relationship-block .business-relationship-strategy-table {
+
+    width: 100%;
+
+}
+
+.business-relationship-blocks-cell .business-relationship-add {
+
+    padding-left: 0 !important;
+
+    margin-top: 12px;
+
+}
+
+.business-relationship-blocks-cell .business-relationship-block {
+
+    margin-bottom: 12px;
+
+}
+
+.business-subchannel-card .business-channel-td-name .business-channel-links,
+.business-subchannel-card .business-channel-td-name .optional-field,
+.business-subchannel-card .business-channel-td-name > * ,
+.business-subchannel-card .business-channel-td-name .business-channel-name > * {
+
+    margin-left: 0 !important;
+    padding-left: 0;
+
+    width: 100%;
+
+}
+
+.business-subchannel-card .business-channel-table th.business-channel-th-offerings { display: none; }
+
+.business-subchannel-card .business-channel-field-label {
+
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-weight: 400;
+
+    color: var(--label-color, var(--text-secondary));
+
+}
+
+.business-subchannel-card .business-channel-table td.business-channel-td-stage {
+
+    border-bottom-width: 0;
+
+}
+
+.business-subchannel-card .business-channel-table td.business-channel-td-action {
+
+    border-top-width: 0;
+
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+
+    padding-top: 12px;
+
+}
+
+/* the stage/action pairs after the first stand 12px from the one before */
+.business-subchannel-card .business-channel-table td.business-channel-td-action + td.business-channel-td-stage {
+
+    margin-top: 0;
+
+}
+
+.business-subchannel-card .business-channel-td-addstage {
+
+    order: 5;
+
+    display: block;
+
+    padding: 0;
+
+    border: 0;
+
+}
+
+.business-subchannel-card .business-channel-td-name { order: 6; }
+
+.business-subchannel-card .business-channel-td-name .business-channel-name {
+
+    display: block !important;
+
+}
+
+.business-subchannel-card .business-channel-td-name .business-channel-name > * + * {
+
+    margin-top: 12px;
+
+}
+
+.business-subchannel-card > .business-subchannel-head {
+
+    display: flex !important;
+    flex-wrap: nowrap;
+
+    gap: var(--gap-8);
+
+    grid-column: 1 / -1 !important;
+
+}
+
+.business-subchannel-card > .business-subchannel-head > .business-subchannel-name,
+.business-subchannel-card > .business-subchannel-head > .suggested-input {
+
+    flex: 1 1 auto;
+
+    min-width: 0;
+
+}
+
+/* Every floating card has round corners (8px), and nothing stands behind it. */
+.floating-card-host .floating-card-body > *,
+.floating-card-host .floating-card-body > * > .business-foundation-card,
+.floating-card-host .floating-card-body .strategy-goal-card,
+.floating-card-host .floating-card-body .strategy-goal-card > * {
+
+    border-radius: var(--radius-lg);
+
+}
+
+.floating-card-host .floating-card-body > .column-tile-content:has(> .business-foundation-card) {
+
+    background: none !important;
+
+    border: 0 !important;
+
+    box-shadow: none !important;
+
+}
+
+/* THE RELATIONSHIP TABLE, as a whole: round corners (8px) folded or not, 12px at the sides and between, the type and the Purpose starting on one line. */
+table.business-relationship-table {
+
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+
+    border-radius: var(--radius-lg);
+
+    overflow: hidden;
+
+}
+
+.business-channel-table-wrap:has(> table.business-relationship-table) {
+
+    border-radius: var(--radius-lg);
+
+    overflow: hidden;
+
+}
+
+.business-relationship-type-row {
+
+    align-items: start !important;
+
+    column-gap: var(--gap-12);
+
+}
+
+.business-relationship-type-row > * {
+
+    margin-top: 0 !important;
+
+    padding-top: 0 !important;
+
+}
+
+.business-relationship-type-row .business-relationship-purpose > *,
+.business-relationship-type-row .business-relationship-type-field > * {
+
+    margin-top: 0 !important;
+
+}
+
+.business-relationship-blocks-cell {
+
+    padding: 12px !important;
+
+}
+
+.business-relationship-block > * + * {
+
+    margin-top: 12px;
+
+}
+
+.business-relationship-type-field { gap: var(--gap-12) !important; }
+
+/* THE THEME'S CARD (Foundation's Strategic Period): its head is a card's -- number, name cell, x -- and everything stands 12px from the edge and from the next. */
+.strategy-theme-fields {
+
+    display: flex;
+    flex-direction: column;
+
+    gap: var(--gap-12);
+
+}
+
+.strategy-theme-head {
+
+    display: flex;
+    align-items: center;
+
+    gap: var(--gap-8);
+
+}
+
+.strategy-theme-head > .strategy-theme-name {
+
+    flex: 1 1 auto;
+
+    min-width: 0;
+
+}
+
+.strategy-theme-dialog {
+
+    display: flex;
+    flex-direction: column;
+
+    gap: var(--gap-12);
+
+}
+
+/* The Goal, the Objective and what is in them stand on the card's hue in every reading mode (never the neutral card ground). */
+.strategy-goal-card .strategy-goal-box,
+.strategy-goal-card .strategy-objective-box,
+.strategy-goal-card .strategy-goal-box [class*="strategy-"][class*="-box"]:not(.strategy-box-remove):not(.strategy-box-toggle):not(.plus-box):not(.strategy-box-tiles) {
+
+    background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+    border-radius: var(--radius-lg);
+
+}
+
+/* THE CHANNEL CARD, fourth pass: its content uses the card's whole width; one frame for each section, the subsections told apart by a tint, not by lines; every label one size and style; Links beside its label. */
+.business-subchannel-card > .business-channel-table-wrap {
+
+    grid-column: 1 / -1 !important;
+
+}
+
+.business-subchannel-card .business-channel-field-label,
+.business-subchannel-card .business-channel-th-actions-per-stage,
+.business-subchannel-card .business-channel-th-actions-per-stage *:not(.info-note-button),
+.business-subchannel-card .business-channel-td-name .field-label,
+.business-subchannel-card .business-channel-td-name .business-foundation-label {
+
+    font-size: var(--font-body);
+    font-weight: 400;
+    letter-spacing: normal;
+    text-transform: none;
+
+    color: var(--label-color, var(--text-secondary));
+
+}
+
+.business-subchannel-card .business-channel-table th.business-channel-th-action {
+
+    font-size: var(--font-body);
+    font-weight: 400;
+
+}
+
+/* the stage and its actions: ONE frame (the section); the actions' area is a deeper tint (the subsection) */
+.business-subchannel-card .business-channel-table td.business-channel-td-stage {
+
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+
+    overflow: visible;
+
+}
+
+.business-subchannel-card .business-channel-table td.business-channel-td-action {
+
+    background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}
+
+/* (Only the extra frame around the list goes; the actions' own cells keep their ground.) */
+.business-subchannel-card .business-channel-td-action > * {
+
+    border: 0 !important;
+
+    box-shadow: none !important;
+
+}
+
+.business-subchannel-card .business-channel-td-action .numbered-list-row,
+.business-subchannel-card .business-channel-td-action li {
+
+    border-radius: var(--radius-lg);
+
+}
+
+/* the stage picker is a plain cell: no notch where it meets the frame */
+.business-subchannel-card .business-channel-pick-stage {
+
+    margin: 0;
+
+    padding: 0;
+
+    border: 0;
+
+    background: none;
+
+    box-shadow: none;
+
+}
+
+.business-subchannel-card .business-channel-td-name .optional-field-inline > .optional-field-body {
+
+    margin: 0;
+
+}
+
+.business-subchannel-card .business-channel-td-name .optional-field-inline > .optional-field-head {
+
+    flex: 0 0 auto;
+
+    width: auto;
+
+}
+
+.business-subchannel-card .business-channel-td-name .optional-field-inline > .optional-field-body {
+
+    flex: 1 1 0;
+
+}
+
+.business-subchannel-card .business-channel-td-name .optional-field-inline > .optional-field-body * {
+
+    max-width: 100%;
+
+}
+
+.business-subchannel-card .business-channel-td-name .business-foundation-field.optional-field.optional-field-inline {
+
+    flex-direction: column !important;
+
+    align-items: stretch;
+
+}
+
+/* A name and its "i" (the Segment, the Profiles, the Offerings of a page's reference): one --info-gap (6px) after the name, like every "i": the row's own gap is 8px, the "i" takes 2px off it. */
+.business-engagement-reference-name-row > .info-note {
+
+    margin-left: calc(var(--info-gap) - var(--gap-8));
+
+}
+
+
+/* An Objective written inside its Goal (the narrow case) has its Metrics under its Initiatives, one column; the Objective's own wide card keeps them side by side. */
+.strategy-goal-box .strategy-objective-columns.strategy-objective-stacked {
+
+    grid-template-columns: minmax(0, 1fr) !important;
+
+}
+
+.strategy-goal-box .strategy-objective-stacked > .strategy-subsection > .strategy-metric-box,
+.strategy-goal-box .strategy-objective-stacked > .strategy-subsection > .strategy-metric-box:not(.strategy-initiatives-box) {
+
+    width: 100%;
+
+    max-width: none;
+
+    margin-inline: 0;
+
+    box-sizing: border-box;
+
+}
+
+/* THE STRATEGY CARDS (Theme, Goal, Objective, Initiatives, Metric): two tints only, the Theme's and the Objective's, swapped from card to card (Theme, Goal, Objective, Initiatives and Metric); each card keeps a 12px margin at its left, and what stands under a head is as wide as the head's name cell, ending 12px before its x button. */
+.strategy-theme-dialog,
+.strategy-goal-card {
+
+    --tint-objective: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+    --tint-theme: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
+    --x-reserve: 56px;
+
+}
+
+.strategy-theme-dialog .strategy-goal-box,
+.strategy-goal-card .strategy-goal-box,
+.strategy-theme-dialog .strategy-metric-box,
+.strategy-goal-card .strategy-metric-box {
+
+    background: var(--tint-objective) !important;
+
+}
+
+.strategy-theme-dialog .strategy-objective-box,
+.strategy-goal-card .strategy-objective-box {
+
+    background: var(--tint-theme) !important;
+
+}
+
+.strategy-goal-box,
+.strategy-objective-box {
+
+    padding-inline: 0 !important;
+
+    border-radius: var(--radius-lg);
+
+}
+
+/* A box has no side padding: its head is inset 12px each side, what is under the head starts at the name cell's left (12px) and ends 12px before the x (56px at the right). */
+.strategy-goal-box > .strategy-box-head,
+.strategy-objective-box > .strategy-box-head {
+
+    margin-inline: 12px;
+
+}
+
+.strategy-goal-box > :not(.strategy-box-head):not(.card-boxes),
+.strategy-objective-box > :not(.strategy-box-head) {
+
+    margin-left: 12px;
+
+    margin-right: var(--x-reserve, 56px);
+
+}
+
+:is(.strategy-theme-dialog, .strategy-goal-card) :is(.strategy-goal-box, .strategy-objective-box) > .strategy-box-body {
+
+    padding-right: 0;
+
+    background: transparent !important;
+
+}
+
+.strategy-goal-box > .strategy-box-body > .strategy-objective-box {
+
+    margin-inline: 0;
+
+    width: auto;
+
+}
+
+/* The Theme: its description, and the Goals, end 12px before the Theme's x too. */
+.strategy-theme-dialog > :not(.strategy-theme-fields),
+.strategy-theme-fields > :not(.strategy-box-head) {
+
+    margin-right: calc(var(--x-reserve, 56px) - 12px);
+
+}
+
+/* A Metric's contents under its head end 12px before its x. */
+:is(.strategy-theme-dialog, .strategy-goal-card) .strategy-metric-box:not(.strategy-initiatives-box) > :not(.strategy-box-head) {
+
+    margin-right: calc(var(--x-reserve, 56px) - 12px);
+
+}
+
+/* The add buttons take the tint of the card they add. */
+.strategy-theme-dialog .strategy-add-button,
+.strategy-theme-dialog .strategy-subsection > .strategy-add-button,
+.strategy-goal-card .strategy-add-button,
+.strategy-goal-card .strategy-subsection > .strategy-add-button {
+
+    background: var(--tint-objective);
+
+}
+
+.strategy-theme-dialog .strategy-goal-box > .strategy-box-body > .strategy-add-button,
+.strategy-goal-card .strategy-goal-box > .strategy-box-body > .strategy-add-button {
+
+    background: var(--tint-theme);
+
+}
+
+/* THE HEAD OF A STRATEGY CARD: [number + name cell][kind label with its "i"][x]. The number stands inside the name cell, whose left edge is the card's 12px margin. */
+.strategy-numbered-name {
+
+    position: relative;
+
+    display: block;
+
+    flex: 1 1 0;
+
+    min-width: 0;
+
+}
+
+.strategy-numbered-name > .strategy-name-number {
+
+    position: absolute;
+
+    left: 10px;
+
+    top: 0;
+
+    height: 44px;
+
+    display: flex;
+
+    align-items: center;
+
+    margin: 0;
+
+    z-index: 1;
+
+    pointer-events: none;
+
+}
+
+.strategy-numbered-name > :is(textarea, input).interview-input {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    margin: 0;
+
+    padding-left: 38px;
+
+    min-height: 44px;
+
+}
+
+/* The Initiatives' head: its "i" is one --info-gap (6px) after the word, like every "i" (the head's own gap is 8px: the note takes 2px off it). */
+.strategy-initiatives-box > .strategy-box-head > .info-note {
+
+    margin-left: calc(var(--info-gap) - 8px);
+
+}
+
+.strategy-head-kind {
+
+    flex: 0 0 auto;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    height: 44px;
+
+    /* (One gap, 6px, from the last word to its "i".) */
+    gap: var(--info-gap);
+
+    font-weight: 600;
+
+    letter-spacing: 0.04em;
+
+    color: var(--label-color, var(--text-secondary));
+
+}
+
+.strategy-head-kind > .info-note {
+
+    margin-left: 0;
+
+}
+
+.strategy-box-head:has(> .strategy-numbered-name) {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: var(--gap-12);
+
+    padding: 0;
+
+}
+
+.strategy-box-head:has(> .strategy-numbered-name) > .strategy-box-actions {
+
+    margin-left: 0;
+
+}
+
+/* A METRIC: its body starts at its name cell's left edge (the number is in the cell now), each label above its control, two controls on a row. */
+:is(.strategy-theme-dialog, .strategy-goal-card) .strategy-metric-box:not(.strategy-initiatives-box) > :not(.strategy-box-head) {
+
+    margin-left: 0;
+
+}
+
+:is(.strategy-theme-dialog, .strategy-goal-card) .strategy-metric-box:not(.strategy-initiatives-box) .strategy-metric-field {
+
+    grid-template-columns: minmax(0, 1fr);
+
+    row-gap: var(--space-label);
+
+    align-items: start;
+
+}
+
+:is(.strategy-theme-dialog, .strategy-goal-card) .strategy-metric-box:not(.strategy-initiatives-box) .strategy-metric-field > :not(:first-child) {
+
+    grid-column: 1;
+
+}
+
+:is(.strategy-theme-dialog, .strategy-goal-card) .strategy-metric-box:not(.strategy-initiatives-box) .strategy-metric-field > .strategy-metric-unit-currency {
+
+    width: 100%;
+
+}
+
+/* The add buttons of the strategy cards: one colour, the Strategy hue's (a card floating on its own takes the family a dialog's buttons already have). */
+.strategy-goal-card {
+
+    --label-color: hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
+    --accent-ink: hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
+    --accent-line: hsl(var(--strategy-theme-hue, 0) var(--theme-line-ink));
+    --accent-ground: var(--tint-objective);
+    --accent-ground-hover: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-hover)) var(--theme-ground-weight), var(--theme-ground-paper));
+    --accent-hover-ink: hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
+
+}
+
+/* The x of a head stands on its name cell's centre line; the number and the kind label are the name's size. */
+.strategy-box-head:has(> .strategy-numbered-name) > .strategy-box-actions {
+
+    padding-block: 0;
+
+    margin-top: 6px;
+
+}
+
+.strategy-numbered-name > .strategy-name-number,
+.strategy-head-kind {
+
+    font-size: 18px;
+
+}
+
+:is(.strategy-theme-dialog, .strategy-goal-card) .strategy-metric-box:not(.strategy-initiatives-box) .strategy-metric-field > .interview-input {
+
+    width: 100%;
+
+}
+
+:is(.strategy-theme-dialog, .strategy-goal-card) .strategy-metric-box:not(.strategy-initiatives-box) .strategy-metric-field > .option-picker {
+
+    width: 100%;
+
+}
+
+/* A head and its buttons stand on the card, never on a band of their own (the generic "-box" ground of a floating card must not paint them), and the x keeps the app's one reaction: filled red, the x in the card's ground. */
+:is(.strategy-theme-dialog, .strategy-goal-card) :is(.strategy-box-head, .strategy-box-actions) {
+
+    background: transparent !important;
+
+}
+
+:is(.strategy-theme-dialog, .strategy-goal-card) .strategy-box-remove.strategy-box-remove:is(:hover, :focus-visible):not(:disabled) {
+
+    background: var(--x-red) !important;
+
+    border-color: transparent !important;
+
+}
+
+/* Card titles are in capitals. */
+.strategy-head-kind-name {
+
+    text-transform: uppercase;
+
+}
+
+/* THE OBJECTIVE'S TOP: its Description over the whole available width, the Start and the End side by side under it (the Responsible, where there are several founders, on a row of its own). */
+.strategy-objective-box .strategy-objective-columns.strategy-objective-top {
+
+    grid-template-columns: minmax(0, 1fr) !important;
+
+}
+
+.strategy-objective-box .strategy-objective-columns.strategy-objective-top > :first-child {
+
+    margin-top: 0;
+
+}
+
+.strategy-objective-box .strategy-objective-when {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    align-items: center;
+
+    gap: var(--space-field) 24px;
+
+}
+
+.strategy-objective-box .strategy-objective-when > .business-field-side {
+
+    flex-basis: 100%;
+
+}
+
+.strategy-objective-box .strategy-objective-top .strategy-note {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+}
+
+/* A date's label and its cell: 12px apart. The End stands at the right of the row, ending where the Description cell ends. */
+.strategy-objective-box .strategy-objective-when .month-picker {
+
+    gap: var(--gap-12);
+
+}
+
+.strategy-objective-box .strategy-objective-when .month-picker-label {
+
+    min-width: 0;
+
+}
+
+.strategy-objective-box .strategy-objective-when > :nth-child(2) {
+
+    margin-left: auto;
+
+}
+
+/* The x's ground at rest is the ground of the card it stands on (the Theme and the Objective the Theme's tint, the Goal and the Metric the Objective's). */
+.strategy-theme-dialog,
+.strategy-goal-card {
+
+    --x-ground: var(--tint-theme);
+
+}
+
+:is(.strategy-theme-dialog, .strategy-goal-card) :is(.strategy-goal-box, .strategy-metric-box) {
+
+    --x-ground: var(--tint-objective);
+
+}
+
+:is(.strategy-theme-dialog, .strategy-goal-card) .strategy-objective-box {
+
+    --x-ground: var(--tint-theme);
+
+}
+
+/* One ink for the labels and titles of the strategy cards: the card's label colour (the Initiatives' title and the "Objectives" / "Goals" labels over their tiles took the body colour). */
+:is(.strategy-theme-dialog, .strategy-goal-card) :is(.strategy-initiatives-box > .strategy-box-head > .strategy-box-number, .strategy-tiles-label) {
+
+    color: var(--label-color, var(--accent-ink));
+
+}
+
+/* The Unit and its currency (a money Metric) share the Metric's field: the currency code only as wide as its own word, the Unit takes the rest so "Currency" is never cut. */
+:is(.strategy-theme-dialog, .strategy-goal-card) .strategy-metric-unit-currency {
+
+    gap: var(--gap-4);
+
+}
+
+:is(.strategy-theme-dialog, .strategy-goal-card) .strategy-metric-unit-currency > .option-picker:first-child {
+
+    flex: 1 1 auto;
+
+    min-width: 0;
+
+}
+
+:is(.strategy-theme-dialog, .strategy-goal-card) .strategy-metric-unit-currency > .option-picker:not(:first-child) {
+
+    flex: 0 0 auto;
+
+    width: auto;
+
+}
+
+/* (The "+" beside a card's x is the shared AddButton box, `.plus-box`.) */
+.strategy-box-actions:has(> .plus-box) {
+
+    /* (12px between the "+" and the x, as between the "i" and the "+".) */
+    gap: var(--gap-12);
+
+}
+
+/* The x and the "i" of the strategy cards take no fill of their own at rest: they stand on whatever tint their card has (the x is filled red under the pointer). */
+:is(.strategy-theme-dialog, .strategy-goal-card) .strategy-box-remove.strategy-box-remove:not(:hover):not(:focus-visible):not(:disabled),
+:is(.strategy-theme-dialog, .strategy-goal-card) .info-note-button:not(:hover):not(:focus-visible):not([aria-expanded="true"]) {
+
+    background: transparent !important;
+
+}
+
+/* A STRATEGY CARD'S NAVIGATION (CardNav): in the card's right margin, under its "+" and x -- the left arrow under the "+", the right under the x -- and the rail of bullets beneath them, one for each card under the same parent. It stays in view as the card scrolls (sticky). The room it takes is kept clear: what stands under a head ends 12px before the "+". */
+:is(.strategy-goal-box, .strategy-objective-box, .strategy-metric-box:not(.strategy-initiatives-box)) {
+
+    position: relative;
+
+}
+
+.strategy-card-nav-lane {
+
+    position: absolute;
+
+    /* (The arrows stand on the Description label's centre line: 6px lower than the head's foot gap alone would put them.) */
+    top: 63px;
+
+    /* (The rail and the tiles symbol stand 12px from the card's edge, its 1px border counted.) */
+    right: -45px;
+
+    bottom: 12px;
+
+    width: 88px;
+
+    pointer-events: none;
+
+    z-index: 2;
+
+}
+
+.strategy-card-nav {
+
+    position: sticky;
+
+    top: 12px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: var(--gap-12);
+
+}
+
+.strategy-card-nav-arrows {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    width: 100%;
+
+    /* THE ARROWS' VERTICAL SIDES stand 12px from the card's edge, one on each side of it: the left arrow's on the x's right side (12px inside the card), the right arrow's on the left side of the symbol of four arrows (12px outside it, 13px counting the border). The lane runs from 43px inside the card's padding edge to 45px outside it; each triangle is 15px wide in a box of 16.36px. */
+    padding: 0 16.32px 0 15.32px;
+
+    box-sizing: border-box;
+
+}
+
+/* THE CARD'S ARROWS ARE THE PAGE ARROWS (global.css), exactly, at 15/22 of their size: the same triangle (22 x 28px there), the same box (24 x 44px there), the same
+   blue, the same grow-by-a-fifth and ring. Nothing here but the size. */
+.strategy-card-nav .page-arrow {
+
+    --card-arrow-k: calc(15 / 22);
+
+    width: calc(24px * var(--card-arrow-k));
+
+    height: calc(44px * var(--card-arrow-k));
+
+    pointer-events: auto;
+
+    /* THE ARROWS ARE THE "+" BUTTON'S COLOUR (the owner, 2026-10-14), not the card's own ground: they stand out from it, in every reading mode. */
+    color: var(--accent-ink, var(--text-default));
+
+}
+
+.strategy-card-nav .page-arrow::before {
+
+    border-width: calc(14px * var(--card-arrow-k)) calc(22px * var(--card-arrow-k)) calc(14px * var(--card-arrow-k)) 0;
+
+}
+
+.strategy-card-nav .page-arrow[data-direction="next"]::before {
+
+    border-width: calc(14px * var(--card-arrow-k)) 0 calc(14px * var(--card-arrow-k)) calc(22px * var(--card-arrow-k));
+
+}
+
+.strategy-card-nav .bullet-rail-list {
+
+    gap: 14px;
+
+    align-items: center;
+
+}
+
+.strategy-card-nav .bullet-rail-item {
+
+    padding: 2px;
+
+}
+
+/* (The navigation lane is not content under the head: it takes none of the margins that keep content clear of it.) */
+.strategy-card-nav-lane,
+.strategy-box-tiles {
+
+    margin: 0 !important;
+
+}
+
+
+/* An Objective's Start and End cells are the date step wide (--control-date), as every date cell is; they give way (down to nothing) only where the card is narrower. */
+.strategy-objective-box .strategy-objective-when .month-picker-trigger {
+
+    width: var(--control-date);
+    flex: 0 1 var(--control-date);
+
+}

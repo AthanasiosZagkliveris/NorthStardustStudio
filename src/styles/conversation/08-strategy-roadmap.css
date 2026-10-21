@@ -1,0 +1,1275 @@
+/* ==========================================================
+   Instructions toggle
+
+   The SAME control every other System uses (see
+   .interview-help-toggle) -- only its placement differs, because
+   on these pages the instructions sit above the progress line
+   rather than at the foot of the Section. It goes directly below
+   them, which is where the other Systems put it too.
+========================================================== */
+
+.interview-instructions-toggle{
+
+    margin-bottom:12px;
+
+}
+
+/* The progress line is hidden (SHOW_PROGRESS_LINE, InterviewProgress.tsx):
+   nothing follows the button in its row, so its 12px is the grid's row gap
+   to the content, not a second one. */
+.interview-instructions-toggle.interview-instructions-toggle-last{
+
+    margin-bottom:0;
+
+}
+
+/* ==========================================================
+   Strategy heads -- shared rows
+
+   Each column's heading and its guidance sat in a flex column
+   of its own, so a heading that wrapped to two lines pushed its
+   own guidance down while its neighbours' stayed put. Every
+   head now takes the SAME two row tracks from the page grid, so
+   all four headings share one row and all four blocks of
+   guidance start on the line below it -- whatever any one of
+   them does.
+========================================================== */
+
+.strategy-foundation,
+.strategic-period{
+
+    grid-template-rows:auto auto;
+
+}
+
+.strategy-foundation > .brand-style-head,
+.strategic-period > .brand-style-head{
+
+    display:grid;
+
+    grid-row:1 / span 2;
+
+    grid-template-rows:subgrid;
+
+    /* Heading and guidance keep the 12px they had as a flex
+       column; the row gap comes from the parent grid. */
+    align-content:start;
+
+}
+
+/* The funnel is drawn, so it is sized here rather than by a font
+   size like the "−" beside it. */
+
+/* ==========================================================
+   Instructions panel (Systems 1-3)
+
+   Every other System shows its guidance inside a bordered grey
+   panel (see .interview-help-panel). These pages put theirs in
+   columns above the progress line, so each column's guidance
+   takes the same panel -- same shape, same colour -- rather than
+   sitting as loose text while the rest of the app boxes it.
+
+   Nothing moves: the blocks stay in the same place and the same
+   order, they are simply on a ground now.
+========================================================== */
+
+.answer-columns > .answer-column-questions,
+.brand-style-head > .answer-column-questions{
+
+    padding:16px 12px;
+
+    border:1px solid var(--line-rule);
+    border-radius:var(--radius-lg);
+
+    background:var(--bg-panel);
+
+}
+
+/* A box's label row: what the box is on the left, its controls in
+   the top-right corner. The actions are pushed there rather than
+   trailing whatever sits before them. */
+.strategy-box-actions{
+
+    margin-left:auto;
+
+}
+
+/* A HEAD WITH A GRIP AND NO FOLD ARROW (a Metric box, a Theme box):
+   the number follows the grip directly, at the head's one 8px gap --
+   no empty list-number column before "1.". */
+.strategy-box-head:has(> .strategy-drag-handle):not(:has(> .strategy-box-toggle)) > .strategy-box-number > .list-number{
+
+    min-width:0;
+
+    text-align:left;
+
+}
+
+/* The label names the box ("Theme 1", "1. Goal"), so it is not
+   squeezed by whatever shares its row. */
+.strategy-box-number{
+
+    white-space:nowrap;
+
+}
+
+/* ==========================================================
+   Nesting
+
+   A box's own contents -- its description, and any child box --
+   start where its NUMBER starts, not at its frame: a Goal sits under
+   its Theme's label, an Objective under its Goal's. That is the one
+   card body every folding card has (--card-body-indent,
+   card-folding.css).
+========================================================== */
+
+/* ==========================================================
+   Roadmap -- one Gantt chart per Strategic Theme
+
+   The Theme's label sits to the left of its own chart; the chart
+   is years across the top, their quarters beneath, and one row
+   per Objective drawn across them. Selecting a bar opens a
+   second row under it holding that Objective's Initiatives.
+
+   Bars are positioned as a percentage of the whole span rather
+   than placed in grid cells, so one can start and end anywhere
+   inside a quarter while still lining up with the headings.
+========================================================== */
+
+.roadmap-theme{
+
+    /* Named so the year-line overlay can be inset by exactly this
+       much without repeating the number (see
+       `.roadmap-year-lines`). */
+    flex:0 0 var(--roadmap-label, 220px);
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-4);
+
+    min-width:0;
+
+}
+
+.roadmap-theme-number{
+
+    font-size:var(--font-body);
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    color:var(--text-muted);
+
+}
+
+.roadmap-theme-name{
+
+    font-size:var(--font-body);
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    color:var(--text-default);
+
+}
+
+.roadmap-track{
+
+    position:relative;
+
+    flex:1 1 auto;
+
+    min-width:0;
+
+}
+
+/* The year dividers running on down from the timeline (see
+   yearBoundaries in StrategicRoadmapEditor).
+
+   One layer per Theme box, spanning the box's whole height and
+   reaching 13px ABOVE it -- the 12px gap between boxes plus the
+   border -- so what the reader sees is a single rule falling
+   from the timeline to the bottom of the last Theme rather than
+   a stack of separate strokes. The last box does not extend
+   below itself: the line ends where the chart ends.
+
+   Inset to sit exactly over the track beside it: the box's 12px
+   padding, the Theme label's own column, and the 24px between
+   them. The bars are positioned too and come later in the DOM,
+   so they paint over these rather than being cut by them. */
+.roadmap-year-lines{
+
+    position:absolute;
+
+    top:-13px;
+    bottom:0;
+
+    left:calc(var(--roadmap-label, 220px) + 36px);
+    right:12px;
+
+    pointer-events:none;
+
+}
+
+.roadmap-year-line{
+
+    position:absolute;
+
+    top:0;
+    bottom:0;
+
+    width:0;
+
+    /* Solid, and the same grey as the timeline's own year rules
+       -- dashed at a lighter tone, this read as a texture rather
+       than a division. */
+    border-left:1px solid var(--box-border);
+
+}
+
+.roadmap-years,
+.roadmap-quarters,
+.roadmap-row{
+
+    min-width:0;
+
+}
+
+.roadmap-year{
+
+    padding:4px;
+
+    font-size:var(--font-body);
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+    text-align:center;
+
+    color:var(--text-default);
+
+    border-left:1px solid var(--line-grid);
+
+}
+
+.roadmap-year:first-child{
+
+    border-left:none;
+
+}
+
+.roadmap-quarter{
+
+    padding:4px;
+
+    font-size:var(--font-body);
+    text-align:center;
+
+    color:var(--text-muted);
+
+    border-left:1px solid var(--line-rule);
+    border-bottom:1px solid var(--line-grid);
+
+}
+
+.roadmap-quarter:first-child{
+
+    border-left:none;
+
+}
+
+.roadmap-rows{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.roadmap-row{
+
+    min-height:44px;
+
+    align-items:center;
+
+}
+
+/* The quarter grid, drawn behind the bars so a bar can sit
+   anywhere across it. */
+.roadmap-cell{
+
+    flex:1 1 0;
+
+    align-self:stretch;
+
+    min-width:0;
+
+    border-left:1px solid var(--line-rule);
+
+}
+
+.roadmap-cell:first-child{
+
+    border-left:none;
+
+}
+
+.roadmap-bar{
+
+    position:absolute;
+
+    top:6px;
+    bottom:6px;
+
+    display:flex;
+    align-items:center;
+
+    padding:0 10px;
+
+    font:inherit;
+    font-size:var(--font-body);
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+    text-align:left;
+
+    border:1px solid var(--line-primary);
+    border-radius:var(--radius-md);
+
+    cursor:pointer;
+
+    transition:background-color .15s ease, box-shadow .15s ease;
+
+}
+
+/* The name itself, a nested block rather than the flex row's own
+   text: text-overflow:ellipsis on a flex container does not
+   truncate an anonymous flex item (the plain text child), so the
+   name used to be cut off with no "..." wherever the bar was
+   narrower than its label. min-width:0 lets this child actually
+   shrink below its content width inside the row. Shared with
+   `.roadmap-initiative`, the same shape of control. */
+.roadmap-bar-label{
+
+    min-width:0;
+
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+
+}
+
+.roadmap-bar:hover{
+
+    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
+
+}
+
+.roadmap-bar:focus-visible{
+
+    outline:none;
+
+    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
+
+}
+
+.roadmap-row-initiatives{
+
+    min-height:38px;
+
+}
+
+/* Across the Objective's own span, divided evenly -- the
+   Initiatives belong to that period, so they occupy it. */
+.roadmap-initiatives{
+
+    position:absolute;
+
+    top:2px;
+    bottom:2px;
+
+    display:flex;
+
+    gap:var(--gap-4);
+
+}
+
+.roadmap-initiative{
+
+    flex:1 1 0;
+
+    display:flex;
+    align-items:center;
+
+    padding:0 8px;
+
+    font-size:var(--font-body);
+
+    border-radius:var(--radius-md);
+
+    min-width:0;
+
+}
+
+.strategic-roadmap{
+
+    gap:var(--gap-24);
+
+}
+
+/* Fixed width so the indent below can be arithmetic rather than
+   a guess at how wide the grip glyph happens to render. */
+
+.roadmap-empty-row{
+
+    margin:0;
+
+    padding:12px 0;
+
+    font-size:var(--font-body);
+
+    color:var(--text-muted);
+
+}
+
+/* ==========================================================
+   Roadmap -- one timeline, a band per Theme
+========================================================== */
+
+.roadmap-head{
+
+    display:flex;
+
+    gap:var(--gap-24);
+
+}
+
+/* Holds the label column's width open under the headings, so the
+   quarters above line up with the rows below. */
+.roadmap-head-spacer{
+
+    flex:0 0 220px;
+
+}
+
+/* ==========================================================
+   Sort menu
+
+   The funnel opens a short list of orders rather than applying
+   one straight away: a button that silently reorders, and
+   reorders differently each press, gives no way to say which
+   order was actually wanted.
+========================================================== */
+
+.strategy-sort{
+
+    position:relative;
+
+    display:flex;
+
+}
+
+.strategy-sort-menu{
+
+    position:absolute;
+
+    top:100%;
+    right:0;
+
+    z-index:20;
+
+    margin-top:4px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    min-width:180px;
+
+    padding:4px;
+
+    border:1px solid var(--box-border);
+    border-radius:var(--radius-lg);
+
+    background:var(--bg-surface);
+
+    box-shadow:0 8px 24px var(--shadow-ink-18);
+
+}
+
+
+/* ==========================================================
+   Strategic Period box -- aligned date buttons
+
+   The label sat directly before the button, so "Start" and "End"
+   being different widths pushed the two buttons to different
+   places. The label now holds a fixed column and the button is
+   pinned to the box's right edge, which is the same edge the
+   Theme boxes below it end on.
+========================================================== */
+
+.strategy-period-box .month-picker-label{
+
+    min-width:48px;
+
+}
+
+.strategy-period-box .month-picker-trigger{
+
+    margin-left:auto;
+
+    /* The Date step (below). */
+    width:var(--control-date);
+
+}
+
+/* No frame of its own. With the "Strategic Period" title gone it
+   holds nothing but two labelled buttons, and a border only
+   inset them 13px from the column -- leaving their right edge
+   short of the Theme boxes below, which is exactly the
+   misalignment it was meant to fix. */
+.strategy-period-box{
+
+    padding:0;
+
+    border:none;
+
+    background:transparent;
+
+}
+
+/* ==========================================================
+   Roadmap -- one timeline, a box per Theme
+========================================================== */
+
+.roadmap{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-12);
+
+}
+
+.roadmap-head,
+.roadmap-theme-box{
+
+    display:flex;
+
+    gap:var(--gap-24);
+
+}
+
+.roadmap-theme-box{
+
+    position:relative;
+
+    padding:12px;
+
+    border:1px solid var(--box-border);
+    border-radius:var(--radius-lg);
+
+}
+
+/* The heading row carries no frame -- it is the scale the boxes
+   below are read against, not a box of its own -- but it takes
+   the same padding so its columns sit over theirs. */
+.roadmap-head{
+
+    padding:0 13px;
+
+}
+
+/* Years and quarters distribute the SAME track by pure
+   proportion. Both start from a zero basis, so a year spanning
+   three quarters is exactly three quarter-columns wide -- with
+   `auto` the year's own text width leaked into the calculation
+   and pushed the two rows out of step. */
+.roadmap-year{
+
+    flex:var(--roadmap-year-span, 1) 1 0;
+
+    min-width:0;
+
+}
+
+.roadmap-quarter{
+
+    flex:1 1 0;
+
+    min-width:0;
+
+}
+
+/* ==========================================================
+   Field labels
+
+   The SWOT quadrant titles and the Strategic Period's Start/End
+   name whole controls rather than single fields, so they are set
+   at the page's text size and weighted to read as headings. The
+   metric rows keep the smaller label -- there they sit beside a
+   field, not above a box.
+========================================================== */
+
+/* Lined up with the "Theme" label below them, so the column
+   reads down one edge. That is the grip (24) plus its 8px gap
+   plus a Theme box's own 12px padding and 1px border. */
+.strategy-period-box .month-picker-label{
+
+    padding-left:45px;
+
+}
+
+/* ONE START / END PAIR IN STRATEGY: the Strategic Period's and every
+   Objective's, the same picker at the Date step, its label in a 48px
+   column beside it. */
+.strategy-period-box .month-picker-trigger,
+.strategy-objective-when .month-picker-trigger{
+
+    /* The date step at most; where the box is narrower, what is left after the label. */
+    width:auto;
+    max-width:var(--control-date);
+
+    flex:1 1 0;
+
+    min-width:0;
+
+}
+
+.strategy-objective-when .month-picker-label{
+
+    min-width:48px;
+
+}
+
+/* ==========================================================
+   Metric fields
+
+   The label wraps and the control takes a fixed share of what is
+   left, so every control in a Metric box has the same width and
+   the same left edge -- and the pair fits the box rather than
+   pushing past it.
+========================================================== */
+
+.strategy-metric-field .strategy-field-label{
+
+    min-width:0;
+    max-width:none;
+
+    /* Wraps rather than widening the column -- "Measurement
+       Frequency" is far longer than the others and would set the
+       width for all of them. */
+    white-space:normal;
+
+}
+
+/* Metric boxes are selectable like every other box on the page,
+   so they show the same ring when they hold the selection. */
+.strategy-metric-box:hover{
+
+    border-color:var(--line-primary);
+
+    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
+
+}
+
+.strategy-metric-box:focus{
+
+    outline:none;
+
+    border-color:var(--line-primary);
+
+    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 32%, transparent);
+
+}
+
+.strategy-metric-box{
+
+    transition:border-color .15s ease, box-shadow .15s ease;
+
+}
+
+/* Borders inside the box, not added to it.
+
+   Without this the year row (2 dividers) and the quarter row
+   (8 dividers) distributed different amounts of space, so a year
+   sat 6px wide of the quarters it spans -- one pixel per divider
+   the other row did not have. */
+.roadmap-year,
+.roadmap-quarter{
+
+    box-sizing:border-box;
+
+}
+
+/* ==========================================================
+   Roadmap columns
+
+   Years, quarters and objective rows all lay out on ONE grid of
+   quarter-wide columns rather than each row distributing the
+   space with flex.
+
+   Flex could not keep them in step: with `flex-basis: 0` an
+   item's own padding and border sit OUTSIDE the share it grows
+   into, so a row of nine quarters subtracted nine paddings and
+   eight borders while a row of three years subtracted three and
+   two -- and the two rows drifted apart by several pixels. Grid
+   columns are computed once from the template, so a cell's
+   padding can never move the column it sits in.
+========================================================== */
+
+.roadmap-years,
+.roadmap-quarters,
+.roadmap-row{
+
+    display:grid;
+
+    grid-template-columns:repeat(var(--roadmap-columns, 1), minmax(0, 1fr));
+
+}
+
+.roadmap-year{
+
+    grid-column:span var(--roadmap-year-span, 1);
+
+}
+
+.roadmap-quarter,
+.roadmap-cell{
+
+    grid-column:span 1;
+
+}
+
+/* A row still positions its bars against itself. */
+.roadmap-row{
+
+    position:relative;
+
+}
+
+/* ==========================================================
+   Bold on hover
+
+   The app's standing non-colour hover cue (see
+   .primary-button:hover in workspace.css for why: a background
+   shift alone is weak for reduced contrast sensitivity, and
+   weight depends on neither colour perception nor contrast).
+   These buttons were the ones still missing it.
+========================================================== */
+
+.strategy-add-button:hover:not(:disabled),
+.strategy-box-action:hover:not(:disabled),
+.strategy-box-toggle:hover,
+.roadmap-bar:hover{
+
+    text-shadow:var(--hover-bold);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+}
+
+/* ==========================================================
+   Metric fields -- two pairs per row
+
+   Measurement Frequency and Unit share the first row, Baseline
+   and Target the second, each label above its own control. All
+   four controls sit in the same two grid columns, so each one is
+   directly above or below another of exactly the same width. A row's
+   controls stay level where one label wraps ("Measurement
+   Frequency" in a narrow column): each field packs to the row's
+   foot.
+========================================================== */
+
+.strategy-metric-fields{
+
+    align-items:end;
+
+}
+
+.strategy-metric-field .strategy-field-label{
+
+    width:auto;
+
+}
+
+.strategy-metric-field .interview-input{
+
+    width:auto;
+
+    min-width:0;
+
+}
+
+/* Back to equal halves, so the Initiatives box and the Metric
+   boxes are the same width.
+
+   The uneven split was there because the widest dropdown option
+   ("Semiannually") looked like it needed 158px. Measured against
+   the real control rather than an estimate of the arrow width, it
+   needs 129 -- which an even split affords with room to spare. */
+.strategy-objective-columns{
+
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+
+}
+
+@media (max-width: 900px){
+
+    .strategy-objective-columns{
+
+        grid-template-columns:minmax(0, 1fr);
+
+    }
+
+}
+
+/* ==========================================================
+   Roadmap -- year dividers
+
+   A year is the coarser division, so its line is heavier than
+   the hairlines between quarters inside it. #6b7280 at 2px
+   against #ececec at 1px reads as a hierarchy rather than as
+   nine identical columns.
+========================================================== */
+
+.roadmap-year,
+.roadmap-quarter-year-start{
+
+    border-left:2px solid var(--line-faint);
+
+}
+
+.roadmap-year:first-child,
+.roadmap-quarter:first-child{
+
+    border-left:none;
+
+}
+
+/* One rhythm inside the Metrics column: the same 12px between one
+   Metric box and the next as between the last box and the
+   "+ Add Metric" button below it. At 6px the button sat closer to
+   the boxes than they sat to each other, which read as though it
+   belonged to the last one. */
+.strategy-subsection{
+
+    gap:var(--gap-12);
+
+}
+
+/* Darker than the #6b7280 it started at. On white that measured
+   4.63:1, but a Theme box draws it on a tint, which took it to
+   4.27:1 -- under the 4.5:1 minimum. #4b5563 clears it on every
+   tint the palette can produce. */
+
+/* ==========================================================
+   Metric fields -- pairing
+
+   Each label sits close to its OWN control (8px), and one pair is
+   the in-row cell gap (--space-cell, 12px) from the next, so
+   "Target" reads as belonging to the box beside it rather than to
+   the one it happens to follow. Same order and the same two rows as
+   before; only the spacing changed.
+
+   Each pair carries its own two-track grid at a fixed label
+   width, which is what keeps the four controls the same width
+   and in the same two columns.
+========================================================== */
+
+.strategy-metric-fields{
+
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+
+    gap:12px var(--space-cell);
+
+}
+
+.strategy-metric-field{
+
+    display:grid;
+
+    /* The app's one side-label column (global.css), on the
+       control's first line of text. */
+    grid-template-columns:var(--side-label-column) minmax(0, 1fr);
+
+    align-items:baseline;
+
+    gap:var(--side-label-gap);
+
+}
+
+/* ==========================================================
+   Add buttons
+
+   An "+ Add" button takes the ground of the thing it adds, so it
+   reads as belonging to that stack rather than floating on the
+   panel behind it -- and #0b57d0 on #fafafa is 6.2:1, slightly
+   better than it was on white.
+========================================================== */
+
+.strategy-subsection > .strategy-add-button{
+
+    background:var(--bg-panel);
+
+}
+
+/* "+ Add Objective" -- the same principle, on a page where the
+   thing it adds is tinted by its Theme rather than plain grey.
+   It takes the Objective box's own ground (see
+   `.strategy-theme-panel .strategy-objective-box`) instead of the
+   white it inherited, so it reads as the next Objective in the
+   stack rather than a control sitting on the Goal box. */
+
+/* Its hover ground is set with every other add button's, under
+   "Theme colour on the controls" at the end of this file. */
+
+/* ==========================================================
+   Roadmap head
+
+   The Help button sits in the divider row directly under the
+   guidance panel, and had nothing between them on this page --
+   the other two get it from their grid's row gap.
+========================================================== */
+
+.strategic-roadmap .answer-columns-divider{
+
+    margin-top:12px;
+
+}
+
+/* This page's grid has no row gap, so with the progress line hidden the
+   button keeps its own 12px to the roadmap below it. */
+.strategic-roadmap .interview-instructions-toggle.interview-instructions-toggle-last{
+
+    margin-bottom:12px;
+
+}
+
+/* ==========================================================
+   Guidance spacing
+
+   One bullet sat directly on the next, so a block of three read
+   as one run of text with no way in. Separating them costs
+   nothing and is what makes a list scannable rather than
+   something to be waded through -- it matters most for readers
+   who track lines by their shape, which is the same reason the
+   app already sets 1.5 line height everywhere.
+
+   8px between bullets against 27px line height: enough to break
+   the block into lines without loosening it into fragments.
+========================================================== */
+
+.answer-column-questions{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-8);
+
+}
+
+/* ==========================================================
+   Theme colour, all the way down
+
+   Every ground inside a Theme panel is that Theme's OWN hue at a
+   different lightness, rather than a flat grey. The variation
+   between nesting levels is kept -- that is what separates a
+   Goal from the Objective inside it -- but it now says which
+   Theme you are in as well as how deep you are.
+
+   Lightness alternates rather than descending, so each level
+   contrasts with the one that contains it: panel 96, Goal 92,
+   Objective 98, Metric 94. All four are light enough that the
+   body colour #111827 stays above 15:1 and the secondary
+   #4b5563 above 6:1 on every hue the palette can produce.
+========================================================== */
+
+/* An add button keeps taking the ground of the thing it adds. */
+
+/* ==========================================================
+   Hover, consistently
+
+   Two conventions had been mixed. A BUTTON shifts its
+   background and goes bold (see .primary-button); a FIELD draws
+   a 4px ring (see .interview-input). The Strategy buttons were
+   doing both, which made them the loudest things on the page and
+   read as a different kind of control from every other button in
+   the app.
+
+   The ring stays where the thing genuinely is a field -- the
+   month trigger stands in for a <select> -- and stays on FOCUS
+   everywhere, which is a different signal and a requirement.
+========================================================== */
+
+.strategy-box-action:hover:not(:disabled),
+.strategy-box-toggle:hover,
+.roadmap-bar:hover{
+
+    box-shadow:none;
+
+}
+
+/* ==========================================================
+   Title tracking
+
+   Every bold title on these pages carries the same 5% tracking
+   the column headings use (.answer-column-label above). Bold
+   text sets tighter than regular at the same size, and these
+   are the labels a reader scans to find their place -- the
+   extra space is what keeps them scannable rather than dense.
+
+   Field labels are deliberately NOT included: they are read
+   left-to-right beside their own control, not scanned, and
+   tracking there would push the label column wider for no gain.
+========================================================== */
+
+.strategy-box-number,
+.strategy-theme-name,
+.roadmap-theme-number,
+.roadmap-theme-name,
+.roadmap-year{
+
+    letter-spacing:0.05em;
+
+}
+
+/* The add buttons' own colour and hover ground -- both of them
+   the Theme's, and both set once for all three, under "Theme
+   colour on the controls" at the end of this file. The darker
+   blue that used to live here is gone with the blue.
+
+   Why the box borders are not left pale: a box's edge is a
+   non-text boundary, so it needs 3:1 against the grounds on
+   either side of it (SC 1.4.11). Tinting them to match the hue
+   at 72-78% looked right but measured 1.4-1.6:1 -- lighter than
+   the grey they replaced and well under the minimum. */
+
+/* A list line is a textarea now, so it wraps rather than
+   scrolling sideways. It grows to fit its own content and never
+   scrolls internally, and the number stays at the top of a
+   wrapped line rather than floating beside its middle. */
+.numbered-list-row{
+
+    align-items:flex-start;
+
+}
+
+.numbered-list-number{
+
+    align-items:flex-start;
+
+    padding-top:8px;
+
+}
+
+.numbered-list-input{
+
+    /* The app floors every textarea at 180px for its long Notes
+       fields. A list line is one entry, not a note, so it starts
+       at a single line and grows only as far as its own text
+       needs. */
+    min-height:0;
+
+    resize:none;
+
+    overflow:hidden;
+
+    /* Long unbroken input (a pasted URL) breaks rather than
+       forcing the whole column wider. */
+    overflow-wrap:break-word;
+
+}
+
+/* The Interview page's own title -- the largest heading in the
+   app, and the only bold title still set with no tracking. Same
+   5% every other title carries, so the page heading and the
+   column headings beneath it are set the same way. */
+.interview-header-title-row h1{
+
+    letter-spacing:0.05em;
+
+}
+
+/* One ring, not two.
+
+   The list line became a textarea so it could wrap, and that
+   brought the app's global `textarea:hover` / `textarea:focus`
+   rings with it -- drawn inside the ring the list box already
+   draws for the whole control. The box owns the ring; the line
+   inside it draws none. */
+/* Written to out-specify the app's global
+   `textarea:hover:not(:focus):not(:disabled)` rule, which is
+   (0,3,1) -- a plain `.numbered-list-input:hover` at (0,2,0)
+   lost to it, so the inner ring survived on hover even after
+   the focus one was gone. */
+.numbered-list textarea.numbered-list-input:hover,
+.numbered-list textarea.numbered-list-input:focus{
+
+    outline:none;
+
+    border-color:transparent;
+
+    box-shadow:none;
+
+}
+
+
+/* The Brand System's subsection titles -- the slot labels on the
+   Style and Inventory pages ("Primary A", "H1 — Title", "Icon
+   SVG", "Image 1"). Bold at 18px and the only titles left at 0%:
+   the earlier tracking pass covered the Strategy pages and the
+   main pages, and never reached these. */
+.brand-slot-label{
+
+    letter-spacing:0.05em;
+
+}
+
+/* The standard interview page's own titles -- the Section title
+   and the block headings above each group of questions. These
+   are what Systems 4-24 use (only Identity, Brand and Strategy
+   have bespoke editors), so without them the tracking stopped at
+   three Systems out of twenty-four. */
+.interview-section-title,
+.interview-block-heading,
+.interview-help-heading{
+
+    letter-spacing:0.05em;
+
+}
+
+/* A slot label set on more than one line (see the " / " split in
+   BrandStyleEditor). Each part is its own line; the label itself
+   stops being a single run of text. */
+.brand-slot-label{
+
+    display:flex;
+
+    flex-direction:column;
+
+    line-height:1.5;
+
+}
+
+.brand-slot-label-line{
+
+    display:block;
+
+}
+
+/* A tick whose label is SET ON TWO LINES centres on the whole
+   block, exactly like every other tick row -- it used to sit
+   level with its first line instead, which put the Text
+   Hierarchy column's last box 15px above the tick boxes of
+   Primary B (Colours) and Secondary (Typography) on the same
+   line. Centred, the three land within 1.5px of each other,
+   which is what the differing row heights leave over. */
+
+/* The label alone then drops, so its FIRST line sits ON the tick
+   box rather than half a line above it -- the two read as one
+   line with a second line hanging under it, instead of a box
+   floating between two lines.
+
+   13.5px lands it exactly: 9px is half the 18px box (see
+   `.brand-tick input`), and 4.5px more is the line box's own
+   half-leading ((27px line - 18px text) / 2). Together they put
+   the first line's 18px text box precisely over the 18px tick
+   box -- same height, same top, same bottom.
+
+   Done with `position:relative` so only the paint moves: the row
+   keeps its height, and the tick box beside it does not shift. */
+.brand-style .brand-tick-stacked .brand-slot-label{
+
+    position:relative;
+
+    top:13.5px;
+
+}
+
+
+/* Bold only while hovered, so the tracking has to be stated on
+   the hover rules themselves -- there is no selector for "will
+   become bold". Everything else that goes bold on hover is a
+   button, and buttons carry 10% already. */
+.system-item:hover .system-title,
+.org-rail-system-item:hover .org-rail-system-title,
+.org-rail-capability-item:hover,
+.capability-item:hover,
+.landing-card:hover{
+
+    letter-spacing:0.05em;
+
+}
+
+/* The completeness dialog's title. It carried 5% until the
+   button pass was reverted, which took this with it -- it is a
+   title, not a button. */
+.confirmation-title{
+
+    letter-spacing:0.05em;
+
+}
+
+/* The completeness dialog's list. Its page names are bold -- they
+   name the pages still to finish -- so they take the same 5% as
+   the title above them. The answers listed under each are read as
+   a list rather than scanned as headings, and keep normal
+   tracking. */
+.confirmation-warning-page{
+
+    letter-spacing:0.05em;
+
+}
+
+/* ==========================================================
+   Bold tracking -- the remaining cases
+
+   Everything left in the app that is bold and was still under
+   5%: table headers, the labels and headings inside the
+   Process Library, Operational Log, Roles & Responsibilities,
+   Profile Cards, Export options and Product selector, and the
+   four that carried 2-4% chosen before the rule existed.
+
+   Buttons are not here -- they are the deliberate 10% exception
+   and are covered by the `button` rule in global.css.
+========================================================== */
+
+.dynamic-table-scroll th,
+.dynamic-table-totals-row td,
+.process-library-table th,
+.process-library-sops-table th,
+.process-library-steps-table th,
+.operational-log-table th,
+.operational-log-filter-label,
+.roles-responsibilities-table th,
+.roles-responsibilities-col-owner,
+.export-options-label,
+.export-options-picker-process-name,
+.profile-card-title-input,
+.profile-card-fixed-label,
+.profile-card-subtitle,
+.handbook-t-card-label{
+
+    letter-spacing:0.05em;
+
+}
+
+/* The selected Product's name, shown above a Product Development
+   page. Bold, and a plain <div> -- so the heading rule in
+   global.css does not reach it. */
+.product-name-banner{
+
+    letter-spacing:0.05em;
+
+}
+
+/* ==========================================================
+   Text Hierarchy -- the column's own edges
+
+   This column was narrowed to the width of its widest row and
+   centred. Undone: the rows run edge to edge of the section
+   again, so every px field ends on the column's right edge.
+
+   Its pitch is the page's pitch, set for all three columns
+   together under "Brand Style -- one row pitch" below.
+========================================================== */
+

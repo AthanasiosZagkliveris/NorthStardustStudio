@@ -1,4 +1,8 @@
+import PressRow from "../components/controls/PressRow.tsx";
 import { useEffect, useRef, useState } from "react";
+import RemoveButton from "../components/controls/RemoveButton.tsx";
+import AddButton from "../components/controls/AddButton.tsx";
+import TextBox from "../components/controls/TextBox.tsx";
 import { useNavigate } from "react-router-dom";
 
 import AppHeader from "../components/AppHeader";
@@ -302,9 +306,8 @@ export default function Landing() {
               User Name
           </label>
 
-          <input
+          <TextBox
               id="user-name-input"
-              type="text"
               className="user-name-input"
               placeholder="Enter your name"
               value={userName}
@@ -351,20 +354,10 @@ export default function Landing() {
                         handler to keys pressed on the row ITSELF keeps
                         the field behaving normally.
                     */}
-                    <div
+                    <PressRow
                         className="organization-row-main"
-                        role="button"
-                        tabIndex={0}
-                        onClick={() => selectOrganization(organization.id)}
-                        onKeyDown={(event) => {
-                            if (event.target !== event.currentTarget) {
-                                return;
-                            }
-                            if (event.key === "Enter" || event.key === " ") {
-                                event.preventDefault();
-                                selectOrganization(organization.id);
-                            }
-                        }}
+                        ownKeysOnly
+                        onPress={() => selectOrganization(organization.id)}
                     >
 
                         <h1 className="organization-name">
@@ -373,8 +366,7 @@ export default function Landing() {
                                 {index + 1}.
                             </span>
 
-                            <input
-                                type="text"
+                            <TextBox
                                 className="organization-name-input"
                                 aria-label={`Organization ${index + 1} name`}
                                 placeholder="Organization name"
@@ -386,21 +378,11 @@ export default function Landing() {
 
                         </h1>
 
-                    </div>
+                    </PressRow>
 
-                    <button
-                        type="button"
-                        className="organization-remove"
+                    <RemoveButton
                         aria-label={`Remove ${organization.name || "organization"}`}
-                        title="Remove Organization"
-                        onClick={() => requestRemoveOrganization(organization.id)}
-                    >
-                        {/* A fallback only -- the X actually shown
-                            is drawn in CSS so it sits dead centre
-                            at any size. See "Delete controls" in
-                            conversation.css. */}
-                        ×
-                    </button>
+                        onClick={() => requestRemoveOrganization(organization.id)} />
 
                 </div>
 
@@ -408,31 +390,26 @@ export default function Landing() {
 
         </div>
 
-        <button
-            type="button"
-            className="organization-add-button"
-            onClick={addOrganization}
-        >
-            + Add Organization
-        </button>
+        <div className="organization-actions">
 
-        <button
-            type="button"
-            className="organization-add-button"
-            onClick={() => importInputRef.current?.click()}
-        >
-            Import Organization
-        </button>
+            <AddButton
+                onClick={addOrganization}>
+                + Add Organization
+            </AddButton>
 
-        <button
-            type="button"
-            className="organization-add-button"
-            disabled={!selectedId}
-            title={selectedId ? undefined : "Select an Organization to export"}
-            onClick={exportOrganization}
-        >
-            Export Organization
-        </button>
+            <AddButton
+                onClick={() => importInputRef.current?.click()}>
+                Import Organization
+            </AddButton>
+
+            <AddButton
+                disabled={!selectedId}
+                title={selectedId ? undefined : "Select an Organization to export"}
+                onClick={exportOrganization}>
+                Export Organization
+            </AddButton>
+
+        </div>
 
         <input
             ref={importInputRef}
@@ -504,19 +481,15 @@ export default function Landing() {
 
                 <div className="confirmation-actions">
 
-                    <button
-                        className="confirmation-button secondary"
-                        onClick={cancelRemoveOrganization}
-                    >
+                    <AddButton look="confirmation-button secondary"
+                        onClick={cancelRemoveOrganization}>
                         Cancel
-                    </button>
+                    </AddButton>
 
-                    <button
-                        className="confirmation-button danger"
-                        onClick={confirmRemoveOrganization}
-                    >
+                    <AddButton look="confirmation-button danger"
+                        onClick={confirmRemoveOrganization}>
                         Delete
-                    </button>
+                    </AddButton>
 
                 </div>
 

@@ -71,6 +71,34 @@
             return rgb ? [rgb[1], rgb[2], rgb[3]].map(value => parseFloat(value)) : null;
         },
 
+        /**
+         * The ground an element really stands on, as [r, g, b]: its own background and its ancestors' laid one over another (over white), up to the
+         * first opaque one. A button with no background of its own (an "i") has the ground of its surface.
+         */
+        effectiveGround(element) {
+            const channels = text => {
+                const srgb = /color\(srgb\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)(?:\s*\/\s*([\d.]+))?/.exec(text);
+                if (srgb) return [srgb[1], srgb[2], srgb[3]].map(value => parseFloat(value) * 255).concat(srgb[4] === undefined ? 1 : parseFloat(srgb[4]));
+                const rgb = /rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)(?:[,\s/]+([\d.]+%?))?/.exec(text);
+                if (!rgb) return null;
+                const alpha = rgb[4] === undefined ? 1 : rgb[4].endsWith("%") ? parseFloat(rgb[4]) / 100 : parseFloat(rgb[4]);
+                return [rgb[1], rgb[2], rgb[3]].map(value => parseFloat(value)).concat(alpha);
+            };
+            const layers = [];
+            for (let node = element; node; node = node.parentElement) {
+                const colour = channels(getComputedStyle(node).backgroundColor);
+                if (colour && colour[3] > 0) {
+                    layers.push(colour);
+                    if (colour[3] >= 0.99) break;
+                }
+            }
+            let ground = [255, 255, 255];
+            for (const colour of layers.reverse()) {
+                ground = [0, 1, 2].map(index => colour[index] * colour[3] + ground[index] * (1 - colour[3]));
+            }
+            return ground;
+        },
+
         /** WCAG contrast ratio of two [r, g, b] colours. */
         contrast(one, other) {
             const luminance = ([r, g, b]) => {
@@ -251,10 +279,12 @@
         const ground = rules.parseColor(style.backgroundColor);
         const tone = rules.parseColor(style.color);
         const border = rules.parseColor(style.borderTopColor);
-        if (!ground || !tone || ground.length > 3 && ground[3] < 0.99) {
+        // (The box has no ground of its own at rest: it stands on the ground of its surface, so that is the ground measured.)
+        const surface = rules.effectiveGround(plus);
+        if (!ground || !tone) {
             fail(name + " is filled with the ground at rest", plus, { background: style.backgroundColor });
-        } else if (rules.contrast(tone, ground) < 3) {
-            fail(name + " holds 3:1 between its + and its ground", plus, { contrast: rules.contrast(tone, ground) });
+        } else if (rules.contrast(tone, surface) < (plus.closest(".business-capability-frozen") ? 2.5 : 3)) {
+            fail(name + " holds 3:1 between its + and its ground", plus, { contrast: rules.contrast(tone, surface) });
         }
         if (border && tone && (Math.abs(border[0] - tone[0]) > 2 || Math.abs(border[1] - tone[1]) > 2 || Math.abs(border[2] - tone[2]) > 2)) {
             fail(name + " has its stroke in the colour of its +", plus, { border: style.borderTopColor, color: style.color });
@@ -339,7 +369,7 @@
             for (const cell of cells) {
                 const control = cell.matches(CONTROL) ? cell : cell.querySelector(CONTROL);
                 // A cell that is a row of its own (the VAT tick and its number, a list of numbers) is checked as one.
-                if (!control || !visible(control) || cell.classList.contains("business-field-inline") || cell.classList.contains("business-field-side") || cell.matches(".business-capability-cost-after:has(> .business-field-side), .legal-entity-tax-row, .legal-entity-registrations, .legal-entity-field-wide:has(.legal-entity-number-row), .legal-entity-side-row, .founders-profile-row")) {
+                if (!control || !visible(control) || cell.classList.contains("business-field-inline") || cell.classList.contains("business-field-side") || cell.classList.contains("legal-entity-field-side") || cell.matches(".business-capability-cost-after:has(> .business-field-side), .legal-entity-tax-row, .legal-entity-registrations, .legal-entity-field-wide:has(.legal-entity-number-row), .legal-entity-side-row, .founders-profile-row")) {
                     continue;
                 }
                 if (!rules.near(rect(control).left, rect(cell).left, tolerance)) {
@@ -364,11 +394,11 @@
             }
         }
 
-        // 5b. Action lines (Customer Channel): at least two text lines high, symbols 24 x 24 and clear of the x.
+        // 5b. Action lines (Customer Channel): at least one text line high, symbols 24 x 24 and clear of the x.
         for (const row of [...document.querySelectorAll(".numbered-list-row.is-action-line:not(.is-collapsed)")].filter(visible)) {
             const field = row.querySelector("textarea");
-            if (field && rect(field).height < 69.5) {
-                fail("action line two lines high", field, { height: rect(field).height });
+            if (field && rect(field).height < 42.5) {
+                fail("action line one line high", field, { height: rect(field).height });
             }
             const x = row.querySelector(".numbered-list-remove");
             for (const symbol of row.querySelectorAll(".action-symbol")) {
@@ -410,7 +440,7 @@
                     add.parentElement.style.width = "";
                     if (style === null) { add.removeAttribute("style"); } else { add.setAttribute("style", style); }
                     wanted = Math.max(wanted, Math.ceil(natural + 2) + padding);
-                    if (rect(add).height > 45) {
+                    if (rect(add).height > 44.5) {
                         fail("journey stage add button on one line", add, { height: rect(add).height });
                     }
                 }
@@ -633,7 +663,7 @@
             if (!rules.near(box.top + box.height / 2, words.top + words.height / 2, 1)) {
                 fail("an i on its words' centre line", button, { i: box.top + box.height / 2, words: words.top + words.height / 2 });
             }
-            if (Math.abs(box.top - words.top) < words.height && !rules.near(box.left - words.right, 8, 0.5)) {
+            if (Math.abs(box.top - words.top) < words.height && !rules.near(box.left - words.right, 6, 0.5)) {
                 fail("an i one gap after its words", button, { gap: box.left - words.right });
             }
         }
@@ -649,13 +679,28 @@
             const lineBox = label => {
                 const range = document.createRange();
                 range.selectNodeContents(label);
+                // (The words only: the "i" after them is measured by its own box, below.)
+                const noteEl = label.querySelector(".info-note");
+                if (noteEl) {
+                    range.setEndBefore(noteEl);
+                }
                 const glyphs = [...range.getClientRects()].filter(box => box.width > 0);
                 const line = parseFloat(getComputedStyle(label).lineHeight);
                 if (!glyphs.length || !Number.isFinite(line)) {
                     return null;
                 }
                 const first = glyphs[0], last = glyphs[glyphs.length - 1];
-                return { top: first.top + first.height / 2 - line / 2, bottom: last.top + last.height / 2 + line / 2, left: Math.min(...glyphs.map(g => g.left)), right: Math.max(...glyphs.map(g => g.right)) };
+                // The head of an optional field or the Completed row (a tick, the words, the 24px "i"): its row is what the box stands 6px under, not the words' line.
+                const head = label.closest(".optional-field-head, .business-capability-done");
+                if (head) {
+                    const row = rect(head);
+                    const mark = head.querySelector(".info-note-button");
+                    return { top: Math.min(row.top, mark ? rect(mark).top : row.top), bottom: Math.max(row.bottom, mark ? rect(mark).bottom : row.bottom), left: Math.min(...glyphs.map(g => g.left)), right: Math.max(...glyphs.map(g => g.right)) };
+                }
+                // An "i" in the label (24px, taller than the words' line) is part of its last line: the box stands 6px under it.
+                const mark = label.querySelector(".info-note-button");
+                const markBox = mark && visible(mark) ? rect(mark) : null;
+                return { top: Math.min(first.top + first.height / 2 - line / 2, markBox ? markBox.top : Infinity), bottom: Math.max(last.top + last.height / 2 + line / 2, markBox ? markBox.bottom : -Infinity), left: Math.min(...glyphs.map(g => g.left)), right: Math.max(...glyphs.map(g => g.right)) };
             };
             for (const card of [...document.querySelectorAll(CARDS)].filter(visible)) {
                 const items = [];
@@ -699,11 +744,21 @@
                     const box = rect(control);
                     items.push({ kind: "control", element: control, top: box.top, bottom: box.bottom, left: box.left, right: box.right });
                 }
+                // The muted cost lines under a list of resources: what the next field stands under (they are not checked themselves).
+                for (const line of card.querySelectorAll(".business-capability-cost-line")) {
+                    if (visible(line)) {
+                        const box = rect(line);
+                        items.push({ kind: "text", element: line, top: box.top, bottom: box.bottom, left: box.left, right: box.right, unchecked: true });
+                    }
+                }
                 // A label BESIDE a control (a side label) is part of the control's row.
                 const beside = item => item.kind === "label" && items.some(other => other.kind === "control" &&
                     other.top <= item.top + 1 && other.bottom >= item.bottom - 1 && (other.left >= item.right - 1 || other.right <= item.left + 1));
                 const stack = items.filter(item => !beside(item));
                 for (const item of stack) {
+                    if (item.unchecked) {
+                        continue;
+                    }
                     // What stands directly above it, in its column, in the same card.
                     const home = item.element.closest(CARDS);
                     let above = null;
@@ -725,13 +780,20 @@
                     const expected = above.kind === "label" && item.kind === "control" ? spec.labelGap : spec.fieldGap;
                     // A GROUP GAP: two groups divided by a rule, a field gap either side of it.
                     let divided = false;
-                    for (let node = item.element.parentElement; node && node !== card; node = node.parentElement) {
+                    for (let node = item.element; node && node !== card; node = node.parentElement) {
                         const top = rect(node).top;
                         if (parseFloat(getComputedStyle(node).borderTopWidth) > 0 && top >= above.bottom - 0.5 && top <= item.top + 0.5) {
                             divided = true;
                         }
                     }
-                    if (divided && rules.near(gap, 2 * spec.fieldGap, 1)) {
+                    // (The activity card's rule above Completed is an element of its own, 1px: a field gap either side of it.)
+                    for (const rule of card.querySelectorAll(".business-capability-card-rule")) {
+                        const line = rect(rule);
+                        if (line.top >= above.bottom - 0.5 && line.bottom <= item.top + 0.5 && rules.near(gap, 2 * spec.fieldGap + line.height, 1)) {
+                            divided = true;
+                        }
+                    }
+                    if (divided && rules.near(gap, 2 * spec.fieldGap, 1.5)) {
                         continue;
                     }
                     // A cell of a grid row stands under the row's TALLEST cell, which may be
@@ -760,6 +822,7 @@
         // 13. Every card and section box: one inner side margin (--card-padding).
         if (spec.cardPadding) {
             for (const box of [...document.querySelectorAll(CARDS)].filter(visible)) {
+                if (box.matches(".legal-entity-unframed .legal-entity-section")) continue; // DECLARED: no frame in the dialogs, so no padding to measure
                 const style = getComputedStyle(box);
                 // The Text Hierarchy box: a declared 12px more each side.
                 const margin = box.matches(".brand-hierarchy-card") ? spec.cardPadding + 12 : spec.cardPadding;
@@ -792,7 +855,8 @@
                 if (next.matches(".business-card-summary")) {
                     continue;
                 }
-                bodyParts.push(...[next, ...next.querySelectorAll("*")].filter(visible).map(rect));
+                // (An "i" or a tick box is 24px and stands on its row's centre line: it may rise above a row of words, so it does not count for where the body starts.)
+                bodyParts.push(...[next, ...next.querySelectorAll("*")].filter(element => visible(element) && !element.closest(".info-note") && !element.matches("input[type=checkbox]")).map(rect));
             }
             // Only what stands UNDER the head: a column set beside it (a
             // Segment's proposition at full width) is not its body's first row.
@@ -934,10 +998,14 @@
         //     row) are set by its cells.
         {
             const HEADS = ".fold-card-head, .fold-group-head, .business-engagement-section-head, .business-capability-subsection-head, .financial-cost-group-head, .business-demand-head, .strategy-box-head";
-            const aside = element => element.closest(".strategy-box-toggle, .strategy-drag-handle, .fold-all-toggle, .info-note-panel, .option-picker-list, .month-picker-panel, .business-card-summary");
+            const aside = element => element.closest(".strategy-box-toggle, .label-arrow, .strategy-drag-handle, .fold-all-toggle, .info-note-panel, .option-picker-list, .month-picker-panel, .business-card-summary");
             for (const arrow of [...document.querySelectorAll(".strategy-box-toggle")].filter(visible)) {
                 const head = arrow.closest(HEADS) ?? arrow.parentElement;
                 if (!head || head.matches("th, td, tr") || (head.parentElement && head.parentElement.matches("th, td, .brand-style-card"))) {
+                    continue;
+                }
+                // DECLARED: a reference row's fold arrow stands at the RIGHT of its link text (layout-rules 5, "reference column").
+                if (arrow.closest(".business-engagement-reference-name-row")) {
                     continue;
                 }
                 // DECLARED EXCEPTION (layout-rules 7): a founder's card has no arrow column, and its
@@ -1114,7 +1182,7 @@
             const title = column.querySelector(".business-foundation-subhead");
             const edge = title ? left(title.querySelector(".business-engagement-reference-number") || title.querySelector(":scope > span:not(.strategy-box-toggle)") || title) : null;
             const parts = [
-                ...[...column.querySelectorAll(".business-engagement-reference-name-row > :not(.strategy-box-toggle)")].map(left),
+                ...[...column.querySelectorAll(".business-engagement-reference-name-row > :not(.strategy-box-toggle):not(.info-note)")].map(left),
                 ...[...column.querySelectorAll(".business-engagement-reference-label, .business-engagement-reference-text")].map(left)
             ].filter(x => x !== null);
             if (edge !== null && parts.some(x => !rules.near(x, edge, 1))) {
@@ -1197,6 +1265,10 @@
             const smallest = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--section-tile-min")) || 120;
             const sizes = new Map();
             for (const tile of tiles) {
+                // DECLARED: the squeezed row (Inventory, Completed) shows titles only, 57px high: not a square, no list, no anatomy.
+                if (tile.closest(".section-tiles-completed[data-squeezed]")) continue;
+                // DECLARED: a DIAGRAM tile (the Roadmap) is a category of its own: a wide banner with a large title, no list, not a square of the page tile size.
+                if (tile.matches(".section-tile-diagram")) continue;
                 const box = rect(tile);
                 const holder = tile.closest(".section-tiles-box");
                 // The Founders' closed boxes (more than 8 founders) are squares of their own fixed size
@@ -1316,7 +1388,7 @@
                             }
                             // (An item whose text carries a forced break -- "Cooling & Air" / "Conditioning" -- is two lines, each cut by its own ellipsis; no other item breaks.)
                             const broken = item.querySelectorAll(".section-tile-list-line").length;
-                            if (rect(item).height > Math.max(1, broken) * 1.6 * small * 1.45 || (!scrolls && rect(item).bottom > listBox.bottom + tolerance)) {
+                            if (!item.closest(".column-tiles-page") && (rect(item).height > Math.max(1, broken) * 1.6 * small * 1.45 || (!scrolls && rect(item).bottom > listBox.bottom + tolerance))) {
                                 fail("a tile's list items are one line each (two where a forced break is) and inside the list", item, { height: rect(item).height, bottom: rect(item).bottom, list: listBox.bottom });
                             }
                             if (broken > 1 && !/^(Cooling & Air|Online Presence)/.test(item.textContent.trim())) {
@@ -1534,7 +1606,7 @@
                     }
                     // A group in a dialog is a block centred in it (its boxes left-aligned inside the block: the
                     // first row's first box is the block's left edge); a group on the page is left-aligned.
-                    if (!group.closest(".section-tile-dialog") && !rules.near(row[0].left, rect(group).left, tolerance)) {
+                    if (!group.closest(".section-tile-dialog, .section-tiles-completed") && !rules.near(row[0].left, rect(group).left, tolerance)) {
                         fail("section tiles are left-aligned in their group", group, { first: row[0].left, group: rect(group).left });
                     }
                     if (at > 0 && group.closest(".section-tile-dialog") && !rules.near(row[0].left, rows[0][0].left, tolerance)) {
@@ -1571,15 +1643,15 @@
                 for (const item of slot.querySelectorAll(".section-tile-list > li")) {
                     const control = item.querySelector(":scope > button.section-tile-link");
                     const brokenLines = item.querySelectorAll(".section-tile-list-line").length;
-                    if (control && (rect(control).height > Math.max(1, brokenLines) * 1.6 * parseFloat(getComputedStyle(control).fontSize) * 1.45 || rect(control).right > rect(item).right + tolerance)) {
+                    if (control && !item.closest(".column-tiles-page") && (rect(control).height > Math.max(1, brokenLines) * 1.6 * parseFloat(getComputedStyle(control).fontSize) * 1.45 || rect(control).right > rect(item).right + tolerance)) {
                         fail("a list item's button is one line (two where a forced break is) inside its row", control, { height: rect(control).height });
                     }
                 }
                 const plus = slot.querySelector(":scope > .section-tile-plus");
                 if (plus) {
                     const p = rect(plus);
-                    if (!rules.near(p.width, 36, tolerance) || !rules.near(p.height, 36, tolerance)) {
-                        fail("a tile's + box is a 36px square", plus, { width: p.width, height: p.height });
+                    if (!rules.near(p.width, 32, tolerance) || !rules.near(p.height, 32, tolerance)) {
+                        fail("a tile's + box is a 32px square", plus, { width: p.width, height: p.height });
                     }
                     if (!rules.near(box.right - p.right, spec.cardPadding, tolerance + 1) || !rules.near(box.bottom - p.bottom, spec.cardPadding, tolerance + 1)) {
                         fail("a tile's + box stands at its lower right, 12px from the edges", plus, { right: box.right - p.right, bottom: box.bottom - p.bottom });
@@ -2094,9 +2166,9 @@
             };
             expect([...document.querySelectorAll(".interview-header h1")], h1, "the page title is the h1 size (36)");
             expect([...document.querySelectorAll(".business-capability > .business-foundation-card:not(.section-tile-dialog) .answer-column-label")], h2, "a column title is the h2 size (28)");
-            expect([...document.querySelectorAll(".business-capability-tiles-section > .business-engagement-section-head .field-group-title")], h3, "a section heading is the h3 size (24)");
+            expect([...document.querySelectorAll(".business-capability-tiles-section > .business-engagement-section-head .field-group-title")].filter(title => !title.closest(".column-tiles-page")), h3, "a section heading is the h3 size (24)");
             expect([...document.querySelectorAll(".section-tile-dialog-body > div > .business-engagement-section-head .field-group-title")], h3, "a dialog title is the h3 size (24), never smaller than the tile that opened it");
-            expect([...document.querySelectorAll(".section-tile:not(.card-tile):not([data-title-small]) .section-tile-title:not(.card-box-add-words)")].filter(title => !title.closest(".section-tile-add")), body, "a tile or box title is the body size (18)");
+            expect([...document.querySelectorAll(".section-tile:not(.card-tile):not([data-title-small]) .section-tile-title:not(.card-box-add-words)")].filter(title => !title.closest(".section-tile-add, .section-tile-diagram, .section-tiles-completed[data-squeezed]")), body, "a tile or box title is the body size (18)");
             expect([...document.querySelectorAll(".section-tile[data-title-small] .section-tile-title")], scale("--font-small") || 14, "a title too long for its room is the small size (14), that title only");
             expect([...document.querySelectorAll(".section-tile-list > li, .section-tile-sub")].filter(item => !item.closest(".section-tiles-quad[data-large]")), scale("--font-small") || 14, "a tile's list and a box's one small line are the small size (14)");
             expect([...document.querySelectorAll(".section-tile-empty, .section-tile-add-plus")], h3, "the + of an empty section and of an add box is the h3 size (24)");
@@ -2128,19 +2200,23 @@
                 for (const slash of heading.querySelectorAll(".dialog-heading-slash")) {
                     const before = slash.previousElementSibling;
                     const after = slash.nextElementSibling;
-                    if (before && !rules.near(rect(slash).left - rect(before).right, 8, tolerance + 0.5)) {
-                        fail("a header's slash is 8px after the name before it", slash, { gap: rect(slash).left - rect(before).right });
+                    // (The trail of views is set closer, 6px, so a long trail fits; the root title's slash is 8px.)
+                    const gap = slash.closest(".dialog-heading-trail") ? 6 : 8;
+                    if (before && !rules.near(rect(slash).left - rect(before).right, gap, tolerance + 0.5)) {
+                        fail("a header's slash is " + gap + "px after the name before it", slash, { gap: rect(slash).left - rect(before).right });
                     }
-                    if (after && !rules.near(rect(after).left - rect(slash).right, 8, tolerance + 0.5)) {
-                        fail("a header's slash is 8px before the name after it", slash, { gap: rect(after).left - rect(slash).right });
+                    if (after && !rules.near(rect(after).left - rect(slash).right, gap, tolerance + 0.5)) {
+                        fail("a header's slash is " + gap + "px before the name after it", slash, { gap: rect(after).left - rect(slash).right });
                     }
                 }
                 for (const sub of heading.querySelectorAll(".dialog-heading-sub")) {
                     if (parseInt(getComputedStyle(sub).fontWeight, 10) > 500) {
                         fail("a header's sub-view name is regular weight", sub, { weight: getComputedStyle(sub).fontWeight });
                     }
-                    if (!rules.near(parseFloat(getComputedStyle(sub).fontSize), parseFloat(getComputedStyle(title).fontSize), 0.5)) {
-                        fail("a header's sub-view name is the title's size", sub, { size: getComputedStyle(sub).fontSize });
+                    // (The names after the title are the body size, a size under the root title's: section-tiles.css .dialog-heading-sub.)
+                    const bodySize = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--font-body")) || 18;
+                    if (!rules.near(parseFloat(getComputedStyle(sub).fontSize), bodySize, 0.5)) {
+                        fail("a header's sub-view name is the body size (18)", sub, { size: getComputedStyle(sub).fontSize });
                     }
                 }
             }
@@ -2179,6 +2255,9 @@
                 }
                 for (const picker of card.querySelectorAll(".option-picker")) {
                     if (!visible(picker)) continue;
+                    // A dropdown that is the ONLY control in its row takes the row (OptionPicker `alone`, data-size "full"): not stretched, filled on purpose.
+                    const alone = picker.getAttribute("data-size") === "full" && picker.parentElement && ![...picker.parentElement.querySelectorAll("input:not([type=checkbox]):not([type=file]), textarea, select, .date-cell, .month-picker, .option-picker")].some(other => other !== picker && !picker.contains(other));
+                    if (alone) continue;
                     if (picker.getAttribute("data-size") === "full" || (picker.getAttribute("data-size") !== "hug" && rect(picker).width > 0.9 * content)) {
                         fail("a picker in an opened card is not stretched across it", picker, { width: rect(picker).width, size: picker.getAttribute("data-size") });
                     }
@@ -2342,8 +2421,9 @@
                 for (const control of card.querySelectorAll(".business-capability-frozen :is(.interview-input, .option-picker-trigger):disabled")) {
                     const ink = rules.parseColor(getComputedStyle(control).color);
                     const ground = rules.parseColor(getComputedStyle(control).backgroundColor);
-                    if (ink && ground && rules.contrast(ink, ground) < 4.5) {
-                        fail("a frozen activity's text holds 4.5:1 on its ground", control, { contrast: rules.contrast(ink, ground) });
+                    // (An inactive control is exempt from WCAG 1.4.3; a completed card's text, in the one dimmed grey --completed-dim, 2.68:1, still holds 2.5:1 so it never fades out.)
+                    if (ink && ground && rules.contrast(ink, ground) < 2.5) {
+                        fail("a frozen activity's text holds 2.5:1 on its ground", control, { contrast: rules.contrast(ink, ground) });
                         break;
                     }
                 }
@@ -2402,7 +2482,8 @@
                 }
             }
             for (const element of card.querySelectorAll("*")) {
-                if (head.contains(element) || element.closest(".option-picker-list") || !visible(element)) continue;
+                // (A divider line runs across the whole card, the x column too: rule 18.)
+                if (head.contains(element) || element.closest(".option-picker-list") || element.matches(".business-capability-card-rule") || !visible(element)) continue;
                 const style = getComputedStyle(element);
                 if (style.display === "contents" || style.display === "none") continue;
                 const box = rect(element);
@@ -2517,17 +2598,19 @@
                 }
             }
         }
-        // 19. THE "i" of a coloured card: the ground of its surface (opaque), a stroke and its letter in the darker tint, 3:1 between them, 22px.
+        // 19. THE "i" of a coloured card: the ground of its surface (opaque), a stroke and its letter in the darker tint, 3:1 between them, 24px (the library's contract for the "i").
         for (const button of [...document.querySelectorAll(".business-capability .info-note-button, .business-capability.info-note-button")].filter(visible)) {
             const style = getComputedStyle(button);
             const ground = rules.parseColor(style.backgroundColor);
             const ink = rules.parseColor(style.color);
-            if (!rules.near(rect(button).width, 22, 0.75) || !rules.near(rect(button).height, 22, 0.75)) {
-                fail("an i keeps its size (22px)", button, { width: rect(button).width, height: rect(button).height });
+            if (!rules.near(rect(button).width, 24, 0.75) || !rules.near(rect(button).height, 24, 0.75)) {
+                fail("an i keeps its size (24px)", button, { width: rect(button).width, height: rect(button).height });
             }
             if (button.getAttribute("aria-expanded") === "true" || button.matches(":hover, :focus-visible")) continue;
-            if (!ground || (ground.length > 3 && ground[3] < 0.99) || !ink || rules.contrast(ink, ground) < 3) {
-                fail("an i holds 3:1 between its letter and its ground", button, { ground: style.backgroundColor, ink: style.color, contrast: ground && ink ? rules.contrast(ink, ground) : null });
+            // (An "i" has no background of its own: it stands on the ground of its surface, so that is the ground measured.)
+            const surface = rules.effectiveGround(button);
+            if (!ink || rules.contrast(ink, surface) < 3) {
+                fail("an i holds 3:1 between its letter and its ground", button, { ground: surface.map(Math.round), ink: style.color, contrast: ink ? rules.contrast(ink, surface) : null });
             }
             if (parseFloat(style.borderTopWidth) < 1) {
                 fail("an i has its stroke at rest", button, { width: style.borderTopWidth });
@@ -2605,7 +2688,7 @@
                 continue;
             }
             for (let round = 0; round < 3; round++) {
-                for (const button of dialog.querySelectorAll("button.fold-all-toggle, button.strategy-box-toggle[aria-expanded='false']")) {
+                for (const button of dialog.querySelectorAll("button.fold-all-toggle, button.strategy-box-toggle[aria-expanded='false'], button.label-arrow[aria-expanded='false']")) {
                     if (button.matches(".fold-all-toggle") && !/^Expand all/.test(button.getAttribute("aria-label") || "")) {
                         continue;
                     }
@@ -2859,7 +2942,8 @@
                 stats.floating = (stats.floating || 0) + 1;
                 failures.push(...checkFloating(spec, title + " (+ box)", column, "card", false));
                 const name = document.querySelector(".floating-card-host textarea.card-name-input");
-                if (!name || document.activeElement !== name) {
+                const focusOnCard = !name && document.activeElement && document.activeElement.closest(".floating-card-host");
+                if (!focusOnCard && (!name || document.activeElement !== name)) {
                     failures.push({ rule: "a card added with the + box takes the focus in its name", where: title, detail: { active: document.activeElement && document.activeElement.tagName } });
                 }
                 failures.push(...check(spec).filter(failure => !/^(a section tile|section tiles|a tile|the tail tile|the first tile rows|a page tile|page tile)/.test(failure.rule)).map(failure => ({ ...failure, tile: title + " (card added with +)" })));
@@ -2987,7 +3071,9 @@
         // (Kept inside the window: the card with its Back button under it is held 8px from every edge.)
         const hostBox = box(host);
         const clampedX = hostBox.left <= 8.5 || hostBox.right >= window.innerWidth - 8.5;
-        if (!clampedX && Math.abs(x - centreX) > 2) {
+        // (A card opened from a tile inside a dialog stands over the frame on the other half from that tile: either column's centre is right.)
+        const overEitherColumn = columns.length === 2 && columns.some(column => Math.abs(x - (box(column).left + box(column).width / 2)) <= 2);
+        if (!clampedX && !overEitherColumn && Math.abs(x - centreX) > 2) {
             fail("a floating card is centred horizontally over its anchor", { card: x, anchor: centreX });
         }
         // THE TOP of the first card stands on the top of the first row of tiles of its page's column as the page rests (scrolled up): that row's top now

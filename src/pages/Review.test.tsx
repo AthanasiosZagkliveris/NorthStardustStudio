@@ -91,14 +91,14 @@ describe("Review across Organizations", () => {
             </MemoryRouter>
         );
 
-        const heads = screen.getAllByRole("button", { expanded: true }).concat(screen.getAllByRole("button", { expanded: false }))
-            .filter(button => button.classList.contains("review-organization-head"));
-        expect(heads.map(head => head.querySelector(".review-organization-name")?.textContent)).toEqual(["Lumen", "Quillfield"]);
-        expect(heads.map(head => head.getAttribute("aria-expanded"))).toEqual(["true", "false"]);
+        const arrows = [...document.querySelectorAll<HTMLButtonElement>(".review-organization-title .strategy-box-toggle")];
+        const heads = arrows.map(arrow => arrow.closest(".fold-head")!);
+        expect(heads.map(head => head.querySelector(".fold-head-name")?.textContent)).toEqual(["Lumen", "Quillfield"]);
+        expect(arrows.map(arrow => arrow.getAttribute("aria-expanded"))).toEqual(["true", "false"]);
         // Nothing started: the four Foundation Systems each still open.
-        expect(heads[1].querySelector(".review-group-count")?.textContent).toBe("4");
+        expect(heads[1].querySelector(".fold-head-count")?.textContent).toBe("4");
 
-        act(() => { fireEvent.click(heads[1]); });
+        act(() => { fireEvent.click(arrows[1]); });
         const quill = screen.getByRole("region", { name: "Quillfield" });
         act(() => { fireEvent.click(quill.querySelectorAll<HTMLButtonElement>(".review-go")[0]); });
         expect(OrganizationService.getSelected()).toBe(other.id);

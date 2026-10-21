@@ -1,0 +1,1171 @@
+/* ==========================================================
+   Legal Entity (see LegalEntityEditor)
+
+   One page rather than a set of columns, so it reads down: six
+   numbered subsections, each on its own ground, in the order the
+   form asks them. Long pages are read in passes, and the numbered
+   heads are what let someone come back to the one part they left
+   unfinished.
+
+   Everything reuses the Strategy pages' own furniture -- the add
+   button, the delete control, the field look -- because these are
+   the same controls doing the same jobs, and a Framework page that
+   invents its own would read as a different app.
+========================================================== */
+
+.legal-entity-body{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-card);
+
+    min-width:0;
+
+}
+
+.legal-entity-section{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-card);
+
+    /* The card's side margin (--card-padding): one inner side margin
+       for every card and section box. */
+    padding:16px var(--card-padding);
+
+    border:1px solid var(--box-border);
+    border-radius:var(--radius-lg);
+
+    background:var(--bg-panel);
+
+}
+
+.legal-entity-section-head{
+
+    display:flex;
+
+    align-items:baseline;
+
+    gap:10px;
+
+    margin:0;
+
+}
+
+/* The same heading the Definition and Ethics pages give their
+   columns (see `.answer-column-label`): 24px, 600, uppercase, 5%
+   tracking, #1f2937. Those two pages and this one are the three
+   pages of one System, so their headings should be the one voice.
+
+   Left-aligned rather than centred, which is the only thing not
+   carried over: a column title sits above its column and is
+   centred in it; these sit at the top-left corner of a box. */
+.legal-entity-section-number,
+.legal-entity-section-title{
+
+    font-size:var(--font-h3);
+    font-weight:600;
+
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+
+    color:var(--text-strong);
+
+}
+
+.legal-entity-section-number{
+
+    flex:0 0 auto;
+
+}
+
+/* Two fields to a row where they fit, one where the answer is
+   prose. Below 900px everything stacks -- the same floor the
+   Strategy pages use. */
+.legal-entity-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+
+    gap:var(--space-field) var(--space-cell);
+
+    align-items:start;
+
+}
+
+@media (max-width: 900px){
+
+    .legal-entity-grid{
+
+        grid-template-columns:minmax(0, 1fr);
+
+    }
+
+}
+
+.legal-entity-field{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-label);
+
+    min-width:0;
+
+}
+
+/* An address, an activity, a description: prose needs the width. */
+/* One label-and-control pair among several in a column: it holds
+   the field (its key, FieldKeys.ts) and draws nothing, so the
+   column lays its parts out as before. */
+.legal-entity-pair{
+
+    display:contents;
+
+}
+
+.legal-entity-field-wide{
+
+    grid-column:1 / -1;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-6);
+
+    min-width:0;
+
+}
+
+.legal-entity-note-line,
+.legal-entity-empty-note{
+
+    grid-column:1 / -1;
+
+    margin:0;
+
+    font-size:var(--font-body);
+    line-height:1.5;
+
+    color:var(--text-muted);
+
+}
+
+/* ---------- Founders ---------- */
+
+.legal-entity-switch{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:var(--gap-8);
+
+    /* A tick row is its own line (its tick-to-tick gap is the field gap,
+       --space-field); a row with a field beside it (the number rows)
+       keeps the field's height by its own rule. */
+    min-height:0;
+
+    cursor:pointer;
+
+}
+
+.legal-entity-switch-label{
+
+    font-size:var(--font-body);
+
+    color:var(--text-default);
+
+}
+
+/* The heads are a real row of the same grid the rows use, so a
+   column heading and its column can never drift apart. */
+.legal-entity-founders{
+
+    display:grid;
+
+    /* Rows of fields one field apart, as every list of rows on the
+       page; the heads a label's 6px above the first (below). */
+    gap:var(--space-field) 12px;
+
+    align-items:center;
+
+    min-width:0;
+
+}
+
+/* A table's column heads read as every card's field labels. */
+.legal-entity-column-head{
+
+    font-size:var(--font-body);
+    font-weight:400;
+
+    line-height:var(--label-line);
+
+    color:var(--label-color);
+
+}
+
+/* Each row spans the grid and repeats its tracks, so every row
+   lines up with the heads above without a wrapper per cell. */
+.legal-entity-founder-row{
+
+    display:grid;
+
+    grid-column:1 / -1;
+    grid-template-columns:subgrid;
+
+    align-items:center;
+
+}
+
+/* The one note on this page that reports a conflict rather than
+   explaining something, so it is built as an alert rather than as
+   a differently coloured sentence.
+
+   Four carriers, none of them colour alone (SC 1.4.1): a drawn
+   "!" in a filled disc, a tinted ground, a heavy rule down the
+   leading edge, and the words themselves, which say what to do.
+   Colour on its own had been the whole signal, and at a glance it
+   read as another explanatory line.
+
+   #7a2e00 on #fdf1e7 is 7.4:1. */
+.legal-entity-note-warn{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:10px;
+
+    padding:12px 14px;
+
+    border:1px solid var(--line-warn);
+    border-left-width:4px;
+    border-radius:var(--radius-lg);
+
+    background:var(--bg-warn);
+
+    color:var(--text-warn);
+
+    font-weight:500;
+
+}
+
+/* Drawn rather than typed, for the reason the delete X is: a
+   glyph that is always the same shape, at any font. */
+.legal-entity-note-warn::before{
+
+    content:"!";
+
+    flex:0 0 auto;
+
+    width:22px;
+    height:22px;
+
+    /* 22px of disc against a 27px line: centred on the first line
+       of the sentence beside it. */
+    margin-top:2px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:var(--bg-caution);
+
+    /* White on #b45309 is 4.6:1. */
+    color:var(--text-on-fill);
+
+    font-size:var(--font-small);
+    font-weight:700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+    line-height:1;
+
+}
+
+.legal-entity-totals{
+
+    /* The badge's inside: its padding, its mark and the gap after it
+       (.legal-entity-total-short, -met, -over). */
+    --total-badge-pad:12px;
+    --total-badge-mark:18px;
+
+    display:flex;
+
+    /* One above the other: Total Capital, then the ownership badge. */
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:var(--space-field);
+
+}
+
+/* Total Capital above the ownership badge: its words start where the
+   badge's do, after the badge's edge, padding, mark and gap. */
+.legal-entity-totals:has(> [role="status"]) > .legal-entity-total:not([role="status"]){
+
+    padding-left:calc(1px + var(--total-badge-pad) + var(--total-badge-mark) + 8px);
+
+}
+
+.legal-entity-total{
+
+    font-size:var(--font-body);
+    font-weight:700;
+
+    letter-spacing:0.05em;
+
+    color:var(--text-muted);
+
+}
+
+/* ---------- Numbers, requirements, expenses ---------- */
+
+.legal-entity-number-row{
+
+    display:grid;
+
+    /* The Name | Number list (global.css). */
+    grid-template-columns:var(--name-number-columns);
+
+    gap:var(--space-cell);
+
+    /* A name that wraps grows down; the number and x stay on its
+       first line. */
+    align-items:start;
+
+}
+
+/* The x on the first line's centre (a control's 45px). */
+.legal-entity-number-row > .strategy-box-remove{
+
+    margin-top:calc((var(--control-square) - 32px) / 2);
+
+}
+
+/* A fixed row's words (the tax number's name): their first line on
+   the box's centre line, a second hanging below. */
+.legal-entity-number-row > .legal-entity-row-label > .field-label{
+
+    display:block;
+
+    margin-top:calc((var(--control-square) - 1lh) / 2);
+
+}
+
+/* A list of numbers' column heads ("Authority / Name", "Number"): on
+   the rows' own columns, so every row's edges sit under them. */
+.legal-entity-number-head{
+
+    align-items:end;
+
+}
+
+/* A fixed row of a list of numbers (the tax number, the consumption-
+   tax tick): its words in column 1, centred on the row's line. */
+.legal-entity-row-label{
+
+    min-width:0;
+
+}
+
+/* 4. Tax & Business Registration: the Tax Identification Number's label
+   and the VAT tick (tick, words, "i") stand RIGHT-ALIGNED in column 1, so
+   their right end is the right edge of the Tax / Registration cell below
+   (the same column); the number boxes beside them keep their place. */
+.legal-entity-number-row > .legal-entity-row-label{
+
+    text-align:right;
+
+}
+
+.legal-entity-number-row > .legal-entity-switch-cell{
+
+    justify-content:flex-end;
+
+}
+
+/* The tick and its words on the row's centre line, level with the
+   number box beside them. */
+.legal-entity-number-row > label.legal-entity-switch,
+.legal-entity-number-row > .legal-entity-switch-cell{
+
+    align-items:center;
+
+    align-self:stretch;
+
+}
+
+/* The tick, its words and their "i" on one line. */
+.legal-entity-switch-cell{
+
+    display:flex;
+
+    min-width:0;
+
+}
+
+.legal-entity-switch-cell{
+
+    align-items:center;
+
+}
+
+/* The label only as tall as its words, centred in the cell with the
+   "i" after it: tick, words, "i" and the number box on one line. */
+.legal-entity-switch-cell > label.legal-entity-switch{
+
+    align-items:center;
+
+    min-height:0;
+
+}
+
+.legal-entity-switch-cell > label.legal-entity-switch > input[type="checkbox"]{
+
+    margin-top:0;
+    margin-bottom:0;
+
+}
+
+/* Centred by the row, not by the first-line offset a tick has in a
+   paragraph of words. */
+.legal-entity-number-row > label.legal-entity-switch > input[type="checkbox"]{
+
+    margin-top:0;
+    margin-bottom:0;
+
+}
+
+/* The tick row keeps the rows' height when unticked (no number box). */
+.legal-entity-number-row.legal-entity-tax-row{
+
+    min-height:var(--card-cell-height);
+
+}
+
+.legal-entity-registrations{
+
+    gap:var(--space-field);
+
+}
+
+.legal-entity-registrations > .legal-entity-number-head{
+
+    margin-bottom:calc(var(--space-label) - var(--space-field));
+
+}
+
+.legal-entity-card{
+
+    /* THE NEUTRAL CARD GROUND (--bg-card-tint, colors.css), so the
+       white boxes stand out from the card; text on it keeps 4.5:1
+       (its faint text takes --text-faint-on-tint). */
+    background:var(--bg-card-tint);
+
+    --x-ground:var(--bg-card-tint);
+
+    --text-faint:var(--text-faint-on-tint);
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-field);
+
+    padding:var(--card-padding);
+
+    border:1px solid var(--line-card);
+    border-radius:var(--radius-lg);
+
+}
+
+.legal-entity-links{
+
+    display:flex;
+
+    flex-direction:column;
+
+    /* The options of a tick list are rows of one line, a row gap apart --
+       the distance two tick fields stand from each other. */
+    gap:var(--space-field);
+
+}
+
+.legal-entity-link{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:var(--gap-8);
+
+    cursor:pointer;
+
+}
+
+.legal-entity-link-label{
+
+    font-size:var(--font-body);
+
+    color:var(--text-default);
+
+}
+
+
+/* ==========================================================
+   Legal Entity, second pass
+
+   A searchable list, an ownership total that says plainly when it
+   is done, and a founder table whose column heads stay on one
+   line.
+========================================================== */
+
+/* Column heads never wrap. "Ownership %" on two lines pushed the
+   head row taller than the fields it names and read as two
+   separate columns. */
+.legal-entity-column-head{
+
+    white-space:nowrap;
+
+}
+
+/* COMPACT COLUMNS, 12px APART (the in-row cell gap): the Name the
+   rest (a long one wraps and grows), Ownership the XS step ("100",
+   "33.333"), Capital the Code step ("£250,000"), and the x column
+   (32px) kept on every row. A head wider than its column ("Ownership
+   %") stays on one line, centred over it, into the gaps either side.
+   A one-owner form asks no ownership and has no x; capital off, no
+   Capital column. */
+.legal-entity-founders{
+
+    grid-template-columns:minmax(0, 1fr) var(--control-xs) 32px;
+
+    column-gap:var(--space-cell);
+
+}
+
+.legal-entity-founders-capital{
+
+    grid-template-columns:minmax(0, 1fr) var(--control-xs) var(--control-code) 32px;
+
+}
+
+.legal-entity-founders-no-ownership{
+
+    grid-template-columns:minmax(0, 1fr) 32px;
+
+}
+
+.legal-entity-founders-no-ownership.legal-entity-founders-capital{
+
+    grid-template-columns:minmax(0, 1fr) var(--control-code) 32px;
+
+}
+
+.legal-entity-founders > .legal-entity-column-centre{
+
+    justify-self:center;
+
+}
+
+/* The heads a label's 6px above the first row, not a row's 12px. */
+.legal-entity-founders > .legal-entity-column-head{
+
+    margin-bottom:calc(var(--space-label) - var(--space-field));
+
+}
+
+/* The last cell of a founder's row: the button that removes the
+   row, at its start, next to the last number (Capital, or
+   Ownership where capital is off). */
+.legal-entity-founder-end{
+
+    display:flex;
+
+    justify-content:flex-start;
+
+    align-items:center;
+
+    min-width:0;
+
+}
+
+/* Ownership is the one figure on this page a user checks and
+   re-checks, so it is a badge in one of three states rather than a
+   number that is sometimes decorated: still to allocate, fully
+   allocated, over. One shape, one position, three faces -- which
+   is why all three share this box.
+
+   Each says it three ways at once: a drawn mark, a colour, and the
+   words. Colour is never the only carrier, which is what SC 1.4.1
+   asks and what makes the three tellable apart in grayscale. */
+.legal-entity-total-short,
+.legal-entity-total-met,
+.legal-entity-total-over{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:var(--gap-8);
+
+    padding:6px var(--total-badge-pad, 12px);
+
+    border:1px solid;
+    border-radius:999px;
+
+}
+
+/* Still to allocate: reddish, so it is seen, but a DIFFERENT red
+   from the one above 100%. That one is a crimson (#b00020) and
+   means the figure cannot be right; this is a burnt orange-red
+   and means the figure is not finished. Two reds that could be
+   mistaken for each other would have made the error state say
+   nothing the unfinished state was not already saying.
+
+   The mark keeps the distinction too: an open ring here, a filled
+   "!" there. #7c2d12 on #fff1ea is 9.3:1. */
+.legal-entity-total-short{
+
+    border-color:var(--line-short);
+
+    color:var(--text-short-ink);
+
+    background:var(--bg-short-tint);
+
+}
+
+.legal-entity-total-met{
+
+    border-color:var(--line-met);
+
+    /* #14532d on this ground is 8.6:1. */
+    color:var(--text-met-ink);
+
+    background:var(--bg-met-tint);
+
+}
+
+/* An open ring: the work is not finished. Open rather than filled
+   so it cannot be read as the "!" the error state carries. */
+.legal-entity-total-open{
+
+    flex:0 0 auto;
+
+    /* The size of the other two marks, so the words start at one x. */
+    width:var(--total-badge-mark, 18px);
+    height:var(--total-badge-mark, 18px);
+
+    border:2px solid var(--line-short);
+    border-radius:50%;
+
+}
+
+/* Over 100% is the one state here that is an error rather than a
+   stage: a table on its way to 100% is unfinished, but no
+   organisation has ever had 120% of itself owned. The words say
+   how much to take back.
+
+   #8a0016 on #fdecee is 9.1:1. */
+.legal-entity-total-over{
+
+    border-color:var(--line-danger);
+
+    color:var(--text-over);
+
+    background:var(--bg-over);
+
+}
+
+.legal-entity-total-alert{
+
+    position:relative;
+
+    flex:0 0 auto;
+
+    width:18px;
+    height:18px;
+
+    border-radius:50%;
+
+    background:var(--bg-danger);
+
+}
+
+/* The bar of the "!", and its dot. */
+.legal-entity-total-alert::before,
+.legal-entity-total-alert::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:50%;
+
+    width:2px;
+
+    border-radius:1px;
+
+    background:var(--bg-surface);
+
+    transform:translateX(-50%);
+
+}
+
+.legal-entity-total-alert::before{
+
+    top:4px;
+
+    height:7px;
+
+}
+
+.legal-entity-total-alert::after{
+
+    top:12px;
+
+    height:2px;
+
+}
+
+/* Drawn, not typed, for the same reason the delete X is: a glyph
+   sits wherever its font puts it. */
+.legal-entity-total-tick{
+
+    position:relative;
+
+    flex:0 0 auto;
+
+    width:18px;
+    height:18px;
+
+}
+
+.legal-entity-total-tick::before,
+.legal-entity-total-tick::after{
+
+    content:"";
+
+    position:absolute;
+
+    border-radius:1px;
+
+    background:var(--bg-met);
+
+}
+
+.legal-entity-total-tick::before{
+
+    left:2px;
+    top:8px;
+
+    width:7px;
+    height:2px;
+
+    transform:rotate(45deg);
+
+}
+
+.legal-entity-total-tick::after{
+
+    left:5px;
+    top:6px;
+
+    width:12px;
+    height:2px;
+
+    transform:rotate(-50deg);
+
+}
+
+/* The verdict, after the figure it is about. */
+.legal-entity-total-said{
+
+    font-weight:400;
+
+    letter-spacing:normal;
+
+}
+
+/* An em dash between the two: the total, and how much of it is
+   still to come or has been overshot. The flex gap supplies the
+   space before it, the no-break space the one after, so the dash
+   cannot end a line on its own. */
+.legal-entity-total-said::before{
+
+    content:"\2014\00a0";
+
+}
+/* A second control in the same cell as the first: a state under
+   its country, a typed legal form under the list it came from, a
+   tax number under the tick that revealed it. The extra space
+   above the label is what tells the pair apart from the 6px that
+   binds a label to its own control. */
+.legal-entity-label-nested{
+
+    margin-top:6px;
+
+}
+/* The Legal Form under the activity code: its picker the column's
+   width (the "column" width variant), so its longest option reads in
+   full; the holder adds no box of its own. */
+.legal-entity-legal-form{
+
+    display:contents;
+
+}
+
+.legal-entity-legal-form .option-picker{
+
+    width:100%;
+
+}
+
+/* A FOUNDER'S PROFILE ON THE CARD'S TWO EQUAL COLUMNS (cells
+   --space-cell apart): the Roles in the first (the second empty), then
+   Industry | Management, then Achievements | Skills, tops level, each
+   growing with its text; one column in a narrow card. */
+.legal-entity-grid > .founders-profile-row{
+
+    display:grid;
+
+    gap:var(--space-field) var(--space-cell);
+
+    align-items:start;
+
+}
+
+.founders-profile-row-two{
+
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+
+}
+
+@container card (max-width: 599.98px){
+
+    .legal-entity-grid > .founders-profile-row{
+
+        grid-template-columns:minmax(0, 1fr);
+
+    }
+
+}
+
+/* A tick row under a field ("Add to Legal Entity Expenses"): one line,
+   a row gap from what is above and below it. */
+.legal-entity-switch.legal-entity-offer{
+
+    min-height:0;
+
+}
+
+/* "Where it is": Country, then State / Region where the country has
+   one (it decides which registry and tax apply, so it follows the
+   country), each the column's width, and the Address below them, one
+   box of as many lines as it needs. Country and State / Region take
+   the column's width, as the Address does, rather than the step their
+   longest option would pick (the "column" width variant). */
+.legal-entity-where .option-picker{
+
+    width:100%;
+
+}
+
+/* The activity code (SIC, NAICS...), under the Main Activity: a tick
+   row (as the VAT tick), a row gap (--space-field) from the box above:
+   the column (.legal-entity-field) already puts --space-label between its
+   children, so the row's margin is the rest of the 12px. Unticked, the row
+   is as high as the tick; ticked, as high as the box (45px), the tick and
+   its words on the box's centre line and the gap measured from the box's
+   edge. Ticked, its box stands BESIDE the words, the Code step (128px) at
+   most and never past the column's right edge. */
+.legal-entity-activity-code{
+
+    display:contents;
+
+}
+
+.legal-entity-activity-code > .legal-entity-activity-code-tick{
+
+    margin-top:calc(var(--space-field) - var(--space-label));
+
+    display:grid;
+
+    grid-template-columns:auto minmax(0, 1fr);
+
+    justify-content:start;
+
+    align-items:center;
+
+    column-gap:var(--side-label-gap);
+
+}
+
+/* Its box (the Code step: room for six digits) stands at the column's
+   right edge. */
+.legal-entity-activity-code > .legal-entity-activity-code-tick > :not(.legal-entity-switch-cell){
+
+    justify-self:end;
+
+    width:var(--control-code);
+
+}
+
+/* Two subsections reading as a pair: how the organisation is
+   registered, beside how it is identified for tax. Each half then
+   stacks its own fields in one column, since half the page is not
+   wide enough for two. */
+.legal-entity-row{
+
+    display:grid;
+
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+
+    gap:var(--space-column);
+
+    /* Each half is as tall as its OWN content. A pair whose two
+       sides hold the same amount lines up on its own, which is
+       what the alignment here is worth; forcing it the rest of the
+       time meant one subsection growing because the other did, and
+       the space a user opened on one side appearing as a hole on
+       the other. */
+    align-items:start;
+
+}
+
+.legal-entity-row .legal-entity-grid{
+
+    grid-template-columns:minmax(0, 1fr);
+
+}
+
+
+
+/* Except inside the cards of 3.5 and 3.6, where short answers
+   still pair up: a requirement's name beside its reference, an
+   expense's name beside who carries it, its cost beside how often
+   it falls due. Each of those is a few characters wide, and a
+   column of them alone would run the card twice as long as it
+   needs to be.
+
+   Two classes, to outrank the one-column rule above. The prose
+   fields keep their own `grid-column:1 / -1` and stay full width
+   either way. */
+.legal-entity-row .legal-entity-grid-pairs{
+
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+
+}
+
+/* 3.3 on the card's two-column field grid like every other pair:
+   Status | Formation Date, then Registration Authority, then the
+   Registration Number(s) across the row. Each control keeps its own
+   standard width (a date the small one) from its column's left
+   edge, so an even split costs the date nothing. */
+.legal-entity-row .legal-entity-grid-formation{
+
+    /* The Name | Number list's columns (global.css), the × column
+       kept on every row: Status | Date above Authority / Name |
+       Number | ×, and 4.'s Tax / Registration | Number | × the same. */
+    grid-template-columns:var(--name-number-columns);
+
+    column-gap:var(--space-cell);
+
+}
+
+.legal-entity-row .legal-entity-grid-formation > .legal-entity-field-wide{
+
+    grid-column:1 / -1;
+
+}
+
+/* 3.3 A SIDE-LABEL ROW SNAPPED TO THE GRID: Status and (formation)
+   Date on one row, each label BESIDE its control on the control's
+   centre line, on the Name | Number columns of the list below (a
+   subgrid of them). "Status" and its picker fill column 1, the
+   picker's right edge the Authority / Name field's; "Date" starts at
+   column 2's edge (the Number field's) and the date ends at the
+   Number's right edge. The picker is never narrower than its longest
+   option ("Not yet registered" with the chevron, 186px): where column
+   1 cannot hold the label and that, the labels go above their
+   controls. */
+.legal-entity-row .legal-entity-grid-formation{
+
+    container:formation / inline-size;
+
+}
+
+.legal-entity-grid > .legal-entity-side-row{
+
+    display:grid;
+
+    grid-template-columns:subgrid;
+
+    /* Stacked (one column), one field from the next. */
+    row-gap:var(--space-field);
+
+    /* The list's own column gap (a subgrid's "normal"), not the 6px a
+       wide field sets. */
+    column-gap:normal;
+
+    align-items:center;
+
+}
+
+.legal-entity-side-row > .legal-entity-field{
+
+    display:grid;
+
+    grid-template-columns:auto minmax(0, 1fr);
+
+    align-items:center;
+
+    column-gap:var(--side-label-gap);
+
+}
+
+.legal-entity-side-row > .legal-entity-field > .option-picker{
+
+    width:auto;
+
+    /* Its longest option always fits: the row keeps its labels
+       beside only while column 1 is wide enough (the container query
+       below). */
+    min-width:0;
+
+}
+
+.legal-entity-side-row > .legal-entity-field > input.interview-input[type="date"]{
+
+    width:100%;
+
+    min-width:0;
+
+}
+
+/* Too narrow for a label beside a whole picker: labels above, each
+   control its column's width, as the rest of the grid. */
+@container formation (max-width: 559.98px){
+
+    .legal-entity-side-row > .legal-entity-field{
+
+        grid-template-columns:minmax(0, 1fr);
+
+        row-gap:var(--space-label);
+
+    }
+
+}
+
+/* One column (a narrow window): each control at its own step, from
+   the column's edge, rather than the whole width. */
+@media (max-width: 900px){
+
+    .legal-entity-side-row > .legal-entity-field > .option-picker{
+
+        width:min(100%, var(--control-s));
+
+    }
+
+    .legal-entity-side-row > .legal-entity-field > input.interview-input[type="date"]{
+
+        width:min(100%, var(--control-s));
+
+    }
+
+}
+
+/* 3.6 An expense's Cost | Frequency | Responsibility, one row: three
+   columns each a standard control wide at most (narrower in a
+   narrower card), left edges shared by every card; the Description
+   and the Links under them across the card. One under the other in a
+   card under 520px (a container query on the card). */
+.legal-entity-row .legal-entity-grid-expense{
+
+    grid-template-columns:repeat(3, minmax(0, var(--control-s)));
+
+    justify-content:start;
+
+}
+
+.legal-entity-grid-expense > .legal-entity-field-wide,
+.legal-entity-grid-expense > .optional-field{
+
+    grid-column:1 / -1;
+
+}
+
+@container card (max-width: 519.98px){
+
+    .legal-entity-row .legal-entity-grid-expense{
+
+        grid-template-columns:minmax(0, var(--control-s));
+
+    }
+
+}
+
+/* The same 900px floor the grid outside a row uses -- half of a
+   half is no longer a field, it is a sliver. */
+@media (max-width: 900px){
+
+    .legal-entity-row .legal-entity-grid-pairs,
+    .legal-entity-row .legal-entity-grid-formation,
+    .legal-entity-row .legal-entity-grid-expense{
+
+        grid-template-columns:minmax(0, 1fr);
+
+    }
+
+}
+
+@media (max-width: 1100px){
+
+    .legal-entity-row{
+
+        grid-template-columns:minmax(0, 1fr);
+
+    }
+
+}
+
+/* THE TWO-LINE TEXT BOX: the Main Activity (answered in sentences)
+   and the Address (city, then street and postal code), side by side,
+   one column wide each: room for two lines at their own line height,
+   and growing past them. */
+.legal-entity-activity,
+.legal-entity-address{
+
+    min-height:calc(2 * 1lh + 16px + 2px);
+
+}
+
+/* ==========================================================
+   Legal Entity -- one edge, one height
+
+   Three things had every column on this page ending in a
+   different place, and all three are about the box rather than
+   what is in it.
+========================================================== */
+
+/* Ownership % and Capital: head and value on the same centre
+   line. Two classes on the input, to outrank
+   `.brand-style .interview-input` should it ever set an alignment
+   of its own. */
+.legal-entity-founders .legal-entity-column-centre{
+
+    text-align:center;
+
+}
+

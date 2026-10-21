@@ -1,4 +1,6 @@
 # Business System — Page 5: Financial Sustainability
+
+Status: **specification**, updated 2026-09-27.
 ## Design & Development Prompt
 
 > **3. Business System — Page 5 of 5.**

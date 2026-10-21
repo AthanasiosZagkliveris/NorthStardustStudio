@@ -1,0 +1,1886 @@
+{
+ "rows": [
+  {
+   "label": "Aesthetics",
+   "place": "tile dialog",
+   "text": "Imagine your brand as a person: your Ambassador.\nWhat does the Ambassador look like?\nAttire, colours, grooming, scent, style, surroundings.",
+   "lines": 9,
+   "points": 3,
+   "w": 360,
+   "chars": 139,
+   "scenes": [
+    "Brand System / main / tile Aesthetics"
+   ]
+  },
+  {
+   "label": "Body Language",
+   "place": "tile dialog",
+   "text": "How does the Ambassador stand and move?\nHow does the Ambassador behave?\nPosture, facial expressions, gestures, personal space.",
+   "lines": 8,
+   "points": 3,
+   "w": 360,
+   "chars": 126,
+   "scenes": [
+    "Brand System / main / tile Body Language"
+   ]
+  },
+  {
+   "label": "Brand Images",
+   "place": "tile dialog",
+   "text": "Upload 2–5 images that represent the visual character of your brand, with a maximum file size of 500 KB each.\nChoose images that consistently communicate your brand's visual character, atmosphere and subject matter.\nProduct: shows what the organisation creates or offers.\nPeople: communicates human connection and relationships.\nEnvironment: establishes place, atmosphere and context.\nProcess: shows making, working or craft.\nLifestyle: shows how the brand fits into people's lives.\nDetail: highlights materials, textures, patterns or distinctive features.\nAbstract: communicates mood, ideas or visual character without a literal subject.\nEditorial: creates a considered and distinctive visual direction.\nImage selection: choose images with a recognisable visual character through subject matter, composition, lighting, colour, texture or atmosphere.\nVariety: use different subjects or perspectives while maintaining enough consistency for the collection to feel like one brand.",
+   "lines": 38,
+   "points": 12,
+   "w": 480,
+   "chars": 978,
+   "scenes": [
+    "Brand System / main / tile Brand Images",
+    "Brand System / main / tile Brand Images / card 1",
+    "Brand System / main / tile Brand Images / card 2"
+   ]
+  },
+  {
+   "label": "Brand Images",
+   "place": "floating card",
+   "text": "Upload 2–5 images that represent the visual character of your brand, with a maximum file size of 500 KB each.\nChoose images that consistently communicate your brand's visual character, atmosphere and subject matter.\nProduct: shows what the organisation creates or offers.\nPeople: communicates human connection and relationships.\nEnvironment: establishes place, atmosphere and context.\nProcess: shows making, working or craft.\nLifestyle: shows how the brand fits into people's lives.\nDetail: highlights materials, textures, patterns or distinctive features.\nAbstract: communicates mood, ideas or visual character without a literal subject.\nEditorial: creates a considered and distinctive visual direction.\nImage selection: choose images with a recognisable visual character through subject matter, composition, lighting, colour, texture or atmosphere.\nVariety: use different subjects or perspectives while maintaining enough consistency for the collection to feel like one brand.",
+   "lines": 46,
+   "points": 12,
+   "w": 360,
+   "chars": 978,
+   "scenes": [
+    "Brand System / main / tile Brand Images / card 1",
+    "Brand System / main / tile Brand Images / card 2"
+   ]
+  },
+  {
+   "label": "Colours",
+   "place": "tile dialog",
+   "text": "Choose colours that support the character and purpose of your organisation.\nRed: energy, passion, excitement and urgency.\nOrange: enthusiasm, creativity, warmth and playfulness.\nYellow: optimism, happiness, positivity and attention.\nGreen: nature, growth, health and renewal.\nBlue: trust, stability, calm and reliability.\nPurple: creativity, luxury, mystery and sophistication.\nPink: love, care, playfulness and romance.\nBrown: natural, earthy, reliable and comforting.\nBlack: strength, sophistication, authority and elegance.\nWhite: simplicity, purity, cleanliness and openness.\nGrey: neutrality, balance, practicality and formality.\nThese are common associations rather than fixed meanings, and can change with context, shade and culture.\nAs a starting point, consider a 60 / 30 / 10 distribution guide.\nMonochromatic: variations of one colour create a cohesive and controlled appearance.\nAnalogous: neighbouring colours create harmony and visual continuity.\nComplementary: opposing colours create strong contrast and visual energy.\nTriadic: three evenly spaced colours create balanced variety and visual interest.\nNeutral + Accent: neutral colours with one stronger colour create restrained designs with focused emphasis.\nPrimary + Secondary: a dominant brand colour supported by secondary colours creates recognition with visual flexibility.\nThe 60 / 30 / 10 ratio is a starting point, not a rule, and the balance can change according to the application.\nAccessibility: check text/background contrast before assigning a colour to text or essential interface elements.",
+   "lines": 60,
+   "points": 22,
+   "w": 480,
+   "chars": 1571,
+   "scenes": [
+    "Brand System / main / tile Colours",
+    "Brand System / main / tile Colours / card 1",
+    "Brand System / main / tile Colours / card 2"
+   ]
+  },
+  {
+   "label": "Colours",
+   "place": "floating card",
+   "text": "Choose colours that support the character and purpose of your organisation.\nRed: energy, passion, excitement and urgency.\nOrange: enthusiasm, creativity, warmth and playfulness.\nYellow: optimism, happiness, positivity and attention.\nGreen: nature, growth, health and renewal.\nBlue: trust, stability, calm and reliability.\nPurple: creativity, luxury, mystery and sophistication.\nPink: love, care, playfulness and romance.\nBrown: natural, earthy, reliable and comforting.\nBlack: strength, sophistication, authority and elegance.\nWhite: simplicity, purity, cleanliness and openness.\nGrey: neutrality, balance, practicality and formality.\nThese are common associations rather than fixed meanings, and can change with context, shade and culture.\nAs a starting point, consider a 60 / 30 / 10 distribution guide.\nMonochromatic: variations of one colour create a cohesive and controlled appearance.\nAnalogous: neighbouring colours create harmony and visual continuity.\nComplementary: opposing colours create strong contrast and visual energy.\nTriadic: three evenly spaced colours create balanced variety and visual interest.\nNeutral + Accent: neutral colours with one stronger colour create restrained designs with focused emphasis.\nPrimary + Secondary: a dominant brand colour supported by secondary colours creates recognition with visual flexibility.\nThe 60 / 30 / 10 ratio is a starting point, not a rule, and the balance can change according to the application.\nAccessibility: check text/background contrast before assigning a colour to text or essential interface elements.",
+   "lines": 77,
+   "points": 22,
+   "w": 360,
+   "chars": 1571,
+   "scenes": [
+    "Brand System / main / tile Colours / card 1",
+    "Brand System / main / tile Colours / card 2"
+   ]
+  },
+  {
+   "label": "Role",
+   "place": "floating card",
+   "text": "Use for the most frequently occurring and recognisable brand elements.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 70,
+   "scenes": [
+    "Brand System / main / tile Colours / card 1"
+   ]
+  },
+  {
+   "label": "Colour",
+   "place": "floating card",
+   "text": "With white 14.4:1 (AAA) · with black 1.5:1 (not for text)\nFormula: Contrast = (L_lighter + 0.05) ÷ (L_darker + 0.05)\nHow readable text in this colour is against white or black. AA needs 4.5:1 for body text (3:1 large), AAA 7:1.\nSource: W3C, “WCAG 2.1: contrast ratio”",
+   "lines": 14,
+   "points": 4,
+   "w": 360,
+   "chars": 267,
+   "scenes": [
+    "Brand System / main / tile Colours / card 1"
+   ]
+  },
+  {
+   "label": "Role",
+   "place": "floating card",
+   "text": "Use for illustrations, categories and supporting visual elements.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 65,
+   "scenes": [
+    "Brand System / main / tile Colours / card 2"
+   ]
+  },
+  {
+   "label": "Colour",
+   "place": "floating card",
+   "text": "With white 5.2:1 (AA) · with black 4.0:1 (large text only)\nFormula: Contrast = (L_lighter + 0.05) ÷ (L_darker + 0.05)\nHow readable text in this colour is against white or black. AA needs 4.5:1 for body text (3:1 large), AAA 7:1.\nSource: W3C, “WCAG 2.1: contrast ratio”",
+   "lines": 14,
+   "points": 4,
+   "w": 360,
+   "chars": 268,
+   "scenes": [
+    "Brand System / main / tile Colours / card 2"
+   ]
+  },
+  {
+   "label": "Communication & Voice",
+   "place": "tile dialog",
+   "text": "How does the Ambassador sound?\nPitch, volume, pace, tone.\nWhich words and sentence style does the Ambassador use?",
+   "lines": 6,
+   "points": 3,
+   "w": 360,
+   "chars": 113,
+   "scenes": [
+    "Brand System / main / tile Communication & Voice"
+   ]
+  },
+  {
+   "label": "Icon & Logo",
+   "place": "tile dialog",
+   "text": "Upload your icon and logo in PNG or SVG formats, with a maximum file size of 50 KB each.\nSVG: a vector file: stays sharp at any size and is tiny, so it is the best format for a logo or icon on screen and on the web.\nPNG: a pixel image with a transparent background: use it when you only have the logo or icon as an image, at a large enough size to stay sharp.\nPDF: a vector file for print: the format printers and sign makers usually ask for, so keep one for business cards, signage and merchandise (upload the SVG or PNG here).\nChoose an icon and logo that represent your organisation clearly and consistently.\nCircle: unity, community, harmony and continuity.\nSquare: stability, structure, reliability and balance.\nRectangle: order, practicality, structure and professionalism.\nTriangle: direction, progress, strength and movement.\nHexagon: balance, connection, efficiency and structure.\nOrganic shapes: natural, friendly, creative and approachable.\nAbstract shapes: distinctive, conceptual and open to interpretation.\nThese are common visual associations rather than fixed meanings.\nIcon vs Logo: the icon should remain recognisable at small sizes, while the logo can combine the icon with the organisation name.",
+   "lines": 44,
+   "points": 14,
+   "w": 480,
+   "chars": 1215,
+   "scenes": [
+    "Brand System / main / tile Icon & Logo"
+   ]
+  },
+  {
+   "label": "Imprint",
+   "place": "tile dialog",
+   "text": "What first impression does the Ambassador leave?\nWhat lasting impression remains?\nWhat should people feel and remember?",
+   "lines": 8,
+   "points": 3,
+   "w": 360,
+   "chars": 119,
+   "scenes": [
+    "Brand System / main / tile Imprint"
+   ]
+  },
+  {
+   "label": "Typography",
+   "place": "tile dialog",
+   "text": "Choose typefaces that support your brand's character while remaining appropriate for their intended use.\nSerif: letters with finishing strokes, often giving a traditional, editorial or refined feel. E.g. Georgia, Garamond, Times New Roman.\nSans-serif: letters without finishing strokes, often giving a modern, clear and straightforward feel. E.g. Inter, Helvetica, Arial.\nSlab serif: serif typefaces with thick, block-like finishing strokes, often giving a strong, solid and distinctive feel. E.g. Rockwell, Roboto Slab.\nScript: typefaces inspired by handwriting or calligraphy, often giving a personal, elegant or expressive feel. E.g. Pacifico, Dancing Script.\nDisplay: typefaces designed for visual impact at larger sizes, often used for headlines, titles and short statements. E.g. Bebas Neue, Abril Fatface.\nThese categories describe common visual characteristics and associations, not fixed meanings.\nUse complementary typefaces and prioritise readability over personality.\nSerif + Sans-serif: Georgia + Inter creates classic headings with clean, modern body text.\nDisplay + Sans-serif: Abril Fatface + Inter creates expressive headings with clear supporting text.\nSans-serif + Sans-serif: Montserrat + Open Sans creates a clean, contemporary system with subtle contrast.\nSerif + Serif: Garamond + Georgia can create an editorial feel when each has a distinct role.\nSingle typeface family: Inter Regular + Inter Bold creates a simple, consistent system using weight rather than different typefaces.\nReadability: use highly expressive typefaces selectively and prioritise clear, comfortable reading for body text and interface content.\nRecommended: use 1–2 typefaces for most brands; use 3 only when each has a clearly defined purpose.",
+   "lines": 55,
+   "points": 15,
+   "w": 480,
+   "chars": 1740,
+   "scenes": [
+    "Brand System / main / tile Typography &Text HierarchyManr",
+    "Brand System / main / tile Typography &Text HierarchyManr / card 1",
+    "Brand System / main / tile Typography &Text HierarchyManr / card 2"
+   ]
+  },
+  {
+   "label": "Text Hierarchy",
+   "place": "tile dialog",
+   "text": "Use larger sizes for more important headings, and smaller sizes for longer text to keep it comfortable to read.\nH1 (Title), 36–48 px: the title of a page or document.\nH2 (Section), 28–36 px: the headings of its sections.\nH3 (Subsection), 22–28 px: the headings within a section.\nBody Text, 16–18 px: paragraphs and anything read at length.\nCaptions & Metadata / Interface, 12–14 px: captions, dates and labels, and the text of an interface.\nMaintain a clear and consistent relationship between text levels.\nUse size and weight to distinguish levels, keep similar content at the same level, and avoid creating unnecessary text levels.",
+   "lines": 26,
+   "points": 8,
+   "w": 480,
+   "chars": 633,
+   "scenes": [
+    "Brand System / main / tile Typography &Text HierarchyManr",
+    "Brand System / main / tile Typography &Text HierarchyManr / card 1",
+    "Brand System / main / tile Typography &Text HierarchyManr / card 2"
+   ]
+  },
+  {
+   "label": "Typography &\nText Hierarchy",
+   "place": "floating card",
+   "text": "Choose typefaces that support your brand's character while remaining appropriate for their intended use.\nSerif: letters with finishing strokes, often giving a traditional, editorial or refined feel. E.g. Georgia, Garamond, Times New Roman.\nSans-serif: letters without finishing strokes, often giving a modern, clear and straightforward feel. E.g. Inter, Helvetica, Arial.\nSlab serif: serif typefaces with thick, block-like finishing strokes, often giving a strong, solid and distinctive feel. E.g. Rockwell, Roboto Slab.\nScript: typefaces inspired by handwriting or calligraphy, often giving a personal, elegant or expressive feel. E.g. Pacifico, Dancing Script.\nDisplay: typefaces designed for visual impact at larger sizes, often used for headlines, titles and short statements. E.g. Bebas Neue, Abril Fatface.\nThese categories describe common visual characteristics and associations, not fixed meanings.\nUse complementary typefaces and prioritise readability over personality.\nSerif + Sans-serif: Georgia + Inter creates classic headings with clean, modern body text.\nDisplay + Sans-serif: Abril Fatface + Inter creates expressive headings with clear supporting text.\nSans-serif + Sans-serif: Montserrat + Open Sans creates a clean, contemporary system with subtle contrast.\nSerif + Serif: Garamond + Georgia can create an editorial feel when each has a distinct role.\nSingle typeface family: Inter Regular + Inter Bold creates a simple, consistent system using weight rather than different typefaces.\nReadability: use highly expressive typefaces selectively and prioritise clear, comfortable reading for body text and interface content.\nRecommended: use 1–2 typefaces for most brands; use 3 only when each has a clearly defined purpose.",
+   "lines": 72,
+   "points": 15,
+   "w": 360,
+   "chars": 1740,
+   "scenes": [
+    "Brand System / main / tile Typography &Text HierarchyManr / card 1",
+    "Brand System / main / tile Typography &Text HierarchyManr / card 2"
+   ]
+  },
+  {
+   "label": "Role",
+   "place": "floating card",
+   "text": "Use for headings, logo lockups, product names and other designated brand expressions.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 85,
+   "scenes": [
+    "Brand System / main / tile Typography &Text HierarchyManr / card 1"
+   ]
+  },
+  {
+   "label": "Role",
+   "place": "floating card",
+   "text": "Use for body text, interface content and product descriptions.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 62,
+   "scenes": [
+    "Brand System / main / tile Typography &Text HierarchyManr / card 2"
+   ]
+  },
+  {
+   "label": "Competitors",
+   "place": "tile dialog",
+   "text": "Select 3–5 competitors and analyse them for each Customer Segment.\nFocus on a relevant product line, pricing tier, or geography.",
+   "lines": 6,
+   "points": 2,
+   "w": 360,
+   "chars": 128,
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors",
+    "Business System / 1. Foundation / tile Competitors / card 1",
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "label": "Competitors",
+   "place": "floating card",
+   "text": "Select 3–5 competitors and analyse them for each Customer Segment.\nFocus on a relevant product line, pricing tier, or geography.",
+   "lines": 6,
+   "points": 2,
+   "w": 360,
+   "chars": 128,
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1",
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "label": "Type",
+   "place": "floating card",
+   "text": "Direct competitor: Offers a similar solution to the same need in your area.\nIndirect competitor: Offers a different solution but solves the same customer problem.\nSubstitute: Offers an alternative way to satisfy the exact same customer need.\nInternal solution: The customer meets the need without outside help.\nStatus quo: The customer does nothing and continues with the current situation.",
+   "lines": 20,
+   "points": 5,
+   "w": 360,
+   "chars": 390,
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1",
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "label": "Offerings",
+   "place": "floating card",
+   "text": "What do they sell or provide?",
+   "lines": 2,
+   "points": 1,
+   "w": 360,
+   "chars": 29,
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1",
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "label": "Market",
+   "place": "floating card",
+   "text": "Which areas and industries do they serve?",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 41,
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1",
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "label": "Customer Acquisition",
+   "place": "floating card",
+   "text": "How do they reach and attract customers?",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 40,
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1",
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "label": "Customer Experience",
+   "place": "floating card",
+   "text": "What do customers say about their experience?",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 45,
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1",
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "label": "Strengths",
+   "place": "floating card",
+   "text": "What does the competitor do particularly well?",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 46,
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1",
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "label": "Weaknesses",
+   "place": "floating card",
+   "text": "Where does the competitor fall short?",
+   "lines": 2,
+   "points": 1,
+   "w": 360,
+   "chars": 37,
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1",
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "label": "Opportunities",
+   "place": "floating card",
+   "text": "What changes in the market could benefit the competitor?",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 56,
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1",
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "label": "Threats",
+   "place": "floating card",
+   "text": "What could weaken the competitor's position?",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 44,
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1",
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "label": "Insights & Differentiation",
+   "place": "floating card",
+   "text": "What can you learn from competitors to make your offering more distinctive?",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 75,
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1",
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "label": "Offerings",
+   "place": "tile dialog",
+   "text": "Turn customer problems and functional needs into practical product features and solutions.\nEnsure every feature supports the Value Proposition.",
+   "lines": 7,
+   "points": 2,
+   "w": 360,
+   "chars": 143,
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings",
+    "Business System / 1. Foundation / tile Offerings / card 1",
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "label": "Offerings",
+   "place": "floating card",
+   "text": "Turn customer problems and functional needs into practical product features and solutions.\nEnsure every feature supports the Value Proposition.",
+   "lines": 7,
+   "points": 2,
+   "w": 360,
+   "chars": 143,
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1",
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "label": "Function",
+   "place": "floating card",
+   "text": "What does it do, and what result should it deliver?",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 51,
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1",
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "label": "Customer Benefit",
+   "place": "floating card",
+   "text": "What problem does it solve, or what does the customer gain or achieve?",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 70,
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1",
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "label": "Content & Scope",
+   "place": "floating card",
+   "text": "What does it include, and what are its boundaries?",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 50,
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1",
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "label": "Purchase & Delivery",
+   "place": "floating card",
+   "text": "How does the customer purchase, pay for, and receive the offering?",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 66,
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1",
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "label": "Support & Communication",
+   "place": "floating card",
+   "text": "What support and communication does the customer receive?",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 57,
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1",
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "label": "Requirements & Conditions",
+   "place": "floating card",
+   "text": "What does the customer need to provide or have, and what conditions apply?",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 74,
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1",
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "label": "Segment Description",
+   "place": "tile dialog",
+   "text": "Divide your Target Audience into 1 primary segment (maximum 2), focusing on the highest-value or easiest-to-reach groups.\nDefine up to 3 customer profiles, including their problems, needs, and the best approach for reaching them.",
+   "lines": 11,
+   "points": 2,
+   "w": 360,
+   "chars": 229,
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description",
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "label": "Demographics",
+   "place": "tile dialog",
+   "text": "What are their age range, education level, and income range?",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 60,
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description",
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "label": "Geographics",
+   "place": "tile dialog",
+   "text": "Where do they live, work or operate?",
+   "lines": 2,
+   "points": 1,
+   "w": 360,
+   "chars": 36,
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description",
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "label": "Business Data",
+   "place": "tile dialog",
+   "text": "If you sell to companies, what is their company type, size and industry?",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 72,
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description",
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "label": "Purchasing Power & Behaviour",
+   "place": "tile dialog",
+   "text": "What influences how much they spend, when they buy, and whether it is worthwhile?",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 81,
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description",
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "label": "Market Size & Industry Outlook",
+   "place": "tile dialog",
+   "text": "How large is this group? Where this market is heading: growth, key trends, changes in technology or regulation, and what they mean for your customers.",
+   "lines": 7,
+   "points": 1,
+   "w": 360,
+   "chars": 150,
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description",
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "label": "Profiles",
+   "place": "floating card",
+   "text": "Divide your Target Audience into 1 primary segment (maximum 2), focusing on the highest-value or easiest-to-reach groups.\nDefine up to 3 customer profiles, including their problems, needs, and the best approach for reaching them.",
+   "lines": 11,
+   "points": 2,
+   "w": 360,
+   "chars": 229,
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "label": "Specific Personal Information",
+   "place": "floating card",
+   "text": "What are their exact age, gender, marital status, education and job title?",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 74,
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "label": "Psychographics",
+   "place": "floating card",
+   "text": "What do they value, believe in, enjoy and consider important?",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 61,
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "label": "Social & Interest Hubs",
+   "place": "floating card",
+   "text": "Which communities, professional networks, events and other places do they regularly visit or take part in?",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 106,
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "label": "Information & Shopping Habits",
+   "place": "floating card",
+   "text": "How do they find, learn about, compare and buy products or services?",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 68,
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "label": "Goals & Desires",
+   "place": "floating card",
+   "text": "What does the customer want to achieve, experience, or have?",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 60,
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "label": "Challenges & Problems",
+   "place": "floating card",
+   "text": "What problems, difficulties, or frustrations does the customer face?",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 68,
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "label": "Objections",
+   "place": "floating card",
+   "text": "What concerns or reasons might stop the customer from choosing a solution?",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 74,
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "label": "Functional",
+   "place": "floating card",
+   "text": "The practical task they need to accomplish.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 43,
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "label": "Emotional",
+   "place": "floating card",
+   "text": "How they want to feel when using the solution.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 46,
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "label": "Social",
+   "place": "floating card",
+   "text": "How they want others to see them.",
+   "lines": 2,
+   "points": 1,
+   "w": 360,
+   "chars": 33,
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "label": "Value Proposition",
+   "place": "tile dialog",
+   "text": "Define a clear, concise Value Proposition for each Customer Segment.\nState the specific problem you solve and the key benefits you provide.\nExplain what makes your offering different or better than competitors.",
+   "lines": 10,
+   "points": 3,
+   "w": 360,
+   "chars": 210,
+   "scenes": [
+    "Business System / 1. Foundation / tile Value Proposition"
+   ]
+  },
+  {
+   "label": "Value Proposition",
+   "place": "tile dialog",
+   "text": "Identify how the Value Proposition addresses each Customer Profile's emotional and social needs.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 96,
+   "scenes": [
+    "Business System / 1. Foundation / tile Value Proposition"
+   ]
+  },
+  {
+   "label": "Costs",
+   "place": "page",
+   "text": "Cost: Money the organization needs to spend.\nCost Group says what a cost supports; Behaviour says how it changes with activity; Frequency says when it is paid. They are three different things.",
+   "lines": 10,
+   "points": 2,
+   "w": 360,
+   "chars": 192,
+   "scenes": [
+    "Business System / Financial Foundation / page"
+   ]
+  },
+  {
+   "label": "Funding Need",
+   "place": "page",
+   "text": "Funding Need: Money the organization needs to obtain to support its financial requirements.\nA need can be one amount by one date, or several amounts over time.",
+   "lines": 7,
+   "points": 2,
+   "w": 360,
+   "chars": 159,
+   "scenes": [
+    "Business System / Financial Foundation / page"
+   ]
+  },
+  {
+   "label": "Capital & Funding",
+   "place": "page",
+   "text": "Capital: Money contributed to the organization, particularly by founders or investors.\nFunding: Financial resources provided by another source to support the organization.\nLoan: Borrowed money that creates a repayment obligation.\nRevenue: Money generated through the organization's Offerings. Capital and funding are not revenue.\nExpected, confirmed and available money are different: only money that has arrived counts as money the organization has.",
+   "lines": 21,
+   "points": 5,
+   "w": 360,
+   "chars": 450,
+   "scenes": [
+    "Business System / Financial Foundation / page"
+   ]
+  },
+  {
+   "label": "Financial Position",
+   "place": "page",
+   "text": "Funding Gap: The amount of identified financial requirement not covered by available or confirmed financing.\nFinancial Runway: The estimated period for which available financial resources can support the organization under current assumptions.\nEvery figure here is an estimate based on the information entered, not financial advice.",
+   "lines": 16,
+   "points": 3,
+   "w": 360,
+   "chars": 332,
+   "scenes": [
+    "Business System / Financial Foundation / page"
+   ]
+  },
+  {
+   "label": "Activities",
+   "place": "tile dialog",
+   "text": "Add activities directly or create them from resources marked Needs Investigation or Needs Activity.\nActivities do not record costs directly. Any resulting cost is recorded under the relevant Resource, Partner or Supplier.\nAssign one responsible person to each activity.",
+   "lines": 12,
+   "points": 3,
+   "w": 360,
+   "chars": 269,
+   "scenes": [
+    "Business System / Infrastructure / tile Activities",
+    "Business System / Infrastructure / tile Activities / card 1",
+    "Business System / Infrastructure / tile Activities / card 2",
+    "Business System / Infrastructure / tile Activities",
+    "Business System / Infrastructure / tile Activities / card 1",
+    "Business System / Infrastructure / tile Activities / card 2"
+   ]
+  },
+  {
+   "label": "Delivery",
+   "place": "tile dialog",
+   "text": "How each Offering is delivered: the hours one unit takes, how long it takes, and who delivers it.\nEvery Offering has its card here. Leave a card empty if it does not apply.",
+   "lines": 8,
+   "points": 2,
+   "w": 360,
+   "chars": 172,
+   "scenes": [
+    "Business System / Infrastructure / tile Delivery",
+    "Business System / Infrastructure / tile Delivery / card 1",
+    "Business System / Infrastructure / tile Delivery / card 2"
+   ]
+  },
+  {
+   "label": "Delivery capacity",
+   "place": "tile dialog",
+   "text": "The budgets below compare this with the hours each Offering's expected sales need.\nRecurring work (subscriptions, retainers) uses founders' hours first; what remains is flexible capacity for the other Offerings.",
+   "lines": 10,
+   "points": 2,
+   "w": 360,
+   "chars": 211,
+   "scenes": [
+    "Business System / Infrastructure / tile Delivery",
+    "Business System / Infrastructure / tile Delivery / card 1",
+    "Business System / Infrastructure / tile Delivery / card 2"
+   ]
+  },
+  {
+   "label": "Capacity used",
+   "place": "tile dialog",
+   "text": "Formula: Utilisation = Demand hours ÷ Available hours\nHow much of the available time the planned work needs. Above 100% means more work than capacity.\nBased on: Board of Governors of the Federal Reserve System, “Industrial Production and Capacity Utilization (G.17): About”",
+   "lines": 10,
+   "points": 3,
+   "w": 360,
+   "chars": 273,
+   "scenes": [
+    "Business System / Infrastructure / tile Delivery",
+    "Business System / Infrastructure / tile Delivery / card 1",
+    "Business System / Infrastructure / tile Delivery / card 2"
+   ]
+  },
+  {
+   "label": "Delivery",
+   "place": "floating card",
+   "text": "How each Offering is delivered: the hours one unit takes, how long it takes, and who delivers it.\nEvery Offering has its card here. Leave a card empty if it does not apply.",
+   "lines": 8,
+   "points": 2,
+   "w": 360,
+   "chars": 172,
+   "scenes": [
+    "Business System / Infrastructure / tile Delivery / card 1",
+    "Business System / Infrastructure / tile Delivery / card 2"
+   ]
+  },
+  {
+   "label": "Delivered",
+   "place": "floating card",
+   "text": "Per unit: Done once for each unit sold (a project, a product, a session), over its Calendar Time in weeks.\nEvery month: Ongoing work for each active client every month (a retainer, a subscription). It has no Calendar Time, and it uses founders' hours first.\nMatch how customers buy under Demand & Conversion on Customer Engagement: an Offering bought every month is delivered every month.",
+   "lines": 18,
+   "points": 3,
+   "w": 360,
+   "chars": 388,
+   "scenes": [
+    "Business System / Infrastructure / tile Delivery / card 1",
+    "Business System / Infrastructure / tile Delivery / card 2"
+   ]
+  },
+  {
+   "label": "Working Hours per Unit, by person",
+   "place": "floating card",
+   "text": "The working hours one unit of this Offering takes, by each person who works on it.\nFounders' hours count against their capacity. External hours are delivered, and paid for, outside it: their cost is recorded with the professional.\nTo share the work with a partner, add one under 3. Partners & Suppliers and link it to this Offering.",
+   "lines": 15,
+   "points": 3,
+   "w": 360,
+   "chars": 332,
+   "scenes": [
+    "Business System / Infrastructure / tile Delivery / card 1",
+    "Business System / Infrastructure / tile Delivery / card 2"
+   ]
+  },
+  {
+   "label": "AI Workflow Audit unit",
+   "place": "floating card",
+   "text": "One unit is one sale: one project, one product, one session.\nFor a recurring Offering (a subscription or retainer), one unit is each client, each month: the hours one active client takes a month.",
+   "lines": 8,
+   "points": 2,
+   "w": 360,
+   "chars": 195,
+   "scenes": [
+    "Business System / Infrastructure / tile Delivery / card 1"
+   ]
+  },
+  {
+   "label": "Expected sales",
+   "place": "floating card",
+   "text": "The expected sales are the Offering's, from Demand & Conversion on Customer Engagement.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 87,
+   "scenes": [
+    "Business System / Infrastructure / tile Delivery / card 1",
+    "Business System / Infrastructure / tile Delivery / card 2"
+   ]
+  },
+  {
+   "label": "Calendar Time (weeks)",
+   "place": "floating card",
+   "text": "From start to finish, including waiting for the client: approvals, access, feedback. Not working time: it is not added to the hours, and only sets the pace (hours a week) and how many run at once.",
+   "lines": 8,
+   "points": 1,
+   "w": 360,
+   "chars": 196,
+   "scenes": [
+    "Business System / Infrastructure / tile Delivery / card 1",
+    "Business System / Infrastructure / tile Delivery / card 2"
+   ]
+  },
+  {
+   "label": "Constraints",
+   "place": "floating card",
+   "text": "Limits such as equipment, availability or lead times.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 53,
+   "scenes": [
+    "Business System / Infrastructure / tile Delivery / card 1",
+    "Business System / Infrastructure / tile Delivery / card 2"
+   ]
+  },
+  {
+   "label": "Automation Build unit",
+   "place": "floating card",
+   "text": "One unit is one sale: one project, one product, one session.\nFor a recurring Offering (a subscription or retainer), one unit is each client, each month: the hours one active client takes a month.",
+   "lines": 8,
+   "points": 2,
+   "w": 360,
+   "chars": 195,
+   "scenes": [
+    "Business System / Infrastructure / tile Delivery / card 2"
+   ]
+  },
+  {
+   "label": "Frequency",
+   "place": "tile dialog",
+   "text": "The period of the salary and of both hours: a week, a month or a year, whichever you know. Every calculation turns them into a month: a week's at 52 ÷ 12 ≈ 4.33 weeks a month (40 h a week is about 173 h a month), a year's divided by 12.",
+   "lines": 9,
+   "points": 1,
+   "w": 360,
+   "chars": 236,
+   "scenes": [
+    "Business System / Infrastructure / tile Founders"
+   ]
+  },
+  {
+   "label": "Working Hours",
+   "place": "tile dialog",
+   "text": "Working hours available: about 40 a week (about 173 a month) full-time, fewer while employed elsewhere.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 103,
+   "scenes": [
+    "Business System / Infrastructure / tile Founders"
+   ]
+  },
+  {
+   "label": "Delivery Hours",
+   "place": "tile dialog",
+   "text": "Of those, the hours you can give to delivering Offerings. Selling, admin, learning and holidays take the rest, often 30 to 50% for a founder.",
+   "lines": 6,
+   "points": 1,
+   "w": 360,
+   "chars": 141,
+   "scenes": [
+    "Business System / Infrastructure / tile Founders"
+   ]
+  },
+  {
+   "label": "Responsibilities",
+   "place": "tile dialog",
+   "text": "This list is developed automatically.",
+   "lines": 2,
+   "points": 1,
+   "w": 360,
+   "chars": 37,
+   "scenes": [
+    "Business System / Infrastructure / tile Founders"
+   ]
+  },
+  {
+   "label": "Status",
+   "place": "floating card",
+   "text": "Exists / Free: It is already available to the organization at no additional cost.\nPartners & Suppliers: It is supplied by a partner or a supplier, or cannot or should not be performed by the founders. Choose who.\nActivity: It can be created, developed or established internally by the founders.\nCosts: It must be purchased. Record its price and payment frequency.",
+   "lines": 18,
+   "points": 4,
+   "w": 360,
+   "chars": 363,
+   "scenes": [
+    "Business System / Infrastructure / tile Inventory / card 1",
+    "Business System / Infrastructure / tile Inventory / card 2"
+   ]
+  },
+  {
+   "label": "Group",
+   "place": "floating card",
+   "text": "Owners and caretakers of the premises, and lessors of vehicles, e.g. Landlord, Coworking operator, Cleaner, Car lessor.",
+   "lines": 6,
+   "points": 1,
+   "w": 360,
+   "chars": 119,
+   "scenes": [
+    "Business System / Infrastructure / tile Inventory / card 1",
+    "Business System / Infrastructure / tile Inventory / card 2"
+   ]
+  },
+  {
+   "label": "Partners & Suppliers",
+   "place": "tile dialog",
+   "text": "Add Partners & Suppliers directly or create them from Resources or Activities.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 78,
+   "scenes": [
+    "Business System / Infrastructure / tile Partners & Suppliers"
+   ]
+  },
+  {
+   "label": "Partners",
+   "place": "tile dialog",
+   "text": "Organisations you join for the benefit of the whole company, e.g. Trade association, Buying group, Start-up accelerator, Producers cooperative.",
+   "lines": 6,
+   "points": 1,
+   "w": 360,
+   "chars": 143,
+   "scenes": [
+    "Business System / Infrastructure / tile Partners & Suppliers / card 1"
+   ]
+  },
+  {
+   "label": "Partners & Suppliers",
+   "place": "floating card",
+   "text": "Add Partners & Suppliers directly or create them from Resources or Activities.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 78,
+   "scenes": [
+    "Business System / Infrastructure / tile Partners & Suppliers / card 1"
+   ]
+  },
+  {
+   "label": "Group",
+   "place": "floating card",
+   "text": "Organisations you join for the benefit of the whole company, e.g. Trade association, Buying group, Start-up accelerator, Producers cooperative.",
+   "lines": 6,
+   "points": 1,
+   "w": 360,
+   "chars": 143,
+   "scenes": [
+    "Business System / Infrastructure / tile Partners & Suppliers / card 1"
+   ]
+  },
+  {
+   "label": "Partners",
+   "place": "tile dialog",
+   "text": "Revenue Partners: Parties who sell for you or send customers, and take a cut of each sale, e.g. Boutique stockist, Distributor, Referral partner, Affiliate blogger, Co-teacher.\nAccreditation Bodies: Bodies whose approval gives your work credibility, e.g. Weavers' guild, Craft standards panel, Culinary institute.",
+   "lines": 13,
+   "points": 2,
+   "w": 360,
+   "chars": 313,
+   "scenes": [
+    "Business System / Infrastructure / tile Partners & Suppliers / card 1"
+   ]
+  },
+  {
+   "label": "Suppliers",
+   "place": "tile dialog",
+   "text": "Goods & Equipment: Sellers of furniture, devices and consumables for the company, e.g. Furniture dealer, Stationery merchant, Computer reseller, Water-cooler rental.\nBusiness Services: Firms that run the administrative side, e.g. Accountant, Lawyer, Insurance broker, Payroll bureau, Business bank, Web host.\nCreative & IT Services: Freelancers and small agencies for design, branding, content or technology work, e.g. Web builder, Brand identity house, Photographer, IT support, Copywriter.\nProperty, Vehicles & Facilities: Owners and caretakers of the premises, and lessors of vehicles, e.g. Landlord, Coworking operator, Cleaner, Car lessor.\nTechnical Support: Outsourced technicians who maintain, repair and install the company's assets, e.g. Electrical engineer, Plumber, Boiler fitter, Network cabling. An installation is linked to the asset it installs.",
+   "lines": 36,
+   "points": 5,
+   "w": 360,
+   "chars": 860,
+   "scenes": [
+    "Business System / Infrastructure / tile Partners & Suppliers / card 2"
+   ]
+  },
+  {
+   "label": "Suppliers",
+   "place": "tile dialog",
+   "text": "Producers & Wholesalers: Producers and wholesalers that sell the materials and parts in the product, e.g. Wool mill, Box maker, Fabric importer, Flour miller.\nLogistics & Fulfilment: Carriers and warehouses that deliver orders to buyers, e.g. Courier, National post, Fulfilment centre, Freight forwarder.\nContractors & Advisers: Outsourced specialists who do part of an offering's job or guide it, e.g. Dye works, Freelance developer, Product-safety adviser, Electrician.\nAgencies & Influencers: Firms and creators paid to spread the word, e.g. Marketing agency, Instagram creator, Poster press, Podcast sponsor.\nVenues & Organisers: Hosts of the places and events where you sell, e.g. Fair organiser, Exhibition hall, Show promoter.\nLandlords, Leasing & Warehouses: Owners of premises used for making or storing stock, and lessors of vehicles, e.g. Estate owner, Depot firm, Chilled-storage outfit, Van leasing specialist.\nPlatforms & Payments: Intermediaries between you and the customer who charge a fee, e.g. Online marketplace, Payment processor, App store, Reservation portal.",
+   "lines": 45,
+   "points": 7,
+   "w": 360,
+   "chars": 1082,
+   "scenes": [
+    "Business System / Infrastructure / tile Partners & Suppliers / card 2"
+   ]
+  },
+  {
+   "label": "Resources",
+   "place": "tile dialog",
+   "text": "Physical and digital resources the organization needs to operate.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 65,
+   "scenes": [
+    "Business System / Infrastructure / tile Resources"
+   ]
+  },
+  {
+   "label": "Workspace",
+   "place": "tile dialog",
+   "text": "The space where the team works, owned, rented through a landlord or at home, e.g. Studio rent, Shared-space seat, Home-office allowance, Owned office.",
+   "lines": 7,
+   "points": 1,
+   "w": 360,
+   "chars": 150,
+   "scenes": [
+    "Business System / Infrastructure / tile Resources / card 1"
+   ]
+  },
+  {
+   "label": "Workspace",
+   "place": "tile dialog",
+   "text": "Site Hire: The site rented for one event or job, e.g. Market pitch fee, Stand levy, Marquee frame, Rehearsal room slot.\nWorkshop & Storage: The permanent base where the product is made or stored, e.g. Warehouse bay, Container yard, Shared-kitchen membership, Chiller space.",
+   "lines": 12,
+   "points": 2,
+   "w": 360,
+   "chars": 273,
+   "scenes": [
+    "Business System / Infrastructure / tile Resources / card 1"
+   ]
+  },
+  {
+   "label": "Utilities",
+   "place": "tile dialog",
+   "text": "The services the daily operation consumes, e.g. Electricity, Gas heating, Broadband line, Mobile plan.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 102,
+   "scenes": [
+    "Business System / Infrastructure / tile Resources / card 2"
+   ]
+  },
+  {
+   "label": "Utilities",
+   "place": "tile dialog",
+   "text": "The energy, water and waste services that production consumes, e.g. Firing power, Rinse water, Chemical disposal.",
+   "lines": 6,
+   "points": 1,
+   "w": 360,
+   "chars": 113,
+   "scenes": [
+    "Business System / Infrastructure / tile Resources / card 2"
+   ]
+  },
+  {
+   "label": "Revenue",
+   "place": "page",
+   "text": "Revenue: Money generated through the organization's Offerings.\nFunding, loans, founder capital, grants and investment are financing, not revenue, and are never counted here.\nRevenue may be zero at first. That is a valid model for an organization under development.",
+   "lines": 13,
+   "points": 3,
+   "w": 360,
+   "chars": 264,
+   "scenes": [
+    "Business System / Sustainability / page"
+   ]
+  },
+  {
+   "label": "Break Even",
+   "place": "page",
+   "text": "Break-Even Point: The level of revenue or activity at which revenue covers costs.\nBreak-Even Time: When the organization is expected to reach that level.\nFinancial Exhaustion: When available resources are expected to run out, with expected revenue included.\nAll results are estimates based on the assumptions entered, not guarantees.",
+   "lines": 17,
+   "points": 4,
+   "w": 360,
+   "chars": 333,
+   "scenes": [
+    "Business System / Sustainability / page"
+   ]
+  },
+  {
+   "label": "Global Settings",
+   "place": "settings page",
+   "text": "The rates and limits the calculated lines use. Change one here and every line that uses it follows.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 99,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Plan Start",
+   "place": "settings page",
+   "text": "Month 1 of the financial plan. Every timeline on the Financial Foundation and on Sustainability runs from it.\nWorked out: the earlier of the Opening Date's month and the month of your earliest costed card. A cost dated before it counts as already paid.",
+   "lines": 11,
+   "points": 2,
+   "w": 360,
+   "chars": 252,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Opening Date",
+   "place": "settings page",
+   "text": "The day the business opens and issues its first receipt. The days from Plan Start to the day before it are the pre-operational period.\nEvery cost is split around it by its own dates: what is dated before it counts in the Total Pre-operational Budget.",
+   "lines": 11,
+   "points": 2,
+   "w": 360,
+   "chars": 250,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Plan Length",
+   "place": "settings page",
+   "text": "How far ahead the plan looks. Lenders usually ask for the first year month by month and a profit and loss forecast for three years.",
+   "lines": 6,
+   "points": 1,
+   "w": 360,
+   "chars": 131,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Amounts",
+   "place": "settings page",
+   "text": "Excluding Sales Tax: Registered to collect Sales Tax: amounts exclude it. The tax collected is paid to the state and is not revenue.\nIncluding Sales Tax: Amounts are gross, as paid and charged.\nNot registered for Sales Tax: No Sales Tax is charged; Sales Tax paid on purchases is part of their cost.",
+   "lines": 12,
+   "points": 3,
+   "w": 360,
+   "chars": 299,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Income Tax",
+   "place": "settings page",
+   "text": "Income tax on profit. Pass-through businesses (e.g. most sole traders and single-member LLCs) pay it personally, not at business level. For a company, enter the corporate rate; ask your accountant.",
+   "lines": 8,
+   "points": 1,
+   "w": 360,
+   "chars": 197,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Employer on-cost coefficient",
+   "place": "settings page",
+   "text": "Added to the gross salaries, for the country. It differs by country.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 68,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Insurance per employee",
+   "place": "settings page",
+   "text": "An amount a month, for key-person and health cover.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 51,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Corporate income tax rate",
+   "place": "settings page",
+   "text": "A rate on net profit.",
+   "lines": 2,
+   "points": 1,
+   "w": 360,
+   "chars": 21,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Capitalisation limit",
+   "place": "settings page",
+   "text": "A purchase of one unit at or above it is CapEx; below it, OpEx.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 63,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Useful Life",
+   "place": "settings page",
+   "text": "What it is: The years an asset serves the business before it is worn out, outdated or replaced.\nWhat it does: The cost (CapEx) is spread over those years instead of being counted in the year of purchase.\nA group has one useful life in years; an asset of the group can have its own under it, and an empty one takes the group's.\nSource: Texas DFPS, “State Property Class Codes”",
+   "lines": 17,
+   "points": 4,
+   "w": 360,
+   "chars": 375,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Royalty on sales",
+   "place": "settings page",
+   "text": "The default rate; a card may set its own for its contract.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 58,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Affiliate network or influencer commission",
+   "place": "settings page",
+   "text": "The default rate.",
+   "lines": 2,
+   "points": 1,
+   "w": 360,
+   "chars": 17,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Sales agent or B2B broker commission",
+   "place": "settings page",
+   "text": "The default rate.",
+   "lines": 2,
+   "points": 1,
+   "w": 360,
+   "chars": 17,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Startup Contingency Fund",
+   "place": "settings page",
+   "text": "A share of the Total Pre-operational Budget, 10 to 15%. It is held when operations start.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 89,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Operational Contingency Fund",
+   "place": "settings page",
+   "text": "A share of a month's OpEx, 3 to 5%, set aside each month after the launch until the target is reached. A cash set-aside, not an expense.",
+   "lines": 6,
+   "points": 1,
+   "w": 360,
+   "chars": 136,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Target operating reserve",
+   "place": "settings page",
+   "text": "Months of OpEx the Operational Contingency Fund builds up to. 3 by default; an investor may ask for 6.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 102,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Channel Fee Table",
+   "place": "settings page",
+   "text": "What each channel takes of its sales: revenue x (commission + chargeback allowance) + the fixed fee x orders. The rates are examples; edit them once here.",
+   "lines": 7,
+   "points": 1,
+   "w": 360,
+   "chars": 154,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Description",
+   "place": "tile dialog",
+   "text": "Who are you, and what do you do?\nWhat do you create or provide?\nName and legal details go in 3. Legal Entity.",
+   "lines": 6,
+   "points": 3,
+   "w": 360,
+   "chars": 109,
+   "scenes": [
+    "Identity System / 1. Definition / tile Description"
+   ]
+  },
+  {
+   "label": "Manifesto",
+   "place": "tile dialog",
+   "text": "What do you stand for, and against?\nWhat purpose drives your products?\nIt should inspire your people and attract like-minded customers.",
+   "lines": 6,
+   "points": 3,
+   "w": 360,
+   "chars": 135,
+   "scenes": [
+    "Identity System / 1. Definition / tile Manifesto"
+   ]
+  },
+  {
+   "label": "Mission",
+   "place": "tile dialog",
+   "text": "What is your purpose?\nWhat problem are you trying to solve?\nWhy does solving it matter?",
+   "lines": 6,
+   "points": 3,
+   "w": 360,
+   "chars": 87,
+   "scenes": [
+    "Identity System / 1. Definition / tile Mission"
+   ]
+  },
+  {
+   "label": "Philosophy",
+   "place": "tile dialog",
+   "text": "How do you understand the work you do?\nHow do you see the world around it?\nWhich beliefs shape your choices?",
+   "lines": 8,
+   "points": 3,
+   "w": 360,
+   "chars": 108,
+   "scenes": [
+    "Identity System / 1. Definition / tile Philosophy"
+   ]
+  },
+  {
+   "label": "Positioning",
+   "place": "tile dialog",
+   "text": "Who is your target audience?\nWhich market or category do you belong to?\nHow are you different from competitors?",
+   "lines": 8,
+   "points": 3,
+   "w": 360,
+   "chars": 111,
+   "scenes": [
+    "Identity System / 1. Definition / tile Positioning"
+   ]
+  },
+  {
+   "label": "Principles",
+   "place": "tile dialog",
+   "text": "Which rules guide your decisions?\nHow do you behave and treat people?\nWhich standards do you always keep?",
+   "lines": 8,
+   "points": 3,
+   "w": 360,
+   "chars": 105,
+   "scenes": [
+    "Identity System / 1. Definition / tile Principles"
+   ]
+  },
+  {
+   "label": "Values",
+   "place": "tile dialog",
+   "text": "What matters most to you?\nWhat will you never compromise on?\nList 3 to 5 values, one per line.",
+   "lines": 6,
+   "points": 3,
+   "w": 360,
+   "chars": 94,
+   "scenes": [
+    "Identity System / 1. Definition / tile Values"
+   ]
+  },
+  {
+   "label": "Vision",
+   "place": "tile dialog",
+   "text": "What future are you working towards?\nWhat would success look like?\nThink ten years or more ahead.",
+   "lines": 6,
+   "points": 3,
+   "w": 360,
+   "chars": 97,
+   "scenes": [
+    "Identity System / 1. Definition / tile Vision"
+   ]
+  },
+  {
+   "label": "Capability",
+   "place": "tile dialog",
+   "text": "What important capabilities does the team currently lack, and how will they be covered?\nFor example: planned hires, advisors, mentors, partners, contractors or external specialists, training.\nA gap that is named and covered reads as a strength; one left unnamed reads as a risk.",
+   "lines": 13,
+   "points": 3,
+   "w": 360,
+   "chars": 278,
+   "scenes": [
+    "Identity System / 2. Organization / tile Capability"
+   ]
+  },
+  {
+   "label": "Gaps",
+   "place": "tile dialog",
+   "text": "What important capabilities does the team currently lack, and how will they be covered?",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 87,
+   "scenes": [
+    "Identity System / 2. Organization / tile Capability"
+   ]
+  },
+  {
+   "label": "Cover",
+   "place": "tile dialog",
+   "text": "For example: planned hires, advisors, mentors, partners, contractors or external specialists, training.\nA gap that is named and covered reads as a strength; one left unnamed reads as a risk.",
+   "lines": 10,
+   "points": 2,
+   "w": 360,
+   "chars": 190,
+   "scenes": [
+    "Identity System / 2. Organization / tile Capability"
+   ]
+  },
+  {
+   "label": "Expenses",
+   "place": "tile dialog",
+   "text": "What it costs to register and keep registered: filing, renewal and agent fees. Each pays for one registration.\nInsurance, licences and certificates are cards of Documents & Rights on 3. Infrastructure & Capability.\nAdd the ones that apply. If there are none, add none.",
+   "lines": 11,
+   "points": 3,
+   "w": 360,
+   "chars": 268,
+   "scenes": [
+    "Identity System / 2. Organization / tile Expenses",
+    "Identity System / 2. Organization / tile Expenses / card 1",
+    "Identity System / 2. Organization / tile Expenses / card 2"
+   ]
+  },
+  {
+   "label": "Expenses",
+   "place": "floating card",
+   "text": "What it costs to register and keep registered: filing, renewal and agent fees. Each pays for one registration.\nInsurance, licences and certificates are cards of Documents & Rights on 3. Infrastructure & Capability.\nAdd the ones that apply. If there are none, add none.",
+   "lines": 11,
+   "points": 3,
+   "w": 360,
+   "chars": 268,
+   "scenes": [
+    "Identity System / 2. Organization / tile Expenses / card 1",
+    "Identity System / 2. Organization / tile Expenses / card 2"
+   ]
+  },
+  {
+   "label": "Linked registration",
+   "place": "floating card",
+   "text": "Says which registration or requirement this expense pays for. Only one can be chosen.\nLists what you have already recorded further up the page.",
+   "lines": 7,
+   "points": 2,
+   "w": 360,
+   "chars": 143,
+   "scenes": [
+    "Identity System / 2. Organization / tile Expenses / card 1"
+   ]
+  },
+  {
+   "label": "Founders & Ownership",
+   "place": "tile dialog",
+   "text": "Who owns the organization, and how much of it each founder owns.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 64,
+   "scenes": [
+    "Identity System / 2. Organization / tile Founders & Ownership"
+   ]
+  },
+  {
+   "label": "Founders contribute capital",
+   "place": "tile dialog",
+   "text": "Capital is what the founders put into the organization to start it.\nSome legal forms set a minimum amount; many set none.\nTick it to record how much each founder put in.",
+   "lines": 9,
+   "points": 3,
+   "w": 360,
+   "chars": 169,
+   "scenes": [
+    "Identity System / 2. Organization / tile Founders & Ownership"
+   ]
+  },
+  {
+   "label": "Total ownership",
+   "place": "tile dialog",
+   "text": "Formula: Each owner's % = their shares ÷ total shares, so the total must be 100%",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 80,
+   "scenes": [
+    "Identity System / 2. Organization / tile Founders & Ownership"
+   ]
+  },
+  {
+   "label": "Roles",
+   "place": "tile dialog",
+   "text": "What does this founder do in the organization?\nOne role a line: a founder is often several things at once.\nLenders and investors look for every key job to have someone who owns it.",
+   "lines": 10,
+   "points": 3,
+   "w": 360,
+   "chars": 180,
+   "scenes": [
+    "Identity System / 2. Organization / tile Jordan Ellis"
+   ]
+  },
+  {
+   "label": "Relevant Industry Experience",
+   "place": "tile dialog",
+   "text": "Which relevant companies, sectors, positions, projects or markets have they worked in?\nSay how long, where it helps.\nLenders and investors look for a team that already knows the market it is entering.",
+   "lines": 10,
+   "points": 3,
+   "w": 360,
+   "chars": 200,
+   "scenes": [
+    "Identity System / 2. Organization / tile Jordan Ellis"
+   ]
+  },
+  {
+   "label": "Management Experience",
+   "place": "tile dialog",
+   "text": "Experience leading people, projects, budgets, businesses, or operations.\nSay how big: how many people, how much money.\nIt shows they can run the organization as it grows.",
+   "lines": 9,
+   "points": 3,
+   "w": 360,
+   "chars": 170,
+   "scenes": [
+    "Identity System / 2. Organization / tile Jordan Ellis"
+   ]
+  },
+  {
+   "label": "Key Achievements",
+   "place": "tile dialog",
+   "text": "What was achieved, what was your contribution, and what was the measurable result?\nAny business they started before, and how it turned out.\nResults are what make a track record believable.",
+   "lines": 10,
+   "points": 3,
+   "w": 360,
+   "chars": 188,
+   "scenes": [
+    "Identity System / 2. Organization / tile Jordan Ellis"
+   ]
+  },
+  {
+   "label": "Skills, Expertise & Qualifications",
+   "place": "tile dialog",
+   "text": "Add one entry for each, and choose its type: a skill, professional or technical expertise, a degree or qualification, a certification, a licence, or a professional membership or other credential.\nName what the plan relies on them for: sales, finance, operations, technical.\nLenders and investors check that every capability the plan needs is covered by someone.",
+   "lines": 16,
+   "points": 3,
+   "w": 360,
+   "chars": 361,
+   "scenes": [
+    "Identity System / 2. Organization / tile Jordan Ellis"
+   ]
+  },
+  {
+   "label": "Organization",
+   "place": "tile dialog",
+   "text": "What the organization is in law: its name, what it does, its legal form and where it is.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 88,
+   "scenes": [
+    "Identity System / 2. Organization / tile Organization"
+   ]
+  },
+  {
+   "label": "Main Activity",
+   "place": "tile dialog",
+   "text": "The work the organization actually does, described factually.\nWrite it as a registry or a bank would expect to read it.\nSome countries classify it with an official activity code.",
+   "lines": 9,
+   "points": 3,
+   "w": 360,
+   "chars": 178,
+   "scenes": [
+    "Identity System / 2. Organization / tile Organization"
+   ]
+  },
+  {
+   "label": "NAICS code",
+   "place": "tile dialog",
+   "text": "The official code for the organization's main activity: it classifies what the organization does.\nAsked for when the organization is registered, and on its annual filings where they apply.",
+   "lines": 10,
+   "points": 2,
+   "w": 360,
+   "chars": 188,
+   "scenes": [
+    "Identity System / 2. Organization / tile Organization"
+   ]
+  },
+  {
+   "label": "Legal Form",
+   "place": "tile dialog",
+   "text": "Decides who is liable for the organization's debts: the organization, or you personally.\nDecides how it is taxed, and whether it must hold share capital.\nChoose Other to name a form the list does not carry.",
+   "lines": 10,
+   "points": 3,
+   "w": 360,
+   "chars": 206,
+   "scenes": [
+    "Identity System / 2. Organization / tile Organization"
+   ]
+  },
+  {
+   "label": "Authority / Name",
+   "place": "tile dialog",
+   "text": "The body that keeps the public register your organization is listed on.\nFilled in from the country you chose. Change it to match yours.",
+   "lines": 7,
+   "points": 2,
+   "w": 360,
+   "chars": 135,
+   "scenes": [
+    "Identity System / 2. Organization / tile Registrations / card 1"
+   ]
+  },
+  {
+   "label": "Tax Identification Number (EIN)",
+   "place": "tile dialog",
+   "text": "The number the tax office knows the organization by.\nIn some countries it is the registration number; in others it is issued separately when you register for tax.",
+   "lines": 8,
+   "points": 2,
+   "w": 360,
+   "chars": 162,
+   "scenes": [
+    "Identity System / 2. Organization / tile Registrations / card 2"
+   ]
+  },
+  {
+   "label": "Sales Tax",
+   "place": "tile dialog",
+   "text": "Sales Tax is a tax on sales: a registered business adds it to its prices, pays it on to the tax authority, and reclaims what it paid on its own purchases.\nRegistration is required once your sales pass the threshold your country sets, and some businesses can register by choice. Check with your tax authority.\nTicked, this asks for your Sales Tax number, and the Financial Foundation takes its amounts as excluding Sales Tax unless you choose otherwise.",
+   "lines": 19,
+   "points": 3,
+   "w": 360,
+   "chars": 452,
+   "scenes": [
+    "Identity System / 2. Organization / tile Registrations / card 2"
+   ]
+  },
+  {
+   "label": "Current Situation",
+   "place": "tile dialog",
+   "text": "What do you sell, and who uses it? (3. Business System → 1. Foundation: Offerings and Customer Segments)\nHow do people discover and reach you? (3. Business System → 2. Customer Engagement: Customer Channels)\nHow are you supported financially today? (3. Business System → 4. Financial Foundation: Costs and funding; 5. Sustainability: Revenue and break even)",
+   "lines": 16,
+   "points": 3,
+   "w": 360,
+   "chars": 357,
+   "scenes": [
+    "Strategy System / main / tile Current Situation"
+   ]
+  },
+  {
+   "label": "Strategic Compass",
+   "place": "tile dialog",
+   "text": "Where do you want your organization to be heading, and what do you want it to build, become, or achieve over the long term?\nChoose a time horizon far enough ahead to give your strategy direction, yet close enough for your organization to make meaningful decisions about.\nThe Vision is the goal; the Compass is the route.: A future in which every small professional firm can use automation and AI as safely and confidently as a large one. Ten years from now, Quillfield is a trusted name for practical automation among small firms across the north-east United States: a small team of automation specialists, a library of proven and well-documented workflows, and hundreds of client firms whose staff spend their days on skilled work rather than admin. Success means clients who stay for years, recommend us to their peers and never feel locked in.",
+   "lines": 34,
+   "points": 3,
+   "w": 360,
+   "chars": 846,
+   "scenes": [
+    "Strategy System / main / tile Strategic Compass"
+   ]
+  },
+  {
+   "label": "Strategic Period",
+   "place": "tile dialog",
+   "text": "Choose a start and an end: three to five years.\nName 3 to 5 Strategic Themes: broad areas the organisation intends to develop during the strategic period.\nSay briefly why each Theme matters.",
+   "lines": 11,
+   "points": 3,
+   "w": 360,
+   "chars": 190,
+   "scenes": [
+    "Strategy System / main / tile Strategic Period",
+    "Strategy System / main / tile Strategic Period / card 1",
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "label": "Adding Themes",
+   "place": "tile dialog",
+   "text": "Growth & Market: Focus on expanding the organisation's customer base, market presence, reach, or overall scale.\nCustomers & Experience: Focus on acquiring, retaining, understanding, and creating greater value for customers, including improving their overall experience.\nProducts & Innovation: Focus on developing, improving, expanding, or innovating the organisation's products, services, offerings, or intellectual property.\nRevenue & Financial Sustainability: Focus on building sustainable revenue, improving profitability, managing costs, strengthening cash flow, and achieving financial stability.\nBrand & Positioning: Focus on strengthening brand recognition, differentiation, reputation, market positioning, and the organisation's relationship with its audience.\nOperations & Capability: Focus on improving operational efficiency and developing the people, systems, technology, resources, and capabilities required to execute the strategy.\nPartnerships & Expansion: Focus on developing strategic partnerships, entering new markets or locations, and creating new opportunities through external relationships.",
+   "lines": 35,
+   "points": 7,
+   "w": 480,
+   "chars": 1113,
+   "scenes": [
+    "Strategy System / main / tile Strategic Period",
+    "Strategy System / main / tile Strategic Period / card 1",
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "label": "Theme",
+   "place": "tile dialog",
+   "text": "A broad area the organisation intends to develop during the Strategic Period (for example Financial Stability, or a Recurring Client Base). A Theme holds Goals; a Goal holds Objectives, and an Objective its Initiatives and Metrics.",
+   "lines": 8,
+   "points": 1,
+   "w": 360,
+   "chars": 231,
+   "scenes": [
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "label": "Goal",
+   "place": "tile dialog",
+   "text": "What do you want to accomplish within each Strategic Theme, and why does it matter?",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 83,
+   "scenes": [
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "label": "Objective",
+   "place": "tile dialog",
+   "text": "Specific, measurable, and time-bound milestones that support a Goal.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 68,
+   "scenes": [
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "label": "Initiatives",
+   "place": "tile dialog",
+   "text": "Actions focused on major areas of work to achieve the Objectives.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 65,
+   "scenes": [
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "label": "Metric",
+   "place": "tile dialog",
+   "text": "Measures that provide evidence of progress toward the Objective.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 64,
+   "scenes": [
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "label": "SWOT Analysis",
+   "place": "tile dialog",
+   "text": "Strengths and Weaknesses: inside your organization.\nOpportunities and Threats: outside, in your market.\nThink of resources, skills, customers, competition and technology.",
+   "lines": 10,
+   "points": 3,
+   "w": 360,
+   "chars": 170,
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  }
+ ]
+}

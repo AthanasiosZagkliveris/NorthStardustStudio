@@ -1,3 +1,4 @@
+import AddButton from "./controls/AddButton.tsx";
 import { useLocation, useNavigate } from "react-router-dom";
 
 /**
@@ -10,9 +11,7 @@ export default function SettingsButton() {
     const location = useLocation();
 
     return (
-        <button
-            type="button"
-            className="header-tool"
+        <AddButton className="header-tool"
             aria-label="Global Settings"
             aria-current={location.pathname === "/settings" ? "page" : undefined}
             onClick={() => {
@@ -21,15 +20,14 @@ export default function SettingsButton() {
                     return;
                 }
                 navigate("/settings", { state: { from: { pathname: location.pathname, state: location.state } } });
-            }}
-        >
+            }}>
             <svg className="header-tool-icon" viewBox="0 0 20 20" aria-hidden="true">
                 <path d="M3 6h9M15 6h2M3 14h2M8 14h9" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                 <circle cx="13.5" cy="6" r="1.8" fill="none" stroke="currentColor" strokeWidth="1.5" />
                 <circle cx="6.5" cy="14" r="1.8" fill="none" stroke="currentColor" strokeWidth="1.5" />
             </svg>
             <span className="header-tool-word">Settings</span>
-        </button>
+        </AddButton>
     );
 
 }

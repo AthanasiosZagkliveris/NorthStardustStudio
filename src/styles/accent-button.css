@@ -1,0 +1,66 @@
+/* ==========================================================
+   THE ACCENT BUTTON: every labelled button that is not the page's one primary action (the add buttons, the header's tools, the document buttons, the calendar's small buttons) is drawn as ONE button: the colour family's ink, line and ground (--accent-*, global.css), the body size at weight 500, 10% tracking, capitals, a 6px corner, the glow under the pointer and the ring on the keyboard focus. A place sets only its own size and place (padding, margin, min-height). Loaded once, for every page (App.tsx).
+========================================================== */
+.strategy-add-button,
+.header-tool,
+.org-calendar-chip {
+
+    /* ONE BUTTON HEIGHT: 44px (--add-button-height, layout-rules "Heights"); the place sets its width and padding only. */
+    box-sizing: border-box;
+    min-height: var(--add-button-height);
+
+    border: 1px solid var(--accent-line);
+    border-radius: var(--radius-md);
+
+    background: var(--accent-ground);
+
+    font-family: inherit;
+    font-size: var(--font-body);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+
+    color: var(--accent-ink);
+
+    cursor: pointer;
+
+    transition: background-color .15s ease, box-shadow .15s ease;
+
+}
+
+.strategy-add-button:hover:not(:disabled),
+.header-tool:hover:not(:disabled),
+.org-calendar-chip:hover:not(:disabled),
+.header-tool[aria-expanded="true"] {
+
+    border-color: var(--accent-line);
+
+    background: var(--accent-ground-hover);
+
+    /* (The add button's reaction, for all: its ground, its line thickened by 1px inside, its letters thickened.) */
+    box-shadow: inset 0 0 0 1px var(--wired-ring, currentColor);
+
+    /* (The thickened letters of every labelled button under the pointer: --hover-bold; the tracking stays, cell-focus.css.) */
+    text-shadow: var(--hover-bold);
+
+}
+
+.strategy-add-button:focus-visible,
+.header-tool:focus-visible,
+.org-calendar-chip:focus-visible {
+
+    outline: none;
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
+
+}
+
+.strategy-add-button:disabled,
+.header-tool:disabled,
+.org-calendar-chip:disabled {
+
+    color: var(--text-faint);
+    border-color: var(--line-card);
+
+    cursor: not-allowed;
+
+}

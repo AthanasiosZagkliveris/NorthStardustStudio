@@ -1,4 +1,6 @@
 # Business System — Page 2: Customers Engagement
+
+Status: **specification**, updated 2026-09-27.
 ## Section 2 — Customer Relationships
 
 > **3. Business System — Page 2 of 5, Section 2 of 2.**

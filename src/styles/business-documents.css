@@ -62,7 +62,7 @@
 
     border:1px solid var(--line-note);
     border-left-width:6px;
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-note);
 
@@ -73,97 +73,13 @@
 
 }
 
-.business-documents-tabs{
-
-    display:flex;
-
-    gap:8px;
-
-    border-bottom:1px solid var(--line-sheet);
-
-}
-
-.business-documents-tab{
-
-    padding:10px 18px;
-
-    border:1px solid transparent;
-    border-bottom:none;
-    border-radius:8px 8px 0 0;
-
-    background:none;
-
-    font-family:inherit;
-    font-size:var(--font-body);
-    font-weight:600;
-
-    color:var(--text-muted);
-
-    cursor:pointer;
-
-}
-
-.business-documents-tab-active{
-
-    border-color:var(--line-sheet);
-
-    background:var(--bg-surface);
-
-    color:var(--text-default);
-
-    margin-bottom:-1px;
-
-}
-
-.business-documents-tab:focus-visible,
-.business-documents-button:focus-visible{
-
-    outline:2px solid var(--line-primary);
-    outline-offset:2px;
-
-}
-
 .business-documents-actions{
 
     display:flex;
 
     flex-wrap:wrap;
 
-    gap:12px;
-
-}
-
-.business-documents-button{
-
-    padding:10px 20px;
-
-    border:1px solid var(--line-primary);
-    border-radius:8px;
-
-    background:var(--bg-surface);
-
-    font-family:inherit;
-    font-weight:500;
-
-    color:var(--text-primary);
-
-    cursor:pointer;
-
-}
-
-.business-documents-button:hover:not(:disabled){
-
-    background:var(--bg-primary-tint);
-
-    text-shadow:var(--hover-bold);
-
-}
-
-.business-documents-button:disabled{
-
-    opacity:0.5;
-
-    cursor:not-allowed;
+    gap:var(--gap-12);
 
 }
 
@@ -174,7 +90,7 @@
     padding:32px 40px;
 
     border:1px solid var(--line-sheet);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-surface);
 
@@ -202,6 +118,7 @@
 .business-document h5{
 
     font-weight:700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     color:var(--text-default);
 
@@ -376,7 +293,7 @@
 
     flex-direction:column;
 
-    gap:4px;
+    gap:var(--gap-4);
 
 }
 
@@ -416,7 +333,7 @@
         "partners partners resources  resources  propositions propositions channels      channels      segments segments"
         "costs    costs    costs      costs      costs        revenue      revenue       revenue       revenue  revenue";
 
-    gap:2px;
+    gap:var(--gap-2);
 
     padding:2px;
 
@@ -432,7 +349,7 @@
 
     flex-direction:column;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     min-width:0;
     min-height:160px;
@@ -493,10 +410,10 @@
 .business-canvas-costs{ grid-area:costs; }
 .business-canvas-revenue{ grid-area:revenue; }
 
-.business-canvas-partners{ border-radius:8px 0 0 0; }
-.business-canvas-segments{ border-radius:0 8px 0 0; }
-.business-canvas-costs{ border-radius:0 0 0 8px; }
-.business-canvas-revenue{ border-radius:0 0 8px 0; }
+.business-canvas-partners{ border-radius:var(--radius-lg) 0 0 0; }
+.business-canvas-segments{ border-radius:0 var(--radius-lg) 0 0; }
+.business-canvas-costs{ border-radius:0 0 0 var(--radius-lg); }
+.business-canvas-revenue{ border-radius:0 0 var(--radius-lg) 0; }
 
 /* Narrow windows: one box a row, in reading order. */
 @media (max-width: 900px){
@@ -539,47 +456,21 @@
 
 }
 
+/* A field and its label, as everywhere: the label in the body size, regular, the card's label colour, a label gap over its cell; the cell is the app's one dropdown cell (option-picker.css), drawn by no rule of this page. */
 .business-documents-option{
 
     display:flex;
 
     flex-direction:column;
 
-    gap:6px;
+    gap:var(--space-label);
 
     min-width:220px;
 
-    font-size:var(--font-small);
-    font-weight:600;
-
-    color:var(--text-secondary);
-
-}
-
-/* The pickers' box, as the interview pages draw it: conversation.css
-   is not loaded here, only the picker's own option-picker.css. */
-.business-documents-option .interview-input{
-
-    box-sizing:border-box;
-
-    font:inherit;
     font-size:var(--font-body);
     font-weight:400;
-    line-height:1.5;
 
-    color:var(--text-default);
-
-    border:1px solid var(--line-box);
-    border-radius:6px;
-
-    background-color:var(--bg-surface);
-
-}
-
-.business-documents-option .interview-input:focus-visible{
-
-    outline:2px solid var(--line-primary);
-    outline-offset:2px;
+    color:var(--label-color);
 
 }
 
@@ -599,7 +490,7 @@
     overflow-x:auto;
 
     border:1px solid var(--line-sheet);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-surface);
 
@@ -635,6 +526,7 @@
 
     font-size:var(--font-body);
     font-weight:700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
     line-height:1.3;
 
     text-align:left;
@@ -675,6 +567,7 @@
 .business-forecast-table .business-forecast-subtotal{
 
     font-weight:700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     background:var(--bg-neutral);
 
@@ -735,6 +628,7 @@
 .business-forecast-total td{
 
     font-weight:700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     background:var(--bg-total);
 
@@ -782,6 +676,7 @@
     padding-top:12px;
 
     font-weight:700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     color:var(--text-default);
 
@@ -798,6 +693,7 @@
     text-align:left;
 
     font-weight:700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -829,7 +725,7 @@
 
 .business-forecast-table-wrap::-webkit-scrollbar-thumb{
 
-    border-radius:4px;
+    border-radius:var(--radius-sm);
 
     background:var(--bg-quiet);
 
@@ -935,7 +831,7 @@
     padding:12px 16px;
 
     border:1px solid var(--line-sheet);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-mark-preview);
 
@@ -953,7 +849,7 @@
 
     grid-template-columns:repeat(2, minmax(0, 1fr));
 
-    gap:16px;
+    gap:var(--gap-16);
 
     margin:12px 0 16px;
 
@@ -965,7 +861,7 @@
 
     flex-direction:column;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     min-width:0;
 
@@ -985,7 +881,7 @@
     padding:12px;
 
     border:1px solid var(--line-sheet);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
 }
 
@@ -1004,7 +900,7 @@
 
     flex-direction:column;
 
-    gap:2px;
+    gap:var(--gap-2);
 
     font-size:var(--font-small);
 
@@ -1026,5 +922,12 @@
         grid-template-columns:minmax(0, 1fr);
 
     }
+
+}
+
+/* The export buttons stand on the foot of the row, level with the cells (their own place is the top of a row). */
+.business-documents-options > .strategy-add-button{
+
+    align-self:flex-end;
 
 }

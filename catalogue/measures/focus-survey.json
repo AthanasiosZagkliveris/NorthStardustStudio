@@ -1,0 +1,2634 @@
+{
+ "rows": [
+  {
+   "tag": "textarea",
+   "cls": "interview-input",
+   "aria": "Aesthetics",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Brand System / main / tile Aesthetics"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input",
+   "aria": "Body Language",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Brand System / main / tile Body Language"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.strategy-name-input.card-name-input",
+   "aria": "Image 1 name",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Brand System / main / tile Brand Images / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Image 1 usage",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Brand System / main / tile Brand Images / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.strategy-name-input.card-name-input",
+   "aria": "Image 2 name",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Brand System / main / tile Brand Images / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Image 2 usage",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Brand System / main / tile Brand Images / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.strategy-name-input.card-name-input",
+   "aria": "Colour 1 name",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Brand System / main / tile Colours / card 1"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.brand-hex-input",
+   "aria": "Primary A HEX",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Brand System / main / tile Colours / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Primary A usage",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Brand System / main / tile Colours / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.strategy-name-input.card-name-input",
+   "aria": "Colour 3 name",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Brand System / main / tile Colours / card 2"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.brand-hex-input",
+   "aria": "Secondary A HEX",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Brand System / main / tile Colours / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Secondary A usage",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Brand System / main / tile Colours / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input",
+   "aria": "Communication & Voice",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Brand System / main / tile Communication & Voice"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.brand-mark-note",
+   "aria": "Icon and logo description",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Brand System / main / tile Icon & Logo"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input",
+   "aria": "First impression",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Brand System / main / tile Imprint"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input",
+   "aria": "Lasting impression",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Brand System / main / tile Imprint"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.brand-size-input",
+   "aria": "H1 (Title) size in pixels, recommended 3",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Brand System / main / tile Typography &Text HierarchyManr",
+    "Brand System / main / tile Typography &Text HierarchyManr / card 1",
+    "Brand System / main / tile Typography &Text HierarchyManr / card 2"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.brand-size-input",
+   "aria": "H2 (Section) size in pixels, recommended",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Brand System / main / tile Typography &Text HierarchyManr",
+    "Brand System / main / tile Typography &Text HierarchyManr / card 1",
+    "Brand System / main / tile Typography &Text HierarchyManr / card 2"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.brand-size-input",
+   "aria": "H3 (Subsection) size in pixels, recommen",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Brand System / main / tile Typography &Text HierarchyManr",
+    "Brand System / main / tile Typography &Text HierarchyManr / card 1",
+    "Brand System / main / tile Typography &Text HierarchyManr / card 2"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.brand-size-input",
+   "aria": "Body Text size in pixels, recommended 16",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Brand System / main / tile Typography &Text HierarchyManr",
+    "Brand System / main / tile Typography &Text HierarchyManr / card 1",
+    "Brand System / main / tile Typography &Text HierarchyManr / card 2"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.brand-size-input",
+   "aria": "Captions & Metadata / Interface size in ",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Brand System / main / tile Typography &Text HierarchyManr",
+    "Brand System / main / tile Typography &Text HierarchyManr / card 1",
+    "Brand System / main / tile Typography &Text HierarchyManr / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.strategy-name-input.card-name-input",
+   "aria": "Typeface 1 name",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Brand System / main / tile Typography &Text HierarchyManr / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Primary usage",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Brand System / main / tile Typography &Text HierarchyManr / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.strategy-name-input.card-name-input",
+   "aria": "Typeface 2 name",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Brand System / main / tile Typography &Text HierarchyManr / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Secondary usage",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Brand System / main / tile Typography &Text HierarchyManr / card 2"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "business-foundation-frame-name",
+   "aria": "Segment 1 name",
+   "border": "0px rgb(48, 58, 73)",
+   "ring": "none",
+   "outline": "none",
+   "where": "page",
+   "scenes": [
+    "Business System / 1. Foundation / page",
+    "Business System / 1. Foundation / tile Segment Description",
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2",
+    "Business System / 1. Foundation / tile Value Proposition",
+    "Business System / 1. Foundation / tile Competitors",
+    "Business System / 1. Foundation / tile Competitors / card 1",
+    "Business System / 1. Foundation / tile Competitors / card 2",
+    "Business System / 1. Foundation / tile Offerings",
+    "Business System / 1. Foundation / tile Offerings / card 1",
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.strategy-name-input.card-name-input",
+   "aria": "Segment 1, Competitor 1 name",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 1 description: Off",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 1 description: Mar",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 1 description: Cus",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1",
+    "Business System / 1. Foundation / tile Competitors / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 1 Strengths",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 1 Weaknesses",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 1 Opportunities",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 1 Threats",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 1 insights & diffe",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.strategy-name-input.card-name-input",
+   "aria": "Segment 1, Competitor 2 name",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 2 description: Off",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 2 description: Mar",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 2 description: Cus",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 2",
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 2 Strengths",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 2 Weaknesses",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 2 Opportunities",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 2 Threats",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 2 insights & diffe",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.strategy-name-input.card-name-input",
+   "aria": "Segment 1, Offering 1 name",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Offering 1 description: Funct",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Offering 1 description: Custo",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Offering 1 description: Conte",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Offering 1 description: Purch",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Offering 1 description: Suppo",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Offering 1 description: Requi",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.strategy-name-input.card-name-input",
+   "aria": "Segment 1, Offering 2 name",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Offering 2 description: Funct",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Offering 2 description: Custo",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Offering 2 description: Conte",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Offering 2 description: Purch",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Offering 2 description: Suppo",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Offering 2 description: Requi",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1 description: Demographics",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description",
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1 description: Geographics",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description",
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1 description: Business Data",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description",
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1 description: Purchasing Power ",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description",
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1 description: Market Size & Ind",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description",
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.strategy-name-input.card-name-input",
+   "aria": "Segment 1, Profile 1 name",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Profile 1 description: Specif",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Profile 1 description: Psycho",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Profile 1 description: Social",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Profile 1 description: Inform",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Profile 1 Goals & Desires",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Profile 1 Challenges & Proble",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Profile 1 Objections",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Functional needs for Segment 1, Profile ",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2",
+    "Business System / 1. Foundation / tile Segment Description / card 2",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Emotional needs for Segment 1, Profile 1",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Social needs for Segment 1, Profile 1 1",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.strategy-name-input.card-name-input",
+   "aria": "Segment 1, Profile 2 name",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Profile 2 description: Specif",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Profile 2 description: Psycho",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Profile 2 description: Social",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Profile 2 description: Inform",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Profile 2 Goals & Desires",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Profile 2 Challenges & Proble",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Profile 2 Objections",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Emotional needs for Segment 1, Profile 2",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Social needs for Segment 1, Profile 2 1",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-proposition-input",
+   "aria": "Value Proposition for Small professional",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Business System / 1. Foundation / tile Value Proposition"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.strategy-name-input.card-name-input",
+   "aria": "Activity 1 name",
+   "border": "1px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Completed / card 1"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "date-cell-input",
+   "aria": "Activity 1 start date",
+   "border": "1px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Completed / card 1"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "date-cell-input",
+   "aria": "Activity 1 end date",
+   "border": "1px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Completed / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Activity 1 description",
+   "border": "1px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Completed / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.strategy-name-input.card-name-input",
+   "aria": "Activity 2 name",
+   "border": "1px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Completed / card 2"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "date-cell-input",
+   "aria": "Activity 2 start date",
+   "border": "1px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Completed / card 2"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "date-cell-input",
+   "aria": "Activity 2 end date",
+   "border": "1px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Completed / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Activity 2 description",
+   "border": "1px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Completed / card 2"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.delivery-number.delivery-person-hours",
+   "aria": "Jordan Ellis hours per unit of AI Workfl",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Delivery / card 1"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.delivery-number.delivery-person-hours",
+   "aria": "Referral partners (10% of a referred aud",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Delivery / card 1"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.delivery-number",
+   "aria": "AI Workflow Audit calendar time, weeks",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Delivery / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "AI Workflow Audit delivery constraints",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Delivery / card 1"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.delivery-number.delivery-person-hours",
+   "aria": "Jordan Ellis hours per unit of Automatio",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Delivery / card 2"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.delivery-number",
+   "aria": "Automation Build calendar time, weeks",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Delivery / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Automation Build delivery constraints",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Delivery / card 2"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "date-cell-input",
+   "aria": "Jordan Ellis start date",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Business System / Infrastructure / tile Founders"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input",
+   "aria": "Jordan Ellis salary a month (USD)",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Business System / Infrastructure / tile Founders"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.delivery-number",
+   "aria": "Jordan Ellis working hours a month",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Business System / Infrastructure / tile Founders"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.delivery-number",
+   "aria": "Jordan Ellis delivery hours a month",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Business System / Infrastructure / tile Founders"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.strategy-name-input.card-name-input",
+   "aria": "Resource 1 name",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Inventory / card 1"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "date-cell-input",
+   "aria": "Resource 1 start date",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Inventory / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Resource 1 description",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Inventory / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.strategy-name-input.card-name-input",
+   "aria": "Resource 2 name",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Inventory / card 2"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "date-cell-input",
+   "aria": "Resource 2 start date",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Inventory / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Resource 2 description",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Inventory / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.strategy-name-input.card-name-input",
+   "aria": "Professional 1 name",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Partners & Suppliers / card 1"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "date-cell-input",
+   "aria": "Entry 1 start date",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Partners & Suppliers / card 1"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input",
+   "aria": "Entry 1 price",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Partners & Suppliers / card 1"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "date-cell-input",
+   "aria": "Opening Date",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.settings-number.settings-percent",
+   "aria": "Employer on-cost coefficient",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.settings-number",
+   "aria": "Insurance per employee",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.settings-number.settings-percent",
+   "aria": "Corporate income tax rate",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.settings-number",
+   "aria": "Capitalisation limit",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.settings-number.settings-percent",
+   "aria": "Royalty on sales",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.settings-number.settings-percent",
+   "aria": "Affiliate network or influencer commissi",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.settings-number.settings-percent",
+   "aria": "Sales agent or B2B broker commission",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.settings-number.settings-percent",
+   "aria": "Startup Contingency Fund",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.settings-number.settings-percent",
+   "aria": "Operational Contingency Fund",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.settings-number.settings-percent",
+   "aria": "Target operating reserve",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input",
+   "aria": "Channel 1",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.settings-number.settings-percent",
+   "aria": "Channel 1 commission",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.settings-number",
+   "aria": "Channel 1 fixed fee",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.settings-number.settings-percent",
+   "aria": "Channel 1 risk allowance",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input",
+   "aria": "Channel 1 note",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input",
+   "aria": "Channel 2",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.settings-number.settings-percent",
+   "aria": "Channel 2 commission",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.settings-number",
+   "aria": "Channel 2 fixed fee",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.settings-number.settings-percent",
+   "aria": "Channel 2 risk allowance",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input",
+   "aria": "Channel 2 note",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input",
+   "aria": "Channel 3",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.settings-number.settings-percent",
+   "aria": "Channel 3 commission",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.settings-number",
+   "aria": "Channel 3 fixed fee",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.settings-number.settings-percent",
+   "aria": "Channel 3 risk allowance",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input",
+   "aria": "Channel 3 note",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input",
+   "aria": "Description",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Description"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input",
+   "aria": "Manifesto",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Manifesto"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input",
+   "aria": "Mission",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Mission"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input",
+   "aria": "Philosophy",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Philosophy"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input",
+   "aria": "Positioning",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Positioning"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Principles 1",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Principles"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Principles 2",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Principles"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Principles 3",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Principles"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Principles 4",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Principles"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Principles 5",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Principles"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Principles 6",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Principles"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Principles 7",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Principles"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Values 1",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Values"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Values 2",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Values"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Values 3",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Values"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Values 4",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Values"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Values 5",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Values"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input",
+   "aria": "Vision",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Vision"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.legal-entity-note",
+   "aria": "Capability gaps",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Capability"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.legal-entity-note",
+   "aria": "Capability cover",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Capability"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.strategy-name-input.card-name-input",
+   "aria": "Expense 1 name",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Identity System / 2. Organization / tile Expenses / card 1"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "date-cell-input",
+   "aria": "Expense 1 date",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Identity System / 2. Organization / tile Expenses / card 1"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input",
+   "aria": "Expense 1 cost",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Identity System / 2. Organization / tile Expenses / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.legal-entity-note",
+   "aria": "Expense 1 description",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Identity System / 2. Organization / tile Expenses / card 1"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "date-cell-input",
+   "aria": "Expense 2 date",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Identity System / 2. Organization / tile Expenses / card 2"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input",
+   "aria": "Expense 2 cost",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Identity System / 2. Organization / tile Expenses / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.legal-entity-note",
+   "aria": "Expense 2 description",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "floating card",
+   "scenes": [
+    "Identity System / 2. Organization / tile Expenses / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.strategy-name-input.card-name-input",
+   "aria": "Founder 1 name",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Founders & Ownership"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.legal-entity-column-centre",
+   "aria": "Founder 1 ownership percentage",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Founders & Ownership"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.legal-entity-column-centre",
+   "aria": "Founder 1 capital (USD)",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Founders & Ownership"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Founder 1 roles 1",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Jordan Ellis"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Founder 1 roles 2",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Jordan Ellis"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.legal-entity-note",
+   "aria": "Founder 1 relevant industry experience",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Jordan Ellis"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.legal-entity-note",
+   "aria": "Founder 1 management experience",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Jordan Ellis"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Founder 1 key achievements 1",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Jordan Ellis"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Founder 1 key achievements 2",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Jordan Ellis"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Founder 1 skills entry 1",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Jordan Ellis"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Founder 1 skills entry 2",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Jordan Ellis"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Founder 1 skills entry 3",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Jordan Ellis"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Founder 1 skills entry 4",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Jordan Ellis"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Founder 1 skills entry 5",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Jordan Ellis"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input",
+   "aria": "Organization Name",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Organization"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.legal-entity-note.legal-entity-activity",
+   "aria": "Main Activity",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Organization"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input",
+   "aria": "NAICS code",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Organization"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.legal-entity-note.legal-entity-address",
+   "aria": "Address",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Organization"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "date-cell-input",
+   "aria": "Formation date",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Registrations / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.strategy-name-input.card-name-input",
+   "aria": "Registration Number",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Registrations / card 1"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.strategy-name-input.card-name-input",
+   "aria": "Tax Identification Number (EIN)",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Registrations / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.notepad-note-text",
+   "aria": "Note",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "other: color(srgb 0.0431373 0.341176 0.815686 / 0.28) 0px 0px 0px 4",
+   "outline": "none",
+   "where": "notes panel",
+   "scenes": [
+    "Notes panel / a new note"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.strategy-prose",
+   "aria": "Current situation analysis",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile Current Situation"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.strategy-prose",
+   "aria": "Strategic compass",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile Strategic Compass"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input.strategy-theme-name",
+   "aria": "Strategic Theme 1 name",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Strategic Theme 1 description",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.strategy-name-input.card-name-input",
+   "aria": "Goal 1 name",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.strategy-note",
+   "aria": "Goal 1 description",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.strategy-name-input.card-name-input",
+   "aria": "Objective 1 name",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.strategy-note",
+   "aria": "Objective 1 description",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.strategy-name-input.card-name-input",
+   "aria": "Objective 1 metric 1 name",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "interview-input.strategy-note",
+   "aria": "Metric 1 description",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input",
+   "aria": "Metric 1 baseline",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "tag": "input",
+   "cls": "interview-input",
+   "aria": "Metric 1 target",
+   "border": "1px rgb(11, 87, 208)",
+   "ring": "ring3",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Strengths 1",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Strengths 2",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Strengths 3",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Strengths 4",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Weaknesses 1",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Weaknesses 2",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Weaknesses 3",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Weaknesses 4",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Opportunities 1",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Opportunities 2",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Opportunities 3",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Opportunities 4",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Threats 1",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Threats 2",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Threats 3",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "tag": "textarea",
+   "cls": "numbered-list-input",
+   "aria": "Threats 4",
+   "border": "0px rgba(0, 0, 0, 0)",
+   "ring": "none",
+   "outline": "none",
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  }
+ ]
+}

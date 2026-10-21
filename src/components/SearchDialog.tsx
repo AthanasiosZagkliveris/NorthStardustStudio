@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { systems } from "../data/systems";
 import { search, snippet, type SearchHit, type SearchTarget } from "../framework/engine/Search";
 import { organizationSearchIndex } from "../services/SearchService";
-import { fieldLocation } from "./interview/openField";
-import { consumeKey } from "./interview/consumeKey";
+import { fieldLocation } from "./interview/tiles/openField";
+import { consumeKey } from "./interview/fields/consumeKey";
 
 type Navigate = ReturnType<typeof useNavigate>;
 

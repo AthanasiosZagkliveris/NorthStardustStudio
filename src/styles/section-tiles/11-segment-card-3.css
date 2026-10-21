@@ -1,0 +1,681 @@
+/* (A page arrow is hidden while a carousel card is open; a card's own arrows are not page arrows.) */
+.strategy-card-nav .page-arrow {
+
+    visibility: visible !important;
+
+}
+
+/* The rail stands under the right arrow, centred on the tiles symbol above it. */
+.strategy-card-nav .bullet-rail-list {
+
+    align-self: flex-end;
+
+    width: 32px;
+
+}
+
+/* THE "MAKE THESE CARDS TILES" SYMBOL (four diagonal arrows pointing at the centre), beside a card's x and OUTSIDE the card, at the x's level: it shows where cards stand one beside the other (two or more under one parent). The same square as the "+", and its reaction. */
+.strategy-box-tiles {
+
+    position: absolute;
+
+    top: 19px;
+
+    left: calc(100% + 13px);
+
+    width: 32px;
+
+    height: 32px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 0;
+
+    color: var(--accent-ink, var(--text-default));
+
+    border: 2px solid var(--accent-ink, var(--text-default));
+
+    border-radius: var(--radius-md);
+
+    background: transparent;
+
+    cursor: pointer;
+
+    transition: background-color .15s ease, color .15s ease;
+
+}
+
+.strategy-box-tiles > svg {
+
+    width: 18px;
+
+    height: 18px;
+
+}
+
+.strategy-box-tiles:is(:hover, :focus-visible) {
+
+    color: var(--x-ground, var(--bg-surface));
+
+    background: var(--accent-ink, var(--text-default));
+
+}
+
+.strategy-box-tiles:focus-visible {
+
+    outline: 2px solid var(--focus-ring-ink, var(--line-primary));
+
+    outline-offset: 2px;
+
+}
+
+/* The "+" and the tiles symbol keep their own ground (the generic "-box" ground of a card must not paint them): none at rest, the accent ink under the pointer or the keyboard. */
+:is(.strategy-theme-dialog, .strategy-goal-card) :is(.plus-box, .strategy-box-tiles) {
+
+    background: transparent !important;
+
+}
+
+:is(.strategy-theme-dialog, .strategy-goal-card) :is(.plus-box, .strategy-box-tiles):is(:hover, :focus-visible):not(:disabled) {
+
+    background: var(--accent-ink, var(--text-default)) !important;
+
+    color: var(--x-ground, var(--bg-surface));
+
+}
+
+/* A card brought forward slides in from the side it comes from (the arrows move left and right). */
+@keyframes strategy-card-in-next {
+
+    from { opacity: 0; transform: translateX(28px); }
+
+    to { opacity: 1; transform: none; }
+
+}
+
+@keyframes strategy-card-in-previous {
+
+    from { opacity: 0; transform: translateX(-28px); }
+
+    to { opacity: 1; transform: none; }
+
+}
+
+:is(.strategy-goal-box, .strategy-objective-box, .strategy-metric-box:not(.strategy-initiatives-box))[data-slide="next"] {
+
+    animation: strategy-card-in-next .22s ease-out;
+
+}
+
+:is(.strategy-goal-box, .strategy-objective-box, .strategy-metric-box:not(.strategy-initiatives-box))[data-slide="previous"] {
+
+    animation: strategy-card-in-previous .22s ease-out;
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    :is(.strategy-goal-box, .strategy-objective-box, .strategy-metric-box:not(.strategy-initiatives-box))[data-slide] {
+
+        animation: none;
+
+    }
+
+}
+
+/* The tooltip of a rail bullet: the card's number and name, to the left of the bullet, over the card (the page rail's tooltip look). */
+.strategy-card-nav .bullet-rail-list {
+
+    overflow: visible;
+
+    margin: 0;
+
+    padding: 0;
+
+    max-width: none;
+
+}
+
+.strategy-card-nav .bullet-rail-item {
+
+    position: relative;
+
+}
+
+/* THE RAIL'S BULLETS AND THE ARROWS FOLLOW THE CARD'S TINT: its edge colour (the one outlining the arrows), as a page tab's bullets follow the tab's edge. */
+.strategy-card-nav {
+
+    --nav-edge: var(--accent-ink, hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent)));
+
+    --rail-dot: color-mix(in srgb, var(--nav-edge) 38%, transparent);
+    --rail-dot-active: var(--nav-edge);
+    --rail-bloom: color-mix(in srgb, var(--nav-edge) 28%, transparent);
+    --rail-dot-hover: color-mix(in srgb, var(--nav-edge) 75%, transparent);
+    --rail-hover-ring: color-mix(in srgb, var(--nav-edge) 40%, transparent);
+
+}
+
+.strategy-card-nav-tip {
+
+    position: absolute;
+
+    top: 50%;
+
+    right: calc(100% + 8px);
+
+    max-width: 260px;
+
+    overflow: hidden;
+
+    padding: 4px 8px;
+
+    border: 1px solid var(--tooltip-border);
+
+    border-radius: var(--radius-md);
+
+    background: var(--tooltip-bg);
+
+    box-shadow: var(--tooltip-shadow);
+
+    color: var(--tooltip-text);
+
+    font-size: var(--font-small, 14px);
+
+    font-weight: 500;
+
+    letter-spacing: normal;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+    transform: translateY(-50%);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    z-index: 5;
+
+}
+
+.strategy-card-nav .bullet-rail-item:is(:hover, :focus-visible) .strategy-card-nav-tip {
+
+    opacity: 1;
+
+}
+
+/* THE RAIL UNDER ANY CAROUSEL ARROWS (a card's or a section's): a bullet for each of the list, under the right arrow, with the tooltip of its name on hovering (the page rail's bullets and look). */
+.carousel-rail {
+
+    position: fixed;
+
+    z-index: 5;
+
+    width: 24px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    pointer-events: none;
+
+}
+
+.carousel-rail .bullet-rail-list {
+
+    align-items: center;
+
+    overflow: visible;
+
+    margin: 0;
+
+    padding: 0;
+
+    max-width: none;
+
+    max-height: calc(100vh - 220px);
+
+    pointer-events: auto;
+
+}
+
+.carousel-rail .bullet-rail-item {
+
+    position: relative;
+
+}
+
+.carousel-rail .bullet-rail-item:is(:hover, :focus-visible) .strategy-card-nav-tip {
+
+    opacity: 1;
+
+}
+
+/* A hairline under a line of a tile's list (SectionTile.itemMarks, rule): the end of one topic of the list, as a hairline stands between two topics. */
+.column-tiles-page .section-tile-list > li.section-tile-list-rule {
+
+    margin-bottom: 8px;
+
+    padding-bottom: 8px;
+
+    border-bottom: 1px solid color-mix(in srgb, currentColor 40%, transparent);
+
+}
+
+/* THE STRATEGIC PERIOD'S DIALOG: the Start and the End side by side from the left edge (the tiles' own), the Financial Plan in one line under them, then the tiles. */
+.brand-style-body > .strategy-period-column,
+.strategy-period-column {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: var(--gap-12);
+
+    margin: 0;
+
+    padding: 0;
+
+}
+
+.column-tile-content .strategy-period-box,
+.strategy-period-column > .strategy-period-box {
+
+    display: flex;
+
+    flex-direction: row;
+
+    flex-wrap: wrap;
+
+    align-items: center;
+
+    gap: var(--gap-12) 32px;
+
+    margin: 0;
+
+    padding: 0;
+
+}
+
+.strategy-period-box .month-picker {
+
+    gap: var(--gap-12);
+
+}
+
+.strategy-period-column > .strategy-plan-dates {
+
+    margin: 0;
+
+    padding: 0;
+
+}
+
+.strategy-period-column > .strategy-plan-dates {
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 215px);
+
+    column-gap: var(--gap-12);
+
+    align-items: baseline;
+
+    width: 100%;
+
+}
+
+.strategy-period-column .strategy-plan-dates-text {
+
+    display: contents;
+
+}
+
+.strategy-period-column .strategy-plan-dates-text > .field-label {
+
+    grid-column: 1;
+
+    justify-self: end;
+
+}
+
+.strategy-period-column .strategy-plan-dates-text > strong {
+
+    grid-column: 2;
+
+    justify-self: start;
+
+}
+
+.strategy-period-column .strategy-plan-dates-text > :not(.field-label):not(strong),
+.strategy-period-column > .strategy-plan-dates > :not(.strategy-plan-dates-text) {
+
+    grid-column: 1 / -1;
+
+}
+
+/* The "Add Card" among the Strategic Period's tiles is the standard one (half a tile, dashed, in the grid's last column); the Themes' guidance "i" stands in its corner. */
+.strategy-period-themes .strategy-add-menu {
+
+    position: relative;
+
+}
+
+.strategy-period-themes .strategy-add-menu > .info-note {
+
+    position: absolute;
+
+    top: 4px;
+
+    right: 4px;
+
+    margin: 0;
+
+}
+
+.column-tile-content .strategy-period-box,
+.strategy-period-column > .strategy-period-box {
+
+    width: 100%;
+
+    max-width: none;
+
+}
+
+.strategy-period-box .month-picker-label {
+
+    flex: 0 0 auto;
+
+}
+
+.strategy-period-box .month-picker-label,
+.strategy-period-box .month-picker .field-label {
+
+    padding: 0;
+
+    margin: 0;
+
+    text-align: left;
+
+}
+
+/* THE STRATEGIC PERIOD'S DIALOG, second pass: the Financial Plan stands beside the title; the End stands under the Start, their labels one width so the two cells align. */
+.column-tile-content .business-engagement-section-head:has(.strategy-plan-dates) {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    align-items: baseline;
+
+    column-gap: var(--gap-24);
+
+}
+
+.business-engagement-section-head > .strategy-plan-dates {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    align-items: baseline;
+
+    gap: 0 var(--gap-8);
+
+    margin: 0;
+
+}
+
+.business-engagement-section-head > .strategy-plan-dates .strategy-plan-dates-text {
+
+    display: flex;
+
+    align-items: baseline;
+
+    gap: var(--gap-8);
+
+}
+
+.strategy-period-column > .strategy-period-box {
+
+    flex-direction: column;
+
+    flex-wrap: nowrap;
+
+    align-items: flex-start;
+
+    justify-content: flex-start;
+
+    gap: var(--gap-12);
+
+    width: auto;
+
+}
+
+.strategy-period-box .month-picker-label {
+
+    width: 48px;
+
+    min-width: 48px;
+
+}
+
+/* (third pass) The dialog is as wide as three tiles and their gaps; the Financial Plan beside the title is one line, not indented. */
+.strategy-period-column {
+
+    width: calc(3 * 215px + 2 * 12px);
+
+}
+
+.business-engagement-section-head > .strategy-plan-dates {
+
+    padding: 0;
+
+    border-left: 0;
+
+    background: none;
+
+}
+
+.business-engagement-section-head > .strategy-plan-dates .strategy-plan-dates-text {
+
+    flex-direction: row;
+
+}
+
+/* (fourth pass) The date cells fit the longest month and year (September 2029) with 12px at each side, and stand at the right: their right side level with the right side of the first tile below. The label keeps the left edge. */
+.strategy-period-column .strategy-period-box .month-picker {
+
+    width: 215px;
+
+    justify-content: space-between;
+
+}
+
+.strategy-period-column .strategy-period-box .month-picker-trigger {
+
+    width: 100%;
+
+    max-width: var(--control-date);
+
+    min-width: 0;
+
+    box-sizing: border-box;
+
+}
+
+/* A dialog opened on one of its own cards (a "+" made it): it is not shown until that card has opened over it. */
+.section-tile-dialog:has([data-initial-pending]) {
+
+    visibility: hidden;
+
+}
+
+.strategy-period-column .strategy-period-box .month-picker {
+
+    gap: 0;
+
+}
+
+.strategy-period-column .strategy-period-box .month-picker-label {
+
+    width: auto;
+
+    min-width: 0;
+
+    flex: 0 0 auto;
+
+}
+
+/* THE STRATEGIC PERIOD'S TOP ROW: the Start and the End in the first column; the Roadmap's tile over the second and the third, from the top of the Start to the bottom of the End. */
+.strategy-period-top {
+
+    display: grid;
+
+    grid-template-columns: minmax(0, 215px) minmax(0, 1fr);
+
+    column-gap: var(--gap-12);
+
+    align-items: stretch;
+
+    width: 100%;
+
+}
+
+.strategy-period-roadmap,
+.strategy-period-roadmap .strategy-embedded-tiles,
+.strategy-period-roadmap .section-tiles-box,
+.strategy-period-roadmap .section-tiles,
+.strategy-period-roadmap .section-tile-slot {
+
+    display: flex;
+
+    flex-direction: column;
+
+    width: 100%;
+
+    height: 100%;
+
+    min-height: 0;
+
+}
+
+/* (The tile does not set the row's height: that is the two cells', and the tile fills it.) */
+.strategy-period-top > .strategy-period-box {
+
+    align-self: start;
+
+}
+
+.strategy-period-roadmap {
+
+    position: relative;
+
+}
+
+.strategy-period-roadmap > .strategy-embedded-tiles {
+
+    position: absolute;
+
+    inset: 0;
+
+}
+
+.strategy-period-roadmap .section-tiles-box,
+.strategy-period-roadmap .section-tiles,
+.strategy-period-roadmap .section-tile-slot,
+.strategy-period-roadmap .section-tile {
+
+    width: 100%;
+
+    height: 100%;
+
+    aspect-ratio: auto;
+
+    max-width: none;
+
+}
+
+/* Its name alone, as a first heading, in capitals. */
+.strategy-period-roadmap .section-tile-title {
+
+    font-size: var(--font-h1, 2rem);
+
+    text-transform: uppercase;
+
+}
+
+.strategy-period-roadmap .section-tile {
+
+    justify-content: center;
+
+}
+
+/* THE ROADMAP'S TILE has its own reaction: it does not grow. Under the pointer its name takes the primary ink; pressed, it sinks a little (as a button does). */
+.strategy-period-roadmap .section-tile-slot:hover {
+
+    transform: none;
+
+    z-index: auto;
+
+}
+
+.strategy-period-roadmap .section-tile .section-tile-title {
+
+    transition: color .15s ease;
+
+}
+
+.strategy-period-roadmap .section-tile:hover .section-tile-title {
+
+    color: var(--text-primary);
+
+}
+
+.strategy-period-roadmap .section-tile:active {
+
+    transform: translateY(2px);
+
+    box-shadow: inset 0 2px 6px var(--shadow-18);
+
+}
+
+.strategy-period-roadmap .section-tile:active .section-tile-title {
+
+    color: var(--text-strong);
+
+}
+
+/* A page of ONE frame (Strategy System): the frame stands at the left, where a two-frame page's first frame does (the heading's underline starts there), and the rails keep their place beside it. */
+.answer-columns.strategy-single-frame > .business-foundation-card {
+
+    justify-self: start !important;
+
+}
+
+/* (The one frame of Strategy System is as wide as each of a two-frame page's: half the card area less half the gap between them.) */
+.answer-columns.strategy-single-frame > .business-foundation-card {
+
+    width: calc(50% + 7px) !important;
+
+}
+
+
+/* The Strategic Period's column and its top row never grow past the dialog: their content (the Roadmap's tile) takes what is left. */
+.strategy-period-column,
+.strategy-period-top {
+
+    min-width: 0;
+
+    max-width: 100%;
+
+}

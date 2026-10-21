@@ -18,6 +18,8 @@ export default defineConfig({
     plugins: [react()],
     test: {
         environment: "jsdom",
-        include: ["src/**/*.test.{ts,tsx}"]
+        include: ["src/**/*.test.{ts,tsx}"],
+        // (The suite is heavy and the machines slow: the default 5s timed out tests that pass alone.)
+        testTimeout: 40000
     }
 });

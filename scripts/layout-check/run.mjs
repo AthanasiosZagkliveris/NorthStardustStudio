@@ -21,13 +21,13 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 /** The findings known today (see the end of this file): the check fails only on one that is not in it. */
-const BASELINE_FILE = fileURLToPath(new URL("./baseline.json", import.meta.url));
+const STANDARD_BASELINE_FILE = fileURLToPath(new URL("./baseline.json", import.meta.url));
 
 export const SPEC = {
     /** From the end of a card's number ("1.", or "1. Goal") to its name: the one gap. */
     numberToName: 8,
     /** The closed set of control widths (XS, Code, Date, S, M, L); a control may also fill its column or its container. */
-    widths: [80, 128, 170, 220, 300, 420],
+    widths: [80, 128, 160, 220, 300, 420],
     /** The square variant: as wide as a control is tall (a Text Hierarchy px box). */
     square: 45,
     /** A label to its control (--space-label), and one field or row to the next (--space-field). */
@@ -36,7 +36,7 @@ export const SPEC = {
     /** Every card's and section box's inner side margin (--card-padding). */
     cardPadding: 12,
     /** The one single-line control height. */
-    controlHeight: 45,
+    controlHeight: 44,
     tolerance: 0.5
 };
 
@@ -52,8 +52,19 @@ export const PAGES = [
 export const WIDTHS = [1920, 1366, 768];
 export const THEMES = ["light", "dark"];
 
+/** A window is [width, height]; the standard check keeps the height at 1000. */
+export const SIZES = WIDTHS.map(width => [width, 1000]);
+
+/**
+ * THE WIDE CHECK (--wide): all three reading modes (sepia too) and the screen classes of the website's profiles and of the minimum width
+ * (768): Tablet 768 and 1024 wide; Laptop 1200 and wider and lower than 1250 (the 1440 x 864 and 1440 x 1024 reference cases, and 1366 x 768,
+ * the common laptop); Desktop 1200 and wider and 1250 or higher. Its findings are kept in baseline-wide.json, apart from the standard baseline.
+ */
+export const WIDE_THEMES = ["light", "sepia", "dark"];
+export const WIDE_SIZES = [[768, 1024], [1024, 768], [1366, 768], [1440, 864], [1440, 1024], [1920, 1000], [1920, 1300]];
+
 /** Opens a page of a System, from the System list. */
-async function openPage(page, base, system, pageName) {
+export async function openPage(page, base, system, pageName) {
     await page.goto(base + "/assistant");
     await page.waitForTimeout(600);
     await page.getByText("Foundation", { exact: true }).first().click();
@@ -111,18 +122,16 @@ export async function seedExample(page, base, exampleText) {
 export const REACTIONS = [
     // A tick box: under the pointer, the box's glow ring.
     { kind: "tick box", selector: "input[type=checkbox]:not(:disabled)", property: "boxShadow", on: "self" },
-    // A box you write into: its edge takes the primary colour. (An image's
+    // A box you write into: the glow round it (R1: the edge never changes under the pointer; the primary edge is the ring's). (An image's
     // name and description react as their one holder, .brand-image-text.)
-    { kind: "text box", selector: "input.interview-input:not([type=checkbox]):not(:disabled):not(:focus):not(.brand-image-text *), textarea.interview-input:not(:disabled):not(:focus):not(.brand-image-text *)", property: "borderColor", on: "self" },
-    { kind: "text holder", selector: ".brand-image-text", property: "borderColor", on: "self" },
-    // A picker: its edge, as a box you write into.
-    { kind: "picker", selector: ".option-picker-trigger:not(:disabled)", property: "borderColor", on: "self" },
+    { kind: "text box", selector: "input.interview-input:not([type=checkbox]):not(:disabled):not(:focus):not(.brand-image-text *), textarea.interview-input:not(:disabled):not(:focus):not(.brand-image-text *)", property: "boxShadow", on: "self" },
+    { kind: "text holder", selector: ".brand-image-text", property: "boxShadow", on: "self" },
+    // A picker: the glow, as a box you write into.
+    { kind: "picker", selector: ".option-picker-trigger:not(:disabled)", property: "boxShadow", on: "self" },
     // An add button: its ground.
     { kind: "add button", selector: ".strategy-add-button:not(:disabled)", property: "backgroundColor", on: "self" },
     // A card's ×: its ground.
     { kind: "remove", selector: ".strategy-box-remove:not(:disabled)", property: "backgroundColor", on: "self", same: true },
-    // A fold arrow: its ground.
-    { kind: "fold arrow", selector: ".strategy-box-toggle", property: "backgroundColor", on: "self" }
 ];
 
 export async function checkReactions(page, where, sample = 3) {
@@ -278,6 +287,10 @@ export async function checkRealMouse(page, where) {
             await page.evaluate(() => document.querySelectorAll(".card-scroll").forEach(body => { body.scrollTop = 0; }));
             await page.waitForTimeout(200);
             const link = page.locator(".section-tile-slot").nth(at).locator("button.section-tile-link").nth(k);
+            // (The squeezed Inventory / Completed row shows titles only: its list items are not drawn.)
+            if (await page.locator(".section-tiles-completed[data-squeezed] .section-tile-slot").nth(0).count() && (await link.evaluate(node => !!node.closest(".section-tiles-completed[data-squeezed]")))) {
+                continue;
+            }
             const name = info.title + " > item " + (k + 1);
             let box = await link.boundingBox();
             if (!box) {
@@ -289,7 +302,10 @@ export async function checkRealMouse(page, where) {
                 const body = node.closest(".card-scroll");
                 const at = node.getBoundingClientRect();
                 const room = body ? body.getBoundingClientRect() : { top: 0, bottom: window.innerHeight };
-                return at.top + at.height / 2 > room.top && at.top + at.height / 2 < room.bottom;
+                // (An item the tile's own box cuts off is not drawn: out of reach, not tried.)
+                const tile = node.closest(".section-tile-slot")?.getBoundingClientRect();
+                const centre = at.top + at.height / 2;
+                return centre > room.top && centre < room.bottom && (!tile || (centre > tile.top && centre < tile.bottom - 4));
             });
             if (!inView) {
                 continue;
@@ -344,8 +360,8 @@ export async function checkRealMouse(page, where) {
                     if (back.grown.length > 0) {
                         fail("closing a keyboard-opened card grows no tile", { item: name, grown: back.grown });
                     }
-                    if (!back.ring || !back.ring.visible || back.ring.outline === "none") {
-                        fail("closing a keyboard-opened card leaves the ring on its opener", { item: name, ring: back.ring });
+                    if (back.ring && back.ring.visible && back.ring.outline !== "none") {
+                        fail("closing a keyboard-opened card draws no ring on its opener either (the owner's rule)", { item: name, ring: back.ring });
                     }
                 }
             }
@@ -357,7 +373,7 @@ export async function checkRealMouse(page, where) {
 }
 
 /** The whole check: a list of failures (empty is a pass). */
-export async function runLayoutCheck(page, { base = "http://localhost:1420", probe, pages = PAGES, widths = WIDTHS, themes = THEMES } = {}) {
+export async function runLayoutCheck(page, { base = "http://localhost:1420", probe, pages = PAGES, widths, sizes = (widths ?? WIDTHS).map(width => [width, 1000]), themes = THEMES } = {}) {
     const failures = [];
     // The reference x: the first Legal Entity card's.
     let referenceX = null;
@@ -381,13 +397,13 @@ export async function runLayoutCheck(page, { base = "http://localhost:1420", pro
             }
             for (const theme of themes) {
                 await page.evaluate(value => document.documentElement.setAttribute("data-theme", value), theme);
-                for (const width of widths) {
-                    await page.setViewportSize({ width, height: 1000 });
+                for (const [width, height] of sizes) {
+                    await page.setViewportSize({ width, height });
                     await page.waitForTimeout(300);
                     // The page as drawn, then every section tile's dialog opened in turn
                     // (a page with no tiles is just the page).
                     const found = await page.evaluate(spec => window.__layoutProbe.checkWithTiles(spec), SPEC);
-                    failures.push(...found.map(failure => ({ page: system + " › " + name, theme, width, ...failure })));
+                    failures.push(...found.map(failure => ({ page: system + " › " + name, theme, width, ...(height !== 1000 ? { height } : {}), ...failure })));
                 }
             }
             // The real mouse on the list items of the first-row tiles (3. Infrastructure & Capability), in a tall and a low window.
@@ -404,11 +420,50 @@ export async function runLayoutCheck(page, { base = "http://localhost:1420", pro
     return failures;
 }
 
+/**
+ * THE DEV SERVER: the check needs the app running. Where nothing answers at the address, it starts `npm run dev` itself (and stops it at the end), so
+ * "ERR_CONNECTION_REFUSED" never ends a run; the server it finds already running is left alone.
+ */
+async function ensureServer(base) {
+    const up = async () => { try { return (await fetch(base)).ok; } catch { return false; } };
+    if (await up() || !/^https?:\/\/(localhost|127\.0\.0\.1)/.test(base)) {
+        return () => {};
+    }
+    console.error("No server at " + base + ": starting npm run dev for the check.");
+    const { spawn, execSync } = await import("node:child_process");
+    const child = spawn("npm", ["run", "dev"], { shell: true, stdio: "ignore", cwd: fileURLToPath(new URL("../../", import.meta.url)) });
+    for (let wait = 0; wait < 90 && !(await up()); wait += 1) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+    if (!(await up())) {
+        console.error("The dev server did not start in 90 seconds.");
+    }
+    return () => {
+        try {
+            if (process.platform === "win32") {
+                execSync("taskkill /pid " + child.pid + " /T /F", { stdio: "ignore" });
+            } else {
+                child.kill();
+            }
+        } catch { /* already gone */ }
+    };
+}
+
 // As a script: node scripts/layout-check/run.mjs
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+    const stopServer = await ensureServer(process.env.BASE_URL ?? "http://localhost:1420");
+    process.on("exit", stopServer);
     const { chromium } = await import("playwright");
     const browser = await chromium.launch(process.env.PW_CHANNEL ? { channel: process.env.PW_CHANNEL } : {});
     const page = await browser.newPage();
+    // STEADIER ON A BUSY MACHINE: every wait of the check is first the fonts being ready (a line measured before the font swaps has the wrong height), then its time times CHECK_SLOW
+    // (1.5 by default; CHECK_SLOW=3 on a machine that is busy with other work, 1 on a quiet one).
+    const slow = Number(process.env.CHECK_SLOW ?? 1.5);
+    const waitOnce = page.waitForTimeout.bind(page);
+    page.waitForTimeout = async (milliseconds) => {
+        await page.evaluate(() => document.fonts?.ready).catch(() => {});
+        await waitOnce(Math.round(milliseconds * slow));
+    };
     const probe = readFileSync(new URL("./layout-probe.js", import.meta.url), "utf8");
     const base = process.env.BASE_URL ?? "http://localhost:1420";
     const failures = [];
@@ -422,18 +477,34 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
     const only = (name) => process.env[name]?.split(",").map(entry => entry.trim()).filter(Boolean);
     const pageFilter = only("CHECK_PAGES");
     const pages = pageFilter ? PAGES.map(([system, names]) => [system, names.filter(name => pageFilter.some(entry => name.includes(entry)))]).filter(([, names]) => names.length > 0) : PAGES;
-    const widths = only("CHECK_WIDTHS")?.map(Number) ?? WIDTHS;
-    const themes = only("CHECK_THEMES") ?? THEMES;
+    // --wide: the three reading modes and the screen classes (WIDE_SIZES); CHECK_SIZES="768x1024,1440x864" picks the windows by hand.
+    const wide = process.argv.includes("--wide");
+    const sizeText = only("CHECK_SIZES")?.map(entry => entry.split("x").map(Number));
+    const widths = only("CHECK_WIDTHS")?.map(Number);
+    const sizes = sizeText ?? (widths ? widths.map(width => [width, 1000]) : wide ? WIDE_SIZES : SIZES);
+    const themes = only("CHECK_THEMES") ?? (wide ? WIDE_THEMES : THEMES);
     const exampleFilter = only("CHECK_EXAMPLES");
     for (const example of ["lumen-and-loom-studio.json", "quillfield-automation-llc.json"].filter(name => !exampleFilter || exampleFilter.some(entry => name.includes(entry)))) {
-        await seedExample(page, base, readFileSync(new URL("../../src/data/examples/" + example, import.meta.url), "utf8"));
-        failures.push(...(await runLayoutCheck(page, { base, probe, pages, widths, themes })).map(failure => ({ example, ...failure })));
+        // (A page that reloads under the script -- the dev server hot-reloading, a slow machine -- makes the run start again, twice at most, instead of ending it.)
+        for (let attempt = 1; ; attempt += 1) {
+            try {
+                await seedExample(page, base, readFileSync(new URL("../../src/data/examples/" + example, import.meta.url), "utf8"));
+                failures.push(...(await runLayoutCheck(page, { base, probe, pages, sizes, themes })).map(failure => ({ example, ...failure })));
+                break;
+            } catch (error) {
+                if (attempt >= 3 || !/context was destroyed|Target closed|net::ERR/.test(String(error))) {
+                    throw error;
+                }
+                console.error("The page changed under the check (" + String(error).split("\n")[0] + "): starting this example again.");
+            }
+        }
     }
     await browser.close();
     // THE BASELINE: the findings known today (BASELINE_FILE). The check fails only on a finding that is NOT in it, so it can run after every change; a finding that is gone is said, and the baseline is rewritten with --write-baseline.
     // (A card made by a "+" gets a random id each run: an id -- eight letters and digits after a hyphen -- is not part of a finding's key.)
     const plain = text => text.replace(/(?<=-)[a-z0-9]{8}(?![a-z0-9])/g, "~");
-    const keyOf = failure => plain([failure.example, failure.page, failure.theme, failure.width, failure.rule, failure.where, failure.tile].join("|"));
+    const BASELINE_FILE = wide ? fileURLToPath(new URL("./baseline-wide.json", import.meta.url)) : STANDARD_BASELINE_FILE;
+    const keyOf = failure => plain([failure.example, failure.page, failure.theme, failure.width, ...(failure.height ? [failure.height] : []), failure.rule, failure.where, failure.tile].join("|"));
     if (process.argv.includes("--write-baseline")) {
         const merged = new Map();
         if (existsSync(BASELINE_FILE)) {

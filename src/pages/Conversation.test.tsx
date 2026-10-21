@@ -9,7 +9,7 @@ import { FocusModeService } from "../services/FocusModeService";
 
 // The Strategy confirmation is only reached through real Strategy
 // content; a stand-in Foundation page asks for it directly.
-vi.mock("../components/interview/StrategyFoundationEditor.tsx", () => ({
+vi.mock("../components/interview/editors/StrategyFoundationEditor.tsx", () => ({
     default: (props: { guardSituationRefresh?: (apply: () => void) => void }) => (
         <button type="button" onClick={() => props.guardSituationRefresh?.(() => {})}>
             Ask to refresh
@@ -155,7 +155,7 @@ describe("Conversation records the last place worked", () => {
         expect(OrganizationService.getLastPlace(organization.id)).toEqual({ systemNumber: 1, sectionIndex: 2 });
         fireEvent.click(screen.getByRole("navigation", { name: "Pages" }).querySelectorAll(".bullet-rail-item")[1]);
 
-        // (The Foundation page holds the Definition and the Ethics, four tiles each: Philosophy's dialog opens, and the field in it is focused.)
+        // (The Definition and Ethics page holds the Definition chapter and the Ethics chapter, four tiles each: Philosophy's dialog opens, and the field in it is focused.)
         fireEvent.click(screen.getByRole("button", { name: /^Philosophy/ }));
         const card = document.querySelector<HTMLElement>(".column-tile-content[data-rail]")!;
         const field = card.querySelector<HTMLElement>("textarea, input")!;

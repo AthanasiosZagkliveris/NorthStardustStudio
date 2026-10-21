@@ -69,6 +69,7 @@
        on a wide one (36px being the app's largest type size). */
     font-size: var(--font-h1);
     font-weight: 700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
     line-height: 1.2;
 
     color: var(--text-default);
@@ -104,7 +105,7 @@
     /* 4.54:1 against the page in light mode, over the 3:1 a field's
        edge needs (the divider grey it had measured 1.47:1). */
     border: 1px solid var(--line-capability-input);
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
 
     font: inherit;
     font-size: var(--font-h3);
@@ -155,7 +156,7 @@
 
     justify-content: center;
 
-    gap: 12px;
+    gap: var(--gap-12);
 
 }
 
@@ -174,7 +175,7 @@
     background: var(--bg-surface);
 
     border: 1px solid var(--line-divider);
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
 
     font: inherit;
     font-size: var(--font-body);

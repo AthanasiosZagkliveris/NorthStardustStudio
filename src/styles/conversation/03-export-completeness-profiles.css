@@ -1,0 +1,572 @@
+/* ==========================================================
+   Export Warning / Options
+========================================================== */
+
+/* The sentence between the title and the list: what the list is,
+   and what each button will do with it. */
+.confirmation-lead{
+
+    margin:0 0 4px;
+
+    padding:0 12px;
+
+    font-size:var(--font-body);
+    line-height:1.5;
+
+    color:var(--text-secondary);
+
+    text-align:left;
+
+}
+
+.confirmation-warning-list{
+
+    list-style:none;
+
+    margin:0;
+
+    /* Inset from the dialog's edge so the list reads as
+       following the (centered) title inward, rather than
+       sitting flush against the dialog's left border. */
+    padding:0 12px 0 32px;
+
+    max-height:260px;
+
+    overflow-y:auto;
+
+    text-align:left;
+
+}
+
+/* ==========================================================
+   The completeness list
+
+   Eleven names in one red column said only "something is
+   wrong", eleven times over. Structure carries the message
+   instead: a page heading, and the answers under it that are
+   still empty.
+
+   The heading is the red one, because the page is what the
+   reader has to go back to. What is under it is ordinary dark
+   text with a rule down its left side -- red on red made every
+   line shout equally, and none of it louder than the page name
+   that is actually the instruction.
+========================================================== */
+
+.confirmation-warning-group{
+
+    padding:4px 0 10px;
+
+}
+
+.confirmation-warning-page{
+
+    display:block;
+
+    color:var(--text-danger);
+
+    font-weight:700;
+
+    text-align:left;
+
+}
+
+.confirmation-warning-units{
+
+    list-style:none;
+
+    margin:6px 0 0;
+    padding:0 0 0 14px;
+
+    border-left:2px solid var(--line-warning-units);
+
+}
+
+.confirmation-warning-units li{
+
+    /* #374151 on the dialog's white is 10.3:1, and the red above
+       it stays the one thing the eye is pulled to. */
+    color:var(--text-secondary);
+
+    font-weight:500;
+
+    text-align:left;
+
+    padding:3px 0;
+
+}
+
+.confirmation-button:disabled{
+
+    opacity:.45;
+
+    cursor:not-allowed;
+
+}
+
+.confirmation-button.secondary:disabled:hover,
+.confirmation-button.primary:disabled:hover{
+
+    background:inherit;
+
+}
+
+.export-options-dialog{
+
+    width:420px;
+
+}
+
+.export-options-group{
+
+    margin-top:20px;
+
+}
+
+.export-options-group:first-of-type{
+
+    margin-top:8px;
+
+}
+
+.export-options-label{
+
+    font-weight:700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    color:var(--text-default);
+
+    margin-bottom:10px;
+
+}
+
+.export-options-radio,
+.export-options-checkbox{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    font-size:var(--font-body);
+
+    color:var(--text-default);
+
+    padding:6px 0;
+
+    cursor:pointer;
+
+}
+
+.export-options-radio input,
+.export-options-checkbox input{
+
+    width:18px;
+
+    height:18px;
+
+    accent-color:var(--bg-primary);
+
+    cursor:pointer;
+
+}
+
+.export-options-text-input{
+
+    width:100%;
+
+    height:44px;
+
+    padding:0 14px;
+
+    margin-top:8px;
+
+    border:1px solid var(--line-input-soft);
+
+    border-radius:var(--radius-lg);
+
+    font:inherit;
+    font-size:var(--font-body);
+
+}
+
+.export-options-text-input:focus{
+
+    outline:none;
+
+    border-color:var(--line-primary);
+
+    /* Focus ring, not just a border-colour swap. The unfocused
+       border is var(--box-border) and the focused one #0b57d0 -- only 1.5:1
+       apart, so colour alone was a weak focus cue (WCAG 2.2 SC
+       2.4.11 wants 3:1 against the unfocused state). The ring is
+       independent of the border colour, adds no layout (box-shadow
+       does not affect flow), and matches the ring .user-name-input
+       and the Free Text textarea already use. */
+    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+
+}
+
+.export-options-picker{
+
+    margin-top:6px;
+
+    margin-bottom:4px;
+
+    max-height:220px;
+
+    overflow-y:auto;
+
+    border:1px solid var(--line-table);
+
+    border-radius:var(--radius-lg);
+
+    padding:8px 12px;
+
+    background:var(--bg-table-head);
+
+}
+
+.export-options-picker-empty{
+
+    font-size:var(--font-small);
+
+    color:var(--text-subtle);
+
+    padding:4px 0;
+
+}
+
+.export-options-picker-process{
+
+    padding:6px 0;
+
+}
+
+.export-options-picker-process + .export-options-picker-process{
+
+    border-top:1px solid var(--line-picker);
+
+}
+
+.export-options-picker-process-name{
+
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    font-size:var(--font-small);
+
+    color:var(--text-default);
+
+    padding:4px 0;
+
+}
+
+.export-options-picker-row{
+
+    font-size:var(--font-small);
+
+    padding:4px 0;
+
+}
+
+.export-options-picker-row input{
+
+    width:16px;
+
+    height:16px;
+
+}
+
+.export-options-picker-row-nested{
+
+    padding-left:20px;
+
+}
+
+/* ==========================================================
+   Profile Cards
+========================================================== */
+
+.profile-cards-wrapper{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-16);
+
+}
+
+/* Cards render in a single horizontal row, one behind
+   the other -- flex-wrap stays "nowrap" so they never
+   drop to a second line; if there are more cards than
+   fit the available width, the row scrolls horizontally
+   instead (same convention as .answer-variant-cards).
+   align-items:flex-start (rather than stretch) keeps
+   every card's height fully independent -- a card with
+   a lot of text grows taller on its own, without forcing
+   its shorter neighbors to match it. */
+.profile-cards-row{
+
+    display:flex;
+
+    flex-wrap:nowrap;
+
+    align-items:flex-start;
+
+    gap:var(--gap-16);
+
+    overflow-x:auto;
+
+    /* A card scales up and grows a glow on hover/focus (see
+       .profile-card:hover / :focus-within below). transform:scale()
+       and box-shadow both paint outside the card's own layout box
+       without changing it, so without this the row's own edges --
+       and, per the CSS overflow spec, setting overflow-x to
+       anything but "visible" forces the browser to clip overflow-y
+       too, even though it's never set here -- would cut that glow
+       off on whichever side it grows into. The negative margin
+       cancels the padding's visual shift so the row still lines up
+       exactly where it did before; the padding itself just gives
+       the scaled/glowing card breathing room to paint into, on
+       every side, before the scrollable box's own edge clips it. */
+    margin:-20px;
+
+    padding:20px;
+
+}
+
+/* Each card keeps a fixed width so the row lines up
+   neatly, but its height is deliberately NOT fixed --
+   a card with a lot of text simply grows taller on its
+   own (its subtitle textareas auto-grow, see
+   AutoGrowTextarea in AnswerRenderer.tsx) rather than
+   scaling its content down or clipping/scrolling it, and
+   independently of how tall any other card in the row is
+   (see .profile-cards-row's align-items:flex-start). */
+.profile-card{
+
+    position:relative;
+
+    flex:0 0 280px;
+
+    width:280px;
+
+    border:1px solid var(--box-border);
+    border-radius:10px;
+
+    background:var(--bg-surface);
+
+    box-shadow:0 1px 3px var(--shadow-ink-08);
+
+    transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+
+}
+
+/* Hovering a card -- no need to click into a field first --
+   is enough to "select" it: it grows slightly and gets a
+   light-blue glow, so it's obvious which card responds if the
+   user starts typing. z-index lifts it above its neighbors so
+   the enlarged card is never clipped underneath them.
+   :not(:focus-within) keeps this rule from fighting the
+   focus-within rule below once the user actually clicks/types
+   in it -- at that point the card shrinks back down (see next
+   rule) even while still being hovered. */
+.profile-card:hover:not(:focus-within){
+
+    transform:scale(1.04);
+
+    border-color:var(--line-primary);
+
+    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent), 0 10px 24px var(--shadow-ink-16);
+
+    z-index:2;
+
+}
+
+/* Once the user actually presses into (or starts typing in) a
+   field on the card, it drops back to its normal size -- easier
+   to read/type in -- but keeps the same light-blue glow, so it
+   stays unmistakable which card is "live" even at normal size. */
+.profile-card:focus-within{
+
+    transform:scale(1);
+
+    border-color:var(--line-primary);
+
+    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent), 0 10px 24px var(--shadow-ink-16);
+
+    z-index:2;
+
+}
+
+/* Holds the card's actual content (title + subtitles). */
+.profile-card-inner{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+    box-sizing:border-box;
+
+    width:100%;
+    height:100%;
+
+    padding:16px;
+
+}
+
+.profile-card-remove{
+
+    position:absolute;
+
+    top:10px;
+    right:10px;
+
+    width:26px;
+    height:26px;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    border:1px solid var(--box-border);
+    border-radius:var(--radius-md);
+
+    background:var(--bg-surface);
+
+    color:var(--text-default);
+
+    font-size:var(--font-small);
+    line-height:1;
+
+    cursor:pointer;
+
+    transition:background-color .2s ease, border-color .2s ease, color .2s ease;
+
+}
+
+.profile-card-remove:hover:not(:disabled){
+
+    background:var(--bg-danger-tint-alt);
+
+    border-color:var(--line-danger);
+
+    color:var(--text-danger);
+
+}
+
+/* Always shows the card's identity ("Customer Group 1",
+   "Competitor 2", ...) regardless of whether the user has
+   typed a custom title below it. */
+.profile-card-fixed-label{
+
+    padding-right:38px;
+
+    font-size:var(--font-small);
+    font-weight:700;
+
+    letter-spacing:.04em;
+    text-transform:uppercase;
+
+    color:var(--text-subtle);
+
+}
+
+.profile-card-title-input{
+
+    padding-right:38px;
+
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    transition:background-color .15s ease;
+
+}
+
+/* The specific field currently being typed into gets a
+   light-blue background, pinpointing exactly which part of
+   the (now-glowing) card the user is working in. */
+.profile-card-title-input:focus,
+.profile-card-subtitle-textarea:focus{
+
+    background:var(--bg-primary-tint-hover);
+
+}
+
+.profile-card-section{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-6);
+
+}
+
+.profile-card-subtitle{
+
+    font-size:var(--font-small);
+    font-weight:700;
+
+    letter-spacing:.04em;
+    text-transform:uppercase;
+
+    color:var(--text-subtle);
+
+}
+
+/* Grows with its own content (see AutoGrowTextarea in
+   AnswerRenderer.tsx) rather than scrolling internally --
+   overriding the base textarea rule's min-height, which
+   would otherwise fight the auto-grow height this
+   element's own JS sets inline. */
+.profile-card-subtitle-textarea{
+
+    min-height:0;
+
+    height:auto;
+
+    resize:none;
+
+    overflow:hidden;
+
+}
+
+/* The + that adds a profile card is the app's + box (AddButton, box): at the end of the row, on its foot. */
+.profile-card-add{
+
+    align-self:flex-end;
+
+}
+
+/* The trailing card (e.g. "Market Position") sits below
+   the horizontal row, not in it -- it keeps the same
+   rounded/bordered look but expands to the full row
+   width instead of the row cards' fixed width. */
+.profile-card-trailing{
+
+    flex:none;
+
+    width:100%;
+
+    border-color:var(--line-primary-soft);
+
+    background:var(--bg-primary-faint);
+
+}
+
+.profile-card-trailing-description{
+
+    margin:-4px 0 0;
+
+    font-size:var(--font-small);
+
+    color:var(--text-subtle);
+
+}
+

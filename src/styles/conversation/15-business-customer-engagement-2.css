@@ -1,0 +1,887 @@
+/* A cell holds one control, and that control takes the cell. */
+.business-channel-cell > .option-picker,
+.business-channel-cell .option-picker .option-picker-trigger.interview-input{
+
+    width:100%;
+
+}
+
+/* One gap between everything stacked in a cell, and the same gap
+   between a dropdown and the × beside it: the shared row spacing. */
+.business-channel-cell > * + *{
+
+    margin-top:var(--space-row);
+
+}
+
+/* The Customer Channel table's cells: what stacks in a cell (one pick
+   under another) stands a field gap (12px) apart, a pick's add a field
+   gap under its picker, and its x a cell gap (12px) from the picker. */
+.business-channel-table:not(.business-relationship-table) .business-channel-cell > * + *{
+
+    margin-top:var(--space-field);
+
+}
+
+.business-channel-table:not(.business-relationship-table) .business-channel-pick{
+
+    row-gap:var(--space-field);
+
+}
+
+.business-channel-table:not(.business-relationship-table) .business-channel-pick > .business-channel-steps{
+
+    margin-left:var(--space-cell);
+
+}
+
+/* The channel's own name, the nesting mark in front of it, and the
+   control that removes it -- and under them, where the channel is
+   (its links), from the name's left edge to the ×'s right edge: one
+   grid for the row and what stacks under it, as a dropdown's add
+   is (.business-channel-pick). The mark's and the ×'s gaps are their
+   own margins, so an absent × adds none.
+
+   The mark and the × are ANCHORED TO THE NAME'S FIRST LINE, where
+   they sit beside a one-line name, however many lines the name
+   wraps to: the row aligns to the top, and each is centred on the
+   44px one-line box by its own top margin. */
+.business-channel-name > .business-channel-nest{
+
+    grid-column:lead;
+
+    /* Its 28px line centred on the 44px box's first line, in the
+       middle of the column the fold arrow above takes. */
+    margin-top:8px;
+
+    text-align:center;
+
+}
+
+.business-channel-name > .suggested-input,
+.business-channel-name > .interview-input{ grid-column:control; }
+
+.business-channel-name > .strategy-box-remove{
+
+    grid-column:remove;
+
+    /* The 32px × centred on the 44px box's first line. */
+    margin-top:6px;
+
+}
+
+/* A CHANNEL SITS UNDER ITS CATEGORY: the step in is its ↳, in the
+   column the category's fold arrow takes, so the cell itself starts
+   where the category's does. */
+.business-channel-cell-nested{
+
+    padding-left:8px;
+    padding-right:8px;
+
+}
+
+/* THE CUSTOMER CHANNEL TABLE'S MARGINS ARE ONE: 12px (--space-field)
+   from every cell's edge to what stands in it, at the sides (the
+   category and nested cells' 8px too) and at the top and bottom, as
+   its gaps between cells. The Relationship table keeps its own. */
+.business-channel-table:not(.business-relationship-table) thead th,
+.business-channel-table:not(.business-relationship-table) .business-channel-cell,
+.business-channel-table:not(.business-relationship-table) .business-channel-cell-nested,
+.business-channel-table:not(.business-relationship-table) .business-channel-category-row th{
+
+    padding:var(--space-field);
+
+}
+
+/* WHERE THE CHANNEL IS, under what it is called and starting where
+   the name starts rather than the cell -- so the links read as the
+   channel's own and not as a second answer beside it. */
+.business-channel-name > .business-channel-links{
+
+    grid-column:control / end;
+
+    min-width:0;
+
+}
+
+/* A CHANNEL'S RESOURCES (ChannelResources.tsx): its small resource
+   cards, those serving it through a shared action as chips, a summary
+   line and "+ Add expenses" -- under the channel's name, from where the
+   name starts to the cell's end, as the Links above. */
+.business-channel-name > .business-channel-resources{
+
+    grid-column:control / end;
+
+    display:flex;
+
+    flex-direction:column;
+
+    /* One resource card to the next: a card gap (12px). */
+    gap:var(--space-card);
+
+    min-width:0;
+
+}
+
+/* One resource: a small card on the grey card ground -- its name (the
+   Resource card's, on Infrastructure & Capability) and its ×, what it
+   costs there and how many actions it serves (which opens it there),
+   its actions as chips, and "# Link an action". */
+.business-channel-resource{
+
+    display:flex;
+
+    flex-direction:column;
+
+    /* Its name, cost, chips and link: a field gap (12px) apart. */
+    gap:var(--space-field);
+
+    min-width:0;
+
+    padding:8px;
+
+    border:1px solid var(--box-border);
+    border-radius:var(--radius-md);
+
+    background:var(--bg-panel);
+
+}
+
+/* A RESOURCE'S CARD IS IN ITS OWN COLOUR (global.css, the warm palette:
+   .tint-resource-N, one per resource of the Segment): a 4px stripe down its
+   left edge and its action chips tinted to match -- the
+   same colour as the line down the left of each linked action's cell. Lit
+   (pointed at, or its action's symbol pointed at), the card is on the
+   tint's wash. While the table isolates, only the resources involved are
+   drawn. */
+.business-channel-resource{
+
+    padding-left:12px;
+
+    box-shadow:inset 4px 0 0 var(--tint-mark);
+
+    transition:background-color .15s ease;
+
+}
+
+.business-channel-resource.is-lit{
+
+    background:var(--tint-wash);
+
+}
+
+.business-channel-resource .business-channel-resource-actions,
+.business-channel-resources-shared .notepad-chip{
+
+    --accent-ink:var(--tint-ink);
+    --accent-line:var(--tint-mark);
+    --accent-ground:var(--tint-ground);
+
+}
+
+/* A chip reads "#12 Post reels" on ONE line, the words cut with an ellipsis
+   (the full text is its title). */
+.business-channel-resource-actions .notepad-chip{
+
+    min-width:0;
+
+}
+
+.business-channel-resource-actions .notepad-chip-open{
+
+    flex-direction:row;
+    align-items:baseline;
+    gap:var(--gap-6);
+
+    min-width:0;
+
+    overflow:hidden;
+
+}
+
+.business-channel-resource-actions .notepad-chip-tag{
+
+    flex:none;
+
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+}
+
+.business-channel-resource-actions .notepad-chip-description{
+
+    min-width:0;
+
+    overflow:hidden;
+
+    white-space:nowrap;
+    text-overflow:ellipsis;
+
+}
+
+/* The action the isolation came from: ringed and washed in the resource's
+   colour, and bolder. */
+.business-channel-resource-actions .notepad-chip.is-picked{
+
+    border-color:var(--tint-mark);
+
+    background:var(--tint-wash);
+
+    box-shadow:0 0 0 2px var(--tint-mark);
+
+}
+
+.business-channel-resource-actions .notepad-chip.is-picked .notepad-chip-description{
+
+    font-weight:700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    color:var(--tint-ink);
+
+}
+
+/* PAST SIX RESOURCES (global.css, .tint-pattern-*): the card's 4px stripe and
+   its chips' left edge are drawn in the pattern -- the hue's stripes or
+   cross-hatch against the contrasting second colour -- instead of the solid
+   stripe. */
+.business-channel-resource:is(.tint-pattern-stripes, .tint-pattern-hatch){
+
+    position:relative;
+
+    box-shadow:none;
+
+}
+
+.business-channel-resource:is(.tint-pattern-stripes, .tint-pattern-hatch)::before,
+:is(.tint-pattern-stripes, .tint-pattern-hatch) :is(.business-channel-resource-actions, .business-channel-resources-shared) .notepad-chip::before,
+.business-channel-resources-shared .notepad-chip:is(.tint-pattern-stripes, .tint-pattern-hatch)::before{
+
+    content:"";
+
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+
+    width:4px;
+
+    background-image:var(--tint-fill);
+
+    pointer-events:none;
+
+}
+
+:is(.tint-pattern-stripes, .tint-pattern-hatch) :is(.business-channel-resource-actions, .business-channel-resources-shared) .notepad-chip,
+.business-channel-resources-shared .notepad-chip:is(.tint-pattern-stripes, .tint-pattern-hatch){
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+/* A card shared into another channel's cell: its name and cost (opening the
+   card), then "via shared action" under them, the action a link to its line in
+   the table (one link per action, "#12", when it is shared through several). */
+.business-channel-shared-body{
+
+    display:flex;
+    flex-direction:column;
+
+    min-width:0;
+
+}
+
+.business-channel-via-shared{
+
+    padding:0 10px 2px;
+
+    font-size:var(--font-small);
+    line-height:1.5;
+
+    color:var(--text-subtle);
+
+}
+
+.business-channel-via-link{
+
+    padding:0;
+
+    margin-right:6px;
+
+}
+
+.business-channel-via-link:last-child{
+
+    margin-right:0;
+
+}
+
+.business-channel-resource-summary{
+
+    align-self:flex-start;
+
+    font-size:var(--font-small);
+
+    color:var(--accent-ink);
+
+}
+
+.business-channel-resource-summary button[aria-pressed="true"]{
+
+    font-weight:700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    text-decoration:underline;
+
+}
+
+.business-channel-resource-head{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:var(--space-cell);
+
+    min-width:0;
+
+}
+
+.business-channel-resource-head > .business-channel-resource-name{
+
+    flex:1 1 auto;
+
+    min-width:0;
+
+}
+
+.business-channel-resource-head > .business-channel-resource-remove{
+
+    flex:none;
+
+    margin-top:8px;
+
+}
+
+.business-channel-resource-cost{
+
+    align-self:flex-start;
+
+    padding:0;
+
+    border:0;
+
+    background:none;
+
+    font:inherit;
+    font-size:var(--font-small);
+    text-align:start;
+
+    color:var(--accent-ink);
+
+    cursor:pointer;
+
+}
+
+.business-channel-resource-cost:hover{
+
+    text-decoration:underline;
+
+}
+
+.business-channel-resource-cost:focus-visible{
+
+    outline:2px solid var(--line-primary);
+    outline-offset:2px;
+
+}
+
+.business-channel-resource-actions,
+.business-channel-resources-shared{
+
+    margin:0;
+
+}
+
+html.action-picking .business-channel-table textarea[data-field-id]{
+
+    cursor:pointer;
+
+}
+
+html.action-picking .business-channel-table textarea[data-pick-hover]{
+
+    outline:2px solid var(--accent-line);
+    outline-offset:2px;
+
+}
+
+/* "For channel: Social Media › Instagram" on a Resource card a channel
+   holds (Infrastructure & Capability): read only, quiet. */
+
+
+.business-channel-cost-summary{
+
+    margin:0;
+
+    font-size:var(--font-small);
+    font-weight:400;
+
+    color:var(--text-subtle);
+
+    text-align:start;
+
+}
+
+.business-channel-cost-add{
+
+    position:relative;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:var(--space-row);
+
+    min-width:0;
+
+}
+
+.business-channel-cost-add > .interview-input{
+
+    width:100%;
+
+}
+
+.business-channel-cost-add > .notepad-suggestions{
+
+    width:100%;
+
+}
+
+
+/* ---------- A box that knows some likely answers ---------- */
+
+/* ONE FIELD, with the list behind the chevron beside it. The name
+   is typed straight in; the chevron offers the places worth
+   offering, and choosing "Other" empties the box and hands over the
+   caret rather than opening a second box underneath.
+
+   With nothing worth offering there is no chevron, and it is the
+   plain input it would otherwise have been. */
+/* THE CHEVRON SITS INSIDE THE BOX, where a dropdown's does (see
+   .option-picker-trigger) -- laid over the input's own right-hand
+   end rather than pushed up against its edge, so the two read as
+   one control. The input keeps the border, ground and focus ring
+   every other field in the app has; only the chevron is
+   positioned. */
+.suggested-input{
+
+    position:relative;
+
+    display:flex;
+
+    /* A name that wraps grows the box downwards; the chevron stays
+       on its first line (.suggested-input-toggle's top). */
+    align-items:flex-start;
+
+    flex:1 1 auto;
+
+    min-width:0;
+
+}
+
+.suggested-input > .suggested-input-field{
+
+    flex:1 1 auto;
+
+    min-width:0;
+
+    /* Room for the chevron, so a long name runs under it rather
+       than over it. */
+    padding-right:34px;
+
+}
+
+/* EMPTY, IT IS A PICKER'S ONE LINE: the placeholder ("Channel
+   category", "Channel name") never wraps -- it ends in "…" where the
+   box is narrower -- as a closed picker's text never does
+   (.option-picker-value). A name typed in still wraps and grows the
+   box. */
+.suggested-input > .suggested-input-field:placeholder-shown{
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+}
+
+.suggested-input > .suggested-input-field::placeholder{
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+}
+
+.suggested-input-toggle{
+
+    position:absolute;
+
+    /* Centred on the box's first line: (44px one-line box - 24) / 2. */
+    top:10px;
+    right:4px;
+
+    width:24px;
+    height:24px;
+
+    padding:0;
+
+    border:0;
+    border-radius:var(--radius-sm);
+
+    cursor:pointer;
+
+    /* THE SAME MARK EVERY DROPDOWN IN THIS APP CARRIES -- the 12x8
+       chevron .option-picker-trigger draws (see its rule above),
+       byte for byte. It was a typed "▾" before, which came out
+       visibly smaller than the chevrons in the columns beside it
+       and changed size with whatever font was resolved. */
+    background-color:transparent;
+    background-image:var(--select-chevron);
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size:12px 8px;
+
+}
+
+.suggested-input-toggle:hover:not(:disabled){
+
+    background-color:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-hover)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}
+
+.suggested-input-toggle:focus-visible{
+
+    outline:2px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-ink));
+    outline-offset:1px;
+
+}
+
+/* The "↳" the specification draws in front of every channel under
+   its category. Decorative: the category row above already says
+   what these belong to, and a screen reader does not need an
+   arrow read out. */
+.business-channel-nest{
+
+    flex:0 0 auto;
+
+    font-size:var(--font-body);
+    line-height:28px;
+
+    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
+
+}
+
+/* ONE VALUE OF SEVERAL: a dropdown, and the small controls that
+   add another or take this one away.
+
+   Both the Offerings cell and the Journey Stage cell are built
+   from these. A cell that holds several answers grows a line at a
+   time, and every line is the same control -- so the two columns
+   behave identically and neither needs a button wider than the
+   thing it adds to.
+
+   A .multi-select dropdown was here, taking all of a cell's
+   answers at once. It is gone: one control per answer is what
+   makes + and − mean anything. */
+.business-channel-pick{
+
+    /* ONE GRID FOR THE ROW AND WHAT STACKS UNDER IT: the fold arrow
+       (where there is one), the dropdown, the × -- and under them the
+       add for one more, from the dropdown's left edge to the ×'s
+       right edge, so the stack reads as one tidy block. The arrow's
+       column is empty (0) where there is no arrow; the gaps are the
+       arrow's and the ×'s own margins, so an empty column adds none. */
+    display:grid;
+
+    grid-template-columns:[lead] auto [control] minmax(210px, 1fr) [remove] auto [end];
+
+    /* TOP, not centre. The two stacked buttons beside the dropdown
+       are taller than it, and centring the dropdown against them
+       dropped it a few pixels below the boxes in every other
+       column. Aligned to the top, every cell in a row starts on the
+       same line. */
+    align-items:start;
+
+    row-gap:var(--space-row);
+
+    min-width:0;
+
+}
+
+.business-channel-pick > .strategy-box-toggle{
+
+    grid-column:lead;
+
+    margin-right:var(--space-row);
+
+}
+
+.business-channel-pick > .option-picker{ grid-column:control; }
+
+/* No × (the only Offering left cannot be removed): the empty column and
+   its margin go, so the dropdown ends where the add button under it ends. */
+.business-channel-pick > .business-channel-steps:empty{ display:none; }
+
+.business-channel-pick > .business-channel-steps{
+
+    grid-column:remove;
+
+    margin-left:var(--space-row);
+
+}
+
+.business-channel-pick > .business-step-add-row{ grid-column:control / end; }
+
+/* "Not usual for this category": a stage kept that its channel's
+   category does not usually take -- quiet small type under it. */
+.business-channel-pick > .business-channel-stage-note{
+
+    grid-column:control / end;
+
+    font-size:var(--font-small);
+    line-height:1.4;
+
+    color:var(--text-subtle);
+
+}
+
+/* Floored at the longest option any of these dropdowns holds --
+   "Support & Follow Up" measures 178px at its own padding, and the
+   32px × beside it (once the app's one remove control, item 10,
+   replaced the narrower "-") left this only 170px to shrink into,
+   truncating it to "Support & Follow …". The cell grows to fit
+   this floor rather than the dropdown clipping under it. */
+/* THE JOURNEY STAGE PICKER IS AS WIDE AS ITS LONGEST OPTION ("Support & Follow
+   Up"; OptionPicker hug, sized for every stage), the × right beside it, and its
+   column is exactly that wide (--col-stage, useChannelColumns, below): the
+   pick's control track takes what its column leaves, no floor of its own. */
+.business-channel-pick.business-channel-pick-stage{
+
+    grid-template-columns:[lead] auto [control] minmax(0, 1fr) [remove] auto [end];
+
+}
+
+.business-channel-pick > .option-picker{
+
+    /* It fills its column up to the × (a list row keeps the full
+       row, not a standard control width); the floor is the grid
+       column's (minmax(210px, 1fr) above). */
+    width:auto;
+
+    min-width:0;
+
+}
+
+/* The × beside a pick that is one of several. (The add for one
+   more has its own line: .business-step-add-row, below.) */
+.business-channel-steps{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:var(--gap-4);
+
+    flex:0 0 auto;
+
+    /* The × is the app's one remove control (.strategy-box-remove,
+       32px), CENTRED on the 44px dropdown beside it as every × is on
+       its row: (44 - 32) / 2. */
+    margin-top:6px;
+
+}
+
+/* The add for one more value (BusinessStep): the app's labelled
+   add button, on its own line under the last pick, as wide as the
+   pick and its × together (the grid above places it), its label
+   centred as every full-width add button's is. */
+.business-step-add-row{
+
+    display:flex;
+
+}
+
+.business-step-add-row > .strategy-add-button{
+
+    flex:1 1 auto;
+
+}
+
+/* THE CHANNEL AND RELATIONSHIP TABLES REFLOW rather than overflow.
+   Their dropdown columns need 272px each (the 210px dropdown, 6px,
+   the × beside it, and the cell's own padding), which
+   their share of the table gives only from 1300px up -- the table is
+   1331px in a 1536px or wider window, 1185px in a 1366px one. Narrower, every row
+   becomes two columns -- Channel and Offerings over Journey Stage
+   and Action, the column heads laid out the same way above them --
+   and anything spanning columns (a category, a band, a Relationship
+   Type) takes the whole width. Under 600px, one column. Read on the
+   table's own width (the wrap is the container), so the same table
+   lays out the same way wherever it sits. */
+.business-channel-table-wrap{
+
+    container:channel-table / inline-size;
+
+}
+
+/* "+ Add Channel Category", under the table: as wide as the Channel
+   column it adds to -- from the table's left edge to that column's
+   right border -- while the table has four columns, and the stacked
+   table's full width once it has not. */
+.business-channel-table-wrap > .strategy-add-button{
+
+    display:block;
+
+    width:100%;
+
+    margin-top:var(--space-card);
+
+}
+
+@container channel-table (min-width: 1300px){
+
+    .business-channel-table-wrap > .strategy-add-button{
+
+        /* The table draws its left border (1px) and shares the rest
+           between the four columns: a quarter of that, and the border. */
+        width:calc((100% - 1px) / 4 + 1px);
+
+    }
+
+}
+
+/* THE CUSTOMER CHANNEL TABLE'S COLUMNS, while it has four (not the
+   Relationship table's): Channel and Journey Stage fit their dropdowns exactly
+   (--col-channel, --col-stage: the widest option of each, the picker's chrome,
+   what stands beside it and the 12px of padding at both sides), and Offerings
+   and Action share what is left (--col-offerings, --col-action), Action -- the
+   column of sentences -- the larger part. All four are measured in pixels in the
+   font the table is drawn in, and again as it is resized (useChannelColumns.ts,
+   ChannelTableColumns.ts: a calc() with percentages does not size a table
+   column). Until they are measured, four equal columns. */
+@container channel-table (min-width: 1300px){
+
+    .business-channel-table:not(.business-relationship-table) > thead > tr > th:nth-child(1){ width:var(--col-channel, 25%); }
+    .business-channel-table:not(.business-relationship-table) > thead > tr > th:nth-child(2){ width:var(--col-offerings, 25%); }
+    .business-channel-table:not(.business-relationship-table) > thead > tr > th:nth-child(3){ width:var(--col-stage, 25%); }
+    .business-channel-table:not(.business-relationship-table) > thead > tr > th:nth-child(4){ width:var(--col-action, 25%); }
+
+}
+
+@container channel-table (max-width: 1299px){
+
+    .business-channel-table,
+    .business-channel-table > thead,
+    .business-channel-table > tbody{
+
+        display:block;
+
+    }
+
+    .business-channel-table tr{
+
+        display:grid;
+
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+
+    }
+
+    .business-channel-table tr > :nth-child(n){
+
+        display:block;
+
+        width:auto;
+
+    }
+
+    .business-channel-table tr > [colspan]:not([colspan="1"]),
+    .business-channel-table tr > .business-relationship-type-cell{
+
+        grid-column:1 / -1;
+
+    }
+
+}
+
+@container channel-table (max-width: 599px){
+
+    .business-channel-table tr{
+
+        grid-template-columns:minmax(0, 1fr);
+
+    }
+
+}
+
+/* A name shown rather than asked: Page 2's Segment and Profile
+   heads, whose names belong to Page 1. Sized and placed exactly
+   where the name input sits in every other head, so a referring
+   card and an answering one read as the same card. */
+.strategy-name-static{
+
+    flex:1 1 auto;
+
+    min-width:0;
+
+    font-size:var(--font-body);
+    font-weight:600;
+
+    letter-spacing:0.05em;
+
+    line-height:28px;
+
+    color:var(--text-default);
+
+}
+
+/* What the page says when Page 1 has not been started. */
+.business-engagement-page-empty{
+
+    grid-column:1 / -1;
+
+}
+
+/* The three reference columns halve with the page, then stack.
+   Three columns inside half a page is three columns nothing fits
+   in. */
+@media (max-width: 1500px){
+
+    .business-engagement-reference-columns{
+
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+
+    }
+
+}
+
+@media (max-width: 900px){
+
+    .business-engagement-reference-columns{
+
+        grid-template-columns:minmax(0, 1fr);
+
+    }
+
+}
+

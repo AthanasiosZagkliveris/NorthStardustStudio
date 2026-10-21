@@ -4,17 +4,6 @@
    Channel Fee Table. Numbers align to the right.
 ========================================================== */
 
-.settings-intro{
-
-    margin:0;
-
-    font-size:var(--font-body);
-    line-height:1.5;
-
-    color:var(--text-muted);
-
-}
-
 .settings-section{
 
     display:flex;
@@ -23,23 +12,12 @@
 
 }
 
-.settings-subtitle{
-
-    margin:8px 0 0;
-
-    font-size:var(--font-body);
-    font-weight:600;
-
-    color:var(--text-default);
-
-}
-
 .settings-field{
 
     display:grid;
     grid-template-columns:minmax(0, 320px) auto minmax(0, 1fr);
     align-items:center;
-    gap:8px 20px;
+    gap:var(--gap-8) 20px;
 
 }
 
@@ -53,7 +31,7 @@
 
     display:inline-flex;
     align-items:center;
-    gap:8px;
+    gap:var(--gap-8);
 
 }
 
@@ -116,6 +94,7 @@
 
     font-size:var(--font-body);
     font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     color:var(--text-default);
 
@@ -167,9 +146,7 @@
    Every box and picker is as high as a card's cell (--card-cell-height) and its text the body size; the label column, the cell column and the hint stand on the same
    three columns in every section. */
 .settings-page .settings-field{
-
-    grid-template-columns:minmax(0, 340px) 240px minmax(0, 1fr);
-    gap:8px 20px;
+    gap:var(--gap-8) 20px;
 
 }
 
@@ -177,13 +154,7 @@
 
     display:flex;
     align-items:center;
-    gap:8px;
-
-}
-
-.settings-page .settings-number{
-
-    width:140px;
+    gap:var(--gap-8);
 
 }
 
@@ -203,89 +174,13 @@
 
 }
 
-.settings-subtitle-row{
-
-    display:flex;
-    align-items:center;
-    gap:16px;
-
-    margin-top:8px;
-
-}
-
-.settings-subtitle-row > .settings-subtitle{
-
-    margin:0;
-
-}
-
-.settings-reset{
-
-    padding:4px 12px;
-
-    border:1px solid var(--line-primary);
-    border-radius:999px;
-
-    background:var(--bg-surface);
-    color:var(--text-default);
-
-    font:inherit;
-    font-size:var(--font-small);
-
-    cursor:pointer;
-
-}
-
-.settings-reset:disabled{
-
-    border-color:var(--box-border);
-
-    color:var(--text-faint);
-
-    cursor:default;
-
-}
-
-.settings-life-category{
-
-    display:flex;
-    flex-direction:column;
-
-    gap:12px;
-
-    padding:12px 0 0;
-
-}
-
-.settings-category-title{
-
-    margin:0;
-
-    font-size:var(--font-body);
-    font-weight:700;
-
-    text-transform:uppercase;
-    letter-spacing:0.08em;
-
-    color:var(--text-subtle);
-
-}
-
-.settings-life-group{
-
-    display:flex;
-    flex-direction:column;
-
-    gap:8px;
-
-}
 
 .settings-asset{
 
     display:grid;
     grid-template-columns:minmax(0, 340px) 240px minmax(0, 1fr);
     align-items:center;
-    gap:8px 20px;
+    gap:var(--gap-8) 20px;
 
     padding-left:20px;
 
@@ -310,14 +205,6 @@
     overflow:hidden;
     text-overflow:ellipsis;
     white-space:nowrap;
-
-}
-
-.settings-asset-cost{
-
-    font-size:var(--font-body);
-
-    color:var(--text-muted);
 
 }
 
@@ -357,7 +244,7 @@
     display:flex;
     align-items:center;
 
-    gap:6px;
+    gap:var(--gap-6);
 
     font-size:var(--font-body);
 
@@ -368,7 +255,7 @@
     display:flex;
     align-items:center;
 
-    gap:8px;
+    gap:var(--gap-8);
 
 }
 
@@ -418,6 +305,7 @@
 .settings-assets-group th{
 
     font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -442,17 +330,10 @@
 /* ---- CELLS THE SIZE OF THEIR FIGURES ----
    A figure box is 112px (a card's short cell), never a column's whole width; the Assets table has four columns of fixed widths -- the asset, its cost, its
    useful life, the reset -- and is as wide as they are. */
-.settings-page .settings-number{
-
-    width:112px;
-
-}
 
 .settings-page .settings-number-column .settings-number,
 .settings-page .settings-table .settings-number,
 .settings-page .settings-assets-table .settings-number{
-
-    width:96px;
     min-width:0;
 
 }
@@ -467,19 +348,10 @@
 }
 
 .settings-page .settings-assets-table col.settings-col-asset{ width:340px; }
-.settings-page .settings-assets-table col.settings-col-cost{ width:150px; }
-.settings-page .settings-assets-table col.settings-col-life{ width:132px; }
-.settings-page .settings-assets-table col.settings-col-reset{ width:90px; }
 
 .settings-page .settings-assets-table .settings-number-column{
 
     text-align:left;
-
-}
-
-.settings-page .settings-assets-cost-cell{
-
-    font-size:var(--font-body);
 
 }
 
@@ -495,16 +367,6 @@
 .settings-page .settings-assets-table .settings-number{
 
     width:80px;
-
-}
-
-.settings-reset:not(:disabled):hover,
-.settings-reset:not(:disabled):focus-visible{
-
-    border-color:var(--glow-color, var(--line-primary));
-    background:color-mix(in srgb, var(--glow-color, var(--line-primary)) 14%, var(--bg-surface));
-
-    outline:none;
 
 }
 
@@ -571,23 +433,12 @@
 .settings-page .settings-assets-table col.settings-col-cost{ width:110px; }
 .settings-page .settings-assets-table col.settings-col-frequency{ width:140px; }
 .settings-page .settings-assets-table col.settings-col-life{ width:120px; }
-.settings-page .settings-assets-table col.settings-col-reset{ width:90px; }
-
-/* The Reset is the app's own small button. */
-.settings-page .settings-reset{
-
-    padding:4px 12px;
-
-    border-radius:6px;
-
-    font-size:var(--font-small);
-
-}
+.settings-page .settings-assets-table col.settings-col-reset{ width:130px; }
 
 /* A date cell on the page is the one date cell (the Start date cell's size). */
 .settings-page .date-cell{
 
-    width:198px;
+    width:var(--control-date);
 
 }
 

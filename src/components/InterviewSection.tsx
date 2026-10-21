@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
+import AddButton from "./controls/AddButton.tsx";
 import { Section, SectionBlock } from "../framework/model";
-import { questionLineClass } from "./interview/AnswerRenderer.tsx";
+import { questionLineClass } from "./interview/editors/AnswerRenderer.tsx";
 
 interface InterviewSectionProps {
     section: Section;
@@ -130,14 +131,11 @@ export default function InterviewSection({ section, hideTitle }: InterviewSectio
 
             {hasHelp && (
                 <div className="interview-help">
-                    <button
-                        type="button"
-                        className="interview-help-toggle"
+                    <AddButton look="interview-help-toggle"
                         onClick={() => setHelpOpen(value => !value)}
-                        aria-expanded={helpOpen}
-                    >
+                        aria-expanded={helpOpen}>
                         {helpOpen ? "Hide Help" : "Need Help?"}
-                    </button>
+                    </AddButton>
 
                     {helpOpen && (
                         <div className="interview-help-panel">

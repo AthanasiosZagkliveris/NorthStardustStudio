@@ -1,0 +1,222 @@
+.financial-inline-note{
+
+    grid-column:1 / -1;
+
+    margin:0;
+
+    font-size:var(--font-body);
+
+}
+
+.financial-capacity-verdict{
+
+    margin:8px 0 4px;
+
+    padding:10px 14px;
+
+    border-left:4px solid var(--line-capacity-ok);
+    border-radius:var(--radius-md);
+
+    background:var(--bg-capacity-ok);
+
+    font-size:var(--font-body);
+    line-height:1.5;
+
+}
+
+/* A shortfall is a caution to act on, not an error in the plan. */
+.financial-capacity-short{
+
+    border-left-color:var(--line-capacity-short);
+
+    background:var(--bg-capacity-short);
+
+}
+
+.financial-capacity-table td{
+
+    text-align:right;
+
+    white-space:nowrap;
+
+}
+
+.financial-capacity-over th,
+.financial-capacity-over td{
+
+    background:var(--bg-capacity-short);
+
+}
+
+/* An answer that disagrees with how customers buy (Customer Engagement). */
+.financial-mismatch,
+.delivery-mismatch{
+
+    margin:8px 0 0;
+
+    padding:6px 10px;
+
+    border-left:3px solid var(--line-caution);
+
+    background:var(--bg-caution-tint);
+
+    color:var(--text-caution-ink);
+
+}
+
+/* A comparison whose figures change: fixed columns, so nothing moves. */
+.financial-fixed-table{
+
+    table-layout:fixed;
+
+    width:100%;
+
+}
+
+.financial-fixed-table .financial-col-label{
+
+    width:34%;
+
+}
+
+/* The stress test's verdict, in the tone of what it says. */
+.financial-stress-verdict{
+
+    margin:0 0 6px;
+
+    padding:10px 14px;
+
+    border-left:4px solid var(--line-faint);
+
+    border-radius:var(--radius-sm);
+
+    background:var(--bg-neutral);
+
+    font-size:var(--font-body);
+
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    line-height:1.45;
+
+    color:var(--text-default);
+
+}
+
+.financial-stress-verdict.financial-stress-risk{ border-left-color:var(--line-danger-deep); background:var(--bg-danger-tint); }
+
+.financial-stress-verdict.financial-stress-caution{ border-left-color:var(--line-caution); background:var(--bg-caution-tint); }
+
+.financial-stress-verdict.financial-stress-good{ border-left-color:var(--line-holds); background:var(--bg-holds); }
+
+.financial-stress-short{ color:var(--text-danger-deep); font-weight:600; 
+ letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));}
+
+.financial-stress-holds{ color:var(--text-holds); font-weight:600; 
+ letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));}
+
+/* What it would take: one change a line. */
+.financial-take-list{
+
+    margin:4px 0 8px;
+
+    padding-left:22px;
+
+    font-size:var(--font-body);
+
+    line-height:1.6;
+
+    color:var(--text-default);
+
+}
+
+
+/* Strategy 1.1: where the Current Situation came from, and Refresh. */
+.strategy-situation-source{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:flex-start;
+
+    gap:0;
+
+    margin-top:0;
+
+}
+
+/* Strategy 1.4: the financial plan's dates beside the Period. */
+.strategy-plan-dates{
+
+    /* In from the edge as the Start and End labels above it are (the
+       45px of .strategy-period-box .month-picker-label), so its two
+       lines start where theirs do. */
+    padding-left:45px;
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    align-items:baseline;
+
+    gap:var(--gap-4) var(--gap-12);
+
+    margin:6px 0 10px;
+
+    font-size:var(--font-body);
+
+    line-height:1.4;
+
+    color:var(--text-muted);
+
+}
+
+/* "Financial Plan:" on its line, the dates in bold on the next (and
+   any note under them). */
+.strategy-plan-dates-text{
+
+    display:flex;
+    flex-direction:column;
+
+}
+
+/* Strategy 1.4: "+ Add Theme", one menu for the founder's own
+   Theme or a common one. The page's typeface (Inter) throughout:
+   a <button> does not inherit it on its own, and fell back to Arial.
+   Options read at the page's own 18px, with normal spacing and
+   sentence case, the easiest for a reader with dyslexia. */
+.strategy-add-menu{
+
+    position:relative;
+
+    display:flex;
+
+}
+
+.strategy-add-menu > .strategy-add-button{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:var(--gap-8);
+
+    font-family:inherit;
+
+}
+
+/* "Write your own": an action, in the button's blue, not a second
+   bold row competing with the heading. */
+
+/* "or choose one below": a plain line in black, not a heading; the
+   choices under it are the blue actions, as "Write your own" is. */
+
+
+
+/* Refresh is a header tool button (the app header's own look), with its "i" beside it; the note it carried is in the "i". */
+.strategy-situation-source > .strategy-situation-refresh{
+
+    margin-left:0;
+
+}

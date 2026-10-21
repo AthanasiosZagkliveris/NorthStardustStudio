@@ -10,8 +10,8 @@
 
 .strategy-box-remove{
 
-    width:32px;
-    height:32px;
+    width:var(--size-box-button);
+    height:var(--size-box-button);
 
     /* The same square in every row: a flex row never squeezes it
        (an Activity's performer × and a cost's × beside "Change"
@@ -27,7 +27,7 @@
     color:var(--text-default);
 
     border:1px solid var(--box-border);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--bg-surface);
 
@@ -130,16 +130,8 @@
 ========================================================== */
 :root{
 
-    /* The x of a cell or a field (a row, a clear): the danger text red. */
+    /* ONE RED for every x (a cell's or a field's, a card's): the danger text red of the theme. */
     --x-red:var(--text-danger);
-
-}
-
-/* The x that deletes a CARD keeps the previous default red (the one before this restyle). */
-.card-remove,
-.profile-card-remove{
-
-    --x-red:var(--bg-danger-strong);
 
 }
 

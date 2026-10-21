@@ -1,0 +1,621 @@
+/* ==========================================================
+   Operational Log (Operations System, Section 3) -- a bespoke
+   editor (see OperationalLogEditor.tsx), styled to match the
+   generic `.dynamic-table-scroll` look (border/padding/font on
+   `.interview-input`, same row-action circles) rather than the
+   Process Library's own look, since this is a flat one-row-per-
+   entry table much closer in shape to DynamicTable's own tables.
+========================================================== */
+
+.operational-log{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-12);
+
+}
+
+/* Whole-Section empty state -- shown instead of the filters/table
+   entirely when there are no Log entries yet at all (as opposed to
+   `.operational-log-empty-filtered`, a single row shown INSIDE the
+   table when a filter matches nothing). */
+.operational-log-empty{
+
+    color:var(--text-subtle);
+    font-style:italic;
+
+}
+
+.operational-log-filters{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    align-items:flex-end;
+
+    gap:14px;
+
+}
+
+.operational-log-filter{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-4);
+
+}
+
+.operational-log-filter-label{
+
+    font-size:var(--font-small);
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    color:var(--text-subtle);
+
+}
+
+.operational-log-filter .interview-input{
+
+    min-width:200px;
+
+}
+
+/* The "Latest change per Process only" checkbox filter -- laid out
+   as a row (checkbox + label text) rather than the stacked label-
+   above-control shape every other `.operational-log-filter` uses,
+   since there's no separate label caption needed above a checkbox.
+   `align-items:flex-end` on the shared `.operational-log-filters`
+   parent would otherwise sink this to the bottom oddly next to the
+   taller <select>s -- `align-self:center` keeps the checkbox+text
+   vertically centered against its own row instead. */
+.operational-log-filter-checkbox{
+
+    flex-direction:row;
+
+    align-items:center;
+    align-self:center;
+
+    gap:var(--gap-6);
+
+    font-size:var(--font-small);
+    color:var(--text-deep);
+
+    cursor:pointer;
+
+}
+
+.operational-log-filter-checkbox input{
+
+    cursor:pointer;
+
+}
+
+/* The age-based bulk-delete bar -- sits below the Process/Owner/
+   latest-only filters, above the table itself. Deliberately its
+   own row (not folded into `.operational-log-filters`) since it
+   acts on the whole stored Log rather than just changing what the
+   table currently shows. */
+.operational-log-retention{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    align-items:flex-end;
+
+    gap:14px;
+
+    padding:10px 14px;
+
+    background:var(--bg-retention);
+    border:1px solid var(--line-retention);
+    border-radius:var(--radius-lg);
+
+}
+
+.operational-log-delete-old{
+
+    border:1px solid var(--box-border);
+    border-radius:var(--radius-md);
+
+    background:var(--bg-surface);
+
+    color:var(--text-danger-alt);
+
+    font:inherit;
+    font-size:var(--font-small);
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    padding:8px 12px;
+
+    height:38px;
+
+    cursor:pointer;
+
+    transition:background-color .15s ease, border-color .15s ease;
+
+}
+
+.operational-log-delete-old:hover:not(:disabled){
+
+    background:var(--bg-danger-tint-alt);
+
+    border-color:var(--line-danger-alt);
+
+}
+
+.operational-log-delete-old:disabled{
+
+    opacity:.45;
+
+    cursor:not-allowed;
+
+}
+
+.operational-log-delete-old-confirming{
+
+    background:var(--bg-danger-alt);
+    border-color:var(--line-danger-alt);
+
+    color:var(--text-on-fill);
+
+}
+
+.operational-log-delete-old-confirming:hover:not(:disabled){
+
+    background:var(--bg-danger-pressed);
+
+}
+
+.operational-log-retention-hint{
+
+    font-size:var(--font-small);
+    font-style:italic;
+    color:var(--text-subtle);
+
+}
+
+.operational-log-scroll{
+
+    overflow-x:auto;
+
+}
+
+.operational-log-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin-bottom:0;
+
+}
+
+.operational-log-table th,
+.operational-log-table td{
+
+    border:1px solid var(--line-table);
+
+    padding:10px;
+
+    text-align:left;
+
+    vertical-align:top;
+
+    overflow-wrap:anywhere;
+
+}
+
+.operational-log-table th{
+
+    background:var(--bg-table-head);
+
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    white-space:nowrap;
+
+}
+
+/* Same base look as `.dynamic-table-scroll .interview-input` /
+   `.process-library .interview-input` (see those rules above) --
+   redeclared here since this editor lives outside both of those
+   scopes. */
+.operational-log-table .interview-input,
+.operational-log-filters .interview-input{
+
+    display:block;
+
+    width:100%;
+
+    box-sizing:border-box;
+
+    padding:8px 10px;
+
+    font:inherit;
+    font-size:var(--font-small);
+    line-height:1.5;
+
+    border:1px solid var(--box-border);
+    border-radius:var(--radius-md);
+
+    background:var(--bg-surface);
+
+}
+
+.operational-log-table .interview-input:focus,
+.operational-log-filters .interview-input:focus{
+
+    outline:none;
+
+    border-color:var(--line-primary);
+
+    /* Focus ring, not just a border-colour swap. The unfocused
+       border is var(--box-border) and the focused one #0b57d0 -- only 1.5:1
+       apart, so colour alone was a weak focus cue (WCAG 2.2 SC
+       2.4.11 wants 3:1 against the unfocused state). The ring is
+       independent of the border colour, adds no layout (box-shadow
+       does not affect flow), and matches the ring .user-name-input
+       and the Free Text textarea already use. */
+    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+
+}
+
+.operational-log-autogrow-field{
+
+    resize:none;
+    overflow:hidden;
+
+    min-height:38px;
+
+}
+
+.operational-log-col-date{
+
+    width:1%;
+
+    white-space:nowrap;
+
+}
+
+.operational-log-col-process,
+.operational-log-col-owner{
+
+    width:180px;
+    min-width:180px;
+
+}
+
+/* Date/Process ID/Owner of Change are all read-only text now --
+   auto-written by generateOperationalLogEntriesFromProcessLibrary,
+   never typed here (see OperationalLogEditor.tsx's own doc
+   comment). A quieter background is what actually reads as
+   "display value", distinguishing these from the one editable
+   column (Notes). */
+.operational-log-col-readonly{
+
+    background:var(--bg-panel);
+
+    color:var(--text-readonly);
+
+}
+
+/* The auto-generated Description text is deliberately multi-line
+   (one "Updates:"/"Addition:"/"Removal:" section per change kind,
+   one line per change -- see formatProcessChangeDescription) --
+   `white-space:pre-wrap` is what actually preserves those line
+   breaks when rendered as plain text instead of collapsing them
+   the way normal HTML text flow would. */
+.operational-log-description{
+
+    white-space:pre-wrap;
+
+}
+
+.operational-log-empty-filtered{
+
+    text-align:center;
+
+    color:var(--text-subtle);
+
+    font-style:italic;
+
+}
+
+/* ==========================================================
+   Roles & Responsibilities (Operations System, Section 4) --
+   a read-only "collector" derived entirely from the Process
+   Library (see RolesResponsibilitiesEditor.tsx and
+   groupRolesResponsibilities in AnswerUtils.ts): the only
+   editable field in this whole table is a per-Responsibility
+   Note, so unlike Operational Log/DynamicTable this reuses the
+   Process Library's own quieter look rather than the row-
+   action-heavy DynamicTable look, since there are no row
+   actions here at all.
+========================================================== */
+
+.roles-responsibilities-empty{
+
+    color:var(--text-subtle);
+    font-style:italic;
+
+}
+
+.roles-responsibilities-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin-bottom:12px;
+
+}
+
+.roles-responsibilities-table th,
+.roles-responsibilities-table td{
+
+    border:1px solid var(--line-table);
+
+    padding:10px;
+
+    text-align:left;
+
+    vertical-align:top;
+
+    overflow-wrap:anywhere;
+
+}
+
+.roles-responsibilities-table th{
+
+    background:var(--bg-table-head);
+
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    white-space:nowrap;
+
+}
+
+/* The Owner cell spans every Responsibility row in its group
+   (see the JSX's `rowSpan`) -- vertically centering its text
+   against that taller merged cell, instead of pinning it to
+   the top like a normal single-row cell, is what actually
+   reads as "one Owner, grouping several Responsibility rows"
+   rather than looking like a mis-aligned label. */
+.roles-responsibilities-col-owner{
+
+    vertical-align:middle;
+
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    width:220px;
+
+}
+
+/* Sits between Owner and Responsibility -- a short, non-wrapping
+   id (e.g. "PRC-001"), so a narrow fixed width (rather than
+   Owner's/Responsibility's own flexible `width` hints) is what
+   keeps it from crowding either of its neighbors. */
+.roles-responsibilities-col-process-id{
+
+    width:110px;
+
+    white-space:nowrap;
+
+}
+
+.roles-responsibilities-col-responsibility{
+
+    width:260px;
+
+}
+
+/* Same base look as `.process-library .interview-input` (see
+   that rule above) -- redeclared here since this editor lives
+   outside that scope. */
+.roles-responsibilities-table .interview-input{
+
+    display:block;
+
+    width:100%;
+
+    box-sizing:border-box;
+
+    padding:8px 10px;
+
+    font:inherit;
+    font-size:var(--font-small);
+    line-height:1.5;
+
+    border:1px solid var(--box-border);
+    border-radius:var(--radius-md);
+
+    background:var(--bg-surface);
+
+}
+
+.roles-responsibilities-table .interview-input:focus{
+
+    outline:none;
+
+    border-color:var(--line-primary);
+
+    /* Focus ring, not just a border-colour swap. The unfocused
+       border is var(--box-border) and the focused one #0b57d0 -- only 1.5:1
+       apart, so colour alone was a weak focus cue (WCAG 2.2 SC
+       2.4.11 wants 3:1 against the unfocused state). The ring is
+       independent of the border colour, adds no layout (box-shadow
+       does not affect flow), and matches the ring .user-name-input
+       and the Free Text textarea already use. */
+    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+
+}
+
+.roles-responsibilities-autogrow-field{
+
+    resize:none;
+    overflow:hidden;
+
+    min-height:38px;
+
+}
+
+/* ==========================================================
+   T-Layout Text (single "T"-shaped card, e.g. the Operations
+   System's Handbook) -- one always-visible variant across the
+   top, a divider, then the other two variants side by side
+   underneath with a divider between them. Every field auto-
+   grows to fit its own content (see AutoGrowTextarea in
+   AnswerRenderer.tsx); the card itself is just a normal block,
+   so it grows to fit whichever field ends up tallest.
+========================================================== */
+
+.handbook-t-card{
+
+    display:flex;
+
+    flex-direction:column;
+
+    border:1px solid var(--line-table);
+    border-radius:10px;
+
+    background:var(--bg-surface);
+
+    padding:20px;
+
+    box-shadow:0 1px 3px var(--shadow-ink-08);
+
+}
+
+.handbook-t-card-label{
+
+    margin:0 0 8px;
+
+    font-size:var(--font-small);
+    font-weight:600;
+
+    color:var(--text-subtle);
+
+    text-transform:uppercase;
+    letter-spacing:.02em;
+
+}
+
+.handbook-t-card-top{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.handbook-t-card-divider-horizontal{
+
+    height:1px;
+
+    margin:20px 0;
+
+    background:var(--bg-table);
+
+    flex-shrink:0;
+
+}
+
+.handbook-t-card-bottom{
+
+    display:flex;
+
+    align-items:stretch;
+
+    gap:20px;
+
+}
+
+.handbook-t-card-column{
+
+    flex:1 1 0;
+
+    min-width:0;
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.handbook-t-card-divider-vertical{
+
+    width:1px;
+
+    flex-shrink:0;
+
+    background:var(--bg-table);
+
+}
+
+.handbook-t-card-textarea{
+
+    display:block;
+
+    width:100%;
+
+    box-sizing:border-box;
+
+    resize:none;
+    overflow:hidden;
+
+    padding:10px 12px;
+
+    font:inherit;
+    font-size:var(--font-small);
+    line-height:1.5;
+
+    border:1px solid var(--box-border);
+    border-radius:var(--radius-lg);
+
+    background:var(--bg-surface);
+
+    /* 2 lines of 15px/1.5 text (~22.5px each) plus the
+       10px top+bottom padding and 1px+1px border -- the
+       field's default height before any content is typed;
+       AutoGrowTextarea's own scrollHeight measurement only
+       ever grows it taller than this, never shorter. */
+    min-height:69px;
+
+}
+
+.handbook-t-card-textarea:focus{
+
+    outline:none;
+
+    border-color:var(--line-primary);
+
+    /* Focus ring, not just a border-colour swap. The unfocused
+       border is var(--box-border) and the focused one #0b57d0 -- only 1.5:1
+       apart, so colour alone was a weak focus cue (WCAG 2.2 SC
+       2.4.11 wants 3:1 against the unfocused state). The ring is
+       independent of the border colour, adds no layout (box-shadow
+       does not affect flow), and matches the ring .user-name-input
+       and the Free Text textarea already use. */
+    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+
+}
+
+.handbook-t-card-textarea-top{
+
+    /* The top field is the Handbook's headline "why we operate
+       this way" statement -- give it a little more breathing
+       room than the two narrower bottom columns by default. */
+    min-height:69px;
+
+}
+

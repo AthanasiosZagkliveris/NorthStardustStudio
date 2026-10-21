@@ -62,7 +62,7 @@
 .card-tile-symbols {
 
     display: inline-flex;
-    gap: 4px;
+    gap: var(--gap-4);
 
 }
 
@@ -91,7 +91,6 @@ button.card-tile-symbol[aria-pressed="true"] {
 }
 
 .card-tile-symbol-activity { background: var(--bg-budget); }
-.card-tile-symbol-investigation { background: var(--bg-caution); }
 .card-tile-symbol-partner { background: var(--bg-add); }
 .card-tile-symbol-provider { background: var(--bg-info); }
 .card-tile-symbol-resource { background: var(--line-faint); }
@@ -153,6 +152,7 @@ button.card-tile-symbol[aria-pressed="true"] {
     color: var(--text-danger);
 
     font-weight: 700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     animation: card-incomplete-ink 1.4s ease-in-out infinite;
 
@@ -163,6 +163,7 @@ button.card-tile-symbol[aria-pressed="true"] {
     color: var(--text-danger);
 
     font-weight: 600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -185,10 +186,9 @@ button.card-tile-symbol[aria-pressed="true"] {
 
 }
 
-/* THE TITLES OF A CATEGORY OR A GROUP are in capitals: on its tile, in the dialog's header while it is open, and in the Inventory filter's Category and Group lists. */
+/* THE TITLES OF A CATEGORY OR A GROUP are in capitals: on its tile and in the dialog's header while it is open. (The words of a tick in the Inventory filter are sentence case, as every tick's.) */
 .section-tile-category .section-tile-title,
-.dialog-heading-sub,
-.capability-overview-menu-titles .business-foundation-tick {
+.dialog-heading-sub {
     text-transform: uppercase;
 }
 
@@ -217,7 +217,7 @@ button.card-tile-symbol[aria-pressed="true"] {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 2px;
+    gap: var(--gap-2);
 
     box-sizing: border-box;
     width: 100%;
@@ -233,6 +233,7 @@ button.card-tile-symbol[aria-pressed="true"] {
     font: inherit;
     font-size: var(--font-small);
     font-weight: 600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
     text-transform: uppercase;
 
 
@@ -281,14 +282,6 @@ button.card-tile-symbol[aria-pressed="true"] {
     letter-spacing: 0.02em;
 }
 
-/* A line of a founder's Responsibilities is a link with a tile list item's reaction (underline under the pointer and the focus); a long name wraps. */
-.business-capability-responsibility-link {
-    display: inline;
-    overflow: visible;
-    white-space: normal;
-    text-overflow: clip;
-}
-
 /* The circles are pointers: the pointer cursor even on a tile that can be dragged (the tile's grab cursor is for the tile). */
 .card-tile-symbols,
 .card-tile-symbol,
@@ -303,6 +296,7 @@ button.card-tile-symbol[aria-pressed="true"] {
 
     font-size: var(--font-small);
     font-weight: 600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
     text-transform: uppercase;
     color: var(--text-muted);
 
@@ -322,19 +316,6 @@ button.card-tile-symbol[aria-pressed="true"] {
 
 }
 
-.business-field-missing-note {
-
-    grid-column: 1 / -1;
-
-    margin: 4px 0 0;
-
-    font-size: var(--font-small);
-    line-height: 1.4;
-
-    color: var(--text-danger);
-
-}
-
 @media (prefers-reduced-motion: reduce) {
 
     .business-field-missing :is(.interview-input, .option-picker-trigger, .date-cell, .brand-tick-box),
@@ -345,5 +326,53 @@ button.card-tile-symbol[aria-pressed="true"] {
         box-shadow: var(--box-inset), 0 0 0 2px var(--line-danger-strong);
 
     }
+
+}
+
+/* THE TILE THAT OPENED A CARD, while the card is open (SectionTiles.tsx sets data-opener-tile, in the card's hue): the incomplete card's glow, steady and in the
+   card's tint; the link that opened it is bold. A tile that holds an INCOMPLETE card keeps flashing red while the card is open (the halo is not drawn over it: its !important would stop the flash). */
+.section-tile[data-opener-tile]:not(.card-tile-incomplete > .section-tile) {
+
+    --opener-tone: hsl(var(--opener-hue, 0) var(--plus-fill-saturation, 60%) var(--plus-fill-lightness, 40%));
+
+    /* (Over the tile's own reactions: the pointer is usually still on it.) */
+    box-shadow: var(--box-inset), 0 0 0 2px var(--opener-tone), 0 0 12px 3px color-mix(in srgb, var(--opener-tone) 55%, transparent) !important;
+
+}
+
+[data-opener].section-tile-link,
+.section-tile-link[data-opener] {
+
+    text-shadow: var(--hover-bold);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+    text-decoration: underline;
+    text-underline-offset: 1px;
+
+}
+
+/* A block of a master tile (a colour, a typeface, an image) that opened the card now open: the same halo, on the block. */
+.section-tile [data-card][data-opener-tile] {
+
+    --opener-tone: hsl(var(--opener-hue, 0) var(--plus-fill-saturation, 60%) var(--plus-fill-lightness, 40%));
+
+    box-shadow: 0 0 0 2px var(--opener-tone), 0 0 10px 2px color-mix(in srgb, var(--opener-tone) 55%, transparent) !important;
+
+}
+
+/* ...and the halo of a completed card is the Completed grey, like the card, its tab and its arrows. */
+body:has(.floating-card-host .business-capability-activity-completed) .section-tile[data-opener-tile],
+body:has(.floating-card-host .business-capability-activity-completed) .section-tile [data-card][data-opener-tile] {
+
+    --opener-tone: var(--line-completed);
+
+}
+
+/* A typeface of the Typography tile is a text, not a block: while its card is open it stays underlined, with no halo. */
+.section-tile .brand-specimens > [data-card][data-opener-tile] {
+
+    box-shadow: none !important;
+
+    text-decoration: underline;
+    text-underline-offset: 4px;
 
 }

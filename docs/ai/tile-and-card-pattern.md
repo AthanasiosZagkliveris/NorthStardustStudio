@@ -1,11 +1,16 @@
 # The tile, frame and card pattern
 
+Status: **rules**, updated 2026-10-21.
+
 One pattern for every tile, frame and card of the app (Identity, Brand, Business, Strategy). A new tile or card takes it from the shared styles (`section-tiles.css`, `card-tile.css`); nothing is drawn for one page alone.
 
 ## The page
 - A page's frames start and end on the page title's underline, edge to edge, and are centred with it. Frames of one page are 12px apart (`.page-group` for a page of several sections, the Business page's grid for its two).
 - A frame: 12px padding, 8px corners, one hairline edge in its hue, its heading on top in capitals, centred, 28px semi-bold (`.answer-column-label`, `.tiles-frame-head`).
-- A page's colour says the work done in it (docs/ai/foundation-colour-map.html, `WorkColours.ts`); a tile, its dialog and its floating cards take that hue.
+- A page's colour says the work done in it (docs/design/01-current-design.md, part I, `WorkColours.ts`); a tile, its dialog and its floating cards take that hue.
+- **One shape on every page of chapters** (2026-10-21): the chapters stand side by side down to a page card of 700px (a window of about 812px) and stack only below it, on every page; the four tiles of a chapter are one size by the window's width and height. Page 3's Inventory and Completed tiles stand in the footer's band, level with the page's Back (blue), and the footer lets the pointer through (rulebook, section 12).
+- **The parts are shared** (design document 22): one `Tile` and `TileGrid`, one card head and box (`BusinessCard`), `FieldRow`, `FieldHead`, `TickField`, `PopupPanel`; the controls in `components/controls/` (`AddButton`, `RemoveButton`, `NavArrow`, `SegmentedToggle`, `RadioChoice`, `FoldHead`, `FunnelButton`...). A new tile or card is built from them; none draws its own control.
+- **Every control that is pressed has a tooltip in one place and one wording**, "Click to ..." (design document 25).
 
 ## The tile
 - A square in the frame's tint with the box's inset light (top left) and shade (bottom right), the tile corners (`--tile-radius`), and a 110% rise under the pointer, growing inwards.
@@ -19,13 +24,13 @@ One pattern for every tile, frame and card of the app (Identity, Brand, Business
 
 ## The card that opens from a tile
 - Floating, 480px wide, one box: the tile's tint, a hairline in its hue, 8px corners, one shadow, 12px padding. Its head: the name cell with the order number inside it (drawn over its left, the name's text after it), and the ×; everything under the head starts and ends where the name does (the card's own 12px at the left; the × has its own column at the right); a label stands above its control or beside a single short one, to the name's right edge.
-- Drop-downs are the app's own; the "i", the Back button and the hover reactions take the tile's tint.
+- Drop-downs are the app's own; the "i" and the hover reactions take the tile's tint; so does a Back button under the pointer (see "Where the arrow stands in the tab" below).
 - A Theme's card stands in the centre under its section's title.
 
 ## Linkable content, headers and darkness
 - A line of a tile that names a card opens it; a block of a picture (colour, image, typeface) opens its card; elsewhere a press opens the tile. Colour and image blocks are squares, evenly spaced, and grow inwards with a drop shadow as a tile does; a typeface is underlined.
 - Business card tiles: where it belongs in plain lines, then bulleted status, dates, warranty and cost.
-- A floating card does not darken the page behind it and has the same inner light and shade as every card.
+- A floating card shades only the chapter (frame) it stands over, the size and shape of that frame, and freezes it (a press on the shade closes the card); the rest of the page is not darkened. It has the same inner light and shade as every card.
 - A dialog header is one row: the root name, then the names one size lower; a long trail slides off to the left.
 
 ## The two documents
@@ -43,7 +48,7 @@ This file is the short, visual brief: what a tile, frame and card look like, for
 - **Rows.** A label stands above its control (6px) or beside a single short one in the label column (177px) with the cell after it; rows are 12px apart; every cell is 44px high with 18px text; the cells of a column share one left edge (a label column is as wide as its widest label, never narrower, so an "i" never touches a cell).
 - **Parts are not wired.** A card's sections (Offerings, a Journey Stage with its Actions, links, expenses) have no border of their own: spacing and the label's colour say what belongs together (6px inside a part, 12px between parts).
 - **A value the app placed** (a Group, a Cost option, a Billing type fixed by a channel or a rule) is presented as the cell it stands in: that cell's height, its one line, its letters where a picker's start, an ellipsis with the whole text as the tooltip.
-- **Words are written whole where the cell has room** ("% of revenue", "Per project", "Working Hours"); a short form ("rev.", "proj.") only for a label over 14 characters.
+- **Words are written whole where the cell has room** ("% of Rev", "Per project", "Working Hours"); a short form ("rev.", "proj.") only for a label over 14 characters.
 - **The tile of a card** tells what the card holds in one order: its dates (both days, or the start alone), where it belongs, then status, warranty and cost; a Partner or Supplier tile does so as a Resource's and an Activity's do.
 
 ## Labels, titles, alignment and scrolling (global rules)
@@ -64,7 +69,7 @@ This file is the short, visual brief: what a tile, frame and card look like, for
 - **A fix with a global reach is made as a rule**, in a shared component, token or class (a rail, a head, a label, a scroll), and written here; never for one card only.
 - **A wired button has no fill at rest** (the "i", "+", x, an "Add ..." button): transparent, so it takes the colour behind it; its own fill returns under the pointer or when open (`section-tiles.css`, "GLOBAL: A WIRED BUTTON").
 - **A floating card has one ground**: round, with its hairline and shadow; the tile content that holds it (`.column-tile-content`, `.brand-style`, `.brand-inventory`) has none, so no square box shows behind its corners.
-- **A tab follows the reading mode and takes its edge from the layer's ink where the layer's hairline is a translucent light**; a name in it never changes width (it is lit by a shadow, not a heavier weight) and keeps 14px from its bullet. The Back button of a dialog stands in its tab after the last option, and the dialog's foot has none while the tab does.
+- **A tab follows the reading mode and takes its edge from the layer's ink where the layer's hairline is a translucent light**; a name in it never changes width (it is lit by a shadow, not a heavier weight) and keeps 12px from its bullet (the item's gap). The Back button of a dialog stands in its tab after the last option, and the dialog's foot has none while the tab does.
 - **A channel card is divided into sections by one tint**: Offerings and Links/Expenses on the card's ground, the Actions between them on 12% of the card's label colour, edge to edge, straight lines.
 - **A delete x of a block (a Relationship Type) stands at its top right corner**, 12px from both edges.
 
@@ -74,8 +79,8 @@ This file is the short, visual brief: what a tile, frame and card look like, for
 - **A founder's card narrower than its two pairs** (Salary | Frequency, Working Hours | Delivery Hours) stacks the pairs, each label beside its cell, instead of letting the second pair run out of the card (container query on `cost-fields`).
 - **Every floating card starts at one level**: the first row of tiles of its column where that stands under the column's title, else the frame's top plus the title's height (62px); a card opened by a link (a Legal Entity pair) stands over the other column of the tile that holds it, at the same level.
 - **A floating card's page tab is placed by the card's frame** (12px under its top), never by the box name that stands above it; its ground is the first fully opaque box inside the card's body (a caption pill or a tooltip is never one), so Identity, Brand and Business cards all have their tab.
-- **Where the arrow stands in the tab, the bullets AND the Back button continue below it**, and the arrow takes the bullets' tint.
-- **The Back of a layer is a plain "<" and a word; under the pointer it only gets bolder** (no underline, no other colour).
+- **Where the arrow stands in the tab, the bullets AND the Back button continue below it**, and the arrow over a tab is the tab's edge colour in a brighter version (55% of it mixed with white), in every reading mode.
+- **The Back in a layer's tab is built like a rail item** (`.carousel-rail-back`): an arrow box as wide as a bullet (12px, the arrow on the bullets' line), the item's 12px gap, then the word in capitals; at rest in the tab's edge colour (the card's mid tone); under the pointer and the focus in the colour of the card's "+" box (`--plus-fill`), bold (a shadow and the bold tracking, so the word never changes width), and the arrow grows 20% forward; no underline. A dialog with no tab has its Back at its foot (`.section-tile-back`): a "<" and the word in the default ink, which take the tile's tint and go bold under the pointer. The Back of a layer is described in the contract `src/library/assets/backButton.ts`.
 - **Every floating card scrolls up to a quarter of the window's height above its bottom** (`data-reserve` on the card's host, 25vh of padding at the end of its stack).
 - **The page tab stands on the side of its layer nearer the window's edge** (a layer in the left half: at its left, mirrored; its names beside the bullets only where that side has the room, else in tooltips). Every page tab starts 12px under the top of the frame it is attached to (a floating card's own frame, a dialog's panel).
 - **Hovering never moves anything**: a hover or focus reaction changes colour, shadow, text-shadow, outline or a transform (which takes no room) -- never a margin, padding, border width, size, font weight or letter spacing of something in a card. (Checked by hovering every control of an open card and comparing the boxes.)
@@ -97,3 +102,9 @@ This file is the short, visual brief: what a tile, frame and card look like, for
 - **A Customer Relationship block's first row is one row**: [Relationship Type label + its drop-down] [Purpose label + its cell, the rest of the width] [x], level with the cells' first line, 12px apart.
 
 - **A channel card's Actions and Expenses headings** have the "+" at the right (above the x column), a full-width 1px divider under the heading with 12px over and under the "+" button, no "Add ..." button, and the divider under "Expenses" only where an expense stands under it.
+- **A floating card's caption is the same whichever way it is opened** (its own tile, the link on its group's tile, another card's link): its section's name ("Resources", "Activities", "Partners & Suppliers", "Founders"), never its group's (Utilities, Operational). The opener passes no name of its own.
+- **Every text link is one component** (`TextLink.tsx`, the look in `text-links.css`): a place passes only where it stands; a link is never a bare `<button className="...-link">`.
+- **A long name never covers its order number**, on a tile (a card tile's title) or in a card's head (a name that is a link): the number stays where it stands and the text slides behind it (`.section-tile-title-number` / `-text`; a link name is clipped at the number's right edge, `text-links.css`).
+- **A cell has one ring**: where a box holds a field (a date or month cell, a numbered list, the colour cell) the box draws the ring and the field inside draws none (`cell-focus.css`).
+- **A floating card opens on the half of the page its tile is NOT in**: the page is divided, inside, into a left and a right half; a card of a tile on the left stands over the frame on the right, and the other way round (`otherColumn`, SectionTiles.tsx; checked on Business 3, Brand and Identity 2). A page of one frame keeps its frame.
+- **A legal card floats on 3. Infrastructure & Capability** (a founder's "L." link, an Inventory tile of a legal expense): the page mounts the Legal Entity editor with its tiles hidden (`cardsOnly`) and asks it for the card (`OPEN_EVENT`); the card stands over the page's second column and is saved to the Identity System's answer (`changeLegalEntity`, Conversation.tsx).

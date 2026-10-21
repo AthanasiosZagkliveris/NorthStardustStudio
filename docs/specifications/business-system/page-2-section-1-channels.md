@@ -1,4 +1,6 @@
 # Business System — Page 2: Customers Engagement
+
+Status: **specification**, updated 2026-10-12.
 ## Section 1 — Channels
 
 > **3. Business System — Page 2 of 5, Section 1 of 2.**

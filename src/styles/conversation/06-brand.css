@@ -1,0 +1,1122 @@
+/* ==========================================================
+   Brand System -- Style and Inventory pages
+   (AnswerType.BrandStyle / AnswerType.BrandInventory)
+
+   Both reuse the Identity System's column-page grid: every
+   section's heading and bullet guidance fill the first row,
+   the progress line spans the second, and the inputs fill the
+   third. Grid rows size to their tallest item, so all the
+   headings share a baseline and all the inputs start together
+   -- exactly as they do on an Identity page.
+========================================================== */
+
+.brand-style,
+.brand-inventory{
+
+    display:grid;
+
+    grid-template-columns:repeat(var(--answer-column-count, 4), minmax(0, 1fr));
+
+    gap:var(--space-field) var(--space-column);
+
+}
+
+/* Each section stacks its own slots at its own pace: an
+   activated colour adds three fields, a typeface two, a
+   hierarchy level none. The three columns are deliberately NOT
+   forced onto shared row tracks -- what has to line up is a tick
+   box and the text holder beside it on the same line (see
+   .brand-hierarchy-row), not slot 2 of one section with slot 2
+   of another. */
+.brand-style-span-2{
+
+    grid-column:span 2;
+
+}
+
+/* A PAGE OF ANSWER COLUMNS TOO NARROW FOR THEM STACKS, rather than
+   squeezing four columns into a tablet's width until a Theme box's
+   grip, label and × run out of it. Under 700px of card, one column:
+   each column's heading directly above its own answers. The markup
+   lists the headings first and the answers after (so a row of
+   headings shares a baseline), so the stacked order is set here,
+   heading 1, answers 1, heading 2, answers 2... */
+@container page-card (max-width: 699px){
+
+    .brand-style,
+    .brand-inventory{
+
+        grid-template-columns:minmax(0, 1fr);
+
+    }
+
+    .brand-style-span-2{
+
+        grid-column:auto;
+
+    }
+
+    /* The Strategy pages' headings share two row tracks across the
+       columns (subgrid); stacked, each is a plain block again. (Three
+       classes: the subgrid rule comes later in this file.) */
+    .brand-style.strategy-foundation > .brand-style-head,
+    .brand-style.strategic-period > .brand-style-head{
+
+        display:flex;
+
+        flex-direction:column;
+
+        grid-row:auto;
+
+    }
+
+    :is(.brand-style, .brand-inventory) > :nth-child(1 of .brand-style-head){ order:1; }
+    :is(.brand-style, .brand-inventory) > :nth-child(1 of .brand-style-body){ order:2; }
+    :is(.brand-style, .brand-inventory) > :nth-child(2 of .brand-style-head){ order:3; }
+    :is(.brand-style, .brand-inventory) > :nth-child(2 of .brand-style-body){ order:4; }
+    :is(.brand-style, .brand-inventory) > :nth-child(3 of .brand-style-head){ order:5; }
+    :is(.brand-style, .brand-inventory) > :nth-child(3 of .brand-style-body){ order:6; }
+    :is(.brand-style, .brand-inventory) > :nth-child(4 of .brand-style-head){ order:7; }
+    :is(.brand-style, .brand-inventory) > :nth-child(4 of .brand-style-body){ order:8; }
+
+}
+
+.brand-style-head,
+.brand-style-body{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-12);
+
+    min-width:0;
+
+}
+
+/* This column once stacked at 6px, on the reasoning that each
+   hierarchy level is a single line so the gap between two slots
+   is the gap between two number holders.
+
+   That is gone: the three sections now share row tracks so their
+   rows line up across the page, and a subgrid that overrides the
+   parent's gap no longer sits in those tracks -- the column drifted
+   3px further out of step with every row. Sharing the rhythm is
+   what alignment across the three sections costs. */
+
+/* The heading reuses .answer-column-label wholesale (24px,
+   uppercase, 5% tracking, centred, number in its own box) so a
+   Brand section title is identical to an Identity column title
+   -- one rule, not two that drift.
+
+   The 12px side inset is the only addition: it is what every
+   other text in a section already carries (the bullets from
+   .answer-column-questions, the tick rows and slot labels from
+   the body's own padding), and without it a heading long enough
+   to wrap would run to the column edge while the text under it
+   stopped 12px short. */
+.brand-section-heading{
+
+    text-align:center;
+
+    padding:0 12px;
+
+}
+
+.brand-colour-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+
+    gap:var(--gap-12);
+
+}
+
+.brand-colour,
+.brand-typeface{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-6);
+
+    min-width:0;
+
+}
+
+/* The activation tick and its slot label read as one control --
+   clicking the label toggles the tick, which is why they share a
+   <label>. */
+.brand-tick{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:var(--gap-8);
+
+    cursor:pointer;
+
+    min-width:0;
+
+}
+
+.brand-tick input{
+
+    flex-shrink:0;
+
+    width:var(--size-mark);
+    height:var(--size-mark);
+
+    accent-color:var(--bg-primary);
+
+    cursor:pointer;
+
+}
+
+.brand-slot-label{
+
+    font-size:var(--font-body);
+    font-weight:600;
+
+    color:var(--text-strong);
+
+    min-width:0;
+
+    overflow-wrap:break-word;
+
+}
+
+/* A deactivated slot reads as parked rather than active --
+ its label AND its inputs go light grey. Not display:none: the
+ whole point of the tick is that you can see what you have
+ switched off.
+
+   Done as a COLOUR change, not opacity. The tick is still fully
+   operable (it is how you switch the slot back on), and fading an
+   operable control drops its label under the 4.5:1 it has to
+   meet -- whereas #6b7280 measures 4.83:1 on white and still
+   reads clearly as grey. */
+.brand-slot-off .brand-slot-label,
+.brand-slot-off .brand-hierarchy-unit{
+
+    color:var(--text-faint);
+
+}
+
+/* The inputs themselves really are disabled, which WCAG exempts
+   from contrast, so they can fade further. */
+.brand-slot-off .interview-input,
+.brand-slot-off .brand-colour-picker{
+
+    opacity:.55;
+
+}
+
+.brand-colour-row{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:var(--gap-8);
+
+    min-width:0;
+
+}
+
+/* The native colour input IS the swatch: one control, so the
+   colour you can see is the one you click to change. */
+.colour-picker{
+    position:absolute;
+    top:50%;
+    right:6px;
+    transform:translateY(-50%);
+    width:var(--size-box-button);
+    height:var(--size-box-button);
+}
+
+/* The colour: a 32px square with rounded corners, no frame, filling the box. */
+.brand-colour-picker{
+    display:block;
+    box-sizing:border-box;
+    width:100%;
+    height:100%;
+    padding:0;
+    border:0;
+    border-radius:var(--radius-md);
+    background:transparent;
+    cursor:pointer;
+}
+
+/* The colour cell: the hex field with the colour box inside it at the right (room for it in the field's padding). */
+.brand-colour-cell{
+    flex:1 1 auto;
+    min-width:0;
+}
+
+.brand-colour-cell > .brand-hex-input{
+    padding-right:calc(var(--size-box-button) + 12px);
+}
+
+/* The colour is a 32px square with rounded corners, filling its box. */
+.brand-colour-picker::-webkit-color-swatch-wrapper{
+    padding:0;
+}
+
+.brand-colour-picker::-webkit-color-swatch{
+    border:0;
+    border-radius:calc(var(--radius-md) - 1px);
+}
+
+.brand-colour-picker::-moz-color-swatch{
+    border:0;
+    border-radius:calc(var(--radius-md) - 1px);
+}
+
+.brand-colour-picker:disabled{
+
+    cursor:not-allowed;
+
+}
+
+/* An empty slot is outlined rather than showing the picker's own
+   default black, which would read as a deliberate colour choice. */
+.brand-colour-picker-empty{
+
+    border:1px dashed var(--text-muted);
+
+}
+
+.brand-hex-input{
+
+    min-width:0;
+
+}
+
+.brand-hierarchy-row{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:var(--gap-12);
+
+    min-width:0;
+
+}
+
+.brand-hierarchy-size{
+
+    flex-shrink:0;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:var(--gap-6);
+
+}
+
+.brand-size-input{
+
+    /* The square variant (see .brand-style .brand-size-input). */
+    width:var(--control-square);
+
+    text-align:center;
+
+}
+
+.brand-hierarchy-unit{
+
+    font-size:var(--font-body);
+
+    color:var(--text-muted);
+
+}
+
+/* ==========================================================
+   Brand Inventory -- the shared rows
+
+   The two columns share their rows: row 1 is the Logo beside
+   Image 1, row 2 the Icon and its description beside Image 2,
+   every further image a row of its own. Each column is a subgrid
+   spanning as many of the page grid's rows as the longer column
+   has slots (--inventory-rows, BrandInventoryEditor), so a row is
+   as tall as the tallest slot in it on either side and the boxes
+   in it end on one line.
+
+   A slot is its label line, then its row: the holder and, beside
+   it, whatever goes with it -- an image's text holder, the Icon's
+   description -- each stretched to the row's height. An image's
+   text holder decides that height (its name and five lines of
+   description, and more as the description grows), so the Logo
+   and the Icon are drawn as large as the images beside them.
+   Stacked (a card under 700px), each column keeps its own rows.
+========================================================== */
+
+.brand-inventory > .brand-inventory-rows{
+
+    display:grid;
+
+    grid-template-rows:subgrid;
+
+    grid-row:span var(--inventory-rows, 2);
+
+}
+
+.brand-asset-slot{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-6);
+
+    min-width:0;
+
+}
+
+.brand-slot-label-row{
+
+    display:flex;
+
+    align-items:baseline;
+
+    justify-content:space-between;
+
+    gap:var(--gap-12);
+
+    min-width:0;
+
+}
+
+.brand-slot-row{
+
+    flex:1 1 auto;
+
+    display:flex;
+
+    align-items:stretch;
+
+    gap:var(--space-cell);
+
+    min-width:0;
+
+}
+
+.brand-slot-row > .brand-holder-wrap{
+
+    flex:1 1 0;
+
+}
+
+/* At least as tall as an image's text holder (a 45px name line,
+   five lines of description and their frame), so a holder stays
+   as large on its own -- the Logo and Icon stacked on a narrow
+   card -- as beside an image. */
+.brand-slot-row .brand-asset-preview{
+
+    flex:1 1 auto;
+
+    width:100%;
+
+    min-height:calc(5 * 1.5em + 16px + 47px);
+
+}
+
+/* An image and its text holder share the row: the image a little
+   under half, the words the rest. */
+.brand-asset-slot-image .brand-slot-row > .brand-holder-wrap{
+
+    flex:0 0 44%;
+
+}
+
+/* The Icon is square, as tall as its row; its description takes
+   the rest of the row, top and bottom level with it. */
+.brand-asset-slot-icon .brand-slot-row > .brand-holder-wrap{
+
+    flex:0 0 auto;
+
+    aspect-ratio:1 / 1;
+
+}
+
+.brand-slot-aside{
+
+    flex:1 1 0;
+
+    display:flex;
+
+    align-items:flex-start;
+
+    min-width:0;
+
+}
+
+/* The Icon's description is a Notes field: its tick on top, its box under it, the width of the space beside the Icon, as every card's. */
+.brand-slot-aside > .optional-field{
+
+    flex:1 1 auto;
+
+    min-width:0;
+
+}
+
+/* The Icon's description: the whole of the space beside the Icon
+   (StrategyTextArea grows it, and with it the row, past that). */
+.brand-mark-note{
+
+    flex:1 1 auto;
+
+    min-height:0;
+
+    resize:none;
+
+}
+
+/* ONE text holder for an image: its name on top and its description
+   under it, in one frame, with a hairline between. The two fields
+   lose their own frames and take the holder's; the holder answers
+   hover and focus as one box. */
+.brand-image-text{
+
+    flex:1 1 auto;
+
+    display:flex;
+
+    flex-direction:column;
+
+    min-width:0;
+
+    border:1px solid var(--box-border);
+    border-radius:var(--box-radius);
+
+    background:var(--bg-surface);
+
+    transition:border-color .15s ease, box-shadow .15s ease;
+
+}
+
+.brand-image-text:hover:not(:focus-within){
+
+    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
+
+}
+
+.brand-image-text:focus-within{
+
+    border-color:var(--line-primary);
+
+    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
+
+}
+
+.brand-inventory .brand-image-text .interview-input,
+.brand-inventory .brand-image-text .interview-input:hover:not(:focus):not(:disabled),
+.brand-inventory .brand-image-text .interview-input:focus{
+
+    border:0;
+
+    border-radius:0;
+
+    background:transparent;
+
+    box-shadow:none;
+
+}
+
+.brand-inventory .brand-image-text .brand-image-name{
+
+    border-bottom:1px solid var(--line-rule);
+
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+}
+
+/* Room for five lines (at the app's 1.5 line height, with its 8px
+   padding top and bottom), and growing past them (StrategyTextArea). */
+.brand-inventory .brand-image-text .brand-image-note{
+
+    flex:1 1 auto;
+
+    min-height:calc(5 * 1.5em + 16px);
+
+    resize:none;
+
+}
+
+/* Spans every column so an upload error is read before either
+   column, not tucked inside whichever one raised it. */
+.brand-inventory-error{
+
+    grid-column:1 / -1;
+
+    margin:0;
+
+    padding:10px 14px;
+
+    border:1px solid var(--line-danger);
+    border-radius:var(--radius-lg);
+
+    background:var(--bg-danger-tint);
+
+    font-size:var(--font-body);
+    line-height:1.5;
+
+    color:var(--text-danger);
+
+}
+
+.brand-asset-preview{
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    padding:8px;
+
+    border:1px solid var(--box-border);
+    border-radius:var(--radius-lg);
+
+    background:var(--bg-surface);
+
+    overflow:hidden;
+
+}
+
+.brand-asset-preview img{
+
+    max-width:100%;
+    max-height:100%;
+
+    object-fit:contain;
+
+}
+
+/* A drop target reads as one until something is dropped on it --
+   dashed while empty, solid once it holds a preview. */
+.brand-dropzone{
+
+    border-style:dashed;
+
+    text-align:center;
+
+    transition:border-color .15s ease, background-color .15s ease;
+
+}
+
+.brand-dropzone:has(img){
+
+    border-style:solid;
+
+}
+
+/* Dragging over it: the same light-blue "this would respond"
+   treatment hovering a text box uses. */
+.brand-dropzone-active{
+
+    border-style:solid;
+    border-color:var(--line-primary);
+
+    background:var(--bg-primary-tint);
+
+}
+
+.brand-asset-empty{
+
+    font-size:var(--font-body);
+
+    color:var(--text-muted);
+
+}
+
+.brand-file-picker{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:var(--gap-8);
+
+    flex-wrap:wrap;
+
+    min-width:0;
+
+}
+
+/* Visually hidden rather than display:none -- the real <button>
+   beside it is what the user operates, and this input only ever
+   receives a programmatic .click(). Kept out of the tab order so
+   it can never take focus itself. */
+.brand-file-input{
+
+    position:absolute;
+
+    width:1px;
+    height:1px;
+
+    padding:0;
+    margin:-1px;
+
+    overflow:hidden;
+
+    clip-path:inset(50%);
+
+    white-space:nowrap;
+
+    border:0;
+
+    /* Clipped out of sight either way, but a form control still
+       gets a computed font-size (the browser's 13.333px default)
+       with nothing here to say otherwise. */
+    font-size:var(--font-small);
+
+}
+
+.brand-file-button,
+.brand-remove-button{
+
+    padding:8px 16px;
+
+    border:1px solid var(--box-border);
+    border-radius:var(--radius-lg);
+
+    background:var(--bg-surface);
+
+    color:var(--text-default);
+
+    font:inherit;
+    font-size:var(--font-body);
+    font-weight:500;
+
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+
+    cursor:pointer;
+
+    transition:background-color .15s ease, border-color .15s ease, color .15s ease;
+
+}
+
+.brand-file-button:hover:not(:disabled){
+
+    background:var(--accent-ground-hover);
+
+    border-color:var(--accent-line);
+
+    color:var(--accent-hover-ink);
+
+    --wired-ring:var(--accent-line);
+
+    text-shadow:var(--hover-bold);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+}
+
+.brand-remove-button:hover:not(:disabled){
+
+    background:var(--bg-danger-tint);
+
+    border-color:var(--line-danger);
+
+    color:var(--text-danger);
+
+    text-shadow:var(--hover-bold);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+}
+
+.brand-file-button:disabled,
+.brand-remove-button:disabled{
+
+    opacity:.45;
+
+    cursor:not-allowed;
+
+}
+
+.brand-file-name{
+
+    min-width:0;
+
+    font-size:var(--font-body);
+
+    color:var(--text-muted);
+
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+
+}
+
+/* ==========================================================
+   Brand editors -- input styling
+
+   `.interview-input` has NO base rule anywhere in this app: every
+   use is scoped to its own parent (.dynamic-table-scroll,
+   .process-library, .operational-log-filters, ...), each setting
+   its own size for its own density. The Brand editors used the
+   class without such a scope, so their fields rendered as raw
+   browser defaults -- 19px tall at the UA's 13.3px font, no
+   padding, no radius, wrong border. This is their scope.
+
+   18px to match the app's text tier (Headings 36 / Subheadings 24
+   / Text 18 / Buttons 16), rather than the 15px the denser table
+   and Process Library scopes use.
+========================================================== */
+
+.brand-style .interview-input,
+.brand-inventory .interview-input,
+.business-foundation .interview-input{
+
+    display:block;
+
+    width:100%;
+
+    box-sizing:border-box;
+
+    padding:7.5px 10px;
+
+    font:inherit;
+    font-size:var(--font-body);
+    line-height:1.5;
+
+    color:var(--text-default);
+
+    border:1px solid var(--box-border);
+    border-radius:var(--radius-md);
+
+    background:var(--bg-surface);
+
+}
+
+.brand-style .interview-input:focus,
+.brand-inventory .interview-input:focus,
+.business-foundation .interview-input:focus{
+
+    outline:none;
+
+    border-color:var(--line-primary);
+
+    /* Same focus ring every other input scope uses -- independent
+       of the border colour, which on its own is only 1.5:1 away
+       from the unfocused state. */
+    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+
+}
+
+/* Disabled fields in a deactivated slot: greyed, and never
+   mistakable for an editable one. */
+.brand-style .interview-input:disabled,
+.brand-inventory .interview-input:disabled,
+.business-foundation .interview-input:disabled{
+
+    background:var(--bg-total);
+
+    cursor:not-allowed;
+
+}
+
+/* The px field stays compact -- it holds at most a 2-3 digit
+   number and sits inline after its level's label, so it must NOT
+   take the `width:100%` the scope rule above gives every other
+   Brand input. Two classes' worth of specificity to beat it. */
+.brand-style .brand-size-input{
+
+    /* The SQUARE variant: as wide as a control is tall, the value
+       centred, "px" after it on its centre line. */
+    width:var(--control-square);
+    height:var(--control-square);
+
+    padding-inline:4px;
+
+    text-align:center;
+
+    flex:0 0 auto;
+
+}
+
+/* A picture is shown on paper, in either theme: logos and brand
+   images are made for a light ground, and a navy wordmark on the
+   dark theme's holder all but disappeared. The picture keeps its
+   shape (object-fit: contain). */
+.brand-inventory .brand-asset-preview:has(img){
+
+    background:var(--bg-mark-preview);
+
+}
+
+/* Under an Icon or Logo holder: the file it holds, or what it takes while empty ("SVG or PNG, up to 50 KB"). */
+.brand-slot-hint{
+
+    min-width:0;
+
+    text-align:left;
+
+    font-size:var(--font-small);
+
+    color:var(--text-muted);
+
+    overflow-wrap:anywhere;
+
+}
+
+/* ==========================================================
+   Brand editors -- hover, matching the Free Text boxes on the
+   Identity System's pages: a light-blue glow saying "this would
+   respond", suppressed while focused so it never fights the
+   focus ring.
+========================================================== */
+
+.brand-style .interview-input:hover:not(:focus):not(:disabled),
+.brand-inventory .interview-input:hover:not(:focus):not(:disabled),
+.business-foundation .interview-input:hover:not(:focus):not(:disabled){
+
+    box-shadow:var(--cell-inset-recess), 0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
+
+}
+
+/* A slot's disclosed fields, shown once its tick is on. */
+.brand-slot-fields{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-field);
+
+    min-width:0;
+
+}
+
+/* A tick whose prerequisite is not met yet -- greyed like a
+   deactivated label, and carrying a title explaining what to
+   activate first. */
+.brand-tick-blocked{
+
+    cursor:not-allowed;
+
+}
+
+.brand-tick-blocked .brand-slot-label{
+
+    color:var(--text-faint);
+
+}
+
+/* ==========================================================
+   Brand pages -- inner alignment
+
+   The bullet guidance above the line carries the 12px side inset
+   every Section's text does (.answer-column-questions), while the
+   controls below the line sat flush against the column edge --
+   leaving guidance and inputs staggered by 12px in every column.
+   The body now takes NO inset: the cards in neighbouring columns
+   stand one column gap (12px) apart, edge to edge with the guidance
+   boxes above them.
+========================================================== */
+
+.brand-style > .brand-style-body,
+.brand-inventory > .brand-style-body{
+
+    padding:0;
+
+}
+
+/* ==========================================================
+   Brand Style -- tick rows
+
+   Every tick row stands at the same 45px an input does. Two
+   things fall out of that:
+
+   - The first tick of all three columns (Primary A / Primary /
+     H1 - Title) lands on the same line, instead of column 3's
+     sitting lower because its row also holds a 45px px-field
+     while columns 1-2's held only text.
+   - Where a row DOES hold a field beside the tick, the two are
+     centred against each other rather than top-aligned.
+========================================================== */
+
+.brand-style .brand-tick{
+
+    min-height:var(--card-cell-height);
+
+    align-items:center;
+
+}
+
+/* Only the box is a click target now -- the title beside it is
+   plain text (see activationTick), so it must not present a
+   pointer cursor it no longer earns. */
+.brand-style .brand-tick .brand-slot-label{
+
+    cursor:default;
+
+}
+
+.brand-style .brand-tick-box,
+.business-foundation .brand-tick-box{
+
+    cursor:pointer;
+
+}
+
+/* ==========================================================
+   Tick boxes, across the Foundation capability
+
+   The Identity, Brand and Business Systems all draw tick boxes
+   (Legal Entity's, Brand Style's, and the Business Foundation
+   page's), and all three took the browser's own 13px -- a mark
+   less than three quarters the height of the word beside it,
+   which read as an afterthought next to an 18px label.
+
+   1em rather than 18px: it is the size of the text beside it
+   BECAUSE it is the size of the text, so it follows the type
+   scale rather than restating one value from it.
+
+   `accent-color` keeps the checked fill the app's own blue at
+   the larger size, where the browser default would be its own.
+========================================================== */
+.brand-tick-box{
+
+    /* 18px is the app's text tier, which is what every label beside
+       one of these is set at. Stated rather than taken as 1em: a
+       checkbox does not inherit its font-size from the label
+       wrapping it, so 1em measured the form default and came out
+       at 16. */
+    width:var(--size-mark);
+    height:var(--size-mark);
+
+    margin:0;
+
+    accent-color:var(--bg-primary);
+
+}
+
+.brand-style .brand-tick-box:disabled{
+
+    cursor:not-allowed;
+
+}
+
+/* ==========================================================
+   Brand Inventory -- the holder IS the upload control
+
+   It is a real <button> now, so the separate Upload/Replace
+   button is gone. Removal moved into the holder's own corner
+   rather than a button row, so a filled slot can still be
+   cleared without adding controls back beside it.
+========================================================== */
+
+.brand-holder-wrap{
+
+    position:relative;
+
+    display:flex;
+
+    min-width:0;
+
+}
+
+.brand-holder-button{
+
+    /* Reset the UA button look -- .brand-asset-preview supplies
+       the frame, and a button's default background/font would
+       fight it. */
+    font:inherit;
+
+    cursor:pointer;
+
+    transition:border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
+
+}
+
+/* The same light-blue glow a text holder gets on Page 1, so a
+   holder reads as "this would respond" the same way every other
+   input on the page does. */
+.brand-holder-button:hover:not(:disabled){
+
+    border-style:solid;
+    border-color:var(--line-primary);
+
+    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
+
+}
+
+.brand-holder-button:focus-visible{
+
+    outline:none;
+
+    border-style:solid;
+    border-color:var(--line-primary);
+
+    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
+
+}
+
+.brand-holder-button:disabled{
+
+    cursor:not-allowed;
+
+}
+
+/* Sits over the holder's top-right corner. 28px square so it
+   clears the 24x24 minimum a pointer target wants, and outside
+   the holder button's own bounds in the DOM so clicking it never
+   also opens the file dialog. */
+.brand-holder-clear{
+
+    position:absolute;
+
+    top:6px;
+    right:6px;
+
+    width:28px;
+    height:28px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    padding:0;
+
+    border:1px solid var(--line-danger);
+    border-radius:var(--radius-md);
+
+    background:var(--bg-surface);
+
+    color:var(--text-danger);
+
+    font:inherit;
+    font-size:var(--font-body);
+    line-height:1;
+
+    cursor:pointer;
+
+    transition:background-color .15s ease;
+
+}
+
+.brand-holder-clear:hover:not(:disabled){
+
+    background:var(--bg-danger-tint);
+
+}
+
+.brand-holder-clear:disabled{
+
+    opacity:.45;
+
+    cursor:not-allowed;
+
+}
+

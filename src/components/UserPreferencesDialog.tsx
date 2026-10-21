@@ -1,9 +1,10 @@
 import { useState } from "react";
 
+import AddButton from "./controls/AddButton.tsx";
+import SegmentedToggle from "./controls/SegmentedToggle.tsx";
 import { DateFormat, PreferencesService } from "../services/PreferencesService.ts";
 
 import "../styles/system-confirmation.css";
-import "../styles/date-format-toggle.css";
 
 interface UserPreferencesDialogProps {
 
@@ -70,36 +71,21 @@ export default function UserPreferencesDialog({
 
                     <span className="user-preferences-label">Date presentation</span>
 
-                    <div className="date-format-toggle-group" role="group" aria-label="Date presentation">
-
-                        <button
-                            type="button"
-                            className={`date-format-toggle-option${dateFormat === "US" ? " date-format-toggle-option-active" : ""}`}
-                            onClick={() => setDateFormatChoice("US")}
-                        >
-                            MM/DD (US)
-                        </button>
-
-                        <button
-                            type="button"
-                            className={`date-format-toggle-option${dateFormat === "EU" ? " date-format-toggle-option-active" : ""}`}
-                            onClick={() => setDateFormatChoice("EU")}
-                        >
-                            DD/MM (EU)
-                        </button>
-
-                    </div>
+                    <SegmentedToggle
+                        label="Date presentation"
+                        options={[{ id: "US", label: "MM/DD (US)" }, { id: "EU", label: "DD/MM (EU)" }]}
+                        value={dateFormat}
+                        onChange={(next) => next && setDateFormatChoice(next)}
+                    />
 
                 </div>
 
                 <div className="confirmation-actions">
 
-                    <button
-                        className="confirmation-button primary"
-                        onClick={save}
-                    >
+                    <AddButton look="confirmation-button primary"
+                        onClick={save}>
                         Save
-                    </button>
+                    </AddButton>
 
                 </div>
 

@@ -1,4 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import TextLink from "../components/interview/fields/TextLink.tsx";
+import AddButton from "../components/controls/AddButton.tsx";
 import { useEffect, useState } from "react";
 
 import { capabilities, getCapabilityColor } from "../data/capabilities";
@@ -243,13 +245,9 @@ export default function SystemSelection() {
                     {/* Back to the last place worked, when there is one. */}
                     {lastPlace && (
                         <div className="workspace-continue">
-                            <button
-                                type="button"
-                                className="workspace-continue-button"
-                                onClick={continueWhereLeftOff}
-                            >
+                            <TextLink className="workspace-continue-button" onClick={continueWhereLeftOff}>
                                 {lastPlace.prefix}: {lastPlace.label}
-                            </button>
+                            </TextLink>
                         </div>
                     )}
 
@@ -296,13 +294,10 @@ export default function SystemSelection() {
                                     <p className="workspace-documents-text">
                                         Turn the Foundation answers into a Business Plan, a Business Model Canvas and a Financial Forecast.
                                     </p>
-                                    <button
-                                        type="button"
-                                        className="workspace-documents-button"
-                                        onClick={() => navigate("/documents")}
-                                    >
+                                    <AddButton
+                                        onClick={() => navigate("/documents")}>
                                         Business Documents
-                                    </button>
+                                    </AddButton>
                                 </div>
                             )}
 

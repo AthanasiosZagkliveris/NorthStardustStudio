@@ -1,0 +1,105 @@
+{
+ "rows": [
+  {
+   "tag": "fold arrow",
+   "cls": "strategy-box-toggle",
+   "text": "Maximize Segment 1",
+   "open": false,
+   "where": "page",
+   "scenes": [
+    "Business System / Customer Engagement / page"
+   ]
+  },
+  {
+   "tag": "fold arrow",
+   "cls": "interview-help-toggle.interview-instructions-toggle.interview-instructions-toggle-last",
+   "text": "Hide Help",
+   "open": true,
+   "where": "page",
+   "scenes": [
+    "Business System / Financial Foundation / page",
+    "Business System / Sustainability / page"
+   ]
+  },
+  {
+   "tag": "fold arrow",
+   "cls": "strategy-box-toggle",
+   "text": "Maximize Costs",
+   "open": false,
+   "where": "page",
+   "scenes": [
+    "Business System / Financial Foundation / page"
+   ]
+  },
+  {
+   "tag": "fold arrow",
+   "cls": "strategy-box-toggle",
+   "text": "Maximize Funding Need",
+   "open": false,
+   "where": "page",
+   "scenes": [
+    "Business System / Financial Foundation / page"
+   ]
+  },
+  {
+   "tag": "fold arrow",
+   "cls": "strategy-box-toggle",
+   "text": "Maximize Capital & Funding",
+   "open": false,
+   "where": "page",
+   "scenes": [
+    "Business System / Financial Foundation / page"
+   ]
+  },
+  {
+   "tag": "fold arrow",
+   "cls": "strategy-box-toggle",
+   "text": "Maximize Financial Position",
+   "open": false,
+   "where": "page",
+   "scenes": [
+    "Business System / Financial Foundation / page"
+   ]
+  },
+  {
+   "tag": "fold arrow",
+   "cls": "label-arrow",
+   "text": "Maximize Responsibilities of Jordan Ellis",
+   "open": false,
+   "where": "tile dialog",
+   "scenes": [
+    "Business System / Infrastructure / tile Founders"
+   ]
+  },
+  {
+   "tag": "fold arrow",
+   "cls": "strategy-box-toggle",
+   "text": "Maximize Revenue",
+   "open": false,
+   "where": "page",
+   "scenes": [
+    "Business System / Sustainability / page"
+   ]
+  },
+  {
+   "tag": "fold arrow",
+   "cls": "strategy-box-toggle",
+   "text": "Maximize Break Even",
+   "open": false,
+   "where": "page",
+   "scenes": [
+    "Business System / Sustainability / page"
+   ]
+  },
+  {
+   "tag": "fold arrow",
+   "cls": "label-arrow",
+   "text": "Maximize Objective 1 initiatives",
+   "open": false,
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  }
+ ]
+}

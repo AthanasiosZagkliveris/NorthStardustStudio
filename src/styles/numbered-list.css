@@ -55,61 +55,6 @@
    selects of a list stand apart. As wide as its longest option, which is how a
    native select sizes itself -- so every line's select in a list is
    the same width and they stand in a column. */
-.numbered-list-line-end select{
-
-    appearance:none;
-    -webkit-appearance:none;
-
-    box-sizing:border-box;
-
-    max-width:50vw;
-
-    margin:4px 0;
-
-    padding:3px var(--select-padding-right) 3px var(--select-padding-left);
-
-    font:inherit;
-    font-size:var(--font-body);
-    line-height:1.5;
-
-    color:var(--text-default);
-
-    border:1px solid var(--box-border);
-    border-radius:var(--box-radius);
-
-    background-color:var(--bg-surface);
-    background-image:var(--select-chevron);
-    background-repeat:no-repeat;
-    background-position:right var(--select-chevron-inset) center;
-    background-size:12px 8px;
-
-    cursor:pointer;
-
-}
-
-.numbered-list-line-end select:hover:not(:disabled){
-
-    border-color:var(--line-primary);
-
-}
-
-.numbered-list-line-end select:focus-visible{
-
-    outline:none;
-
-    border-color:var(--line-primary);
-
-    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
-
-}
-
-.numbered-list-line-end select:disabled{
-
-    color:var(--text-faint);
-
-    cursor:not-allowed;
-
-}
 
 /* ==========================================================
    A numbered list that is SHOWN, not asked (NumberedListStatic):
@@ -280,8 +225,8 @@
    (absolute) so nothing moves on hover. */
 .numbered-list-row.is-action-line .numbered-list-input{
 
-    /* Two text lines. */
-    min-height:70px;
+    /* One text line, as every list line (a longer text grows it). */
+    min-height:0;
 
 }
 
@@ -388,7 +333,7 @@
     padding:0;
 
     border:0;
-    border-radius:4px;
+    border-radius:var(--radius-sm);
 
     background:none;
 
@@ -578,7 +523,7 @@
 .business-channel-table.is-isolating:not(.business-relationship-table)
     .business-channel-corner-bl{
 
-    border-bottom-left-radius:8px;
+    border-bottom-left-radius:var(--radius-lg);
 
 }
 
@@ -618,43 +563,8 @@
 
 }
 
-/* 32 x 32 (the rulebook's ×), centred on the line's first line: the
-   line is 8px + 27px + 8px, so the × stands (43 - 32) / 2 under its top. */
+/* The x of a list row is the app's one remove button (.strategy-box-remove, remove-button.css): this rule only
+   places it, centred on the line's first line (the line is 8px + 27px + 8px). */
 .numbered-list-remove{
-
-    flex:none;
-
-    width:32px;
-    height:32px;
-    margin-top:calc((43px - 32px) / 2);
-    padding:0;
-
-    border:0;
-    border-radius:4px;
-
-    background:none;
-
-    font:inherit;
-    font-size:var(--font-body);
-    line-height:32px;
-
-    color:var(--text-subtle);
-
-    cursor:pointer;
-
-}
-
-.numbered-list-remove:hover:not(:disabled){
-
-    background:var(--accent-ground-hover);
-
-    color:var(--text-default);
-
-}
-
-.numbered-list-remove:focus-visible{
-
-    outline:2px solid var(--line-primary);
-    outline-offset:1px;
-
+    margin-top:calc((43px - var(--size-box-button)) / 2);
 }

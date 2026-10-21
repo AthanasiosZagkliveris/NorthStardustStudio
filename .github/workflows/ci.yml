@@ -1,8 +1,8 @@
-# Runs the same three fast, deterministic checks the Environment &
-# Toolchain Playbook (docs/ai/environment-and-toolchain-playbook.md)
-# already establishes as steps 1-3 of verifying any change: typecheck,
-# unit tests, build. Deliberately does NOT cover the playbook's step 4
-# (running the app): that step is inherently interactive, so it stays
+# Runs the same three fast, deterministic checks the Toolchain and Verification
+# Playbook (docs/ai/toolchain-and-verification-playbook.md)
+# already establishes as steps 1, 2 and 4 of verifying any change: typecheck,
+# unit tests, build. Deliberately does NOT cover the playbook's steps 3 and 5-6
+# (the lints, the layout check, the look): those need a browser or a look, so they stay
 # a manual/AI-assisted step (the regression-verifier Skill) rather
 # than something that has to pass on every single push. See that
 # playbook's "Continuous integration" section for the full reasoning.
@@ -20,6 +20,7 @@ name: CI
     branches: ["**"]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   verify:
@@ -46,9 +47,45 @@ jobs:
       # (see docs/ai/outstanding-findings.md) is encoded as an
       # `it.fails` test, not an ordinary failing one, specifically so
       # this step stays a hard gate with no standing exception to
-      # remember -- see the Verification & Regression Playbook.
+      # remember -- see the Toolchain and Verification Playbook.
       - name: Unit tests
         run: npm test
 
       - name: Build
         run: npm run build
+
+      # The style, token, CSS, documents, tables and library checks: fast, no browser, deterministic.
+      - name: Tokens
+        run: npm run tokens:check
+      - name: Style lint
+        run: npm run lint:styles
+      - name: Shared-control lint
+        run: npm run lint:controls
+      - name: CSS lint
+        run: npm run lint:css
+      - name: Documents
+        run: npm run docs:check
+      - name: Tables
+        run: npm run tables:check
+      - name: Library
+        run: npm run library:check
+
+  # THE LAYOUT CHECK needs a browser, so it is its own job: on pull requests to main and when started by hand, alone on its machine (it starts the dev server itself).
+  layout:
+    if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npx playwright install --with-deps chromium
+
+      - name: Layout check
+        run: npm run check:layout

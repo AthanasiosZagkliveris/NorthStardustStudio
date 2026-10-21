@@ -12,14 +12,15 @@
 }
 
 /* ---------- The panel ---------- */
+/* (It runs to the foot of the window: the footer has no ground, its buttons stand over the panel.) */
 
 .notepad-panel {
 
     position: fixed;
     top: 80px;
-    bottom: 64px;
+    bottom: 0;
     right: 0;
-    z-index: 35;
+    z-index: 29;
 
     display: flex;
     flex-direction: column;
@@ -64,7 +65,7 @@
 
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--gap-8);
 
     padding: 16px 16px 12px;
 
@@ -80,61 +81,25 @@
 
     font-size: var(--font-h3);
     font-weight: 600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
     line-height: 1.3;
 
     color: var(--text-default);
 
 }
 
-.notepad-add {
 
-    padding: 4px 10px;
-
-    font-size: var(--font-small);
-
-}
-
-.notepad-close,
-.notepad-chip-remove {
+/* The arrow that slides the notes away is the navigation arrow (global.css, .page-arrow): it only stands where it stands. */
+.notepad-close {
 
     flex: none;
-
-    display: inline-grid;
-    place-items: center;
-
-    width: 28px;
-    height: 28px;
-    padding: 0;
-
-    border: 1px solid transparent;
-    border-radius: 6px;
-
-    background: none;
-
-    font: inherit;
-    font-size: var(--font-body);
-    line-height: 1;
-
-    color: var(--text-subtle);
-
-    cursor: pointer;
-
-}
-
-.notepad-close:hover,
-.notepad-close:focus-visible,
-.notepad-chip-remove:focus-visible {
-
-    border-color: var(--box-border);
-    color: var(--text-default);
-    outline: none;
 
 }
 
 .notepad-empty {
 
     margin: 0;
-    padding: 16px;
+    padding: 0;
 
     font-size: var(--font-body);
     line-height: 1.5;
@@ -149,7 +114,7 @@
 
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: var(--gap-12);
 
     min-height: 0;
     padding: 12px 16px 16px;
@@ -164,63 +129,7 @@
 
     display: flex;
     flex-direction: column;
-    gap: 8px;
-
-}
-
-.notepad-group-head {
-
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 8px;
-
-    padding: 4px 0;
-
-    border: 0;
-    border-bottom: 1px solid var(--line-rule);
-
-    background: none;
-
-    font: inherit;
-    font-size: var(--font-body);
-    font-weight: 600;
-    text-align: start;
-
-    color: var(--text-default);
-
-    cursor: pointer;
-
-}
-
-.notepad-group-head::before {
-
-    content: "\25B8";
-    flex: none;
-    color: var(--text-subtle);
-
-}
-
-.notepad-group-head[aria-expanded="true"]::before {
-
-    content: "\25BE";
-
-}
-
-.notepad-group-name {
-
-    flex: 1 1 auto;
-    min-width: 0;
-    overflow-wrap: anywhere;
-
-}
-
-.notepad-group-count {
-
-    font-weight: 400;
-    font-size: var(--font-small);
-
-    color: var(--text-subtle);
+    gap: var(--gap-8);
 
 }
 
@@ -228,7 +137,7 @@
 
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: var(--gap-12);
 
 }
 
@@ -244,12 +153,12 @@
 
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--gap-8);
 
     padding: 10px;
 
     border: 1px solid var(--box-border);
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
 
     background: var(--bg-panel);
 
@@ -278,7 +187,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 8px;
+    gap: var(--gap-8);
 
 }
 
@@ -287,7 +196,7 @@
 
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: var(--gap-12);
 
 }
 
@@ -322,189 +231,6 @@
 
 }
 
-/* ---------- The links, as chips ---------- */
-
-.notepad-chips {
-
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-
-    margin: 0;
-    padding: 0;
-
-    list-style: none;
-
-}
-
-.notepad-chip {
-
-    display: inline-flex;
-    align-items: flex-start;
-
-    max-width: 100%;
-
-    border: 1px solid var(--accent-line);
-    border-radius: 8px;
-
-    background: var(--accent-ground);
-
-}
-
-.notepad-chip-open {
-
-    min-width: 0;
-    padding: 2px 4px 2px 10px;
-
-    border: 0;
-
-    background: none;
-
-    font: inherit;
-    font-size: var(--font-small);
-    line-height: 1.5;
-    text-align: start;
-    overflow-wrap: anywhere;
-
-    color: var(--accent-ink);
-
-    cursor: pointer;
-
-}
-
-/* First line: the tag and where it is in numbers; second: what it is. */
-.notepad-chip-open {
-
-    display: flex;
-    flex-direction: column;
-
-}
-
-.notepad-chip-tag {
-
-    display: block;
-
-}
-
-.notepad-chip-number {
-
-    font-variant-numeric: tabular-nums;
-
-}
-
-.notepad-chip-description {
-
-    color: var(--text-subtle);
-
-}
-
-.notepad-chip-description:empty {
-
-    display: none;
-
-}
-
-.notepad-chip-open:disabled {
-
-    cursor: default;
-
-}
-
-.notepad-chip-gone {
-
-    border-style: dashed;
-
-}
-
-.notepad-chip-gone .notepad-chip-open {
-
-    color: var(--text-subtle);
-
-}
-
-.notepad-chip-remove {
-
-    width: 24px;
-    height: 24px;
-    margin-right: 2px;
-
-}
-
-/* ---------- Naming a place with # ---------- */
-
-.notepad-suggestions {
-
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-
-    max-height: 260px;
-    margin: 0;
-    padding: 4px;
-
-    overflow-y: auto;
-
-    border: 1px solid var(--box-border);
-    border-radius: 8px;
-
-    background: var(--bg-surface);
-
-    list-style: none;
-
-}
-
-.notepad-suggestion {
-
-    display: flex;
-    flex-direction: column;
-
-    width: 100%;
-    padding: 6px 8px;
-
-    border: 0;
-    border-radius: 6px;
-
-    background: none;
-
-    font: inherit;
-    text-align: start;
-
-    cursor: pointer;
-
-}
-
-[aria-selected="true"] > .notepad-suggestion,
-.notepad-suggestion:hover {
-
-    background: var(--bg-list-hover);
-
-}
-
-.notepad-suggestion-label {
-
-    font-size: var(--font-body);
-    line-height: 1.4;
-
-    color: var(--text-default);
-
-}
-
-.notepad-suggestion-place,
-.notepad-suggestion-empty {
-
-    font-size: var(--font-small);
-    line-height: 1.4;
-
-    color: var(--text-subtle);
-
-}
-
-.notepad-suggestion-empty {
-
-    padding: 6px 8px;
-
-}
-
 /* ---------- Picking a field or card ---------- */
 
 .notepad-pick-banner {
@@ -520,7 +246,7 @@
     padding: 8px 16px;
 
     border: 1px solid var(--accent-line);
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
 
     background: var(--accent-ground);
 
@@ -543,7 +269,7 @@ html.notepad-picking [data-pick-hover] {
 
     outline: 2px solid var(--accent-line);
     outline-offset: 2px;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
 
 }
 
@@ -683,8 +409,6 @@ html.notepad-picking [data-pick-hover] {
 .notepad-note:hover,
 .notepad-chip:not(.notepad-chip-gone):hover {
 
-    border-color: var(--line-primary);
-
     box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
 
 }
@@ -698,11 +422,6 @@ html.notepad-picking [data-pick-hover] {
 }
 
 /* A chip's own ×: only its glyph turns bold. */
-.notepad-chip-remove:hover {
-
-    font-weight: 700;
-
-}
 
 /* A note's Date: a tick; ticked, its label is the day to pick. */
 .notepad-date{
@@ -710,7 +429,7 @@ html.notepad-picking [data-pick-hover] {
     display:inline-flex;
     align-items:center;
 
-    gap:8px;
+    gap:var(--gap-8);
 
 }
 
@@ -720,74 +439,7 @@ html.notepad-picking [data-pick-hover] {
 
 }
 
-/* The note's day (a date cell, as every card's): the box, the calendar button and the hidden native picker, on one row. */
-.notepad-panel .date-cell{
-
-    position:relative;
-
-    display:flex;
-    align-items:center;
-
-    gap:6px;
-
-}
-
-.notepad-panel .date-cell-input{
-
-    flex:1;
-
-    width:104px;
-    min-width:0;
-    height:32px;
-
-    padding:0 8px;
-
-    border:1px solid var(--box-border);
-    border-radius:6px;
-
-    background:var(--bg-surface);
-    color:var(--text-default);
-
-    font:inherit;
-    font-size:var(--font-small);
-
-}
-
-.notepad-panel .date-cell-native-picker{
-
-    position:absolute;
-
-    width:0;
-    height:0;
-
-    padding:0;
-    margin:0;
-
-    border:none;
-
-    opacity:0;
-
-    pointer-events:none;
-
-}
-
-.notepad-panel .date-cell-calendar-button{
-
-    flex-shrink:0;
-
-    width:32px;
-    height:32px;
-
-    padding:0;
-
-    border:1px solid var(--box-border);
-    border-radius:6px;
-
-    background:var(--bg-surface);
-
-    cursor:pointer;
-
-}
+/* The note's day is the one date cell (the calendar button inside it), at the width of its row. */
 
 /* ABOVE THE TEXT, AT THE RIGHT: when the note was recorded, and the note's ×. */
 .notepad-note-top {
@@ -795,15 +447,150 @@ html.notepad-picking [data-pick-hover] {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 8px;
+    gap: var(--gap-8);
 
 }
 
 /* The fold arrow that slides the notes away is as large as the page's other fold arrows. */
-.notepad-close{
 
-    font-size:20px;
+
+/* THE CARD NOTES (Notepad.tsx, CardNotes): a group like the Organization's, then one note-box for each card -- its name, its page, its text. The panel's one column is padded 16px; a
+   head is its fold arrow, its name, its count and the funnel on one line (12px apart, the funnel ending where the boxes end); a box is a note's box (12px padding, a note's corners and
+   ground), its three lines 6px apart, set as a note's text is (the body size, no tracking). The pointer on a box is the glow; the keyboard's focus, the ring. */
+/* The funnel in the panel has no card hue to take its tone from (the hue 0 it would fall back to is red): it is the neutral one, the text colour on the panel's ground. */
+.notepad-card-notes-head .funnel-box {
+
+    --plus-ground: var(--bg-surface);
+    --plus-fill: var(--text-primary);
 
 }
 
-.notepad-panel .date-cell{ width:auto; }
+.notepad-card-notes-head {
+
+    display: flex;
+    align-items: center;
+    gap: var(--gap-12);
+    min-width: 0;
+
+}
+
+.notepad-card-notes-head > .notepad-group-head {
+
+    flex: 1 1 0;
+    min-width: 0;
+
+}
+
+.notepad-card-notes-head > .responsibility-filter {
+
+    flex: none;
+    margin-left: 0;
+
+}
+
+.notepad-card-note {
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--gap-6);
+
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    padding: var(--gap-12);
+
+    border: 1px solid var(--box-border);
+    border-radius: var(--radius-lg);
+    background: var(--bg-panel);
+
+    font: inherit;
+    font-size: var(--font-body);
+    letter-spacing: normal;
+    color: var(--text-default);
+    text-align: left;
+    cursor: pointer;
+
+}
+
+.notepad-card-note:hover:not(:focus-visible) {
+
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
+
+}
+
+.notepad-card-note:focus-visible {
+
+    outline: none;
+    border-color: var(--line-primary);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+
+}
+
+.notepad-card-note-name {
+
+    max-width: 100%;
+    overflow-wrap: anywhere;
+
+    font-weight: 600;
+    letter-spacing: normal;
+
+}
+
+.notepad-card-note-page {
+
+    font-size: var(--font-small);
+    letter-spacing: normal;
+
+    color: var(--text-muted);
+
+}
+
+.notepad-card-note-text {
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+
+    max-width: 100%;
+    overflow-wrap: anywhere;
+
+    font-size: var(--font-body);
+    letter-spacing: normal;
+
+}
+
+/* A note's actions wrap inside the note: the date cell (the one date cell, its own width) goes to its own row where the row is too narrow, 12px under; nothing stands outside the note's box. */
+.notepad-note-actions {
+
+    flex-wrap: wrap;
+    min-width: 0;
+
+}
+
+.notepad-note-actions-text {
+
+    flex-wrap: wrap;
+    min-width: 0;
+    max-width: 100%;
+
+}
+
+.notepad-date {
+
+    max-width: 100%;
+    flex-wrap: wrap;
+
+}
+
+/* THE FUNNEL'S LIST in the Notes panel is the panel's own colour (neutral surface, line and ink), not the hue of the page behind it. */
+.notepad-card-notes-head .responsibility-filter-panel {
+
+    border: 1px solid var(--line-box);
+
+    background: var(--bg-surface);
+
+    color: var(--text-default);
+
+}

@@ -1,18 +1,18 @@
 import { describe, expect, it } from "vitest";
 
-import helpHtml from "../../../docs/ai/help-texts.html?raw";
+import designDocument from "../../../docs/design/01-current-design.md?raw";
 import { BUSINESS_PARTNER_GROUPS, BUSINESS_OFFERING_RESOURCE_GROUPS, BUSINESS_RESOURCE_GROUPS, partnerGroupHelp } from "./AnswerUtils";
 
-/* The help texts of docs/ai/help-texts.html are the ones the app shows: the 47 groups, the partner and supplier groups included. */
+/* The help texts of docs/design/01-current-design.md (part H) are the ones the app shows: the 47 groups, the partner and supplier groups included. */
 
-const doc = helpHtml
-    .replace(/<style[\s\S]*?<\/style>/g, "")
-    .replace(/<[^>]+>/g, "\n")
-    .replace(/&nbsp;/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&gt;/g, ">")
+/* The cells of the document's tables, one entry each. */
+const doc = designDocument
     .split("\n")
-    .map(line => line.trim())
+    .filter(line => line.startsWith("|"))
+    .flatMap(line => line.replace(/^\||\|$/g, "").split(/(?<!\\)\|/))
+    .map(cell => cell.replace(/\\\|/g, "|"))
+    .flatMap(cell => cell.split("<br>"))
+    .map(cell => cell.trim())
     .filter(Boolean);
 
 const sentence = (text: string) => text.charAt(0).toLowerCase() + text.slice(1);

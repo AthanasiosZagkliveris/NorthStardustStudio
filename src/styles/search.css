@@ -25,7 +25,7 @@
 
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--gap-8);
 
     width: min(640px, 100%);
     max-height: 76vh;
@@ -85,11 +85,11 @@
 
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: var(--gap-2);
 
     padding: 8px 10px;
 
-    border-radius: 6px;
+    border-radius: var(--radius-md);
 
     cursor: pointer;
 
@@ -134,6 +134,7 @@
     background: var(--bg-primary-tint);
 
     font-weight: 700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     color: inherit;
 

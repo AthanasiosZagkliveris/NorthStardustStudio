@@ -100,7 +100,7 @@ describe("business documents", () => {
 
 });
 
-/* The Quillfield example: a single-member LLC in New York. */
+/* The Quillfield example: a sole proprietorship in New York. */
 import quillfieldText from "../../data/examples/quillfield-automation-llc.json?raw";
 
 describe("the forecast's accounting conventions", () => {
@@ -116,7 +116,7 @@ describe("the forecast's accounting conventions", () => {
         organisationName: "Quillfield Automation"
     };
 
-    test("an LLC's founder pay is drawings, and the balance sheet still balances", () => {
+    test("a sole proprietor's founder pay is drawings, and the balance sheet still balances", () => {
         const { forecast } = businessForecast(quillSessions);
         const pl = (label: string) => forecast.profitAndLoss.rows.find(entry => entry.label === label);
         const sheet = (label: string) => forecast.balanceSheet.rows.find(entry => entry.label === label)!.values;
@@ -129,8 +129,8 @@ describe("the forecast's accounting conventions", () => {
             expect(amount).toBeCloseTo(sheet("Total liabilities and equity")[index], 6));
         // The annual insurance and fees are a twelfth a month; what is paid ahead is prepaid.
         expect(sheet("Prepaid expenses")[0]).toBeGreaterThan(0);
-        // $1,350 of formation fees were paid before the plan: out of the opening cash.
-        expect(forecast.cashFlow.rows.find(entry => entry.label === "Cash at start of period")!.values[0]).toBeCloseTo(10650, 6);
+        // $25 of formation fees were paid before the plan: out of the opening cash.
+        expect(forecast.cashFlow.rows.find(entry => entry.label === "Cash at start of period")!.values[0]).toBeCloseTo(10675, 6);
     });
 
     test("a company's founders are paid a salary; a grant is never capital", () => {
@@ -184,7 +184,7 @@ describe("Quillfield: an unresolved funding gap", () => {
         // $3,210 of establishment costs (the $450 video kit and the $60 webcam and headset included) and a $23,638 operating need.
         // The channels' costs now sit on their own cards (Squarespace, Calendly, Mailchimp, Zoom, payment fees, referral
         // fees, meetups, LinkedIn Premium), counted once; the work tools moved to Infrastructure (QuickBooks, Miro and Loom).
-        expect(f.position.need).toBeCloseTo(24759.03, 1);
+        expect(f.position.need).toBeCloseTo(24734.03, 1);
     });
 
     test("the loan's repayments are scheduled", () => {
@@ -193,15 +193,15 @@ describe("Quillfield: an unresolved funding gap", () => {
         expect(loan.schedule.totalInterest).toBeCloseTo(1921.64, 1);
     });
 
-    test("the gap is found: $10,650 in hand against $24,759", () => {
-        expect(f.position.availableNow).toBeCloseTo(10650, 6);
-        expect(f.position.gap).toBeCloseTo(14109.03, 1);
+    test("the gap is found: $10,675 in hand against $24,734", () => {
+        expect(f.position.availableNow).toBeCloseTo(10675, 6);
+        expect(f.position.gap).toBeCloseTo(14059.03, 1);
         expect(f.position.signals.some(signal => signal.title === "Funding Gap")).toBe(true);
     });
 
     test("the $15,000 being sought still leaves cash short once it is repaid", () => {
         expect(f.position.sought).toMatchObject({ amount: 15000, lowestLabel: "Jul 2027" });
-        expect(f.position.sought!.shortfall).toBeCloseTo(1258.17, 1);
+        expect(f.position.sought!.shortfall).toBeCloseTo(1208.17, 1);
         expect(f.position.signals.some(signal => signal.title === "Funding Being Sought Falls Short")).toBe(true);
     });
 
@@ -209,24 +209,24 @@ describe("Quillfield: an unresolved funding gap", () => {
         const test = stressTest(f.revenuePage, f.financial, f.lines, f.legalEntity, f.format);
         expect(test.sought).toBe(15000);
         const short = Object.fromEntries(test.scenarios.map(scenario => [scenario.id, Math.round(scenario.shortfall)]));
-        expect(short).toEqual({ planned: 1258, sales: 5469, delay: 18649, costs: 2449, late: 7718, downside: 31171 });
+        expect(short).toEqual({ planned: 1208, sales: 5419, delay: 18599, costs: 2264, late: 7668, downside: 30959 });
         expect(test.scenarios[0].lowestLabel).toBe("Jul 2027");
     });
 
     test("what it would take: any one of these closes the gap", () => {
         const take = whatItWouldTake(f.revenuePage, f.financial, f.lines, f.legalEntity, f.format);
         expect(take.holds).toBe(false);
-        expect(Math.round(take.shortfall)).toBe(1258);
+        expect(Math.round(take.shortfall)).toBe(1208);
         expect(take.shortBy).toBe("Jun 2027");
         expect({ prices: take.prices, sales: take.sales, costs: take.costs, earlier: take.earlier })
-            .toEqual({ prices: 9, sales: 10, costs: 11, earlier: 1 });
+            .toEqual({ prices: 9, sales: 10, costs: 12, earlier: 1 });
     });
 
     test("what if: prices 30% higher close it; a $16,000 loan does not", () => {
         // 9% is what it takes (above); the what-if is 30%.
         const dearer = withWhatIf(f.revenuePage, { price: 30, volume: 0, delay: 0 }, f.financial.planStart);
         const priced = financialPosition(f.financial, f.lines, f.legalEntity, f.currency, f.format, dearer);
-        expect(priced.gap).toBeCloseTo(10698.23, 1);
+        expect(priced.gap).toBeCloseTo(10648.23, 1);
         expect(priced.sought!.shortfall).toBe(0);
 
         const bigger = {
@@ -234,7 +234,7 @@ describe("Quillfield: an unresolved funding gap", () => {
             funding: f.financial.funding.map(source => source.name === "SBA Microloan" ? { ...source, amount: "16000" } : source)
         };
         const borrowed = financialPosition(bigger, f.lines, f.legalEntity, f.currency, f.format, f.revenuePage);
-        expect(borrowed.sought!.shortfall).toBeCloseTo(414.85, 1);
+        expect(borrowed.sought!.shortfall).toBeCloseTo(364.85, 1);
     });
 
 });
@@ -280,7 +280,7 @@ describe("Quillfield: the documents tie together", () => {
         });
         // The opening column balances too.
         expect(sheet("Total assets").opening).toBeCloseTo(sheet("Total liabilities and equity").opening!, 6);
-        expect(sheet("Cash").opening).toBeCloseTo(10650, 6);
+        expect(sheet("Cash").opening).toBeCloseTo(10675, 6);
         expect(forecast.balanceSheet.rows.filter(row => row.heading).map(row => row.label))
             .toEqual(["Current assets", "Non-current assets", "Current liabilities", "Equity"]);
         const view = forecastView(forecast, "annual", 3);
@@ -316,12 +316,12 @@ describe("Quillfield: the documents tie together", () => {
     test("the funding request reconciles", () => {
         expect(f.position.need - f.position.availableNow - f.position.confirmedFuture).toBeCloseTo(f.position.gap, 1);
         const request = planMd.slice(planMd.indexOf("Funding Request"));
-        expect(request).toContain("Funding need: $24,759");
-        expect(request).toContain("Available now: $10,650 ($12,000 received, less $1,350 of costs paid before the plan)");
-        expect(request).toContain("Funding gap: $14,109");
+        expect(request).toContain("Funding need: $24,734");
+        expect(request).toContain("Available now: $10,675 ($10,700 received, less $25 of costs paid before the plan)");
+        expect(request).toContain("Funding gap: $14,059");
         expect(request).toContain("Amount sought: $15,000 (SBA Microloan)");
-        expect(request).toContain("Still short after repayments: $1,258 at the lowest point, in Jul 2027");
-        expect(request).toContain("| Total | $24,759 |");
+        expect(request).toContain("Still short after repayments: $1,208 at the lowest point, in Jul 2027");
+        expect(request).toContain("| Total | $24,734 |");
     });
 
     test("with a grant sought instead of a loan, the funding request speaks of no repayments", () => {
@@ -349,7 +349,7 @@ describe("Quillfield: the documents tie together", () => {
         };
         // The legal structure under Management, the licences under Operations.
         expect(part("## 7. Management and Organization")).toContain("### Legal Structure");
-        expect(part("## 7. Management and Organization")).toContain("Legal form: Limited Liability Company (LLC)");
+        expect(part("## 7. Management and Organization")).toContain("Legal form: Sole Proprietorship");
         expect(part("## 6. Operations")).toContain("### Licences and Registrations");
         expect(part("## 2. Company Description")).not.toContain("Legal Structure");
         // What the answers do not collect is said, not made up.
@@ -363,7 +363,7 @@ describe("Quillfield: the documents tie together", () => {
         const request = planMd.slice(planMd.indexOf("## 10. Funding Request"), planMd.indexOf("## 11. Financial Plan"));
         expect(request).toContain("| Source | Type | Amount | Status | Received | Terms |");
         expect(request).toContain("| SBA Microloan | Microloan | $15,000 | Requested / Applied | $0 | 8% a year, fixed; 36 monthly repayments of $470 from Mar 2027 |");
-        expect(request).toContain("**Debt and equity:** Debt: $15,000; equity and owner's capital: $12,000");
+        expect(request).toContain("**Debt and equity:** Debt: $15,000; equity and owner's capital: $10,700");
         expect(request).toContain("**Period covered:** The plan's 36 months, Jan 2027 – Dec 2029.");
         expect(request).toContain("**Repayment:** SBA Microloan: repaid from the business's cash over 36 repayments, the last in Feb 2030.");
     });
@@ -409,7 +409,7 @@ describe("Quillfield: the documents tie together", () => {
         expect(planMd).toContain("Formation date: Aug 2026");
         // The address's lines (street, city, ZIP), then the state and the country.
         expect(planMd).toContain("120 Clinton Street, Suite 3R, Brooklyn, 11201, New York, United States of America");
-        expect(planMd).toContain("| Jordan Ellis | 100% | $12,000 |");
+        expect(planMd).toContain("| Jordan Ellis | 100% | Founder & Automation Consultant, Solutions Architect | Full-time (about 37 hours a week) | $4,500 a month (owner's drawings) |");
         expect(planMd).toContain("| Full-time (about 37 hours a week) | $4,500 a month (owner's drawings) |");
         // Brand & Voice under Marketing and Sales; the style guide in the Appendix.
         const marketing = planMd.slice(planMd.indexOf("## 5. Marketing and Sales"), planMd.indexOf("## 6. Operations"));
@@ -425,7 +425,7 @@ describe("Quillfield: the documents tie together", () => {
 
     test("the forecast exports as a document", () => {
         const md = new MarkdownExporter().toMarkdown(all.business, "Foundation", businessForecastContent(all, "annual", 3));
-        expect(md).toContain("# Financial Forecast: Quillfield Automation LLC");
+        expect(md).toContain("# Financial Forecast: Quillfield Automation");
         expect(md).toContain("## 1. Profit and Loss Forecast");
         expect(md).toContain("## 2. Profit Kept in the Business");
         expect(md).toContain("| Profit kept in the business |");
@@ -453,8 +453,8 @@ describe("Quillfield: the documents tie together", () => {
         // the tools the work needs anyway (Google Workspace, QuickBooks, Miro and Loom) stay with the systems on Infrastructure.
         expect(resources).toContain("Webcam and headset; Video-conferencing kit (camera, microphone, light); Squarespace Core; Calendly Standard; Mailchimp Standard; Zoom Workplace Pro; LinkedIn Premium Business");
         expect(resources).toContain("Physical (systems): Google Workspace Business Standard; Make.com Core plan; Zapier Professional and 5 more");
-        expect(resources).toContain("Intellectual: the Quillfield Automation LLC brand; the website quillfieldautomation.com");
-        expect(resources).toContain("Financial: $10,650 in hand; $15,000 sought (SBA Microloan)");
+        expect(resources).toContain("Intellectual: the Quillfield Automation brand; the website quillfieldautomation.com");
+        expect(resources).toContain("Financial: $10,675 in hand; $15,000 sought (SBA Microloan)");
         expect(resources).not.toMatch(/Electricity|AI model and API usage|Coworking Space/);
         expect(blocks.costs).toContain("Founder pay (owner's drawings): Jordan Ellis ($4,500 a month)");
         // $45 of running costs on each month’s retainer (the card or ACH fee is a calculated percent of revenue now, not a cost per unit).
@@ -492,15 +492,15 @@ describe("Quillfield: the documents tie together", () => {
         // Funds run out before break even: no buffer, said so.
         expect(planMd).toContain("Sustainability buffer: None");
         expect(planMd).toContain("$1,200 / client a month");
-        expect(planMd).toContain("Available Now: $10,650 ($12,000 received, less $1,350 of costs paid before the plan)");
+        expect(planMd).toContain("Available Now: $10,675 ($10,700 received, less $25 of costs paid before the plan)");
         // Segment names lower-case mid-sentence.
         expect(planMd).toContain("to small professional-services firms in New York City.");
         expect(planMd).toContain("### For small professional-services firms in New York City");
         // The costs, by group, with subtotals and a total, without their source.
         const appendix = planMd.slice(planMd.indexOf("## 13. Appendix"));
         expect(appendix).toContain("#### Establishment");
-        expect(appendix).toContain("| Subtotal | $1,860 one-time |");
-        expect(appendix).toContain("**Total:** $1,860 one-time; $5,231 a month");
+        expect(appendix).toContain("| Subtotal | $535 one-time |");
+        expect(appendix).toContain("**Total:** $535 one-time; $5,229 a month");
         expect(appendix).not.toContain("| Source |");
         // The Roadmap numbers each Theme's Objectives from 1.
         expect(planMd).toContain("| 1. Financial Stability | 1. Close the funding gap (Jan 2027 – Jun 2027)<br>2. Reach monthly break even");
@@ -610,7 +610,7 @@ describe("Quillfield: the documents tie together", () => {
 /*
     The statements' structure, as the standards lay them out (IFRS for
     SMEs Sections 4, 5 and 7): checked on both examples -- Lumen, a
-    company with a loan, a grant and a deposit; Quillfield, an LLC
+    company with a loan, a grant and a deposit; Quillfield, a sole proprietorship
     whose owner takes drawings and whose cash runs short.
 */
 describe("the forecast statements' structure", () => {
@@ -725,7 +725,7 @@ describe("the forecast statements' structure", () => {
             expect(row("Profit before tax")!.values[index]).toBeCloseTo(row("Operating profit")!.values[index] +
                 (row("Other income (grants)")?.values[index] ?? 0) - (row("Finance costs (loan interest)")?.values[index] ?? 0), 6);
         });
-        // Lumen (a UK Ltd) at a 19% rate on profit; Quillfield (a single-member LLC) pass-through.
+        // Lumen (a UK Ltd) at a 19% rate on profit; Quillfield (a sole proprietorship) pass-through.
         expect(rows.slice(-2).map(entry => entry.label)).toEqual(["Income tax", "Net profit"]);
         expect(row("Income tax")!.text).toBe(name === "Lumen" ? undefined : "None at business level");
     });
@@ -843,7 +843,7 @@ describe("the optional answers in the documents", () => {
 
         const given = partOf(planOf(base()), "## 7. Management and Organization");
         expect(given).not.toContain("Not covered by the Foundation answers.");
-        expect(given).toContain("| Founder | Ownership | Capital | Roles | Commitment | Pay |");
+        expect(given).toContain("| Founder | Ownership | Roles | Commitment | Pay |");
         expect(given).toContain("| Founder & Automation Consultant, Solutions Architect | Full-time (about 37 hours a week) |");
         expect(given).toContain("Founder & Automation Consultant, Solutions Architect");
         expect(given).toContain("### Founder Profiles\n\n#### Jordan Ellis");
@@ -858,7 +858,9 @@ describe("the optional answers in the documents", () => {
             "- Professional / Technical Expertise: Data security and access control for client records\n" +
             "- Degree / Qualification: BS in Information Systems\n" +
             "- Certification: Certified in Microsoft Power Platform and Zapier\n");
-        expect(given).toContain("### Capability Gaps and Cover\n\nAs a one-person LLC");
+        expect(given).toContain("### Capability Gaps and Cover");
+        expect(given).toContain("As a one-person business");
+        expect(given).toContain("Brooklyn CPA practice");
     });
 
     test("every achievement reaches the plan, and untyped skills come last, as written", () => {
@@ -890,7 +892,7 @@ describe("the optional answers in the documents", () => {
         const identity = loadQuill(1, "identity");
         const md = new MarkdownExporter().toMarkdown(identity, "Foundation", buildExportContent(identity, "Foundation"));
         const legal = md.slice(md.indexOf("## 3. Legal Entity"), md.indexOf("## 4. Founders Profile"));
-        expect(legal).toContain("| Founder | Ownership | Capital |\n");
+        expect(legal).toContain("| Founder | Ownership |\n");
         expect(legal).not.toContain("Roles");
         expect(legal).not.toContain("Experience & Skills");
 
@@ -903,7 +905,9 @@ describe("the optional answers in the documents", () => {
         expect(profile).toContain("**Key Achievements:** \n\n- Designed an invoice-intake automation");
         expect(profile).toContain("**Skills, Expertise & Qualifications:** \n\n- Skill: Python and API integration\n");
         expect(profile).toContain("- Certification: Certified in Microsoft Power Platform and Zapier");
-        expect(profile).toContain("### Capability Gaps & Cover\n\nAs a one-person LLC");
+        expect(profile).toContain("### Capability Gaps & Cover");
+        expect(profile).toContain("As a one-person business");
+        expect(profile).toContain("Brooklyn CPA practice");
 
         const legacy = legacyIdentity();
         expect(new MarkdownExporter().toMarkdown(legacy, "Foundation", buildExportContent(legacy, "Foundation")))

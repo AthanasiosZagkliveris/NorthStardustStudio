@@ -1,3 +1,5 @@
+import BackButton from "./controls/BackButton.tsx";
+import AddButton from "./controls/AddButton.tsx";
 import "../styles/workspace.css";
 
 interface AppFooterProps {
@@ -40,39 +42,27 @@ export default function AppFooter({
 
         <footer className="workspace-footer">
 
-            <button
-                type="button"
-                className="back-link"
-                onClick={onBack}
-            >
-                ← Back
-            </button>
+            <BackButton className="back-link" onClick={onBack} />
 
             <div className="workspace-footer-actions">
 
                 {secondaryText && (
 
-                    <button
-                        type="button"
-                        className="secondary-button"
+                    <AddButton look="secondary-button"
                         onClick={onSecondary}
-                        disabled={secondaryDisabled}
-                    >
+                        disabled={secondaryDisabled}>
                         {secondaryText}
-                    </button>
+                    </AddButton>
 
                 )}
 
                 {primaryText && (
 
-                    <button
-                        type="button"
-                        className="primary-button"
+                    <AddButton look="primary-button"
                         onClick={onPrimary}
-                        disabled={primaryDisabled}
-                    >
+                        disabled={primaryDisabled}>
                         {primaryText}
-                    </button>
+                    </AddButton>
 
                 )}
 

@@ -47,19 +47,7 @@
 
     align-items: baseline;
 
-    gap: 6px 8px;
-
-}
-
-.fold-card-head.fold-card-head-grip {
-
-    grid-template-columns: auto auto auto minmax(0, 1fr) auto;
-
-}
-
-.fold-card-head > .strategy-drag-handle {
-
-    grid-column: 1;
+    gap: var(--gap-6) var(--gap-8);
 
 }
 
@@ -78,8 +66,7 @@
    for the × at the end of a row of a table, which sits on the
    row's line of text. */
 .fold-card-head > .strategy-box-toggle,
-.fold-card-head .strategy-box-remove,
-.financial-cost-remove > .strategy-box-remove {
+.fold-card-head .strategy-box-remove {
 
     font-size: var(--font-body);
 
@@ -166,32 +153,6 @@
 
 }
 
-.fold-card-head-grip > .strategy-box-toggle {
-
-    grid-column: 2;
-
-}
-
-.fold-card-head-grip > .strategy-box-number {
-
-    grid-column: 3;
-
-}
-
-.fold-card-head-grip > .strategy-name-input,
-.fold-card-head-grip > .strategy-name-static {
-
-    grid-column: 4;
-
-}
-
-.fold-card-head-grip > .strategy-box-remove,
-.fold-card-head-grip > .strategy-box-actions {
-
-    grid-column: 5;
-
-}
-
 .fold-card-head > .business-card-summary {
 
     grid-column: 3 / -1;
@@ -199,42 +160,10 @@
 
 }
 
-.fold-card-head-grip > .business-card-summary {
-
-    grid-column: 4 / -1;
-
-}
-
-/* "Expand all / Collapse all", a quiet text control beside a group title. */
+/* "Expand all / Collapse all" is a text link (TextLink) at the far end of a group's title row: it only stands there. */
 .fold-all-toggle {
 
     margin-left: auto;
-    padding: 2px 8px;
-
-    border: none;
-    background: none;
-    cursor: pointer;
-
-    border-radius: 4px;
-
-    font-size: var(--font-small);
-    color: var(--accent-ink);
-
-}
-
-/* Underlined, on the family's hover ground (see --accent-* in
-   global.css). */
-.fold-all-toggle:hover {
-
-    background: var(--accent-ground-hover);
-    text-decoration: underline;
-
-}
-
-.fold-all-toggle:focus-visible {
-
-    outline: 2px solid var(--line-primary);
-    outline-offset: 2px;
 
 }
 
@@ -249,7 +178,7 @@
 
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--gap-8);
     align-self: stretch;
 
 }
@@ -338,12 +267,6 @@
 .fold-card-head ~ :not(.fold-card-head) {
 
     margin-left: var(--card-body-indent);
-
-}
-
-.fold-card-head-grip ~ :not(.fold-card-head) {
-
-    margin-left: calc(24px + 8px + var(--card-body-indent));
 
 }
 

@@ -28,7 +28,7 @@
 
     overflow-x:auto;
 
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
 }
 
@@ -44,7 +44,7 @@
     border-top:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
     border-left:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     table-layout:auto;
 
@@ -100,10 +100,10 @@
 }
 
 /* The four corners, on the cells that occupy them. */
-.channel-resource-table > thead > tr > :first-child{ border-top-left-radius:8px; }
-.channel-resource-table > thead > tr > :last-child{ border-top-right-radius:8px; }
-.channel-resource-table > tbody > tr:last-child > :first-child{ border-bottom-left-radius:8px; }
-.channel-resource-table > tbody > tr:last-child > :last-child{ border-bottom-right-radius:8px; }
+.channel-resource-table > thead > tr > :first-child{ border-top-left-radius:var(--radius-lg); }
+.channel-resource-table > thead > tr > :last-child{ border-top-right-radius:var(--radius-lg); }
+.channel-resource-table > tbody > tr:last-child > :first-child{ border-bottom-left-radius:var(--radius-lg); }
+.channel-resource-table > tbody > tr:last-child > :last-child{ border-bottom-right-radius:var(--radius-lg); }
 
 /* A row is on the cell ground, washed in its own colour when pointed at. */
 .channel-resource-table tbody td,
@@ -135,6 +135,7 @@
     padding-left:calc(var(--space-field) + 4px);
 
     font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -144,7 +145,7 @@
 
     align-items:baseline;
 
-    gap:6px;
+    gap:var(--gap-6);
 
     max-width:100%;
 
@@ -244,11 +245,7 @@
 
 /* The Actions cell: no bullets; the buttons side by side, wrapping between them. */
 .channel-resource-chips{
-
-    display:flex;
     flex-wrap:wrap;
-
-    gap:var(--space-label);
 
 }
 
@@ -268,7 +265,6 @@
 .channel-resource-col-channel{ width:17%; min-width:180px; }
 .channel-resource-col-offerings{ width:18%; min-width:170px; }
 .channel-resource-col-stages{ width:13%; min-width:140px; }
-.channel-resource-col-actions{ width:11%; min-width:130px; }
 
 .channel-resource-table td.channel-resource-cost,
 .channel-resource-table td.channel-resource-behaviour{ white-space:nowrap; }
@@ -281,12 +277,13 @@
     padding:0 6px;
 
     border:1px solid var(--tint-mark);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--tint-ground);
 
     font:inherit;
     font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     color:var(--tint-ink);
 
@@ -314,6 +311,7 @@
 .channel-resource-summary-label{
 
     font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -357,8 +355,16 @@
 
     display:grid;
     grid-template-columns:repeat(2, max-content);
-    gap:6px;
+    gap:var(--gap-6);
 
 }
 
 .channel-resource-col-actions{ width:12%; min-width:150px; }
+
+/* THE NAME COLUMN TAKES WHAT THE OTHERS LEAVE: its link is one row cut by an ellipsis (text-links.css), so its text must not ask the table for its whole length (max-width 0: no
+   demand of its own, the column fills the room that is left). */
+.channel-resource-table tbody th.channel-resource-name{
+
+    max-width:0;
+
+}

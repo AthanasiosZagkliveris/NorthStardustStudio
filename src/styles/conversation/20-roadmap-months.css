@@ -1,0 +1,212 @@
+/* ==========================================================
+   Roadmap -- zoomed to months
+
+   The mouse wheel over the timeline zooms it in (see
+   StrategicRoadmapEditor). Every year then takes twelve month
+   columns of --roadmap-month-width, across every Theme at once,
+   so the timeline outgrows the card and scrolls sideways inside
+   the roadmap rather than the page. Nothing here applies to the
+   quarter view, which stays exactly as drawn above.
+========================================================== */
+
+.roadmap-zoomed{
+
+    /* See ROADMAP_MONTH_WIDTH in roadmapZoom.ts for why 96. */
+    --roadmap-month-width:96px;
+
+    overflow-x:auto;
+
+}
+
+/* The heading row and every Theme box widen to the whole timeline
+   -- and all to the same width, so their tracks stay in step. */
+.roadmap-zoomed > .roadmap-head,
+.roadmap-zoomed > .roadmap-theme-box{
+
+    width:max-content;
+    min-width:100%;
+
+}
+
+/* A month is a fixed width; a short period that still fits the
+   card grows to fill it, as the quarters do. */
+.roadmap-zoomed .roadmap-track{
+
+    min-width:calc(var(--roadmap-columns, 1) * var(--roadmap-month-width));
+
+}
+
+/* The Theme names -- and the empty corner over them -- stay in
+   place while the months scroll beneath: pinned where they
+   already sit (a box's 1px border and 12px padding in), and capped
+   at their column's width so a long name cannot make one box
+   wider than the rest. */
+.roadmap-zoomed .roadmap-theme{
+
+    position:sticky;
+    left:13px;
+    z-index:1;
+
+    max-width:var(--roadmap-label, 220px);
+
+    /* The box's own ground and edge, for the cover below. */
+    border-color:inherit;
+    background-color:inherit;
+
+}
+
+/* The cover behind a pinned name: the Theme's ground over the
+   box's padding and the 24px gap beside the column, with the box's
+   left edge drawn at the scroller's edge -- so a bar scrolls under
+   the name rather than showing around it, and the box still reads
+   as closed on the left. Laid behind the name's own text. */
+.roadmap-zoomed .roadmap-theme::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:-12px;
+    bottom:-12px;
+    left:-13px;
+    right:-24px;
+
+    z-index:-1;
+
+    border-left:1px solid;
+    border-left-color:inherit;
+    border-radius:7px 0 0 7px;
+
+    background-color:inherit;
+
+}
+
+/* The corner over the names has no box: it only needs the ground of the card the roadmap stands on (not the page's own white, which on a dark or
+   tinted card is a black block), from the top of the timeline down to the first box. */
+.roadmap-zoomed .roadmap-head-spacer{
+
+    /* EXACTLY the card's ground (the formula the card, the Theme boxes and every panel use: the card's hue), not a mix of it: a mix is a different colour. */
+    background-color:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}
+
+.roadmap-zoomed .roadmap-head-spacer::before{
+
+    border-left:none;
+    border-radius:0;
+
+}
+
+/* The year rule stops at each box's edge rather than reaching up
+   through the gap above it: in the gap nothing covers the rule
+   where it scrolls past the Theme names. */
+.roadmap-zoomed .roadmap-year-lines{
+
+    top:0;
+
+}
+
+/* Months take the hairline; a quarter's first month takes the
+   timeline's next grey, so the quarters still read. The year keeps
+   its own heavier rule. */
+.roadmap-zoomed .roadmap-quarter-start{
+
+    border-left-color:var(--line-grid);
+
+}
+
+/* A bar whose start is scrolled under the Theme names keeps its
+   name in view, just right of them: moved in by the custom property
+   StrategicRoadmapEditor's pinBarNames sets, never past the bar's
+   own end, where the ellipsis cuts it off. */
+.roadmap-zoomed .roadmap-bar > .roadmap-bar-label{
+
+    margin-left:var(--roadmap-bar-pin, 0px);
+
+}
+
+/* A part-scrolled year keeps its heading at the left of the visible
+   months, just right of the corner over the Theme names, until its
+   last month leaves. Sticky holds it inside its own year's cell. */
+.roadmap-zoomed .roadmap-year-label{
+
+    position:sticky;
+    left:calc(var(--roadmap-label, 220px) + 37px);
+
+    display:inline-block;
+
+}
+
+
+/* The funnel's drop-down with filters in it (the Inventory overlay): wider, scrolling, a bullet before the chosen order. */
+.strategy-sort-menu-wide{
+
+    /* As wide as its longest line (every line is ONE line; a line too long for the room is cut by an ellipsis and says itself whole), held inside the window. */
+    /* (Narrowed 2026-10-21: as wide as its dropdown cells need -- a cell's closed width, --control-s, and the window's 12px at each side; the From and To cells share it, a longer line is one line cut by an ellipsis.) */
+    width:calc(var(--control-s) + 24px);
+    min-width:0;
+    max-width:calc(100vw - 24px);
+
+    overflow-y:auto;
+
+}
+
+
+/* THE COSTS SUMMARY of 4. Financial Foundation: a row for each group of costs -- its name (with its "i"), how many, and what they come to. */
+
+/* A third wider than the one width and a half (InfoNote size="double", 480px): the guidance of the Brand pages and of the Themes. */
+.info-note-panel.info-note-panel-double{
+
+    width:480px;
+
+}
+
+/* The day in a date cell is written at the size of the text around it (the labels and the other cells), not smaller. */
+.date-cell-input{
+
+    font-size:var(--font-body);
+
+}
+
+/* THE ONE DATE CELL: the size of a card's Start date cell (the input, the calendar button and the gap between them), wherever a date is asked. */
+.date-cell{
+
+    width:var(--control-date);
+    max-width:100%;
+
+    box-sizing:border-box;
+
+}
+
+/* The total at the foot of a Funding Need's list: a rule over it. */
+.financial-cost-inputs > li.financial-cost-total{
+
+    margin-top:4px;
+    padding-top:6px;
+
+    border-top:1px solid var(--line-faint, var(--box-border));
+
+}
+
+/* A Financial Foundation section's number stands on the middle of the title's line, as the title does. */
+.financial-section .fold-card-head > .strategy-box-number{
+
+    align-self:center;
+
+}
+
+/* A Goal's and an Objective's name cell starts at the Description's left edge (the number's column) and runs to the x's column: one cell width for the name and the description. */
+.strategy-goal-box > .strategy-box-head > .strategy-name-input,
+.strategy-objective-box > .strategy-box-head > .strategy-name-input,
+.strategy-goal-box > .strategy-box-head > .card-name-input,
+.strategy-objective-box > .strategy-box-head > .card-name-input{
+
+    grid-column:3 / 5;
+
+}
+
+.strategy-goal-box > .strategy-box-body{
+
+    padding-right:40px;
+
+}

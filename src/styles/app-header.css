@@ -174,44 +174,17 @@
 .header-tool {
 
     flex-shrink: 0;
+    align-self: center;
 
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: var(--gap-6);
 
-    min-height: 36px;
-    margin-left: 16px;
+    min-height: var(--add-button-height);
+    margin-left: 8px;
     padding: 4px 10px;
 
-    border: 1px solid var(--box-border);
-    border-radius: 6px;
-
-    background: none;
-
-    font: inherit;
-    font-size: var(--font-small);
     line-height: 1.4;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-
-    color: var(--text-default);
-
-    cursor: pointer;
-
-}
-
-.header-tool:hover,
-.header-tool:focus-visible,
-.header-tool[aria-expanded="true"] {
-
-    background: var(--bg-list-hover);
-
-}
-
-.header-tool:focus-visible {
-
-    outline: none;
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 28%, transparent);
 
 }
 

@@ -1,4 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import AddButton from "./controls/AddButton.tsx";
+import TextBox from "./controls/TextBox.tsx";
+import RemoveButton from "./controls/RemoveButton.tsx";
+import OptionPicker, { MultiPicker } from "./interview/fields/OptionPicker.tsx";
+import DateCellInput from "./interview/fields/DateCellInput";
 
 import { CARD_DATE_KINDS, type CardDateKind } from "../framework/engine/CalendarCardDates";
 import { newCustomPeriod, type CalendarPeriod } from "../services/CalendarPeriods";
@@ -11,76 +16,6 @@ export const CALENDAR_INCLUDES: readonly { id: string; label: string; nouns: rea
     { id: "founders", label: "Founders", nouns: ["Founder"] },
     { id: "legal", label: "Legal & Organization", nouns: ["Expense", "Organization"] }
 ];
-
-/** A drop-down cell with a check box for each of its options (what is shown is counted on the cell). */
-function MultiPick<T extends string>({
-    label,
-    options,
-    selected,
-    onChange
-}: {
-    label: string;
-    options: readonly { id: T; label: string }[];
-    selected: ReadonlySet<T>;
-    onChange: (next: ReadonlySet<T>) => void;
-}) {
-    const [open, setOpen] = useState(false);
-    const box = useRef<HTMLDivElement | null>(null);
-
-    useEffect(() => {
-        if (!open) {
-            return;
-        }
-        const close = (event: MouseEvent) => {
-            if (!box.current?.contains(event.target as Node)) {
-                setOpen(false);
-            }
-        };
-        document.addEventListener("mousedown", close);
-        return () => document.removeEventListener("mousedown", close);
-    }, [open]);
-
-    return (
-        <div className="org-calendar-multi" ref={box}>
-            <button
-                type="button"
-                className="interview-input org-calendar-dropdown"
-                aria-haspopup="listbox"
-                aria-expanded={open}
-                aria-label={label}
-                onClick={() => setOpen(current => !current)}
-            >
-                {label}: {selected.size === options.length ? "All" : selected.size + " of " + options.length}
-            </button>
-            {open && (
-                <div className="org-calendar-multi-list" role="group" aria-label={label}>
-                    <div className="org-calendar-multi-actions">
-                        <button type="button" className="org-calendar-chip" onClick={() => onChange(new Set(options.map(option => option.id)))}>All</button>
-                        <button type="button" className="org-calendar-chip" onClick={() => onChange(new Set())}>None</button>
-                    </div>
-                    {options.map(option => (
-                        <label key={option.id} className="org-calendar-funnel-kind">
-                            <input
-                                type="checkbox"
-                                checked={selected.has(option.id)}
-                                onChange={(event) => {
-                                    const next = new Set(selected);
-                                    if (event.target.checked) {
-                                        next.add(option.id);
-                                    } else {
-                                        next.delete(option.id);
-                                    }
-                                    onChange(next);
-                                }}
-                            />
-                            <span>{option.label}</span>
-                        </label>
-                    ))}
-                </div>
-            )}
-        </div>
-    );
-}
 
 /**
  * THE CALENDAR'S FUNNEL, three drop-down cells: the PERIOD listed (the month grid alone, Today, Tomorrow, This week, Next week, This month, This year, Xmas, or one the
@@ -134,68 +69,58 @@ export default function CalendarFunnel({
     return (
         <div className="org-calendar-funnel">
 
+            {/* THE THREE CHOICES IN ONE ROW: the period shown, the kinds of date, what is included. */}
             <div className="org-calendar-funnel-row">
-                <label className="org-calendar-funnel-field">
-                    <span className="org-calendar-funnel-label">Show</span>
-                    <select
-                        className="interview-input org-calendar-dropdown"
-                        aria-label="Period"
-                        value={current}
-                        onChange={(event) => {
-                            const next = event.target.value;
-                            if (next === NEW) {
-                                setAdding(true);
-                                return;
-                            }
-                            onPeriod(next === MONTH ? null : periods.find(period => period.label === next)?.id ?? null);
-                        }}
-                    >
-                        {labels.map(label => <option key={label} value={label}>{label}</option>)}
-                    </select>
-                </label>
+                <OptionPicker
+                    label="Show"
+                    hug
+                    keepWidth
+                    options={labels}
+                    value={current}
+                    onChange={(next) => {
+                        if (next === NEW) {
+                            setAdding(true);
+                            return;
+                        }
+                        onPeriod(next === MONTH ? null : periods.find(period => period.label === next)?.id ?? null);
+                    }}
+                />
                 {chosen?.custom && (
-                    <button
-                        type="button"
-                        className="org-calendar-chip"
-                        aria-label={"Remove the period " + chosen.label}
-                        onClick={() => onRemovePeriod(chosen.id)}
-                    >
-                        Remove
-                    </button>
+                    <RemoveButton aria-label={"Remove the period " + chosen.label} onClick={() => onRemovePeriod(chosen.id)} />
                 )}
-            </div>
-
-            {adding && (
-                <div className="org-calendar-funnel-form">
-                    <input
-                        type="text"
-                        className="interview-input"
-                        aria-label="Period name"
-                        placeholder="Name (optional)"
-                        value={name}
-                        onChange={(event) => setName(event.target.value)}
-                    />
-                    <input type="date" className="interview-input" aria-label="Period from" value={from} onChange={(event) => setFrom(event.target.value)} />
-                    <input type="date" className="interview-input" aria-label="Period to" value={to} onChange={(event) => setTo(event.target.value)} />
-                    <button type="button" className="org-calendar-chip" disabled={!from || !to} onClick={save}>Save</button>
-                    <button type="button" className="org-calendar-chip" onClick={() => setAdding(false)}>Cancel</button>
-                </div>
-            )}
-
-            <div className="org-calendar-funnel-row">
-                <MultiPick
+                <MultiPicker
                     label="Dates"
                     options={CARD_DATE_KINDS.map(kind => ({ id: kind.id, label: kind.label }))}
                     selected={kinds}
                     onChange={onKinds}
                 />
-                <MultiPick
+                <MultiPicker
                     label="Include"
                     options={CALENDAR_INCLUDES.map(entry => ({ id: entry.id, label: entry.label }))}
                     selected={includes}
                     onChange={onIncludes}
                 />
             </div>
+
+            {adding && (
+                <div className="org-calendar-funnel-form">
+                    <TextBox
+                        className="interview-input"
+                        aria-label="Period name"
+                        placeholder="Name (optional)"
+                        value={name}
+                        onChange={(event) => setName(event.target.value)}
+                    />
+                    <DateCellInput ariaLabel="Period from" value={from} onChange={setFrom} />
+                    <DateCellInput ariaLabel="Period to" value={to} onChange={setTo} />
+                    <AddButton
+                        disabled={!from || !to}
+                        onClick={save}>Save</AddButton>
+                    <AddButton
+                        onClick={() => setAdding(false)}>Cancel</AddButton>
+                </div>
+            )}
+
 
         </div>
     );

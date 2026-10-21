@@ -1,0 +1,172 @@
+{
+  "colour": {
+    "app-header.css": {
+      "rgba(0, 0, 0, 0.18)": 1
+    },
+    "capability-overview.css": {
+      "#1d2029": 1,
+      "#2a2f38": 1,
+      "#3d3122": 1,
+      "#cfd3da": 1,
+      "#f0e4cc": 1,
+      "#f6f3ec": 1,
+      "rgba(207, 211, 218, 0.045)": 1,
+      "rgba(207, 211, 218, 0.1)": 1,
+      "rgba(207, 211, 218, 0.16)": 1,
+      "rgba(42, 47, 56, 0.05)": 1,
+      "rgba(42, 47, 56, 0.1)": 1,
+      "rgba(42, 47, 56, 0.16)": 1,
+      "rgba(61, 49, 34, 0.06)": 1,
+      "rgba(61, 49, 34, 0.11)": 1,
+      "rgba(61, 49, 34, 0.18)": 1
+    },
+    "conversation.css": {
+      "#000": 1,
+      "#0006": 2,
+      "#00f": 1,
+      "#0f0": 1,
+      "#0ff": 1,
+      "#f00": 2,
+      "#f0f": 1,
+      "#ff0": 1,
+      "#fff": 2,
+      "hsl( var(--strategy-theme-hue, 0) 36% var(--strategy-bar-lightness, 34%) )": 1,
+      "hsl(var(--colour-hue, 0) 100% 50%)": 1
+    },
+    "global.css": {
+      "#ffffff": 1,
+      "rgba(0, 0, 0, 0.12)": 1,
+      "rgba(0, 0, 0, 0.18)": 1,
+      "rgba(0, 0, 0, 0.45)": 1,
+      "rgba(0, 0, 0, 0.5)": 1,
+      "rgba(255, 252, 244, 0.55)": 1,
+      "rgba(255, 252, 244, 0.8)": 1,
+      "rgba(255, 255, 255, 0.07)": 1,
+      "rgba(255, 255, 255, 0.1)": 1,
+      "rgba(255, 255, 255, 0.5)": 1,
+      "rgba(255, 255, 255, 0.75)": 1,
+      "rgba(60, 40, 20, 0.14)": 1,
+      "rgba(60, 40, 20, 0.2)": 1
+    },
+    "page-3-edges.css": {
+      "rgba(255, 255, 255, 0.9)": 1
+    },
+    "section-tiles.css": {
+      "#ffffff": 1,
+      "hsl(172 50% 58%)": 1,
+      "hsl(172 55% 33%)": 1,
+      "rgba(0, 0, 0, 0.6)": 1,
+      "rgba(0, 0, 0, 0.65)": 1,
+      "white": 1
+    }
+  },
+  "corner": {
+    "app-header.css": {
+      "10px": 1
+    },
+    "business-documents.css": {
+      "10px": 1
+    },
+    "capability-description.css": {
+      "12px": 1
+    },
+    "conversation.css": {
+      "10px": 3,
+      "1px": 3,
+      "2px": 2,
+      "3px": 2,
+      "7px": 2
+    },
+    "landing.css": {
+      "12px": 2,
+      "1px": 1,
+      "24px": 1
+    },
+    "numbered-list.css": {
+      "2px": 1
+    },
+    "organization-calendar.css": {
+      "12px": 4
+    },
+    "remove-button.css": {
+      "1px": 1
+    },
+    "review.css": {
+      "10px": 1
+    },
+    "search.css": {
+      "12px": 1,
+      "2px": 1
+    },
+    "section-tiles.css": {
+      "1px": 1,
+      "2px": 2,
+      "3px": 1
+    },
+    "system-confirmation.css": {
+      "12px": 1
+    },
+    "workspace.css": {
+      "10px": 1
+    }
+  },
+  "gap": {
+    "bullet-rail.css": {
+      "18px": 1
+    },
+    "business-documents.css": {
+      "0.5em": 1,
+      "20px": 2,
+      "36px": 1
+    },
+    "capability-description.css": {
+      "14px": 1
+    },
+    "conversation.css": {
+      "10px": 9,
+      "12px": 2,
+      "14px": 4,
+      "18px": 2,
+      "20px": 6,
+      "24px": 1,
+      "28px": 1,
+      "3px": 1,
+      "64px": 1
+    },
+    "demand.css": {
+      "10px": 1,
+      "16px": 1,
+      "20px": 1
+    },
+    "global-settings.css": {
+      "14px": 1,
+      "20px": 3
+    },
+    "landing.css": {
+      "10px": 1,
+      "14px": 1,
+      "3vw": 1
+    },
+    "organization-calendar.css": {
+      "10px": 4,
+      "14px": 2
+    },
+    "review.css": {
+      "10px": 2,
+      "20px": 1,
+      "28px": 2
+    },
+    "section-tiles.css": {
+      "0.4em": 2,
+      "14px": 1,
+      "24px": 1,
+      "32px": 2
+    },
+    "workspace.css": {
+      "14px": 1,
+      "20px": 1,
+      "40px": 1,
+      "56px": 1
+    }
+  }
+}

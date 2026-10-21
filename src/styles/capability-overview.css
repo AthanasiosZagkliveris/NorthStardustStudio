@@ -4,7 +4,7 @@
 
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--gap-8);
 
     min-width: 0;
 
@@ -18,7 +18,7 @@
 
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: var(--gap-16);
 
 }
 
@@ -29,67 +29,13 @@
 
 }
 
-.capability-overview-legend {
-
-    display: inline-flex;
-    gap: 16px;
-
-}
-
-.capability-overview-legend span {
-
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-
-}
-
 .capability-overview-views {
-
-    display: inline-flex;
-    gap: 4px;
 
     margin-left: auto;
 
 }
 
-.capability-overview-views button,
-.capability-overview-name {
 
-    padding: 2px 10px;
-
-    border: 1px solid var(--line-card);
-    border-radius: 4px;
-
-    background: var(--bg-surface);
-
-    color: inherit;
-
-    font: inherit;
-
-    cursor: pointer;
-
-}
-
-.capability-overview-name {
-
-    padding: 0;
-
-    border: 0;
-
-    background: none;
-
-    text-align: left;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-
-}
-
-.capability-overview-views button[aria-pressed="true"] {
-
-    background: var(--bg-button-hover);
-
-}
 
 .capability-overview button:focus-visible {
 
@@ -103,11 +49,11 @@
 
     display: flex;
     flex-direction: column;
-    gap: 8px;
 
-    padding: 8px 10px;
+    /* THE WINDOW'S TYPE IS THE APP'S: the body size; its words in the card's label colour (review-criteria.md, "Typography"). */
+    font-size: var(--font-body);
 
-    font-size: var(--font-small);
+    color: hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
 
 }
 
@@ -115,7 +61,6 @@
 
     display: flex;
     flex-direction: column;
-    gap: 4px;
 
 }
 
@@ -123,17 +68,16 @@
 
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: var(--gap-2);
 
 }
 
 .capability-overview-menu-fields input[type="text"] {
 
-    width: 6em;
+    width: 100%;
 
 }
 
-.capability-overview-menu select,
 .capability-overview-menu input[type="text"] {
 
     font: inherit;
@@ -142,9 +86,42 @@
 
 }
 
-/* A long label WRAPS inside the menu. */
+/* THE COST ORDER: two fold arrows that choose (up: low to high, down: high to low), at the body size, a cell gap apart. */
+.capability-overview-menu .capability-overview-costs-order .label-arrow {
+
+    --label-arrow-size: var(--font-body);
+
+    margin: 0;
+
+}
+
+/* A dropdown of the window hugs its longest option (OptionPicker `hug`); the label above it does not stretch it. */
+.capability-overview-menu-fields label:not(.business-foundation-tick) {
+
+    align-items: flex-start;
+
+}
+
+/* The From and To cells are cells: one height, 44px. */
+.capability-overview-costs-range .number-cell {
+
+    min-width: 0;
+
+    width: 100%;
+    height: var(--control-square);
+
+}
+
+.capability-overview-costs-range label {
+
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: calc(50% - var(--space-cell) / 2);
+
+}
+
+/* A long head or field label WRAPS inside the menu (a tick or an order is one line, cut by an ellipsis). */
 .capability-overview-menu strong,
-.capability-overview-menu .business-foundation-tick-label,
 .capability-overview-menu-fields label {
 
     white-space: normal;
@@ -161,13 +138,14 @@
 
 }
 
-/* The funnel's labels are in capitals. */
-.capability-overview-menu strong,
-.capability-overview-menu .business-foundation-tick-label,
-.capability-overview-menu-fields label,
-.strategy-sort-menu-wide .strategy-sort-option {
+/* A block's head is the caps title (body size, 600, 0.05em, capitals on screen only, the muted caps-title colour); the labels of its fields and the words of its ticks are the app's labels and tick words: sentence case, regular. */
+.capability-overview-menu strong {
 
+    font-weight: 600;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
+
+    color: var(--caps-title-color);
 
 }
 
@@ -178,17 +156,68 @@
 
 }
 
-.capability-overview-menu-sort {
+/* THE WINDOW'S ROWS stand on one pitch, 32px: a tick, an order. Every line is ONE line; a line too long for the window is cut by an ellipsis. */
+.capability-overview-menu .capability-overview-menu-body,
+.capability-overview-menu .capability-overview-menu-sub {
 
-    padding-top: 4px;
-
-    border-top: 1px solid var(--line-divider);
+    gap: 0;
 
 }
 
-.strategy-sort-menu-wide .strategy-sort-option {
+.capability-overview-menu .business-foundation-tick {
 
-    font-size: var(--font-small);
+    min-height: var(--size-box-button);
+
+}
+
+.capability-overview-menu .business-foundation-tick-label,
+.strategy-sort-menu-wide .menu-option {
+
+    overflow: hidden;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+}
+
+.capability-overview-menu .business-foundation-tick-label {
+
+    /* (A tick's words are the text colour; the room under the line keeps the tails of g, j, p, q, y from being cut by the ellipsis' clip.) */
+    padding-bottom: 0.25em;
+    margin-bottom: -0.25em;
+
+    color: var(--text-default);
+
+}
+
+/* Outward, the window's top is the dialog's top: no gap above it. */
+.strategy-sort-menu.strategy-sort-menu-wide[data-outward] {
+
+    margin-top: 0;
+
+}
+
+/* A field's label sits close over its cell: the label gap is 6px from the line's foot, so the line is no taller than its letters. */
+.capability-overview-menu-fields label:not(.business-foundation-tick),
+.capability-overview-costs-range label {
+
+    line-height: 1.15;
+
+}
+
+/* The orders are the dropdown's options: the body size, regular, no capitals. */
+.strategy-sort-menu-wide .menu-option {
+
+    display: flex;
+    align-items: center;
+
+    box-sizing: border-box;
+    height: var(--size-box-button);
+    padding-block: 0;
+
+    font-size: var(--font-body);
+    letter-spacing: normal;
+    text-transform: none;
 
 }
 
@@ -196,30 +225,16 @@
 
     width: 100%;
 
-    border-collapse: collapse;
-
     text-align: left;
 
 }
-
-.capability-overview-table th,
-.capability-overview-table td {
-
-    padding: 4px 8px;
-
-    border-bottom: 1px solid var(--line-divider);
-
-    vertical-align: top;
-
-}
-
 
 /* Step 2 of Belongs to (the groups of the chosen place) is indented under step 1. */
 .capability-overview-menu-sub {
 
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: var(--gap-4);
 
     padding-left: 20px;
 
@@ -227,7 +242,7 @@
 
 .capability-overview-menu .business-foundation-tick-label {
 
-    font-size: var(--font-small);
+    font-size: var(--font-body);
 
 }
 
@@ -260,42 +275,13 @@
 }
 
 /* The legend's circles are toggles; a pressed one is ringed. */
-.capability-overview-legend-item {
 
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-
-    padding: 2px 8px 2px 4px;
-
-    border: 1px solid transparent;
-    border-radius: 999px;
-
-    background: none;
-
-    color: inherit;
-
-    font: inherit;
-
-    cursor: pointer;
-
-}
-
-.capability-overview-legend-item[aria-pressed="true"] {
-
-    border-color: var(--focus-ring-ink);
-
-    background: var(--bg-button-hover);
-
-    font-weight: 600;
-
-}
 
 .capability-overview-chip {
 
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: var(--gap-6);
 
     padding: 2px 4px 2px 10px;
 
@@ -303,24 +289,6 @@
     border-radius: 999px;
 
 }
-
-.capability-overview-chip button {
-
-    padding: 0 6px;
-
-    border: 0;
-    border-radius: 999px;
-
-    background: none;
-
-    color: inherit;
-
-    font: inherit;
-
-    cursor: pointer;
-
-}
-
 
 
 /* The scrolling area's bar: thin, no arrows (overriding the app-wide *::-webkit-scrollbar { display: none }). */
@@ -350,49 +318,19 @@
 
     min-height: 40px;
 
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
 
     background: color-mix(in srgb, currentColor 45%, transparent);
 
 }
 
 /* THE COSTS of the tiles shown, with the cost order and range under them. */
-.capability-overview-costs-order,
-.capability-overview-costs-range {
-
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-
-}
-
-.capability-overview-costs-order button {
-
-    font: inherit;
-    text-transform: uppercase;
-
-}
-
-.capability-overview-costs-order button[aria-pressed="true"] {
-
-    font-weight: 700;
-    text-decoration: underline;
-
-}
-
-.capability-overview-costs-range input[type="text"] {
-
-    width: 6.5em;
-
-}
 
 .capability-overview-costs-range label {
 
     display: flex;
     flex-direction: column;
-    gap: 2px;
-
-    text-transform: uppercase;
+    gap: var(--gap-2);
 
 }
 
@@ -466,49 +404,27 @@
     display: flex;
     flex-wrap: nowrap;
     align-items: flex-end;
-    gap: var(--space-label);
+    gap: var(--space-cell);
 
 }
 
-.capability-overview-costs-order button {
+/* The two cells of a pair stand one cell gap apart. */
+.capability-overview-costs-range {
 
-    flex: 1 1 0;
-    min-width: 0;
+    /* (The cells take the window's width; they never make it wider.) */
+    contain: inline-size;
 
-    padding: 2px 4px;
-
-    border: 1px solid var(--line-card);
-    border-radius: 4px;
-
-    background: var(--bg-surface);
-
-    color: inherit;
-
-    font: inherit;
-    font-size: 12px;
-    text-transform: uppercase;
-    white-space: nowrap;
-    text-decoration: none;
-
-    cursor: pointer;
+    gap: var(--space-cell);
 
 }
 
-.capability-overview-costs-order button[aria-pressed="true"] {
 
-    background: var(--bg-button-hover);
-
-    font-weight: 700;
-    text-decoration: none;
-
-}
 
 /* A block's label with its fold arrow (the section cards' title arrow, small): the label left, the arrow right. */
 .capability-overview-menu-head {
 
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: var(--space-label);
 
     /* (The arrow's 24px hit area does not make the row taller than the label.) */
@@ -516,12 +432,9 @@
 
 }
 
-.capability-overview-menu .title-arrow {
+.capability-overview-menu .label-arrow {
 
-    --title-arrow-size: 14px;
-
-    width: 24px;
-    height: 24px;
+    --label-arrow-size: 14px;
 
 }
 
@@ -559,42 +472,20 @@
 
 }
 
-.capability-overview-costs-order button {
-
-    flex: 0 0 auto;
-
-    width: 24px;
-    height: 24px;
-    padding: 0;
-
-    line-height: 1;
-    font-size: var(--font-small);
-    text-align: center;
-
-}
 
 /* The table: nine columns that fit the panel (no sideways scroll); a second cost's line carries the name dimmed. */
 .capability-overview-table {
 
     table-layout: auto;
 
-    font-size: var(--font-small);
+    min-width: 100%;
 
 }
 
 .capability-overview-table th,
 .capability-overview-table td {
 
-    padding: 4px 6px;
-
     overflow-wrap: anywhere;
-
-}
-
-.capability-overview-table-extra th,
-.capability-overview-table-extra td {
-
-    color: var(--text-secondary);
 
 }
 
@@ -612,16 +503,50 @@
 
 }
 
-/* Short columns never break a word (Type, Section, Cost, Frequency, Status, Linked); Name, Category and Group take the rest and wrap between words. */
+/* Short columns never break a word (Type, Section, Cost, Frequency, Cost Nature, Behaviour, Status, Linked); Name, Category and Group take the rest and wrap between words. */
 .capability-overview-table :is(th, td) {
 
     overflow-wrap: normal;
 
 }
 
-.capability-overview-table :is(th, td):is(:nth-child(2), :nth-child(3), :nth-child(6), :nth-child(7), :nth-child(8), :nth-child(9)) {
+.capability-overview-table :is(th, td)[data-col]:not([data-col="category"], [data-col="group"]) {
 
     white-space: nowrap;
+
+}
+
+/* The name is a link on one row, cut by an ellipsis, between 14 and 22rem; the table scrolls sideways where the columns do not fit the panel, its heading and its name column staying. */
+.capability-overview-table :is(th, td)[data-col="name"] {
+
+    min-width: 14rem;
+    max-width: 22rem;
+
+    white-space: nowrap;
+
+}
+
+.capability-overview-table-mode .capability-overview-scroll {
+
+    overflow-x: auto;
+
+}
+
+.capability-overview-table tbody th[data-col="name"] {
+
+    position: sticky;
+    left: 0;
+    z-index: 1;
+
+    background: var(--table-ground);
+
+    text-align: left;
+
+}
+
+.capability-overview-table tbody tr:nth-child(even) > th[data-col="name"] {
+
+    background: color-mix(in srgb, var(--table-ink) 5%, var(--table-ground));
 
 }
 
@@ -657,7 +582,7 @@
 
     padding: 0 0 12px;
 
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
 
     background: var(--table-ground);
 
@@ -708,6 +633,7 @@
     border-bottom: 2px solid var(--table-line);
 
     font-weight: 700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     text-align: left;
 
@@ -738,36 +664,29 @@
 
 }
 
-/* The size buttons beside Tiles / Table. */
-.capability-overview-sizes {
+/* The text sizes beside Tiles / Table: "Aa" in the size each chooses (14, 18, 24px). Tiles / Table is one group and the text size another: the room of the bar is shared equally by the space before the first group, between the groups and before the funnel. */
+.capability-overview-sizes,
+.capability-overview-bar > .strategy-box-actions {
 
-    display: inline-flex;
-    gap: 4px;
-
-}
-
-.capability-overview-sizes button {
-
-    padding: 2px 8px;
-
-    border: 1px solid var(--line-card);
-    border-radius: 4px;
-
-    background: var(--bg-surface);
-
-    color: inherit;
-
-    font: inherit;
-
-    cursor: pointer;
+    margin-left: auto;
 
 }
 
-.capability-overview-sizes button:disabled {
+.capability-overview-size-aa[data-size="small"] {
 
-    opacity: 0.4;
+    font-size: var(--font-small);
 
-    cursor: default;
+}
+
+.capability-overview-size-aa[data-size="body"] {
+
+    font-size: var(--font-body);
+
+}
+
+.capability-overview-size-aa[data-size="large"] {
+
+    font-size: var(--font-h3);
 
 }
 
@@ -777,5 +696,46 @@
     text-align: right;
 
     font-variant-numeric: tabular-nums;
+
+}
+
+/* The legend: the four kinds as text options (TextLink, the chosen one underlined), a dot before each word, a gap apart. */
+.capability-overview-legend {
+
+    display: flex;
+    align-items: center;
+    gap: var(--space-cell);
+
+}
+
+.capability-overview-legend .text-link {
+
+    display: inline-flex;
+    align-items: center;
+    gap: var(--gap-6);
+
+}
+
+/* THE FILTER AND SORT WINDOW stands in the colour of the card it belongs to (the Inventory's hue): its ground, its wireframe and its ink are the card's. */
+.strategy-sort-menu.strategy-sort-menu-wide {
+
+    max-height: calc(100vh - 120px);
+
+    border: 1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+
+    background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+    color: hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
+
+    /* The glow under the pointer and the ring on the focus of what stands in the window are the card's tint, never the app's blue. */
+    --glow-color: hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
+    --focus-ring-ink: hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
+
+}
+
+/* A name in the table is the app's text link at the table's own size. */
+.capability-overview-table .capability-overview-name {
+
+    font-size: inherit;
 
 }

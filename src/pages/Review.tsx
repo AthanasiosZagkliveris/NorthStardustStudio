@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
+import TextLink from "../components/interview/fields/TextLink";
+import FoldHead from "../components/controls/FoldHead";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import AppFooter from "../components/AppFooter";
 import AppHeader from "../components/AppHeader";
-import { fieldLocation } from "../components/interview/openField";
+import { fieldLocation } from "../components/interview/tiles/openField";
 import { systems } from "../data/systems";
 import { nothingOpen, type ReviewGroup, type ReviewItem, type ReviewPlace } from "../framework/engine/ReviewItems";
 import { capabilities } from "../data/capabilities";
@@ -144,16 +146,13 @@ function OrganizationReview({ name, items, current, onGo }: {
         <section className="review-organization" aria-label={name}>
 
             <h2 className="review-organization-title">
-                <button
-                    type="button"
-                    className="review-organization-head"
-                    aria-expanded={open}
-                    aria-controls={id}
-                    onClick={() => setOpen(value => !value)}
-                >
-                    <span className="review-organization-name">{name}</span>
-                    <span className="review-group-count">{items.length === 0 ? "Nothing open" : String(items.length)}</span>
-                </button>
+                <FoldHead
+                    open={open}
+                    label={name}
+                    name={name}
+                    count={items.length === 0 ? "Nothing open" : String(items.length)}
+                    onToggle={() => setOpen(value => !value)}
+                />
             </h2>
 
             {open && (
@@ -179,9 +178,9 @@ function OrganizationReview({ name, items, current, onGo }: {
                                                 <li className="review-item" key={group.id + index}>
                                                     <span className="review-item-text">{item.text}</span>
                                                     {item.place && (
-                                                        <button type="button" className="review-go" onClick={() => onGo(item.place!)}>
+                                                        <TextLink className="review-go" onClick={() => onGo(item.place!)}>
                                                             Go there
-                                                        </button>
+                                                        </TextLink>
                                                     )}
                                                 </li>
                                             ))}

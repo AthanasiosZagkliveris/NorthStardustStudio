@@ -1,33 +1,40 @@
-# AI Knowledge Base — docs/ai/
+# AI Knowledge Base: docs/ai/
 
-This folder is NorthStardustStudio's shared knowledge for AI assistants (Claude, ChatGPT, or any other coding assistant working on this project). It exists so an assistant doesn't have to re-derive facts about this codebase from source every session. This file is the map — it doesn't explain any project concept itself; every concept below is owned by exactly one other file.
+This folder is NorthStardustStudio's shared knowledge for AI assistants (Claude, ChatGPT, or any other coding assistant working on this project). It exists so an assistant does not have to re-derive facts about the code every session. This file is the map. It does not explain any concept itself; every concept below is owned by exactly one other file.
+
+The index of every document of the project (design, specifications, archive), with its kind and date, is `../README.md`. The history of what changed is `../design/04-log.md`; what is still open is `../design/05-not-done-yet.md`.
 
 ## Read this first, every session
 
-1. **`ai-collaboration-rules.md`** — standing behavioral rules (when to push automatically, when to ask before acting, what "done" requires). Short, meant to be re-read every session.
-2. **`environment-and-toolchain-playbook.md`** — the exact toolchain procedure: sync, typecheck, build, preview, verify.
+1. **`ai-collaboration-rules.md`**: the standing rules (commit, never push without the owner's yes; no unrequested changes; ask or decide; what "done" requires) and how work flows. Short; re-read it every session.
+2. **`toolchain-and-verification-playbook.md`**: the exact procedure (typecheck, tests, the checks, build, layout check, look) and the list of expected test failures.
 
-## Read these when the task needs them
+## Changing the screens (the rules; a check enforces most of them)
 
-- **`framework-dsl-grammar.md`** — authoring or editing a System's content? Read this before touching any Markdown file.
-- **`framework-conventions-and-patterns.md`** — the non-obvious architectural patterns (cross-Section sharing, auto-ordering, the tabbed layout, the three justified special-case editors) and the data model. Read alongside the grammar reference for any non-trivial content change.
-- **`layout-rules.md`** — changing how a Foundation page's cards, fields or lists are laid out? The measured rulebook (tokens, the closed set of sizes, alignment, interactions) and the automated layout check that must pass.
-- **`verification-and-regression-playbook.md`** — after any change, before calling it done. Contains the living list of currently-known expected test failures and why each one is expected.
-- **`outstanding-findings.md`** — before running a diagnostic Skill (`metadata-relationship-validator`, `architecture-doc-maintainer`), check here first for anything already confirmed in the same area. Contains the living list of real, confirmed problems a diagnostic Skill found but wasn't authorized to fix in that turn — the same "living record" pattern as the verification playbook's known-failures list, generalized to any diagnostic finding instead of just automated test results.
+- **`layout-rules.md`**: the measured rulebook of the Foundation pages (tokens, the closed set of sizes, alignment, interactions, the Inventory) and the automatic layout check that must pass. Grep it for the name of the thing before judging it.
+- **`tile-and-card-pattern.md`**: how tiles, frames, cards, rails (the page tab) and dialogs are built, and the rules that are global. Read it with `layout-rules.md`.
+- **`customer-engagement-layout.md`**: the layout of the Customer Engagement tables, the Channel resources table and the action markers.
+- **`review-criteria.md`**: the standard a screen is judged by (type, spacing, controls, colour, tiles, cards, tables, pop-up windows, pages, data), how each criterion is measured, and the form of the report.
+- **`review-checklist.md`**: what to check when reviewing a table, tile, card, page or control, and the proof before saying done. Read it before any change on screen.
+- **`card-kinds.md`**: the kinds of card, where each one's code is and how its head is built.
+- Also read, from `../design/`: `22-shared-components.md` (which components are shared; use them), `25-tooltips.md`, `24-popups.md`, `19-reactions.md`.
 
-## Read these for orientation or vocabulary, not step-by-step instructions
+## Changing the content (the framework)
 
-- **`ai-development-methodology.md`** — how a change is expected to flow end to end (request → implement → validate → integrate), how AI assistants should load context progressively, and when new reusable knowledge should be created versus reused. Read this when building or evolving a Skill, not for routine tasks.
-- **`glossary.md`** — fast lookup for project-specific terms (System, Section, Field, dynamicSource, Pack, Skill, and others). Each entry is one line plus a pointer to whichever file above actually explains it in depth.
+- **`framework-dsl-grammar.md`**: authoring or editing a System's content? Read this before touching any Markdown file under `src/assets`.
+- **`framework-conventions-and-patterns.md`**: the non-obvious architectural patterns (cross-Section sharing, auto-ordering, the tabbed layout, the three special-case editors) and the data model.
+
+## Finding your way
+
+- **`app-guide.md`**: where each part of the app is, what it is for, with the code locations. Start here to find your way into the product.
+- **`code-map.md`**: where things are in `src` (the folders and what is in each), and the rules for a new file.
+- **`glossary.md`**: one line per project term, with a pointer to the document that explains it.
+- **`outstanding-findings.md`**: confirmed problems a diagnostic found and did not fix. Check it before running a diagnostic.
 
 ## How these files relate
 
-Nothing in this folder duplicates another file's knowledge. `glossary.md` points into the technical references rather than re-explaining them; `ai-development-methodology.md` points at `ai-collaboration-rules.md` for turn-level rules rather than restating them. If two files ever seem to say the same thing, that's a bug in the knowledge base — flag it rather than trusting whichever one was read first.
+Nothing here should duplicate another file's knowledge. If two files seem to say the same thing, flag it rather than trusting whichever was read first. For the look of the Foundation pages, each fact has one home: colours, sizes and breakpoints in `src/styles/tokens/tokens.ts` (generated into the stylesheets), and an asset's geometry, states and variants in its contract under `src/library`. The rulebook, `tile-and-card-pattern.md`, the page specifications and `docs/design/01-current-design.md` describe them in words; where one of them disagrees with the code, the code is right and the document is the one to fix.
 
-## Relationship to the AI Skills library
+Skills (kept outside this folder) point at files here by path; this folder is the single source of truth they read, and a skill carries no copy of it.
 
-Skills (delivered separately, outside this folder) reference specific files here by path — for example, `framework-content-author` reads the DSL grammar and conventions references before authoring content; `regression-verifier` reads the toolchain and verification playbooks. This folder is the single source of truth those Skills consume; a Skill should never carry a copy of anything that belongs here.
-
-## The app's own map
-
-- **`app-guide.md`**: where each part of the app is, what it is for and what it holds (systems, pages, Global Settings, the Calendar, the tile and card pattern), with the code locations. Start here to find your way in the product.
+Proposals that were written and not built, and finished plans, are in `../archive/`; nothing there is a rule.

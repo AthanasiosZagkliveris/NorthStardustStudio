@@ -66,6 +66,6 @@
        and the progress line, and between the progress line and the
        answer boxes. The divider's own top margin (conversation.css)
        matches, so the title-to-line step is 12px too. */
-    gap: 12px;
+    gap: var(--gap-12);
 
 }

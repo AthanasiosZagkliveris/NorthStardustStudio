@@ -1,0 +1,977 @@
+/* ==========================================================
+   Business System -- Foundation (Page 1)
+
+   One section in four equal subsections, read down rather than
+   across: a founder answers who they serve, then who else serves
+   them, then what they promise, then what they sell. The subsection
+   headings are the same ones the Definition and Ethics pages use
+   (.answer-column-label), because these are three pages of one
+   Framework and should sound like it.
+========================================================== */
+
+/* ONE SEGMENT'S INPUT, in its own card below the process line --
+   the same place the Strategic Period page puts its Theme boxes
+   (.strategy-themes): a full-width region spanning every column.
+
+   A card is a Segment, because everything this section asks is
+   asked about one. Two Segments are two cards stacked, each
+   holding its own four subsections side by side under the shared
+   headings. That is the hierarchy the page reads as:
+
+     Foundation -> Segment 1 -> subsection -> Profile 1
+
+   The titles and the guidance stay outside it, above the line:
+   they are what the section says, not what it asks.
+
+   It divides into the same tracks the section does, from the same
+   custom property, so the four subsections stay under their own
+   headings. No new grid -- the one declaration, read twice.
+
+   Selected through its parent so it outranks .business-foundation-card,
+   which lays a card out as a flex column and is declared further
+   down this file. */
+.business-foundation > .business-foundation-input{
+
+    grid-column:1 / -1;
+
+    display:grid;
+
+    /* TWO THIRDS the Segment, ONE THIRD what is offered to it.
+
+       Three equal tracks, and the areas divide them 2:1 --
+       everything that describes the Segment (its name, its
+       Description, then its Profiles and the competitors facing
+       it) in the first two, and what is promised and sold to it in
+       the third:
+
+         head        head          proposition
+         description description   proposition
+         profiles    competitors   offerings
+
+       THE PROMISE SITS IN THE UPPER RIGHT CORNER, across the head's
+       row and the Description's. It is the one answer everything
+       else on the card has to serve, so it is read first rather
+       than found last -- and the head gives up the third it was
+       spanning to make room, which is all the Segment's name
+       needed.
+
+       The Offering card keeps its own row, level with the Profile
+       and Competitor cards: three cards in a row, at one height.
+
+       The four headings above the process line stay as they are and
+       no longer sit one-per-column. */
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+
+    grid-template-areas:
+        "head        head        corner"
+        "description description proposition"
+        "profiles    competitors offerings";
+
+    /* The head's row is PINNED to the head's own height.
+
+       The promise spans that row and the Description's, and a grid
+       item spanning two automatic rows makes both of them grow to
+       hold it. So a long Emotional or Social list was inflating the
+       head's row and pushing the Description down the card, away
+       from the name it describes -- the Value Proposition moving
+       something that has nothing to do with it.
+
+       With this row fixed, everything the promise needs beyond it
+       falls to the Description's row instead, where it lands BELOW
+       the Description (the card aligns its items to the start) and
+       moves nothing that was already placed.
+
+       45px is the head: a name field and the controls either side
+       of it, none of which change height. */
+    /* (No longer pinned to 45px: the promise now starts in the
+       Description's row, so it cannot inflate the head's row, and a name
+       that wraps keeps its own room.) */
+    grid-template-rows:auto;
+
+    align-items:start;
+
+    /* The same COLUMN gap the section uses, because the two grids
+       have to resolve to the same tracks -- a subsection that does
+       not sit under its own heading is worse than no card at all.
+       The row gap only has to separate the head from the
+       subsections under it. */
+    column-gap:var(--gap-24);
+    row-gap:var(--gap-12);
+
+    /* The card is inset from the section by its border and padding
+       (1px + 12px). The section gives back exactly that much, so
+       the two content boxes coincide; this pulls the card back out
+       to the section's full width so it still reads as one box
+       spanning all four subsections. */
+    margin-inline:-13px;
+
+}
+
+/* The 13px the card takes for its border and padding, so the
+   headings above the line land on the same tracks as the
+   subsections below it. */
+.business-foundation{
+
+    padding-inline:13px;
+
+}
+
+/* The process line spans the section, not the padded box. */
+.business-foundation > .answer-columns-divider{
+
+    margin-inline:-13px;
+
+}
+
+/* The four subsections are direct children of .brand-style, which is
+   already a grid of --answer-column-count equal tracks (set to 4
+   by the editor) -- the same machinery the Brand and Identity
+   pages lay their columns out with. Nothing here re-declares it;
+   these two rules only collapse it when four columns no longer
+   fit, since a media query cannot reach an inline custom
+   property. */
+@media (max-width: 1500px){
+
+    .business-foundation,
+    .business-foundation > .business-foundation-input{
+
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+
+    }
+
+    /* Two thirds of two columns is both of them, so what is offered
+       to the Segment drops below rather than squeezing into half a
+       column. */
+    .business-foundation > .business-foundation-input{
+
+        grid-template-areas:
+            "head        head"
+            "proposition proposition"
+            "description description"
+            "profiles    competitors"
+            "offerings   offerings";
+
+    }
+
+}
+
+@media (max-width: 900px){
+
+    .business-foundation,
+    .business-foundation > .business-foundation-input{
+
+        grid-template-columns:minmax(0, 1fr);
+
+    }
+
+    /* One column: the page order, top to bottom. */
+    .business-foundation > .business-foundation-input{
+
+        grid-template-areas:
+            "head"
+            "proposition"
+            "description"
+            "profiles"
+            "competitors"
+            "offerings";
+
+    }
+
+}
+
+/* ONE GRID FOR THE SEGMENT'S BODY. Its areas start at the body's left
+   edge (the number's x, --card-body-indent) rather than each pushed in
+   by the fold card's body indent inside its own track: a first track
+   gives the indent less one gap, so the Description's two columns and
+   the Value Proposition above share their edges with Profiles,
+   Competitors and Offerings below, every column --space-column apart.
+   Business Foundation's Segment only (the later pages' cards, marked
+   .business-engagement, keep their own grids). */
+.business-foundation:not(.business-engagement) > .business-foundation-input{
+
+    grid-template-columns:calc(var(--card-body-indent) - var(--space-column)) repeat(3, minmax(0, 1fr));
+
+    grid-template-areas:
+        "head head        head        ."
+        ".    description description proposition"
+        ".    profiles    competitors offerings";
+
+    column-gap:var(--space-column);
+
+}
+
+.business-foundation:not(.business-engagement) > .business-foundation-input > :not(.fold-card-head){
+
+    margin-left:0;
+
+}
+
+@media (max-width: 1500px){
+
+    .business-foundation:not(.business-engagement) > .business-foundation-input{
+
+        grid-template-columns:calc(var(--card-body-indent) - var(--space-column)) repeat(2, minmax(0, 1fr));
+
+        grid-template-areas:
+            "head head        head"
+            ".    proposition proposition"
+            ".    description description"
+            ".    profiles    competitors"
+            ".    offerings   offerings";
+
+    }
+
+}
+
+@media (max-width: 900px){
+
+    .business-foundation:not(.business-engagement) > .business-foundation-input{
+
+        grid-template-columns:calc(var(--card-body-indent) - var(--space-column)) minmax(0, 1fr);
+
+        grid-template-areas:
+            "head head"
+            ".    proposition"
+            ".    description"
+            ".    profiles"
+            ".    competitors"
+            ".    offerings";
+
+    }
+
+}
+
+/* The Segment's name and number, across the top of its card. */
+.business-foundation-input-head{
+
+    grid-area:head;
+
+}
+
+/* A Segment's x stands at the card's top-right corner, out of the
+   head's flow. The head is the first two grid columns wide (the number's
+   x to the right edge of the FIRST column): the name box ends at that
+   edge by default, and grows with its text (field-sizing) up to the
+   right edge of the SECOND column, then wraps. Percentages are of that
+   two-column area: the area is the indent plus one column, so a column
+   is area - indent, and the head's most is area + gap + column. The
+   Description card and the Value Proposition start in the row below the
+   head. Below 1500px the card is narrower and the head spans it, the x
+   keeping its place in the head, after the name. */
+@media (min-width: 1501px){
+
+    .business-foundation > .business-foundation-input{
+
+        position:relative;
+
+    }
+
+    .business-foundation:not(.business-engagement) > .business-foundation-input{
+
+        grid-template-areas:
+            "head        head        .           ."
+            ".           description description proposition"
+            ".           profiles    competitors offerings";
+
+    }
+
+    .business-foundation:not(.business-engagement) > .business-foundation-input > .business-foundation-input-head{
+
+        grid-template-columns:auto auto minmax(0, 1fr);
+
+        justify-self:start;
+
+        width:max-content;
+
+        min-width:100%;
+
+        max-width:calc(200% + var(--space-column) - var(--card-body-indent));
+
+    }
+
+    .business-foundation:not(.business-engagement) > .business-foundation-input > .business-foundation-input-head > .strategy-name-input{
+
+        field-sizing:content;
+
+    }
+
+    /* The later pages' Segment cards keep the name box running to the
+       head's right edge, the x's column included. */
+    .business-engagement .business-foundation-input-head > .strategy-name-input{
+
+        grid-column:3 / -1;
+
+    }
+
+    .business-foundation-input-head > .strategy-box-remove{
+
+        position:absolute;
+
+        /* On the name box's centre line: the head's top is the card
+           padding, the name box is one control high (45px), and the x
+           is its own 32px square. */
+        top:calc(var(--card-padding) + (var(--control-square) - 32px) / 2);
+
+        right:var(--card-padding);
+
+    }
+
+}
+
+/* Its Description, a card of its own across two of the three columns,
+   in the row under the name, level with the Value Proposition card
+   (their panel look is the one rule below). */
+.business-foundation-description{
+
+    grid-area:description;
+
+}
+
+/* THE TWO PANELS OF THE SEGMENT'S TOP ROW: the Description card and the
+   Value Proposition card. A box of its own, one step lighter than the
+   card it sits in, with the card padding all round, so the two start at
+   one top, their titles share one line (the same title row, below) and
+   they are one height (the grid row stretches both). Title to content
+   and field to field are --space-cell. */
+.business-foundation-description,
+.business-foundation-proposition{
+
+    min-width:0;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-cell);
+
+    padding:var(--card-padding);
+
+    border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+    border-radius:var(--radius-lg);
+
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}
+
+/* The panels' title row: the same height and middle line in both, so
+   "Description" and "Value Proposition" sit on one line. */
+.business-foundation-description > .business-foundation-subhead,
+.business-foundation-proposition > .business-foundation-label-info{
+
+    display:flex;
+
+    align-items:center;
+
+    min-height:var(--label-line);
+
+}
+
+.business-foundation-profiles{
+
+    grid-area:profiles;
+
+}
+
+.business-foundation-competitors{
+
+    grid-area:competitors;
+
+}
+
+/* Holds one thing: the Value Proposition group, in the panel look it
+   shares with the Description card (above), in the third column. */
+.business-foundation-proposition{
+
+    grid-area:proposition;
+
+}
+
+/* Its title, in capitals and centred over its box -- the one answer on
+   this page that every other one has to serve, marked as such. (The
+   title row itself is the one the Description card shares.) */
+.business-foundation-proposition > .business-foundation-label-info{
+
+    justify-content:center;
+
+}
+
+/* On the title itself, not the row: the row also holds the "i",
+   and the note it opens is a descendant of it. */
+
+.business-foundation-offerings{
+
+    grid-area:offerings;
+
+}
+
+/* The card stacks stack their cards the same way. */
+.business-foundation-profiles,
+.business-foundation-competitors,
+.business-foundation-offerings{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-card);
+
+    min-width:0;
+
+}
+
+/* What acts on the whole section rather than on any one card:
+   + Add Segment, below the input card and outside it. A card here
+   holds ONE Segment, so the button that makes the next one cannot
+   sit inside a card -- nor inside the card that holds them. */
+.business-foundation > .business-foundation-input-actions{
+
+    grid-column:1 / -1;
+
+    display:flex;
+
+}
+
+/* ---------- Cards ---------- */
+
+/* A card's body is indented under its head's number and name by the
+   one rule every folding card shares (--card-body-indent,
+   card-folding.css). */
+.business-foundation-card{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-field);
+
+    padding:var(--card-padding);
+
+    border:1px solid var(--line-card);
+    border-radius:var(--radius-lg);
+
+    /* The neutral card ground (as .legal-entity-card); a card with a
+       hue sets its own below. */
+    background:var(--bg-card-tint);
+
+    --x-ground:var(--bg-card-tint);
+
+    --text-faint:var(--text-faint-on-tint);
+
+    min-width:0;
+
+}
+
+/* Nesting is read by alternating grounds rather than by stacking
+   borders, one step per level, each step plainly a step -- and
+   every level takes its SEGMENT'S OWN HUE.
+
+   The hue comes from stableHue, taken from the Segment's own id.
+   It answers the same question the Strategy System colours its
+   Themes to answer -- which one am I looking at? -- since two
+   Segments are laid out identically and would otherwise be told
+   apart only by a number in a head.
+
+   From the id and not from the position, so deleting one Segment
+   cannot hand its colour to the one below it. Saturation and
+   lightness are pinned here, which is what holds every hue it can
+   produce above 4.5:1 for the text drawn on it.
+
+   Lightness alternates rather than descending, so each level
+   contrasts with the one that contains it, exactly as the Strategic
+   Period page does it (panel 96, Goal 92):
+
+     Segment (the input card)            96
+       Profile / Competitor / Offering   92
+
+   TWO levels, not three. A subsection is an AREA of the card, not
+   a box of its own: it is already named by its heading above the
+   process line and placed by where it sits, so drawing a border
+   round its input as well added a box that said nothing the
+   heading had not.
+
+   Both grounds are light enough that the body colour #111827 stays
+   above 15:1 and the secondary #4b5563 above 6:1 on every hue.
+
+   Written as child selectors rather than descendant ones, so a
+   level is a level in the markup and not a count of ancestors. */
+.business-foundation > .business-foundation-input{
+
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+    --x-ground:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+
+    /* And one focus ring per Segment, from the same hue -- the
+       line the Strategy pages set on .strategy-theme-box. */
+    --glow-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
+
+}
+
+/* The cards inside it -- Profile, Competitor, Offering -- one
+   step further on. */
+.business-foundation-card .business-foundation-card{
+
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+    --x-ground:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+
+}
+
+/* ---------- Buttons on a coloured card ---------- */
+
+/* The Strategy pages' own treatment, all three parts of it -- not
+   just the ground.
+
+   A control inside a tinted card takes THAT CARD'S COLOUR: it
+   stands on the ground rather than punching a white hole in it,
+   and its label and border are the hue at 28% 34% -- the same
+   values .strategy-theme-panel gives its add buttons. The app's
+   default blue was the whole problem: a blue button on a coloured
+   card belongs to neither the card nor the page.
+
+   Ground by `transparent` rather than each level's colour written
+   out, because these sit at two levels -- + Add Profile on the
+   Segment's 96%, + Add Need inside a Profile at 92%, and an "i"
+   beside almost every label at either. Naming the colours would
+   mean one rule per level per control, all free to drift from the
+   grounds they copy.
+
+   Hover is the hue at 62% 88%, again Strategy's own: one step
+   darker than the lightest ground any of them rests on. */
+/* Scoped to INSIDE a Segment card, because that is where the hue
+   exists. + Add Segment sits out on the page with no Segment to
+   belong to, and keeps the app's own button colours. The add
+   buttons take theirs from the card's colour family (--accent-*,
+   global.css); the "i" is coloured here. */
+.business-foundation-input .info-note-button{
+
+    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
+
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-ink));
+
+}
+
+/* An add button is FILLED WITH THE GROUND OF THE CARD IT MAKES,
+   not the one it stands on -- the Strategy pages' own rule (see
+   .strategy-theme-panel's add buttons, filled at the level of the
+   box they add). + Add Profile, + Add Competitor and + Add
+   Offering all make a card at 92%, so all three are 92%: a shade
+   off the 96% they sit on, which is what makes them read as the
+   next card in the stack rather than as a control laid over the
+   Segment. That is the family's --accent-ground (global.css), and
+   a step darker, --accent-ground-hover, is its hover ground. */
+
+/* The "i" stays white whatever it sits on. It is the one control
+   here that opens something rather than changing something, and
+   white is what tells it apart from the add buttons at a glance. */
+.business-foundation-input .info-note-button{
+
+    background:var(--bg-surface);
+
+}
+
+/* The "i" keeps the 22px disc it has everywhere. It was grown to
+   24px here for SC 2.5.8, which it already met: .info-note-button
+   claims the last 2px as an invisible ::after instead, precisely so
+   the disc does not grow and push the label line taller. Growing it
+   did exactly that. */
+
+
+/* The "i" INVERTS instead: it is a 24px circle with one letter in
+   it, and at that size a ground a shade darker barely reads as a
+   change at all. Swapping the two makes it unmistakable, and
+   swapping them keeps the same pair of colours -- so the
+   contrast holds either way round. */
+.business-foundation-input .info-note-button:hover{
+
+    color:var(--text-on-fill);
+
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ink));
+
+}
+
+/* The open/close arrow takes a stroke on hover as well as its
+   white ground -- the same line colour the cards around it are
+   drawn in, so the button reads as belonging to its own card.
+   Verbatim the rule .strategy-theme-panel gives its own arrows;
+   this page was getting the generic blue one and so had no
+   stroke at all. */
+.business-foundation-input .strategy-box-toggle:hover{
+
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-ink));
+
+    background:var(--bg-surface);
+
+}
+
+/* Field labels and the titles of groups inside a card take the
+   app's one label and group title (.field-label and
+   .field-group-title, global.css). */
+
+/* The card number and the card name once had rules of their own
+   here (.business-foundation-card-number / -card-name). Both are
+   gone: the head is now the Strategy pages' own head, so the
+   number is a .strategy-box-number and the name an input
+   (.strategy-name-input) rather than an echo of a field inside
+   the card. Same text colour, same size, one definition. */
+
+/* The Segment's Description, across the full width of its card.
+   Five boxes in one stack would be a very long line, so they
+   divide into two columns -- the first taking the larger half, so
+   the parameters still read top-to-bottom then left-to-right:
+
+     Demographics              Purchasing Power & Behavior
+     Geographics               Market Size
+     Business Data
+
+   One column once there is no width to divide. */
+.business-foundation-description-split{
+
+    display:grid;
+
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+
+    /* ONE GRID FOR BOTH COLUMNS: the columns dissolve into it (below)
+       and the fields fill it column by column, in --description-rows
+       rows, so a field and the one beside it share a row and a top --
+       Geographics and Market Size move together. The cells are
+       --space-cell apart. */
+    grid-auto-flow:column;
+
+    grid-template-rows:var(--description-template, repeat(3, auto));
+
+    gap:var(--space-field) var(--space-cell);
+
+}
+
+.business-foundation-description-column{
+
+    display:contents;
+
+}
+
+/* The second column is a field shorter, and its last field (Market
+   Size) is the tall one: it spans the rows the first column's last
+   fields use (--description-tail) and the last row is the flexible one
+   (--description-template), so its height is taken from that row and
+   never stretches the row it shares with Geographics -- Business Data
+   stays directly under Geographics. */
+.business-foundation-description-column:last-child > :last-child{
+
+    grid-row:span var(--description-tail, 1);
+
+}
+
+@media (max-width: 900px){
+
+    .business-foundation-description-split{
+
+        grid-template-columns:minmax(0, 1fr);
+
+        grid-auto-flow:row;
+
+        grid-template-rows:none;
+
+    }
+
+    .business-foundation-description-column:last-child > :last-child{
+
+        grid-row:auto;
+
+    }
+
+}
+
+/* The Emotional and Social needs, recalled under the Value
+   Proposition in two columns.
+
+   Read-only on purpose: they are answered in the Profile, and a
+   second editable copy of an answer is two answers waiting to
+   disagree. They are here because this is the box that has to
+   address them -- "Identify how the Value Proposition addresses
+   each Customer Profile's emotional and social needs" -- and
+   nobody can do that while the list is in another column. */
+.business-foundation-needs-recall{
+
+    display:grid;
+
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+
+    /* 24 across, and nothing down: the rule between the titles and
+       the lists carries its own spacing, so a row gap here would be
+       added to it twice. */
+    column-gap:var(--gap-24);
+    row-gap:0;
+
+    /* Held in from the panel's edges, so the two lists read as
+       something the box above them refers to rather than as two
+       more fields of the panel.
+
+       The 6px on top makes 12 with the field's own gap, which puts
+       these two titles on the same line as Geographics and Market
+       Size across the card -- the Description leaves 12 between one
+       field and the next. */
+    margin:6px 12px 0;
+
+}
+
+/* The shown lists: held in 12px from the panel's edges by their own
+   margin (above), so the number needs no inset of its own; the rest is
+   the shared shown list (numbered-list.css). */
+.business-foundation-needs-recall .numbered-list-static > li::before{
+
+    padding-left:0;
+
+}
+
+/* ONE rule across both columns, where the boxes opposite have
+   their top edge.
+
+   Geographics and Market Size start their boxes on this line, and
+   these two lists start their entries on it -- so the line is
+   drawn, 1px, at exactly that height, and drawn ONCE: a rule per
+   column read as two of something.
+
+   The 6px above it is the Description's label-to-box gap and the
+   8px below is the padding a box puts between its edge and its
+   first line of text, so a need lands on the same line as the
+   first word written opposite. */
+.business-foundation-needs-recall-rule{
+
+    grid-column:1 / -1;
+
+    height:1px;
+
+    margin:6px 0 8px;
+
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-edge));
+
+}
+
+/* The lists simply run on down the panel. They were given a fixed
+   share of it and a scroll, which kept the panel one height but
+   hid needs behind a gesture that had nothing to say it was there.
+   The panel grows instead: the answer box above them keeps its own
+   height either way, so the one distance that has to hold -- box to
+   first list title -- holds however long the lists get. */
+
+/* ---------- Fields ---------- */
+
+.business-foundation-field{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-label);
+
+    min-width:0;
+
+}
+
+/* These columns are a quarter of the page wide, so a note field
+   starts at a few lines and grows rather than opening at the
+   180px the app's long-form Notes fields use.
+
+   NOT resizable by hand. A box on this page is sized by what is
+   in it -- it opens at a few lines and grows as the answer needs
+   more room (see StrategyTextArea) -- and a drag handle offering
+   to undo that is a second, worse way to do the same thing.
+   Dragging one shorter also broke the alignment across the card,
+   which nothing in the page could put back. */
+.business-foundation-note,
+.business-foundation .business-foundation-proposition-input{
+
+    min-height:0;
+
+    resize:none;
+
+}
+
+.business-foundation .business-foundation-proposition-input{
+
+    /* Sized so its BOTTOM lands on the bottom of Demographics and
+       Purchasing Power & Behavior across the card, and so the
+       Emotional and Social lists beneath it start on the same
+       line as Geographics and Market Size.
+
+       It is the height of everything the Description column puts
+       above that line, since both columns start at the same point
+       (this panel's title row is the head's height, and the head
+       and the Description are one row apart):
+
+         28px  the Description's own title line
+         28px  the parameter's label line
+          6px  label to box
+         72px  a two-row note box (2 x 27 line, 16 padding, 2 border)
+
+       A height rather than a min-height: it opens at this height
+       whatever is typed, so the two columns start level, and grows
+       only when its answer needs more room (StrategyTextArea).
+
+       The min-height is cleared first: these fields otherwise take
+       the 180px the app gives its long-form Notes fields, which is
+       what this box had silently been sitting at. */
+    min-height:0;
+
+    height:calc(28px + 28px + 6px + 72px);
+
+    /* A THICK INNER STROKE. This is the one answer on the page
+       that every other one has to serve, so its box is drawn
+       heavier than the rest.
+
+       Inset rather than a wider border: a 3px border would make
+       this box 4px taller than its neighbours and break the very
+       alignment above. An inset shadow is drawn inside the box
+       and costs no layout at all. */
+    box-shadow:inset 0 0 0 3px hsl(var(--strategy-theme-hue, 0) var(--theme-line-ink));
+
+}
+
+/* Focus still has to be visible over that stroke, so the ring is
+   drawn outside it and the stroke stays. */
+.business-foundation .business-foundation-proposition-input:focus{
+
+    box-shadow:
+        inset 0 0 0 3px hsl(var(--strategy-theme-hue, 0) var(--theme-line-ink)),
+        0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
+
+}
+
+/* A blank label row here once held the Value Proposition's box
+   level with the Description's first boxes beside it. The promise
+   has moved to the card's upper right corner and no longer sits
+   beside them, so there is nothing left to line it up with. */
+
+/* A tick box that names a field, with the field's "i" after it on
+   the same line. The label is inline so the icon follows the
+   words; it stays outside the <label> element, since anything
+   inside one toggles the tick it belongs to. */
+/* A BusinessField label row that carries a tick (tick, words, then the "i")
+   is ONE line wherever it stands -- the short side-label column or a stacked
+   narrow card: the "i" is never split from the words, so it stays 8px after
+   the last word on the tick's centre line. */
+.business-foundation-field > .business-foundation-label-info:not(.optional-field-head):has(> .business-foundation-tick-inline){
+
+    white-space:nowrap;
+
+}
+
+.business-foundation-tick.business-foundation-tick-inline{
+
+    /* Two classes, because .business-foundation-tick sets its own
+       display further down this file. */
+    display:inline-flex;
+
+    vertical-align:middle;
+
+}
+
+/* A FIELD WITH A TICK (the Responsible of an Activity, a Partner, a Provider, a Strategy Objective) IS ONE ROW at every width: the tick, its
+   words and "i" in a column as wide as the short side label (--side-label-short) at most -- never wider than they need when the card is
+   narrow -- then the dropdown, which hugs and is cut to what is left. It never goes under the tick row, in a 480px card or in one
+   as narrow as 342px: the narrow-card rules that put a label above its field do not apply to it. */
+.business-foundation-field.business-foundation-field.business-foundation-field:not(.optional-field):has(> .business-foundation-label-info > .business-foundation-tick-inline){
+
+    display:grid;
+
+    grid-template-columns:minmax(min-content, var(--side-label-short)) minmax(0, 1fr);
+
+    column-gap:var(--side-label-gap);
+
+    align-items:center;
+
+}
+
+.business-foundation-field.business-foundation-field.business-foundation-field:not(.optional-field):has(> .business-foundation-label-info > .business-foundation-tick-inline) > .business-capability-automatic{
+
+    /* (The founder the rule names is text on the tick's own line, not a control-high box.) */
+    min-height:0;
+
+}
+
+.business-foundation-field.business-foundation-field.business-foundation-field:not(.optional-field):has(> .business-foundation-label-info > .business-foundation-tick-inline) > :not(:first-child){
+
+    grid-column:2;
+
+    min-width:0;
+
+}
+
+.business-foundation-empty{
+
+    margin:0;
+
+    font-size:var(--font-body);
+    line-height:1.5;
+
+    color:var(--text-muted);
+
+}
+
+/* ---------- Needs, and the Offerings that address them ---------- */
+
+/* A .business-foundation-need row was here, one need and the
+   control that removed it. The three need lists are
+   NumberedListInputs now, which number and remove their own
+   lines, so nothing renders it. */
+
+/* A need offered to an Offering. Aligned to the top of its own
+   text rather than centred, because a need can run to two lines
+   and the box belongs beside the first of them. */
+.business-foundation-tick{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:var(--gap-8);
+
+    min-height:0;
+
+    cursor:pointer;
+
+}
+
+/* Tick options stacked in one field: tick to tick one field gap (12px)
+   apart, like two tick fields (the field's own 6px label gap is only
+   for the label above the first). */
+.business-foundation-field > .business-foundation-tick + .business-foundation-tick{
+
+    margin-top:calc(var(--space-field) - var(--space-label));
+
+}
+
+/* Its box: the one tick box (global.css), beside the label's first line. */
+
+.business-foundation-tick-label{
+
+    font-size:var(--font-body);
+    line-height:1.5;
+
+    color:var(--text-default);
+
+    /* A flex item will not shrink below its own content unless it
+       is told it may. Without this, a long tick label -- "Keep —
+       Maintain satisfaction and encourage continued engagement." in
+       a table cell -- held its row open and pushed the page
+       sideways at narrow widths. */
+    min-width:0;
+
+    overflow-wrap:break-word;
+
+}
+
+/* The name of a Get / Keep / Grow, in front of what it means.
+   Bold, and so at the 5% the app gives every bold run. */
+.business-tick-name{
+
+    font-weight:700;
+
+    letter-spacing:0.05em;
+
+}
+

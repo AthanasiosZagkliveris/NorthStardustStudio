@@ -1,5 +1,7 @@
+import "./styles/accent-button.css";
 import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
+import TitleTooltips from "./components/controls/TitleTooltips";
 
 // Loaded lazily, one chunk per page, instead of all four being
 // bundled and evaluated together up front. This matters most for
@@ -17,11 +19,18 @@ const BusinessDocuments = lazy(() => import("./pages/BusinessDocuments"));
 const Review = lazy(() => import("./pages/Review"));
 const GlobalSettings = lazy(() => import("./pages/GlobalSettings"));
 
+// The asset library's gallery: development only (`npm run dev`), absent from the built app.
+const Library = import.meta.env.DEV ? lazy(() => import("./pages/Library")) : null;
+const Inventory = import.meta.env.DEV ? lazy(() => import("./pages/Inventory")) : null;
+const Looks = import.meta.env.DEV ? lazy(() => import("./pages/Looks")) : null;
+
 export default function App() {
 
     return (
 
         <Suspense fallback={null}>
+
+            <TitleTooltips />
 
             <Routes>
 
@@ -64,6 +73,12 @@ export default function App() {
                     path="/generator"
                     element={<CapabilityGenerator />}
                 />
+
+                {Library && <Route path="/library" element={<Library />} />}
+
+                {Inventory && <Route path="/library/inventory" element={<Inventory />} />}
+
+                {Looks && <Route path="/library/looks" element={<Looks />} />}
 
             </Routes>
 

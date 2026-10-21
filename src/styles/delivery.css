@@ -31,7 +31,7 @@
 
     flex-direction:column;
 
-    gap:2px;
+    gap:var(--gap-2);
 
     margin:0 0 12px;
 
@@ -44,6 +44,7 @@
     font-size:var(--font-body);
 
     font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     color:var(--text-secondary);
 
@@ -199,6 +200,7 @@
     font-size:var(--font-body);
 
     font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     color:var(--text-secondary);
 
@@ -222,7 +224,7 @@
 
     background:var(--bg-pace);
 
-    border-radius:4px;
+    border-radius:var(--radius-sm);
 
 }
 
@@ -245,6 +247,7 @@
 .delivery-pace-label{
 
     font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     color:var(--text-strong);
 
@@ -253,36 +256,15 @@
 /* Each founder's month, as a budget. */
 .delivery-budget{ margin:12px 0; max-width:560px; }
 .delivery-budget-table{ width:100%; border-collapse:collapse; font-size:var(--font-body); }
-.delivery-budget-table caption{ text-align:left; font-weight:600; margin-bottom:4px; color:var(--text-strong); }
+.delivery-budget-table caption{ text-align:left; font-weight:600; margin-bottom:4px; color:var(--text-strong); 
+ letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));}
 .delivery-budget-table th{ text-align:left; font-weight:400; padding:3px 8px 3px 0; color:var(--text-secondary); overflow-wrap:break-word; }
 .delivery-budget-table td{ text-align:right; padding:3px 0; white-space:nowrap; color:var(--text-strong); }
-.delivery-budget-left th, .delivery-budget-left td{ font-weight:600; border-top:1px solid var(--line-divider); padding-top:5px; }
+.delivery-budget-left th, .delivery-budget-left td{ font-weight:600; border-top:1px solid var(--line-divider); padding-top:5px; 
+ letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));}
 .delivery-budget-short th, .delivery-budget-short td{ color:var(--text-danger-deep); }
-.delivery-budget-bar{ height:8px; margin-top:6px; background:var(--bg-hairline); border-radius:4px; overflow:hidden; }
-.delivery-budget-fill{ display:block; height:100%; background:var(--bg-budget); border-radius:4px; }
+.delivery-budget-bar{ height:8px; margin-top:6px; background:var(--bg-hairline); border-radius:var(--radius-sm); overflow:hidden; }
+.delivery-budget-fill{ display:block; height:100%; background:var(--bg-budget); border-radius:var(--radius-sm); }
 .delivery-budget-fill-short{ background:var(--bg-danger-deep); }
 
 /* THE DELIVERY CARDS in their dialog: each card is 360px wide (as an opened card is), side by side as many as fit, wrapping, 12px apart. */
-.business-capability-delivery-cards {
-
-    display: flex;
-
-    flex-wrap: wrap;
-
-    align-items: flex-start;
-
-    gap: var(--space-card);
-
-    min-width: 0;
-
-}
-
-.business-capability-delivery-cards > .delivery-card {
-
-    flex: 0 0 auto;
-
-    box-sizing: border-box;
-
-    width: min(360px, 100%);
-
-}

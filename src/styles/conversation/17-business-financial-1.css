@@ -1,0 +1,1112 @@
+/* ==========================================================
+   Business System — the two Financial pages
+   (FinancialFoundationEditor, FinancialSustainabilityEditor,
+   FinancialParts)
+========================================================== */
+
+/* One column of stacked sections, in the order the page's logic
+   runs, with an arrow between each and the next. */
+.financial-page{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-12);
+
+    /* The chart's two series and the balance line: slots 1 and 2 of
+       the validated categorical palette, and ink for the line. */
+    --financial-in:var(--bg-financial-in);
+    --financial-out:var(--bg-financial-out);
+    --financial-balance:var(--line-financial-balance);
+    --financial-grid:var(--line-financial-grid);
+    --financial-good:var(--bg-financial-good);
+    --financial-risk:var(--bg-financial-risk);
+
+}
+
+/*
+    ONE EDGE ON EVERY BUSINESS PAGE. The page pads its sides by 13px so
+    the column titles and help above the progress line sit on the same
+    tracks as the columns inside the cards (see .business-foundation);
+    everything else (the progress line, the Timeline bar and the
+    section cards) gives that back and spans the full width, as on
+    Pages 1 to 3.
+*/
+.financial-page-head > .answer-columns-divider,
+.financial-page > .financial-plan-bar,
+.financial-page > .business-foundation-card,
+.financial-page > .financial-flow-step{
+
+    margin-inline:-13px;
+
+}
+
+/* A cost group's arrow and title (its "i" inside the title, see
+   .info-note) on one line, as every folding group on Pages 1 to 3
+   has them. */
+
+/* Financial Foundation's settings, once for the page: Plan Start,
+   Plan Length, Amounts and Income Tax (the plan's months are in the
+   page title). Four equal columns sharing the box's width, each
+   control under its label and filling its column; 2 x 2 on a
+   narrower card, one column on a narrow one. A long choice wraps
+   inside its select rather than ending in "…", so it always shows
+   whole. */
+.financial-plan-bar{
+
+    display:grid;
+
+    grid-template-columns:repeat(4, minmax(0, 1fr));
+
+    align-items:start;
+
+    gap:var(--gap-16) var(--gap-24);
+
+    padding:12px 16px;
+
+    border:1px solid var(--line-sheet);
+    border-radius:var(--radius-lg);
+
+    background:var(--bg-warm);
+
+}
+
+@container page-card (max-width: 999px){
+
+    .financial-plan-bar{
+
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+
+    }
+
+}
+
+@container page-card (max-width: 559px){
+
+    .financial-plan-bar{
+
+        grid-template-columns:minmax(0, 1fr);
+
+    }
+
+}
+
+.financial-plan-bar > .business-foundation-field{
+
+    min-width:0;
+
+}
+
+
+.financial-plan-bar .month-picker-trigger,
+.financial-plan-bar .option-picker,
+.financial-plan-bar .option-picker .option-picker-trigger.interview-input,
+.financial-plan-bar .business-foundation-field > input.interview-input{
+
+    width:100%;
+
+}
+
+
+/* Income Tax at a rate: the choice and the rate share the column,
+   the rate a compact box that fits "100.00", its "%" after the
+   figure; the choice takes the rest, on one line. */
+
+/* A note on the bar (a missing setting, where the rest comes
+   from) runs across it, under the columns. */
+.financial-plan-meta{
+
+    grid-column:1 / -1;
+
+    font-size:var(--font-body);
+
+    color:var(--text-muted);
+
+}
+
+.financial-flow-step{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-12);
+
+}
+
+.financial-flow-arrow{
+
+    align-self:center;
+
+    font-size:var(--font-h3);
+    line-height:1;
+
+    color:var(--text-faint);
+
+}
+
+.financial-section-body{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-16);
+
+    min-width:0;
+
+}
+
+.financial-lead,
+.financial-muted{
+
+    margin:0;
+
+    font-size:var(--font-body);
+    line-height:1.5;
+
+    color:var(--text-muted);
+
+}
+
+.financial-standing{
+
+    margin:0;
+
+    font-size:var(--font-body);
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    color:var(--text-secondary);
+
+}
+
+.financial-total,
+.financial-result{
+
+    margin:0;
+
+    font-size:var(--font-body);
+    line-height:1.5;
+
+    color:var(--text-default);
+
+}
+
+/* ---------- 1. Costs ---------- */
+
+/* A table of costs, drawn as a grid so every row shares the same
+   columns and a row's details can span all of them.
+
+   ONE LINE OF TEXT ACROSS A ROW: every cell sits on the row's first
+   baseline, so a name or an amount SHOWN (a cost read from another
+   page) is on the same line as the text typed in the boxes beside it,
+   and a shown name has the weight of a typed one. The last column
+   holds "Change" and the × (--row-actions-width), with the card's
+   own padding to its right, so the × is inside the row, never on its
+   edge. */
+
+/* The Offering group adds how each cost moves with sales, and its Offering. */
+
+/* Establishment: one-time costs, so no Frequency column. */
+
+/* Amounts align to the right (the currency is in the column header); the cost nature is a short dropdown with a muted line under it. */
+
+/* Plain text in a cell: the body's own line, so the row's baselines
+   put it on the text line of the boxes beside it. */
+
+/* Under an amount: how many, at what price each. */
+
+/* The × slot is reserved whether or not this row has one (only an
+   added cost does): a fixed 32px second column, present or empty,
+   so "Change" ends at the same x on every row instead of hopping
+   left by the ×'s own width on the rows that have one. */
+
+/* What some costs need on a line of their own: a semi-variable
+   cost's two parts, an added cost's description. */
+
+/* Words, not colour: it says what is wrong. */
+
+/* ---------- 2. Funding Need, 3. Capital & Funding ---------- */
+
+.financial-schedule{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    /* One row to the next: the rhythm's field gap. */
+    gap:var(--space-field);
+
+}
+
+.financial-schedule-row,
+.financial-milestone{
+
+    display:grid;
+
+    grid-template-columns:minmax(150px, 1fr) minmax(110px, 1fr) 32px;
+
+    align-items:center;
+
+    /* Rows a field gap apart, cells a cell gap. */
+    gap:var(--space-field) var(--space-cell);
+
+    align-self:stretch;
+
+}
+
+/* A milestone on two lines: what releases the money across the top,
+   then how much, when, and its ×. Four columns side by side did not
+   fit a card a third of the page wide, and the month ran out of it. */
+.financial-milestone{
+
+    grid-template-columns:minmax(80px, 1fr) minmax(150px, 1.4fr) 32px;
+    grid-template-areas:
+        "condition condition condition"
+        "amount    month     remove";
+
+}
+
+.financial-milestone > :nth-child(1){ grid-area:condition; }
+.financial-milestone > :nth-child(2){ grid-area:amount; }
+.financial-milestone > :nth-child(3){ grid-area:month; }
+.financial-milestone > :nth-child(4){ grid-area:remove; }
+
+/* Each milestone apart from the next. */
+.financial-milestone + .financial-milestone{
+
+    /* A GROUP GAP: a field gap either side of the rule. */
+    padding-top:calc(var(--space-field) - 1px);
+
+    border-top:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-rule));
+
+}
+
+/* A month picker in a grid cell takes the cell, and no more. */
+.financial-schedule-row > .month-picker,
+.financial-milestone > .month-picker{
+
+    min-width:0;
+
+}
+
+.financial-schedule-row .month-picker-trigger,
+.financial-milestone .month-picker-trigger{
+
+    width:100%;
+
+    min-width:0;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+    white-space:nowrap;
+
+}
+
+.financial-loan-summary{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:var(--gap-6);
+
+    padding:10px 12px;
+
+    border-radius:var(--radius-lg);
+
+    background:var(--bg-surface);
+
+}
+
+.financial-loan-summary > p{
+
+    margin:0;
+
+    font-size:var(--font-body);
+    line-height:1.5;
+
+}
+
+/* ---------- Tables ---------- */
+
+.financial-table-scroll{
+
+    max-width:100%;
+
+    overflow-x:auto;
+
+}
+
+.financial-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    font-size:var(--font-body);
+    font-variant-numeric:tabular-nums;
+
+    background:var(--bg-surface);
+
+}
+
+.financial-table th,
+.financial-table td{
+
+    padding:6px 10px;
+
+    border-bottom:1px solid var(--line-financial-grid);
+
+    text-align:right;
+
+    white-space:nowrap;
+
+}
+
+.financial-table th:first-child{
+
+    text-align:left;
+
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+}
+
+.financial-table thead th{
+
+    font-size:var(--font-body);
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+
+
+    color:var(--text-muted);
+
+}
+
+/* EVERY NUMERIC TABLE SPACES ITS FIGURES EVENLY (FigureTable,
+   FinancialParts.tsx): the label column (Month, Date, Item) as wide as
+   its widest label -- measured, and handed over as
+   --figure-label-width -- and every column of figures one equal share
+   of the rest, so the gap from one column's figures to the next is the
+   same across the table. A head too long for its share wraps onto two
+   balanced lines, right-aligned over its figures (an "i" stays after
+   its last word, InfoText). Never narrower than each column's figures
+   need: in a narrow window the table scrolls inside its own box. A
+   table of one figure column keeps its own split (the summaries'
+   half and half). */
+.financial-figure-table{ --figure-columns:1; }
+.financial-figure-table:has(tr > :nth-child(3)){ --figure-columns:2; }
+.financial-figure-table:has(tr > :nth-child(4)){ --figure-columns:3; }
+.financial-figure-table:has(tr > :nth-child(5)){ --figure-columns:4; }
+.financial-figure-table:has(tr > :nth-child(6)){ --figure-columns:5; }
+.financial-figure-table:has(tr > :nth-child(7)){ --figure-columns:6; }
+.financial-figure-table:has(tr > :nth-child(8)){ --figure-columns:7; }
+.financial-figure-table:has(tr > :nth-child(9)){ --figure-columns:8; }
+.financial-figure-table:has(tr > :nth-child(10)){ --figure-columns:9; }
+.financial-figure-table:has(tr > :nth-child(11)){ --figure-columns:10; }
+.financial-figure-table:has(tr > :nth-child(12)){ --figure-columns:11; }
+
+.financial-figure-table:has(tr > :nth-child(3)){
+
+    table-layout:fixed;
+
+    min-width:calc(var(--figure-label-width, 8em) + var(--figure-columns) * 5em);
+
+}
+
+.financial-figure-table:has(tr > :nth-child(3)) > :first-child > tr:first-child > :first-child{
+
+    width:var(--figure-label-width, auto);
+
+}
+
+/* A figure with words to it ("≈ 112.3 participants / month") wraps
+   within its share rather than running into the next column. */
+.financial-figure-table:has(tr > :nth-child(3)) td{
+
+    white-space:normal;
+
+}
+
+.financial-figure-table thead th:not(:first-child){
+
+    white-space:normal;
+
+    text-wrap:balance;
+
+}
+
+/* A number table's heads stand on one bottom line: a head that has to
+   wrap in a narrow window wraps upward, and the single-line heads
+   beside it stay on the line their figures hang from. */
+.financial-figure-table thead th{
+
+    vertical-align:bottom;
+
+}
+
+.financial-table tfoot th,
+.financial-table tfoot td{
+
+    border-bottom:0;
+
+    border-top:2px solid var(--line-card);
+
+}
+
+.financial-row-negative td:last-child{
+
+    color:var(--financial-risk);
+
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+}
+
+.financial-row-highlight{
+
+    background:var(--bg-highlight);
+
+}
+
+.financial-summary th{
+
+    width:50%;
+
+}
+
+/* ---------- 4. Financial Position ---------- */
+
+.financial-headline{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-4);
+
+    padding:14px 16px;
+
+    border:1px solid var(--line-sheet);
+    border-left-width:6px;
+    border-radius:var(--radius-lg);
+
+    background:var(--bg-surface);
+
+    font-size:var(--font-body);
+    line-height:1.5;
+
+}
+
+.financial-headline > strong{
+
+    font-size:var(--font-h3);
+
+}
+
+.financial-headline-risk{
+
+    border-left-color:var(--financial-risk);
+
+}
+
+.financial-headline-good{
+
+    border-left-color:var(--financial-good);
+
+}
+
+.financial-tiles{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit, minmax(170px, 1fr));
+
+    gap:var(--gap-12);
+
+}
+
+.financial-tile{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-4);
+
+    padding:12px 14px;
+
+    border:1px solid var(--line-sheet);
+    border-radius:var(--radius-lg);
+
+    background:var(--bg-surface);
+
+}
+
+/* A block of words, the "i" at the end of the last line (see
+   .info-note, InfoText), not a flex row that set it apart. Held to
+   a fixed two-line height so a label that wraps ("Expected Monthly
+   Revenue", "Offering Development / Launch") does not push its own
+   tile's figure down past where the one-line labels beside it sit
+   theirs -- every tile's value lands on the same row. */
+.financial-tile-label{
+
+    display:block;
+
+    min-height:2.6em;
+
+    font-size:var(--font-body);
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+    line-height:1.3;
+
+    color:var(--text-muted);
+
+}
+
+.financial-tile-value{
+
+    font-size:var(--font-h3);
+    font-weight:700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    font-variant-numeric:tabular-nums;
+
+    color:var(--text-default);
+
+    white-space:nowrap;
+
+}
+
+.financial-tile-detail{
+
+    font-size:var(--font-body);
+
+    color:var(--text-muted);
+
+}
+
+/* An inset shadow, not a thicker top border: a real 4px border
+   pushed every tile's own content down 3px past the 1px-bordered
+   tiles beside it. A shadow draws inside the same 1px box without
+   adding to it, so the row of tiles keeps one shared baseline. */
+.financial-tile-risk{
+
+    box-shadow:inset 0 4px 0 0 var(--financial-risk);
+
+}
+
+.financial-tile-good{
+
+    box-shadow:inset 0 4px 0 0 var(--financial-good);
+
+}
+
+.financial-block{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+    min-width:0;
+
+}
+
+/* EVERY LABEL-AND-AMOUNT LIST of the financial pages -- the cost
+   breakdowns of the Funding Need cards (Establishment, Initial
+   Operating, an Offering's), the funding and capital lists, the
+   Sustainability coverage, mix and obligations -- one rule: a row
+   is --space-field from the next, clearly more than the line gap
+   inside a label that wraps, so a wrapped item never runs into the
+   one under it; and each amount (a meter, a swatch) stands on the
+   FIRST line of its label, not the middle of it. */
+.financial-coverage,
+.financial-obligations,
+.financial-mix-legend,
+.financial-cost-inputs{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-field);
+
+    margin:0;
+
+    padding:0;
+
+    list-style:none;
+
+    font-size:var(--font-body);
+
+}
+
+/* ONE shared grid across every row, not each row its own: the third
+   column's width (the "$x of $y" figure) varies line to line, and
+   with each `<li>` sizing its own 1.5fr/2fr split independently, a
+   shorter figure left more room for the first two columns, so the
+   meters started and ended at a different x on every row.
+   `display:contents` on the row is what lets its three cells become
+   items of THIS grid rather than of a row-sized grid of their own,
+   so one set of column widths governs every row. */
+.financial-coverage{
+
+    display:grid;
+
+    grid-template-columns:minmax(0, 1.5fr) minmax(120px, 2fr) auto;
+
+    /* The first line: the shared rule above. */
+    align-items:first baseline;
+
+    column-gap:var(--gap-12);
+
+}
+
+.financial-coverage > li{
+
+    display:contents;
+
+}
+
+.financial-meter{
+
+    display:block;
+
+    height:8px;
+
+    border-radius:var(--radius-sm);
+
+    background:var(--bg-financial-grid);
+
+    overflow:hidden;
+
+}
+
+.financial-meter > span{
+
+    display:block;
+
+    height:100%;
+
+    border-radius:var(--radius-sm);
+
+    background:var(--financial-in);
+
+}
+
+/* The mix: segments with a 2px surface gap between fills. */
+.financial-mix-bar{
+
+    display:flex;
+
+    gap:var(--gap-2);
+
+    height:16px;
+
+}
+
+.financial-mix-segment{
+
+    flex-basis:0;
+
+    min-width:4px;
+
+    border-radius:var(--radius-sm);
+
+}
+
+.financial-mix-legend > li{
+
+    display:grid;
+
+    grid-template-columns:14px minmax(0, 1fr) auto;
+
+    align-items:first baseline;
+
+    gap:var(--gap-8);
+
+}
+
+.financial-series-1{ background:var(--bg-financial-in); }
+.financial-series-2{ background:var(--bg-financial-out); }
+.financial-series-3{ background:var(--bg-series-3); }
+.financial-series-4{ background:var(--bg-series-4); }
+.financial-series-5{ background:var(--bg-series-5); }
+
+.financial-swatch{
+
+    display:inline-block;
+
+    width:12px;
+    height:12px;
+
+    margin-right:6px;
+
+    border-radius:3px;
+
+    vertical-align:-1px;
+
+}
+
+.financial-swatch-in{ background:var(--financial-in); }
+.financial-swatch-out{ background:var(--financial-out); }
+
+.financial-swatch-balance{
+
+    height:3px;
+
+    vertical-align:3px;
+
+    border-radius:2px;
+
+    background:var(--financial-balance);
+
+}
+
+/* Ruled rows: the rule in the middle of the row gap, --space-row
+   either side of it, in place of the list's own gap. */
+.financial-obligations{
+
+    gap:0;
+
+}
+
+.financial-obligations > li{
+
+    display:grid;
+
+    grid-template-columns:100px minmax(0, 1fr) auto;
+
+    align-items:first baseline;
+
+    gap:var(--gap-12);
+
+    padding:var(--space-row) 0;
+
+    border-bottom:1px solid var(--line-financial-grid);
+
+}
+
+.financial-obligation-month{
+
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+}
+
+.financial-obligation-in,
+.financial-obligation-out{
+
+    font-variant-numeric:tabular-nums;
+
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+}
+
+.financial-cost-inputs > li{
+
+    display:flex;
+
+    align-items:first baseline;
+
+    justify-content:space-between;
+
+    gap:var(--gap-12);
+
+    max-width:560px;
+
+}
+
+.financial-cost-inputs-total{
+
+    padding-top:6px;
+
+    border-top:1px solid var(--line-card);
+
+    font-weight:700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+}
+
+/* Decision signals: an icon and a title with each, so the colour
+   never carries the meaning alone. */
+.financial-signals{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-8);
+
+    margin:0;
+
+    padding:0;
+
+    list-style:none;
+
+}
+
+.financial-signal{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:10px;
+
+    padding:10px 12px;
+
+    border-radius:var(--radius-lg);
+
+    background:var(--bg-surface);
+
+    font-size:var(--font-body);
+    line-height:1.5;
+
+}
+
+.financial-signal-icon{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    flex:0 0 22px;
+
+    height:22px;
+
+    border-radius:50%;
+
+    font-size:var(--font-small);
+    font-weight:700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    color:var(--text-on-fill);
+
+    background:var(--bg-faint);
+
+}
+
+.financial-signal-risk .financial-signal-icon{ background:var(--financial-risk); }
+.financial-signal-caution .financial-signal-icon{ background:var(--bg-caution); }
+.financial-signal-good .financial-signal-icon{ background:var(--bg-good); }
+.financial-signal-info .financial-signal-icon{ background:var(--bg-info); font-style:italic; }
+
+/* ---------- The cash timeline ---------- */
+
+.financial-chart{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-8);
+
+    padding:12px;
+
+    border-radius:var(--radius-lg);
+
+    background:var(--bg-chart);
+
+}
+
+.financial-chart-bar{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:var(--gap-8) var(--gap-16);
+
+}
+
+.financial-chart-legend{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:var(--gap-6) 18px;
+
+    margin:0;
+
+    padding:0;
+
+    list-style:none;
+
+    font-size:var(--font-body);
+
+    color:var(--text-secondary);
+
+}
+
+.financial-chart-plot{
+
+    position:relative;
+
+}
+
+.financial-chart-plot > svg{
+
+    display:block;
+
+    width:100%;
+
+    height:auto;
+
+}
+
+.financial-grid{
+
+    stroke:var(--financial-grid);
+    stroke-width:1;
+
+}
+
+.financial-axis-zero{
+
+    stroke:var(--line-quiet);
+    stroke-width:1;
+
+}
+
+.financial-axis-text{
+
+    font-size:var(--font-small);
+
+    fill:var(--text-muted);
+
+}
+
+.financial-bar-in{ fill:var(--financial-in); }
+.financial-bar-out{ fill:var(--financial-out); }
+
+.financial-balance{
+
+    fill:none;
+
+    stroke:var(--financial-balance);
+    stroke-width:2;
+
+    stroke-linejoin:round;
+
+}
+
+.financial-balance-negative{
+
+    fill:var(--financial-risk);
+
+    stroke:var(--line-chart);
+    stroke-width:2;
+
+}
+
+.financial-marker line{
+
+    stroke-width:1.5;
+
+    stroke-dasharray:4 3;
+
+}
+
+.financial-marker text{
+
+    font-size:var(--font-small);
+    font-weight:700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+}
+
+.financial-marker-good line{ stroke:var(--line-good); }
+.financial-marker-good text{ fill:var(--text-good); }
+.financial-marker-risk line{ stroke:var(--financial-risk); }
+.financial-marker-risk text{ fill:var(--financial-risk); }
+
+.financial-hover{
+
+    fill:var(--text-default);
+
+    opacity:0.05;
+
+}
+
+.financial-hit{
+
+    fill:transparent;
+
+}
+
+.financial-tooltip{
+
+    position:absolute;
+
+    top:8px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-2);
+
+    padding:8px 10px;
+
+    border:1px solid var(--line-sheet);
+    border-radius:var(--radius-md);
+
+    background:var(--bg-surface);
+
+    box-shadow:0 4px 12px var(--shadow-12);
+
+    font-size:var(--font-small);
+    font-variant-numeric:tabular-nums;
+
+    white-space:nowrap;
+
+    pointer-events:none;
+
+}
+
+.financial-tooltip-note{
+
+    padding-left:18px;
+
+    font-size:var(--font-small);
+
+    color:var(--text-muted);
+
+}
+
+/* The cost table's rows stack: once the TABLE is too narrow for its
+   columns -- 1100px for the Offering group's seven, 800px for the
+   others' four or five -- each row becomes a block of two columns,
+   its name across the top, and the column heads go (every cell says
+   what it is). Under 480px, one column. Read on the table's own
+   width, so the rule holds whatever holds the table; the Offering
+   group used to keep its seven columns at every width, since its
+   own template out-ranked the window rule, and "Change" ran out of
+   the row. */
+@container cost-table (max-width: 1099px){
+
+    /* "Change" and the × on a line of their own, at the right. */
+
+}
+

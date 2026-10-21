@@ -5,8 +5,8 @@ import { MemoryRouter } from "react-router-dom";
 import { LocalNotepadStore, NotepadService, notepadStorageKey, DEFAULT_PROFILE } from "../../services/NotepadService";
 import { OrganizationService } from "../../services/OrganizationService";
 import { clearFieldRegistry } from "../../framework/engine/FieldKeys";
-import { BusinessField } from "../interview/BusinessCardFields";
-import { FieldPageProvider } from "../interview/fieldMarks";
+import { BusinessField } from "../interview/cards/BusinessCardFields";
+import { FieldPageProvider } from "../interview/fields/fieldMarks";
 import { NotepadButton, NotepadPanel, NotepadPicker, linkFor, noteMomentText, noteTodayText } from "./Notepad";
 import { findPlaces, linkAvailable } from "./notepadPlaces";
 import { UndoService } from "../../services/UndoService";
@@ -281,8 +281,8 @@ describe("notes by Organization", () => {
         render(<MemoryRouter><NotepadPanel /></MemoryRouter>);
         act(() => { NotepadService.open(); });
 
-        const heads = screen.getAllByRole("button", { name: /Lumen|Quillfield|General/ }).filter(button => button.classList.contains("notepad-group-head"));
-        expect(heads.map(head => head.textContent)).toEqual(["Lumen1", "Quillfield1", "General1"]);
+        const heads = screen.getAllByRole("button", { name: /(Minimize|Maximize) (Lumen|Quillfield|General)/ });
+        expect(heads.map(head => head.closest(".fold-head")?.querySelector(".fold-head-name")?.textContent! + head.closest(".fold-head")?.querySelector(".fold-head-count")?.textContent)).toEqual(["Lumen1", "Quillfield1", "General1"]);
         expect(heads.map(head => head.getAttribute("aria-expanded"))).toEqual(["true", "false", "false"]);
         expect((screen.getAllByRole("textbox", { name: "Note" }) as HTMLTextAreaElement[]).map(box => box.value)).toEqual(["About Lumen"]);
 
@@ -315,23 +315,24 @@ describe("a field in your notes, pointed at", () => {
 
 describe("what can be clicked in the Notepad", () => {
 
-    it("gives a note and a chip a field's hover, \"Link a field\" a thicker underline, a chip's × a bold glyph, and a note the app's one ×", () => {
+    it("gives a note and a chip a field's hover, \"Link a field\" a thicker underline, a chip's × the app's one ×, and a note the app's one ×", () => {
         const css = stylesheet("notepad.css");
-        expect(css).toContain(".notepad-note:hover, .notepad-chip:not(.notepad-chip-gone):hover { border-color: var(--line-primary); box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent); }");
+        expect(css).toContain(".notepad-note:hover, .notepad-chip:not(.notepad-chip-gone):hover { box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent); }");
         expect(css).toContain(".notepad-text-button:hover { text-decoration-thickness: 2px; }");
-        expect(css).toContain(".notepad-chip-remove:hover { font-weight: 700; }");
+        // (A chip's × is the app's one ×, RemoveButton: no look of its own here.)
+        expect(css).not.toContain(".notepad-chip-remove");
         expect(css).not.toContain(".notepad-chip:is(:hover, :focus-within) > .notepad-chip-remove");
         expect(css).not.toMatch(/.notepad-note-remove[,:{ ]/);
-        expect(stylesheet("remove-button.css")).toContain(".strategy-box-remove{ width:32px; height:32px;");
+        expect(stylesheet("remove-button.css")).toContain(".strategy-box-remove{ width:var(--size-box-button); height:var(--size-box-button);");
     });
 
 });
 
 describe("the Notepad panel", () => {
 
-    it("slides in over the page (no reduced-motion slide), between the header and the footer, with a shadow off its left edge", () => {
+    it("slides in over the page (no reduced-motion slide), from the header to the foot of the window, with a shadow off its left edge", () => {
         const css = stylesheet("notepad.css");
-        expect(css).toContain("position: fixed; top: 80px; bottom: 64px; right: 0;");
+        expect(css).toContain("position: fixed; top: 80px; bottom: 0; right: 0; z-index: 29;");
         expect(css).toContain("box-shadow: -8px 0 16px -8px var(--shadow-ink-18); /* It slides in from the right, briefly -- not at all under reduced motion. */ animation: notepad-slide-in 0.2s ease-out;");
         expect(css).toContain("@media (prefers-reduced-motion: reduce) { .notepad-panel { animation: none; } }");
         // Over the page: it never narrows it.

@@ -1,0 +1,254 @@
+/* ==========================================================
+   THE RING OF A CELL (docs/design/19-reactions.md, R2): one reaction for every cell you write or choose in, wherever it stands and in every reading mode.
+   Focused, or pressed and held: the primary edge (1px) and a ring 3px wide at 35% of the card's glow colour -- nothing else (no white outline, no second ring).
+   Where a box holds the field (a date cell: its text and its calendar button; a numbered list's lines) the BOX draws the ring and what is inside draws none.
+   Loaded after every other stylesheet (main.tsx), so no page's older rule for its own focus outranks it.
+========================================================== */
+:is(textarea, input:not([type="checkbox"], [type="radio"], [type="range"], [type="color"], [type="file"]), .option-picker-trigger, .month-picker-trigger):is(:focus, :focus-visible, :active):not(:disabled, .numbered-list-input, .date-cell-field > :is(input, textarea)) {
+    outline: none !important;
+    border-color: var(--line-primary) !important;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent) !important;
+}
+
+/* A box with no edge of its own (a date cell, the colour cell): the edge is drawn with the ring, round the box. */
+.date-cell-field:focus-within:not(:has(:disabled)) {
+    outline: none !important;
+    box-shadow: 0 0 0 1px var(--line-primary), 0 0 0 4px color-mix(in srgb, var(--glow-color) 35%, transparent) !important;
+}
+
+/* A box with an edge of its own (a numbered list). */
+.numbered-list:focus-within:not(:has(:disabled)) {
+    outline: none !important;
+    border-color: var(--line-primary) !important;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent) !important;
+}
+
+/* What is inside a box that draws the ring draws no edge and no outline: a date or colour cell's text keeps its recess, a list's line has none. */
+.date-cell-field > :is(input, textarea):is(:focus, :focus-visible) {
+    outline: none !important;
+    border-color: transparent !important;
+    box-shadow: var(--cell-inset-recess) !important;
+}
+
+:is(.numbered-list-input, .numbered-list textarea):is(:focus, :focus-visible) {
+    outline: none !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+/* The box that draws the ring has the corners of the cell inside it, so the ring is round as every cell's is. */
+.date-cell-field {
+    border-radius: var(--radius-md);
+}
+
+/* THE POINTER ON A BOX THAT HOLDS A FIELD (a date cell, the colour cell): the glow (R1) round the box, 4px at 18%; the field inside draws none. */
+.date-cell-field:hover:not(:focus-within):not(:has(:disabled)) {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
+}
+
+.date-cell-field > :is(input, textarea):hover:not(:focus) {
+    border-color: transparent !important;
+    box-shadow: var(--cell-inset-recess) !important;
+}
+
+/* A LABELLED BUTTON KEEPS ITS SIZE UNDER THE POINTER: it goes bold by the thickening drawn on its letters (--hover-bold), which takes no room; the wider tracking of bold text is for text that
+   changes its weight, and on a button it made the whole button wider. The tracking stays what it is at rest, so the button's box never changes. */
+:is(.primary-button, .secondary-button, .back-link, .strategy-add-button, .header-tool, .interview-help-toggle, .workspace-documents-button, .business-documents-button, .confirmation-button, .start-arrow-button):is(:hover, :focus-visible, :active):not(:disabled) {
+    letter-spacing: var(--rest-tracking, 0.1em) !important;
+}
+
+/* THE COLOUR BOX (the swatch inside a colour cell) answers the pointer with its own halo, the glow round the box, and the keyboard with the ring round it. */
+.brand-colour-picker:hover:not(:disabled) {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 35%, transparent);
+}
+
+.brand-colour-picker:focus-visible:not(:disabled) {
+    outline: none;
+    box-shadow: 0 0 0 1px var(--line-primary), 0 0 0 4px color-mix(in srgb, var(--glow-color) 35%, transparent);
+}
+
+/* NO WIREFRAME AT REST: a list you write in, an image's holder and the holder of an image's name and note have no stroke and no dashes: they are drawn as a text box is
+   (the recessed field). A holder that holds a picture is FLAT (the picture on its paper, no inset), as a tick box ticked is. Hover is the glow, focus the ring. */
+.numbered-list.numbered-list,
+.brand-asset-preview.brand-asset-preview,
+.brand-image-text.brand-image-text {
+    border: 1px solid transparent;
+    box-shadow: var(--cell-inset-recess);
+}
+
+.brand-asset-preview.brand-asset-preview:has(img) {
+    box-shadow: none;
+}
+
+.numbered-list.numbered-list:hover:not(:focus-within, :has(:disabled)),
+.brand-image-text.brand-image-text:hover:not(:focus-within),
+.brand-holder-button.brand-holder-button:hover:not(:disabled, :focus-visible, .brand-dropzone-active) {
+    border-color: transparent;
+    box-shadow: var(--cell-inset-recess), 0 0 0 4px color-mix(in srgb, var(--glow-color) calc(18% * var(--hover-lift, 1)), transparent);
+}
+
+.brand-holder-button.brand-holder-button:has(img):hover:not(:disabled, :focus-visible, .brand-dropzone-active) {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) calc(18% * var(--hover-lift, 1)), transparent);
+}
+
+.brand-holder-button.brand-holder-button:focus-visible,
+.brand-image-text.brand-image-text:focus-within {
+    border-color: var(--line-primary);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+}
+
+/* THE TEXT HIERARCHY's CARD answers the pointer as the nested cards of the Strategy (a Goal, an Objective, a Metric) do: the primary edge and the glow round the card. */
+.brand-hierarchy-card:hover {
+    border-color: var(--line-primary);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
+}
+
+/* IMAGE, ICON AND LOGO are image holders and have ONE layout: the label row (the label on the centre line of its x), the holder, the file's name under it, and where it has words, a Notes field. */
+.brand-slot-label-row.brand-slot-label-row {
+    align-items: center;
+    min-height: var(--size-box-button);
+}
+
+.brand-slot-aside > .optional-field > .optional-field-head {
+    margin-top: 3px;
+}
+
+/* THE COLOUR PICKER CARD's gaps: one gap (12px) between its parts -- the square, the hue bar, the code's picker, the cells -- and 4px between a cell and its small label. */
+.colour-popup.colour-popup {
+    gap: var(--gap-12);
+    padding: var(--gap-12);
+}
+
+.colour-popup-code.colour-popup-code {
+    margin-bottom: 0;
+}
+
+/* ONE LABEL: the label of an image holder (Logo, Icon, Image) is the field label every cell has (regular, the card's label colour, the body size, no extra tracking). */
+.brand-slot-label-row.brand-slot-label-row > .brand-slot-label {
+    font-size: var(--font-body);
+    font-weight: 400;
+    letter-spacing: normal;
+    color: var(--label-color);
+}
+
+/* THE IMAGE HOLDERS' STRUCTURE (Logo, Icon, Image): the holder, and its x BESIDE it, 12px after its right edge, the x's top level with the holder's top. The holder takes the room the x leaves, so a wide picture (the Logo) is scaled down in proportion
+   (it is contained, never cropped). The label stands over them, the file's name under, and a Notes field, as every card's, last. */
+.brand-holder-wrap.brand-holder-wrap {
+    gap: var(--gap-12);
+    align-items: flex-start;
+}
+
+.brand-holder-wrap.brand-holder-wrap > .brand-asset-preview {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.brand-holder-wrap.brand-holder-wrap > .strategy-box-remove {
+    position: relative;
+    flex: none;
+    margin: 0;
+}
+
+.brand-asset-slot-icon .brand-slot-row > .brand-holder-wrap.brand-holder-wrap {
+    flex: 1 1 auto;
+    aspect-ratio: auto;
+    max-width: none;
+}
+
+.brand-asset-slot-icon .brand-holder-wrap.brand-holder-wrap > .brand-asset-preview {
+    flex: 0 1 265px;
+    aspect-ratio: 1 / 1;
+    min-height: 0;
+    max-width: calc(100% - var(--size-box-button) - var(--gap-12));
+}
+
+.brand-asset-slot-icon > .brand-slot-aside {
+    margin-top: var(--gap-12);
+}
+
+/* A FLOATING CARD THAT LACKS AN ANSWER says so in the FIELD it lacks (it flashes, as the tile does: card-tile.css), and by its red bullet in the rail -- not by a frame round the whole card. */
+.bullet-rail-item[data-missing] .bullet-rail-dot {
+    background: var(--bg-danger-strong);
+    border-color: var(--line-danger-strong);
+    color: var(--bg-danger-strong);
+}
+
+/* AN IMAGE'S CARD: the picture goes across the card, and its x stands in the card's x column, level with the picture's top (under the x of the card's head). */
+.brand-image-card-body .brand-holder-wrap.brand-holder-wrap > .strategy-box-remove {
+    position: absolute;
+    left: calc(100% + var(--gap-12));
+    top: 0;
+}
+
+/* THE GLOBAL SETTINGS' AND THE BUSINESS DOCUMENTS' CELLS are the Systems' cells: no stroke at rest, the recessed field, the glow under the pointer (the ring is the global one above). */
+:is(.settings-page, .business-documents) :is(input.interview-input:not([type="checkbox"], [type="radio"]), .date-cell-input, .month-picker-trigger) {
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    background-color: var(--bg-surface);
+    box-shadow: var(--cell-inset-recess);
+}
+
+/* (On the tinted ground a card has, as the Systems' cells do: a white cell on a white page shows no field.) */
+.settings-page,
+.business-documents {
+    background-color: var(--bg-card-tint);
+    --info-fill: var(--bg-card-tint);
+}
+
+:is(.settings-page, .business-documents) :is(input.interview-input:not([type="checkbox"], [type="radio"]), .date-cell-input, .month-picker-trigger):hover:not(:focus, :focus-visible, :active, :disabled) {
+    border-color: transparent;
+    box-shadow: var(--cell-inset-recess), 0 0 0 4px color-mix(in srgb, var(--glow-color) calc(18% * var(--hover-lift, 1)), transparent);
+}
+
+/* THE FUNNEL that leaves something out is always seen: filled, its funnel in the card's ground (never both in one colour, whatever the card's own rules say). */
+.plus-box.funnel-box.funnel-box[data-active] {
+    border-color: transparent;
+    background-color: var(--plus-fill, var(--text-default));
+    color: var(--plus-ground, var(--bg-surface));
+    opacity: 1;
+    visibility: visible;
+}
+
+.plus-box.funnel-box[data-active] svg path {
+    stroke: currentColor;
+}
+
+/* ONE UNDERLINE, EVERYWHERE: 1px thick, drawn 1px under the lowest descender of its letters (q, y, p, g, j ...), whatever the text (a link, a title, a label, a list item). No place sets an offset of its own. */
+*,
+*::before,
+*::after {
+    text-underline-position: under !important;
+    text-underline-offset: 1px !important;
+    text-decoration-thickness: 1px !important;
+}
+
+/* A TEXT THAT UNDERLINES BUT CLIPS ITS OWN OVERFLOW (a typeface of the Typography tile) has the room for its line: 3px under its letters, taken back by its margin, so the underline 1px under the descenders is never cut. */
+.section-tile .brand-specimens > [data-card] {
+    padding-bottom: 3px;
+    margin-bottom: -3px;
+}
+
+/* ONE LABEL LOOK, EVERY LABEL: the label of a tick (a tick field, an optional field's tick, a switch, a "Completed" tick) is the field label: regular, the body size, the card's label colour (--label-color) -- never the text colour a place gave its own tick text. */
+.tick-field,
+label:has(> .brand-tick-box),
+.tick-field :is(span, strong, em),
+label:has(> .brand-tick-box) :is(span, strong, em) {
+    color: var(--label-color);
+    font-size: var(--font-body);
+    font-weight: 400;
+}
+
+/* The Legal Entity cards (floating or in their dialog) have the label colour of the Legal Entity page's own frames. */
+.legal-entity-card {
+    --label-color: hsl(var(--legal-label-hue, 172) var(--theme-text-ink));
+}
+
+/* A CARD FLOATING OVER ANOTHER (a legal expense opened from a founder's responsibility, or from the Inventory) is alone: the arrows and the rail of the card under it are not drawn while it is covered. */
+.floating-overlay:has(~ .floating-overlay) :is(.carousel-arrow, .carousel-rail) {
+    visibility: hidden;
+}
+
+/* EVERY CONTROL ANSWERS A PRESS (R5, docs/design/19-reactions.md): under the pointer it has its hover reaction (each kind's own: the glow, the filled ground, the thickened letters); while it is pressed it darkens a little more, whatever kind it is. A field has its focus ring for the same. */
+:is(button, [role="button"], [role="tab"], [role="menuitem"], summary, a[href]):not(:disabled, [aria-disabled="true"]):active {
+    filter: brightness(0.93);
+}

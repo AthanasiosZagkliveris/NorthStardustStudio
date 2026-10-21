@@ -1,0 +1,304 @@
+/* ==========================================================
+   THE LIBRARY GALLERY (src/pages/Library.tsx, development only).
+   Its own plain layout; the assets inside it keep their own styles.
+========================================================== */
+.library-page {
+
+    box-sizing: border-box;
+
+    max-width: 1100px;
+
+    margin: 0 auto;
+    padding: var(--gap-24);
+
+    color: var(--text-body);
+    background: var(--bg-page);
+
+}
+
+.library-asset {
+
+    margin-bottom: var(--gap-24);
+
+}
+
+.library-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(auto-fill, 420px);
+    gap: var(--gap-12);
+
+}
+
+.library-sample {
+
+    box-sizing: border-box;
+
+    width: 420px;
+
+    padding: var(--gap-12);
+
+    border: 1px solid var(--line-hairline);
+    border-radius: var(--radius-lg);
+
+}
+
+.library-ground-page {
+
+    background: var(--bg-page);
+
+}
+
+/* The card ground as the app draws a System card's. */
+.library-ground-card {
+
+    background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}
+
+/* A sample that stands for a page tile: the box is placed at its lower right. */
+.library-plus-tile {
+
+    position: relative;
+
+    height: 96px;
+
+}
+
+.library-plus-inline {
+
+    display: flex;
+
+    align-items: center;
+
+}
+
+/* A label's line in the gallery: one line, so the line's centre is the label's. */
+.library-label-line {
+
+    white-space: nowrap;
+
+}
+
+/* The page-3 wrapper keeps only the classes the "i" rules look for, not the page's grid. */
+.library-page-3.library-page-3 {
+
+    display: block;
+
+}
+
+/* The card ground an x stands on, as the cards that set --x-ground set theirs. */
+.library-ground-card {
+
+    --x-ground: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}
+
+/* The rails: a sample wide enough for a label and for the tooltip beside a bullet. */
+.library-grid-rails {
+
+    grid-template-columns: repeat(auto-fill, 680px);
+
+}
+
+.library-sample-rails {
+
+    width: 680px;
+    max-width: 100%;
+
+}
+
+.library-rail-stage {
+
+    display: flex;
+
+    padding: var(--gap-24) 0;
+
+}
+
+.library-rail-stage .bullet-rail {
+
+    width: auto;
+    max-height: none;
+    margin: 0;
+
+}
+
+.library-rail-left {
+
+    justify-content: flex-end;
+
+    padding-right: 280px;
+
+}
+
+.library-rail-right {
+
+    justify-content: flex-start;
+
+    padding-left: 280px;
+
+}
+
+/* The rail tab as a sample: in the flow, with the colours of the dialog's card standing in for what the app reads from its frame. */
+.library-sample .carousel-rail {
+
+    position: relative;
+
+}
+
+.library-tab {
+
+    --tab-edge: hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+    --tab-ink: hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
+    --tab-bg: var(--bg-page);
+
+}
+
+.library-ground-card .library-tab {
+
+    --tab-bg: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}
+
+/* A dropdown sample leaves room under the trigger for its list to open downwards. */
+.library-dropdown {
+
+    min-height: 280px;
+
+}
+
+/* The widest dropdown step (420px) needs a sample wider than the usual one. */
+.library-grid:has(.library-dropdown) {
+
+    grid-template-columns: repeat(auto-fill, 560px);
+
+}
+
+.library-dropdown {
+
+    width: 560px;
+    max-width: 100%;
+
+}
+
+/* The inventory (src/pages/Inventory.tsx): assets built from the library, one block each. */
+.inventory-asset {
+    margin: 16px 0;
+    padding: 12px;
+    border: 1px solid var(--line-hairline);
+    border-radius: var(--radius-lg);
+}
+.inventory-variant {
+    margin: var(--space-field) 0 0 var(--space-field);
+}
+.inventory-part {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-field);
+    padding: 6px 0;
+}
+.inventory-field {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-field);
+}
+.inventory-card-head {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-field);
+}
+.inventory-mode[aria-pressed="true"] {
+    font-weight: 700;
+}
+.inventory-field > .inventory-field-part:first-child {
+    flex: 0 0 177px;
+}
+.looks-look {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-field);
+    margin: var(--space-field) 0;
+}
+.looks-sample {
+    flex: 0 0 240px;
+}
+.looks-facts {
+    flex: 1 1 320px;
+    margin: 0;
+}
+.inventory-popup {
+    display: inline-block;
+    padding: var(--space-field);
+    border: 1px solid var(--line-hairline);
+    border-radius: var(--radius-lg);
+}
+.inventory-popup-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: var(--space-label);
+    margin-top: var(--space-field);
+}
+.inventory-popup-months {
+    grid-template-columns: repeat(4, 1fr);
+}
+.inventory-popup-day {
+    padding: var(--space-label);
+    text-align: center;
+}
+.inventory-popup-day-on {
+    font-weight: 700;
+    border: 1px solid var(--line-hairline);
+    border-radius: var(--radius-lg);
+}
+.inventory-divider {
+    width: 240px;
+    margin: var(--space-field) 0;
+    border: 0;
+    border-top: 1px solid var(--line-hairline);
+}
+.inventory-frame {
+    display: inline-block;
+    padding: var(--space-field);
+    border: 1px solid var(--line-hairline);
+    border-radius: var(--radius-lg);
+}
+.inventory-image,
+.inventory-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed var(--line-hairline);
+}
+.inventory-image {
+    width: 448px;
+    height: 120px;
+}
+.inventory-icon {
+    width: 36px;
+    height: 36px;
+    font-size: var(--font-small);
+}
+.inventory-divider-vertical {
+    display: inline-block;
+    width: 0;
+    height: 60px;
+    border-left: 1px solid var(--line-hairline);
+}
+.inventory-link-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+}
+.inventory-symbol {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--text-muted);
+}

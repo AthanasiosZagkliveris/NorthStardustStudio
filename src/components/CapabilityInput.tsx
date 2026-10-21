@@ -1,3 +1,4 @@
+import TextBox from "./controls/TextBox.tsx";
 interface CapabilityInputProps {
 
     value: string;
@@ -44,13 +45,11 @@ export default function CapabilityInput({
 
                 </header>
 
-                <input
+                <TextBox
 
                     className="capability-input"
 
                     aria-label="Capability to create"
-
-                    type="text"
 
                     value={value}
 

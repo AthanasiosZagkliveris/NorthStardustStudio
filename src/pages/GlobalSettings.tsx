@@ -1,9 +1,14 @@
 import { Fragment, useEffect, useMemo, useState } from "react";
+import TextLink from "../components/interview/fields/TextLink.tsx";
+import AddButton from "../components/controls/AddButton.tsx";
+import RemoveButton from "../components/controls/RemoveButton.tsx";
+import NumberCell from "../components/controls/NumberCell.tsx";
+import TextBox from "../components/controls/TextBox.tsx";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import AppFooter from "../components/AppFooter";
 import AppHeader from "../components/AppHeader";
-import { limitedNumberText, NUMBER_LIMITS, numberInputMode, type NumberLimit } from "../components/interview/numberInput";
+import { limitedNumberText, NUMBER_LIMITS, numberInputMode, type NumberLimit } from "../components/interview/fields/numberInput";
 import {
     asGlobalSettings,
     capitalisationLimitOf,
@@ -24,8 +29,8 @@ import { StorageService } from "../services/StorageService";
 import { AnswerType } from "../framework/enums/AnswerType";
 import { asBusinessCapabilityValue, asLegalEntityValue } from "../framework/engine/AnswerUtils";
 import { asFinancialFoundationValue, costStartDates, derivedPlanStart, withPlanStart, type FinancialFoundationValue } from "../framework/engine/FinancialModel";
-import FinancialPlanSettings from "../components/interview/FinancialPlanSettings";
-import InfoNote from "../components/interview/InfoNote";
+import FinancialPlanSettings from "../components/interview/editors/FinancialPlanSettings";
+import InfoNote from "../components/interview/fields/InfoNote";
 import { USEFUL_LIFE_MEANING, USEFUL_LIFE_SOURCES, usefulLifePoints } from "../framework/engine/UsefulLifeReferences";
 import { SOURCES } from "../framework/engine/Sources";
 
@@ -179,10 +184,9 @@ export default function GlobalSettings() {
                     {note}
                 </span>
                 <span className="settings-control">
-                    <input
-                        type="text"
+                    <NumberCell
                         inputMode={numberInputMode(limits)}
-                        className={"interview-input settings-number" + (unit === "%" || unit === "months" ? " settings-percent" : "")}
+                        className={"settings-number" + (unit === "%" || unit === "months" ? " settings-percent" : "")}
                         aria-label={label}
                         value={value}
                         onChange={(event) => onNext(limitedNumberText(event.target.value, value, limits))}
@@ -196,10 +200,9 @@ export default function GlobalSettings() {
     const orgCurrency = countryCurrency(legalEntity.organisation.country);
 
     const feeCell = (rowId: string, field: "commission" | "fixedFee" | "chargeback", label: string, limits: NumberLimit, value: string) => (
-        <input
-            type="text"
+        <NumberCell
             inputMode={numberInputMode(limits)}
-            className={"interview-input settings-number" + (limits === NUMBER_LIMITS.percent ? " settings-percent" : "")}
+            className={"settings-number" + (limits === NUMBER_LIMITS.percent ? " settings-percent" : "")}
             aria-label={label}
             value={value}
             onChange={(event) => change({
@@ -272,15 +275,11 @@ export default function GlobalSettings() {
                                     <th scope="col">Frequency</th>
                                     <th scope="col" className="settings-number-column">Useful life (years)</th>
                                     <th scope="col">
-                                        <button
-                                            type="button"
-                                            className="strategy-add-button settings-reset"
-                                            title="Set every group back to its default years"
+                                        <AddButton title="Reset every group to its default years"
                                             disabled={USEFUL_LIFE_GROUPS.every(group => (settings.usefulLife[group.id] ?? "") === (DEFAULT_USEFUL_LIFE[group.id] ?? ""))}
-                                            onClick={() => change({ usefulLife: { ...DEFAULT_USEFUL_LIFE } })}
-                                        >
+                                            onClick={() => change({ usefulLife: { ...DEFAULT_USEFUL_LIFE } })}>
                                             Reset
-                                        </button>
+                                        </AddButton>
                                     </th>
                                 </tr>
                             </thead>
@@ -310,10 +309,9 @@ export default function GlobalSettings() {
                                                         <td />
                                                         <td />
                                                         <td className="settings-number-column">
-                                                            <input
-                                                                type="text"
+                                                            <NumberCell
                                                                 inputMode="decimal"
-                                                                className="interview-input settings-number settings-percent"
+                                                                className="settings-number settings-percent"
                                                                 aria-label={group.label}
                                                                 value={groupYears}
                                                                 onChange={(event) => change({ usefulLife: { ...settings.usefulLife, [group.id]: limitedNumberText(event.target.value, groupYears, { max: 100, decimals: 1 }) } })}
@@ -321,23 +319,19 @@ export default function GlobalSettings() {
                                                         </td>
                                                         <td>
                                                             {groupYears !== (DEFAULT_USEFUL_LIFE[group.id] ?? "") && (
-                                                                <button
-                                                                    type="button"
-                                                                    className="strategy-add-button settings-reset"
-                                                                    title={"Set " + group.label + " back to " + (DEFAULT_USEFUL_LIFE[group.id] ?? "") + " years"}
-                                                                    onClick={() => change({ usefulLife: { ...settings.usefulLife, [group.id]: DEFAULT_USEFUL_LIFE[group.id] ?? "" } })}
-                                                                >
+                                                                <AddButton title={"Reset " + group.label + " to " + (DEFAULT_USEFUL_LIFE[group.id] ?? "") + " years"}
+                                                                    onClick={() => change({ usefulLife: { ...settings.usefulLife, [group.id]: DEFAULT_USEFUL_LIFE[group.id] ?? "" } })}>
                                                                     Reset
-                                                                </button>
+                                                                </AddButton>
                                                             )}
                                                         </td>
                                                     </tr>
                                                     {assetsOf(group.id).map((slot, at) => (
                                                         <tr className="settings-assets-card" key={slot.id}>
                                                             <th scope="row">
-                                                                <button type="button" className="settings-asset-name" title="Open the Infrastructure & Capability page" onClick={openCardsPage}>
-                                                                    <span className="settings-asset-order">{(at + 1) + "."}</span>{slot.name.trim() || "Unnamed resource"}
-                                                                </button>
+                                                                <TextLink className="settings-asset-name" title="Open the Infrastructure & Capability page" onClick={openCardsPage}>
+                                <span className="settings-asset-order">{(at + 1) + "."}</span>{slot.name.trim() || "Unnamed resource"}
+                            </TextLink>
                                                             </th>
                                                             {(() => {
                                                                 const [amount = "", ...rest] = costText(slot.cost, orgCurrency).split(" ");
@@ -350,10 +344,9 @@ export default function GlobalSettings() {
                                                                 );
                                                             })()}
                                                             <td className="settings-number-column">
-                                                                <input
-                                                                    type="text"
+                                                                <NumberCell
                                                                     inputMode="numeric"
-                                                                    className="interview-input settings-number settings-percent"
+                                                                    className="settings-number settings-percent"
                                                                     aria-label={(slot.name.trim() || "Resource") + " useful life in years"}
                                                                     placeholder={groupYears !== "" ? groupYears : "Years"}
                                                                     value={slot.usefulLife}
@@ -389,10 +382,9 @@ export default function GlobalSettings() {
                                                 <td />
                                                 <td />
                                                 <td className="settings-number-column">
-                                                    <input
-                                                        type="text"
+                                                    <NumberCell
                                                         inputMode="decimal"
-                                                        className="interview-input settings-number settings-percent"
+                                                        className="settings-number settings-percent"
                                                         aria-label={group.label + " amortisation in years"}
                                                         value={years}
                                                         onChange={(event) => change({ amortisation: { ...settings.amortisation, [group.id]: limitedNumberText(event.target.value, years, { max: 100, decimals: 1 }) } })}
@@ -400,14 +392,10 @@ export default function GlobalSettings() {
                                                 </td>
                                                 <td>
                                                     {years !== (DEFAULT_AMORTISATION[group.id] ?? "") && (
-                                                        <button
-                                                            type="button"
-                                                            className="strategy-add-button settings-reset"
-                                                            title={"Set " + group.label + " back to " + (DEFAULT_AMORTISATION[group.id] ?? "") + " years"}
-                                                            onClick={() => change({ amortisation: { ...settings.amortisation, [group.id]: DEFAULT_AMORTISATION[group.id] ?? "" } })}
-                                                        >
+                                                        <AddButton title={"Reset " + group.label + " to " + (DEFAULT_AMORTISATION[group.id] ?? "") + " years"}
+                                                            onClick={() => change({ amortisation: { ...settings.amortisation, [group.id]: DEFAULT_AMORTISATION[group.id] ?? "" } })}>
                                                             Reset
-                                                        </button>
+                                                        </AddButton>
                                                     )}
                                                 </td>
                                             </tr>
@@ -416,17 +404,16 @@ export default function GlobalSettings() {
                                                 return (
                                                     <tr className="settings-assets-card" key={slot.id}>
                                                         <th scope="row">
-                                                            <button type="button" className="settings-asset-name" title="Open the Infrastructure & Capability page" onClick={openCardsPage}>
-                                                                <span className="settings-asset-order">{(at + 1) + "."}</span>{slot.name.trim() || "Unnamed resource"}
-                                                            </button>
+                                                            <TextLink className="settings-asset-name" title="Open the Infrastructure & Capability page" onClick={openCardsPage}>
+                                <span className="settings-asset-order">{(at + 1) + "."}</span>{slot.name.trim() || "Unnamed resource"}
+                            </TextLink>
                                                         </th>
                                                         <td className="settings-number-column">{amount.replace(/^[^0-9-]+/, "")}</td>
                                                         <td>{rest.join(" ")}</td>
                                                         <td className="settings-number-column">
-                                                            <input
-                                                                type="text"
+                                                            <NumberCell
                                                                 inputMode="decimal"
-                                                                className="interview-input settings-number settings-percent"
+                                                                className="settings-number settings-percent"
                                                                 aria-label={(slot.name.trim() || "Resource") + " amortisation in years"}
                                                                 placeholder={years !== "" ? years : "Years"}
                                                                 value={slot.amortisationYears}
@@ -485,8 +472,7 @@ export default function GlobalSettings() {
                                 {settings.channelFees.map((row, index) => (
                                     <tr key={row.id}>
                                         <td>
-                                            <input
-                                                type="text"
+                                            <TextBox
                                                 className="interview-input"
                                                 aria-label={"Channel " + (index + 1)}
                                                 value={row.channel}
@@ -497,8 +483,7 @@ export default function GlobalSettings() {
                                         <td className="settings-number-column">{feeCell(row.id, "fixedFee", "Channel " + (index + 1) + " fixed fee", NUMBER_LIMITS.money, row.fixedFee)}</td>
                                         <td className="settings-number-column">{feeCell(row.id, "chargeback", "Channel " + (index + 1) + " risk allowance", NUMBER_LIMITS.percent, row.chargeback)}</td>
                                         <td>
-                                            <input
-                                                type="text"
+                                            <TextBox
                                                 className="interview-input"
                                                 aria-label={"Channel " + (index + 1) + " note"}
                                                 value={row.note}
@@ -506,28 +491,19 @@ export default function GlobalSettings() {
                                             />
                                         </td>
                                         <td>
-                                            <button
-                                                type="button"
-                                                className="strategy-box-remove"
+                                            <RemoveButton
                                                 aria-label={"Remove channel " + (index + 1)}
-                                                title={"Remove channel " + (index + 1)}
-                                                onClick={() => change({ channelFees: settings.channelFees.filter(entry => entry.id !== row.id) })}
-                                            >
-                                                ×
-                                            </button>
+                                                onClick={() => change({ channelFees: settings.channelFees.filter(entry => entry.id !== row.id) })} />
                                         </td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
                     </div>
-                    <button
-                        type="button"
-                        className="strategy-add-button"
-                        onClick={() => change({ channelFees: [...settings.channelFees, createChannelFeeRow()] })}
-                    >
+                    <AddButton
+                        onClick={() => change({ channelFees: [...settings.channelFees, createChannelFeeRow()] })}>
                         + Add channel
-                    </button>
+                    </AddButton>
                 </section>
 
             </main>

@@ -1,0 +1,95 @@
+/* THE CHOICE CARD (ChoiceCard.tsx): one of a few cards laid in a row, overlapping, that choose the part of an answer shown below them; the chosen one is lifted and bold, a filled one is marked with a check. */
+.choice-card{
+
+    position:relative;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:var(--gap-8);
+
+    flex-shrink:0;
+
+    margin-left:-16px;
+
+    padding:12px 20px;
+
+    border:1px solid var(--box-border);
+    border-radius:var(--radius-lg);
+
+    background:var(--bg-surface);
+
+    color:var(--text-default);
+
+    font:inherit;
+    font-size:var(--font-body);
+    font-weight:500;
+
+    cursor:pointer;
+
+    box-shadow:0 1px 3px var(--shadow-ink-12);
+
+    transition:background-color .2s ease, border-color .2s ease,
+        color .2s ease, box-shadow .2s ease, transform .2s ease;
+
+}
+
+.choice-card:first-child{
+
+    margin-left:0;
+
+}
+
+.choice-card:hover{
+
+    z-index:5;
+
+    background:var(--bg-hover);
+
+    transform:translateY(-4px);
+
+    box-shadow:0 4px 10px var(--shadow-ink-16);
+
+}
+
+.choice-card.filled{
+
+    border-color:var(--line-primary-soft);
+
+}
+
+.choice-card.active{
+
+    z-index:10;
+
+    border-color:var(--line-primary);
+
+    background:var(--bg-primary-tint);
+
+    color:var(--text-primary);
+
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    transform:translateY(-6px);
+
+    box-shadow:0 6px 14px var(--line-primary-a22);
+
+}
+
+.choice-card-check{
+
+    color:var(--text-primary);
+
+    font-weight:700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+}
+
+.choice-card.active .choice-card-check{
+
+    color:var(--text-primary);
+
+}
+

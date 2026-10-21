@@ -22,12 +22,12 @@
 
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: var(--gap-16);
 
     padding: 8px 8px 8px 16px;
 
     border: 1px solid var(--line-box);
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
 
     background: var(--bg-surface);
 
@@ -55,12 +55,13 @@
     padding: 4px 12px;
 
     border: 1px solid transparent;
-    border-radius: 6px;
+    border-radius: var(--radius-md);
 
     background: none;
 
     font: inherit;
     font-weight: 700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     color: var(--text-primary);
 

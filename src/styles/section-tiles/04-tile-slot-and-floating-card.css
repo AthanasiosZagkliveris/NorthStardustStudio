@@ -1,0 +1,447 @@
+/* ==========================================================
+   A PAGE TILE'S SLOT (SectionTiles.tsx, TileSlot; layout-rules 5a "Tile anatomy", 6 "Reactions"): the grid item that holds
+   the tile's button (the square: title, rule, the "+" of an empty section), the list of what it includes laid over the
+   square as real controls (a button an item), and -- on the tiles that take new cards -- the "+" box at the square's lower
+   right. Everything is INSIDE the square; the slot is what scales on hover and focus.
+========================================================== */
+.section-tile-slot {
+
+    position: relative;
+
+    width: var(--section-tile-size);
+    height: var(--section-tile-size);
+
+    /* (The title's row, shared with the list laid over the square.) */
+    --tile-title-row: calc(var(--section-tile-size) * var(--tile-title-top) - 1px + 5px + var(--section-tile-line-height) * 0.5em);
+    --plus-size: var(--size-box-button);
+
+    transform-origin: 50% 50%;
+
+    transition: transform .15s ease;
+
+}
+
+/* THE REACTION OF A PAGE TILE: under the pointer ONLY (not with the focus: a tile that holds the focus has its ring, it does not grow),
+   the whole tile grows to 150% about the corner (edge, centre) set from its place in its group -- no layout changes, the
+   other tiles stay, it overlaps its neighbours (above them) -- and its shadow grows with it. Not for the boxes in a dialog. */
+.section-tile-slot:hover {
+
+    transform: scale(1.1);
+
+    z-index: 6;
+
+}
+
+.section-tile-slot > .section-tile {
+
+    transition: box-shadow .15s ease;
+
+}
+
+.section-tile-slot:hover > .section-tile {
+
+    box-shadow: var(--box-inset), 0 10px 22px var(--shadow-18), 0 3px 8px var(--shadow-12);
+
+}
+
+/* THE DEFAULT PAGE AGAIN after a dialog or a floating card closes: the pointer may be resting on a tile, but no tile is grown until it moves
+   (SectionTiles.tsx, settlePage). */
+[data-tiles-settled] .section-tile-slot:hover {
+
+    transform: none;
+
+    z-index: auto;
+
+}
+
+[data-tiles-settled] .section-tile-slot:hover > .section-tile {
+
+    box-shadow: var(--box-inset);
+
+}
+
+/* A control whose focus came back after a CLICK (a mouse-opened card closed) draws no ring: the ring is the keyboard's. */
+[data-focus-quiet]:focus-visible {
+
+    outline: none !important;
+
+}
+
+.section-tile-link[data-focus-quiet]:focus-visible:not(:hover) {
+
+    text-decoration-color: transparent;
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .section-tile-slot,
+    .section-tile-slot > .section-tile,
+    .plus-box {
+
+        transition: none;
+
+    }
+
+}
+
+/* The list, laid over the square on the rows of the tile's own grid (the title's row, then the rest): the same place it had
+   inside the button. The layer takes no clicks; its buttons do, so a click anywhere else on the tile is the tile's own. */
+.section-tile-links-layer {
+
+    position: absolute;
+    inset: 0;
+
+    display: grid;
+
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: var(--tile-title-row) minmax(0, 1fr);
+
+    justify-items: center;
+
+    box-sizing: border-box;
+
+    /* (As the tile's own: no border, the pixel in the padding -- the two must put the list where the tile puts its title.) */
+    padding: 1px calc(var(--card-padding) + 1px) calc(var(--card-padding) + 1px);
+
+    border: 0;
+
+    font-size: var(--font-body);
+
+    pointer-events: none;
+
+}
+
+.section-tile-links-layer > .section-tile-list {
+
+    grid-row: 2;
+
+}
+
+/* (A tile whose title dropped to the small size has its rows in the small size, the layer's with it: the list stands 12px under the underline all the same.) */
+.section-tile-slot[data-title-small] > .section-tile-links-layer {
+
+    font-size: var(--font-small);
+
+}
+
+/* (A tile with a "+" box keeps the list clear of it.) */
+.section-tile-slot-plus > .section-tile-links-layer {
+
+    padding-bottom: calc(var(--card-padding) + var(--plus-size) + 5px);
+
+}
+
+.section-tile-completed + .section-tile-links-layer .section-tile-list {
+
+    color: var(--text-completed-ink);
+
+}
+
+/* An item of the list: a plain line of the list that is a control -- underlined under the pointer and the focus. */
+.section-tile-link {
+
+    display: block;
+
+    max-width: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    overflow: hidden;
+
+    border: 0;
+    border-radius: 2px;
+
+    background: none;
+
+    color: inherit;
+
+    font: inherit;
+    letter-spacing: inherit;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    text-decoration: underline transparent;
+    text-underline-offset: 3px;
+
+    cursor: pointer;
+
+    pointer-events: auto;
+
+}
+
+.section-tile-link:hover,
+.section-tile-link:focus-visible {
+
+    text-decoration-color: currentColor;
+
+}
+
+.section-tile-link:focus-visible {
+
+    outline: 2px solid var(--focus-ring-ink);
+    outline-offset: -1px;
+
+}
+
+/* THE "+" BOX (SectionTiles.tsx, TileSlot; the Activity card's Add Performer, at the x's size): a small square that makes a new card or row. A SWAP OF TWO
+   COLOURS. At rest it is the GROUND colour of what it stands on (the tile's, the card's) with a 2px stroke and a "+" in the DARKER TONE of the hue
+   (--plus-fill); under the pointer or the focus it is FILLED with the darker tone, no stroke, and the "+" is the ground colour. The "+" is two bars
+   drawn from the middle of the box (an even length, 2px thick), so its centre is the box's centre to the pixel, and the box never changes size: the
+   stroke is the 2px border, which turns transparent over the fill. 150ms. */
+/* The ground and the stroke tone of a "+", of the date cell's calendar button and of the calendar card (one pair, read from the card's hue). */
+:is(.plus-box, .date-cell, .month-picker, .business-link-symbol, .responsibility-filter, .colour-picker, .colour-popup, .roadmap-zoomed) {
+
+    --plus-ground: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+    --plus-fill: hsl(var(--strategy-theme-hue, 0) var(--plus-fill-saturation) var(--plus-fill-lightness));
+
+}
+
+.plus-box {
+
+    --plus-size: var(--size-box-button);
+    --plus-bar: 14px;
+
+    position: relative;
+
+    flex: none;
+
+    box-sizing: border-box;
+
+    width: var(--plus-size);
+    height: var(--plus-size);
+
+    margin: 0;
+    padding: 0;
+
+    border: 2px solid var(--plus-fill);
+    border-radius: var(--radius-md);
+
+    background: var(--plus-ground);
+
+    color: var(--plus-fill);
+
+    font-size: 0;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+
+}
+
+.plus-box::before,
+.plus-box::after {
+
+    content: "";
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    border-radius: 1px;
+
+    background: currentColor;
+
+    transform: translate(-50%, -50%);
+
+}
+
+.plus-box::before {
+
+    width: var(--plus-bar);
+    height: 2px;
+
+}
+
+.plus-box::after {
+
+    width: 2px;
+    height: var(--plus-bar);
+
+}
+
+.plus-box:hover:not(:disabled),
+.plus-box:focus-visible {
+
+    border-color: transparent;
+
+    background: var(--plus-fill);
+
+    color: var(--plus-ground);
+
+}
+
+.plus-box:focus-visible {
+
+    outline: 2px solid var(--focus-ring-ink);
+    outline-offset: 2px;
+
+}
+
+.plus-box:disabled {
+
+    opacity: .5;
+
+    cursor: not-allowed;
+
+}
+
+/* On a page tile: at the lower right, 12px from the edges. */
+.section-tile-plus {
+
+    --plus-ground: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+    position: absolute;
+    right: var(--card-padding);
+    bottom: var(--card-padding);
+
+}
+
+/* A SUBCATEGORY BOX's "+" (SubcategoryBoxes): shares the box's grid cell, at its lower right, 12px from the edges (not absolute: the cell is the frame). */
+
+/* The same box at the size of the x (32px) beside an Activity's Performer: its bars shorter. */
+.plus-box.plus-box-small {
+
+    --plus-size: var(--size-box-button);
+    --plus-bar: 14px;
+
+}
+
+/* ==========================================================
+   A FLOATING CARD (SectionTiles.tsx, FloatingCard; layout-rules 5a "Floating cards"): one card alone over the dimmed
+   page, with a drop shadow and a Back button under it. Its width is its own: a founder's card, the Workspace form's, or
+   --open-card-width (480px) for any other card.
+========================================================== */
+.section-tile-overlay.floating-overlay.business-foundation {
+
+    display: block;
+
+    padding: 0;
+
+    /* THE PAGE BEHIND A FLOATING CARD IS NOT DARKENED (--floating-scrim is clear: the page stays usable; the white box names above the cards have their own dark pill, so
+       they keep their contrast over any page) -- no blur, no lift of brightness, no inset light or shade: those
+       are the grouped boxes' own. */
+
+}
+
+.floating-card-host {
+
+    position: absolute;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    flex-direction: column;
+    align-items: stretch;
+
+    gap: var(--space-field);
+
+    max-width: calc(100vw - 16px);
+
+}
+
+.floating-card-host:focus {
+
+    outline: none;
+
+}
+
+.floating-card-card {
+
+    width: min(var(--open-card-width), calc(100vw - 16px));
+
+}
+
+.floating-card-founder {
+
+    width: min(var(--founder-card-min), calc(100vw - 16px));
+
+}
+
+.floating-card-body {
+
+    min-width: 0;
+
+}
+
+/* The card: an opaque ground (the page card's own, in the hue of the card the tile stands in), and the drop shadow. */
+.floating-card-host .floating-card-body > * {
+
+    background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+    --x-ground: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+    border-color: hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+
+    box-shadow: 0 24px 56px var(--shadow-18), 0 8px 20px var(--shadow-12);
+
+    --glow-color: hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
+
+}
+
+.floating-card-host .floating-card-body .card-box-open {
+
+    width: 100%;
+
+}
+
+/* (The item is as wide as its caption or its card, so the card says its own width.) */
+.floating-card-host .floating-card-body.floating-card-card {
+
+    width: min(var(--open-card-width), calc(100vw - 16px));
+
+}
+
+.floating-card-host .floating-card-body.floating-card-founder {
+
+    width: min(var(--founder-card-min), calc(100vw - 16px));
+
+}
+
+.floating-card-back {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: var(--gap-6);
+
+    padding: 6px 12px;
+
+    border: 1px solid var(--line-card);
+    border-radius: var(--radius-lg);
+
+    background: var(--bg-surface);
+
+    color: var(--text-default);
+
+    font: inherit;
+    font-size: var(--font-body);
+
+    cursor: pointer;
+
+    box-shadow: 0 2px 8px var(--shadow-12);
+
+}
+
+.floating-card-back:hover,
+.floating-card-back:focus-visible {
+
+    color: var(--text-primary);
+
+    text-shadow: var(--hover-bold);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+}
+
+.floating-card-back:focus-visible {
+
+    outline: 2px solid var(--focus-ring-ink);
+    outline-offset: 2px;
+
+}
+

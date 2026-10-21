@@ -1,0 +1,53 @@
+/* ==========================================================
+   The head of a folding group outside the cards (FoldHead.tsx): the
+   card's fold arrow, the name in the card head's type (body size, bold,
+   tracked), the count, a rule under them. The Review and the Notes panel
+   both draw their groups with it.
+========================================================== */
+.fold-head {
+
+    display: flex;
+    align-items: center;
+    gap: var(--gap-8);
+
+    padding: 4px 0;
+
+    border-bottom: 1px solid var(--line-rule);
+
+}
+
+.fold-head > .strategy-box-toggle {
+
+    flex: none;
+
+    color: var(--text-default);
+
+}
+
+.fold-head-name {
+
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-wrap: anywhere;
+
+    font-size: var(--font-body);
+    font-weight: 600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+    line-height: 1.4;
+
+    color: var(--text-default);
+
+    cursor: pointer;
+
+}
+
+.fold-head-count {
+
+    flex: none;
+
+    font-size: var(--font-small);
+    font-weight: 400;
+
+    color: var(--text-subtle);
+
+}

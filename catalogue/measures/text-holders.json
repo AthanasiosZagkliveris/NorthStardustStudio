@@ -1,0 +1,2807 @@
+{
+ "rows": [
+  {
+   "kind": "text area",
+   "cls": "interview-input",
+   "aria": "Aesthetics",
+   "label": "",
+   "placeholder": "",
+   "w": 668,
+   "h": 341,
+   "size": 18,
+   "rowsAttr": 12,
+   "minLines": 6,
+   "filled": true,
+   "filledLines": 12,
+   "chars": 357,
+   "where": "tile dialog",
+   "scenes": [
+    "Brand System / main / tile Aesthetics"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input",
+   "aria": "Body Language",
+   "label": "",
+   "placeholder": "",
+   "w": 668,
+   "h": 341,
+   "size": 18,
+   "rowsAttr": 12,
+   "minLines": 6,
+   "filled": true,
+   "filledLines": 12,
+   "chars": 331,
+   "where": "tile dialog",
+   "scenes": [
+    "Brand System / main / tile Body Language"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Image 1 usage",
+   "label": "Notes",
+   "placeholder": "What the image is used for",
+   "w": 422,
+   "h": 125,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 4,
+   "chars": 149,
+   "where": "floating card",
+   "scenes": [
+    "Brand System / main / tile Brand Images / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Image 2 usage",
+   "label": "Notes",
+   "placeholder": "What the image is used for",
+   "w": 422,
+   "h": 125,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 4,
+   "chars": 153,
+   "where": "floating card",
+   "scenes": [
+    "Brand System / main / tile Brand Images / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Primary A usage",
+   "label": "Notes",
+   "placeholder": "Where the colour is used",
+   "w": 422,
+   "h": 98,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 3,
+   "chars": 103,
+   "where": "floating card",
+   "scenes": [
+    "Brand System / main / tile Colours / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Secondary A usage",
+   "label": "Notes",
+   "placeholder": "Where the colour is used",
+   "w": 422,
+   "h": 98,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 3,
+   "chars": 125,
+   "where": "floating card",
+   "scenes": [
+    "Brand System / main / tile Colours / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input",
+   "aria": "Communication & Voice",
+   "label": "",
+   "placeholder": "",
+   "w": 668,
+   "h": 341,
+   "size": 18,
+   "rowsAttr": 12,
+   "minLines": 6,
+   "filled": true,
+   "filledLines": 12,
+   "chars": 421,
+   "where": "tile dialog",
+   "scenes": [
+    "Brand System / main / tile Communication & Voice"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.brand-mark-note",
+   "aria": "Icon and logo description",
+   "label": "",
+   "placeholder": "What the logo and icon show, what they mean, and h",
+   "w": 388.8,
+   "h": 267.2,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": false,
+   "filledLines": null,
+   "chars": 0,
+   "where": "tile dialog",
+   "scenes": [
+    "Brand System / main / tile Icon & Logo"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input",
+   "aria": "First impression",
+   "label": "First impression",
+   "placeholder": "What first impression does the Ambassador leave?",
+   "w": 668,
+   "h": 180,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": 6,
+   "filled": true,
+   "filledLines": 6,
+   "chars": 74,
+   "where": "tile dialog",
+   "scenes": [
+    "Brand System / main / tile Imprint"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input",
+   "aria": "Lasting impression",
+   "label": "First impression",
+   "placeholder": "What lasting impression remains? What should peopl",
+   "w": 668,
+   "h": 180,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": 6,
+   "filled": true,
+   "filledLines": 6,
+   "chars": 264,
+   "where": "tile dialog",
+   "scenes": [
+    "Brand System / main / tile Imprint"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Primary usage",
+   "label": "Notes",
+   "placeholder": "What the typeface is used for",
+   "w": 422,
+   "h": 71,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 76,
+   "where": "floating card",
+   "scenes": [
+    "Brand System / main / tile Typography &Text HierarchyManr / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Secondary usage",
+   "label": "Notes",
+   "placeholder": "What the typeface is used for",
+   "w": 422,
+   "h": 98,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 3,
+   "chars": 108,
+   "where": "floating card",
+   "scenes": [
+    "Brand System / main / tile Typography &Text HierarchyManr / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 1 description: Offerings",
+   "label": "Offeringsi",
+   "placeholder": "",
+   "w": 422,
+   "h": 71,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 67,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 1 description: Market",
+   "label": "Marketi",
+   "placeholder": "",
+   "w": 422,
+   "h": 71,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 59,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 1 description: Customer Acquisition",
+   "label": "Customer Acquisitioni",
+   "placeholder": "",
+   "w": 422,
+   "h": 71,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 49,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 1 description: Customer Experience",
+   "label": "Customer Experiencei",
+   "placeholder": "",
+   "w": 422,
+   "h": 98,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 3,
+   "chars": 93,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 1 Strengths",
+   "label": "Strengthsi",
+   "placeholder": "",
+   "w": 422,
+   "h": 71,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 49,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 1 Weaknesses",
+   "label": "Weaknessesi",
+   "placeholder": "",
+   "w": 422,
+   "h": 98,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 3,
+   "chars": 125,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 1 Opportunities",
+   "label": "Opportunitiesi",
+   "placeholder": "",
+   "w": 422,
+   "h": 71,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 76,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 1 Threats",
+   "label": "Threatsi",
+   "placeholder": "",
+   "w": 422,
+   "h": 98,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 3,
+   "chars": 102,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 1 insights & differentiation",
+   "label": "Typei",
+   "placeholder": "",
+   "w": 422,
+   "h": 98,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 3,
+   "chars": 133,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 2 description: Offerings",
+   "label": "Offeringsi",
+   "placeholder": "",
+   "w": 422,
+   "h": 71,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 59,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 2 description: Market",
+   "label": "Marketi",
+   "placeholder": "",
+   "w": 422,
+   "h": 71,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 63,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 2 description: Customer Acquisition",
+   "label": "Customer Acquisitioni",
+   "placeholder": "",
+   "w": 422,
+   "h": 71,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 75,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 2 description: Customer Experience",
+   "label": "Customer Experiencei",
+   "placeholder": "",
+   "w": 422,
+   "h": 71,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 63,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 2 Strengths",
+   "label": "Strengthsi",
+   "placeholder": "",
+   "w": 422,
+   "h": 71,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 48,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 2 Weaknesses",
+   "label": "Weaknessesi",
+   "placeholder": "",
+   "w": 422,
+   "h": 98,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 3,
+   "chars": 89,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 2 Opportunities",
+   "label": "Opportunitiesi",
+   "placeholder": "",
+   "w": 422,
+   "h": 71,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 44,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 2 Threats",
+   "label": "Threatsi",
+   "placeholder": "",
+   "w": 422,
+   "h": 71,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 63,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Competitor 2 insights & differentiation",
+   "label": "Typei",
+   "placeholder": "",
+   "w": 422,
+   "h": 98,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 3,
+   "chars": 118,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Offering 1 description: Function",
+   "label": "Functioni",
+   "placeholder": "",
+   "w": 422,
+   "h": 98,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 3,
+   "chars": 96,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Offering 1 description: Customer Benefit",
+   "label": "Customer Benefiti",
+   "placeholder": "",
+   "w": 422,
+   "h": 98,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 3,
+   "chars": 109,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Offering 1 description: Content & Scope",
+   "label": "Content & Scopei",
+   "placeholder": "",
+   "w": 422,
+   "h": 152,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 5,
+   "chars": 184,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Offering 1 description: Purchase & Delivery",
+   "label": "Purchase & Deliveryi",
+   "placeholder": "",
+   "w": 422,
+   "h": 125,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 4,
+   "chars": 171,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Offering 1 description: Support & Communication",
+   "label": "Support & Communicationi",
+   "placeholder": "",
+   "w": 422,
+   "h": 98,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 3,
+   "chars": 101,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Offering 1 description: Requirements & Conditions",
+   "label": "Requirements & Conditionsi",
+   "placeholder": "",
+   "w": 422,
+   "h": 98,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 3,
+   "chars": 118,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Offering 2 description: Function",
+   "label": "Functioni",
+   "placeholder": "",
+   "w": 422,
+   "h": 98,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 3,
+   "chars": 127,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Offering 2 description: Customer Benefit",
+   "label": "Customer Benefiti",
+   "placeholder": "",
+   "w": 422,
+   "h": 71,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 86,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Offering 2 description: Content & Scope",
+   "label": "Content & Scopei",
+   "placeholder": "",
+   "w": 422,
+   "h": 125,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 4,
+   "chars": 167,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Offering 2 description: Purchase & Delivery",
+   "label": "Purchase & Deliveryi",
+   "placeholder": "",
+   "w": 422,
+   "h": 98,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 3,
+   "chars": 114,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Offering 2 description: Support & Communication",
+   "label": "Support & Communicationi",
+   "placeholder": "",
+   "w": 422,
+   "h": 71,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 87,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Offering 2 description: Requirements & Conditions",
+   "label": "Requirements & Conditionsi",
+   "placeholder": "",
+   "w": 422,
+   "h": 98,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 3,
+   "chars": 114,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1 description: Demographics",
+   "label": "Demographicsi",
+   "placeholder": "",
+   "w": 328,
+   "h": 179,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 6,
+   "chars": 185,
+   "where": "tile dialog",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description",
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1 description: Geographics",
+   "label": "Geographicsi",
+   "placeholder": "",
+   "w": 328,
+   "h": 152,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 5,
+   "chars": 137,
+   "where": "tile dialog",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description",
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1 description: Business Data",
+   "label": "Business Data",
+   "placeholder": "",
+   "w": 328,
+   "h": 206,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 7,
+   "chars": 209,
+   "where": "tile dialog",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description",
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1 description: Purchasing Power & Behaviour",
+   "label": "Purchasing Power & Behaviouri",
+   "placeholder": "",
+   "w": 328,
+   "h": 206,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 7,
+   "chars": 218,
+   "where": "tile dialog",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description",
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1 description: Market Size & Industry Outlook",
+   "label": "Market Size & Industry Outlooki",
+   "placeholder": "",
+   "w": 328,
+   "h": 503,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 18,
+   "chars": 557,
+   "where": "tile dialog",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description",
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Profile 1 description: Specific Personal Information",
+   "label": "Specific Personal Informationi",
+   "placeholder": "",
+   "w": 422,
+   "h": 125,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 4,
+   "chars": 136,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Profile 1 description: Psychographics",
+   "label": "Psychographicsi",
+   "placeholder": "",
+   "w": 422,
+   "h": 125,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 4,
+   "chars": 145,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Profile 1 description: Social & Interest Hubs",
+   "label": "Social & Interest Hubsi",
+   "placeholder": "",
+   "w": 422,
+   "h": 125,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 4,
+   "chars": 146,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Profile 1 description: Information & Shopping Habits",
+   "label": "Information & Shopping Habitsi",
+   "placeholder": "",
+   "w": 422,
+   "h": 125,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 4,
+   "chars": 174,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Profile 1 Goals & Desires",
+   "label": "Goals & Desiresi",
+   "placeholder": "",
+   "w": 422,
+   "h": 125,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 4,
+   "chars": 168,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Profile 1 Challenges & Problems",
+   "label": "Challenges & Problemsi",
+   "placeholder": "",
+   "w": 422,
+   "h": 152,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 5,
+   "chars": 178,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Profile 1 Objections",
+   "label": "Objectionsi",
+   "placeholder": "",
+   "w": 422,
+   "h": 125,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 4,
+   "chars": 141,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Functional needs for Segment 1, Profile 1 1",
+   "label": "Functionali",
+   "placeholder": "",
+   "w": 391.5,
+   "h": 70,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 50,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Functional needs for Segment 1, Profile 1 2",
+   "label": "Functionali",
+   "placeholder": "",
+   "w": 391.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 42,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Functional needs for Segment 1, Profile 1 3",
+   "label": "Functionali",
+   "placeholder": "",
+   "w": 391.5,
+   "h": 70,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 42,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Emotional needs for Segment 1, Profile 1 1",
+   "label": "Emotionali",
+   "placeholder": "",
+   "w": 391.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 33,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Emotional needs for Segment 1, Profile 1 2",
+   "label": "Emotionali",
+   "placeholder": "",
+   "w": 391.5,
+   "h": 70,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 45,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Social needs for Segment 1, Profile 1 1",
+   "label": "Sociali",
+   "placeholder": "",
+   "w": 391.5,
+   "h": 70,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 61,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Profile 2 description: Specific Personal Information",
+   "label": "Specific Personal Informationi",
+   "placeholder": "",
+   "w": 422,
+   "h": 98,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 3,
+   "chars": 93,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Profile 2 description: Psychographics",
+   "label": "Psychographicsi",
+   "placeholder": "",
+   "w": 422,
+   "h": 125,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 4,
+   "chars": 149,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Profile 2 description: Social & Interest Hubs",
+   "label": "Social & Interest Hubsi",
+   "placeholder": "",
+   "w": 422,
+   "h": 98,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 3,
+   "chars": 104,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Profile 2 description: Information & Shopping Habits",
+   "label": "Information & Shopping Habitsi",
+   "placeholder": "",
+   "w": 422,
+   "h": 125,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 4,
+   "chars": 157,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Profile 2 Goals & Desires",
+   "label": "Goals & Desiresi",
+   "placeholder": "",
+   "w": 422,
+   "h": 98,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 3,
+   "chars": 136,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Profile 2 Challenges & Problems",
+   "label": "Challenges & Problemsi",
+   "placeholder": "",
+   "w": 422,
+   "h": 125,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 4,
+   "chars": 141,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Segment 1, Profile 2 Objections",
+   "label": "Objectionsi",
+   "placeholder": "",
+   "w": 422,
+   "h": 125,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 4,
+   "chars": 146,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Functional needs for Segment 1, Profile 2 1",
+   "label": "Functionali",
+   "placeholder": "",
+   "w": 391.5,
+   "h": 70,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 45,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Functional needs for Segment 1, Profile 2 2",
+   "label": "Functionali",
+   "placeholder": "",
+   "w": 391.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 40,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Functional needs for Segment 1, Profile 2 3",
+   "label": "Functionali",
+   "placeholder": "",
+   "w": 391.5,
+   "h": 70,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 42,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Emotional needs for Segment 1, Profile 2 1",
+   "label": "Emotionali",
+   "placeholder": "",
+   "w": 391.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 43,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Social needs for Segment 1, Profile 2 1",
+   "label": "Sociali",
+   "placeholder": "",
+   "w": 391.5,
+   "h": 70,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 50,
+   "where": "floating card",
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-proposition-input",
+   "aria": "Value Proposition for Small professional-services firms in New York Ci",
+   "label": "Emotional Needs",
+   "placeholder": "",
+   "w": 668,
+   "h": 233,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 8,
+   "chars": 561,
+   "where": "tile dialog",
+   "scenes": [
+    "Business System / 1. Foundation / tile Value Proposition"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Activity 1 description",
+   "label": "Notes",
+   "placeholder": "",
+   "w": 422,
+   "h": 98,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 3,
+   "chars": 121,
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Completed / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Activity 2 description",
+   "label": "Notes",
+   "placeholder": "",
+   "w": 422,
+   "h": 98,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 3,
+   "chars": 101,
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Completed / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "AI Workflow Audit delivery constraints",
+   "label": "Constraints",
+   "placeholder": "",
+   "w": 422,
+   "h": 71,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 79,
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Delivery / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Automation Build delivery constraints",
+   "label": "Constraints",
+   "placeholder": "",
+   "w": 422,
+   "h": 98,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 3,
+   "chars": 127,
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Delivery / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Resource 1 description",
+   "label": "Notes",
+   "placeholder": "",
+   "w": 422,
+   "h": 71,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 37,
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Inventory / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Resource 2 description",
+   "label": "Notes",
+   "placeholder": "",
+   "w": 422,
+   "h": 71,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 62,
+   "where": "floating card",
+   "scenes": [
+    "Business System / Infrastructure / tile Inventory / card 2"
+   ]
+  },
+  {
+   "kind": "text field",
+   "cls": "interview-input",
+   "aria": "Channel 1",
+   "label": "",
+   "placeholder": "",
+   "w": 184,
+   "h": 44,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 6,
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "kind": "text field",
+   "cls": "interview-input",
+   "aria": "Channel 1 note",
+   "label": "",
+   "placeholder": "",
+   "w": 224,
+   "h": 44,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 30,
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "kind": "text field",
+   "cls": "interview-input",
+   "aria": "Channel 2",
+   "label": "",
+   "placeholder": "",
+   "w": 184,
+   "h": 44,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 6,
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "kind": "text field",
+   "cls": "interview-input",
+   "aria": "Channel 2 note",
+   "label": "",
+   "placeholder": "",
+   "w": 224,
+   "h": 44,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 11,
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "kind": "text field",
+   "cls": "interview-input",
+   "aria": "Channel 3",
+   "label": "",
+   "placeholder": "",
+   "w": 184,
+   "h": 44,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 12,
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "kind": "text field",
+   "cls": "interview-input",
+   "aria": "Channel 3 note",
+   "label": "",
+   "placeholder": "",
+   "w": 224,
+   "h": 44,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 29,
+   "where": "settings page",
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input",
+   "aria": "Description",
+   "label": "",
+   "placeholder": "",
+   "w": 668,
+   "h": 341,
+   "size": 18,
+   "rowsAttr": 12,
+   "minLines": 6,
+   "filled": true,
+   "filledLines": 12,
+   "chars": 503,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Description"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input",
+   "aria": "Manifesto",
+   "label": "",
+   "placeholder": "",
+   "w": 668,
+   "h": 341,
+   "size": 18,
+   "rowsAttr": 12,
+   "minLines": 6,
+   "filled": true,
+   "filledLines": 12,
+   "chars": 408,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Manifesto"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input",
+   "aria": "Mission",
+   "label": "",
+   "placeholder": "",
+   "w": 668,
+   "h": 341,
+   "size": 18,
+   "rowsAttr": 12,
+   "minLines": 6,
+   "filled": true,
+   "filledLines": 12,
+   "chars": 530,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Mission"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input",
+   "aria": "Philosophy",
+   "label": "",
+   "placeholder": "",
+   "w": 668,
+   "h": 341,
+   "size": 18,
+   "rowsAttr": 12,
+   "minLines": 6,
+   "filled": true,
+   "filledLines": 12,
+   "chars": 321,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Philosophy"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input",
+   "aria": "Positioning",
+   "label": "",
+   "placeholder": "",
+   "w": 668,
+   "h": 341,
+   "size": 18,
+   "rowsAttr": 12,
+   "minLines": 6,
+   "filled": true,
+   "filledLines": 12,
+   "chars": 500,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Positioning"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Principles 1",
+   "label": "",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 52,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Principles"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Principles 2",
+   "label": "",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 53,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Principles"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Principles 3",
+   "label": "",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 56,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Principles"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Principles 4",
+   "label": "",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 70,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 80,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Principles"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Principles 5",
+   "label": "",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 62,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Principles"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Principles 6",
+   "label": "",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 70,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 79,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Principles"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Principles 7",
+   "label": "",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 41,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Principles"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Values 1",
+   "label": "",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 23,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Values"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Values 2",
+   "label": "",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 36,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Values"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Values 3",
+   "label": "",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 39,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Values"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Values 4",
+   "label": "",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 35,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Values"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Values 5",
+   "label": "",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 21,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Values"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input",
+   "aria": "Vision",
+   "label": "",
+   "placeholder": "",
+   "w": 668,
+   "h": 341,
+   "size": 18,
+   "rowsAttr": 12,
+   "minLines": 6,
+   "filled": true,
+   "filledLines": 12,
+   "chars": 524,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 1. Definition / tile Vision"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.legal-entity-note",
+   "aria": "Capability gaps",
+   "label": "Gapsi",
+   "placeholder": "The capabilities the team lacks",
+   "w": 668,
+   "h": 206,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 7,
+   "chars": 453,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Capability"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.legal-entity-note",
+   "aria": "Capability cover",
+   "label": "Coveri",
+   "placeholder": "How each will be covered: planned hires, advisors,",
+   "w": 668,
+   "h": 71,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": false,
+   "filledLines": null,
+   "chars": 0,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Capability"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.legal-entity-note",
+   "aria": "Expense 1 description",
+   "label": "Notes",
+   "placeholder": "",
+   "w": 424,
+   "h": 71,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 57,
+   "where": "floating card",
+   "scenes": [
+    "Identity System / 2. Organization / tile Expenses / card 1"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.legal-entity-note",
+   "aria": "Expense 2 description",
+   "label": "Notes",
+   "placeholder": "",
+   "w": 424,
+   "h": 125,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 4,
+   "chars": 155,
+   "where": "floating card",
+   "scenes": [
+    "Identity System / 2. Organization / tile Expenses / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Founder 1 roles 1",
+   "label": "Rolesi",
+   "placeholder": "Role",
+   "w": 637.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 31,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Jordan Ellis"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Founder 1 roles 2",
+   "label": "Rolesi",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 19,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Jordan Ellis"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.legal-entity-note",
+   "aria": "Founder 1 relevant industry experience",
+   "label": "Relevant Industry Experiencei",
+   "placeholder": "Relevant companies, sectors, positions, projects, ",
+   "w": 668,
+   "h": 125,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 4,
+   "chars": 266,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Jordan Ellis"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.legal-entity-note",
+   "aria": "Founder 1 management experience",
+   "label": "Management Experiencei",
+   "placeholder": "Leading people, projects, budgets, businesses or o",
+   "w": 668,
+   "h": 98,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 3,
+   "chars": 176,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Jordan Ellis"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Founder 1 key achievements 1",
+   "label": "Key Achievementsi",
+   "placeholder": "What was achieved, your contribution, the measurab",
+   "w": 637.5,
+   "h": 70,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 137,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Jordan Ellis"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Founder 1 key achievements 2",
+   "label": "Key Achievementsi",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 70,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 100,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Jordan Ellis"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Founder 1 skills entry 1",
+   "label": "Skills, Expertise & Qualificationsi",
+   "placeholder": "Degree or qualification, and where",
+   "w": 413.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 25,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Jordan Ellis"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Founder 1 skills entry 2",
+   "label": "Skills, Expertise & Qualificationsi",
+   "placeholder": "Name and issuing body",
+   "w": 413.5,
+   "h": 70,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 48,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Jordan Ellis"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Founder 1 skills entry 3",
+   "label": "Skills, Expertise & Qualificationsi",
+   "placeholder": "Area of professional or technical expertise",
+   "w": 413.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 35,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Jordan Ellis"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Founder 1 skills entry 4",
+   "label": "Skills, Expertise & Qualificationsi",
+   "placeholder": "e.g. Negotiation",
+   "w": 413.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 26,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Jordan Ellis"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Founder 1 skills entry 5",
+   "label": "Skills, Expertise & Qualificationsi",
+   "placeholder": "Area of professional or technical expertise",
+   "w": 413.5,
+   "h": 70,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 51,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Jordan Ellis"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.legal-entity-note.legal-entity-activity",
+   "aria": "Main Activity",
+   "label": "Organization Name",
+   "placeholder": "What the organization does, in plain words",
+   "w": 328,
+   "h": 260,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": 2,
+   "filled": true,
+   "filledLines": 9,
+   "chars": 260,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Organization"
+   ]
+  },
+  {
+   "kind": "text field",
+   "cls": "interview-input",
+   "aria": "NAICS code",
+   "label": "Organization Name",
+   "placeholder": "Optional",
+   "w": 128,
+   "h": 44,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 6,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Organization"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.legal-entity-note.legal-entity-address",
+   "aria": "Address",
+   "label": "Country",
+   "placeholder": "City\nStreet and ZIP Code",
+   "w": 328,
+   "h": 98,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": 2,
+   "filled": true,
+   "filledLines": 3,
+   "chars": 43,
+   "where": "tile dialog",
+   "scenes": [
+    "Identity System / 2. Organization / tile Organization"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.notepad-note-text",
+   "aria": "Note",
+   "label": "",
+   "placeholder": "Write a note. Type # to link a place.",
+   "w": 305,
+   "h": 86,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": false,
+   "filledLines": null,
+   "chars": 0,
+   "where": "notes panel",
+   "scenes": [
+    "Notes panel / a new note"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.strategy-prose",
+   "aria": "Current situation analysis",
+   "label": "",
+   "placeholder": "Describe your organization as it is today",
+   "w": 668,
+   "h": 260,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": 8,
+   "filled": true,
+   "filledLines": 9,
+   "chars": 580,
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile Current Situation"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.strategy-prose",
+   "aria": "Strategic compass",
+   "label": "",
+   "placeholder": "Describe the direction for this period",
+   "w": 668,
+   "h": 238,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": 8,
+   "filled": true,
+   "filledLines": 8,
+   "chars": 523,
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile Strategic Compass"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.business-foundation-note",
+   "aria": "Strategic Theme 1 description",
+   "label": "Description",
+   "placeholder": "What it represents and why it matters",
+   "w": 624,
+   "h": 98,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 3,
+   "chars": 139,
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.strategy-note",
+   "aria": "Goal 1 description",
+   "label": "Description",
+   "placeholder": "",
+   "w": 554,
+   "h": 72,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": 2,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 84,
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.strategy-note",
+   "aria": "Objective 1 description",
+   "label": "Description",
+   "placeholder": "",
+   "w": 484,
+   "h": 72,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": 2,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 76,
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Objective 1 initiative 1",
+   "label": "",
+   "placeholder": "Initiative",
+   "w": 427.5,
+   "h": 70,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 66,
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Objective 1 initiative 2",
+   "label": "",
+   "placeholder": "",
+   "w": 427.5,
+   "h": 70,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 52,
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Objective 1 initiative 3",
+   "label": "",
+   "placeholder": "",
+   "w": 427.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 30,
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "interview-input.strategy-note",
+   "aria": "Metric 1 description",
+   "label": "Description",
+   "placeholder": "",
+   "w": 414,
+   "h": 72,
+   "size": 18,
+   "rowsAttr": 2,
+   "minLines": 2,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 46,
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Strengths 1",
+   "label": "",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 70,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 70,
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Strengths 2",
+   "label": "",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 64,
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Strengths 3",
+   "label": "",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 66,
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Strengths 4",
+   "label": "",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 46,
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Weaknesses 1",
+   "label": "",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 66,
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Weaknesses 2",
+   "label": "",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 61,
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Weaknesses 3",
+   "label": "",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 47,
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Weaknesses 4",
+   "label": "",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 42,
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Opportunities 1",
+   "label": "",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 70,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 2,
+   "chars": 77,
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Opportunities 2",
+   "label": "",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 58,
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Opportunities 3",
+   "label": "",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 59,
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Opportunities 4",
+   "label": "",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 50,
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Threats 1",
+   "label": "",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 68,
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Threats 2",
+   "label": "",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 66,
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Threats 3",
+   "label": "",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 64,
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  },
+  {
+   "kind": "text area",
+   "cls": "numbered-list-input",
+   "aria": "Threats 4",
+   "label": "",
+   "placeholder": "",
+   "w": 637.5,
+   "h": 43,
+   "size": 18,
+   "rowsAttr": 1,
+   "minLines": null,
+   "filled": true,
+   "filledLines": 1,
+   "chars": 52,
+   "where": "tile dialog",
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
+   ]
+  }
+ ]
+}

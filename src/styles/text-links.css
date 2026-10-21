@@ -1,0 +1,91 @@
+/* ==========================================================
+   THE TEXT LINKS (src/components/interview/fields/textLinks.ts lists their classes; a test says this list and that one agree).
+   Every link in text, wherever it stands, is one thing:
+   - at rest: the default blue, regular weight, the body size, the letter spacing of a bold (the text does not move when it goes bold), no underline;
+   - one row only (a longer text is cut by an ellipsis at rest);
+   - under the pointer or the keyboard: bold (the app's thickened letters, --hover-bold) and underlined, the line 1px under the descenders; a text longer than
+     its place moves across it, right to left (--link-shift, measured as the pointer arrives), to be read whole.
+   Loaded after every other stylesheet (main.tsx), so no page's older rule for its own link outranks it.
+========================================================== */
+:is(.text-link, .business-engagement-link, .channel-resource-open, .notepad-text-button, .legal-entity-name-link, .business-capability-link, .business-capability-child-name, .business-capability-responsibility-link):is(button, a, span) {
+    display: inline-block;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    /* (3px under the letters, taken back by the margin: the underline, 1px under the descenders, is drawn inside the box and is never cut by its overflow.) */
+    padding: 0 0 3px;
+    margin-bottom: -3px;
+    border: 0;
+    background: none;
+    vertical-align: bottom;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+    text-align: left;
+    color: var(--text-primary) !important;
+    font: inherit;
+    font-size: var(--font-body) !important;
+    font-weight: 400 !important;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking)) !important;
+    text-decoration: none !important;
+    text-shadow: none !important;
+    text-indent: 0;
+    cursor: pointer;
+    transition: text-indent 0s;
+}
+
+:is(.text-link, .business-engagement-link, .channel-resource-open, .notepad-text-button, .legal-entity-name-link, .business-capability-link, .business-capability-child-name, .business-capability-responsibility-link):is(button, a, span):is(:hover, :focus-visible):not(:disabled) {
+    text-shadow: var(--hover-bold) !important;
+    text-decoration: underline !important;
+    text-decoration-thickness: 1px !important;
+    text-underline-position: under;
+    text-underline-offset: 1px !important;
+    text-overflow: clip !important;
+    /* (The text moves across by the scroll of the link's box: textLinks.ts.) */
+}
+
+:is(.text-link, .business-engagement-link, .channel-resource-open, .notepad-text-button, .legal-entity-name-link, .business-capability-link, .business-capability-child-name, .business-capability-responsibility-link):is(button, a, span):focus-visible {
+    outline: 2px solid var(--focus-ring-ink);
+    outline-offset: 2px;
+}
+
+:is(.text-link, .business-engagement-link, .channel-resource-open, .notepad-text-button, .legal-entity-name-link, .business-capability-link, .business-capability-child-name, .business-capability-responsibility-link):is(button, a, span):disabled {
+    color: var(--text-faint) !important;
+    cursor: not-allowed;
+}
+
+/* (No exception for "reduce motion": the text moves only while the pointer is on it, and moving is the one way to read a text the place cuts. With the motion switched off
+   the long links of a list -- the Responsibilities, the Links -- stood still, cut by their ellipsis, and could not be read.) */
+
+/* A link in what is done or deactivated stays grey (it goes bold and underlined under the pointer all the same). */
+.business-capability-responsibility-line-done > .business-capability-responsibility-link:not(:hover):not(:focus-visible) {
+    color: var(--text-muted) !important;
+}
+
+/* A completed card is deactivated: its links are grey until the pointer is on them. */
+.business-capability-activity-completed :is(.text-link, .business-engagement-link, .channel-resource-open, .notepad-text-button, .legal-entity-name-link, .business-capability-link, .business-capability-child-name, .business-capability-responsibility-link):is(button, a, span):not(:hover):not(:focus-visible) {
+    color: var(--completed-dim, var(--text-completed-ink)) !important;
+}
+
+/* A NAME THAT IS A LINK IN A CARD'S HEAD (a card made by another card: its name opens its parent) is a name cell like any other: the order number stands over its left
+   edge and the text starts after it (38px); a text longer than its place slides, and goes behind the number (clipped at the number's right edge), never over it. */
+:is(.strategy-box-head, .legal-entity-card-head) > :is(.business-capability-child-name, .legal-entity-name-link) {
+    padding-left: 38px !important;
+    clip-path: inset(0 0 0 38px);
+}
+
+/* A link that has the keyboard's focus without the pointer (a card's name link as the card opens) is bold and underlined but does not slide: its text starts where it stands. */
+:is(.text-link, .business-engagement-link, .channel-resource-open, .notepad-text-button, .legal-entity-name-link, .business-capability-link, .business-capability-child-name, .business-capability-responsibility-link):is(button, a, span):focus-visible:not(:hover) {
+    text-overflow: ellipsis !important;
+    text-indent: 0;
+    transition: none;
+}
+
+/* A text link that is one of a choice (aria-pressed): the chosen one stays bold and underlined, as under the pointer. */
+.text-link[aria-pressed="true"]:not(:disabled) {
+    text-shadow: var(--hover-bold) !important;
+    text-decoration: underline !important;
+    text-decoration-thickness: 1px !important;
+    text-underline-position: under;
+    text-underline-offset: 1px !important;
+}

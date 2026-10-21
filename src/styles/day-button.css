@@ -1,0 +1,55 @@
+/* THE DAY BUTTON (DayButton.tsx): the reactions and the states of every day and month button; the place gives the size and the look at rest. */
+.day-button:not(:disabled):is(:hover, :focus-visible) {
+
+    border-color: var(--accent-line);
+
+    background: var(--accent-ground-hover);
+
+    box-shadow: inset 0 0 0 1px var(--wired-ring, var(--accent-line));
+
+    color: var(--text-default);
+
+    text-shadow: var(--hover-bold);
+
+}
+
+.day-button.day-button-selected {
+
+    border-color: var(--accent-line);
+
+    background: var(--accent-ground-hover);
+
+    box-shadow: inset 0 0 0 2px var(--accent-line);
+
+    color: var(--text-default);
+
+    text-shadow: var(--hover-bold);
+
+}
+
+/* Today is framed and bold (neither rests on colour alone). */
+.day-button.day-button-today {
+
+    border-color: var(--accent-line);
+
+    font-weight: 700;
+
+}
+
+.day-button:focus-visible {
+
+    outline: 2px solid var(--focus-ring-ink);
+
+    outline-offset: 1px;
+
+}
+
+.day-button:disabled {
+
+    color: var(--text-faint);
+
+    border-color: transparent;
+
+    cursor: not-allowed;
+
+}

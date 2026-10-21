@@ -1,0 +1,1130 @@
+/* ==========================================================
+   A SEGMENT'S CARD (a Profile, a Competitor, an Offering, the Description, the Value Proposition) FLOATING: the Business cards' own columns -- the marker, the content
+   (the name cell and everything under it, to the name cell's right edge) and the x -- the same ground, edge and drop shadow.
+========================================================== */
+.floating-card-body .column-tile-content > .business-foundation-card {
+
+    display: grid;
+
+    grid-template-columns: minmax(var(--card-marker-col), max-content) minmax(0, 1fr) var(--card-x-column);
+    column-gap: var(--card-marker-gap);
+    row-gap: var(--space-field);
+    align-content: start;
+
+    box-sizing: border-box;
+    width: 100%;
+
+    border-color: var(--box-edge);
+
+    box-shadow: var(--box-inset), 0 24px 56px var(--shadow-18), 0 8px 20px var(--shadow-12);
+
+}
+
+.floating-card-body .column-tile-content > .business-foundation-card > * {
+
+    grid-column: 2;
+
+    min-width: 0;
+
+}
+
+.floating-card-body .column-tile-content > .business-foundation-card > .strategy-box-head {
+
+    display: grid;
+
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+    align-items: start;
+
+    column-gap: var(--card-marker-gap);
+
+}
+
+.floating-card-body .column-tile-content > .business-foundation-card > .strategy-box-head > .strategy-box-number {
+
+    grid-column: 1;
+
+}
+
+.floating-card-body .column-tile-content > .business-foundation-card > .strategy-box-head > :is(.strategy-name-input, .strategy-name-static, .card-name-input) {
+
+    grid-column: 2;
+
+    width: 100%;
+    min-width: 0;
+
+}
+
+.floating-card-body .column-tile-content > .business-foundation-card > .strategy-box-head > .strategy-box-remove {
+
+    grid-column: 3;
+
+    position: relative;
+    top: auto;
+    right: auto;
+
+    margin-top: calc((44px - 32px) / 2);
+
+}
+
+.floating-card-body .column-tile-content > .business-foundation-card > .strategy-box-head > .fold-card-head-row {
+
+    grid-column: 2;
+    grid-row: 2;
+
+}
+
+/* The card's one group (its Description) is not folded away inside a card that is already open: no arrow. */
+.floating-card-body .column-tile-content > .business-foundation-card .fold-group-head > .strategy-box-toggle {
+
+    display: none;
+
+}
+
+.floating-card-body .column-tile-content > .business-foundation-card .interview-input,
+.floating-card-body .column-tile-content > .business-foundation-card textarea {
+
+    width: 100%;
+    max-width: none;
+
+}
+
+/* Nothing is indented past the content column (the old group indent is dropped): every field starts at the name cell's left edge and ends at its right edge. */
+.floating-card-body .column-tile-content > .business-foundation-card > :not(.strategy-box-head),
+.floating-card-body .column-tile-content > .business-foundation-card :is(.business-foundation-field, .business-foundation-label-info, .fold-group-body, .business-foundation-tick-row) {
+
+    margin-left: 0;
+
+    max-width: 100%;
+
+}
+
+/* The Type: a side-label row like the Business cards' -- the label in the label column, the cell to the name cell's right edge. */
+.floating-card-body .column-tile-content > .business-foundation-card > .strategy-box-head > .fold-card-head-row .business-field-run-compact > .business-field-inline {
+
+    grid-template-columns: calc(var(--card-label-col, 177px) - var(--card-marker-col, 32px) - var(--card-marker-gap, 8px)) minmax(0, 1fr);
+
+    width: 100%;
+
+    margin-left: 0;
+
+}
+
+.floating-card-body .column-tile-content > .business-foundation-card > .strategy-box-head > .fold-card-head-row .option-picker,
+.floating-card-body .column-tile-content > .business-foundation-card > .strategy-box-head > .fold-card-head-row .option-picker .option-picker-trigger.interview-input {
+
+    width: 100%;
+
+}
+
+.floating-card-body .column-tile-content > .business-foundation-card > .strategy-box-head > .fold-card-head-row .option-picker[data-size] {
+
+    width: 100% !important;
+
+}
+
+/* The Description's and the Value Proposition's cards: the section has no frame of its own inside the card. */
+.floating-card-body .business-foundation-description,
+.floating-card-body .business-foundation-proposition {
+
+    border: 0;
+    background: none;
+    box-shadow: none;
+
+}
+
+/* With no head of its own (no number, no x) the section takes the card's whole width. */
+.floating-card-body .column-tile-content > .business-foundation-card > :is(.business-foundation-description, .business-foundation-proposition) {
+
+    grid-column: 1 / -1;
+
+}
+
+/* ---- A SEGMENT'S FRAME LOOKS AS IDENTITY'S AND BRAND'S DO ----
+   The frame's ground and edge are its hue's (as the page frames'), its title is the page frames' own (28px capitals, centred), the Segment's name written in it. */
+.business-foundation-segment-frames > .business-foundation-card {
+
+    background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+    border-color: hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+
+    --glow-color: hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
+
+}
+
+.business-foundation-frame-head {
+
+    position: relative;
+
+    display: block;
+
+    margin-bottom: 0;
+
+}
+
+.business-foundation-frame-head .business-foundation-frame-title {
+
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+
+    gap: 0.4em;
+
+    width: 100%;
+
+}
+
+.business-foundation-frame-name {
+
+    flex: 0 1 auto;
+
+    min-width: 0;
+    max-width: 100%;
+
+    padding: 0;
+
+    border: 0;
+    border-bottom: 1px dashed transparent;
+    border-radius: 0;
+
+    background: none;
+    box-shadow: none;
+
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    color: inherit;
+    text-align: center;
+
+}
+
+.business-foundation-frame-name:hover,
+.business-foundation-frame-name:focus {
+
+    border-bottom-color: currentColor;
+
+    outline: none;
+
+}
+
+/* Typed in, it shows the ring every text holder shows. */
+.business-foundation-frame-name:focus {
+    border-bottom-color: transparent;
+    border-radius: var(--radius-md);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+}
+
+.business-foundation-frame-name::placeholder {
+
+    color: var(--text-muted);
+
+}
+
+/* The Segment's x: at the head's right end, centred on the title's line. */
+.business-foundation-frame-head > .strategy-box-remove {
+
+    position: absolute;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+}
+
+.business-foundation-segment-frames {
+
+    /* (As the page frames of Identity and Brand: the card's own 13px bleed at each side.) */
+    margin-inline: -13px;
+
+}
+
+.business-foundation-frame-head {
+
+    padding-inline: 40px;
+
+}
+
+.business-foundation-frame-head .business-foundation-frame-name {
+
+    flex: 1 1 0;
+
+    width: 100%;
+
+}
+
+.business-foundation-frame-head > .strategy-box-remove {
+
+    right: 4px;
+
+}
+
+/* The Segment's x on its frame is filled with the frame's own ground. */
+.business-foundation-frame-head > .strategy-box-remove {
+
+    background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}
+
+/* A tile page whose dialogs need the page's whole width (the Strategy's Goals & Objectives, its Roadmap): the frame is as wide as the page, the tiles centred in it. */
+.answer-columns.business-foundation.business-engagement.business-capability.column-tiles-page.column-tiles-page-wide > .business-foundation-card {
+
+    width: 100%;
+
+}
+
+/* The tiles inside a strategy card are sized to it, three across (CardBoxes, threeAcross): the grid's own columns and size stand. */
+
+/* A Strategy Objective's floating card is as wide as its content needs (the initiatives and the metrics stand side by side). */
+.floating-card-host .floating-card-body.floating-card-card:has(.strategy-goal-card),
+.floating-card-host .floating-card-body.floating-card-card:has(.strategy-roadmap-card) {
+
+    width: min(1100px, calc(100vw - 16px));
+
+}
+
+/* The channel tiles of Customer Engagement are the small tiles of every dialog (215px), centred as a group. */
+.business-engagement-section .section-tiles-box {
+
+    --section-tile-size: 215px;
+    --quad-max-side: 215px;
+
+}
+
+.business-engagement-section .section-tiles-box .section-tiles {
+
+    grid-template-columns: repeat(auto-fill, 215px);
+
+    justify-content: start;
+
+}
+
+/* A centred line that is a link stands centred too (the button fills the line). */
+.section-tile-list > li.section-tile-list-centre > .section-tile-link {
+
+    display: block;
+
+    width: 100%;
+
+    text-align: center;
+
+}
+
+/* A Goal's or Objective's card head is ONE row: its number and "i", its name cell (taking the room), its buttons. No fold arrow, no grip. */
+.strategy-card-head-flat {
+
+    display: flex;
+    align-items: center;
+
+    gap: var(--gap-8);
+
+}
+
+.strategy-card-head-flat > .strategy-box-number {
+
+    flex: none;
+
+    display: inline-flex;
+    align-items: center;
+
+    gap: var(--gap-6);
+
+}
+
+.strategy-card-head-flat > .strategy-name-input,
+.strategy-card-head-flat > .card-name-input {
+
+    flex: 1 1 auto;
+
+    min-width: 0;
+
+    grid-column: auto;
+
+}
+
+.strategy-card-head-flat > .strategy-box-actions {
+
+    flex: none;
+
+}
+
+/* The label over generated tiles (Goals, Objectives). */
+.strategy-tiles-label {
+
+    display: block;
+
+    margin: 0 0 var(--space-field);
+
+}
+
+.business-relationship-block + .business-relationship-block {
+
+    margin-top: calc(2 * var(--space-field));
+    padding-top: var(--space-field);
+
+    border-top: 1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+
+}
+
+.business-relationship-purpose,
+.business-relationship-strategy-title {
+
+    margin-top: var(--space-field);
+
+}
+
+.business-relationship-strategy-title {
+
+    display: block;
+
+}
+
+/* The stages stand next to each other; each column is as wide as the Goal's three ticks, and its Approach is that wide. */
+
+.business-relationship-stage {
+
+    display: flex;
+    flex-direction: column;
+
+    gap: var(--gap-6);
+
+    min-width: 0;
+
+}
+
+.business-relationship-stage-title {
+
+    display: flex;
+    align-items: center;
+
+    gap: var(--gap-6);
+
+    font-weight: 700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+}
+
+.business-relationship-stage .interview-input {
+
+    width: 100%;
+
+}
+
+.business-relationship-add {
+
+    margin-top: var(--space-field);
+
+}
+
+/* ---- CUSTOMER RELATIONSHIP, second pass ---- */
+.business-relationship-band {
+
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: var(--gap-8) 32px;
+
+}
+
+.business-relationship-band-profiles {
+
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: var(--gap-8);
+
+    font-weight: 400;
+
+}
+
+/* The type (label over its dropdown) and its Purpose, side by side. */
+.business-relationship-type-row {
+
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+
+    gap: var(--gap-12);
+
+}
+
+.business-relationship-type-field {
+
+    display: flex;
+    flex-direction: column;
+
+}
+
+.business-relationship-type-pick {
+
+    display: flex;
+    align-items: center;
+
+    gap: var(--gap-8);
+
+}
+
+.business-relationship-type-pick .option-picker {
+
+    flex: 1 1 auto;
+
+}
+
+.business-relationship-type-row .business-relationship-purpose {
+
+    margin-top: 0;
+
+}
+
+.business-relationship-strategy-table {
+
+    width: 100%;
+
+    table-layout: fixed;
+
+}
+
+.business-relationship-strategy-table th,
+.business-relationship-strategy-table td {
+
+    text-align: left;
+
+}
+
+.business-relationship-strategy-table .interview-input {
+
+    width: 100%;
+
+}
+
+/* DEMAND & CONVERSION AS A TABLE */
+
+/* A channel the Segment does not use yet: a faded tile; pressed, it becomes one. */
+/* (Drawn in the grey of everything deactivated, section-tile-completed.) */
+
+.business-channel-category-static {
+
+    font-weight: 600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+}
+
+/* A title said twice is said once: the dialog's heading (or the floating card's caption) names the Description and the Value Proposition, so the section inside does not repeat it. */
+.business-foundation-proposition > .business-foundation-label-info:first-child,
+.floating-card-body .business-foundation-description > .field-group-title:first-child {
+
+    display: none;
+
+}
+
+/* THE STRATEGIC PERIOD'S DIALOG: the dates and, beside them, the Roadmap's tile; under them the Themes, as the tiles of 2. Goals & Objectives. */
+
+.brand-style-body > .strategy-tiles-label,
+.brand-style-body > .card-boxes {
+
+    grid-column: 1 / -1;
+
+}
+
+/* The Relationship Type's x, in its block's top right corner. */
+.business-relationship-block {
+
+    position: relative;
+
+}
+
+.business-relationship-block > .business-relationship-block-remove {
+
+    position: absolute;
+
+    z-index: 1;
+
+}
+
+/* THE ENGAGEMENT STRATEGY: every stage a column of the same width; the Goal and the Approach labels each in a row of its own. */
+.business-relationship-strategy-table > tbody > tr > th:first-child,
+.business-relationship-strategy-table > thead > tr > td:first-child {
+
+    width: auto;
+
+}
+
+/* DEMAND & CONVERSION: one table for the Segment, an Offering at a time. */
+
+/* ONE FOUNDER: the card has the width, so Salary, Frequency, Working Hrs and Delivery Hrs stand each beside its label, in cells of one width (the card does not grow). */
+.business-founder-open.business-founder-solo .business-founder-grid {
+
+    /* Salary | Frequency, then Working Hrs | Delivery Hrs: the pairs side by side, each label beside its cell. */
+    grid-template-columns: repeat(2, max-content);
+    justify-content: start;
+    column-gap: calc(var(--space-cell) * 2);
+    row-gap: var(--space-field);
+
+}
+
+.business-founder-open.business-founder-solo .business-founder-grid > .business-foundation-field {
+
+    display: grid;
+    grid-template-columns: 136px var(--founder-cell);
+    align-items: center;
+    column-gap: var(--side-label-gap);
+
+}
+
+.business-founder-open.business-founder-solo .business-founder-grid > .business-foundation-field > :first-child {
+
+    width: auto;
+
+    white-space: nowrap;
+
+}
+
+/* Tiles kept small (the Themes of 2. Goals & Objectives, the Roadmap): the grid stands in the middle of its card. */
+.section-tiles-box.section-tiles-small > .section-tiles {
+
+    justify-content: center;
+
+    margin-inline: auto;
+
+}
+
+/* The Value Proposition's dialog: its section stands on the dialog itself, with no frame of its own. */
+.section-tile-dialog-body .business-foundation-proposition,
+.section-tile-dialog-body .business-foundation-description {
+
+    background: none;
+
+    border: 0;
+
+    padding: 0;
+
+    box-shadow: none;
+
+}
+
+/* The Engagement Strategy's columns are one width each: the gap between them is the cells' own padding, so the columns share the table's width equally. */
+
+/* THE COLOUR OF A FLOATING CARD IS ITS TILE'S: the hue of the section the tile stands in (the dialog's), whatever hue the card's own content carries. */
+.floating-card-host .floating-card-body > *,
+.floating-card-host .floating-card-body > * > .business-foundation-card,
+.floating-card-host .floating-card-body .column-tile-content > .business-foundation-card {
+
+    --strategy-theme-hue: var(--floating-hue) !important;
+
+}
+
+/* A tick whose cell is generated beside its label (the Rate override): the label at the content's left edge, its percent cell right after it, on one line. */
+.business-capability-slot .business-foundation-field.optional-field-inline {
+
+    display: grid;
+    /* (The side-label row of the card: the label in the label column, the cell in the column every cell of the card starts in.) */
+    grid-template-columns: var(--card-label-col) max-content;
+    justify-content: start;
+    align-items: center;
+
+    column-gap: var(--side-label-gap);
+
+    text-align: left;
+
+}
+
+.business-capability-slot .business-foundation-field.optional-field-inline > .optional-field-head {
+
+    justify-self: start;
+
+}
+
+.business-capability-slot .business-foundation-field.optional-field-inline > .optional-field-body {
+
+    width: auto;
+
+    margin: 0;
+
+    justify-self: start;
+
+}
+
+/* A percent is a square: as wide as a control is tall (the square step of the sizes). */
+.business-capability-slot .optional-field-inline .optional-field-body .interview-input.business-capability-years {
+
+    width: var(--control-square);
+    min-width: 0;
+
+    padding-inline: 2px;
+
+    text-align: center;
+
+}
+
+/* A subchannel's own card names the subchannel in its table head: the channel's row (its category, its x, its fold) is not drawn. */
+.business-subchannel-card .business-channel-category-row {
+
+    display: none;
+
+}
+
+/* Demand & Conversion as one table: an Offering's own cells (the Offering, how it is bought, its channels) span its rows; a line under each Offering. */
+
+/* A DELIVERY CARD: the hours of each person stand as the card's other side-label rows do -- the name in the label column, its cell in the column every cell starts in. */
+@container card (min-width: 396px) {
+
+    .delivery-card .delivery-person {
+
+        grid-template-columns: var(--side-label-short) var(--control-xs);
+
+        column-gap: var(--side-label-gap);
+
+        align-items: center;
+
+    }
+
+}
+
+.delivery-card {
+
+    --side-label-short: calc(var(--font-body) * 13);
+
+}
+
+/* THE COSTS OF 4. Financial Foundation: the filters in a row, then one table, a line for each cost under its heading. */
+.financial-cost-filters {
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+
+    gap: var(--space-field) var(--space-card);
+
+}
+
+.financial-costs-ledger {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    font-size: var(--font-body);
+
+}
+
+.financial-costs-ledger th,
+.financial-costs-ledger td {
+
+    padding: 6px 8px;
+
+    text-align: left;
+    vertical-align: top;
+
+    border-bottom: 1px solid var(--line-card);
+
+}
+
+.financial-costs-ledger thead th {
+
+    font-weight: 700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+}
+
+.financial-costs-ledger tbody th[scope="row"] {
+
+    font-weight: 400;
+
+}
+
+.financial-costs-ledger tbody th[scope="row"] > span {
+
+    display: block;
+
+}
+
+.financial-costs-ledger .financial-ledger-source {
+
+    font-size: 0.85em;
+
+}
+
+.financial-costs-ledger .financial-ledger-amount {
+
+    text-align: right;
+
+    white-space: nowrap;
+
+}
+
+.financial-costs-ledger tr.financial-cost-bucket > th {
+
+    padding-top: 14px;
+
+    font-weight: 700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    border-bottom: 2px solid var(--line-card);
+
+}
+
+.financial-section-body > .financial-costs-ledger {
+
+    align-self: stretch;
+
+    width: 100%;
+
+}
+
+/* A page of small tiles on a wide card (the Roadmap) keeps the tile size every page has: the card's width does not make its tile larger. */
+.section-tiles-box.section-tiles-small > .section-tiles {
+
+    --section-tile-size: 215px;
+
+}
+
+/* ...and its GROUND is that hue's, in every theme (light, sepia, dark): the neutral card ground (--bg-card-tint) some cards carry is not drawn on a floating card. */
+.floating-card-host .floating-card-body > *,
+.floating-card-host .floating-card-body > * > .business-foundation-card,
+.floating-card-host .floating-card-body .column-tile-content > .business-foundation-card {
+
+    background: color-mix(in srgb, hsl(var(--floating-hue) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper)) !important;
+
+    --x-ground: color-mix(in srgb, hsl(var(--floating-hue) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}
+
+/* ...except a COMPLETED activity's card: it is grey (the Completed tiles' ground) wherever it floats. */
+.floating-card-host .floating-card-body > .business-capability-activity.business-capability-activity-completed {
+
+    background: var(--bg-completed-card) !important;
+
+    --x-ground: var(--bg-completed-card);
+
+}
+
+/* Demand & Conversion's cells show what they hold: a result wraps rather than runs under the x, a picker is as wide as its value. */
+
+/* THE CURRENCY CELL of a price starts in the column every cell of the card starts in (the Start date's, the Rate override's): its picker is not set in by the 6px its wrapper keeps. */
+.business-capability-cost-currency > .option-picker {
+
+    padding-left: 0;
+
+}
+
+/* The tiles of 2. Goals & Objectives and of the Roadmap stand beside the Strategic Period's dates. */
+
+.brand-style-body > .strategy-period-themes {
+
+    grid-column: 1 / -1;
+
+}
+
+.strategy-period-themes .strategy-embedded-tiles .section-tiles-box.section-tiles-small > .section-tiles {
+
+    justify-content: start;
+
+    margin-inline: 0;
+
+}
+
+/* THE ROADMAP'S DIALOG covers the page, as the Roadmap page's own does (the widest dialog: 92vw, 1400px at most), wherever its tile stands. */
+.section-tile-overlay.section-tile-overlay-wide.business-foundation > .section-tile-dialog.business-foundation-card {
+
+    width: min(92vw, 1400px) !important;
+
+    margin-inline: auto !important;
+
+}
+
+/* The Roadmap's tile stands at the right end of the dates' row, on the right edge of the Themes' tiles. */
+
+/* The Themes' tiles stand three across, from the dialog's left edge to its right: the Roadmap's tile above them ends on the same edge. */
+.strategy-period-themes .section-tiles {
+
+    grid-template-columns: repeat(3, var(--section-tile-size)) !important;
+
+    justify-content: space-between;
+
+    width: 100%;
+
+    max-width: none;
+
+}
+
+/* The Segment Description's dialog: its heading is the dialog's own (the "Description" group title is not said again), and every field -- Business Data too -- has its label above its cell. */
+.section-tile-dialog-body .business-foundation-description > .field-group-title:first-child {
+
+    display: none;
+
+}
+
+.section-tile-dialog-body .business-foundation-description-column > .business-foundation-field {
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    gap: var(--space-label);
+
+}
+
+.section-tile-dialog-body .business-foundation-description-column > .business-foundation-field > .business-foundation-note {
+
+    width: 100%;
+
+    margin: 0;
+
+}
+
+.section-tile-dialog-body .business-foundation-description .business-foundation-label-info:has(> .business-foundation-subhead) {
+
+    display: none;
+
+}
+
+/* A subchannel's card: its name in the head, its x at the card's top right corner. */
+.business-subchannel-card {
+
+    position: relative;
+
+}
+
+.business-subchannel-card .business-subchannel-name {
+
+    font-weight: 700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+}
+
+.section-tile-dialog-body .business-foundation-description-column > .business-foundation-field {
+
+    align-self: start;
+
+}
+
+/* THE ENGAGEMENT STRATEGY AS A TABLE: a hairline grid, the stage names in a head row, the Goal ticks and the Approach texts in rows of their own; 12px inside every cell, the text holders' words in the body weight. */
+.business-relationship-strategy-table {
+
+    margin-top: var(--space-field);
+
+    border: 1px solid var(--line-card);
+
+}
+
+.business-relationship-strategy-table th,
+.business-relationship-strategy-table td {
+
+    padding: 12px;
+
+    border: 1px solid var(--line-card);
+
+    font-weight: 400;
+
+    vertical-align: top;
+
+}
+
+.business-relationship-strategy-table thead th {
+
+    font-weight: 700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}
+
+.business-relationship-strategy-table td .interview-input,
+.business-relationship-strategy-table td textarea {
+
+    width: 100%;
+
+    font-weight: 400;
+
+}
+
+.business-relationship-strategy-title {
+
+    margin-top: var(--space-field);
+
+}
+
+.section-tile-dialog-body .business-foundation-description-split .business-foundation-field {
+
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-rows: auto auto !important;
+    grid-auto-flow: row !important;
+
+    row-gap: var(--space-label);
+
+    align-content: start;
+
+}
+
+.section-tile-dialog-body .business-foundation-description-split .business-foundation-field > * {
+
+    grid-column: 1 !important;
+
+}
+
+/* A Goal's box and the cards in a Theme's dialog stand on the dialog's own hue, one step deeper (never the neutral card ground), in every reading mode. */
+.strategy-theme-dialog .strategy-goal-box,
+.strategy-theme-dialog .strategy-objective-box {
+
+    background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}
+
+/* A SUBCHANNEL'S CARD is a card like the others (its width, one column): its name and x in the head, the Offerings, then the Actions per Journey Stage -- each stage with its actions under it -- then the links, the expenses and "+ Add Expense". */
+.business-subchannel-card .business-channel-table-wrap {
+
+    overflow: visible;
+
+}
+
+.business-subchannel-card .business-channel-table {
+
+    display: flex !important;
+    flex-direction: column;
+
+    width: 100%;
+
+    border: 0;
+
+}
+
+.business-subchannel-card .business-channel-table > thead,
+.business-subchannel-card .business-channel-table > tbody,
+.business-subchannel-card .business-channel-table > thead > tr,
+.business-subchannel-card .business-channel-table > tbody > tr {
+
+    display: contents !important;
+
+}
+
+.business-subchannel-card .business-channel-table > tbody > tr.business-channel-category-row {
+
+    display: none !important;
+
+}
+
+.business-subchannel-card .business-channel-table th,
+.business-subchannel-card .business-channel-table td {
+
+    display: block;
+
+    width: auto !important;
+
+    border: 0;
+
+    background: none;
+
+    padding: 0;
+
+}
+
+.business-subchannel-card .business-channel-th-name { order: 0; font-size: var(--font-h3); }
+.business-subchannel-card .business-channel-th-offerings { order: 1; }
+.business-subchannel-card .business-channel-td-offerings { order: 2; }
+.business-subchannel-card .business-channel-th-action { order: 3; }
+.business-subchannel-card .business-channel-td-stage,
+.business-subchannel-card .business-channel-td-action { order: 4; }
+.business-subchannel-card .business-channel-th-stage { display: none; }
+
+.business-subchannel-card .business-channel-th-offerings,
+.business-subchannel-card .business-channel-th-action {
+
+    font-weight: 700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+}
+
+.business-subchannel-card .business-channel-table th.business-channel-th-stage {
+
+    display: none;
+
+}
+
+.business-subchannel-card .business-channel-table th.business-channel-th-offerings,
+.business-subchannel-card .business-channel-table th.business-channel-th-action {
+
+    margin-top: var(--space-field);
+
+}
+
+.business-subchannel-card .business-channel-th-name { display: none !important; }
+
+/* THE RELATIONSHIP BLOCK'S LABELS are one style: the body size, the regular weight, the label colour (Relationship Type, Purpose, Goal & Approach, the stages, Get / Keep / Grow). The table's corners are round (8px) and it stands 12px from what is around it. */
+.business-relationship-block .field-label,
+.business-relationship-block .business-foundation-label,
+.business-relationship-block .business-foundation-subhead,
+.business-relationship-block .business-relationship-stage-title,
+.business-relationship-block .business-relationship-strategy-table thead th,
+.business-relationship-block .business-engagement-goal-ticks label,
+.business-relationship-block .business-relationship-type-label {
+
+    font-size: var(--font-body);
+    font-weight: 400;
+    letter-spacing: normal;
+    text-transform: none;
+
+    color: var(--label-color, var(--text-secondary));
+
+}
+
+.business-relationship-strategy-table {
+
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+
+    margin: 12px 0 !important;
+
+    border-radius: var(--radius-lg);
+
+    overflow: hidden;
+
+}
+
+.business-relationship-strategy-table th,
+.business-relationship-strategy-table td {
+
+    border-width: 0 1px 1px 0 !important;
+
+}
+
+.business-relationship-strategy-table tr > :last-child { border-right-width: 0 !important; }
+.business-relationship-strategy-table tbody tr:last-child > * { border-bottom-width: 0 !important; }
+
+.business-relationship-block .business-relationship-strategy-table {
+
+    outline: 1px solid var(--line-card);
+    outline-offset: -1px;
+
+}
+
+/* DEMAND & CONVERSION: each Offering's block is in a frame of its own (the frames' pattern: 12px inside, 8px corners, one hairline in the hue). */
+.business-demand-section > .business-demand-cell {
+
+    box-sizing: border-box;
+
+    padding: 12px;
+
+    border: 1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+    border-radius: var(--radius-lg);
+
+    background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}
+
+.business-demand-section {
+
+    display: flex;
+    flex-direction: column;
+
+    gap: var(--gap-12);
+
+}
+
+
+/* THE STRATEGIC PERIOD'S DIALOG: its Themes' tiles keep the page's size where the dialog has room for three, and shrink with the dialog where it has not (never cut off at its edge). */
+.column-tile-content .strategy-period-themes .section-tiles-box.section-tiles-small > .section-tiles {
+
+    --section-tile-size: min(215px, calc((100cqw - 2 * var(--space-card)) / 3 - 0.01px));
+
+}
+

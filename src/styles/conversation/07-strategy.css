@@ -1,0 +1,682 @@
+/* ==========================================================
+   Strategy System
+
+   The Foundation page reuses the Brand Style page's grid
+   wholesale (.brand-style + .brand-style-head/-body), so a
+   Strategy column reads exactly like an Identity or Brand
+   column: heading and bullets above the progress line, inputs
+   below it. Only what those two pages have no equivalent for
+   is defined here.
+
+   Every colour below is one already used elsewhere in the app:
+   #111827 body text, #4b5563 secondary text (7.0:1 on white),
+   #6b7280 for deactivated text (4.8:1), var(--box-border) borders,
+   #0b57d0 for focus and accent, #b00020 for a destructive
+   action.
+========================================================== */
+
+.strategy-prose{
+
+    /* Fills the column rather than sitting at the 2-line
+       default: this column holds one long answer and nothing
+       else (a Long text: eight lines, as every one). */
+    min-height:calc(8lh + 22px);
+
+}
+
+.strategy-note{
+
+    min-height:calc(3em + 18px);
+
+}
+
+/* ---------- SWOT ---------- */
+
+.strategy-swot-quadrant{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-6);
+
+}
+
+/* ---------- Strategic Period + Themes ---------- */
+
+.strategy-period-box,
+.strategy-theme-box{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-field);
+
+    padding:var(--card-padding);
+
+    border:1px solid var(--box-border);
+    border-radius:var(--radius-lg);
+
+    background:var(--bg-surface);
+
+}
+
+.strategy-box-head{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:var(--gap-8);
+
+    min-width:0;
+
+}
+
+.strategy-box-number{
+
+    flex:0 0 auto;
+
+    font-size:var(--font-body);
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    color:var(--text-muted);
+
+    /* Numbers are derived from position, so they change length
+       as boxes are added. A minimum stops the name beside them
+       shifting sideways every time one does. */
+    min-width:44px;
+
+}
+
+.strategy-name-input{
+
+    flex:1 1 auto;
+
+    min-width:0;
+
+}
+
+/* ---------- Reorder / remove controls ---------- */
+
+.strategy-box-actions{
+
+    display:flex;
+
+    align-items:center;
+
+    /* A head's action buttons: a cell gap apart, as every row's cells. */
+    gap:var(--space-cell);
+
+    flex:0 0 auto;
+
+}
+
+.strategy-box-action{
+
+    width:32px;
+    height:32px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:var(--font-small);
+
+    color:var(--text-default);
+
+    border:1px solid var(--box-border);
+    border-radius:var(--radius-md);
+
+    background:var(--bg-surface);
+
+    cursor:pointer;
+
+    transition:border-color .15s ease, box-shadow .15s ease, color .15s ease;
+
+}
+
+.strategy-box-action:hover:not(:disabled){
+
+    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
+
+}
+
+.strategy-box-action:focus-visible{
+
+    outline:none;
+
+    border-color:var(--line-primary);
+
+    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
+
+}
+
+.strategy-box-action:disabled{
+
+    /* Colour rather than opacity: a dimmed glyph drops below
+       4.5:1, whereas #6b7280 on white is 4.8:1 and still reads
+       as unavailable next to the #111827 of a live one. */
+    color:var(--text-faint);
+    border-color:var(--line-card);
+
+    cursor:not-allowed;
+
+}
+
+/* A grip, not a control: the up/down buttons beside it do the
+   same job for anyone not using a pointer, so it is hidden from
+   assistive technology (see useListDrag.handleProps). */
+
+.strategy-drop-target{
+
+    outline:2px dashed var(--line-primary);
+
+    outline-offset:2px;
+
+}
+
+/* ==========================================================
+   Strategic Period page
+
+   One full-width stack of Theme boxes below the line, nested
+   three deep. Each level is inset and tinted a step further so
+   the nesting is readable without relying on the numbers alone.
+========================================================== */
+
+.strategic-period .strategy-themes{
+
+    grid-column:1 / -1;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-12);
+
+    padding:0 12px;
+
+}
+
+/* This page's four headings carry no numbers -- it expands the
+   Foundation page's fourth section rather than adding sections
+   of its own -- so the number box is simply absent. */
+
+.strategy-goal-box{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-field);
+
+    padding:var(--card-padding);
+
+    border:1px solid var(--line-card);
+    border-radius:var(--radius-lg);
+
+    background:var(--bg-panel);
+
+}
+
+.strategy-objective-box{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-field);
+
+    padding:var(--card-padding);
+
+    border:1px solid var(--line-card);
+    border-radius:var(--radius-lg);
+
+    background:var(--bg-surface);
+
+}
+
+.strategy-metric-box{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-12);
+
+    padding:12px;
+
+    border:1px solid var(--line-card);
+    border-radius:var(--radius-lg);
+
+    background:var(--bg-panel);
+
+}
+
+.strategy-box-body{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-field);
+
+}
+
+.strategy-theme-name{
+
+    margin:0;
+
+    font-size:var(--font-body);
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    color:var(--text-default);
+
+}
+
+/* Text that belongs to another page and is shown here only for
+   context. Not a field, and deliberately does not look like
+   one. */
+
+.strategy-subsection{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+/* Replaced further down by a fixed two-column grid -- see
+   "Strategy layout additions". Kept out of the way here rather
+   than leaving two rules fighting over the same selector. */
+
+.strategy-empty-note{
+
+    margin:0;
+
+    font-size:var(--font-body);
+    line-height:1.5;
+
+    color:var(--text-muted);
+
+}
+
+
+/* ==========================================================
+   Month / Year picker
+
+   One trigger that opens a two-step popover: a grid of months,
+   then a 3x3 grid of nine years. Two <select>s were replaced by
+   this because they let a month and a year disagree, which then
+   had to be caught and corrected after the fact.
+========================================================== */
+
+.month-picker{
+
+    position:relative;
+
+    /* Label and button on one line -- the two read as one phrase.
+       */
+    display:flex;
+
+    align-items:center;
+
+    gap:var(--gap-8);
+
+    min-width:0;
+
+}
+
+.month-picker-label{
+
+    flex:0 0 auto;
+
+}
+
+/* THE MONTH CELL is the date cell's other form: it wears the date cell's own look (.date-cell-input, 02-dynamic-tables.css: the one cell height, corners,
+   line, type and focus ring, the calendar button inside at the right) and adds only what a button needs: its value left-aligned and its width, the date step. */
+.month-picker-trigger{
+    position:relative;
+    width:var(--control-date);
+    max-width:100%;
+    white-space:nowrap;
+    text-align:left;
+    letter-spacing:normal;
+    cursor:pointer;
+}
+
+.month-picker-value{
+    display:block;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.month-picker-calendar{
+    pointer-events:none;
+}
+
+.month-picker-trigger:disabled{
+    color:var(--text-faint);
+    cursor:not-allowed;
+}
+
+/* Floated over the page rather than pushing it around: a picker
+   sits inside a box that is already laid out, and growing it by
+   the height of a grid every time one opens would move everything
+   below it. */
+
+/* Which step the panel is on. White on #0b57d0 is 6.3:1, and the
+   button also carries aria-current, so the state is not signalled
+   by colour alone. */
+
+/* Twelve months as 4 x 3. */
+
+/* Nine years as the 3 x 3 the page asks for. */
+
+/* What is currently chosen. Marked with weight and a solid border
+   as well as colour, so it does not depend on colour alone. */
+
+/* ==========================================================
+   Numbered list
+
+   The number lives INSIDE the box, so a line reads as one object
+   rather than a number and a field that happen to sit next to
+   each other.
+========================================================== */
+
+/* ONE box for the whole list, not one per line. A list is a single
+   answer -- "the strengths", "the initiatives" -- so it reads as
+   one field with numbered lines in it rather than as a stack of
+   separate controls. */
+.numbered-list{
+
+    /* The number, the line, the line's own end: three columns the rows
+       share (subgrid), so the number column is as wide as the widest
+       number of THIS list and the texts of all its lines start at one x. */
+    display:grid;
+
+    grid-template-columns:auto minmax(0, 1fr) auto;
+
+    align-content:start;
+
+    border:1px solid var(--box-border);
+    border-radius:var(--radius-md);
+
+    background:var(--bg-surface);
+
+    /* Keeps the first and last rows inside the rounded corners.
+       Dropped while a suggestion list is open (see
+       .numbered-list-suggesting), which would otherwise be clipped
+       away with them. */
+    overflow:hidden;
+
+    transition:border-color .15s ease, box-shadow .15s ease;
+
+}
+
+.numbered-list-suggesting{
+
+    overflow:visible;
+
+}
+
+.numbered-list:hover{
+
+    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
+
+}
+
+/* The ring belongs to the box, because the box is the control. */
+.numbered-list:focus-within{
+
+    border-color:var(--line-primary);
+
+    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+
+}
+
+.numbered-list-row{
+
+    /* The row it belongs to, so a suggestion list can hang off the
+       line it is completing. */
+    position:relative;
+
+    /* The list's three columns (see .numbered-list). */
+    display:grid;
+
+    grid-column:1 / -1;
+
+    grid-template-columns:subgrid;
+
+    min-width:0;
+
+}
+
+/* What has already been written elsewhere, offered under the line
+   being typed into. It borrows the app's own picker list whole
+   (.option-picker-list, .option-picker-option), so an option looks
+   and answers like an option wherever one is offered; only the
+   placing is its own. */
+.numbered-list-suggestions{
+
+    position:absolute;
+
+    top:100%;
+    left:0;
+    right:0;
+
+    z-index:30;
+
+    margin-top:2px;
+
+    /* Four or so before it scrolls: enough to choose from, not so
+       many that it covers the field under it. */
+    max-height:180px;
+
+    overflow-y:auto;
+
+}
+
+/* A hairline between lines rather than a frame around each --
+   enough to tell them apart inside the one box. */
+.numbered-list-row + .numbered-list-row{
+
+    border-top:1px solid var(--line-rule);
+
+}
+
+/* Doubles as the drag grip. Hidden from assistive technology --
+   it is a grip, not a control, and the line is already reachable
+   through its own field. */
+/* A fixed column, not content width: at content width "1." and
+   "10." are different widths, so every entry past the ninth
+   started its text a few pixels further right than the rest of
+   the list. Right-aligned within it so the numbers themselves
+   still read as a column of their own, digit-aligned like a
+   printed list (tabular figures, the list-number rule in
+   global.css). Its column is as wide as the list's widest number
+   (the rows share the list's grid), so "10." widens the column for
+   every row and the texts keep one x; the first digit of a list
+   under ten stands --space-cell from the list's left edge, and the
+   line's text one --list-number-gap after the number. */
+.numbered-list-number{
+
+    display:flex;
+    justify-content:flex-end;
+
+    /* The first digit starts a cell gap (12px) from the list's inside
+       left edge. */
+    padding:0 0 0 var(--space-cell);
+
+    font-size:var(--font-body);
+
+    /* The drag hand: see "THE DRAG HAND". */
+
+    user-select:none;
+
+}
+
+.numbered-list-input{
+
+    flex:1 1 auto;
+
+    min-width:0;
+
+    /* Left: the list-number gap, number to text (global.css). */
+    padding:8px 10px 8px var(--list-number-gap);
+
+    font:inherit;
+    font-size:var(--font-body);
+    line-height:1.5;
+
+    color:var(--text-default);
+
+    border:none;
+
+    background:transparent;
+
+}
+
+/* The box shows the ring for the whole control, so a field
+   inside it must not draw a second one. */
+.numbered-list-input:focus{
+
+    outline:none;
+
+}
+
+.numbered-list-input:disabled{
+
+    color:var(--text-faint);
+
+    cursor:not-allowed;
+
+}
+
+/* ==========================================================
+   Strategy layout additions
+========================================================== */
+
+.strategy-foundation .brand-style-body{
+
+    /* The Foundation columns hold whole editors rather than a
+       single field, so their contents start at the top of the
+       column instead of stretching to match the tallest. */
+    align-content:start;
+
+}
+
+/* An Objective's period sits beside its label, so it stays
+   readable while the box is minimized. */
+
+/* Initiatives and Metrics side by side: they are written
+   together -- a metric is how an initiative's objective is
+   judged -- so reading one should not mean scrolling past the
+   other. Stacks below 900px, where two columns would leave
+   neither wide enough to type in. */
+.strategy-objective-columns{
+
+    display:grid;
+
+    /* Boxes in a card: a card gap apart. */
+    gap:var(--space-card);
+
+    align-items:start;
+
+}
+
+/* Label beside its field rather than above it, so a metric reads
+   as a row of figures. */
+.strategy-metric-field{
+
+    min-width:0;
+
+}
+
+.strategy-metric-field .strategy-field-label{
+
+    flex:0 0 auto;
+
+}
+
+.strategy-metric-field .interview-input{
+
+    flex:1 1 auto;
+
+}
+
+/* How they are measured on the first row (Measurement Frequency |
+   Unit), Baseline and Target on the second. */
+.strategy-metric-fields{
+
+    display:grid;
+
+}
+
+@media (max-width: 900px){
+
+    .strategy-metric-fields{
+
+        grid-template-columns:minmax(0, 1fr);
+
+    }
+
+}
+
+/* A Theme box is selectable -- it takes focus so the arrow keys
+   can move it and Delete can remove it (see useMovableBox) -- so
+   it shows the same glow every other selectable thing on these
+   pages does, on hover and while it holds focus. */
+.strategy-theme-box{
+
+    transition:border-color .15s ease, box-shadow .15s ease;
+
+}
+
+.strategy-theme-box:hover,
+.strategy-goal-box:hover,
+.strategy-objective-box:hover{
+
+    border-color:var(--line-primary);
+
+    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
+
+}
+
+/* `:focus` rather than `:focus-visible`: the box is focused by
+   clicking it as well as by tabbing to it, and a click is exactly
+   when the user needs to see WHICH box the arrow keys will move. */
+.strategy-theme-box:focus,
+.strategy-goal-box:focus,
+.strategy-objective-box:focus{
+
+    outline:none;
+
+    border-color:var(--line-primary);
+
+    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 32%, transparent);
+
+}
+
+/* The name is the box's title, so it takes the room. 320px keeps
+   a Theme or Goal name readable rather than scrolling inside a
+   field sized by whatever is left over.
+   Not applied to an Objective's name: its head also carries the
+   two period pickers, and a floor there would push them onto a
+   second line. */
+.strategy-theme-box .strategy-name-input,
+.strategy-goal-box > .strategy-box-head .strategy-name-input{
+
+    min-width:min(320px, 100%);
+
+}
+
+/* Both pickers on one line beside the label. Sized to its own
+   content rather than sharing the row -- the name field beside it
+   is what absorbs the leftover width. */
+
+/* An Objective's From and To, each the S step, as every month. */
+

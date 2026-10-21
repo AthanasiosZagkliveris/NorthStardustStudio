@@ -1,11 +1,17 @@
+import PressRow from "./controls/PressRow.tsx";
+import DayButton from "./controls/DayButton.tsx";
 import { useEffect, useRef, useState } from "react";
 
+import AddButton from "./controls/AddButton.tsx";
+import RadioChoice from "./controls/RadioChoice.tsx";
+import TextLink from "./interview/fields/TextLink.tsx";
+import NavArrow from "./controls/NavArrow.tsx";
 import { CalendarTaskAnnotation, OrganizationService } from "../services/OrganizationService";
 import { NotepadService } from "../services/NotepadService";
 import { CalendarTask, getCalendarTasks } from "../services/CalendarTaskService";
 import { DateFormat, PreferencesService } from "../services/PreferencesService.ts";
-import { isoToDisplay } from "./interview/DateCellInput.tsx";
-import NotesField from "./interview/NotesField.tsx";
+import { isoToDisplay } from "./interview/fields/DateCellInput.tsx";
+import NotesField from "./interview/fields/NotesField.tsx";
 import CalendarFunnel, { CALENDAR_INCLUDES } from "./CalendarFunnel.tsx";
 import { CARD_DATE_KINDS, type CardDateKind } from "../framework/engine/CalendarCardDates.ts";
 import { type CalendarPeriod, loadCustomPeriods, presetPeriods, saveCustomPeriods } from "../services/CalendarPeriods.ts";
@@ -15,7 +21,6 @@ import { FrameworkSystem } from "../types/system";
 import { getCapabilityColor } from "../data/capabilities";
 
 import "../styles/organization-calendar.css";
-import "../styles/date-format-toggle.css";
 import "../styles/system-confirmation.css";
 
 interface OrganizationCalendarPanelProps {
@@ -613,25 +618,13 @@ export default function OrganizationCalendarPanel({
 
                         <span className="org-calendar-date-format-label">Date presentation</span>
 
-                        <div className="date-format-toggle-group" role="group" aria-label="Date presentation">
-
-                            <button
-                                type="button"
-                                className={`date-format-toggle-option${dateFormat === "US" ? " date-format-toggle-option-active" : ""}`}
-                                onClick={() => PreferencesService.setDateFormat("US")}
-                            >
-                                MM/DD (US)
-                            </button>
-
-                            <button
-                                type="button"
-                                className={`date-format-toggle-option${dateFormat === "EU" ? " date-format-toggle-option-active" : ""}`}
-                                onClick={() => PreferencesService.setDateFormat("EU")}
-                            >
-                                DD/MM (EU)
-                            </button>
-
-                        </div>
+                        <RadioChoice
+                            label="Date presentation"
+                            group="org-calendar-date-format"
+                            options={[{ id: "US", label: "MM/DD (US)" }, { id: "EU", label: "DD/MM (EU)" }]}
+                            value={dateFormat}
+                            onChange={(next) => PreferencesService.setDateFormat(next)}
+                        />
 
                     </div>
 
@@ -664,27 +657,13 @@ export default function OrganizationCalendarPanel({
 
                     <div className="org-calendar-month-nav">
 
-                        <button
-                            type="button"
-                            className="org-calendar-month-nav-button"
-                            aria-label="Previous month"
-                            onClick={() => goToMonth(-1)}
-                        >
-                            ‹
-                        </button>
+                        <NavArrow className="page-arrow org-calendar-month-arrow" direction="previous" label="Previous month" onClick={() => goToMonth(-1)} />
 
                         <span className="org-calendar-month-label">
                             {MONTH_LABELS[viewMonth]} {viewYear}
                         </span>
 
-                        <button
-                            type="button"
-                            className="org-calendar-month-nav-button"
-                            aria-label="Next month"
-                            onClick={() => goToMonth(1)}
-                        >
-                            ›
-                        </button>
+                        <NavArrow className="page-arrow org-calendar-month-arrow" direction="next" label="Next month" onClick={() => goToMonth(1)} />
 
                     </div>
 
@@ -708,14 +687,11 @@ export default function OrganizationCalendarPanel({
 
                             return (
 
-                                <button
-                                    type="button"
+                                <DayButton
                                     key={cell.iso}
-                                    className={
-                                        "org-calendar-day" +
-                                        (cell.iso === today ? " org-calendar-day-today" : "") +
-                                        (cell.iso === selectedDate ? " org-calendar-day-selected" : "")
-                                    }
+                                    className="org-calendar-day"
+                                    today={cell.iso === today}
+                                    selected={cell.iso === selectedDate}
                                     onClick={() => selectDay(cell.iso)}
                                 >
 
@@ -741,7 +717,7 @@ export default function OrganizationCalendarPanel({
 
                                     )}
 
-                                </button>
+                                </DayButton>
 
                             );
 
@@ -769,9 +745,9 @@ export default function OrganizationCalendarPanel({
                                     <span className="org-calendar-agenda-date">{isoToDisplay(task.date, dateFormat)}</span>
                                     {task.label && <span className="org-calendar-task-kind">{task.label}</span>}
                                     {task.noteId
-                                        ? <button type="button" className="org-calendar-task-link" onClick={() => NotepadService.open([task.noteId as string])}>{task.name}</button>
+                                        ? <TextLink className="org-calendar-task-link" onClick={() => NotepadService.open([task.noteId as string])}>{task.name}</TextLink>
                                         : onOpenTask
-                                            ? <button type="button" className="org-calendar-task-link" title={task.originLabel + " " + task.sectionTitle} onClick={() => onOpenTask(task.systemNumber, task.sectionNumber)}>{task.name ?? task.description}</button>
+                                            ? <TextLink className="org-calendar-task-link" title={task.originLabel + " " + task.sectionTitle} onClick={() => onOpenTask(task.systemNumber, task.sectionNumber)}>{task.name ?? task.description}</TextLink>
                                             : <span className="org-calendar-agenda-text">{task.name ?? task.description}</span>}
                                 </div>
                             ))}
@@ -787,15 +763,12 @@ export default function OrganizationCalendarPanel({
                             <h3 className="org-calendar-selected-title">
                                 {isoToDisplay(selectedDate, dateFormat)}
                                 {selectedDateTasks.length > 0 && (
-                                    <button
-                                        type="button"
-                                        className="org-calendar-chip org-calendar-expand"
+                                    <AddButton className="org-calendar-expand"
                                         onClick={() => setNotesOpen(current => selectedDateTasks.every(task => current.has(task.taskId))
                                             ? new Set([...current].filter(id => !selectedDateTasks.some(task => task.taskId === id)))
-                                            : new Set([...current, ...selectedDateTasks.map(task => task.taskId)]))}
-                                    >
+                                            : new Set([...current, ...selectedDateTasks.map(task => task.taskId)]))}>
                                         {selectedDateTasks.every(task => notesOpen.has(task.taskId)) ? "Collapse all" : "Expand all"}
-                                    </button>
+                                    </AddButton>
                                 )}
                             </h3>
 
@@ -820,35 +793,30 @@ export default function OrganizationCalendarPanel({
 
                                             {task.noteId
                                                 ? (
-                                                    <button
-                                                        type="button"
+                                                    <TextLink
                                                         className="org-calendar-task-link"
                                                         onClick={() => NotepadService.open([task.noteId as string])}
                                                     >
                                                         {task.name}
-                                                    </button>
+                                                    </TextLink>
                                                 )
                                                 : onOpenTask
                                                 ? (
-                                                    <button
-                                                        type="button"
+                                                    <TextLink
                                                         className="org-calendar-task-link"
                                                         title={task.originLabel + " " + task.sectionTitle}
                                                         onClick={() => onOpenTask(task.systemNumber, task.sectionNumber)}
                                                     >
                                                         {task.name ?? task.description}
-                                                    </button>
+                                                    </TextLink>
                                                 )
                                                 : <span>{task.name ?? task.description}</span>}
 
                                             {!noteShown && (
-                                                <button
-                                                    type="button"
-                                                    className="org-calendar-chip org-calendar-task-add"
-                                                    onClick={() => setNotesOpen(current => new Set(current).add(task.taskId))}
-                                                >
+                                                <AddButton className="org-calendar-task-add"
+                                                    onClick={() => setNotesOpen(current => new Set(current).add(task.taskId))}>
                                                     Add Note
-                                                </button>
+                                                </AddButton>
                                             )}
 
                                         </div>
@@ -1049,22 +1017,14 @@ export default function OrganizationCalendarPanel({
 
                     <div className="org-rail-handle-group">
 
-                        <div
+                        <PressRow
                             className={`org-rail-handle org-calendar-handle${activeTab === "calendar" ? " org-rail-handle-active" : ""}`}
-                            role="button"
-                            tabIndex={0}
-                            aria-pressed={activeTab === "calendar"}
-                            onMouseEnter={() => setActiveTab("calendar")}
-                            onFocus={() => setActiveTab("calendar")}
-                            onKeyDown={(event) => {
-                                if (event.key === "Enter" || event.key === " ") {
-                                    event.preventDefault();
-                                    setActiveTab("calendar");
-                                }
-                            }}
+                            pressed={activeTab === "calendar"}
+                            onReach={() => setActiveTab("calendar")}
+                            onPress={() => setActiveTab("calendar")}
                         >
                             <span className="org-rail-handle-label">Calendar</span>
-                        </div>
+                        </PressRow>
 
                         {activeTab === "calendar" && flyoutContent}
 
@@ -1072,22 +1032,14 @@ export default function OrganizationCalendarPanel({
 
                     <div className="org-rail-handle-group">
 
-                        <div
+                        <PressRow
                             className={`org-rail-handle org-rail-handle-capabilities${activeTab === "capabilities" ? " org-rail-handle-active" : ""}`}
-                            role="button"
-                            tabIndex={0}
-                            aria-pressed={activeTab === "capabilities"}
-                            onMouseEnter={() => setActiveTab("capabilities")}
-                            onFocus={() => setActiveTab("capabilities")}
-                            onKeyDown={(event) => {
-                                if (event.key === "Enter" || event.key === " ") {
-                                    event.preventDefault();
-                                    setActiveTab("capabilities");
-                                }
-                            }}
+                            pressed={activeTab === "capabilities"}
+                            onReach={() => setActiveTab("capabilities")}
+                            onPress={() => setActiveTab("capabilities")}
                         >
                             <span className="org-rail-handle-label">Capabilities</span>
-                        </div>
+                        </PressRow>
 
                         {activeTab === "capabilities" && flyoutContent}
 
@@ -1095,22 +1047,14 @@ export default function OrganizationCalendarPanel({
 
                     <div className="org-rail-handle-group">
 
-                        <div
+                        <PressRow
                             className={`org-rail-handle org-rail-handle-systems${activeTab === "systems" ? " org-rail-handle-active" : ""}`}
-                            role="button"
-                            tabIndex={0}
-                            aria-pressed={activeTab === "systems"}
-                            onMouseEnter={() => setActiveTab("systems")}
-                            onFocus={() => setActiveTab("systems")}
-                            onKeyDown={(event) => {
-                                if (event.key === "Enter" || event.key === " ") {
-                                    event.preventDefault();
-                                    setActiveTab("systems");
-                                }
-                            }}
+                            pressed={activeTab === "systems"}
+                            onReach={() => setActiveTab("systems")}
+                            onPress={() => setActiveTab("systems")}
                         >
                             <span className="org-rail-handle-label">Systems</span>
-                        </div>
+                        </PressRow>
 
                         {activeTab === "systems" && flyoutContent}
 
@@ -1147,21 +1091,15 @@ export default function OrganizationCalendarPanel({
 
                         <div className="confirmation-actions">
 
-                            <button
-                                type="button"
-                                className="confirmation-button secondary"
-                                onClick={() => setTimeConfirmPrompt(null)}
-                            >
+                            <AddButton look="confirmation-button secondary"
+                                onClick={() => setTimeConfirmPrompt(null)}>
                                 No, just this one
-                            </button>
+                            </AddButton>
 
-                            <button
-                                type="button"
-                                className="confirmation-button primary"
-                                onClick={confirmApplyTimeToSiblings}
-                            >
+                            <AddButton look="confirmation-button primary"
+                                onClick={confirmApplyTimeToSiblings}>
                                 Yes, apply to all
-                            </button>
+                            </AddButton>
 
                         </div>
 

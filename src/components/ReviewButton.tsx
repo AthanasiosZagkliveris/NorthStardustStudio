@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import AddButton from "./controls/AddButton.tsx";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { OrganizationService } from "../services/OrganizationService";
@@ -44,9 +45,7 @@ export default function ReviewButton() {
     const words = count ? count + (count === 1 ? " item" : " items") + " to look at" : "nothing open";
 
     return (
-        <button
-            type="button"
-            className="header-tool"
+        <AddButton className="header-tool"
             aria-label={"Review, " + words}
             aria-current={location.pathname === "/review" ? "page" : undefined}
             onClick={() => {
@@ -55,15 +54,14 @@ export default function ReviewButton() {
                     return;
                 }
                 navigate("/review", { state: { from: { pathname: location.pathname, state: location.state } } });
-            }}
-        >
+            }}>
             <svg className="header-tool-icon" viewBox="0 0 20 20" aria-hidden="true">
                 <path d="M4 5.5h12M4 10h12M4 14.5h7" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                 <path d="M13 14.5l1.5 1.5 3-3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
             <span className="header-tool-word">Review</span>
             {count ? <span className="header-tool-count">{count}</span> : null}
-        </button>
+        </AddButton>
     );
 
 }

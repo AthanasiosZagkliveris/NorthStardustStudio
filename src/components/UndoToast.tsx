@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
+import AddButton from "./controls/AddButton.tsx";
 import { UndoService } from "../services/UndoService";
 
 import "../styles/undo-toast.css";
@@ -81,17 +82,14 @@ export default function UndoToast() {
                     }}
                 >
                     <span className="undo-toast-message">{offer.message}</span>
-                    <button
-                        type="button"
-                        className="undo-toast-button"
+                    <AddButton look="undo-toast-button"
                         onClick={() => {
                             setHovered(false);
                             setFocused(false);
                             UndoService.undo();
-                        }}
-                    >
+                        }}>
                         Undo
-                    </button>
+                    </AddButton>
                 </div>
             )}
         </div>

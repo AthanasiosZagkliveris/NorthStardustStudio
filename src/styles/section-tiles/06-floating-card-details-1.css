@@ -1,0 +1,1107 @@
+/* ==========================================================
+   THE BACK BUTTON OF A FLOATING CARD IS THE "+" BOX'S SWAP OF TWO COLOURS, in the colour of its card: at rest the card's ground, a 2px stroke, and the arrow
+   and "Back" in the darker tone of the card's hue (--plus-fill: Infrastructure rose, Capability terracotta, channel teal; the grey of the finished ones);
+   under the pointer or the focus it is filled with the darker tone, no stroke, the words in the ground. The same tokens as the "+" (--plus-ground,
+   --plus-fill); the size is unchanged (the 2px stroke replaces the 1px one and the padding gives it back).
+========================================================== */
+.floating-card-host .floating-card-back.floating-card-back {
+
+    --plus-ground: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+    --plus-fill: hsl(var(--strategy-theme-hue, 0) var(--plus-fill-saturation) var(--plus-fill-lightness));
+
+    padding: 5px 11px;
+
+    border: 2px solid var(--plus-fill);
+
+    background: var(--plus-ground);
+
+    color: var(--plus-fill);
+
+    box-shadow: none;
+
+    transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+
+}
+
+.floating-card-host:has(.business-capability-activity-completed) .floating-card-back.floating-card-back {
+
+    --plus-fill: var(--text-completed-ink);
+    --plus-ground: var(--bg-completed-ground);
+
+}
+
+.floating-card-host .floating-card-back.floating-card-back:is(:hover, :focus-visible) {
+
+    border-color: transparent;
+
+    background: var(--plus-fill);
+
+    color: var(--plus-ground);
+
+    text-shadow: none;
+
+}
+
+/* THE HELP DROP-DOWN's colours (page 3): the ground of its card's inner level in the card's hue, a line of the hue's edge, the text in the page's default ink -- not the
+   plain cream / dark panel it was. */
+.answer-columns.business-capability .card-title-block > .card-title-help {
+
+    border: 1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+
+    background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+    color: var(--text-default);
+
+}
+
+.answer-columns.business-capability .card-title-block > .card-title-help .answer-question-line {
+
+    color: inherit;
+
+}
+
+/* A LINK TO A CONNECTED CARD under a Resource's Status (the activity it made, the partner or provider it uses): ONE line, cut by an ellipsis when it is too long (the full text is the tooltip). */
+.business-capability-card-link {
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+}
+
+.business-capability-card-link > .business-capability-link {
+
+    display: inline;
+
+    max-width: 100%;
+
+    white-space: nowrap;
+
+}
+
+/* THE ONE COMPLETED TILE (under Offering's Capability's card, outside both sections): the second row of the page's second column, Infrastructure's card taking both
+   rows. Stacked (a page card under 1100px), it follows the two cards across the page. */
+.answer-columns.business-capability > .section-tiles-completed {
+
+    /* (Under the two cards, which are the same size and stand in one row like the other tile pages': the Inventory and Completed row is squeezed into what is left.) */
+    grid-column: 1 / -1;
+    grid-row: 2;
+
+    min-width: 0;
+
+}
+
+@container page-card (max-width: 699px) {
+
+    .answer-columns.business-capability > .section-tiles-completed {
+
+        grid-row: auto;
+
+    }
+
+}
+
+/* THE LIST'S SCROLLBAR: the app switches every scrollbar off (global.css, scrollbar-width: none). The tile list turns it back to auto so the
+   ::-webkit-scrollbar rules above apply (no arrows, thin, drawn only on hover); setting a standard scrollbar-width / scrollbar-color here
+   would make the browser ignore those rules and draw its own arrows. */
+.section-tile-list {
+
+    scrollbar-width: auto;
+    scrollbar-color: auto;
+
+}
+
+/* The Completed tile grows upwards and to the right: about its bottom-left corner (over the inline origin every other tile gets from its place). */
+.section-tiles-completed .section-tile-slot {
+
+    transform-origin: 0 100% !important;
+
+}
+
+/* The Inventory tile, the first of the row, grows outwards: upwards and to the left, about its bottom-right corner. */
+.section-tiles-completed .section-tile-slot:first-child {
+
+    transform-origin: 100% 100% !important;
+
+}
+
+/* THE ROW UNDER OFFERING'S CAPABILITY (Inventory, Completed) has tiles of the page's own size. The card above keeps at least 320px (its title and a row
+   of tiles) and scrolls inside for the rest. */
+.answer-columns.business-capability > .section-tiles-completed {
+
+    align-self: start;
+
+    /* (Centred under the two cards.) */
+
+    padding-left: 0;
+
+}
+
+
+/* The link line is a flex row so that the NAME (the button) is what the ellipsis cuts: "Open Provider “" + name… + "”". (An inline button that did not fit
+   was dropped by the line's ellipsis, leaving only the words before it.) */
+.business-capability-card-link.business-capability-card-link {
+
+    display: flex;
+    align-items: baseline;
+
+    white-space: nowrap;
+
+}
+
+.business-capability-card-link.business-capability-card-link > .business-capability-link {
+
+    display: block;
+
+    flex: 0 1 auto;
+    min-width: 0;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    text-align: left;
+
+}
+
+/* The Utilities tile shows no scrollbar (its list still scrolls with the wheel). */
+.section-tile-slot:has(> .section-tile[data-tile="utilities"]) .section-tile-list::-webkit-scrollbar {
+
+    display: none;
+
+}
+
+/* The page-wide dialogs (Inventory, Completed) keep their frame -- from where the page's cards start to 12px above the footer -- and scroll inside their body;
+   only a dialog over a section's card grows down. */
+.section-tile-overlay.business-foundation:not(.section-tile-overlay-placed) > .section-tile-dialog.business-foundation-card {
+
+    height: var(--section-dialog-height, 88vh);
+    min-height: 0;
+
+}
+
+/* A FLOATING CARD does not block the tiles area: its scrim only tints (it takes no press), the card and the notes opened inside it do. A press outside the card
+   closes it (SectionTiles.tsx, FloatingCards). */
+.section-tile-overlay.floating-overlay.business-foundation {
+
+    pointer-events: none;
+
+}
+
+.floating-overlay .floating-card-host,
+.floating-overlay .info-note-panel {
+
+    pointer-events: auto;
+
+}
+
+/* THE TILES AREA STAYS VISIBLE while a card is open: a floating card does not darken the page behind it (--floating-scrim is clear; a dialog under it keeps its own dim). The card stands out by its shadow; the box name above the card
+   keeps its legibility with a soft shadow of its own. */
+.section-tile-overlay.floating-overlay.business-foundation {
+
+    background: var(--floating-scrim);
+
+}
+
+/* THE TAGS ABOVE AND BELOW A FLOATING CARD (its title and the time it was recorded) ARE DRAWN AS THE CARD IS: its ground (the card's hue), its ink, its corners and its raised edge and shadow, with 6px above and below the words and 12px at the sides. */
+.floating-overlay :is(.floating-card-caption, .floating-card-recorded) {
+
+    padding: 6px 12px;
+
+    border-radius: var(--radius-lg);
+
+    background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+    border: 1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+    box-shadow: 0 8px 20px var(--shadow-ink-18);
+
+    /* The card's label colour: the darker tint of its hue. */
+    color: hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
+    text-shadow: none;
+
+}
+
+/* The Deposit row of a Workspace card: the amount box is the Price box of the cost row (the Price column), the currency text stands where the currency
+   picker stands (--cost-x), at the same line. */
+.business-capability-deposit-row {
+
+    --cost-x: calc(var(--card-side-label, var(--side-label-short)) + var(--side-label-gap));
+
+    display: grid;
+    grid-template-columns: calc(var(--cost-x) - var(--space-cell)) var(--space-cell) max-content;
+    align-items: center;
+
+}
+
+.business-capability-deposit-row > .interview-input {
+
+    grid-column: 1;
+    width: 100%;
+    max-width: none;
+
+}
+
+.business-capability-deposit-row > .business-capability-deposit-currency {
+
+    grid-column: 3;
+
+}
+
+/* A PAIR OPENED OVER A CARD takes its place: the card under it (the same parent, at the same place) is hidden while the pair stands, so no ghost layer shows
+   between the two cards (not even when the page drew that card again after the pair opened); Back brings it back. */
+/* (Written with the overlay's own three classes: its `display: block` (04-tile-slot-and-floating-card.css) has them, and a shorter selector here lost to it -- a second pair opened over a first was drawn over it.) */
+.section-tile-overlay.floating-overlay.business-foundation:has(~ .floating-overlay),
+/* (Whichever order they were made in: every other card layer is hidden while a pair stands.) */
+body:has([data-pair]) .section-tile-overlay.floating-overlay.business-foundation:not(:has([data-pair])) {
+
+    /* (Not just invisible: a child that sets its own visibility would still show behind the pair.) */
+    display: none;
+
+}
+
+/* ---------- THE MARKS OF A TILE'S LIST LINES (docs/ai/layout-rules.md, "Marks on the lines of a tile's list") ---------- */
+
+/* The teal of a Customer Channel's cards (CHANNEL_TILE_HUE, 172). */
+:root {
+    /* A link symbol's slot beside a dropdown: its own width (36px: the 24px symbol and 6px each side) and the row's gap (8px). */
+    --link-symbol-width: 36px;
+    --link-slot: calc(var(--link-symbol-width) + 8px);
+
+    --channel-marker: hsl(172 55% 33%);
+
+    /* The faded line of a category with no card: the lowest opacity that keeps 3:1 against the tile ground in every theme (sepia is the worst: 3.05; light 3.21; dark 4.41). */
+    --list-empty-opacity: .7;
+}
+
+:root[data-theme="dark"] {
+    --channel-marker: hsl(172 50% 58%);
+}
+
+/* A category or group with no card: its line -- the text and the bullet -- 75% transparent. */
+.section-tile-list > li.section-tile-list-empty {
+
+    opacity: var(--list-empty-opacity);
+
+}
+
+/* The Channel line of Offering's Resources: its text and its bullet in the channel's teal (no frame). */
+.section-tile-list > li.section-tile-list-teal,
+.section-tile-list > li.section-tile-list-teal .section-tile-link {
+
+    color: var(--channel-marker);
+
+}
+
+/* A line that holds cards a channel made: TWO bullets, one above the other in the bullet column (the line's own bullet on top, the channel's teal one right
+   under it, a 2px gap, both the normal size, together centred on the line like a single bullet). They share the x of every bullet, so the text stays in
+   the column of the other lines. */
+.section-tile-list > li.section-tile-list-channel::before {
+
+    top: calc((var(--section-tile-line-height) * 1em - var(--bullet-size) * 2 - 2px) / 2);
+
+}
+
+.section-tile-list > li.section-tile-list-channel::after {
+
+    content: "";
+
+    position: absolute;
+    left: 0;
+    top: calc((var(--section-tile-line-height) * 1em - var(--bullet-size) * 2 - 2px) / 2 + var(--bullet-size) + 2px);
+
+    width: var(--bullet-size);
+    height: var(--bullet-size);
+
+    border-radius: 50%;
+    background: var(--channel-marker);
+
+}
+
+/* A line of a card made by a Customer Channel (SectionView: category and group tiles; the page tiles that list cards): text and bullet in the channel\x27s teal. An incomplete
+   card\x27s red and an empty category\x27s fade win over it. */
+.section-tile-list > li.section-tile-list-teal:not(.section-tile-list-alert),
+.section-tile-list > li.section-tile-list-teal:not(.section-tile-list-alert) .section-tile-link {
+
+    color: var(--channel-marker);
+
+}
+
+/* THE RESOURCES ROW of an activity: its tick and label, then (once ticked) its dropdown on the same line, in the column the Performer's and the Responsible's
+   dropdowns start in -- the label column is shared (subgrid), as theirs is. What goes with the list (the cost of each, the total) stands under the dropdown. */
+.card-box-open .business-capability-activity-fields > .business-foundation-field.optional-field-inline.optional-field-inline {
+
+    display: grid;
+
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+
+    align-items: start;
+
+    column-gap: var(--space-cell);
+
+}
+
+.card-box-open .business-capability-activity-fields > .optional-field-inline > .optional-field-head {
+
+    grid-column: 1;
+
+    /* (The label stands on the first dropdown's centre line: a line as tall as the dropdown.) */
+    display: flex;
+    align-items: center;
+
+    min-height: var(--control-square);
+
+}
+
+.card-box-open .business-capability-activity-fields > .optional-field-inline > .optional-field-body {
+
+    grid-column: 2 / -1;
+
+    min-width: 0;
+
+    margin: 0;
+
+}
+
+/* (The row no longer needs to reach out to the x's column: the stack has one.) */
+.card-box-open .optional-field:has(.business-capability-resource-rows) {
+
+    margin-right: 0;
+
+}
+
+/* AN OFFERING'S ROW, when a card is linked to several: its tick and name, and at the end of the row, in the x's column, the percent of the card it carries (a
+   whole number of two digits, the box as wide as that needs). */
+.business-tick-row {
+
+    display: flex;
+    align-items: center;
+
+    gap: var(--space-cell);
+
+}
+
+.business-tick-row > .business-foundation-tick {
+
+    flex: 1 1 0;
+
+    min-width: 0;
+
+    /* (A long name wraps in what the share leaves it.) */
+    overflow-wrap: anywhere;
+
+}
+
+.business-capability-share {
+
+    flex: none;
+
+    width: 56px;
+    max-width: 56px;
+
+    text-align: right;
+
+}
+
+/* THE SHARES' MODE of a card linked to several Offerings: Units | 100%, each a round, on the line of the "Linked to" label, at the field's right edge. */
+.business-offering-field {
+
+    position: relative;
+
+}
+
+.business-offering-mode {
+
+    position: absolute;
+    top: 0;
+    right: 0;
+
+}
+
+/* A COLUMN PAGE DRAWN AS TILES (Identity's Definition and Ethics, Brand's Ambassador, Strategy's Situation & Direction): ONE card of four tiles, 2 x 2, the card as wide as one of
+   Page 3's cards, centred; the tiles, their hover and their dialogs are the page 3 system's. A dialog holds the column's questions and its editor. */
+.answer-columns.business-foundation.business-engagement.business-capability.column-tiles-page > .business-foundation-card {
+
+    grid-column: 1 / -1;
+
+    justify-self: center;
+
+    width: calc(50% + 13px);
+
+    min-width: 0;
+
+}
+
+.column-tile-content {
+
+    display: flex;
+    flex-direction: column;
+
+    gap: var(--space-field);
+
+    min-width: 0;
+
+}
+
+/* The dates of an opened category: at the dialog's foot, at the right, on the level of its Back button. */
+.section-tile-dialog {
+
+    position: relative;
+
+}
+
+.business-capability-period-line {
+
+    position: absolute;
+    right: var(--card-padding);
+    bottom: calc(var(--card-padding) + 6px);
+
+    margin: 0;
+
+    font-size: var(--font-body);
+    font-weight: 600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    color: var(--text-muted);
+
+}
+
+/* The dates a category runs in (Pre-Operational, Operational): one small muted line under the tile's title. */
+.section-tile-period {
+
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+
+    margin-top: 6px;
+
+    text-align: center;
+
+    font-size: var(--font-small);
+
+    color: var(--text-muted);
+
+    pointer-events: none;
+
+}
+
+/* THE CARD NUMBER AND THE CARD NAME on one centre line: a name shown as text (a founder's, a card made by a channel or a resource) is as tall as a line, the number's
+   box as tall as a name box, so the text is centred in the head's row, as the name box is. */
+.strategy-box-head > :is(.strategy-name-static, .business-capability-child-name) {
+
+    align-self: center;
+
+}
+
+/* THE STRATEGIC PERIOD in its tile's dialog: the Themes keep their own width and stand two in a row; the period, its note, the count and the add menu span the row. */
+.column-tile-content .brand-style-body:has(.strategy-theme-box) {
+
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+
+    gap: var(--space-field);
+
+}
+
+.column-tile-content .brand-style-body:has(.strategy-theme-box) > :not(.strategy-theme-box) {
+
+    grid-column: 1 / -1;
+
+}
+
+/* THE TILES OF A COLUMN PAGE hold text the user wrote, not names: each line may run to several lines (not one cut by an ellipsis), and the list stands 12px
+   further in from each side. */
+.column-tiles-page .section-tile-links-layer {
+
+    padding-inline: calc(var(--card-padding) + 12px + 1px);
+
+}
+
+.column-tiles-page .section-tile-list-line {
+
+    -webkit-box-orient: vertical;
+    text-overflow: clip;
+
+    text-align: left;
+
+}
+
+/* The Strategic Period's Start and End keep the size they had in their column: the labels and the date buttons in one narrow block, not across the dialog. */
+.column-tile-content .strategy-period-box {
+
+    max-width: 320px;
+
+}
+
+/* The Add Theme menu opens downward over the room it is given: the dialog holds extra room under it while it is open. */
+
+/* The Add Theme button and its menu stand together at the button's own side (the left): the menu opens from the button, not across the row of Themes. */
+.column-tile-content .brand-style-body:has(.strategy-theme-box) > .strategy-add-menu {
+
+    justify-self: start;
+
+    position: relative;
+
+}
+
+/* The "i" of adding Themes stands beside the Add Theme button. */
+.strategy-add-menu:has(> .info-note, > .info-note-wrap) { display: flex; align-items: center; gap: var(--gap-8); }
+
+/* A TILE'S OWN PICTURE (a colour of the Brand's Style as a square block, a typeface's specimen): under the title, filling the rest of the square. */
+.section-tile-picture {
+
+    grid-row: 2;
+
+    align-self: stretch;
+    justify-self: stretch;
+
+    display: grid;
+    place-items: center;
+
+    min-height: 0;
+
+    overflow: hidden;
+
+    border-radius: var(--radius-md);
+
+    font-size: var(--font-small);
+    line-height: 1.2;
+
+}
+
+.section-tile-picture-colour {
+
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 35%, transparent);
+
+}
+
+.section-tile-picture-colour-empty {
+
+    background: transparent;
+
+    box-shadow: inset 0 0 0 1px var(--text-muted);
+
+    color: var(--text-muted);
+
+}
+
+.section-tile-picture-colour {
+
+    align-self: stretch;
+    justify-self: stretch;
+
+    display: grid;
+    place-items: center;
+
+    width: 100%;
+    height: 100%;
+
+}
+
+/* A Brand page's dialog is one column (its title, then its content), not the page's grid of columns. */
+.column-tile-content.brand-style,
+.column-tile-content.brand-inventory {
+
+    display: flex;
+    flex-direction: column;
+
+}
+
+/* The Icon in its dialog: a square two fifths of the row wide, its description beside it (the dialog is wider than the page's column the square was sized for). */
+.column-tile-content .brand-asset-slot-icon .brand-slot-row > .brand-holder-wrap {
+
+    flex: 0 0 40%;
+
+    max-width: 40%;
+
+}
+
+.column-tiles-page .section-tile-links-layer {
+
+    padding-bottom: calc(var(--card-padding) + 1px + var(--section-tile-line-height) * 1em);
+
+}
+
+.column-tiles-page .section-tile-list > li {
+
+    overflow: visible;
+
+    padding-left: 0;
+
+    white-space: normal;
+
+}
+
+.column-tiles-page .section-tile-list > li + li {
+
+    margin-top: 0;
+
+}
+
+/* A line of a list on such a tile has its bullet; a line that stands alone is centred. */
+.column-tiles-page .section-tile-list > li.section-tile-list-bullet {
+
+    padding-left: calc(var(--bullet-size) + var(--tile-list-gap));
+
+}
+
+.column-tiles-page .section-tile-list > li.section-tile-list-bullet::before {
+
+    content: "";
+
+}
+
+.column-tiles-page .section-tile-list > li.section-tile-list-centre {
+
+    text-align: center;
+
+}
+
+.column-tiles-page .section-tile-list > li::before {
+
+    content: none;
+
+}
+
+.column-tiles-page .section-tile-list-line {
+
+    display: block;
+
+    -webkit-line-clamp: unset;
+
+    overflow: visible;
+
+    white-space: normal;
+
+}
+
+
+/* A BOX THAT IS A PICTURE (PictureBoxes.tsx: a colour, a typeface, an image): the page's tile, covered by what the card holds, its texts on it. */
+.section-tile.picture-box {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: var(--gap-4);
+
+    padding: var(--card-padding);
+
+    overflow: hidden;
+
+    background-size: cover;
+    background-position: center;
+
+    overflow-wrap: anywhere;
+
+}
+
+.picture-box-name {
+
+    font-size: var(--font-body);
+    font-weight: 700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+    line-height: 1.2;
+
+}
+
+.picture-box-line {
+
+    font-size: var(--font-small);
+    font-weight: 400;
+    line-height: 1.3;
+
+}
+
+.picture-box-code {
+
+    font-weight: 600;
+    letter-spacing: 0.04em;
+
+}
+
+.picture-box-specimen {
+
+    margin-top: 6px;
+
+    font-size: 44px;
+    font-weight: 600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+    line-height: 1;
+
+}
+
+/* An IMAGE's box: the image covers it, its title on top. */
+.section-tile.picture-box-image {
+
+    justify-content: flex-start;
+    align-items: stretch;
+
+    color: #ffffff;
+
+}
+
+.section-tile.picture-box-image::before {
+
+    content: "";
+
+    position: absolute;
+    inset: 0 0 auto 0;
+
+    height: 45%;
+
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.65), transparent);
+
+    pointer-events: none;
+
+}
+
+.section-tile.picture-box-image > * {
+
+    position: relative;
+
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+
+}
+
+/* A LARGE TILE'S PICTURES: every colour as a block, one on the other (Colours); the typefaces, each in its own (Typography & Text Hierarchy). */
+.brand-mosaic {
+
+    display: grid;
+    grid-template-columns: repeat(var(--mosaic-across, 2), minmax(0, 1fr));
+
+    align-self: stretch;
+    justify-self: stretch;
+
+    width: 100%;
+    height: 100%;
+
+}
+
+.brand-mosaic > span {
+
+    border-radius: var(--radius-sm);
+
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--text-default) 20%, transparent);
+
+}
+
+.brand-specimens {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: var(--gap-6);
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    color: var(--text-default);
+
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+    line-height: 1.1;
+
+    text-align: center;
+
+}
+
+.brand-specimens > span {
+
+    max-width: 100%;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+}
+
+.brand-specimens-note {
+
+    margin-top: 6px;
+
+    font-size: var(--font-small);
+    font-weight: 400;
+
+    color: var(--text-muted);
+
+}
+
+/* The icon in front on the Icon & Logo tile; the images of the Brand Images tile, each one a block of the mosaic. */
+.brand-tile-icon {
+
+    align-self: stretch;
+    justify-self: center;
+
+    max-width: 100%;
+    max-height: 100%;
+    min-height: 0;
+
+    object-fit: contain;
+
+}
+
+.brand-mosaic > .brand-mosaic-image {
+
+    background-size: cover;
+    background-position: center;
+
+}
+
+.section-tile.picture-box-image-empty {
+
+    justify-content: center;
+    align-items: center;
+
+    color: var(--text-muted);
+
+    background: transparent;
+
+}
+
+.section-tile.picture-box-image-empty::before {
+
+    content: none;
+
+}
+
+/* THE LEGAL ENTITY'S Organization and Founders & Ownership in their dialogs stand with no frame around them. */
+.legal-entity-unframed .legal-entity-section {
+
+    padding: 0;
+
+    border: 0;
+
+    background: none;
+
+}
+
+
+/* A founder's card in its dialog (a column the width of the dialog, not of the page): each pair of fields stands one under the other, so a field has the room its
+   rows were drawn for (the Skills' kind beside its words). */
+.column-tile-content .founders-profile-row {
+
+    grid-template-columns: minmax(0, 1fr);
+
+}
+
+/* A LEGAL REQUIREMENT'S OR EXPENSE'S CARD IN ITS TILE: the card is a grid of the head's own columns (arrow, number, name, x), and everything under the head stands in the
+   NAME's column -- its left edge and its right edge are the name cell's. */
+.column-tile-content .legal-entity-card {
+
+    display: grid;
+    grid-template-columns: auto auto minmax(0, 1fr) auto;
+
+    column-gap: var(--gap-8);
+    row-gap: var(--space-field);
+
+}
+
+.column-tile-content .legal-entity-card > .fold-card-head {
+
+    grid-column: 1 / -1;
+
+    grid-template-columns: subgrid;
+
+}
+
+.column-tile-content .legal-entity-card > :not(.fold-card-head) {
+
+    grid-column: 3;
+
+    min-width: 0;
+
+    /* (The head's own columns put it where the name starts: no indent of the body's on top.) */
+    margin-left: 0;
+
+}
+
+.legal-entity-grid-card {
+
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+
+    gap: var(--space-field) var(--space-cell);
+
+}
+
+.legal-entity-grid-card > .legal-entity-field-wide,
+.legal-entity-grid-card > .optional-field,
+.legal-entity-grid-card > .legal-entity-field-side,
+.legal-entity-grid-card > .legal-entity-switch,
+.legal-entity-grid-card > .legal-entity-empty-note {
+
+    grid-column: 1 / -1;
+
+}
+
+/* A label beside its control, the control to the name cell's right edge. */
+.legal-entity-grid-card > .legal-entity-field.legal-entity-field-side {
+
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+
+    align-items: center;
+
+    column-gap: var(--side-label-gap);
+
+}
+
+.legal-entity-field-side > :is(.option-picker, input.interview-input) {
+
+    width: 100%;
+    min-width: 0;
+
+}
+
+/* A requirement: the Type first, then the Reference or Number as wide as the name cell, then the ticks. */
+.legal-entity-grid-requirement > .legal-entity-field-side {
+
+    order: -1;
+
+}
+
+.legal-entity-grid-requirement > .legal-entity-field:not(.legal-entity-field-side) {
+
+    grid-column: 1 / -1;
+
+}
+
+.legal-entity-offer .legal-entity-switch-label {
+
+    white-space: nowrap;
+
+}
+
+.legal-entity-grid-card .option-picker {
+
+    width: 100%;
+
+}
+
+.legal-entity-grid-card > .legal-entity-field.legal-entity-field-side > input.interview-input {
+
+    width: 100%;
+    max-width: none;
+
+}
+
+/* A founder's card and the gaps in their dialog: no frame around them. */
+.legal-entity-unframed .legal-entity-card {
+
+    padding: 0;
+
+    border: 0;
+
+    background: none;
+
+}
+
+/* A founder's Skills: the kind's drop-down is 14em wide on every row -- the longest kind ("Professional / Technical Expertise") is cut with an ellipsis on its one line. */
+.founders-profile .numbered-list-line-end {
+
+    width: 14em;
+    min-width: 0;
+
+    margin-left: auto;
+
+    /* (The drop-down runs to the cell's edge: the 6px the list-end cell keeps elsewhere is not kept here.) */
+    padding-right: 0;
+
+}
+
+/* (The drop-down takes its cell's width, not the width of its longest kind.) */
+.founders-profile .numbered-list-line-end .option-picker {
+
+    width: 100%;
+
+}
+
+.founders-profile .numbered-list-line-end .option-picker-sizer {
+
+    display: none;
+
+}
+
+/* A line between two topics of a tile's list. */
+.section-tile-list > li.section-tile-divider {
+
+    /* (One line of the list in all: the text under it still ends at a whole line.) */
+    height: 1px;
+
+    margin: calc(var(--section-tile-line-height) * 0.5em - 0.5px) 0;
+    padding: 0;
+
+}
+
+.section-tile-list > li.section-tile-divider::before {
+
+    content: none;
+
+}
+
+
+
+/* The Strategic Period's Start, End and the plan's dates stand in the dialog's second column, beside the first Theme. */
+.column-tile-content .brand-style-body:has(.strategy-theme-box) > .strategy-period-column {
+
+    grid-column: 1 / -1;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: var(--space-field);
+
+    min-width: 0;
+
+}
+
+/* A title with a forced break stands on its lines (Typography & Text Hierarchy), growing upward from its rule. */
+.section-tile-title.section-tile-title-broken {
+
+    white-space: normal;
+
+    text-overflow: clip;
+
+}
+
+/* THE IMAGES OF THE Brand Images TILE are square blocks, side by side, centred under the title. */
+.brand-mosaic.brand-mosaic-images {
+
+    grid-auto-rows: auto;
+
+    align-content: center;
+
+}
+
+.brand-mosaic.brand-mosaic-images > .brand-mosaic-image {
+
+    aspect-ratio: 1;
+
+}
+
+
+
+/* THE TAGS OF A COMPLETED CARD are grey, as the card is: its ground, its line and its ink are the Completed line's, whatever hue the page gives its neighbours. */
+.floating-overlay .floating-card-item:has(.business-capability-activity-completed) :is(.floating-card-caption, .floating-card-recorded) {
+
+    --info-ink: var(--text-completed-ink);
+    --info-fill: var(--bg-completed-card);
+
+    background: var(--bg-completed-card);
+    border-color: var(--line-completed);
+
+    color: var(--text-completed-ink);
+
+}

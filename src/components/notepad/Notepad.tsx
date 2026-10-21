@@ -1,16 +1,27 @@
-import { KeyboardEvent, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
+import { KeyboardEvent, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import FoldHead from "../controls/FoldHead";
+import ChipOpen from "../controls/ChipOpen.tsx";
+import SuggestionOption from "../controls/SuggestionOption.tsx";
+import NavArrow from "../controls/NavArrow.tsx";
+import TextField from "../controls/TextField.tsx";
+import AddButton from "../controls/AddButton.tsx";
+import TickBox from "../controls/TickBox.tsx";
+import RemoveButton from "../controls/RemoveButton.tsx";
 import { useNavigate } from "react-router-dom";
 
 import { NotepadService, type Note, type NoteLink } from "../../services/NotepadService";
 import { UndoService } from "../../services/UndoService";
 import { markFieldsHot } from "./NotedHover";
 import { OrganizationService } from "../../services/OrganizationService";
+import { CardNotesService } from "../../services/CardNotesService";
+import ResponsibilityFilter from "../interview/fields/ResponsibilityFilter.tsx";
 import { parseFieldKey, registeredFields } from "../../framework/engine/FieldKeys";
-import { consumeKey } from "../interview/consumeKey";
-import DateCellInput, { isoToDisplay } from "../interview/DateCellInput";
+import { consumeKey } from "../interview/fields/consumeKey";
+import DateCellInput, { isoToDisplay } from "../interview/fields/DateCellInput";
 import { PreferencesService } from "../../services/PreferencesService";
 
 import "../../styles/notepad.css";
+import TextLink from "../interview/fields/TextLink.tsx";
 
 /*
     THE NOTEPAD (NotepadService.ts): the header's "Notes" button, the
@@ -50,20 +61,17 @@ export function NotepadButton() {
     const { notes, view } = useNotepad();
 
     return (
-        <button
-            type="button"
-            className="header-tool"
+        <AddButton className="header-tool"
             aria-expanded={view.open}
             aria-label={"Notes, " + notes.length + (notes.length === 1 ? " note" : " notes")}
-            onClick={() => NotepadService.toggle()}
-        >
+            onClick={() => NotepadService.toggle()}>
             <svg className="header-tool-icon" viewBox="0 0 20 20" aria-hidden="true">
                 <path d="M5 2.5h7.5L16 6v11.5H5z" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
                 <path d="M7.5 9h6M7.5 12h6M7.5 15h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
             <span className="header-tool-word">Notes</span>
             {notes.length > 0 && <span className="header-tool-count">{notes.length}</span>}
-        </button>
+        </AddButton>
     );
 
 }
@@ -75,28 +83,16 @@ function NoteText({ note, onKey, textRef }: {
     textRef: (element: HTMLTextAreaElement | null) => void;
 }) {
 
-    const element = useRef<HTMLTextAreaElement | null>(null);
-
-    useLayoutEffect(() => {
-        const box = element.current;
-        if (!box) {
-            return;
-        }
-        box.style.height = "";
-        if (box.scrollHeight > box.clientHeight) {
-            box.style.height = (box.scrollHeight + box.offsetHeight - box.clientHeight) + "px";
-        }
-    }, [note.text]);
-
     return (
-        <textarea
-            ref={(box) => { element.current = box; textRef(box); }}
+        <TextField
+            elementRef={textRef}
             className="interview-input notepad-note-text"
-            aria-label="Note"
+            ariaLabel="Note"
             placeholder="Write a note. Type # to link a place."
             rows={2}
+            list={false}
             value={note.text}
-            onChange={(event) => NotepadService.setText(note.id, event.target.value)}
+            onChange={(text) => NotepadService.setText(note.id, text)}
             onKeyDown={(event) => {
                 if (onKey(event, event.currentTarget)) {
                     consumeKey(event);
@@ -241,9 +237,7 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
             {/* Above the text, at the right: when the note was written (automatic, read-only), then the note's ×. At once, and the undo toast offers it back; an empty note just goes. */}
             <div className="notepad-note-top">
                 {note.createdAt > 0 && <p className="notepad-note-recorded">{"Recorded " + noteMomentText(note.createdAt)}</p>}
-                <button
-                    type="button"
-                    className="strategy-box-remove card-remove notepad-note-remove"
+                <RemoveButton className="card-remove notepad-note-remove"
                     aria-label="Delete note"
                     onClick={() => {
                         const removed = NotepadService.removeNote(note.id);
@@ -251,9 +245,7 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
                             UndoService.offer("Note removed.", () => NotepadService.restoreNote(removed.note, removed.index));
                         }
                     }}
-                >
-                    ×
-                </button>
+                />
             </div>
 
             <NoteText note={note} onKey={onKey} textRef={(element) => { box.current = element; }} />
@@ -263,15 +255,12 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
                     {suggestions.length === 0 && <li className="notepad-suggestion-empty">No place by that name</li>}
                     {suggestions.map((place, index) => (
                         <li key={place.kind + (place.key ?? place.sectionNumber ?? place.systemNumber)} role="option" aria-selected={index === active}>
-                            <button
-                                type="button"
-                                className="notepad-suggestion"
+                            <SuggestionOption
                                 onMouseDown={(event) => event.preventDefault()}
                                 onClick={() => choose(index)}
-                            >
-                                <span className="notepad-suggestion-label">#{place.label}</span>
-                                {place.place && <span className="notepad-suggestion-place">{place.place}</span>}
-                            </button>
+                                label={<>#{place.label}</>}
+                                place={place.place}
+                            />
                         </li>
                     ))}
                 </ul>
@@ -289,33 +278,23 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
                             onMouseEnter={() => markFieldsHot(link.key && link.organizationId === current ? [link.key] : [])}
                             onMouseLeave={() => markFieldsHot(linkedKeys)}
                         >
-                            <button
-                                type="button"
-                                className="notepad-chip-open"
+                            <ChipOpen
                                 title={link.place || undefined}
                                 disabled={available[link.id] === false}
                                 onClick={() => places().then(module => module.openLink(navigate, link))}
-                            >
-                                {/* "#" and where it is in numbers; under it, the field's own name. */}
-                                <span className="notepad-chip-tag">
-                                    # <span className="notepad-chip-number">{details[link.id]?.number ?? linkNumber(link)}</span>
-                                </span>
-                                <span className="notepad-chip-description">
+                                /* "#" and where it is in numbers; under it, the field's own name. */
+                                tag={<># <span className="notepad-chip-number">{details[link.id]?.number ?? linkNumber(link)}</span></>}
+                                description={<>
                                     {details[link.id]?.name ?? ""}
                                     {link.organizationId !== note.organizationId && (
                                         <span className="notepad-chip-organization"> · {organizationName(link.organizationId)}</span>
                                     )}
                                     {available[link.id] === false && <span className="notepad-chip-gone-word"> · No longer available</span>}
-                                </span>
-                            </button>
-                            <button
-                                type="button"
-                                className="notepad-chip-remove"
+                                </>}
+                            />
+                            <RemoveButton
                                 aria-label={"Remove link " + link.label}
-                                onClick={() => NotepadService.removeLink(note.id, link.id)}
-                            >
-                                ×
-                            </button>
+                                onClick={() => NotepadService.removeLink(note.id, link.id)} />
                         </li>
                     ))}
                 </ul>
@@ -325,21 +304,19 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
                 <div className="notepad-note-actions-text">
                 {canPick
                     ? (
-                        <button
+                        <TextLink
                             type="button"
                             className="notepad-text-button"
                             aria-pressed={picking}
                             onClick={() => NotepadService.pick(picking ? null : note.id)}
                         >
                             {picking ? "Picking: click a field or card" : "Link a field"}
-                        </button>
+                        </TextLink>
                     )
                     : null}
                 {/* The Date: a tick; ticked, its label becomes the day to pick, and the note stands on that day of the Calendar. */}
                 <span className="notepad-date">
-                    <input
-                        type="checkbox"
-                        className="brand-tick-box"
+                    <TickBox
                         aria-label="Date"
                         checked={!!note.date}
                         onChange={(event) => {
@@ -393,16 +370,7 @@ function NoteGroup({ group, focusNoteIds }: { group: NoteGroupValue; focusNoteId
     const id = "notepad-group-" + (group.id || "general");
     return (
         <section className="notepad-group" aria-label={group.name}>
-            <button
-                type="button"
-                className="notepad-group-head"
-                aria-expanded={open}
-                aria-controls={id}
-                onClick={() => setOpen(current => !current)}
-            >
-                <span className="notepad-group-name">{group.name}</span>
-                <span className="notepad-group-count">{group.notes.length}</span>
-            </button>
+            <FoldHead className="notepad-group-head" open={open} label={group.name} name={group.name} count={group.notes.length} onToggle={() => setOpen(current => !current)} />
             {open && (
                 <div className="notepad-group-notes" id={id}>
                     {group.notes.map(note => (
@@ -443,36 +411,26 @@ export function NotepadPanel() {
 
             <div className="notepad-head">
                 <h2 className="notepad-title">Notes</h2>
-                <button
-                    type="button"
-                    className="strategy-add-button notepad-add"
+                <AddButton className="notepad-add"
                     onClick={() => {
                         NotepadService.addNote(OrganizationService.getSelected() ?? "");
                         window.setTimeout(() => panel.current?.querySelector<HTMLTextAreaElement>(".notepad-note-text")?.focus(), 0);
                     }}
                 >
                     + Add note
-                </button>
-                <button
-                    type="button"
-                    className="notepad-close"
-                    aria-label="Close notes"
-                    title="Fold the notes away"
-                    onClick={() => NotepadService.close()}
-                >
-                    ▸
-                </button>
+                </AddButton>
+                <NavArrow direction="next" label="Close notes" className="page-arrow notepad-close" onClick={() => NotepadService.close()} />
             </div>
 
-            {notes.length === 0
-                ? <p className="notepad-empty">No notes yet. Add one, and link it to any page, card or field.</p>
-                : (
-                    <div className="notepad-list">
-                        {noteGroups(notes).map(group => (
-                            <NoteGroup key={group.id || "general"} group={group} focusNoteIds={view.focusNoteIds} />
-                        ))}
-                    </div>
-                )}
+            {/* ONE scrolling column, padded as every card is: the card notes, then the notes of each Organization. */}
+            <div className="notepad-list">
+                <CardNotes />
+                {notes.length === 0
+                    ? <p className="notepad-empty">No notes yet. Add one, and link it to any page, card or field.</p>
+                    : noteGroups(notes).map(group => (
+                        <NoteGroup key={group.id || "general"} group={group} focusNoteIds={view.focusNoteIds} />
+                    ))}
+            </div>
 
         </aside>
     );
@@ -613,6 +571,65 @@ export function NotepadPicker() {
         <div className="notepad-pick-banner" role="status">
             Click a field or card to link it · Esc to cancel
         </div>
+    );
+
+}
+
+/** The event a card is asked for by (SectionTiles.tsx, OPEN_EVENT): the same string, so this file need not import the tiles. */
+const OPEN_CARD_EVENT = "section-tiles:open";
+
+/**
+ * THE CARD NOTES: the Notes text of every card of the organization, one row each (the card's name, the page it stands on, the text), under a funnel that chooses
+ * which pages to show. A press opens the card on its page.
+ */
+function CardNotes() {
+
+    const organizationId = OrganizationService.getSelected() ?? "";
+    const navigate = useNavigate();
+    const [open, setOpen] = useState(false);
+    const [off, setOff] = useState<ReadonlySet<string>>(new Set());
+    const all = useMemo(() => organizationId ? CardNotesService.collect(organizationId) : [], [organizationId, open]);
+    const pages = [...new Set(all.map(note => note.page))];
+    const shown = all.filter(note => !off.has(note.page));
+
+    if (all.length === 0) {
+        return null;
+    }
+
+    return (
+        <section className="notepad-group notepad-card-notes" aria-label="Card notes">
+            <div className="notepad-card-notes-head">
+                <FoldHead className="notepad-group-head" open={open} label="Card notes" name="Card notes" count={shown.length} onToggle={() => setOpen(current => !current)} />
+                {open && pages.length > 1 && (
+                    <ResponsibilityFilter
+                        off={off}
+                        options={pages}
+                        label="Choose the pages whose card notes show"
+                        onToggle={(page) => setOff(current => { const next = new Set(current); if (!next.delete(page)) { next.add(page); } return next; })}
+                    />
+                )}
+            </div>
+            {open && (
+                <div className="notepad-group-notes">
+                    {shown.map(note => (
+                        <button
+                            key={note.cardId}
+                            type="button"
+                            className="notepad-card-note"
+                            title={"Open " + note.name}
+                            onClick={() => places().then(module => {
+                                module.openLink(navigate, { organizationId, kind: "page", systemNumber: note.systemNumber, sectionNumber: note.sectionNumber, label: note.page, place: "", id: note.cardId });
+                                window.setTimeout(() => document.dispatchEvent(new CustomEvent(OPEN_CARD_EVENT, { detail: { card: note.cardId } })), 900);
+                            })}
+                        >
+                            <span className="notepad-card-note-name">{note.name}</span>
+                            <span className="notepad-card-note-page">{note.page}</span>
+                            <span className="notepad-card-note-text">{note.text}</span>
+                        </button>
+                    ))}
+                </div>
+            )}
+        </section>
     );
 
 }

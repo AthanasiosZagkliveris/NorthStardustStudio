@@ -1,0 +1,149 @@
+/* ==========================================================
+   THE LABEL ARROW (LabelArrow.tsx, docs/ai/layout-rules.md "The label arrow"): ONE fold arrow for the arrows that stand beside a
+   label or a text -- the chapter titles (1. Infrastructure), a founder's Responsibilities, the Initiatives.
+   - no frame, no ground: only the triangle;
+   - at rest an outline, in the card's tint, the colour of its "+" box; under the pointer and the keyboard focus the same triangle filled;
+   - the label's size: the triangle's base and its height are both the label's capital-letter height, 0.73em (--label-arrow-size where the label is
+     not its parent); pointing right while hidden, down (turned a quarter) while open.
+   The button is never under 24px (WCAG 2.2, target size) but takes no more room than the triangle: the box overhangs it.
+========================================================== */
+.label-arrow {
+
+    --label-arrow-hit: max(24px, 1em);
+    /* The outline's line, in 1em (about 1.5px at 16px) -- the inner triangle below is the outer one inset by it. */
+
+    position: relative;
+
+    flex: none;
+
+    box-sizing: border-box;
+
+    width: var(--label-arrow-hit);
+    height: var(--label-arrow-hit);
+
+    margin: 0 calc((0.611em - var(--label-arrow-hit)) / 2);
+    padding: 0;
+
+    border: 0;
+    border-radius: 0;
+
+    background: none;
+    box-shadow: none;
+
+    font-size: var(--label-arrow-size, inherit);
+    line-height: 1;
+
+    /* The card's tint, the same as its "+" box (--plus-fill, section-tiles.css). */
+    color: hsl(var(--strategy-theme-hue, 0) var(--plus-fill-saturation) var(--plus-fill-lightness));
+
+    cursor: pointer;
+
+}
+
+/* The triangle (an SVG): the Completed arrow's shape (11 wide, 18 high pointing right, 18 x 11 pointing down at an 18px label), scaled with the label's letters: 1em high, 0.611em deep; a 2px line drawn inside its edge. */
+.label-arrow > svg {
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: 0.611em;
+    height: 1em;
+
+    margin: -0.5em 0 0 -0.3055em;
+
+    overflow: visible;
+
+}
+
+.label-arrow > svg > polygon {
+
+    fill: none;
+
+    stroke: currentColor;
+    stroke-width: 2px;
+    stroke-linejoin: round;
+
+}
+
+.label-arrow[aria-expanded="true"] > svg {
+
+    /* Turned about its centre it is wider than it is deep: shifted by half the difference so its left edge stays on the content edge. */
+    transform: translateX(0.1945em) rotate(90deg);
+
+}
+
+.label-arrow:is(:hover, :focus-visible) > svg > polygon,
+.label-arrow[aria-pressed="true"] > svg > polygon {
+
+    fill: currentColor;
+
+}
+
+/* An arrow that chooses (the cost order): up or down, turned about its centre, filled while pressed. */
+.label-arrow[data-direction="down"] > svg {
+
+    transform: rotate(90deg);
+
+}
+
+.label-arrow[data-direction="up"] > svg {
+
+    transform: rotate(-90deg);
+
+}
+
+/* The keyboard focus is the filled triangle: no ring, no frame. */
+.label-arrow:focus-visible {
+
+    outline: none;
+
+}
+
+/* In a label: the arrow's glyph on the content edge, like a tick box, the words where a tick box's words start (26px from the edge: 18px box and 8px gap). */
+.field-label > .label-arrow,
+.strategy-box-number > .label-arrow {
+
+    margin-right: calc(26px - (0.611em + var(--label-arrow-hit)) / 2);
+
+}
+
+.field-label.field-label.field-label:has(> .label-arrow),
+.strategy-box-number.strategy-box-number:has(> .label-arrow) {
+
+    display: inline-flex;
+
+    align-items: center;
+
+}
+
+/* A chapter title's arrow: after the title and its "i", the title's size. */
+.card-title-row > .label-arrow {
+
+    --label-arrow-size: var(--font-h2);
+
+}
+
+/* The arrow of a card head, a section head or a Completed / Links head stands BEFORE its label as a sibling: its glyph on the head's content edge; the words follow at the head's own gap. A founder's Completed and Links heads put the words where a tick box's words start (26px from the edge). */
+.business-capability-responsibilities-head > .label-arrow {
+
+    margin-right: calc(26px - 12px - (0.611em + var(--label-arrow-hit)) / 2);
+
+}
+
+/* THE BACK ARROW (the "<" of the Back buttons): the navigation arrows' triangle, solid, pointing left, in the word's colour; 22 wide to 28 high, 0.8em high. */
+.back-arrow {
+
+    display: inline-block;
+
+    width: calc(0.8em * 22 / 28);
+    height: 0.8em;
+
+    vertical-align: -0.04em;
+
+    background: currentColor;
+
+    clip-path: polygon(100% 0, 0 50%, 100% 100%);
+
+}

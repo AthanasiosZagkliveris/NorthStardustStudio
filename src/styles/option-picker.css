@@ -52,7 +52,7 @@
 
     /* The app's one select padding (global.css): tighter than a
        field's 10px, and only 24px on the chevron side. */
-    padding:8px var(--select-padding-right) 8px var(--select-padding-left);
+    padding:7.5px var(--select-padding-right) 7.5px var(--select-padding-left);
 
     /* A value, not a button label. Buttons carry 10% tracking
        app-wide, which on a <select>'s own text is both wrong to
@@ -112,8 +112,6 @@
     top:100%;
     left:0;
 
-    z-index:20;
-
     /* EXACTLY THE CELL'S WIDTH (OptionPicker sets the width, the least and the most, and the left edge, from the cell's own box): the list's
        left and right edges are the cell's. A long option wraps inside that width (its full text is the tooltip). */
     min-width:100%;
@@ -127,7 +125,7 @@
 
     /* NO STROKE: the card is the surface's own light and shade (the boxes' inset), with the drop shadow under it. */
     border:0;
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-surface);
 
@@ -144,7 +142,7 @@
 
     padding:8px 10px;
 
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     font-size:var(--font-body);
     line-height:1.5;
@@ -172,6 +170,7 @@
 .option-picker-option-chosen{
 
     font-weight:700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     color:var(--glow-color);
 
@@ -220,5 +219,70 @@
 .option-picker-list{
 
     z-index:30;
+
+}
+
+/* ONE DROP-DOWN CELL, EVERYWHERE (the Country of a Legal Entity, a Frequency, the calendar's Show / Dates / Include, a document's Period): the field's box -- no stroke, the raised ground (inner light and shade, a button's), 6px corners, the body size at regular weight, the text colour -- the glow under the pointer and the ring on the focus. A place sets only its width; no page draws a dropdown of its own. */
+.option-picker .option-picker-trigger.interview-input{
+    border:1px solid transparent;
+    border-radius:var(--radius-md);
+    background-color:var(--bg-surface);
+    box-shadow:var(--cell-inset);
+    color:var(--text-default);
+    /* (The size and the height are the cell's own, so a page that draws none of its own has the same cell: the body size, 44px.) */
+    min-height:var(--card-cell-height);
+    font-size:var(--font-body);
+    font-weight:400;
+    text-transform:none;
+}
+.option-picker .option-picker-trigger.interview-input:hover:not(:focus, :focus-visible, :disabled, [aria-expanded="true"]){
+    box-shadow:var(--cell-inset), 0 0 0 4px color-mix(in srgb, var(--glow-color) calc(18% * var(--hover-lift, 1)), transparent);
+}
+.option-picker .option-picker-trigger.interview-input:is(:focus-visible, [aria-expanded="true"]){
+    outline:none;
+    box-shadow:var(--cell-inset), 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+}
+
+/* THE DROP-DOWN OF SEVERAL CHOICES (MultiPicker, OptionPicker.tsx): the same cell and list; its list is as wide as its words (at least the cell) with All and None above the ticks. */
+.multi-picker{
+    position:relative;
+    flex:0 0 auto;
+    min-width:0;
+}
+.multi-picker-list{
+    display:grid;
+    gap:var(--gap-6);
+    width:max-content;
+    min-width:100%;
+    max-width:none;
+}
+.multi-picker-list > .option-picker-option{
+    display:flex;
+    align-items:center;
+    gap:var(--gap-8);
+}
+.multi-picker-actions{
+    display:flex;
+    gap:var(--gap-6);
+    padding:4px 10px 6px;
+}
+
+/* A list that opens ABOVE its cell has its search box at the foot, next to the cell (not at the far top). */
+.option-picker-list.option-picker-list-above {
+
+    display: flex;
+    flex-direction: column;
+
+}
+
+.option-picker-list-above > .option-picker-search {
+
+    order: 2;
+
+    position: sticky;
+    top: auto;
+    bottom: 0;
+
+    margin: 4px 0 0;
 
 }

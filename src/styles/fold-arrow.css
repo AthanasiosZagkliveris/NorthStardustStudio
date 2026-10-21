@@ -1,0 +1,138 @@
+/* ==========================================================
+   The fold arrow (FoldArrow.tsx): the one open/closed arrow of every
+   card, group and head, loaded by the component so every page that
+   draws it has it (the cards' pages, the Review, the Notes panel).
+========================================================== */
+
+.strategy-box-toggle{
+
+    flex:0 0 auto;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:var(--text-default);
+
+    border:1px solid transparent;
+    border-radius:var(--radius-md);
+
+    background:transparent;
+
+    cursor:pointer;
+
+}
+
+.strategy-box-toggle:focus-visible{
+
+    outline:none;
+
+    border-color:var(--line-primary);
+
+    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
+
+}
+
+/* The open/closed arrow, DRAWN rather than typed, for the same
+   reason the delete X is (see "Delete controls"): a character is
+   only ever centred as a line box, and "▾"'s ink sits well below
+   the middle of its own em box -- at the 44px this needed to
+   read at, that put the arrow a pixel low in a 36px button and
+   left it dependent on whichever fallback font supplies the
+   glyph. Two triangles positioned from the button's own 50%/50%
+   are exactly centred, and identical on every machine.
+
+   The character stays in the markup as a fallback; the button
+   also carries its own aria-label and aria-expanded. */
+.strategy-box-toggle{
+
+    position:relative;
+
+    width:var(--fold-arrow-size);
+    height:var(--fold-arrow-size);
+
+    font-size:0;
+
+    line-height:1;
+
+}
+
+.strategy-box-toggle::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:50%;
+    left:50%;
+
+    width:0;
+    height:0;
+
+    border-style:solid;
+
+}
+
+/* THE OUTLINED TRIANGLE (the one fold arrow of every page): at rest a 1.5px outline in the ink colour, under the pointer and the keyboard focus the same triangle filled. A mask over the ink colour, 11 x 18 pointing right while folded, 18 x 11 pointing down while open, from the button's middle: nothing moves. No ground and no ring under the pointer: the filled triangle is the whole reaction. */
+
+.strategy-box-toggle::before {
+
+    border-width: 0;
+    background: currentColor;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+
+}
+
+.strategy-box-toggle[aria-expanded="false"]::before {
+
+    width: 11px;
+    height: 18px;
+    margin: -9px 0 0 -5.5px;
+
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 18'%3E%3Cpath d='M.75.75 10.25 9 .75 17.25Z' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 18'%3E%3Cpath d='M.75.75 10.25 9 .75 17.25Z' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+}
+
+.strategy-box-toggle[aria-expanded="true"]::before {
+
+    width: 18px;
+    height: 11px;
+    margin: -5.5px 0 0 -9px;
+
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 11'%3E%3Cpath d='M.75.75 17.25.75 9 10.25Z' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 11'%3E%3Cpath d='M.75.75 17.25.75 9 10.25Z' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+}
+
+.strategy-box-toggle[aria-expanded="false"]:is(:hover, :focus-visible)::before {
+
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 18'%3E%3Cpath d='M.75.75 10.25 9 .75 17.25Z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 18'%3E%3Cpath d='M.75.75 10.25 9 .75 17.25Z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+}
+
+.strategy-box-toggle[aria-expanded="true"]:is(:hover, :focus-visible)::before {
+
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 11'%3E%3Cpath d='M.75.75 17.25.75 9 10.25Z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 11'%3E%3Cpath d='M.75.75 17.25.75 9 10.25Z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+}
+
+/* No ground and no ring under the pointer: the filled triangle is the whole reaction. */
+.strategy-box-toggle.strategy-box-toggle.strategy-box-toggle:hover {
+
+    border-color: transparent;
+
+    background: transparent;
+
+    box-shadow: none;
+
+    text-shadow: none;
+
+}
+
+

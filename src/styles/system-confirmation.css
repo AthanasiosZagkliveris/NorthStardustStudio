@@ -50,6 +50,7 @@
     font-size: var(--font-h3);
 
     font-weight: 700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     color: var(--text-black);
 
@@ -81,7 +82,7 @@
 
     justify-content: center;
 
-    gap: 16px;
+    gap: var(--gap-16);
 
     margin-top: 28px;
 
@@ -95,7 +96,7 @@
 
     border: 2px solid var(--line-primary);
 
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
 
     font-size: var(--font-body);
 
@@ -144,6 +145,7 @@
        on hover either -- they signal hover with a background
        shift instead. */
     text-shadow: var(--hover-bold);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -170,6 +172,7 @@
        rather than a weight change (see --hover-bold in
        global.css), so the label does not move. */
     text-shadow: var(--hover-bold);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -207,6 +210,7 @@
        needed it most: white -> #fef2f2 is a 1.09:1 shift, the
        faintest hover in the app, on its most destructive action. */
     text-shadow: var(--hover-bold);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 /* ==========================================================

@@ -185,7 +185,7 @@ describe("an answer saved before the nine categories is moved into them (F3)", (
 
 describe("frequencies and quantity (F4)", () => {
 
-    test("the seven frequencies: Quarterly and % of revenue added; Per order and Other gone", () => {
+    test("the seven frequencies: Quarterly and % of Rev added; Per order and Other gone", () => {
         expect(BUSINESS_COST_FREQUENCIES.map(entry => entry.id)).toEqual(["one-time", "monthly", "quarterly", "annually", "per-unit", "per-project", "percent-revenue"]);
     });
 

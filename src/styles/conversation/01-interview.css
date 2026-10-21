@@ -1,0 +1,580 @@
+.interview-progress{
+
+    width:100%;
+    height:8px;
+
+    background:var(--bg-track);
+
+    border-radius:10px;
+
+    overflow:hidden;
+
+    margin:0;
+
+}
+
+.interview-progress-bar{
+
+    height:100%;
+
+    background:var(--bg-primary);
+
+    transition:0.3s;
+
+}
+
+/* ==========================================================
+   Dividers
+========================================================== */
+
+.interview-divider{
+
+    height:2px;
+
+    background:var(--bg-primary);
+
+    border:none;
+
+    margin:24px 0;
+
+}
+
+/* 12px above, none below -- the parent .conversation-card's flex
+   "gap" (also 12px) supplies the spacing below, so every step down
+   the Interview Page reads at the same rhythm: title -> line ->
+   texts -> progress line -> answer boxes. */
+.interview-header .interview-divider{
+
+    margin-top:12px;
+
+    margin-bottom:0;
+
+    /* Tinted to the System's Capability colour, same
+       as the title text next to it -- and mixed toward white
+       in dark mode the same way (--capability-ink-weight,
+       colors.css), so a navy System's rule does not vanish
+       into the dark page. Light mode draws the colour as is. */
+    background:color-mix(in srgb, var(--capability-color, var(--bg-primary)) var(--capability-ink-weight), var(--capability-ink-base));
+
+}
+
+.interview-header-title-row{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+}
+
+.interview-header-icon{
+
+    width:36px;
+    height:36px;
+
+    flex-shrink:0;
+
+    object-fit:contain;
+
+}
+
+.interview-header h1{
+
+    margin:0;
+
+    color:color-mix(in srgb, var(--capability-color, var(--text-default)) var(--capability-title-weight), var(--capability-title-base));
+
+    /* A fixed 36px rather than global.css's clamp(28px, 2vw + 20px,
+       48px) -- the Interview Page's System title is deliberately
+       smaller and stays that size at every window width, so the
+       title-to-content proportion reads the same on a laptop and on
+       a wide monitor. Applies to every System's Interview Page,
+       since InterviewHeader renders all of them. */
+    font-size:var(--font-h1);
+
+}
+
+/* The page-title half of the header ("— Definition") is regular
+   weight, so the System's own name stays the bold anchor and the
+   page reads as a subordinate label rather than a second title of
+   equal weight. Same size and colour, weight only. */
+.interview-header-page-title{
+
+    font-weight:400;
+
+}
+
+/* "— INTRODUCTION": in capitals on screen only (text-transform), so
+   the words read aloud stay "Introduction". */
+.interview-header-page-title-capitals{
+
+    text-transform:uppercase;
+
+}
+
+/* ==========================================================
+   Interview Section
+========================================================== */
+
+.interview-section-title{
+
+    margin-bottom:20px;
+
+}
+
+/* The selected Product's name (item 7) -- rendered as its own
+   direct child of .conversation-card, between the System title
+   (InterviewHeader) and the Section title (InterviewSection),
+   at the requested 36px. No manual margin needed: it's just
+   another item in .conversation-card's flex column, so the
+   existing 30px "gap" (see the .interview-header .interview-
+   divider comment above) already spaces it correctly on both
+   sides. */
+.product-name-banner{
+
+    font-size:var(--font-h1);
+    font-weight:600;
+
+    color:var(--text-default);
+
+}
+
+.interview-block{
+
+    margin-bottom:24px;
+
+}
+
+.interview-block-heading{
+
+    margin-bottom:10px;
+
+}
+
+.interview-block-content{
+
+    font-size:var(--font-body);
+    line-height:1.5;
+
+    color:var(--text-soft);
+
+}
+
+.interview-block-content:empty{
+
+    display:none;
+
+}
+
+.interview-empty-state{
+
+    color:var(--text-subtle);
+
+    font-style:italic;
+
+}
+
+/* ==========================================================
+   Introduction (one sentence per paragraph)
+========================================================== */
+
+/* One paragraph gap and one line height (--body-line) for the
+   introduction and the facts beside it. */
+.intro-sentence{
+
+    margin-bottom:var(--space-field);
+
+    line-height:var(--body-line);
+
+    color:var(--text-soft);
+
+}
+
+.intro-sentence:last-child{
+
+    margin-bottom:0;
+
+}
+
+/* ONE LAYOUT FOR EVERY SYSTEM'S OPENING SCREEN. The question and
+   the introduction are running text, kept to a reading measure
+   (60ch: about 70 characters a line) rather than the card's full
+   1400px; the facts -- what it covers, what it uses from earlier,
+   the thinking time -- sit beside them in a quiet panel on a wide
+   screen, and under them below 1100px. Start Interview comes under
+   both (.intro-start), wherever the facts go.
+
+   Beside each other, the two columns share two rows, and each row
+   holds its pair on ONE BASELINE: the question's LAST line with the
+   first fact's title ("What it covers"), so a question that wraps
+   grows upwards and still ends level with the title; then the
+   introduction's first line with the facts' first line. The
+   question and every fact title END AT THEIR LAST BASELINE
+   (text-box trimmed there), whatever their type size, and each is
+   the same --space-field above what it leads: the gap under the
+   question is the gap under the title, and the rows hold the same
+   rhythm on both sides. */
+.intro-layout{
+
+    --intro-lead-line:calc(var(--font-h3) * 1.35);
+
+    display:grid;
+
+    grid-template-columns:minmax(0, 60ch);
+    grid-template-areas:
+        "question"
+        "text"
+        "covers"
+        "facts";
+
+}
+
+.intro-guiding-question{ grid-area:question; }
+
+.intro-text{ grid-area:text; min-width:0; }
+
+.intro-covers-label{ grid-area:covers; }
+
+.intro-facts{ grid-area:facts; }
+
+/* Under the text on a narrow screen, the facts start a group gap
+   below it. */
+.intro-covers-label{
+
+    margin-top:calc(2 * var(--space-field));
+
+}
+
+@media (min-width: 1100px){
+
+    .intro-layout{
+
+        /* Two equal columns, so the rule between them (::before) is
+           at the exact middle of the page, with the same 32px to
+           each column and the same outer margins. */
+        grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-areas:
+            "question covers"
+            "text facts";
+        column-gap:64px;
+
+    }
+
+    .intro-guiding-question,
+    .intro-covers-label{
+
+        align-self:last baseline;
+
+    }
+
+    .intro-text,
+    .intro-facts{
+
+        align-self:first baseline;
+
+    }
+
+    .intro-covers-label{
+
+        margin-top:0;
+
+    }
+
+    /* A rule down the facts' side sets them apart from the text, as
+       tall as the taller column: drawn by the layout itself, down
+       the whole of the second column, rather than by the facts' own
+       box (which ends where they do). */
+    .intro-layout::before{
+
+        content:"";
+
+        grid-column:2;
+        grid-row:1 / -1;
+
+        justify-self:start;
+        align-self:stretch;
+
+        /* In the middle of the 64px gap: half of it, less half the
+           1px rule. */
+        margin-left:-32.5px;
+
+        border-left:1px solid var(--line-divider);
+
+    }
+
+}
+
+/* The question the System answers: the lead, at the subheading
+   size, in italics and the ink of the text rather than bold, after
+   a dialogue dash (U+2015) the layout draws, never the content. */
+.intro-guiding-question{
+
+    margin:0 0 var(--space-field);
+
+    font-size:var(--font-h3);
+    font-style:italic;
+    font-weight:500;
+    line-height:var(--intro-lead-line);
+
+    text-box:trim-end cap alphabetic;
+
+    color:var(--text-strong);
+
+}
+
+.intro-guiding-question::before{
+
+    content:"\2015\00a0" / "";
+
+}
+
+/* What it covers, what it uses from earlier, and the thinking time:
+   the caption title (global.css) over body text; one gap between a
+   title and what it names, a larger one between the groups. */
+.intro-facts{
+
+    display:flex;
+    flex-direction:column;
+    gap:calc(2 * var(--space-field));
+
+    min-width:0;
+
+    margin:0;
+
+}
+
+.intro-fact-label{
+
+    margin:0 0 var(--space-field);
+
+    line-height:var(--intro-lead-line);
+
+    text-box:trim-end cap alphabetic;
+
+}
+
+.intro-fact-text{
+
+    margin:0;
+
+    font-size:var(--font-body);
+    line-height:var(--body-line);
+
+    color:var(--text-soft);
+
+}
+
+.intro-fact-line{
+
+    margin:0;
+
+}
+
+/* "You can stop at any time; everything is saved." -- a line of
+   its own under the thinking time, quieter than it. */
+.intro-fact-note{
+
+    color:var(--text-subtle);
+
+}
+
+/* The System's pages, as the Pages rail names them, in the app's
+   shown-not-asked numbered list (.numbered-list-static,
+   numbered-list.css): its right-aligned number column, its text
+   indent and its --space-row between lines. Each opens the
+   interview at that page. */
+.intro-fact-text > .numbered-list-static{
+
+    margin-top:var(--space-label);
+
+}
+
+.intro-page-link{
+
+    padding:0;
+
+    border:0;
+
+    background:none;
+
+    font:inherit;
+    line-height:inherit;
+    letter-spacing:normal;
+
+    text-align:start;
+
+    color:var(--text-primary);
+
+    text-decoration:underline;
+    text-decoration-color:transparent;
+    text-underline-offset:3px;
+
+    cursor:pointer;
+
+}
+
+.intro-page-link:hover,
+.intro-page-link:focus-visible{
+
+    text-decoration-color:currentColor;
+
+}
+
+.intro-page-link:focus-visible{
+
+    outline:2px solid var(--line-primary);
+    outline-offset:2px;
+    border-radius:2px;
+
+}
+
+/* ==========================================================
+   Need Help
+========================================================== */
+
+.interview-help{
+
+    margin-top:24px;
+
+}
+
+.interview-help-toggle{
+
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    height:44px;
+
+    padding:0 20px;
+
+    border:1px solid var(--box-border);
+    border-radius:var(--radius-lg);
+
+    background:var(--bg-surface);
+
+    color:var(--text-default);
+
+    font:inherit;
+    font-size:var(--font-body);
+    font-weight:500;
+
+    cursor:pointer;
+
+    transition:background-color .2s ease;
+
+}
+
+.interview-help-toggle:hover{
+
+    background:var(--accent-ground-hover);
+
+    border-color:var(--accent-line);
+
+    color:var(--accent-hover-ink);
+
+    --wired-ring:var(--accent-line);
+
+    text-shadow:var(--hover-bold);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+}
+
+.interview-help-panel{
+
+    margin-top:16px;
+
+    padding:20px;
+
+    border:1px solid var(--line-rule);
+    border-radius:var(--radius-lg);
+
+    background:var(--bg-panel);
+
+}
+
+.interview-help-block + .interview-help-block{
+
+    margin-top:16px;
+
+}
+
+.interview-help-heading{
+
+    margin-bottom:8px;
+
+}
+
+.interview-help-content{
+
+    line-height:1.75;
+
+    color:var(--text-soft);
+
+}
+
+/* ==========================================================
+   Start Interview, on a System's opening screen: under the
+   content (both columns), 48px below it, centred, with the
+   next-page arrow beside it (.page-arrow, global.css).
+========================================================== */
+
+.intro-start{
+
+    grid-column:1 / -1;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    margin-top:48px;
+
+}
+
+/* START INTERVIEW, ONE SHAPE: a cell whose left side keeps the app's
+   corner radius and whose right side tapers to a point -- the whole
+   arrow one button, one hover, one press. The shape is a clip; the
+   focus ring, which a clip would cut away, is drawn round the same
+   shape by the wrapper's drop-shadows: a ring of the page's ground,
+   then one of the primary line. */
+.start-arrow-button{
+
+    --arrow-depth:24px;
+
+    padding-right:calc(28px + var(--arrow-depth));
+
+    clip-path:polygon(0 0, calc(100% - var(--arrow-depth)) 0, 100% 50%, calc(100% - var(--arrow-depth)) 100%, 0 100%);
+
+}
+
+.start-arrow-button:active:not(:disabled){
+
+    background:var(--bg-primary-hover);
+
+}
+
+.start-arrow-button:focus-visible{
+
+    outline:none;
+
+}
+
+.start-arrow{
+
+    display:inline-flex;
+
+}
+
+.start-arrow:has(> .start-arrow-button:focus-visible){
+
+    filter:
+        drop-shadow(0 0 1px var(--bg-page))
+        drop-shadow(0 0 1px var(--bg-page))
+        drop-shadow(0 0 1px var(--line-primary))
+        drop-shadow(0 0 1px var(--line-primary))
+        drop-shadow(0 0 1px var(--line-primary));
+
+}
+

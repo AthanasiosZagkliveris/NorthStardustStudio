@@ -6,9 +6,9 @@ describe("one tick box", () => {
 
     it("gives every checkbox one fixed size that a wrapping label cannot squeeze, beside its label's first line", () => {
         const css = stylesheet("global.css");
-        expect(css).toContain("input[type=\"checkbox\"] { flex: none; width: 18px; height: 18px; margin: 0; font: inherit; line-height: inherit;");
+        expect(css).toContain("input[type=\"checkbox\"] { flex: none; width: var(--size-mark); height: var(--size-mark); margin: 0; font: inherit; line-height: inherit;");
         expect(css).toContain("label:has(> input[type=\"checkbox\"]) { align-items: flex-start;");
-        expect(css).toContain("label:has(> input[type=\"checkbox\"]) > input[type=\"checkbox\"] { margin-top: calc((1lh - 18px) / 2); }");
+        expect(css).toContain("label:has(> input[type=\"checkbox\"]) > input[type=\"checkbox\"] { margin-top: calc((1lh - var(--size-mark)) / 2); }");
     });
 
     it("leaves no checkbox a size of its own", () => {
@@ -27,9 +27,9 @@ describe("one tick box", () => {
         // A tick box that is not inside its label (a Text Hierarchy level's)
         // reacts the same, under the pointer on the box itself.
         expect(css).toContain(".brand-tick:has(> input[type=\"checkbox\"]:not(:disabled):hover) > :not(input) { text-decoration: underline;");
-        expect(css).toContain(".brand-tick > input[type=\"checkbox\"]:not(:disabled):hover:not(:focus-visible) { border-radius: 3px;");
-        // (Inverted: the glow is inside the box.)
-        expect(css).toContain("box-shadow: inset 0 0 0 1px var(--line-primary), inset 0 0 6px 2px color-mix(in srgb, var(--glow-color) 45%, transparent);");
+        // The box itself takes a field's hover: the soft glow round it (no wire), flat when ticked.
+        expect(css).toContain("input[type=\"checkbox\"]:hover:not(:disabled):not(:focus-visible) { box-shadow: var(--cell-inset-recess), 0 0 0 4px color-mix(in srgb, var(--glow-color) calc(18% * var(--hover-lift, 1)), transparent); }");
+        expect(css).toContain("input[type=\"checkbox\"]:checked { box-shadow: none;");
     });
 
 });

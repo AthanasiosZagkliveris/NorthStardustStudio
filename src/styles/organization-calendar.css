@@ -22,7 +22,8 @@
        `.workspace-footer`) exactly, so the panel's own visible
        band sits precisely between them, never overlapping. */
     top:80px;
-    bottom:64px;
+    /* (The footer has no ground of its own: the panel runs to the window's foot and the Back link stands over it.) */
+    bottom:0;
 
     /* Below the header (40) and footer (30)... except those two
        don't actually overlap this panel spatially at all (the
@@ -303,6 +304,7 @@
 
     font-size:var(--font-h3);
     font-weight:700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     color:var(--text-default);
 
@@ -351,36 +353,10 @@
 
 }
 
-.org-calendar-month-nav-button{
+/* The month arrows are the navigation arrows (global.css, .page-arrow): they keep their size whatever the label asks of the row. */
+.org-calendar-month-arrow{
 
-    width:30px;
-    height:30px;
-
-    display:inline-flex;
-
-    align-items:center;
-    justify-content:center;
-
-    border:1px solid var(--line-box);
-    border-radius:6px;
-
-    background:var(--bg-surface);
-
-    /* Button tier. */
-    font-size:var(--font-body);
-    line-height:1;
-
-    cursor:pointer;
-
-    transition:background-color .15s ease, border-color .15s ease;
-
-}
-
-.org-calendar-month-nav-button:hover{
-
-    background:var(--bg-primary-tint);
-
-    border-color:var(--line-primary);
+    flex:none;
 
 }
 
@@ -392,6 +368,7 @@
 
     font-size:var(--font-body);
     font-weight:700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     color:var(--text-default);
 
@@ -403,7 +380,7 @@
 
     grid-template-columns:repeat(7, 1fr);
 
-    gap:4px;
+    gap:var(--gap-4);
 
 }
 
@@ -420,6 +397,7 @@
     /* Text tier. */
     font-size:var(--font-body);
     font-weight:700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     color:var(--text-subtle);
 
@@ -489,12 +467,12 @@
 
     justify-content:flex-start;
 
-    gap:2px;
+    gap:var(--gap-2);
 
     padding:4px 2px;
 
     border:1px solid var(--line-calendar);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--bg-surface);
 
@@ -506,11 +484,6 @@
 
 }
 
-.org-calendar-day:hover{
-
-    background:var(--bg-table-head);
-
-}
 
 .org-calendar-day-blank{
 
@@ -522,21 +495,6 @@
 
 }
 
-.org-calendar-day-today{
-
-    border-color:var(--line-primary);
-
-    font-weight:700;
-
-}
-
-.org-calendar-day-selected{
-
-    background:var(--bg-primary-tint);
-
-    border-color:var(--line-primary);
-
-}
 
 /* Text tier, at a line box no taller than the digits need: the
    cell is a fixed 56.57px square (see `.org-calendar-day` above)
@@ -568,7 +526,7 @@
 
     /* 2px, not 3: three 6px dots plus the "+N" badge beside them
        have to stay inside the cell's own 50.5px of content. */
-    gap:2px;
+    gap:var(--gap-2);
 
     max-width:100%;
 
@@ -589,6 +547,7 @@
 
     font-size:var(--font-body);
     font-weight:700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
     line-height:1;
 
     color:var(--text-primary);
@@ -611,6 +570,7 @@
 
     font-size:var(--font-body);
     font-weight:700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     color:var(--text-default);
 
@@ -638,12 +598,10 @@
    Log entry, edited from its own System, can make it disappear. */
 .org-calendar-task{
 
-    padding:10px 12px;
-
     margin-bottom:10px;
 
     border:1px solid var(--line-calendar);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--bg-panel);
 
@@ -657,7 +615,7 @@
 
     justify-content:space-between;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     margin-bottom:4px;
 
@@ -675,6 +633,7 @@
     /* Text tier. */
     font-size:var(--font-body);
     font-weight:700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -692,6 +651,7 @@
     /* Button tier. */
     font-size:var(--font-body);
     font-weight:700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     padding:0;
 
@@ -726,7 +686,7 @@
 
     flex-direction:column;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     padding-top:8px;
 
@@ -741,11 +701,12 @@
 
     flex-direction:column;
 
-    gap:4px;
+    gap:var(--gap-4);
 
     /* Text tier. */
     font-size:var(--font-body);
     font-weight:700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     text-transform:uppercase;
 
@@ -811,7 +772,7 @@
 
     flex-direction:column;
 
-    gap:8px;
+    gap:var(--gap-8);
 
 }
 
@@ -840,7 +801,7 @@
     text-align:left;
 
     border:none;
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:none;
 
@@ -870,6 +831,7 @@
 .org-rail-capability-item:hover{
 
     text-shadow:var(--hover-bold);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -879,7 +841,7 @@
 
     flex-direction:column;
 
-    gap:6px;
+    gap:var(--gap-6);
 
 }
 
@@ -908,7 +870,7 @@
     text-align:left;
 
     border:none;
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:none;
 
@@ -927,6 +889,7 @@
 .org-rail-system-item:hover .org-rail-system-title{
 
     text-shadow:var(--hover-bold);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -992,7 +955,7 @@
     line-height:1.5;
 
     border:1px solid var(--line-box);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--bg-surface);
 
@@ -1034,7 +997,6 @@
 .org-calendar-date-format-label,
 .org-calendar-month-label,
 .org-calendar-weekday,
-.org-calendar-day-today,
 .org-calendar-day-dot-overflow,
 .org-calendar-selected-title,
 .org-calendar-task-origin,
@@ -1107,7 +1069,7 @@
     display:flex;
     flex-direction:column;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     margin-bottom:12px;
 
@@ -1119,7 +1081,7 @@
     flex-wrap:wrap;
     align-items:center;
 
-    gap:6px;
+    gap:var(--gap-6);
 
 }
 
@@ -1148,31 +1110,11 @@
 
     padding:4px 10px;
 
-    border:1px solid var(--box-border);
-    border-radius:999px;
-
-    background:var(--bg-surface);
-    color:var(--text-default);
-
-    font:inherit;
-    font-size:var(--font-small);
-
-    cursor:pointer;
-
-}
-
-.org-calendar-chip:hover:not(:disabled){
-
-    border-color:var(--line-primary);
-
 }
 
 .org-calendar-chip[aria-pressed="true"]{
 
     border-color:var(--line-primary);
-
-    background:var(--bg-primary);
-    color:var(--text-on-primary, #fff);
 
 }
 
@@ -1201,7 +1143,7 @@
     display:flex;
     flex-wrap:wrap;
 
-    gap:6px;
+    gap:var(--gap-6);
 
 }
 
@@ -1213,29 +1155,7 @@
 
 }
 
-.org-calendar-funnel-kinds{
 
-    display:grid;
-
-    gap:4px;
-
-    padding:8px 10px;
-
-    border:1px solid var(--box-border);
-    border-radius:8px;
-
-}
-
-.org-calendar-funnel-kind{
-
-    display:flex;
-    align-items:center;
-
-    gap:8px;
-
-    font-size:var(--font-small);
-
-}
 
 .org-calendar-agenda{
 
@@ -1260,7 +1180,7 @@
     flex-wrap:wrap;
     align-items:baseline;
 
-    gap:4px 10px;
+    gap:var(--gap-4) 10px;
 
     padding:6px 0 6px 10px;
 
@@ -1275,6 +1195,7 @@
     flex:none;
 
     font-weight:700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -1292,65 +1213,15 @@
     display:flex;
     align-items:center;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     flex:0 1 auto;
 
 }
 
-.org-calendar-dropdown{
 
-    width:auto;
-    max-width:100%;
 
-    min-height:var(--card-cell-height, 44px);
 
-    font-size:var(--font-body);
-    text-align:left;
-
-}
-
-.org-calendar-multi{
-
-    position:relative;
-
-    flex:0 0 auto;
-
-    min-width:0;
-
-}
-
-.org-calendar-multi-list{
-
-    position:absolute;
-    z-index:5;
-
-    top:calc(100% + 4px);
-    left:0;
-
-    display:grid;
-
-    gap:6px;
-
-    min-width:100%;
-    padding:10px;
-
-    border:1px solid var(--box-border);
-    border-radius:8px;
-
-    background:var(--bg-surface);
-
-    box-shadow:0 8px 24px var(--shadow-18);
-
-}
-
-.org-calendar-multi-actions{
-
-    display:flex;
-
-    gap:6px;
-
-}
 
 /* A day's event: what the date is, the card's name as a link, and (on hovering) a button that adds a note. */
 .org-calendar-task{
@@ -1367,29 +1238,14 @@
     flex-wrap:wrap;
     align-items:baseline;
 
-    gap:4px 10px;
+    gap:var(--gap-4) 10px;
 
 }
 
 .org-calendar-task-kind{
 
     font-weight:700;
-
-}
-
-.org-calendar-task-link{
-
-    padding:0;
-
-    border:0;
-
-    background:none;
-    color:var(--bg-primary);
-
-    font:inherit;
-    text-decoration:underline;
-
-    cursor:pointer;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -1416,12 +1272,40 @@
 
 }
 
-.org-calendar-multi > .org-calendar-dropdown,
-select.org-calendar-dropdown{
 
-    font-family:inherit;
-    letter-spacing:normal;
 
-    background:var(--bg-surface);
+/* ==========================================================
+   THE CALENDAR'S CONTROLS ARE THE APP'S: its small buttons (the
+   month's arrows, All and None, the periods) are the add button's
+   look (the accent ink, line and ground, capitals, the same
+   reactions); its drop-down cells are the option picker's (the
+   chevron, the field's box), and what they open is the option
+   picker's list (no stroke, the raised edge and the drop shadow,
+   the rows' padding).
+========================================================== */
+.org-calendar-chip[aria-pressed="true"]{
+
+    background:var(--bg-primary);
+    color:var(--text-on-fill);
+
+}
+
+
+/* THE LEFT PANEL stands over the page with a shadow on its right side; the footer has no ground, so the Back link stands clear of the panel's handles and is hidden while the panel is open. */
+.org-calendar-panel{
+
+    box-shadow:6px 0 18px var(--shadow-ink-18);
+
+}
+
+body:has(.org-calendar-panel) .workspace-footer .back-link{
+
+    left:72px;
+
+}
+
+body:has(.org-calendar-panel-open) .workspace-footer .back-link{
+
+    visibility:hidden;
 
 }
