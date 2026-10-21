@@ -10,7 +10,7 @@ import { asFinancialFoundationValue, asFinancialSustainabilityValue } from "../f
 
 /**
  * THE EXAMPLES ARE CURRENT: each saved page of an example, read by the app's own reader for that page, comes back as it was saved. A field the interface gained since the
- * example was written (it would be filled with a default), or one it dropped, shows here: the example is then reworked (docs/examples keeps the owner's copy).
+ * example was written (it would be filled with a default), or one it dropped, shows here: the example is then reworked (src/data/examples is the one copy).
  */
 const PAGES: { system: number; section: number; name: string; read: (value: unknown) => unknown }[] = [
     { system: 1, section: 3, name: "Legal Entity", read: asLegalEntityValue },
@@ -74,8 +74,8 @@ describe.each([["Lumen & Loom Studio", lumen], ["Quillfield Automation LLC", qui
 });
 
 /**
- * UPDATING THE EXAMPLES: \`UPDATE_EXAMPLES=1 npx vitest run src/services/ExampleDrift.test.ts\` writes every page of both examples as the app reads it, into src/data/examples and
- * docs/examples (the owner's copy). Without the variable nothing is written.
+ * UPDATING THE EXAMPLES: \`UPDATE_EXAMPLES=1 npx vitest run src/services/ExampleDrift.test.ts\` writes every page of both examples as the app reads it, into src/data/examples (the one copy).
+ * Without the variable nothing is written.
  */
 describe.skipIf(!ENV.UPDATE_EXAMPLES)("updating the examples", () => {
 
@@ -91,7 +91,6 @@ describe.skipIf(!ENV.UPDATE_EXAMPLES)("updating the examples", () => {
             }
             const text = JSON.stringify(copy, null, 2).split("\n").join("\r\n") + "\r\n";
             writeFileSync("src/data/examples/" + file, text);
-            writeFileSync("docs/examples/" + file, text);
         }
     });
 

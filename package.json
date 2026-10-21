@@ -28,6 +28,7 @@
     "lint:controls:baseline": "node scripts/lint/shared-controls.mjs --write-baseline",
     "lint:styles:baseline": "node scripts/lint/lint-styles.mjs --write-baseline",
     "tauri": "tauri",
+    "export:app": "node scripts/export/app.mjs",
     "check:layout": "node scripts/layout-check/run.mjs --quick",
     "check:layout:baseline": "node scripts/layout-check/run.mjs --quick --write-baseline",
     "check:layout:wide": "node scripts/layout-check/run.mjs --wide",

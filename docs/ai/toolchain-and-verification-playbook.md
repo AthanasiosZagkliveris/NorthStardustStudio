@@ -37,7 +37,11 @@ Document tests: `src/docs/documentReferences.test.ts` (six documents name only p
 
 A green run proves the logic, not the look. How the app renders and responds to the pointer is checked by the layout check and by looking (steps 5 and 6).
 
-To rewrite the examples after an interface change: `UPDATE_EXAMPLES=1 npx vitest run src/services/ExampleDrift.test.ts` (it writes both examples from the app's own readers); the golden figures are rewritten with `WRITE_GOLDEN=all`.
+To rewrite the examples after an interface change: `UPDATE_EXAMPLES=1 npx vitest run src/services/ExampleDrift.test.ts` (it writes both examples, in `src/data/examples/`, from the app's own readers); the golden figures are rewritten with `WRITE_GOLDEN=all`.
+
+## The app files alone
+
+`npm run export:app` copies the app's own files (no tests, documents, tools or catalogue) into `exports/app/` (ignored by git) and builds them there; `-- --clean` also installs in that folder alone. It fails, naming the file, if an app file imports something that was left out. See `docs/design/26-folder-plan.md`.
 
 ## Continuous integration
 

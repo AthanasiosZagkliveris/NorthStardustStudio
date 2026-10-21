@@ -49,7 +49,8 @@ const DESIGN = [
   ["docs/design/22-shared-components.md", "current design", "Which components are shared, with their props, what is still hand-made, and a short history.", false],
   ["docs/design/23-help-texts.md", "current design", "The help texts of the app.", true],
   ["docs/design/24-popups.md", "current design", "Pop-ups in six categories, with their placement rules.", true],
-  ["docs/design/25-tooltips.md", "current design", "Which controls have a tooltip, what it says, and the five rules.", true]
+  ["docs/design/25-tooltips.md", "current design", "Which controls have a tooltip, what it says, and the five rules.", true],
+  ["docs/design/26-folder-plan.md", "proposal", "The app files, the examples and the working files: what is where, and a three-step plan to separate them.", true]
 ];
 const SPEC = [
   ["docs/specifications/business-system/README.md", "specification", "The Business System: index of the pages and the editor mapping.", true],
@@ -100,7 +101,6 @@ ${table(SPEC)}
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [examples/](examples/) | data | The two example organizations (Quillfield Automation, Lumen & Loom Studio) as JSON; the same files are in \`src/data/examples/\`. | ${date("docs/examples/quillfield-automation-llc.json")} |
 ${ar.map(row).join("\n")}
 `;
 writeFileSync(R + "docs/README.md", idx);

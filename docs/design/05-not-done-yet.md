@@ -299,4 +299,4 @@ Still open:
 
 ## 5.10 What stayed in the project, and why
 
-- `docs/examples/`: the owner's own copy of the two examples; the app reads `src/data/examples`. `UPDATE_EXAMPLES=1 npx vitest run src/services/ExampleDrift.test.ts` writes both from the app's own readers; the drift and review tests fail when an example is behind the interface.
+- `src/data/examples/`: the one copy of the two examples (the app reads it; `docs/examples/` was removed 2026-10-22). `UPDATE_EXAMPLES=1 npx vitest run src/services/ExampleDrift.test.ts` writes both from the app's own readers; the drift and review tests fail when an example is behind the interface.

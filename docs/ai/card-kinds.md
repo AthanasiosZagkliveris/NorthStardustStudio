@@ -6,16 +6,16 @@ Every card that opens from a tile (floating, or in a tile's dialog), by kind: wh
 
 | # | Card | Opens from | Code | Head | Number inside the name cell |
 |---|---|---|---|---|---|
-| 1 | Resource (software, rented, offering, channel-made; the Workspace is a Resource of the category Workspace) | Infrastructure / Offering's Capability: Resources | `BusinessCapabilityEditor.tsx` `resourceCard` -> `BusinessCard` | `.strategy-box-head` in `.card-box-open > .business-capability-slot` | yes |
-| 2 | Activity | Activities | `BusinessCapabilityEditor.tsx` `activityRow` | `.business-capability-activity-head` | yes |
-| 3 | Partner / Provider / Professional | Partners & Suppliers | `BusinessCapabilityEditor.tsx` `partnerCard` -> `BusinessCard` | as 1 | yes |
-| 4 | Offering delivery | Offering's Capability: Delivery | `BusinessCapabilityEditor.tsx` `deliveryCard` | as 1 (name is plain text, no x) | yes |
-| 5 | Founder (Infrastructure) | Founders | `BusinessCapabilityEditor.tsx` `founderCard` | `.business-founder-open` (its own left edge: the marker column holds the bullets and numbers of its lists) | no: no name cell; its number and name are one line, content keeps the marker edge |
-| 6 | Channel / subchannel (LinkedIn, Instagram ...) | Customer Engagement: a channel's tile | `BusinessEngagementEditor.tsx` `subchannelHead` | `.business-subchannel-head` | yes |
-| 7 | Segment: Profile, Competitor, Offering | Business Foundation tiles | `BusinessFoundationEditor.tsx` (via `BusinessCard`) | `.floating-card-body .column-tile-content > .business-foundation-card` | yes |
+| 1 | Resource (software, rented, offering, channel-made; the Workspace is a Resource of the category Workspace) | Infrastructure / Offering's Capability: Resources | `capability/useCapabilityCardFields.tsx` `resourceCard` -> `BusinessCard` | `.strategy-box-head` in `.card-box-open > .business-capability-slot` | yes |
+| 2 | Activity | Activities | `capability/useCapabilitySections.tsx` `activityRow` | `.business-capability-activity-head` | yes |
+| 3 | Partner / Provider / Professional | Partners & Suppliers | `capability/useCapabilityPeopleCards.tsx` `partnerCard` -> `BusinessCard` | as 1 | yes |
+| 4 | Offering delivery | Offering's Capability: Delivery | `capability/useCapabilityActivityAndDelivery.tsx` `deliveryCard` | as 1 (name is plain text, no x) | yes |
+| 5 | Founder (Infrastructure) | Founders | `capability/useCapabilityPeopleCards.tsx` `founderCard` | `.business-founder-open` (its own left edge: the marker column holds the bullets and numbers of its lists) | no: no name cell; its number and name are one line, content keeps the marker edge |
+| 6 | Channel / subchannel (LinkedIn, Instagram ...) | Customer Engagement: a channel's tile | `engagement/useEngagementChannelBoxes.tsx` `subchannelHead` | `.business-subchannel-head` | yes |
+| 7 | Segment: Profile, Competitor, Offering | Business Foundation tiles | `foundation/useFoundationSubsections.tsx` (via `BusinessCard`) | `.floating-card-body .column-tile-content > .business-foundation-card` | yes |
 | 8 | Segment: Description, Value Proposition | Business Foundation tiles | same file | no head (the card is a section) | no head |
-| 9 | Legal requirement | Legal Entity: Registrations | `LegalEntityEditor.tsx` `requirementCard` -> `BusinessCard` (`legal`) | `.legal-entity-card-head` | yes |
-| 10 | Legal expense | Legal Entity: Expenses | `LegalEntityEditor.tsx` (expense card) -> `BusinessCard` (`legal`) | as 9 | yes |
+| 9 | Legal requirement | Legal Entity: Registrations | `legal/useLegalCardsAndSections.tsx` `requirementCard` -> `BusinessCard` (`legal`) | `.legal-entity-card-head` | yes |
+| 10 | Legal expense | Legal Entity: Expenses | `legal/useLegalCardsAndSections.tsx` (expense card) -> `BusinessCard` (`legal`) | as 9 | yes |
 | 11 | Founders' profile | Identity: Organization, a founder's tile | `FoundersProfileEditor.tsx` -> `BusinessCard` (`legal`) | as 9 (name is plain text, no x) | yes |
 | 12 | Brand colour | Brand: Colours | `BrandStyleEditor.tsx` `colourCard` | `.brand-style-card` | yes |
 | 13 | Brand typeface | Brand: Typography | `BrandStyleEditor.tsx` `typefaceCard` | as 12 | yes |

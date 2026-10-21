@@ -37,7 +37,8 @@ const raw = firstMarkdown(
 
 function parseDescriptions(source: string): CapabilityDescription[] {
 
-    const blocks = source.split(/\n-{3,}\n/);
+    // The file is saved with Windows line endings: read as they are, no "---" line would split it and the whole file would be the first Capability's text.
+    const blocks = source.split("\r\n").join("\n").split(/\n-{3,}\n/);
 
     const results: CapabilityDescription[] = [];
 

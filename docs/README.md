@@ -23,10 +23,10 @@ Status: **index**, updated 2026-10-21. One line per document: where it is, what 
 | [ai/review-criteria.md](ai/review-criteria.md) | rules | The standard a screen is judged by: criteria by kind (type, spacing, controls, colour, tiles, cards, tables, windows, pages, data), how each is measured, the report. | 2026-10-21 |
 | [ai/review-checklist.md](ai/review-checklist.md) | rules | What to check when reviewing a table, tile, card, page or control, and the proof before saying done. | 2026-10-21 |
 | [ai/code-map.md](ai/code-map.md) | reference | Where things are in src: the folders and what is in each; the rules for a new file. | 2026-10-21 |
-| [ai/app-guide.md](ai/app-guide.md) | reference | Where each part of the app is, what it is for, with the code locations. | 2026-10-21 |
+| [ai/app-guide.md](ai/app-guide.md) | reference | Where each part of the app is, what it is for, with the code locations. | 2026-10-22 |
 | [ai/layout-rules.md](ai/layout-rules.md) | rules | The measured rulebook of the Foundation pages (tokens, sizes, alignment, interactions) and the layout check. | 2026-10-21 |
 | [ai/tile-and-card-pattern.md](ai/tile-and-card-pattern.md) | rules | How tiles, frames, cards, rails and dialogs are built; the global rules. | 2026-10-21 |
-| [ai/card-kinds.md](ai/card-kinds.md) | reference | The kinds of card, where each one's code is, how its head is built. | 2026-10-21 |
+| [ai/card-kinds.md](ai/card-kinds.md) | reference | The kinds of card, where each one's code is, how its head is built. | 2026-10-22 |
 | [ai/customer-engagement-layout.md](ai/customer-engagement-layout.md) | rules | Layout of the Customer Engagement tables, the channel resources and the action markers. | 2026-10-20 |
 | [ai/outstanding-findings.md](ai/outstanding-findings.md) | living list | Confirmed problems found by diagnostic skills and not yet fixed. | 2026-10-21 |
 
@@ -37,7 +37,7 @@ Status: **index**, updated 2026-10-21. One line per document: where it is, what 
 | [design/01-current-design.md](design/01-current-design.md) | current design | Every kind of element the Foundation capability is built from, by layer. | 2026-10-21 |
 | [design/02-references.md](design/02-references.md) | reference | Every decision in the app and the source behind it. | 2026-10-14 |
 | [design/03-research.md](design/03-research.md) | reference | The research record: sources, findings, how they were weighed. | 2026-10-14 |
-| [design/04-log.md](design/04-log.md) | log | History, changes and updates, newest on top. Every change is written here, nowhere else. | 2026-10-21 |
+| [design/04-log.md](design/04-log.md) | log | History, changes and updates, newest on top. Every change is written here, nowhere else. | 2026-10-22 |
 | [design/05-not-done-yet.md](design/05-not-done-yet.md) | living list | The road, the plans and what has not been done yet. | 2026-10-21 |
 | [design/06-catalogue-record.md](design/06-catalogue-record.md) | generated | The catalogue record of the app's pages, fields and cards. | 2026-10-15 |
 | [design/07-structure-tables.md](design/07-structure-tables.md) | generated | The structure tables (npm run tables). | 2026-10-18 |
@@ -59,6 +59,7 @@ Status: **index**, updated 2026-10-21. One line per document: where it is, what 
 | [design/23-help-texts.md](design/23-help-texts.md) | current design | The help texts of the app. | 2026-10-21 |
 | [design/24-popups.md](design/24-popups.md) | current design | Pop-ups in six categories, with their placement rules. | 2026-10-21 |
 | [design/25-tooltips.md](design/25-tooltips.md) | current design | Which controls have a tooltip, what it says, and the five rules. | 2026-10-21 |
+| [design/26-folder-plan.md](design/26-folder-plan.md) | proposal | The app files, the examples and the working files: what is where, and a three-step plan to separate them. | 2026-10-22 |
 
 ## The specifications (`specifications/`)
 
@@ -77,7 +78,6 @@ Status: **index**, updated 2026-10-21. One line per document: where it is, what 
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [examples/](examples/) | data | The two example organizations (Quillfield Automation, Lumen & Loom Studio) as JSON; the same files are in `src/data/examples/`. | 2026-10-18 |
 | [archive/engineering-phase-completion.md](archive/engineering-phase-completion.md) | archive | The engineering phase completion report. | 2026-10-20 |
 | [archive/plans/2026-09-29-workspace-D-duplicate-scenarios-compare.md](archive/plans/2026-09-29-workspace-D-duplicate-scenarios-compare.md) | archive | Brief: workspace features D, duplicate, scenarios, compare (not started). | 2026-10-20 |
 | [archive/plans/2026-09-29-workspace-E-founder-helpers.md](archive/plans/2026-09-29-workspace-E-founder-helpers.md) | archive | Brief: workspace features E, helpers for founders (not started). | 2026-10-20 |
