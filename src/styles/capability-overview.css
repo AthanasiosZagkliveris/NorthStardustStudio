@@ -173,7 +173,7 @@
 }
 
 .capability-overview-menu .business-foundation-tick-label,
-.strategy-sort-menu-wide .strategy-sort-option {
+.strategy-sort-menu-wide .menu-option {
 
     overflow: hidden;
 
@@ -208,7 +208,7 @@
 }
 
 /* The orders are the dropdown's options: the body size, regular, no capitals. */
-.strategy-sort-menu-wide .strategy-sort-option {
+.strategy-sort-menu-wide .menu-option {
 
     display: flex;
     align-items: center;

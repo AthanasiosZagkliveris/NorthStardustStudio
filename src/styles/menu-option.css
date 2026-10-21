@@ -1,0 +1,53 @@
+/* THE MENU OPTION (MenuOption.tsx): the dropdown list's row (option-picker.css) drawn as a button of a menu -- one line, no frame, the glow under the pointer and the keyboard. */
+.menu-option {
+
+    display: flex;
+    align-items: center;
+
+    box-sizing: border-box;
+    width: 100%;
+
+    margin: 0;
+
+    border: 0;
+
+    background: none;
+
+    font: inherit;
+    font-size: var(--font-body);
+    text-align: left;
+
+    white-space: nowrap;
+
+}
+
+.menu-option:is(:hover, :focus-visible):not(:disabled) {
+
+    background: color-mix(in srgb, var(--glow-color) 18%, transparent);
+
+}
+
+.menu-option:focus-visible {
+
+    outline: none;
+
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+
+}
+
+.menu-option:disabled {
+
+    color: var(--text-muted);
+
+    cursor: default;
+
+}
+
+/* The column of the bullet that marks the order in use. */
+.menu-option-bullet {
+
+    display: inline-block;
+
+    width: 1em;
+
+}

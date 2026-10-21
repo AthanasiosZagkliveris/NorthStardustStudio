@@ -1,4 +1,5 @@
 import type { ItemFolds } from "./useItemFolds";
+import TextLink from "./TextLink.tsx";
 
 import "../../../styles/card-folding.css";
 
@@ -42,14 +43,13 @@ export default function FoldAllToggle({
     const allOpen = folds.allOpen(all);
 
     return (
-        <button
-            type="button"
+        <TextLink
             className="fold-all-toggle"
             aria-label={(allOpen ? "Collapse all " : "Expand all ") + label}
             onClick={() => folds.setAll(all, !allOpen)}
         >
             {allOpen ? "Collapse all" : "Expand all"}
-        </button>
+        </TextLink>
     );
 
 }

@@ -1,3 +1,4 @@
+import MenuOption from "../../controls/MenuOption.tsx";
 import { DragEvent, KeyboardEvent, MouseEvent, ReactNode, useLayoutEffect, useRef, useState } from "react";
 import AddButton from "../../controls/AddButton.tsx";
 import RemoveButton from "../../controls/RemoveButton.tsx";
@@ -195,11 +196,10 @@ export default function BoxActions({
                             {menuContent}
 
                             {sortOptions?.map(option => (
-                                <button
+                                <MenuOption
                                     key={option.id}
-                                    type="button"
-                                    className="strategy-sort-option"
-                                    role="menuitem"
+                                    chosen={sortSelected === option.id}
+                                    marked={sortSelected !== undefined}
                                     onClick={() => {
                                         onSort?.(option.id);
                                         if (!keepOpen) {
@@ -207,11 +207,8 @@ export default function BoxActions({
                                         }
                                     }}
                                 >
-                                    {sortSelected !== undefined && (
-                                        <span className="strategy-sort-bullet" aria-hidden="true">{sortSelected === option.id ? "•" : ""}</span>
-                                    )}
                                     {option.label}
-                                </button>
+                                </MenuOption>
                             ))}
 
                         </div>

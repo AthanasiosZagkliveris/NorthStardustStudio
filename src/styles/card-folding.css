@@ -160,36 +160,10 @@
 
 }
 
-/* "Expand all / Collapse all", a quiet text control beside a group title. */
+/* "Expand all / Collapse all" is a text link (TextLink) at the far end of a group's title row: it only stands there. */
 .fold-all-toggle {
 
     margin-left: auto;
-    padding: 2px 8px;
-
-    border: none;
-    background: none;
-    cursor: pointer;
-
-    border-radius: var(--radius-sm);
-
-    font-size: var(--font-small);
-    color: var(--accent-ink);
-
-}
-
-/* Underlined, on the family's hover ground (see --accent-* in
-   global.css). */
-.fold-all-toggle:hover {
-
-    background: var(--accent-ground-hover);
-    text-decoration: underline;
-
-}
-
-.fold-all-toggle:focus-visible {
-
-    outline: 2px solid var(--line-primary);
-    outline-offset: 2px;
 
 }
 

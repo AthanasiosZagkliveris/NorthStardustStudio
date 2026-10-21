@@ -212,22 +212,6 @@
 /* "or choose one below": a plain line in black, not a heading; the
    choices under it are the blue actions, as "Write your own" is. */
 
-.strategy-sort-option:disabled{
-
-    color:var(--text-muted);
-
-    cursor:default;
-
-}
-
-/* An added Theme in the "+ Add Theme" menu: no hover, it cannot be chosen. */
-.strategy-sort-option:disabled:hover{
-
-    background:transparent;
-
-    text-shadow:none;
-
-}
 
 
 /* Refresh is a header tool button (the app header's own look), with its "i" beside it; the note it carried is in the "i". */

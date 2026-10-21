@@ -11,6 +11,7 @@ A shared control loads its own stylesheet (it imports it), never only a page's s
 | Component | File | What it is | Props that matter | Where it stands |
 |---|---|---|---|---|
 | `RadioChoice` | `controls/RadioChoice.tsx` | A choice of one among a few, drawn as a round with a bullet and its word. Each option is a native radio (arrows move, Space chooses). | `label` (for a screen reader), `group` (the radios' name), `options` (`id`, `label`, optional `name`), `value`, `onChange`, `disabled` | The one component for rounds: Units / %, Tiles / Table, the table's text size ("Aa" in three sizes). Replaced hand-made round choices. |
+| `MenuOption` | `controls/MenuOption.tsx` | A row of a menu pressed to choose it: the dropdown list's own row (`option-picker-option`: its type, its glow under the pointer, its bold chosen row) as a button; `chosen` marks the order in use, `marked` keeps a column for its bullet. | `chosen`, `marked`, the button's own props | The orders of the sort menus (a section's funnel, the Inventory's window). Replaced `strategy-sort-option`. |
 | `SegmentedToggle` | `controls/SegmentedToggle.tsx` | A choice among a few drawn as joined buttons. | `label`, `options`, `value`, `onChange`, `allowClear` | Stays for the date presentation (the Settings dialog and the calendar panel). The table text size left it for `RadioChoice`. |
 | `FoldArrow` | `interview/fields/FoldArrow.tsx` | The one arrow that folds and unfolds: an outlined triangle in the ink colour, filled under the pointer and the keyboard focus. | `open`, `variant` (`card`, 36px, the default; or `label`, which stands inside a label or after a title in the label's own colour and size), `label` or `name` (the accessible name), `controls`, `onToggle`; for the label variant also `direction` (`up` or `down`) and `pressed`, which make it a chooser instead of a folder (the cost order of the Inventory: pressed is filled) | Replaced `LabelArrow` (no such component now) and the typed arrows. Used by card heads, groups, labels, the title help, `FoldHead`. Still typed: the rows of the Process library (a page not reachable in this app version). |
 | `FoldHead` | `controls/FoldHead.tsx` | The head of a folding group outside the cards: the fold arrow, the name, the count and a rule under them. Clicking the name folds too. | `open`, `label`, `name`, `count`, `onToggle`, `children` | The Review's Organizations and the Notes panel's groups. |
@@ -48,10 +49,7 @@ A card opened from another card that stays open stands below it as a pair (`Stac
 Each needs a decision before it is replaced (the classes were found in the code on 2026-10-21):
 
 - the answer-variant cards (`answer-variant-card`: a card chosen among several);
-- the profile card add tile (`profile-card-add-tile`);
-- the fold-all toggles ("Expand all", `FoldAllToggle`, in the Brand editor);
 - the chips of the Notes panel and of a channel's resources (`notepad-chip-open`, `notepad-suggestion`);
-- the sort menu's options (`strategy-sort-option`);
 - the calendar's day cells, the rail items, the date popup's days, the landing cards, the tabs of the Business Documents, the picture boxes;
 - `NumberedListInput` and `SuggestedInput` (editors with their own keys, not copies), the Strategy boxes' heads (`StrategyHead`, no fold arrow), the sub-channel head, the Brand column headings, the image-holder label (a layout rule measures it);
 - the Process library's expand toggles and typed arrows (a page not reachable in this app version).

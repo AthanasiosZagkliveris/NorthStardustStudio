@@ -44,7 +44,6 @@ describe("the button colour family", () => {
         expect(add).toContain("background: var(--accent-ground);");
         expect(accent).toMatch(/:hover:not\(:disabled\)[^{]*\{[^}]*background: var\(--accent-ground-hover\);/);
         expect(rule(css, ".interview-help-toggle:hover{")).toContain("color:var(--accent-hover-ink);");
-        expect(rule(stylesheet("card-folding.css"), "*/ .fold-all-toggle {")).toContain("color: var(--accent-ink);");
         expect(rule(stylesheet("workspace.css"), ".secondary-button:hover:not(:disabled) {")).toContain("background: var(--accent-ground-hover);");
     });
 

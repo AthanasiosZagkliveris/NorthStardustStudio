@@ -41,7 +41,7 @@ Status: **index**, updated 2026-10-21. One line per document: where it is, what 
 | [design/05-not-done-yet.md](design/05-not-done-yet.md) | living list | The road, the plans and what has not been done yet. | 2026-10-21 |
 | [design/06-catalogue-record.md](design/06-catalogue-record.md) | generated | The catalogue record of the app's pages, fields and cards. | 2026-10-15 |
 | [design/07-structure-tables.md](design/07-structure-tables.md) | generated | The structure tables (npm run tables). | 2026-10-18 |
-| [design/08-library-system.md](design/08-library-system.md) | current design | The library system: tables, library, inventory and logs. | 2026-10-16 |
+| [design/08-library-system.md](design/08-library-system.md) | current design | The library system: tables, library, inventory and logs. | 2026-10-21 |
 | [design/09-assets-library.md](design/09-assets-library.md) | generated | The assets library: every asset, its variants and contract. | 2026-10-17 |
 | [design/10-library-log.md](design/10-library-log.md) | log | The library log, newest rows on top (npm run library:log). | 2026-10-21 |
 | [design/11-library-log-archive.md](design/11-library-log-archive.md) | archive | Older rows of the library log. | 2026-10-21 |

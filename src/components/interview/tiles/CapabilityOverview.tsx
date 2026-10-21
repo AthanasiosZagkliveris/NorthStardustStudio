@@ -3,6 +3,7 @@ import TextLink from "../fields/TextLink.tsx";
 import InfoNote from "../fields/InfoNote.tsx";
 import RemoveButton from "../../controls/RemoveButton.tsx";
 import NumberCell from "../../controls/NumberCell.tsx";
+import MenuOption from "../../controls/MenuOption.tsx";
 import RadioChoice from "../../controls/RadioChoice.tsx";
 import FoldArrow from "../fields/FoldArrow.tsx";
 import TileGrid from "./TileGrid.tsx";
@@ -238,16 +239,9 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                 {!folded.has("sort") && (
                     <div className="capability-overview-menu-body capability-overview-menu-orders" id="funnel-sort" role="group" aria-label="Sort">
                         {FLOOR_SORTS.filter(sort => !sort.id.startsWith("cost")).map(sort => (
-                            <button
-                                key={sort.id}
-                                type="button"
-                                className="strategy-sort-option"
-                                role="menuitem"
-                                onClick={() => patch({ sort: sort.id })}
-                            >
-                                <span className="strategy-sort-bullet" aria-hidden="true">{filter.sort === sort.id ? "•" : ""}</span>
+                            <MenuOption key={sort.id} marked chosen={filter.sort === sort.id} onClick={() => patch({ sort: sort.id })}>
                                 {sort.label}
-                            </button>
+                            </MenuOption>
                         ))}
                     </div>
                 )}

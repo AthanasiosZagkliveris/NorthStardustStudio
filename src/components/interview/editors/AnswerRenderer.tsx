@@ -1935,15 +1935,13 @@ function SingleAnswerRenderer({
 
                         ))}
 
-                        <button
-                            type="button"
-                            className="profile-card-add-tile"
+                        <AddButton
+                            shape="box"
+                            className="profile-card-add"
                             aria-label={`Add ${cardLabel}`}
                             disabled={disabled}
                             onClick={addCard}
-                        >
-                            +
-                        </button>
+                        />
 
                     </div>
 

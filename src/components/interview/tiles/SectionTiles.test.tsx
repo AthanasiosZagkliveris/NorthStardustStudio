@@ -1431,7 +1431,7 @@ describe("the Inventory funnel menu", () => {
         expect(arrows.map(arrow => arrow.getAttribute("aria-label"))).toEqual(["Unfold Include", "Unfold Sort", "Unfold Belongs to", "Unfold Columns"]);
         expect(arrows.every(arrow => arrow.tagName === "BUTTON" && arrow.getAttribute("aria-expanded") === "false")).toBe(true);
         expect(within(menu).queryByLabelText("Include: Founders")).toBeNull();
-        expect(menu.querySelectorAll(".strategy-sort-option")).toHaveLength(0);
+        expect(menu.querySelectorAll(".menu-option")).toHaveLength(0);
         expect(within(menu).queryByLabelText("Belongs to: Infrastructure")).toBeNull();
         // The other blocks stay: Linked, Costs.
         expect(within(menu).getByLabelText("Costs: Costs")).toBeTruthy();
@@ -1439,9 +1439,9 @@ describe("the Inventory funnel menu", () => {
         expect(within(menu).getByLabelText("Include: Founders")).toBeTruthy();
         expect(within(menu).getByRole("button", { name: "Fold Include" }).getAttribute("aria-expanded")).toBe("true");
         fireEvent.click(within(menu).getByRole("button", { name: "Unfold Sort" }));
-        expect(menu.querySelectorAll(".strategy-sort-option").length).toBeGreaterThan(0);
+        expect(menu.querySelectorAll(".menu-option").length).toBeGreaterThan(0);
         // (The orders come right after Include in the menu, before Belongs to.)
-        const order = [...menu.querySelectorAll<HTMLElement>("strong, .strategy-sort-option")].map(node => node.textContent);
+        const order = [...menu.querySelectorAll<HTMLElement>("strong, .menu-option")].map(node => node.textContent);
         expect(order.indexOf("Sort")).toBeGreaterThan(order.indexOf("Include"));
         expect(order.indexOf("Belongs to")).toBeGreaterThan(order.findIndex(text => (text ?? "").includes("Page order")));
         fireEvent.click(within(menu).getByRole("button", { name: "Unfold Belongs to" }));

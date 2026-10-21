@@ -537,41 +537,10 @@
 
 }
 
-.profile-card-add-tile{
+/* The + that adds a profile card is the app's + box (AddButton, box): at the end of the row, on its foot. */
+.profile-card-add{
 
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    flex:0 0 180px;
-
-    width:180px;
-    min-height:120px;
-
-    border:1px dashed var(--line-add-tile);
-    border-radius:10px;
-
-    background:var(--bg-add-tile);
-
-    color:var(--text-subtle);
-
-    font-size:var(--font-h2);
-    line-height:1;
-
-    cursor:pointer;
-
-    transition:background-color .2s ease, border-color .2s ease, color .2s ease;
-
-}
-
-.profile-card-add-tile:hover:not(:disabled){
-
-    background:var(--accent-ground-hover);
-
-    border-color:var(--accent-line);
-
-    color:var(--accent-hover-ink);
+    align-self:flex-end;
 
 }
 

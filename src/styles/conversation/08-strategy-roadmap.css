@@ -494,40 +494,6 @@
 
 }
 
-.strategy-sort-option{
-
-    padding:8px 10px;
-
-    font:inherit;
-    font-size:var(--font-body);
-    text-align:left;
-
-    color:var(--text-default);
-
-    border:none;
-    border-radius:var(--radius-md);
-
-    background:transparent;
-
-    cursor:pointer;
-
-    white-space:nowrap;
-
-}
-
-.strategy-sort-option:hover{
-
-    background:var(--bg-primary-tint-hover);
-
-}
-
-.strategy-sort-option:focus-visible{
-
-    outline:none;
-
-    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
-
-}
 
 /* ==========================================================
    Strategic Period box -- aligned date buttons
@@ -793,7 +759,6 @@
 .strategy-add-button:hover:not(:disabled),
 .strategy-box-action:hover:not(:disabled),
 .strategy-box-toggle:hover,
-.strategy-sort-option:hover,
 .roadmap-bar:hover{
 
     text-shadow:var(--hover-bold);
