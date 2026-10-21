@@ -7,7 +7,7 @@ import { ButtonHTMLAttributes, forwardRef } from "react";
  *  - "box": the "+" box of a tile or a status row (\`.plus-box\`; \`small\` is the 32px one), drawn by the box itself;
  *  - "tile": the dashed "Add Card" tile at the end of a grid of tiles.
  * `look` gives the "wide" button another of the app's button looks instead of the accent one (the page's one primary action `primary-button`, the secondary one, a dialog's `confirmation-button primary` / `secondary` / `danger`, the help toggle); it is the same control, not another.
- * The class a place passes says only where it stands; what each shape looks like and how it reacts is in layout-rules.md (section 6) and 20-reactions.md (R4).
+ * The class a place passes says only where it stands; what each shape looks like and how it reacts is in layout-rules.md (section 6) and 19-reactions.md (R4).
  */
 type AddShape = "wide" | "box" | "tile";
 

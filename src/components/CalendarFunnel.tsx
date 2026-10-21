@@ -69,25 +69,37 @@ export default function CalendarFunnel({
     return (
         <div className="org-calendar-funnel">
 
+            {/* THE THREE CHOICES IN ONE ROW: the period shown, the kinds of date, what is included. */}
             <div className="org-calendar-funnel-row">
-                <label className="org-calendar-funnel-field">
-                    <span className="org-calendar-funnel-label">Show</span>
-                    <OptionPicker
-                        label="Period"
-                        options={labels}
-                        value={current}
-                        onChange={(next) => {
-                            if (next === NEW) {
-                                setAdding(true);
-                                return;
-                            }
-                            onPeriod(next === MONTH ? null : periods.find(period => period.label === next)?.id ?? null);
-                        }}
-                    />
-                </label>
+                <OptionPicker
+                    label="Show"
+                    hug
+                    keepWidth
+                    options={labels}
+                    value={current}
+                    onChange={(next) => {
+                        if (next === NEW) {
+                            setAdding(true);
+                            return;
+                        }
+                        onPeriod(next === MONTH ? null : periods.find(period => period.label === next)?.id ?? null);
+                    }}
+                />
                 {chosen?.custom && (
                     <RemoveButton aria-label={"Remove the period " + chosen.label} onClick={() => onRemovePeriod(chosen.id)} />
                 )}
+                <MultiPicker
+                    label="Dates"
+                    options={CARD_DATE_KINDS.map(kind => ({ id: kind.id, label: kind.label }))}
+                    selected={kinds}
+                    onChange={onKinds}
+                />
+                <MultiPicker
+                    label="Include"
+                    options={CALENDAR_INCLUDES.map(entry => ({ id: entry.id, label: entry.label }))}
+                    selected={includes}
+                    onChange={onIncludes}
+                />
             </div>
 
             {adding && (
@@ -109,20 +121,6 @@ export default function CalendarFunnel({
                 </div>
             )}
 
-            <div className="org-calendar-funnel-row">
-                <MultiPicker
-                    label="Dates"
-                    options={CARD_DATE_KINDS.map(kind => ({ id: kind.id, label: kind.label }))}
-                    selected={kinds}
-                    onChange={onKinds}
-                />
-                <MultiPicker
-                    label="Include"
-                    options={CALENDAR_INCLUDES.map(entry => ({ id: entry.id, label: entry.label }))}
-                    selected={includes}
-                    onChange={onIncludes}
-                />
-            </div>
 
         </div>
     );

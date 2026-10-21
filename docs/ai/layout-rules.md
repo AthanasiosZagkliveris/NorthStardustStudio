@@ -1185,7 +1185,7 @@ drawn only in a dialog that its tile opens.
 - **Name** is the app's `TextLink` at the table's size, one row cut by an ellipsis between 14 and 22rem; the column and the heading are kept while the table scrolls sideways (it does, where it does not fit). The default text is the small one below 1900px of window width.
 - **Table mode** uses `--table-ground`, `--table-ink`, `--table-line`, `--table-tint` and `--table-hover` per theme (ink at least 7:1), a sticky heading and the three text sizes (`--font-small`, `--font-body`, `--font-h3`).
 - The legend says Supplier (it said Provider); "Partners and Providers" is "Partners and Suppliers" everywhere. The Offering's Type list has one "Partners & Suppliers" option whichever of the two the place has.
-- **Words**: every tooltip of the Inventory is one sentence that begins "Click to ..." (design document 26).
+- **Words**: every tooltip of the Inventory is one sentence that begins "Click to ..." (design document 25).
 
 ---
 
@@ -1747,7 +1747,7 @@ The owner's rules of one round, each global: made in a shared component, token o
 9. **A change that leaves a generated card with no use** (the parent's Status, Activity, Partner or Supplier changes, or the parent is removed, and no other card names it) is asked about first; Continue removes the generated card, Cancel changes nothing. What goes with a change on the screen (a name box opening) follows only once it is made (`onChange(next, after)`).
 
 **Notes, texts and names**
-10. **Four free texts** (docs/design/22): short text; list line (one row by default, everywhere, the channel's action lines too); note (every optional text is labelled **Notes**, its key unchanged); long text (eight rows).
+10. **Four free texts** (docs/design/21): short text; list line (one row by default, everywhere, the channel's action lines too); note (every optional text is labelled **Notes**, its key unchanged); long text (eight rows).
 11. **The Notes panel lists every card's Notes** under a funnel that chooses pages; a press opens the card (`CardNotesService`).
 12. **A name takes two rows at most** (`CardNameInput`), then scrolls. **A long name never covers its number**: on a tile or a card's head the number stays and the text slides behind it.
 13. **Every text link is one component** (`TextLink`); a link with the keyboard's focus is bold and underlined but does not slide.
@@ -1794,16 +1794,16 @@ One section for the three rounds of the day, merged by topic; each rule is globa
 
 **Contrast and lines**
 18. **Lines are seen**: the divider, rule, hairline and heading-rule tokens and the System cards' rules hold 3:1 on their grounds in every reading mode (`tokens.ts` pairs).
-19. **Quillfield (the example) is a sole proprietorship**; **pop-ups are six categories** (docs/design/25 (the pop-ups)).
+19. **Quillfield (the example) is a sole proprietorship**; **pop-ups are six categories** (docs/design/24 (the pop-ups)).
 
 **More rules of 2026-10-19**
 20. **The funnel that leaves something out is always seen**: filled, its funnel in the card's ground; the global rule that clears every wired button at rest leaves a button that is switched on (`data-active`) alone.
 21. **A generated card adds, never removes**: it serves what the cards connected to it serve (the card that made it, every other card that names it), the user may add others, and nothing a connected card serves is taken off it (the ticks keep them); what it gains never changes those cards (`connectedOfferings`, `withInheritedOfferings`).
-22. **A frequency belongs to its group**: a card offers only what its group offers (a card with no group the groups of its master tile together); a card that CHANGES its category or group starts its Frequency again ("Select", or the only one its new group offers; its unit and a named "other" with it, the price stays), and one the group lacks, found on an older card, moves to the group's first (docs/design/19). A hand-made landlord or lessor card shows its group's own extras.
+22. **A frequency belongs to its group**: a card offers only what its group offers (a card with no group the groups of its master tile together); a card that CHANGES its category or group starts its Frequency again ("Select", or the only one its new group offers; its unit and a named "other" with it, the price stays), and one the group lacks, found on an older card, moves to the group's first (docs/design/18). A hand-made landlord or lessor card shows its group's own extras.
 23. **One Notes panel column**: the card notes and the notes of each Organization stand in one scrolling column, 16px padded; a card note is a note's box (12px padding, 6px between its lines, glow on the pointer, ring on the focus).
 24. **Shared components** (every place that needs one uses it, never its own markup): Back (`BackButton`), remove (`RemoveButton`), funnel (`FunnelButton`), add (`AddButton`: wide, box, tile), number cell (`NumberCell`), tick box (`TickBox`), field label (`FieldLabel`), date (`DateCellInput`), month (`MonthYearPicker`), text link (`TextLink`), dropdown (`OptionPicker`), optional note (`OptionalNote`, one note class: `business-foundation-note`), tick with its words (`TickField`), popup (`PopupPanel`, `usePopupDismiss`), Legal Entity row (`FieldRow`), free text (`TextField`: grows, list writing, its CSS height is the floor), name (`NameCell`) the folding card's head (`CardHead`: arrow, number, mark, name, actions, summary) tooltip (`TooltipBox`, `useAboveTip`), the card's outer box (`CardShell`) and the grid of tiles (`TileGrid`), label arrow (`FoldArrow` (variant label), also the Inventory menu's) and fold arrow (`FoldArrow`, cards and sections).
 
-**Where the rules of the fields are** (labels, cells, gaps): sizes of cells and the closed set of widths, section 4; alignment of labels and cells, section 5; shared components and states (rest, hover, focus, disabled), section 6; lists, grids and card layouts, section 7; dates and formats, section 15; texts and names, section 16; and rules 22.1 to 22.11 above (the one reaction of a cell, the gaps 12 and 6, the one label, the one date and month field). The reactions are tabulated in docs/design/20-reactions.md.
+**Where the rules of the fields are** (labels, cells, gaps): sizes of cells and the closed set of widths, section 4; alignment of labels and cells, section 5; shared components and states (rest, hover, focus, disabled), section 6; lists, grids and card layouts, section 7; dates and formats, section 15; texts and names, section 16; and rules 22.1 to 22.11 above (the one reaction of a cell, the gaps 12 and 6, the one label, the one date and month field). The reactions are tabulated in docs/design/19-reactions.md.
 25. **One funnel**: `FunnelButton` (the "+" box with the one drawn funnel, filled while it leaves something out) opens every filter or sort: a founder's Responsibilities, the card notes, the Inventory, a section's sort.
 26. **A text that underlines but clips its overflow** has room for its line (3px under the letters, taken back by the margin): a typeface of the Typography tile underlines on hover.
 27. **Vertical fields**: a label over its cell stand 6px apart, everywhere (measured: 85 of 85 label-over-cell pairs on the nine pages, and the founder's card); a label beside its cell stands 12px from it.

@@ -3,7 +3,7 @@ import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { aboveTipPosition, hueOf, TooltipBox } from "./Tooltip.tsx";
 
 /**
- * THE APP'S TOOLTIP (the rules are in docs/design/26-tooltips.md). The browser draws a `title` as a plain white rectangle with a black frame and letters, in whatever
+ * THE APP'S TOOLTIP (the rules are in docs/design/25-tooltips.md). The browser draws a `title` as a plain white rectangle with a black frame and letters, in whatever
  * mode the system is in; this host, mounted once, takes the `title` of an element away and shows words in the app's own tooltip (`TooltipBox`) -- but only where a
  * tooltip is of use:
  *  1. only a CONTROL that is pressed (a button, a link, a tab, a menu item, a summary) has one -- never a field (it has its label and its value), a tick (its words), a tile or a card

@@ -1,5 +1,5 @@
 /**
- * Writes the list of the fields (docs/design/16-fields-list.md), with the field names (scripts/library/field-names.mjs) as its last part: for every field, the components it uses, its words,
+ * Writes the list of the fields (docs/design/15-fields-list.md), with the field names (scripts/library/field-names.mjs) as its last part: for every field, the components it uses, its words,
  * its reaction and its effect, and, under it, its variants (the forms it takes in the cards, from the card tables of
  * docs/design/07-structure-tables.md). With --export it also writes the Excel and CSV versions into exports/, where the
  * variants are folded under their field. The first part lists the ADD buttons that exist in the four systems, with
@@ -14,7 +14,7 @@ import { REACTION, SOURCE, DETAIL } from "./specs.mjs";
 import { writeXlsx } from "./xlsx.mjs";
 import { fieldNamesSection } from "./field-names.mjs";
 
-const file = "docs/design/16-fields-list.md";
+const file = "docs/design/15-fields-list.md";
 const db = await build(".");
 const byCode = new Map(library.assets.map(a => [a.code, a]));
 const variantByCode = new Map(library.assets.flatMap(a => a.variants.map(v => [v.code, { v, a }])));

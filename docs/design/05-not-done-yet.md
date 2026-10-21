@@ -6,9 +6,9 @@ Status: **living list**, written 2026-10-14, reorganised 2026-10-21. Remove an i
 
 **The release**: the branch `chore/light-cleanup` is not pushed and `main` has not moved since 478da24. After the owner has tried it once: merge, push and tag; then extract the Foundation web app (5.7).
 
-**Waiting for the owner**: the proposals in `19-frequency-options.md` (frequency groups); the generated cards' inputs beyond "adding, not removing"; the open decisions of 5.8; the values of 5.14 (in the archive: the sizes and gaps that are not on a step).
+**Waiting for the owner**: the proposals in `18-frequency-options.md` (frequency groups); the generated cards' inputs beyond "adding, not removing"; the open decisions of 5.8; the values of 5.14 (in the archive: the sizes and gaps that are not on a step).
 
-**To unify** (the counted list is in `23-shared-components.md`, "What is left"): the Legal Entity cards' own CSS (`legal-entity-*`; the merge was tried on 2026-10-20 and put back because the shared card's classes move the number, the name gap and the ground); the Inventory grid's columns come from the stylesheet and stay. Not copies, so not joined: `NumberedListInput` and `SuggestedInput`, the image-holder label, the sub-channel head, the Strategy boxes' heads, the Brand column headings.
+**To unify** (the counted list is in `22-shared-components.md`, "What is left"): the Legal Entity cards' own CSS (`legal-entity-*`; the merge was tried on 2026-10-20 and put back because the shared card's classes move the number, the name gap and the ground); the Inventory grid's columns come from the stylesheet and stay. Not copies, so not joined: `NumberedListInput` and `SuggestedInput`, the image-holder label, the sub-channel head, the Strategy boxes' heads, the Brand column headings.
 
 **Not looked at in a browser**: the Process library and Operational log pages (not reachable in this version of the app); the tooltips of the Roadmap bars, the action symbols and the noted fields. The tests cover them.
 

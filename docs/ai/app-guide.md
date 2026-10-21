@@ -2,7 +2,7 @@
 
 Status: **reference**, updated 2026-10-21.
 
-One page to find your way: what each part of the app is for, what it holds, and where the data and the rules live. The rules of layout are in `layout-rules.md` and `tile-and-card-pattern.md`; the cost rules in `design/01-current-design.md` (the cost model parts); this file is the map. Where each component is, and which are shared: `code-map.md` and `design/23-shared-components.md`.
+One page to find your way: what each part of the app is for, what it holds, and where the data and the rules live. The rules of layout are in `layout-rules.md` and `tile-and-card-pattern.md`; the cost rules in `design/01-current-design.md` (the cost model parts); this file is the map. Where each component is, and which are shared: `code-map.md` and `design/22-shared-components.md`.
 
 ## How the app is entered
 1. **Organizations** (home): create, import or export an Organization; the two examples are in `src/data/examples/` (Lumen & Loom Studio, Quillfield Automation).

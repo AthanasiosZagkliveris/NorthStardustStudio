@@ -28,7 +28,7 @@ Canonical, one-line definitions. Each term has exactly one owner document, linke
 
 **Page** — one screen of a System, with its title and rails. **Chapter** — a frame on a page that holds Master Tiles. *Owned by: `design/01-current-design.md`, C.0.*
 
-**Master Tile / Tile** — the square on a page that opens a dialog (the page tile), and the other tile drawings (a section tile in a dialog, a category tile, a card tile); all are drawn by one `Tile` component. A **Diagram tile** is a Master Tile that stands for a drawing (the Roadmap). *Owned by: `tile-and-card-pattern.md`, `design/23-shared-components.md`.*
+**Master Tile / Tile** — the square on a page that opens a dialog (the page tile), and the other tile drawings (a section tile in a dialog, a category tile, a card tile); all are drawn by one `Tile` component. A **Diagram tile** is a Master Tile that stands for a drawing (the Roadmap). *Owned by: `tile-and-card-pattern.md`, `design/22-shared-components.md`.*
 
 **Card / Floating card** — an opened tile; a floating card is a card placed over the page (a placement, not a type). A card of a completed activity is grey. *Owned by: `card-kinds.md`, `tile-and-card-pattern.md`.*
 
@@ -38,9 +38,9 @@ Canonical, one-line definitions. Each term has exactly one owner document, linke
 
 **Reading mode** — light, sepia, dark or auto; the colours are tokens per mode. **Token** — a named colour or size in `src/styles/tokens/tokens.ts`, generated into the stylesheets. *Owned by: `layout-rules.md`, section 2.*
 
-**Shared component** — a control or part drawn once and used everywhere (`AddButton`, `RemoveButton`, `NavArrow`, `FoldArrow`, `RadioChoice`, `TextLink`, `OptionPicker` and the rest). A look is a token or a global rule, never a page's own. *Owned by: `design/23-shared-components.md`.*
+**Shared component** — a control or part drawn once and used everywhere (`AddButton`, `RemoveButton`, `NavArrow`, `FoldArrow`, `RadioChoice`, `TextLink`, `OptionPicker` and the rest). A look is a token or a global rule, never a page's own. *Owned by: `design/22-shared-components.md`.*
 
-**Tooltip** — a dark label above a pressed control that says what a click does, in one sentence beginning "Click to ...". *Owned by: `design/26-tooltips.md`.*
+**Tooltip** — a dark label above a pressed control that says what a click does, in one sentence beginning "Click to ...". *Owned by: `design/25-tooltips.md`.*
 
 **Layout check** — the automatic check of every Foundation page against the rulebook (`npm run check:layout`), with a baseline of known findings. *Owned by: `layout-rules.md`, section 18.*
 

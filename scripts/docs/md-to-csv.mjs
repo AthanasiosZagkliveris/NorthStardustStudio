@@ -1,7 +1,7 @@
 /**
  * Writes the FIRST table of a Markdown document as a CSV for Excel (an export in exports/).
  *
- *   node scripts/docs/md-to-csv.mjs docs/design/23-shared-components.md exports/The-shared-components.csv
+ *   node scripts/docs/md-to-csv.mjs docs/design/22-shared-components.md exports/The-shared-components.csv
  */
 import { readFileSync, writeFileSync } from "node:fs";
 

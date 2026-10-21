@@ -1,6 +1,6 @@
 /**
  * The Frequency options of the cost cards: the default (the seven of every master tile), the options of each category and group, and of each
- * cost option (billing type), compared with the default. Writes docs/design/19-frequency-options.md.
+ * cost option (billing type), compared with the default. Writes docs/design/18-frequency-options.md.
  *
  *   npx vite-node scripts/catalogue/frequency-options.mjs
  */
@@ -78,5 +78,5 @@ out.push("## The rules (2026-10-19)", "",
     "| Business Services, Creative & IT Services (Infrastructure Suppliers) | Monthly, Annually, Per project / Per project, Monthly | Add Per hour to both (consultants bill by the hour) |",
     "| Tickets & Trip Costs | Per unit, Per project (both) | none: consistent |",
     "");
-writeFileSync("docs/design/19-frequency-options.md", out.join("\n"));
-console.log("wrote docs/design/19-frequency-options.md");
+writeFileSync("docs/design/18-frequency-options.md", out.join("\n"));
+console.log("wrote docs/design/18-frequency-options.md");

@@ -17,7 +17,7 @@ The index of every document of the project (design, specifications, archive), wi
 - **`review-criteria.md`**: the standard a screen is judged by (type, spacing, controls, colour, tiles, cards, tables, pop-up windows, pages, data), how each criterion is measured, and the form of the report.
 - **`review-checklist.md`**: what to check when reviewing a table, tile, card, page or control, and the proof before saying done. Read it before any change on screen.
 - **`card-kinds.md`**: the kinds of card, where each one's code is and how its head is built.
-- Also read, from `../design/`: `23-shared-components.md` (which components are shared; use them), `26-tooltips.md`, `25-popups.md`, `20-reactions.md`.
+- Also read, from `../design/`: `22-shared-components.md` (which components are shared; use them), `25-tooltips.md`, `24-popups.md`, `19-reactions.md`.
 
 ## Changing the content (the framework)
 

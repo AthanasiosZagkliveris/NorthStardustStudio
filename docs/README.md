@@ -43,22 +43,22 @@ Status: **index**, updated 2026-10-21. One line per document: where it is, what 
 | [design/07-structure-tables.md](design/07-structure-tables.md) | generated | The structure tables (npm run tables). | 2026-10-18 |
 | [design/08-library-system.md](design/08-library-system.md) | current design | The library system: tables, library, inventory and logs. | 2026-10-16 |
 | [design/09-assets-library.md](design/09-assets-library.md) | generated | The assets library: every asset, its variants and contract. | 2026-10-17 |
-| [design/10-library-log.md](design/10-library-log.md) | log | The library log, newest rows on top (npm run library:log). | 2026-10-19 |
-| [design/10-library-log-archive.md](design/10-library-log-archive.md) | archive | Older rows of the library log. | 2026-10-19 |
-| [design/11-app-structure-log.md](design/11-app-structure-log.md) | log | The app structure log. | 2026-10-19 |
+| [design/10-library-log.md](design/10-library-log.md) | log | The library log, newest rows on top (npm run library:log). | 2026-10-21 |
+| [design/11-library-log-archive.md](design/11-library-log-archive.md) | archive | Older rows of the library log. | 2026-10-21 |
+| [design/12-app-structure-log.md](design/12-app-structure-log.md) | log | The app structure log. | 2026-10-21 |
 | [design/13-component-defaults.md](design/13-component-defaults.md) | generated | Component defaults. | 2026-10-17 |
-| [design/14-components-list.md](design/14-components-list.md) | generated | The components, and which fields and cards use each. | 2026-10-17 |
-| [design/16-fields-list.md](design/16-fields-list.md) | generated | The fields, the add buttons and the field names. | 2026-10-17 |
-| [design/17-library-vs-app.md](design/17-library-vs-app.md) | reference | The library measured against the app. | 2026-10-17 |
-| [design/18-text-holders.md](design/18-text-holders.md) | current design | The text holders: sizes and rules. | 2026-10-20 |
-| [design/19-frequency-options.md](design/19-frequency-options.md) | current design | The Frequency options by group, and the open proposals. | 2026-10-20 |
-| [design/20-reactions.md](design/20-reactions.md) | current design | How elements react to the pointer and the keyboard. | 2026-10-20 |
-| [design/21-text-links.md](design/21-text-links.md) | current design | The text link: look and behaviour. | 2026-10-20 |
-| [design/22-free-text-categories.md](design/22-free-text-categories.md) | current design | Free texts in four categories. | 2026-10-20 |
-| [design/23-shared-components.md](design/23-shared-components.md) | current design | Which components are shared, with their props, what is still hand-made, and a short history. | 2026-10-21 |
-| [design/24-help-texts.md](design/24-help-texts.md) | current design | The help texts of the app. | 2026-10-20 |
-| [design/25-popups.md](design/25-popups.md) | current design | Pop-ups in six categories, with their placement rules. | 2026-10-21 |
-| [design/26-tooltips.md](design/26-tooltips.md) | current design | Which controls have a tooltip, what it says, and the five rules. | 2026-10-21 |
+| [design/14-components-list.md](design/14-components-list.md) | generated | The components, and which fields and cards use each. | 2026-10-21 |
+| [design/15-fields-list.md](design/15-fields-list.md) | generated | The fields, the add buttons and the field names. | 2026-10-21 |
+| [design/16-library-vs-app.md](design/16-library-vs-app.md) | reference | The library measured against the app. | 2026-10-21 |
+| [design/17-text-holders.md](design/17-text-holders.md) | current design | The text holders: sizes and rules. | 2026-10-21 |
+| [design/18-frequency-options.md](design/18-frequency-options.md) | current design | The Frequency options by group, and the open proposals. | 2026-10-21 |
+| [design/19-reactions.md](design/19-reactions.md) | current design | How elements react to the pointer and the keyboard. | 2026-10-21 |
+| [design/20-text-links.md](design/20-text-links.md) | current design | The text link: look and behaviour. | 2026-10-21 |
+| [design/21-free-text-categories.md](design/21-free-text-categories.md) | current design | Free texts in four categories. | 2026-10-21 |
+| [design/22-shared-components.md](design/22-shared-components.md) | current design | Which components are shared, with their props, what is still hand-made, and a short history. | 2026-10-21 |
+| [design/23-help-texts.md](design/23-help-texts.md) | current design | The help texts of the app. | 2026-10-21 |
+| [design/24-popups.md](design/24-popups.md) | current design | Pop-ups in six categories, with their placement rules. | 2026-10-21 |
+| [design/25-tooltips.md](design/25-tooltips.md) | current design | Which controls have a tooltip, what it says, and the five rules. | 2026-10-21 |
 
 ## The specifications (`specifications/`)
 

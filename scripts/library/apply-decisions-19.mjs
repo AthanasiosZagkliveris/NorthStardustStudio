@@ -1,5 +1,5 @@
 /**
- * The ADD buttons that exist in the four systems, scanned in the source on 2026-10-16 (docs/design/16-fields-list.md):
+ * The ADD buttons that exist in the four systems, scanned in the source on 2026-10-16 (docs/design/15-fields-list.md):
  * their words are recorded in the components that carry them. A migration kept as the record.
  *
  *   node scripts/library/apply-decisions-19.mjs

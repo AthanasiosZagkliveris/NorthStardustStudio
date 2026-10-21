@@ -1,5 +1,5 @@
 /**
- * Writes docs/design/24-help-texts.md and exports/The-help-texts.csv from catalogue/measures/help-texts.json
+ * Writes docs/design/23-help-texts.md and exports/The-help-texts.csv from catalogue/measures/help-texts.json
  * (written by scripts/catalogue/help-texts.mjs): every "i" help text, by category (a system's page) and group (the tile it stands in),
  * with its rows (the lines its panel fills at the width it opens in) and its characters. Read-only: the texts are written in the code.
  *
@@ -67,9 +67,9 @@ for (const [category, items] of byCategory) {
         md.push("");
     }
 }
-writeFileSync("docs/design/24-help-texts.md", md.join("\n"));
+writeFileSync("docs/design/23-help-texts.md", md.join("\n"));
 
 const quote = value => '"' + String(value).replace(/"/g, '""') + '"';
 mkdirSync("exports", { recursive: true });
 writeFileSync("exports/The-help-texts.csv", "﻿" + [["Category", "Group", "Label", "Opens in", "Rows", "Points", "Characters", "Text"].join(","), ...list.map(row => [row.category, row.group, row.label, row.place, row.lines, row.points, row.chars, row.text].map(quote).join(","))].join("\r\n"));
-console.log(list.length + " help texts -> docs/design/24-help-texts.md, exports/The-help-texts.csv");
+console.log(list.length + " help texts -> docs/design/23-help-texts.md, exports/The-help-texts.csv");
