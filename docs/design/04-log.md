@@ -6,6 +6,7 @@ Status: **living log**, started 2026-10-14, kept up to date to 2026-10-21. Add a
 
 | Dates | What happened |
 |---|---|
+| 2026-10-22 | The same split for `BusinessEngagementEditor` (3,755 lines, now 251 plus four hooks), `LegalEntityEditor` (2,690, now 385 plus three hooks) and `BusinessFoundationEditor` (1,943, now 516 plus two hooks); code moved, not changed, except that the Foundation editor's `forceOpen` flag became a small holder (`{ current }`) so the parts share it. `AnswerRenderer` and the one-function sections `channelsFor` (1,107 lines) and `subsectionsFor` (598) are not split further. |
 | 2026-10-22 | `BusinessCapabilityEditor.tsx` (5,645 lines, one function) split into the component (363 lines) and five hooks in `editors/capability/`, in the order their names depend on each other; the code inside is unchanged, only moved. `cardOrder.test.ts` reads the parts as well. |
 | 2026-10-21 | `AnswerUtils.ts` (9165 lines) split by domain into eight files beside it (process and log, brand, export, strategy, legal entity, founders, business foundation, business capability); it stays the one import point by re-exporting them, so no importer changed. Also removed the dead CSS `lint:css` had found (the old documents-button classes, one shadowed declaration). |
 | 2026-10-21 | CI runs the whole verify set without a browser plus a `layout` job; the layout check waits for fonts and scales its waits (`CHECK_SLOW`). New lint `lint:controls`: a second stylesheet setting the look of a shared control fails (46 existing ones are the baseline). |

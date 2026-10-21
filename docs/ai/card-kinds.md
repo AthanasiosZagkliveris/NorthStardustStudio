@@ -11,11 +11,11 @@ Every card that opens from a tile (floating, or in a tile's dialog), by kind: wh
 | 3 | Partner / Provider / Professional | Partners & Suppliers | `capability/useCapabilityPeopleCards.tsx` `partnerCard` -> `BusinessCard` | as 1 | yes |
 | 4 | Offering delivery | Offering's Capability: Delivery | `capability/useCapabilityActivityAndDelivery.tsx` `deliveryCard` | as 1 (name is plain text, no x) | yes |
 | 5 | Founder (Infrastructure) | Founders | `capability/useCapabilityPeopleCards.tsx` `founderCard` | `.business-founder-open` (its own left edge: the marker column holds the bullets and numbers of its lists) | no: no name cell; its number and name are one line, content keeps the marker edge |
-| 6 | Channel / subchannel (LinkedIn, Instagram ...) | Customer Engagement: a channel's tile | `BusinessEngagementEditor.tsx` `subchannelHead` | `.business-subchannel-head` | yes |
-| 7 | Segment: Profile, Competitor, Offering | Business Foundation tiles | `BusinessFoundationEditor.tsx` (via `BusinessCard`) | `.floating-card-body .column-tile-content > .business-foundation-card` | yes |
+| 6 | Channel / subchannel (LinkedIn, Instagram ...) | Customer Engagement: a channel's tile | `engagement/useEngagementChannelBoxes.tsx` `subchannelHead` | `.business-subchannel-head` | yes |
+| 7 | Segment: Profile, Competitor, Offering | Business Foundation tiles | `foundation/useFoundationSubsections.tsx` (via `BusinessCard`) | `.floating-card-body .column-tile-content > .business-foundation-card` | yes |
 | 8 | Segment: Description, Value Proposition | Business Foundation tiles | same file | no head (the card is a section) | no head |
-| 9 | Legal requirement | Legal Entity: Registrations | `LegalEntityEditor.tsx` `requirementCard` -> `BusinessCard` (`legal`) | `.legal-entity-card-head` | yes |
-| 10 | Legal expense | Legal Entity: Expenses | `LegalEntityEditor.tsx` (expense card) -> `BusinessCard` (`legal`) | as 9 | yes |
+| 9 | Legal requirement | Legal Entity: Registrations | `legal/useLegalCardsAndSections.tsx` `requirementCard` -> `BusinessCard` (`legal`) | `.legal-entity-card-head` | yes |
+| 10 | Legal expense | Legal Entity: Expenses | `legal/useLegalCardsAndSections.tsx` (expense card) -> `BusinessCard` (`legal`) | as 9 | yes |
 | 11 | Founders' profile | Identity: Organization, a founder's tile | `FoundersProfileEditor.tsx` -> `BusinessCard` (`legal`) | as 9 (name is plain text, no x) | yes |
 | 12 | Brand colour | Brand: Colours | `BrandStyleEditor.tsx` `colourCard` | `.brand-style-card` | yes |
 | 13 | Brand typeface | Brand: Typography | `BrandStyleEditor.tsx` `typefaceCard` | as 12 | yes |

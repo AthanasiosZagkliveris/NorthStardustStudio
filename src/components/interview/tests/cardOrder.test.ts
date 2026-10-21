@@ -5,11 +5,12 @@ import { describe, expect, it } from "vitest";
 /** An editor's source, as the test runner reads it from the project root. */
 const EDITORS = "src/components/interview/editors/";
 const source = (name: string) => readFileSync(EDITORS + name, "utf8");
-/** The Infrastructure & Capability editor: the component and the parts it is built from (editors/capability/). */
-const capabilitySource = () => {
-    const parts = readdirSync(EDITORS + "capability", { recursive: true }).filter((file: string) => file.endsWith(".tsx"));
-    return [source("BusinessCapabilityEditor.tsx"), ...parts.map((file: string) => source("capability/" + file))].join("\n");
+/** An editor that is split into parts: the component and the parts it is built from (the folder beside it). */
+const splitSource = (name: string, folder: string) => {
+    const parts = readdirSync(EDITORS + folder, { recursive: true }).filter((file: string) => file.endsWith(".tsx"));
+    return [source(name), ...parts.map((file: string) => source(folder + "/" + file))].join("\n");
 };
+const capabilitySource = () => splitSource("BusinessCapabilityEditor.tsx", "capability");
 
 describe("the one card order: fields, the Description, the tick-box link lists, then the card's state ticks last", () => {
 
@@ -39,7 +40,7 @@ describe("the one card order: fields, the Description, the tick-box link lists, 
     });
 
     it("puts a Legal Entity expense's Linked registration before its Description (the card structure's order)", () => {
-        const text = source("LegalEntityEditor.tsx");
+        const text = splitSource("LegalEntityEditor.tsx", "legal");
         const description = text.indexOf("\"Expense \" + (index + 1) + \" description\"");
         const linked = text.indexOf("\"Expense \" + (index + 1) + \" linked registration\"");
         expect(description).toBeGreaterThan(0);
