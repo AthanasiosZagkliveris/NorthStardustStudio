@@ -16,7 +16,7 @@ One tree, edited in place. There is no separate build tree and no sync step.
 ## Verify a change, in order
 
 1. **Typecheck:** `npx tsc --noEmit`. Clean before going on.
-2. **Unit tests:** `npx vitest run --testTimeout=40000`. About 1,480 tests; all must pass. The default 5-second timeout gives false failures on a slow machine, so raise it. A confirmed, not-yet-fixed bug is written as `it.fails`, never left as a red test (see below). An `it.fails` that starts to pass is itself reported as a failure: root-cause it, it means the tracked behaviour changed.
+2. **Unit tests:** `npx vitest run` (the 40-second timeout is set in `vitest.config.ts`; `npm run verify` runs this and the other checks in order). About 1,480 tests; all must pass. A confirmed, not-yet-fixed bug is written as `it.fails`, never left as a red test (see below). An `it.fails` that starts to pass is itself reported as a failure: root-cause it, it means the tracked behaviour changed.
 3. **The checks that read the code against the rules** (all must be clean):
    - `npm run tokens:check`: the generated colour and size stylesheets match `src/styles/tokens/tokens.ts`.
    - `npm run lint:styles`: no literal colour, corner, gap or breakpoint outside the tokens (known ones are in `scripts/lint/styles-baseline.json`; a new one fails).
@@ -46,7 +46,7 @@ To rewrite the examples after an interface change: `UPDATE_EXAMPLES=1 npx vitest
 ## Common failure modes
 
 - **The dev server port is fixed:** `vite.config.ts` sets `port: 1420` with `strictPort: true` because Tauri expects it. A stale process holding 1420 makes `npm run dev` fail; stop it, do not change the port.
-- **Slow machine, timeouts:** run the tests with `--testTimeout=40000`; the layout check takes minutes.
+- **Slow machine, timeouts:** the tests carry a 40-second timeout in `vitest.config.ts`; the layout check takes minutes and must run alone.
 - **Filename guesses fail:** a System's file triad is not named alike everywhere (one System's Answer and Help files use a literal `&`, its Questions file spells out "And"). List the directory first.
 - **A test looks wrong but the app is right:** check whether the assertion's assumption (an old label, a stale fixture) is what is stale. Decide which side is wrong before fixing either.
 - **A test of a document fails after a rename:** `documentReferences.test.ts` lists six documents by path and fails when one names a property, class or file the code does not have; fix the document's reference, not the test.

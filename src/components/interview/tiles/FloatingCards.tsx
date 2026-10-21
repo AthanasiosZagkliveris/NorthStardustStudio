@@ -1,5 +1,5 @@
 import BackButton from "../../controls/BackButton.tsx";
-import { CSSProperties, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { CSSProperties, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { CardRecordService } from "../../../services/CardRecordService.ts";
 import { noteMomentText } from "../../notepad/Notepad.tsx";
 import { createPortal } from "react-dom";
@@ -12,7 +12,9 @@ import { CARD_LEVEL, CarouselArrows } from "./CarouselArrows.tsx";
 
 /** The record time of a card, under it, as a note's ("Recorded 17/10/2026 14:13"). */
 export function FloatingRecord({ id }: { id: string }) {
-    const at = useMemo(() => CardRecordService.recordedAt(id), [id]);
+    // (Reading the time writes it the first time, so it is read after the render, never in it.)
+    const [at, setAt] = useState(0);
+    useEffect(() => setAt(CardRecordService.recordedAt(id)), [id]);
     return at > 0 ? <p className="floating-card-recorded">{"Recorded " + noteMomentText(at)}</p> : null;
 }
 
