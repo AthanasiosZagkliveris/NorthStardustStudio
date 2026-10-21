@@ -1,3 +1,4 @@
+import CurrencyPicker from "../fields/CurrencyPicker.tsx";
 import { CSSProperties, ReactNode, useState } from "react";
 
 import FoldArrow from "../fields/FoldArrow.tsx";
@@ -30,7 +31,6 @@ import {
 import BoxActions, { reorder, useMovableBox } from "../fields/ReorderControls.tsx";
 import MonthYearPicker from "../fields/MonthYearPicker.tsx";
 import OptionPicker from "../fields/OptionPicker.tsx";
-import { CURRENCY_CODES, CURRENCY_SEARCH_ALIASES } from "../../../framework/engine/Currencies.ts";
 import { OptionalNote, ResponsibleField } from "../cards/BusinessCardFields.tsx";
 import { FieldMark, FieldStatus } from "../fields/fieldMarks.tsx";
 import NumberedListInput from "../fields/NumberedListInput.tsx";
@@ -1097,13 +1097,8 @@ function MetricList({
                                                 value={metric.unit}
                                                 onChange={(unit) => updateMetric(metricIndex, { unit })}
                                             />
-                                            <OptionPicker
+                                            <CurrencyPicker
                                                 label={`Metric ${metricIndex + 1} currency`}
-                                                placeholder="Code"
-                                                options={CURRENCY_CODES}
-                                                currency
-                                                searchable
-                                                searchAliases={CURRENCY_SEARCH_ALIASES}
                                                 disabled={disabled}
                                                 value={metric.currency || organisationCurrency}
                                                 onChange={(next) => updateMetric(metricIndex, {

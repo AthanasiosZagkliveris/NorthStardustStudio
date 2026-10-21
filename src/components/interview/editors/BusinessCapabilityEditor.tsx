@@ -1,3 +1,4 @@
+import CurrencyPicker from "../fields/CurrencyPicker.tsx";
 import RadioChoice from "../../controls/RadioChoice.tsx";
 import ListStatic from "../fields/ListStatic.tsx";
 import TickField from "../../controls/TickField.tsx";
@@ -144,7 +145,7 @@ import { asFinancialFoundationValue, moneyFormatter } from "../../../framework/e
 import { inventoryClassification } from "../../../framework/engine/InventoryClassification.ts";
 import { PreferencesService } from "../../../services/PreferencesService.ts";
 import { parseAmount, parseDecimal } from "../../../framework/engine/Amounts.ts";
-import { CURRENCY_CODES, CURRENCY_SEARCH_ALIASES, labelWithCurrency, nameWithCurrency } from "../../../framework/engine/Currencies.ts";
+import { labelWithCurrency, nameWithCurrency } from "../../../framework/engine/Currencies.ts";
 import { randomId } from "../../../framework/engine/Readers.ts";
 import DateCellInput, { isoToDisplay } from "../fields/DateCellInput.tsx";
 import { railId } from "../rails/railItems.ts";
@@ -1003,14 +1004,8 @@ export default function BusinessCapabilityEditor({
                     </BusinessField>
 
                     <div className="business-capability-cost-currency">
-                        <OptionPicker
+                        <CurrencyPicker
                             label={what + " currency"}
-                            placeholder="Code"
-                            options={CURRENCY_CODES}
-                            currency
-                            searchable
-                            searchPlaceholder="Type"
-                            searchAliases={CURRENCY_SEARCH_ALIASES}
                             disabled={disabled}
                             value={cost.currency || organisationCurrency}
                             onChange={(next) => onNext({

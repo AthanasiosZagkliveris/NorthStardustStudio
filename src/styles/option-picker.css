@@ -266,3 +266,23 @@
     gap:var(--gap-6);
     padding:4px 10px 6px;
 }
+
+/* A list that opens ABOVE its cell has its search box at the foot, next to the cell (not at the far top). */
+.option-picker-list.option-picker-list-above {
+
+    display: flex;
+    flex-direction: column;
+
+}
+
+.option-picker-list-above > .option-picker-search {
+
+    order: 2;
+
+    position: sticky;
+    top: auto;
+    bottom: 0;
+
+    margin: 4px 0 0;
+
+}

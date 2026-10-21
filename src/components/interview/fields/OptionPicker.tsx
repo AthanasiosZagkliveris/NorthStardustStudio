@@ -115,7 +115,7 @@ interface OptionPickerProps {
      */
     searchAliases?: Record<string, string>;
 
-    /** The word in the search box while it is empty (default "Search": the list is as wide as its cell, so the word is short). */
+    /** The word in the search box while it is empty (default "Type to search"). */
     searchPlaceholder?: string;
 
     /**
@@ -196,7 +196,7 @@ export default function OptionPicker({
     currency = false,
 
     searchAliases,
-    searchPlaceholder = "Search",
+    searchPlaceholder = "Type to search",
 
     hug = false,
     keepWidth = false,
@@ -292,6 +292,7 @@ export default function OptionPicker({
         free
     );
 
+
     /* THE LIST IS A CARD OF ITS OWN under the cell (the placement's gap, above it where there is no room below), exactly the cell's width: its left
        edge is the cell's and it is as wide as its longest option needs (never narrower than the cell). A very long option wraps (its full text is the tooltip). Measured on opening and on resizing. */
     const [reach, setReach] = useState<{ left: number; width: number } | null>(null);
@@ -310,6 +311,31 @@ export default function OptionPicker({
         window.addEventListener("resize", measure);
         return () => window.removeEventListener("resize", measure);
     }, [open, optionsKey]);
+
+    // THE SEARCH STANDS NEXT TO THE CELL: a list that opens above its cell has its search box at its foot (over the cell, not at the far top); one that opens below has it at its head.
+    const [listAbove, setListAbove] = useState(false);
+    useLayoutEffect(() => {
+        if (!open || !searchable) {
+            setListAbove(false);
+            return;
+        }
+        const measure = () => {
+            const list = listRef.current;
+            const trigger = triggerRef.current;
+            if (list && trigger) {
+                setListAbove(list.getBoundingClientRect().bottom <= trigger.getBoundingClientRect().top + 2);
+            }
+        };
+        measure();
+        const frame = window.requestAnimationFrame(measure);
+        window.addEventListener("resize", measure);
+        window.addEventListener("scroll", measure, true);
+        return () => {
+            window.cancelAnimationFrame(frame);
+            window.removeEventListener("resize", measure);
+            window.removeEventListener("scroll", measure, true);
+        };
+    }, [open, searchable, query, reach]);
 
     // Clicking anywhere else, or pressing Escape, closes without
     // choosing -- both are what a popover is expected to do.
@@ -526,7 +552,7 @@ export default function OptionPicker({
 
                 <div
                     ref={listRef}
-                    className="option-picker-list"
+                    className={"option-picker-list" + (listAbove ? " option-picker-list-above" : "")}
                     style={{
                         ...panelStyle,
                         // (Not shifted sideways: the width and the left edge are the cell's.)
@@ -646,26 +672,30 @@ export function MultiPicker<T extends string>({
 
     usePopupDismiss(open, [box], () => setOpen(false), { escape: false });
 
-    // THE LIST STAYS WHOLE: opened under its cell from the cell's left edge; where that would run past the edge of what clips it (a panel that cuts what overflows it, the window), it opens
-    // from the cell's right edge instead, towards the left.
+    // THE LIST STAYS WHOLE: opened under its cell from the cell's left edge; held inside what clips it (a panel that cuts what overflows it, else the window), on both sides: moved
+    // towards the left where it would run past the right edge, and narrowed to the room where it is wider than that (its words then wrap).
     useLayoutEffect(() => {
         const list = listBox.current;
-        if (!open || !list) {
+        const cell = box.current;
+        if (!open || !list || !cell) {
             return;
         }
         list.style.left = "";
-        list.style.right = "";
-        let limit = window.innerWidth;
+        list.style.maxWidth = "";
+        let clip = { left: 0, right: window.innerWidth };
         for (let parent = list.parentElement; parent; parent = parent.parentElement) {
             if (getComputedStyle(parent).overflowX !== "visible") {
-                limit = Math.min(limit, parent.getBoundingClientRect().right);
+                const rect = parent.getBoundingClientRect();
+                clip = { left: Math.max(clip.left, rect.left), right: Math.min(clip.right, rect.right) };
                 break;
             }
         }
-        if (list.getBoundingClientRect().right > limit - 4) {
-            list.style.left = "auto";
-            list.style.right = "0";
-        }
+        const room = clip.right - clip.left - 8;
+        list.style.maxWidth = room + "px";
+        const own = list.getBoundingClientRect();
+        const cellLeft = cell.getBoundingClientRect().left;
+        const wanted = Math.max(clip.left + 4, Math.min(cellLeft, clip.right - 4 - own.width));
+        list.style.left = (wanted - cellLeft) + "px";
     }, [open]);
 
     return (
