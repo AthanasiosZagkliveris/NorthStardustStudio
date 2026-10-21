@@ -50,13 +50,13 @@ A shared control loads its own stylesheet (it imports it), never only a page's s
 
 A card opened from another card that stays open stands below it as a pair (`StackUnderContext`, `DialogLevels.tsx`). The Inventory's card is alone.
 
-## Still hand-made, awaiting the owner
+## Not yet checked as hand-made (corrected 2026-10-21)
 
-Each needs a decision before it is replaced (the classes were found in the code on 2026-10-21):
+The earlier version of this list named controls from their class names alone, and some were wrong: the Strategy boxes' heads are built from shared components (`NumberedName`, `InfoNote`, the + and the × buttons), and the Brand picture tiles are tiles. A control is called hand-made here only after reading its code against the components above.
 
-- the calendar's rail items, the landing cards, the picture boxes;
-- `NumberedListInput` and `SuggestedInput` (editors with their own keys, not copies), the Strategy boxes' heads (`StrategyHead`, no fold arrow), the sub-channel head, the Brand column headings, the image-holder label (a layout rule measures it);
-- the Process library's expand toggles and typed arrows (a page not reachable in this app version).
+- **Read and confirmed hand-made:** the calendar panel's vertical handles (`org-rail-handle`: a `div` with `role="button"` and its own key handling).
+- **Not read yet, so not claimed either way:** the landing list of Systems, the Brand column headings, `NumberedListInput` and `SuggestedInput`, the sub-channel head, the image-holder label.
+- **Out of reach:** the Process library's expand toggles and typed arrows (a page not reachable in this app version).
 
 ## Short history
 
