@@ -1,6 +1,6 @@
 # Folder plan: the app files, the examples and the working files
 
-Status: **plan; step 1 done 2026-10-22, steps 2 and 3 open**. Written to answer one request: at the end the owner needs the app's files only, kept apart from the examples and the working files.
+Status: **plan; steps 1 and 2 done 2026-10-22, step 3 open**. Written to answer one request: at the end the owner needs the app's files only, kept apart from the examples and the working files.
 
 ## What is in the repository now
 
@@ -31,12 +31,14 @@ Status: **plan; step 1 done 2026-10-22, steps 2 and 3 open**. Written to answer 
 - One copy of the examples: `src/data/examples/` stays (the app uses it). `docs/examples/` is removed and the documents point to `src/data/examples/`. `ExampleDrift.test.ts` and `scripts/docs/write-index.mjs` are adjusted.
 - No code moves, no import changes.
 
-### Step 2: the export of the app files (the answer to "at the end, the app files only")
+### Step 2: the export of the app files (done 2026-10-22: `npm run export:app`)
 A command `npm run export:app` that copies exactly the app into a clean folder (default `exports/app/`, which git ignores):
 - **Included:** `src/` without `*.test.*`, `src/test/`, `src/docs/` and `src/library/`; `src-tauri/`; `public/`; `index.html`; `package.json` and `package-lock.json` (the scripts that point at tools removed); `vite.config.ts`, `tsconfig.json`, `tsconfig.node.json`.
 - **Left out:** `docs/`, `scripts/`, `catalogue/`, `.github/`, the tests, the library and everything ignored.
 - **Proof it is complete:** the command then runs `npm ci`, `tsc` and `vite build` inside that folder. If the app needs a file that was left out, the build fails and says which.
-- `App.tsx` already loads the library only in development, so the exported app has no import of it left to fix; the command checks that with the build.
+- `App.tsx` loads the library's gallery pages only in development; those lines sit between `dev-only:start` and `dev-only:end` markers, and the export leaves them out.
+- `npm run export:app -- --clean` goes further: it installs and builds in the exported folder alone, which also proves the dependency list. Without it the build uses this project's `node_modules` (fast).
+- **What the first run showed:** 556 files, 0 tests, and 27 of the 44 library files come with the app, because `styles/tokens/tokens.ts` imports `library/componentTokens.ts`, which imports the whole library table (`library/data/library.ts`, 8,600 lines). So the library is not only a development tool: the app carries its data. Cutting that link (the corner steps become a small constant in the app) would let the library leave the app entirely; it is a small change, not made yet.
 
 ### Step 3: the real folders (only if the owner still wants them after step 2)
 Move working files under one folder so that the tree itself shows the split:

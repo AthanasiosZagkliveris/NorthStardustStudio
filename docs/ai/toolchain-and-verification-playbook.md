@@ -39,6 +39,10 @@ A green run proves the logic, not the look. How the app renders and responds to 
 
 To rewrite the examples after an interface change: `UPDATE_EXAMPLES=1 npx vitest run src/services/ExampleDrift.test.ts` (it writes both examples, in `src/data/examples/`, from the app's own readers); the golden figures are rewritten with `WRITE_GOLDEN=all`.
 
+## The app files alone
+
+`npm run export:app` copies the app's own files (no tests, documents, tools or catalogue) into `exports/app/` (ignored by git) and builds them there; `-- --clean` also installs in that folder alone. It fails, naming the file, if an app file imports something that was left out. See `docs/design/26-folder-plan.md`.
+
 ## Continuous integration
 
 `.github/workflows/ci.yml` runs on every push and every pull request into `main`: typecheck, unit tests, build, and the checks that need no browser (`tokens:check`, `lint:styles`, `lint:controls`, `lint:css`, `docs:check`, `tables:check`, `library:check`). A second job, `layout`, runs the layout check in headless Chromium on pull requests and when started by hand (`workflow_dispatch`). It is a floor: a person still reads a failure. `lint:controls` (`scripts/lint/shared-controls.mjs`, baseline `shared-controls-baseline.json`) fails when a stylesheet other than a shared control's own sets that control's look (ground, line, letters, height, padding); the 46 second looks that exist are the baseline to remove, not to grow. The layout check waits for the fonts and multiplies its waits by `CHECK_SLOW` (default 1.5; 3 on a busy machine).

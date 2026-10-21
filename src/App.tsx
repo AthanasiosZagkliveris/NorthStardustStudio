@@ -20,9 +20,11 @@ const Review = lazy(() => import("./pages/Review"));
 const GlobalSettings = lazy(() => import("./pages/GlobalSettings"));
 
 // The asset library's gallery: development only (`npm run dev`), absent from the built app.
+// dev-only:start (`npm run export:app` leaves everything between the two markers out of the exported app)
 const Library = import.meta.env.DEV ? lazy(() => import("./pages/Library")) : null;
 const Inventory = import.meta.env.DEV ? lazy(() => import("./pages/Inventory")) : null;
 const Looks = import.meta.env.DEV ? lazy(() => import("./pages/Looks")) : null;
+// dev-only:end
 
 export default function App() {
 
@@ -74,11 +76,15 @@ export default function App() {
                     element={<CapabilityGenerator />}
                 />
 
+                {/* dev-only:start */}
+
                 {Library && <Route path="/library" element={<Library />} />}
 
                 {Inventory && <Route path="/library/inventory" element={<Inventory />} />}
 
                 {Looks && <Route path="/library/looks" element={<Looks />} />}
+
+                {/* dev-only:end */}
 
             </Routes>
 
