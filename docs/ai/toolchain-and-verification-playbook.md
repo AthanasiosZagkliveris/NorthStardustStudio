@@ -39,6 +39,10 @@ A green run proves the logic, not the look. How the app renders and responds to 
 
 To rewrite the examples after an interface change: `UPDATE_EXAMPLES=1 npx vitest run src/services/ExampleDrift.test.ts` (it writes both examples, in `src/data/examples/`, from the app's own readers); the golden figures are rewritten with `WRITE_GOLDEN=all`.
 
+## The console walk
+
+`npm run check:console` opens every Foundation page of both examples with every tile's dialog and reports what the browser console, the page and the network said (errors, warnings, uncaught exceptions, failed requests); it fails on any. Run it after a change to how a page is built, as the layout check shows how a page looks and this shows whether it throws. It starts the dev server itself when none answers.
+
 ## The app files alone
 
 `npm run export:app` copies the app's own files (no tests, documents, tools or catalogue) into `exports/app/` (ignored by git) and builds them there; `-- --clean` also installs in that folder alone. It fails, naming the file, if an app file imports something that was left out. See `docs/design/26-folder-plan.md`.

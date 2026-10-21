@@ -2124,18 +2124,6 @@
   "rule": "an i on its words' centre line"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|section tiles are 12px apart|capability-infrastructure › Infrastructure sections|",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "section tiles are 12px apart"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|section tiles are 12px apart|capability-~-capability › Offering's Capability sections|",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "section tiles are 12px apart"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a dialog's Back button stands at its lower left|Founders|",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
