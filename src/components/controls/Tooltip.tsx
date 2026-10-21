@@ -92,6 +92,10 @@ export function useAboveTip<T extends HTMLElement>(text: string, options: {
  */
 /** The card's hue a control stands in (the tooltip takes the card's tint, as every pop-up does), or "" where the control stands in no card. */
 export function hueOf(element: HTMLElement): string {
+    // (What is done is grey, and so is what is said over it: no hue in a Completed layer.)
+    if (element.closest(".section-tile-dialog-completed, .business-capability-activity-completed, .card-boxes-completed")) {
+        return "";
+    }
     return getComputedStyle(element).getPropertyValue("--strategy-theme-hue").trim();
 }
 
