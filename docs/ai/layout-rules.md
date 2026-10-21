@@ -718,7 +718,7 @@ drawn only in a dialog that its tile opens.
   Width: any card `--open-card-width` (492px, at most the window less 16px), a founder's `--founder-card-min` (297px). **Placed on the first row:** the TOP of the first card stands on the top of the first row of tiles of its
   page column as the page rests (scrolled up) -- that row's top now plus how far the column's body is scrolled, so the same y however the page was scrolled -- and the box name stands above that line (over the column's first heading); horizontally it is centred over the
   card of the page it belongs to (Infrastructure's or Offering's Capability's rectangle; the Workspace over the tile group of 1. Resources). A taller stack extends downward and, once it would pass the footer, scrolls inside itself (the captions and the cards
-  scroll; the Back button stays in view under them, never over a card); it is kept 8px inside the window. Where that first row is out of view -- the cards stacked under 1100px and the page scrolled -- the stack stands at the top of the band instead (8px under the page heading's underline, never lower than 200px above the footer). jumpTo / Review / search / the Financial links to the Workspace press its tile, which opens the form alone.
+  scroll; the Back button stays in view under them, never over a card); it is kept 8px inside the window. Where that first row is out of view -- the cards stacked, under a 700px page card, and the page scrolled -- the stack stands at the top of the band instead (8px under the page heading's underline, never lower than 200px above the footer). jumpTo / Review / search / the Financial links to the Workspace press its tile, which opens the form alone.
 - **A status and the activity it creates: PARENT -> CHILD.** A resource (or the Workspace) whose Status is "Activity" has ONE child activity (its `sourceId` is the parent's
   id; the same two statuses as before). The tie (`syncDerivedActivities`, applied on every render and written back):
   - the child's name follows the parent's ("Investigate <name>", "Set up <name>") and is not the user's: the child's card has **no name cell and no x** -- its number and its name stand as plain text where the cell was (the same metrics, the x's place left empty so a long
@@ -738,18 +738,14 @@ drawn only in a dialog that its tile opens.
   1. Resources: six tiles, 3 x 2 (Founders, Workspace, Utilities, Workstation, Equipment, Digital Infrastructure), with no
   "Organizational / Operational Resources" headings and no rule down the left; 2. Activities: Operational, Production,
   Marketing, Sales & Customer as a **2 x 2 square** (a category the founder added earlier is one more tile while it holds
-  activities: five tiles are 3 x 2, six 3 x 2, seven 4 x 2 ...) and the grey **Completed** tile (below); 3. Partners &
+  activities: five tiles are 3 x 2, six 3 x 2, seven 4 x 2 ...) (the grey **Completed** tile does not stand among them: it stands in the footer band, see section 12); 3. Partners &
   Suppliers: Partners, Providers (one row of two). Offering's Capability: Resources, Activities,
   Partners & Suppliers, Delivery as a 2 x 2 square; with channel tiles 5 or 6 tiles are 3 x 2 and 7 or more two rows with more
   across (4 x 2, 5 x 2 ...; each channel tile after its category). Where the old rule ("up to 3 x 3") gave another shape:
   the Activities group with five categories or more was a column of two across (three rows) and is now two rows; Offering's
   Capability with seven or more tiles was 3 x 3 and is now 4 x 2 or wider; Offering's two partner kinds in a dialog were a column
   of two and are now a row of two.
-  **The declared exception: the tail tile.** Infrastructure's grey Completed tile is not counted in the shape of the categories
-  (`SectionTile.tail`, `tailPlacement()`): it takes the first free cell of the categories' LAST row, beside the last one; with
-  the 2 x 2 square (a full last row) in a third column of that row, **right of "Sales & Customer"**, the first row's third cell
-  empty, same size and 12px gap; with three across or more and a full last row, on a new row under the first column. Its size
-  is the others'. Infrastructure's three sections keep their heading (number, title, "i") as a PLAIN heading of
+  **There is no tail tile.** The grey Completed tile is not part of any group's grid: it is one of the two rectangles of the Inventory and Completed row, in the footer band level with Back (section 12), and the same tile on every page. Infrastructure's three sections keep their heading (number, title, "i") as a PLAIN heading of
   `--section-head-height` (36px) over their tiles: **no fold arrow and no fold behaviour, and no "Expand all"** on them (the
   tiles are the grouping). Offering's Capability holds its tiles directly, under a heading-height **spacer**
   (`.business-capability-heading-spacer`, `aria-hidden`, the same 36px and 12px as Infrastructure's first heading, no text: the
@@ -891,13 +887,13 @@ drawn only in a dialog that its tile opens.
 - **Completed activities (the grey).** The CARDS of the finished ones are grey too, wherever they are opened -- the card boxes, the Completed tile's floating cards, the Completed dialog's category boxes: the Completed
   tint for the ground and edge (`.business-capability-activity-completed`), the muted grey for the text (7.17:1 at the least in the light theme). Infrastructure › 2. Activities has a grey **Completed** tile (`SectionTile.completed`, the neutral
   `--bg-completed-card` ground, `--line-completed` edge, `--text-completed-ink` text: 9.78:1 light, 6.28 sepia, 11.07 dark; no category hue; its
-  list and title the same grey, its dialog grey too) after the categories, beside the last (see the tail tile). It holds every activity
+  title the same grey, its dialog grey too) in the Inventory and Completed row: a rectangle with its title only, about 56px high, standing in the footer band level with Back, taking no height of its own and one size on every page (section 12). It holds every activity
   ticked Completed, **each stored where it always was, in its category's list** (the flag only moves where it is shown: no migration); a
   category's tile and dialog show the active ones only (its "Active N" counts them); ticking Completed on a card files it under Completed,
   un-ticking returns it to its category. Up to 8 completed activities are card boxes in one flat grid (all inactive, numbered 1..n, no add box:
   an activity becomes completed by ticking, not by adding); more than 8 first show BOXES named after the categories that hold finished ones
   (the four defaults as a 2 x 2 square, plus custom ones), each opening that category's finished ones. The tile exists only while an activity is completed (no
-  "+"); un-ticking the last one closes the dialog by itself. **Offering's Capability has the same grey Completed TILE** (the tail tile, placed by the one grid rule: with the four tiles of a 2 x 2 square in a third column of the second row, with six (3 x 2) on a new row under the first column; no "+" box; the same look, list, "+N more", links to frozen cards, dialog of grey card boxes; present only while one is completed); it replaces the nested "Completed" box the Activities dialog used to end with (`CardBoxes folder`, removed), and a completed Offering activity leaves the Activities tile's list. Its floating card stays open when the tick is taken off (the activity goes back to the Activities tile).
+  "+"); un-ticking the last one closes the dialog by itself. **Offering's Capability has the same grey Completed TILE** (the one tile of the row, not one per section: it holds the completed activities of both cards; no "+" box; the same look, links to frozen cards, dialog of grey card boxes; present only while one is completed); it replaces the nested "Completed" box the Activities dialog used to end with (`CardBoxes folder`, removed), and a completed Offering activity leaves the Activities tile's list. Its floating card stays open when the tick is taken off (the activity goes back to the Activities tile).
   **A completed activity is FROZEN** wherever it is opened (both sections): every field of its card sits in a disabled `fieldset.business-capability-frozen` (`display: contents`: it takes no box) -- the name, the performers and their "+" / x, the Responsible and its tick, the Description and its tick, the linked Offerings, the x -- and only the **Completed tick** is outside it, live and normal, so it can be unticked (which unfreezes the card and files it back in its category). The frozen look is rule 14 of section 6 (an ordinary card in four greys, `cursor: default`, no hover reaction: the hover rules all exclude `:disabled`). (A child activity's name link to its parent stays live: it is a way to another card, not a field.)
 - **The opened card** (a card box pressed, or a floating card; Resource of Infrastructure or Offering's Capability, Activity, Partner, Provider, channel-origin card).
   Centred, `--open-card-width` (**492px**, at most the window) wide, 12px padding (a 466px content width), label gap 6px, field gap 12px. **The head:** [number] [name cell] [x]: the arrow that once stood before the number is
@@ -1007,8 +1003,8 @@ drawn only in a dialog that its tile opens.
   "Go there", the Financial pages) presses the tile first (`data-holds` and
   `data-anchor` on the tile, `jumpTo.ts`).
 - **The check** (section 18) measures the tiles (a square of `--section-tile-size`, one size per card, the group's shape -- a row of up to three, a 2 x 2 square,
-  two rows -- and the tail tile's place; the title's last line on the third-down line, at least 12px from the top, underlined; the list a small muted
-  centred block inside the square, contrast 4.5:1; the "+" of an empty section under the title, 24px, "No items yet"; the Completed tile's grey; every part of a page tile -- title, list, items, "+" box -- inside its square (no overflow); the "+" box 32px at the lower right, 12px from the edges, the list clear of it; each tile grown to 110% inside its card), the title
+  two rows; the title's last line on the third-down line, at least 12px from the top, underlined; the list a small muted
+  centred block inside the square, contrast 4.5:1; the "+" of an empty section under the title, 24px, "No items yet"; the Completed tile's grey and its place in the footer band; every part of a page tile -- title, list, items, "+" box -- inside its square (no overflow); the "+" box 32px at the lower right, 12px from the edges, the list clear of it; each tile grown to 110% inside its card), the title
   arrows (hit area, 8px after the title, centred on its line, glyph size, the card's title first and 12px above its content, an open help floating and
   taking no room), the first tile rows of the side-by-side cards (one y), and opens every tile's dialog in turn
   (`__layoutProbe.checkWithTiles(spec, { settle, only })`), measures it (a rectangle from the underline to the footer, centred; Back at its lower left; the
@@ -1161,7 +1157,7 @@ drawn only in a dialog that its tile opens.
 
 ## 12. The Inventory help tile
 
-*Rewritten 2026-10-21 from the Inventory rounds of 2026-10-20 and 2026-10-21 (the log, design document 4). Where a number differs from an older line elsewhere in this rulebook, this section is right.*
+*Rewritten 2026-10-21 from the Inventory rounds of 2026-10-20 and 2026-10-21 (the log, design document 4). Sections 8 and 9 were corrected to it the same day.*
 
 **Where the Inventory and Completed tiles stand (page 3)**
 
@@ -1170,7 +1166,7 @@ drawn only in a dialog that its tile opens.
 - **The page's Back (in the footer) is the default blue** in every mode (`--text-primary`); the card's tones are for the Back inside a card's tab.
 - Both tiles are rectangles with their title only: no list, no rule under the title. The Inventory tile grows outwards to the left (about its bottom-right corner) under the pointer.
 - **The Completed tile** (`.section-tiles-completed`) stands outside both sections and exists only while a card is completed. Everything that belongs to a completed card is the Completed grey: its tile (also in the Inventory, rule 36), the tags above it, the arrows of the Completed dialog, the wireframe of a completed floating card. Rule 36 and the Completed grey of section 8 are the same grey.
-- Older text in sections 8 and 9 still describes the Completed tile as the tail of the tile grid, and a row of 66% of the card width under the cards; where it differs from the footer row above, this section is right. Not re-checked since 2026-10-21: while the Completed tile exists, the rule "Offering's Capability shows all its tiles without a bar" is waived (the card scrolls inside).
+- Not re-checked since 2026-10-21: while the Completed tile exists, the rule "Offering's Capability shows all its tiles without a bar" is waived (the card scrolls inside).
 - The same window gives the same four tiles on every page (section "One shape for every page of chapters", at the end of this rulebook).
 
 **The Inventory dialog**
@@ -1303,7 +1299,6 @@ New fields follow the rules above and reuse their neighbours' shapes; nothing he
 - **Tables** (`table` elements, numbered lists, the Notepad) size their
   own cells.
 - **A founder's card** (the Founders' dialog): its left padding is the card padding plus the inset and the marker column (4.5px + 26.3px), the head's number, the bullets, the fold arrows and the list numbers hang in that column (the "number-left = body-left" and "content starts at the title" rules are replaced by the founder-card rule of the check: text at the content edge, markers at the marker column, the head number 8px before the name). Its four cells are `--founder-cell` wide, a width of their own (the Frequency picker's longest option), whatever their column; the two hours labels are two lines. 
-- **The tail tile** (Infrastructure's Completed tile) is not counted in its group's shape: see "Tile grids".
 - **A side label whose control is the empty message** ("Add a founder under ...", a card of an organization with no founder yet) is centred on that message, which may wrap to two lines: the row-gap rule skips it.
 - **A card in a dialog, opened** (a card box pressed) is centred and `--open-card-width` (492px) wide, not stretched across the dialog.
 - **A page tile at 110%** (hover) overlaps its neighbours (declared): it is above them (`z-index: 6`) and inside its card's body; the check scales each one and measures it.

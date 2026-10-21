@@ -1,5 +1,5 @@
 /**
- * Writes the list of the components (docs/design/14-components-list.md) in a form that is easy to read: one table
+ * Writes the list of the components (docs/design/14-components-list.md; its last part, which fields and cards use each component, comes from scripts/library/fields-by-component.mjs) in a form that is easy to read: one table
  * to scan in which every asset is followed directly by its variants, then one block per component with its facts
  * grouped under titles (Size, Text, Shape, Spacing, Reaction, Use), one fact per line, a label before every value,
  * full words (Height, Width) and the unit after every number, and its variants directly under it. The layout
@@ -11,6 +11,7 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { build } from "../catalogue/build.mjs";
 import { library } from "../../src/library/data/library.ts";
+import { usageSection } from "./fields-by-component.mjs";
 import { EXTRA, REACTION, fieldsOf as fieldsIn, heightText, widthText, textSize, corner, sizeOf, variantSizeOf } from "./specs.mjs";
 
 const file = "docs/design/14-components-list.md";
@@ -171,6 +172,7 @@ for (const a of components) {
     }
 }
 
+say("", ...usageSection());
 const text = out.join("\n") + "\n";
 if (process.argv.includes("--check")) {
     const now = existsSync(file) ? readFileSync(file, "utf8").split("\r").join("") : "";

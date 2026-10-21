@@ -1,5 +1,5 @@
 /**
- * The style lint (docs/design/05, 5.13, layer E): the stylesheets draw with
+ * The style lint (docs/archive/plans/2026-10-14-cleanup-and-library-plans.md, 5.13, layer E): the stylesheets draw with
  * tokens, not with literals. Pure functions from the text of the
  * stylesheets to a list of findings; no file access here, so the test can run
  * them (scripts/lint/lint-styles.mjs reads and writes the files).
@@ -19,7 +19,7 @@
  * The values the stylesheets already hold are recorded in a baseline
  * (styles-baseline.json): a finding fails the lint only beyond the baseline,
  * so no new literal can come in while the old ones wait for the owner's
- * decisions (docs/design/05, 5.14). Comments are never read. Generated
+ * decisions (docs/archive/plans/2026-10-14-cleanup-and-library-plans.md, 5.14). Comments are never read. Generated
  * files (*.generated.css) are not linted.
  */
 import { containerBreakpoints, viewportBreakpoints } from "../../src/styles/tokens/tokens.ts";

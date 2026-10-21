@@ -38,7 +38,7 @@ describe("the button colour family", () => {
 
     it("is what the outlined buttons read, at rest and under the pointer", () => {
         const accent = stylesheet("accent-button.css");
-        const add = rule(accent, ".strategy-add-button, .header-tool, .business-documents-button, .workspace-documents-button, .org-calendar-chip, .org-calendar-month-nav-button {");
+        const add = rule(accent, ".strategy-add-button, .header-tool, .business-documents-button, .workspace-documents-button, .org-calendar-chip {");
         expect(add).toContain("color: var(--accent-ink);");
         expect(add).toContain("border: 1px solid var(--accent-line);");
         expect(add).toContain("background: var(--accent-ground);");

@@ -5,8 +5,7 @@
 .header-tool,
 .business-documents-button,
 .workspace-documents-button,
-.org-calendar-chip,
-.org-calendar-month-nav-button {
+.org-calendar-chip {
 
     /* ONE BUTTON HEIGHT: 44px (--add-button-height, layout-rules "Heights"); the place sets its width and padding only. */
     box-sizing: border-box;
@@ -36,7 +35,6 @@
 .business-documents-button:hover:not(:disabled),
 .workspace-documents-button:hover:not(:disabled),
 .org-calendar-chip:hover:not(:disabled),
-.org-calendar-month-nav-button:hover:not(:disabled),
 .header-tool[aria-expanded="true"] {
 
     border-color: var(--accent-line);
@@ -55,8 +53,7 @@
 .header-tool:focus-visible,
 .business-documents-button:focus-visible,
 .workspace-documents-button:focus-visible,
-.org-calendar-chip:focus-visible,
-.org-calendar-month-nav-button:focus-visible {
+.org-calendar-chip:focus-visible {
 
     outline: none;
     box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
@@ -67,8 +64,7 @@
 .header-tool:disabled,
 .business-documents-button:disabled,
 .workspace-documents-button:disabled,
-.org-calendar-chip:disabled,
-.org-calendar-month-nav-button:disabled {
+.org-calendar-chip:disabled {
 
     color: var(--text-faint);
     border-color: var(--line-card);

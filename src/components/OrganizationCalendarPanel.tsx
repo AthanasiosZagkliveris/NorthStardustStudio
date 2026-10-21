@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import AddButton from "./controls/AddButton.tsx";
-import SegmentedToggle from "./controls/SegmentedToggle.tsx";
+import RadioChoice from "./controls/RadioChoice.tsx";
 import TextLink from "./interview/fields/TextLink.tsx";
 import NavArrow from "./controls/NavArrow.tsx";
 import { CalendarTaskAnnotation, OrganizationService } from "../services/OrganizationService";
@@ -19,7 +19,6 @@ import { FrameworkSystem } from "../types/system";
 import { getCapabilityColor } from "../data/capabilities";
 
 import "../styles/organization-calendar.css";
-import "../styles/date-format-toggle.css";
 import "../styles/system-confirmation.css";
 
 interface OrganizationCalendarPanelProps {
@@ -617,11 +616,12 @@ export default function OrganizationCalendarPanel({
 
                         <span className="org-calendar-date-format-label">Date presentation</span>
 
-                        <SegmentedToggle
+                        <RadioChoice
                             label="Date presentation"
+                            group="org-calendar-date-format"
                             options={[{ id: "US", label: "MM/DD (US)" }, { id: "EU", label: "DD/MM (EU)" }]}
                             value={dateFormat}
-                            onChange={(next) => next && PreferencesService.setDateFormat(next)}
+                            onChange={(next) => PreferencesService.setDateFormat(next)}
                         />
 
                     </div>
@@ -655,13 +655,13 @@ export default function OrganizationCalendarPanel({
 
                     <div className="org-calendar-month-nav">
 
-                        <NavArrow className="org-calendar-month-nav-button" direction="previous" label="Previous month" onClick={() => goToMonth(-1)} />
+                        <NavArrow className="page-arrow org-calendar-month-arrow" direction="previous" label="Previous month" onClick={() => goToMonth(-1)} />
 
                         <span className="org-calendar-month-label">
                             {MONTH_LABELS[viewMonth]} {viewYear}
                         </span>
 
-                        <NavArrow className="org-calendar-month-nav-button" direction="next" label="Next month" onClick={() => goToMonth(1)} />
+                        <NavArrow className="page-arrow org-calendar-month-arrow" direction="next" label="Next month" onClick={() => goToMonth(1)} />
 
                     </div>
 

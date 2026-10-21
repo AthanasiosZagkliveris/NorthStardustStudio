@@ -62,7 +62,7 @@ export function tipWords(text: string): string {
             const what = m[1].replace(/\s+to\s+.*$/i, "").trim();
             return "Click to add " + (/^(another|an?|new|the)\b/i.test(what) ? (/^new\b/i.test(what) ? (/^[aeiou]/i.test(what.slice(4)) ? "an " : "a ") : "") : (/^[aeiou]/i.test(what) ? "an " : "a ")) + what;
         }],
-        [/^(remove|delete|open|close|move|show|hide|exit|reset|take|choose|clear|select|expand|collapse|edit|search) (.+)$/i, m => "Click to " + m[1].toLowerCase() + " " + m[2]]
+        [/^(remove|delete|open|close|move|show|hide|exit|reset|take|choose|clear|select|expand|collapse|edit|search|follow) (.+)$/i, m => "Click to " + m[1].toLowerCase() + " " + m[2]]
     ];
     for (const [pattern, say] of rules) {
         const match = pattern.exec(clean);

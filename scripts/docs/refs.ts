@@ -1,5 +1,5 @@
 /**
- * The documents' references, checked against the code (docs/design/05, 5.13
+ * The documents' references, checked against the code (docs/archive/plans/2026-10-14-cleanup-and-library-plans.md, 5.13
  * and the documentation plan): a document that names a custom property, a
  * class or a file that does not exist is wrong, and this finds it. Pure
  * functions; the test reads the files.

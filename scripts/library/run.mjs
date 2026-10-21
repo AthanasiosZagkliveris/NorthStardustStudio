@@ -1,5 +1,5 @@
 /**
- * The library runner (docs/design/05, 5.13, layer D): opens the gallery
+ * The library runner (docs/archive/plans/2026-10-14-cleanup-and-library-plans.md, 5.13, layer D): opens the gallery
  * (/library, served by `npm run dev`) in every reading mode and every
  * screen class, and measures each asset against its contract
  * (src/library/assets/*.ts). Seconds for one asset, instead of a page

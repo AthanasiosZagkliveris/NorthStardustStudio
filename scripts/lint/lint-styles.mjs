@@ -40,6 +40,6 @@ for (const f of newer) console.error("NEW " + f.rule + ": " + f.file + ":" + f.l
 if (gone.length) console.log(gone.length + " baseline entr" + (gone.length === 1 ? "y is" : "ies are") + " no longer needed (run npm run lint:styles:baseline to tighten it).");
 console.log(findings.length + " findings, " + newer.length + " beyond the baseline.");
 if (newer.length) {
-    console.error("Use a token (colors.generated.css, sizes.generated.css, or a var() the stylesheet already defines), or ask the owner to decide the value (docs/design/05, 5.14).");
+    console.error("Use a token (colors.generated.css, sizes.generated.css, or a var() the stylesheet already defines), or ask the owner to decide the value (docs/archive/plans/2026-10-14-cleanup-and-library-plans.md, 5.14).");
     process.exit(1);
 }

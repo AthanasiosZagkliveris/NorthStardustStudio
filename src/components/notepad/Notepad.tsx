@@ -1,6 +1,6 @@
 import { KeyboardEvent, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import FoldHead from "../controls/FoldHead";
-import FoldArrow from "../interview/fields/FoldArrow";
+import NavArrow from "../controls/NavArrow.tsx";
 import TextField from "../controls/TextField.tsx";
 import AddButton from "../controls/AddButton.tsx";
 import TickBox from "../controls/TickBox.tsx";
@@ -425,7 +425,7 @@ export function NotepadPanel() {
                 >
                     + Add note
                 </AddButton>
-                <FoldArrow open={false} name="Close notes" className="notepad-close" onToggle={() => NotepadService.close()} />
+                <NavArrow direction="next" label="Close notes" className="page-arrow notepad-close" onClick={() => NotepadService.close()} />
             </div>
 
             {/* ONE scrolling column, padded as every card is: the card notes, then the notes of each Organization. */}

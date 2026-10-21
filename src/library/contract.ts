@@ -1,5 +1,5 @@
 /**
- * The asset contract (docs/design/05, 5.13, layer C): one typed record
+ * The asset contract (docs/archive/plans/2026-10-14-cleanup-and-library-plans.md, 5.13, layer C): one typed record
  * per asset of the library. The gallery (/library, development only)
  * draws the asset from its record, and scripts/library/run.mjs measures
  * what the record says. Data only: no React here, so that Node can read it.
@@ -26,7 +26,7 @@ export interface ContrastNeed {
     readonly min: 3 | 4.5;
 }
 
-/** The screen classes of the website's profiles (docs/design/05): Tablet 768-1199 wide; Laptop 1200 and wider, under 1250 high; Desktop 1200 and wider, 1250 high and over. */
+/** The screen classes of the website's profiles (docs/design/05-not-done-yet.md): Tablet 768-1199 wide; Laptop 1200 and wider, under 1250 high; Desktop 1200 and wider, 1250 high and over. */
 export const SCREEN_CLASSES = ["tablet", "laptop", "desktop"] as const;
 export type ScreenClass = (typeof SCREEN_CLASSES)[number];
 

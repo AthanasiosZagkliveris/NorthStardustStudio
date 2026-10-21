@@ -181,7 +181,7 @@
 }
 
 /* THE GLOBAL SETTINGS' AND THE BUSINESS DOCUMENTS' CELLS are the Systems' cells: no stroke at rest, the recessed field, the glow under the pointer (the ring is the global one above). */
-:is(.settings-page, .business-documents) :is(input.interview-input:not([type="checkbox"], [type="radio"]), .option-picker-trigger.interview-input, .date-cell-input, .month-picker-trigger) {
+:is(.settings-page, .business-documents) :is(input.interview-input:not([type="checkbox"], [type="radio"]), .date-cell-input, .month-picker-trigger) {
     border: 1px solid transparent;
     border-radius: var(--radius-md);
     background-color: var(--bg-surface);
@@ -195,7 +195,7 @@
     --info-fill: var(--bg-card-tint);
 }
 
-:is(.settings-page, .business-documents) :is(input.interview-input:not([type="checkbox"], [type="radio"]), .option-picker-trigger.interview-input, .date-cell-input, .month-picker-trigger):hover:not(:focus, :focus-visible, :active, :disabled) {
+:is(.settings-page, .business-documents) :is(input.interview-input:not([type="checkbox"], [type="radio"]), .date-cell-input, .month-picker-trigger):hover:not(:focus, :focus-visible, :active, :disabled) {
     border-color: transparent;
     box-shadow: var(--cell-inset-recess), 0 0 0 4px color-mix(in srgb, var(--glow-color) calc(18% * var(--hover-lift, 1)), transparent);
 }

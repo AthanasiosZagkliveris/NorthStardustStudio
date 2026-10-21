@@ -304,7 +304,7 @@ A description text: the cell gets bigger as you type or press Enter (Description
 
 - Kind: Text cell: grows down as you type
 - Placed in: Cards, chapters, the Workspace
-- Fields: Description / Relevant Information
+- Fields: Notes
 - What changes: Grows with the words; Enter adds a line inside it.
 - Height: follows the words, at least 44 px
 - Width: set by the layout
@@ -1711,4 +1711,345 @@ The regular card: a rounded, coloured surface that carries fields and tools. The
 - Width: set by the layout
 - Text size: no text (a symbol)
 - Border: 1 px; Padding left: 12 px; Padding top: 12 px
+
+
+## Which fields and cards use each component
+
+For each component and variant: the fields, cards and other assets that are built from it. A field uses a component when its requirements name it; the label of every field is the label component.
+
+### BTN.001 box button
+
+4 assets use it: 2 components, 1 tile, 1 card.
+
+**Other assets:** BTN.004 wide add button; IMG.001 image holder; TIL.001 master tile; CRD.001 floating card.
+
+#### BTN.ADD.001.001 Add
+
+2 assets use it.
+
+**Other assets:** BTN.004 wide add button; TIL.001 master tile.
+
+#### BTN.SHR.001.002 Shrink
+
+Used by no field or card yet.
+
+### BTN.002 info button
+
+1 assets use it: 1 frame.
+
+**Other assets:** FRM.001 frame.
+
+### BTN.003 back button
+
+1 assets use it: 1 field.
+
+**Fields (1):** page tag.
+
+#### BTN.SEC.003.001 Section back
+
+Used by no field or card yet.
+
+### BTN.004 wide add button
+
+0 assets use it: .
+
+#### BTN.ROW.004.001 Full-row add
+
+Used by no field or card yet.
+
+#### BTN.SML.004.002 Small add
+
+Used by no field or card yet.
+
+### BTN.005 add card tile
+
+0 assets use it: .
+
+#### BTN.PLS.005.001 Plus tile
+
+Used by no field or card yet.
+
+### BTN.006 tool button
+
+0 assets use it: .
+
+#### BTN.RDM.006.001 Reading mode
+
+Used by no field or card yet.
+
+#### BTN.FCS.006.002 Focus
+
+Used by no field or card yet.
+
+#### BTN.SRC.006.003 Search
+
+Used by no field or card yet.
+
+#### BTN.NTS.006.004 Notes
+
+Used by no field or card yet.
+
+#### BTN.RVW.006.005 Review
+
+Used by no field or card yet.
+
+#### BTN.SET.006.006 Settings
+
+Used by no field or card yet.
+
+#### BTN.RFR.006.007 Refresh
+
+Used by no field or card yet.
+
+#### BTN.STR.006.008 Start Interview
+
+Used by no field or card yet.
+
+### BTN.007 link button
+
+0 assets use it: .
+
+### BTN.008 text toggle
+
+0 assets use it: .
+
+### TXS.001 text
+
+110 assets use it: 2 tiles, 1 frame, 106 fields, 1 card.
+
+**Fields (106):** Activity; Allowance; Amortisation period; Balance date; Billing type; Category; Challenges & Problems; Colour; Colour name; Completed; Content & Scope; Cost; Cost ($); Cost option; Cost options; Currency; Customer Acquisition; Customer Benefit; Customer Experience; Date; Delivery Hrs; Deposit %; Description / Relevant Information; Emotional; End date; Expense name; Extra: Bonus; Extra: Clearance and handling; Extra: Commercial property tax; Extra: Commercial property tax (when bought); Extra: Commission; Extra: Customs duty; Extra: Deposit; Extra: Handling per pallet; Extra: Minimum order; Extra: Other duties; Extra: Road tax; Extra: Road tax (when bought); Extra: Service charge; Extra: Service charge (when bought); Frequency; Function; Functional; Functional Needs Addressed; Goals & Desires; Group; Image description; Image name; Information & Shopping Habits; Instalment lines; Instalments; Journey Stage; Legal requirement name; Linked Offerings; Linked registration; Links; Market; Milestone; Milestone %; Milestone date; Name; Number; Objections; Offerings; Opportunities; page tag; Payment Plan; Performer; Plan; Price; Psychographics; Purchase & Delivery; Qty; Rate override; Record date and time; Reference or Number; Rent; Requirements & Conditions; Resource; Resources; Responsibilities; Responsibility; Responsible; Role; Roles; Salary; Segment, Profile name; Social; Social & Interest Hubs; Specific Personal Information; Start date; Status; Strengths; Subchannel name; Support & Communication; Threats; Type; Typeface name; Unit; Units; Usage; Useful life; Warranty; Warranty until; Weaknesses; Working Hrs.
+
+**Other assets:** TIL.001 master tile; TIL.002 open tile; FRM.001 frame; CRD.001 floating card.
+
+#### TXS.BMD.001.001 Body medium
+
+Used by no field or card yet.
+
+#### TXS.BBD.001.002 Body bold
+
+1 assets use it.
+
+**Other assets:** TIL.002 open tile.
+
+#### TXS.BUL.001.003 Body underlined
+
+1 assets use it.
+
+**Other assets:** TIL.001 master tile.
+
+#### TXS.BUC.001.004 Body bold underlined capitals
+
+Used by no field or card yet.
+
+#### TXS.BBC.001.005 Body bold capitals
+
+1 assets use it.
+
+**Other assets:** TIL.001 master tile.
+
+#### TXS.BMC.001.006 Body medium capitals
+
+Used by no field or card yet.
+
+#### TXS.BDN.001.007 Body done
+
+Used by no field or card yet.
+
+#### TXS.SML.001.008 Small
+
+Used by no field or card yet.
+
+#### TXS.SCP.001.009 Small capitals
+
+Used by no field or card yet.
+
+#### TXS.SBI.001.010 Small bold italic
+
+Used by no field or card yet.
+
+#### TXS.HTB.001.011 Heading 3 bold
+
+1 assets use it.
+
+**Other assets:** CRD.001 floating card.
+
+#### TXS.HTC.001.012 Heading 3 bold capitals
+
+Used by no field or card yet.
+
+#### TXS.HTI.001.013 Heading 3 medium italic
+
+Used by no field or card yet.
+
+#### TXS.HDC.001.014 Heading 2 bold capitals
+
+1 assets use it.
+
+**Other assets:** FRM.001 frame.
+
+#### TXS.HOB.001.015 Heading 1 bold
+
+Used by no field or card yet.
+
+#### TXS.HOC.001.016 Heading 1 capitals
+
+Used by no field or card yet.
+
+#### TXS.HOR.001.017 Heading 1
+
+Used by no field or card yet.
+
+#### TXS.SBD.001.018 Small bold
+
+Used by no field or card yet.
+
+### DRP.001 dropdown
+
+21 assets use it: 21 fields.
+
+**Fields (21):** Activity; Category; Cost option; Cost options; Currency; Frequency; Group; Journey Stage; Linked registration; Name; Performer; Plan; Rent; Resource; Responsibility; Responsible; Role; Status; Subchannel name; Type; Unit.
+
+#### DRP.SRC.001.001 Searchable
+
+1 assets use it.
+
+**Fields (1):** Currency.
+
+### TIK.001 tick box
+
+26 assets use it: 26 fields.
+
+**Fields (26):** Completed; Description / Relevant Information; Extra: Bonus; Extra: Clearance and handling; Extra: Commercial property tax; Extra: Commercial property tax (when bought); Extra: Commission; Extra: Customs duty; Extra: Deposit; Extra: Handling per pallet; Extra: Minimum order; Extra: Other duties; Extra: Road tax; Extra: Road tax (when bought); Extra: Service charge; Extra: Service charge (when bought); Functional Needs Addressed; Linked Offerings; Links; Offerings; Payment Plan; Reference or Number; Resources; Responsible; Usage; Warranty.
+
+### TXT.001 text box
+
+66 assets use it: 1 component, 64 fields, 1 card.
+
+**Fields (64):** Allowance; Amortisation period; Challenges & Problems; Colour; Colour name; Content & Scope; Cost; Cost ($); Customer Acquisition; Customer Benefit; Customer Experience; Date; Delivery Hrs; Deposit %; Description / Relevant Information; Emotional; Expense name; Extra: Bonus; Extra: Clearance and handling; Extra: Commercial property tax; Extra: Commercial property tax (when bought); Extra: Commission; Extra: Customs duty; Extra: Deposit; Extra: Handling per pallet; Extra: Minimum order; Extra: Other duties; Extra: Road tax; Extra: Road tax (when bought); Extra: Service charge; Extra: Service charge (when bought); Function; Functional; Goals & Desires; Image description; Image name; Information & Shopping Habits; Instalments; Legal requirement name; Linked Offerings; Market; Milestone; Milestone %; Name; Objections; Offerings; Price; Psychographics; Purchase & Delivery; Qty; Rate override; Requirements & Conditions; Salary; Segment, Profile name; Social; Social & Interest Hubs; Specific Personal Information; Subchannel name; Support & Communication; Type; Typeface name; Units; Useful life; Working Hrs.
+
+**Other assets:** PCK.001 colour picker; CRD.001 floating card.
+
+#### TXT.ARE.001.001 Free text
+
+29 assets use it.
+
+**Fields (29):** Challenges & Problems; Colour name; Content & Scope; Customer Acquisition; Customer Benefit; Customer Experience; Description / Relevant Information; Emotional; Expense name; Function; Functional; Goals & Desires; Image description; Information & Shopping Habits; Legal requirement name; Market; Objections; Offerings; Psychographics; Purchase & Delivery; Requirements & Conditions; Segment, Profile name; Social; Social & Interest Hubs; Specific Personal Information; Subchannel name; Support & Communication; Type; Typeface name.
+
+#### TXT.NAM.001.002 Name cell
+
+1 assets use it.
+
+**Other assets:** CRD.001 floating card.
+
+#### TXT.WHL.001.003 Whole number
+
+23 assets use it.
+
+**Fields (23):** Allowance; Cost; Cost ($); Date; Delivery Hrs; Extra: Bonus; Extra: Clearance and handling; Extra: Commercial property tax; Extra: Commercial property tax (when bought); Extra: Commission; Extra: Customs duty; Extra: Deposit; Extra: Handling per pallet; Extra: Minimum order; Extra: Other duties; Extra: Road tax; Extra: Road tax (when bought); Extra: Service charge; Extra: Service charge (when bought); Instalments; Salary; Units; Working Hrs.
+
+#### TXT.DEC.001.004 Decimal
+
+2 assets use it.
+
+**Fields (2):** Price; Qty.
+
+#### TXT.SQR.001.005 Square number
+
+6 assets use it.
+
+**Fields (6):** Amortisation period; Deposit %; Linked Offerings; Milestone %; Rate override; Useful life.
+
+### LST.001 list
+
+4 assets use it: 4 fields.
+
+**Fields (4):** Opportunities; Strengths; Threats; Weaknesses.
+
+### DIV.001 divider
+
+2 assets use it: 2 cards.
+
+**Other assets:** CRD.003 Infrastructure Activity; CRD.007 Offering Activity.
+
+#### DIV.VER.001.001 Vertical
+
+Used by no field or card yet.
+
+### DAT.001 date cell
+
+7 assets use it: 7 fields.
+
+**Fields (7):** Balance date; Date; End date; Instalment lines; Milestone date; Start date; Warranty until.
+
+#### DAT.MON.001.001 Month and year
+
+Used by no field or card yet.
+
+### DAT.002 calendar list
+
+1 assets use it: 1 component.
+
+**Other assets:** DAT.001 date cell.
+
+#### DAT.DAY.002.001 Days
+
+Used by no field or card yet.
+
+#### DAT.MON.002.002 Months
+
+Used by no field or card yet.
+
+### PCK.001 colour picker
+
+0 assets use it: .
+
+### IMG.001 image holder
+
+0 assets use it: .
+
+#### IMG.LOG.001.001 Logo
+
+Used by no field or card yet.
+
+#### IMG.ICO.001.002 Icon
+
+Used by no field or card yet.
+
+### ARW.001 arrow
+
+1 assets use it: 1 field.
+
+**Fields (1):** page tag.
+
+#### ARW.CAR.001.001 Carousel arrow
+
+Used by no field or card yet.
+
+### ARW.002 fold arrow
+
+1 assets use it: 1 frame.
+
+**Other assets:** FRM.001 frame.
+
+#### ARW.LAB.002.001 Label arrow
+
+Used by no field or card yet.
+
+#### ARW.TTL.002.002 Title arrow
+
+Used by no field or card yet.
+
+### BUL.001 bullet
+
+1 assets use it: 1 field.
+
+**Fields (1):** page tag.
+
+### ICN.001 system icon
+
+0 assets use it: .
+
+### SYM.001 card symbol
+
+0 assets use it: .
 

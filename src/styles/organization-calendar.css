@@ -22,7 +22,8 @@
        `.workspace-footer`) exactly, so the panel's own visible
        band sits precisely between them, never overlapping. */
     top:80px;
-    bottom:64px;
+    /* (The footer has no ground of its own: the panel runs to the window's foot and the Back link stands over it.) */
+    bottom:0;
 
     /* Below the header (40) and footer (30)... except those two
        don't actually overlap this panel spatially at all (the
@@ -352,18 +353,10 @@
 
 }
 
-.org-calendar-month-nav-button{
+/* The month arrows are the navigation arrows (global.css, .page-arrow): they keep their size whatever the label asks of the row. */
+.org-calendar-month-arrow{
 
-    width:var(--add-button-height);
-    height:var(--add-button-height);
-
-    display:inline-flex;
-
-    align-items:center;
-    justify-content:center;
-
-    /* (The look is the accent button's: accent-button.css.) */
-    line-height:1;
+    flex:none;
 
 }
 
@@ -491,9 +484,14 @@
 
 }
 
-.org-calendar-day:hover{
+/* THE DEFAULT REACTION OF THE SYSTEMS' BUTTONS (R4, 20-reactions.md): under the pointer or the keyboard the day is FILLED with the accent, its numbers and dots in the ground colour, no stroke; the keyboard's ring and the press are the global ones. */
+.org-calendar-day:not(.org-calendar-day-blank):is(:hover, :focus-visible){
 
-    background:var(--bg-table-head);
+    border-color:transparent;
+
+    background:var(--accent-ink);
+
+    color:var(--bg-surface);
 
 }
 
@@ -516,11 +514,14 @@
 
 }
 
+/* The chosen day stays filled (the pressed state of the same reaction). */
 .org-calendar-day-selected{
 
-    background:var(--bg-primary-tint);
+    border-color:transparent;
 
-    border-color:var(--line-primary);
+    background:var(--accent-ink);
+
+    color:var(--bg-surface);
 
 }
 
@@ -1326,9 +1327,16 @@
 
 
 
-/* The month arrows keep their 44px square whatever the label asks of the row. */
-.org-calendar-month-nav-button{
 
-    flex:none;
+/* On a filled day the number, the dots and the "+" count take the ground colour. */
+.org-calendar-day:not(.org-calendar-day-blank):is(:hover, :focus-visible, .org-calendar-day-selected) :is(.org-calendar-day-number, .org-calendar-day-dot-overflow){
+
+    color:inherit;
+
+}
+
+.org-calendar-day:not(.org-calendar-day-blank):is(:hover, :focus-visible, .org-calendar-day-selected) .org-calendar-day-dot{
+
+    background:var(--bg-surface);
 
 }
