@@ -15,7 +15,7 @@ Read this before reviewing or changing anything on screen, and tick every line t
 ## 1. Every control: replace, never adjust
 
 1. **Name what kind of control it is** (remove ×, add +, labelled button, text link, dropdown, tick, text box, number, date, segmented choice, fold arrow, navigation arrow, funnel, "i", tab).
-2. **Use the existing component of that kind** (`RemoveButton`, `AddButton` with its shape or `look`, `TextLink`, `OptionPicker` / `ValuePicker` / `MultiPicker`, `TickField`, `TextBox` / `NumberCell` / `TextField`, `DateCellInput`, `SegmentedToggle`, `FoldArrow`, `NavArrow`, `FunnelButton`, `InfoNote`). If none fits, stop and ask; do not write a look of its own, do not restyle a copy.
+2. **Use the existing component of that kind** (`RemoveButton`, `AddButton` with its shape or `look`, `TextLink`, `OptionPicker` / `ValuePicker` / `MultiPicker`, `TickField`, `TextBox` / `NumberCell` / `TextField`, `DateCellInput`, `SegmentedToggle`, `RadioChoice`, `FoldArrow`, `NavArrow`, `FunnelButton`, `InfoNote`). If none fits, stop and ask; do not write a look of its own, do not restyle a copy.
 3. **No `<button>`, `<input>`, `<select>` or `<textarea>` of its own** outside the components themselves.
 4. **No second class that adds a look** to a shared control (a hover, a ring, a size). A place's class says only where it stands.
 5. **Delete what the replacement makes dead** (the old CSS, the old test's expectation) and run the dead-rule lint.

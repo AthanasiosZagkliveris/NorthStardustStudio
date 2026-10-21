@@ -4,15 +4,13 @@ import { execSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 const R = fileURLToPath(new URL("../../", import.meta.url));
 const git = (args) => execSync("git " + args, { cwd: R, encoding: "utf8" }).trim();
-const date = (p) => git('log -1 --format=%cs -- "' + p + '"') || "2026-10-20";
+const date = (p) => git('log -1 --format=%cs -- "' + p + '"') || new Date().toISOString().slice(0, 10);
 
 // [path, kind, what it is, addHeader]
 const AI = [
   ["docs/ai/README.md", "index", "The map of this folder: what to read first, what to read for a task.", false],
-  ["docs/ai/ai-collaboration-rules.md", "rules", "Standing behavioural rules for an AI assistant: when to ask, when to push, what done requires.", true],
-  ["docs/ai/environment-and-toolchain-playbook.md", "playbook", "The toolchain procedure: sync, typecheck, build, preview, verify.", true],
-  ["docs/ai/verification-and-regression-playbook.md", "playbook", "What to run after a change; the living list of expected test failures.", true],
-  ["docs/ai/ai-development-methodology.md", "reference", "How a change flows from request to integration; when to create or reuse knowledge.", true],
+  ["docs/ai/ai-collaboration-rules.md", "rules", "Standing rules for an AI assistant: commit but do not push, no unrequested changes, when to ask, what done requires, how work flows.", true],
+  ["docs/ai/toolchain-and-verification-playbook.md", "playbook", "What to run after a change (typecheck, tests, the lints and document checks, build, layout check) and the list of expected test failures.", true],
   ["docs/ai/framework-dsl-grammar.md", "reference", "Grammar of the Markdown that defines a System's content.", true],
   ["docs/ai/framework-conventions-and-patterns.md", "reference", "The architectural patterns and the data model of the framework.", true],
   ["docs/ai/glossary.md", "reference", "One line per project term, with a pointer to where it is explained.", true],
@@ -24,10 +22,7 @@ const AI = [
   ["docs/ai/tile-and-card-pattern.md", "rules", "How tiles, frames, cards, rails and dialogs are built; the global rules.", true],
   ["docs/ai/card-kinds.md", "reference", "The kinds of card, where each one's code is, how its head is built.", true],
   ["docs/ai/customer-engagement-layout.md", "rules", "Layout of the Customer Engagement tables, the channel resources and the action markers.", true],
-  ["docs/ai/card-field-measures-report.md", "snapshot", "A measured report of the sizes and set-up of the card fields.", true],
-  ["docs/ai/outstanding-findings.md", "living list", "Confirmed problems found by diagnostic skills and not yet fixed.", true],
-  ["docs/ai/cost-section-proposal.md", "proposal", "What the Cost section should record and how it should look.", false],
-  ["docs/ai/segment-by-selection-proposal.md", "proposal", "Building a Customer Segment by selection.", false]
+  ["docs/ai/outstanding-findings.md", "living list", "Confirmed problems found by diagnostic skills and not yet fixed.", true]
 ];
 const DESIGN = [
   ["docs/design/01-current-design.md", "current design", "Every kind of element the Foundation capability is built from, by layer.", false],
@@ -56,8 +51,7 @@ const DESIGN = [
   ["docs/design/23-shared-components.md", "current design", "Which components are shared, which are not, what is left to unify. Dated states, newest on top.", false],
   ["docs/design/24-help-texts.md", "current design", "The help texts of the app.", true],
   ["docs/design/25-popups.md", "current design", "Pop-ups in six categories, with their placement rules.", true],
-  ["docs/design/26-tooltips.md", "current design", "Which controls have a tooltip, what it says, and the five rules.", true],
-  ["docs/design/card-scan-2026-10-15.md", "snapshot", "A snapshot of every card written by scripts/cards/report.mjs.", false]
+  ["docs/design/26-tooltips.md", "current design", "Which controls have a tooltip, what it says, and the five rules.", true]
 ];
 const SPEC = [
   ["docs/specifications/business-system/README.md", "specification", "The Business System: index of the pages and the editor mapping.", true],
@@ -67,14 +61,16 @@ const SPEC = [
   ["docs/specifications/business-system/page-2-section-2-customer-relationships-worked-example.md", "specification", "A worked example of the customer relationships section.", true],
   ["docs/specifications/business-system/page-3-infrastructure-and-capability.md", "specification", "Page 3: Infrastructure and Capability.", true],
   ["docs/specifications/business-system/page-4-financial-foundation.md", "specification", "Page 4: Financial Foundation.", true],
-  ["docs/specifications/business-system/page-5-financial-sustainability.md", "specification", "Page 5: Financial Sustainability.", true],
-  ["docs/specifications/shared-workspace/README.md", "proposal", "Shared Workspace: working together without a server. Nothing built.", false]
+  ["docs/specifications/business-system/page-5-financial-sustainability.md", "specification", "Page 5: Financial Sustainability.", true]
 ];
 const ARCHIVE = [
   ["docs/engineering-phase-completion.md", "docs/archive/engineering-phase-completion.md", "archive", "The engineering phase completion report."],
-  ["docs/superpowers/plans/2026-09-27-navigation-rails-and-folding.md", "docs/archive/plans/2026-09-27-navigation-rails-and-folding.md", "archive", "Plan: navigation rails and card folding (done)."],
   ["docs/superpowers/plans/2026-09-29-workspace-D-duplicate-scenarios-compare.md", "docs/archive/plans/2026-09-29-workspace-D-duplicate-scenarios-compare.md", "archive", "Brief: workspace features D, duplicate, scenarios, compare (not started)."],
-  ["docs/superpowers/plans/2026-09-29-workspace-E-founder-helpers.md", "docs/archive/plans/2026-09-29-workspace-E-founder-helpers.md", "archive", "Brief: workspace features E, helpers for founders (not started)."]
+  ["docs/superpowers/plans/2026-09-29-workspace-E-founder-helpers.md", "docs/archive/plans/2026-09-29-workspace-E-founder-helpers.md", "archive", "Brief: workspace features E, helpers for founders (not started)."],
+  ["docs/archive/plans/2026-10-14-cleanup-and-library-plans.md", "docs/archive/plans/2026-10-14-cleanup-and-library-plans.md", "archive", "The clean-up and library plans of 2026-10-14 (old sections 5.6, 5.11 to 5.14 of document 5); what is left is in document 5."],
+  ["docs/archive/proposals/cost-section-proposal.md", "docs/archive/proposals/cost-section-proposal.md", "archive", "Proposal: what the Cost section should record (the page was built afterwards)."],
+  ["docs/archive/proposals/segment-by-selection-proposal.md", "docs/archive/proposals/segment-by-selection-proposal.md", "archive", "Proposal: building a Customer Segment by selection (not built)."],
+  ["docs/archive/proposals/shared-workspace.md", "docs/archive/proposals/shared-workspace.md", "archive", "Proposal: Shared Workspace, working together without a server (not built)."]
 ];
 
 // 3. the index
@@ -88,8 +84,8 @@ Status: **index**, updated ${new Date().toISOString().slice(0, 10)}. One line pe
 ## How the documents are kept
 
 - **A change is written in the log** (\`design/04-log.md\`), newest row on top, and nowhere else. The other documents **describe the present**: each says what is true now, under a dated heading, the newest on top, with its own status line (kind and date) under the title.
-- **Kinds**: *rules* (what must hold; a check enforces most of them), *reference* (how things are, to look up), *current design* (what the app is today), *living list* (an open list: an item leaves it when done and the log records it), *log*, *proposal* (nothing built), *specification* (what a page asks and shows), *playbook* (a procedure), *generated* (written by a script; never edit by hand, run its command), *snapshot* (a measured picture on a date; not updated), *archive* (finished or older; kept for the record).
-- **Where the code and a document disagree, the code is right** and the document is the one to fix. The checks that keep them honest: \`npm run docs:check\` (generated sections), \`npm run tables:check\`, \`npm run library:check\`, and the document-reference test (the six rule documents name only properties, classes and files the code has).
+- **Kinds**: *rules* (what must hold; a check enforces most of them), *reference* (how things are, to look up), *current design* (what the app is today), *living list* (an open list: an item leaves it when done and the log records it), *log*, *proposal* (nothing built; in the archive), *specification* (what a page asks and shows), *playbook* (a procedure), *generated* (written by a script; never edit by hand, run its command), *archive* (finished or older; kept for the record).
+- **Where the code and a document disagree, the code is right** and the document is the one to fix. The checks that keep them honest: \`npm run docs:check\` (generated sections), \`npm run tables:check\`, \`npm run library:check\`, and the document-reference test (six documents name only properties, classes and files the code has).
 - **This index is written by \`npm run docs:index\`** (the lists are in \`scripts/docs/write-index.mjs\`; a new document is added there). Do not edit it by hand.
 - **Who reads what**: an assistant starts with \`ai/README.md\`; the owner starts with \`design/05-not-done-yet.md\` (what is open) and \`design/04-log.md\` (what changed).
 

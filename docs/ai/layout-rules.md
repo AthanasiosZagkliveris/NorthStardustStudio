@@ -30,6 +30,7 @@ Where the rules need a decision the code could not give, section 20 lists it.
 - 20. Still to settle
 - 21. Rules of 2026-10-17 (floating cards, generated cards, notes, folds, cells)
 - 22. Rules of 2026-10-18 (cells, holders, shade, links, dates, lines), by topic
+- One shape for every page of chapters (2026-10-21), the last section
 
 ---
 
@@ -1129,7 +1130,7 @@ drawn only in a dialog that its tile opens.
 - **Links between cards, checked in every direction** (Lumen & Loom, 62 cards): a resource links to its supplier, to the activity its status chooses and to the activities that list it; an activity to its performers, its Responsible founder, its partners and its resources, and back to the resource that chooses it; a partner or supplier to every resource that names it (by its status or a further status row) and every activity it performs; a founder's Responsibilities to its activities; a Customer Channel's card to its channel; a tile's circles show what a card is connected to. Each opens the other card with this one (a pair).
 - **The "Open ..." links of a card are last in it** (`linksSection`): one is the line itself; several are a folded section named Links, its label at the left with the other labels, the fold arrow after it and the count beside it. A card's circles (the linked indicators on its tile) match its links: every activity a resource is listed in, and every resource an activity lists, is a circle on both tiles (`floorRows`).
 - **The Links fold arrow stands at the left of its label**, hung in the margin, so the label starts where the card's other labels do.
-- **The Links of a card are laid out as a founder's Responsibilities**: the same row (fold arrow, label, count) and the list under it, its lines 6px apart. A field-by-field measurement of the card kinds is in `card-field-measures-report.md`.
+- **The Links of a card are laid out as a founder's Responsibilities**: the same row (fold arrow, label, count) and the list under it, its lines 6px apart.
 - **A link line is a kind letter, then the name**: R. Resource, A. Activity, P. Partner, S. Supplier (the noun's first letter, one fixed column), then the name as the link; no "Open", no quotes (its tooltip and accessible name keep the full "Open Resource “Name”").
 - **Every cell of a card is `--card-cell-height` (44px) high**, a date cell included. A Status picker is narrower than the other side-label cells on purpose: its "+" stands in the x column (159 + 40 = 199).
 - **A Legal requirement's or expense's floating card stands on the Business card's geometry**: the same three columns, name cell and side-label rows (label in `--card-label-col`, cell to the content's right edge). A colour's and a typeface's card share one label column, as wide as its longest label ("Colour (i)"), then 12px, then the cells, which both end at the name cell's right edge. A card a Customer Channel made shows its Category and Group as text where the other cards' cells stand.
@@ -1160,17 +1161,35 @@ drawn only in a dialog that its tile opens.
 
 ## 12. The Inventory help tile
 
-- The Completed tile stands outside both sections (`.section-tiles-completed`, under Offering's Capability's card); while it exists the "Offering's Capability shows all its tiles without a bar" rule is waived (the card scrolls inside).
-- The row under Offering's Capability's card (Inventory, Completed) is 66% of the card's width.
-- **Funnel**: portal to the overlay, outward beside the dialog when there is room; Status / Frequency are `OptionPicker` (hug, tight).
-- **The Inventory funnel menu is 250px wide** (`.strategy-sort-menu-wide`; max `100vw - 24px`): long labels ("Digital Infrastructure", "Online Presence & Communication") wrap onto two lines, "Partners & Suppliers" stays on one, never widen the menu for a label. Its height is capped to the window (scrolls inside), it opens outward where there is room, and the Cost from / to cells are 6.5em (91px). Buttons read "High to low" / "Low to high", the tick "Linked".
-- The Inventory funnel menu uses only `--space-field` (12px: padding, between blocks, around a block's label, between sub-lists and fields) and `--space-label` (6px: between ticks, label to control, between the two cost buttons / cells). Include, Belongs to and Sort have a fold arrow (`title-arrow`, button, `aria-expanded`), open by default, the state kept while the overview is open; the menu is never taller than the window.
-- Funnel blocks: Include, Sort, Belongs to (folded at first, arrow right after the label), then Status / Frequency / Linked / Costs; cost order = two arrow buttons beside Costs; range labels From / To. Tick boxes: `align-items: center`, no margin on the box.
-- Inventory table columns exactly: Name, Type, Section, Category, Group, Cost, Frequency, Status, Linked; Linked only the link bullets; no sideways scroll at 1366.
-- A Customer Channel card's Group is "Channel" (table column, last tile line, funnel Group list).
-- **Table mode** uses `--table-ground`, `--table-ink`, `--table-line`, `--table-tint`, `--table-hover` per theme (ink at least 7:1), a sticky heading, and the sizes 14 / 18 / 24px (`--font-small`, `--font-body`, `--font-h3`).
-- **Inventory** (formerly All Tiles): the table has two more columns, Cost Nature and Behaviour, after Frequency (`inventoryClassification`: the same rules as the Financial Foundation). The legend says Supplier for what was Provider; "Partners and Providers" is "Partners and Suppliers" everywhere.
-- Inventory and Completed are 215px squares; only when the window's height asks, their height shrinks (rectangles). The gap between the four tiles follows their size from 12px.
+*Rewritten 2026-10-21 from the Inventory rounds of 2026-10-20 and 2026-10-21 (the log, design document 4). Where a number differs from an older line elsewhere in this rulebook, this section is right.*
+
+**Where the Inventory and Completed tiles stand (page 3)**
+
+- **Both are help tiles in the footer's band** (`.workspace-footer`), level with the page's Back link, centred under the two cards, a gap equal to the cards' own between the two tiles. They take no room above the footer, so the chapters keep all of it and page 3 does not scroll where nothing needs it; the cards keep one 12px line above the row. The row is measured again when the tiles have their size, so it stands at the footer level.
+- **The footer lets the pointer through**: only its Back link and its buttons take it, so the tiles in its band can be pressed.
+- **The page's Back (in the footer) is the default blue** in every mode (`--text-primary`); the card's tones are for the Back inside a card's tab.
+- Both tiles are rectangles with their title only: no list, no rule under the title. The Inventory tile grows outwards to the left (about its bottom-right corner) under the pointer.
+- **The Completed tile** (`.section-tiles-completed`) stands outside both sections and exists only while a card is completed. Everything that belongs to a completed card is the Completed grey: its tile (also in the Inventory, rule 36), the tags above it, the arrows of the Completed dialog, the wireframe of a completed floating card. Rule 36 and the Completed grey of section 8 are the same grey.
+- Older text in sections 8 and 9 still describes the Completed tile as the tail of the tile grid, and a row of 66% of the card width under the cards; where it differs from the footer row above, this section is right. Not re-checked since 2026-10-21: while the Completed tile exists, the rule "Offering's Capability shows all its tiles without a bar" is waived (the card scrolls inside).
+- The same window gives the same four tiles on every page (section "One shape for every page of chapters", at the end of this rulebook).
+
+**The Inventory dialog**
+
+- **Bar**: the count (with its "i" for what is incomplete), the legend (four underlined text options, `TextLink`, pressed = underlined, in the Type order: Resource, Activity, Partner, Supplier), the views, the text size and the funnel. **Tiles / Table** is a `RadioChoice` (the same component as Units / %); **the text size** is three "Aa" radios in 14, 18 and 24px (`TABLE_SIZES`). Tiles, Table and the three "Aa" stand one 16px gap apart, the same between all five, and the space before the first, between the two groups and before the funnel is equal.
+- **The filter and sort window opens outward, always**: right of the dialog; else left; else the dialog narrows (its left edge kept, back to full when the window closes) to leave room; inside the dialog only below a 640px dialog. It opens at the dialog's top (no gap above), its top on the table's top and its foot at the dialog's foot; it has a maximum height and scrolls inside. It takes the **card's tint** (ground, line, ink, its glow and focus ring, its arrows), not the app's blue or a neutral.
+- **Width**: as wide as its dropdown cells need (a cell's closed width and 12px each side, about 244px). A line that is longer is one line cut by an ellipsis; the From / To cells do not widen the window (`contain: inline-size`). The old fixed 250px menu (`.strategy-sort-menu-wide`) keeps only the rules that the window shares with it.
+- **One 32px pitch**: every tick and every order stands on it (a cell is 32px; a tooltip is a 32px cell). Spacing is `--space-field` (12px) and `--space-label` (6px) only; Status and Frequency sit close to their labels (the label's line is no taller than its letters); a tick's words are the text colour and their tails (g, j, p, q, y) are not cut.
+- **Controls are the app's**: ticks are `TickField`, the dropdowns `OptionPicker` (`hug`, `tight`, `keepWidth`: they keep the width of their longest option and do not take the row), the range `NumberCell`s (From and To share the window and stand a cell gap apart), the chip's x a `RemoveButton`. The cost order is two `FoldArrow` (`variant="label"`, `direction`, `pressed`: outlined, filled while pressed or chosen), a cell gap apart. Include, Belongs to and Sort have a fold arrow after the label, open by default, the state kept while the Inventory is open. Belongs to, Include, Status and Frequency list only what has cards. The "i" is filled with the ground it stands on (`--info-fill`).
+- **Funnel blocks**: Include, Sort, Belongs to, then Status / Frequency / Linked / Costs; range labels From / To; buttons read "High to low" / "Low to high"; the tick "Linked". A Columns list (a `MultiPicker`) chooses which columns after Name the table shows. Isolating the costs hides Status and Linked from the table (the user can tick them back); turning it off shows them again.
+
+**The table**
+
+- **Columns, in order**: Name (always shown), Type, Section, Category, Group, Cost, Frequency, Cost Nature, Behaviour, Status, Linked (`TABLE_COLUMNS`). Cost Nature and Behaviour are classified by the same rules as the Financial Foundation (`inventoryClassification`). Linked shows only the link bullets. The columns are named (`data-col`), not counted.
+- **Channel is not a column.** A Customer Channel's name follows its card's group: the card's Group reads "Channel · Website › Online Store" (one row, cut by an ellipsis past 20rem).
+- **Name** is the app's `TextLink` at the table's size, one row cut by an ellipsis between 14 and 22rem; the column and the heading are kept while the table scrolls sideways (it does, where it does not fit). The default text is the small one below 1900px of window width.
+- **Table mode** uses `--table-ground`, `--table-ink`, `--table-line`, `--table-tint` and `--table-hover` per theme (ink at least 7:1), a sticky heading and the three text sizes (`--font-small`, `--font-body`, `--font-h3`).
+- The legend says Supplier (it said Provider); "Partners and Providers" is "Partners and Suppliers" everywhere. The Offering's Type list has one "Partners & Suppliers" option whichever of the two the place has.
+- **Words**: every tooltip of the Inventory is one sentence that begins "Click to ..." (design document 26).
 
 ---
 

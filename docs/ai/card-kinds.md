@@ -1,6 +1,6 @@
 # The kinds of card (internal list)
 
-Status: **reference**, updated 2026-10-16.
+Status: **reference**, updated 2026-10-21.
 
 Every card that opens from a tile (floating, or in a tile's dialog), by kind: where its code is and how its head is built. **The order number stands inside the name cell** on every card that has a name cell (drawn over the name's left, 10px in; the name's text starts at 38px); the marker column is gone, so the name cell and everything under it start at the card's own 12px padding, and the x has its own 32px column (+8px) at the right.
 
@@ -14,9 +14,9 @@ Every card that opens from a tile (floating, or in a tile's dialog), by kind: wh
 | 6 | Channel / subchannel (LinkedIn, Instagram ...) | Customer Engagement: a channel's tile | `BusinessEngagementEditor.tsx` `subchannelHead` | `.business-subchannel-head` | yes |
 | 7 | Segment: Profile, Competitor, Offering | Business Foundation tiles | `BusinessFoundationEditor.tsx` (via `BusinessCard`) | `.floating-card-body .column-tile-content > .business-foundation-card` | yes |
 | 8 | Segment: Description, Value Proposition | Business Foundation tiles | same file | no head (the card is a section) | no head |
-| 9 | Legal requirement | Legal Entity: Registrations | `LegalEntityEditor.tsx` `requirementCard` | `.legal-entity-card-head` | yes |
-| 10 | Legal expense | Legal Entity: Expenses | `LegalEntityEditor.tsx` (expense card) | as 9 | yes |
-| 11 | Founders' profile | Identity: Organization, a founder's tile | `FoundersProfileEditor.tsx` | as 9 (name is plain text, no x) | yes |
+| 9 | Legal requirement | Legal Entity: Registrations | `LegalEntityEditor.tsx` `requirementCard` -> `BusinessCard` (`legal`) | `.legal-entity-card-head` | yes |
+| 10 | Legal expense | Legal Entity: Expenses | `LegalEntityEditor.tsx` (expense card) -> `BusinessCard` (`legal`) | as 9 | yes |
+| 11 | Founders' profile | Identity: Organization, a founder's tile | `FoundersProfileEditor.tsx` -> `BusinessCard` (`legal`) | as 9 (name is plain text, no x) | yes |
 | 12 | Brand colour | Brand: Colours | `BrandStyleEditor.tsx` `colourCard` | `.brand-style-card` | yes |
 | 13 | Brand typeface | Brand: Typography | `BrandStyleEditor.tsx` `typefaceCard` | as 12 | yes |
 | 14 | Brand image | Brand: Brand Images | `BrandInventoryEditor.tsx` `imageCard` -> `BusinessCard` | as 12 (name cell with the number inside, the x at the right; under it the picture across the card, then its words) | yes |
@@ -25,4 +25,4 @@ Every card that opens from a tile (floating, or in a tile's dialog), by kind: wh
 
 Not cards (page frames with a fold arrow): the Financial page's numbered sections (`FinancialSectionCard`), the Segment frame's head, Customer Relationship's table bands.
 
-The same markup is not shared: the number is still a separate element (`CardNumber`, `.legal-entity-card-number`, `.strategy-box-number`), placed over the name by the rules at the end of `section-tiles.css` ("THE ORDER NUMBER STANDS INSIDE THE NAME CELL"). A new kind of card takes one of these heads.
+The parts are shared (design document 23): `BusinessCard` draws a card (its box `CardShell`, head `CardHead`, name `NameCell`, number `CardNumber`); the number keeps its kind's class (`.legal-entity-card-number`, `.strategy-box-number`) and is placed over the name by the rules of `section-tiles/` ("THE ORDER NUMBER STANDS INSIDE THE NAME CELL"). The Strategy boxes' heads and the sub-channel's head stay their own, on purpose. A new kind of card takes one of these heads. A card of a completed activity is the Completed grey wherever it stands (layout rules, 36).

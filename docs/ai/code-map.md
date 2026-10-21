@@ -1,6 +1,6 @@
 # The code map: where things are in `src`
 
-Status: **reference**, updated 2026-10-20.
+Status: **reference**, updated 2026-10-21.
 
 One line per folder: what is in it and what is not. A file's name is its component's name (PascalCase for a component, camelCase for a module of functions); a test stands beside what it tests, with the same name and `.test`.
 
@@ -8,11 +8,11 @@ One line per folder: what is in it and what is not. A file's name is its compone
 
 | Folder | Holds |
 |---|---|
-| `components/controls/` | The shared controls, each drawn once and used everywhere: `AddButton`, `BackButton`, `FoldHead`, `NavArrow`, `TitleTooltips`, `FunnelButton`, `RemoveButton`, `NumberCell`, `TextBox`, `TextField`, `TickBox`, `TickField`, `FieldLabel`, `PopupPanel` (with `usePopupDismiss`), `Tooltip` (`TooltipBox`, `useAboveTip`). A new control that more than one place needs goes here. |
+| `components/controls/` | The shared controls, each drawn once and used everywhere: `AddButton`, `BackButton`, `FoldHead`, `NavArrow` (also `vertical`: the 32px square of a row's move), `RadioChoice`, `SegmentedToggle`, `TitleTooltips` (every tooltip: one place, `tipWords` makes the "Click to ..." sentence), `FunnelButton`, `RemoveButton`, `NumberCell`, `TextBox`, `TextField`, `TickBox`, `TickField`, `FieldLabel`, `PopupPanel` (with `usePopupDismiss`), `Tooltip` (`TooltipBox`, `useAboveTip`). A new control that more than one place needs goes here. |
 | `components/` | The app's own parts: the header, the footer, the lists of Capabilities and Systems, the calendar, the search, the undo toast, the settings and preferences dialogs. |
 | `components/interview/cards/` | The card: `BusinessCard` (in `BusinessCardFields.tsx`), its box (`CardShell`), head (`CardHead`), number (`CardNumber`), name (`NameCell`, `CardNameInput`), the boxes and columns of cards, what a card says folded (`cardSummary`), the cards just made (`freshCards`). |
-| `components/interview/tiles/` | The tile and everything that opens from it: `Tile`, `TileGrid`, `TileParts` (the face, the links, the "+", the hover origin), the page tile (`SectionTiles`), the section and category views, the card tile, the dialog's levels, the floating cards and their arrows, the Inventory (`CapabilityOverview`). |
-| `components/interview/fields/` | The cells and what stands around them: the field row and its head (`FieldRow`, `FieldHead`), the field's marks and status, the info note, the dropdown (`OptionPicker`), the date and month (`DateCellInput`, `MonthYearPicker`, `DatePopup`), the colour picker, the lists (`NumberedListInput`, `ListStatic`), the table (`DynamicTable`), the arrows (`FoldArrow`, `FoldArrow` (variant label), `PageArrow`), the text link. |
+| `components/interview/tiles/` | The tile and everything that opens from it: `Tile`, `TileGrid`, `TileParts` (the face, the links, the "+", the hover origin), the page tile (`SectionTiles`), the section and category views, the card tile, the dialog's levels, the floating cards and their arrows, the Inventory (`CapabilityOverview`: its table, its filter and sort window, the Tiles / Table and `Aa` radios). |
+| `components/interview/fields/` | The cells and what stands around them: the field row and its head (`FieldRow`, `FieldHead`), the field's marks and status, the info note, the dropdown (`OptionPicker`), the date and month (`DateCellInput`, `MonthYearPicker`, `DatePopup`), the colour picker, the lists (`NumberedListInput`, `ListStatic`), the table (`DynamicTable`), the arrows (`FoldArrow` with `variant` card or label, `direction` and `pressed`; `PageArrow`), the text link. |
 | `components/interview/editors/` | The editors of the pages and their parts: one `…Editor.tsx` for each page or section (Business Capability, Engagement, Foundation, Financial, Legal Entity, Founders, Brand, Strategy, the Process library, the Operational log), the answer renderer, the channel resources. The pure part of a page (its texts, limits and the functions that change its answer) is in `…Model.ts` beside the editor (`BusinessCapabilityModel`, `BusinessEngagementModel`). They are large: a card kind's own code stays with its editor until it is split. |
 | `components/interview/rails/` | The navigation rail (the bullets and their page tags). |
 | `components/interview/tests/` | The tests that cross several components (a whole card, a page's rules); a test of one component stands beside it. |

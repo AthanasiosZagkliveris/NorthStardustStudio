@@ -1,6 +1,6 @@
 # Shared Workspace: Working Together Without a Server
 
-**Status:** Proposal. Not started; nothing in the app has been changed for it.
+**Status:** Archive (moved here 2026-10-21 from `specifications/shared-workspace/`). A proposal, not started; nothing in the app has been changed for it. The app is still a single-user app with its data in the browser.
 **Date:** 26 September 2026
 **Scope:** North Stardust Studio desktop app (Tauri + React + TypeScript)
 

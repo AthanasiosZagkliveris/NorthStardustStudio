@@ -1,6 +1,6 @@
 # The tile, frame and card pattern
 
-Status: **rules**, updated 2026-10-17.
+Status: **rules**, updated 2026-10-21.
 
 One pattern for every tile, frame and card of the app (Identity, Brand, Business, Strategy). A new tile or card takes it from the shared styles (`section-tiles.css`, `card-tile.css`); nothing is drawn for one page alone.
 
@@ -8,6 +8,9 @@ One pattern for every tile, frame and card of the app (Identity, Brand, Business
 - A page's frames start and end on the page title's underline, edge to edge, and are centred with it. Frames of one page are 12px apart (`.page-group` for a page of several sections, the Business page's grid for its two).
 - A frame: 12px padding, 8px corners, one hairline edge in its hue, its heading on top in capitals, centred, 28px semi-bold (`.answer-column-label`, `.tiles-frame-head`).
 - A page's colour says the work done in it (docs/design/01-current-design.md, part I, `WorkColours.ts`); a tile, its dialog and its floating cards take that hue.
+- **One shape on every page of chapters** (2026-10-21): the chapters stand side by side down to a page card of 700px (a window of about 812px) and stack only below it, on every page; the four tiles of a chapter are one size by the window's width and height. Page 3's Inventory and Completed tiles stand in the footer's band, level with the page's Back (blue), and the footer lets the pointer through (rulebook, section 12).
+- **The parts are shared** (design document 23): one `Tile` and `TileGrid`, one card head and box (`BusinessCard`), `FieldRow`, `FieldHead`, `TickField`, `PopupPanel`; the controls in `components/controls/` (`AddButton`, `RemoveButton`, `NavArrow`, `SegmentedToggle`, `RadioChoice`, `FoldHead`, `FunnelButton`...). A new tile or card is built from them; none draws its own control.
+- **Every control that is pressed has a tooltip in one place and one wording**, "Click to ..." (design document 26).
 
 ## The tile
 - A square in the frame's tint with the box's inset light (top left) and shade (bottom right), the tile corners (`--tile-radius`), and a 110% rise under the pointer, growing inwards.

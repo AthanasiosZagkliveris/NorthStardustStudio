@@ -1,8 +1,8 @@
 # NorthStardust: guide to the app (navigation, purpose, content)
 
-Status: **reference**, updated 2026-10-17.
+Status: **reference**, updated 2026-10-21.
 
-One page to find your way: what each part of the app is for, what it holds, and where the data and the rules live. The rules of layout are in `layout-rules.md` and `tile-and-card-pattern.md`; the cost rules in `cost-model.html`; this file is the map.
+One page to find your way: what each part of the app is for, what it holds, and where the data and the rules live. The rules of layout are in `layout-rules.md` and `tile-and-card-pattern.md`; the cost rules in `design/01-current-design.md` (the cost model parts); this file is the map. Where each component is, and which are shared: `code-map.md` and `design/23-shared-components.md`.
 
 ## How the app is entered
 1. **Organizations** (home): create, import or export an Organization; the two examples are in `src/data/examples/` (Lumen & Loom Studio, Quillfield Automation).
@@ -21,7 +21,7 @@ One page to find your way: what each part of the app is for, what it holds, and 
 ### Business, page by page
 - **1. Foundation**: for each customer Segment, four tiles: Customers (the Segment and its Profiles), Value Proposition, Competitors, Offerings. A Profile, a Competitor and an Offering are cards that open floating.
 - **2. Customer Engagement**: how each Segment finds, chooses and buys; channels (a channel can make cost cards: "+ Add expenses", typical costs).
-- **3. Infrastructure & Capability**: two cards of four tiles. Infrastructure: Founders, Resources, Activities, Partners & Suppliers. Offering's Capability: Resources, Activities, Partners & Suppliers, Delivery. Under them: Inventory (every card with its cost) and Completed.
+- **3. Infrastructure & Capability**: two cards of four tiles. Infrastructure: Founders, Resources, Activities, Partners & Suppliers. Offering's Capability: Resources, Activities, Partners & Suppliers, Delivery. Under them, in the footer's band beside the page's Back: Inventory (every card with its cost, as tiles or as a table with a column list and a filter and sort window that opens outward; text size Aa in three steps) and Completed (grey; only while a card is completed). The footer lets the pointer through to them.
 - **4. Financial Foundation**: Costs (a summary of what was recorded elsewhere), Funding Need, Capital & Funding, Financial Position.
 - **5. Sustainability**: Revenue, Break Even.
 
@@ -36,7 +36,7 @@ Tiles open a dialog; a dialog lists card boxes; a card box opens a floating card
 
 ## Where things are in the code
 - Pages and editors: `src/components/interview/*Editor.tsx`; the page shell `src/pages/Conversation.tsx`; Global Settings `src/pages/GlobalSettings.tsx`.
-- Tiles, dialogs, floating cards, carousel: `src/components/interview/tiles/SectionTiles.tsx` (+ `CardBoxes.tsx`, `CardTile.tsx`).
+- Tiles, dialogs, floating cards, carousel: `src/components/interview/tiles/` (`SectionTiles.tsx`, `Tile.tsx`, `TileGrid.tsx`, `FloatingCards.tsx`, `DialogLevels.tsx`; the Inventory is `CapabilityOverview.tsx`), cards in `src/components/interview/cards/` (`CardBoxes.tsx`, `BusinessCard`).
 - Data shapes and readers: `src/framework/engine/AnswerUtils.ts`; the money model: `FinancialModel.ts`; settings: `GlobalSettings.ts`; calendar dates: `CalendarCardDates.ts`.
-- Styles: `src/styles/` (tokens in `global.css`; tiles and cards in `section-tiles.css`).
+- Styles: `src/styles/` (colours and sizes are tokens in `tokens/tokens.ts`, generated into `colors.generated.css` and `sizes.generated.css` (`npm run tokens`); tiles and cards in `section-tiles/` and `card-tile.css`; the global rules of a control in `cell-focus.css`). The shared controls are in `src/components/controls/` and each loads its own style.
 - Examples: `src/data/examples/`. Rules for AI assistants: `docs/ai/README.md`.

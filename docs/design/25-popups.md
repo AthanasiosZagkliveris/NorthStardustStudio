@@ -1,6 +1,6 @@
 # Pop-ups: six categories
 
-Status: **current design**, updated 2026-10-19.
+Status: **current design**, updated 2026-10-21.
 
 Everything in the app that appears over the page when something is pressed, pointed at or happens, gathered from the code as of 2026-10-18 and placed in **six categories**. Each category has one set of characteristics (position, trigger, size, style, how it closes); a new pop-up joins the category it fits and takes its characteristics, it does not invent its own. The reactions of what is inside a pop-up are in `20-reactions.md`.
 
@@ -45,6 +45,8 @@ Everything in the app that appears over the page when something is pressed, poin
 | Status lines (documents, a list's count) | P6 | `role="status"` lines |
 
 ## 3. What every pop-up shares
+
+**Changed on 2026-10-20 and 2026-10-21** (the log has the rows): the Inventory's filter and sort window (a P2 panel) is the one panel that opens **outward** from its dialog (right of it; else left; else the dialog narrows to leave room; inside only below a 640px dialog), in the tint of the card it belongs to, one line to a line, as wide as its dropdown cells need; its ticks, orders and cells stand on one 32px pitch, which is also the cell of every pop-up (a P1 option, a P2 cell, a P4 tip). A P4 tip is 14px, starts at its control's left edge and says one sentence that begins "Click to ..." (`26-tooltips.md`). The Inventory's own rules are in the rulebook, section 12.
 
 - It is a layer over the page and never moves what is under it; a P1 to P4 pop-up is cut by nothing but the window.
 - Escape closes the innermost first; a press outside closes a P1 to P4; a P5 closes by Back.

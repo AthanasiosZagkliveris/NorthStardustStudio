@@ -1,8 +1,8 @@
 # 1. Current design of the Foundation capability
 
-Status of this document: **current**, written 2026-10-14. It is the single description of what the Foundation capability (Identity, Brand, Business and Strategy Systems) is and what has been decided for it. It replaces the design drafts that were kept as HTML and PDF files (those were converted into the parts below, and only the current version of each was kept).
+Status of this document: **current**, written 2026-10-14, brought up to 2026-10-21 in its notes. It is the single description of what the Foundation capability (Identity, Brand, Business and Strategy Systems) is and what has been decided for it. It replaces the design drafts that were kept as HTML and PDF files (those were converted into the parts below, and only the current version of each was kept).
 
-**Since 2026-10-14** (newest first; the changes themselves are in document 4, the log): on 2026-10-19 the repeated parts of the interface became shared components (the back, remove, funnel, add and tick controls, the number, text and one-line cells, the field label, the free text, the card head and outer box, the name cell, the tooltip, the tile grid, the dropdown and the date popup), and `SectionTiles.tsx` was split into its parts; what is shared and what is left is in document 23. The tables of elements below are the 2026-10-14 reading; where a file or class named here has moved, document 23 and the code are right.
+**Since 2026-10-14** (newest first; the changes themselves are in document 4, the log): on 2026-10-20 and 2026-10-21 the Inventory was reworked (a filter and sort window that always opens outward and narrows the dialog, the Tiles / Table and the three "Aa" text-size radios, a column list, no Channel column), the Inventory and Completed row moved into the footer band of page 3 (the footer lets the pointer through, the page's Back is the default blue, the Completed layers are grey), every page of chapters got one shape (cards side by side down to a 700px page card; one tile size by window), and every tooltip became one sentence in one place that begins "Click to ..." (document 26); on 2026-10-19 the repeated parts of the interface became shared components (the back, remove, funnel, add and tick controls, the number, text and one-line cells, the field label, the free text, the card head and outer box, the name cell, the tooltip, the tile grid, the dropdown and the date popup), and `SectionTiles.tsx` was split into its parts; what is shared and what is left is in document 23. The tables of elements below are the 2026-10-14 reading; where a file or class named here has moved, document 23 and the code are right.
 
 The five documents of this set:
 
@@ -77,7 +77,7 @@ Eleven of the thirteen chapters of the Foundation are drawn as Master Tiles. The
 | Card kinds | `docs/ai/card-kinds.md` |
 | Page specifications (Business System) | `docs/specifications/business-system/` |
 | Where each part of the app is | `docs/ai/app-guide.md` |
-| How to verify a change | `docs/ai/verification-and-regression-playbook.md` |
+| How to verify a change | `docs/ai/toolchain-and-verification-playbook.md` |
 
 ## Part C. The interface elements
 
@@ -103,7 +103,7 @@ Note from the code: a help tile is not a separate kind in the code. "Completed" 
 
 ### C.1 What the Foundation is made of
 
-Pages come from `src/assets/SystemAnswers/01..04_*.md`. Each page's `Structure` selects an `AnswerType`, and `I/AnswerRenderer.tsx` switches on it.
+Pages come from `src/assets/SystemAnswers/01..04_*.md`. Each page's `Structure` selects an `AnswerType`, and `I/editors/AnswerRenderer.tsx` switches on it.
 
 | System | Pages | AnswerType and renderer |
 |---|---|---|
@@ -147,17 +147,17 @@ Pages come from `src/assets/SystemAnswers/01..04_*.md`. Each page's `Structure` 
 
 | Element | Contains and does | File |
 |---|---|---|
-| Interview header | System number and name, em dash, page title; capability colour and icon | `I/InterviewHeader.tsx` |
+| Interview header | System number and name, em dash, page title; capability colour and icon | `I/editors/InterviewHeader.tsx` |
 | Introduction page | Guiding question, what it covers (numbered list of page links), what it uses from earlier, thinking time, Start Interview arrow | `Conversation.tsx` |
 | Bullet rail | Bullets with names or tooltips and status shape; the active bullet blooms; the left Pages rail (Introduction first) and the right Sections rail. The rails are one system: a bullet and a label in one button, the lit item bold, a hovered item only underlined, below 1700px the bullets alone with the name as a tooltip | `I/rails/BulletRail.tsx`, `railItems.ts`, `useActiveRailSection.ts`, `styles/bullet-rail.css`; contract `src/library/assets/rails.ts` (the rails in a dialog's tab are not in the contract yet) |
-| Page arrow | Previous and next arrow above each rail; ← and → keys | `I/PageArrow.tsx` |
-| Title help arrow | Arrow that folds a title's guidance: the label arrow after the column title and its "i" | `I/FoldArrow.tsx`, `CardTitleHelp.tsx`, `ColumnHeads.tsx` |
-| Label arrow | One frameless triangle in the label's colour and size beside a label or a title (outline at rest, filled under the pointer and the focus): the chapter titles of page 3, a founder's Responsibilities and Completed, a card's Links, the Initiatives. Every other fold arrow is the standard 36px arrow | `I/FoldArrow.tsx`, `styles/label-arrow.css`; contract `src/library/assets/labelArrow.ts` |
+| Page arrow | Previous and next arrow above each rail; ← and → keys | `I/fields/PageArrow.tsx` |
+| Title help arrow | Arrow that folds a title's guidance: the label arrow after the column title and its "i" | `I/fields/FoldArrow.tsx`, `CardTitleHelp.tsx`, `ColumnHeads.tsx` |
+| Label arrow | One frameless triangle in the label's colour and size beside a label or a title (outline at rest, filled under the pointer and the focus): the chapter titles of page 3, a founder's Responsibilities and Completed, a card's Links, the Initiatives. Every other fold arrow is the standard 36px arrow | `I/fields/FoldArrow.tsx`, `styles/label-arrow.css`; contract `src/library/assets/labelArrow.ts` |
 | Help toggle | "Hide Help" or "Need Help?" | `Conversation.tsx` |
 | Back button of a dialog | "< Back" at the dialog's foot, or built like a rail item (an arrow on the bullets' line, the word in capitals) in the dialog's tab after the last option | `SectionTiles.tsx` (`.section-tile-back`, `.carousel-rail-back`); contract `src/library/assets/backButton.ts` |
 | Page group | Several frames side by side on one page | `Conversation.tsx` (`.page-group`), `PageGroups.ts` |
-| Field status line | Small status or hint under a field | `I/FieldStatusLine.tsx`, `fieldMarks.tsx` |
-| Fold all | Expand all or Collapse all for a group of cards | `I/FoldAllToggle.tsx`, `useItemFolds.ts` |
+| Field status line | Small status or hint under a field | `I/fields/FieldStatusLine.tsx`, `fieldMarks.tsx` |
+| Fold all | Expand all or Collapse all for a group of cards | `I/fields/FoldAllToggle.tsx`, `useItemFolds.ts` |
 
 ### C.4 Layer C: chapter (frame) types
 
@@ -185,11 +185,11 @@ A "Chapter" has no named type in the code. Frames are classes:
 | Infrastructure group tiles | Founders; Resources, Activities, Partners & Suppliers (per chapter); Delivery; Workspace (`direct`) | `BusinessCapabilityEditor` |
 | **Diagram tile** | The Roadmap: a wide banner (442 × 102 px) with a 36 px title and no list; its dialog covers the page | `SectionTile.diagram`, `StrategicPeriodEditor` |
 | Strategy tiles | Current Situation, SWOT Analysis, Strategic Compass, Strategic Period; Goals and Objectives; Roadmap | `StrategyFoundationEditor`, `StrategicPeriodEditor` |
-| **Help tile: Inventory** | Counts of resources, activities, partners & suppliers; its dialog (`CapabilityOverview`) shows tiles or a cost table with a funnel, count bar and link legend | `BusinessCapabilityEditor`, `CapabilityOverview.tsx`, `capabilityFloor.ts` |
+| **Help tile: Inventory** | Counts of resources, activities, partners & suppliers; stands in the footer band of page 3 beside Completed; its dialog (`CapabilityOverview`) shows tiles or a table (the `Tiles` / `Table` and `Aa` radios, a column list, a link legend) and a filter and sort window that opens outward (rulebook, section 12) | `BusinessCapabilityEditor`, `CapabilityOverview.tsx`, `capabilityFloor.ts` |
 | **Help tile: Completed** | Grey; lists completed activities; exists only while one is completed | `BusinessCapabilityEditor` |
-| Sub tile | A section tile inside a dialog (the three Registrations tiles) | `I/SubTiles.tsx` |
-| Card tile | The tile for a card: 215 px, number, name, lines, link circles, red glow if incomplete, grey if finished, faded if unused, drag to reorder | `I/CardTile.tsx` |
-| Picture box | A dialog's picture tile (colour, typeface, image) | `I/PictureBoxes.tsx` |
+| Sub tile | A section tile inside a dialog (the three Registrations tiles) | `I/tiles/SubTiles.tsx` |
+| Card tile | The tile for a card: 215 px, number, name, lines, link circles, red glow if incomplete, grey if finished, faded if unused, drag to reorder | `I/tiles/CardTile.tsx` |
+| Picture box | A dialog's picture tile (colour, typeface, image) | `I/tiles/PictureBoxes.tsx` |
 | Add tile | Dashed "+" tile after the last card | `SectionView.tsx` |
 | Subcategory box | A dialog's category tile | `SectionView.tsx` |
 | Figure tile | Label, value, detail (financial figures) | `FigureTiles` in `FinancialParts.tsx` |
@@ -245,7 +245,7 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 
 | Table | File | Used on |
 |---|---|---|
-| `DynamicTable` (text, notes, number, field, date, dynamic-select, autofill columns) | `I/DynamicTable.tsx` | Other Systems; no Foundation page uses it |
+| `DynamicTable` (text, notes, number, field, date, dynamic-select, autofill columns) | `I/fields/DynamicTable.tsx` | Other Systems; no Foundation page uses it |
 | Customer channel table (`business-channel-table`) | `BusinessEngagementEditor` | Business 2 |
 | Customer Relationship table (`business-relationship-table`) and strategy tab | `BusinessEngagementEditor` | Business 2 (near-copy of the channel table class) |
 | Channel resource table | `ChannelResourceTable.tsx` | Business 2 |
@@ -260,8 +260,8 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 
 | Element | File | Notes |
 |---|---|---|
-| Info note ("i"): up to 3 points (text, title and text, or a cited source); `fullList` lifts the cap. It stands 6px (`--info-gap`) after its label's last word, on that line's centre; a wired button (no fill at rest) | `I/InfoNote.tsx`, `InfoText`; contract `src/library/assets/infoNote.ts` | About 100 uses |
-| Tooltip | `C/Tooltip.tsx` (`useAboveTip`, `TooltipBox`; since 2026-10-19 every tooltip box is `TooltipBox`: the icons, the action symbols, the Roadmap bars, the noted fields) | Also native `title` tooltips and the rail labels |
+| Info note ("i"): up to 3 points (text, title and text, or a cited source); `fullList` lifts the cap. It stands 6px (`--info-gap`) after its label's last word, on that line's centre; a wired button (no fill at rest) | `I/fields/InfoNote.tsx`, `InfoText`; contract `src/library/assets/infoNote.ts` | About 100 uses |
+| Tooltip | `C/controls/Tooltip.tsx` (`useAboveTip`, `TooltipBox`; since 2026-10-19 every tooltip box is `TooltipBox`: the icons, the action symbols, the Roadmap bars, the noted fields) | Also native `title` tooltips and the rail labels |
 | Floating panel hook | `hooks/useFloatingPanel.ts` | Used by funnel menus |
 | Option picker list | `OptionPicker.tsx` (`hug`, `tight`, `sizeFor`) | |
 | Funnel menu | `CapabilityOverview`, `CalendarFunnel` | Two separate funnels |
@@ -299,7 +299,7 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 
 - **In code, not named in `tile-and-card-pattern.md` or `card-kinds.md`:** `SubTiles`, `PictureBoxes`, `CardBoxes`, `SectionView`, `SubcategoryBoxes`, `AddTile`, `CardNav`, `BoxActions`, `FoldAllToggle`, `FigureTiles`, `SignalList`, `CashTimelineChart`, the Introduction page, the status line, Focus mode, the undo toast, the Notepad, the search dialog, the Inventory funnel, "Completed".
 - **Named in documents, not in code:** "Master Tile", "Chapter" and "help tile" are the owner's words and have no code counterpart. "Marker column" is gone, as `card-kinds.md` says.
-- **Unused:** `I/CardColumns.tsx` is imported only by its own test; `InterviewProgress` is switched off.
+- **Unused:** `I/cards/CardColumns.tsx` is imported only by its own test; `InterviewProgress` is switched off.
 - **Near-duplicates to merge in the asset library:** the two funnels (`CapabilityOverview`, `CalendarFunnel`); the confirmation-dialog markup repeated in six places; `business-channel-table` and `business-relationship-table`; the three rails (`BulletRail`, `CardNav`, the dialog rail); several "empty note" classes.
 
 

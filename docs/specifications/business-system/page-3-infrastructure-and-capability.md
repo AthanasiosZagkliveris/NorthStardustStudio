@@ -541,6 +541,8 @@ Each slot should have:
 - **The x** that deletes a card is the previous default red (`.card-remove`, `.profile-card-remove`); the x of a cell or field (performer, milestone, volume change, registration number, clear, field remove) keeps `--x-red` (danger text red).
 - **Costs on the Financial Foundation are generated**: nothing is typed there (no "Add Cost"); each row names where it was recorded, its amount, what it comes to a year, and how it is counted (changeable). The examples' former typed costs live on Page 3 cards now.
 
+> **Note, 2026-10-21.** The Inventory and Completed tiles now stand in the footer's band of the page, level with the page's Back link and centred under the two cards; they take no room above it, and the footer lets the pointer through to them. The Inventory's window of filter and sort opens outward from its dialog; its table has the columns Name, Type, Section, Category, Group, Cost, Frequency, Cost Nature, Behaviour, Status and Linked (a channel's name follows its card's group; there is no Channel column), a column list, and a text size in three steps. Where the rounds below say that the row stands under Offering's Capability's card, is two thirds of its width, or has 215px tiles, they are older: the layout rulebook, section 12, is right.
+
 ## Round 3 changes (links, Inventory, Costs summary)
 
 - **Status "Partners"** replaces "External Professionals & Partners" as the label (stored id `professional` unchanged). Partners no longer starts with Accountant, Lawyer and Insurance Professional (saved answers keep theirs).

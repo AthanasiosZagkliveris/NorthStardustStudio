@@ -1,6 +1,6 @@
 # Building a Customer Segment by selection (proposal)
 
-Status: proposal, nothing built. Written 2026-10-12.
+Status: **archive**, written 2026-10-12, moved here 2026-10-21. A proposal; nothing of it is built (the Segment still asks four written boxes per Profile). Kept for the research on segment variables.
 
 ## What the app asks today
 
