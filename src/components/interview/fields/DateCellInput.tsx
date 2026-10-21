@@ -1,3 +1,4 @@
+import DayButton from "../../controls/DayButton.tsx";
 import { useEffect, useRef, useState } from "react";
 
 import { DatePopupHead, useDatePopup } from "./DatePopup.tsx";
@@ -315,20 +316,16 @@ export default function DateCellInput({
                             const iso = isoOf(shown.year, shown.month, day);
 
                             return (
-                                <button
+                                <DayButton
                                     key={iso}
-                                    type="button"
-                                    className={
-                                        "date-cell-popup-day" +
-                                        (iso === value ? " date-cell-popup-day-current" : "") +
-                                        (iso === todayIso ? " date-cell-popup-day-today" : "")
-                                    }
-                                    aria-pressed={iso === value}
+                                    className="date-cell-popup-day"
+                                    selected={iso === value}
+                                    today={iso === todayIso}
                                     disabled={refused(iso)}
                                     onClick={() => choose(iso)}
                                 >
                                     {day}
-                                </button>
+                                </DayButton>
                             );
 
                         })}

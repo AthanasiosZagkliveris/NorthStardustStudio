@@ -495,15 +495,6 @@
 
 }
 
-.org-calendar-day-today{
-
-    border-color:var(--line-primary);
-
-    font-weight:700;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-
-}
-
 
 /* Text tier, at a line box no taller than the digits need: the
    cell is a fixed 56.57px square (see `.org-calendar-day` above)
@@ -1006,7 +997,6 @@
 .org-calendar-date-format-label,
 .org-calendar-month-label,
 .org-calendar-weekday,
-.org-calendar-day-today,
 .org-calendar-day-dot-overflow,
 .org-calendar-selected-title,
 .org-calendar-task-origin,
@@ -1300,30 +1290,6 @@
 
 }
 
-/* A DAY IS A BUTTON OF THE SYSTEMS: under the pointer or the keyboard it has the add button's reaction (accent line, the hover ground, the line thickened by 1px inside, the numbers thickened); the chosen day keeps it, the line 2px (the pressed state). The keyboard's ring and the press are the global ones. */
-.org-calendar-day:not(.org-calendar-day-blank):is(:hover, :focus-visible){
-
-    border-color:var(--accent-line);
-
-    background:var(--accent-ground-hover);
-
-    box-shadow:inset 0 0 0 1px var(--wired-ring, var(--accent-line));
-
-    text-shadow:var(--hover-bold);
-
-}
-
-.org-calendar-day.org-calendar-day-selected:not(.org-calendar-day-blank){
-
-    border-color:var(--accent-line);
-
-    background:var(--accent-ground-hover);
-
-    box-shadow:inset 0 0 0 2px var(--accent-line);
-
-    text-shadow:var(--hover-bold);
-
-}
 
 /* THE LEFT PANEL stands over the page with a shadow on its right side; the footer has no ground, so the Back link stands clear of the panel's handles and is hidden while the panel is open. */
 .org-calendar-panel{

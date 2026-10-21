@@ -1,3 +1,4 @@
+import DayButton from "../../controls/DayButton.tsx";
 import { useRef, useState } from "react";
 
 import { DatePopupHead, useDatePopup } from "./DatePopup.tsx";
@@ -145,17 +146,16 @@ export default function MonthYearPicker({
                             const current = Number(value.month) === month && Number(value.year) === shownYear;
 
                             return (
-                                <button
+                                <DayButton
                                     key={name}
-                                    type="button"
-                                    className={"date-cell-popup-day" + (current ? " date-cell-popup-day-current" : "")}
-                                    aria-pressed={current}
+                                    className="date-cell-popup-day"
+                                    selected={current}
                                     aria-label={name + " " + shownYear}
                                     disabled={!isAllowed(month, shownYear)}
                                     onClick={() => choose(month, shownYear)}
                                 >
                                     {MONTH_LABELS[index]}
-                                </button>
+                                </DayButton>
                             );
 
                         })}

@@ -1,3 +1,4 @@
+import DayButton from "./controls/DayButton.tsx";
 import { useEffect, useRef, useState } from "react";
 
 import AddButton from "./controls/AddButton.tsx";
@@ -685,14 +686,11 @@ export default function OrganizationCalendarPanel({
 
                             return (
 
-                                <button
-                                    type="button"
+                                <DayButton
                                     key={cell.iso}
-                                    className={
-                                        "org-calendar-day" +
-                                        (cell.iso === today ? " org-calendar-day-today" : "") +
-                                        (cell.iso === selectedDate ? " org-calendar-day-selected" : "")
-                                    }
+                                    className="org-calendar-day"
+                                    today={cell.iso === today}
+                                    selected={cell.iso === selectedDate}
                                     onClick={() => selectDay(cell.iso)}
                                 >
 
@@ -718,7 +716,7 @@ export default function OrganizationCalendarPanel({
 
                                     )}
 
-                                </button>
+                                </DayButton>
 
                             );
 

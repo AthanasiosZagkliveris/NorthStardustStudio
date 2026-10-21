@@ -1,3 +1,4 @@
+import DayButton from "../../components/controls/DayButton.tsx";
 import { useState, type ReactNode } from "react";
 
 import CardNameInput from "../../components/interview/cards/CardNameInput";
@@ -75,7 +76,7 @@ function DayPopup() {
             <div className="date-cell-popup-grid">
                 {["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"].map(d => <span key={d} className="date-cell-popup-weekday">{d}</span>)}
                 {lead}
-                {days.map(d => <span key={d} className={"date-cell-popup-day" + (d === 15 ? " date-cell-popup-day-current" : "")}>{d}</span>)}
+                {days.map(d => <DayButton key={d} className="date-cell-popup-day" selected={d === 15} tabIndex={-1}>{d}</DayButton>)}
             </div>
             <div className="date-cell-popup-foot"><span className="date-cell-popup-action">Today</span><span className="date-cell-popup-action">Clear</span></div>
         </div>
