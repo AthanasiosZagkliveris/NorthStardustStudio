@@ -73,56 +73,6 @@
 
 }
 
-.business-documents-tabs{
-
-    display:flex;
-
-    gap:var(--gap-8);
-
-    border-bottom:1px solid var(--line-sheet);
-
-}
-
-.business-documents-tab{
-
-    padding:10px 18px;
-
-    border:1px solid transparent;
-    border-bottom:none;
-    border-radius:var(--radius-lg) var(--radius-lg) 0 0;
-
-    background:none;
-
-    font-family:inherit;
-    font-size:var(--font-body);
-    font-weight:600;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-
-    color:var(--text-muted);
-
-    cursor:pointer;
-
-}
-
-.business-documents-tab-active{
-
-    border-color:var(--line-sheet);
-
-    background:var(--bg-surface);
-
-    color:var(--text-default);
-
-    margin-bottom:-1px;
-
-}
-
-.business-documents-tab:focus-visible{
-
-    outline:2px solid var(--line-primary);
-    outline-offset:2px;
-
-}
-
 .business-documents-actions{
 
     display:flex;

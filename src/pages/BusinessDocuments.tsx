@@ -1,3 +1,4 @@
+import TabList from "../components/controls/TabList.tsx";
 import { useEffect, useMemo, useState } from "react";
 import AddButton from "../components/controls/AddButton.tsx";
 import { useNavigate } from "react-router-dom";
@@ -175,20 +176,12 @@ export default function BusinessDocuments() {
                     </p>
                 )}
 
-                <div className="business-documents-tabs" role="tablist" aria-label="Document">
-                    {([["plan", "Business Plan"], ["canvas", "Business Model Canvas"], ["forecast", "Financial Forecast"]] as const).map(([id, label]) => (
-                        <button
-                            key={id}
-                            type="button"
-                            role="tab"
-                            aria-selected={documentId === id}
-                            className={"business-documents-tab" + (documentId === id ? " business-documents-tab-active" : "")}
-                            onClick={() => setDocumentId(id)}
-                        >
-                            {label}
-                        </button>
-                    ))}
-                </div>
+                <TabList
+                    label="Document"
+                    tabs={[{ id: "plan", label: "Business Plan" }, { id: "canvas", label: "Business Model Canvas" }, { id: "forecast", label: "Financial Forecast" }]}
+                    value={documentId}
+                    onChange={setDocumentId}
+                />
 
                 {documentId === "forecast" && (
                     <div className="business-documents-actions business-documents-options">

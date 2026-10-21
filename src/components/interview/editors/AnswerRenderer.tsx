@@ -1,3 +1,4 @@
+import ChoiceCard from "../../controls/ChoiceCard.tsx";
 import { CSSProperties, ReactNode, useEffect, useMemo, useState } from "react";
 import AddButton from "../../controls/AddButton.tsx";
 import NavArrow from "../../controls/NavArrow.tsx";
@@ -651,31 +652,7 @@ function MultiPartAnswerRenderer({
 
                         return (
 
-                            <button
-
-                                type="button"
-
-                                key={part.id}
-
-                                className={
-                                    "answer-variant-card" +
-                                    (isActive ? " active" : "") +
-                                    (filled ? " filled" : "")
-                                }
-
-                                onClick={() => setActivePartId(part.id)}
-
-                            >
-
-                                {part.label}
-
-                                {filled && (
-                                    <span className="answer-variant-card-check">
-                                        ✓
-                                    </span>
-                                )}
-
-                            </button>
+                            <ChoiceCard key={part.id} active={isActive} filled={filled} onClick={() => setActivePartId(part.id)}>{part.label}</ChoiceCard>
 
                         );
 
@@ -1257,31 +1234,7 @@ function SingleAnswerRenderer({
 
                             return (
 
-                                <button
-
-                                    type="button"
-
-                                    key={variant.id}
-
-                                    className={
-                                        "answer-variant-card" +
-                                        (isActive ? " active" : "") +
-                                        (filled ? " filled" : "")
-                                    }
-
-                                    onClick={() => setActiveVariantId(variant.id)}
-
-                                >
-
-                                    {variant.title}
-
-                                    {filled && (
-                                        <span className="answer-variant-card-check">
-                                            ✓
-                                        </span>
-                                    )}
-
-                                </button>
+                                <ChoiceCard key={variant.id} active={isActive} filled={filled} onClick={() => setActiveVariantId(variant.id)}>{variant.title}</ChoiceCard>
 
                             );
 
@@ -1688,31 +1641,7 @@ function SingleAnswerRenderer({
 
                             return (
 
-                                <button
-
-                                    type="button"
-
-                                    key={card.id}
-
-                                    className={
-                                        "answer-variant-card" +
-                                        (isActive ? " active" : "") +
-                                        (filled ? " filled" : "")
-                                    }
-
-                                    onClick={() => setActiveCardId(card.id)}
-
-                                >
-
-                                    {card.title}
-
-                                    {filled && (
-                                        <span className="answer-variant-card-check">
-                                            ✓
-                                        </span>
-                                    )}
-
-                                </button>
+                                <ChoiceCard key={card.id} active={isActive} filled={filled} onClick={() => setActiveCardId(card.id)}>{card.title}</ChoiceCard>
 
                             );
 
