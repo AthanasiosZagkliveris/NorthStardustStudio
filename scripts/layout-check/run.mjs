@@ -456,6 +456,14 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
     const { chromium } = await import("playwright");
     const browser = await chromium.launch(process.env.PW_CHANNEL ? { channel: process.env.PW_CHANNEL } : {});
     const page = await browser.newPage();
+    // STEADIER ON A BUSY MACHINE: every wait of the check is first the fonts being ready (a line measured before the font swaps has the wrong height), then its time times CHECK_SLOW
+    // (1.5 by default; CHECK_SLOW=3 on a machine that is busy with other work, 1 on a quiet one).
+    const slow = Number(process.env.CHECK_SLOW ?? 1.5);
+    const waitOnce = page.waitForTimeout.bind(page);
+    page.waitForTimeout = async (milliseconds) => {
+        await page.evaluate(() => document.fonts?.ready).catch(() => {});
+        await waitOnce(Math.round(milliseconds * slow));
+    };
     const probe = readFileSync(new URL("./layout-probe.js", import.meta.url), "utf8");
     const base = process.env.BASE_URL ?? "http://localhost:1420";
     const failures = [];

@@ -20,6 +20,7 @@ name: CI
     branches: ["**"]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   verify:
@@ -52,3 +53,39 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      # The style, token, CSS, documents, tables and library checks: fast, no browser, deterministic.
+      - name: Tokens
+        run: npm run tokens:check
+      - name: Style lint
+        run: npm run lint:styles
+      - name: Shared-control lint
+        run: npm run lint:controls
+      - name: CSS lint
+        run: npm run lint:css
+      - name: Documents
+        run: npm run docs:check
+      - name: Tables
+        run: npm run tables:check
+      - name: Library
+        run: npm run library:check
+
+  # THE LAYOUT CHECK needs a browser, so it is its own job: on pull requests to main and when started by hand, alone on its machine (it starts the dev server itself).
+  layout:
+    if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npx playwright install --with-deps chromium
+
+      - name: Layout check
+        run: npm run check:layout

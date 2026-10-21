@@ -41,7 +41,7 @@ To rewrite the examples after an interface change: `UPDATE_EXAMPLES=1 npx vitest
 
 ## Continuous integration
 
-`.github/workflows/ci.yml` runs on every push and every pull request into `main`: typecheck, unit tests, build (steps 1, 2 and 4 above). It runs neither the lints, the document checks nor the layout check. It is a floor: it catches a type error, a failing test or a build that does not compile. A CI failure still needs a person to read it.
+`.github/workflows/ci.yml` runs on every push and every pull request into `main`: typecheck, unit tests, build, and the checks that need no browser (`tokens:check`, `lint:styles`, `lint:controls`, `lint:css`, `docs:check`, `tables:check`, `library:check`). A second job, `layout`, runs the layout check in headless Chromium on pull requests and when started by hand (`workflow_dispatch`). It is a floor: a person still reads a failure. `lint:controls` (`scripts/lint/shared-controls.mjs`, baseline `shared-controls-baseline.json`) fails when a stylesheet other than a shared control's own sets that control's look (ground, line, letters, height, padding); the 46 second looks that exist are the baseline to remove, not to grow. The layout check waits for the fonts and multiplies its waits by `CHECK_SLOW` (default 1.5; 3 on a busy machine).
 
 ## Common failure modes
 
