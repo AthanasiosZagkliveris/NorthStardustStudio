@@ -1020,7 +1020,9 @@ h6 {
   align-items: center;
   box-sizing: border-box;
   min-height: var(--size-box-button);
-  padding: 0 12px;
+  /* (A long tip wraps in 360px; its lines are set apart and the cell keeps room above and below them.) */
+  padding: 6px 12px;
+  line-height: 1.3;
 
   border: 1px solid var(--tooltip-border);
   border-radius: var(--radius-md);

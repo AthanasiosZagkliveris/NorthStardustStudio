@@ -671,3 +671,10 @@ body :is(.floating-overlay, .section-tile-overlay) .page-arrow.carousel-arrow[da
     display: none;
 
 }
+
+/* THE WIREFRAME OF A COMPLETED CARD is the Completed line (grey), as its ground is: never the hue of the page it stands over. */
+body .business-capability-activity-completed.business-capability-activity-completed {
+
+    border-color: var(--line-completed) !important;
+
+}

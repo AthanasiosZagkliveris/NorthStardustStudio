@@ -427,7 +427,7 @@ export default function BusinessCapabilityEditor({
             if (!row) {
                 return;
             }
-            const tiles = row.querySelector<HTMLElement>(":scope > .section-tiles");
+            const tiles = row.querySelector<HTMLElement>(".section-tiles");
             const footerBox = document.querySelector<HTMLElement>(".workspace-footer")?.getBoundingClientRect();
             const footer = footerBox?.height ?? 64;
             const cards = [...document.querySelectorAll<HTMLElement>(".answer-columns.business-capability > .business-foundation-card")];

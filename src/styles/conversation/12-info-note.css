@@ -109,7 +109,8 @@
     border:1px solid var(--line-primary);
     border-radius:50%;
 
-    background:var(--bg-surface);
+    /* The disc is filled with the ground it stands on (--info-fill: the card's, the tinted page's), so only its ring and its letter show. */
+    background:var(--info-fill, var(--bg-surface));
 
     /* #0b57d0 on white is 6.4:1. */
     color:var(--text-primary);

@@ -53,3 +53,9 @@
 .carousel-rail.carousel-rail-tab-left .back-button {
     flex-direction: row-reverse;
 }
+
+/* THE PAGE'S BACK (in the footer) is the default blue, in every mode and on every page; the card's tones are for the Back inside a card's tab. */
+.workspace-footer .back-button.back-button,
+.workspace-footer .back-button.back-button:is(:hover, :focus-visible):not(:disabled) {
+    color: var(--text-primary);
+}

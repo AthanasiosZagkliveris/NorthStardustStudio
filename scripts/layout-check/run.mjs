@@ -302,7 +302,10 @@ export async function checkRealMouse(page, where) {
                 const body = node.closest(".card-scroll");
                 const at = node.getBoundingClientRect();
                 const room = body ? body.getBoundingClientRect() : { top: 0, bottom: window.innerHeight };
-                return at.top + at.height / 2 > room.top && at.top + at.height / 2 < room.bottom;
+                // (An item the tile's own box cuts off is not drawn: out of reach, not tried.)
+                const tile = node.closest(".section-tile-slot")?.getBoundingClientRect();
+                const centre = at.top + at.height / 2;
+                return centre > room.top && centre < room.bottom && (!tile || (centre > tile.top && centre < tile.bottom - 4));
             });
             if (!inView) {
                 continue;

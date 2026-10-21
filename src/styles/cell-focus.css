@@ -192,6 +192,7 @@
 .settings-page,
 .business-documents {
     background-color: var(--bg-card-tint);
+    --info-fill: var(--bg-card-tint);
 }
 
 :is(.settings-page, .business-documents) :is(input.interview-input:not([type="checkbox"], [type="radio"]), .option-picker-trigger.interview-input, .date-cell-input, .month-picker-trigger):hover:not(:focus, :focus-visible, :active, :disabled) {

@@ -142,9 +142,10 @@
 .strategy-sort-menu-wide{
 
     /* As wide as its longest line (every line is ONE line; a line too long for the room is cut by an ellipsis and says itself whole), held inside the window. */
-    width:max-content;
-    min-width:280px;
-    max-width:min(420px, calc(100vw - 24px));
+    /* (Narrowed 2026-10-21: as wide as its dropdown cells need -- a cell's closed width, --control-s, and the window's 12px at each side; the From and To cells share it, a longer line is one line cut by an ellipsis.) */
+    width:calc(var(--control-s) + 24px);
+    min-width:0;
+    max-width:calc(100vw - 24px);
 
     overflow-y:auto;
 
