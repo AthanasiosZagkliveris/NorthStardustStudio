@@ -229,6 +229,9 @@
     background-color:var(--bg-surface);
     box-shadow:var(--cell-inset-recess);
     color:var(--text-default);
+    /* (The size and the height are the cell's own, so a page that draws none of its own has the same cell: the body size, 44px.) */
+    min-height:var(--card-cell-height);
+    font-size:var(--font-body);
     font-weight:400;
     text-transform:none;
 }

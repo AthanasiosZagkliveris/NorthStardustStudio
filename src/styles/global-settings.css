@@ -174,32 +174,6 @@
 
 }
 
-.settings-reset{
-
-    padding:4px 12px;
-
-    border:1px solid var(--line-primary);
-    border-radius:999px;
-
-    background:var(--bg-surface);
-    color:var(--text-default);
-
-    font:inherit;
-    font-size:var(--font-small);
-
-    cursor:pointer;
-
-}
-
-.settings-reset:disabled{
-
-    border-color:var(--box-border);
-
-    color:var(--text-faint);
-
-    cursor:default;
-
-}
 
 .settings-asset{
 
@@ -396,16 +370,6 @@
 
 }
 
-.settings-reset:not(:disabled):hover,
-.settings-reset:not(:disabled):focus-visible{
-
-    border-color:var(--glow-color, var(--line-primary));
-    background:color-mix(in srgb, var(--glow-color, var(--line-primary)) 14%, var(--bg-surface));
-
-    outline:none;
-
-}
-
 .settings-asset-order{
 
     display:inline-block;
@@ -469,18 +433,7 @@
 .settings-page .settings-assets-table col.settings-col-cost{ width:110px; }
 .settings-page .settings-assets-table col.settings-col-frequency{ width:140px; }
 .settings-page .settings-assets-table col.settings-col-life{ width:120px; }
-.settings-page .settings-assets-table col.settings-col-reset{ width:90px; }
-
-/* The Reset is the app's own small button. */
-.settings-page .settings-reset{
-
-    padding:4px 12px;
-
-    border-radius:var(--radius-md);
-
-    font-size:var(--font-small);
-
-}
+.settings-page .settings-assets-table col.settings-col-reset{ width:130px; }
 
 /* A date cell on the page is the one date cell (the Start date cell's size). */
 .settings-page .date-cell{

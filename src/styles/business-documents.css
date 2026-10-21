@@ -506,48 +506,21 @@
 
 }
 
+/* A field and its label, as everywhere: the label in the body size, regular, the card's label colour, a label gap over its cell; the cell is the app's one dropdown cell (option-picker.css), drawn by no rule of this page. */
 .business-documents-option{
 
     display:flex;
 
     flex-direction:column;
 
-    gap:var(--gap-6);
+    gap:var(--space-label);
 
     min-width:220px;
 
-    font-size:var(--font-small);
-    font-weight:600;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-
-    color:var(--text-secondary);
-
-}
-
-/* The pickers' box, as the interview pages draw it: conversation.css
-   is not loaded here, only the picker's own option-picker.css. */
-.business-documents-option .interview-input{
-
-    box-sizing:border-box;
-
-    font:inherit;
     font-size:var(--font-body);
     font-weight:400;
-    line-height:1.5;
 
-    color:var(--text-default);
-
-    border:1px solid var(--line-box);
-    border-radius:var(--radius-md);
-
-    background-color:var(--bg-surface);
-
-}
-
-.business-documents-option .interview-input:focus-visible{
-
-    outline:2px solid var(--line-primary);
-    outline-offset:2px;
+    color:var(--label-color);
 
 }
 
@@ -999,5 +972,12 @@
         grid-template-columns:minmax(0, 1fr);
 
     }
+
+}
+
+/* The export buttons stand on the foot of the row, level with the cells (their own place is the top of a row). */
+.business-documents-options > .strategy-add-button{
+
+    align-self:flex-end;
 
 }

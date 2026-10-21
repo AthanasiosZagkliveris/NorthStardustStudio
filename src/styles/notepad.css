@@ -785,3 +785,14 @@ html.notepad-picking [data-pick-hover] {
     flex-wrap: wrap;
 
 }
+
+/* THE FUNNEL'S LIST in the Notes panel is the panel's own colour (neutral surface, line and ink), not the hue of the page behind it. */
+.notepad-card-notes-head .responsibility-filter-panel {
+
+    border: 1px solid var(--line-box);
+
+    background: var(--bg-surface);
+
+    color: var(--text-default);
+
+}
