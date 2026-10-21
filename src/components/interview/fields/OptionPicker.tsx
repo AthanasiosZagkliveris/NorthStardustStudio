@@ -115,7 +115,7 @@ interface OptionPickerProps {
      */
     searchAliases?: Record<string, string>;
 
-    /** The word in the search box while it is empty (default "Type to search"). */
+    /** The word in the search box while it is empty (default "Search": the list is as wide as its cell, so the word is short). */
     searchPlaceholder?: string;
 
     /**
@@ -196,7 +196,7 @@ export default function OptionPicker({
     currency = false,
 
     searchAliases,
-    searchPlaceholder = "Type to search",
+    searchPlaceholder = "Search",
 
     hug = false,
     keepWidth = false,
@@ -642,8 +642,31 @@ export function MultiPicker<T extends string>({
 }) {
     const [open, setOpen] = useState(false);
     const box = useRef<HTMLDivElement | null>(null);
+    const listBox = useRef<HTMLDivElement | null>(null);
 
     usePopupDismiss(open, [box], () => setOpen(false), { escape: false });
+
+    // THE LIST STAYS WHOLE: opened under its cell from the cell's left edge; where that would run past the edge of what clips it (a panel that cuts what overflows it, the window), it opens
+    // from the cell's right edge instead, towards the left.
+    useLayoutEffect(() => {
+        const list = listBox.current;
+        if (!open || !list) {
+            return;
+        }
+        list.style.left = "";
+        list.style.right = "";
+        let limit = window.innerWidth;
+        for (let parent = list.parentElement; parent; parent = parent.parentElement) {
+            if (getComputedStyle(parent).overflowX !== "visible") {
+                limit = Math.min(limit, parent.getBoundingClientRect().right);
+                break;
+            }
+        }
+        if (list.getBoundingClientRect().right > limit - 4) {
+            list.style.left = "auto";
+            list.style.right = "0";
+        }
+    }, [open]);
 
     return (
         <div className="option-picker multi-picker" data-size="hug" ref={box}>
@@ -658,7 +681,7 @@ export function MultiPicker<T extends string>({
                 <span className="option-picker-value">{label}: {selected.size === options.length ? "All" : selected.size + " of " + options.length}</span>
             </button>
             {open && (
-                <div className="option-picker-list multi-picker-list" role="group" aria-label={label}>
+                <div ref={listBox} className="option-picker-list multi-picker-list" role="group" aria-label={label}>
                     <div className="multi-picker-actions">
                         <AddButton
                             onClick={() => onChange(new Set(options.map(option => option.id)))}>All</AddButton>
