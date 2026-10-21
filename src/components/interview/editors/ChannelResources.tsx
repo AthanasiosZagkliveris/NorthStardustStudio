@@ -1,3 +1,5 @@
+import ChipOpen from "../../controls/ChipOpen.tsx";
+import SuggestionOption from "../../controls/SuggestionOption.tsx";
 import FieldLabel from "../../controls/FieldLabel.tsx";
 import TextBox from "../../controls/TextBox.tsx";
 import AddButton from "../../controls/AddButton.tsx";
@@ -303,15 +305,12 @@ export default function ChannelResources(props: ChannelResourcesProps) {
                             onMouseLeave={() => props.onLit?.(null)}
                         >
                             <div className="business-channel-shared-body">
-                                <button
-                                    type="button"
-                                    className="notepad-chip-open"
+                                <ChipOpen
                                     title={"Open the card created by the channel " + channelName(link.channelId)}
                                     onClick={() => props.onOpenCard?.(card)}
-                                >
-                                    <span className="notepad-chip-tag">{costCardName(card)}</span>
-                                    <span className="notepad-chip-description">{costCardAmountText(card, currency) || "No cost yet"}</span>
-                                </button>
+                                    tag={costCardName(card)}
+                                    description={costCardAmountText(card, currency) || "No cost yet"}
+                                />
                                 {/* "via shared action": the action is a link to its line in the table (one link per action when several). */}
                                 <span className="business-channel-via-shared">
                                     {"via "}
@@ -364,9 +363,7 @@ export default function ChannelResources(props: ChannelResourcesProps) {
                 <div className="business-channel-cost-add">
                     <ul className="notepad-suggestions" role="list" aria-label={"Add expense to " + what + " list"}>
                         <li>
-                            <button
-                                type="button"
-                                className="notepad-suggestion"
+                            <SuggestionOption
                                 aria-label={"Blank expense for " + what}
                                 onClick={() => {
                                     const made = withNewChannelResource(engagement, capability, segment.segmentId, channelId, "");
@@ -376,24 +373,20 @@ export default function ChannelResources(props: ChannelResourcesProps) {
                                         .querySelector<HTMLTextAreaElement>('[data-channel-resource="' + made.link.id + '"] .business-channel-resource-name')
                                         ?.focus(), 0);
                                 }}
-                            >
-                                <span className="notepad-suggestion-label">Blank expense</span>
-                            </button>
+                                label="Blank expense"
+                            />
                         </li>
                         {/* The typical costs of this channel's kind, each its own option, right after the Blank expense. */}
                         {fitting.filter(template => !holdsTemplate(engagement, capability, segment.segmentId, channelId, template)).map(template => (
                             <li key={template.id}>
-                                <button
-                                    type="button"
-                                    className="notepad-suggestion"
+                                <SuggestionOption
                                     aria-label={"Add new " + template.label + " to " + what}
                                     onClick={() => {
                                         const made = withNewTemplateCost(engagement, capability, segment.segmentId, channelId, template);
                                         onWrite({ capability: made.capability, engagement: made.engagement });
                                     }}
-                                >
-                                    <span className="notepad-suggestion-label">{template.label}</span>
-                                </button>
+                                    label={template.label}
+                                />
                             </li>
                         ))}
                         {/* What the company already has, in ONE list under one name: pointing at one says which channels it already serves. */}
@@ -429,15 +422,13 @@ function ExistingLink({ name, what, servedBy, onLink }: { name: string; what: st
     const tip = useAboveTip<HTMLButtonElement>(servedBy);
     return (
         <li className="notepad-suggestion-existing-item">
-            <button
-                type="button"
-                className="notepad-suggestion notepad-suggestion-existing"
+            <SuggestionOption
+                className="notepad-suggestion-existing"
                 aria-label={"Link existing " + name + " to " + what}
                 onClick={onLink}
                 {...tip.props}
-            >
-                <span className="notepad-suggestion-label">{name}</span>
-            </button>
+                label={name}
+            />
             {tip.node}
         </li>
     );
@@ -619,17 +610,12 @@ function ChannelResourceCard({
                 <ul className="notepad-chips business-channel-resource-actions" aria-label={"Actions of " + label}>
                     {linkedActions.map(actionId => (
                         <li key={actionId} className={"notepad-chip" + (fromAction === actionId ? " is-picked" : "")}>
-                            <button
-                                type="button"
-                                className="notepad-chip-open"
+                            <ChipOpen
                                 aria-label={"#" + (actionOrder(actionId, channelId) ?? "") + " " + text(actionId)}
                                 onClick={() => onOpenAction?.(actionId)}
-                            >
-                                <span className="notepad-chip-tag">
-                                    <span className="notepad-chip-number">{"#" + (actionOrder(actionId, channelId) ?? "")}</span>
-                                </span>
-                                <span className="notepad-chip-description">{text(actionId)}</span>
-                            </button>
+                                tag={<span className="notepad-chip-number">{"#" + (actionOrder(actionId, channelId) ?? "")}</span>}
+                                description={text(actionId)}
+                            />
                             <RemoveButton
                                 aria-label={"Unlink action " + text(actionId) + " from " + label}
                                 disabled={disabled}
@@ -667,14 +653,11 @@ function ChannelResourceCard({
                             {offered.length === 0 && <li className="notepad-suggestion-empty">No action of this table by that name or number</li>}
                             {offered.map((actionId, index) => (
                                 <li key={actionId} role="option" aria-selected={index === active}>
-                                    <button
-                                        type="button"
-                                        className="notepad-suggestion"
+                                    <SuggestionOption
                                         onMouseDown={(event) => event.preventDefault()}
                                         onClick={() => linkAction(actionId)}
-                                    >
-                                        <span className="notepad-suggestion-label">{"#" + (actionOrder(actionId, channelId) ?? "") + " " + text(actionId)}</span>
-                                    </button>
+                                        label={"#" + (actionOrder(actionId, channelId) ?? "") + " " + text(actionId)}
+                                    />
                                 </li>
                             ))}
                         </ul>

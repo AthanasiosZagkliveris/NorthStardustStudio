@@ -1,5 +1,7 @@
 import { KeyboardEvent, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import FoldHead from "../controls/FoldHead";
+import ChipOpen from "../controls/ChipOpen.tsx";
+import SuggestionOption from "../controls/SuggestionOption.tsx";
 import NavArrow from "../controls/NavArrow.tsx";
 import TextField from "../controls/TextField.tsx";
 import AddButton from "../controls/AddButton.tsx";
@@ -253,15 +255,12 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
                     {suggestions.length === 0 && <li className="notepad-suggestion-empty">No place by that name</li>}
                     {suggestions.map((place, index) => (
                         <li key={place.kind + (place.key ?? place.sectionNumber ?? place.systemNumber)} role="option" aria-selected={index === active}>
-                            <button
-                                type="button"
-                                className="notepad-suggestion"
+                            <SuggestionOption
                                 onMouseDown={(event) => event.preventDefault()}
                                 onClick={() => choose(index)}
-                            >
-                                <span className="notepad-suggestion-label">#{place.label}</span>
-                                {place.place && <span className="notepad-suggestion-place">{place.place}</span>}
-                            </button>
+                                label={<>#{place.label}</>}
+                                place={place.place}
+                            />
                         </li>
                     ))}
                 </ul>
@@ -279,25 +278,20 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
                             onMouseEnter={() => markFieldsHot(link.key && link.organizationId === current ? [link.key] : [])}
                             onMouseLeave={() => markFieldsHot(linkedKeys)}
                         >
-                            <button
-                                type="button"
-                                className="notepad-chip-open"
+                            <ChipOpen
                                 title={link.place || undefined}
                                 disabled={available[link.id] === false}
                                 onClick={() => places().then(module => module.openLink(navigate, link))}
-                            >
-                                {/* "#" and where it is in numbers; under it, the field's own name. */}
-                                <span className="notepad-chip-tag">
-                                    # <span className="notepad-chip-number">{details[link.id]?.number ?? linkNumber(link)}</span>
-                                </span>
-                                <span className="notepad-chip-description">
+                                /* "#" and where it is in numbers; under it, the field's own name. */
+                                tag={<># <span className="notepad-chip-number">{details[link.id]?.number ?? linkNumber(link)}</span></>}
+                                description={<>
                                     {details[link.id]?.name ?? ""}
                                     {link.organizationId !== note.organizationId && (
                                         <span className="notepad-chip-organization"> · {organizationName(link.organizationId)}</span>
                                     )}
                                     {available[link.id] === false && <span className="notepad-chip-gone-word"> · No longer available</span>}
-                                </span>
-                            </button>
+                                </>}
+                            />
                             <RemoveButton
                                 aria-label={"Remove link " + link.label}
                                 onClick={() => NotepadService.removeLink(note.id, link.id)} />

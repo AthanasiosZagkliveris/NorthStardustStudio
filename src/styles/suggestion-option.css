@@ -1,0 +1,75 @@
+/* THE SUGGESTIONS (SuggestionOption.tsx and the .notepad-suggestions list that holds them). Moved here from notepad.css so every page that draws one loads it. */
+
+.notepad-suggestions {
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-2);
+
+    max-height: 260px;
+    margin: 0;
+    padding: 4px;
+
+    overflow-y: auto;
+
+    border: 1px solid var(--box-border);
+    border-radius: var(--radius-lg);
+
+    background: var(--bg-surface);
+
+    list-style: none;
+
+}
+
+.notepad-suggestion {
+
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    padding: 6px 8px;
+
+    border: 0;
+    border-radius: var(--radius-md);
+
+    background: none;
+
+    font: inherit;
+    text-align: start;
+
+    cursor: pointer;
+
+}
+
+[aria-selected="true"] > .notepad-suggestion,
+.notepad-suggestion:hover {
+
+    background: var(--bg-list-hover);
+
+}
+
+.notepad-suggestion-label {
+
+    font-size: var(--font-body);
+    line-height: 1.4;
+
+    color: var(--text-default);
+
+}
+
+.notepad-suggestion-place,
+.notepad-suggestion-empty {
+
+    font-size: var(--font-small);
+    line-height: 1.4;
+
+    color: var(--text-subtle);
+
+}
+
+.notepad-suggestion-empty {
+
+    padding: 6px 8px;
+
+}
+
