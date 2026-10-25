@@ -51,7 +51,9 @@ import { countryCurrency } from "../framework/engine/LegalEntityJurisdictions.ts
 
 import { StorageService } from "../services/StorageService";
 import { OrganizationService } from "../services/OrganizationService";
-import { asGlobalSettings } from "../framework/engine/GlobalSettings";
+import { asGlobalSettings, stageDurationsOf } from "../framework/engine/GlobalSettings";
+import { stageOf } from "../framework/engine/BusinessStage";
+import { fitPositioningToStage } from "../components/interview/editors/legal/shared";
 import { PreferencesService } from "../services/PreferencesService";
 import { offerRemovalUndo, UndoService } from "../services/UndoService";
 import { FocusModeService } from "../services/FocusModeService";
@@ -1268,6 +1270,36 @@ export default function Conversation() {
     const railSections = railSectionItems.map(item => ({ ...item, status: railSectionStatuses?.get(item.id) }));
     const [activeRailSection, selectRailSection] = useActiveRailSection(railSections.map(item => item.id), railSectionIndex);
 
+    // THE POSITIONING ANSWERS FOLLOW THE BUSINESS STAGE (owner, 2026-10-25): where a new Opening Date or duration has put the business in another stage, the answers that no longer fit it go back to their default.
+    useEffect(() => {
+        const identity = systems.find(candidate => candidate.id === "identity");
+        const section = identity ? frameworkRegistry.getFramework(identity.id).sections.find(candidate => candidate.answer?.type === AnswerType.LegalEntity) : undefined;
+        if (!organizationId || !identity || !section) {
+            return;
+        }
+        const settings = asGlobalSettings(OrganizationService.getGlobalSettings(organizationId));
+        const stage = stageOf(settings.openingDate, new Date(), stageDurationsOf(settings));
+        const here = session && system.number === IDENTITY_SYSTEM_NUMBER;
+        const state = here ? null : OrganizationService.loadSystemState(organizationId, IDENTITY_SYSTEM_NUMBER) as { responses?: Array<{ sectionNumber: number; value?: unknown }> } | null;
+        const raw = here ? session.getResponse(section.number) : state?.responses?.find(response => response.sectionNumber === section.number)?.value;
+        if (raw === undefined) {
+            return;
+        }
+        const entity = asLegalEntityValue(raw);
+        const fitted = fitPositioningToStage(entity.organisation, stage);
+        if (fitted === entity.organisation) {
+            return;
+        }
+        const next = { ...entity, organisation: fitted };
+        if (here) {
+            session.saveResponse(section.number, next);
+            persistAndRedraw(session);
+        } else if (state?.responses) {
+            OrganizationService.saveSystemState(organizationId, IDENTITY_SYSTEM_NUMBER, { ...state, responses: state.responses.map(response => response.sectionNumber === section.number ? { ...response, value: next } : response) });
+            redraw();
+        }
+    });
+
     // A companion is no page of its own: wherever the interview was left on one (a saved place, a link), it opens on the page it stands in.
     useEffect(() => {
         const current = session?.getCurrentSection();
@@ -1604,9 +1636,11 @@ export default function Conversation() {
         ? session.getResponse(financialFoundationSection.number)
         : undefined;
 
-    // The Opening Date lives in the Global Settings; the Financial Foundation edits it, and the pages that place costs around it read it.
+    // The Opening Date lives in the Global Settings; the Organization tile edits it, and the pages that place costs around it read it.
     const globalSettings = asGlobalSettings(organizationId ? OrganizationService.getGlobalSettings(organizationId) : undefined);
     const openingDate = globalSettings.openingDate;
+    // The business stage: the Opening Date's, with the Global Settings' durations (BusinessStage.ts).
+    const businessStage = stageOf(openingDate, new Date(), stageDurationsOf(globalSettings));
     const changeOpeningDate = (iso: string) => {
         if (organizationId) {
             OrganizationService.saveGlobalSettings(organizationId, { ...asGlobalSettings(OrganizationService.getGlobalSettings(organizationId)), openingDate: iso });
@@ -1667,6 +1701,23 @@ export default function Conversation() {
                 responses: state.responses.map(response => response.sectionNumber === legalEntitySection.number ? { ...response, value: next } : response)
             });
             redraw();
+        }
+        : undefined;
+    /** On the Identity System's own pages the answers are saved through the interview that is open, so what the page saves is not written over by it later. */
+    const foundersProfileSection = identitySystem
+        ? frameworkRegistry.getFramework(identitySystem.id).sections.find(candidate => candidate.answer?.type === AnswerType.FoundersProfile)
+        : undefined;
+    const identityHere = system.number === IDENTITY_SYSTEM_NUMBER;
+    const changeLegalEntityHere = identityHere && legalEntitySection
+        ? (next: unknown) => {
+            session.saveResponse(legalEntitySection.number, next);
+            persistAndRedraw(session);
+        }
+        : changeLegalEntity;
+    const changeFoundersProfile = identityHere && foundersProfileSection
+        ? (next: unknown) => {
+            session.saveResponse(foundersProfileSection.number, next);
+            persistAndRedraw(session);
         }
         : undefined;
     const openLegalEntity: OpenPage | undefined = identitySystem && legalEntitySection
@@ -2012,7 +2063,7 @@ export default function Conversation() {
                                 definition={answerDefinition ?? section.answer}
                                 value={answerValue}
                                 onChange={change}
-                                frameTitle={pageGroup && pageGroup.members.length > 1 ? (pageGroup.members.indexOf(section.number) + 1) + ". " + (pageGroup.frameTitles?.[pageGroup.members.indexOf(section.number)] ?? section.title) : undefined}
+                                frameTitle={pageGroup && pageGroup.members.length > 1 ? (pageGroup.members.indexOf(section.number) + 1) + ". " + (pageGroup.frameTitles?.[pageGroup.members.indexOf(section.number)] ?? section.title) : pageGroup?.frameTitles?.[0]}
                                 resolveDynamicOptions={resolveDynamicOptions}
                                 rowSelection={productRegisterRowSelection}
                                 ownerSuggestions={operationsOwnerSuggestions}
@@ -2031,6 +2082,7 @@ export default function Conversation() {
                                 financialFoundation={financialFoundationValue}
                                 openingDate={openingDate}
                                 onChangeOpeningDate={changeOpeningDate}
+                                businessStage={businessStage}
                                 globalSettings={globalSettings}
                                 financialSustainability={financialSustainabilityValue}
                                 businessEngagement={businessEngagementValue}
@@ -2044,7 +2096,8 @@ export default function Conversation() {
                                     : undefined}
                                 onOpenFinancialFoundation={openBusinessSection(AnswerType.FinancialFoundation)}
                                 onOpenLegalEntity={openLegalEntity}
-                                onChangeLegalEntity={changeLegalEntity}
+                                onChangeLegalEntity={changeLegalEntityHere}
+                                onChangeFoundersProfile={changeFoundersProfile}
                                 strategy={strategyContext}
                                 showInstructions={!focusMode && (titleHelpArrows || instructionsOpen)}
                                 columnsDivider={

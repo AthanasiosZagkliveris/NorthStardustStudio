@@ -28,6 +28,10 @@ export function useLegalState(props: LegalEntityEditorProps) {
 
     openingDate = "",
 
+    onChangeOpeningDate,
+
+    businessStage = "plan",
+
     onChange,
 
     disabled = false,
@@ -42,9 +46,19 @@ export function useLegalState(props: LegalEntityEditorProps) {
 
     cardsOnly = false,
 
+    organizationOnly = false,
+
+    audienceOnly = false,
+
+    description,
+
+    onDescriptionChange,
+
     prefill,
 
-    foundersProfile
+    foundersProfile,
+
+    onChangeFoundersProfile
 
 } = props;
 
@@ -96,7 +110,8 @@ export function useLegalState(props: LegalEntityEditorProps) {
         return nameWithCurrency(base, currency);
     }
     function update(patch: Partial<LegalEntityValue>) {
-        onChange(withExpensesInOrder(withAutoExpenses({ ...entity, ...patch })));
+        // (The expense a ticked requirement makes is made when the requirements change -- the tick, the name -- and not by whatever else is edited: ticking the founders' capital must not make an expense, and an expense the user removed stays removed.)
+        onChange(withExpensesInOrder(withAutoExpenses({ ...entity, ...patch }, patch.requirements !== undefined)));
     }
     /*
         Answering what the app already knows, once, on first open.
@@ -241,7 +256,9 @@ export function useLegalState(props: LegalEntityEditorProps) {
                 country,
                 subdivision: "",
                 legalForm: "",
-                activityCode: ""
+                activityCode: "",
+                // Nothing carries over to another country: its classification is its own, even where the codes look alike.
+                activities: []
             },
 
             capitalApplies: false,
@@ -688,6 +705,6 @@ export function useLegalState(props: LegalEntityEditorProps) {
     /** Asks the page's tiles to open a card, or a section of the Registrations. */
     const openOnPage = (request: OpenRequest) => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: request }));
 
-    return { amountLabel, amountName, asTiles, cardsOnly, changeRegistrationNumber, chooseCountry, chooseLegalForm, chooseSubdivision, chosenSubdivision, columnsDivider, commonRequirementsNote, consumptionTaxNote, countryChosen, currency, disabled, entity, folds, forms, founderLabel, frameTitle, labelled, latest, linkTargets, namedFounders, offerInExpenses, openOnPage, openingDate, optionalNote, ownershipComplete, ownershipOver, ownershipShort, percent, placeChosen, placeHint, postalLabel, profile, profiled, removeFieldButton, removeFounder, showInstructions, soleFounderForm, soleFounderSettled, soleFounderSurplus, subdivisionSpec, subsection, subsectionNumber, textControl, totalCapital, totalOwnership, update, updateFormation, updateFounder, updateOrganisation, updateTax };
+    return { amountLabel, amountName, asTiles, cardsOnly, changeRegistrationNumber, chooseCountry, chooseLegalForm, chooseSubdivision, chosenSubdivision, columnsDivider, foundersProfile, onChangeFoundersProfile, description, onDescriptionChange, organizationOnly, audienceOnly, commonRequirementsNote, consumptionTaxNote, countryChosen, currency, disabled, entity, folds, forms, founderLabel, frameTitle, labelled, latest, linkTargets, namedFounders, offerInExpenses, openOnPage, openingDate, onChangeOpeningDate, businessStage, optionalNote, ownershipComplete, ownershipOver, ownershipShort, percent, placeChosen, placeHint, postalLabel, profile, profiled, removeFieldButton, removeFounder, showInstructions, soleFounderForm, soleFounderSettled, soleFounderSurplus, subdivisionSpec, subsection, subsectionNumber, textControl, totalCapital, totalOwnership, update, updateFormation, updateFounder, updateOrganisation, updateTax };
 
 }

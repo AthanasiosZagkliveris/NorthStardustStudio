@@ -6,6 +6,9 @@ import { fieldKey, type FieldKey } from "./FieldKeys.ts";
 import { pageRailItems } from "../../components/interview/rails/railItems.ts";
 import { openItemsOf } from "./OpenItems.ts";
 import { pageStatuses } from "./PageStatus.ts";
+import { stageMessages } from "./BusinessStage.ts";
+import { keyDateText, keyDatesOfSessions } from "./KeyDates.ts";
+import { asGlobalSettings, stageDurationsOf } from "./GlobalSettings.ts";
 
 /** A page as the rail names it: "4. Financial Foundation". */
 function pageName(section: { number: number; title: string }): string {
@@ -14,7 +17,7 @@ function pageName(section: { number: number; title: string }): string {
 
 /*
     WHAT IS LEFT TO LOOK AT, across the four Foundation Systems -- the
-    Review page (Review.tsx), in three groups:
+    Review page (Review.tsx), in four groups:
 
       open         Still open: the cards (or sections) with required
                    information missing, and activities with no
@@ -25,13 +28,16 @@ function pageName(section: { number: number; title: string }): string {
       missing      Missing from the documents: what the Business Plan
                    says the Foundation answers do not cover, where an
                    answer in the Foundation would cover it.
+      key-dates    Key dates: the milestones of the organization, past and
+                   to come (KeyDates.ts); not counted among what is left
+                   to look at.
 
     Only what can be acted on in the app, each item one sentence and
     the place to go and answer it. Worked out from the saved answers
     every time.
 */
 
-export type ReviewGroup = "open" | "second-look" | "missing";
+export type ReviewGroup = "open" | "second-look" | "key-dates" | "missing";
 
 export interface ReviewPlace {
     systemNumber: number;
@@ -49,6 +55,8 @@ export interface ReviewItem {
     place?: ReviewPlace;
     /** The Capability of the System it is in ("foundation"), for grouping. */
     capability?: string;
+    /** A key date: whether it is behind, today or ahead (the Review draws a past one quieter). */
+    when?: "past" | "today" | "ahead";
 }
 
 export interface ReviewInput {
@@ -67,6 +75,10 @@ export interface ReviewInput {
     /** Reads the value behind a Shared Answer (see PageStatus.pageStatuses). */
     resolveSharedValue?: (answer: AnswerDefinition) => unknown;
     organisationName: string;
+    /** The organization's Global Settings (the Opening Date), as saved. */
+    globalSettings?: unknown;
+    /** The day the stage's time is counted at (today). */
+    today?: Date;
 }
 
 function pageOf(session: InterviewSession | null, type: AnswerType) {
@@ -118,7 +130,8 @@ function foundationSessions(input: ReviewInput): FoundationSessions {
         brand: input.sessions[2],
         business: input.sessions[3],
         strategy: input.sessions[4],
-        organisationName: input.organisationName
+        organisationName: input.organisationName,
+        globalSettings: input.globalSettings
     };
 }
 
@@ -154,6 +167,33 @@ function secondLook(input: ReviewInput): ReviewItem[] {
 
     return items;
 
+}
+
+/**
+ * HOW MUCH OF THE STAGE'S TIME IS LEFT (the owner: the timings are indicators, written on the Review): the stage comes from the Opening Date, and the Review says how far into its window the
+ * business is and what is left of it (BusinessStage.ts). The plan's first day is the earlier of the Opening Date and the earliest cost (derivedPlanStart).
+ */
+function timing(input: ReviewInput): ReviewItem[] {
+    // (An organization with nothing started has no stage's time to look at.)
+    if (!input.sessions[1] && !input.sessions[3]) {
+        return [];
+    }
+    const openingDate = input.globalSettings === undefined ? "" : asGlobalSettings(input.globalSettings).openingDate;
+    let planStart = "";
+    if (input.sessions[3]) {
+        const start = readFoundation(foundationSessions(input)).financial.planStart;
+        planStart = start.year && start.month ? start.year + "-" + String(start.month).padStart(2, "0") + "-01" : "";
+    }
+    const durations = input.globalSettings === undefined ? undefined : stageDurationsOf(asGlobalSettings(input.globalSettings));
+    return stageMessages(openingDate, planStart, input.today, durations).map(text => ({ group: "second-look" as const, text, capability: "foundation" }));
+}
+
+/** THE KEY DATES, the organization's milestones, past and to come, in time order (KeyDates.ts): the plan's start, the registration, the opening and the ends of the stages' windows. */
+function keyDateItems(input: ReviewInput): ReviewItem[] {
+    if (!input.sessions[1] && !input.sessions[3]) {
+        return [];
+    }
+    return keyDatesOfSessions(foundationSessions(input), input.today).map(entry => ({ group: "key-dates" as const, text: keyDateText(entry, input.today), capability: "foundation", when: entry.when }));
 }
 
 /** Where the Business Plan says the Foundation answers do not cover something, and where to answer it. */
@@ -198,7 +238,7 @@ function missing(input: ReviewInput): ReviewItem[] {
 
 /** Everything left to look at, in the Review page's order. */
 export function reviewItems(input: ReviewInput): ReviewItem[] {
-    return [...stillOpen(input), ...secondLook(input), ...missing(input)];
+    return [...stillOpen(input), ...secondLook(input), ...timing(input), ...keyDateItems(input), ...missing(input)];
 }
 
 /** Whether nothing is left to answer: nothing still open or missing from the documents. */

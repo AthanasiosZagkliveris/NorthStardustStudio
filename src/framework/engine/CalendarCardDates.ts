@@ -10,8 +10,7 @@ import {
  * runs out, an instalment that falls due, a registration fee that comes again.
  */
 export type CardDateKind =
-    | "opening"
-    | "formation"
+    | "key-date"
     | "legal-expense"
     | "start"
     | "end"
@@ -23,7 +22,7 @@ export type CardDateKind =
 
 /** The kinds, in the order the funnel lists them, each with the words it is known by and whether it is among the recommended ones. */
 export const CARD_DATE_KINDS: readonly { id: CardDateKind; label: string; recommended: boolean }[] = [
-    { id: "opening", label: "Opening Date", recommended: true },
+    { id: "key-date", label: "Key dates", recommended: true },
     { id: "warranty", label: "Warranty ends", recommended: true },
     { id: "payment", label: "Payment due", recommended: true },
     { id: "end", label: "Contract or supply ends", recommended: true },
@@ -31,8 +30,7 @@ export const CARD_DATE_KINDS: readonly { id: CardDateKind; label: string; recomm
     { id: "legal-expense", label: "Legal fee", recommended: true },
     { id: "start", label: "Starts (resources, partners, suppliers)", recommended: true },
     { id: "activity-start", label: "Activity starts", recommended: false },
-    { id: "founder-start", label: "Founder starts", recommended: false },
-    { id: "formation", label: "Formation", recommended: false }
+    { id: "founder-start", label: "Founder starts", recommended: false }
 ];
 
 export interface CardDate {
@@ -102,13 +100,9 @@ export function capabilityCardDates(capability: BusinessCapabilityValue, legalEx
     return dates;
 }
 
-/** The dates of the Legal Entity page: the formation (its own date) and each expense. */
+/** The dates of the Legal Entity page: each expense (the registration is one of the key dates). */
 export function legalEntityCardDates(entity: LegalEntityValue): CardDate[] {
     const dates: CardDate[] = [];
-    const formation = entity.formation.date;
-    if (formation && /^\d{4}-\d{2}-\d{2}$/.test(formation)) {
-        dates.push({ key: "formation:formation", date: formation, kind: "formation", noun: "Organization", name: entity.organisation.name.trim() || "Organization", label: "Formed" });
-    }
     for (const expense of entity.expenses) {
         if (expense.date && /^\d{4}-\d{2}-\d{2}$/.test(expense.date)) {
             dates.push({ key: expense.id + ":legal-expense:Fee due", date: expense.date, kind: "legal-expense", noun: "Expense", name: named(expense.name, "Unnamed expense"), label: "Fee due" });
@@ -117,9 +111,7 @@ export function legalEntityCardDates(entity: LegalEntityValue): CardDate[] {
     return dates;
 }
 
-/** The Opening Date (Global Settings). */
-export function openingCardDate(openingDate: string): CardDate[] {
-    return openingDate && /^\d{4}-\d{2}-\d{2}$/.test(openingDate)
-        ? [{ key: "opening:opening", date: openingDate, kind: "opening", noun: "Organization", name: "Opening Date", label: "Opens" }]
-        : [];
+/** The key dates (KeyDates.ts) as the Calendar's dates: the milestones of the organization, past and to come. */
+export function keyCardDates(entries: readonly { id: string; date: string; label: string; detail: string }[], organisationName: string): CardDate[] {
+    return entries.map(entry => ({ key: "key:" + entry.id, date: entry.date, kind: "key-date" as const, noun: "Key date", name: entry.label, label: entry.detail || organisationName }));
 }

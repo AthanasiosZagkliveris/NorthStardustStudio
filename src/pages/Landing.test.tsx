@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
 
 import Landing from "./Landing";
 
@@ -90,6 +90,30 @@ describe("Landing reload", () => {
         } finally {
             Object.defineProperty(window, "location", { configurable: true, value: original });
         }
+
+    });
+
+});
+
+describe("Landing header Review", () => {
+
+    it("opens the Review of every Organization", () => {
+
+        function Where() {
+            const location = useLocation();
+            return <p>{location.pathname + " " + JSON.stringify((location.state as { total?: boolean } | null)?.total)}</p>;
+        }
+        render(
+            <MemoryRouter>
+                <Routes>
+                    <Route path="/" element={<Landing />} />
+                    <Route path="/review" element={<Where />} />
+                </Routes>
+            </MemoryRouter>
+        );
+
+        fireEvent.click(screen.getByRole("button", { name: /^Review/ }));
+        expect(screen.getByText("/review true")).toBeTruthy();
 
     });
 

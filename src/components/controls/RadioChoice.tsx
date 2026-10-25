@@ -11,7 +11,7 @@ export default function RadioChoice<T extends string>({ label, group, options, v
     label: string;
     /** The radios' shared name (one per group on the page). */
     group: string;
-    options: readonly { id: T; label: ReactNode; /** The accessible name where the words are not enough. */ name?: string }[];
+    options: readonly { id: T; label: ReactNode; /** The accessible name where the words are not enough. */ name?: string; /** Not open yet: drawn grey and cannot be chosen (no reason beside it). */ locked?: boolean }[];
     value: T;
     onChange: (next: T) => void;
     disabled?: boolean;
@@ -20,12 +20,12 @@ export default function RadioChoice<T extends string>({ label, group, options, v
     return (
         <div className={"radio-choice" + (className ? " " + className : "")} role="radiogroup" aria-label={label}>
             {options.map(option => (
-                <label key={option.id} className="radio-choice-option">
+                <label key={option.id} className={"radio-choice-option" + (option.locked ? " radio-choice-option-locked" : "")}>
                     <input
                         type="radio"
                         name={group}
                         aria-label={option.name}
-                        disabled={disabled}
+                        disabled={disabled || option.locked}
                         checked={value === option.id}
                         onChange={() => onChange(option.id)}
                     />

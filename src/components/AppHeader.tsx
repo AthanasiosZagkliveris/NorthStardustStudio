@@ -27,11 +27,13 @@ interface AppHeaderProps {
     focusable?: boolean;
     /** The landing page: a Reload tool beside the theme switch (the app's view is drawn again; the data is kept: it is on disk). */
     reloadable?: boolean;
+    /** The landing page: the Review tool is offered, for every Organization (none is open). */
+    totalReview?: boolean;
     /** Called before the reload (the Landing page refreshes the saved examples from the current example files). */
     onReload?: () => void;
 }
 
-export default function AppHeader({ organizationName, focusable = false, reloadable = false, onReload }: AppHeaderProps) {
+export default function AppHeader({ organizationName, focusable = false, reloadable = false, totalReview = false, onReload }: AppHeaderProps) {
 
     return (
 
@@ -67,6 +69,7 @@ export default function AppHeader({ organizationName, focusable = false, reloada
             {organizationName && <SearchButton />}
             {organizationName && <NotepadButton />}
             {organizationName && <ReviewButton />}
+            {!organizationName && totalReview && <ReviewButton total />}
             {organizationName && <SettingsButton />}
             {organizationName && <NotepadPanel />}
             {organizationName && <NotepadPicker />}

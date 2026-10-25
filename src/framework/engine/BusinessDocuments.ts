@@ -1,4 +1,6 @@
 import { workspacesOf, WORKSPACE_GROUP_ID } from "./AnswerUtils.ts";
+import { activitiesLine, positioningDocumentTitle } from "./ActivityClassification.ts";
+import { stageOf } from "./BusinessStage.ts";
 /*
     The two documents the Foundation capability adds up to, built from
     what has been answered -- nothing is asked again:
@@ -117,6 +119,7 @@ import {
     sustainability,
     withPlanStart,
     derivedPlanStart,
+    legalExpenseDates,
     costStartDates,
     type CostLine,
     type RevenueStreamValue,
@@ -124,7 +127,7 @@ import {
 } from "./FinancialModel.ts";
 import { calculatedLines } from "./CalculatedLines.ts";
 import { launchNeedOf } from "./ContingencyFunds.ts";
-import { asGlobalSettings, capitalisationLimitOf } from "./GlobalSettings.ts";
+import { asGlobalSettings, capitalisationLimitOf, stageDurationsOf } from "./GlobalSettings.ts";
 import { COUNTRIES, countryCurrency, jurisdictionProfile } from "./LegalEntityJurisdictions.ts";
 
 /** The four Foundation Systems as saved -- any may be missing. */
@@ -265,7 +268,7 @@ export function readFoundation(sessions: FoundationSessions, options?: { wholeOn
     const engagement = asBusinessEngagementValue(business.responseOf?.(AnswerType.BusinessEngagement));
 
     const chosenFinancial = withPlanStart(asFinancialFoundationValue(business.responseOf?.(AnswerType.FinancialFoundation)));
-    const financial = withPlanStart(chosenFinancial, undefined, derivedPlanStart(sessions.globalSettings === undefined ? "" : asGlobalSettings(sessions.globalSettings).openingDate, costStartDates(capability), chosenFinancial.planStart));
+    const financial = withPlanStart(chosenFinancial, undefined, derivedPlanStart(sessions.globalSettings === undefined ? "" : asGlobalSettings(sessions.globalSettings).openingDate, [...costStartDates(capability), ...legalExpenseDates(legalEntity)], chosenFinancial.planStart));
     const lines = costLines(financial, business);
     const revenuePage = withDemand(
         asFinancialSustainabilityValue(business.responseOf?.(AnswerType.FinancialSustainability)),
@@ -296,6 +299,7 @@ export function readFoundation(sessions: FoundationSessions, options?: { wholeOn
     const name = text(legalEntity.organisation.name) || text(sessions.organisationName) || "The organization";
 
     return {
+        stage: stageOf(settings?.openingDate ?? "", new Date(), settings ? stageDurationsOf(settings) : undefined),
         legalEntity, foundersProfile, currency, format, drawings, business, strategy, foundationValue, segments,
         capability, engagement, financial, lines, position, revenuePage, outlook, name, calculated,
         definition: responseByTitle(sessions.identity, /^definition$/i),
@@ -812,7 +816,7 @@ function companyBlocks(f: Foundation): ExportBlock[] {
 
 function marketBlocks(f: Foundation): ExportBlock[] {
     return [
-        ...labelled("Positioning", text(f.definition.positioning)),
+        ...labelled(positioningDocumentTitle(f.stage), text(f.definition.positioning)),
         ...f.segments.flatMap((segment, index) => [
             heading("Segment " + (index + 1) + ": " + (segment.name.trim() || "Unnamed segment")),
             ...labelled("Who", segment.description.demographics ?? ""),
@@ -988,7 +992,7 @@ function teamBlocks(f: Foundation): ExportBlock[] {
                 ? "Not yet registered" + (text(f.legalEntity.formation.authority) ? "; to be registered with " + text(f.legalEntity.formation.authority) : "")
                 : ""],
             ["Address", fullAddress(f)],
-            ["Main activity", organisation.mainActivity]
+            ["Activities", activitiesLine(organisation.country, organisation.activities) || organisation.mainActivity]
         ])),
         ...titled("Founders", founderTable(f)),
         // Each founder's profile, where the Founders Profile page has
@@ -1428,7 +1432,7 @@ export function businessPlan(sessions: FoundationSessions): ExportContent {
 
     // The costs are in the Appendix.
     const asDocument = { costName: (line: CostLine) => costName(f, line), omitCosts: true };
-    const financialFoundation = financialFoundationBlocks(f.business.responseOf?.(AnswerType.FinancialFoundation), f.business, asDocument);
+    const financialFoundation = financialFoundationBlocks({ ...asFinancialFoundationValue(f.business.responseOf?.(AnswerType.FinancialFoundation)), planStart: f.financial.planStart }, f.business, asDocument);
 
     const parts: [string, ExportBlock[]][] = [
         ["Executive Summary", executiveSummary(f)],

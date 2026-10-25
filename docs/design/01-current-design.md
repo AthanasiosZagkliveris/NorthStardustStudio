@@ -50,7 +50,7 @@ A page of a System can be a **compound page**: several sections drawn as chapter
 | System | Page | Chapters (frames) and their Master Tiles |
 |---|---|---|
 | 1. Identity | 1. Definition and Ethics | Chapter 1 Definition: Description, Mission, Positioning, Vision. Chapter 2 Ethics: Philosophy, Values, Principles, Manifesto. |
-| 1. Identity | 2. Organization | Chapter 1 Legal Entity: Organization, Founders & Ownership, Formation & Registration, Tax & Business Registration, Additional Legal Requirements, Legal Entity Expenses. Chapter 2 Founders & Capability: Founders; Capability (Gaps and Cover). |
+| 1. Identity | 2. Organization | Chapter 1 Legal Entity: Organization, Founders & Ownership, Registration Numbers (Formation & Registration and Tax & Business Registration, one tile), Additional Legal Requirements, Legal Entity Expenses. Chapter 2 Founders & Capability: Founders; Capability (Gaps and Cover). |
 | 2. Brand | Brand System (one page) | Chapter 1 Ambassador: Aesthetics, Body Language, Communication & Voice, Imprint. Chapter 2 Style: Colours, Typography, Text Hierarchy, Icon & Logo, Brand Images (the former Inventory page is folded in). |
 | 3. Business | 1. Foundation | One chapter per Segment: Customer Segment and Profile, Competitor and Alternative, Value Proposition, Offering. |
 | 3. Business | 2. Customer Engagement | Customer Channel (tiles per Segment); Customer Relationship; Demand & Conversion (these two still folding sections, see document 5). |
@@ -125,7 +125,7 @@ Pages come from `src/assets/SystemAnswers/01..04_*.md`. Each page's `Structure` 
 | Element | Contains and does | File | Used on |
 |---|---|---|---|
 | App header | Logo, save status, reading-mode picker, Focus mode, Search, Notes, Review, Settings, undo toast, organization name | `C/AppHeader.tsx` | All pages |
-| Header tools | Icon plus word: Search (Ctrl+K), Notes, Review (with open-item count), Settings, Focus mode | `SearchButton`, `notepad/Notepad.tsx`, `ReviewButton`, `SettingsButton`, `FocusModeButton` | With an organization open |
+| Header tools | Icon plus word: Search (Ctrl+K), Notes, Review (with open-item count), Settings, Focus mode | `SearchButton`, `notepad/Notepad.tsx`, `ReviewButton`, `SettingsButton`, `FocusModeButton` | With an organization open; on the Landing page only Review is shown, with no count, and it opens the review of every organization |
 | Save status | Saved or failed-save hint | `C/SaveStatus.tsx` | Header |
 | Theme switch | Reading mode | `C/ThemeSwitch.tsx` | Header |
 | Footer | Back button | `C/AppFooter.tsx` | Interview, Review, Documents, Settings |
@@ -135,7 +135,7 @@ Pages come from `src/assets/SystemAnswers/01..04_*.md`. Each page's `Structure` 
 | Notepad panel | Right slide-in; notes linked to fields or cards; "pick" banner; empty state; marks on linked fields | `C/notepad/Notepad.tsx`, `NotedHover.tsx` | All pages with an organization |
 | Search dialog | Results open a System, page, field (card unfolded) or answer | `C/SearchDialog.tsx`, `services/SearchService.ts` | Header |
 | Undo toast | One toast for the app, after a removal | `C/UndoToast.tsx`, `services/UndoService.ts` | Header |
-| Review page | Three groups (Still open, Worth a second look, Missing from the documents), each item with "Go there" | `pages/Review.tsx` | `/review` |
+| Review page | Four groups (Still open, Worth a second look, Missing from the documents, Key dates), each item with "Go there"; it shows the open organization only, or every organization (each in its own section) when opened from the Landing page | `pages/Review.tsx` | `/review` |
 | Global Settings page | Financial plan, pay and tax, assets (useful life, amortisation), Channel Fee table | `pages/GlobalSettings.tsx`, `FinancialPlanSettings.tsx` | `/settings` |
 | Business Documents page | Tabs (Business Plan, Business Model Canvas, Financial Forecast), period picker, downloads | `pages/BusinessDocuments.tsx` | `/documents` |
 | Confirmation dialog | Overlay, title, message, action buttons | Markup repeated in `Conversation.tsx`, `Landing.tsx` and others (6 uses; no shared component) | Delete, strategy prompt, export steps |
@@ -234,7 +234,6 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 | Date, month and year, plan month | `DateCellInput`, `MonthYearPicker`, `PlanMonthField` |
 | Picker (dropdown) | `OptionPicker.tsx` |
 | Tick list and multi-tick | `BusinessTicks` |
-| Toggle (date format) | `date-format-toggle.css` |
 | Funnel menus | `CapabilityOverview` (`FunnelPicker`, `MenuHead`), `CalendarFunnel`, the sort funnel in `BoxActions` |
 | "+" box | `BusinessAddButton`; `AddThemeMenu`; `TileAdd`; the `.plus-box` button of the tiles; contract `src/library/assets/plusBox.ts` |
 | Step control | `BusinessStep` |
@@ -290,7 +289,7 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 |---|---|
 | Business Plan, Business Model Canvas, Financial Forecast (annual, quarterly, monthly), with CSV and PDF | `pages/BusinessDocuments.tsx`, `engine/BusinessDocuments.ts`, `FinancialForecast.ts` |
 | Export (Markdown and PDF) | `ExportContentBuilder.ts`, `MarkdownExporter.ts`, `PdfExporter.ts`, `ExportRenderers.ts` |
-| Calendar items from card dates (Opening Date, Warranty ends, Payment due, Contract or supply ends, Activity deadline, Legal fee, Starts, Activity starts, Founder starts, Formation) | `CalendarCardDates.ts`, `CalendarTaskService.ts` |
+| Calendar items from card dates (Key dates: plan start, registration, opening, the end of each stage's window; Warranty ends, Payment due, Contract or supply ends, Activity deadline, Legal fee, Starts, Activity starts, Founder starts) | `CalendarCardDates.ts`, `CalendarTaskService.ts` |
 | Charts | `CashTimelineChart` (`FinancialParts.tsx`); Strategic Roadmap (`StrategicRoadmapEditor`, `roadmapZoom.ts`, `roadmapTooltip.ts`) |
 | Review list | `ReviewService.ts` |
 | Palette | `Palette.ts` |
@@ -519,7 +518,7 @@ Global Settings is its own central screen, reached from the main menu or from th
 | Royalty and commission rates | A default rate for each option | Royalties and Revenue Partners; a card may override it for its contract | 5 to 15% royalty; 10 to 20% affiliate |
 | Capitalisation limit | An amount | A one-time purchase: CapEx above it, OpEx below | For example 500 |
 | Default useful life per asset group | Years | The depreciation line, unless the card sets its own | Computers 3, Vehicles 5, Machinery 10 |
-| Opening Date | A date, entered on the Financial Foundation next to Plan Start | Rule 1: the split of every card by period | 1 April |
+| Opening Date | A date, entered on the Organization tile (Identity) and shown in the Global Settings | Rule 1: the split of every card by period | 1 April |
 | Target operating reserve months | A number of months of OpEx | The Operational Contingency Fund | 3 by default; an investor may ask for 6 |
 | Insurance per employee | An amount | The calculated OpEx line for key-person and health cover | An amount a month |
 | Corporate income tax rate | A percentage | The income tax line, calculated on net profit | A rate on profit |
@@ -625,8 +624,8 @@ Channel categories include Retail & Wholesale, and Referral & Affiliates. A chan
 
 | Date | Meaning |
 |---|---|
-| Plan Start | The day the company is established and pre-operational expenses begin (for example 1 January). It is entered on the Financial Foundation. |
-| Opening Date | A field entered on the Financial Foundation next to Plan Start: the day the business opens and issues its first receipt (for example 1 April). Its value is stored in the Global Settings store, so the engine can compare it with the start date of every card. The gap between the two defines the pre-operational period. |
+| Plan Start | The day the company is established and pre-operational expenses begin (for example 1 January). It is never typed: it is the earlier of the Opening Date's month and the earliest cost, a costed card's or a legal expense's. |
+| Opening Date | A field on the Organization tile: the day the business opens and issues its first receipt (for example 1 April). Its value is stored in the Global Settings store, so the engine can compare it with the start date of every card. The gap between the two defines the pre-operational period. |
 | Start date of a card | A Calendar straight after the card's name. Required on every card. Rule 1 puts any cost dated before the Opening Date in the Total Pre-operational Budget. |
 | End date of a card | A Calendar. Always optional. A lease or subscription that ends in month 6 stops its OpEx from that month. With the start date it splits a card by period. |
 

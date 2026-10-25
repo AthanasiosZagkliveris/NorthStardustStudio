@@ -310,11 +310,7 @@
 
 }
 
-/* The date-presentation control's own full-width row -- see the
-   "Make the mm/dd or dd/mm choice more visible" request; the
-   `.date-format-toggle-group` segmented control itself is defined
-   once, shared with the Landing page's first-run Preferences
-   dialog, in date-format-toggle.css. */
+/* The date-presentation control's own full-width row (a RadioChoice). */
 .org-calendar-date-format-row{
 
     margin-bottom:16px;
@@ -332,8 +328,6 @@
     font-weight:700;
 
     text-transform:uppercase;
-
-    letter-spacing:0.4px;
 
     color:var(--text-subtle);
 
@@ -1056,8 +1050,7 @@
 
 }
 
-.org-calendar-date-format-label,
-.date-format-toggle-option{
+.org-calendar-date-format-label{
 
     letter-spacing:0.05em;
 

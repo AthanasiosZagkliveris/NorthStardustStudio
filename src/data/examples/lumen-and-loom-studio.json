@@ -39,7 +39,18 @@
               "addressLine1": "Unit 4, Hackney Wick Maker Yard, 92 Wallis Road\nLondon\nE9 5LN",
               "addressLine2": "",
               "city": "",
-              "postalCode": ""
+              "postalCode": "",
+              "activities": [
+                {
+                  "code": "13921",
+                  "edition": "2007"
+                }
+              ],
+              "businessStage": "",
+              "customerType": ["b2c"],
+              "marketType": "single",
+              "audience": ["adult"],
+              "outcome": ["premium"]
             },
             "capitalApplies": true,
             "founders": [

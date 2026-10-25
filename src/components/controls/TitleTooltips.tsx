@@ -78,6 +78,10 @@ export function tipOf(element: HTMLElement): string | null {
     if (!element.matches(PRESSED) || element.matches("input, select, textarea")) {
         return null;
     }
+    // 6. A control whose pop-up window is open has none: the window is its answer (the calendar, the "i" card, a menu).
+    if (element.getAttribute("aria-expanded") === "true" && element.hasAttribute("aria-haspopup")) {
+        return null;
+    }
     const given = element.getAttribute("data-tip");
     const name = element.getAttribute("data-tip-named") === null ? element.getAttribute("aria-label") : null;
     const words = shown(element);
@@ -174,13 +178,22 @@ export default function TitleTooltips() {
         };
     }, []);
 
-    // (A tip over an element that has left the page goes with it.)
+    // (A tip over an element that has left the page goes with it; so does one over a control whose pop-up window has opened: the window says what the tip would.)
     useEffect(() => {
         if (!tip) {
             return;
         }
         const timer = window.setInterval(() => setTip(current => current && !current.element.isConnected ? null : current), 400);
-        return () => window.clearInterval(timer);
+        const watcher = new MutationObserver(() => {
+            if (tip.element.getAttribute("aria-expanded") === "true") {
+                setTip(null);
+            }
+        });
+        watcher.observe(tip.element, { attributes: true, attributeFilter: ["aria-expanded"] });
+        return () => {
+            window.clearInterval(timer);
+            watcher.disconnect();
+        };
     }, [tip]);
 
     useLayoutEffect(() => {

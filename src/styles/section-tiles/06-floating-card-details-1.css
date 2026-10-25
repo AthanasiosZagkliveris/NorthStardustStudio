@@ -422,14 +422,15 @@ body:has([data-pair]) .section-tile-overlay.floating-overlay.business-foundation
 }
 
 /* A COLUMN PAGE DRAWN AS TILES (Identity's Definition and Ethics, Brand's Ambassador, Strategy's Situation & Direction): ONE card of four tiles, 2 x 2, the card as wide as one of
-   Page 3's cards, centred; the tiles, their hover and their dialogs are the page 3 system's. A dialog holds the column's questions and its editor. */
+   Page 3's cards, at the left (a page of one chapter stands at the left, as the Strategy's does); the tiles, their hover and their dialogs are the page 3 system's. A dialog holds the column's questions and its editor. */
 .answer-columns.business-foundation.business-engagement.business-capability.column-tiles-page > .business-foundation-card {
 
     grid-column: 1 / -1;
 
-    justify-self: center;
+    justify-self: start;
 
-    width: calc(50% + 13px);
+    /* One chapter is as wide as one of two (a page of two chapters: the page less the column gap, halved), so the tiles are the same size on every page. The page's grid has 13px at each side and a 12px gap, and this card spans it: half of that grid plus (13 + 13 - 12) / 2 = 7px. */
+    width: calc(50% + 7px);
 
     min-width: 0;
 
@@ -1103,5 +1104,12 @@ body:has([data-pair]) .section-tile-overlay.floating-overlay.business-foundation
     border-color: var(--line-completed);
 
     color: var(--text-completed-ink);
+
+}
+
+/* The line between a dialog's own content and the tiles under it (SubTiles with a header): edge to edge, 12px of space above and below (the dialog's own 12px gap gives each side its 12px). */
+.business-capability-card-rule.sub-tiles-rule {
+
+    margin: 0 calc(-1 * var(--card-padding));
 
 }

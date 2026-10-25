@@ -876,49 +876,245 @@
    box of as many lines as it needs. Country and State / Region take
    the column's width, as the Address does, rather than the step their
    longest option would pick (the "column" width variant). */
-.legal-entity-where .option-picker{
+.legal-entity-where .option-picker,
+.legal-entity-grid-organization > .legal-entity-field .option-picker{
 
     width:100%;
 
 }
 
-/* The activity code (SIC, NAICS...), under the Main Activity: a tick
-   row (as the VAT tick), a row gap (--space-field) from the box above:
-   the column (.legal-entity-field) already puts --space-label between its
-   children, so the row's margin is the rest of the 12px. Unticked, the row
-   is as high as the tick; ticked, as high as the box (45px), the tick and
-   its words on the box's centre line and the gap measured from the box's
-   edge. Ticked, its box stands BESIDE the words, the Code step (128px) at
-   most and never past the column's right edge. */
-.legal-entity-activity-code{
+/* THE ORGANIZATION TILE'S TWO COLUMNS (design document 28, 8.5): two columns of sections, each section a label over its control (6px), the sections 12px apart (--space-field), a 1px divider down the middle of the gap with 12px clear on each side. The two columns follow the same rhythm (a cell's head row is 44px, a section's label and gap the same on both sides), so the rows of the Activities fall on the lines of the left column's sections (Primary beside the Name's box, the first level beside the Country, the second beside the Address) with no space put in by hand, and no column has a gap the rules do not give it. */
+.legal-entity-grid-organization{
 
-    display:contents;
+    position:relative;
+
+    /* 12px (--space-cell) clear on each side of the 1px divider. */
+    column-gap:calc(2 * var(--space-cell) + 1px);
 
 }
 
-.legal-entity-activity-code > .legal-entity-activity-code-tick{
+.legal-entity-grid-organization::before{
 
-    margin-top:calc(var(--space-field) - var(--space-label));
+    content:"";
 
-    display:grid;
+    position:absolute;
 
-    grid-template-columns:auto minmax(0, 1fr);
+    top:0;
+    bottom:0;
+    left:50%;
 
-    justify-content:start;
+    border-left:1px solid var(--line-divider);
+
+    transform:translateX(-0.5px);
+
+    pointer-events:none;
+
+}
+
+.legal-entity-grid-organization > .legal-entity-field{
+
+    gap:var(--space-field);
+
+}
+
+.legal-entity-org-section{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-label);
+
+    min-width:0;
+
+}
+
+/* (The first label of a section is not nested: the column's gap is its space. A second label, the State or Region under the Country or the name of an Other legal form, is nested and keeps the space that tells it from the first.) */
+
+/* THE ACTIVITIES of the Organization tile (design document 28, 8.5): up to four rows in the pattern of an activity's Performers
+   (.business-capability-performers / .business-capability-performer: 8px between cells, the box buttons 32px, one centre line).
+   A row: the fold arrow and the sub-label at the left (.legal-entity-fold-cell), the "+" (first row) or the x in the x column at the right. What the row
+   holds stands under its sub-label, from the sub-label's left edge to 8px before the x column: the folded lines (the code in bold, the last category
+   under it, plain text that slides when it is cut) or the dropdowns, each under its level's name. */
+.legal-entity-activities{
+
+    align-self:stretch;
+
+}
+
+.legal-entity-activity-block{
+
+    display:flex;
+
+    flex-direction:column;
+
+    /* (A folded row: its code beside the sub-label and its name right under the head row, whose text stands on the row's centre line. An open row: 12px from its first level.) */
+    gap:0;
+
+    align-self:stretch;
+
+    min-width:0;
+
+}
+
+.legal-entity-fold-cell{
+
+    flex:1 1 auto;
+
+    min-width:0;
+
+    display:flex;
 
     align-items:center;
 
-    column-gap:var(--side-label-gap);
+    gap:var(--space-cell);
 
 }
 
-/* Its box (the Code step: room for six digits) stands at the column's
-   right edge. */
-.legal-entity-activity-code > .legal-entity-activity-code-tick > :not(.legal-entity-switch-cell){
+/* A row's head, folded or open, is as high as a cell (44px), its arrow, sub-label, code and button on the centre line: the Primary row's centre is the centre of the Organization Name's box in both states, and the levels of an open row fall on the lines of the left column's sections (the first beside the Country, the second beside the Address). */
+.legal-entity-activity-open{
 
-    justify-self:end;
+    gap:var(--space-field);
 
-    width:var(--control-code);
+}
+
+.legal-entity-activity-block > .business-capability-performer{
+
+    min-height:var(--card-cell-height);
+
+}
+
+.legal-entity-activity-block .business-capability-performer-slot{
+
+    flex:none;
+
+    width:32px;
+
+    height:32px;
+
+}
+
+/* (No indent: what stands under a sub-label, the folded lines and the dropdowns, starts on the column's own left edge, as every other label and control of the column does, and ends where they end, 8px before the x column.) */
+.legal-entity-fold-body{
+
+    display:flex;
+
+    flex-direction:column;
+
+    min-width:0;
+
+    padding-left:0;
+
+    padding-right:calc(32px + var(--gap-8));
+
+}
+
+.legal-entity-fold-code,
+.legal-entity-fold-name{
+
+    /* The size and the ink of the cells and the labels around them (the body size, the text colour), not the dialog's smaller default. */
+    font-size:var(--font-body);
+
+    color:var(--text-default);
+
+}
+
+.legal-entity-fold-code{
+
+    font-weight:600;
+
+    flex:none;
+
+}
+
+.legal-entity-level-pair{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-label);
+
+    margin-bottom:var(--space-field);
+
+}
+
+.legal-entity-level-pair:last-child{
+
+    margin-bottom:0;
+
+}
+
+/* THE LIST OF AN ACTIVITY'S LEVEL is as wide as its longest official title (never narrower than the cell, never wider than 560px or the dialog: the picker's own rule), and a title wider than that wraps instead of being cut (the shared list keeps its options on one line; here the titles are long). */
+.legal-entity-activities .option-picker-list .option-picker-option{
+
+    white-space:normal;
+
+}
+
+/* Everything in the right column ends where the activities' dropdowns end: the "+" and the x of the rows stand in a column of their own (32px and the 8px before it), and no control of the column goes under it. */
+.legal-entity-org-dates,
+.legal-entity-org-form {
+
+    padding-right: calc(32px + var(--gap-8));
+
+}
+
+/* The Registration Date and the Opening Date, one under the other (two date cells do not fit side by side in a column that ends before the x column), a section's rhythm apart. */
+.legal-entity-org-dates{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-field);
+
+    min-width:0;
+
+}
+
+/* The Organization dialog: its two columns, a divider line across, then the Description over the whole width; each a section's rhythm (12px) from the next. */
+.legal-entity-org-body{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-field);
+
+}
+
+/* The questions of Early Positioning: the Organization's two columns and divider (above), the radio stacks in them, then a divider line and the tile's text. */
+.legal-entity-audience .radio-choice{
+
+    min-width:0;
+
+}
+
+/* The options of a stack one under the other; a long option wraps under its own words, the bullet staying on the first line. */
+.radio-choice.legal-entity-radio-stack{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:var(--gap-8);
+
+}
+
+.radio-choice.legal-entity-radio-stack .radio-choice-option{
+
+    white-space:normal;
+
+    align-items:flex-start;
+
+}
+
+.radio-choice.legal-entity-radio-stack .radio-choice-option input[type="radio"]{
+
+    flex:none;
+
+    margin-top:6px;
 
 }
 
@@ -1169,3 +1365,39 @@
 
 }
 
+
+/* A founder's card in a ONE-OWNER FORM (design document 28, 8.5): the Name and the optional Capital on the card's two columns, the capital over the same column as a skill's kind (the Skills' type dropdown: 14em wide on every row). */
+.founders-profile-sole-row {
+
+    display: grid;
+
+    grid-template-columns: minmax(0, 1fr) 14em;
+
+    gap: var(--space-field) var(--space-cell);
+
+    align-items: start;
+
+}
+
+/* The optional Capital's tick and word stand on a label's own line (the Name's label, --label-line), so the two cells under them start on one line. */
+.founders-profile-sole-row > .optional-field > .optional-field-head {
+
+    display: flex;
+
+    align-items: center;
+
+    box-sizing: border-box;
+
+    min-height: var(--label-line);
+
+    /* (The tick's own baseline stands 1.5px high; 2px puts its centre and its word's on the Name label's centre line.) */
+    padding-top: 2px;
+
+}
+
+/* UNTICKED, the Capital is its tick and its word alone, on the Name cell's own line (their centres one line: the label's line and its gap, then half of what a cell has over a line); ticked, they stand on the label line over the amount cell, level with the Name's label. */
+.founders-profile-sole-row > .optional-field:not(:has(> .optional-field-body)) > .optional-field-head {
+
+    margin-top: calc(var(--label-line) + var(--space-label) + (var(--control-square) - var(--label-line)) / 2);
+
+}

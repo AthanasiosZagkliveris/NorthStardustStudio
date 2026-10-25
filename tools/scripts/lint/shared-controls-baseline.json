@@ -17,7 +17,6 @@
   "global-settings.css | .settings-page .settings-field .option-picker[data-size] .option-picker-trigger.interview-input.interview-input | font-size,height,min-height",
   "global-settings.css | .settings-page .settings-field .option-picker[data-size] > .option-picker-trigger.interview-input | font-size,height,min-height",
   "global.css | .strategy-add-button | font-size",
-  "organization-calendar.css | .date-format-toggle-option | letter-spacing",
   "page-3-edges.css | .option-picker-trigger):disabled | border-color,box-shadow",
   "page-3-edges.css | .option-picker-trigger):focus | box-shadow",
   "page-3-edges.css | .option-picker-trigger):hover:not(:focus):not(:disabled) | border-color,box-shadow",

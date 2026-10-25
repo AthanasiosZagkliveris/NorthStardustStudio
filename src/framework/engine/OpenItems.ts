@@ -130,13 +130,13 @@ export function openItemsOf(
                 const organisation = entity.organisation;
                 const missing = [
                     blank(organisation.name) && "name",
-                    blank(organisation.mainActivity) && "main activity",
                     blank(organisation.country) && "country",
                     blank(organisation.addressLine1) && "address",
                     blank(organisation.legalForm) && blank(organisation.legalFormOther) && "legal form"
                 ].filter((word): word is string => !!word);
                 if (missing.length > 0) {
-                    sectionItem(LEGAL_ENTITY_SECTIONS[0], list(missing), ["legal-section-0"]);
+                    // (The Organization is a tile of the Identity System's Definition, page 1: its key is the tile's.)
+                    items.push({ text: at.replace(/ → [^→]*$/, " → 1. Definition") + ": Organization: " + list(missing) + ".", place: { systemNumber, sectionNumber: 1, key: fieldKey({ systemNumber, sectionNumber: 1, path: ["description"] }) } });
                 }
                 if (!entity.founders.some(founder => !blank(founder.name))) {
                     sectionItem(LEGAL_ENTITY_SECTIONS[1], "a founder's name", ["legal-section-1"]);

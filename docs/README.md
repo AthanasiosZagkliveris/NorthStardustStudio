@@ -60,6 +60,9 @@ Status: **index**, updated 2026-10-21. One line per document: where it is, what 
 | [design/24-popups.md](design/24-popups.md) | current design | Pop-ups in six categories, with their placement rules. | 2026-10-21 |
 | [design/25-tooltips.md](design/25-tooltips.md) | current design | Which controls have a tooltip, what it says, and the five rules. | 2026-10-21 |
 | [design/26-folder-plan.md](design/26-folder-plan.md) | proposal | The app files, the examples and the working files: what is where, and a three-step plan to separate them. | 2026-10-22 |
+| [design/27-questionnaire-plan.md](design/27-questionnaire-plan.md) | proposal | The questionnaire plan: the one test (does an answer save the founder work), the funnel from Identity to the journey, a worked example, the 42 drivers, the six building blocks, the stages and the decisions. | 2026-10-23 |
+| [design/28-questionnaire-specification.md](design/28-questionnaire-specification.md) | proposal | The questionnaire specification: the countries and shared lists with examples, the industry list in two levels, every question and option, the connection map with its evidence, the equality rules, the moves and the decisions. | 2026-10-23 |
+| [design/29-question-guide.md](design/29-question-guide.md) | proposal | The question guide: the flow of questions as trees, the key branching questions, what happens on both, mixed, not sure and other, the order that asks the least, why each question matters to the user, and how to write a new one. | 2026-10-23 |
 
 ## The specifications (`specifications/`)
 

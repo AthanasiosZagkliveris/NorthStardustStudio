@@ -19,6 +19,11 @@ export const TEXT_LINK_CLASSES = [
 
 export const TEXT_LINK_SELECTOR = TEXT_LINK_CLASSES.map(name => "." + name).join(", ");
 
+/** A plain text (not a link: no colour, no underline) that is one row and slides across under the pointer when it is longer than its place (a folded activity's name). */
+export const MARQUEE_TEXT_SELECTOR = ".marquee-text";
+
+const SLIDING_SELECTOR = TEXT_LINK_SELECTOR + ", " + MARQUEE_TEXT_SELECTOR;
+
 let installed = false;
 
 const frames = new WeakMap<HTMLElement, number>();
@@ -49,7 +54,7 @@ export function installTextLinkMarquee(): void {
         return;
     }
     installed = true;
-    const linkOf = (event: Event) => (event.target as Element | null)?.closest?.<HTMLElement>(TEXT_LINK_SELECTOR) ?? null;
+    const linkOf = (event: Event) => (event.target as Element | null)?.closest?.<HTMLElement>(SLIDING_SELECTOR) ?? null;
     document.addEventListener("mouseover", (event) => {
         const link = linkOf(event);
         if (link && !link.contains(event.relatedTarget as Node | null)) {

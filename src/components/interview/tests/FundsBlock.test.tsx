@@ -48,7 +48,7 @@ describe("the funds under Funding Need", () => {
 
     it("asks for the Opening Date while there is none", () => {
         show("");
-        expect(screen.getByText(/Give the Opening Date, next to Plan Start/)).toBeTruthy();
+        expect(screen.getByText(/Give the Opening Date, on the Organization tile/)).toBeTruthy();
         expect(document.querySelector("[data-anchor='financial-funds']")).toBeNull();
     });
 

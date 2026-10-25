@@ -67,9 +67,27 @@ export function tabColours(node: HTMLElement): { bg: string; edge: string; ink: 
 export const TAB_DROP = 12;
 
 
-export function titleTopOf(node: HTMLElement): number {
+/**
+ * Where the frame stands with every scroll that moves it undone: the layers it stands in scrolled to their tops, and the window scrolled to its top where the frame moves with the page (the dialogs are
+ * placed from the page's own heading, so they do). It is the same number wherever the user has scrolled to, so a tab placed from it stays where it is while the dialog scrolls under it.
+ * `sample` remembers the last measure: if the window has scrolled since and the frame did not move with it, the frame is fixed to the window and the window's scroll is not undone.
+ */
+export function titleTopOf(node: HTMLElement, sample?: { current: { y: number; top: number; withPage: boolean } | null }): number {
     const frame = node.querySelector<HTMLElement>(".floating-card-body") ?? node;
-    return frame.getBoundingClientRect().top + TAB_DROP;
+    let scrolled = 0;
+    for (let element: HTMLElement | null = frame.parentElement; element && element !== document.documentElement; element = element.parentElement) {
+        scrolled += element.scrollTop;
+    }
+    const top = frame.getBoundingClientRect().top;
+    const previous = sample?.current;
+    let withPage = previous?.withPage ?? true;
+    if (previous && Math.abs(window.scrollY - previous.y) > 1) {
+        withPage = Math.abs((top - previous.top) + (window.scrollY - previous.y)) < 2;
+    }
+    if (sample) {
+        sample.current = { y: window.scrollY, top, withPage };
+    }
+    return top + scrolled + (withPage ? window.scrollY : 0) + TAB_DROP;
 }
 
 
@@ -92,6 +110,7 @@ export function CarouselArrows({ target, step, hue, back }: { target: RefObject<
 
     const tabCache = useRef<{ key: string; value: ReturnType<typeof tabColours> } | null>(null);
     const measureTick = useRef(0);
+    const restSample = useRef<{ y: number; top: number; withPage: boolean } | null>(null);
 
     useLayoutEffect(() => {
         const node = target.current;
@@ -109,7 +128,9 @@ export function CarouselArrows({ target, step, hue, back }: { target: RefObject<
             tabCache.current = { key, value: tabColours(node) };
         }
         const tab = tabCache.current.value;
-        const titleTop = titleTopOf(node);
+        // (The tab is level with the top of the layer as it stands unscrolled, and always in view; scrolling the layer does not move it.)
+        const headerBottom = Math.max(0, document.querySelector(".app-header")?.getBoundingClientRect().bottom ?? 0);
+        const titleTop = Math.max(headerBottom + 12, Math.min(titleTopOf(node, restSample), window.innerHeight - 160));
         // (The tab stands on the side of the layer that is nearer its end of the page: a layer in the left half has it at its left, one in the right half at its right.)
         const side: "left" | "right" = box.left + box.width / 2 < window.innerWidth / 2 ? "left" : "right";
         setAt(previous => previous && Math.abs(previous.left - left) < 0.5 && Math.abs(previous.right - right) < 0.5 && Math.abs(previous.top - top) < 0.5 && Math.abs(previous.titleTop - titleTop) < 0.5 && previous.side === side && Math.abs(previous.leftEdge - box.left) < 0.5 && previous.tab?.bg === tab?.bg && previous.tab?.edge === tab?.edge && previous.tab?.ink === tab?.ink ? previous : { left, right, top, edge: box.right, leftEdge: box.left, side, titleTop, tab });
@@ -124,12 +145,25 @@ export function CarouselArrows({ target, step, hue, back }: { target: RefObject<
             measureAgain(count => count + 1);
         };
         window.addEventListener("resize", again);
+        // (A layer that moves without changing its size while it settles after growing from its tile is measured again for a moment, so the tab takes its place at the top of its layer and then stays there: scrolling does not move it.)
+        const moved = () => measureAgain(count => count + 1);
+        let frames = 0;
+        let frame = 0;
+        const settle = () => {
+            moved();
+            frames += 1;
+            if (frames < 40) {
+                frame = window.requestAnimationFrame(settle);
+            }
+        };
+        frame = window.requestAnimationFrame(settle);
         const observer = typeof ResizeObserver === "undefined" || !node ? null : new ResizeObserver(again);
         if (node) {
             observer?.observe(node);
         }
         return () => {
             window.removeEventListener("resize", again);
+            window.cancelAnimationFrame(frame);
             observer?.disconnect();
         };
     }, [target]);
@@ -249,7 +283,7 @@ export function CarouselArrows({ target, step, hue, back }: { target: RefObject<
                     ref={railRef}
                     className={"carousel-rail" + (step.what === "section" && (at.tab && at.side === "left" ? at.left : at.right) >= 160 ? " carousel-rail-named" : "") + (at.tab ? " carousel-rail-tab" : "") + (at.tab && at.side === "left" ? " carousel-rail-tab-left" : "")}
                     aria-label={"Go to a " + step.what}
-                    style={{ ...(at.tab && at.side === "left" ? { right: window.innerWidth - at.leftEdge } : { left: at.edge }), top: at.tab ? at.titleTop : at.top + 36, "--rail-label-room": Math.max(0, (at.tab && at.side === "left" ? at.left : at.right) - 8 - 24) + "px", "--strategy-theme-hue": hue, ...(at.tab ? { "--tab-bg": at.tab.bg, "--tab-edge": at.tab.edge, "--tab-ink": at.tab.ink } : {}) } as unknown as CSSProperties}
+                    style={{ ...(at.tab && at.side === "left" ? { right: window.innerWidth - at.leftEdge } : { left: at.edge }), top: at.tab ? at.titleTop : at.top + 36, "--rail-label-room": Math.max(0, (at.tab ? (at.side === "left" ? at.leftEdge : window.innerWidth - at.edge) - 25 : at.right) - 8 - (at.tab ? 0 : 24)) + "px", "--strategy-theme-hue": hue, ...(at.tab ? { "--tab-bg": at.tab.bg, "--tab-edge": at.tab.edge, "--tab-ink": at.tab.ink } : {}) } as unknown as CSSProperties}
                 >
                     <ol className="bullet-rail-list">
                         {step.items.map((item, position) => (

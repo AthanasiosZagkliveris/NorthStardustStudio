@@ -12,8 +12,6 @@ import FieldLabel from "../../controls/FieldLabel.tsx";
 import type { LegalEntityValue, StrategyMonthValue } from "../../../framework/engine/AnswerUtils.ts";
 import { jurisdictionProfile } from "../../../framework/engine/LegalEntityJurisdictions.ts";
 
-import DateCellInput, { isoToDisplay } from "../fields/DateCellInput.tsx";
-import { PreferencesService } from "../../../services/PreferencesService.ts";
 import InfoNote from "../fields/InfoNote.tsx";
 import { NUMBER_LIMITS, limitedNumberText, numberInputMode } from "../fields/numberInput.ts";
 import OptionPicker from "../fields/OptionPicker.tsx";
@@ -26,18 +24,14 @@ import OptionPicker from "../fields/OptionPicker.tsx";
 export default function FinancialPlanSettings({
     value,
     legalEntity,
-    openingDate,
     planStart,
-    onChange,
-    onChangeOpeningDate
+    onChange
 }: {
     value: FinancialFoundationValue;
     legalEntity: LegalEntityValue;
-    openingDate: string;
     /** The plan's first month, worked out from the Opening Date and the costs (derivedPlanStart): shown, never typed. */
     planStart: StrategyMonthValue;
     onChange: (next: FinancialFoundationValue) => void;
-    onChangeOpeningDate: (iso: string) => void;
 }) {
 
     const update = (patch: Partial<FinancialFoundationValue>) => onChange({ ...value, ...patch });
@@ -66,20 +60,9 @@ export default function FinancialPlanSettings({
                 "Plan Start",
                 [
                     "Month 1 of the financial plan. Every timeline on the Financial Foundation and on Sustainability runs from it.",
-                    "Worked out: the earlier of the Opening Date's month and the month of your earliest costed card. A cost dated before it counts as already paid."
+                    "Worked out: the earlier of the Opening Date's month (set on the Organization tile) and the month of your earliest cost, a costed card or a legal expense, whichever was recorded first."
                 ],
                 <span>{planMonthLabel(planStart, 1)}</span>
-            )}
-
-            {row(
-                "Opening Date",
-                [
-                    "The day the business opens and issues its first receipt. The days from Plan Start to the day before it are the pre-operational period.",
-                    "Every cost is split around it by its own dates: what is dated before it counts in the Total Pre-operational Budget."
-                ],
-                <DateCellInput ariaLabel="Opening Date" value={openingDate} onChange={onChangeOpeningDate} />,
-                // (A business cannot open before the company exists.)
-                openingDate !== "" && legalEntity.formation.date !== "" && legalEntity.formation.status !== "planned" && openingDate < legalEntity.formation.date ? "The Opening Date is before the company was formed (" + isoToDisplay(legalEntity.formation.date, PreferencesService.getDateFormat()) + ")." : ""
             )}
 
             {row(

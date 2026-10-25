@@ -1,3 +1,4 @@
+import { NUMBER_LIMITS, limitedNumberText } from "../fields/numberInput.ts";
 import { CSSProperties, useContext, useMemo, useState } from "react";
 import TextLink from "../fields/TextLink.tsx";
 import InfoNote from "../fields/InfoNote.tsx";
@@ -397,11 +398,11 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                 <div className="capability-overview-costs-range">
                     <label>
                         From
-                        <NumberCell value={filter.min} onChange={(event) => patch({ min: event.target.value })} />
+                        <NumberCell value={filter.min} onChange={(event) => patch({ min: limitedNumberText(event.target.value, filter.min, NUMBER_LIMITS.money) })} />
                     </label>
                     <label>
                         To
-                        <NumberCell value={filter.max} onChange={(event) => patch({ max: event.target.value })} />
+                        <NumberCell value={filter.max} onChange={(event) => patch({ max: limitedNumberText(event.target.value, filter.max, NUMBER_LIMITS.money) })} />
                     </label>
                 </div>
             </div>

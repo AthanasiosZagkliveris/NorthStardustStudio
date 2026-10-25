@@ -31,7 +31,6 @@ const CONTROLS = {
     "choice-card": ["choice-card.css"],
     "notepad-chip-open": ["chip.css"],
     "notepad-suggestion": ["suggestion-option.css"],
-    "date-format-toggle-option": ["date-format-toggle.css"],
     "label-arrow": ["label-arrow.css"],
     "fold-card-toggle": ["fold-arrow.css"],
     "funnel-box": ["add-button.css"]

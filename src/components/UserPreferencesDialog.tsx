@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import AddButton from "./controls/AddButton.tsx";
-import SegmentedToggle from "./controls/SegmentedToggle.tsx";
+import RadioChoice from "./controls/RadioChoice.tsx";
 import { DateFormat, PreferencesService } from "../services/PreferencesService.ts";
 
 import "../styles/system-confirmation.css";
@@ -71,11 +71,12 @@ export default function UserPreferencesDialog({
 
                     <span className="user-preferences-label">Date presentation</span>
 
-                    <SegmentedToggle
+                    <RadioChoice
                         label="Date presentation"
+                        group="user-preferences-date-format"
                         options={[{ id: "US", label: "MM/DD (US)" }, { id: "EU", label: "DD/MM (EU)" }]}
                         value={dateFormat}
-                        onChange={(next) => next && setDateFormatChoice(next)}
+                        onChange={setDateFormatChoice}
                     />
 
                 </div>

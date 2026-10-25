@@ -1,6 +1,6 @@
 /* ==========================================================
    Review (Review.tsx): what is left to look at across the
-   Foundation, in three groups, each item one sentence and a
+   Foundation, in four groups, each item one sentence and a
    "Go there". Laid out as the Business Documents page is: one
    column, clear of the fixed header and footer.
 ========================================================== */
@@ -202,5 +202,12 @@
         align-items:flex-start;
 
     }
+
+}
+
+/* A key date that is behind: quieter than the ones to come. */
+.review-item-past .review-item-text {
+
+    color: var(--text-subtle);
 
 }

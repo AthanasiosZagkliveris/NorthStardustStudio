@@ -24,3 +24,12 @@
     cursor: pointer;
 
 }
+
+/* An option not open yet (a stage's lock): grey, as a blocked tick is. */
+.radio-choice-option-locked {
+
+    opacity: 0.6;
+
+    cursor: not-allowed;
+
+}

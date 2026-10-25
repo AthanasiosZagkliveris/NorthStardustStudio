@@ -1,6 +1,6 @@
 # NorthStardust: guide to the app (navigation, purpose, content)
 
-Status: **reference**, updated 2026-10-21.
+Status: **reference**, updated 2026-10-25.
 
 One page to find your way: what each part of the app is for, what it holds, and where the data and the rules live. The rules of layout are in `layout-rules.md` and `tile-and-card-pattern.md`; the cost rules in `design/01-current-design.md` (the cost model parts); this file is the map. Where each component is, and which are shared: `code-map.md` and `design/22-shared-components.md`.
 
@@ -8,12 +8,12 @@ One page to find your way: what each part of the app is for, what it holds, and 
 1. **Organizations** (home): create, import or export an Organization; the two examples are in `src/data/examples/` (Lumen & Loom Studio, Quillfield Automation).
 2. **System Selection**: Capabilities (Foundation, Deliver Value, Manage Information, Manage the Organization, Communicate, Measure & Improve) and their Systems. Left rail: Calendar, Capabilities, Systems.
 3. **A System's pages**: an Introduction, then its pages. The left rail lists the pages (Pages), the page arrows go previous / next, and the arrow keys do the same where nothing else uses them. A page drawn as tiles has no Sections rail.
-4. **Header**: reading mode, Focus, Search, Notes (the user's own notes, and under them **Card notes**: every card's Notes text by page, with a funnel that chooses the pages; a press opens the card -- `CardNotesService.ts`), Review (what is incomplete), Settings (Global Settings).
+4. **Header**: reading mode, Focus, Search, Notes (the user's own notes, and under them **Card notes**: every card's Notes text by page, with a funnel that chooses the pages; a press opens the card -- `CardNotesService.ts`), Review (what is incomplete, with the key dates; on the Landing page it is the review of every organization), Settings (Global Settings).
 
 ## The Foundation systems
 | System | Pages | What it records |
 |---|---|---|
-| 1. Identity | Definition & Ethics, Organization (Legal Entity, Founders Profile) | Who the organization is in law and in purpose |
+| 1. Identity | 1 Definition & Ethics (Organization, Early Positioning, Mission, Vision; Philosophy, Values, Principles, Manifesto), 2 Legal Entity (Founders & Ownership, Capability, Registrations, Expenses) | Who the organization is in law and in purpose |
 | 2. Brand | Style (colours, typefaces, hierarchy), Inventory (icon, logo, images) | How it looks |
 | 3. Business | 1 Foundation, 2 Customer Engagement, 3 Infrastructure & Capability, 4 Financial Foundation, 5 Sustainability | What it sells, to whom, with what, and whether the money works |
 | 4. Strategy | Strategic period, Foundation (themes), Roadmap | Where it is heading |
@@ -26,9 +26,10 @@ One page to find your way: what each part of the app is for, what it holds, and 
 - **5. Sustainability**: Revenue, Break Even.
 
 ## Where figures and dates come from
-- **Global Settings** (header): the Opening Date and Plan Start, plan length, tax, pay on-costs, capitalisation limit, Useful Life by group (and each asset's own years under its group), royalty and commission rates, reserves, the Channel Fee Table.
+- **The Opening Date** is set on the Identity System's Organization tile; it decides the business stage, the plan start and the key dates (design document 28, 8.2a).
+- **Global Settings** (header): the Plan Start (worked out) and plan length, tax, pay on-costs, capitalisation limit, Useful Life by group (and each asset's own years under its group), royalty and commission rates, reserves, the Channel Fee Table, and the Business stages (the Opening Date as a record, and the four durations: Planning, Launching, Managing, Growing).
 - **The cards** carry their own dates, costs and statuses; the date defines the order of a list, then the number.
-- **The Calendar** lists every card date (opening, formation, legal fees, starts, ends, warranty, payments, deadlines) with a funnel: the period, the kinds of date, the cards they come from; a note is made only on request.
+- **The Calendar** lists every card date (the key dates: plan start, registration, opening and the end of each stage's window; legal fees, starts, ends, warranty, payments, deadlines) with a funnel: the period, the kinds of date, the cards they come from; a note is made only on request.
 - **Currency**: every total is in the organization's currency (the registered country's); a card in another currency is listed and flagged, not counted.
 
 ## The pattern
@@ -40,6 +41,6 @@ Tiles open a dialog; a dialog lists card boxes; a card box opens a floating card
 - The Infrastructure & Capability editor (`editors/BusinessCapabilityEditor.tsx`) is a short component that calls five hooks in `editors/capability/` one after the other: `useCapabilityState` (writes, folds, reads of other pages), `useCapabilityCardFields`, `useCapabilityPeopleCards`, `useCapabilityActivityAndDelivery`, `useCapabilitySections` (the boxes and sections, which call one another); each gets what the ones before it returned and returns what the ones after it need.
 - `AnswerRenderer.tsx` hands each Answer Structure to one function (`editors/answer/render*.tsx`, a `switch` on the type in `SingleAnswerRenderer`), each given one `scope` (the props with their defaults and the state of `useAnswerState.tsx`); add an Answer Structure by adding its function to a group file and a `case`.
 - The other big editors are built the same way: the component calls hooks in a folder beside it (`editors/engagement/`, `editors/legal/`, `editors/foundation/`), and the constants and small helpers it had outside the component are in that folder's `shared.tsx`.
-- Data shapes and readers, by domain in `src/framework/engine/`: `AnswerUtils.ts` (the generic part: defaults, emptiness, roles; it also re-exports all the others, so imports from it keep working), `AnswerProcess.ts` (process library and operational log), `AnswerBrand.ts`, `AnswerExport.ts`, `AnswerStrategy.ts`, `AnswerLegal.ts`, `AnswerFounders.ts`, `AnswerBusinessFoundation.ts`, `AnswerBusinessCapability.ts`; the money model: `FinancialModel.ts`; settings: `GlobalSettings.ts`; calendar dates: `CalendarCardDates.ts`.
+- Data shapes and readers, by domain in `src/framework/engine/`: `AnswerUtils.ts` (the generic part: defaults, emptiness, roles; it also re-exports all the others, so imports from it keep working), `AnswerProcess.ts` (process library and operational log), `AnswerBrand.ts`, `AnswerExport.ts`, `AnswerStrategy.ts`, `AnswerLegal.ts`, `AnswerFounders.ts`, `AnswerBusinessFoundation.ts`, `AnswerBusinessCapability.ts`; the money model: `FinancialModel.ts`; settings: `GlobalSettings.ts`; the business stage and its windows: `BusinessStage.ts`; key dates: `KeyDates.ts`; the Review: `ReviewItems.ts`; calendar dates: `CalendarCardDates.ts`.
 - Styles: `src/styles/` (colours and sizes are tokens in `tokens/tokens.ts`, generated into `colors.generated.css` and `sizes.generated.css` (`npm run tokens`); tiles and cards in `section-tiles/` and `card-tile.css`; the global rules of a control in `cell-focus.css`). The shared controls are in `src/components/controls/` and each loads its own style.
 - Examples: `src/data/examples/`. Rules for AI assistants: `docs/ai/README.md`.

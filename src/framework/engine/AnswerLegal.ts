@@ -28,6 +28,14 @@ export const LEGAL_ENTITY_SECTIONS = [
 ] as const;
 
 /** What the organization legally is, and where. */
+/** One activity: a final code of the classification of the organization's country, and the edition of that classification. */
+export interface LegalEntityActivityValue {
+    code: string;
+    edition: string;
+}
+
+export const MAX_ACTIVITIES = 4;
+
 export interface LegalEntityOrganisationValue {
     name: string;
     /** ISO 3166-1 alpha-2, or "" -- see LegalEntityJurisdictions. */
@@ -60,6 +68,18 @@ export interface LegalEntityOrganisationValue {
      * as ticked when it already holds a code.
      */
     activityCodeOn: boolean;
+    /** Up to four activities, the first the primary one: each the final code of the country's classification and the edition it is from. Levels and titles are looked up from the code. */
+    activities: LegalEntityActivityValue[];
+    /** (Legacy: the stage was once chosen here. It is now the Opening Date's: see BusinessStage.ts.) plan, launch, manage, grow, or "". */
+    businessStage: string;
+    /** The seller and buyer relationship (Early Positioning): the chosen ones of b2c, b2b, b2g, g2b; how many follows the business stage (one while planning). An older answer holds one id, or "both" (b2b and b2c). */
+    customerType: string[];
+    /** The market structure: single or multi (a multi-sided market, a platform), or "". */
+    marketType: string;
+    /** The audience: the chosen scales (solo, smb, mid, enterprise) for a business or public buyer and life stages (proxy, young, adult, senior) for a consumer. */
+    audience: string[];
+    /** The differentiation and outcome: the chosen ones of cost, convenience, compliance, premium. */
+    outcome: string[];
     /*
      * The registered address, in parts.
      *
@@ -260,6 +280,12 @@ export function legalEntityNumberList(value: unknown): LegalEntityNumberValue[] 
 
 }
 
+/** A choice saved as one id (an older answer) or as a list of ids: always a list, without empty entries. */
+function asChoices(value: unknown): string[] {
+    const list = Array.isArray(value) ? value : [value];
+    return list.filter((entry): entry is string => typeof entry === "string" && entry.trim().length > 0).map(entry => entry.trim());
+}
+
 export function asLegalEntityValue(value: unknown): LegalEntityValue {
 
     const source = value && typeof value === "object" && !Array.isArray(value)
@@ -368,6 +394,15 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
             activityCodeOn: typeof organisationSource.activityCodeOn === "boolean"
                 ? organisationSource.activityCodeOn
                 : asText(organisationSource.activityCode).trim().length > 0,
+            activities: (Array.isArray(organisationSource.activities) ? organisationSource.activities : [])
+                .map((entry): LegalEntityActivityValue | null => entry && typeof entry === "object" ? { code: asText((entry as Record<string, unknown>).code).trim(), edition: asText((entry as Record<string, unknown>).edition) } : null)
+                .filter((entry): entry is LegalEntityActivityValue => entry !== null && entry.code.length > 0)
+                .slice(0, MAX_ACTIVITIES),
+            businessStage: asText(organisationSource.businessStage),
+            customerType: asChoices(organisationSource.customerType).flatMap(id => id === "both" ? ["b2b", "b2c"] : [id]),
+            marketType: asText(organisationSource.marketType),
+            audience: asChoices(organisationSource.audience),
+            outcome: asChoices(organisationSource.outcome),
 
             // A page saved while the address was one field keeps
             // what was written in it: the whole thing lands on the

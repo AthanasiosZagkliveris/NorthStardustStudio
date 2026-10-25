@@ -87,7 +87,7 @@ A card is complete when the fields its status needs are filled (Cost option, Amo
 
 ### What reads this page
 
-- **Page 4** reads every card with a price, grouped by cost nature, with the **Opening Date** (set on Page 4) and the **Global Settings** (`/settings`: capitalisation limit, useful lives by asset group, fee tables, contingency rates, insurance per employee, income tax) that Page 3 never asks for again.
+- **Page 4** reads every card with a price, grouped by cost nature, with the **Opening Date** (set on the Identity System's Organization tile) and the **Global Settings** (`/settings`: capitalisation limit, useful lives by asset group, fee tables, contingency rates, insurance per employee, income tax) that Page 3 never asks for again.
 - **Page 2** channel expenses create cards here (blank ones stay in the Channel tile; template ones sit in their own teal group tile).
 
 ### Infrastructure - i

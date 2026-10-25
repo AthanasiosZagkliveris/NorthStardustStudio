@@ -114,3 +114,55 @@ describe("the Global Settings screen", () => {
     });
 
 });
+
+describe("the Business stages of the Global Settings", () => {
+
+    it("lists the four stages with their durations, Planning, Launching and Managing in months, Growing in years, and the defaults to start with", () => {
+        open();
+        const table = screen.getByRole("table", { name: "Business stages" });
+        expect(within(table).getAllByRole("row").slice(1).map(row => within(row).getAllByRole("rowheader")[0].textContent?.replace(/i$/, ""))).toEqual(["Planning", "Launching", "Managing", "Growing"]);
+        // The columns: the stage, the action, the date (the key point), the duration, the unit it is in.
+        expect(within(table).getAllByRole("columnheader").map(head => head.textContent)).toEqual(["Stage", "Start", "End", "Duration", "Time in:", "Reset"]);
+        expect(within(within(table).getAllByRole("row")[4]).getAllByRole("cell").map(cell => cell.textContent).filter(Boolean)).toEqual(["years"]);
+        expect((screen.getByLabelText("Planning duration (months)") as HTMLInputElement).value).toBe("3");
+        expect((screen.getByLabelText("Launching duration (months)") as HTMLInputElement).value).toBe("12");
+        expect((screen.getByLabelText("Managing duration (months)") as HTMLInputElement).value).toBe("12");
+        expect((screen.getByLabelText("Growing duration (years)") as HTMLInputElement).value).toBe("3");
+    });
+
+    it("takes whole numbers only, keeps them, and resets one stage or all", () => {
+        open();
+        const launching = screen.getByLabelText("Launching duration (months)") as HTMLInputElement;
+        // (A decimal point, or more than 120 months, is refused: the box keeps what it had.)
+        fireEvent.change(launching, { target: { value: "18.5" } });
+        expect(launching.value).toBe("12");
+        fireEvent.change(launching, { target: { value: "1200" } });
+        expect(launching.value).toBe("12");
+        fireEvent.change(launching, { target: { value: "18" } });
+        expect(launching.value).toBe("18");
+        expect(saved().stageDurations.launching).toBe("18");
+
+        fireEvent.change(screen.getByLabelText("Growing duration (years)"), { target: { value: "5" } });
+        expect(saved().stageDurations.growing).toBe("5");
+
+        // One stage's own Reset, then the table's.
+        fireEvent.click(screen.getByTitle("Reset Launching to 12 months"));
+        expect(saved().stageDurations.launching).toBe("12");
+        fireEvent.click(within(screen.getByRole("table", { name: "Business stages" })).getAllByRole("button", { name: "Reset" })[0]);
+        expect(saved().stageDurations).toEqual({ planning: "3", launching: "12", managing: "12", growing: "3" });
+    });
+
+    it("highlights the stage the business is in today, from the Opening Date, and says the rest in the \"i\" of the title", () => {
+        OrganizationService.saveGlobalSettings(organizationId, { ...saved(), openingDate: "2000-01-01" });
+        open();
+        const rows = within(screen.getByRole("table", { name: "Business stages" })).getAllByRole("row").slice(1);
+        expect(rows.map(row => row.getAttribute("aria-current") === "true")).toEqual([false, false, false, true]);
+        expect(rows[3].className).toContain("settings-stage-current");
+        // (Start and End: the Opening Date is where Planning ends and Launching starts; Managing runs from 12 months after it to 24.)
+        expect(within(rows[0]).getAllByRole("cell").slice(0, 2).map(cell => cell.textContent)).toEqual(["1 Oct 1999", "1 Jan 2000"]);
+        expect(within(rows[2]).getAllByRole("cell").slice(0, 2).map(cell => cell.textContent)).toEqual(["1 Jan 2001", "1 Jan 2002"]);
+        expect(screen.getByText("Opening Date")).toBeTruthy();
+        expect(screen.getByRole("button", { name: "Business stages: what this means" })).toBeTruthy();
+    });
+
+});

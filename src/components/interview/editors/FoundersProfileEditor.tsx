@@ -1,4 +1,5 @@
-import { BusinessCard } from "../cards/BusinessCardFields.tsx";
+import { BusinessCard, OptionalField } from "../cards/BusinessCardFields.tsx";
+import { NUMBER_LIMITS, limitedNumberText } from "../fields/numberInput.ts";
 import { CSSProperties, ReactNode, useEffect } from "react";
 
 import CardShell from "../cards/CardShell.tsx";
@@ -18,6 +19,9 @@ import {
 import { railId } from "../rails/railItems.ts";
 import SectionTiles, { DialogHeading, TILE_DIVIDER, type SectionTile } from "../tiles/SectionTiles.tsx";
 import { workHue } from "../../../framework/engine/WorkColours.ts";
+import SubTiles, { type SubTile } from "../tiles/SubTiles.tsx";
+import NumberCell from "../../controls/NumberCell.tsx";
+import CardNameInput from "../cards/CardNameInput.tsx";
 import { summaryText } from "../cards/cardSummary.ts";
 import FoldAllToggle from "../fields/FoldAllToggle.tsx";
 import OptionPicker from "../fields/OptionPicker.tsx";
@@ -114,6 +118,25 @@ interface FoundersProfileEditorProps {
     /** The frame's heading, on top of its tiles (a page of several sections). */
     frameTitle?: string;
 
+    /** Only the founders, as the tiles under the owners in the Founders & Ownership dialog (design document 28, 8.5): what is given here (the Ownership: the founders, their shares and capital) stands above, one tile for each founder under it. */
+    subTilesWith?: ReactNode;
+
+    /**
+     * A one-owner legal form (a sole proprietorship, a sole trader): there is one founder and no ownership to ask, so the dialog is the founder's card itself, its name
+     * a cell in the head and, beside it, the capital the founder puts in, which is optional (design document 28, 8.5).
+     */
+    soleFounder?: {
+        onName: (next: string) => void;
+        capital: string;
+        onCapital: (next: string) => void;
+        /** "Capital (£)": what the cell says it is. */
+        label: string;
+        placeholder: string;
+    };
+
+    /** Only the Capability dialog (the gaps the team has and how each is covered): the Capability tile of the Legal Entity page opens it. */
+    capabilityOnly?: boolean;
+
     /**
      * The founders answered under 3. Legal Entity, 2. Founders &
      * Ownership: who this page's cards are for, and in what order.
@@ -152,6 +175,12 @@ export default function FoundersProfileEditor({
     frameTitle,
 
     asTiles = false,
+
+    subTilesWith,
+
+    soleFounder,
+
+    capabilityOnly = false,
 
     legalEntityFounders = [],
 
@@ -323,6 +352,8 @@ export default function FoundersProfileEditor({
     function founderCard(founder: FounderProfileValue & { name: string }, index: number, always = false) {
 
         const open = always || folds.isOpen(founder.id);
+        /** The one founder of a one-owner form: the card carries the name and the capital cells. */
+        const sole = soleFounder !== undefined;
 
         /** What names this founder's fields for assistive technology. */
         const who = "Founder " + (index + 1);
@@ -340,6 +371,7 @@ export default function FoundersProfileEditor({
                 kind="Founder"
                 number={index + 1}
                 name={founder.name}
+                head={sole ? <></> : undefined}
                 emptyName=""
                 open={open}
                 onToggle={always ? undefined : () => folds.toggle(founder.id)}
@@ -348,6 +380,31 @@ export default function FoundersProfileEditor({
 
                 {open && (
                     <div className="legal-entity-grid">
+
+                        {/* A ONE-OWNER FORM: the name a cell, and beside it the capital the founder puts in, optional (the tick box of every optional field): the two stand on
+                            the card's columns, the capital over the same column as a skill's kind. */}
+                        {sole && soleFounder && (
+                            <div className="legal-entity-field-wide founders-profile-sole-row">
+                                <div className="legal-entity-field">
+                                    <FieldLabel className="legal-entity-label">Name</FieldLabel>
+                                    <CardNameInput ariaLabel={who + " name"} placeholder="Name" disabled={disabled} value={founder.name} onChange={soleFounder.onName} />
+                                </div>
+                                <OptionalField
+                                    label={soleFounder.label}
+                                    filled={soleFounder.capital.trim() !== ""}
+                                    disabled={disabled}
+                                    onClear={() => soleFounder.onCapital("")}
+                                >
+                                    <NumberCell
+                                        aria-label={who + " " + soleFounder.label}
+                                        placeholder={soleFounder.placeholder}
+                                        disabled={disabled}
+                                        value={soleFounder.capital}
+                                        onChange={(event) => soleFounder.onCapital(limitedNumberText(event.target.value, soleFounder.capital, NUMBER_LIMITS.money))}
+                                    />
+                                </OptionalField>
+                            </div>
+                        )}
 
                         {/* ROW 0: the Roles, one column of the card's two
                             (as wide as each box below it), the second
@@ -421,9 +478,70 @@ export default function FoundersProfileEditor({
 
     }
 
+    const lines = (list: readonly string[], count = 4) => list.map(text => text.trim()).filter(text => text.length > 0).slice(0, count);
+    /** What a founder's tile says: the roles, a line, then the skills and degrees (each as written: no kind before it). */
+    const founderLines = (founder: FounderProfileValue & { name: string }) => {
+        const skills = lines(founder.skills.map(entry => entry.text), 6);
+        return [...lines(founder.roles, 5), ...(skills.length > 0 ? [TILE_DIVIDER, ...skills] : [])];
+    };
+    /** The Capability dialog's body: the gaps and how each is covered. */
+    const capabilityDialog = (
+        <div className="column-tile-content legal-entity legal-entity-unframed founders-profile" data-rail={railId(FOUNDERS_PROFILE_SECTIONS[1])}>
+            <div className="business-engagement-section-head"><DialogHeading title="Capability" info={INFO.teamGaps} /></div>
+            <div className="legal-entity-body">
+                {field("Gaps", [INFO.teamGaps[0]], (
+                    <StrategyTextArea
+                        className="interview-input business-foundation-note"
+                        ariaLabel="Capability gaps"
+                        placeholder="The capabilities the team lacks"
+                        disabled={disabled}
+                        value={profile.teamGaps}
+                        onChange={(next) => update({ teamGaps: next })}
+                    />
+                ), true)}
+                {field("Cover", [INFO.teamGaps[1], INFO.teamGaps[2]], (
+                    <StrategyTextArea
+                        className="interview-input business-foundation-note"
+                        ariaLabel="Capability cover"
+                        placeholder="How each will be covered: planned hires, advisors, mentors, partners, contractors, training"
+                        disabled={disabled}
+                        value={profile.teamCover}
+                        onChange={(next) => update({ teamCover: next })}
+                    />
+                ), true)}
+            </div>
+        </div>
+    );
+
+    /* THE CAPABILITY TILE OF THE LEGAL ENTITY PAGE: its dialog alone. */
+    if (capabilityOnly) {
+        return capabilityDialog;
+    }
+
+    /* A ONE-OWNER FORM: the founder's card alone, with the name and the capital in its head. */
+    if (soleFounder && founders.length > 0) {
+        return <div className="legal-entity-body legal-entity-subview founders-profile" data-rail={railId(FOUNDERS_PROFILE_SECTIONS[0])}>{founderCard(founders[0], 0, true)}</div>;
+    }
+
+    /* THE FOUNDERS AS THE SUB TILES OF FOUNDERS & OWNERSHIP: Ownership first, then a tile for each founder, whose dialog is the founder's card. */
+    if (subTilesWith) {
+        const tiles: SubTile[] = [
+            ...founders.map((founder, index): SubTile => {
+                const listed = founderLines(founder);
+                return {
+                    id: "founder-profile-" + founder.id,
+                    title: founder.name.trim() || "Founder " + (index + 1),
+                    items: listed,
+                    itemMarks: listed.map(item => item === TILE_DIVIDER ? undefined : { bullet: true }),
+                    content: () => <div className="legal-entity-body legal-entity-subview founders-profile" data-rail={railId(FOUNDERS_PROFILE_SECTIONS[0])}>{founderCard(founder, index, true)}</div>
+                };
+            })
+        ];
+        return <SubTiles label="Founders & Ownership" tiles={tiles} header={subTilesWith} />;
+    }
+
     /* THE PAGE AS TILES: each founder is a tile (the name, the roles), and the capability gaps another. A tile opens its card in its dialog. */
     if (asTiles) {
-        const lines = (list: readonly string[], count = 4) => list.map(text => text.trim()).filter(text => text.length > 0).slice(0, count);
         const tiles: SectionTile[] = [
             ...founders.map((founder, index): SectionTile => {
                 // The roles, a line, then the skills and degrees: two lists, each line with its bullet.

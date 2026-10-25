@@ -1,5 +1,6 @@
 import { parseAmount } from "./Amounts.ts";
 import { randomId } from "./Readers.ts";
+import { DEFAULT_STAGE_DURATIONS, type StageDurations } from "./BusinessStage.ts";
 
 /*
     GLOBAL SETTINGS (the cost model, section 6): the rates and limits the calculated lines read, held in ONE place so that when a rate changes
@@ -8,7 +9,7 @@ import { randomId } from "./Readers.ts";
 
     Holds: the employer on-cost coefficient, the Channel Fee Table, the default rates of royalties and commissions, the capitalisation limit, the default
     useful life of each asset group, the target operating reserve months, the insurance per employee and the corporate income tax rate.
-    (The Opening Date joins them with the Financial Foundation's Opening Date, a later task.)
+    (The Opening Date and the business stages' durations are kept here too: the Opening Date is set on the Organization tile.)
 
     A figure is kept as the text typed ("" is not set); the readers below turn it into a number where one is needed.
 */
@@ -28,8 +29,10 @@ export interface ChannelFeeRow {
 }
 
 export interface GlobalSettingsValue {
-    /** The Opening Date (an ISO date): the day the business opens and issues its first receipt. It is entered on the Financial Foundation, next to Plan Start. */
+    /** The Opening Date (an ISO date): the day the business opens and issues its first receipt. It is entered on the Organization tile (Identity System) and shown in the Global Settings' Business stages. */
     openingDate: string;
+    /** How long each business stage lasts (BusinessStage.ts), whole numbers as typed: Planning, Launching and Managing in months, Growing in years. The Opening Date is where they start. */
+    stageDurations: { planning: string; launching: string; managing: string; growing: string };
     /** Employer on-costs: one percentage of the gross salaries, for the country. */
     onCostRate: string;
     channelFees: ChannelFeeRow[];
@@ -109,10 +112,21 @@ function exampleChannelFees(): ChannelFeeRow[] {
     ];
 }
 
+/** The stages' default durations as text, as the settings hold them. */
+export function defaultStageDurationTexts(): GlobalSettingsValue["stageDurations"] {
+    return {
+        planning: String(DEFAULT_STAGE_DURATIONS.planning),
+        launching: String(DEFAULT_STAGE_DURATIONS.launching),
+        managing: String(DEFAULT_STAGE_DURATIONS.managing),
+        growing: String(DEFAULT_STAGE_DURATIONS.growing)
+    };
+}
+
 /** What a new Organization starts with: the cost model's examples where it gives them, and nothing where a figure is the country's or the user's own. */
 export function createGlobalSettings(): GlobalSettingsValue {
     return {
         openingDate: "",
+        stageDurations: defaultStageDurationTexts(),
         onCostRate: "",
         channelFees: exampleChannelFees(),
         royaltyRate: "10",
@@ -156,6 +170,18 @@ export function asGlobalSettings(value: unknown): GlobalSettingsValue {
     const amortised = asObject(source.amortisation);
     return {
         openingDate: typeof source.openingDate === "string" && /^\d{4}-\d{2}-\d{2}$/.test(source.openingDate) ? source.openingDate : "",
+        // (Absent in an older save: the defaults; present, as it was saved, whole numbers only.)
+        stageDurations: (() => {
+            const saved = asObject(source.stageDurations);
+            const defaults = defaultStageDurationTexts();
+            const whole = (value: unknown, fallback: string) => value === undefined ? fallback : figure(value).replace(/\..*$/, "");
+            return {
+                planning: whole(saved.planning, defaults.planning),
+                launching: whole(saved.launching, defaults.launching),
+                managing: whole(saved.managing, defaults.managing),
+                growing: whole(saved.growing, defaults.growing)
+            };
+        })(),
         onCostRate: figure(source.onCostRate),
         channelFees: Array.isArray(source.channelFees)
             ? source.channelFees.map(entry => {
@@ -184,6 +210,20 @@ export function asGlobalSettings(value: unknown): GlobalSettingsValue {
         operationalContingencyRate: figure(source.operationalContingencyRate),
         insurancePerEmployee: figure(source.insurancePerEmployee),
         incomeTaxRate: figure(source.incomeTaxRate)
+    };
+}
+
+/** The stages' durations as numbers; a duration left empty or at 0 takes its default (a stage cannot last no time). */
+export function stageDurationsOf(settings: GlobalSettingsValue): StageDurations {
+    const pick = (text: string, fallback: number) => {
+        const number = Number(text);
+        return Number.isInteger(number) && number >= 1 ? number : fallback;
+    };
+    return {
+        planning: pick(settings.stageDurations.planning, DEFAULT_STAGE_DURATIONS.planning),
+        launching: pick(settings.stageDurations.launching, DEFAULT_STAGE_DURATIONS.launching),
+        managing: pick(settings.stageDurations.managing, DEFAULT_STAGE_DURATIONS.managing),
+        growing: pick(settings.stageDurations.growing, DEFAULT_STAGE_DURATIONS.growing)
     };
 }
 

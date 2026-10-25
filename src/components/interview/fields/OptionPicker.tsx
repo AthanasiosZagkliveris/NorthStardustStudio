@@ -135,6 +135,8 @@ interface OptionPickerProps {
      * nothing: its own options never widen it (a longer one ends in an ellipsis).
      */
     fill?: boolean | "fit";
+    /** How many options the list shows before it scrolls (10 by default); a long list of long official titles (the Activities) asks for more, and the window's room still caps it. */
+    visibleOptions?: number;
     /**
      * A hugging picker as wide as its longest OPTION and no wider: the placeholder is not counted (nothing chosen yet,
      * it is shown cut by an ellipsis rather than making the picker wider than any option).
@@ -202,6 +204,7 @@ export default function OptionPicker({
     keepWidth = false,
 
     fill = false,
+    visibleOptions = VISIBLE_OPTIONS,
     tight = false,
 
     sizeFor = [],
@@ -277,7 +280,7 @@ export default function OptionPicker({
     // is not, so the last option is never under the window edge or
     // behind the navigation bar (see useFloatingPanel).
     const listMaxHeight =
-        OPTION_HEIGHT * VISIBLE_OPTIONS +
+        OPTION_HEIGHT * visibleOptions +
         LIST_PADDING +
         (searchable ? SEARCH_HEIGHT : 0);
 

@@ -227,7 +227,7 @@ Ordering of work (decided): the **Tile System** is finished first (T1–T2), the
 | Income tax rate (global) | **Remove** (it silently overrides the Financial Foundation rate; the examples show the clash) | M |
 | Income tax basis and rate | Identity > Organization > Legal Entity > Tax | M |
 | VAT/GST basis | Same card as "registered?" | M |
-| Opening Date, Plan Start, Plan Length | Financial Foundation plan header; Strategic Period shows them read-only | S–M |
+| Opening Date, Plan Start, Plan Length | Opening Date on the Organization tile, Plan Start worked out, Plan Length in the Global Settings; Strategic Period shows them read-only | S–M |
 | Contingency rates, reserve months | Financial Foundation > Funding Need | S–M |
 | Employer on-cost rate | Financial Foundation > Costs, people costs | M |
 | Insurance per employee | The key-person health card, which already overrides it | S |

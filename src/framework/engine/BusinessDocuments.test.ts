@@ -61,7 +61,7 @@ describe("business documents", () => {
         const { forecast, years } = businessForecast(sessions);
         expect(years).toBe(3);
         expect(forecast.months).toHaveLength(36);
-        expect(forecast.months[0]).toBe("Oct 2026");
+        expect(forecast.months[0]).toBe("Mar 2026");
 
         const row = (label: string) => forecast.cashFlow.rows.find(entry => entry.label === label)!;
         const closing = row("Cash at end of period").values;
@@ -69,7 +69,7 @@ describe("business documents", () => {
         row("Cash at start of period").values.slice(1).forEach((amount, index) => expect(amount).toBeCloseTo(closing[index], 6));
 
         const annual = forecastView(forecast, "annual", 2);
-        expect(annual.columns).toEqual(["Year 1 (Oct 2026 – Sep 2027)", "Year 2 (Oct 2027 – Sep 2028)"]);
+        expect(annual.columns).toEqual(["Year 1 (Mar 2026 – Feb 2027)", "Year 2 (Mar 2027 – Feb 2028)"]);
         const cash = annual.tables.find(table => table.title === "Cash-Flow Forecast")!;
         const yearClosing = cash.rows.find(entry => entry.label === "Cash at end of period")!.values;
         expect(yearClosing[1]).toBeCloseTo(closing[23], 6);
@@ -87,7 +87,11 @@ describe("business documents", () => {
         expect(sheet("Cash")[35]).toBeCloseTo(Math.max(0, closing[35]), 6);
         expect(sheet("Cash shortfall (unfunded)")[35]).toBeCloseTo(Math.max(0, -closing[35]), 6);
         // The looms and furniture are assets, spread over three years.
-        expect(sheet("Equipment (net of depreciation)")[0]).toBeGreaterThan(8000);
+        // The plan starts in Mar 2026 (the first registration fee); the looms and furniture are bought in Oct 2026, when the studio opens.
+        const opens = forecast.months.indexOf("Oct 2026");
+        expect(opens).toBe(7);
+        expect(sheet("Equipment (net of depreciation)")[opens - 1]).toBe(0);
+        expect(sheet("Equipment (net of depreciation)")[opens]).toBeGreaterThan(8000);
         expect(forecast.profitAndLoss.rows.some(entry => entry.label === "Other income (grants)")).toBe(true);
 
         const csv = forecastCsv(forecastView(forecast, "monthly", 1), { organization: "Lumen & Loom", currency: "GBP", notes: forecast.notes });
@@ -123,14 +127,21 @@ describe("the forecast's accounting conventions", () => {
         // Never a line of the profit and loss: a financing payment, and less equity.
         expect(forecast.profitAndLoss.rows.some(entry => /drawings/i.test(entry.label))).toBe(false);
         expect(pl("Salaries")).toBeUndefined();
-        expect(forecast.cashFlow.rows.find(entry => entry.label === "Owner's drawings")?.values[0]).toBeCloseTo(-4500, 6);
-        expect(sheet("Less: owner's drawings")[0]).toBeCloseTo(-4500, 6);
+        // The plan now starts in Aug 2026 (the formation fee), and the drawings begin with the founder's pay, in Jan 2027.
+        const first = forecast.months.indexOf("Jan 2027");
+        expect(first).toBe(5);
+        const drawings = forecast.cashFlow.rows.find(entry => entry.label === "Owner's drawings")!.values;
+        drawings.slice(0, first).forEach(amount => expect(amount).toBeCloseTo(0, 6));
+        expect(drawings[first]).toBeCloseTo(-4500, 6);
+        expect(sheet("Less: owner's drawings")[first]).toBeCloseTo(-4500, 6);
         sheet("Total assets").forEach((amount, index) =>
             expect(amount).toBeCloseTo(sheet("Total liabilities and equity")[index], 6));
         // The annual insurance and fees are a twelfth a month; what is paid ahead is prepaid.
-        expect(sheet("Prepaid expenses")[0]).toBeGreaterThan(0);
-        // $25 of formation fees were paid before the plan: out of the opening cash.
-        expect(forecast.cashFlow.rows.find(entry => entry.label === "Cash at start of period")!.values[0]).toBeCloseTo(10675, 6);
+        expect(sheet("Prepaid expenses")[first]).toBeGreaterThan(0);
+        // $25 of formation fees are paid in the plan's first month (Aug 2026): the opening cash is the $10,700 received, and $10,675 is left after it.
+        const cashFlow = (label: string) => forecast.cashFlow.rows.find(entry => entry.label === label)!.values;
+        expect(cashFlow("Cash at start of period")[0]).toBeCloseTo(10700, 6);
+        expect(cashFlow("Cash at end of period")[0]).toBeCloseTo(10675, 6);
     });
 
     test("a company's founders are paid a salary; a grant is never capital", () => {
@@ -138,7 +149,11 @@ describe("the forecast's accounting conventions", () => {
         expect(forecast.profitAndLoss.rows.some(entry => /drawings/i.test(entry.label))).toBe(false);
         expect(forecast.profitKept).toBeNull();
         // Their salaries are a cost, analysed by nature.
-        expect(forecast.profitAndLoss.rows.find(entry => entry.label === "Salaries")!.values[0]).toBeCloseTo(5400, 6);
+        // (The plan starts in Mar 2026 with a registration fee; the salaries begin when the studio opens, in Oct 2026.)
+        const salaries = forecast.profitAndLoss.rows.find(entry => entry.label === "Salaries")!.values;
+        const opens = forecast.months.indexOf("Oct 2026");
+        salaries.slice(0, opens).forEach(amount => expect(amount).toBeCloseTo(0, 6));
+        expect(salaries[opens]).toBeCloseTo(5400, 6);
         // Lumen's founders put in £13,000; the Hackney grant is income, not capital.
         expect(forecast.balanceSheet.rows.find(entry => entry.label === "Share capital")!.values[0]).toBeCloseTo(13000, 6);
         expect(forecast.balanceSheet.rows.some(entry => entry.label === "Retained earnings")).toBe(true);
@@ -177,14 +192,14 @@ describe("Quillfield: an unresolved funding gap", () => {
     });
 
     test("the Strategy System reads the financial plan's dates", () => {
-        expect(financialPlanRange(quillSessions)).toEqual({ start: { month: "01", year: "2027" }, end: { month: "12", year: "2029" } });
+        expect(financialPlanRange(quillSessions)).toEqual({ start: { month: "08", year: "2026" }, end: { month: "07", year: "2029" } });
     });
 
     test("the Funding Need covers the whole plan", () => {
         // $3,210 of establishment costs (the $450 video kit and the $60 webcam and headset included) and a $23,638 operating need.
         // The channels' costs now sit on their own cards (Squarespace, Calendly, Mailchimp, Zoom, payment fees, referral
         // fees, meetups, LinkedIn Premium), counted once; the work tools moved to Infrastructure (QuickBooks, Miro and Loom).
-        expect(f.position.need).toBeCloseTo(24734.03, 1);
+        expect(f.position.need).toBeCloseTo(24759.03, 1);
     });
 
     test("the loan's repayments are scheduled", () => {
@@ -193,8 +208,8 @@ describe("Quillfield: an unresolved funding gap", () => {
         expect(loan.schedule.totalInterest).toBeCloseTo(1921.64, 1);
     });
 
-    test("the gap is found: $10,675 in hand against $24,734", () => {
-        expect(f.position.availableNow).toBeCloseTo(10675, 6);
+    test("the gap is found: $10,700 in hand against $24,759", () => {
+        expect(f.position.availableNow).toBeCloseTo(10700, 6);
         expect(f.position.gap).toBeCloseTo(14059.03, 1);
         expect(f.position.signals.some(signal => signal.title === "Funding Gap")).toBe(true);
     });
@@ -280,12 +295,12 @@ describe("Quillfield: the documents tie together", () => {
         });
         // The opening column balances too.
         expect(sheet("Total assets").opening).toBeCloseTo(sheet("Total liabilities and equity").opening!, 6);
-        expect(sheet("Cash").opening).toBeCloseTo(10675, 6);
+        expect(sheet("Cash").opening).toBeCloseTo(10700, 6);
         expect(forecast.balanceSheet.rows.filter(row => row.heading).map(row => row.label))
             .toEqual(["Current assets", "Non-current assets", "Current liabilities", "Equity"]);
         const view = forecastView(forecast, "annual", 3);
         const balance = view.tables.find(table => table.title === "Balance Sheet")!;
-        expect(balance.columns[0]).toBe("Opening (Jan 2027)");
+        expect(balance.columns[0]).toBe("Opening (Aug 2026)");
         expect(balance.columns).toHaveLength(4);
     });
 
@@ -301,10 +316,11 @@ describe("Quillfield: the documents tie together", () => {
         const after = forecast.profitKept!.rows.find(row => row.label === "Profit kept in the business")!.values;
         outlook.months.forEach((month, index) => expect(after[index]).toBeCloseTo(month.revenue - month.costs, 6));
 
-        // With them, break even still falls in the same month: Jul 2027.
+        // With them, break even still falls in the same month: Jul 2027 (month 12 of a plan that starts in Aug 2026, with a registration; the costs start in Jan 2027, the sixth month).
         const full = businessForecast(all).forecast.profitKept!.rows.find(row => row.label === "Profit kept in the business")!.values;
-        expect(full.findIndex(amount => amount >= 0) + 1).toBe(f.outlook.breakEvenMonth);
-        expect(f.outlook.breakEvenMonth).toBe(7);
+        const costsStart = 5;
+        expect(full.findIndex((amount, index) => index >= costsStart && amount >= 0) + 1).toBe(f.outlook.breakEvenMonth);
+        expect(f.outlook.breakEvenMonth).toBe(12);
     });
 
     test("founders' pay is the owner's drawings in the plan and the canvas", () => {
@@ -316,12 +332,12 @@ describe("Quillfield: the documents tie together", () => {
     test("the funding request reconciles", () => {
         expect(f.position.need - f.position.availableNow - f.position.confirmedFuture).toBeCloseTo(f.position.gap, 1);
         const request = planMd.slice(planMd.indexOf("Funding Request"));
-        expect(request).toContain("Funding need: $24,734");
-        expect(request).toContain("Available now: $10,675 ($10,700 received, less $25 of costs paid before the plan)");
+        expect(request).toContain("Funding need: $24,759");
+        expect(request).toContain("Available now: $10,700");
         expect(request).toContain("Funding gap: $14,059");
         expect(request).toContain("Amount sought: $15,000 (SBA Microloan)");
         expect(request).toContain("Still short after repayments: $1,208 at the lowest point, in Jul 2027");
-        expect(request).toContain("| Total | $24,734 |");
+        expect(request).toContain("| Total | $24,759 |");
     });
 
     test("with a grant sought instead of a loan, the funding request speaks of no repayments", () => {
@@ -364,7 +380,7 @@ describe("Quillfield: the documents tie together", () => {
         expect(request).toContain("| Source | Type | Amount | Status | Received | Terms |");
         expect(request).toContain("| SBA Microloan | Microloan | $15,000 | Requested / Applied | $0 | 8% a year, fixed; 36 monthly repayments of $470 from Mar 2027 |");
         expect(request).toContain("**Debt and equity:** Debt: $15,000; equity and owner's capital: $10,700");
-        expect(request).toContain("**Period covered:** The plan's 36 months, Jan 2027 – Dec 2029.");
+        expect(request).toContain("**Period covered:** The plan's 36 months, Aug 2026 – Jul 2029.");
         expect(request).toContain("**Repayment:** SBA Microloan: repaid from the business's cash over 36 repayments, the last in Feb 2030.");
     });
 
@@ -373,16 +389,16 @@ describe("Quillfield: the documents tie together", () => {
         const headings = [...projections.matchAll(/^### (.+)$/gm)].map(match => match[1]);
         expect(headings).toEqual(["Profit and Loss", "Profit Kept in the Business", "Balance Sheet", "Cash Flow", "Capital Expenditure", "Assumptions"]);
         expect(projections).toContain("| USD | Q1 | Q2 | Q3 | Q4 | Year 1 | Year 2 | Year 3 |");
-        expect(projections).toContain("**Periods:** Q1: Jan – Mar 2027; Q2: Apr – Jun 2027; Q3: Jul – Sep 2027; Q4: Oct – Dec 2027; Year 2: Jan 2028 – Dec 2028; Year 3: Jan 2029 – Dec 2029.");
+        expect(projections).toContain("**Periods:** Q1: Aug – Oct 2026; Q2: Nov 2026 – Jan 2027; Q3: Feb – Apr 2027; Q4: May – Jul 2027; Year 2: Aug 2027 – Jul 2028; Year 3: Aug 2028 – Jul 2029.");
         expect(projections).toContain("they are not extended to five years");
         // The drawings are not in the profit and loss; the reconciliation below it ties to Page 5.
         const pl = projections.slice(projections.indexOf("### Profit and Loss"), projections.indexOf("### Profit Kept"));
         expect(pl).not.toMatch(/drawings/i);
-        expect(projections).toContain("| Less: owner's drawings | -$13,500 | -$13,500 | -$13,500 | -$13,500 | -$54,000 | -$54,000 | -$54,000 |");
+        expect(projections).toContain("| Less: owner's drawings | $0 | -$4,500 | -$13,500 | -$13,500 | -$31,500 | -$54,000 | -$54,000 |");
         expect(projections).toContain("the result Sustainability shows as revenue less costs");
         // The $450 video kit and the $60 webcam and headset.
-        expect(projections).toContain("| Purchase of equipment | -$510 |");
-        expect(projections).toContain("| Total capital expenditure | $510 |");
+        expect(projections).toContain("| Purchase of equipment | $0 | -$60 | -$450 | $0 | -$510 | $0 | $0 |");
+        expect(projections).toContain("| Total capital expenditure | $0 | $60 | $450 | $0 | $510 | $0 | $0 |");
         expect(projections).toContain("- There is no income tax at business level: as a pass-through business");
     });
 
@@ -454,7 +470,7 @@ describe("Quillfield: the documents tie together", () => {
         expect(resources).toContain("Webcam and headset; Video-conferencing kit (camera, microphone, light); Squarespace Core; Calendly Standard; Mailchimp Standard; Zoom Workplace Pro; LinkedIn Premium Business");
         expect(resources).toContain("Physical (systems): Google Workspace Business Standard; Make.com Core plan; Zapier Professional and 5 more");
         expect(resources).toContain("Intellectual: the Quillfield Automation brand; the website quillfieldautomation.com");
-        expect(resources).toContain("Financial: $10,675 in hand; $15,000 sought (SBA Microloan)");
+        expect(resources).toContain("Financial: $10,700 in hand; $15,000 sought (SBA Microloan)");
         expect(resources).not.toMatch(/Electricity|AI model and API usage|Coworking Space/);
         expect(blocks.costs).toContain("Founder pay (owner's drawings): Jordan Ellis ($4,500 a month)");
         // $45 of running costs on each month’s retainer (the card or ACH fee is a calculated percent of revenue now, not a cost per unit).
@@ -492,7 +508,8 @@ describe("Quillfield: the documents tie together", () => {
         // Funds run out before break even: no buffer, said so.
         expect(planMd).toContain("Sustainability buffer: None");
         expect(planMd).toContain("$1,200 / client a month");
-        expect(planMd).toContain("Available Now: $10,675 ($10,700 received, less $25 of costs paid before the plan)");
+        // (The $25 formation fee is inside the plan now: the plan starts with the registration, so nothing is "paid before the plan".)
+        expect(planMd).toContain("Available Now: $10,700");
         // Segment names lower-case mid-sentence.
         expect(planMd).toContain("to small professional-services firms in New York City.");
         expect(planMd).toContain("### For small professional-services firms in New York City");
@@ -598,8 +615,8 @@ describe("Quillfield: the documents tie together", () => {
         expect(receiptsYear1).toEqual(receiptsYear1FromFull);
 
         const sheetParts = splitMonthlyTableByYear(balanceSheet);
-        expect(sheetParts[0].columns[0]).toBe("Opening (Jan 2027)");
-        expect(sheetParts[1].columns[0]).not.toBe("Opening (Jan 2027)");
+        expect(sheetParts[0].columns[0]).toBe("Opening (Aug 2026)");
+        expect(sheetParts[1].columns[0]).not.toBe("Opening (Aug 2026)");
 
         // A table already one plan year comes back unchanged.
         expect(splitMonthlyTableByYear(forecastView(forecast, "monthly", 1).tables[0])).toEqual([forecastView(forecast, "monthly", 1).tables[0]]);
@@ -735,22 +752,26 @@ describe("the forecast statements' structure", () => {
         const kept = forecast.profitKept!;
         const line = (label: string) => kept.rows.find(entry => entry.label === label)!.values;
         const profit = forecast.profitAndLoss.rows.find(entry => entry.label === "Profit before tax")!.values;
+        // The plan starts in Aug 2026 (the formation fee); the owner's drawings begin with the founder's pay, in Jan 2027.
+        const paid = forecast.months.indexOf("Jan 2027");
+        expect(paid).toBe(5);
         forecast.months.forEach((_month, index) => {
+            const drawings = index < paid ? 0 : -4500;
             expect(line("Profit for the period (before tax)")[index]).toBeCloseTo(profit[index], 6);
-            expect(line("Less: owner's drawings")[index]).toBeCloseTo(-4500, 6);
-            expect(line("Profit kept in the business")[index]).toBeCloseTo(profit[index] - 4500, 6);
+            expect(line("Less: owner's drawings")[index]).toBeCloseTo(drawings, 6);
+            expect(line("Profit kept in the business")[index]).toBeCloseTo(profit[index] + drawings, 6);
         });
         // By plan year too, directly below the profit and loss.
         const annual = forecastView(forecast, "annual", 3);
         expect(annual.tables[1].title).toBe("Profit Kept in the Business");
-        expect(annual.tables[1].rows.find(entry => entry.label === "Less: owner's drawings")!.values).toEqual([-54000, -54000, -54000]);
+        expect(annual.tables[1].rows.find(entry => entry.label === "Less: owner's drawings")!.values).toEqual([-31500, -54000, -54000]);
     });
 
     test("the quarterly view: four quarters and the year, adding up to the annual figures", () => {
         const { forecast } = businessForecast(quillSessions);
         const quarterly = forecastView(forecast, "quarterly", 3);
         const annual = forecastView(forecast, "annual", 3);
-        expect(quarterly.columns.slice(0, 5)).toEqual(["Q1 (Jan – Mar 2027)", "Q2 (Apr – Jun 2027)", "Q3 (Jul – Sep 2027)", "Q4 (Oct – Dec 2027)", "Year 1"]);
+        expect(quarterly.columns.slice(0, 5)).toEqual(["Q1 (Aug – Oct 2026)", "Q2 (Nov 2026 – Jan 2027)", "Q3 (Feb – Apr 2027)", "Q4 (May – Jul 2027)", "Year 1"]);
         expect(quarterly.columns).toHaveLength(15);
         const pl = (view: typeof annual) => view.tables[0].rows.find(row => row.label === "Revenue")!.values;
         expect(pl(quarterly)[4]).toBeCloseTo(pl(quarterly).slice(0, 4).reduce((a, b) => a + b, 0), 6);
@@ -763,8 +784,8 @@ describe("the forecast statements' structure", () => {
 
         // The plan's view: Year 1 by quarter, then by year.
         const plan = forecastView(forecast, "quarterly", 3, { quarterlyYears: 1 });
-        expect(plan.columns).toEqual(["Q1 (Jan – Mar 2027)", "Q2 (Apr – Jun 2027)", "Q3 (Jul – Sep 2027)", "Q4 (Oct – Dec 2027)", "Year 1",
-            "Year 2 (Jan 2028 – Dec 2028)", "Year 3 (Jan 2029 – Dec 2029)"]);
+        expect(plan.columns).toEqual(["Q1 (Aug – Oct 2026)", "Q2 (Nov 2026 – Jan 2027)", "Q3 (Feb – Apr 2027)", "Q4 (May – Jul 2027)", "Year 1",
+            "Year 2 (Aug 2027 – Jul 2028)", "Year 3 (Aug 2028 – Jul 2029)"]);
         expect(plan.tables[0].subtotalColumns).toEqual([4]);
         expect(pl(plan).slice(4)).toEqual(pl(annual));
 

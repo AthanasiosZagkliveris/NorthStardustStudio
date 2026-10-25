@@ -39,7 +39,18 @@
               "addressLine1": "120 Clinton Street, Suite 3R\nBrooklyn\n11201",
               "addressLine2": "",
               "city": "",
-              "postalCode": ""
+              "postalCode": "",
+              "activities": [
+                {
+                  "code": "541512",
+                  "edition": "2022"
+                }
+              ],
+              "businessStage": "",
+              "customerType": ["b2b"],
+              "marketType": "single",
+              "audience": ["smb"],
+              "outcome": ["convenience"]
             },
             "capitalApplies": false,
             "founders": [
@@ -74,7 +85,7 @@
                 "name": "Certificate of Assumed Name (NY General Business Law, Section 130)",
                 "reference": "Filed with the Kings County Clerk on 2026-08-17",
                 "notes": "A sole proprietor who trades under a name other than their own files a certificate of assumed name with the county clerk before using it. It is the only registration a sole proprietorship needs in New York: no state filing, no publication, no annual fee. The Kings County Clerk's fee is $25.",
-                "offerInExpenses": true
+                "offerInExpenses": false
               },
               {
                 "id": "requirement-o9a3g6mk",

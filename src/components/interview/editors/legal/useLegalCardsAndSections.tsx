@@ -9,7 +9,7 @@ import NumberCell from "../../../controls/NumberCell.tsx";
 import RemoveButton from "../../../controls/RemoveButton.tsx";
 import { BusinessCard, LinkSymbol, ResponsibleField } from "../../cards/BusinessCardFields.tsx";
 import DateCellInput from "../../fields/DateCellInput.tsx";
-import { LegalEntityTaxStatus, LegalEntityValue, todayIsoDate, createLegalEntityExpense, createLegalEntityNumber, createLegalEntityRequirement } from "../../../../framework/engine/AnswerUtils.ts";
+import { LegalEntityTaxStatus, LegalEntityValue, createLegalEntityExpense, createLegalEntityNumber, createLegalEntityRequirement } from "../../../../framework/engine/AnswerUtils.ts";
 import { LEGAL_ENTITY_EXPENSE_FREQUENCIES, LEGAL_REQUIREMENT_TYPES, limitedRegistrationNumber, registrationNumberRule, registrationAuthorityFor, sharesTaxAndRegistrationNumber } from "../../../../framework/engine/LegalEntityJurisdictions.ts";
 import { moneyText } from "../../../../framework/engine/ExportRenderers.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
@@ -20,7 +20,7 @@ import { FrozenUntil } from "../../fields/fieldMarks.tsx";
 import { NUMBER_LIMITS, limitedNumberText, numberInputMode } from "../../fields/numberInput.ts";
 import OptionPicker from "../../fields/OptionPicker.tsx";
 import { OptionalField } from "../../cards/BusinessCardFields.tsx";
-import { INFO, MAX_MORE_NUMBERS, formationIssues, yearsAhead } from "./shared.tsx";
+import { INFO, MAX_MORE_NUMBERS, yearsAhead } from "./shared.tsx";
 import type { useLegalState } from "./useLegalState.tsx";
 import type { useLegalFieldsAndSections } from "./useLegalFieldsAndSections.tsx";
 
@@ -28,48 +28,13 @@ type Earlier = ReturnType<typeof useLegalState> & ReturnType<typeof useLegalFiel
 
 export function useLegalCardsAndSections(earlier: Earlier) {
 
-    const { amountLabel, changeRegistrationNumber, chosenSubdivision, commonRequirementsNote, consumptionTaxNote, countryChosen, currency, disabled, entity, expenseSymbol, field, folds, linkTargets, namedFounders, numberList, offerInExpenses, openOnPage, openingDate, optionalNote, placeChosen, placeHint, profile, profiled, registrationRequest, subsection, update, updateFormation, updateTax } = earlier;
+    const { amountLabel, changeRegistrationNumber, chosenSubdivision, commonRequirementsNote, consumptionTaxNote, countryChosen, currency, disabled, entity, expenseSymbol, field, folds, linkTargets, namedFounders, numberList, offerInExpenses, openOnPage, optionalNote, placeChosen, placeHint, profile, profiled, registrationRequest, subsection, update, updateFormation, updateTax } = earlier;
 
     // The registry of the country (or of its state or canton): known, it is filled in and shown as text.
     const ownAuthority = registrationAuthorityFor(entity.organisation.country, entity.organisation.subdivision);
     const section2 = (
     subsection(2, (
         <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-formation">
-
-            {/* ONE SIDE-LABEL ROW SNAPPED TO THE GRID: "Status
-                [Registered]" filling column 1 and "Date [date]"
-                column 2 of the list below (the Name | Number
-                columns), each label on its control's centre line
-                (see .legal-entity-side-row). */}
-            <div className="legal-entity-field-wide legal-entity-number-row legal-entity-date-row">
-                {/* A founder planning the organization has no
-                    date or number yet: say so (under the row),
-                    and the page asks only where it will be
-                    registered. */}
-                {/* When it was registered, beside whether it is. */}
-                {/* "Date": the card's title says Formation. Its
-                    name and its key stay "Formation date". */}
-                {entity.formation.status !== "planned" && field(
-                    "Date",
-                    <DateCellInput
-                        ariaLabel="Formation date"
-                        // (A registered company has been formed: its day is today or earlier.)
-                        max={todayIsoDate()}
-                        disabled={disabled}
-                        value={entity.formation.date}
-                        onChange={(next) => updateFormation({ date: next })}
-                    />,
-                    false,
-                    undefined,
-                    undefined,
-                    "Formation Date"
-                )}
-            </div>
-
-            {/* What cannot be: a registered company whose date has not come, and a company formed after the day the business opens. */}
-            {formationIssues(entity.formation, openingDate).map(issue => (
-                <p key={issue} className="legal-entity-note-line legal-entity-field-wide settings-alarm" role="alert">{issue}</p>
-            ))}
 
             {entity.formation.status === "planned" && (
                 <p className="legal-entity-note-line legal-entity-field-wide">

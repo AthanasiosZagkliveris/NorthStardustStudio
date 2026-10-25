@@ -556,6 +556,8 @@ export interface BusinessTickOption {
     indent?: boolean;
     /** Cannot be ticked here: drawn grey, unticked, with this said beside it (what already uses it). */
     blocked?: string;
+    /** Not open yet (a stage's lock): drawn grey and cannot be ticked, with nothing said beside it; one already ticked can still be unticked. */
+    locked?: boolean;
 }
 
 /**
@@ -584,7 +586,9 @@ export function BusinessTicks({
 
     disabled = false,
 
-    trailing
+    trailing,
+
+    max
 
 }: {
 
@@ -594,10 +598,15 @@ export function BusinessTicks({
     chosen: readonly string[];
     onChange: (next: string[]) => void;
     disabled?: boolean;
+    /** The most that can be ticked: once that many are, the others are locked as a blocked option is (grey, not ticked here), with no reason beside them; a ticked one can always be unticked. */
+    max?: number;
     /** A control at the end of an option's row (by option id): the share each Offering carries, in the x's column. Only the options given one are rows. */
     trailing?: Readonly<Record<string, ReactNode>>;
 
 }) {
+
+    const full = max !== undefined && chosen.length >= max;
+    const locked = (option: BusinessTickOption) => full && !chosen.includes(option.id);
 
     const row = (option: BusinessTickOption, label: ReactNode) => trailing && trailing[option.id] !== undefined
         ? <div className="business-tick-row" key={option.id}>{label}{trailing[option.id]}</div>
@@ -607,12 +616,12 @@ export function BusinessTicks({
         <>
             {options.map(option => row(option, (
 
-                <TickField className={"business-foundation-tick" + (option.indent ? " business-foundation-tick-indented" : "") + (option.blocked ? " business-foundation-tick-blocked" : "")} key={option.id} aria-label={
+                <TickField className={"business-foundation-tick" + (option.indent ? " business-foundation-tick-indented" : "") + (option.blocked || locked(option) || (option.locked && !chosen.includes(option.id)) ? " business-foundation-tick-blocked" : "")} key={option.id} aria-label={
                             name + ": " + option.label +
                             (option.meaning === undefined
                                 ? ""
                                 : ": " + option.meaning)
-                        } disabled={disabled || !!option.blocked} checked={!option.blocked && chosen.includes(option.id)} onChange={(event) => onChange(
+                        } disabled={disabled || !!option.blocked || locked(option) || (!!option.locked && !chosen.includes(option.id))} checked={!option.blocked && chosen.includes(option.id)} onChange={(event) => onChange(
                             event.target.checked
                                 // Kept in the order the LIST gives,
                                 // not the order they were ticked, so
@@ -903,6 +912,8 @@ export function BusinessCard({
 
     foldLabel,
 
+    head,
+
     children
 
 }: {
@@ -922,6 +933,8 @@ export function BusinessCard({
     emptyName?: string;
     /** What the fold arrow says (default: the kind and number). */
     foldLabel?: string;
+    /** The card's whole head, drawn in place of the shared one (a founder's card in a one-owner form: the name a cell and the capital beside it). */
+    head?: ReactNode;
     open: boolean;
     /** Absent for a card that is always open: it has no fold arrow. */
     onToggle?: () => void;
@@ -987,7 +1000,7 @@ export function BusinessCard({
                 shares (.fold-card-head): arrow, number, name, remove,
                 and the folded summary on a row of its own under the
                 name. */}
-            <CardHead
+            {head ?? <CardHead
                 className={(legal ? "legal-entity-card-head" : "strategy-box-head") + (onToggle || headRow || legal ? " fold-card-head fold-card-fixed" : "") + (fixedFolded && !open ? " fold-card-head-fixed" : "")}
                 onToggle={onToggle}
                 open={open}
@@ -1028,7 +1041,7 @@ export function BusinessCard({
                     <div className="fold-card-head-row">{headRow}</div>
                 )}
 
-            </CardHead>
+            </CardHead>}
 
             {open && children}
 

@@ -56,7 +56,7 @@ export interface BusinessCapabilityEditorProps {
     engagement?: unknown;
     /** 4. Finances' saved value: its Plan Start (and its Opening Date) bound the dates of an activity. */
     financialFoundation?: unknown;
-    /** The Opening Date (an ISO date), where the Financial Foundation has one. */
+    /** The Opening Date (an ISO date), where one has been set (the Organization tile). */
     openingDate?: string;
     /** The Global Settings: the default rates a Percentage card shows beside its Rate override. */
     globalSettings?: GlobalSettingsValue;
