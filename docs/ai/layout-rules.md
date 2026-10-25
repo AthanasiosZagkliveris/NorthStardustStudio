@@ -87,9 +87,6 @@ below are these, made measurable.
 | `--plus-fill-saturation` / `--plus-fill-lightness` | 36% / 38% (sepia 34% / 36%; dark 42% / 68%) | the darker tone of a tile's hue: the stroke and the "+" of a "+" box at rest, its fill under the pointer (the hue is the tile's own) |
 | `--cell-light` / `--cell-shade` / `--cell-inset` | white 50% / black 12% (dark: white 7% / black 45%; sepia: cream 55% / brown 14%) / `inset 2px 2px 3px light, inset -2px -2px 3px shade` | THE EDGE OF A CELL (an input, a picker, a text box, a name cell, the x) in an opened card of page 3: the lighter twin of the box's edge, no stroke |
 | `--floating-scrim` / `--floating-caption-ink` | transparent / per theme | a floating card never darkens the page (a dialog does: `--bg-overlay`); the ink of the box names standing over it (13.1:1 dark, 5.7 light, 6.4 sepia over the worst pixel behind a name) |
-| `--dialog-ground-alpha` / `--dialog-blur` | 20% / 14px | THE ONE DIALOG GROUND: the card ground of every open section dialog at this alpha (the background colour is 80% transparent) over the dimmed page, blurred this much behind it (`backdrop-filter`) |
-| `--dialog-backdrop-brightness` | 1.7 (dark: 1) | the page behind the dialog, lifted (`backdrop-filter: brightness()`): it undoes the overlay's dimming so every text keeps 4.5:1 over the worst smear of the page behind the 80%-transparent ground (see "One ground for every dialog") |
-| `--card-glass-alpha` / `--card-glass-blur` | 62% / 8px | the glass ground of every card inside an open dialog (a founder's, a resource's, an activity's, a partner's): the card's inner tint at this alpha, blurred this much |
 | `--section-tile-min` | 120px | the smallest a section tile gets: a group too narrow for three of them wraps to fewer across |
 | `--control-xs` | 80px | XS width step |
 | `--control-code` | 128px | Code width step |
@@ -825,24 +822,12 @@ drawn only in a dialog that its tile opens.
   dimmed backdrop** (outside the dialog, on an empty space) closes the whole dialog -- a
   press that starts inside the dialog (a text drag) and ends outside never does, a click
   inside never does. One dialog at a time. Opening is view-only state, never saved.
-- **One ground for every dialog and its cards (glass).** The dialog's ground is its
+- **One ground for every dialog and its cards (solid).** The dialog's ground is its
   card's own (the hue of the card it opens from: Infrastructure rose, Capability terracotta,
-  channel teal -- the only thing that differs) made 80% TRANSPARENT and BLURRED: the ground at
-  `--dialog-ground-alpha` (20%) over the dimmed page, `backdrop-filter: blur(--dialog-blur) brightness(--dialog-backdrop-brightness)`
-  (14px; the page behind lifted by 1.7 in the light and sepia themes, 1 in dark), the card's edge colour,
-  `box-shadow: 0 16px 40px`, padding `--card-padding`.
-  The cards inside any dialog (`.section-tile-dialog .business-foundation-card`) use the same
-  glass one step on, unchanged: the inner tint at `--card-glass-alpha` (62%), blurred
-  `--card-glass-blur` (8px), the same edge -- one rule, not per-dialog colours. **Contrast:**
-  text on the glass is held at 4.5:1 or more against the WORST ground, measured on the real page: the dialog's text is hidden
-  (colour transparent), a screenshot is taken, and the worst pixel under each text's rectangle is read against the text's
-  colour (Founders with Responsibilities unfolded, Utilities > Electricity, Operational, Completed, Offering's Resources; 68 / 11 / 17 / 9 / 23 texts).
-  With the ground at 20% and nothing else the least was 2.56:1 (light, the muted crumb "Electricity"), 2.56 (sepia) and 3.12 ("Active 3", sepia): the
-  dimming of the page (35% black) and the dark smears of its text behind a transparent ground are too dark for muted and red text. A NEUTRAL SCRIM (the
-  page's own ground) between the page and the dialog would have to be 60% (light) to 70% (sepia) opaque, which makes the dialog three quarters opaque, so
-  none is used: the page behind is LIFTED instead (`brightness(1.7)`, which undoes the dimming), the ground staying 80% transparent. Result, the least
-  per theme: **light 5.67:1** (the muted crumb "Electricity"), **sepia 5.56**, **dark 7.34** (dark needs no lift). Raising the blur or lowering an alpha
-  needs that table redone.
+  channel teal -- the only thing that differs), SOLID: no transparency, no blur, no `backdrop-filter`, so nothing of the page shows through (a frame that has text on it
+  is never transparent). The card's edge colour, `box-shadow: 0 16px 40px`, padding `--card-padding`.
+  The cards inside any dialog (`.section-tile-dialog .business-foundation-card`) are solid too: the inner tint, the same edge -- one rule, not per-dialog colours.
+  **Contrast:** text on a solid ground is held at 4.5:1 or more by the colour tokens of each theme (the check reads it).
 - **The dialog header.** The section's heading is the dialog's title (title style, `--font-h3`, 24px); the views opened inside the
   dialog follow it ON THE SAME LINE after a slash -- "6. Digital Infrastructure / Software / Xero accounting", "Activities / Completed /
   Finished one", "1. Founders / Maya Chen" (`DialogHeading`, fed by `useDialogInnerBack`): the slash 8px each side after the root title and

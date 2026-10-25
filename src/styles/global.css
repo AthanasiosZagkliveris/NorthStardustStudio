@@ -286,18 +286,6 @@ body {
   /* The arrow beside a column title (title-arrow.css): its glyph's long side,
      three quarters of the title's size (--font-h2), not the 36px fold arrow. */
   --title-arrow-size: calc(var(--font-h2) * 0.75);
-  /* THE ONE DIALOG GROUND and the glass cards inside it (section-tiles.css): the alpha
-     of the card's ground (the rest lets the dimmed page show through) and the blur
-     behind it. Text over them stays at 4.5:1 or more on the worst ground, per theme
-     (layout-rules 5a). */
-  --dialog-ground-alpha: 20%;
-  --dialog-blur: 14px;
-  --card-glass-alpha: 62%;
-  --card-glass-blur: 8px;
-  /* The page behind the dialog, lifted: it is dimmed by the overlay (35% black), and dark text or a dark smear of it under
-     the translucent ground would take the muted texts under 4.5:1. 1.7 undoes the dimming and a little more (light, sepia);
-     the dark theme needs none. */
-  --dialog-backdrop-brightness: 1.7;
   /* THE PAGE BEHIND A FLOATING CARD: a flat dark scrim and the white ink of the box names standing on it (7:1 or more over the brightest page of any theme). */
   --floating-scrim: transparent;
   --floating-caption-ink: #ffffff;
@@ -377,8 +365,6 @@ body {
 /* READING MODES: the values of the tokens above that differ from light. */
 
 :root[data-theme="dark"] {
-  /* The dark theme dims the page less visibly (its text is light): the backdrop needs no lift. */
-  --dialog-backdrop-brightness: 1;
   --box-light: rgba(255, 255, 255, 0.1);
   --box-shade: rgba(0, 0, 0, 0.5);
   --cell-light: rgba(255, 255, 255, 0.07);

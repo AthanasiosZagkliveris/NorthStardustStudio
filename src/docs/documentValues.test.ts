@@ -29,7 +29,6 @@ describe("the token values of the documents", () => {
     it("work out var() and a calc() of plain numbers, and take the base value, not a reading mode's", () => {
         expect(valuesOf("--space-column", defs)).toEqual(new Set(["12px"]));
         expect(valuesOf("--plus-fill-saturation", defs)).toEqual(new Set(["36%"]));
-        expect(valuesOf("--dialog-backdrop-brightness", defs)).toEqual(new Set(["1.7"]));
         expect(evaluate("calc(18px * 13)")).toBe("234px");
         expect(evaluate("calc(100% - 12px)")).toBe("calc(100% - 12px)");
     });
