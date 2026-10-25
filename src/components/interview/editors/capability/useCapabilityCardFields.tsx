@@ -228,6 +228,9 @@ export function useCapabilityCardFields(earlier: Earlier) {
                 set({ type, count: "", lines: [{ ...blank(), percent: "50" }, { ...blank(), percent: "50" }] });
             } else if (type === "instalments") {
                 set({ type, count: "", lines: [] });
+            } else if (type === "milestones") {
+                // (Milestones start as two, as Deposit & Balance does: a plan of one milestone is not a plan.)
+                set({ type, count: "", lines: [blank(), blank()] });
             } else {
                 set({ type, count: "", lines: [blank()] });
             }
@@ -246,7 +249,7 @@ export function useCapabilityCardFields(earlier: Earlier) {
         const stepCount = (by: number) => setCount(String(Math.min(99, Math.max(1, (Number(plan.count) || 0) + by))));
         const amountOf = (percent: string) => total === null || parseAmount(percent) === null ? "" : String(Math.round(total * (parseAmount(percent) ?? 0)) / 100);
         // The percent and the amount of a payment are one figure written two ways: typing either sets the other. (The amount being typed is kept as typed.)
-        const valueRow = (line: BusinessPaymentLine, label: string, order: string, mode: "free" | "balance" | "deposit" | "instalment", edge = true) => {
+        const valueRow = (line: BusinessPaymentLine, label: string, order: string, mode: "free" | "balance" | "deposit" | "instalment", edge = true, spacer = false) => {
             const draft = amountDraft?.id === line.id ? amountDraft.text : null;
             const setPercent = (next: string) => {
                 if (mode === "deposit") {
@@ -257,8 +260,9 @@ export function useCapabilityCardFields(earlier: Earlier) {
                 }
             };
             return (
-                <div className={"business-capability-plan-row" + (order ? " business-capability-plan-row-numbered" : "")} key={line.id + ":values"}>
+                <div className={"business-capability-plan-row" + (order || spacer ? " business-capability-plan-row-numbered" : "")} key={line.id + ":values"}>
                     {order && <span className="business-capability-plan-order">{order}</span>}
+                    {!order && spacer && <span aria-hidden="true" />}
                     <NumberCell
                         className="business-capability-plan-amount"
                         aria-label={label + " amount"}
@@ -277,9 +281,9 @@ export function useCapabilityCardFields(earlier: Earlier) {
                     {/* The percent and its sign: the cell stands under the currency's and the instalments' box, the sign after it. */}
                     <span className="business-capability-plan-percent-cell">
                         <NumberCell
-                            className="business-capability-plan-percent"
+                            className="business-capability-plan-percent business-capability-years"
                             aria-label={label + " percent"}
-                            placeholder="%"
+                            placeholder="0"
                             disabled={disabled}
                             readOnly={mode === "balance"}
                             value={line.percent}
@@ -324,7 +328,7 @@ export function useCapabilityCardFields(earlier: Earlier) {
                             {/* INSTALMENTS: how many (two digits, 1 to 99) stands beside the type; a number makes that many rows, and a new number makes them again. */}
                             {plan.type === "instalments" && (
                                 <NumberCell kind="int"
-                                    className="business-capability-plan-count"
+                                    className="business-capability-plan-count business-capability-years"
                                     aria-label={what + " number of instalments"}
                                     title="Number of instalments, from 1 to 99"
                                     placeholder="No."
@@ -365,11 +369,12 @@ export function useCapabilityCardFields(earlier: Earlier) {
                 {/* INSTALMENTS: a row each, numbered. */}
                 {plan.on && plan.type === "instalments" && plan.lines.map((line, at) => valueRow(line, what + " instalment " + (at + 1), (at + 1) + ".", "instalment", at === 0 || at === plan.lines.length - 1))}
 
-                {/* MILESTONES: two rows each -- the stage, with the "+" (the first) or the x (any other) -- then its amount, percent and date. */}
+                {/* MILESTONES: two rows each -- its order number and the stage, with the "+" (the first) or the x (any other) -- then its amount, percent and date, in the Instalments' columns. */}
                 {plan.on && plan.type === "milestones" && plan.lines.flatMap((line, at) => {
                     const label = what + " milestone " + (at + 1);
                     return [
-                        <div className="business-capability-plan-row business-capability-plan-stage" key={line.id + ":stage"}>
+                        <div className="business-capability-plan-row business-capability-plan-stage business-capability-plan-row-numbered" key={line.id + ":stage"}>
+                            <span className="business-capability-plan-order">{(at + 1) + "."}</span>
                             <TextBox
                                 className="interview-input"
                                 aria-label={label + " title"}
@@ -396,7 +401,7 @@ export function useCapabilityCardFields(earlier: Earlier) {
                                     />
                                 )}
                         </div>,
-                        valueRow(line, label, "", "free")
+                        valueRow(line, label, "", "free", true, true)
                     ];
                 })}
 

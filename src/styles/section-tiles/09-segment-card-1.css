@@ -643,8 +643,10 @@
 
 }
 
-/* A percent is a square: as wide as a control is tall (the square step of the sizes). */
-.business-capability-slot .optional-field-inline .optional-field-body .interview-input.business-capability-years {
+/* A percent is a square: as wide as a control is tall (the square step of the sizes): the Rate override's, a payment's, the Instalments' number. */
+.business-capability-slot :is(.optional-field-inline .optional-field-body, .business-capability-plan-type, .business-capability-plan-percent-cell) .interview-input.business-capability-years {
+
+    flex: none;
 
     width: var(--control-square);
     min-width: 0;

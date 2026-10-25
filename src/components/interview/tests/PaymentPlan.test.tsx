@@ -34,12 +34,12 @@ describe("the rules of a payment plan", () => {
 
     it("equal shares total 100%, the last taking what rounding leaves", () => {
         expect(equalPercents(4)).toEqual(["25", "25", "25", "25"]);
-        expect(equalPercents(3)).toEqual(["33.33", "33.33", "33.34"]);
+        expect(equalPercents(3)).toEqual(["33.3", "33.3", "33.4"]);
         expect(equalPercents(0)).toEqual([]);
     });
 
     it("instalments are dated evenly from the Start date to the End date", () => {
-        expect(instalmentLines(3, "2027-01-01", "2027-01-31").map(entry => [entry.percent, entry.date])).toEqual([["33.33", "2027-01-01"], ["33.33", "2027-01-16"], ["33.34", "2027-01-31"]]);
+        expect(instalmentLines(3, "2027-01-01", "2027-01-31").map(entry => [entry.percent, entry.date])).toEqual([["33.3", "2027-01-01"], ["33.3", "2027-01-16"], ["33.4", "2027-01-31"]]);
         expect(instalmentLines(1, "2027-01-01", "2027-01-31").map(entry => entry.date)).toEqual(["2027-01-01"]);
         expect(instalmentLines(2, "", "").map(entry => entry.date)).toEqual(["", ""]);
     });
@@ -148,10 +148,10 @@ describe("the plan on the card", () => {
         // (No row until a number is typed.)
         expect(slot().paymentPlan.lines).toHaveLength(0);
         fireEvent.change(screen.getByLabelText("Resource 1 number of instalments"), { target: { value: "3" } });
-        expect(slot().paymentPlan.lines.map(entry => entry.percent)).toEqual(["33.33", "33.33", "33.34"]);
+        expect(slot().paymentPlan.lines.map(entry => entry.percent)).toEqual(["33.3", "33.3", "33.4"]);
         expect(slot().paymentPlan.lines[0].date).toBe("2027-03-01");
         expect(slot().paymentPlan.lines[2].date).toBe("2027-05-31");
-        expect((screen.getByLabelText("Resource 1 instalment 1 amount") as HTMLInputElement).value).toBe("399.96");
+        expect((screen.getByLabelText("Resource 1 instalment 1 amount") as HTMLInputElement).value).toBe("399.6");
         fireEvent.change(screen.getByLabelText("Resource 1 number of instalments"), { target: { value: "4" } });
         expect(slot().paymentPlan.lines.map(entry => entry.percent)).toEqual(["25", "25", "25", "25"]);
         // (Two digits, 1 to 99.)
@@ -174,9 +174,11 @@ describe("the plan on the card", () => {
         fireEvent.click(screen.getByRole("checkbox", { name: "Resource 1 payment plan" }));
         fireEvent.click(screen.getByLabelText(/Resource 1 payment plan type: /));
         fireEvent.click(screen.getByRole("option", { name: "Milestones" }));
+        // (A Milestones plan starts as two, each with its order number.)
+        expect(slot().paymentPlan.lines).toHaveLength(2);
+        expect([...document.querySelectorAll(".business-capability-plan-stage .business-capability-plan-order")].map(node => node.textContent)).toEqual(["1.", "2."]);
         fireEvent.change(screen.getByLabelText("Resource 1 milestone 1 title"), { target: { value: "Application" } });
         fireEvent.change(screen.getByLabelText("Resource 1 milestone 1 percent"), { target: { value: "40" } });
-        fireEvent.click(screen.getByRole("button", { name: "Add milestone to Resource 1" }));
         expect(screen.queryByRole("button", { name: "Remove Resource 1 milestone 1" })).toBeNull();
         fireEvent.change(screen.getByLabelText("Resource 1 milestone 2 title"), { target: { value: "Audit" } });
         fireEvent.change(screen.getByLabelText("Resource 1 milestone 2 percent"), { target: { value: "50" } });

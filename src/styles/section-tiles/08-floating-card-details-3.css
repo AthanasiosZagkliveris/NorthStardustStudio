@@ -29,13 +29,10 @@
 
 }
 
-/* The Instalments' number: two digits. */
+/* (The Instalments' number and a payment's percent are the square cell, `.business-capability-years`, 09-segment-card-1.css.) */
 .business-capability-plan-type > .interview-input.interview-input.business-capability-plan-count {
 
-    flex: 0 0 48px;
-
-    width: 48px;
-    max-width: 48px;
+    flex: none;
 
 }
 
@@ -156,7 +153,7 @@
 }
 
 /* ---- PAYMENT PLAN ROWS (one distribution for the three plans) ----
-   The cells stand in the columns of the cost row above them: [the amount, to the Price's right edge] [the percent and its % sign: from the currency's left edge] [the date: its own width, to the content's right edge]; 12px between columns. An Instalments row begins with its order number in 18px, inside the Price's column. */
+   The cells stand in the columns of the cost row above them: [the amount, to the Price's right edge] [the percent, a square like the instalments' box, and its % sign (which stands in the gap before the date): from the currency's left edge] [the date: its own width, to the content's right edge]; 12px between columns. An Instalments row begins with its order number in 18px, inside the Price's column. */
 .business-capability-plan-row {
 
     --cost-x: calc(var(--card-side-label, var(--side-label-short)) + var(--side-label-gap));
@@ -181,20 +178,6 @@
 
 }
 
-.business-capability-plan-row .interview-input.business-capability-plan-percent {
-
-    flex: none;
-
-    width: var(--card-cell-height);
-    min-width: 0;
-
-    padding-left: 4px;
-    padding-right: 6px;
-
-    text-align: right;
-
-}
-
 .business-capability-plan-percent-sign {
 
     font-size: var(--font-small);
@@ -206,6 +189,13 @@
 .business-capability-plan-row .date-cell {
 
     width: 100%;
+
+}
+
+/* A milestone's order number comes first, as an Instalment's: its name takes what is left. */
+.business-capability-plan-row.business-capability-plan-stage.business-capability-plan-row-numbered {
+
+    grid-template-columns: 18px minmax(0, 1fr) var(--size-box-button);
 
 }
 
