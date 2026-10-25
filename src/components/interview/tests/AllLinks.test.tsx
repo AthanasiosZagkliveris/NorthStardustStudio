@@ -107,8 +107,7 @@ function walkEveryLink(): number {
                     expect(card.classList.contains("floating-card-host"), where).toBe(true);
                     // Exactly one card, under its tile's name.
                     expect(card.querySelectorAll(".floating-card-item"), where).toHaveLength(1);
-                    // (A completed card floats under its kind's title, "Activities", not under "Completed".)
-                    expect(captionText(card.querySelector(".floating-card-caption")!), where).toBe(title === "Completed" ? "Activities" : dialogName);
+                    expect(captionText(card.querySelector(".floating-card-caption")!), where).toBe(dialogName);
                     const field = card.querySelector<HTMLTextAreaElement>("textarea.card-name-input");
                     const shown = field ? field.value : card.querySelector(".strategy-name-static")!.textContent!;
                     if (title === "Founders" || title === "Completed") {

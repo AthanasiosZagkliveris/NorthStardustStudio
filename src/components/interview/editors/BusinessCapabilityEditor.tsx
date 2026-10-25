@@ -193,8 +193,6 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
         return {
             id: "completed",
             title: "Completed",
-            // (A completed card floats under its own kind's title, as every activity does: not under the tile's.)
-            group: "Activities",
             completed: true,
             anchor: "section-completed",
             holds: all.map(activity => activity.id),
