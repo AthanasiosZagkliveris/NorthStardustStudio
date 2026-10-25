@@ -797,7 +797,8 @@
                         continue;
                     }
                     // (The words of a tick box are not a label of the control under them: a field gap, not a label gap.)
-                    const expected = above.kind === "label" && item.kind === "control" && !above.element.closest(".tick-field, label:has(> input[type=checkbox])") ? spec.labelGap : spec.fieldGap;
+                    // (An optional field is a label over its box like any other: the tick and its words are the label, the box 6px under them: layout-rules 17.)
+                    const expected = above.kind === "label" && item.kind === "control" && (above.element.closest(".optional-field")?.querySelector(":scope > .optional-field-body")?.contains(item.element) || !above.element.closest(".tick-field, label:has(> input[type=checkbox])")) ? spec.labelGap : spec.fieldGap;
                     // A GROUP GAP: two groups divided by a rule, a field gap either side of it.
                     let divided = false;
                     for (let node = item.element; node && node !== card; node = node.parentElement) {
@@ -838,6 +839,14 @@
                     if (underField) {
                         continue;
                     }
+                    // DECLARED: the Rate override is a side-label row as tall as its percent cell (36px) with the label centred in it, so a label under it is 6px lower than a label under a one-line row.
+                    if (above.kind === "label" && item.kind === "label" && (above.element.closest(".optional-field-inline") || item.element.closest(".optional-field-inline")) && rules.near(gap, expected + 8, 1)) {
+                        continue;
+                    }
+                    // DECLARED: a side label (Billing type) is centred on a row as tall as its control, so what stands under it is up to 8px lower than under a one-line label.
+                    if (above.kind === "label" && item.kind === "label" && above.element.closest(".business-field-side") && gap > expected && gap <= expected + 8.5) {
+                        continue;
+                    }
                     if (!rules.near(gap, expected, 1)) {
                         fail(above.kind === "label" && item.kind === "control" ? "label gap" : "row gap", item.element, { gap, expected, above: describe(above.element) });
                     }
@@ -857,7 +866,9 @@
                 for (const side of ["paddingLeft", "paddingRight"]) {
                     // (A founder's card is a card like the others since 2026-10-25: the card padding, no marker column of its own.)
                     const wanted = margin;
-                    if (!rules.near(parseFloat(style[side]), wanted, 0.01)) {
+                    // (A Goal's or Objective's box has no side padding: its head is inset by the card padding as a margin, which is the same side margin.)
+                    const headInset = box.matches(".strategy-goal-box, .strategy-objective-box") ? parseFloat(getComputedStyle(box.querySelector(":scope > .strategy-box-head") || box)[side === "paddingLeft" ? "marginLeft" : "marginRight"]) || 0 : 0;
+                    if (!rules.near(parseFloat(style[side]) + headInset, wanted, 0.01)) {
                         fail("card side margin", box, { side, padding: parseFloat(style[side]), expected: wanted });
                     }
                 }
@@ -987,7 +998,8 @@
                 continue;
             }
             const style = getComputedStyle(card);
-            const edge = rect(card).right - parseFloat(style.borderRightWidth) - parseFloat(style.paddingRight);
+            // (A Goal's or Objective's box has no side padding: its head is inset by its own 12px margin, declared in the CSS.)
+            const edge = rect(card).right - parseFloat(style.borderRightWidth) - parseFloat(style.paddingRight) - (parseFloat(getComputedStyle(head).marginRight) || 0);
             const last = Math.max(...buttons.map(button => button.right));
             if (!rules.near(last, edge, 0.5)) {
                 fail("head buttons at the side margin", head, { right: last, edge });
@@ -2170,7 +2182,10 @@
                         fail("the content of a dialog is centred across it", block, { left: first - left, right: right - last });
                     }
                     const topGap = Math.min(...parts.map(part => rect(part).top)) - inner.top;
-                    if (!scrolls && topGap > 120) {
+                    // (The dialog's content starts at its top where its FIRST block does: a block under another is not the start.)
+                    if (!scrolls && topGap > 120 && !blocks.some(other => other !== block && rect(other).top < rect(block).top - 0.5)
+                        // (Nor where the dialog's own content, a section with its heading and capacity, stands above the block.)
+                        && ![...body.querySelectorAll("*")].some(above => !above.contains(block) && !block.contains(above) && visible(above) && rect(above).height > 20 && rect(above).bottom <= rect(block).top + 0.5)) {
                         fail("the content of a dialog starts at its top (not in the middle)", block, { fromTop: topGap, body: inner.height });
                     }
                 }
@@ -2626,7 +2641,7 @@
                 const element = node.parentElement;
                 if (!element || !node.textContent.trim() || seen.has(element) || !element.closest(".business-capability, .floating-card-host") || !visible(element)) continue;
                 // (A specimen shows a size the user chose -- a typeface's "Aa", a text level's name at its own size -- not the app's text.)
-                if (element.closest(".picture-box-specimen, .brand-text-hierarchy")) continue;
+                if (element.closest(".picture-box-specimen, .brand-text-hierarchy, .brand-hierarchy-card")) continue;
                 seen.add(element);
                 const size = parseFloat(getComputedStyle(element).fontSize);
                 if (size > 0 && !scale.some(step => rules.near(size, step, 0.5))) {
@@ -2804,7 +2819,7 @@
                     failures.push({ rule: "a dialog's ground is translucent and blurred (the shared glass)", where: title, detail: { alpha: alphaOf(dialog), blur: getComputedStyle(dialog).backdropFilter } });
                 }
                 for (const inner of dialog.querySelectorAll(".business-foundation-card")) {
-                    if (!visible(inner) || inner.matches(".business-founder-unframed")) continue; // (the one owner's founder card is the dialog's body, unframed)
+                    if (!visible(inner) || inner.matches(".business-founder-unframed, .brand-hierarchy-card")) continue; // (the Text Hierarchy's box stands on its tile's own tint, like the Brand cards: 12-name-cell-and-channel-card-1.css) // (the one owner's founder card is the dialog's body, unframed)
                     if (alphaOf(inner) >= 0.99 || !blurred(inner)) {
                         failures.push({ rule: "a card in a dialog has the shared glass ground (translucent, blurred)", where: title, detail: { alpha: alphaOf(inner), blur: getComputedStyle(inner).backdropFilter } });
                         break;
