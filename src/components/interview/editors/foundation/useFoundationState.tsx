@@ -207,9 +207,7 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
         /** The card, for a Description that sits outside its card's section (the Segment's). */
         anchor?: string,
         /** Its fold, where the group folds (see groupFold). */
-        fold?: { open: boolean; label: string; onToggle: () => void },
-        /** A question that comes before the boxes (the Segment's G24, "Who uses it?"). */
-        lead?: ReactNode
+        fold?: { open: boolean; label: string; onToggle: () => void }
     ) {
 
         const box = (part: DescriptionPart) => {
@@ -338,7 +336,7 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
 
         return group(
             "Description",
-            lead ? <>{lead}{boxes}</> : boxes,
+            boxes,
             undefined,
             fold
         );

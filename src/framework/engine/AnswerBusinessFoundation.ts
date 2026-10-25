@@ -149,12 +149,6 @@ export interface BusinessCustomerSegmentValue {
      */
     hue?: number;
     description: BusinessDescriptionValue;
-    /**
-     * G24, "Who uses it?": absent until the founder answers (the
-     * Identity answers decide the start: Proxy Buyers / Gifters
-     * starts at "people").
-     */
-    user?: "same" | "people" | "business";
     profiles: BusinessCustomerProfileValue[];
     /**
      * This Segment's single Value Proposition -- the one thing the
@@ -501,7 +495,6 @@ export function asBusinessFoundationValue(value: unknown): BusinessFoundationVal
                     segment.description,
                     BUSINESS_FIRST_DESCRIPTION_PART.segment
                 )),
-                user: (["same", "people", "business"] as const).find(kind => kind === segment.user),
                 profiles: profiles.length > 0
                     ? profiles
                     : [createBusinessCustomerProfile()],

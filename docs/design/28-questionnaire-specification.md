@@ -702,13 +702,15 @@ Asked once, on the Early Positioning tile (8.2), so that Business 1 opens with t
 
 It also sets the default of the tax question on the price card. **I3 describes the buyer (who pays).** A business that sells to two separate audiences (a studio with private clients and companies) has two Segments. Where the person who uses it is not the buyer, the Segment is **one Segment split into a Buyer part and a User part** (G24, below), not two Segments.
 
-#### Second question: who uses it? (G24, on the Segment)
+#### Second question: who uses it? (G24, on the Segment) **[D] not an existing question**
+
+**Status (owner, 2026-10-25): "there is no such question".** G24 and G25 below are the author's **proposal**, never approved and **not built**. What exists is in Identity: the audience question of a consumer buyer, **"Buyer's Life-Stage and relationship with the User"**, whose first option **Proxy Buyers / Gifters** already says that the buyer pays and the product is for someone else (8.2). So for people the buyer-and-user relationship **is asked once, in Identity (I7b)**; a separate Segment question would ask it a second time, against rule 2 of the guide ("ask each fact once"). The decision is the owner's, in doc 29, section 9, decision 10: (a) **drop G24 and G25** and read I7b only (the Segment then shows the Buyer and User parts only for Proxy Buyers / Gifters and for a multi-sided Market Structure); or (b) keep a Segment question for the cases I7b cannot say (a business buyer whose staff use it; a hospital), placed **after the buyer's own questions**, not first. Until then the text below is a design to read, not a description of the card.
 
 The vocabulary: the **customer** is who pays; the **user** (books also say consumer or end user) is who uses it. The app never says "consumer", because in law that word means something else. They can be different people: a baby uses the nappies and the mother pays; in a hospital the buyer is procurement and the user is a surgeon.
 
 **This is not the Market Structure.** The Market Structure of Early Positioning (8.2) says whether the product is sold directly to one audience (**single-sided**) or connects two or more distinct groups that need each other (**multi-sided**, a platform). A parent who buys for a child is a buyer-and-user split in a **single-sided** market; the earlier text of this section, which opened the Buyer and User parts from the Market Structure, was wrong [FUN-34 to FUN-36, FUN-38].
 
-**G24. Who uses it?** (asked on every Segment, after the buyer is described) · Driver
+**G24. Who uses it?** (**proposal, not an existing question**; if kept, asked on the Segment after the buyer is described) · Driver
 - The same people who pay (the default: one part)
 - Someone else: individual people
 - Someone else: businesses or organisations
@@ -985,7 +987,7 @@ Not part of the customer model (the owner's text, 2026-10-23). The existing box 
 | The Review page | Six checks (G4, G5, G16 to G19) and the Profile-fits-Segment checks |
 | The documents | A drafted Segment description |
 
-**Not asked, and why.** Buying timing (no seasonality in the model); household, nationality and the owner's "own or household" income question (nothing would read them; the income step is the household's); market size (outside this step). **Counts for the card:** 12 drivers (G2, G3, G6, G7, G8, G10, G13, G14, G15, G23, G24, G25), 6 checks (G4, G5, G16, G17, G18, G19), 4 notes (G12, G20, G21, G22); G9 and G11 are withdrawn.
+**Not asked, and why.** Buying timing (no seasonality in the model); household, nationality and the owner's "own or household" income question (nothing would read them; the income step is the household's); market size (outside this step). **Counts for the card:** 10 drivers (G2, G3, G6, G7, G8, G10, G13, G14, G15, G23) and 2 proposals not yet approved (G24, G25), 6 checks (G4, G5, G16, G17, G18, G19), 4 notes (G12, G20, G21, G22); G9 and G11 are withdrawn.
 
 ### 6.4 Profile card (cards nested in the same tile): a typical person, asked specifically
 
@@ -1239,7 +1241,7 @@ Three different things were mixed in the earlier text, and the sources separate 
 
 1. **Customer and user.** The **customer** is the user who pays (or an entity that pays); the **user** is who uses it. They can be the same people, or different (a parent who buys for a child, an employer who buys software its staff use, an insurer who pays for a patient). The **economic buyer** approves the budget; the functional and technical buyers are other roles in the purchase. **The Seller and Buyer Relationship question is about the economic buyer** (who pays), and it says so in its "i". The buyer who is not the user is **not** a question of the market structure.
 2. **Single-sided and multi-sided market.** A **single-sided market** sells a product or service directly to one audience of buyers; one group pays, and the product does not need another group to be worth buying. A **multi-sided market (a platform)** connects two or more distinct groups that transact with each other, and its value to one group depends on the other (a marketplace, a delivery app, an advertising-funded service). Each group is a **side**. Any market brings buyers and sellers together, so "getting both sides on board" alone does not make a platform; the structure does [FUN-36, FUN-38].
-3. **Where the buyer is not the user, in a single-sided market.** A parent who buys for a child, or a corporate buyer for its staff, is a buyer-and-user split in a **single-sided** market. The Positioning answer for it is the B2C life stage **Proxy Buyers / Gifters** (the buyer pays and decides, the product is for someone else); other cases (an employer, a hospital's procurement) are asked on the Segment (the question G24, 6.3).
+3. **Where the buyer is not the user, in a single-sided market.** A parent who buys for a child, or a corporate buyer for its staff, is a buyer-and-user split in a **single-sided** market. The Positioning answer for it is the B2C life stage **Proxy Buyers / Gifters** (the buyer pays and decides, the product is for someone else); other cases (an employer, a hospital's procurement) would need a Segment question (G24, 6.3), which is **only a proposal, not an existing question**.
 
 **Platforms and the stage.** While **Planning and Launching** a platform business answers every question for **one side only**, the *anchor side* (the critical side for the start, usually the one that pays); the one-choice limits enforce it and the "i" says it. While **Managing and Growing** several relationships can be chosen, each opens its own audience question, and Differentiation & Outcome is asked **once for each side** ("Differentiation & Outcome (B2C)", "(B2B)"), the answers saved as `side:outcome` (for example `b2c:cost`). In a single-sided market the same relationships are one hybrid, and the last question is asked once.
 
@@ -1284,7 +1286,7 @@ Each question's "i" lists every option (the words that were taken out of the lab
 
 #### What the Segment will read (designed 2026-10-25; first step built)
 
-**Built (2026-10-25, first step):** the relationship decides which of Demographics and Business Data the Segment asks (a box with text is never hidden; several relationships or none keep both); G24 "Who uses it?" is asked on every Segment (saved as `user`) and starts at "individual people" for Proxy Buyers / Gifters; the audience chosen in Identity is shown in the "i" of the box it belongs to; the multi-sided Market Structure is said in G24's "i". Everything else in the table below, and the questions G25, G2 to G19 and G23, is **not built**.
+**Built (2026-10-25, first step; no new question):** the Seller and Buyer Relationship decides which of Demographics and Business Data the Segment asks (a box with text is never hidden; several relationships or none keep both; for businesses only, Business Data has no tick); the audience chosen in Identity is shown in the "i" of the box it belongs to. **No question was added**: a "Who uses it?" picker (G24) was built first and **removed the same day**, because the owner has no such question (6.3). Everything else in the table below, and the questions G2 to G19, G23 to G25, is **not built**. Which questions exist, where, and what they should be called or where they should sit is in doc 29, section 10.
 
 Otherwise nothing of the above is read by Business 1 (8.1). The design, for the owner to approve **[D]**; each rule only suggests a default, and warns where something looks wrong, as 6.3 already does:
 
@@ -1774,7 +1776,7 @@ The app must not build a segment such as "exclude a group" or "one group pays mo
 | R33 | Thirteen age bands, finer below 18, with an "i" under each, and the children's notice (6.3) | list | approve the bands and the i lines |
 | R34 | Household income as one of five relative steps shown with the currency symbol, computed from the country's typical income; 60, 100, 150, 200% (6.3) | list, data | approve the steps; the 100% and 150% lines are the author's |
 | R35 | Who you sell to (the Seller and Buyer Relationship, I3, which replaces G1) is asked in Identity so Business 1 opens arranged; where is asked once on the Segment (G2); I4, G9 and G11 withdrawn (6.3, 8.2). Replaces the earlier decision that the Segment owned G1 | rule | confirm |
-| R36 | The buyer (who pays) and the user (who uses) are separated **inside one Segment** as a Buyer part and a User part with targeted questions (G24, G25); G6 describes the buyer; the word "consumer" is not used (6.3). Replaces the earlier proposal of a second Segment for the payer. **A buyer who is not the user is not a multi-sided market** (corrected 2026-10-25) | rule, field | approve |
+| R36 | The buyer (who pays) and the user (who uses) are separated **inside one Segment** as a Buyer part and a User part with targeted questions; the split is read from Identity (I7b Proxy Buyers / Gifters, I11 multi-sided); **G24 and G25 are a proposal the owner has not approved: "there is no such question" (2026-10-25)**; G6 describes the buyer; the word "consumer" is not used (6.3). Replaces the earlier proposal of a second Segment for the payer. **A buyer who is not the user is not a multi-sided market** (corrected 2026-10-25) | rule, field | approve; G24 and G25 open |
 | R37 | O12 and the minimum-age table (10.3): only rows with an official source drive a Review check; the other cells say "check the rule" | list, data | approve; have each Excerpt row re-checked before it is built |
 | R38 | Customers under 18 who pay: allowed, with notes and Review lines and a filter on P14; the app states no rule on contracts and gives no legal advice (6.3) | rule | confirm |
 | R39 | I11 "Market Structure" (single-sided, or a multi-sided platform of two or more distinct groups; the owner's wording, the meaning corrected 2026-10-25) is asked once in Identity and decides whether the last Positioning question splits per side; **who uses it, when not the buyer, is G24, asked on the Segment** (the same people who pay; someone else, individual people; someone else, businesses or organisations); the buyer-is-not-the-user text of the earlier I11 "i" is withdrawn; the six-answer G24 of the earlier proposal stays withdrawn as made-up categories (6.3, 8.2) | field | corrected 2026-10-25; the owner approves G24's new place |
@@ -1909,8 +1911,8 @@ Left column: the ids of `north_stardust_multiple_choice_review.md`, written with
 | G14 | Driver | Narrows P23; channel suggestions by size |
 | G15 | Driver | Narrows P24; proposes the kinds of business as Profiles; competitor overlap |
 | G23 | Driver | The tender row for a public body; the payment-terms note |
-| G24 | Driver | Who uses it, if not the buyer (the User part) |
-| G25 | Driver | The user's Profile; the children's note; the use-age check |
+| G24 | Proposal (not an existing question) | Who uses it, if not the buyer (the User part); owner 2026-10-25: no such question; open decision |
+| G25 | Proposal (follows G24) | The user's Profile; the children's note; the use-age check; open with G24 |
 | G16 | Check | The price against what they usually pay |
 | G17 | Check | The same check |
 | G18 | Check | Compared with O11 |

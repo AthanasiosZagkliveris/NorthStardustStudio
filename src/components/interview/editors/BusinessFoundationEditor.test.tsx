@@ -134,16 +134,6 @@ describe("BusinessFoundationEditor follows the Identity answers", () => {
         expect(screen.queryByRole("checkbox", { name: /Business Data/ })).not.toBeNull();
     });
 
-    it("starts Who uses it? at individual people for Proxy Buyers / Gifters, and lets the founder change it", () => {
-        render(<Identified identity={identity(["b2c"], ["proxy"])} />);
-        expect(screen.getByRole("button", { name: /Segment 1 who uses it/ }).textContent).toContain("Someone else: individual people");
-    });
-
-    it("starts Who uses it? at the same people who pay otherwise", () => {
-        render(<Identified identity={identity(["b2c"], ["adult"])} />);
-        expect(screen.getByRole("button", { name: /Segment 1 who uses it/ }).textContent).toContain("The same people who pay");
-    });
-
 });
 
 describe("BusinessFoundationEditor keeps what is written", () => {

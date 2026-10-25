@@ -15,7 +15,7 @@ import OptionPicker from "../../fields/OptionPicker.tsx";
 import { FieldMark, FieldStatus } from "../../fields/fieldMarks.tsx";
 import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import { BusinessNeedKind, CATEGORY_OTHER, COMPETITOR_TYPE_QUESTIONS, OPTIONAL_DESCRIPTION_PART, SUBSECTIONS, competitorParts, otherProfileNeeds } from "./shared.tsx";
-import { BUSINESS_AUDIENCE, PEOPLE_AUDIENCE, SEGMENT_USERS, audienceLine, defaultSegmentUser, segmentFrame, segmentUserNote } from "./identityLink.ts";
+import { BUSINESS_AUDIENCE, PEOPLE_AUDIENCE, audienceLine, segmentFrame } from "./identityLink.ts";
 import type { useFoundationState } from "./useFoundationState.tsx";
 
 type Earlier = ReturnType<typeof useFoundationState>;
@@ -182,32 +182,13 @@ export function useFoundationSubsections(earlier: Earlier) {
                     ? { ...part, extra: audienceLine(identity, BUSINESS_AUDIENCE), always: frame === "business" }
                     : part);
 
-        // G24, "Who uses it?": asked on every Segment, before the boxes.
-        const user = SEGMENT_USERS.find(entry => entry.id === (segment.user ?? defaultSegmentUser(identity)))!;
-        const whoUses = labelled(
-            "Who uses it?",
-            <OptionPicker
-                label={segmentPath + " who uses it"}
-                hug
-                options={SEGMENT_USERS.map(entry => entry.label)}
-                disabled={disabled}
-                value={user.label}
-                onChange={(next) => updateSegment(segmentIndex, {
-                    user: SEGMENT_USERS.find(entry => entry.label === next)?.id
-                })}
-            />,
-            segmentUserNote(identity)
-        );
-
         const segmentDescription = description(
             segmentPath,
             segmentParts,
             segment.description,
             (next) => updateSegment(segmentIndex, { description: next }),
             true,
-            segment.id,
-            undefined,
-            whoUses
+            segment.id
         );
 
         /* ---- 1. Its Profiles ---- */
