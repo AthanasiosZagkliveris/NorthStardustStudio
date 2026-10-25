@@ -174,9 +174,11 @@ describe("the plan on the card", () => {
         fireEvent.click(screen.getByRole("checkbox", { name: "Resource 1 payment plan" }));
         fireEvent.click(screen.getByLabelText(/Resource 1 payment plan type: /));
         fireEvent.click(screen.getByRole("option", { name: "Milestones" }));
+        // (A Milestones plan starts as two, each with its order number.)
+        expect(slot().paymentPlan.lines).toHaveLength(2);
+        expect([...document.querySelectorAll(".business-capability-plan-stage .business-capability-plan-order")].map(node => node.textContent)).toEqual(["1.", "2."]);
         fireEvent.change(screen.getByLabelText("Resource 1 milestone 1 title"), { target: { value: "Application" } });
         fireEvent.change(screen.getByLabelText("Resource 1 milestone 1 percent"), { target: { value: "40" } });
-        fireEvent.click(screen.getByRole("button", { name: "Add milestone to Resource 1" }));
         expect(screen.queryByRole("button", { name: "Remove Resource 1 milestone 1" })).toBeNull();
         fireEvent.change(screen.getByLabelText("Resource 1 milestone 2 title"), { target: { value: "Audit" } });
         fireEvent.change(screen.getByLabelText("Resource 1 milestone 2 percent"), { target: { value: "50" } });
