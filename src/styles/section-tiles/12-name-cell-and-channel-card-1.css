@@ -585,6 +585,27 @@ main.conversation-content[data-reserve],
 
 }
 
+/* A tab never stands taller than the window leaves it (its height is capped in CarouselArrows.tsx): the bullets scroll, and the Back under them stays in view. The list keeps 6px of room each side for the lit bullet's ring. */
+.carousel-rail.carousel-rail-tab .bullet-rail-list {
+
+    min-height: 0;
+
+    overflow-y: auto;
+
+    scrollbar-width: none;
+
+    padding-inline: 6px;
+
+    margin-inline: -6px;
+
+}
+
+.carousel-rail.carousel-rail-tab .carousel-rail-back {
+
+    flex: none;
+
+}
+
 .carousel-rail.carousel-rail-tab .bullet-rail-list {
 
     align-items: flex-start;
