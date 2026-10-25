@@ -497,7 +497,7 @@ export default function SectionTiles({
                         const pair = floating.linked ? floatingTile.pairOf?.(floating.id) : null;
                         const one = (id: string, caption: string, node: ReactNode) => ({ key: id, caption, kind: floatingTile.kindFor?.(id) ?? floatingTile.cardKind ?? "card" as const, node, note: floatingTile.noteFor?.(id) ?? floatingTile.note });
                         if (floating.under && stackUnder) {
-                            return [stackUnder.item, one(floating.id, floating.caption ?? floatingTile.groupFor?.(floating.id) ?? floatingTile.group ?? floatingTile.title, floatingCard)];
+                            return [stackUnder.item, one(floating.id, floatingTile.captionFor?.(floating.id) ?? floating.caption ?? floatingTile.groupFor?.(floating.id) ?? floatingTile.group ?? floatingTile.title, floatingCard)];
                         }
                         if (pair) {
                             const parent = floatingTile.cardFor?.(pair.parent.id);
@@ -506,7 +506,7 @@ export default function SectionTiles({
                                 return [one(pair.parent.id, pair.parent.caption, parent), one(pair.child.id, pair.child.caption, child)];
                             }
                         }
-                        return [one(floating.id, floating.caption ?? floatingTile.groupFor?.(floating.id) ?? floatingTile.group ?? floatingTile.title, floatingCard)];
+                        return [one(floating.id, floatingTile.captionFor?.(floating.id) ?? floating.caption ?? floatingTile.groupFor?.(floating.id) ?? floatingTile.group ?? floatingTile.title, floatingCard)];
                     })()}
                     onClose={() => { closeFloating(); if (floating.under) { stackUnder?.clear(); } }}
                 />

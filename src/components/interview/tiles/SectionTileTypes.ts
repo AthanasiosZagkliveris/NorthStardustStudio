@@ -105,6 +105,9 @@ export interface SectionTile {
     /** The same, by card, where a tile's cards are of several groups. */
     groupFor?: (id: string) => string;
 
+    /** The title above a card where its own state names it (a completed activity floats under "Completed"): it comes before every other title. */
+    captionFor?: (id: string) => string | undefined;
+
     /** A card's own hue where its tile holds cards of several origins (the Inventory's: Infrastructure's, Offering's, a channel's): the card floats in the hue its tile has. */
     hueFor?: (id: string) => number | undefined;
 
