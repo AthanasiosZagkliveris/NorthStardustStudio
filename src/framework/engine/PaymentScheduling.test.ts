@@ -66,7 +66,7 @@ describe("a Per project card, paid in full or by its plan", () => {
         const dated = instalmentLines(3, "2027-03-10", "2027-05-10");
         const { line } = linesFor(venue({ endDate: "2027-05-10", paymentPlan: { on: true, type: "instalments", count: "3", lines: dated } }));
         const schedule = costSchedule(line, PLAN);
-        expect(schedule.slice(2, 5).map(amount => Math.round(amount))).toEqual([667, 667, 667]);
+        expect(schedule.slice(2, 5).map(amount => Math.round(amount))).toEqual([666, 666, 668]);
         expect(Math.round(schedule.reduce((sum, amount) => sum + amount, 0) * 100) / 100).toBe(2000);
     });
 

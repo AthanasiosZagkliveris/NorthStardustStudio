@@ -459,9 +459,10 @@ export function equalPercents(count: number): string[] {
     if (count < 1) {
         return [];
     }
-    const each = Math.floor(10000 / count) / 100;
+    // (One decimal at most: the figure fits the percent's square cell, "33.3".)
+    const each = Math.floor(1000 / count) / 10;
     const shares = Array.from({ length: count }, () => each);
-    shares[count - 1] = Math.round((100 - each * (count - 1)) * 100) / 100;
+    shares[count - 1] = Math.round((100 - each * (count - 1)) * 10) / 10;
     return shares.map(share => String(share));
 }
 
