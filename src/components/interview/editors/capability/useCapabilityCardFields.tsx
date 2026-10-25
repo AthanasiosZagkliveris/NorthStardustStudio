@@ -274,15 +274,19 @@ export function useCapabilityCardFields(earlier: Earlier) {
                         }}
                         onBlur={() => setAmountDraft(null)}
                     />
-                    <NumberCell
-                        className="business-capability-plan-percent"
-                        aria-label={label + " percent"}
-                        placeholder="%"
-                        disabled={disabled}
-                        readOnly={mode === "balance"}
-                        value={line.percent}
-                        onChange={(event) => setPercent(limitedNumberText(event.target.value, line.percent, NUMBER_LIMITS.percent))}
-                    />
+                    {/* The percent and its sign: the cell stands under the currency's and the instalments' box, the sign after it. */}
+                    <span className="business-capability-plan-percent-cell">
+                        <NumberCell
+                            className="business-capability-plan-percent"
+                            aria-label={label + " percent"}
+                            placeholder="%"
+                            disabled={disabled}
+                            readOnly={mode === "balance"}
+                            value={line.percent}
+                            onChange={(event) => setPercent(limitedNumberText(event.target.value, line.percent, NUMBER_LIMITS.percent))}
+                        />
+                        <span className="business-capability-plan-percent-sign" aria-hidden="true">%</span>
+                    </span>
                     <DateCellInput
                         ariaLabel={label + " date"}
                         // (No Start or End date bounds the payments: the payments are the card's dates. Instalments: the first and the last are written, the ones between follow them.)

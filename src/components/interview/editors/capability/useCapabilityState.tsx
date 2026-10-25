@@ -167,7 +167,7 @@ export function useCapabilityState(props: BusinessCapabilityEditorProps) {
     /** The options of a founder's Responsibilities filter ticked OFF (by founder): none, until one is. */
     const [responsibilityOff, setResponsibilityOff] = useState<ReadonlyMap<string, ReadonlySet<string>>>(new Map());
     /* A resource and the activity its status created, shown together (the link in either): the PARENT above, the CHILD below. */
-    const [pair, setPair] = useState<{ parentId: string; childId: string } | null>(null);
+    const [pair, setPair] = useState<{ parentId: string; childId: string; alone?: boolean } | null>(null);
     // The founder whose card a legal expense is opened under (the expense is drawn by the Legal Entity's tiles: StackUnderContext).
     const [legalUnder, setLegalUnder] = useState<string | null>(null);
     /** The cards whose Links section is open (it starts folded). */
@@ -581,9 +581,9 @@ export function useCapabilityState(props: BusinessCapabilityEditorProps) {
             : { ...base, offering: { ...base.offering, [kind]: next } };
     }
     /** Opens a parent and its child together, stacked, over whatever is open (Back returns to it). */
-    function openPair(parentId: string, childId: string) {
-        // (Over what is open: Back returns to it; Escape closes every layer.)
-        setPair({ parentId, childId });
+    function openPair(parentId: string, childId: string, alone = false) {
+        // (Over what is open: Back returns to it; Escape closes every layer. `alone`: only the child's card, the parent's is not drawn again.)
+        setPair({ parentId, childId, alone });
     }
     /** A partner or provider patched wherever it is stored. */
     function patchPartner(base: BusinessCapabilityValue, id: string, patch: Partial<BusinessPartnerValue>): BusinessCapabilityValue {

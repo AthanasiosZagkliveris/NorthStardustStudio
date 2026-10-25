@@ -140,6 +140,16 @@ export default function SectionTiles({
     const openRef = useRef(open);
     openRef.current = open;
 
+    // A tile whose dialog has been left, and which holds nothing the user wrote, is taken away (an empty card is not kept).
+    const lastOpenId = useRef<string | null>(null);
+    useEffect(() => {
+        const was = lastOpenId.current;
+        lastOpenId.current = openId;
+        if (was !== null && was !== openId) {
+            latest.current.find(tile => tile.id === was)?.discardIfBlank?.();
+        }
+    }, [openId]);
+
     // The shape counts every tile but the tail one (if any), which is placed beside the last of them.
     const others = tiles.filter(tile => !tile.tail);
     const shape = gridColumns(others.length);

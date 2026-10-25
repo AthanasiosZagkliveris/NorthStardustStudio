@@ -72,7 +72,7 @@
 }
 
 /* THE ONE OWNER'S FOUNDER CARD IS THE DIALOG'S BODY (owner, 2026-10-25): a legal form with one owner in law has one founder, and the Founders' dialog shows that founder's fields directly, as the Legal Entity page does, not a framed card inside the dialog's own frame. */
-.section-tile-dialog .business-foundation-card.business-founder-open.business-founder-unframed {
+.section-tile-overlay.business-capability .section-tile-dialog .business-foundation-card.business-founder-open.business-founder-unframed {
 
     padding: 0;
 

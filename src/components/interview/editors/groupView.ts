@@ -1,4 +1,4 @@
-import { useSyncExternalStore } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 
 /**
  * HOW A GROUP OF CARDS UNDER ONE PARENT IS SHOWN (the Goals of a Theme, the Objectives of a Goal, the Metrics of an Objective): ONE card at a
@@ -61,4 +61,32 @@ export function useGroupView(groupId: string, ids: readonly string[]): GroupView
         setTiles: (on: boolean) => write(groupId, { selected, tiles: on, direction: state?.direction ?? "next" })
     };
 
+}
+
+/** A card holds nothing the user wrote where it is the same as a new one, ids apart. */
+export function sameAsNew(card: unknown, made: unknown): boolean {
+    const bare = (value: unknown): unknown => Array.isArray(value)
+        ? value.map(bare)
+        : value && typeof value === "object"
+            ? Object.fromEntries(Object.entries(value as Record<string, unknown>).filter(([key]) => key !== "id").sort(([one], [other]) => one.localeCompare(other)).map(([key, inner]) => [key, bare(inner)]))
+            : value;
+    return JSON.stringify(bare(card)) === JSON.stringify(bare(made));
+}
+
+/**
+ * AN EMPTY CARD IS TAKEN AWAY WHEN IT IS LEFT (every list of cards): the card shown, left for another card or for the tiles while it holds nothing, is removed.
+ * The last card of a group stays (a group always holds one).
+ */
+export function useDiscardBlank(view: GroupView, ids: readonly string[], isBlank: (id: string) => boolean, remove: (id: string) => void) {
+    const last = useRef({ selected: view.selected, tiles: view.tiles });
+    useEffect(() => {
+        const before = last.current;
+        last.current = { selected: view.selected, tiles: view.tiles };
+        const left = (before.selected !== view.selected) || (view.tiles && !before.tiles);
+        if (left && before.selected !== "" && ids.length > 1 && ids.includes(before.selected) && isBlank(before.selected)) {
+            remove(before.selected);
+        }
+        // Only when the card shown or the view changes.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [view.selected, view.tiles]);
 }

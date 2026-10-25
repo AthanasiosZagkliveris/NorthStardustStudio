@@ -9,6 +9,9 @@ export interface SectionTile {
 
     id: string;
 
+    /** Called when the tile's dialog has been left: takes the tile's card away where it holds nothing the user wrote (a Theme left untitled and empty). */
+    discardIfBlank?: () => void;
+
     /** The section's name: the tile's one centred title. */
     title: string;
 

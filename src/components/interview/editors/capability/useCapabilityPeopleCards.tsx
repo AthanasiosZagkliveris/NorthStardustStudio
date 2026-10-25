@@ -91,7 +91,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
         onOpenLegalEntity?.();
         window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail })), 700);
     }
-    /** A line of a founder's Responsibilities: a link that opens the activity's card (under the founder's), with a tile list item's reaction. */
+    /** A line of a founder's Responsibilities: a link that opens the linked card ALONE (the founder's card, which holds the line, is not drawn twice), with a tile list item's reaction. */
     function responsibilityLink(founderId: string, entry: { id: string; name: string; kind?: "activity" | "partner" | "supplier" | "legal" }, done: boolean) {
         const letter = entry.kind === "partner" ? "P." : entry.kind === "supplier" ? "S." : entry.kind === "legal" ? "L." : "A.";
         return (
@@ -102,7 +102,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                     type="button"
                     className="business-capability-responsibility-link"
                     title={"Open “" + entry.name + "”"}
-                    onClick={() => entry.kind === "legal" ? openLegalExpense(entry.id, founderId) : openPair(founderId, entry.id)}
+                    onClick={() => entry.kind === "legal" ? openLegalExpense(entry.id) : openPair(founderId, entry.id, true)}
                 >
                     {entry.name}
                 </TextLink>

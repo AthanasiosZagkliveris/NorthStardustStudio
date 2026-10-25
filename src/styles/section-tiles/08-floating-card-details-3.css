@@ -156,22 +156,34 @@
 }
 
 /* ---- PAYMENT PLAN ROWS (one distribution for the three plans) ----
-   [the amount, taking what is left] [the percent: a 44px square, right-aligned] [the date: the Start date's own cell, 198px with its calendar]; 12px between cells.
-   An Instalments row begins with its order number in 18px. */
+   The cells stand in the columns of the cost row above them: [the amount, to the Price's right edge] [the percent and its % sign: from the currency's left edge] [the date: its own width, to the content's right edge]; 12px between columns. An Instalments row begins with its order number in 18px, inside the Price's column. */
 .business-capability-plan-row {
 
-    grid-template-columns: minmax(0, 1fr) var(--card-cell-height) var(--control-date);
+    --cost-x: calc(var(--card-side-label, var(--side-label-short)) + var(--side-label-gap));
+
+    grid-template-columns: calc(var(--cost-x) - var(--gap-12)) minmax(0, 1fr) var(--control-date);
     gap: var(--gap-12);
 
 }
 
 .business-capability-plan-row-numbered {
 
-    grid-template-columns: 18px minmax(0, 1fr) var(--card-cell-height) var(--control-date);
+    grid-template-columns: 18px calc(var(--cost-x) - var(--gap-12) - 18px - var(--gap-12)) minmax(0, 1fr) var(--control-date);
+
+}
+
+.business-capability-plan-percent-cell {
+
+    display: flex;
+    align-items: center;
+
+    gap: var(--gap-4);
 
 }
 
 .business-capability-plan-row .interview-input.business-capability-plan-percent {
+
+    flex: none;
 
     width: var(--card-cell-height);
     min-width: 0;
@@ -183,9 +195,17 @@
 
 }
 
+.business-capability-plan-percent-sign {
+
+    font-size: var(--font-small);
+
+    color: var(--text-muted, var(--text-default));
+
+}
+
 .business-capability-plan-row .date-cell {
 
-    width: var(--control-date);
+    width: 100%;
 
 }
 

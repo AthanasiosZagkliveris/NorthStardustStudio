@@ -345,10 +345,10 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
                     anchor={otherColumn(document.querySelector<HTMLElement>('[data-anchor="capability-' + (pairParent.scope === "offering" ? "offering-capability" : "infrastructure") + '"]'))}
                     // (A pair that holds a card in the channel's colour -- one a channel made, or the Partner / Provider / activity it generated -- is teal throughout.)
                     hue={channelToneIds.has(pair.parentId) || channelToneIds.has(pair.childId) ? CHANNEL_TILE_HUE : stableCardHue(pairParent.scope === "offering" ? "offering-capability" : "infrastructure")}
-                    label={pairParent.caption + " and " + pairChild.caption}
+                    label={pair.alone ? pairChild.caption : pairParent.caption + " and " + pairChild.caption}
                     attrs={{ "data-pair": pair.parentId }}
                     cards={[
-                        { key: pair.parentId, caption: pairParent.caption, kind: pairParent.kind, node: pairParent.node, hue: pairHue(pair.parentId) },
+                        ...(pair.alone ? [] : [{ key: pair.parentId, caption: pairParent.caption, kind: pairParent.kind, node: pairParent.node, hue: pairHue(pair.parentId) }]),
                         { key: pair.childId, caption: pairChild.caption, kind: pairChild.kind ?? "card", node: pairChild.node, hue: pairHue(pair.childId) }
                     ]}
                     onClose={() => setPair(null)}
