@@ -214,7 +214,8 @@
 
     position: fixed;
 
-    z-index: 5;
+    /* Above the cards of its layer (z-index 6): the name tip of a bullet opens over the card beside the tab, never behind it. */
+    z-index: 8;
 
     width: 24px;
 
