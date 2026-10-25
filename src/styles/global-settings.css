@@ -431,6 +431,22 @@
 }
 
 .settings-page .settings-assets-table col.settings-col-cost{ width:110px; }
+/* The Business stages' columns: the day each stage starts and the day it ends, and the unit the duration is in. The first column is as wide as the label column above it, so the Start dates stand under the Opening Date. */
+
+.settings-page .settings-assets-table col.settings-col-date{ width:130px; }
+.settings-page .settings-assets-table col.settings-col-time{ width:100px; }
+
+/* The stage the business is in today: its row highlighted (the selected row's tint) and bold, with the bold text's tracking. */
+.settings-assets-table .settings-stage-current th,
+.settings-assets-table .settings-stage-current td{
+
+    background:var(--bg-primary-selected-hover);
+
+    font-weight:600;
+
+    letter-spacing:calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+}
 .settings-page .settings-assets-table col.settings-col-frequency{ width:140px; }
 .settings-page .settings-assets-table col.settings-col-life{ width:120px; }
 .settings-page .settings-assets-table col.settings-col-reset{ width:130px; }
@@ -455,3 +471,6 @@
     width:72px;
 
 }
+
+/* The Business stages' first column ends where the label column above it does, less the cell's padding, so the Start dates and the Opening Date start on one line. */
+.settings-page .settings-stages-table col.settings-col-asset{ width:348px; }

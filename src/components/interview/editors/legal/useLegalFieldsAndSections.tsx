@@ -9,25 +9,29 @@ import AddButton from "../../../controls/AddButton.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import RemoveButton from "../../../controls/RemoveButton.tsx";
 import { type OpenRequest } from "../../tiles/SectionTiles.tsx";
-import { LinkSymbol } from "../../cards/BusinessCardFields.tsx";
+import { BusinessTicks, LinkSymbol, OptionalNote } from "../../cards/BusinessCardFields.tsx";
 import { LEGAL_ENTITY_SECTIONS, LegalEntityNumberValue, createLegalEntityFounder } from "../../../../framework/engine/AnswerUtils.ts";
 import { COUNTRIES, countrySearchAliases, subdivisionSearchAliases } from "../../../../framework/engine/LegalEntityJurisdictions.ts";
-import InfoNote, { InfoText } from "../../fields/InfoNote.tsx";
+import InfoNote, { InfoText, type InfoPoint } from "../../fields/InfoNote.tsx";
 import CardNameInput from "../../cards/CardNameInput.tsx";
 import { FrozenUntil } from "../../fields/fieldMarks.tsx";
 import { waitingHint } from "../../../../framework/engine/FieldDependencies.ts";
 import { NUMBER_LIMITS, limitedNumberText } from "../../fields/numberInput.ts";
 import OptionPicker from "../../fields/OptionPicker.tsx";
-import { SOURCES } from "../../../../framework/engine/Sources.ts";
 import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
-import { INFO, LEGAL_FORM_OTHER, MAX_OTHER_NUMBER_LENGTH, OTHER_OPTION, TOTAL_OWNERSHIP_HELP, savedOther, shownOther } from "./shared.tsx";
+import RadioChoice from "../../../controls/RadioChoice.tsx";
+import ActivitiesField from "./ActivitiesField.tsx";
+import DateCellInput from "../../fields/DateCellInput.tsx";
+import { todayIsoDate } from "../../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_STAGE_WORDS } from "../../../../framework/engine/ActivityClassification.ts";
+import { AUDIENCE_SCALES, CUSTOMER_TYPES, INFO, JURISDICTIONS, LIFE_STAGES, OUTCOMES, REGULATORY_INTENSITIES, choiceLimit, lockedAudience, LEGAL_FORM_OTHER, MARKET_TYPES, activitiesInfo, formationIssues, type MarketType, MAX_OTHER_NUMBER_LENGTH, OTHER_OPTION, TOTAL_OWNERSHIP_HELP, savedOther, shownOther } from "./shared.tsx";
 import type { useLegalState } from "./useLegalState.tsx";
 
 type Earlier = ReturnType<typeof useLegalState>;
 
 export function useLegalFieldsAndSections(earlier: Earlier) {
 
-    const { amountLabel, amountName, chooseCountry, chooseLegalForm, chooseSubdivision, countryChosen, currency, disabled, entity, forms, founderLabel, labelled, openOnPage, ownershipComplete, ownershipOver, ownershipShort, percent, placeChosen, placeHint, postalLabel, profile, profiled, removeFieldButton, removeFounder, soleFounderForm, soleFounderSettled, soleFounderSurplus, subdivisionSpec, subsection, subsectionNumber, textControl, totalCapital, totalOwnership, update, updateFounder, updateOrganisation } = earlier;
+    const { openingDate, onChangeOpeningDate, businessStage, updateFormation, description, onDescriptionChange, amountLabel, amountName, chooseCountry, chooseLegalForm, chooseSubdivision, countryChosen, currency, disabled, entity, forms, founderLabel, labelled, openOnPage, ownershipComplete, ownershipOver, ownershipShort, percent, placeChosen, placeHint, postalLabel, profiled, removeFieldButton, removeFounder, soleFounderForm, soleFounderSettled, soleFounderSurplus, subdivisionSpec, subsection, subsectionNumber, textControl, totalCapital, totalOwnership, update, updateFounder, updateOrganisation } = earlier;
 
     /** The first expense linked to a registration (its number's or requirement's id), as a link symbol that opens it; nothing where none is. */
     function expenseSymbol(targetId: string, hang = false) {
@@ -44,8 +48,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
         if (entity.requirements.some(requirement => requirement.id === targetId)) {
             return { tile: "legal-entity-registrations", card: targetId };
         }
-        const taxed = targetId === "tax-consumption-number" || entity.tax.additionalRegistrations.some(registration => registration.id === targetId);
-        return { tile: "legal-entity-registrations", box: taxed ? "tax" : "formation" };
+        return { tile: "legal-entity-registrations", box: "registration-numbers" };
     }
     /**
      * One labelled control, as a cell of the grid. `onRemove` puts a
@@ -134,23 +137,202 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
         ));
 
     }
+    // THE FIVE QUESTIONS OF EARLY POSITIONING (design document 28, 8.2). The structure of the market and the seller and buyer relationship on the left; the audience (a scale for a
+    // business or public buyer, a life stage for a consumer) and the differentiation and outcome on the right. How many choices a question takes follows the business stage (one
+    // while planning, up to two while managing, free while growing): a question of one choice is a radio, a question of several is a tick group that LOCKS its other options once
+    // the limit is reached (no warning), with its limit beside the label ("2 max"). Saved with the organisation, as its other answers are.
+    // (The stage is the Opening Date's and the Global Settings' durations': planning before it, then launching, managing, growing.)
+    const stage = businessStage;
+    // An "i" says only what holds at the business stage the user is in: the points about the other stages, and the sentences about what is locked or ideal while planning and launching, go.
+    const early = stage !== "manage" && stage !== "grow";
+    const forStage = (points: InfoPoint[]): InfoPoint[] => points
+        .filter(point => typeof point !== "string" || !(early ? /^Multi-sided while managing or growing|^In a multi-sided market, while managing or growing/ : /^Multi-sided while planning or launching/).test(point))
+        .map(point => typeof point !== "string" || early ? point : point.replace(/ The ideal beachhead( while planning and launching)?\./, "").replace(/ Locked while planning and launching\./, ""));
+    const models = entity.organisation.customerType;
+    const modelChosen = models.length > 0;
+    // Each market model asks its own audience question (a scale for businesses, a life stage for consumers, an administrative level for the government, a regulatory intensity for the
+    // compliance context); the government and the compliance context ask their own trigger, in place of the Differentiation & Outcome of the commercial models.
+    const audienceSets = [
+        { model: "b2b", label: "Audience Specialization & Scale", group: "legal-entity-audience-scale", options: AUDIENCE_SCALES, info: INFO.audienceScale },
+        { model: "b2c", label: "Buyer's Life-Stage and relationship with the User", group: "legal-entity-audience-life", options: LIFE_STAGES, info: INFO.lifeStage },
+        { model: "b2g", label: "Administrative Level (Jurisdiction Scale)", group: "legal-entity-audience-jurisdiction", options: JURISDICTIONS, info: INFO.jurisdiction },
+        { model: "g2b", label: "Regulatory Intensity of the target industry", group: "legal-entity-audience-regulatory", options: REGULATORY_INTENSITIES, info: INFO.regulatory }
+    ] as const;
+    // One last question for every model: the main behavioral trigger and the measurable outcome. In a multi-sided market the sides are opened in parallel while managing and growing
+    // (more than one model chosen), and then the question is repeated for each side, its answers kept as "side:outcome".
+    const SIDE_NAMES: Record<string, string> = { b2c: "B2C", b2b: "B2B", b2g: "B2G", g2b: "G2B" };
+    type OutcomeSet = { models: readonly string[]; label: string; group: string; options: readonly { id: string; label: string }[]; info: InfoPoint[] };
+    const outcomeSetsFor = (chosen: readonly string[], market: string): OutcomeSet[] =>
+        market === "multi" && (stage === "manage" || stage === "grow") && chosen.length > 1
+            ? chosen.map(model => ({ models: [model], label: "Differentiation & Outcome (" + (SIDE_NAMES[model] ?? model) + ")", group: "legal-entity-outcome-" + model, options: OUTCOMES.map(option => ({ id: model + ":" + option.id, label: option.label })), info: INFO.outcome }))
+            : [{ models: ["b2c", "b2b", "b2g", "g2b"], label: "Differentiation & Outcome", group: "legal-entity-outcome", options: OUTCOMES, info: INFO.outcome }];
+    const outcomeSets = outcomeSetsFor(models, entity.organisation.marketType);
+    // (Before any model is chosen the commercial questions stand, the audience one frozen.)
+    const audienceShown = (set: (typeof audienceSets)[number], chosen: readonly string[]) => chosen.includes(set.model) || (chosen.length === 0 && set.model === "b2b");
+    const outcomeShown = (set: OutcomeSet, chosen: readonly string[]) => set.models.some(model => chosen.includes(model)) || (chosen.length === 0 && set.models.includes("b2b" as never));
+    const idsOf = (options: readonly { id: string }[]): string[] => options.map(option => option.id);
+    const chosenOf = (all: string[], options: readonly { id: string }[]) => all.filter(id => idsOf(options).includes(id));
+    /** What a set of models keeps of the saved audience and outcome: the answers of the questions still asked. */
+    const kept = (all: string[], sets: readonly { options: readonly { id: string }[] }[], shown: (index: number) => boolean) => all.filter(id => sets.some((set, index) => shown(index) && idsOf(set.options).includes(id)));
+
+    /** One question: a radio where one choice is allowed (and at most one is held), else ticks that lock at the limit. */
+    function choice(
+        label: string,
+        group: string,
+        options: readonly { id: string; label: string; locked?: boolean }[],
+        selected: string[],
+        limit: number | null,
+        onNext: (next: string[]) => void,
+        info: InfoPoint[],
+        frozen?: { answered: boolean; hint: string },
+        /** Options not open at this stage (grey, cannot be chosen; one already chosen stays). */
+        locked: readonly string[] = []
+    ) {
+        const radio = limit === 1 && selected.length <= 1;
+        // What the business stage allows in this question: how many choices, and which options are not open yet.
+        const lockedWords = options.filter(option => locked.includes(option.id)).map(option => option.label);
+        const allowed = "At this stage (" + (BUSINESS_STAGE_WORDS[stage] ?? "Planning") + "): "
+            + (limit === null ? "choose as many as apply." : limit === 1 ? "choose one." : "choose up to " + limit + ".")
+            + (lockedWords.length > 0 ? " Not open yet: " + lockedWords.join(", ") + ". " + (lockedWords.length > 1 ? "They open" : "It opens") + " when the business reaches Managing." : "");
+        info = forStage(info);
+        const sourceAt = info.findIndex(point => typeof point !== "string" && "source" in point);
+        info = sourceAt < 0 ? [...info, allowed] : [...info.slice(0, sourceAt), allowed, ...info.slice(sourceAt)];
+        options = options.map(option => locked.includes(option.id) && !selected.includes(option.id) ? { ...option, locked: true } : option);
+        // (A radio is one choice and says nothing; ticks say how many.)
+        const note = limit === null || radio ? undefined : limit + " max";
+        const control = radio
+            ? (
+                <RadioChoice
+                    label={label}
+                    group={group}
+                    className="legal-entity-radio-stack"
+                    disabled={disabled}
+                    value={(selected[0] ?? "") as never}
+                    onChange={(next) => onNext([next])}
+                    options={options as never}
+                />
+            )
+            : (
+                <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={label}>
+                    <BusinessTicks
+                        name={label}
+                        disabled={disabled}
+                        options={options}
+                        chosen={selected}
+                        max={limit ?? undefined}
+                        onChange={onNext}
+                    />
+                </div>
+            );
+        const row = (
+            <FieldRow pair fullList label={label} info={info} labelNote={note ? <span className="business-foundation-tick-note">{note}</span> : undefined}>
+                {control}
+            </FieldRow>
+        );
+        return frozen ? <FrozenUntil answered={frozen.answered} hint={frozen.hint}>{row}</FrozenUntil> : row;
+    }
+
+    const audience = (
+        <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience">
+
+            <div className="legal-entity-field">
+
+                <div className="legal-entity-org-section legal-entity-org-market">
+                <FieldRow pair fullList label="Market Structure" info={forStage(INFO.marketType)}>
+                    <RadioChoice
+                        label="Market Structure"
+                        group="legal-entity-market-type"
+                        className="legal-entity-radio-stack"
+                        disabled={disabled}
+                        value={entity.organisation.marketType as MarketType}
+                        // (A platform's sides each ask the last question; another structure asks it once: what no longer fits goes.)
+                        onChange={(next) => updateOrganisation({
+                            marketType: next,
+                            outcome: (() => {
+                                const sets = outcomeSetsFor(models, next);
+                                return kept(entity.organisation.outcome, sets, index => outcomeShown(sets[index], models));
+                            })()
+                        })}
+                        options={MARKET_TYPES}
+                    />
+                </FieldRow>
+                </div>
+
+                <div className="legal-entity-org-section legal-entity-org-customer">
+                {choice(
+                    "Seller and Buyer Relationship",
+                    "legal-entity-customer-type",
+                    CUSTOMER_TYPES,
+                    models,
+                    choiceLimit(stage, "relationship"),
+                    // (Another set of models asks other questions: the answers of the questions no longer asked go.)
+                    (next) => updateOrganisation({
+                        customerType: next,
+                        audience: kept(entity.organisation.audience, audienceSets, index => audienceShown(audienceSets[index], next)),
+                        outcome: (() => {
+                            const sets = outcomeSetsFor(next, entity.organisation.marketType);
+                            return kept(entity.organisation.outcome, sets, index => outcomeShown(sets[index], next));
+                        })()
+                    }),
+                    INFO.customerType
+                )}
+                </div>
+
+            </div>
+
+            <div className="legal-entity-field legal-entity-questions">
+
+                {audienceSets.filter(set => audienceShown(set, models)).map(set => (
+                    <div key={set.group} className="legal-entity-org-section legal-entity-org-audience">
+                    {choice(
+                        set.label,
+                        set.group,
+                        set.options,
+                        chosenOf(entity.organisation.audience, set.options),
+                        choiceLimit(stage, "audience"),
+                        (next) => updateOrganisation({ audience: [...entity.organisation.audience.filter(id => !idsOf(set.options).includes(id)), ...next] }),
+                        set.info,
+                        { answered: modelChosen, hint: "Choose a seller and buyer relationship first." },
+                        lockedAudience(stage, set.model)
+                    )}
+                    </div>
+                ))}
+
+                {outcomeSets.filter(set => outcomeShown(set, models)).map(set => (
+                    <div key={set.group} className="legal-entity-org-section legal-entity-org-outcome">
+                    {choice(
+                        set.label,
+                        set.group,
+                        set.options,
+                        chosenOf(entity.organisation.outcome, set.options),
+                        choiceLimit(stage, "outcome"),
+                        (next) => updateOrganisation({ outcome: [...entity.organisation.outcome.filter(id => !idsOf(set.options).includes(id)), ...next] }),
+                        set.info
+                    )}
+                    </div>
+                ))}
+
+            </div>
+
+        </div>
+    );
     const section0 = (
     subsection(0, (
+        <div className="legal-entity-org-body">
         <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization">
 
             {/*
-                Two columns, each one subject, on the
-                card's two-column grid: what the
-                organization is (its name, what it does,
-                the code that classifies that, and its
-                legal form), and where it is. Read down a
-                column rather than across a grid, so a
-                founder answers one question at a time.
+                Two columns on the card's two-column grid (design
+                document 28, 8.5): the left one is where the organization
+                is (its name, country, address); the right one is what it
+                is and does (its legal form, its stage, its activities). The
+                description stands below both, across the dialog.
             */}
 
-            {/* ---- What it is ---- */}
+            {/* ---- Information ---- */}
             <div className="legal-entity-field">
 
+                <div className="legal-entity-org-section legal-entity-org-name">
                 {labelled(
                     "Organization Name",
                     textControl(
@@ -160,113 +342,11 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                         "The legal name of the organization"
                     )
                 )}
-
-                {labelled(
-                    "Main Activity",
-                    <StrategyTextArea
-                        className="interview-input business-foundation-note legal-entity-activity"
-                        ariaLabel="Main Activity"
-                        placeholder="What the organization does, in plain words"
-                        disabled={disabled}
-                        value={entity.organisation.mainActivity}
-                        onChange={(next) => updateOrganisation({ mainActivity: next })}
-                    />,
-                    true,
-                    undefined,
-                    INFO.mainActivity
-                )}
-
-                {/*
-                    Asked for only where the jurisdiction
-                    actually issues one: always as a tick row
-                    (as the consumption tax), the code's box
-                    appearing only while it is ticked.
-                */}
-                {profile.activityCode && (
-                    <div className="legal-entity-activity-code">
-                        <div className="legal-entity-activity-code-tick">
-                            <span className="legal-entity-switch-cell">
-                                <TickField className="legal-entity-switch" aria-label={"Has a " + profile.activityCode} disabled={disabled} checked={entity.organisation.activityCodeOn} onChange={(event) => updateOrganisation({ activityCodeOn: event.target.checked })}>
-                                    <span className="legal-entity-switch-label">{profile.activityCode}</span>
-                                </TickField>
-                                <InfoNote
-                                    label={profile.activityCode}
-                                    points={[
-                                        ...INFO.activityCode,
-                                        // The official list, where one is verified (Sources.ts).
-                                        ...(entity.organisation.country === "GB" ? [{ title: "Source", source: SOURCES.ukSicCodes }] : [])
-                                    ]}
-                                />
-                            </span>
-                            {entity.organisation.activityCodeOn && textControl(
-                                profile.activityCode,
-                                entity.organisation.activityCode,
-                                (next) => updateOrganisation({ activityCode: next }),
-                                "Optional"
-                            )}
-                        </div>
-                    </div>
-                )}
-
-                {/* What it is legally: under the activity it
-                    classifies, the Legal Form (its note, and its
-                    name when Other), frozen until a country is
-                    chosen. The picker takes the column's width. */}
-                <div className="legal-entity-legal-form">
-                <FrozenUntil answered={countryChosen} hint={waitingHint("country")}>
-
-                {forms.length > 0 ? labelled(
-                    "Legal Form",
-                    <OptionPicker
-                        label="Legal Form"
-                        placeholder="Select a legal form"
-                        options={[
-                            ...forms.map(form => form.label),
-                            OTHER_OPTION
-                        ]}
-                        disabled={disabled}
-                        value={shownOther(entity.organisation.legalForm)}
-                        onChange={(next) => chooseLegalForm(savedOther(next))}
-                    />,
-                    true,
-                    undefined,
-                    INFO.legalForm
-                ) : labelled(
-                    "Legal Form",
-                    textControl(
-                        "Legal Form",
-                        entity.organisation.legalFormOther,
-                        (next) => updateOrganisation({ legalFormOther: next }),
-                        "Enter the legal form"
-                    ),
-                    true
-                )}
-
-                {/* Named directly under the list that sent them here. */}
-                {forms.length > 0 &&
-                    entity.organisation.legalForm === LEGAL_FORM_OTHER &&
-                    labelled(
-                        "Name the legal form",
-                        textControl(
-                            "Name the legal form",
-                            entity.organisation.legalFormOther,
-                            (next) => updateOrganisation({ legalFormOther: next }),
-                            "Enter the legal form"
-                        ),
-                        true
-                    )}
-                </FrozenUntil>
                 </div>
 
-            </div>
-
-            {/* ---- Where it is ----
-                Country, then its State or Region where it has
-                one (they decide the registry, the tax and the
-                legal forms), each the column's width; then the
-                Address, one box of as many lines as it needs. */}
-            <div className="legal-entity-field legal-entity-where">
-
+                <div className="legal-entity-org-section legal-entity-org-country">
+                {/* The country first: it decides the registry, the tax, the
+                    legal forms and the classification of the activities. */}
                 {labelled(
                     "Country",
                     <OptionPicker
@@ -288,7 +368,8 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                         onChange={(next) => chooseCountry(
                             COUNTRIES.find(country => country.name === next)?.code ?? ""
                         )}
-                    />
+                    />,
+                    false
                 )}
 
                 {/*
@@ -322,10 +403,12 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                     true
                 )}
                 </FrozenUntil>
+                </div>
 
+                <div className="legal-entity-org-section legal-entity-org-address">
                 <FrozenUntil answered={placeChosen} hint={placeHint}>
 
-                {/* THE WHOLE ADDRESS, ONE BOX: as many lines as it
+                {/* THE WHOLE ADDRESS, ONE BOX: free text, as many lines as it
                     needs (Enter starts the next), at least two,
                     growing with them. Its placeholder shows the lines
                     expected, in the country's own words (its postal
@@ -340,9 +423,122 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                         value={entity.organisation.addressLine1}
                         onChange={(next) => updateOrganisation({ addressLine1: next })}
                     />,
-                    true
+                    false
                 )}
                 </FrozenUntil>
+                </div>
+            </div>
+
+            {/* ---- Questions ---- */}
+            <div className="legal-entity-field legal-entity-questions">
+
+                <div className="legal-entity-org-section legal-entity-org-form">
+                {/* What it is legally: the Legal Form (its note, and its
+                    name when Other), frozen until a country is
+                    chosen. The picker takes the column's width. */}
+                <div className="legal-entity-legal-form">
+                <FrozenUntil answered={countryChosen} hint={waitingHint("country")}>
+
+                {forms.length > 0 ? labelled(
+                    "Legal Form",
+                    <OptionPicker
+                        label="Legal Form"
+                        placeholder="Select a legal form"
+                        options={[
+                            ...forms.map(form => form.label),
+                            OTHER_OPTION
+                        ]}
+                        disabled={disabled}
+                        value={shownOther(entity.organisation.legalForm)}
+                        onChange={(next) => chooseLegalForm(savedOther(next))}
+                    />,
+                    false,
+                    undefined,
+                    INFO.legalForm
+                ) : labelled(
+                    "Legal Form",
+                    textControl(
+                        "Legal Form",
+                        entity.organisation.legalFormOther,
+                        (next) => updateOrganisation({ legalFormOther: next }),
+                        "Enter the legal form"
+                    ),
+                    false
+                )}
+
+                {/* Named directly under the list that sent them here. */}
+                {forms.length > 0 &&
+                    entity.organisation.legalForm === LEGAL_FORM_OTHER &&
+                    labelled(
+                        "Name the legal form",
+                        textControl(
+                            "Name the legal form",
+                            entity.organisation.legalFormOther,
+                            (next) => updateOrganisation({ legalFormOther: next }),
+                            "Enter the legal form"
+                        ),
+                        true
+                    )}
+                </FrozenUntil>
+                </div>
+                </div>
+
+                {/* The two dates of the opening, side by side: when the organization was registered (once it is: the number given makes it so), and the day the business opens. */}
+                <div className="legal-entity-org-dates">
+                {entity.formation.status !== "planned" && (
+                    <div className="legal-entity-org-section legal-entity-org-registration">
+                    {labelled(
+                        "Registration Date",
+                        <DateCellInput
+                            ariaLabel="Formation date"
+                            // (A registered company has been formed: its day is today or earlier.)
+                            max={todayIsoDate()}
+                            disabled={disabled}
+                            value={entity.formation.date}
+                            onChange={(next) => updateFormation({ date: next })}
+                        />,
+                        false,
+                        undefined,
+                        INFO.registrationDate
+                    )}
+                    </div>
+                )}
+                <div className="legal-entity-org-section legal-entity-org-opening">
+                {labelled(
+                    "Opening Date",
+                    <DateCellInput ariaLabel="Opening Date" value={openingDate} onChange={(iso) => onChangeOpeningDate?.(iso)} />,
+                    false,
+                    undefined,
+                    INFO.openingDate
+                )}
+                </div>
+                </div>
+
+                {/* What cannot be: a registered company whose date has not come, and a company formed after the day the business opens. */}
+                {formationIssues(entity.formation, openingDate).map(issue => (
+                    <p key={issue} className="legal-entity-note-line settings-alarm" role="alert">{issue}</p>
+                ))}
+
+                {/* Remounted when the country changes: a change of country empties every activity. */}
+                <div className="legal-entity-org-section legal-entity-org-activities">
+                {/* Frozen until a country is chosen: the classification the cascade follows is the country's. */}
+                <FrozenUntil answered={countryChosen} hint={waitingHint("country")}>
+                {labelled(
+                    "Activities",
+                    <ActivitiesField
+                        key={entity.organisation.country}
+                        country={entity.organisation.country}
+                        activities={entity.organisation.activities}
+                        disabled={disabled}
+                        onChange={(next) => updateOrganisation({ activities: next })}
+                    />,
+                    false,
+                    undefined,
+                    [activitiesInfo(entity.organisation.country)]
+                )}
+                </FrozenUntil>
+                </div>
+
 
             </div>
 
@@ -354,6 +550,25 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                     it.
                 </p>
             )}
+
+        </div>
+
+        {/* Below both columns, across the dialog: a divider line, then the Description over the whole width. */}
+        <div className="business-capability-card-rule legal-entity-org-rule" role="separator" />
+
+        <div className="legal-entity-org-section legal-entity-org-description">
+        {/* The shared optional note: its tick box and the word, the box opening on ticking (as every card's Notes do). */}
+        <OptionalNote
+            label="Notes"
+            fieldId="Description"
+            ariaLabel="Notes"
+            placeholder="Add a note"
+            info={INFO.mainActivity}
+            disabled={disabled}
+            value={description ?? entity.organisation.mainActivity}
+            onChange={(next) => onDescriptionChange ? onDescriptionChange(next) : updateOrganisation({ mainActivity: next })}
+        />
+        </div>
 
         </div>
     ))
@@ -650,6 +865,6 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
     )
     );
 
-    return { expenseSymbol, field, numberList, registrationRequest, section0, section1 };
+    return { audience, expenseSymbol, field, numberList, registrationRequest, section0, section1 };
 
 }

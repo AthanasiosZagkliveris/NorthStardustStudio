@@ -16,7 +16,7 @@ This document is the standard a table, a tile, a card, a floating card, a dialog
 ## 2. The rules of the work
 
 1. **Replace, never adjust.** A hand-made control is replaced by the app's own component of its kind; its style is not tuned. If no component of the kind exists, the review asks before writing one.
-2. **Components first** (`22-shared-components.md`): `RemoveButton`, `AddButton` (shapes wide, box, tile; `look`), `TextLink`, `OptionPicker`, `ValuePicker`, `MultiPicker`, `TickField`, `TextBox`, `NumberCell`, `TextField`, `DateCellInput`, `SegmentedToggle`, `FoldArrow`, `NavArrow`, `FunnelButton`, `InfoNote`, `CardShell`, `CardHead`, `Tile`, `TileGrid`, `BusinessCard`.
+2. **Components first** (`22-shared-components.md`): `RemoveButton`, `AddButton` (shapes wide, box, tile; `look`), `TextLink`, `OptionPicker`, `ValuePicker`, `MultiPicker`, `TickField`, `TextBox`, `NumberCell`, `TextField`, `DateCellInput`, `FoldArrow`, `NavArrow`, `FunnelButton`, `InfoNote`, `CardShell`, `CardHead`, `Tile`, `TileGrid`, `BusinessCard`.
 3. **Tokens, not values.** A size, a gap, a colour or a radius is a token (`global.css`, `colors.generated.css`, `components.generated.css`); a value written in a rule is a finding unless the rulebook lists it.
 4. **The style lives with the component.** What a shared control looks like is in the sheet the component imports, so it is the same on every page (the Landing, the System Selection, the Notes panel, the header and the documents load no interview sheet).
 5. **One of each.** One component, one rule, one reaction per kind. A second class that adds a look, a hover or a size to a shared control is a finding.
@@ -74,7 +74,6 @@ Measure: the box rectangles of the two neighbours; the gap is the distance betwe
 | A tick box | 24px, corner 4px | drawn, recessed, ticked blue with the check | `TickField` |
 | A fold arrow | 36px (the label arrow: the label's own size, a 24px hit area at least) | the outlined triangle, filled under the pointer | `FoldArrow` |
 | A navigation arrow | the 44px circle of a page arrow; the 32px square for a row move | | `NavArrow` |
-| A segmented choice | each option 44px high | the chosen option filled | `SegmentedToggle` |
 | The "i" | 22px | the ground, a stroke and its letter in the card's tint; a swap under the pointer | `InfoNote` |
 
 A dropdown is **one** component for one choice (`OptionPicker`) and **one** for several (`MultiPicker`): its trigger, its chevron, its list (no stroke, the raised edge and the drop shadow; options 43px; the chosen one bold) are the same on every page. A dropdown is never drawn as a button or as an input.

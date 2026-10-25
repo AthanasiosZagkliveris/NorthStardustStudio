@@ -220,13 +220,20 @@ export function withPlanStart<T extends { planStart: StrategyMonthValue }>(
 }
 
 /**
- * THE PLAN'S FIRST MONTH, worked out and never typed: the earlier of the month the business opens in and the month of the earliest cost of a Business card
- * (a cost dated before the plan starts counts as already paid, so no card's cost is left out of it). The Legal Entity's expenses do not move it: a
- * registration paid before the plan stays already paid. With neither a date nor a card, the month the plan already has.
+ * THE PLAN'S FIRST MONTH, worked out and never typed: the earlier of the month the business opens in and the month of the earliest cost, whichever was recorded first (the owner's rule, 2026-10-24):
+ * a Business card's cost or a Legal Entity expense (`legalExpenseDates`). With no date and no cost, the month the plan already has.
  */
 export function derivedPlanStart(openingDate: string, costStarts: readonly string[], without: StrategyMonthValue): StrategyMonthValue {
     const days = [openingDate, ...costStarts].filter(day => /^\d{4}-\d{2}-\d{2}$/.test(day)).sort();
     return days.length === 0 ? without : { year: days[0].slice(0, 4), month: days[0].slice(5, 7) };
+}
+
+/** The dates of the Legal Entity's expenses that cost something: its own date; a one-time expense with none falls on the formation's date. */
+export function legalExpenseDates(legalEntity: LegalEntityValue): string[] {
+    return legalEntity.expenses
+        .filter(expense => parseAmount(expense.cost) !== null)
+        .map(expense => expense.date || (expense.frequency === "One time" ? legalEntity.formation.date : ""))
+        .filter(day => day !== "");
 }
 
 /** The Start dates of the Business cards that cost something: the costed resources and the priced partners and suppliers. */
@@ -3646,6 +3653,8 @@ export function withWhatIf(
 interface BreakEvenInputs {
     /** Monthly fixed costs, the sum of the parts below. */
     fixed: number;
+    /** When each recurring fixed cost runs, by plan month (1 is the first; `to` null: to the plan's end): a cost counts only from its own Start date, as the cash flow counts it. */
+    timeline: { from: number; to: number | null; amount: number }[];
     parts: { label: string; amount: number }[];
     /** Variable cost per unit read from Page 4, by Offering id. */
     variableByOffering: Record<string, number>;
@@ -3700,6 +3709,20 @@ export function breakEvenInputs(
     let unassigned = 0;
     let unmodelled = 0;
 
+    const timeline: { from: number; to: number | null; amount: number }[] = [];
+    const first = monthOrdinal(foundation.planStart);
+    const planMonthOf = (iso: string): number | null => {
+        const match = /^(\d{4})-(\d{2})/.exec(iso);
+        const ordinal = match ? monthOrdinal({ year: match[1], month: match[2] }) : null;
+        return ordinal === null || first === null ? null : ordinal - first + 1;
+    };
+    /** A recurring monthly amount, from the plan month its cost starts in to the one it ends in. */
+    const running = (line: CostLine, amount: number) => {
+        const from = line.startDate ? planMonthOf(line.startDate) : null;
+        const to = line.endDate ? planMonthOf(line.endDate) : null;
+        timeline.push({ from: Math.max(1, from ?? 1), to, amount });
+    };
+
     lines.forEach(line => {
 
         if (!line.counted || line.amount === null) {
@@ -3718,8 +3741,9 @@ export function breakEvenInputs(
                     unassigned++;
                 }
             } else {
-                semiFixed += monthlyEquivalent(
-                    separated ? line.fixedPart ?? 0 : line.amount, line.frequency);
+                const monthlySemi = monthlyEquivalent(separated ? line.fixedPart ?? 0 : line.amount, line.frequency);
+                semiFixed += monthlySemi;
+                running(line, monthlySemi);
             }
             if (line.variablePerUnit !== null && !isPerUnit(line)) {
                 const perUnit = line.variablePerUnit;
@@ -3745,6 +3769,7 @@ export function breakEvenInputs(
 
         const monthly = monthlyEquivalent(line.amount, line.frequency);
 
+        running(line, monthly);
         if (line.behaviour === "variable") {
             variableAsFixed += monthly;
         } else {
@@ -3766,6 +3791,7 @@ export function breakEvenInputs(
             const last = schedule.payments[schedule.payments.length - 1].month;
             const span = Math.max(1, last - first + periodMonths(source.loan.frequency));
             interest += schedule.totalInterest / span;
+            timeline.push({ from: 1, to: null, amount: schedule.totalInterest / span });
         }
     });
 
@@ -3794,6 +3820,7 @@ export function breakEvenInputs(
 
     return {
         fixed: fixedCosts + semiFixed + variableAsFixed + interest,
+        timeline,
         parts,
         variableByOffering,
         perOrderByOffering,
@@ -3902,8 +3929,10 @@ export function sustainability(
         volumes.forEach((units, index) => { variableOut[index] += units * entry.variable; });
     });
 
+    // (A fixed cost counts from the month its own Start date falls in, not from the plan's first month: the plan may start earlier, with a registration.)
+    const fixedIn = (month: number) => inputs.timeline.reduce((sum, entry) => sum + (month >= entry.from && (entry.to === null || month <= entry.to) ? entry.amount : 0), 0);
     const months = earned.slice(0, planLength(foundation)).map((revenue, index) => {
-        const costs = inputs.fixed + variableOut[index];
+        const costs = fixedIn(index + 1) + variableOut[index];
         const difference = revenue - costs;
         return {
             month: index + 1,

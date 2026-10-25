@@ -243,7 +243,11 @@ describe("a founder's Frequency, migrated", () => {
                 next[name].forecast = now[name].forecast;
             }
         }
-        for (const part of ["plan", "exported"] as const) {
+        // (WRITE_GOLDEN=all: the weekly fixture's forecast words and numbers move with its example's figures, so they are written again too.)
+        const weeklyParts = (globalThis as unknown as { process?: { env: Record<string, string | undefined> } }).process?.env.WRITE_GOLDEN === "all"
+            ? ["forecast", "plan", "exported"] as const
+            : ["plan", "exported"] as const;
+        for (const part of weeklyParts) {
             const text = now["lumen-weekly"].texts[part];
             next["lumen-weekly"][part + "Shape"] = digest(text.replace(NUMBER, "#"));
             next["lumen-weekly"][part + "Numbers"] = (text.match(NUMBER) ?? []).map(number => Number(number.replace(/,/g, "")));

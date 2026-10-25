@@ -41,6 +41,17 @@ describe("TitleTooltips", () => {
         expect(screen.getByRole("tooltip").textContent).toBe("Click to learn about Frequency");
     });
 
+    it("has no tip for a control whose pop-up window is open, and takes the tip away when the window opens", async () => {
+        render(<><TitleTooltips /><button type="button" aria-label="Open calendar" aria-haspopup="dialog" aria-expanded="false" data-testid="cal">c</button></>);
+        const button = screen.getByTestId("cal");
+        act(() => { fireEvent.pointerOver(button, { clientX: 5, clientY: 5 }); });
+        expect(screen.getByRole("tooltip").textContent).toBe("Click to open calendar");
+        await act(async () => { button.setAttribute("aria-expanded", "true"); await Promise.resolve(); });
+        expect(screen.queryByRole("tooltip")).toBeNull();
+        act(() => { fireEvent.pointerOver(button, { clientX: 5, clientY: 5 }); });
+        expect(screen.queryByRole("tooltip")).toBeNull();
+    });
+
     it("has no tip for a dropdown cell, whose value is on it", () => {
         render(<><TitleTooltips /><button type="button" aria-haspopup="listbox" title="United Kingdom" data-testid="dd"><span>United Kingdom</span></button></>);
         act(() => { fireEvent.pointerOver(screen.getByTestId("dd"), { clientX: 5, clientY: 5 }); });

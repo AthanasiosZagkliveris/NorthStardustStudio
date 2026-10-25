@@ -1,11 +1,15 @@
 import ChoiceCard from "../../controls/ChoiceCard.tsx";
 import { CSSProperties, useState } from "react";
 import CardShell from "../cards/CardShell.tsx";
+import { OptionalNote } from "../cards/BusinessCardFields.tsx";
+import { positioningName } from "./legal/shared.tsx";
+import { AUDIENCE_WORDS, CUSTOMER_TYPE_WORDS, MARKET_TYPE_WORDS, OUTCOME_WORDS } from "../../../framework/engine/ActivityClassification.ts";
 import { AnswerType } from "../../../framework/enums/AnswerType.ts";
-import { isAnswerEmpty } from "../../../framework/engine/AnswerUtils.ts";
+import { asLegalEntityValue, isAnswerEmpty } from "../../../framework/engine/AnswerUtils.ts";
 import { useDragToScroll } from "../../../hooks/useDragToScroll.ts";
 import { FieldMark, FieldStatus } from "../fields/fieldMarks.tsx";
-import SectionTiles, { DialogHeading, type SectionTile } from "../tiles/SectionTiles.tsx";
+import SectionTiles, { DialogHeading, TILE_DIVIDER, type SectionTile } from "../tiles/SectionTiles.tsx";
+import LegalEntityEditor from "./LegalEntityEditor.tsx";
 import { ImprintFields, NumberedTextList } from "../fields/ColumnFields.tsx";
 import { workHue } from "../../../framework/engine/WorkColours.ts";
 
@@ -41,6 +45,20 @@ function MultiPartAnswerRenderer({
     frameTitle,
 
     columnNumberOffset,
+
+    legalEntity,
+
+    onChangeLegalEntity,
+
+    legalEntityPrefill,
+
+    foundersProfile,
+
+    openingDate,
+
+    onChangeOpeningDate,
+
+    businessStage = "plan",
 
     showInstructions = true
 
@@ -141,19 +159,73 @@ function MultiPartAnswerRenderer({
         // The column's guidance is the "i" beside its title.
         const guidance = (part: (typeof parts)[number]): string[] => (part.questions ?? "").split("\n").map(firstWords).map(line => line.replace(/^[-•]\s*/, "")).filter(line => line.length > 0);
 
-        const tiles: SectionTile[] = parts.map(part => ({
-            id: part.id,
-            title: part.label,
+        // THE ORGANIZATION TILE takes the Description's place on the Identity System's Definition (design document 28, 8.5): the organization's own fields in its dialog;
+        // its Description box is this page's saved Description (the old Main Activity text where nothing was written here).
+        const organisation = asLegalEntityValue(legalEntity).organisation;
+        const written = organisation.addressLine1.split("\n").map(text => text.trim()).filter(text => text.length > 0);
+        const addressLines = written.length >= 3 ? [...written.slice(0, written.length - 2), written.slice(-2).join(" ")] : written;
+        const organizationTile = (part: (typeof parts)[number]): SectionTile => ({
+            id: "organization",
+            title: "Organization",
             rail: part.id,
-            items: snippet(part),
+            large: true,
+            // The name (in bold), its legal form, then the address.
+            items: organisation.name.trim() || organisation.legalForm.trim() || addressLines.length > 0
+                ? [...[organisation.name.trim() ? "**" + organisation.name.trim() + "**" : "", organisation.legalForm].filter(line => line.trim().length > 0), TILE_DIVIDER, ...addressLines]
+                // (Nothing written yet: what the column asks, its first line, as the other tiles do.)
+                : snippet(part),
+            content: () => (
+                <LegalEntityEditor
+                    value={legalEntity}
+                    prefill={legalEntityPrefill}
+                    foundersProfile={foundersProfile}
+                    openingDate={openingDate}
+                    onChangeOpeningDate={onChangeOpeningDate}
+                    organizationOnly
+                    description={typeof values[part.id] === "string" ? values[part.id] as string : organisation.mainActivity}
+                    onDescriptionChange={(next) => onChange({ ...values, [part.id]: next })}
+                    onChange={(next) => onChangeLegalEntity?.(next)}
+                    disabled={disabled}
+                />
+            )
+        });
+
+        // THE POSITIONING TILE lists the options chosen in its questions, one bullet each (the structure of the market, the seller and buyer relationship, the audience, the outcome); no text.
+        const positioningItems = [
+            MARKET_TYPE_WORDS[organisation.marketType],
+            ...organisation.customerType.map(id => CUSTOMER_TYPE_WORDS[id]),
+            ...organisation.audience.map(id => AUDIENCE_WORDS[id]),
+            ...organisation.outcome.map(id => OUTCOME_WORDS[id.replace(/^[^:]*:/, "")])
+        ].filter((line): line is string => typeof line === "string" && line.length > 0);
+
+        const tiles: SectionTile[] = parts.map(part => part.id === "description" && onChangeLegalEntity ? organizationTile(part) : ({
+            id: part.id,
+            // (The Positioning tile is named by the business stage, Early Positioning first; its saved answer keeps the key "positioning".)
+            title: part.id === "positioning" ? positioningName(businessStage) : part.label,
+            rail: part.id,
+            items: part.id === "positioning" && onChangeLegalEntity ? positioningItems : snippet(part),
+            itemMarks: part.id === "positioning" && onChangeLegalEntity ? positioningItems.map(() => ({ bullet: true })) : undefined,
             content: () => (
                 <div className="column-tile-content" data-rail={part.id} role="group" aria-label={part.label}>
                     {/* The dialog's title, as every tile's dialog has one. */}
                     <div className="business-engagement-section-head">
-                        <DialogHeading title={part.label} info={guidance(part)} />
+                        <DialogHeading title={part.id === "positioning" ? positioningName(businessStage) : part.label} info={guidance(part)} />
                     </div>
+                    {/* The Positioning tile opens with who the business sells to and the kind of market (design document 28, 8.2), saved in the Legal Entity answer, above its own text. */}
+                    {part.id === "positioning" && onChangeLegalEntity && (
+                        <LegalEntityEditor
+                            value={legalEntity}
+                            businessStage={businessStage}
+                            audienceOnly
+                            onChange={(next) => onChangeLegalEntity(next)}
+                            disabled={disabled}
+                        />
+                    )}
                     {part.id === "imprint"
                         ? <ImprintFields value={values[part.id]} onChange={(next) => onChange({ ...values, [part.id]: next })} disabled={disabled} />
+                        : part.id === "positioning" && onChangeLegalEntity
+                            // The Early Positioning text under its questions is the shared optional note (the Notes of every card).
+                            ? <OptionalNote label="Notes" fieldId={part.label} ariaLabel="Notes" placeholder="Add a note" value={typeof values[part.id] === "string" ? values[part.id] as string : ""} onChange={(next) => onChange({ ...values, [part.id]: next })} disabled={disabled} />
                         : part.id === "values" || part.id === "principles"
                             ? <NumberedTextList label={part.label} value={values[part.id]} onChange={(next) => onChange({ ...values, [part.id]: next })} disabled={disabled} />
                             : (
@@ -464,6 +536,7 @@ function SingleAnswerRenderer({
     foundersProfile,
     legalEntity,
     onChangeLegalEntity,
+    onChangeFoundersProfile,
     businessCapability,
     financialFoundation,
     openingDate,
@@ -496,7 +569,7 @@ function SingleAnswerRenderer({
 
     const { fixedVariantOptions, activeVariantId, setActiveVariantId, cardListOptions, activeCardId, setActiveCardId, variantCardsScrollRef, profileCardsScrollRef, tableColumns } = useAnswerState({ definition, value, onChange, resolveDynamicOptions, dynamicOptionsDependency });
 
-    const scope: AnswerScope = { definition, value, onChange, disabled, resolveDynamicOptions, rowSelection, ownerSuggestions, processLibraryProcesses, dynamicOptionsDependency, ariaLabel, autoGrow, columnNumberOffset, legalEntityPrefill, targetAudience, identityVision, businessFoundation, onOpenBusinessFoundation, organisationCurrency, legalEntityFounders, foundersProfile, legalEntity, onChangeLegalEntity, businessCapability, financialFoundation, openingDate, onChangeOpeningDate, globalSettings, financialSustainability, businessEngagement, onOpenBusinessEngagement, onOpenBusinessCapability, onChangeBusinessCapability, onOpenFinancialFoundation, onOpenLegalEntity, columnsDivider, frameTitle, showInstructions, strategy, fixedVariantOptions, activeVariantId, setActiveVariantId, cardListOptions, activeCardId, setActiveCardId, variantCardsScrollRef, profileCardsScrollRef, tableColumns };
+    const scope: AnswerScope = { definition, value, onChange, disabled, resolveDynamicOptions, rowSelection, ownerSuggestions, processLibraryProcesses, dynamicOptionsDependency, ariaLabel, autoGrow, columnNumberOffset, legalEntityPrefill, targetAudience, identityVision, businessFoundation, onOpenBusinessFoundation, organisationCurrency, legalEntityFounders, foundersProfile, legalEntity, onChangeLegalEntity, onChangeFoundersProfile, businessCapability, financialFoundation, openingDate, onChangeOpeningDate, globalSettings, financialSustainability, businessEngagement, onOpenBusinessEngagement, onOpenBusinessCapability, onChangeBusinessCapability, onOpenFinancialFoundation, onOpenLegalEntity, columnsDivider, frameTitle, showInstructions, strategy, fixedVariantOptions, activeVariantId, setActiveVariantId, cardListOptions, activeCardId, setActiveCardId, variantCardsScrollRef, profileCardsScrollRef, tableColumns };
 
     switch (definition.type) {
 

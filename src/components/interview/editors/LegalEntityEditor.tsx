@@ -2,11 +2,12 @@ import { CSSProperties, ReactNode } from "react";
 import CardShell from "../cards/CardShell.tsx";
 import { legalExpenseMissing, legalRequirementMissing } from "../../../framework/engine/SystemCardCompleteness.ts";
 import type { FloorLink } from "../tiles/capabilityFloor.ts";
-import SectionTiles, { DialogHeading, TILE_DIVIDER, type SectionTile, type TileLink } from "../tiles/SectionTiles.tsx";
+import SectionTiles, { DialogHeading, type SectionTile, type TileLink } from "../tiles/SectionTiles.tsx";
 import CardBoxes, { type CardBox, type CardBoxAdd } from "../cards/CardBoxes.tsx";
 import SubTiles from "../tiles/SubTiles.tsx";
+import FoundersProfileEditor from "./FoundersProfileEditor.tsx";
 import { workHue } from "../../../framework/engine/WorkColours.ts";
-import { LEGAL_ENTITY_SECTIONS, LegalEntityValue, asLegalEntityValue, createLegalEntityExpense, createLegalEntityRequirement } from "../../../framework/engine/AnswerUtils.ts";
+import { FOUNDERS_PROFILE_SECTIONS, LEGAL_ENTITY_SECTIONS, LegalEntityValue, asFoundersProfileValue, asLegalEntityValue, createLegalEntityExpense, createLegalEntityRequirement } from "../../../framework/engine/AnswerUtils.ts";
 import { LEGAL_REQUIREMENT_TYPES } from "../../../framework/engine/LegalEntityJurisdictions.ts";
 import { moneyText } from "../../../framework/engine/ExportRenderers.ts";
 import { railId } from "../rails/railItems.ts";
@@ -46,11 +47,29 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
     const part1 = useLegalState(props);
     const part2 = { ...part1, ...useLegalFieldsAndSections({ ...part1 }) };
     const part3 = { ...part1, ...part2, ...useLegalCardsAndSections({ ...part1, ...part2 }) };
-    const { asTiles, cardsOnly, columnsDivider, currency, disabled, entity, expenseCard, frameTitle, latest, linkTargets, profile, requirementCard, section0, section1, section2, section3, section4, section5, showInstructions, update } = part3;
+    const { amountLabel, soleFounderSettled, updateFounder, foundersProfile, onChangeFoundersProfile, organizationOnly, audienceOnly, audience, asTiles, cardsOnly, columnsDivider, currency, disabled, entity, expenseCard, frameTitle, latest, linkTargets, profile, requirementCard, section0, section1, section2, section3, section4, section5, showInstructions, update } = part3;
 
     /* THE PAGE AS TILES (the page's tile system), one for each of its six sections. A tile opens its section in its dialog: Organization and Founders & Ownership with no
        frame around them, Formation & Registration and Tax & Business Registration in theirs; Additional Legal Requirements and Legal Entity Expenses open a box for each card
        (as the Business System's cards do), and a box opens its card floating. */
+    /* THE ORGANIZATION TILE OF PAGE 1 (Definition): only its dialog, as the tile opens it (design document 28, 8.5). */
+    if (audienceOnly) {
+        return (
+            <div className="legal-entity legal-entity-unframed legal-entity-body legal-entity-org-body">
+                {audience}
+                {/* A divider line across, then the tile's own text under it. */}
+                <div className="business-capability-card-rule legal-entity-org-rule" role="separator" />
+            </div>
+        );
+    }
+    if (organizationOnly) {
+        return (
+            <div className="column-tile-content legal-entity legal-entity-unframed" data-rail={railId(LEGAL_ENTITY_SECTIONS[0])}>
+                <div className="business-engagement-section-head"><DialogHeading title="Organization" info={["What the organization is: its name, where it is, its legal form, what it does and where it stands."]} /></div>
+                <div className="legal-entity-body">{section0}</div>
+            </div>
+        );
+    }
     if (asTiles) {
         const lines = (list: readonly string[], count = 4) => list.map(text => text.trim()).filter(text => text.length > 0).slice(0, count);
         const rail = (section: number) => railId(LEGAL_ENTITY_SECTIONS[section]);
@@ -151,6 +170,9 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
             return expense >= 0 ? floating(expenseCard(entity.expenses[expense], expense, true)) : null;
         };
         const named = entity.founders.filter(founder => founder.name.trim());
+        /** The page holds the founders' tiles and the Capability tile (a page of the Identity System that is given the Founders Profile's saver). */
+        const holdsFounders = onChangeFoundersProfile !== undefined;
+        const capability = asFoundersProfileValue(foundersProfile);
         const foundersListed = named.length === 1
             ? { items: [named[0].name.trim()], marks: [{ centre: true }] }
             : {
@@ -159,9 +181,6 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
                 marks: named.map(() => undefined)
             };
         const expenseEntries = entity.expenses.filter(expense => expense.name.trim().length > 0).slice(0, 8);
-        // The address: its lines, the city and the post code (the last two) next to each other.
-        const written = entity.organisation.addressLine1.split("\n").map(text => text.trim()).filter(text => text.length > 0);
-        const addressLines = written.length >= 3 ? [...written.slice(0, written.length - 2), written.slice(-2).join(" ")] : written;
         /** The link of a line that names a registration: the first expense linked to it (a press opens that expense's card). */
         const expenseLink = (targetId: string): TileLink | undefined => {
             const expense = entity.expenses.find(candidate => candidate.links.includes(targetId));
@@ -169,7 +188,7 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
         };
         // The lines of the Formation's and the Tax's tiles, each with the registration it names (the expense linked to it gives the line its link).
         const formationEntries = [
-            { text: entity.formation.status === "planned" ? "Planned" : "Registered" + (entity.formation.date ? ": " + shownDay(entity.formation.date) : ""), target: "formation-registration-number" },
+            { text: entity.formation.status === "planned" ? "Planned" : "Registered", target: "formation-registration-number" },
             { text: entity.formation.authority, target: "" },
             ...entity.formation.additionalNumbers.map(number => ({ text: number.label, target: number.id }))
         ].filter(entry => entry.text.trim().length > 0).slice(0, 6);
@@ -180,25 +199,62 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
         ].filter(entry => entry.text.trim().length > 0).slice(0, 6);
         const tiles: SectionTile[] = [
             {
-                id: "legal-entity-organization", title: "Organization", large: true, rail: rail(0),
-                // The name (in bold), its legal form, then the address.
-                items: [...lines([entity.organisation.name.trim() ? "**" + entity.organisation.name.trim() + "**" : "", entity.organisation.legalForm]), TILE_DIVIDER, ...addressLines],
-                content: () => plain(0, section0)
-            },
-            {
                 id: "legal-entity-founders", title: "Founders & Ownership", large: true, rail: rail(1),
-                // Several owners: a bulleted list, each name an em dash and its share. One alone: just the name, in the centre.
-                items: foundersListed.items,
-                itemMarks: foundersListed.marks,
-                content: () => plain(1, section1)
+                // (The dialog holds the Ownership, with the founders' profile tiles under it.)
+// (The founders' profiles: each name a link that opens that founder's card in the dialog. Without the Founders Profile saver, as before: the owners with their shares.)
+                items: holdsFounders ? lines(named.map(founder => founder.name.trim()), 8) : foundersListed.items,
+                itemMarks: holdsFounders ? lines(named.map(founder => founder.name.trim()), 8).map(() => ({ bullet: true })) : foundersListed.marks,
+                links: holdsFounders && !soleFounderSettled ? named.slice(0, 8).map(founder => ({ box: "founder-profile-" + founder.id })) : undefined,
+                content: () => holdsFounders && onChangeFoundersProfile
+                    ? (
+                        <div className="column-tile-content legal-entity legal-entity-unframed" data-rail={rail(1)}>
+                            <div className="business-engagement-section-head"><DialogHeading title="Founders & Ownership" info={SECTION_INFO[1]} /></div>
+                            <FoundersProfileEditor
+                                value={foundersProfile}
+                                onChange={onChangeFoundersProfile}
+                                legalEntityFounders={entity.founders}
+                                disabled={disabled}
+                                // (A one-owner form has no ownership to ask: the founder's card, its name a cell and the capital optional beside it.)
+                                soleFounder={soleFounderSettled ? {
+                                    onName: (next) => updateFounder(0, { name: next }),
+                                    capital: entity.founders[0]?.capital ?? "",
+                                    onCapital: (next) => {
+                                        // (A keystroke the cell refused hands back what it had: nothing is saved, so nothing is redrawn under the typing.)
+                                        if (next === (entity.founders[0]?.capital ?? "")) {
+                                            return;
+                                        }
+                                        const founders = entity.founders.map((founder, at) => at === 0 ? { ...founder, capital: next } : founder);
+                                        update({ founders, capitalApplies: next.trim().length > 0 });
+                                    },
+                                    label: amountLabel("Capital"),
+                                    placeholder: currency || "Amount"
+                                } : undefined}
+                                subTilesWith={<div className="legal-entity-body legal-entity-subview">{section1}</div>}
+                            />
+                        </div>
+                    )
+                    : plain(1, section1)
             },
+            ...(holdsFounders && onChangeFoundersProfile ? [{
+                id: "founders-gaps", title: "Capability", large: true, rail: railId(FOUNDERS_PROFILE_SECTIONS[1]),
+                items: lines([...capability.teamGaps.split("\n"), ...capability.teamCover.split("\n")], 8),
+                content: () => (
+                    <FoundersProfileEditor
+                        value={foundersProfile}
+                        onChange={onChangeFoundersProfile}
+                        legalEntityFounders={entity.founders}
+                        disabled={disabled}
+                        capabilityOnly
+                    />
+                )
+            } as SectionTile] : []),
             {
                 id: "legal-entity-registrations", title: "Registrations", large: true, rail: rail(2), view: true,
                 // The state, then the names of the registration numbers (the formation's, the tax's) and the requirements.
-                items: ["Formation & registration", "Tax & business registration", "Additional legal requirements"],
+                items: ["Registration numbers", "Additional legal requirements"],
                 // (A second bullet, in the link's colour, where a registration of that section is linked to an expense.)
-                itemMarks: [{ bullet: true }, { bullet: true }, { bullet: true }],
-                links: [{ box: "formation" }, { box: "tax" }, { box: "requirements" }],
+                itemMarks: [{ bullet: true }, { bullet: true }],
+                links: [{ box: "registration-numbers" }, { box: "requirements" }],
                 holds: entity.requirements.map(requirement => requirement.id),
                 boxHolds: { requirements: entity.requirements.map(requirement => requirement.id) },
                 cardFor: cardOf,
@@ -210,22 +266,20 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
                             label="Registrations"
                             tiles={[
                                 {
-                                    id: "formation",
-                                    title: "Formation & registration",
-                                    items: formationEntries.map(entry => entry.text),
-                                    itemMarks: formationEntries.map((_entry, at) => at === 0 ? { plain: true } : { bullet: true }),
-                                    links: formationEntries.map(entry => expenseLink(entry.target)),
-                                    circles: expenseCircles(["formation-registration-number", ...entity.formation.additionalNumbers.map(number => number.id)]),
-                                    content: () => <div className="legal-entity-body legal-entity-subview">{section2}</div>
-                                },
-                                {
-                                    id: "tax",
-                                    title: "Tax & business registration",
-                                    items: taxEntries.map(entry => entry.text),
-                                    itemMarks: taxEntries.map(() => ({ bullet: true })),
-                                    links: taxEntries.map(entry => expenseLink(entry.target)),
-                                    circles: expenseCircles(["tax-consumption-number", ...entity.tax.additionalRegistrations.map(registration => registration.id)]),
-                                    content: () => <div className="legal-entity-body legal-entity-subview">{section3}</div>
+                                    // THE REGISTRATION NUMBERS, ONE TILE (owner, 2026-10-24): the numbers of the registry (formation) and of the tax, under one heading; the Registration Date is on the Organization tile.
+                                    id: "registration-numbers",
+                                    title: "Registration Numbers",
+                                    items: [...formationEntries, ...taxEntries].slice(0, 8).map(entry => entry.text),
+                                    itemMarks: [...formationEntries, ...taxEntries].slice(0, 8).map((_entry, at) => at === 0 ? { plain: true } : { bullet: true }),
+                                    links: [...formationEntries, ...taxEntries].slice(0, 8).map(entry => expenseLink(entry.target)),
+                                    circles: expenseCircles(["formation-registration-number", ...entity.formation.additionalNumbers.map(number => number.id), "tax-consumption-number", ...entity.tax.additionalRegistrations.map(registration => registration.id)]),
+                                    content: () => (
+                                        <div className="legal-entity-body legal-entity-subview">
+                                            {section2}
+                                            <div className="business-capability-card-rule legal-entity-org-rule" role="separator" />
+                                            {section3}
+                                        </div>
+                                    )
                                 },
                                 {
                                     id: "requirements",

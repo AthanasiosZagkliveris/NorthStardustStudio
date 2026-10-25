@@ -34,8 +34,8 @@ import { NotepadService } from "./NotepadService";
 import { systems } from "../data/systems";
 import { getCapabilityColor } from "../data/capabilities";
 import { AnswerType } from "../framework/enums/AnswerType.ts";
-import { capabilityCardDates, legalEntityCardDates, openingCardDate, type CardDate, type CardDateKind } from "../framework/engine/CalendarCardDates.ts";
-import { asGlobalSettings } from "../framework/engine/GlobalSettings.ts";
+import { capabilityCardDates, keyCardDates, legalEntityCardDates, type CardDate, type CardDateKind } from "../framework/engine/CalendarCardDates.ts";
+import { keyDatesOfSessions } from "../framework/engine/KeyDates.ts";
 import {
     OperationalLogAnswerValue,
     asBusinessCapabilityValue,
@@ -422,8 +422,6 @@ export function getCalendarTasks(organizationId: string): CalendarTask[] {
                 capabilityCardDates(asBusinessCapabilityValue(value), []).forEach(entry => tasks.push(cardTask(section, entry)));
             } else if (section.answer.type === AnswerType.LegalEntity) {
                 legalEntityCardDates(asLegalEntityValue(value)).forEach(entry => tasks.push(cardTask(section, entry)));
-            } else if (section.answer.type === AnswerType.FinancialFoundation) {
-                openingCardDate(asGlobalSettings(OrganizationService.getGlobalSettings(organizationId)).openingDate).forEach(entry => tasks.push(cardTask(section, entry)));
             }
         }
 
@@ -525,6 +523,37 @@ export function getCalendarTasks(organizationId: string): CalendarTask[] {
 
         }
 
+    }
+
+    // THE KEY DATES, the organization's milestones (the plan's start, the registration, the opening, the ends of the stage windows): past and to come, one kind of date on the Calendar.
+    try {
+        const foundation = (number: number) => { try { return StorageService.loadInterview(organizationId, number); } catch { return null; } };
+        const keyDates = keyDatesOfSessions({
+            identity: foundation(1),
+            brand: foundation(2),
+            business: foundation(3),
+            strategy: foundation(4),
+            organisationName: OrganizationService.getSummary(organizationId)?.name ?? "",
+            globalSettings: OrganizationService.getGlobalSettings(organizationId)
+        });
+        const identity = systems.find(candidate => candidate.number === 1);
+        keyCardDates(keyDates, "").forEach(entry => tasks.push({
+            taskId: "key-" + entry.key,
+            date: entry.date,
+            systemNumber: 1,
+            systemTitle: identity?.title ?? "System 1",
+            sectionNumber: 0,
+            sectionTitle: "Key dates",
+            originLabel: "Key date",
+            description: entry.name + " \u00B7 " + entry.label,
+            color: getCapabilityColor(identity?.capability),
+            kind: entry.kind,
+            noun: entry.noun,
+            label: entry.label,
+            name: entry.name
+        }));
+    } catch {
+        // (An organization with nothing saved yet has no key dates.)
     }
 
     // THE NOTES that stand on a day (the Notepad's Date, ticked): this Organization's, and the general ones.

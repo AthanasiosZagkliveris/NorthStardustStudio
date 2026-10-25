@@ -11,6 +11,7 @@ import LegalEntityEditor from "../LegalEntityEditor.tsx";
 import FoundersProfileEditor from "../FoundersProfileEditor.tsx";
 import BrandInventoryEditor from "../BrandInventoryEditor.tsx";
 
+import type { FoundersProfileValue } from "../../../../framework/engine/AnswerUtils.ts";
 import type { AnswerScope } from "./scope.ts";
 
 export function renderBusinessFoundation(scope: AnswerScope) {
@@ -152,7 +153,7 @@ export function renderFinancialSustainability(scope: AnswerScope) {
 
 export function renderLegalEntity(scope: AnswerScope) {
 
-    const { value, onChange, disabled, legalEntityPrefill, foundersProfile, openingDate, columnsDivider, frameTitle, showInstructions } = scope;
+    const { value, onChange, disabled, legalEntityPrefill, foundersProfile, onChangeFoundersProfile, openingDate, columnsDivider, frameTitle, showInstructions } = scope;
 
     return (
 
@@ -160,6 +161,7 @@ export function renderLegalEntity(scope: AnswerScope) {
             value={value}
             prefill={legalEntityPrefill}
             foundersProfile={foundersProfile}
+            onChangeFoundersProfile={onChangeFoundersProfile as ((value: FoundersProfileValue) => void) | undefined}
             openingDate={openingDate}
             columnsDivider={columnsDivider}
             frameTitle={frameTitle}

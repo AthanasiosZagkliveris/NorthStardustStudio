@@ -14,8 +14,11 @@ import { OrganizationService } from "../services/OrganizationService";
  * The count reads every Foundation answer, so it is worked out after
  * the page has drawn, and the module that works it out is loaded then
  * too, never with the page that shows the button.
+ *
+ * On the Landing page (`total`) no Organization is open: the button
+ * opens the review of every Organization, and has no count.
  */
-export default function ReviewButton() {
+export default function ReviewButton({ total = false }: { total?: boolean }) {
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -23,7 +26,7 @@ export default function ReviewButton() {
 
     useEffect(() => {
         const organizationId = OrganizationService.getSelected();
-        if (!organizationId) {
+        if (!organizationId || total) {
             return;
         }
         let live = true;
@@ -40,7 +43,7 @@ export default function ReviewButton() {
             live = false;
             window.clearTimeout(timer);
         };
-    }, [location.key]);
+    }, [location.key, total]);
 
     const words = count ? count + (count === 1 ? " item" : " items") + " to look at" : "nothing open";
 
@@ -53,7 +56,7 @@ export default function ReviewButton() {
                 if (location.pathname === "/review") {
                     return;
                 }
-                navigate("/review", { state: { from: { pathname: location.pathname, state: location.state } } });
+                navigate("/review", { state: { total: total || undefined, from: { pathname: location.pathname, state: location.state } } });
             }}>
             <svg className="header-tool-icon" viewBox="0 0 20 20" aria-hidden="true">
                 <path d="M4 5.5h12M4 10h12M4 14.5h7" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />

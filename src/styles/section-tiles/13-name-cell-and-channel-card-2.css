@@ -507,7 +507,9 @@ label:has(> input[type="checkbox"]) > :not(input) {
 
 .business-foundation-tick-note {
 
-    margin-left: 8px;
+    margin-left: 0;
+
+    white-space: nowrap;
 
     font-size: var(--font-small);
 

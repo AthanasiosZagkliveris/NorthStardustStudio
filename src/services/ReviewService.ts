@@ -39,7 +39,8 @@ export function organizationReview(organizationId: string): ReviewItem[] {
         capabilities: Object.fromEntries(systems.map(system => [system.number, system.capability])),
         order: ORDER.map(system => system.number).filter(number => number in sessions),
         resolveSharedValue: sharedValueResolver(organizationId),
-        organisationName: OrganizationService.getSummary(organizationId)?.name ?? ""
+        organisationName: OrganizationService.getSummary(organizationId)?.name ?? "",
+        globalSettings: OrganizationService.getGlobalSettings(organizationId)
     });
 
 }

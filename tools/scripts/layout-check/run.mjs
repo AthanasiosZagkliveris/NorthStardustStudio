@@ -43,7 +43,7 @@ export const SPEC = {
 export const PAGES = [
     // Each name is matched from the start of the page's button ("1. Definition"),
     // so "Foundation" does not also find "Financial Foundation".
-    ["Identity System", ["^1\\. Definition", "^2\\. Organization"]],
+    ["Identity System", ["^1\\. Definition", "^2\\. Legal Entity"]],
     ["Brand System", ["Brand System"]],
     ["Business System", ["^1\\. Foundation", "Customer Engagement", "Infrastructure", "Financial Foundation", "Sustainability"]],
     ["Strategy System", ["Strategy System"]]
@@ -377,7 +377,7 @@ export async function runLayoutCheck(page, { base = "http://localhost:1420", pro
     const failures = [];
     // The reference x: the first Legal Entity card's.
     let referenceX = null;
-    if (await openPage(page, base, "Identity System", "^2\\. Organization")) {
+    if (await openPage(page, base, "Identity System", "^2\\. Legal Entity")) {
         const card = page.locator(".legal-entity-card .strategy-box-remove").first();
         if (await card.count()) {
             referenceX = await removeLook(page, card);

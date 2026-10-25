@@ -78,23 +78,39 @@ describe("opening Review", () => {
 
 describe("Review across Organizations", () => {
 
-    it("has a section per Organization, the open one first and open, the others folded with their counts; Go there selects the other one first", () => {
-        const other = OrganizationService.create("Quillfield");
-        const current = OrganizationService.getSelected()!;
-
+    function renderReview(state?: unknown) {
         render(
-            <MemoryRouter initialEntries={["/review"]}>
+            <MemoryRouter initialEntries={[{ pathname: "/review", state }]}>
                 <Routes>
                     <Route path="/review" element={<Review />} />
                     <Route path="/introduction" element={<Where name="The interview" />} />
                 </Routes>
             </MemoryRouter>
         );
+    }
+
+    it("shows only the open Organization, open", () => {
+        OrganizationService.create("Quillfield");
+        renderReview();
 
         const arrows = [...document.querySelectorAll<HTMLButtonElement>(".review-organization-title .strategy-box-toggle")];
         const heads = arrows.map(arrow => arrow.closest(".fold-head")!);
+        expect(heads.map(head => head.querySelector(".fold-head-name")?.textContent)).toEqual(["Lumen"]);
+        expect(arrows.map(arrow => arrow.getAttribute("aria-expanded"))).toEqual(["true"]);
+        expect(screen.getByRole("heading", { name: "Review" })).toBeTruthy();
+    });
+
+    it("the total review has every Organization, each folded with its count; Go there selects the other one first", () => {
+        const other = OrganizationService.create("Quillfield");
+        const current = OrganizationService.getSelected()!;
+
+        renderReview({ total: true });
+
+        expect(screen.getByRole("heading", { name: "Total review" })).toBeTruthy();
+        const arrows = [...document.querySelectorAll<HTMLButtonElement>(".review-organization-title .strategy-box-toggle")];
+        const heads = arrows.map(arrow => arrow.closest(".fold-head")!);
         expect(heads.map(head => head.querySelector(".fold-head-name")?.textContent)).toEqual(["Lumen", "Quillfield"]);
-        expect(arrows.map(arrow => arrow.getAttribute("aria-expanded"))).toEqual(["true", "false"]);
+        expect(arrows.map(arrow => arrow.getAttribute("aria-expanded"))).toEqual(["false", "false"]);
         // Nothing started: the four Foundation Systems each still open.
         expect(heads[1].querySelector(".fold-head-count")?.textContent).toBe("4");
 

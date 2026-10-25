@@ -14,17 +14,17 @@ Thinking Time: About 1–1.5 hr
 - What do you create or provide?
 - Name and legal details go in 3. Legal Entity.
 
-### Mission
-
-- What is your purpose?
-- What problem are you trying to solve?
-- Why does solving it matter?
-
 ### Positioning
 
 - Who is your target audience?
 - Which market or category do you belong to?
 - How are you different from competitors?
+
+### Mission
+
+- What is your purpose?
+- What problem are you trying to solve?
+- Why does solving it matter?
 
 ### Vision
 

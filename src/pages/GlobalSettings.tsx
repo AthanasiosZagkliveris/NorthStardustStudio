@@ -13,6 +13,8 @@ import {
     asGlobalSettings,
     capitalisationLimitOf,
     createChannelFeeRow,
+    defaultStageDurationTexts,
+    stageDurationsOf,
     AMORTISATION_GROUPS,
     DEFAULT_AMORTISATION,
     DEFAULT_USEFUL_LIFE,
@@ -28,11 +30,25 @@ import { systems } from "../data/systems";
 import { StorageService } from "../services/StorageService";
 import { AnswerType } from "../framework/enums/AnswerType";
 import { asBusinessCapabilityValue, asLegalEntityValue } from "../framework/engine/AnswerUtils";
-import { asFinancialFoundationValue, costStartDates, derivedPlanStart, withPlanStart, type FinancialFoundationValue } from "../framework/engine/FinancialModel";
+import { asFinancialFoundationValue, costStartDates, derivedPlanStart, legalExpenseDates, withPlanStart, type FinancialFoundationValue } from "../framework/engine/FinancialModel";
 import FinancialPlanSettings from "../components/interview/editors/FinancialPlanSettings";
+import { STAGES, addMonthsIso, dayWords, stageEnds, stageOf, stageMessages, type StageKey } from "../framework/engine/BusinessStage";
+import { INFO as LEGAL_INFO } from "../components/interview/editors/legal/shared";
 import InfoNote from "../components/interview/fields/InfoNote";
+import FieldLabel from "../components/controls/FieldLabel";
 import { USEFUL_LIFE_MEANING, USEFUL_LIFE_SOURCES, usefulLifePoints } from "../framework/engine/UsefulLifeReferences";
 import { SOURCES } from "../framework/engine/Sources";
+
+/**
+ * The business stages' durations, in the order the screen lists them: what each is and the unit it is counted in (months, the Growing stage's in years). The Opening Date is where Planning ends and
+ * Launching starts; Managing and Growing start where the stage before ends.
+ */
+const STAGE_ROWS: readonly { field: "planning" | "launching" | "managing" | "growing"; stage: StageKey; label: string; unit: "months" | "years"; max: number; meaning: string }[] = [
+    { field: "planning", stage: "plan", label: "Planning", unit: "months", max: 120, meaning: "How long the planning is meant to take, counted back from the Opening Date (the Review says when it has run longer). A business with no Opening Date yet is planning." },
+    { field: "launching", stage: "launch", label: "Launching", unit: "months", max: 120, meaning: "From the Opening Date: the first customers, the MVP, the proof that the market accepts it. The Early Positioning Statement is proved or changed within it." },
+    { field: "managing", stage: "manage", label: "Managing", unit: "months", max: 120, meaning: "After Launching: stabilising, keeping customers, product-market fit. The Core Market Positioning stands for it." },
+    { field: "growing", stage: "grow", label: "Growing", unit: "years", max: 50, meaning: "After Managing: scaling and expanding into new markets. The Corporate & Portfolio Positioning looks as far ahead." }
+];
 
 /** What the amortisation of an intangible asset is, and the standards its years come from (Global Settings > Assets > Intangible assets). */
 const AMORTISATION_POINTS = [
@@ -117,7 +133,7 @@ export default function GlobalSettings() {
     /** The plan's first month for an Opening Date: the earlier of its month and the earliest card's cost. */
     function planStartFor(openingDate: string) {
         const capability = asBusinessCapabilityValue(business && capabilitySection ? business.getResponse(capabilitySection.number) : undefined);
-        return derivedPlanStart(openingDate, costStartDates(capability), plan?.planStart ?? withPlanStart(asFinancialFoundationValue(undefined)).planStart);
+        return derivedPlanStart(openingDate, [...costStartDates(capability), ...legalExpenseDates(legalEntity)], plan?.planStart ?? withPlanStart(asFinancialFoundationValue(undefined)).planStart);
     }
 
     function changePlan(next: FinancialFoundationValue) {
@@ -199,6 +215,10 @@ export default function GlobalSettings() {
 
     const orgCurrency = countryCurrency(legalEntity.organisation.country);
 
+    // The business stage today, and what each stage lasts (the Opening Date is where they start).
+    const stageDurations = stageDurationsOf(settings);
+    const todayStage: StageKey = stageOf(settings.openingDate, new Date(), stageDurations);
+
     const feeCell = (rowId: string, field: "commission" | "fixedFee" | "chargeback", label: string, limits: NumberLimit, value: string) => (
         <NumberCell
             inputMode={numberInputMode(limits)}
@@ -230,17 +250,105 @@ export default function GlobalSettings() {
                         <FinancialPlanSettings
                             value={plan}
                             legalEntity={legalEntity}
-                            openingDate={settings.openingDate}
                             planStart={planStartFor(settings.openingDate)}
                             onChange={changePlan}
-                            onChangeOpeningDate={(iso) => {
-                                change({ openingDate: iso });
-                                // (The plan's first month follows the Opening Date.)
-                                changePlan({ ...plan, planStart: planStartFor(iso) });
-                            }}
                         />
                     </section>
                 )}
+
+                {/* THE BUSINESS STAGES (owner, 2026-10-24): the stage is the Opening Date's; how long each lasts is set here, as the Assets' useful lives are. What else there is to say stands in the "i" beside the title. */}
+                <section className="settings-section" aria-label="Business stages">
+                    <h2 className="review-group-title">
+                        Business stages
+                        <InfoNote
+                            label="Business stages"
+                            fullList
+                            points={[
+                                "Today: " + (STAGES.find(entry => entry.id === todayStage)?.label ?? "") + ". " + (settings.openingDate === "" ? "No Opening Date yet: set it on the Organization tile." : stageMessages(settings.openingDate, "", new Date(), stageDurations)[0]),
+                                ...LEGAL_INFO.businessStage,
+                                ...STAGE_ROWS.map(row => row.label + ": " + row.meaning)
+                            ]}
+                        />
+                    </h2>
+                    <div className="settings-field">
+                        <FieldLabel className="settings-label">
+                            Opening Date
+                            <InfoNote label="Opening Date" points={LEGAL_INFO.openingDate} />
+                        </FieldLabel>
+                        <span className="settings-control"><span>{settings.openingDate === "" ? "Not set" : dayWords(settings.openingDate)}</span></span>
+                        <span className="settings-hint">{settings.openingDate === "" ? "Set on the Organization tile." : ""}</span>
+                    </div>
+                    <div className="settings-table-wrap">
+                        <table className="settings-table settings-assets-table settings-stages-table" aria-label="Business stages">
+                            <colgroup>
+                                <col className="settings-col-asset" />
+                                <col className="settings-col-date" />
+                                <col className="settings-col-date" />
+                                <col className="settings-col-life" />
+                                <col className="settings-col-time" />
+                                <col className="settings-col-reset" />
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Stage</th>
+                                    <th scope="col">Start</th>
+                                    <th scope="col">End</th>
+                                    <th scope="col" className="settings-number-column">Duration</th>
+                                    <th scope="col">Time in:</th>
+                                    <th scope="col">
+                                        <AddButton title="Reset every stage to its default duration"
+                                            disabled={STAGE_ROWS.every(row => settings.stageDurations[row.field] === defaultStageDurationTexts()[row.field])}
+                                            onClick={() => change({ stageDurations: defaultStageDurationTexts() })}>
+                                            Reset
+                                        </AddButton>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {STAGE_ROWS.map(row => {
+                                    const typed = settings.stageDurations[row.field];
+                                    const fallback = defaultStageDurationTexts()[row.field];
+                                    // (Each stage starts where the one before ends: Planning ends at the Opening Date, counted back from it; the others follow it.)
+                                    const opening = settings.openingDate;
+                                    const ends = stageEnds(stageDurations);
+                                    const window = opening === "" ? ["", ""]
+                                        : row.stage === "plan" ? [addMonthsIso(opening, -stageDurations.planning), opening]
+                                        : row.stage === "launch" ? [opening, addMonthsIso(opening, ends.launching)]
+                                        : row.stage === "manage" ? [addMonthsIso(opening, ends.launching), addMonthsIso(opening, ends.managing)]
+                                        : [addMonthsIso(opening, ends.managing), addMonthsIso(opening, ends.growing)];
+                                    return (
+                                        <tr className={"settings-assets-group" + (row.stage === todayStage ? " settings-stage-current" : "")} key={row.field} aria-current={row.stage === todayStage ? "true" : undefined}>
+                                            <th scope="row">
+                                                {row.label}
+                                                <InfoNote label={row.label + " duration"} points={[row.meaning]} />
+                                            </th>
+                                            <td>{window[0] === "" ? "" : dayWords(window[0])}</td>
+                                            <td>{window[1] === "" ? "" : dayWords(window[1])}</td>
+                                            <td className="settings-number-column">
+                                                <NumberCell
+                                                    inputMode="numeric"
+                                                    className="settings-number settings-percent"
+                                                    aria-label={row.label + " duration (" + row.unit + ")"}
+                                                    value={typed}
+                                                    onChange={(event) => change({ stageDurations: { ...settings.stageDurations, [row.field]: limitedNumberText(event.target.value, typed, { max: row.max, decimals: 0 }) } })}
+                                                />
+                                            </td>
+                                            <td>{row.unit}</td>
+                                            <td>
+                                                {typed !== fallback && (
+                                                    <AddButton title={"Reset " + row.label + " to " + fallback + " " + row.unit}
+                                                        onClick={() => change({ stageDurations: { ...settings.stageDurations, [row.field]: fallback } })}>
+                                                        Reset
+                                                    </AddButton>
+                                                )}
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
 
                 <section className="settings-section" aria-label="Pay and tax">
                     {sectionTitle("Pay and tax")}

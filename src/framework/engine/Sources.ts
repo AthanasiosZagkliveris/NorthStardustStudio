@@ -269,6 +269,41 @@ export const SOURCES = {
         checked: "2026-10-12"
     },
 
+    strategicPositioning: {
+        title: "Strategic Positioning",
+        publisher: "Harvard Business School, Institute for Strategy & Competitiveness",
+        url: "https://www.isc.hbs.edu/strategy/business-strategy/Pages/strategic-positioning.aspx",
+        checked: "2026-10-25"
+    },
+
+    positioningStatement: {
+        title: "How to Write Market Positioning Statements",
+        publisher: "eCornell, Cornell University",
+        url: "https://ecornell-impact.cornell.edu/how-to-write-market-positioning-statements/",
+        checked: "2026-10-25"
+    },
+
+    positioningTemplate: {
+        title: "E145 Technology Entrepreneurship, Session 6",
+        publisher: "Stanford University",
+        url: "https://web.stanford.edu/class/e145/2007_fall/startup_mktg_details.shtml",
+        checked: "2026-10-25"
+    },
+
+    marketResearch: {
+        title: "Market research and competitive analysis",
+        publisher: "U.S. Small Business Administration",
+        url: "https://www.sba.gov/business-guide/plan-your-business/market-research-competitive-analysis",
+        checked: "2026-10-25"
+    },
+
+    brandPositioningStatement: {
+        title: "Crafting the Perfect Brand Positioning Statement",
+        publisher: "Harvard Business School Online",
+        url: "https://online.hbs.edu/blog/post/brand-positioning-statement",
+        checked: "2026-10-25"
+    },
+
     smallCompanyIntangibleLives: {
         title: "A small company's intangible assets note",
         publisher: "SEC (company filing)",

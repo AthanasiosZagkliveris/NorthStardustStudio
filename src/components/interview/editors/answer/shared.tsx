@@ -1,3 +1,4 @@
+import type { StageKey } from "../../../../framework/engine/BusinessStage.ts";
 import { ReactNode } from "react";
 import type { OpenPage } from "../../tiles/jumpTo.ts";
 import { TableColumn, TableRow } from "../../fields/DynamicTable.tsx";
@@ -245,11 +246,15 @@ export interface AnswerRendererProps {
     legalEntity?: LegalEntityValue;
     /** Saves the Legal Entity page's answer from another page (3. Infrastructure & Capability's floating legal cards). */
     onChangeLegalEntity?: (value: unknown) => void;
+    /** Saves the Founders Profile from the Legal Entity page, which holds the founders' tiles and the Capability tile (the Founders Profile is no page of its own). */
+    onChangeFoundersProfile?: (value: unknown) => void;
     businessCapability?: unknown;
     financialFoundation?: unknown;
     /** The Opening Date (an ISO date) of the Global Settings, for the pages that place costs around it. */
     openingDate?: string;
     onChangeOpeningDate?: (iso: string) => void;
+    /** The business stage the Opening Date and the durations give. */
+    businessStage?: StageKey;
     /** The Global Settings, for the default rates a card shows beside its own. */
     globalSettings?: GlobalSettingsValue;
     /** Sustainability's saved value, for Financial Foundation's operating need. */

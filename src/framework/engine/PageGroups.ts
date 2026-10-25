@@ -24,7 +24,8 @@ export interface PageGroup {
 
 export const PAGE_GROUPS: readonly PageGroup[] = [
     { systemNumber: 1, members: [1, 2], title: "Definition and Ethics", inHeader: true },
-    { systemNumber: 1, members: [3, 4], title: "Organization", inHeader: true, frameTitles: ["Legal Entity", "Founders & Capability"] },
+    // (The Founders Profile, the fourth section, is no frame of its own: its founders are tiles in the Founders & Ownership dialog and its Capability a tile beside it. It keeps its saved answer.)
+    { systemNumber: 1, members: [3], title: "Legal Entity", inHeader: true, frameTitles: ["Legal Entity"] },
     { systemNumber: 2, members: [1, 2], title: "Brand System", inHeader: false },
     // The Strategy System is one page: its Situation & Direction (the Strategic Period's Goals and Objectives are written in each Theme's card there).
     { systemNumber: 4, members: [1], title: "Strategy System", inHeader: false }
@@ -35,7 +36,8 @@ export const PAGE_GROUPS: readonly PageGroup[] = [
  * Initiatives and Metrics under its second section, and the Roadmap draws from it) but no page, bullet, arrow or title shows them.
  */
 export const HIDDEN_SECTIONS: readonly { systemNumber: number; sections: readonly number[]; primary: number }[] = [
-    { systemNumber: 4, sections: [2, 3], primary: 1 }
+    { systemNumber: 4, sections: [2, 3], primary: 1 },
+    { systemNumber: 1, sections: [4], primary: 3 }
 ];
 
 /** Whether the section is kept out of the pages. */

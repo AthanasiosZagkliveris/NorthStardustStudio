@@ -150,7 +150,7 @@ describe("Conversation records the last place worked", () => {
         fireEvent.click(screen.getByRole("button", { name: "Start Interview" }));
         expect(OrganizationService.getLastPlace(organization.id)).toEqual({ systemNumber: 1, sectionIndex: 0 });
 
-        // (The first item is the Introduction; the second the Organization page, which holds the Legal Entity and the Founders Profile.)
+        // (The first item is the Introduction; the second the Legal Entity page, which holds the Legal Entity and the Founders Profile.)
         fireEvent.click(screen.getByRole("navigation", { name: "Pages" }).querySelectorAll(".bullet-rail-item")[2]);
         expect(OrganizationService.getLastPlace(organization.id)).toEqual({ systemNumber: 1, sectionIndex: 2 });
         fireEvent.click(screen.getByRole("navigation", { name: "Pages" }).querySelectorAll(".bullet-rail-item")[1]);
@@ -178,12 +178,12 @@ describe("Conversation records the last place worked", () => {
 
         expect(screen.queryByRole("navigation", { name: "Sections" })).toBeNull();
 
-        fireEvent.click(screen.getByRole("button", { name: /^Description/ }));
+        fireEvent.click(screen.getByRole("button", { name: /^Organization/ }));
         fireEvent.change(document.querySelector<HTMLTextAreaElement>(".column-tile-content[data-rail] textarea")!, {
             target: { value: "We automate small offices." }
         });
 
-        expect(screen.getAllByRole("button", { name: /^Description/ }).length).toBeGreaterThan(0);
+        expect(screen.getAllByRole("button", { name: /^Organization/ }).length).toBeGreaterThan(0);
 
     });
 
@@ -204,7 +204,7 @@ describe("Conversation records the last place worked", () => {
         expect(current()).toMatch(/^2. /);
 
         // Not while typing (page 2 holds the Legal Entity, tiles: open the first, which holds boxes).
-        fireEvent.click(screen.getByRole("button", { name: /^Organization/ }));
+        fireEvent.click(screen.getByRole("button", { name: /^Founders & Ownership/ }));
         const box = document.querySelector<HTMLElement>("textarea, input")!;
         fireEvent.keyDown(box, { key: "ArrowLeft" });
         expect(current()).toMatch(/^2. /);
@@ -267,7 +267,7 @@ describe("Conversation records the last place worked", () => {
 
         expect(screen.queryByRole("button", { name: "Start Interview" })).toBeNull();
         expect(screen.getByRole("navigation", { name: "Pages" }).querySelector("[aria-current='true']")?.getAttribute("aria-label"))
-            .toMatch(/^2\. Organization/);
+            .toMatch(/^2. Legal Entity/);
         expect(OrganizationService.getLastPlace(organization.id)).toEqual({ systemNumber: 1, sectionIndex: 2 });
 
     });
@@ -345,11 +345,11 @@ describe("A System's opening screen", () => {
 
         renderOpening("identity");
 
-        fireEvent.click(screen.getByRole("button", { name: "Organization" }));
+        fireEvent.click(screen.getByRole("button", { name: "Legal Entity" }));
 
         expect(screen.queryByRole("button", { name: "Start Interview" })).toBeNull();
         expect(screen.getByRole("navigation", { name: "Pages" }).querySelector("[aria-current='true']")?.getAttribute("aria-label"))
-            .toMatch(/^2\. Organization/);
+            .toMatch(/^2. Legal Entity/);
 
     });
 

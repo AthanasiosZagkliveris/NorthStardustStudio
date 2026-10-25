@@ -4,12 +4,13 @@ import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import FinancialFoundationEditor from "../editors/FinancialFoundationEditor";
 import FinancialPlanSettings from "../editors/FinancialPlanSettings";
+import LegalEntityEditor from "../editors/LegalEntityEditor";
 import { asBusinessCapabilityValue } from "../../../framework/engine/AnswerUtils";
 import { asLegalEntityValue } from "../../../framework/engine/AnswerUtils";
 import { asFinancialFoundationValue, consolidateCosts, splitAtOpening, type CostLine } from "../../../framework/engine/FinancialModel";
 import { asGlobalSettings } from "../../../framework/engine/GlobalSettings";
 
-/* I2: the Opening Date, next to Plan Start, kept in the Global Settings; a card splits by its dates around it. */
+/* I2: the Opening Date, set on the Organization tile and kept in the Global Settings; a card splits by its dates around it. */
 
 afterEach(cleanup);
 
@@ -17,43 +18,28 @@ describe("the Opening Date field", () => {
 
     function Harness({ onDate, initial = "" }: { onDate: (iso: string) => void; initial?: string }) {
         const [date, setDate] = useState(initial);
-        return (
-            <FinancialPlanSettings
-                value={{ ...asFinancialFoundationValue(undefined), planStart: { month: "03", year: "2027" } }}
-                legalEntity={asLegalEntityValue(undefined)}
-                openingDate={date}
-                planStart={{ month: "03", year: "2027" }}
-                onChange={() => undefined}
-                onChangeOpeningDate={(next) => { setDate(next); onDate(next); }}
-            />
-        );
+        return <LegalEntityEditor value={asLegalEntityValue(undefined)} organizationOnly openingDate={date} onChangeOpeningDate={(next) => { setDate(next); onDate(next); }} onChange={() => undefined} />;
     }
 
-    it("stands in the plan's settings (Global Settings) next to Plan Start and hands the date on", () => {
+    it("stands on the Organization tile, in the right column before the Activities, and hands the date on", () => {
         let latest = "";
         const { container } = render(<Harness onDate={(iso) => { latest = iso; }} />);
-        expect(container.textContent).toMatch(/Plan Start[\s\S]*Opening Date[\s\S]*Plan Length/);
+        expect(container.textContent).toMatch(/Opening Date.*Activities/);
         const box = screen.getByLabelText("Opening Date") as HTMLInputElement;
         fireEvent.change(box, { target: { value: "01/06/2027" } });
         fireEvent.blur(box);
         expect(latest).toMatch(/^2027-0[16]-0[16]$/);
     });
 
-    it("says so when the Opening Date is before the company was formed", () => {
-        const formed = { ...asLegalEntityValue(undefined), formation: { ...asLegalEntityValue(undefined).formation, status: "registered", date: "2027-03-01" } } as ReturnType<typeof asLegalEntityValue>;
-        render(<FinancialPlanSettings value={asFinancialFoundationValue(undefined)} legalEntity={formed} openingDate="2027-01-15" planStart={{ month: "01", year: "2027" }} onChange={() => undefined} onChangeOpeningDate={() => undefined} />);
-        expect(screen.getByText(/The Opening Date is before the company was formed/)).toBeTruthy();
-    });
-
-    it("says nothing when it is after the formation", () => {
-        render(<Harness onDate={() => undefined} initial="2027-06-01" />);
-        expect(screen.queryByText(/before the company was formed/)).toBeNull();
+    it("is no longer a setting of the Global Settings' financial plan", () => {
+        render(<FinancialPlanSettings value={asFinancialFoundationValue(undefined)} legalEntity={asLegalEntityValue(undefined)} planStart={{ month: "03", year: "2027" }} onChange={() => undefined} />);
+        expect(screen.queryByLabelText("Opening Date")).toBeNull();
     });
 
     it("shows the plan's first month, worked out, with nothing to pick", () => {
-        render(<Harness onDate={() => undefined} initial="2027-06-01" />);
+        render(<FinancialPlanSettings value={asFinancialFoundationValue(undefined)} legalEntity={asLegalEntityValue(undefined)} planStart={{ month: "03", year: "2027" }} onChange={() => undefined} />);
         expect(screen.queryByLabelText("Plan Start")).toBeNull();
-        expect(screen.getAllByText(/Mar\w* 2027/).length).toBeGreaterThan(0);
+        expect(screen.getAllByText(/Marw* 2027/).length).toBeGreaterThan(0);
     });
 
     it("is no longer a field of the Financial Foundation page", () => {

@@ -1,6 +1,6 @@
 # Glossary
 
-Status: **reference**, updated 2026-10-21.
+Status: **reference**, updated 2026-10-25.
 
 Canonical, one-line definitions. Each term has exactly one owner document, linked below — read that document for the full explanation; this file exists for fast lookup and to keep terminology consistent across every other document and Skill, not to explain anything itself.
 
@@ -46,7 +46,9 @@ Canonical, one-line definitions. Each term has exactly one owner document, linke
 
 **Library / contract / placement** — the assets library records every asset once with its variants and a contract (`src/library`); a placement says where an asset stands in the app; two logs record changes. *Owned by: `design/08-library-system.md`.*
 
-**Global Settings** — the per-user and per-device settings in the header (Opening Date, Plan Start, tax, reserves, useful life and others). **Opening Date** — the date the organization opens; the budget before it is the cash to raise. *Owned by: `app-guide.md`.*
+**Global Settings** — the per-organization settings in the header (the Business stages, Plan Start, tax, reserves, useful life and others). **Opening Date** — the date the organization opens, set on the Organization tile; the budget before it is the cash to raise. **Business stage** — Planning, Launching, Managing or Growing, worked out from the Opening Date and the four durations in the Global Settings; it sets the limits and locks of the Positioning questions. **Key dates** — the milestones of the organization (plan start, registration, opening, the end of each stage's window), on the Review and the Calendar. *Owned by: `app-guide.md`; the stage and the key dates by `design/28-questionnaire-specification.md`, 8.2a.*
+
+**Early Positioning** — the Positioning tile, named by the stage (Early Positioning, Core Market Positioning, Corporate & Portfolio Positioning): market structure, seller and buyer relationship, audience and outcome. A *multi-sided market* is a platform of two or more distinct groups; a buyer who is not the user is not one. *Owned by: `design/28-questionnaire-specification.md`, 8.2.*
 
 ## Documents and working
 

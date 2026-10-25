@@ -10,11 +10,11 @@
 
 **Structure:** Free Text
 
-**Mission**
+**Positioning**
 
 **Structure:** Free Text
 
-**Positioning**
+**Mission**
 
 **Structure:** Free Text
 

@@ -50,7 +50,10 @@ const DESIGN = [
   ["docs/design/23-help-texts.md", "current design", "The help texts of the app.", true],
   ["docs/design/24-popups.md", "current design", "Pop-ups in six categories, with their placement rules.", true],
   ["docs/design/25-tooltips.md", "current design", "Which controls have a tooltip, what it says, and the five rules.", true],
-  ["docs/design/26-folder-plan.md", "proposal", "The app files, the examples and the working files: what is where, and a three-step plan to separate them.", true]
+  ["docs/design/26-folder-plan.md", "proposal", "The app files, the examples and the working files: what is where, and a three-step plan to separate them.", true],
+  ["docs/design/27-questionnaire-plan.md", "proposal", "The questionnaire plan: the one test (does an answer save the founder work), the funnel from Identity to the journey, a worked example, the 42 drivers, the six building blocks, the stages and the decisions.", true],
+  ["docs/design/28-questionnaire-specification.md", "proposal", "The questionnaire specification: the countries and shared lists with examples, the industry list in two levels, every question and option, the connection map with its evidence, the equality rules, the moves and the decisions.", true],
+  ["docs/design/29-question-guide.md", "proposal", "The question guide: the flow of questions as trees, the key branching questions, what happens on both, mixed, not sure and other, the order that asks the least, why each question matters to the user, and how to write a new one.", true]
 ];
 const SPEC = [
   ["docs/specifications/business-system/README.md", "specification", "The Business System: index of the pages and the editor mapping.", true],

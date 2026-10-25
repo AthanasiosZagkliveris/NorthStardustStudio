@@ -11,6 +11,7 @@ A tooltip is a small dark label above a control, in the app's own style (`Toolti
 3. **A control whose words are cut short says them whole**: a link or a value that runs past its place and is cut (an ellipsis, or a line that moves).
 4. **A control says what its words do not**: the key it answers to ("Previous card (←)"), where it goes, what it changes ("Reset Computers to 3 years"); three words or more that it does not already show.
 5. **Never what the control already shows**: its text, its name or its value. A `title` that only repeats the name is not written.
+6. **A control whose pop-up window is open has none (owner, 2026-10-25)**: the calendar button, the "i", a menu. The window is the answer, so the tip goes the moment the control says `aria-expanded="true"` (with `aria-haspopup`), whatever opened it, and does not come back while the window stays open. One rule in `TitleTooltips`, not one per control.
 
 A tooltip is one line, at most 360px wide, **in one place for every control**: its bottom 6px over the control's top and its left edge on the control's left edge (where every pop-up cell starts) (its right edge on the control's right edge where the control says so), under the control (6px) only where there is no room above, kept inside the window. It **never follows the pointer**. It opens under the pointer and on the keyboard focus, closes on Escape, on a press and when the pointer leaves. (This is the same place for the keyboard and the pointer: `aboveTipPosition`, `Tooltip.tsx`.)
 
@@ -47,7 +48,7 @@ The app's own terms keep their capitals (Offering, Resource, Status, page names)
 | A dropdown cell, a date cell, a text box, a number cell | no | (its value is on it; the "i" explains the field) |
 | A tick (`TickField`) | no | (its words are the label) |
 | A tile, a card, a heading, a label | no | (text) |
-| A tab, a segmented option (`SegmentedToggle`) | no, its word is on it | |
+| A tab | no, its word is on it | |
 
 ## 3. Where it is written
 

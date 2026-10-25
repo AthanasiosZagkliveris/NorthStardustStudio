@@ -225,11 +225,13 @@ cash timeline chart and signal list (`FinancialParts.tsx`).
 Two decisions the specifications leave open, settled with the
 product owner:
 
-- **Time.** Page 4 asks once for the month the plan starts. That is
-  Month 1, and both pages model **24 months** from it; every date
-  on either page is a month picked within it. Until a start is
-  chosen the page calculates from the current month without
-  recording it.
+- **Time.** The month the plan starts is never typed: it is worked
+  out from the Opening Date (set on the Identity System's
+  Organization tile) and the earliest cost, a card's or a legal
+  expense's. That is Month 1; the plan length is set in the Global
+  Settings, and every date on either page is a month picked within
+  it. (The earlier text asked page 4 for the start and modelled 24
+  months.)
 - **Currency.** Every total is in the organisation's currency (the
   Legal Entity country's). A cost priced in another currency on
   Page 3 is listed, flagged "Other currency: not counted", and left

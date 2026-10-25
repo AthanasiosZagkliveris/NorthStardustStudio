@@ -298,7 +298,7 @@ export default function Landing() {
   return (
     <main className="landing">
 
-      <AppHeader reloadable onReload={refreshExampleOrganizations} />
+      <AppHeader reloadable totalReview onReload={refreshExampleOrganizations} />
 
       <section className="user-name-section">
 

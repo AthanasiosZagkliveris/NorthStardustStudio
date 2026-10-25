@@ -1,8 +1,11 @@
+import type { StageKey } from "../../../../framework/engine/BusinessStage.ts";
 import { ReactNode } from "react";
+import { SCHEME_CODE_LABEL, schemeKeyOf } from "../../../../framework/engine/ActivityClassification.ts";
 import { isoToDisplay } from "../../fields/DateCellInput.tsx";
 import { PreferencesService } from "../../../../services/PreferencesService.ts";
-import { LegalEntityValue, todayIsoDate, createLegalEntityExpense } from "../../../../framework/engine/AnswerUtils.ts";
+import { FoundersProfileValue, LegalEntityValue, todayIsoDate, createLegalEntityExpense } from "../../../../framework/engine/AnswerUtils.ts";
 import { InfoPoint } from "../../fields/InfoNote.tsx";
+import { SOURCES } from "../../../../framework/engine/Sources.ts";
 
 /**
  * The last entry in every Legal Form list. The brief forbids
@@ -53,6 +56,148 @@ export const MAX_OTHER_NUMBER_LENGTH = 30;
  * reader's wrong guess rather than on the answer -- and not which
  * answer to give, which is theirs and their jurisdiction's.
  */
+/** The four stages of the US Small Business Administration's business guide (design document 28, I8), in its order: its headings (Plan, Launch, Manage, Grow your business) said as the stage a business is in. */
+export const BUSINESS_STAGES = [
+    { id: "plan", label: "Planning" },
+    { id: "launch", label: "Launching" },
+    { id: "manage", label: "Managing" },
+    { id: "grow", label: "Growing" }
+] as const;
+
+export type CustomerType = "b2c" | "b2b" | "b2g" | "g2b" | "both" | "";
+export type MarketType = "single" | "multi" | "";
+
+/** Seller and Buyer Relationship (design document 28, 8.2): the owner's words as written, one choice. */
+export const CUSTOMER_TYPES = [
+    { id: "b2c", label: "B2C (Business-to-Consumer)" },
+    { id: "b2b", label: "B2B (Business-to-Business)" },
+    { id: "b2g", label: "B2G (Business-to-Government)" },
+    { id: "g2b", label: "G2B Context (Regulatory/Compliance)" }
+] as const;
+
+/** Market Structure: the owner's words as written, one choice. */
+export const MARKET_TYPES = [
+    { id: "single", label: "Single-sided Market" },
+    { id: "multi", label: "Multi-sided Market / Platform" }
+] as const;
+
+/** Audience Specialization & Scale (a business or public buyer), one choice. */
+export const AUDIENCE_SCALES = [
+    { id: "solo", label: "Solopreneurs & Freelancers" },
+    { id: "smb", label: "Startups & SMBs" },
+    { id: "mid", label: "Mid-Market" },
+    { id: "enterprise", label: "Enterprise / Public Sector" }
+] as const;
+
+/** Buyer's Life-Stage and relationship with the User (a consumer buyer), one choice. */
+export const LIFE_STAGES = [
+    { id: "proxy", label: "Proxy Buyers / Gifters" },
+    { id: "young", label: "Students / Young Adults" },
+    { id: "adult", label: "Workers / Professionals / Adults" },
+    { id: "senior", label: "Seniors" }
+] as const;
+
+/** Administrative Level (Jurisdiction Scale) of a public buyer (B2G). */
+export const JURISDICTIONS = [
+    { id: "local", label: "Local Government" },
+    { id: "regional", label: "Regional Administration" },
+    { id: "central", label: "Central Government & Ministries" },
+    { id: "institutional", label: "Institutional / Public Organizations" }
+] as const;
+
+/** Regulatory Intensity of the target industry (G2B context). */
+export const REGULATORY_INTENSITIES = [
+    { id: "lowreg", label: "General Commerce / Mass Market" },
+    { id: "specialized", label: "Specialized Sectors" },
+    { id: "heavy", label: "Heavily Regulated Markets" },
+    { id: "crossborder", label: "Cross-border Trade" }
+] as const;
+
+/** Differentiation & Outcome, one choice. */
+export const OUTCOMES = [
+    { id: "cost", label: "Cost-driven" },
+    { id: "convenience", label: "Convenience-driven" },
+    { id: "compliance", label: "Compliance, Risk & Security" },
+    { id: "premium", label: "Status & Premium" }
+] as const;
+
+/**
+ * HOW MANY CHOICES EACH QUESTION OF EARLY POSITIONING ALLOWS follows the business stage (design document 28, 8.2, the owner's matrix): the earlier the business, the narrower the focus.
+ * Planning (and no stage yet): one everywhere. Launching: one, except two in the outcome. Managing: two in each. Growing: free (null).
+ */
+export type PositioningQuestion = "relationship" | "audience" | "outcome";
+export function choiceLimit(stage: string, question: PositioningQuestion): number | null {
+    if (stage === "grow") {
+        return null;
+    }
+    if (stage === "manage") {
+        return 2;
+    }
+    if (stage === "launch") {
+        return question === "outcome" ? 2 : 1;
+    }
+    return 1;
+}
+
+/**
+ * WHAT A STAGE LOCKS for a public buyer or the compliance context (the owner's framework, 2026-10-24): the central government and the heavily regulated markets are not open while planning
+ * and launching; the beachhead (local government, general commerce) is. Returns the ids locked.
+ */
+export function lockedAudience(stage: string, model: string): string[] {
+    const early = stage !== "manage" && stage !== "grow";
+    if (!early) {
+        return [];
+    }
+    return model === "b2g" ? ["central"] : model === "g2b" ? ["heavy"] : [];
+}
+
+/**
+ * THE ANSWERS FOLLOW THE STAGE (owner, 2026-10-25): when the Opening Date, or a duration, moves the business into another stage, the questions of Early Positioning take that stage's set-up. A question whose answers do not fit
+ * it (more than the stage allows, or a choice the stage locks) goes back to its default, empty; a question that fits keeps its answers. The last question is asked once, or once for each side of a platform
+ * (while managing or growing, with several relationships chosen), so answers of the other form go. Returns the organisation itself where nothing changes.
+ */
+export function fitPositioningToStage<T extends { customerType: string[]; marketType: string; audience: string[]; outcome: string[] }>(organisation: T, stage: string): T {
+    const early = stage !== "manage" && stage !== "grow";
+    const relationship = choiceLimit(stage, "relationship");
+    const customerType = relationship !== null && organisation.customerType.length > relationship ? [] : organisation.customerType;
+    // The audience question of each relationship: its options, and what the stage locks of them.
+    const audienceOptions: Record<string, readonly { id: string }[]> = { b2b: AUDIENCE_SCALES, b2c: LIFE_STAGES, b2g: JURISDICTIONS, g2b: REGULATORY_INTENSITIES };
+    const audienceLimit = choiceLimit(stage, "audience");
+    let audience = organisation.audience;
+    for (const [model, options] of Object.entries(audienceOptions)) {
+        const ids = options.map(option => option.id);
+        const chosen = audience.filter(id => ids.includes(id));
+        if ((audienceLimit !== null && chosen.length > audienceLimit) || chosen.some(id => lockedAudience(stage, model).includes(id))) {
+            audience = audience.filter(id => !ids.includes(id));
+        }
+    }
+    // The outcome: one question, or one for each side.
+    const perSide = organisation.marketType === "multi" && !early && customerType.length > 1;
+    const outcomeLimit = choiceLimit(stage, "outcome");
+    const groups = new Map<string, string[]>();
+    for (const id of organisation.outcome) {
+        const side = id.includes(":") ? id.split(":")[0] : "";
+        groups.set(side, [...(groups.get(side) ?? []), id]);
+    }
+    const outcome = organisation.outcome.filter(id => {
+        const side = id.includes(":") ? id.split(":")[0] : "";
+        const group = groups.get(side) ?? [];
+        return (perSide ? side !== "" : side === "") && !(outcomeLimit !== null && group.length > outcomeLimit);
+    });
+    const same = (one: string[], other: string[]) => one.length === other.length && one.every((id, index) => id === other[index]);
+    return same(customerType, organisation.customerType) && same(audience, organisation.audience) && same(outcome, organisation.outcome)
+        ? organisation
+        : { ...organisation, customerType, audience, outcome };
+}
+
+/** The name of the positioning tile follows the business stage (defined with the exports' words). */
+export { positioningName } from "../../../../framework/engine/ActivityClassification.ts";
+
+/** The "i" of the Activities: the primary one is required, the others optional, and each ends in the code the country's register uses. */
+export function activitiesInfo(country: string): string {
+    return "The primary activity is required; the others are optional, up to four in all. Each one ends in one official code of your country (the " + SCHEME_CODE_LABEL[schemeKeyOf(country)] + " code).";
+}
+
 export const INFO = {
 
     activityCode: [
@@ -72,9 +217,89 @@ export const INFO = {
     ],
 
     mainActivity: [
-        "The work the organization actually does, described factually.",
+        "Who are you, and what do you do? What do you create or provide?",
         "Write it as a registry or a bank would expect to read it.",
-        "Some countries classify it with an official activity code."
+        "Name, country, address and legal form are above."
+    ],
+
+    registrationDate: [
+        "The day the organization was registered with the registry of its country: the registration number given makes it registered, and its date can then be given.",
+        "It cannot be later than today, nor later than the Opening Date: the business cannot open before the company exists."
+    ],
+
+    openingDate: [
+        "The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it.",
+        "The days from the plan's start to the day before it are the pre-operational period: every cost is split around it by its own dates.",
+        "You can change it at any time."
+    ],
+
+    businessStage: [
+        "Set by the Opening Date and the durations below: planning before the opening, then launching, managing and growing, each for the time set here. Change the Opening Date, or a duration, to change the stage.",
+        "The four stages are those of the US Small Business Administration's business guide."
+    ],
+
+    customerType: [
+        "Who pays: focuses on the Economic Buyer who approves the budget, separating them from the end user. The positioning statement is written for the target market, and each distinct segment may need its own.",
+        "B2C (Business-to-Consumer): individuals or consumers who pay for personal/family use.",
+        "B2B (Business-to-Business): businesses, companies or freelancers.",
+        "B2G (Business-to-Government): government agencies, municipalities, public hospitals or educational institutions (the state is the buyer).",
+        "G2B Context (Regulatory/Compliance): private businesses that are forced to purchase the product with the main purpose of compliance or interconnection with the state (the business is the buyer).",
+        { title: "Based on", source: SOURCES.positioningStatement },
+        { title: "Also", source: SOURCES.positioningTemplate }
+    ],
+
+    marketType: [
+        "Determines whether your product operates autonomously or requires the creation of a two-sided ecosystem.",
+        "Single-sided Market: we sell a product or service directly to a specific audience of buyers. One group pays, and the product does not need another group to be worth buying.",
+        "Multi-sided Market / Platform: we build a platform/marketplace that connects and facilitates direct transaction between two or more distinct groups (e.g. drivers and passengers).",
+        "Multi-sided while planning or launching: choose the most critical side for the startup (usually the one that pays) and answer the questions below only for that side.",
+        "Multi-sided while managing or growing: you can choose several sides in the seller and buyer relationship; each side opens its own questions, and the last question is asked for each side."
+    ],
+
+    audienceScale: [
+        "Limits the target group to a specific niche, aligning the startup with the corresponding sales cycle and the buyer's daily life.",
+        "Solopreneurs & Freelancers: individual professionals (immediate decision, need for low cost/self-service).",
+        "Startups & SMBs: small and medium-sized or rapidly growing companies (need for speed, flexibility and immediate solution).",
+        "Mid-Market: medium-sized businesses with structured departments (need for workflows, roles and scale).",
+        "Enterprise / Public Sector: multinationals or public bodies (multi-month sales/tender cycle, need for maximum security).",
+        { title: "Based on", source: SOURCES.marketResearch }
+    ],
+
+    lifeStage: [
+        "Limits the target group to a specific niche, aligning the startup with the corresponding sales cycle and the buyer's daily life.",
+        "Proxy Buyers / Gifters: the buyer pays and decides, but the product is intended for someone else (e.g. a parent for a child, an adult buying a gift for a friend, or a child buying a medical device for their elderly parent).",
+        "Students / Young Adults (Gen Z, students): they buy for themselves. Tech-savvy, low budget, sensitive to trends.",
+        "Workers / Professionals / Adults: they buy for themselves, with their own income. They seek time savings, convenience or status, and they decide inside a busy working life.",
+        "Seniors: they buy for themselves, often with a fixed income and more time to compare. They have needs for accessibility, simplicity, trust and health support; a family member may help decide (then also see Proxy Buyers / Gifters).",
+        { title: "Based on", source: SOURCES.marketResearch },
+        { title: "Also", source: SOURCES.brandPositioningStatement }
+    ],
+
+    jurisdiction: [
+        "What is the jurisdiction scale of the target public entity?",
+        "Local Government: municipalities, communities, local municipal enterprises. The ideal beachhead while planning and launching.",
+        "Regional Administration: regions and regional development organizations.",
+        "Central Government & Ministries: ministry, national services, security forces. Locked while planning and launching.",
+        "Institutional / Public Organizations: public hospitals, universities, ports, public utilities."
+    ],
+
+    regulatory: [
+        "What is the regulatory intensity of the target industry?",
+        "General Commerce / Mass Market (low regulation): e-commerce, retail, catering (basic obligations such as myDATA or a POS interface). The ideal beachhead.",
+        "Specialized Sectors (medium regulation): logistics, construction, real estate (environmental permits, special registers).",
+        "Heavily Regulated Markets (high regulation): FinTech, pharma, medical centers, banks. Locked while planning and launching.",
+        "Cross-border Trade (customs and cross-border compliance): import/export companies (customs, international duties, cross-border compliance)."
+    ],
+
+    outcome: [
+        "Transforms the technical characteristics of the product into a measurable result (Outcome/ROI), hitting exactly where competitors fail to offer a solution.",
+        "Cost-driven (saving resources): targets the blind spot of expensive competitors. Result: immediate reduction in operating costs or a budget-friendly alternative.",
+        "Convenience-driven (speed and ease): targets the blind spot of complex/slow solutions. Result: zeroing out the execution time of a process or drastically simplifying the workflow.",
+        "Compliance, Risk & Security: targets the blind spot of uncertified or questionable alternatives. Result: absolute legal coverage, zero risk of fines or data protection.",
+        "Status & Premium (exclusivity): targets the blind spot of mass-market/cheap products. Result: top quality, custom service and upgrading the buyer's prestige.",
+        "In a multi-sided market, while managing or growing, with more than one side chosen, this question is asked for each side.",
+        { title: "Based on", source: SOURCES.strategicPositioning },
+        { title: "Also", source: SOURCES.positioningTemplate }
     ],
 
     legalForm: [
@@ -116,6 +341,10 @@ export interface LegalEntityEditorProps {
 
     /** The Opening Date of the Global Settings: the company cannot be formed after it. */
     openingDate?: string;
+    /** The business stage the Opening Date and the Global Settings' durations give (BusinessStage.ts): the limits and the locks of Early Positioning follow it. Planning where none is given. */
+    businessStage?: StageKey;
+    /** Saves the Opening Date (kept in the Global Settings): its field is on the Organization tile. */
+    onChangeOpeningDate?: (iso: string) => void;
 
     onChange: (value: LegalEntityValue) => void;
 
@@ -136,6 +365,16 @@ export interface LegalEntityEditorProps {
     /** The frame's heading, on top of its tiles (a page of several sections). */
     frameTitle?: string;
 
+    /** Only the Organization's dialog (the Organization tile of page 1, Definition): its fields, drawn as the tile's dialog body. */
+    organizationOnly?: boolean;
+
+    /** Only the Positioning questions (market structure, seller and buyer relationship, audience, outcome): the body of the Positioning tile's dialog, above its Notes (design document 28, 8.2). */
+    audienceOnly?: boolean;
+
+    /** The Description, which the Identity System's Definition keeps (its saved value); where it is given the Description box reads and writes it, else the organisation's own text (the old Main Activity). */
+    description?: string;
+    onDescriptionChange?: (next: string) => void;
+
     /**
      * What the app already knows about this organization and the
      * person filling the form in, used to answer the first fields
@@ -146,6 +385,9 @@ export interface LegalEntityEditorProps {
         organisationName: string;
         founderName: string;
     };
+
+    /** Saves the Founders Profile: where the page holds the founders (the sub tiles of Founders & Ownership) and the Capability tile, not a page of their own. */
+    onChangeFoundersProfile?: (value: FoundersProfileValue) => void;
 
     /**
      * 4. Founders Profile, as saved. A founder with a profile there

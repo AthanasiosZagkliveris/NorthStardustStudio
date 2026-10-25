@@ -89,3 +89,16 @@
     text-underline-position: under;
     text-underline-offset: 1px !important;
 }
+
+/* A plain text that slides as a link does (textLinks.ts, MARQUEE_TEXT_SELECTOR): one row, an ellipsis at rest, cut clean while it slides. It has no link look. */
+.marquee-text {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.marquee-text:hover {
+    text-overflow: clip;
+}

@@ -52,6 +52,7 @@ import {
     planMonthLabel,
     withPlanStart,
     derivedPlanStart,
+    legalExpenseDates,
     costStartDates,
     type CostLine,
     type FinancialFoundationValue,
@@ -303,7 +304,7 @@ export default function FinancialFoundationEditor({
     );
 
     /* The plan's first month is worked out, never typed: the earlier of the Opening Date's month and the earliest card's cost. */
-    const derivedStart = derivedPlanStart(openingDate, costStartDates(capability), withPlanStart(stored).planStart);
+    const derivedStart = derivedPlanStart(openingDate, [...costStartDates(capability), ...legalExpenseDates(legalEntity)], withPlanStart(stored).planStart);
     const page = withPlanStart(stored, undefined, derivedStart);
     const start = page.planStart;
     const months = planLength(page);
@@ -843,7 +844,7 @@ export default function FinancialFoundationEditor({
 
                 {/* BEFORE THE OPENING: what has to be raised, and the reserve that is set aside to run on. */}
                 {openingDate === ""
-                    ? <p className="financial-muted">Give the Opening Date, next to Plan Start, to see the cash to raise before the opening and the contingency funds.</p>
+                    ? <p className="financial-muted">Give the Opening Date, on the Organization tile (Identity System), to see the cash to raise before the opening and the contingency funds.</p>
                     : (
                         <div className="financial-need-cards" data-anchor="financial-funds">
 

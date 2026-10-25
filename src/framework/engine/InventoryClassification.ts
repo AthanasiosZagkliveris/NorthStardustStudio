@@ -13,6 +13,7 @@ import {
     natureSplitOf,
     withPlanStart,
     derivedPlanStart,
+    legalExpenseDates,
     costStartDates,
     type CostNature,
     type FinancialFoundationValue
@@ -43,7 +44,7 @@ export function inventoryClassification(
     const result = new Map<string, InventoryClassification>();
     const counted = countedCapability(capability);
     const legalEntity = { ...asLegalEntityValue(undefined), founders: [...founders], expenses: [...expenses] };
-    const page = withPlanStart(financial, undefined, derivedPlanStart(openingDate, costStartDates(counted), withPlanStart(financial).planStart));
+    const page = withPlanStart(financial, undefined, derivedPlanStart(openingDate, [...costStartDates(counted), ...legalExpenseDates(legalEntity)], withPlanStart(financial).planStart));
     const lines = consolidateCosts(page, costSourcesFor(legalEntity, counted, currency));
     const context = { openingDate, capitalisationLimit: capitalisationLimitOf(settings), assetUnitCosts: assetUnitCostsOf(counted) };
     lines.forEach(line => {

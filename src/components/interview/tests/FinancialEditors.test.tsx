@@ -211,10 +211,8 @@ describe("the plan's income tax setting (Global Settings)", () => {
                 <FinancialPlanSettings
                     value={asFinancialFoundationValue(value)}
                     legalEntity={asLegalEntityValue(undefined)}
-                    openingDate=""
                     planStart={{ month: "10", year: "2026" }}
                     onChange={(next) => { saved = next; setValue(next); }}
-                    onChangeOpeningDate={() => undefined}
                 />
             );
         }
