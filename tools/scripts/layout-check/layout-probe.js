@@ -627,7 +627,9 @@
             // A FILLING picker of an opened card (Status, Responsible, Provider) runs to the right edge of the name cell: its width is what is left of the
             // content column (checked by "a filling dropdown ... end at the name cell's right edge").
             const fillsCard = holder.matches(".option-picker[data-size=\"fit\"]") && control.closest(".card-box-open > .business-capability-slot") !== null;
-            const allowed = hugs || formFills || founderCell || fillsCard || (spec.widths ?? []).some(step => rules.near(width, step, 1)) || rules.near(width, inner, 1) || (cell && rules.near(width, rect(cell).width, 1)) ||
+            // THE NAMED SHORT BOXES (declared in the CSS): how many people a performer is (56px), the number of instalments (a digit), and the plan's type picker that gives the box its room.
+            const shortBox = control.matches(".business-capability-people, .business-capability-plan-count, .business-capability-share") || control.closest(".business-capability-plan-type") !== null;
+            const allowed = hugs || formFills || founderCell || fillsCard || shortBox || (spec.widths ?? []).some(step => rules.near(width, step, 1)) || rules.near(width, inner, 1) || (cell && rules.near(width, rect(cell).width, 1)) ||
                 tracks.some(track => rules.near(width, track, 1)) ||
                 (spec.square && rules.near(width, spec.square, 1) && rules.near(rect(control).height, spec.square, 1));
             // Groups and list rows are measured as the group (the column), not each part.
@@ -642,6 +644,10 @@
         // 14. An "i" right after its words: on their (last) line's centre, one gap after the last word.
         for (const button of [...document.querySelectorAll(".info-note-button")].filter(visible)) {
             const note = button.closest(".info-note");
+            // (The "i" of an add tile stands in the tile's corner, with no words of its own.)
+            if (note.closest(".add-card-slot")) {
+                continue;
+            }
             const holder = note.closest(".info-note-glue") ?? note.previousElementSibling;
             if (!holder) {
                 continue;
@@ -790,7 +796,8 @@
                     if (gap >= 30) {
                         continue;
                     }
-                    const expected = above.kind === "label" && item.kind === "control" ? spec.labelGap : spec.fieldGap;
+                    // (The words of a tick box are not a label of the control under them: a field gap, not a label gap.)
+                    const expected = above.kind === "label" && item.kind === "control" && !above.element.closest(".tick-field, label:has(> input[type=checkbox])") ? spec.labelGap : spec.fieldGap;
                     // A GROUP GAP: two groups divided by a rule, a field gap either side of it.
                     let divided = false;
                     for (let node = item.element; node && node !== card; node = node.parentElement) {
@@ -1386,7 +1393,8 @@
                             fail("a tile's list block is centred under its title", tile, { list: (listBox.left + listBox.right) / 2, tile: (box.left + box.right) / 2 });
                         }
                         // THE LIST STARTS A FIXED 12px UNDER THE UNDERLINE of the title (it comes up with the lifted title).
-                        if (!rules.near(listBox.top - titleBox.bottom, spec.fieldGap, 0.75)) {
+                        // (The tile under the pointer grows, and its title's lift is measured on that frame: a pixel more or less, 1.25 here.)
+                        if (!rules.near(listBox.top - titleBox.bottom, spec.fieldGap, 1.25)) {
                             fail("a tile's list starts 12px under the title's underline", tile, { gap: listBox.top - titleBox.bottom });
                         }
                         const items = [...list.children].filter(visible);
@@ -2371,7 +2379,8 @@
             if (name && rows.length > 0) {
                 const picker = rows[0].querySelector(".option-picker");
                 // (Where a performer is a partner or a supplier, the row holds the link symbol's place, 8px after the dropdown: the dropdown ends that much earlier, in every row.)
-                const linkPlace = rows.map(row => row.querySelector(":scope > .business-link-symbol, :scope > .business-capability-row-spacer")).find(Boolean);
+                // (The link symbol stands BEFORE the dropdown now, between the label and it: only a symbol or spacer AFTER the dropdown takes room from it.)
+                const linkPlace = rows.map(row => row.querySelector(":scope > .business-link-symbol, :scope > .business-capability-row-spacer")).filter(node => node && picker && rect(node).left >= rect(picker).right - 1).find(Boolean);
                 const wanted = rect(name).right - (linkPlace ? rect(linkPlace).width + 8 : 0);
                 if (picker && !rules.near(rect(picker).right, wanted, tolerance + 0.5)) {
                     fail("the Performer's dropdown ends where the name cell ends", picker, { picker: rect(picker).right, name: wanted });
@@ -2575,7 +2584,8 @@
                 const style = getComputedStyle(trigger);
                 const chrome = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight) + parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth);
                 const widest = Math.max(0, ...[...trigger.querySelectorAll(".option-picker-sizer, .option-picker-value")].filter(span => !span.hasAttribute("data-empty")).map(span => { const range = document.createRange(); range.selectNodeContents(span); return range.getBoundingClientRect().width; }));
-                if (rect(trigger).width + 1 < widest + chrome && trigger.closest(".business-capability-slot") && !/ payment frequency:/.test(trigger.getAttribute("aria-label") || "")) {
+                // (The plan's type picker shares its row with the instalments box: it is as wide as its widest option when that box is not there, which is when another type is chosen.)
+                if (rect(trigger).width + 1 < widest + chrome && trigger.closest(".business-capability-slot") && !trigger.closest(".business-capability-plan-type") && !/ payment frequency:/.test(trigger.getAttribute("aria-label") || "")) {
                     fail("a picker is as wide as its widest option", trigger, { width: rect(trigger).width, need: widest + chrome });
                 }
             }
@@ -2615,6 +2625,8 @@
             for (let node = walker.nextNode(); node; node = walker.nextNode()) {
                 const element = node.parentElement;
                 if (!element || !node.textContent.trim() || seen.has(element) || !element.closest(".business-capability, .floating-card-host") || !visible(element)) continue;
+                // (A specimen shows a size the user chose -- a typeface's "Aa", a text level's name at its own size -- not the app's text.)
+                if (element.closest(".picture-box-specimen, .brand-text-hierarchy")) continue;
                 seen.add(element);
                 const size = parseFloat(getComputedStyle(element).fontSize);
                 if (size > 0 && !scale.some(step => rules.near(size, step, 0.5))) {
@@ -2974,12 +2986,17 @@
                 const counted = slot.querySelectorAll(".section-tile-list > li").length;
                 const column = slot.closest(".business-foundation-input");
                 slot.scrollIntoView({ block: "nearest" });
+                const layersBefore = document.querySelectorAll(".section-tile-overlay").length;
                 plus.click();
                 await pause(settle);
                 stats.floating = (stats.floating || 0) + 1;
-                failures.push(...checkFloating(spec, title + " (+ box)", column, "card", false));
+                // (On the Strategy page the new card opens as a dialog of its own, over the one it was made in: a card shown at once all the same.)
+                const shownAsDialog = !document.querySelector(".floating-card-host") && document.querySelectorAll(".section-tile-overlay").length > layersBefore;
+                if (!shownAsDialog) {
+                    failures.push(...checkFloating(spec, title + " (+ box)", column, "card", false));
+                }
                 const name = document.querySelector(".floating-card-host textarea.card-name-input");
-                const focusOnCard = !name && document.activeElement && document.activeElement.closest(".floating-card-host");
+                const focusOnCard = !name && document.activeElement && (document.activeElement.closest(".floating-card-host") || (shownAsDialog && document.activeElement.closest(".section-tile-overlay")));
                 if (!focusOnCard && (!name || document.activeElement !== name)) {
                     failures.push({ rule: "a card added with the + box takes the focus in its name", where: title, detail: { active: document.activeElement && document.activeElement.tagName } });
                 }

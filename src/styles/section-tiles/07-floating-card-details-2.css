@@ -318,6 +318,14 @@
 
 }
 
+/* (A label is 6px over its text, and the next field's label a field gap, 12px, under the text above it: 6px of gap and 6px more.) */
+.column-fields > label:not(:first-child),
+.column-fields > .field-label:not(:first-child) {
+
+    margin-top: calc(var(--space-field) - var(--space-label));
+
+}
+
 /* A tile's picture stands under the title's rule as a list does (a title of two or three lines pushes it down). */
 .section-tile-picture {
 
@@ -1034,11 +1042,11 @@ body:has(.floating-overlay) .section-tile-overlay:not(.floating-overlay) > .caro
 
 }
 
-/* The currency cell is as small as its three letters and the arrow; the Frequency beside it takes the rest of the row. */
+/* The currency cell is as small as its three letters (the widest code of the list) and the arrow; the Frequency beside it takes the rest of the row. */
 .business-capability-cost-currency .option-picker,
 .business-capability-cost-currency .option-picker .option-picker-trigger.interview-input {
 
-    width: 66px;
+    width: 76px;
 
     padding-left: 6px;
     padding-right: 20px;

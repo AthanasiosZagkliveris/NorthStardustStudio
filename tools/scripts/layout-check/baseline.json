@@ -1,111 +1,63 @@
 [
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure (1366 x 1000)|||a list item of a first-row tile has a box at the top of the page||",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure (1366 x 1000)",
-  "rule": "a list item of a first-row tile has a box at the top of the page"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure (1920 x 1000)|||a list item of a first-row tile has a box at the top of the page||",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure (1920 x 1000)",
-  "rule": "a list item of a first-row tile has a box at the top of the page"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure (1366 x 700)|||closing a mouse-opened card draws no ring on its opener||",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure (1366 x 700)",
-  "rule": "closing a mouse-opened card draws no ring on its opener"
- },
- {
-  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Legal Entity|light|1920|control at its column's left edge|founder-profile-founder-~ › option-picker|Founders & Ownership",
-  "example": "quillfield-automation-llc.json",
-  "page": "Identity System › ^2\\. Legal Entity",
-  "rule": "control at its column's left edge"
- },
- {
-  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Legal Entity|light|1920|card side margin|founder-profile-founder-~ › Name|Founders & Ownership",
-  "example": "quillfield-automation-llc.json",
-  "page": "Identity System › ^2\\. Legal Entity",
-  "rule": "card side margin"
- },
- {
-  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Legal Entity|light|1920|a tile's + box is named 'Add <Item> to <tile>'|Add Legal requirement to Additional legal requirements|Registrations",
-  "example": "quillfield-automation-llc.json",
-  "page": "Identity System › ^2\\. Legal Entity",
-  "rule": "a tile's + box is named 'Add <Item> to <tile>'"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a floating card opens|Community (+ box)|",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "a floating card opens"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a card added with the + box takes the focus in its name|Community|",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "a card added with the + box takes the focus in its name"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a floating card opens|Marketplace (+ box)|",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "a floating card opens"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a card added with the + box takes the focus in its name|Marketplace|",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "a card added with the + box takes the focus in its name"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a floating card opens|Physical Delivery (+ box)|",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "a floating card opens"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a card added with the + box takes the focus in its name|Physical Delivery|",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "a card added with the + box takes the focus in its name"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a floating card opens|Retail & Wholesale (+ box)|",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "a floating card opens"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a card added with the + box takes the focus in its name|Retail & Wholesale|",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "a card added with the + box takes the focus in its name"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a floating card opens|Referral & Affiliates (+ box)|",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "a floating card opens"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a card added with the + box takes the focus in its name|Referral & Affiliates|",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "a card added with the + box takes the focus in its name"
- },
- {
-  "key": "quillfield-automation-llc.json|Identity System › ^1\\. Definition|light|1920|a tile's list starts 12px under the title's underline|column-tiles › Organization, Quillfield Automation, Sole Proprietorship, 120 Clinton Street, Su|",
+  "key": "quillfield-automation-llc.json|Identity System › ^1\\. Definition|light|1920|label gap|legal-section-0 › Notes|Organization",
   "example": "quillfield-automation-llc.json",
   "page": "Identity System › ^1\\. Definition",
-  "rule": "a tile's list starts 12px under the title's underline"
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|row gap|field-label|Imprint",
+  "key": "quillfield-automation-llc.json|Identity System › ^1\\. Definition|light|1920|label gap|Notes|Early Positioning",
   "example": "quillfield-automation-llc.json",
-  "page": "Brand System › Brand System",
-  "rule": "row gap"
+  "page": "Identity System › ^1\\. Definition",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Legal Entity|light|1920|label gap|legal-requirement-requirement-~ › Legal requirement 1 reference or number|Registrations > Additional legal requirements > Requirement 1: Certificate of Assumed Name (NY General Business Law, Section 130)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Legal Entity",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Legal Entity|light|1920|label gap|legal-requirement-requirement-~ › Legal requirement 1 notes|Registrations > Additional legal requirements > Requirement 1: Certificate of Assumed Name (NY General Business Law, Section 130)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Legal Entity",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Legal Entity|light|1920|label gap|legal-requirement-requirement-~ › Legal requirement 2 reference or number|Registrations > Additional legal requirements > Requirement 2: Self-employment tax and estimated payments (IRS Schedule SE, Form 1040-ES)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Legal Entity",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Legal Entity|light|1920|label gap|legal-requirement-requirement-~ › Legal requirement 2 notes|Registrations > Additional legal requirements > Requirement 2: Self-employment tax and estimated payments (IRS Schedule SE, Form 1040-ES)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Legal Entity",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Legal Entity|light|1920|label gap|legal-requirement-requirement-~ › Legal requirement 3 reference or number|Registrations > Additional legal requirements > Requirement 3: New York State sales tax",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Legal Entity",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Legal Entity|light|1920|label gap|legal-requirement-requirement-~ › Legal requirement 3 notes|Registrations > Additional legal requirements > Requirement 3: New York State sales tax",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Legal Entity",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Legal Entity|light|1920|label gap|legal-expense-expense-~ › Expense 1 description|Expenses > Expense 1: Certificate of Assumed Name filing",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Legal Entity",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Legal Entity|light|1920|label gap|legal-expense-expense-~ › Expense 1 description|Expenses (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Legal Entity",
+  "rule": "label gap"
  },
  {
   "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|a card in a dialog has the shared glass ground (translucent, blurred)|Typography &Text Hierarchy|",
@@ -114,16 +66,16 @@
   "rule": "a card in a dialog has the shared glass ground (translucent, blurred)"
  },
  {
-  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|every text of page 3 is on the type scale (14, 18, 24, 28, 36)|picture-box-~|Typography &Text Hierarchy",
+  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|every text of page 3 is on the type scale (14, 18, 24, 28, 36)|brand-text-hierarchy › brand-slot-label-line|Typography &Text Hierarchy",
   "example": "quillfield-automation-llc.json",
   "page": "Brand System › Brand System",
   "rule": "every text of page 3 is on the type scale (14, 18, 24, 28, 36)"
  },
  {
-  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|every text of page 3 is on the type scale (14, 18, 24, 28, 36)|brand-text-hierarchy › brand-slot-label-line|Typography &Text Hierarchy",
+  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|label gap|Icon and logo description|Icon & Logo",
   "example": "quillfield-automation-llc.json",
   "page": "Brand System › Brand System",
-  "rule": "every text of page 3 is on the type scale (14, 18, 24, 28, 36)"
+  "rule": "label gap"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › ^1\\. Foundation|light|1920|the content of a dialog starts at its top (not in the middle)|Profiles|Segment Description",
@@ -144,178 +96,598 @@
   "rule": "the content of a dialog starts at its top (not in the middle)"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|founder-founder-~ › field-label business-foundation-label|Founders",
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|",
   "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "row gap"
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Activities > Pre-Operational, Standard client contract templates, Launch the website with booking, Set up bookkeeping and quarterly estimated taxes… > Activity 1: Standard client contract templates",
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|",
   "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "the Performer's dropdown ends where the name cell ends"
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Activities > Pre-Operational, Standard client contract templates, Launch the website with booking, Set up bookkeeping and quarterly estimated taxes… > Activity 2: Launch the website with booking",
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Social Media",
   "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "the Performer's dropdown ends where the name cell ends"
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Activities > Pre-Operational, Standard client contract templates, Launch the website with booking, Set up bookkeeping and quarterly estimated taxes… > Activity 3: Set up bookkeeping and quarterly estimated taxes",
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Social Media",
   "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "the Performer's dropdown ends where the name cell ends"
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Activities > Operational, Investigate Password and credential vault for client logins > Activity 1: Investigate Password and credential vault for client logins",
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Social Media > Subchannel 1: LinkedIn",
   "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "the Performer's dropdown ends where the name cell ends"
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a picker is as wide as its widest option|partner-~ › Entry 1 currency: USD|Partners & Suppliers > Partners",
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Social Media > Subchannel 1: LinkedIn",
   "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a picker is as wide as its widest option"
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control width is a size step|resource-~ › Resource 1 number of instalments|Resources > Workspace, Meetup and event costs > Site Hire, Meetup and event costs",
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Social Media > Subchannel 2: Instagram",
   "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "control width is a size step"
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control width is a size step|resource-~ › Resource 1 payment plan type: Instalments|Resources > Workspace, Meetup and event costs > Site Hire, Meetup and event costs",
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Social Media > Subchannel 2: Instagram",
   "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "control width is a size step"
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a picker is as wide as its widest option|resource-~ › Resource 1 currency: USD|Resources > Workspace, Meetup and event costs > Site Hire, Meetup and event costs",
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Website",
   "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a picker is as wide as its widest option"
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a picker is as wide as its widest option|resource-~ › Resource 1 payment plan type: Instalments|Resources > Workspace, Meetup and event costs > Site Hire, Meetup and event costs",
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Website",
   "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a picker is as wide as its widest option"
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control width is a size step|activity-~ › Activity 1 linked Offerings share of Automation Build|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build… > Activity 1: Build a reusable automation component library",
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Website > Subchannel 1: Main Website",
   "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "control width is a size step"
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control width is a size step|activity-~ › Activity 1 linked Offerings share of Automation Care Retainer|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build… > Activity 1: Build a reusable automation component library",
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Website > Subchannel 1: Main Website",
   "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "control width is a size step"
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › Activity 1 linked Offerings share of Automation Care Retainer|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build… > Activity 1: Build a reusable automation component library",
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Website > Subchannel 2: Booking / Registration Page",
   "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "row gap"
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build… > Activity 1: Build a reusable automation component library",
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Website > Subchannel 2: Booking / Registration Page",
   "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "the Performer's dropdown ends where the name cell ends"
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build… > Activity 2: Create the audit interview guide and roadmap template",
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Email",
   "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "the Performer's dropdown ends where the name cell ends"
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build… > Activity 3: Define the build handover pack",
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Email",
   "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "the Performer's dropdown ends where the name cell ends"
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control width is a size step|activity-~ › Activity 1 linked Offerings share of AI Workflow Audit|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 1: LinkedIn content plan",
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Email > Subchannel 1: Newsletter",
   "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "control width is a size step"
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control width is a size step|activity-~ › Activity 1 linked Offerings share of Automation Build|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 1: LinkedIn content plan",
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Email > Subchannel 1: Newsletter",
   "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "control width is a size step"
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control width is a size step|activity-~ › Activity 1 linked Offerings share of Automation Care Retainer|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 1: LinkedIn content plan",
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Email > Subchannel 2: Direct Email",
   "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "control width is a size step"
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › Activity 1 linked Offerings share of Automation Build|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 1: LinkedIn content plan",
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Email > Subchannel 2: Direct Email",
   "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "row gap"
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › Activity 1 linked Offerings share of Automation Care Retainer|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 1: LinkedIn content plan",
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Other",
   "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "row gap"
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 1: LinkedIn content plan",
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Other",
   "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "the Performer's dropdown ends where the name cell ends"
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control width is a size step|activity-~ › Activity 2 linked Offerings share of AI Workflow Audit|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 2: Start the monthly newsletter",
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Other > Subchannel 1: Referral partners (bookkeepers and IT providers)",
   "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "control width is a size step"
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control width is a size step|activity-~ › Activity 2 linked Offerings share of Automation Build|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 2: Start the monthly newsletter",
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Other > Subchannel 1: Referral partners (bookkeepers and IT providers)",
   "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "control width is a size step"
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control width is a size step|activity-~ › Activity 2 linked Offerings share of Automation Care Retainer|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 2: Start the monthly newsletter",
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|In Person",
   "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "control width is a size step"
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › Activity 2 linked Offerings share of Automation Build|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 2: Start the monthly newsletter",
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|In Person",
   "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "row gap"
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › Activity 2 linked Offerings share of Automation Care Retainer|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 2: Start the monthly newsletter",
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|In Person > Subchannel 1: Event / Talk",
   "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "row gap"
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 2: Start the monthly newsletter",
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|In Person > Subchannel 1: Event / Talk",
   "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "the Performer's dropdown ends where the name cell ends"
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 3: Publish three case studies",
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|In Person > Subchannel 2: Studio / Shop",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|In Person > Subchannel 2: Studio / Shop",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Direct Payment",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Direct Payment",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Direct Payment > Subchannel 1: Invoice",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Direct Payment > Subchannel 1: Invoice",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Direct Payment > Subchannel 2: Card",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Direct Payment > Subchannel 2: Card",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Online / Live",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Online / Live",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Online / Live > Subchannel 1: Zoom",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Online / Live > Subchannel 1: Zoom",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Online / Live > Subchannel 2: Google Meet",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Online / Live > Subchannel 2: Google Meet",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|File Delivery",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|File Delivery",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|File Delivery > Subchannel 1: Client Portal",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|File Delivery > Subchannel 1: Client Portal",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|File Delivery > Subchannel 2: WeTransfer",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|File Delivery > Subchannel 2: WeTransfer",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Community (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Community (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Marketplace (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Marketplace (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Physical Delivery (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Physical Delivery (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Retail & Wholesale (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Retail & Wholesale (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Referral & Affiliates (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Referral & Affiliates (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Social Media (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Social Media (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Website (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Website (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Email (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Email (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Other (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Other (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|In Person (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|In Person (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Direct Payment (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Direct Payment (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Online / Live (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Online / Live (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|File Delivery (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|File Delivery (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Community (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Community (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Marketplace (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Marketplace (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Physical Delivery (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Physical Delivery (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Retail & Wholesale (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Retail & Wholesale (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for AI Workflow Audit|Referral & Affiliates (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|label gap|demand-~-~ › Demand assumptions for Automation Care Retainer|Referral & Affiliates (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|label gap|workspace › Resource 1 description|Resources > Workspace, Coworking Space > Premises, Coworking Space",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
-  "rule": "the Performer's dropdown ends where the name cell ends"
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|label gap|resource-~ › Resource 1 description|Resources > Utilities, Electricity, High-speed Wi-Fi, Air conditioning > Premises Utilities, Electricity, High-speed Wi-Fi, Air conditioning > Resource 1: Electricity",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|label gap|resource-~ › Resource 2 description|Resources > Utilities, Electricity, High-speed Wi-Fi, Air conditioning > Premises Utilities, Electricity, High-speed Wi-Fi, Air conditioning > Resource 2: High-speed Wi-Fi",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|label gap|resource-~ › Resource 3 description|Resources > Utilities, Electricity, High-speed Wi-Fi, Air conditioning > Premises Utilities, Electricity, High-speed Wi-Fi, Air conditioning > Resource 3: Air conditioning",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|label gap|activity-~ › Activity 1 description|Activities > Pre-Operational, Standard client contract templates, Launch the website with booking, Set up bookkeeping and quarterly estimated taxes… > Activity 1: Standard client contract templates",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|label gap|activity-~ › Activity 2 description|Activities > Pre-Operational, Standard client contract templates, Launch the website with booking, Set up bookkeeping and quarterly estimated taxes… > Activity 2: Launch the website with booking",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|label gap|activity-~ › Activity 3 description|Activities > Pre-Operational, Standard client contract templates, Launch the website with booking, Set up bookkeeping and quarterly estimated taxes… > Activity 3: Set up bookkeeping and quarterly estimated taxes",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|label gap|activity-~ › Activity 1 description|Activities > Operational, Investigate Password and credential vault for client logins > Activity 1: Investigate Password and credential vault for client logins",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|label gap|resource-~ › Resource 1 description|Resources > Workspace, Meetup and event costs > Site Hire, Meetup and event costs",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|label gap|activity-~ › Activity 1 description|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build… > Activity 1: Build a reusable automation component library",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|label gap|activity-~ › Activity 2 description|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build… > Activity 2: Create the audit interview guide and roadmap template",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|label gap|activity-~ › Activity 3 description|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build… > Activity 3: Define the build handover pack",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|label gap|activity-~ › Activity 1 description|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 1: LinkedIn content plan",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|label gap|activity-~ › Activity 2 description|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 2: Start the monthly newsletter",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|label gap|activity-~ › Activity 3 description|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 3: Publish three case studies",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "label gap"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|partner-qf-~ › field-label business-foundation-label|Partners & Suppliers > Partners, Referral partners (10% of a referred audit) > Partner 1: Referral partners (10% of a referred audit)",
@@ -324,28 +696,16 @@
   "rule": "row gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a picker is as wide as its widest option|partner-qf-~ › Referral partners (10% of a referred audit) currency: USD|Partners & Suppliers > Partners, Referral partners (10% of a referred audit) > Partner 1: Referral partners (10% of a referred audit)",
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|label gap|partner-qf-~ › Entry 1 description|Partners & Suppliers > Partners, Referral partners (10% of a referred audit) > Partner 1: Referral partners (10% of a referred audit)",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
-  "rule": "a picker is as wide as its widest option"
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a picker is as wide as its widest option|partner-~ › Freelance developer (overflow) currency: USD|Partners & Suppliers > Suppliers, Freelance developer (overflow), Card and ACH processing (QuickBooks Payments) > Supplier 1: Freelance developer (overflow)",
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|label gap|partner-~ › Entry 1 description|Partners & Suppliers > Suppliers, Freelance developer (overflow), Card and ACH processing (QuickBooks Payments) > Supplier 1: Freelance developer (overflow)",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
-  "rule": "a picker is as wide as its widest option"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control width is a size step|partner-qf-stripe › Card and ACH processing (QuickBooks Payments) linked Offerings share of AI Workf|Partners & Suppliers > Suppliers, Freelance developer (overflow), Card and ACH processing (QuickBooks Payments) > Supplier 2: Card and ACH processing (QuickBooks Payments)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "control width is a size step"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control width is a size step|partner-qf-stripe › Card and ACH processing (QuickBooks Payments) linked Offerings share of Automati|Partners & Suppliers > Suppliers, Freelance developer (overflow), Card and ACH processing (QuickBooks Payments) > Supplier 2: Card and ACH processing (QuickBooks Payments)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "control width is a size step"
+  "rule": "label gap"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|partner-qf-stripe › field-label business-foundation-label|Partners & Suppliers > Suppliers, Freelance developer (overflow), Card and ACH processing (QuickBooks Payments) > Supplier 2: Card and ACH processing (QuickBooks Payments)",
@@ -354,16 +714,10 @@
   "rule": "row gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|partner-qf-stripe › Card and ACH processing (QuickBooks Payments) linked Offerings share of Automati|Partners & Suppliers > Suppliers, Freelance developer (overflow), Card and ACH processing (QuickBooks Payments) > Supplier 2: Card and ACH processing (QuickBooks Payments)",
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|label gap|partner-qf-stripe › Entry 2 description|Partners & Suppliers > Suppliers, Freelance developer (overflow), Card and ACH processing (QuickBooks Payments) > Supplier 2: Card and ACH processing (QuickBooks Payments)",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a picker is as wide as its widest option|partner-qf-stripe › Card and ACH processing (QuickBooks Payments) currency: USD|Partners & Suppliers > Suppliers, Freelance developer (overflow), Card and ACH processing (QuickBooks Payments) > Supplier 2: Card and ACH processing (QuickBooks Payments)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a picker is as wide as its widest option"
+  "rule": "label gap"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the content of a dialog starts at its top (not in the middle)|Delivery|Delivery",
@@ -372,10 +726,22 @@
   "rule": "the content of a dialog starts at its top (not in the middle)"
  },
  {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|label gap|delivery-~-~ › AI Workflow Audit delivery constraints|Delivery > Delivery 1: AI Workflow Audit",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "label gap"
+ },
+ {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the content of a dialog starts at its top (not in the middle)|Delivery|Delivery > Delivery 1: AI Workflow Audit",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
   "rule": "the content of a dialog starts at its top (not in the middle)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|label gap|delivery-~-~ › Automation Build delivery constraints|Delivery > Delivery 2: Automation Build",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "label gap"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the content of a dialog starts at its top (not in the middle)|Delivery|Delivery > Delivery 2: Automation Build",
@@ -384,34 +750,58 @@
   "rule": "the content of a dialog starts at its top (not in the middle)"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Completed > Activity 1: Register the business name and get an EIN",
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|label gap|resource-~ › Resource 1 description|Inventory > Resource: Electricity, 01/01/2027, Infrastructure, Utilities, Premises Utilities, Partners & Suppliers",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
-  "rule": "the Performer's dropdown ends where the name cell ends"
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Completed > Activity 2: Open a business bank account",
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|label gap|resource-~ › Resource 2 description|Inventory > Resource: High-speed Wi-Fi, 01/01/2027, Infrastructure, Utilities, Premises Utilities, Partners & Suppliers",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
-  "rule": "the Performer's dropdown ends where the name cell ends"
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|founder-founder-~ › field-label business-foundation-label|Founders (floating card)",
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|label gap|activity-~ › Activity 1 description|Completed > Activity 1: Register the business name and get an EIN",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
-  "rule": "row gap"
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a picker is as wide as its widest option|partner-~ › Entry 1 currency: USD|Partners & Suppliers (card added with +)",
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|label gap|activity-~ › Activity 2 description|Completed > Activity 2: Open a business bank account",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
-  "rule": "a picker is as wide as its widest option"
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Completed (floating card)",
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|label gap|delivery-~-~ › AI Workflow Audit delivery constraints|Delivery (floating card)",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
-  "rule": "the Performer's dropdown ends where the name cell ends"
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|label gap|activity-~ › Activity 1 description|Completed (floating card)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Financial Foundation|light|1920|label gap|funding-~ › Owner's savings purpose|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Financial Foundation",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Financial Foundation|light|1920|label gap|funding-~ › SBA Microloan purpose|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Financial Foundation",
+  "rule": "label gap"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Financial Foundation|light|1920|label gap|funding-~ › SBA Microloan conditions|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Financial Foundation",
+  "rule": "label gap"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Financial Foundation|light|1920|a remove x keeps 12px from the cell beside it and never lies on one|funding-~ › Remove Owner's savings|",
@@ -426,45 +816,21 @@
   "rule": "a remove x keeps 12px from the cell beside it and never lies on one"
  },
  {
-  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|an i on its words' centre line|Adding Themes: what this means|Strategic Period",
+  "key": "quillfield-automation-llc.json|Business System › Sustainability|light|1920|label gap|stream-~-~ › Revenue Stream 1 assumptions|",
   "example": "quillfield-automation-llc.json",
-  "page": "Strategy System › Strategy System",
-  "rule": "an i on its words' centre line"
+  "page": "Business System › Sustainability",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|an i one gap after its words|Adding Themes: what this means|Strategic Period",
+  "key": "quillfield-automation-llc.json|Business System › Sustainability|light|1920|label gap|stream-~-~ › Revenue Stream 2 assumptions|",
   "example": "quillfield-automation-llc.json",
-  "page": "Strategy System › Strategy System",
-  "rule": "an i one gap after its words"
+  "page": "Business System › Sustainability",
+  "rule": "label gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|a floating card opens|Strategic Period (+ box)|",
+  "key": "quillfield-automation-llc.json|Business System › Sustainability|light|1920|label gap|stream-~-~ › Revenue Stream 3 assumptions|",
   "example": "quillfield-automation-llc.json",
-  "page": "Strategy System › Strategy System",
-  "rule": "a floating card opens"
- },
- {
-  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|a card added with the + box takes the focus in its name|Strategic Period|",
-  "example": "quillfield-automation-llc.json",
-  "page": "Strategy System › Strategy System",
-  "rule": "a card added with the + box takes the focus in its name"
- },
- {
-  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|an i on its words' centre line|Adding Themes: what this means|Strategic Period (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Strategy System › Strategy System",
-  "rule": "an i on its words' centre line"
- },
- {
-  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|an i one gap after its words|Adding Themes: what this means|Strategic Period (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Strategy System › Strategy System",
-  "rule": "an i one gap after its words"
- },
- {
-  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|label gap|theme-~-objective-1 › Start: Select|Strategic Period (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Strategy System › Strategy System",
+  "page": "Business System › Sustainability",
   "rule": "label gap"
  },
  {

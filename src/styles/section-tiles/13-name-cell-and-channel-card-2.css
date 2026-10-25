@@ -57,6 +57,13 @@
 
 }
 
+/* A funding source's card head: the name cell keeps 12px from its x (the head's own gap is 8px, so 4px more). */
+.financial-funding-card > .strategy-box-head > :has(+ .strategy-box-remove) {
+
+    margin-right: 4px;
+
+}
+
 /* A founder's card with no x (the one founder): its right margin is the card's 12px like every card's; only the left has the marker column. */
 .business-foundation-card.business-founder-open.business-founder-solo {
 

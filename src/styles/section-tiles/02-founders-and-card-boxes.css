@@ -346,6 +346,13 @@
 
 }
 
+/* The Responsibilities row's label stands a field gap (12px) under the tick above it: the 36px fold arrow makes the row taller than its label, so the row starts 2px up. */
+.business-founder-open .business-capability-responsibilities-head:not(.business-capability-completed-head) {
+
+    margin-top: -2px;
+
+}
+
 /* "Completed N": a block of its own, a field gap (12px) under the list above it, its row the same as Responsibilities'
    (the standard arrow, then the label, here in the grey of everything completed). The struck-through items under it are
    the list's own rows (6px apart). */
