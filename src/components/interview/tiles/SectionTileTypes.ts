@@ -9,6 +9,9 @@ export interface SectionTile {
 
     id: string;
 
+    /** Called when the tile's dialog has been left: takes the tile's card away where it holds nothing the user wrote (a Theme left untitled and empty). */
+    discardIfBlank?: () => void;
+
     /** The section's name: the tile's one centred title. */
     title: string;
 
@@ -101,6 +104,9 @@ export interface SectionTile {
 
     /** The same, by card, where a tile's cards are of several groups. */
     groupFor?: (id: string) => string;
+
+    /** The title above a card where its own state names it (a completed activity floats under "Completed"): it comes before every other title. */
+    captionFor?: (id: string) => string | undefined;
 
     /** A card's own hue where its tile holds cards of several origins (the Inventory's: Infrastructure's, Offering's, a channel's): the card floats in the hue its tile has. */
     hueFor?: (id: string) => number | undefined;

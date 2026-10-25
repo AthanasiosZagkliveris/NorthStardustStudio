@@ -140,6 +140,16 @@ export default function SectionTiles({
     const openRef = useRef(open);
     openRef.current = open;
 
+    // A tile whose dialog has been left, and which holds nothing the user wrote, is taken away (an empty card is not kept).
+    const lastOpenId = useRef<string | null>(null);
+    useEffect(() => {
+        const was = lastOpenId.current;
+        lastOpenId.current = openId;
+        if (was !== null && was !== openId) {
+            latest.current.find(tile => tile.id === was)?.discardIfBlank?.();
+        }
+    }, [openId]);
+
     // The shape counts every tile but the tail one (if any), which is placed beside the last of them.
     const others = tiles.filter(tile => !tile.tail);
     const shape = gridColumns(others.length);
@@ -487,7 +497,7 @@ export default function SectionTiles({
                         const pair = floating.linked ? floatingTile.pairOf?.(floating.id) : null;
                         const one = (id: string, caption: string, node: ReactNode) => ({ key: id, caption, kind: floatingTile.kindFor?.(id) ?? floatingTile.cardKind ?? "card" as const, node, note: floatingTile.noteFor?.(id) ?? floatingTile.note });
                         if (floating.under && stackUnder) {
-                            return [stackUnder.item, one(floating.id, floating.caption ?? floatingTile.groupFor?.(floating.id) ?? floatingTile.group ?? floatingTile.title, floatingCard)];
+                            return [stackUnder.item, one(floating.id, floatingTile.captionFor?.(floating.id) ?? floating.caption ?? floatingTile.groupFor?.(floating.id) ?? floatingTile.group ?? floatingTile.title, floatingCard)];
                         }
                         if (pair) {
                             const parent = floatingTile.cardFor?.(pair.parent.id);
@@ -496,7 +506,7 @@ export default function SectionTiles({
                                 return [one(pair.parent.id, pair.parent.caption, parent), one(pair.child.id, pair.child.caption, child)];
                             }
                         }
-                        return [one(floating.id, floating.caption ?? floatingTile.groupFor?.(floating.id) ?? floatingTile.group ?? floatingTile.title, floatingCard)];
+                        return [one(floating.id, floatingTile.captionFor?.(floating.id) ?? floating.caption ?? floatingTile.groupFor?.(floating.id) ?? floatingTile.group ?? floatingTile.title, floatingCard)];
                     })()}
                     onClose={() => { closeFloating(); if (floating.under) { stackUnder?.clear(); } }}
                 />

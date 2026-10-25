@@ -37,7 +37,7 @@ import NumberedListInput from "../fields/NumberedListInput.tsx";
 import InfoNote from "../fields/InfoNote.tsx";
 import CardNameInput from "../cards/CardNameInput.tsx";
 import CardNav from "../cards/CardNav.tsx";
-import { useGroupView } from "./groupView.ts";
+import { sameAsNew, useDiscardBlank, useGroupView } from "./groupView.ts";
 import SectionTiles, { DialogHeading, type SectionTile } from "../tiles/SectionTiles.tsx";
 import CardBoxes, { type CardBox } from "../cards/CardBoxes.tsx";
 import { workHue } from "../../../framework/engine/WorkColours.ts";
@@ -256,6 +256,12 @@ export default function StrategicPeriodEditor({
             title: strategyThemeName(theme),
             note: theme.description.trim() ? [theme.description.trim()] : undefined,
             holds: heldBy.get(theme.id) ?? [],
+            // An empty Theme (no name, no description, nothing written under it) is taken away when its dialog is left.
+            discardIfBlank: () => {
+                if (onRemoveTheme && theme.name.trim() === "" && theme.description.trim() === "" && goals.every(goal => sameAsNew(goal, createStrategyGoal()))) {
+                    onRemoveTheme(theme.id);
+                }
+            },
             view: true,
             rail: theme.id,
             items: named,
@@ -403,6 +409,7 @@ function GoalList({
     const ids = goals.map(entry => entry.id);
 
     const view = useGroupView(groupId, ids);
+    useDiscardBlank(view, ids, (id) => sameAsNew(goals.find(entry => entry.id === id), createStrategyGoal()), (id) => onChangeGoals(goals.filter(entry => entry.id !== id)));
 
     const box = useMovableBox(
         (from, to) => onChangeGoals(reorder(goals, from, to)),
@@ -590,6 +597,7 @@ function ObjectiveList({
     const ids = objectives.map(entry => entry.id);
 
     const view = useGroupView(groupId, ids);
+    useDiscardBlank(view, ids, (id) => sameAsNew(objectives.find(entry => entry.id === id), createStrategyObjective()), (id) => onChangeObjectives(objectives.filter(entry => entry.id !== id)));
 
     const box = useMovableBox(
         (from, to) => onChangeObjectives(reorder(objectives, from, to)),
@@ -933,6 +941,7 @@ function MetricList({
     const ids = metrics.map(entry => entry.id);
 
     const view = useGroupView(groupId, ids);
+    useDiscardBlank(view, ids, (id) => sameAsNew(metrics.find(entry => entry.id === id), createStrategyMetric()), (id) => onChangeMetrics(metrics.filter(entry => entry.id !== id)));
 
     // The last Metric of an Objective is made blank again, not taken away.
     const removeAt = (index: number) => onChangeMetrics(

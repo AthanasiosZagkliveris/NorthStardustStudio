@@ -48,7 +48,7 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
     const part3 = { ...part1, ...part2, ...useCapabilityPeopleCards({ ...part1, ...part2 }) };
     const part4 = { ...part1, ...part2, ...part3, ...useCapabilityActivityAndDelivery({ ...part1, ...part2, ...part3 }) };
     const part5 = { ...part1, ...part2, ...part3, ...part4, ...useCapabilitySections({ ...part1, ...part2, ...part3, ...part4 }) };
-    const { activityBox, activityCardFor, capability, cardLinks, cards, channelToneIds, childCard, columnsDivider, completedActivities, disabled, discard, financialFoundation, floor, foldingGroup, founderCard, founders, foundersProfile, globalSettings, helpOpen, legalEntity, legalEntityFounders, legalEntityPrefill, legalExpenses, legalUnder, missingById, namesOf, onChangeLegalEntity, openLegalExpense, openingDate, organisationCurrency, pair, parentCard, pending, setCategoryActivities, setHelpOpen, setLegalUnder, setPair, setPending, showInstructions, update, write } = part5;
+    const { activityBox, activityCardFor, capability, cardLinks, cards, channelToneIds, childCard, columnsDivider, completedCaption, completedActivities, disabled, discard, financialFoundation, floor, foldingGroup, founderCard, founders, foundersProfile, globalSettings, helpOpen, legalEntity, legalEntityFounders, legalEntityPrefill, legalExpenses, legalUnder, missingById, namesOf, onChangeLegalEntity, openLegalExpense, openingDate, organisationCurrency, pair, parentCard, pending, setCategoryActivities, setHelpOpen, setLegalUnder, setPair, setPending, showInstructions, update, write } = part5;
 
     // THE INVENTORY AND COMPLETED ROW stands IN THE FOOTER'S BAND (level with the Back link), centred under the two cards, so the cards keep all the room above it; the row takes no room
     // of its own in the page. Where the cards are stacked (a narrow window) it follows them and is squeezed into the room the window leaves (never under SQUEEZED_ROW_MIN, never over 215px).
@@ -148,6 +148,7 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
                 return row && row.tone !== "legal" ? toneHue(row.tone) : undefined;
             },
             kindFor: () => "card",
+            captionFor: completedCaption,
             cardFor: (cardId: string) => {
                 const index = founders.findIndex(founder => founder.id === cardId);
                 if (index >= 0) {
@@ -345,10 +346,10 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
                     anchor={otherColumn(document.querySelector<HTMLElement>('[data-anchor="capability-' + (pairParent.scope === "offering" ? "offering-capability" : "infrastructure") + '"]'))}
                     // (A pair that holds a card in the channel's colour -- one a channel made, or the Partner / Provider / activity it generated -- is teal throughout.)
                     hue={channelToneIds.has(pair.parentId) || channelToneIds.has(pair.childId) ? CHANNEL_TILE_HUE : stableCardHue(pairParent.scope === "offering" ? "offering-capability" : "infrastructure")}
-                    label={pairParent.caption + " and " + pairChild.caption}
+                    label={pair.alone ? pairChild.caption : pairParent.caption + " and " + pairChild.caption}
                     attrs={{ "data-pair": pair.parentId }}
                     cards={[
-                        { key: pair.parentId, caption: pairParent.caption, kind: pairParent.kind, node: pairParent.node, hue: pairHue(pair.parentId) },
+                        ...(pair.alone ? [] : [{ key: pair.parentId, caption: pairParent.caption, kind: pairParent.kind, node: pairParent.node, hue: pairHue(pair.parentId) }]),
                         { key: pair.childId, caption: pairChild.caption, kind: pairChild.kind ?? "card", node: pairChild.node, hue: pairHue(pair.childId) }
                     ]}
                     onClose={() => setPair(null)}

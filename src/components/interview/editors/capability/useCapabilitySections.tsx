@@ -333,18 +333,22 @@ export function useCapabilitySections(earlier: Earlier) {
         };
     }
     /** The child activity's card, with the name of the box it belongs to. */
+    /** An activity ticked Completed floats under the title "Completed", wherever it is opened from. */
+    function completedCaption(id: string): string | undefined {
+        return [...capability.activities.flatMap(category => category.activities), ...capability.offering.activities].some(activity => activity.id === id && activity.completed) ? "Completed" : undefined;
+    }
     function childCard(id: string): { caption: string; node: ReactNode; kind?: "card" | "founder" } | null {
         for (const category of capability.activities) {
             if (category.activities.some(activity => activity.id === id)) {
                 const node = activityCardFor("infrastructure", category.activities, (next) => setCategoryActivities(category.id, next), id);
-                return node ? { caption: "Activities", node } : null;
+                return node ? { caption: completedCaption(id) ?? "Activities", node } : null;
             }
         }
         const node = activityCardFor("offering", capability.offering.activities, (next) => onChange({
             ...capability, offering: { ...capability.offering, activities: next }
         }), id);
         if (node) {
-            return { caption: "Activities", node };
+            return { caption: completedCaption(id) ?? "Activities", node };
         }
         // A partner or provider a resource is connected to.
         for (const scope of ["infrastructure", "offering"] as const) {
@@ -744,6 +748,7 @@ export function useCapabilitySections(earlier: Earlier) {
             boxHolds: Object.fromEntries(filled.filter(big).map(category => [category.id, category.cards.map(card => card.id)])),
             // (Every card of the section: a resource, an activity, a partner or provider, the Workspace's form.)
             cardFor: (cardId: string) => parentCard(cardId)?.node ?? childCard(cardId)?.node ?? null,
+            captionFor: completedCaption,
             kindFor: () => "card",
             nameFor: (cardId: string) => filled.flatMap(category => category.cards).find(card => card.id === cardId)?.name ?? "",
             add: args.add,
@@ -1091,6 +1096,6 @@ export function useCapabilitySections(earlier: Earlier) {
         { id: "offering-capability", body: offeringSection }
     ];
 
-    return { activityBox, activityCardFor, cardLinks, cards, channelToneIds, childCard, floor, missingById, namesOf, parentCard };
+    return { activityBox, activityCardFor, cardLinks, cards, channelToneIds, childCard, completedCaption, floor, missingById, namesOf, parentCard };
 
 }

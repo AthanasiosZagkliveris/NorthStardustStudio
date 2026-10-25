@@ -91,7 +91,10 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
         onOpenLegalEntity?.();
         window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail })), 700);
     }
-    /** A line of a founder's Responsibilities: a link that opens the activity's card (under the founder's), with a tile list item's reaction. */
+    /**
+ * A line of a founder's Responsibilities: a link that opens the linked card, with a tile list item's reaction. From the founder's card in the Founders' dialog the linked card
+ * opens ALONE (the dialog already shows the founder's card); from the founder's FLOATING card it opens BELOW it, the two stacked.
+ */
     function responsibilityLink(founderId: string, entry: { id: string; name: string; kind?: "activity" | "partner" | "supplier" | "legal" }, done: boolean) {
         const letter = entry.kind === "partner" ? "P." : entry.kind === "supplier" ? "S." : entry.kind === "legal" ? "L." : "A.";
         return (
@@ -102,7 +105,14 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                     type="button"
                     className="business-capability-responsibility-link"
                     title={"Open “" + entry.name + "”"}
-                    onClick={() => entry.kind === "legal" ? openLegalExpense(entry.id, founderId) : openPair(founderId, entry.id)}
+                    onClick={(event) => {
+                        const floating = event.currentTarget.closest(".floating-card-body") !== null;
+                        if (entry.kind === "legal") {
+                            openLegalExpense(entry.id, floating ? founderId : undefined);
+                        } else {
+                            openPair(founderId, entry.id, !floating);
+                        }
+                    }}
                 >
                     {entry.name}
                 </TextLink>
