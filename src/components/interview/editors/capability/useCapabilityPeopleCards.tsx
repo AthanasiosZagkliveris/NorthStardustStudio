@@ -7,6 +7,8 @@ import FieldLabel from "../../../controls/FieldLabel.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import { connectedOfferings } from "../../../../framework/engine/GeneratedCards.ts";
 import { ReactNode } from "react";
+import { legalFormOptions } from "../../../../framework/engine/LegalEntityJurisdictions.ts";
+import { asLegalEntityValue } from "../../../../framework/engine/AnswerLegal.ts";
 import ResponsibilityFilter from "../../fields/ResponsibilityFilter.tsx";
 import { activityGroupsOf, activityCategoryLabel, soleGroupOf, BUSINESS_PARTNER_GROUPS, partnerGroupHelp, usesSupplier, PEOPLE_EXTRA_KEYS, partnerExtraFieldKeys, supplierConnections, billingOf, costWithOption, noteHint, partnerHasQuantity, businessQuantityText, BUSINESS_WORKSPACE_KINDS, BusinessActivityValue, BusinessCategoryValue, PARTNER_CATEGORIES, partnerCategoryLabel, BusinessCapabilityValue, BusinessFounderValue, BusinessPartnerValue, BusinessResourceSlotValue, businessDecimalText, businessAutoResponsibleId, businessPartnerResponsibleId, responsibleIsOff, businessFounderResponsibilities, businessResponsibilitiesTally, createBusinessResourceSlot, workspacesOf } from "../../../../framework/engine/AnswerUtils.ts";
 import { BusinessCard, ResponsibleField, BusinessEmpty, BusinessField, BusinessFieldTick, OptionalNote, BusinessRemove, uniqueChoices } from "../../cards/BusinessCardFields.tsx";
@@ -109,6 +111,10 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
     }
     /* ---------- 1. Founders ---------- */
 
+    // A legal form with ONE owner in law (a sole proprietorship, a sole trader ...): the Founders' dialog is the founder's card itself, as on the Legal Entity page -- no frame of its own inside the dialog's.
+    const organisation = asLegalEntityValue(legalEntity).organisation;
+    const oneOwner = legalEntity !== undefined
+        && legalFormOptions(organisation.country, organisation.subdivision).find(form => form.label === organisation.legalForm)?.soleFounder === true;
     function founderCard(founder: BusinessFounderValue, index: number, always = false) {
 
         const change = (patch: Partial<BusinessFounderValue>) => update({
@@ -166,7 +172,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                 key={founder.id}
                 anchor={"founder-" + founder.id}
                 kind="Founder"
-                className={always ? "business-founder-open" + (capability.founders.length === 1 ? " business-founder-solo" : "") : undefined}
+                className={always ? "business-founder-open" + (capability.founders.length === 1 ? " business-founder-solo" : "") + (oneOwner && capability.founders.length === 1 ? " business-founder-unframed" : "") : undefined}
                 number={index + 1}
                 name={founder.name}
                 open={always || folds.isOpen(founder.id)}

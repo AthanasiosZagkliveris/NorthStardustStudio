@@ -166,7 +166,11 @@ export function useEngagementRelationships(earlier: Earlier) {
                     const channel = addChannel(category.label);
                     window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: channelTileId(segment.id, channel.id), card: channel.id, fresh: true } })), 80);
                 },
-                plus: () => { addChannel(category.label); },
+                // (The "+" of a channel the Segment does not use yet does what pressing the tile does: makes it, and opens its card -- as the "+" of every other tile.)
+                plus: () => {
+                    const channel = addChannel(category.label);
+                    window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: channelTileId(segment.id, channel.id), card: channel.id, fresh: true } })), 80);
+                },
                 content: () => null
             }));
         return (
