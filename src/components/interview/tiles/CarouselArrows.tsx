@@ -211,6 +211,23 @@ export function CarouselArrows({ target, step, hue, back }: { target: RefObject<
     const itemCount = step.items?.length ?? 0;
     // (The tab measured again whenever it, or the window, changes size: names arriving, fonts loading, the layer moving.)
     const [railSize, setRailSize] = useState(0);
+    // Whether the tab's bullets do not fit the height the window leaves it (they then scroll, with the Back in view).
+    const [capped, setCapped] = useState(false);
+    useLayoutEffect(() => {
+        // (Measured from the bullets' own positions and the height the tab was given, never from the list's scrolling box, so that scrolling it does not change the answer.)
+        const rail = railRef.current;
+        const list = rail?.querySelector<HTMLElement>(".bullet-rail-list");
+        const first = list?.firstElementChild;
+        const last = list?.lastElementChild;
+        const given = rail ? parseFloat(rail.style.maxHeight) : NaN;
+        let next = false;
+        if (rail && first && last && Number.isFinite(given)) {
+            const back = rail.querySelector<HTMLElement>(".carousel-rail-back");
+            const content = last.getBoundingClientRect().bottom - first.getBoundingClientRect().top;
+            next = content > given - 24 - (back ? back.offsetHeight + 12 : 0) + 1;
+        }
+        setCapped(current => current === next ? current : next);
+    });
     useEffect(() => {
         const rail = railRef.current;
         const again = () => setRailSize(count => count + 1);
@@ -281,9 +298,9 @@ export function CarouselArrows({ target, step, hue, back }: { target: RefObject<
                 // The rail under the arrows (the right one's): a bullet for each of the list, this one's lit. A card's bullet says its name in a tooltip (a card is named by the user); a SECTION'S bullet has its name beside it (the tiles' names are given), where the window has the room for it.
                 <nav
                     ref={railRef}
-                    className={"carousel-rail" + (step.what === "section" && (at.tab && at.side === "left" ? at.left : at.right) >= 160 ? " carousel-rail-named" : "") + (at.tab ? " carousel-rail-tab" : "") + (at.tab && at.side === "left" ? " carousel-rail-tab-left" : "")}
+                    className={"carousel-rail" + (step.what === "section" && (at.tab && at.side === "left" ? at.left : at.right) >= 160 ? " carousel-rail-named" : "") + (at.tab ? " carousel-rail-tab" : "") + (at.tab && capped ? " carousel-rail-capped" : "") + (at.tab && at.side === "left" ? " carousel-rail-tab-left" : "")}
                     aria-label={"Go to a " + step.what}
-                    style={{ ...(at.tab && at.side === "left" ? { right: window.innerWidth - at.leftEdge } : { left: at.edge }), top: at.tab ? at.titleTop : at.top + 36, "--rail-label-room": Math.max(0, (at.tab ? (at.side === "left" ? at.leftEdge : window.innerWidth - at.edge) - 25 : at.right) - 8 - (at.tab ? 0 : 24)) + "px", "--strategy-theme-hue": hue, ...(at.tab ? { "--tab-bg": at.tab.bg, "--tab-edge": at.tab.edge, "--tab-ink": at.tab.ink } : {}) } as unknown as CSSProperties}
+                    style={{ ...(at.tab && at.side === "left" ? { right: window.innerWidth - at.leftEdge } : { left: at.edge }), top: at.tab ? at.titleTop : at.top + 36, ...(at.tab ? { maxHeight: Math.max(120, window.innerHeight - at.titleTop - 12) } : {}), "--rail-label-room": Math.max(0, (at.tab ? (at.side === "left" ? at.leftEdge : window.innerWidth - at.edge) - 25 : at.right) - 8 - (at.tab ? 0 : 24)) + "px", "--strategy-theme-hue": hue, ...(at.tab ? { "--tab-bg": at.tab.bg, "--tab-edge": at.tab.edge, "--tab-ink": at.tab.ink } : {}) } as unknown as CSSProperties}
                 >
                     <ol className="bullet-rail-list">
                         {step.items.map((item, position) => (

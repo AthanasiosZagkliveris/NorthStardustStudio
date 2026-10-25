@@ -146,7 +146,7 @@
     /* ---------- In the page ---------- */
 
     const CARD = ".business-foundation-card, .legal-entity-card, .strategy-theme-box, .strategy-goal-box, .strategy-objective-box, .strategy-metric-box, .business-capability-activity, .brand-style-card, .financial-cost-card, .financial-funding-card";
-    const FIELD = ".business-foundation-field, .legal-entity-field, .strategy-metric-field";
+    const FIELD = ".business-foundation-field, .legal-entity-field, .legal-entity-field-wide, .strategy-metric-field";
     const CONTROL = "input.interview-input, textarea.interview-input, .option-picker, .month-picker-trigger, .suggested-input, input.brand-colour-picker";
     /* Composites whose parts share one column: a price and its currency, a
        swatch and its HEX, a list row's control beside its ×, a name typed
@@ -318,7 +318,7 @@
         if (!document.getElementById("layout-probe-hold-hover")) {
             const style = document.createElement("style");
             style.id = "layout-probe-hold-hover";
-            style.textContent = ".section-tile-slot, .section-tile-slot:hover, .card-tile-slot:hover { transform: none !important; transition: none !important; }";
+            style.textContent = ".section-tile-slot, .section-tile-slot:hover, .card-tile-slot:hover { transform: none !important; transition: none !important; } .section-tile-slot *, .section-tile-slot:hover *, .section-tile *, .section-tile:hover * { transition: none !important; }";
             document.head.appendChild(style);
         }
     }
@@ -352,10 +352,20 @@
                 }
                 continue;
             }
+            const name = nameBox(head);
+            // THE NUMBER INSIDE THE NAME CELL (layout rules, "Order number inside the name cell"): the number is drawn over the left of the name cell, spec.numberInName in; the cell starts where the body does.
+            if (name && number.column.left >= name.left - tolerance && number.column.right <= name.right + tolerance) {
+                if (!rules.near(number.text.left - name.left, spec.numberInName, tolerance)) {
+                    fail("number inside the name cell", head, { number: number.text.left - name.left, expected: spec.numberInName });
+                }
+                if (body !== null && !rules.near(name.left, body, tolerance)) {
+                    fail("name cell left = body-left", head, { name: name.left, body });
+                }
+                continue;
+            }
             if (body !== null && !rules.near(number.text.left, body, tolerance)) {
                 fail("number-left = body-left", head, { number: number.text.left, body });
             }
-            const name = nameBox(head);
             if (name && !rules.near(name.left - number.text.right, spec.numberToName, tolerance)) {
                 fail("number → name gap", head, { gap: name.left - number.text.right, expected: spec.numberToName });
             }
@@ -369,7 +379,7 @@
             for (const cell of cells) {
                 const control = cell.matches(CONTROL) ? cell : cell.querySelector(CONTROL);
                 // A cell that is a row of its own (the VAT tick and its number, a list of numbers) is checked as one.
-                if (!control || !visible(control) || cell.classList.contains("business-field-inline") || cell.classList.contains("business-field-side") || cell.classList.contains("legal-entity-field-side") || cell.matches(".business-capability-cost-after:has(> .business-field-side), .legal-entity-tax-row, .legal-entity-registrations, .legal-entity-field-wide:has(.legal-entity-number-row), .legal-entity-side-row, .founders-profile-row")) {
+                if (!control || !visible(control) || cell.classList.contains("business-field-inline") || cell.classList.contains("business-field-side") || cell.classList.contains("legal-entity-field-side") || cell.matches(".business-capability-cost-after:has(> .business-field-side), .legal-entity-tax-row, .legal-entity-registrations, .legal-entity-field-wide:has(.legal-entity-number-row), .legal-entity-field:has(> .numbered-list), .legal-entity-side-row, .founders-profile-row")) {
                     continue;
                 }
                 if (!rules.near(rect(control).left, rect(cell).left, tolerance)) {
@@ -469,7 +479,9 @@
 
         // 8. Text boxes: never clipped; a written answer at least two lines.
         for (const box of [...document.querySelectorAll("textarea")].filter(visible)) {
-            if (box.scrollHeight > box.clientHeight + 1) {
+            // (THE ONE EXCEPTION: a card's name cell takes two rows at most; past them it keeps its height and scrolls, the rule of every name cell, CardNameInput.)
+            const atNameCap = box.classList.contains("card-name-input") && box.style.maxHeight !== "" && box.clientHeight >= parseFloat(box.style.maxHeight) - 3;
+            if (box.scrollHeight > box.clientHeight + 1 && !atNameCap) {
                 fail("text box not clipped", box, { scroll: box.scrollHeight, client: box.clientHeight });
             }
             const line = parseFloat(getComputedStyle(box).lineHeight) || 24;
@@ -491,7 +503,8 @@
         if (document.documentElement.scrollWidth > document.documentElement.clientWidth + 1) {
             fail("no page overflow", document.documentElement, { scrollWidth: document.documentElement.scrollWidth, clientWidth: document.documentElement.clientWidth });
         }
-        for (const card of [...document.querySelectorAll(CARD + ", .legal-entity-section")].filter(visible)) {
+        // (The one owner's founder card is the dialog's body, unframed: the dialog is its frame.)
+        for (const card of [...document.querySelectorAll(CARD + ", .legal-entity-section")].filter(visible).filter(box => !box.matches(".business-founder-unframed"))) {
             const frame = rect(card);
             for (const child of card.querySelectorAll("input, textarea, button, .option-picker, .notepad-chip, img, table")) {
                 if (!visible(child) || child.closest(".info-note-panel, .option-picker-list, .notepad-suggestions, .numbered-list-suggestions, .option-picker-sizer")) {
@@ -614,7 +627,9 @@
             // A FILLING picker of an opened card (Status, Responsible, Provider) runs to the right edge of the name cell: its width is what is left of the
             // content column (checked by "a filling dropdown ... end at the name cell's right edge").
             const fillsCard = holder.matches(".option-picker[data-size=\"fit\"]") && control.closest(".card-box-open > .business-capability-slot") !== null;
-            const allowed = hugs || formFills || founderCell || fillsCard || (spec.widths ?? []).some(step => rules.near(width, step, 1)) || rules.near(width, inner, 1) || (cell && rules.near(width, rect(cell).width, 1)) ||
+            // THE NAMED SHORT BOXES (declared in the CSS): how many people a performer is (56px), the number of instalments (a digit), and the plan's type picker that gives the box its room.
+            const shortBox = control.matches(".business-capability-people, .business-capability-plan-count, .business-capability-share") || control.closest(".business-capability-plan-type") !== null;
+            const allowed = hugs || formFills || founderCell || fillsCard || shortBox || (spec.widths ?? []).some(step => rules.near(width, step, 1)) || rules.near(width, inner, 1) || (cell && rules.near(width, rect(cell).width, 1)) ||
                 tracks.some(track => rules.near(width, track, 1)) ||
                 (spec.square && rules.near(width, spec.square, 1) && rules.near(rect(control).height, spec.square, 1));
             // Groups and list rows are measured as the group (the column), not each part.
@@ -629,6 +644,10 @@
         // 14. An "i" right after its words: on their (last) line's centre, one gap after the last word.
         for (const button of [...document.querySelectorAll(".info-note-button")].filter(visible)) {
             const note = button.closest(".info-note");
+            // (The "i" of an add tile stands in the tile's corner, with no words of its own.)
+            if (note.closest(".add-card-slot")) {
+                continue;
+            }
             const holder = note.closest(".info-note-glue") ?? note.previousElementSibling;
             if (!holder) {
                 continue;
@@ -736,7 +755,7 @@
                         items.push({ kind: "label", element: label, ...box });
                     }
                 }
-                for (const control of card.querySelectorAll("input.interview-input:not([type=checkbox]), textarea.interview-input, .option-picker-trigger, .month-picker-trigger, .strategy-add-button")) {
+                for (const control of card.querySelectorAll("input.interview-input:not([type=checkbox]), textarea.interview-input, input.date-cell-input, .option-picker-trigger, .month-picker-trigger, .strategy-add-button")) {
                     // A Text Hierarchy level is measured as its fixed row (rows a field gap apart).
                     if (!visible(control) || control.closest(".info-note-panel, table, .fold-card-head, .numbered-list, .notepad-panel, .brand-hierarchy-card")) {
                         continue;
@@ -777,7 +796,8 @@
                     if (gap >= 30) {
                         continue;
                     }
-                    const expected = above.kind === "label" && item.kind === "control" ? spec.labelGap : spec.fieldGap;
+                    // (The words of a tick box are not a label of the control under them: a field gap, not a label gap.)
+                    const expected = above.kind === "label" && item.kind === "control" && !above.element.closest(".tick-field, label:has(> input[type=checkbox])") ? spec.labelGap : spec.fieldGap;
                     // A GROUP GAP: two groups divided by a rule, a field gap either side of it.
                     let divided = false;
                     for (let node = item.element; node && node !== card; node = node.parentElement) {
@@ -804,13 +824,19 @@
                     }
                     // The first thing in a field of a grid: its field is a row gap under the
                     // grid row above (whose tallest cell sets it).
-                    const field = item.element.closest(FIELD);
-                    if (field && field.parentElement && getComputedStyle(field.parentElement).display.includes("grid") && item.top - rect(field).top < spec.fieldGap) {
-                        const fieldTop = rect(field).top;
-                        const bottoms = [...field.parentElement.children].map(child => rect(child).bottom).filter(bottom => bottom <= fieldTop + 0.5);
-                        if (bottoms.length && rules.near(fieldTop - Math.max(...bottoms), spec.fieldGap, 1)) {
-                            continue;
+                    // (Any field it stands in counts, the nearest or the one around it: a Notes box is a wide field with a field of its own inside.)
+                    let underField = false;
+                    for (let field = item.element.closest(FIELD); field && !underField; field = field.parentElement ? field.parentElement.closest(FIELD) : null) {
+                        if (field.parentElement && getComputedStyle(field.parentElement).display.includes("grid") && item.top - rect(field).top < spec.fieldGap) {
+                            const fieldTop = rect(field).top;
+                            const bottoms = [...field.parentElement.children].map(child => rect(child).bottom).filter(bottom => bottom <= fieldTop + 0.5);
+                            if (bottoms.length && rules.near(fieldTop - Math.max(...bottoms), spec.fieldGap, 1)) {
+                                underField = true;
+                            }
                         }
+                    }
+                    if (underField) {
+                        continue;
                     }
                     if (!rules.near(gap, expected, 1)) {
                         fail(above.kind === "label" && item.kind === "control" ? "label gap" : "row gap", item.element, { gap, expected, above: describe(above.element) });
@@ -823,15 +849,14 @@
         if (spec.cardPadding) {
             for (const box of [...document.querySelectorAll(CARDS)].filter(visible)) {
                 if (box.matches(".legal-entity-unframed .legal-entity-section")) continue; // DECLARED: no frame in the dialogs, so no padding to measure
+                if (box.matches(".business-founder-unframed")) continue; // DECLARED: the one owner's founder card is the dialog's body, framed by the dialog
+                if (box.matches(".legal-entity-unframed .legal-entity-card") && box.querySelector(".founders-profile-sole-row")) continue; // DECLARED: the one owner's card is the dialog's body, framed by the dialog
                 const style = getComputedStyle(box);
                 // The Text Hierarchy box: a declared 12px more each side.
                 const margin = box.matches(".brand-hierarchy-card") ? spec.cardPadding + 12 : spec.cardPadding;
                 for (const side of ["paddingLeft", "paddingRight"]) {
-                    // A founder's card (declared exception, layout-rules 7): its left side is the card padding
-                    // plus the inset and the marker column (--founder-inset, --founder-marker) that bullets and numbers hang in.
-                    const wanted = side === "paddingLeft" && box.matches(".business-founder-open")
-                        ? margin + (parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--founder-inset")) || 4.5) + (parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--founder-marker")) || 26.3)
-                        : margin;
+                    // (A founder's card is a card like the others since 2026-10-25: the card padding, no marker column of its own.)
+                    const wanted = margin;
                     if (!rules.near(parseFloat(style[side]), wanted, 0.01)) {
                         fail("card side margin", box, { side, padding: parseFloat(style[side]), expected: wanted });
                     }
@@ -1368,7 +1393,8 @@
                             fail("a tile's list block is centred under its title", tile, { list: (listBox.left + listBox.right) / 2, tile: (box.left + box.right) / 2 });
                         }
                         // THE LIST STARTS A FIXED 12px UNDER THE UNDERLINE of the title (it comes up with the lifted title).
-                        if (!rules.near(listBox.top - titleBox.bottom, spec.fieldGap, 0.75)) {
+                        // (The tile under the pointer grows, and its title's lift is measured on that frame: a pixel more or less, 1.25 here.)
+                        if (!rules.near(listBox.top - titleBox.bottom, spec.fieldGap, 1.25)) {
                             fail("a tile's list starts 12px under the title's underline", tile, { gap: listBox.top - titleBox.bottom });
                         }
                         const items = [...list.children].filter(visible);
@@ -1660,7 +1686,7 @@
                     if (list && rect(list).bottom > p.top + tolerance) {
                         fail("a tile's list stays clear of its + box", plus, { list: rect(list).bottom, plus: p.top });
                     }
-                    if (!/^Add [A-Z][A-Za-z]* to /.test(plus.getAttribute("aria-label") || "")) {
+                    if (!/^Add [A-Z][A-Za-z ]* to /.test(plus.getAttribute("aria-label") || "")) {
                         fail("a tile's + box is named 'Add <Item> to <tile>'", plus, { label: plus.getAttribute("aria-label") });
                     }
                     plusBoxChecks(plus, "a tile's + box", fail, rules);
@@ -1906,7 +1932,10 @@
             };
             for (const card of [...document.querySelectorAll(".business-founder-open")].filter(visible)) {
                 const style = getComputedStyle(card);
-                const marker = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--founder-marker")) || 26.3;
+                // (The founder's card is a card like the others since 2026-10-25: its own --founder-marker is 0, so its markers stand at the content edge, the card's padding.)
+                const markerValue = parseFloat(style.getPropertyValue("--founder-marker"));
+                const marker = Number.isFinite(markerValue) ? markerValue : 26.3;
+                const cardLike = marker === 0;
                 const content = rect(card).left + (parseFloat(style.borderLeftWidth) || 0) + (parseFloat(style.paddingLeft) || 0);
                 const hang = content - marker;
                 const edgeOk = (value, wanted) => rules.near(value, wanted, tolerance + 0.75);
@@ -1914,7 +1943,7 @@
                     fail("a founder's card has no Roles label", card, {});
                 }
                 for (const roleText of card.querySelectorAll(".bullet-list-static-text")) {
-                    if (!edgeOk(textLeft(roleText), content)) {
+                    if (!cardLike && !edgeOk(textLeft(roleText), content)) {
                         fail("a founder's roles (text) start at the card's content edge", roleText, { left: textLeft(roleText), edge: content });
                     }
                 }
@@ -1928,7 +1957,7 @@
                 if (number && !edgeOk(textLeft(number), hang)) {
                     fail("a founder's head number hangs in the marker column", number, { left: textLeft(number), marker: hang });
                 }
-                if (name && !edgeOk(name.matches("textarea") ? rect(name).left : textLeft(name), content)) {
+                if (name && !cardLike && !edgeOk(name.matches("textarea") ? rect(name).left : textLeft(name), content)) {
                     fail("a founder's name starts at the card's content edge", name, { left: textLeft(name), edge: content });
                 }
                 // THE HEAD: the number and the name are on one line -- the same vertical centre and the same baseline --
@@ -1951,11 +1980,12 @@
                     if (!rules.near(baseline(number), baseline(name), 0.75)) {
                         fail("a founder's head number and name share a baseline", number, { number: baseline(number), name: baseline(name) });
                     }
-                    if (/^\d\.$/.test(number.textContent.trim()) && !rules.near(other.left - one.right, 8, 0.75)) {
+                    if (!cardLike && /^\d\.$/.test(number.textContent.trim()) && !rules.near(other.left - one.right, 8, 0.75)) {
                         fail("a founder's head number ends 8px before the name", number, { gap: other.left - one.right });
                     }
                 }
-                for (const label of card.querySelectorAll(".business-founder-share, .business-capability-responsibilities-head .business-foundation-label")) {
+                // (A label that follows a fold arrow stands where a tick box's words do, 26px from the edge; only the share line is at the edge.)
+                for (const label of card.querySelectorAll(cardLike ? ".business-founder-share" : ".business-founder-share, .business-capability-responsibilities-head .business-foundation-label")) {
                     if (visible(label) && !edgeOk(textLeft(label), content)) {
                         fail("a founder's text starts at the card's content edge", label, { left: textLeft(label), edge: content });
                     }
@@ -1983,7 +2013,7 @@
                         }
                     }
                     for (const control of right) {
-                        if (left.length > 0 && !rules.near(rect(control).left - rect(left[0]).right, spec.fieldGap, tolerance + 0.5)) {
+                        if (!cardLike && left.length > 0 && !rules.near(rect(control).left - rect(left[0]).right, spec.fieldGap, tolerance + 0.5)) {
                             fail("a founder's two columns of cells are 12px apart (the right one moved to the left)", control, { gap: rect(control).left - rect(left[0]).right });
                         }
                     }
@@ -1994,7 +2024,7 @@
                         // (Lines by height: the "i" button is taller than a line of text.)
                         const lines = rect(label).height > 36 ? 2 : 1;
                         const wanted = at >= 2 && at < 4 ? 2 : 1;
-                        if (lines !== wanted) {
+                        if (!cardLike && lines !== wanted) {
                             fail("a founder's Working Hrs and Delivery Hrs labels are two lines, Salary and Frequency one", label, { lines, wanted, at });
                         }
                         const box = rect(label);
@@ -2025,7 +2055,7 @@
                         if (!edgeOk(rect(item).left, hang)) {
                             fail("a founder's Responsibilities numbers hang in the marker column", item, { left: rect(item).left, marker: hang });
                         }
-                        if (text && !edgeOk(textLeft(text), textEdge)) {
+                        if (text && !cardLike && !edgeOk(textLeft(text), textEdge)) {
                             fail("a founder's Responsibilities text starts at the card's content edge (further right only by a two-digit number)", item, { left: textLeft(text), edge: textEdge });
                         }
                         const lh = parseFloat(getComputedStyle(item).lineHeight) / parseFloat(getComputedStyle(item).fontSize);
@@ -2084,7 +2114,7 @@
                     }
                 }
                 const completedLabel = card.querySelector(".business-capability-completed-head .business-foundation-label");
-                if (completedLabel && !edgeOk(textLeft(completedLabel), content)) {
+                if (completedLabel && !cardLike && !edgeOk(textLeft(completedLabel), content)) {
                     fail("a founder's Completed label starts at the card's content edge", completedLabel, { left: textLeft(completedLabel), edge: content });
                 }
             }
@@ -2349,7 +2379,8 @@
             if (name && rows.length > 0) {
                 const picker = rows[0].querySelector(".option-picker");
                 // (Where a performer is a partner or a supplier, the row holds the link symbol's place, 8px after the dropdown: the dropdown ends that much earlier, in every row.)
-                const linkPlace = rows.map(row => row.querySelector(":scope > .business-link-symbol, :scope > .business-capability-row-spacer")).find(Boolean);
+                // (The link symbol stands BEFORE the dropdown now, between the label and it: only a symbol or spacer AFTER the dropdown takes room from it.)
+                const linkPlace = rows.map(row => row.querySelector(":scope > .business-link-symbol, :scope > .business-capability-row-spacer")).filter(node => node && picker && rect(node).left >= rect(picker).right - 1).find(Boolean);
                 const wanted = rect(name).right - (linkPlace ? rect(linkPlace).width + 8 : 0);
                 if (picker && !rules.near(rect(picker).right, wanted, tolerance + 0.5)) {
                     fail("the Performer's dropdown ends where the name cell ends", picker, { picker: rect(picker).right, name: wanted });
@@ -2514,8 +2545,10 @@
             if (text) {
                 const range = document.createRange();
                 range.selectNodeContents(text);
-                if (!rules.near(range.getBoundingClientRect().left - rect(card).left - border, spec.cardPadding, 1.5)) {
-                    fail("a Delivery card's number is left-aligned in its box (no space before it)", text, { text: range.getBoundingClientRect().left - rect(card).left - border });
+                // (The number is drawn inside the name cell, spec.numberInName in from the padding edge: "Order number inside the name cell".)
+                const wantedLeft = spec.cardPadding + spec.numberInName;
+                if (!rules.near(range.getBoundingClientRect().left - rect(card).left - border, wantedLeft, 1.5)) {
+                    fail("a Delivery card's number is left-aligned in its box (no space before it)", text, { text: range.getBoundingClientRect().left - rect(card).left - border, wanted: wantedLeft });
                 }
             }
             if (/\((founder|external)\)/.test(card.textContent)) {
@@ -2541,7 +2574,7 @@
         //      the label, so they end in an ellipsis there, the whole text in the list, the tooltip and the accessible name. An activity's Performer pickers
         //      (aria-label "... performer 1: ...") are the same, and a Group picker of a Resource, Partner or Provider card (aria-label "... group: ...", a fixed list whose longest name,
         //      "Landlords, Leasing & Warehouses", is 322px with its padding): a person's name and role, or a partner's, can be wider than the 290px left beside the label.
-        const cascadeText = trigger => /(supplier|partner)( group)?:|performer [0-9]+:| group:| category:| cost option:| resource [0-9]+:| rent:/.test(trigger.getAttribute("aria-label") || "");
+        const cascadeText = trigger => /(supplier|partner)( group)?:|performer [0-9]+:| group:| category:| cost option:| resource [0-9]+:| rent:| linked registration:/.test(trigger.getAttribute("aria-label") || "");
         for (const trigger of [...document.querySelectorAll(".card-box-open .option-picker-trigger")].filter(visible)) {
             const value = trigger.querySelector(".option-picker-value");
             if (value && value.scrollWidth > value.clientWidth + 1 && !trigger.closest(".business-field-side")?.textContent.startsWith("Status") && !cascadeText(trigger)) {
@@ -2551,7 +2584,8 @@
                 const style = getComputedStyle(trigger);
                 const chrome = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight) + parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth);
                 const widest = Math.max(0, ...[...trigger.querySelectorAll(".option-picker-sizer, .option-picker-value")].filter(span => !span.hasAttribute("data-empty")).map(span => { const range = document.createRange(); range.selectNodeContents(span); return range.getBoundingClientRect().width; }));
-                if (rect(trigger).width + 1 < widest + chrome && trigger.closest(".business-capability-slot") && !/ payment frequency:/.test(trigger.getAttribute("aria-label") || "")) {
+                // (The plan's type picker shares its row with the instalments box: it is as wide as its widest option when that box is not there, which is when another type is chosen.)
+                if (rect(trigger).width + 1 < widest + chrome && trigger.closest(".business-capability-slot") && !trigger.closest(".business-capability-plan-type") && !/ payment frequency:/.test(trigger.getAttribute("aria-label") || "")) {
                     fail("a picker is as wide as its widest option", trigger, { width: rect(trigger).width, need: widest + chrome });
                 }
             }
@@ -2591,6 +2625,8 @@
             for (let node = walker.nextNode(); node; node = walker.nextNode()) {
                 const element = node.parentElement;
                 if (!element || !node.textContent.trim() || seen.has(element) || !element.closest(".business-capability, .floating-card-host") || !visible(element)) continue;
+                // (A specimen shows a size the user chose -- a typeface's "Aa", a text level's name at its own size -- not the app's text.)
+                if (element.closest(".picture-box-specimen, .brand-text-hierarchy")) continue;
                 seen.add(element);
                 const size = parseFloat(getComputedStyle(element).fontSize);
                 if (size > 0 && !scale.some(step => rules.near(size, step, 0.5))) {
@@ -2714,10 +2750,16 @@
                 // A dialog covers the area of the card of its section (its left and right edges, top and height); a page-level dialog keeps the page frame.
                 const sectionCard = tile.closest(".section-tiles-completed") ? null : tile.closest(".business-foundation-input");
                 const cardBox = sectionCard ? sectionCard.getBoundingClientRect() : null;
-                if (cardBox && cardBox.width > 200 && cardBox.height > 200) {
+                // (A card taller than the window -- the Customer Channels' -- cannot be covered by its dialog: the dialog then fills the window under the header, and only its width is the card's.)
+                const tallCard = !!cardBox && cardBox.height > window.innerHeight;
+                if (cardBox && cardBox.width > 200 && cardBox.height > 200 && !tallCard) {
                     width = cardBox.width;
                     height = cardBox.height;
                     top = cardBox.top;
+                } else if (tallCard) {
+                    width = cardBox.width;
+                    height = 0;
+                    top = header ? header.getBoundingClientRect().bottom : 0;
                 } else if (underline) {
                     // A page-wide dialog (Inventory, Completed) stands from the top of the page's cards to 12px above the footer.
                     const cardsTop = document.querySelector(".answer-columns.business-capability > .business-foundation-card");
@@ -2742,7 +2784,14 @@
                 } else if (Math.abs((box.left + box.right) / 2 - window.innerWidth / 2) > 1.5) {
                     failures.push({ rule: "a section tile's dialog is centred across the window", where: title, detail: { centre: (box.left + box.right) / 2, window: window.innerWidth / 2 } });
                 }
-                if (back.left < box.left || back.bottom > box.bottom || back.left - box.left > 40 || box.bottom - back.bottom > 40) {
+                // THE BACK STANDS IN THE LAYER'S TAB (the dialog's own foot has none while the tab does): then it is the tab's Back that is checked, in the window and beside the dialog; a dialog with no tab keeps its Back at its lower left.
+                // (The topmost layer's tab is the last in the page: the tabs of the layers under it are still there, and may stand elsewhere.)
+                const tabBack = [...document.querySelectorAll(".carousel-rail .carousel-rail-back")].map(node => node.getBoundingClientRect()).filter(box2 => box2.width > 0 && box2.height > 0).pop();
+                if (tabBack) {
+                    if (tabBack.left < 0 || tabBack.bottom > window.innerHeight || tabBack.top < 0 || Math.min(Math.abs(tabBack.right - box.left), Math.abs(tabBack.left - box.right)) > 400) {
+                        failures.push({ rule: "a dialog's Back button stands in its tab, beside the dialog", where: title, detail: { left: tabBack.left, top: tabBack.top, dialog: [box.left, box.right] } });
+                    }
+                } else if (back.left < box.left || back.bottom > box.bottom || back.left - box.left > 40 || box.bottom - back.bottom > 40) {
                     failures.push({ rule: "a dialog's Back button stands at its lower left", where: title, detail: { left: back.left - box.left, bottom: box.bottom - back.bottom } });
                 }
                 const alphaOf = (element) => {
@@ -2755,7 +2804,7 @@
                     failures.push({ rule: "a dialog's ground is translucent and blurred (the shared glass)", where: title, detail: { alpha: alphaOf(dialog), blur: getComputedStyle(dialog).backdropFilter } });
                 }
                 for (const inner of dialog.querySelectorAll(".business-foundation-card")) {
-                    if (!visible(inner)) continue;
+                    if (!visible(inner) || inner.matches(".business-founder-unframed")) continue; // (the one owner's founder card is the dialog's body, unframed)
                     if (alphaOf(inner) >= 0.99 || !blurred(inner)) {
                         failures.push({ rule: "a card in a dialog has the shared glass ground (translucent, blurred)", where: title, detail: { alpha: alphaOf(inner), blur: getComputedStyle(inner).backdropFilter } });
                         break;
@@ -2937,12 +2986,17 @@
                 const counted = slot.querySelectorAll(".section-tile-list > li").length;
                 const column = slot.closest(".business-foundation-input");
                 slot.scrollIntoView({ block: "nearest" });
+                const layersBefore = document.querySelectorAll(".section-tile-overlay").length;
                 plus.click();
                 await pause(settle);
                 stats.floating = (stats.floating || 0) + 1;
-                failures.push(...checkFloating(spec, title + " (+ box)", column, "card", false));
+                // (On the Strategy page the new card opens as a dialog of its own, over the one it was made in: a card shown at once all the same.)
+                const shownAsDialog = !document.querySelector(".floating-card-host") && document.querySelectorAll(".section-tile-overlay").length > layersBefore;
+                if (!shownAsDialog) {
+                    failures.push(...checkFloating(spec, title + " (+ box)", column, "card", false));
+                }
                 const name = document.querySelector(".floating-card-host textarea.card-name-input");
-                const focusOnCard = !name && document.activeElement && document.activeElement.closest(".floating-card-host");
+                const focusOnCard = !name && document.activeElement && (document.activeElement.closest(".floating-card-host") || (shownAsDialog && document.activeElement.closest(".section-tile-overlay")));
                 if (!focusOnCard && (!name || document.activeElement !== name)) {
                     failures.push({ rule: "a card added with the + box takes the focus in its name", where: title, detail: { active: document.activeElement && document.activeElement.tagName } });
                 }
@@ -3038,7 +3092,7 @@
         if (mine.left < 7.5 || mine.top < 7.5 || mine.right > window.innerWidth - 7.5 || (mine.bottom > window.innerHeight - 7.5 && mine.height <= window.innerHeight - 15 && mine.top > 140)) {
             fail("a floating card is wholly in the window", { card: [mine.left, mine.top, mine.right, mine.bottom] });
         }
-        const wanted = kind === "founder" ? parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--founder-card-min")) || 297 : parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--open-card-width")) || 480;
+        const wanted = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--open-card-width")) || 480;
         // (A card wide by nature -- the Roadmap, a Goal with its Objectives -- is as wide as that needs.)
         const wide = !!(card && card.closest(".floating-card-body")?.querySelector(".strategy-goal-card, .strategy-roadmap-card"));
         if (kind !== "workspace" && !wide && Math.abs(cardBox.width - Math.min(wanted, window.innerWidth - 16)) > 1.5) {

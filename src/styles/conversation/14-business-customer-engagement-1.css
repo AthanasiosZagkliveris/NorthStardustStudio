@@ -285,16 +285,16 @@
 
 }
 
-/* The "i" (24px) stands on the centre line of the link's first line (28px): 2px down; where an arrow stands beside it, the line starts 4px down, so the "i" 6px. */
+/* The "i" (24px) stands on the centre line of the link's words. The link is a text link (--text-link look): its words are one normal line (22px at 18px) at the top of its box, the underline's room under them, so the words' centre is 11px down and the "i" starts 1px ABOVE the row's top (-1px); where an arrow stands beside it, the line starts 4px down, so the "i" 3px. */
 .business-engagement-reference-name-row > .info-note{
 
-    margin-top:2px;
+    margin-top:-1px;
 
 }
 
 .business-engagement-reference-name-row:has(> .strategy-box-toggle) > .info-note{
 
-    margin-top:6px;
+    margin-top:3px;
 
 }
 

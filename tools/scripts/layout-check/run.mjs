@@ -26,6 +26,8 @@ const STANDARD_BASELINE_FILE = fileURLToPath(new URL("./baseline.json", import.m
 export const SPEC = {
     /** From the end of a card's number ("1.", or "1. Goal") to its name: the one gap. */
     numberToName: 8,
+    /** Where a number drawn inside its name cell stands: this far in from the cell's left edge. */
+    numberInName: 10,
     /** The closed set of control widths (XS, Code, Date, S, M, L); a control may also fill its column or its container. */
     widths: [80, 128, 160, 220, 300, 420],
     /** The square variant: as wide as a control is tall (a Text Hierarchy px box). */

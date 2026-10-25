@@ -384,6 +384,13 @@ body:has([data-pair]) .section-tile-overlay.floating-overlay.business-foundation
 
 }
 
+/* Tick rows with a share box at the end (the Offerings an activity serves): the boxes are 12px apart, as the tick boxes of any list are. */
+.business-tick-row + .business-tick-row {
+
+    margin-top: 6px;
+
+}
+
 .business-tick-row > .business-foundation-tick {
 
     flex: 1 1 0;

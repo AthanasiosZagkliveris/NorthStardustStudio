@@ -223,6 +223,16 @@
    bullets, the list numbers, the fold arrow of Responsibilities / Completed), and a wrapped
    line of an item aligns under the first line's text, never under its marker.
 ========================================================== */
+/* THE FOUNDER'S CARD IS A CARD LIKE THE OTHERS (owner, 2026-10-25): a floating card with different fields in it. It has no marker column of its own: its
+   content starts at the card's padding (12px), the head's number and name, the roles' bullets, the list numbers and the fold arrows stand at that edge, as on every other card. */
+.business-foundation-card.business-founder-open,
+.floating-card-host .business-founder-open {
+
+    --founder-marker: 0px;
+    --founder-inset: 0px;
+
+}
+
 .business-foundation-card.business-founder-open {
 
     padding-left: calc(var(--card-padding) + var(--founder-inset) + var(--founder-marker));
@@ -333,6 +343,13 @@
 :is(.business-founder-open, .business-capability-links) .business-capability-responsibilities-head {
 
     row-gap: var(--space-field);
+
+}
+
+/* The Responsibilities row's label stands a field gap (12px) under the tick above it: the 36px fold arrow makes the row taller than its label, so the row starts 2px up. */
+.business-founder-open .business-capability-responsibilities-head:not(.business-capability-completed-head) {
+
+    margin-top: -2px;
 
 }
 
@@ -496,6 +513,9 @@
 .business-capability-plan-order {
 
     color: var(--text-muted, var(--text-default));
+
+    /* (On the type scale: the number is text like the rest of the row.) */
+    font-size: var(--font-body);
 
 }
 
