@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import type { SegmentIdentity } from "./identityLink.ts";
 import { BUSINESS_COMPETITOR_TYPES, BusinessCustomerSegmentValue, BusinessFoundationValue, BusinessProfileNeedsValue } from "../../../../framework/engine/AnswerUtils.ts";
 
 /**
@@ -125,6 +126,10 @@ export interface DescriptionPart {
     id: string;
     title: string;
     text: string;
+    /** More points for the "i", after the question (what Identity already says). */
+    extra?: string[];
+    /** Asked without the tick that asks whether it applies (Business Data, where the Segment's customers are businesses). */
+    always?: boolean;
 }
 
 /**
@@ -327,6 +332,9 @@ export interface BusinessFoundationEditorProps {
      * without being able to read it.
      */
     targetAudience?: string;
+
+    /** What Identity says of the seller and buyer relationship, the market structure and the audience: the Segment card follows it (see identityLink.ts). */
+    identity?: SegmentIdentity;
 
     /** The page as four tiles (Customers, Competitors, Value Proposition, Offerings), each opening its part of every Segment in its dialog. */
     asTiles?: boolean;
