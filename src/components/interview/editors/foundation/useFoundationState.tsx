@@ -30,6 +30,8 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
 
     targetAudience = "",
 
+    identity,
+
     asTiles = false
 
 } = props;
@@ -222,7 +224,7 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
                 Nothing extra is stored to remember it, and an
                 answer that already has text reads as ticked.
             */
-            const optional = part.id === OPTIONAL_DESCRIPTION_PART;
+            const optional = part.id === OPTIONAL_DESCRIPTION_PART && !part.always;
 
             const asked = !optional || current[part.id] !== undefined;
 
@@ -261,7 +263,7 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
                                 <InfoText text={part.title}>
                                     <InfoNote
                                         label={part.title}
-                                        points={[part.text]}
+                                        points={[part.text, ...(part.extra ?? [])]}
                                         fullList
                                     />
                                 </InfoText>
@@ -272,7 +274,7 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
                         {optional && (
                             <InfoNote
                                 label={part.title}
-                                points={[part.text]}
+                                points={[part.text, ...(part.extra ?? [])]}
                                 fullList
                             />
                         )}
@@ -313,9 +315,7 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
             ? "repeat(" + (half - 1) + ", auto) 1fr"
             : "auto";
 
-        return group(
-            "Description",
-            split
+        const boxes = split
                 ? (
                     <div
                         className="business-foundation-description-split"
@@ -332,13 +332,17 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
                         </div>
                     </div>
                 )
-                : parts.map(box),
+                : parts.map(box);
+
+        return group(
+            "Description",
+            boxes,
             undefined,
             fold
         );
 
     }
 
-    return { asTiles, built, collapsed, columnsDivider, description, disabled, folds, forceOpen, foundation, group, groupFold, labelled, latest, note, onChange, setCollapsed, showInstructions, targetAudience, text, update, updateProfile, updateSegment };
+    return { asTiles, built, collapsed, columnsDivider, description, disabled, folds, forceOpen, foundation, group, groupFold, labelled, latest, note, onChange, setCollapsed, showInstructions, targetAudience, identity, text, update, updateProfile, updateSegment };
 
 }

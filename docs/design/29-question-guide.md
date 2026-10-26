@@ -2,6 +2,8 @@
 
 Status: **proposal**, written 2026-10-23, **updated 2026-10-25 for the Identity questions as built (Early Positioning, doc 28 section 8.2)**. The Segment does not yet read any of them; the flow below is the design. This is the guide to the questions as a **flow**: which answer leads to which question, which questions are the key branches, what happens when the answer is "both" or "other", in what order to ask so that the user answers as little as possible, and why each question matters to the user. It answers the owner's review of 2026-10-23. Document 27 is the plan, document 28 holds the lists, wording, connection map and evidence; this document holds the logic between them. (Before it there was no such guide: the nearest were 28, which is organised by card and list, and `ai/framework-dsl-grammar.md`, which defines how a System's content is written in Markdown, not how a founder's questions behave.)
 
+> **Decision (owner, 2026-10-25): there is no Segment question "Who uses it?".** G24 and G25, and the Buyer part and User part they created, are **withdrawn**. The buyer's relationship with the user is already asked once, in Identity: the audience of a consumer buyer, "Buyer's Life-Stage and relationship with the User" (I7b), whose option Proxy Buyers / Gifters says the buyer pays and the product is for someone else. The user becomes **a second Profile** of the same Segment. G17, G18 and G19 are merged away (I7c, O11, O3). The Delivery questions L1 to L3 are renamed **W1 to W3**, because L1 to L15 are the shared lists. Section 10 lists every question and where it stands; section 11 what Identity gives the Segment; section 12 what is merged, and what is recommended next.
+
 ## 1. How to read it
 
 **The trees.** Each tree starts at a question and shows what each answer does.
@@ -35,17 +37,17 @@ I3  Seller and Buyer Relationship   (on Early Positioning; one choice or ticks w
  ├─ B2B, B2G, G2B Context ... ⇒ one Segment frame, Box 3 (B2G: the public body and its level; G2B: the industry and its regulation)
  └─ Several (Managing, Growing) ⇒ one Segment frame for each
 I11 Market Structure
- ├─ Single-sided Market ....... one audience of buyers: one part, unless G24 says someone else uses it
- └─ Multi-sided Market / Platform ... a platform of two or more distinct groups: each other side is a User part (G24 names its type)
+ ├─ Single-sided Market ....... one audience of buyers; the relationships chosen in I3 are one hybrid
+ └─ Multi-sided Market / Platform ... a platform of two or more distinct groups: each side is one relationship of I3, so each side is its own Segment frame
 I7b Audience   (one question for each relationship: scale, life stage, administrative level, regulatory intensity)
- └─ the choice ⇒ the Segment's size or age range starts there · "Proxy Buyers / Gifters" ⇒ G24 starts at "someone else: individual people"
+ └─ the choice ⇒ the Segment's size or age range starts there · "Proxy Buyers / Gifters" ⇒ a second Profile for the person who uses it is proposed
 I7c Differentiation & Outcome ⇒ the Value Proposition prompt and the Competitor types
 I8  Business stage (worked out from the Opening Date, not asked)
  ├─ Just an idea / Setting up ... ○ "sales I have made" and "website data" in the estimate basis (D1);
  │                              ⇒ figures labelled forecast
  └─ Earning / Established ....... ● every option of D1 · ⇒ figures can be labelled actual
 I7  (withdrawn: merged into I7c)
-I6, I9, I10 (price position, ambition, values)   checks, asked after the first draft  (no branch)
+I6, I9 (price position withdrawn; ambition)   a check, asked after the first draft  (no branch; I10 values merged into the Values tile)
 ```
 
 ### 2.2 Segment (the Segment card)
@@ -56,18 +58,13 @@ I3  Seller and Buyer Relationship   (asked in Identity; the Segment card only re
  ├─ B2B, B2G, G2B Context ... ● Box 3 (G23 ...) · ○ Box 1
  └─ Several ................. a Segment is one group, so ⇒ one Segment for each (people first, then businesses);
                              the second starts with G2 and G3 copied
-G24 Who uses it?   (asked on every Segment; one Segment, two parts: never two Segments)
- ├─ The same people who pay ..... one part (the default)
- ├─ Someone else: individual people ... ● G25 (their age range) · the User part is typed for people
- └─ Someone else: businesses or organisations ... the User part is typed for businesses
-(A multi-sided Market Structure, a platform, makes each other side a User part; the Proxy Buyers / Gifters audience starts G24 at "someone else: individual people". A buyer who is not the user is NOT a multi-sided market.)
-Buyer part asks: who they are, what makes them pay, how they compare, buy and pay, budget, who decides  (Discover, Evaluate, Purchase)
-User part asks:  who they are (age or role), what makes them use it well, comfort with tools, help wanted  (Deliver, Support)
-G25 What is the age range of the person who uses it? (From, To)  asked only when the end users are individual people
- ├─ includes a band below 18 ..... ⇒ a child Profile + a parent or carer Profile · the children's note
- └─ adults only .................. ⇒ one user Profile (for example an older relative)
+Buyer and user: NO Segment question (the Segment describes the buyer, who pays)
+ ├─ I7b "Proxy Buyers / Gifters" ... ⇒ a second Profile for the person who uses it (P21 "They will use it"), proposed
+ ├─ a business buyer whose staff use it ... the user adds that second Profile by hand
+ └─ I11 multi-sided .......... each side is a relationship of I3, so each side is its own Segment frame (no part, no extra question)
+(A buyer who is not the user is NOT a multi-sided market. The children's note shows when a Profile's age or G6 is below 18.)
 
-AFTER THE FIRST DRAFT (checks, asked later): G4, G5, G16, G17, G18, G19
+AFTER THE FIRST DRAFT (checks, asked later): G4, G5, G16   (G17, G18, G19 merged into I7c, O11, O3)
 ```
 
 ### 2.3 Profile (up to three per Segment)
@@ -105,8 +102,8 @@ P22 How is the decision made? (business, or any under-18 Profile)
  └─ a formal tender or procurement ........ ● P21 · ⇒ the tender row
 
 Specifics last (checks, asked after the draft, each limited to the Segment's range)
-P1 age · P2 education · P6 job level (only when G13 is employed or self-employed) · P7 household income
-P23 size (business) · P5 gender (only when G10 is not "not relevant") · P8 language · P3, P4 (notes)
+P1 age · P6 job level (only when G13 is employed or self-employed) · P5 gender (only when G10 is not "not relevant")
+(P2 education, P7 income, P8 language, P3, P4 and P23 size are merged into the note or into the Segment's answers, 2026-10-26)
 ```
 
 ### 2.4 Offering (the key branches)
@@ -115,7 +112,7 @@ P23 size (business) · P5 gender (only when G10 is not "not relevant") · P8 lan
 O1 What form does it take?
  ├─ a physical item ................................ ⇒ stock, vehicles and shipping stay in the presets
  ├─ a digital file, a digital product or tool, online access ... ○ stock, vehicles, shipping
- ├─ a live online session, an in-person session, project work, an ongoing service ... ⇒ hours and roles (L2)
+ ├─ a live online session, an in-person session, project work, an ongoing service ... ⇒ hours and roles (W2)
  ├─ A mix .......................................... one Offering is one thing: ⇒ make one Offering per form
  ├─ Something else (candidate: a rental or hire; a booking of seats, tickets or rooms)
  └─ Not sure yet ................................... the presets stay open
@@ -128,10 +125,10 @@ O3 How do customers buy it?
  ├─ Free to the customer (candidate) ............... ⇒ no price · ● who pays (advertising, a grant, a sponsor)
  ├─ A commission on sales (candidate) .............. ⇒ a percentage, not a price
  └─ Not sure yet ................................... treated as one purchase · ⇒ flagged
-O12 Is a minimum age to buy it set by law?  (ticks; shown when G6 or G25 includes a band below 21)
+O12 Is a minimum age to buy it set by law?  (ticks; shown when G6 or a Profile's age includes a band below 21)
  ├─ alcohol, tobacco or vapes, gambling, knives, fireworks, rated films and games, credit, tattoos and similar, adult content, pets, medicines
  │      ⇒ the main country's age with its status (28, 10.3) · ⇒ Review if a Segment's customers start below it
- │      ⇒ if someone else uses it (G24, a gift): the note on supplying to a child · online seller: the age-check note
+ │      ⇒ if someone else uses it (Proxy Buyers / Gifters, a gift): the note on supplying to a child · online seller: the age-check note
  ├─ None of these ........... nothing
  └─ Not sure yet ............ ⇒ a Review item asks again
 O6 How does the customer receive it?   (no single answer rules out another; "A mix" allows several Deliver channels)
@@ -146,11 +143,9 @@ No question branches heavily here: the stage cards are **proposed** from P11, P1
 | Id | Question | What its answer decides | Branches | "Both" or "mixed" | "Other" |
 |---|---|---|---|---|---|
 | I1 | What does the business do? | the pack; the code at the end of each activity; the next level | up to 5 levels | four activities in order | none: placements with an "i"; "Not sure" |
-| I3 | Seller and Buyer Relationship (Identity) | the Segment frames: one for each relationship; Box 1 or Box 3 | 4 | **Several = one Segment for each** (separate audiences); a buyer who is not the user is **one Segment, two parts** (G24) | none needed |
+| I3 | Seller and Buyer Relationship (Identity) | the Segment frames: one for each relationship; Box 1 or Box 3 | 4 | **Several = one Segment for each** (separate audiences); a buyer who is not the user is **one Segment with a second Profile** (no Segment question) | none needed |
 | G2 | Where? | G3 shown or not; channel order | 4 | "Anywhere online" ≈ several countries | none needed |
 | G3 | Main country | national examples; notice | 2 | other countries = another Segment | "Another country" |
-| G24 | Who uses it | the User part; G25; which questions each part gets; P21 | 3 | a buyer and a user are two parts of one Segment, not a mix | none needed |
-| G25 | The user's age range | the user's Profile; the children's note | 2 | children and adults = two Segments | none needed |
 | G6 | Age range of the customer | G7, G13, P21, the under-18 box, P14's list, Profiles proposed | 5 | children and adults = two Segments | none needed |
 | G13 | Work situation | P6 asked or not | 2 | one only | none: the odd cases sit under the nine options with an "i" |
 | G10 | Gender mix | P5 and the notice | 2 | the ramp itself is a mix | none needed |
@@ -170,9 +165,9 @@ No question branches heavily here: the stage cards are **proposed** from P11, P1
 |---|---|---|---|
 | I3 | Several relationships | One Segment for each, people first; G2 and G3 are copied to the next | A Segment is one group; its questions differ for people and businesses |
 | G6 | children and adults in one range | Warns; offers to split into two Segments | Needs, who pays and the law differ |
-| G24 | Someone else uses it (a parent buys for a child, an employer for its staff) | A Buyer part and a User part in one Segment, each with its own questions and Profiles (P21 on each) | The buyer is reached by price, trust and convenience; the user by use and enjoyment. This is a single-sided market |
-| I11 | Multi-sided market (a platform) where the user pays nothing (advertising, a funded service) | The payer is the Buyer part, the free group the User part; "Free to the customer" in O3 | The Segment stays one |
-| I11 | Multi-sided market (a platform) where both sides pay (diners and restaurants) | One payer part; the other payment is noted and confirmed on the Review page (decision R40 in 28) | The model has one payer part per Segment |
+| I7b | Proxy Buyers / Gifters (a parent buys for a child), or a business buyer whose staff use it | One Segment; a second Profile for the user (P21 "They will use it") | The buyer is reached by price, trust and convenience; the user by use and enjoyment. This is a single-sided market |
+| I11 | Multi-sided market (a platform) where one side pays nothing (advertising, a funded service) | Each side is its own Segment frame; the free side's offering is "Free to the customer" in O3 | Each side is one group with its own questions |
+| I11 | Multi-sided market (a platform) where both sides pay (diners and restaurants) | Each side is its own Segment frame with its own payer; which side pays the platform is confirmed on the Review page (decision R40 in 28) | One payer for each Segment |
 | G15 | more than one industry | Asks for the main one; another Segment for the other | One industry per Segment keeps P24 meaningful |
 | G2 | in several countries / anywhere online | Asks for the main country; others are another Segment | National lists and the law differ by country |
 | O1 | A mix | One Offering per form | Delivery, hours and stock differ by form |
@@ -192,7 +187,6 @@ No question branches heavily here: the stage cards are **proposed** from P11, P1
 | G13 "Other" (**removed**) | A volunteer; a gap year or travelling; parental leave; military service; casual or gig work; an apprentice or trainee | Placed under the existing options with an "i": military, paid apprentices and parental leave under *Employed*; casual work under *Employed part time*; gig work under *Self-employed*. One new option, *Not working and not looking for work* (gap year, travelling, a break). A volunteer chooses the situation of their main activity (author's placement) |
 | G23 "Another type" (**withdrawn**) | A co-operative; a membership or professional body; a religious organisation; a social enterprise | Placed with an "i": co-operatives under *A private business*; membership bodies and religious organisations under *A non-profit or charity*; a social enterprise under whichever fits how it is owned |
 | P6 job level | Armed forces; clergy | No "Other": an "i" on the question says to choose the group that fits the role, and that clergy count as professionals |
-| G24 "Someone else: individual people" | A pet (an animal is not modelled as a user) | The owner is the Buyer part; the animal's needs go into the owner's wants and worries |
 | O12 "None of these" | A kind with a local licence or age rule not on the list (taxi, lottery tickets, solvents, spray paint, corrosives, energy drinks by a retailer's own policy) | A note "check the rule for your area"; 28, 10.3 lists some of them |
 
 **Lists where something is missing and an option may need adding (candidates; the owner decides).** These come from reading the lists against the statistics offices' categories and the likely cases, not from a source; each is the author's.
@@ -210,7 +204,7 @@ No question branches heavily here: the stage cards are **proposed** from P11, P1
 
 **Principles for speed.**
 
-1. **Prune first.** Ask the question that removes the most others before the rest: I1, then I3 (in Identity), I11, G23, G24, G6.
+1. **Prune first.** Ask the question that removes the most others before the rest: I1, then I3 (in Identity), I11, G23, G6.
 2. **Ask each fact once, at its owner**: Identity asks about the organisation, the Segment about the group, the Profile about one person, the Offering about the thing. A default is not a second question.
 3. **Skip what is implied.** A freelancer is "just one person", so G14 is not asked; a retired person has no job level, so P6 is not asked; an adults-only range has no children's questions.
 4. **Fill in what is known.** The country comes from the Legal Entity; a second Segment starts from the first; a Profile can be copied; the activity code follows the industry.
@@ -224,23 +218,23 @@ No question branches heavily here: the stage cards are **proposed** from P11, P1
 
 | Tile | Order of the questions asked first | Moved or held back |
 |---|---|---|
-| Organization, Positioning (Identity) | I1, I11, I3, I7b, I7c | I9, I10 after the draft |
-| Segment card, people | G24 (G25) (I3 is already answered), G2 (G3), G6, G7, G8, G13, G10 | G10 last (it only reveals the notice); G4, G5, G16 to G19 after the draft |
-| Segment card, businesses | G24 (organisation, its people use it), G2 (G3), G23, G14, G15 | G14 skipped for a freelancer; checks after the draft |
-| Profile | P24 (business), P9, P11, P12, P13, P14, P16, P17, P18, P19, P20, P22 | P1 to P8, P23 after the draft |
-| Offering | O1, O3, O4, O6, O7, O5, O10 | O2, O8, O9, O11, O12 after the draft |
+| Organization, Positioning (Identity) | I1, I11, I3, I7b, I7c | I9 after the draft |
+| Segment card, people | (I3, I7b and I11 are already answered), G2 (G3), G6, G7, G8, G13, G10 | G10 last (it only reveals the notice); G4, G5, G16 after the draft |
+| Segment card, businesses | (I3 and I7b are already answered), G2 (G3), G23, G14, G15 | G14 skipped for a freelancer; checks after the draft |
+| Profile | P24 (business), P9, P11, P12, P13, P14, P16, P17, P18, P19, P20, P22 | P1, P5, P6 after the draft |
+| Offering | O1, O3, O4, O6, O7, O10 | O2, O8, O11, O12 after the draft |
 
 **How many questions the user sees on a path** (drivers only, first pass; an estimate from the trees above).
 
 | Path | Identity | Segment | Profile (each) | Total for one Segment and one Profile |
 |---|---|---|---|---|
-| A business, not a freelancer | 5 (with I3) | 5 (G24, G2, G23, G14, G15) | 12 | 22 |
-| A freelancer | 5 (with I3) | 4 (G24, G2, G23, G15; G14 skipped) | 12 | 21 |
-| People, adults | 5 (with I3) | 7 (G24, G2, G6, G7, G8, G13, G10) | 10 | 22 |
-| Bought for a child (user under 13, parent pays) | 5 (with I3) | 7 (G24, G25, G2, G6, G8, G13, G10; G7 skipped) | 11 (with P21) | 23 |
+| A business, not a freelancer | 5 (with I3) | 4 (G2, G23, G14, G15) | 12 | 21 |
+| A freelancer | 5 (with I3) | 3 (G2, G23, G15; G14 skipped) | 12 | 20 |
+| People, adults | 5 (with I3) | 6 (G2, G6, G7, G8, G13, G10) | 10 | 21 |
+| Bought for a child (user under 13, parent pays) | 5 (with I3) | 5 (G2, G6, G8, G13, G10; G7 skipped) | 11 (with P21; the child is a second Profile) | 21 |
 | A second Profile in the same Segment | 0 | 0 | only what differs, with "Copy a Profile" | far fewer |
 
-A second Segment repeats only what differs (G2 and G3 are copied). The checks (31 in all, 6 on the Segment card) come after the draft and can be skipped.
+A second Segment repeats only what differs (G2 and G3 are copied). The checks (21 in all, 3 on the Segment card) come after the draft and can be skipped.
 
 ## 7. Does a question matter, and how does it help the user?
 
@@ -248,10 +242,10 @@ The test for every question: *what does the user get for answering?* "Limited" m
 
 | Id | Matters? | How it helps the user |
 |---|---|---|
-| I1, I3, I11, I7b, I7c | Yes | Narrows the next lists and gives example customers, offerings, skills, channels and the activity code to start from; arranges the Segment frames; a platform's other sides become User parts; the audience starts the ranges; the outcome frames the Value Proposition |
+| I1, I3, I11, I7b, I7c | Yes | Narrows the next lists and gives example customers, offerings, skills, channels and the activity code to start from; arranges the Segment frames; each side of a platform is a Segment frame; the audience starts the ranges; the outcome frames the Value Proposition |
 | I7 | Yes | Writes a first Positioning sentence |
 | I8 | Yes | Stops the app asking for sales or website figures a new business cannot have |
-| I6, I9, I10 | Limited | Later checks and suggestions |
+| I9 | Limited | Later checks and suggestions |
 | I3 | Yes | Shows only the questions that apply and sets the tax default |
 | G2 | Yes | Puts the likeliest channels first (a local business starts with local ones) |
 | G3 | Yes | Shows examples in the customers' country (qualifications, sizes, tax names) |
@@ -261,20 +255,20 @@ The test for every question: *what does the user get for answering?* "Limited" m
 | G10 | Limited | Shows the equality reminder and keeps the Profile consistent |
 | G23 | Yes | A public body gets tender help; a freelancer skips the size question |
 | G14, G15 | Yes | Narrow the Profile's size and kind of business; suggest channels by size and sector |
-| G4, G5, G16 to G19 | Limited | Checks after the draft |
+| G4, G5, G16 | Limited | Checks after the draft |
 | P24 | Yes | Gives the pack's examples for this kind of customer |
 | P9, P17, P18, P19 | Yes | Write the value proposition draft and highlight the Evaluate actions |
 | P11, P12, P13, P14 | Yes | Fill in the channels of every stage and the payment subchannels |
 | P16, P20 | Yes | Reorder channels for people who need help; suggest the relationship type |
 | P22 | Yes | Reveals who decides and the tender row |
-| P1 to P8, P23 | Limited | Check the Profile against the Segment |
+| P1, P5, P6 | Limited | Check the Profile against the Segment |
 | K2, K3 | Yes | Draft the differentiation |
 | O1, O3 | Yes | Hide what does not apply; one answer for three fields |
-| O4, O5, O6, O7, O10 | Yes | Value Proposition draft; Deliver and Support channels; the relationship type; the delivery constraints |
-| L2, C1, C4 | Yes | Show the skills gap and propose a partner or a hire |
+| O4, O6, O7, O10 | Yes | Value Proposition draft; Deliver and Support channels; the relationship type; the delivery constraints |
+| W2, C1, C4 | Yes | Show the skills gap and propose a partner or a hire |
 | R1 | Yes | Gets the tax arithmetic right |
-| J2, J4 | Yes | Choose an action and a purpose instead of typing |
-| Notes (G12, G20 to G22, P3, P4, K5, K7, K8, O9, L3, C2, C3, J5, J6) | No | Not asked |
+| J2, J7 | Yes | Choose an action, and pre-tick its purpose, instead of typing |
+| Notes (G20 to G22, W3; G12, P3, P4, K5, K7, K8, O9, C2, C3, J5, J6 are no longer numbered) | No | Not asked |
 
 ## 8. Writing a new question
 
@@ -302,9 +296,90 @@ A question is added only when it passes this list.
 | 7 | G10 asked last in its box | Yes |
 | 8 | A split offered when a range mixes children and adults | Yes |
 | 9 | ~~Add "Other" to P6~~ Withdrawn: an "i" on P6 places armed forces and clergy | Yes |
-| 10 | Separate the buyer (who pays) and the user (who uses) **inside one Segment** as two parts, asked by G24 on the Segment; I11 "Market Structure" (single-sided, or a multi-sided platform) is a different question and is not used for it (corrected 2026-10-25); the word "consumer" is not used | Yes |
+| 10 | **Decided (owner, 2026-10-25: "there is no such question").** The buyer (who pays) and the user (who uses) are **one Segment**; the Segment describes the buyer and the user is a **second Profile** (P21 "They will use it"), proposed for Proxy Buyers / Gifters (I7b). G24 and G25 are withdrawn. A multi-sided market is not a buyer-and-user split: each side is its own Segment frame. The word "consumer" is not used | Done in the documents |
 | 15 | When both parts pay (diners and restaurants), keep one payer part and note the other payment (28, R40) | Choose |
 | 13 | Ask "Who do you sell to?" in Identity (I3, the Seller and Buyer Relationship) so Business 1 opens arranged; several relationships make several Segment frames | Yes |
 | 14 | "Free to the customer" and "A commission on sales" in O3 are proposed, not only candidates (needed by platforms and funded services) | Yes |
 | 11 | O12 and the minimum-age lookup; only official-source rows drive a check | Yes; have the Excerpt rows re-checked first |
 | 12 | Allow customers under 18 who pay, with notes, Review lines and a filter on P14, and no stated rule on contracts | Yes |
+
+## 10. Where each question stands, and what should change (as built, 2026-10-25)
+
+**Exists** = a question the app asks now. **Text box** = the app has a free-text box on the card; the question is a proposal that would refine it. **Proposal** = in these documents only. The owner's own wording is never changed (rule 14). Checked against the code and against doc 28, sections 6, 8 and Appendix A.
+
+| Id | Question | Status | Where it is | Change proposed to its wording or place |
+|---|---|---|---|---|
+| I1 | What does the business do? | **Exists** | Organization tile, the activity cascade (up to four) | Add "Show all" after a shortlist (not built); the industry pack is not built |
+| I8 | Business stage | **Exists, not asked** | Worked out from the Opening Date; the Positioning tile's name and limits follow it | None |
+| I11 | Market Structure | **Exists** | Early Positioning, left column, first, a radio (Single-sided; Multi-sided / Platform) | None: the owner's words. Its "i" says it is not the buyer-and-user split |
+| I3 | Seller and Buyer Relationship (who pays) | **Exists** | Early Positioning, left column, under Market Structure; radio or ticks by stage | None: the owner's words. Read by the Segment since 2026-10-25: it decides whether Demographics or Business Data is asked |
+| I7b | Audience: scale (B2B), **Buyer's Life-Stage and relationship with the User** (B2C), administrative level (B2G), regulatory intensity (G2B) | **Exists** | Early Positioning, right column, one question for each relationship chosen | None: the owner's words. **This is where the buyer's relationship with the user is already asked** (Proxy Buyers / Gifters). Read by the Segment since 2026-10-25 only to show the choice in the "i" of Demographics or Business Data |
+| I7c | Differentiation & Outcome | **Exists** | Early Positioning, right column, under the audience | None. Not yet read by the Value Proposition |
+| (Notes) | The Positioning free text | **Exists** | Early Positioning, under the questions | Shorten its prompt (28, 8.2, open decisions) |
+| I5, I6, I7, I9, I10 | Brand personality; price position; (merged); ambition; values | I5 parked; I6, I7 withdrawn; I10 **merged into the Values tile**; I9 **proposal** | Not on a tile | None until the owner decides |
+| I2, I4, G1, G9, G11 | | Merged or withdrawn | | None |
+| G2 to G5 | Where; main country; kind of area; languages | **Text box** (Geographics) | Segment card | G2 and G3 first, G4 and G5 after the draft; G3 starts from the Legal Entity's country |
+| G6, G7, G8, G10, G13 | Age range; education; income step; gender mix; work situation | **Text box** (Demographics); asked only when the buyer is a person | Segment card | Order: G6, G7, G8, G13, G10 last. G6 reads "the customer, the person who pays" |
+| G14, G15, G23 | Size; industry; type of organisation | **Text box** (Business Data); asked only when the buyer is a business or public body | Segment card | Order: G23, G14, G15; G14 skipped for a freelancer |
+| G16 | Usual price | **Text box** (Purchasing Power & Behaviour) | Segment card | A check, asked after the draft |
+| G20 to G22 | | Notes | Market Size box | None (G12 is no longer numbered) |
+| G17, G18, G19 | Feeling about price; main spending; how often | **Withdrawn (merged, 2026-10-25)** | | G17 is I7c (Cost-driven or Status & Premium); G18 is O11; G19 is O3 |
+| P1, P5, P6 | Age; gender; kind of work | **Text box** (Specific Personal Information) | Profile card | Behaviour first, these after the draft. P2, P7, P8 are merged into the box's note; P3, P4 are not asked |
+| P9 | Cares about | **Text box** (Psychographics) | Profile card | None (P10 risk deleted: no source) |
+| P11 to P16 | Where they look, compare, buy, pay; devices; comfort | **Text box** (Social & Interest Hubs; Information & Shopping Habits) | Profile card | P11 to P14 first (they drive the journey) |
+| P17, P18, P19 | Goals; frustrations; worries | **Text** (Goals & Desires, Challenges & Problems, Objections, under Motivations) | Profile card | None |
+| P20 to P24 | Help wanted; part in the purchase; how the decision is made; size; kind of business | **Proposal** (no box today) | Profile card | P21 is asked only for businesses, any band below 18, or the audience Proxy Buyers / Gifters; "They will use it" marks the user's Profile |
+| Needs | Functional, Emotional, Social lists | **Exists** | Profile card | Each line gets an id |
+| Competitor Name, Type | | **Exists** | Competitor card | None |
+| K1 to K4, K6 | Price against yours; what they are chosen for; shortfalls; reach; confidence (K5, K7, K8 are no longer numbered) | **Text box** or **proposal** | Competitor card (What they sell, Which areas, How they reach, What customers say, SWOT, Insights) | K2 and K3 first |
+| Offering Name, Type, Functional Needs Addressed | | **Exists** | Offering card | **O1 "What form does it take?" overlaps the existing Type (Product, Service, Hybrid, Other):** keep Type, and let O1 refine it only where the presets need it, or merge them (owner to decide) |
+| O1 to O4, O6 to O8, O10 to O12 | Form; can customers buy it; how bought; benefits (O5 merged into O4); how received; help after; worries answered; what comes with it; what the customer must give; what they spend on; minimum age | **Text box** (Customer Benefit, Content & Scope, Purchase & Delivery, Support & Communication, Requirements & Conditions) or **proposal** | Offering card | O3 and O6 first; O12 shown only when G6 (or G25, if approved) includes a band below 21 |
+| Value Proposition | The one promise made to each Segment (text), with a drafted sentence | **Exists** (text, one per Segment) | Business 1, tile "Value Proposition" | The draft reads P9, P17, P18, O4 and **starts from the outcome of I7c** (section 11); the three open items are read-only |
+| W1 to W3, C1, C4, R1, R2, J1 to J3 and J7, D1 | Delivery (Work), Founders and Capability, Revenue, Journey, Demand estimate basis | The pages and cards **exist**; these questions are **proposals** | Business 2 to 5 | See doc 28, sections 7, 9 and 10. **The Delivery questions were L1 to L3 and are now W1 to W3**, because L1 to L15 are the shared lists |
+
+**What should move or be reworded (summary).**
+
+1. **G24, G25 and the two parts are gone**; the user is a second Profile; a platform's sides are separate Segment frames.
+2. **G17, G18, G19 are merged** into I7c, O11 and O3. The Segment now has 10 drivers (G2, G3, G6, G7, G8, G10, G13, G14, G15, G23), 3 checks (G4, G5, G16) and 3 notes (G20 to G22).
+3. **The ids of the Delivery questions** are W1 to W3 (they were L1 to L3, which are the shared lists).
+4. **O1 and the existing Offering Type** overlap; one of them should go or be defined by the other.
+5. **No wording of Identity changes**: the Early Positioning questions are the owner's words (rule 14).
+
+## 11. What Identity gives the Segment (organisation, positioning, stage)
+
+The full table is in doc 28, section 8.2 ("What the Segment will read"). In short, what each Identity answer can start (a starting value the user confirms; never a hidden option):
+
+| Identity | Starts or decides | Question reviewed |
+|---|---|---|
+| Country | the country (G3), the currency of G8 and G16, the national lists | G3, G7, G8, G14, G15, G16, G23 |
+| Activities | the Segment's name and the Profile kinds (pack, not built); **not** G15 (the customers' industry) | name, P24 |
+| Legal form, founders, dates | nothing (they describe the seller) | none |
+| Stage | how many Segments (one, one, two, any), which checks wait, forecast or actual | the number of Segments; G4, G5, G16 |
+| B2C / B2B / B2G / G2B | which box: people (Box 1) or business (Box 3); B2G presets G23 and G15 | G6 to G13 or G23, G14, G15 |
+| Several relationships, multi-sided | one Segment frame for each relationship, each side of a platform its own | the frame, not a question |
+| Audience: scale | G23 (a freelancer), G14 (the size range's start) | G14, G23 |
+| Audience: life stage | G6 (the age range's start), G13 (the work situation's start), the second Profile for Proxy Buyers | G6, G13 |
+| Outcome (I7c) | the Value Proposition prompt, the competitor comparison, the starting ticks of P9, O4, K2; **replaces G17** | Value Proposition, K1, K2, P9 |
+
+**Conflicts found and decided.** (1) Doc 28 said both "several relationships: one Segment for each" and "multi-sided: one Segment in parts"; they could not both hold. Decided: one Segment frame for each relationship, a platform's sides included, and no parts. (2) The app's instruction text says "1 primary segment (maximum 2)" while the stage limits are one, one, two, any; the stage limit is the design, the instruction text is the owner's wording, and the owner decides whether it changes. (3) Mid-Market lies inside the official EU "medium" size (under 250 employees); the mapping of the owner's scales to the size bands is the author's.
+
+## 12. Optimisation: what was merged or deleted
+
+**Merged or withdrawn now (2026-10-25), in docs 28 and 29:** G24 and G25 (read from I7b and I11); G17 into I7c; G18 into O11; G19 into O3; the Delivery ids renamed W1 to W3.
+
+**Merged or deleted on 2026-10-26 (the owner asked for all of them), in docs 28 and 29:**
+
+| Id | Done | Why |
+|---|---|---|
+| I10 Which values guide you? | Deleted | The Identity System already has a Values tile; a second list asked the same thing |
+| C5 Do you plan to hire? | Merged into C4 ("I plan to hire") | C4 already says it; how many is typed in the people-cost line it proposes |
+| J4 Why do you stay in touch this way? | Merged into J7 (Get, Keep, Grow) | J7 is pre-ticked (win, help decide, get started → Get; keep, fix → Keep; repeat → Grow) |
+| P23 How big is their business? | Deleted (merged into G14) | A check that repeated the Segment's size at Profile level |
+| P2, P7, P8 | Merged into the note of Specific Personal Information | Checks only; nothing else read them; G5 keeps the language check |
+| P10 Risk | Deleted | The author's, no source (rule 14), a check only; rule 9 of 28, 11.5 withdrawn (28 rules left) |
+| O4 and O5 | One tick list, O4 (up to 3, the first is the main benefit) | Two questions over one list |
+| R2 and D1 | One shared list **L16** "What a figure is based on" | Their options overlapped (paid; interviews; estimate); R2 adds "My costs plus a margin", D1 drops it |
+| Notes G12, P3, P4, K5, K7, K8, O9, C2, C3, J5, J6 | Removed from the numbered questions (the text boxes stay); W3 stays as a note derived from O10 | They were never asked |
+| O1 and the Offering Type | O1 **follows the Type** (its options depend on Product, Service or Hybrid); "A mix" is the Type Hybrid | Two questions about one thing |
+
+**Counts after the merges:** 67 questions (from 91): 41 drivers, 21 checks, 4 notes (G20 to G22, W3) and 1 parked (I5). The Segment card has 10 drivers, 3 checks and 3 notes.
