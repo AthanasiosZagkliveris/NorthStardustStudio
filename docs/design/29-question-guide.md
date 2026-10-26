@@ -382,4 +382,4 @@ The full table is in doc 28, section 8.2 ("What the Segment will read"). In shor
 | Notes G12, P3, P4, K5, K7, K8, O9, C2, C3, J5, J6 | Removed from the numbered questions (the text boxes stay); W3 stays as a note derived from O10 | They were never asked |
 | O1 and the Offering Type | O1 **follows the Type** (its options depend on Product, Service or Hybrid); "A mix" is the Type Hybrid | Two questions about one thing |
 
-**Counts after the merges:** 66 questions (from 91): 40 drivers, 21 checks, 4 notes (G20 to G22, W3) and 1 parked (I5). The Segment card has 10 drivers, 3 checks and 3 notes.
+**Counts after the merges:** 67 questions (from 91): 41 drivers, 21 checks, 4 notes (G20 to G22, W3) and 1 parked (I5). The Segment card has 10 drivers, 3 checks and 3 notes.

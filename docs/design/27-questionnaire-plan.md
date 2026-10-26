@@ -23,7 +23,7 @@ Specific information (an age, an education, an income, a device) is asked **to c
 | **3. Profile** (a typical person, specifics and behaviour) | A specific age, education and income; what they care about; where they look, how they compare, how they buy and pay; how comfortable online; goals, frustrations, worries; the help they want | **The journey**: the channels at each of the five stages; the Direct Payment subchannels; the relationship type; the demand rows; the Value Proposition draft |
 | **4. Offering** | Form; ready or not; how it is bought; benefit; how it is received; what help is included | The presets (a service business hides stock and vehicles); one source for three "how it is bought" fields; the delivery roles and the capability **gap**; Support channels |
 | **5. Price and tax** | Whether the price includes the tax; what supports it | The tax arithmetic by country |
-| **6. Review** | Nothing | The 31 checks and 29 rules as a short, ordered list of open items |
+| **6. Review** | Nothing | The 21 checks and 28 rules as a short, ordered list of open items |
 
 ## 3. A worked example (the author's illustration)
 
@@ -39,21 +39,21 @@ The founder answered closed questions and typed names and notes; the first draft
 
 ## 4. What was cut
 
-Ninety-one candidate questions were tested (one, the Brand question, is parked).
+Ninety-one candidate questions were tested (one, the Brand question, is parked). **On 2026-10-26, after the owner's review, 24 were withdrawn, merged or no longer numbered, leaving 67** (document 28, Appendix B; document 29, section 12): G24 and G25 (the user is a second Profile; Identity's I7b already asks it), G17 to G19, I10, C5, J4, P2, P7, P8, P10, P23, O5, and the notes G12, P3, P4, K5, K7, K8, O9, C2, C3, J5 and J6.
 
 | | Drivers | Checks | Notes | Total |
 |---|---|---|---|---|
-| Identity | 5 | 3 | 0 (1 parked) | 9 |
-| Segment | 12 | 6 | 4 | 22 |
-| Profile | 12 | 10 | 2 | 24 |
-| Competitor | 2 | 3 | 3 | 8 |
-| Offering | 7 | 4 | 1 | 12 |
-| Delivery, capability, founders | 3 | 2 | 3 | 8 |
+| Identity | 5 | 2 | 0 (1 parked) | 8 |
+| Segment | 10 | 3 | 3 | 16 |
+| Profile | 12 | 5 | 0 | 17 |
+| Competitor | 2 | 3 | 0 | 5 |
+| Offering | 6 | 4 | 0 | 10 |
+| Delivery, capability, founders | 3 | 1 | 1 | 5 |
 | Price | 1 | 1 | 0 | 2 |
-| Journey, demand | 2 | 2 | 2 | 6 |
-| **Total** | **44** | **31** | **15** | **91** (1 parked) |
+| Journey, demand | 2 | 2 | 0 | 4 |
+| **Total** | **41** | **21** | **4** | **67** (1 parked) |
 
-The first release builds the **44 drivers**; the 31 checks follow; the 15 notes are never asked. The question files of 2026-10-15 held 82 questions; about a dozen were already fields of the app, and the rest were cut, merged or turned into drivers (document 28, Appendix A and B).
+The first release builds the **41 drivers**; the 21 checks follow; the 4 notes are never asked. The question files of 2026-10-15 held 82 questions; about a dozen were already fields of the app, and the rest were cut, merged or turned into drivers (document 28, Appendix A and B).
 
 ## 5. The building blocks (five now, one parked)
 
@@ -93,7 +93,7 @@ Each stage is one branch from `main`, tried once by the owner, with a browser ch
 | **D. The journey** | Page 2 as stages and channel cards, proposed from page 1 | 2 Journey drivers and the proposals | C | The stage card passes the layout check first; the proposals fill every stage; demand rows appear | L |
 | **E. Offering, delivery, capability, founders** | The presets; the capability gap derived; the founder's profile inside Founders & Ownership; Capability as a Business 3 card | 7 Offering, 1 Delivery and 2 Capability drivers | C | A skill area an offering needs and no founder covers is listed with its cover options | M |
 | **F. Price and tax** | The price asked with the country's tax name and default | 1 driver | A | Revenue, contribution and break-even strip or add the tax | M |
-| **G. Checks** | The Review page as an ordered list of open items | the 31 checks and the rules of document 28, 11.5 | A to F | Each check has a test and a message in the app's wording | M |
+| **G. Checks** | The Review page as an ordered list of open items | the 21 checks and the rules of document 28, 11.5 | A to F | Each check has a test and a message in the app's wording | M |
 | **H. Optional** | A guided, step-by-step overlay | none | G | Built from existing parts; only if wanted | S |
 
 ## 7. Decisions for the owner
@@ -108,7 +108,7 @@ The full list (31 items) is in document 28, section 13. These ten unblock the wo
 | 4 | Industry packs: Tier 1 and Tier 2 first (about twelve), the rest generic | Yes; the owner approves each pack's examples |
 | 5 | Brand starting points | Parked by the owner; not now |
 | 6 | The cascade: the Profile chooses only within the Segment's ticks | Yes |
-| 7 | The first release builds the 44 drivers | Yes |
+| 7 | The first release builds the 41 drivers | Yes |
 | 8 | Founders' profile into Founders & Ownership; Capability as a Business 3 card with the gap derived | Yes; the editor first, storage unchanged |
 | 9 | No ethnicity or race list; country, language and need instead; the equality notice per country | Yes |
 | 10 | The plain wording, the lists and their examples (author's, no source) | Review list by list; approve or amend |
