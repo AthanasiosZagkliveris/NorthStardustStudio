@@ -92,10 +92,10 @@ describe("the Legal Entity expense card", () => {
 describe("what cannot be in the Formation's date", () => {
     it("says a registered company's date is not in the future, nor after the Opening Date", async () => {
         const { formationIssues } = await import("../editors/LegalEntityEditor.tsx");
-        expect(formationIssues({ status: "registered", date: "2999-01-01" })).toHaveLength(1);
-        expect(formationIssues({ status: "registered", date: "2020-05-01" }, "2020-01-01")).toHaveLength(1);
-        expect(formationIssues({ status: "registered", date: "2020-05-01" }, "2020-09-01")).toEqual([]);
-        expect(formationIssues({ status: "planned", date: "2999-01-01" }, "2020-01-01")).toEqual([]);
+        expect(formationIssues({ date: "2999-01-01" })).toHaveLength(1);
+        expect(formationIssues({ date: "2020-05-01" }, "2020-01-01")).toHaveLength(1);
+        expect(formationIssues({ date: "2020-05-01" }, "2020-09-01")).toEqual([]);
+        expect(formationIssues({ date: "" }, "2020-01-01")).toEqual([]);
     });
 });
 

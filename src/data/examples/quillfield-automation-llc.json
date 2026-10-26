@@ -50,7 +50,8 @@
               "customerType": ["b2b"],
               "marketType": "single",
               "audience": ["smb"],
-              "outcome": ["convenience"]
+              "outcome": ["convenience"],
+              "endUser": []
             },
             "capitalApplies": false,
             "founders": [

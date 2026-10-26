@@ -113,6 +113,33 @@ export const REGULATORY_INTENSITIES = [
     { id: "crossborder", label: "Cross-border Trade" }
 ] as const;
 
+/** The End User, asked when the audience is Proxy Buyers / Gifters (the buyer pays and decides; someone else uses it). Four short questions give the End User Profile its first shape. */
+export const END_USER_AGES = [
+    { id: "age:early", label: "Babies and young children (0 to 5)" },
+    { id: "age:child", label: "Children (6 to 12)" },
+    { id: "age:teen", label: "Teenagers (13 to 17)" },
+    { id: "age:adult", label: "Adults (18 to 64)" },
+    { id: "age:older", label: "Older adults (65 or older)" }
+] as const;
+export const END_USER_RELATIONS = [
+    { id: "rel:parent", label: "Parent or carer" },
+    { id: "rel:family", label: "Another family member" },
+    { id: "rel:friend", label: "Partner, friend or colleague (a gift)" }
+] as const;
+export const END_USER_DECIDES = [
+    { id: "decides:buyer", label: "The Buyer chooses alone" },
+    { id: "decides:asks", label: "The End User asks, the Buyer approves" },
+    { id: "decides:user", label: "The End User chooses, the Buyer pays" }
+] as const;
+export const END_USER_WANTS = [
+    { id: "wants:enjoy", label: "Enjoyment and fun" },
+    { id: "wants:comfort", label: "Comfort and ease" },
+    { id: "wants:safety", label: "Safety and care" },
+    { id: "wants:learning", label: "Learning and growth" },
+    { id: "wants:belong", label: "Looks and belonging" },
+    { id: "wants:practical", label: "Practical use" }
+] as const;
+
 /** Differentiation & Outcome, one choice. */
 export const OUTCOMES = [
     { id: "cost", label: "Cost-driven" },
@@ -156,7 +183,7 @@ export function lockedAudience(stage: string, model: string): string[] {
  * it (more than the stage allows, or a choice the stage locks) goes back to its default, empty; a question that fits keeps its answers. The last question is asked once, or once for each side of a platform
  * (while managing or growing, with several relationships chosen), so answers of the other form go. Returns the organisation itself where nothing changes.
  */
-export function fitPositioningToStage<T extends { customerType: string[]; marketType: string; audience: string[]; outcome: string[] }>(organisation: T, stage: string): T {
+export function fitPositioningToStage<T extends { customerType: string[]; marketType: string; audience: string[]; outcome: string[]; endUser?: string[] }>(organisation: T, stage: string): T {
     const early = stage !== "manage" && stage !== "grow";
     const relationship = choiceLimit(stage, "relationship");
     const customerType = relationship !== null && organisation.customerType.length > relationship ? [] : organisation.customerType;
@@ -184,10 +211,20 @@ export function fitPositioningToStage<T extends { customerType: string[]; market
         const group = groups.get(side) ?? [];
         return (perSide ? side !== "" : side === "") && !(outcomeLimit !== null && group.length > outcomeLimit);
     });
+    // The End User: asked only for Proxy Buyers / Gifters; ages, relationships and wants follow the stage's limits, and who chooses is one answer.
+    const endUserBefore = organisation.endUser ?? [];
+    const endUserGroups: [readonly { id: string }[], number | null][] = [[END_USER_AGES, audienceLimit], [END_USER_RELATIONS, audienceLimit], [END_USER_DECIDES, 1], [END_USER_WANTS, outcomeLimit]];
+    let endUser = audience.includes("proxy") ? endUserBefore : [];
+    for (const [options, limit] of endUserGroups) {
+        const ids = options.map(option => option.id);
+        if (limit !== null && endUser.filter(id => ids.includes(id)).length > limit) {
+            endUser = endUser.filter(id => !ids.includes(id));
+        }
+    }
     const same = (one: string[], other: string[]) => one.length === other.length && one.every((id, index) => id === other[index]);
-    return same(customerType, organisation.customerType) && same(audience, organisation.audience) && same(outcome, organisation.outcome)
+    return same(customerType, organisation.customerType) && same(audience, organisation.audience) && same(outcome, organisation.outcome) && same(endUser, endUserBefore)
         ? organisation
-        : { ...organisation, customerType, audience, outcome };
+        : { ...organisation, customerType, audience, outcome, ...(organisation.endUser !== undefined || endUser.length > 0 ? { endUser } : {}) };
 }
 
 /** The name of the positioning tile follows the business stage (defined with the exports' words). */
@@ -223,7 +260,7 @@ export const INFO = {
     ],
 
     registrationDate: [
-        "The day the organization was registered with the registry of its country: the registration number given makes it registered, and its date can then be given.",
+        "The day the organization was registered with the registry of its country. It is its own date: it does not depend on the registration number, and the number does not depend on it.",
         "It cannot be later than today, nor later than the Opening Date: the business cannot open before the company exists."
     ],
 
@@ -289,6 +326,29 @@ export const INFO = {
         "Specialized Sectors (medium regulation): logistics, construction, real estate (environmental permits, special registers).",
         "Heavily Regulated Markets (high regulation): FinTech, pharma, medical centers, banks. Locked while planning and launching.",
         "Cross-border Trade (customs and cross-border compliance): import/export companies (customs, international duties, cross-border compliance)."
+    ],
+
+    endUserAge: [
+        "Who will use it? A broad group is enough to give the End User's Profile its first shape; the exact age comes later, on the Profile.",
+        "Babies and young children (0 to 5): cared for entirely by an adult. Children (6 to 12): growing independence, the family still decides most things. Teenagers (13 to 17): more say over their own choices, but children in law. Adults (18 to 64). Older adults (65 or older).",
+        "Under 18, online services and some goods have extra rules that differ by country: see the minimum ages in the documentation."
+    ],
+
+    endUserRelation: [
+        "How is the Buyer related to the person who will use it? It shapes the message: a parent is reached by safety and trust, a friend giving a gift by looks and delivery.",
+        "Parent or carer. Another family member (a grandparent, an adult child buying for an older parent). Partner, friend or colleague (a gift).",
+        { title: "Based on", source: SOURCES.buyingRoles }
+    ],
+
+    endUserDecides: [
+        "Who chooses between the Buyer and the End User? In a purchase the person who uses it, the one who influences and the one who decides can be three different people.",
+        "The Buyer chooses alone (a baby's product). The End User asks, the Buyer approves (a child's toy). The End User chooses, the Buyer pays (a teenager's clothes).",
+        { title: "Based on", source: SOURCES.buyingRoles }
+    ],
+
+    endUserWants: [
+        "What matters most to the End User, apart from the Buyer's own reasons for paying? It starts the End User's Profile.",
+        "Enjoyment and fun. Comfort and ease. Safety and care. Learning and growth. Looks and belonging (fitting in with friends, a style). Practical use."
     ],
 
     outcome: [
@@ -462,13 +522,13 @@ export function withAutoExpenses(entity: LegalEntityValue, create = true): Legal
 }
 
 /** What is wrong with the Formation's date, in words (an empty list when nothing is). */
-export function formationIssues(formation: { status: string; date: string }, openingDate = ""): string[] {
-    if (formation.status === "planned" || formation.date === "") {
+export function formationIssues(formation: { date: string }, openingDate = ""): string[] {
+    if (formation.date === "") {
         return [];
     }
     const format = PreferencesService.getDateFormat();
     return [
-        ...(formation.date > todayIsoDate() ? ["A registered company has already been formed, so its date cannot be later than today. Correct the date, or remove the registration number if it is not registered yet."] : []),
+        ...(formation.date > todayIsoDate() ? ["A registered company has already been formed, so its date cannot be later than today. Correct the date."] : []),
         ...(openingDate !== "" && formation.date > openingDate ? ["The company is formed (" + isoToDisplay(formation.date, format) + ") after the Opening Date (" + isoToDisplay(openingDate, format) + "): the business cannot open before the company exists. Change one of the two dates."] : [])
     ];
 }

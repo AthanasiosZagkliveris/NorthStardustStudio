@@ -80,6 +80,8 @@ export interface LegalEntityOrganisationValue {
     audience: string[];
     /** The differentiation and outcome: the chosen ones of cost, convenience, compliance, premium. */
     outcome: string[];
+    /** The End User, asked only when the audience is Proxy Buyers / Gifters (the buyer pays, someone else uses it): ids prefixed by their question, age:, rel:, decides:, wants: (see END_USER_WORDS). */
+    endUser: string[];
     /*
      * The registered address, in parts.
      *
@@ -403,6 +405,7 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
             marketType: asText(organisationSource.marketType),
             audience: asChoices(organisationSource.audience),
             outcome: asChoices(organisationSource.outcome),
+            endUser: asChoices(organisationSource.endUser),
 
             // A page saved while the address was one field keeps
             // what was written in it: the whole thing lands on the

@@ -41,6 +41,12 @@ I11 Market Structure
  └─ Multi-sided Market / Platform ... a platform of two or more distinct groups: each side is one relationship of I3, so each side is its own Segment frame
 I7b Audience   (one question for each relationship: scale, life stage, administrative level, regulatory intensity)
  └─ the choice ⇒ the Segment's size or age range starts there · "Proxy Buyers / Gifters" ⇒ a second Profile for the person who uses it is proposed
+ └─ Proxy Buyers / Gifters ⇒ the End User questions (asked only here):
+      I7d End User Age Group (broad: 0 to 5, 6 to 12, 13 to 17, 18 to 64, 65 or older)
+      I7e Buyer's relationship with the End User (parent or carer, another family member, partner, friend or colleague)
+      I7f Who chooses: the Buyer or the End User (alone, the End User asks, the End User chooses)
+      I7g What matters most to the End User (enjoyment, comfort, safety, learning, belonging, practical use)
+      ⇒ the Segment proposes a second Profile for the End User (P21 "They will use it")
 I7c Differentiation & Outcome ⇒ the Value Proposition prompt and the Competitor types
 I8  Business stage (worked out from the Opening Date, not asked)
  ├─ Just an idea / Setting up ... ○ "sales I have made" and "website data" in the estimate basis (D1);
@@ -314,6 +320,7 @@ A question is added only when it passes this list.
 | I11 | Market Structure | **Exists** | Early Positioning, left column, first, a radio (Single-sided; Multi-sided / Platform) | None: the owner's words. Its "i" says it is not the buyer-and-user split |
 | I3 | Seller and Buyer Relationship (who pays) | **Exists** | Early Positioning, left column, under Market Structure; radio or ticks by stage | None: the owner's words. Read by the Segment since 2026-10-25: it decides whether Demographics or Business Data is asked |
 | I7b | Audience: scale (B2B), **Buyer's Life-Stage and relationship with the User** (B2C), administrative level (B2G), regulatory intensity (G2B) | **Exists** | Early Positioning, right column, one question for each relationship chosen | None: the owner's words. **This is where the buyer's relationship with the user is already asked** (Proxy Buyers / Gifters). Read by the Segment since 2026-10-25 only to show the choice in the "i" of Demographics or Business Data |
+| I7d to I7g | End User Age Group; Buyer's relationship with the End User; Who chooses; What matters most to the End User | **Exists** (built 2026-10-26) | Early Positioning, right column, under the life-stage question; asked only for Proxy Buyers / Gifters | The lists of I7e and I7g are the author's: the owner approves or amends them |
 | I7c | Differentiation & Outcome | **Exists** | Early Positioning, right column, under the audience | None. Not yet read by the Value Proposition |
 | (Notes) | The Positioning free text | **Exists** | Early Positioning, under the questions | Shorten its prompt (28, 8.2, open decisions) |
 | I5, I6, I7, I9, I10 | Brand personality; price position; (merged); ambition; values | I5 parked; I6, I7 withdrawn; I10 **merged into the Values tile**; I9 **proposal** | Not on a tile | None until the owner decides |

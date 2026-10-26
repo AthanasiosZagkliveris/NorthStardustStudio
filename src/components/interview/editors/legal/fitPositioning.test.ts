@@ -42,3 +42,21 @@ describe("the Positioning answers follow the business stage", () => {
     });
 
 });
+
+describe("fitPositioningToStage: the End User", () => {
+    const base = { customerType: ["b2c"], marketType: "single", audience: ["proxy"], outcome: [] as string[] };
+
+    it("keeps the End User's answers that fit the stage", () => {
+        const held = { ...base, endUser: ["age:child", "age:teen", "decides:asks", "wants:safety"] };
+        expect(fitPositioningToStage(held, "manage").endUser).toEqual(["age:child", "age:teen", "decides:asks", "wants:safety"]);
+    });
+
+    it("empties a group with more answers than the stage allows, and the others stay", () => {
+        const held = { ...base, endUser: ["age:child", "age:teen", "decides:asks"] };
+        expect(fitPositioningToStage(held, "launch").endUser).toEqual(["decides:asks"]);
+    });
+
+    it("drops the End User when the audience is no longer Proxy Buyers / Gifters", () => {
+        expect(fitPositioningToStage({ ...base, audience: ["adult"], endUser: ["age:child"] }, "grow").endUser).toEqual([]);
+    });
+});

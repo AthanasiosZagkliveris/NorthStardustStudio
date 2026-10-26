@@ -102,6 +102,13 @@ export const BUSINESS_STAGE_WORDS: Record<string, string> = { plan: "Planning", 
 export const CUSTOMER_TYPE_WORDS: Record<string, string> = { b2c: "B2C (Business-to-Consumer)", b2b: "B2B (Business-to-Business)", b2g: "B2G (Business-to-Government)", g2b: "G2B Context (Regulatory/Compliance)", both: "Both" };
 export const MARKET_TYPE_WORDS: Record<string, string> = { single: "Single-sided Market", multi: "Multi-sided Market / Platform" };
 export const AUDIENCE_WORDS: Record<string, string> = { solo: "Solopreneurs & Freelancers", smb: "Startups & SMBs", mid: "Mid-Market", enterprise: "Enterprise / Public Sector", proxy: "Proxy Buyers / Gifters", young: "Students / Young Adults", adult: "Workers / Professionals / Adults", senior: "Seniors", local: "Local Government", regional: "Regional Administration", central: "Central Government & Ministries", institutional: "Institutional / Public Organizations", lowreg: "General Commerce / Mass Market", specialized: "Specialized Sectors", heavy: "Heavily Regulated Markets", crossborder: "Cross-border Trade" };
+/** The End User answers of Early Positioning (asked when the audience is Proxy Buyers / Gifters), by id: the question's prefix, then the answer. */
+export const END_USER_WORDS: Record<string, string> = {
+    "age:early": "End User: babies and young children (0 to 5)", "age:child": "End User: children (6 to 12)", "age:teen": "End User: teenagers (13 to 17)", "age:adult": "End User: adults (18 to 64)", "age:older": "End User: older adults (65 or older)",
+    "rel:parent": "Buyer is the parent or carer", "rel:family": "Buyer is another family member", "rel:friend": "Buyer is a partner, friend or colleague (a gift)",
+    "decides:buyer": "The Buyer chooses alone", "decides:asks": "The End User asks, the Buyer approves", "decides:user": "The End User chooses, the Buyer pays",
+    "wants:enjoy": "End User wants enjoyment and fun", "wants:comfort": "End User wants comfort and ease", "wants:safety": "End User wants safety and care", "wants:learning": "End User wants learning and growth", "wants:belong": "End User wants looks and belonging", "wants:practical": "End User wants practical use"
+};
 export const OUTCOME_WORDS: Record<string, string> = { cost: "Cost-driven", convenience: "Convenience-driven", compliance: "Compliance, Risk & Security", premium: "Status & Premium" };
 
 /** The words of a saved outcome: "cost", or "b2c:cost" for the outcome of one side of a platform. */

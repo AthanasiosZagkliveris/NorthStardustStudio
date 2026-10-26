@@ -3,7 +3,7 @@ import { CSSProperties, useState } from "react";
 import CardShell from "../cards/CardShell.tsx";
 import { OptionalNote } from "../cards/BusinessCardFields.tsx";
 import { positioningName } from "./legal/shared.tsx";
-import { AUDIENCE_WORDS, CUSTOMER_TYPE_WORDS, MARKET_TYPE_WORDS, OUTCOME_WORDS } from "../../../framework/engine/ActivityClassification.ts";
+import { AUDIENCE_WORDS, CUSTOMER_TYPE_WORDS, END_USER_WORDS, MARKET_TYPE_WORDS, OUTCOME_WORDS } from "../../../framework/engine/ActivityClassification.ts";
 import { AnswerType } from "../../../framework/enums/AnswerType.ts";
 import { asLegalEntityValue, isAnswerEmpty } from "../../../framework/engine/AnswerUtils.ts";
 import { useDragToScroll } from "../../../hooks/useDragToScroll.ts";
@@ -195,6 +195,7 @@ function MultiPartAnswerRenderer({
             MARKET_TYPE_WORDS[organisation.marketType],
             ...organisation.customerType.map(id => CUSTOMER_TYPE_WORDS[id]),
             ...organisation.audience.map(id => AUDIENCE_WORDS[id]),
+            ...organisation.endUser.map(id => END_USER_WORDS[id]),
             ...organisation.outcome.map(id => OUTCOME_WORDS[id.replace(/^[^:]*:/, "")])
         ].filter((line): line is string => typeof line === "string" && line.length > 0);
 

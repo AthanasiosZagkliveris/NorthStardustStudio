@@ -50,7 +50,8 @@
               "customerType": ["b2c"],
               "marketType": "single",
               "audience": ["adult"],
-              "outcome": ["premium"]
+              "outcome": ["premium"],
+              "endUser": []
             },
             "capitalApplies": true,
             "founders": [

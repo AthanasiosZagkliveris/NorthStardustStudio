@@ -470,11 +470,11 @@ describe("LegalEntityEditor formation row", () => {
         return <LegalEntityEditor value={value} onChange={setValue} />;
     }
 
-    it("puts the Registration Date on the Organization tile, left of the Opening Date, and hides it while not registered", () => {
+    it("puts the Registration Date on the Organization tile, left of the Opening Date, whether or not a registration number is given", () => {
 
         render(<Formation initial={asLegalEntityValue({ organisation: { country: "GB" }, formation: { date: "2026-03-02", registrationNumber: "16234587" } })} />);
 
-        // (There is no Status to show: the number registers it. The date shows once there is a number.)
+        // (There is no Status to show: the number registers it. The date is shown either way.)
         const dates = document.querySelector(".legal-entity-org-dates")!;
         const cells = [...dates.children];
         expect(cells).toHaveLength(2);
@@ -487,8 +487,9 @@ describe("LegalEntityEditor formation row", () => {
 
         fireEvent.change(screen.getByLabelText("Registration Number"), { target: { value: "" } });
 
-        expect(document.querySelector(".legal-entity-org-dates")!.children).toHaveLength(1);
-        expect(screen.queryByLabelText("Formation date")).toBeNull();
+        // The date is its own: it stays, with its value, when the number is removed.
+        expect(document.querySelector(".legal-entity-org-dates")!.children).toHaveLength(2);
+        expect(screen.getByLabelText("Formation date")).toBeTruthy();
         expect(screen.getByText(/Not registered yet/)).toBeTruthy();
 
     });
@@ -538,7 +539,7 @@ describe("LegalEntityEditor organization columns", () => {
         const labels = (column: Element) => [...column.querySelectorAll(".field-label")].map(label => label.textContent?.replace(/\s+/g, " ").replace(/i$/, "").trim());
         expect(labels(columns[0])).toEqual(["Organization Name", "Country", "Address"]);
         expect(columns[1].classList.contains("legal-entity-questions")).toBe(true);
-        expect(labels(columns[1])).toEqual(["Legal Form", "Opening Date", "Activities", "Primary"]);
+        expect(labels(columns[1])).toEqual(["Legal Form", "Registration Date", "Opening Date", "Activities", "Primary"]);
         // The Description stands below both columns, after a divider line.
         const below = document.querySelector("[data-anchor='legal-section-0'] .legal-entity-org-body > .legal-entity-org-description")!;
         expect(below.textContent).toContain("Notes");
@@ -968,6 +969,43 @@ describe("LegalEntityEditor as tiles", () => {
         expect([...document.querySelectorAll(".section-tile-dialog .section-tile")].map(tile => tile.getAttribute("data-tile"))).toEqual(["registration-numbers", "requirements"]);
         fireEvent.click(document.querySelector("[data-tile=requirements]")!);
         expect(screen.getByRole("button", { name: "Add Card" })).toBeTruthy();
+    });
+
+});
+
+describe("LegalEntityEditor Early Positioning: the End User of Proxy Buyers / Gifters", () => {
+
+    it("asks the four End User questions only for Proxy Buyers / Gifters, and drops their answers with it", () => {
+
+        const saved: { current: ReturnType<typeof asLegalEntityValue> | null } = { current: null };
+        render(<Model model="b2c" stage="manage" saved={saved} />);
+        expect(screen.queryByRole("group", { name: "End User Age Group" })).toBeNull();
+
+        fireEvent.click(screen.getByRole("checkbox", { name: /Proxy Buyers/ }));
+        expect(screen.getByRole("group", { name: "End User Age Group" })).toBeTruthy();
+        expect(screen.getByRole("group", { name: "Buyer's relationship with the End User" })).toBeTruthy();
+        expect(screen.getByRole("radiogroup", { name: "Who chooses: the Buyer or the End User" })).toBeTruthy();
+        expect(screen.getByRole("group", { name: "What matters most to the End User" })).toBeTruthy();
+
+        fireEvent.click(screen.getByRole("checkbox", { name: /Children \(6 to 12\)/ }));
+        fireEvent.click(screen.getByRole("radio", { name: "The End User asks, the Buyer approves" }));
+        expect(saved.current!.organisation.endUser).toEqual(["age:child", "decides:asks"]);
+
+        // Another life stage: the End User is no longer asked, and its answers go.
+        fireEvent.click(screen.getByRole("checkbox", { name: /Proxy Buyers/ }));
+        expect(saved.current!.organisation.endUser).toEqual([]);
+        expect(screen.queryByRole("group", { name: "End User Age Group" })).toBeNull();
+
+    });
+
+    it("limits the End User's age groups by the stage, as the audience is limited", () => {
+
+        render(<Model model="b2c" stage="plan" />);
+        fireEvent.click(screen.getByRole("radio", { name: /Proxy Buyers/ }));
+        // While planning each question is one choice: a radio.
+        expect(screen.getByRole("radiogroup", { name: "End User Age Group" })).toBeTruthy();
+        expect(screen.getByRole("radiogroup", { name: "What matters most to the End User" })).toBeTruthy();
+
     });
 
 });

@@ -1189,6 +1189,23 @@ Three different things were mixed in the earlier text, and the sources separate 
 
 **Platforms and the stage.** While **Planning and Launching** a platform business answers every question for **one side only**, the *anchor side* (the critical side for the start, usually the one that pays); the one-choice limits enforce it and the "i" says it. While **Managing and Growing** several relationships can be chosen, each opens its own audience question, and Differentiation & Outcome is asked **once for each side** ("Differentiation & Outcome (B2C)", "(B2B)"), the answers saved as `side:outcome` (for example `b2c:cost`). In a single-sided market the same relationships are one hybrid, and the last question is asked once.
 
+#### The End User questions (built 2026-10-26; owner's request)
+
+**Why.** The owner's life-stage answer **Proxy Buyers / Gifters** says the buyer pays and decides but someone else uses the product. Until now nothing followed from it. When it is chosen, Early Positioning asks **four short, broad questions about the End User**, enough to give the End User's Profile its first shape (the Segment proposes it as a second Profile, 6.3). They are asked only for that answer: choose another life stage, drop B2C, and the answers go (`fitPositioningToStage`, `legal/shared.tsx`). Saved in `endUser`, a list of ids prefixed by the question.
+
+| Id | Question (label) | Component | Options | Limit by stage | Saved as |
+|---|---|---|---|---|---|
+| I7d | **End User Age Group** | Radio or ticks | Babies and young children (0 to 5); Children (6 to 12); Teenagers (13 to 17); Adults (18 to 64); Older adults (65 or older) | As the audience: 1, 1, 2, any | `age:early`, `age:child`, `age:teen`, `age:adult`, `age:older` |
+| I7e | **Buyer's relationship with the End User** | Radio or ticks | Parent or carer; Another family member; Partner, friend or colleague (a gift) | As the audience | `rel:parent`, `rel:family`, `rel:friend` |
+| I7f | **Who chooses: the Buyer or the End User** | Radio, always one | The Buyer chooses alone; The End User asks, the Buyer approves; The End User chooses, the Buyer pays | 1 | `decides:buyer`, `decides:asks`, `decides:user` |
+| I7g | **What matters most to the End User** | Radio or ticks | Enjoyment and fun; Comfort and ease; Safety and care; Learning and growth; Looks and belonging; Practical use | As the outcome: 1, 2, 2, any | `wants:enjoy` and the other five |
+
+**Where they are asked.** Early Positioning, right column, directly under the life-stage question and above Differentiation & Outcome, as `legal-entity-org-section` blocks of the same kind (labels over a radio or tick group, an "i" on each). **No new component, no new layout.** The Positioning tile lists the chosen answers as bullets; the exports carry them as "End User".
+
+**Sources and status.** The age groups join the bands of 6.3 (the UK Children's Code stages 0 to 5, 6 to 9, 10 to 12, 13 to 17 [AGE-03]; adults to 64 and older adults from 65 [AGE-14]) in five broad groups. The buyer, user and decider roles come from the buying-centre roles taught by The Open University (user, influencer, buyer, decider, gatekeeper; opened 2026-10-26, a page about organisational buying that the app borrows for a consumer's purchase) and are cited in the "i" of I7e and I7f. **The option lists of I7e and I7g are the author's** (no official or university list of them was found) and fail rule 14 until the owner approves or amends them **[D]**. Children's and young people's rules (online consent, minimum ages) are in 10.3 and in doc 30.
+
+**What reads them (designed, not built).** The Segment proposes a second Profile for the person who uses it: its age from I7d (P1), "They will use it" ticked (P21), its first wants from I7g (P9 and P17), and the buyer's own Profile from I7e and I7f (who decides). I7d under 18 shows the children's note on the Segment (6.3) and starts O12.
+
 #### How the stage shapes the questions
 
 The earlier the business, the narrower its focus. The stage is not chosen: it is worked out from the Opening Date and the durations of the Global Settings (8.2a). An organization with no Opening Date is Planning.
@@ -1342,7 +1359,7 @@ Settled with the owner on 2026-10-23; **built 2026-10-24 and 25.** The Organizat
 ```
 LEFT: where it is                       | RIGHT: what it is and does
 Organization Name                       | Legal Form (+ Name the legal form)
-Country (and State or Region)           | Registration Date (once registered)
+Country (and State or Region)           | Registration Date (always shown)
 Address (free text)                     | Opening Date
                                         | Activities (i)
                                         |   Primary  SIC 62012            [+]
@@ -1359,7 +1376,7 @@ Notes (the page's Description)  [auto-growing, the whole width]
 **The fields** (every field is a `FieldRow pair`: label above, control below; `nested` after the first):
 
 - **Organization Name** (`TextBox`), **Country** and **Legal Form** (`OptionPicker`), **Address** (`StrategyTextArea`, class `legal-entity-address`, free text). The country drives the legal forms, the activity scheme and its code name, the registration numbers, the currency and the date format. Legal Form is the country's official list, in the official order ("Other" asks for a name) and stays frozen until a country is chosen; it decides what is asked later (a form with one owner in law has no ownership questions).
-- **Registration Date** (`DateCellInput`), shown once the registration status is no longer "planned". It cannot be later than today or later than the Opening Date. The warnings that go with it (a registered company whose date has not come; a company formed after the Opening Date) stand under it.
+- **Registration Date** (`DateCellInput`), **always shown and independent of the Registration Number** (owner, 2026-10-26): the date does not need a number and the number does not need the date. It cannot be later than today or later than the Opening Date. The warnings that go with it (a date that has not come; a company formed after the Opening Date) stand under it. The Key dates read it whenever it is filled.
 - **Opening Date** (`DateCellInput`, with an "i"), saved in the Global Settings (`openingDate`). It decides the business stage (8.2a), the plan start where it is the earliest date recorded, the key dates and the Review's messages, and it can be changed at any time. Registration Date and Opening Date stand one under the other: side by side they do not fit a column that ends before the x column.
 - **Activities:** below.
 - **Notes** is the shared optional note, `OptionalNote` (a tick box and the word, the box opening on ticking; bullets and numbered lists, regular weight, grows with its text), named **Notes** with the placeholder "Add a note". It still saves the page's Description (its field key stays "Description"), which the Business Plan prints.
@@ -1373,7 +1390,7 @@ Notes (the page's Description)  [auto-growing, the whole width]
 | Chooses a **Legal Form** | A one-owner form removes the ownership questions on the Legal Entity page; "Other" asks for a name |
 | Changes an activity's **level** | Every level below it is emptied, and the code at the end of that activity empties |
 | Adds **activities** | Up to four; the "+" disappears at four and returns when one is removed; only the primary is required |
-| Sets the registration to a status other than planned | The Registration Date field appears |
+| Fills or empties the Registration Number | Nothing happens to the Registration Date (it is independent) |
 | Sets or changes the **Opening Date** | The stage is recalculated (and with it every limit, lock, name and title, 8.2), the plan start may move, the key dates and the Review's messages update |
 
 *Activities, the Performer pattern.* **Only the primary activity is required; Secondary, Tertiary and Quaternary are optional** (a row exists only once the "+" has added it, and its x takes it away). The "i" of "Activities" says so: "The primary activity is required; the others are optional, up to four in all. Each one ends in one official code of your country (the SIC code in the UK)." It changes with the country's code name (5.8). The list is the Performer list of an activity (`business-capability-performers` holding one `business-capability-performer` row per activity: 8px between cells, every cell 44px, the box buttons 32px, all on one centre line):
@@ -1481,20 +1498,22 @@ R1 is the only answer that changes the arithmetic: the plan's VAT basis is displ
 
 ### 10.3 Minimum ages to buy, by product and country (O12)
 
+> **See also doc 30** (2026-10-26): the same question asked of **activities** (27 kinds of business, six countries, direct or possible), with corrections to this table (UK pets and vapes) and the open conflicts.
+
 What the founder needs: **if your customers include people under a certain age, you cannot lawfully sell some products to them.** In the UK the seller commits the offence even if the buyer lies, unless it took reasonable steps to check age [S1]. The table is the lookup behind O12. **Status:** *Opened* = the official page was read in full; *Excerpt* = a search summary of an official page, to be re-checked by a person; *Not found* = no official page surfaced (this does not mean there is no rule). **Only Opened and Excerpt rows from an official source may drive a Review check**; Not found cells show "check the rule for your area" and drive nothing.
 
 | Kind | UK | USA | Canada | Australia | Ireland | New Zealand |
 |---|---|---|---|---|---|---|
 | Alcohol | 18 [S1, opened] | 21 in every state [S12, excerpt] | 18 in AB, MB, QC; 19 elsewhere [S14, opened] | 18 [S17, excerpt]; rules on adults supplying a minor vary by state | 18 [S19, excerpt] | 18 [S22, excerpt] |
 | Tobacco | 18; from 1 Jan 2027 not to anyone born on or after 1 Jan 2009 [S2, opened] | 21 federal [S11, opened] | 18 federal baseline; some provinces 19 or 21 [S13, opened] | Not found (state laws) | 18; 21 from 1 Feb 2028 [S20, excerpt] | 18 [S21, excerpt] |
-| Vapes | 18 in England and Wales [S3, opened]; single-use banned from 1 Jun 2025 [S1] | 21 federal [S11, opened] | 18 federal baseline; provinces may go higher [S13, opened] | Pharmacy only; under 18 needs a prescription [S16, excerpt] | 18 [S19, excerpt] | 18 [S21, excerpt] |
+| Vapes | 18 in England and Wales [S3, opened]; **all vapes and nicotine products, pouches included, 18 from 29 Oct 2026** (Tobacco and Vapes Act 2026 s.10); single-use ban from 1 Jun 2025 (not confirmed, doc 30) | 21 federal [S11, opened] | 18 federal baseline; provinces may go higher [S13, opened] | Pharmacy only; under 18 needs a prescription [S16, excerpt] | 18 [S19, excerpt] | 18 [S21, excerpt] |
 | Gambling, betting, lotteries | Most 18; National Lottery 18 since 2021 [S4 opened, S5 excerpt] | Not found (state-set) | Not found (provincial) | Not found (state and territory) | 18 [S23, excerpt] | Not found |
 | Knives and blades | 18; Scotland 16 for domestic knives [S1, S6, opened] | Not found | Not found | Not found | Not found | Not found |
 | Fireworks | F2 and F3 18; F1 and party poppers 16 [S1, opened] | Not found | Not found | Not found | F1 not sold under 12 [S19, excerpt] | Not found |
 | Films and games with ratings | Legal ratings 12, 15, 18 for video recordings; PEGI 12, 16, 18 enforced [S1, opened] | Not found (the ESRB system is voluntary, not verified) | Not found | Enforced by state and territory law; R18+ not to under 18; MA15+ not to under 15 without a parent [S18, excerpt, NSW only] | Not found | Not found |
 | Credit, loans, BNPL | 18 [non-official excerpt] | Credit card under 21 needs own income or a co-signer [S10, excerpt] | Primary cardholder of age [FCAC, opened] | Not found | Not found | Not found |
 | Tattoos, sunbeds, fillers | Tattoo 18 [S8, opened]; sunbeds 18; Botox and fillers 18 in England [S1, opened] | Not found | Not found | Not found | Not found | Not found |
-| Pets | 16 [S25, opened] | Not found | Not found | Not found | Not found | Not found |
+| Pets | **12** (Pet Animals Act 1951 s.3; England, Wales and Scotland; 16 only in some councils' licence conditions) [doc 30, opened] | Not found | Not found | Not found | Not found | Not found |
 | Medicines | No legal age found; paracetamol pack limits [S7, excerpt] | Not found | Not found | Under-18 vapes need a prescription [S16] | Not found | Not found |
 | Adult content, online age checks | "Highly effective" age assurance, enforceable from 25 Jul 2025 [S15, excerpt] | Not found (state laws exist, not researched) | Not found | Social media minimum age 16 from 10 Dec 2025; platforms must take reasonable steps, no penalty on children or parents [S16b, excerpt] | Online Safety Code: self-declaration is not enough [S24, excerpt] | Not found |
 

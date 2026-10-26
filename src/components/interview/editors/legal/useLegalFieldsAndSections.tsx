@@ -24,7 +24,7 @@ import ActivitiesField from "./ActivitiesField.tsx";
 import DateCellInput from "../../fields/DateCellInput.tsx";
 import { todayIsoDate } from "../../../../framework/engine/AnswerUtils.ts";
 import { BUSINESS_STAGE_WORDS } from "../../../../framework/engine/ActivityClassification.ts";
-import { AUDIENCE_SCALES, CUSTOMER_TYPES, INFO, JURISDICTIONS, LIFE_STAGES, OUTCOMES, REGULATORY_INTENSITIES, choiceLimit, lockedAudience, LEGAL_FORM_OTHER, MARKET_TYPES, activitiesInfo, formationIssues, type MarketType, MAX_OTHER_NUMBER_LENGTH, OTHER_OPTION, TOTAL_OWNERSHIP_HELP, savedOther, shownOther } from "./shared.tsx";
+import { AUDIENCE_SCALES, CUSTOMER_TYPES, END_USER_AGES, END_USER_DECIDES, END_USER_RELATIONS, END_USER_WANTS, INFO, JURISDICTIONS, LIFE_STAGES, OUTCOMES, REGULATORY_INTENSITIES, choiceLimit, lockedAudience, LEGAL_FORM_OTHER, MARKET_TYPES, activitiesInfo, formationIssues, type MarketType, MAX_OTHER_NUMBER_LENGTH, OTHER_OPTION, TOTAL_OWNERSHIP_HELP, savedOther, shownOther } from "./shared.tsx";
 import type { useLegalState } from "./useLegalState.tsx";
 
 type Earlier = ReturnType<typeof useLegalState>;
@@ -232,6 +232,13 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
         return frozen ? <FrozenUntil answered={frozen.answered} hint={frozen.hint}>{row}</FrozenUntil> : row;
     }
 
+    // The End User questions (Proxy Buyers / Gifters): ages and relationships follow the audience's limit, what matters the outcome's, who chooses is one answer.
+    const endUserSets = [
+        { label: "End User Age Group", group: "legal-entity-enduser-age", options: END_USER_AGES, limit: choiceLimit(stage, "audience"), info: INFO.endUserAge },
+        { label: "Buyer's relationship with the End User", group: "legal-entity-enduser-relation", options: END_USER_RELATIONS, limit: choiceLimit(stage, "audience"), info: INFO.endUserRelation },
+        { label: "Who chooses: the Buyer or the End User", group: "legal-entity-enduser-decides", options: END_USER_DECIDES, limit: 1 as number | null, info: INFO.endUserDecides },
+        { label: "What matters most to the End User", group: "legal-entity-enduser-wants", options: END_USER_WANTS, limit: choiceLimit(stage, "outcome"), info: INFO.endUserWants }
+    ];
     const audience = (
         <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience">
 
@@ -269,6 +276,8 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                     (next) => updateOrganisation({
                         customerType: next,
                         audience: kept(entity.organisation.audience, audienceSets, index => audienceShown(audienceSets[index], next)),
+                        // (The End User belongs to a consumer buyer's Proxy Buyers / Gifters: without that relationship it goes.)
+                        endUser: next.includes("b2c") ? entity.organisation.endUser : [],
                         outcome: (() => {
                             const sets = outcomeSetsFor(next, entity.organisation.marketType);
                             return kept(entity.organisation.outcome, sets, index => outcomeShown(sets[index], next));
@@ -290,10 +299,28 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                         set.options,
                         chosenOf(entity.organisation.audience, set.options),
                         choiceLimit(stage, "audience"),
-                        (next) => updateOrganisation({ audience: [...entity.organisation.audience.filter(id => !idsOf(set.options).includes(id)), ...next] }),
+                        (next) => {
+                            const audienceNext = [...entity.organisation.audience.filter(id => !idsOf(set.options).includes(id)), ...next];
+                            // (The End User is asked for Proxy Buyers / Gifters only: its answers go with that choice.)
+                            updateOrganisation({ audience: audienceNext, endUser: audienceNext.includes("proxy") ? entity.organisation.endUser : [] });
+                        },
                         set.info,
                         { answered: modelChosen, hint: "Choose a seller and buyer relationship first." },
                         lockedAudience(stage, set.model)
+                    )}
+                    </div>
+                ))}
+
+                {entity.organisation.audience.includes("proxy") && models.includes("b2c") && endUserSets.map(set => (
+                    <div key={set.group} className="legal-entity-org-section legal-entity-org-audience legal-entity-org-enduser">
+                    {choice(
+                        set.label,
+                        set.group,
+                        set.options,
+                        chosenOf(entity.organisation.endUser, set.options),
+                        set.limit,
+                        (next) => updateOrganisation({ endUser: [...entity.organisation.endUser.filter(id => !idsOf(set.options).includes(id)), ...next] }),
+                        set.info
                     )}
                     </div>
                 ))}
@@ -483,15 +510,14 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                 </div>
                 </div>
 
-                {/* The two dates of the opening, side by side: when the organization was registered (once it is: the number given makes it so), and the day the business opens. */}
+                {/* The two dates of the opening, side by side: when the organization was registered (its own date, whether or not a registration number is given), and the day the business opens. */}
                 <div className="legal-entity-org-dates">
-                {entity.formation.status !== "planned" && (
-                    <div className="legal-entity-org-section legal-entity-org-registration">
+                <div className="legal-entity-org-section legal-entity-org-registration">
                     {labelled(
                         "Registration Date",
                         <DateCellInput
                             ariaLabel="Formation date"
-                            // (A registered company has been formed: its day is today or earlier.)
+                            // (A formation date is a day that has come: today or earlier.)
                             max={todayIsoDate()}
                             disabled={disabled}
                             value={entity.formation.date}
@@ -501,8 +527,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                         undefined,
                         INFO.registrationDate
                     )}
-                    </div>
-                )}
+                </div>
                 <div className="legal-entity-org-section legal-entity-org-opening">
                 {labelled(
                     "Opening Date",

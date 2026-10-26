@@ -53,7 +53,8 @@ const DESIGN = [
   ["docs/design/26-folder-plan.md", "proposal", "The app files, the examples and the working files: what is where, and a three-step plan to separate them.", true],
   ["docs/design/27-questionnaire-plan.md", "proposal", "The questionnaire plan: the one test (does an answer save the founder work), the funnel from Identity to the journey, a worked example, the 42 drivers, the six building blocks, the stages and the decisions.", true],
   ["docs/design/28-questionnaire-specification.md", "proposal", "The questionnaire specification: the countries and shared lists with examples, the industry list in two levels, every question and option, the connection map with its evidence, the equality rules, the moves and the decisions.", true],
-  ["docs/design/29-question-guide.md", "proposal", "The question guide: the flow of questions as trees, the key branching questions, what happens on both, mixed, not sure and other, the order that asks the least, why each question matters to the user, and how to write a new one.", true]
+  ["docs/design/29-question-guide.md", "proposal", "The question guide: the flow of questions as trees, the key branching questions, what happens on both, mixed, not sure and other, the order that asks the least, why each question matters to the user, and how to write a new one.", true],
+  ["docs/design/30-age-limits-by-activity.md", "research", "Age limits by activity and country: which kinds of business are connected with a minimum age (direct or possible) in the UK, Ireland, the USA, Canada, Australia and New Zealand, with the sources, the open conflicts and how the app would use them.", true]
 ];
 const SPEC = [
   ["docs/specifications/business-system/README.md", "specification", "The Business System: index of the pages and the editor mapping.", true],

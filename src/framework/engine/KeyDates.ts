@@ -74,7 +74,7 @@ export function keyDatesOfSessions(sessions: FoundationSessions, today: Date = n
     const formation = foundation.legalEntity.formation;
     return keyDates({
         planStart,
-        registrationDate: formation.status !== "planned" ? formation.date : "",
+        registrationDate: formation.date,
         openingDate: sessions.globalSettings === undefined ? "" : asGlobalSettings(sessions.globalSettings).openingDate,
         durations: sessions.globalSettings === undefined ? undefined : stageDurationsOf(asGlobalSettings(sessions.globalSettings))
     }, today);
