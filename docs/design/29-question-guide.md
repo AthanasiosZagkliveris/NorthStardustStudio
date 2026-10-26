@@ -47,7 +47,7 @@ I8  Business stage (worked out from the Opening Date, not asked)
  │                              ⇒ figures labelled forecast
  └─ Earning / Established ....... ● every option of D1 · ⇒ figures can be labelled actual
 I7  (withdrawn: merged into I7c)
-I6, I9, I10 (price position, ambition, values)   checks, asked after the first draft  (no branch)
+I6, I9 (price position withdrawn; ambition)   a check, asked after the first draft  (no branch; I10 values merged into the Values tile)
 ```
 
 ### 2.2 Segment (the Segment card)
@@ -102,8 +102,8 @@ P22 How is the decision made? (business, or any under-18 Profile)
  └─ a formal tender or procurement ........ ● P21 · ⇒ the tender row
 
 Specifics last (checks, asked after the draft, each limited to the Segment's range)
-P1 age · P2 education · P6 job level (only when G13 is employed or self-employed) · P7 household income
-P23 size (business) · P5 gender (only when G10 is not "not relevant") · P8 language · P3, P4 (notes)
+P1 age · P6 job level (only when G13 is employed or self-employed) · P5 gender (only when G10 is not "not relevant")
+(P2 education, P7 income, P8 language, P3, P4 and P23 size are merged into the note or into the Segment's answers, 2026-10-26)
 ```
 
 ### 2.4 Offering (the key branches)
@@ -218,11 +218,11 @@ No question branches heavily here: the stage cards are **proposed** from P11, P1
 
 | Tile | Order of the questions asked first | Moved or held back |
 |---|---|---|
-| Organization, Positioning (Identity) | I1, I11, I3, I7b, I7c | I9, I10 after the draft |
+| Organization, Positioning (Identity) | I1, I11, I3, I7b, I7c | I9 after the draft |
 | Segment card, people | (I3, I7b and I11 are already answered), G2 (G3), G6, G7, G8, G13, G10 | G10 last (it only reveals the notice); G4, G5, G16 after the draft |
 | Segment card, businesses | (I3 and I7b are already answered), G2 (G3), G23, G14, G15 | G14 skipped for a freelancer; checks after the draft |
-| Profile | P24 (business), P9, P11, P12, P13, P14, P16, P17, P18, P19, P20, P22 | P1 to P8, P23 after the draft |
-| Offering | O1, O3, O4, O6, O7, O5, O10 | O2, O8, O9, O11, O12 after the draft |
+| Profile | P24 (business), P9, P11, P12, P13, P14, P16, P17, P18, P19, P20, P22 | P1, P5, P6 after the draft |
+| Offering | O1, O3, O4, O6, O7, O10 | O2, O8, O11, O12 after the draft |
 
 **How many questions the user sees on a path** (drivers only, first pass; an estimate from the trees above).
 
@@ -234,7 +234,7 @@ No question branches heavily here: the stage cards are **proposed** from P11, P1
 | Bought for a child (user under 13, parent pays) | 5 (with I3) | 5 (G2, G6, G8, G13, G10; G7 skipped) | 11 (with P21; the child is a second Profile) | 21 |
 | A second Profile in the same Segment | 0 | 0 | only what differs, with "Copy a Profile" | far fewer |
 
-A second Segment repeats only what differs (G2 and G3 are copied). The checks (28 in all, 3 on the Segment card) come after the draft and can be skipped.
+A second Segment repeats only what differs (G2 and G3 are copied). The checks (21 in all, 3 on the Segment card) come after the draft and can be skipped.
 
 ## 7. Does a question matter, and how does it help the user?
 
@@ -245,7 +245,7 @@ The test for every question: *what does the user get for answering?* "Limited" m
 | I1, I3, I11, I7b, I7c | Yes | Narrows the next lists and gives example customers, offerings, skills, channels and the activity code to start from; arranges the Segment frames; each side of a platform is a Segment frame; the audience starts the ranges; the outcome frames the Value Proposition |
 | I7 | Yes | Writes a first Positioning sentence |
 | I8 | Yes | Stops the app asking for sales or website figures a new business cannot have |
-| I6, I9, I10 | Limited | Later checks and suggestions |
+| I9 | Limited | Later checks and suggestions |
 | I3 | Yes | Shows only the questions that apply and sets the tax default |
 | G2 | Yes | Puts the likeliest channels first (a local business starts with local ones) |
 | G3 | Yes | Shows examples in the customers' country (qualifications, sizes, tax names) |
@@ -261,14 +261,14 @@ The test for every question: *what does the user get for answering?* "Limited" m
 | P11, P12, P13, P14 | Yes | Fill in the channels of every stage and the payment subchannels |
 | P16, P20 | Yes | Reorder channels for people who need help; suggest the relationship type |
 | P22 | Yes | Reveals who decides and the tender row |
-| P1 to P8, P23 | Limited | Check the Profile against the Segment |
+| P1, P5, P6 | Limited | Check the Profile against the Segment |
 | K2, K3 | Yes | Draft the differentiation |
 | O1, O3 | Yes | Hide what does not apply; one answer for three fields |
-| O4, O5, O6, O7, O10 | Yes | Value Proposition draft; Deliver and Support channels; the relationship type; the delivery constraints |
+| O4, O6, O7, O10 | Yes | Value Proposition draft; Deliver and Support channels; the relationship type; the delivery constraints |
 | W2, C1, C4 | Yes | Show the skills gap and propose a partner or a hire |
 | R1 | Yes | Gets the tax arithmetic right |
-| J2, J4 | Yes | Choose an action and a purpose instead of typing |
-| Notes (G12, G20 to G22, P3, P4, K5, K7, K8, O9, W3, C2, C3, J5, J6) | No | Not asked |
+| J2, J7 | Yes | Choose an action, and pre-tick its purpose, instead of typing |
+| Notes (G20 to G22, W3; G12, P3, P4, K5, K7, K8, O9, C2, C3, J5, J6 are no longer numbered) | No | Not asked |
 
 ## 8. Writing a new question
 
@@ -316,26 +316,26 @@ A question is added only when it passes this list.
 | I7b | Audience: scale (B2B), **Buyer's Life-Stage and relationship with the User** (B2C), administrative level (B2G), regulatory intensity (G2B) | **Exists** | Early Positioning, right column, one question for each relationship chosen | None: the owner's words. **This is where the buyer's relationship with the user is already asked** (Proxy Buyers / Gifters). Read by the Segment since 2026-10-25 only to show the choice in the "i" of Demographics or Business Data |
 | I7c | Differentiation & Outcome | **Exists** | Early Positioning, right column, under the audience | None. Not yet read by the Value Proposition |
 | (Notes) | The Positioning free text | **Exists** | Early Positioning, under the questions | Shorten its prompt (28, 8.2, open decisions) |
-| I5, I6, I7, I9, I10 | Brand personality; price position; (merged); ambition; values | I5 parked; I6, I7 withdrawn; I9, I10 **proposal** | Not on a tile | None until the owner decides |
+| I5, I6, I7, I9, I10 | Brand personality; price position; (merged); ambition; values | I5 parked; I6, I7 withdrawn; I10 **merged into the Values tile**; I9 **proposal** | Not on a tile | None until the owner decides |
 | I2, I4, G1, G9, G11 | | Merged or withdrawn | | None |
 | G2 to G5 | Where; main country; kind of area; languages | **Text box** (Geographics) | Segment card | G2 and G3 first, G4 and G5 after the draft; G3 starts from the Legal Entity's country |
 | G6, G7, G8, G10, G13 | Age range; education; income step; gender mix; work situation | **Text box** (Demographics); asked only when the buyer is a person | Segment card | Order: G6, G7, G8, G13, G10 last. G6 reads "the customer, the person who pays" |
 | G14, G15, G23 | Size; industry; type of organisation | **Text box** (Business Data); asked only when the buyer is a business or public body | Segment card | Order: G23, G14, G15; G14 skipped for a freelancer |
 | G16 | Usual price | **Text box** (Purchasing Power & Behaviour) | Segment card | A check, asked after the draft |
-| G12, G20 to G22 | | Notes | Market Size box | None |
+| G20 to G22 | | Notes | Market Size box | None (G12 is no longer numbered) |
 | G17, G18, G19 | Feeling about price; main spending; how often | **Withdrawn (merged, 2026-10-25)** | | G17 is I7c (Cost-driven or Status & Premium); G18 is O11; G19 is O3 |
-| P1 to P8 | Specific personal information | **Text box** (Specific Personal Information) | Profile card | Behaviour first, these after the draft |
-| P9, P10 | Cares about; risk | **Text box** (Psychographics) | Profile card | None |
+| P1, P5, P6 | Age; gender; kind of work | **Text box** (Specific Personal Information) | Profile card | Behaviour first, these after the draft. P2, P7, P8 are merged into the box's note; P3, P4 are not asked |
+| P9 | Cares about | **Text box** (Psychographics) | Profile card | None (P10 risk deleted: no source) |
 | P11 to P16 | Where they look, compare, buy, pay; devices; comfort | **Text box** (Social & Interest Hubs; Information & Shopping Habits) | Profile card | P11 to P14 first (they drive the journey) |
 | P17, P18, P19 | Goals; frustrations; worries | **Text** (Goals & Desires, Challenges & Problems, Objections, under Motivations) | Profile card | None |
 | P20 to P24 | Help wanted; part in the purchase; how the decision is made; size; kind of business | **Proposal** (no box today) | Profile card | P21 is asked only for businesses, any band below 18, or the audience Proxy Buyers / Gifters; "They will use it" marks the user's Profile |
 | Needs | Functional, Emotional, Social lists | **Exists** | Profile card | Each line gets an id |
 | Competitor Name, Type | | **Exists** | Competitor card | None |
-| K1 to K8 | Price against yours; what they are chosen for; shortfalls; reach; what customers say; confidence; changes; threats | **Text box** or **proposal** | Competitor card (What they sell, Which areas, How they reach, What customers say, SWOT, Insights) | K2 and K3 first |
+| K1 to K4, K6 | Price against yours; what they are chosen for; shortfalls; reach; confidence (K5, K7, K8 are no longer numbered) | **Text box** or **proposal** | Competitor card (What they sell, Which areas, How they reach, What customers say, SWOT, Insights) | K2 and K3 first |
 | Offering Name, Type, Functional Needs Addressed | | **Exists** | Offering card | **O1 "What form does it take?" overlaps the existing Type (Product, Service, Hybrid, Other):** keep Type, and let O1 refine it only where the presets need it, or merge them (owner to decide) |
-| O1 to O12 | Form; can customers buy it; how bought; benefit; also good at; how received; help after; worries answered; what comes with it; what the customer must give; what they spend on; minimum age | **Text box** (Customer Benefit, Content & Scope, Purchase & Delivery, Support & Communication, Requirements & Conditions) or **proposal** | Offering card | O3 and O6 first; O12 shown only when G6 (or G25, if approved) includes a band below 21 |
-| Value Proposition | The one promise made to each Segment (text), with a drafted sentence | **Exists** (text, one per Segment) | Business 1, tile "Value Proposition" | The draft reads P9, P17, P18, O4, O5 and **starts from the outcome of I7c** (section 11); the three open items are read-only |
-| W1 to W3, C1 to C5, R1, R2, J1 to J7, D1 | Delivery (Work), Founders and Capability, Revenue, Journey, Demand estimate basis | The pages and cards **exist**; these questions are **proposals** | Business 2 to 5 | See doc 28, sections 7, 9 and 10. **The Delivery questions were L1 to L3 and are now W1 to W3**, because L1 to L15 are the shared lists |
+| O1 to O4, O6 to O8, O10 to O12 | Form; can customers buy it; how bought; benefits (O5 merged into O4); how received; help after; worries answered; what comes with it; what the customer must give; what they spend on; minimum age | **Text box** (Customer Benefit, Content & Scope, Purchase & Delivery, Support & Communication, Requirements & Conditions) or **proposal** | Offering card | O3 and O6 first; O12 shown only when G6 (or G25, if approved) includes a band below 21 |
+| Value Proposition | The one promise made to each Segment (text), with a drafted sentence | **Exists** (text, one per Segment) | Business 1, tile "Value Proposition" | The draft reads P9, P17, P18, O4 and **starts from the outcome of I7c** (section 11); the three open items are read-only |
+| W1 to W3, C1, C4, R1, R2, J1 to J3 and J7, D1 | Delivery (Work), Founders and Capability, Revenue, Journey, Demand estimate basis | The pages and cards **exist**; these questions are **proposals** | Business 2 to 5 | See doc 28, sections 7, 9 and 10. **The Delivery questions were L1 to L3 and are now W1 to W3**, because L1 to L15 are the shared lists |
 
 **What should move or be reworded (summary).**
 
@@ -363,21 +363,23 @@ The full table is in doc 28, section 8.2 ("What the Segment will read"). In shor
 
 **Conflicts found and decided.** (1) Doc 28 said both "several relationships: one Segment for each" and "multi-sided: one Segment in parts"; they could not both hold. Decided: one Segment frame for each relationship, a platform's sides included, and no parts. (2) The app's instruction text says "1 primary segment (maximum 2)" while the stage limits are one, one, two, any; the stage limit is the design, the instruction text is the owner's wording, and the owner decides whether it changes. (3) Mid-Market lies inside the official EU "medium" size (under 250 employees); the mapping of the owner's scales to the size bands is the author's.
 
-## 12. Optimisation: merged now, and recommended next
+## 12. Optimisation: what was merged or deleted
 
 **Merged or withdrawn now (2026-10-25), in docs 28 and 29:** G24 and G25 (read from I7b and I11); G17 into I7c; G18 into O11; G19 into O3; the Delivery ids renamed W1 to W3.
 
-**Recommended, not applied (owner decides one by one; each needs edits in several tables):**
+**Merged or deleted on 2026-10-26 (the owner asked for all of them), in docs 28 and 29:**
 
-| Id | Recommendation | Why |
+| Id | Done | Why |
 |---|---|---|
-| I10 Which values guide you? | Delete | The Identity System already has a Values tile; a second list asks the same thing |
-| C5 Do you plan to hire? | Merge into C4 ("I plan to hire") | C4 already says it |
-| J4 Why do you stay in touch this way? | Merge into J7 (Get, Keep, Grow) | J7 is pre-ticked and says the same purpose |
-| P23 How big is their business? | Delete | A check against G14 that repeats it at Profile level |
-| P2, P7, P8 | Merge into the note of Specific Personal Information | Checks only; nothing else reads them |
-| P10 Risk | Delete | The author's, no source (rule 14), a check only |
-| O4 and O5 | Merge into one tick list (up to 3, the first is the main benefit) | Two questions over one list |
-| R2 and D1 | One shared list "What is this figure based on?" | Their options overlap (paid; interviews; own estimate) |
-| Notes G12, P3, P4, K5, K7, K8, O9, W3, C2, C3, J5, J6 | Remove from the numbered lists | They are never asked |
-| O1 and the Offering Type | Keep Type; O1 only where the presets need it, or merge | Two questions about the same thing |
+| I10 Which values guide you? | Deleted | The Identity System already has a Values tile; a second list asked the same thing |
+| C5 Do you plan to hire? | Merged into C4 ("I plan to hire") | C4 already says it; how many is typed in the people-cost line it proposes |
+| J4 Why do you stay in touch this way? | Merged into J7 (Get, Keep, Grow) | J7 is pre-ticked (win, help decide, get started → Get; keep, fix → Keep; repeat → Grow) |
+| P23 How big is their business? | Deleted (merged into G14) | A check that repeated the Segment's size at Profile level |
+| P2, P7, P8 | Merged into the note of Specific Personal Information | Checks only; nothing else read them; G5 keeps the language check |
+| P10 Risk | Deleted | The author's, no source (rule 14), a check only; rule 9 of 28, 11.5 withdrawn (28 rules left) |
+| O4 and O5 | One tick list, O4 (up to 3, the first is the main benefit) | Two questions over one list |
+| R2 and D1 | One shared list **L16** "What a figure is based on" | Their options overlapped (paid; interviews; estimate); R2 adds "My costs plus a margin", D1 drops it |
+| Notes G12, P3, P4, K5, K7, K8, O9, C2, C3, J5, J6 | Removed from the numbered questions (the text boxes stay); W3 stays as a note derived from O10 | They were never asked |
+| O1 and the Offering Type | O1 **follows the Type** (its options depend on Product, Service or Hybrid); "A mix" is the Type Hybrid | Two questions about one thing |
+
+**Counts after the merges:** 66 questions (from 91): 40 drivers, 21 checks, 4 notes (G20 to G22, W3) and 1 parked (I5). The Segment card has 10 drivers, 3 checks and 3 notes.
