@@ -473,3 +473,27 @@ Nothing is built.
 - **Migration:** the app stores these as JSON in the browser and in the example files (no database). The text speaks of a "DDL migration"; here it is a one-time conversion of the stored `endUser` ids (rel:parent, rel:family, rel:friend) to the 22-relationship ids, plus the two example files (lumen-and-loom-studio and quillfield-automation-llc, which hold `"endUser": []` today, so nothing there needs converting). Saved files of real users would need the conversion when it is built. Only three of the 22 are reached by the old values; the rest are new.
 
 Nothing is built.
+
+## 9K. The three open points of 9J settled (owner's pasted text, 2026-10-27)
+
+1. **Students / Young Adults reads "fully autonomous, 18 and over".** The 16 to 18 Micro-Buyers stay a separate, semi-autonomous sub-category under Direct Buyers. This fits the G6 start of 18 to 24 in doc 28. The wording of 9J 1 is corrected accordingly.
+2. **P21 on the dependent's Profile follows I7f.** The fixed "use and influence" of 9J 2 is **withdrawn**.
+3. **I7f is asked for Dual-Intent Family Buyers, with its own wording.** The stored values stay `decides:buyer`, `decides:asks` and `decides:user`:
+
+| Stored value | Wording under Dual-Intent | P21 on the dependents' Profile |
+|---|---|---|
+| decides:buyer | I choose alone for the household | They will use it |
+| decides:asks | We discuss and decide together | They will use it; They influence the decision |
+| decides:user | My dependents choose independently, I manage the subscription | They will use it; They make the final decision |
+
+The question reads: "How is the choice of the offering made between you and your dependents?" For Proxy Buyers / Gifters the wording of I7f stays as built (The Buyer chooses alone; The End User asks, the Buyer approves; The End User chooses, the Buyer pays) and gives the same three P21 sets.
+
+4. **Migration:** a one-time conversion when an older saved state is loaded (rel:parent to row 1, rel:family to row 3, rel:friend to row 5, each filling P25); the example files hold `"endUser": []` and need nothing. Confirms 9J 4.
+
+**The crosswalk of I7b** (Students / Young Adults: one Profile; Proxy Buyers / Gifters: P25, a recipient Profile, I7d to I7g with the standard I7f; Dual-Intent Family Buyers: P25, a dependents' Profile, I7d to I7g with the household I7f) is recorded as 9J 3 with these corrections. Workers / Professionals / Adults and Seniors: one Profile, buyer is user.
+
+**Checked:** the three stored values and their three P21 sets equal the routing of 9H. The wording says "household"; dependents need not live in the same household (a parent's cover for an adult child), so "household" is the owner's term and is kept.
+
+**Offered by the text and not started** (they are layout and structure work, outside the collection phase): the exact syntax of the P25 field, and a Review check that flags a household plan's unit price against a single-user purchase option (O3).
+
+Nothing is built.
