@@ -1,6 +1,6 @@
 # The documents of NorthStardustStudio
 
-Status: **index**, updated 2026-10-26. One line per document: where it is, what kind it is, what it holds, when it last changed (the date of its last commit).
+Status: **index**, updated 2026-10-27. One line per document: where it is, what kind it is, what it holds, when it last changed (the date of its last commit).
 
 ## How the documents are kept
 
@@ -24,7 +24,7 @@ Status: **index**, updated 2026-10-26. One line per document: where it is, what 
 | [ai/review-checklist.md](ai/review-checklist.md) | rules | What to check when reviewing a table, tile, card, page or control, and the proof before saying done. | 2026-10-25 |
 | [ai/code-map.md](ai/code-map.md) | reference | Where things are in src: the folders and what is in each; the rules for a new file. | 2026-10-25 |
 | [ai/app-guide.md](ai/app-guide.md) | reference | Where each part of the app is, what it is for, with the code locations. | 2026-10-25 |
-| [ai/layout-rules.md](ai/layout-rules.md) | rules | The measured rulebook of the Foundation pages (tokens, sizes, alignment, interactions) and the layout check. | 2026-10-25 |
+| [ai/layout-rules.md](ai/layout-rules.md) | rules | The measured rulebook of the Foundation pages (tokens, sizes, alignment, interactions) and the layout check. | 2026-10-26 |
 | [ai/tile-and-card-pattern.md](ai/tile-and-card-pattern.md) | rules | How tiles, frames, cards, rails and dialogs are built; the global rules. | 2026-10-25 |
 | [ai/card-kinds.md](ai/card-kinds.md) | reference | The kinds of card, where each one's code is, how its head is built. | 2026-10-22 |
 | [ai/customer-engagement-layout.md](ai/customer-engagement-layout.md) | rules | Layout of the Customer Engagement tables, the channel resources and the action markers. | 2026-10-20 |
@@ -64,6 +64,7 @@ Status: **index**, updated 2026-10-26. One line per document: where it is, what 
 | [design/28-questionnaire-specification.md](design/28-questionnaire-specification.md) | proposal | The questionnaire specification: the countries and shared lists with examples, the industry list in two levels, every question and option, the connection map with its evidence, the equality rules, the moves and the decisions. | 2026-10-26 |
 | [design/29-question-guide.md](design/29-question-guide.md) | proposal | The question guide: the flow of questions as trees, the key branching questions, what happens on both, mixed, not sure and other, the order that asks the least, why each question matters to the user, and how to write a new one. | 2026-10-26 |
 | [design/30-age-limits-by-activity.md](design/30-age-limits-by-activity.md) | research | Age limits by activity and country: which kinds of business are connected with a minimum age (direct or possible) in the UK, Ireland, the USA, Canada, Australia and New Zealand, with the sources, the open conflicts and how the app would use them. | 2026-10-26 |
+| [design/31-positioning-categories.md](design/31-positioning-categories.md) | collection | Positioning categories, collected as given by the owner before any question or layout: user age stages, buyer age stages, accessibility and caregiving cross-sections, buyer categories, buyer and user relationships, the offering purpose taxonomy and the relationship-to-purpose mapping, with what it leaves open. | 2026-10-27 |
 
 ## The specifications (`specifications/`)
 
