@@ -297,3 +297,16 @@ This extends sections 7 (purposes) and 8 (mapping); 9C item 3 (information for n
 (Productivity and Business Growth are one block in the owner's text; sections 7 and 8 keep them as two purposes. The other purposes of section 7 were not covered in this paste.)
 
 **Use for the layout step (proposal, not decided):** the "matters most" column is the content of the six things that matter to the End User (list E of doc 32), grouped by stage; the "delivers" column is output of the offering and is **not** a customer category, so it is not collected as one.
+
+## 9E. Decisions on the three observations of 9D (owner's pasted answer, 2026-10-27)
+
+The owner pasted an answer that agrees with all three proposals. Recorded as decisions:
+
+1. **Relationship and buyer type: agreed.** A relationship (Family member, Business partner) never fixes the buyer type. It is a **context and a suggestion** only. The type comes from **who consumes the offering**: if the buyer is not among the users, the buyer is a **Proxy Buyer**; if the buyer is one of the users, the buyer is a **Dual-Intent Buyer**. The same relationship can therefore give either type (a sibling's single seat is Proxy; a shared family tier used by both is Dual-Intent).
+2. **Caregiver override: stays out for now.** It is deferred to the legal rules of each country. The data-separation principle stays (a buyer does not see the end user's behavioural data). The pasted answer names HIPAA (US) and GDPR (EU) as the reasons: HIPAA needing documented authority such as a power of attorney or guardianship, and GDPR needing verifiable consent before health data reaches a third party. **These two statements are the pasted answer's own; they have not been checked against the laws or a source** and are not relied on until they are (doc 30 and 31, 9A hold the verified legal anchors).
+3. **Age bands: agreed.** The stage terms and their edges are the only bands used; the collective phrases of the purposes text are read as groups of stages:
+   - "Teenagers (11 to 18)" = Early Adolescence (from 11 up to 13), Mid Adolescence (from 13 up to 16), Late Adolescence (from 16 up to 18).
+   - "Working Adults (18 to 65)" = Young (from 18 up to 25), Established (from 25 up to 40), Peak (from 40 up to 55), Mature (from 55 up to 65).
+   - An event tied to an age (for example a payment option at 16) is tied to the stage edge, so it fires exactly there.
+
+The pasted answer also speaks of fields and flows of a database (a stored buyer class, identifier comparisons). They are **not recorded**: the schema was deleted (9C item 6) and the structure is not yet agreed.
