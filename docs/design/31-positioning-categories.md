@@ -167,3 +167,137 @@ This is a practical starting model, not a fixed classification. For example, a p
 6. **Accessibility (3) and caregiving (4) are "cross-sections"** of the user and the buyer, not stages: whether they are questions, tags on a Profile, or both is for the design.
 7. **The earlier attempt.** The four End User questions built on 2026-10-26 (doc 28, 8.2, I7d to I7g) were a smaller, earlier structure; whether they stay, change or go once this structure is agreed is for the owner.
 8. **Sources.** None of these lists has a source yet (rule 14: plain lists need a business-school or university document, classifications an official one). The age-stage names (Infancy, Toddlerhood, Early Childhood, Middle Childhood, Early, Mid and Late Adolescence) are developmental-psychology terms and can be sourced; the buyer and purpose taxonomies are the owner's.
+
+## 10. Proposed database schema and state machine (collected 2026-10-27; as given, not adopted)
+
+The owner pasted a proposal "to support this multi-dimensional system": an entity-relationship schema that separates identity and authentication from transactional roles, and a state machine for the age stages. It is kept as given (the tool's "Use code with caution." lines and the emoji in the headings are dropped). **It is a collection, not a decision**: see 11 for what it needs to be checked against.
+
+### 10.1 Conceptual model
+
+A centralized `Accounts` table can spawn an individual profile (`IndividualProfiles`) or institutional structures (`InstitutionalProfiles`).
+
+- An individual profile maps to an age stage.
+- Transactions map to a `BillingAccounts` entity, which holds the buyer category flag (Direct, Proxy, Dual-Intent).
+- The connection between a buyer and an end user is documented through a bridge table (`BuyerUserRelationships`), which assigns the relationship type and logs the purpose mapping.
+
+### 10.2 SQL data definition (as pasted)
+
+```sql
+-- Enums for Taxonomy Constraints
+CREATE TYPE age_stage_enum AS ENUM (
+    'INFANCY_BABYHOOD', 'TODDLERHOOD', 'EARLY_CHILDHOOD_PRESCHOOL', 
+    'MIDDLE_CHILDHOOD_GRADESCHOOL', 'EARLY_ADOLESCENCE', 'MID_ADOLESCENCE', 
+    'LATE_ADOLESCENCE', 'YOUNG_ADULT', 'ESTABLISHED_ADULT', 'PEAK_ADULT', 
+    'MATURE_ADULT', 'ACTIVE_RETIREE', 'DEPENDENT_SENIOR'
+);
+
+CREATE TYPE buyer_class_enum AS ENUM ('DIRECT_FULLY_AUTONOMOUS', 'DIRECT_SEMI_AUTONOMOUS', 'PROXY', 'DUAL_INTENT');
+
+CREATE TYPE interaction_model_enum AS ENUM ('B2C_PERSONAL', 'B2B_CORPORATE', 'B2G_PUBLIC_SECTOR', 'G2B_REGULATORY');
+
+-- Core Identity Tables
+CREATE TABLE Accounts (
+    account_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    email VARCHAR(255) UNIQUE NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IndividualProfiles (
+    profile_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    account_id UUID REFERENCES Accounts(account_id) ON DELETE CASCADE,
+    first_name VARCHAR(100),
+    date_of_birth DATE NOT NULL,
+    current_age_stage age_stage_enum NOT NULL,
+    is_neurodivergent BOOLEAN DEFAULT FALSE,
+    has_mobility_needs BOOLEAN DEFAULT FALSE,
+    has_sensory_needs BOOLEAN DEFAULT FALSE,
+    accessibility_notes TEXT
+);
+
+CREATE TABLE InstitutionalProfiles (
+    institution_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    account_id UUID REFERENCES Accounts(account_id) ON DELETE CASCADE,
+    legal_name VARCHAR(255) NOT NULL,
+    tax_identifier VARCHAR(50) UNIQUE NOT NULL,
+    interaction_model interaction_model_enum NOT NULL
+);
+
+-- Financial / Purchasing Infrastructure
+CREATE TABLE BillingAccounts (
+    billing_account_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    owner_account_id UUID REFERENCES Accounts(account_id) ON DELETE RESTRICT,
+    buyer_class buyer_class_enum NOT NULL,
+    payment_method_type VARCHAR(50) NOT NULL, -- 'CREDIT_CARD', 'CASH_WALLET', 'GIFT_CARD_BALANCE'
+    is_active BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE Offerings (
+    offering_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    title VARCHAR(255) NOT NULL,
+    base_price DECIMAL(10, 2) NOT NULL,
+    allowed_min_age INT DEFAULT 0,
+    allowed_max_age INT DEFAULT 150,
+    primary_purpose_code INT NOT NULL -- Maps to the 12 Offering Purposes
+);
+
+-- Relational Bridge Tables (Crucial for Proxy / Dual-Intent transactions)
+CREATE TABLE BuyerUserRelationships (
+    relationship_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    buyer_account_id UUID REFERENCES Accounts(account_id) ON DELETE RESTRICT,
+    user_profile_id UUID REFERENCES IndividualProfiles(profile_id) ON DELETE CASCADE,
+    relationship_type VARCHAR(100) NOT NULL, -- Matches specified taxonomy examples
+    is_household_shared BOOLEAN DEFAULT FALSE,
+    CONSTRAINT unique_buyer_user_rel UNIQUE(buyer_account_id, user_profile_id)
+);
+
+CREATE TABLE Transactions (
+    transaction_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    billing_account_id UUID REFERENCES BillingAccounts(billing_account_id),
+    offering_id UUID REFERENCES Offerings(offering_id),
+    buyer_account_id UUID REFERENCES Accounts(account_id),
+    target_user_profile_id UUID REFERENCES IndividualProfiles(profile_id), -- The literal recipient
+    purchased_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    amount_paid DECIMAL(10, 2) NOT NULL
+);
+```
+
+### 10.3 State-machine rules and lifespan progression
+
+As time passes, a user profile naturally transitions between the age stages. These transitions trigger database hooks that upgrade or downgrade financial permissions and UI configurations.
+
+```
+[ Minor / Child Stages ] --(At Age 11)--> [ Early/Mid Adolescence ] --(At Age 16)--> [ Late Adolescence ]
+                                                                                            |
+                                                                                    (Triggers Payment Tag Toggle)
+                                                                                            |
+                                                                                            v
+[ Fully Autonomous Adult ] <--(At Age 18)-- [ Semi-Autonomous Buyer Permission ] <----------+
+```
+
+**State-machine transition catalog**
+
+| Current stage | Target stage | Trigger condition | System automation rules and actions |
+|---|---|---|---|
+| Middle Childhood (5–11) | Early Adolescence (11–13) | System cron job processes a profile whose date of birth reaches the 11th year | Trigger COPPA compliance shift: allow the user profile to have a separate display identity. Unlock peer-interaction features (social connectivity tools). |
+| Mid Adolescence (13–16) | Late Adolescence (16–18) | Profile hits the 16th birthday | Toggle flag: append `Is_Eligible_Micro_Buyer = TRUE`. UI mutation: enable "Cash Checkouts", "Gift Card Redemption Portals" and alternative digital wallet integrations. |
+| Late Adolescence (16–18) | Young Adult (18–25) | Profile hits the 18th birthday; legal status = Major | Upgrade permission: convert the `buyer_class` fallback status from `DIRECT_SEMI_AUTONOMOUS` to `DIRECT_FULLY_AUTONOMOUS`. Remove restrictions: allow entry into recurring subscription contracts, auto-billing and credit services. Strip parent or guardian absolute profile-oversight flags, splitting data privacy completely. |
+| Mature Adult (55–65) | Active Retiree (65–74) | Profile hits the 65th birthday, or the user voluntarily updates the status to "Retired" | Engine shift: update recommender filters from Productivity & Efficiency or Business Growth toward Health & Care, Entertainment and Social Connection. |
+| Active Retiree (65–74) | Dependent Senior (74+) | Profile hits the 74th birthday, or a linked caregiver profile initiates a certified Eldercare Proxy request | Activate shared access: enable multi-profile read and write permissions for the verified caregiver account. Accessibility injection: force the system UI to default to accessible configurations (large fonts, screen-reader compatibility, simplified navigation). |
+
+### 10.4 Specialized dynamic injections (the caregiving status loop)
+
+Roles such as becoming a primary childcare provider or a sandwich-generation caregiver do not happen chronologically, so they are initiated by user input or transaction signatures:
+
+- **Rule (dynamic initialization):** if an account with an Established Adult profile triggers a transaction where `Offering.primary_purpose_code = 1` (Learning and Development) for a linked minor profile, the system updates the account's context metadata tag with `is_active_caregiver = TRUE`.
+- **Rule (temporary need expiration):** when an account possesses a Temporary Need modifier flag (for example medical-leave recovery or an acute mobility constraint), the system sets a mandatory database TTL (time-to-live) timestamp on that accessibility layer. When the window closes, the UI reverts to the native profile configuration unless the buyer extends it.
+
+## 11. Points to check this proposal against (observations only; nothing is decided)
+
+1. **What system it describes.** The schema models a **marketplace or product platform that has customers, accounts and transactions**. This app is a planning tool for a founder (local, one organization, no customer accounts, no payments): it holds a founder's *description* of customers, not the customers' own records. Whether the schema is the founder's future product (a model the app helps plan), the app's own data model, or a reference for how the categories relate, is for the owner to say.
+2. **The categories differ from sections 1 to 5.** The enum has 13 stages: it has no Baby, Child, Teenager, Working Adult or Seniors parents (the groupings of 1), only the leaves. The buyer classes split the Direct buyer into two (Fully and Semi-Autonomous) and keep Proxy and Dual-Intent, so the owner's three buyer categories (5) and the two age-based buyer stages (2) are mixed in one enum. The accessibility fields are three booleans, while the owner's cross-sections (3) are duration (temporary, permanent) by functional category (physical, sensory, cognitive); the caregiving roles (4) have three dimensions that the schema holds as one tag.
+3. **Age boundaries.** The transitions use "at age 11", "16", "18", "65" and "74", with no rule for the exact day or for the stages the catalog does not list (Baby to Child, Child to Teenager, 18 to 25 to 40 to 55). The catalog starts Early Adolescence at 11 and cites COPPA, whose line is **under 13**; the online consent ages differ by country (13 UK, 16 Ireland, 13 USA, 14 Quebec; Australia's social media minimum is 16; see doc 28, 6.3 and doc 30). A transition by country, not by one age, would be needed.
+4. **Inference from age.** Moving a person to "Dependent Senior" at 74, switching their interface to accessible settings, and changing a recommender from Productivity to Health because of a birthday are **inferences from age**. The question guide (doc 28, 11.5) says the app **never infers skill or need from age** (the evidence shows wide variation within a band). The stage name "Dependent seniors" needs a rule that does not assume dependence from age (for example the user, or a linked carer, says so).
+5. **Sensitive data.** Neurodivergence, mobility and sensory needs, a minor's date of birth and a certified eldercare request are special-category or children's data in the six countries (doc 28, section 12; doc 30, row 19). Storing them as plain profile columns, with a flag set automatically by a purchase (`is_active_caregiver` from buying a learning product), is the kind of inference doc 28, section 12 asks to avoid.
+6. **Legal capacity.** "Legally restricted from subscription contracts or credit lines" for 16 to 18 and "full legal capacity" from 18 follow an age of majority of 18, but doc 30 (rows 10 and 21) shows it is 18 or 19 by Canadian province, that contracts with minors are voidable or unenforceable in different ways by country, and that credit under 21 differs in the USA.
+7. **Gaps against the owner's lists.** The 12 purposes appear only as `primary_purpose_code INT` (one purpose for each offering, while the mapping table of 8 has several primary purposes for a relationship); the 22 relationships are a free `VARCHAR(100)`; the four interaction models are the four Positioning relationship models (B2C, B2B, B2G, G2B) but the institutional table has no link to the buyer categories; the permissions of a caregiver (shared read and write access) have no table.
+8. **What is useful as it stands.** The idea that **identity and the transactional role are separate, and one person can be a buyer, a user, or both over time** (a bridge table between a buyer and an end user, with the relationship type and the purpose) matches the owner's categories in 5 and 6 and the app's rule that the Segment describes the buyer and a Profile the user.
