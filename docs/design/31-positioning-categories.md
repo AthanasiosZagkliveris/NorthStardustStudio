@@ -170,15 +170,45 @@ This is a practical starting model, not a fixed classification. For example, a p
 
 ## 9. What the collection leaves open (for the design step; nothing is decided here)
 
-1. **Age boundaries.** The stages share edges: Baby "up to 3" and Toddlerhood "1 to 3"; Child "3 to 11" with Middle Childhood "5 to 11"; Teenager from 11 while Early Adolescence is "11 to 13"; 18, 25, 40, 55, 65 and 74 each end one stage and start the next. A rule is needed for which stage an exact age belongs to (for example "from, up to but not including"). The doc 28 bands (0 to 2, 3 to 5, 6 to 9, 10 to 12, 13 to 15, 16 to 17, 18 to 24, 25 to 34 and so on) and these stages do not coincide.
+1. **Age boundaries: decided on 2026-10-27** (owner): **one fixed set of stages with an edge rule, "from X up to but not including Y"**. See 9B for the stages written that way. The doc 28 bands (0 to 2, 3 to 5, 6 to 9, and so on) are a different set and are not used for these stages.
 2. **Minors, working adults and seniors overlap other lists.** The buyer stages (2) now use the user stage names for 18 to 74, so those two lists are **one vocabulary used twice**: a buyer stage is the user stage of the same name. The Late Adolescents (16 to 18) are a user stage and the buyer category Micro-Buyers: the same people described twice, once as a user and once as a buyer.
 3. **The Buyer's age stages (2): settled on 2026-10-27** as the Micro-Buyers (16 to 18) and 18 to 74 in the user's stage names. Still open: the other buyer categories (5: Proxy Buyers, Dual-Intent Buyers) have no age-stage detail, and whether a minor may buy on behalf of someone else varies by country (doc 30).
 4. **The mapping table (8): resolved on 2026-10-27.** The owner's complete table has 12 cells in every row (checked). My earlier reading (that only the Access & support column had been dropped) was **only partly right**: in several rows the cells had also moved (for example Sponsor or funder, Other personal relationship, Public authority to citizens and to beneficiaries), so the second paste replaces the first as a whole.
 5. **Relationship lists (6) and the Positioning answers.** The 22 relationships of 6 (six personal, six business, five public sector, five government-to-business) sit under the four relationship models of Early Positioning (B2C, B2B, B2G, G2B Context), each with an "Other" row. The mapping table (8) lists 15 relationships, fewer than the 22 of 6. The buyer categories of 5 (Direct, Proxy, Dual-Intent) are a different cut from "Proxy Buyers / Gifters" in the life-stage question; how they relate is for the design.
 6. **Accessibility (3) and caregiving (4) are "cross-sections"** of the user and the buyer, not stages: whether they are questions, tags on a Profile, or both is for the design.
 7. **The earlier attempt.** The four End User questions built on 2026-10-26 (doc 28, 8.2, I7d to I7g) were a smaller, earlier structure; whether they stay, change or go once this structure is agreed is for the owner.
-8. **Tailoring by country (owner, 2026-10-27: "or tailor it according the country laws and legislation").** Two ways to settle 1 and 3, not yet chosen **[D]**: **(a) one fixed set of stages** with a stated edge rule ("from X up to but not including Y", which every list above already follows where it says "18 to 25, 25 to 40"), the same in every country; or **(b) the stages stay fixed for describing people, and the legal ages that change what a business may do are tailored by the country of the customers** (G3). Section 9A gives the legal anchors found so far; they differ by country, which favours (b) for anything that blocks or warns (minimum ages, consent, contracts, work), and (a) for the plain description of a customer.
+8. **Tailoring by country: decided on 2026-10-27** (owner: "any differentiation per country should be done automatically on the app"). The stages do not change by country (item 1). What changes by country is **what the law does at an age**: the ages of 9A (consent, majority, alcohol, tobacco, credit, work and so on). **The app applies them from the customers' country without the user entering them** (see 9B).
 9. **Sources.** None of these lists has a source yet (rule 14: plain lists need a business-school or university document, classifications an official one). The age-stage names (Infancy, Toddlerhood, Early Childhood, Middle Childhood, Early, Mid and Late Adolescence) are developmental-psychology terms and can be sourced; the buyer and purpose taxonomies are the owner's.
+
+## 9B. Decisions of 2026-10-27 and what follows from them (owner)
+
+**1. Fixed stages, one edge rule.** A stage is the ages from X up to but not including Y: a person aged exactly 11 is in the next stage, not the previous one. Written that way, the owner's lists are (Y of the last stage is open):
+
+| Group | Stage | From (inclusive) | Up to (not including) |
+|---|---|---|---|
+| Minors | Baby: Infancy / Babyhood | birth | 12 months |
+| | Baby: Toddlerhood | 12 months | 3 years |
+| | Child: Early Childhood / Preschool | 3 | 5 |
+| | Child: Middle Childhood / Grade School | 5 | 11 |
+| | Teenager: Early Adolescence | 11 | 13 |
+| | Teenager: Mid Adolescence | 13 | 16 |
+| | Teenager: Late Adolescence | 16 | 18 |
+| Working Adult | Young | 18 | 25 |
+| | Established | 25 | 40 |
+| | Peak | 40 | 55 |
+| | Mature | 55 | 65 |
+| Seniors | Active Retirees | 65 | 74 |
+| | Dependent seniors | 74 | no limit |
+
+The groups are the same intervals joined: Baby [0, 3), Child [3, 11), Teenager [11, 18), Minors [0, 18), Working Adult [18, 65), Seniors [65, no limit). The **buyer stages** are the same names over [18, 74) and the Micro-Buyers over [16, 18) (section 2). A person aged exactly 74 is a Dependent senior and so is **not** in a buyer stage; this follows from "18 to 74" with the rule and is for the owner to confirm.
+
+**2. The country's law is applied automatically.** The stages are the same in every country; **what the law does at an age is looked up by the app from the customers' country** (the Organization's country, or the Segment's main country, G3) and never typed by the user. This is the doc 28 principle "fill in what is known". What follows, as design requirements (not built):
+
+- a **table of legal ages by country** inside the app, one row for each rule of 9A (age of majority, online consent, alcohol, tobacco and vapes, credit, employment, and the activities of doc 30), each with its **status** (opened, excerpt, not found) and its source, kept up to date like the jurisdiction profiles and the classifications;
+- a rule is **shown or applied only from its status**: an opened or excerpt rule drives a note or a Review check, "not found" says "check the rule for your area" and drives nothing (doc 28, 10.3);
+- for a country outside the six, the stages and the plain lists stand and the legal ages say "check the law of that country";
+- where a country's law varies inside it (Canada by province, the USA and Australia by state), the app takes the **region of the Organization** where it is known, else the strictest age found and says so;
+- a rule can be **dated** (the UK's tobacco age for people born from 2009, Ireland's 21 from 2028, Australia's social media age from 10 Dec 2025): the app uses the date it applies from.
 
 ## 9A. Legal anchors by country (from docs 28 and 30; for the tailoring option in 9.8; not decisions)
 
