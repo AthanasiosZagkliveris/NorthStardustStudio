@@ -310,3 +310,48 @@ The owner pasted an answer that agrees with all three proposals. Recorded as dec
    - An event tied to an age (for example a payment option at 16) is tied to the stage edge, so it fires exactly there.
 
 The pasted answer also speaks of fields and flows of a database (a stored buyer class, identifier comparisons). They are **not recorded**: the schema was deleted (9C item 6) and the structure is not yet agreed.
+
+## 9F. Answers to the remaining open points, and the lifecycle matrix (owner's pasted text, 2026-10-27)
+
+Two texts were pasted: nine answers to the open points of the last report, and a lifecycle matrix of the four stages. Each point is recorded as the owner's answer, **checked against doc 28 (as built) and against the other text**. Where they disagree, both are shown and the point stays open; nothing is changed in the app.
+
+### 1. Recorded as answered
+
+| # | Point | Answer | Check |
+|---|---|---|---|
+| 3 | Which relationships are asked for Proxy and Dual-Intent buyers | **All 22** (six personal, six business, five public sector, five government-to-business), whenever the buyer is Proxy or Dual-Intent. The chosen relationship is a suggestion that gives context and locks nothing. The reading of the cut-off sentence was right | Agrees with 9E 1 |
+| 4 | What the buyer categories get beyond age stages | Rules apart from age: **data separation** (a pure Proxy Buyer does not see the End User's behavioural or usage data; at group level); **contract and liability flags** (may the buyer sign binding subscriptions, recurring billing or credit: fully autonomous or restricted); **payment routing** (cash and wallets for Micro-Buyers; invoices and procurement for corporate proxies) | The first agrees with 9E 2. The second and third are the product's rules and the country's law (9A); they are recorded as the rules to be applied by country, not as customer questions |
+| 5 | Micro-Buyers (16 to 18) | **Not a separate buyer category.** They are a restricted sub-category under **Direct Buyers**, with the same ages as the Late Adolescence user stage, and carry a limit on payment methods (debit, cash or gift cards; no credit, invoices or long binding subscriptions) | Agrees with doc 31 section 2 and closes 9 item 2 and 3 |
+| 6 | Master relationship list | **The 22 relationships.** The 15-row table of section 8 is a condensed view only; menus and logic use the 22 | Closes 9 item 5 (the 22 rows need a mapping; see 2 below) |
+| 7 | Accessibility and caregiving | **Both**: asked as onboarding questions about the groups the offering serves, then **saved as tags on the Profile**; later modules (the journey, the Value Proposition prompt) read the tags | Agrees with 9C 4. Wording about "font contrast and tap-target sizing" is the Offering's accessibility features, not Positioning (9D 2.5) |
+| 8 | Purposes and mapping | **Information and ordering only**, never a restriction: ● and ○ feed the "i" of the relationship; the matrix reorders the purpose options, most relevant first | Agrees with 9C 3 |
+| 9a | Mid-Market | An autonomous scale segment under B2B audiences, mapped to **50 to 249 employees** | **Confirmed**: doc 28 (I7b, audience scale mapping) already says "Mid-Market: 50 to 249" |
+
+### 2. A gap this opens (for the design step)
+
+The mapping table (section 8) has 15 relationships and the lists have **22**, so **seven relationships have no row in the purpose table**. If the table orders the purposes for each relationship, the seven need rows, or they fall back to no ordering. The 15 and the 22 are not matched by name in the owner's material; the seven would have to be named by the owner.
+
+### 3. Where the pasted texts disagree with doc 28 or with each other (still open)
+
+| Point | Text 1 (nine answers) | Text 2 (lifecycle matrix) | Doc 28 as built |
+|---|---|---|---|
+| **Multi-sided platform at Planning and Launching** (9) | **Confirmed**: every side is asked its audience and its Differentiation & Outcome **at every stage**; the anchor-side rule is decommissioned; each side is its own Segment frame | The **old rule**: Planning and Launching answer for the **anchor side only**, an "i" says so, nothing splits; sides split only from Managing | The old rule (8.2). **The two texts contradict each other.** Both cannot stand |
+| **Segments allowed** | "1 primary segment (maximum 2)" in Planning and Launching; any from Managing and Growing | Planning 1; Launching **2**; Managing **3**; Growing unlimited | Planning 1; Launching **1**; Managing **2**; Growing any (the Business stage row of the Segment table). **Three different sets** |
+| **When Managing and Growing begin** | not stated | Launching 0 to 12 months, Managing **12 to 36**, Growing **36 and over** | Settings defaults: Launching 12 months, Managing **12 months** (to 24), Growing **3 years** (24 to 60); the durations are set in the Global Settings. The matrix's 36 does not match |
+| **Relationship and audience choices** | not stated | Planning 1, Launching 1, Managing 2, Growing any; Differentiation 1, 2, 2, any | Same as doc 28 |
+| **Segment frames for sides** | each side its own frame at every stage | frames split only from Managing | Doc 28: each side of a platform is its own Segment frame |
+| **The End User block (I7d to I7g)** | Kept; shown only when the B2C life stage is Proxy Buyers / Gifters; emptied otherwise; feeds Business 1 | Shown from **Launching** when B2C selects Proxy Buyers / Gifters | Built as shown whenever the audience has Proxy (any stage). Whether it is also hidden at Planning is not stated |
+| **What the End User block fills in** | Pre-fills the second Profile's **age stage (from I7d)** and maps the user's **core desires to P21** | Appends a second profile with **P21** ticked and the age limits and **core desires** copied | Doc 28: P21 is only the flag **"They will use it"**; the Profile's age is P1. **P21 is not a field of desires**, so "desires into P21" cannot be done as worded; the desires would need another place |
+
+**Not asked of the owner again, as they follow from the above:** the segment limits, the stage boundaries and the multi-sided rule are one decision to make once, because the lifecycle matrix and the nine answers would otherwise give two rules for the same stage.
+
+### 4. The Stage-Shift Reset Engine (text 2)
+
+When the Opening Date or the durations change the stage, the answers that no longer fit are **emptied to the default** and the dependent cards are **flagged for review**; the ones that still fit stay. **This is already the built rule** (doc 28, 8.2: "The answers follow the stage", owner 2026-10-25), and the example (Managing with two audiences, Opening Date moved into the future: back to Planning, name back to Early Positioning, the second audience emptied, the second Segment flagged) matches it.
+
+### 5. Other statements of text 2, checked
+
+- **Tile names** (Early Positioning; Core Market Positioning; Corporate & Portfolio Positioning): match doc 28.
+- **Planning: Central Government and Heavily Regulated Markets locked; open from Managing** (the text says Growing): doc 28 says **open from Managing**; the text's "fully open in Growing" is **a difference**.
+- **Estimate basis (D1)**: forecasts only in Planning, forecasts and pilots in Launching, actuals from Managing: matches doc 28 (I8, D1).
+- **Growing: contracts or tenders row and public-sector 30-day payment notices** (B2G and G2B): described in the text; not checked in doc 28 in this pass.
