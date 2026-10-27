@@ -412,3 +412,32 @@ P21 is only the flag "They will use it" (who plays which part in the decision), 
 | 22 | Other institutional relationship (government to business) (new row) |  |  |  |  |  | ● | ● |  |  | ● | ● | ○ |
 
 **Checked against section 8:** differences from the 15 rows: Government serving business owners or operators: was o....BB.oBBB now .....BB.oBBB. The **seven new rows** are marked (new row): the text does not say who drew them or on what basis; they have **no source** and stay the owner's wording. Row 18 replaces the single row "Government to businesses" of section 8, which is now split into rows 18 to 22 by the sub-types of 6.4.
+
+## 9H. The routing of the End User answers, and the 22 rows confirmed (owner's pasted text, 2026-10-27)
+
+**Confirmed:** the **seven new rows** of 9G (12, 16, 17, 19, 20, 21, 22) stand as worded, and the **blank Learn & develop cell of row 18** is confirmed. The 22-row table of 9G is the working set for menus, ordering and the "i" texts. Closes decision 3 of the last report.
+
+**Routing of I7g into the second Profile (the closer matches adopted):**
+
+| I7g, what matters most to the End User | Profile P9 tick (list L1) | Profile P17 tick (list L4) |
+|---|---|---|
+| Enjoyment and fun | (none) | Express who they are |
+| Comfort and ease | Ease and convenience | Save time |
+| Safety and care | Safety and low risk | Lower their risk |
+| Learning and growth | Expert knowledge | Learn something new |
+| Looks and belonging | Shared values or identity | Express who they are |
+| Practical use | Ease and convenience | Save time |
+
+**Routing of I7f (who chooses) into the Profile's P21, "What part do they play in the purchase":** the Buyer chooses alone gives only "They will use it" (the decision flags stay with the buyer's own Profile); the End User asks and the Buyer approves gives "They will use it" and "They influence the decision"; the End User chooses and the Buyer pays gives "They will use it" and "They make the final decision".
+
+**I7e (the Buyer's relationship with the End User):** the text says it fills a "Relationship Type" field on the new Profile and is cross-checked against the 22 rows.
+
+**Checked against doc 28:**
+1. Every target exists: the six L1 options and the six L4 options of the table are in the lists, and the three P21 options are in P21.
+2. **Comfort and ease and Practical use give the same two ticks, and Enjoyment and fun and Looks and belonging give the same P17 tick**: two answers cannot be told apart once routed. The table is kept as the owner wrote it.
+3. **Enjoyment and fun gives no P9 tick.** The text's own sentence first says it maps to "Save time or Get better results" and then that it stays unmapped to L4 and goes to Express who they are only as a fallback; the table (Express who they are, no P9) is followed.
+4. **"Relationship Type" is not a field of the Profile.** In doc 28 "the relationship type" (7.4, J3) means how the business keeps the relationship with customers (self-service, personal assistance, and so on), a different thing. A Profile has no field for the buyer's relationship with the user. The field would be a new one; it is **not built or specified**, and the name collides with 7.4.
+5. **I7e has three answers** (Parent or carer; Another family member; Partner, friend or colleague) while the cross-check is with **22 rows**. No mapping between the three and the 22 is given, and the three predate the structure (the age and relationship lists were to follow the stage terms and the 22 relationships, 9C item 5). Cross-checking is **not yet possible** without that mapping, or without I7e being replaced by the 22 relationships.
+6. P9 allows up to 3 ticks and I7g allows at most 2 answers, so the routed ticks always fit; they are **proposals the user can change**, never fixed.
+
+Nothing is built; the End User questions of the app (I7d to I7g) still hold the earlier lists.
