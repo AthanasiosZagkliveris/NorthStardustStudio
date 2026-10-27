@@ -441,3 +441,18 @@ P21 is only the flag "They will use it" (who plays which part in the decision), 
 6. P9 allows up to 3 ticks and I7g allows at most 2 answers, so the routed ticks always fit; they are **proposals the user can change**, never fixed.
 
 Nothing is built; the End User questions of the app (I7d to I7g) still hold the earlier lists.
+
+## 9I. I7e replaced by the 22 relationships, and the Profile field (owner's pasted text, 2026-10-27)
+
+1. **I7e is replaced by the 22-relationship list.** The three legacy answers (Parent or carer; Another family member; Partner, friend or colleague) go. When the buyer is a Proxy Buyer or a Dual-Intent Buyer, the question offers the relationships of the model in use (B2C: the six personal; B2B: the six business; B2G: the five public sector; G2B: the five government-to-business), each with its "Other". The chosen relationship matches a row of the 22-row purpose table (9G 3) one to one, so the "i" text and the ordering of the purposes read from it. The relationship is a suggestion and locks nothing (9E 1).
+2. **The Profile field is P25, "Buyer's Relationship to this User"** (the text's internal name is `buyer_user_context`). On the user's auto-proposed Profile it is pre-filled with the relationship chosen in I7e and the user can change it. It is named apart from "relationship type" (7.4, J3: how the business keeps its customer relationship), so the two no longer collide.
+3. **The routing of 9H is final**, including the overlaps: Comfort and ease and Practical use give the same ticks, Looks and belonging and Enjoyment and fun give the same P17 tick, and Enjoyment and fun gives **no P9 tick** and only Express who they are in P17. The ticks are starting proposals the founder can change on the Profile.
+
+**Checked against doc 28:**
+- **P25 is free** (doc 28's Profile questions end at P24; P23 is withdrawn).
+- **"Dual-Intent Buyers" is not an option of I7b.** The option in doc 28 is **Proxy Buyers / Gifters** only; no option, rule or question names a Dual-Intent buyer. The text speaks of selecting "Proxy Buyers / Gifters or Dual-Intent Buyers", so I7b would need a **new option** (or another way to say that the buyer also uses it). The auto-proposed second Profile for a Dual-Intent buyer is also not described: the buyer is one of the users, so a second Profile is for the dependents. That is **not yet decided**.
+- **The relationships by model** repeats doc 31 section 6 (six, six, five, five). The 9F answer "all 22 relationships are asked" is read as "the 22 are the list; a given question shows those of its model" (the owner's 9F item 5: the 22 sit under the four models).
+- **I7e's stored values** (rel:parent, rel:family, rel:friend, already in the app and in the example files) would be replaced by the 22; the old ones need to be migrated when this is built.
+- The text also names a database model for the field (a tracking string on a profiles model). It is **not recorded**: the schema was deleted and the structure is not yet agreed.
+
+Nothing is built.
