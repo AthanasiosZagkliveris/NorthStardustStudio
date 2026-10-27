@@ -37,7 +37,7 @@ Status: **index**, updated 2026-10-27. One line per document: where it is, what 
 | [design/01-current-design.md](design/01-current-design.md) | current design | Every kind of element the Foundation capability is built from, by layer. | 2026-10-25 |
 | [design/02-references.md](design/02-references.md) | reference | Every decision in the app and the source behind it. | 2026-10-25 |
 | [design/03-research.md](design/03-research.md) | reference | The research record: sources, findings, how they were weighed. | 2026-10-14 |
-| [design/04-log.md](design/04-log.md) | log | History, changes and updates, newest on top. Every change is written here, nowhere else. | 2026-10-26 |
+| [design/04-log.md](design/04-log.md) | log | History, changes and updates, newest on top. Every change is written here, nowhere else. | 2026-10-27 |
 | [design/05-not-done-yet.md](design/05-not-done-yet.md) | living list | The road, the plans and what has not been done yet. | 2026-10-25 |
 | [design/06-catalogue-record.md](design/06-catalogue-record.md) | generated | The catalogue record of the app's pages, fields and cards. | 2026-10-15 |
 | [design/07-structure-tables.md](design/07-structure-tables.md) | generated | The structure tables (npm run tables). | 2026-10-22 |
@@ -61,10 +61,11 @@ Status: **index**, updated 2026-10-27. One line per document: where it is, what 
 | [design/25-tooltips.md](design/25-tooltips.md) | current design | Which controls have a tooltip, what it says, and the five rules. | 2026-10-25 |
 | [design/26-folder-plan.md](design/26-folder-plan.md) | proposal | The app files, the examples and the working files: what is where, and a three-step plan to separate them. | 2026-10-22 |
 | [design/27-questionnaire-plan.md](design/27-questionnaire-plan.md) | proposal | The questionnaire plan: the one test (does an answer save the founder work), the funnel from Identity to the journey, a worked example, the 42 drivers, the six building blocks, the stages and the decisions. | 2026-10-26 |
-| [design/28-questionnaire-specification.md](design/28-questionnaire-specification.md) | proposal | The questionnaire specification: the countries and shared lists with examples, the industry list in two levels, every question and option, the connection map with its evidence, the equality rules, the moves and the decisions. | 2026-10-26 |
+| [design/28-questionnaire-specification.md](design/28-questionnaire-specification.md) | proposal | The questionnaire specification: the countries and shared lists with examples, the industry list in two levels, every question and option, the connection map with its evidence, the equality rules, the moves and the decisions. | 2026-10-27 |
 | [design/29-question-guide.md](design/29-question-guide.md) | proposal | The question guide: the flow of questions as trees, the key branching questions, what happens on both, mixed, not sure and other, the order that asks the least, why each question matters to the user, and how to write a new one. | 2026-10-26 |
-| [design/30-age-limits-by-activity.md](design/30-age-limits-by-activity.md) | research | Age limits by activity and country: which kinds of business are connected with a minimum age (direct or possible) in the UK, Ireland, the USA, Canada, Australia and New Zealand, with the sources, the open conflicts and how the app would use them. | 2026-10-26 |
+| [design/30-age-limits-by-activity.md](design/30-age-limits-by-activity.md) | research | Age limits by activity and country: which kinds of business are connected with a minimum age (direct or possible) in the UK, Ireland, the USA, Canada, Australia and New Zealand, with the sources, the open conflicts and how the app would use them. | 2026-10-27 |
 | [design/31-positioning-categories.md](design/31-positioning-categories.md) | collection | Positioning categories, collected as given by the owner before any question or layout: user age stages, buyer age stages, accessibility and caregiving cross-sections, buyer categories, buyer and user relationships, the offering purpose taxonomy and the relationship-to-purpose mapping, with what it leaves open. | 2026-10-27 |
+| [design/32-positioning-sources.md](design/32-positioning-sources.md) | research | Sources for the positioning lists: what supports each list of doc 31 (age stages, buyer categories, relationships, purposes, accessibility, caregiving), what has no acceptable source, and the five search result files with every page opened or marked not opened. | 2026-10-27 |
 
 ## The specifications (`specifications/`)
 
