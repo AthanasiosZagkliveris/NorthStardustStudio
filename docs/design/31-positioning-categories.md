@@ -248,3 +248,52 @@ Each of these edges falls inside or between the owner's stages: 13 and 14 inside
 - **R-2. On the Positioning card: identify the buyers with restrictions on ages, per country.** For the buyer stages and categories (section 2 and 5: Micro-Buyers under 18, a minor as a buyer, a Proxy Buyer buying for a minor, a Dual-Intent Buyer with dependents), the card shows what the country's law restricts for that buyer (contracts, subscriptions and credit; age-restricted goods bought by or for a minor; online consent), automatically from the customers' country, with the law's own numbers (the exception of 9B).
 
 Both depend on the table of legal ages by country (9B, 2) and on the research of doc 30. *Where and how they appear on the cards (a note line, an "i", a section) is for the layout step.*
+
+## 9D. Further reading pasted by the owner on 2026-10-27 (collected, not decided)
+
+Four texts were pasted after doc 32: (1) the difference between a **Proxy Buyer** and a **Dual-Intent Buyer**; (2) the **functional categories and duration** of accessibility needs; (3) the **connections** of the buyer types to caregiving, to the relationships and to accessibility; (4) for each of the first eight purposes, **what matters most to the End User** and the **system output**. They are recorded here as the owner's material. **Sources:** the texts cite pages of accessibility.tools, fruto.design, vocab.design, tiimoapp, userway and boia.org, which are vendor or blog sites and are **not accepted sources** (rule 14); one cited page, universaldesign.ie (Centre for Excellence in Universal Design, an Irish national body), is official and is not yet opened. Nothing below changes a list.
+
+### 1. Proxy Buyer and Dual-Intent Buyer, as defined by the owner's text
+
+The single test is: **does the buyer personally consume the offering, or only pay for it?**
+
+| | Proxy Buyer | Dual-Intent Buyer |
+|---|---|---|
+| Consumption | Pays only; the whole offering is used by someone else | Buys one offering that serves the buyer's own need **and** a dependent's |
+| End users | Exactly one (the recipient) | Several: the buyer and the dependents |
+| Payer and user | The payer is not the user | The payer is one of the users |
+| Marketing hook | Duty or relief: "help them stay safe, learn" | Shared value or efficiency: "fun for them, peace for you" |
+| B2C example | A gift card; a walker for a parent | A family streaming plan; a multi-pack museum ticket |
+| B2B example | An IT director buying an engineering tool for engineers | A solopreneur buying a shared office hub |
+
+**This closes the gap in doc 32:** "Dual-Intent Buyers" now has the owner's definition; it still has no accepted source (the text is the owner's wording).
+
+**Not recorded as a requirement of the questionnaire** (they describe how a product's system would work, not what the owner asks about the customer; the database schema was deleted on the owner's instruction): account linkage and forwarding, multi-profile and family-sharing logic, billing, data-sovereignty and administrator rules. They are kept here only as the reason for the two types.
+
+### 2. Observations on the text (for the owner; nothing is changed)
+
+1. **The relationship table in the text** splits each relationship into Proxy examples (caregiver and older adult; mentor and mentee; employer and employee training; intermediary and client; authority and beneficiary; authority and employee) and Dual-Intent examples (spouse or partner; family member; business partner; government serving business). It gives a **starting reading** for open point 2 (the 22 relationships are asked for Proxy and Dual-Intent buyers): the relationship, once chosen, suggests the buyer type. It is a suggestion shown as information, not an inferred answer.
+2. **A relationship does not decide the type.** "Family member" appears under both (a shared album is Dual-Intent; a gift for a relative is Proxy). The **test in section 1 decides**, so the relationship list should not set the type by itself.
+3. **Privacy: two statements conflict.** The text says a Proxy Buyer is **legally restricted from the end user's behavioural data** (data separation), while the purposes text has a caregiver **override that bypasses privacy walls** for health. The owner's earlier principle (9C item 6: no inference of need, special-category data at group level, legal capacity by country) fits the first and not the second. The override is **not recorded as a rule**; it needs the owner's decision and the country's law.
+4. **The age bands in the purposes text differ from the stages**: it uses Teenagers 11 to 18 (the stages have Early 11 to 13, Mid 13 to 16, Late 16 to 18), Working Adults 18 to 65 (the stages end Mature at 65 and have Active Retirees 65 to 74), and Dependent Seniors 74 and over (agrees). The stage terms of section 1 govern; the text's bands are read as the same groups.
+5. **The accessibility text and the earlier list agree** on the five functional categories (visual, auditory, physical or motor, cognitive or learning, speech) and the three durations (permanent, temporary, situational). Section 3 is the list with accepted sources (doc 32); the text's figures (contrast 4.5:1, 200% text, targets 42 to 72 px) are **product-design requirements**, not customer categories, and belong to the Offering's accessibility features, not to Positioning.
+6. **The caregiving text** maps Proxy to eldercare and specialised care with sole or primary caregivers, and Dual-Intent to childcare, the sandwich generation and multigenerational households. It matches the caregiving questions of 9C item 4 as an **expected correlation, not a rule**: a person in one caregiving role can be either buyer type.
+7. **Accessibility as a trigger (text):** permanent and cognitive or motor needs lead to Proxy; temporary and situational needs and shared environments lead to Dual-Intent. Treated as **information only**; the app does not infer a buyer type from a need.
+
+### 3. The purposes: what matters most and what the offering delivers (the owner's text)
+
+This extends sections 7 (purposes) and 8 (mapping); 9C item 3 (information for now) still applies.
+
+| Purpose | Matters most to the End User, by stage and need | What the offering delivers |
+|---|---|---|
+| Learning and Development | Minors: age-appropriate pacing, gamification, skill validation, feedback. Working adults: career speed, credentials, micro-learning. Cognitive accessibility: predictable layout, simple text, error recovery, flexible pace | The learner gets the course; the parent, guardian or employer gets progress and mastery reports. Under 13: no public leaderboards or peer chat (privacy law) |
+| Health, Care and Wellbeing | Dependent seniors and high-needs users: safety, simplicity, comfort, continuous compliance. Working adults: prevention, stress, sensory care | Monitoring and shared profiles; caregiver alerts (see observation 3) |
+| Gifting and Appreciation | Personal relationships: personalisation, delight, recognition. Employees: validation, utility, easy redemption | The buyer completes the purchase; the voucher or code is held until a chosen date |
+| Entertainment and Enjoyment | Teenagers: trends, belonging, immersion, identity. Active retirees: leisure, stimulation, easy navigation. Auditory accessibility (captions) | Recommendations by group; a family plan keeps each profile's history separate |
+| Social Connection and Relationships | Young and established adults: bonding, community, shared household. Active retirees: staying in touch, loneliness | Shared calendars, albums or planners that several people edit together |
+| Productivity, Efficiency and Business Growth | Working adults: output per minute, less admin, revenue, offloading. Keyboard, drag alternatives and text input for speech barriers | Automation, logs, dashboards; bulk licences and single sign-on for employer-to-employee and business-to-client |
+| Protection and Risk Reduction | Parents, guardians, caregivers: peace of mind, predictability. Businesses and governments: compliance, data security, liability | Passive risk reports, backups; alerts to the account holder or administrator |
+
+(Productivity and Business Growth are one block in the owner's text; sections 7 and 8 keep them as two purposes. The other purposes of section 7 were not covered in this paste.)
+
+**Use for the layout step (proposal, not decided):** the "matters most" column is the content of the six things that matter to the End User (list E of doc 32), grouped by stage; the "delivers" column is output of the offering and is **not** a customer category, so it is not collected as one.
