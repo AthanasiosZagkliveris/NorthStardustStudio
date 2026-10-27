@@ -355,3 +355,60 @@ When the Opening Date or the durations change the stage, the answers that no lon
 - **Planning: Central Government and Heavily Regulated Markets locked; open from Managing** (the text says Growing): doc 28 says **open from Managing**; the text's "fully open in Growing" is **a difference**.
 - **Estimate basis (D1)**: forecasts only in Planning, forecasts and pilots in Launching, actuals from Managing: matches doc 28 (I8, D1).
 - **Growing: contracts or tenders row and public-sector 30-day payment notices** (B2G and G2B): described in the text; not checked in doc 28 in this pass.
+
+## 9G. Reconciliation, the End User routing and the 22-row purpose table (owner's pasted text, 2026-10-27)
+
+The owner pasted a text that settles the conflicts listed in 9F, routes the End User answers into the Profile, and gives the purpose table for all 22 relationships. Recorded as the owner's decisions; each was checked against doc 28 and the code.
+
+### 1. The conflicts of 9F are settled: doc 28 and the code stand
+
+| Point | Decision | Check |
+|---|---|---|
+| Multi-sided platform at Planning and Launching | **Anchor side only** (the side critical to the start, usually the payer). The "every side at every stage" rule is **withdrawn**. Separate inputs per side only from Managing and Growing | Equals doc 28 (8.2). My proposal of 9C item 8 is **dropped** |
+| Segments | **1, 1, 2, any** (Planning 1, Launching 1, Managing up to 2, Growing any) | Equals doc 28 and the code |
+| Stage boundaries | Planning 3 months before the Opening Date; Launching 12 months; Managing 12 months (to month 24); Growing 3 years (to month 60) | Equals the Global Settings defaults. The text writes "Growing: 36 months... from month 24 up to month 60"; 36 months is the 3 years |
+| End User block (I7d to I7g) | Shown **at any stage** when the buyer's life stage is Proxy Buyers / Gifters; emptied otherwise | Equals the built behaviour; the "from Launching" of the matrix is dropped |
+| Central Government and Heavily Regulated Markets | **Open from Managing** (month 12), not from Growing | Equals doc 28 |
+
+The lifecycle matrix of 9F is therefore **overwritten** where it differs (segments 1, 2, 3, any; Managing 12 to 36; Growing from 36). Closes the three decisions asked in the last report.
+
+### 2. Where the End User answers go: the Profile's ticks, not P21
+
+P21 is only the flag "They will use it" (who plays which part in the decision), so it cannot hold what the user wants. When the buyer's life stage is Proxy Buyers / Gifters and the app proposes the second Profile for the user, **I7g (What matters most to the End User)** is routed into the Profile's own ticks:
+
+- **P9, "What do they care about most" (list L1, up to 3 ticks)**: Safety and care becomes Trust and reputation; Comfort and ease becomes Ease and convenience.
+- **P17, goals (list L4)**: Learning and growth becomes Learn something new; Enjoyment and fun becomes Express who they are.
+- The age stage still comes from I7d, as the Profile's age (P1).
+
+**Checked, and open:** (a) both targets exist (L1 has Trust and reputation, Ease and convenience; L4 has Learn something new, Express who they are). (b) **Two of the six answers of I7g have no target**: Looks and belonging, and Practical use. They would need a target or stay unmapped. (c) **Safety and care to Trust and reputation, and Enjoyment and fun to Express who they are, are loose matches** (L1 also has Safety and low risk, which is closer to Safety and care; L4 has no fun goal). The text calls the mapping direct; it is a first choice, and the closer matches are listed here for the owner. (d) The rest of I7 (the user's relationship and who decides, I7e and I7f) is not routed by this text.
+
+### 3. The purpose table for all 22 relationships
+
+● primary · ○ possible · blank = low direct relevance. Information and ordering only (9C item 3, 9F 1). This **replaces the 15-row table of section 8** for use; section 8 stays as the first collection.
+
+| # | Relationship | Learn & develop | Health & care | Gift & appreciation | Entertainment | Social connection | Productivity | Business growth | Creation | Everyday needs | Protection | Compliance | Access & support |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | Parent or legal guardian | ● | ● | ○ | ● | ● |  |  | ○ | ● | ● |  | ○ |
+| 2 | Caregiver or person responsible for their care | ○ | ● | ○ | ○ | ● | ● |  |  | ● | ○ | ● | ● |
+| 3 | Family member or relative | ○ | ○ | ● | ● | ● |  |  | ○ | ○ |  |  | ○ |
+| 4 | Spouse or romantic partner | ○ | ○ | ● | ● | ● |  |  | ○ | ○ |  |  |  |
+| 5 | Friend or acquaintance | ○ |  | ● | ● | ● |  |  | ● |  |  |  |  |
+| 6 | Other personal relationship | ○ | ○ | ○ | ○ | ● | ○ |  | ○ |  |  |  | ○ |
+| 7 | Employer providing for employees | ● | ● | ● | ○ | ● | ● | ● | ○ | ● | ● | ○ | ○ |
+| 8 | Business partner or co-owner | ● |  |  |  | ○ | ● | ● | ● | ○ | ● |  |  |
+| 9 | Business serving its clients or customers | ○ | ○ | ○ | ○ | ○ | ● | ● | ● | ● | ● | ○ | ○ |
+| 10 | Professional intermediary acting for a client | ○ | ○ |  |  |  | ● | ● | ● | ○ | ● |  | ○ |
+| 11 | Sponsor or funder | ● | ● | ○ | ○ | ○ | ○ | ○ | ○ | ○ |  |  | ● |
+| 12 | Other business relationship (new row) | ○ |  | ○ |  | ○ | ● | ● | ○ | ● | ○ | ● |  |
+| 13 | Public authority providing for employees | ● | ○ |  |  | ○ | ● |  |  | ○ | ● | ○ | ○ |
+| 14 | Public authority providing for citizens or residents | ● | ● |  | ● | ● | ○ |  | ○ | ● | ○ | ○ | ● |
+| 15 | Public authority providing for service recipients or beneficiaries | ● | ● |  | ○ | ● | ○ |  |  | ● | ○ | ○ | ● |
+| 16 | Public authority acting through another institution or service provider (new row) | ○ | ○ |  |  |  | ● |  |  | ○ | ● | ● | ● |
+| 17 | Other institutional relationship (public sector) (new row) | ○ | ○ |  | ○ | ○ | ● |  | ○ | ● | ● |  | ● |
+| 18 | Government serving business owners or operators |  |  |  |  |  | ● | ● |  | ○ | ● | ● | ● |
+| 19 | Government serving employees or authorised representatives (new row) |  |  |  |  |  | ● | ○ |  |  | ○ | ● | ○ |
+| 20 | Government providing regulatory or compliance services (new row) |  |  |  |  |  | ○ |  |  |  | ● | ● |  |
+| 21 | Government supporting or funding businesses (new row) | ○ |  |  |  |  | ○ | ● |  |  |  | ● | ● |
+| 22 | Other institutional relationship (government to business) (new row) |  |  |  |  |  | ● | ● |  |  | ● | ● | ○ |
+
+**Checked against section 8:** differences from the 15 rows: Government serving business owners or operators: was o....BB.oBBB now .....BB.oBBB. The **seven new rows** are marked (new row): the text does not say who drew them or on what basis; they have **no source** and stay the owner's wording. Row 18 replaces the single row "Government to businesses" of section 8, which is now split into rows 18 to 22 by the sub-types of 6.4.
