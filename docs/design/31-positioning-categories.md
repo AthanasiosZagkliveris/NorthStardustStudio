@@ -200,7 +200,9 @@ This is a practical starting model, not a fixed classification. For example, a p
 | Seniors | Active Retirees | 65 | 74 |
 | | Dependent seniors | 74 | no limit |
 
-The groups are the same intervals joined: Baby [0, 3), Child [3, 11), Teenager [11, 18), Minors [0, 18), Working Adult [18, 65), Seniors [65, no limit). The **buyer stages** are the same names over [18, 74) and the Micro-Buyers over [16, 18) (section 2). A person aged exactly 74 is a Dependent senior and so is **not** in a buyer stage; this follows from "18 to 74" with the rule and is for the owner to confirm.
+The groups are the same intervals joined: Baby [0, 3), Child [3, 11), Teenager [11, 18), Minors [0, 18), Working Adult [18, 65), Seniors [65, no limit). The **buyer stages** are the same names over [18, 74) and the Micro-Buyers over [16, 18) (section 2). A person aged exactly 74 is a Dependent senior and so is **not** in a buyer stage: **confirmed by the owner on 2026-10-27**; it is the one place the edge rule changes who counts as a buyer.
+
+**Age is the term (owner's emphasis, 2026-10-27).** A stage is **defined by age and by nothing else**: the age in years decides the stage, by the edge rule above, in every country. The stage **names** (Active Retirees, Dependent seniors, Established, Peak, Mature) are **labels for an age group**; they say nothing about the person's work, health, independence or dependence, and the app does not decide a person's situation from the label. Situations (retired, caring, accessibility needs, who pays) are separate answers (sections 3 to 5), never inferred from the stage. *Read this way, "Dependent seniors" means "aged 74 and over", not "is dependent".* [This is the assistant's reading of the owner's emphasis; the owner corrects it if it was meant otherwise.]
 
 **2. The country's law is applied automatically.** The stages are the same in every country; **what the law does at an age is looked up by the app from the customers' country** (the Organization's country, or the Segment's main country, G3) and never typed by the user. This is the doc 28 principle "fill in what is known". What follows, as design requirements (not built):
 
