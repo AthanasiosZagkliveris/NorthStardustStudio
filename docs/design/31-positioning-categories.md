@@ -497,3 +497,7 @@ The question reads: "How is the choice of the offering made between you and your
 **Offered by the text and not started** (they are layout and structure work, outside the collection phase): the exact syntax of the P25 field, and a Review check that flags a household plan's unit price against a single-user purchase option (O3).
 
 Nothing is built.
+
+## 9L. The built End User questions stay (owner, 2026-10-27)
+
+I7d to I7g and their old option lists **stay as built**, untouched, so the app runs as today. They are overwritten and replaced together, once, when the final implementation begins with the new layout. This closes the open point of 9 item 7 (keep, change or go): **keep until then.** The layout and the dialogue diagrams of this structure were drawn on 2026-10-27 in the session (not stored in the repository).
