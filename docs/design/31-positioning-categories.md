@@ -456,3 +456,20 @@ Nothing is built; the End User questions of the app (I7d to I7g) still hold the 
 - The text also names a database model for the field (a tracking string on a profiles model). It is **not recorded**: the schema was deleted and the structure is not yet agreed.
 
 Nothing is built.
+
+## 9J. Dual-Intent in I7b, its second Profile, and the migration of the legacy values (owner's pasted text, 2026-10-27)
+
+1. **I7b gets a fifth option, "Dual-Intent Family Buyers"**, beside the four built (`LIFE_STAGES`: Proxy Buyers / Gifters; Students / Young Adults; Workers / Professionals / Adults; Seniors). Proxy Buyers / Gifters: the payer is not the user. Dual-Intent Family Buyers: the payer is the first user and the dependents are the other users, of one offering or one shared tier. Students / Young Adults, Workers / Professionals / Adults and Seniors (65 to 74): the buyer is the user. The terms lead; the traits are the meaning.
+2. **A Dual-Intent buyer gets a second Profile, for the dependents** (not the buyer), in the same Segment. The buyer's own traits are in the first Profile. The second Profile carries P21 "They will use it" and "They influence the decision", and takes the I7g routing of 9H.
+3. **The flow:** Students, Workers and Seniors: one Profile. Proxy Buyers / Gifters: two Profiles (the buyer, and the recipient) and the End User block (I7d to I7g). Dual-Intent Family Buyers: two Profiles (the buyer, and the dependents) and the End User block.
+4. **Migration of the stored values:** rel:parent becomes "Parent or legal guardian" (row 1 of the 22), rel:family "Family member or relative" (row 3), rel:friend "Friend or acquaintance" (row 5), and each fills P25 on the user's Profile.
+
+**Checked against doc 28 and the code:**
+- **The four built options match** the text; the fifth is new. **Dual-Intent is not stored or described anywhere yet.** Where I7b says "frozen until a relationship is chosen" and the stage limits (1 at Planning and Launching), choosing Dual-Intent uses the one choice, like the others.
+- **"Students / Young Adults" is described in the text as a "fully autonomous individual micro-buyer context".** That clashes with section 2: the Micro-Buyers are **semi-autonomous** and are 16 to 18, a sub-category of Direct Buyers (9F 5); doc 28 starts this audience's G6 at 18 to 24, which is fully autonomous. The wording needs the owner's correction (fully autonomous, 18 and over; the 16 to 18 Micro-Buyers separate).
+- **Two rules set P21 on the second Profile and may disagree.** 9H sets it from I7f (who chooses): the Buyer chooses alone gives only "They will use it". Here, for a Dual-Intent buyer, it is always use and influence. If the End User block is also shown for Dual-Intent, I7f's answer "the Buyer chooses alone" gives use only, and the fixed "use and influence" gives another set. Which one governs is **not stated**.
+- **I7d to I7g were written for Proxy Buyers.** The wording of I7e (replaced by the 22 relationships, 9I) and I7f (the Buyer chooses; the End User asks; the End User chooses) fits a recipient. For Dual-Intent, where the buyer is also a user, "the Buyer chooses alone" is not the same case; whether I7f is asked at all, and the same wording for both, is **not stated**.
+- **I7e for Dual-Intent:** the 22 relationships (family, partner and so on) apply; the list is the same as for Proxy, shown by model.
+- **Migration:** the app stores these as JSON in the browser and in the example files (no database). The text speaks of a "DDL migration"; here it is a one-time conversion of the stored `endUser` ids (rel:parent, rel:family, rel:friend) to the 22-relationship ids, plus the two example files (lumen-and-loom-studio and quillfield-automation-llc, which hold `"endUser": []` today, so nothing there needs converting). Saved files of real users would need the conversion when it is built. Only three of the 22 are reached by the old values; the rest are new.
+
+Nothing is built.
