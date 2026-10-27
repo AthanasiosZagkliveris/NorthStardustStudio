@@ -28,16 +28,23 @@ Related: doc 28, 8.2 (the Positioning questions), doc 29 (the question guide), d
 
 ## 2. Buyer's age stages
 
-The owner's list stopped at the number "1." and was followed by this block, kept as pasted:
+**The buyer's age stages are 18 to 74, and they use the user's stage names** (owner, 2026-10-27):
 
-**Direct Buyers** (purchasing exclusively for their own personal use)
+| Buyer stage | Age | The user stage it is |
+|---|---|---|
+| Young | 18 to 25 | Working Adult: Young |
+| Established | 25 to 40 | Working Adult: Established |
+| Peak | 40 to 55 | Working Adult: Peak |
+| Mature | 55 to 65 | Working Adult: Mature |
+| Active Retirees | 65 to 74 | Seniors: Active Retirees |
 
-- **a. Fully Autonomous Buyers** (Working Adults, Active Retirees), 18 to 74 years
-  - System traits: full legal capacity; holds credit, debit or bank accounts; enters into long-term contracts.
-- **b. Semi-Autonomous Micro-Buyers** (Late Adolescents, 16 to 18)
-  - System traits: age-restricted purchasing power; operates primarily via cash, digital wallets or gift cards; legally restricted from subscription contracts or credit lines.
+These are the **Fully Autonomous Buyers** (Working Adults and Active Retirees, 18 to 74) of the Direct Buyers block, as the owner first wrote it:
 
-(The other buyer stages, if any, are not written yet.)
+- **System traits:** full legal capacity; holds credit, debit or bank accounts; enters into long-term contracts.
+
+**Also given earlier, kept:** the **Semi-Autonomous Micro-Buyers** (Late Adolescents, 16 to 18): age-restricted purchasing power; operates primarily via cash, digital wallets or gift cards; legally restricted from subscription contracts or credit lines. They are **outside the 18 to 74 range** of the buyer stages above; whether they remain a separate buyer category is not stated (see 9.3).
+
+Not buyer stages (nothing stated): Minors under 16, and Dependent seniors (74 and over). They appear as **users** (1), and as the people a Proxy Buyer buys for.
 
 ## 3. Accessibility and user needs (dynamic cross-sections)
 
@@ -135,34 +142,34 @@ These examples are slightly different because G2B often involves a government se
 
 ## 8. Relationship-to-purpose mapping
 
-The table shows which of the 12 purposes are most relevant to each relationship. **● primary relevance · ○ possible relevance · blank = generally less directly relevant.** Kept exactly as pasted (see 9.4 on the cell count).
+The table shows which of the 12 purposes are most relevant to each relationship. **● primary relevance · ○ possible relevance · blank = generally less directly relevant.** **Replaced on 2026-10-27** by the owner's complete table (12 columns in every row; the first paste had 11 cells in every row and no header-aligned Access & support column). Where a row's cells moved between the two pastes, the second is the owner's and stands.
 
 | Buyer–user relationship | Learn & develop | Health & care | Gift & appreciation | Entertainment | Social connection | Productivity | Business growth | Creation | Everyday needs | Protection | Compliance | Access & support |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Parent / guardian | ● | ● | ○ | ● | ● |  |  | ○ | ● | ● |  |
-| Caregiver | ○ | ● | ○ | ○ | ● | ● |  |  | ● | ○ | ● |
-| Family member / relative | ○ | ○ | ● | ● | ● |  |  | ○ | ○ |  |  |
-| Spouse / romantic partner | ○ | ○ | ● | ● | ● |  |  | ○ | ○ |  |  |
-| Friend / acquaintance | ○ |  | ● | ● | ● |  |  | ● |  |  |  |
-| Other personal relationship | ○ | ○ | ○ | ○ | ● | ○ |  | ○ |  |  | ○ |
-| Employer → employees | ● | ● | ● | ○ | ● | ● | ● | ○ | ● | ● | ○ |
-| Business partner / co-owner | ● |  |  |  | ○ | ● | ● | ● | ○ | ● |  |
-| Business → clients / customers | ○ | ○ | ○ | ○ | ○ | ● | ● | ● | ● | ● | ○ |
-| Professional intermediary → client | ○ | ○ |  |  |  | ● | ● | ● | ○ | ● |  |
-| Sponsor / funder → recipients | ● | ● | ○ | ○ | ○ | ○ | ○ | ○ | ○ |  | ● |
-| Public authority → employees | ● | ○ |  |  | ○ | ● |  |  | ○ | ● | ○ |
-| Public authority → citizens | ● | ● |  | ● | ● | ○ |  | ○ | ● | ○ | ● |
-| Public authority → beneficiaries | ● | ● |  | ○ | ● | ○ |  |  | ● | ○ | ● |
-| Government → businesses | ○ |  |  |  |  | ● | ● |  | ○ | ● | ● |
+| Parent / guardian | ● | ● | ○ | ● | ● |  |  | ○ | ● | ● |  | ○ |
+| Caregiver | ○ | ● | ○ | ○ | ● | ● |  |  | ● | ○ | ● | ● |
+| Family member / relative | ○ | ○ | ● | ● | ● |  |  | ○ | ○ |  |  | ○ |
+| Spouse / romantic partner | ○ | ○ | ● | ● | ● |  |  | ○ | ○ |  |  |  |
+| Friend / acquaintance | ○ |  | ● | ● | ● |  |  | ● |  |  |  |  |
+| Other personal relationship | ○ | ○ | ○ | ○ | ● | ○ |  | ○ |  |  |  | ○ |
+| Employer → employees | ● | ● | ● | ○ | ● | ● | ● | ○ | ● | ● | ○ | ○ |
+| Business partner / co-owner | ● |  |  |  | ○ | ● | ● | ● | ○ | ● |  |  |
+| Business → clients / customers | ○ | ○ | ○ | ○ | ○ | ● | ● | ● | ● | ● | ○ | ○ |
+| Professional intermediary → client | ○ | ○ |  |  |  | ● | ● | ● | ○ | ● |  | ○ |
+| Sponsor / funder → recipients | ● | ● | ○ | ○ | ○ | ○ | ○ | ○ | ○ |  |  | ● |
+| Public authority → employees | ● | ○ |  |  | ○ | ● |  |  | ○ | ● | ○ | ○ |
+| Public authority → citizens | ● | ● |  | ● | ● | ○ |  | ○ | ● | ○ | ○ | ● |
+| Public authority → beneficiaries | ● | ● |  | ○ | ● | ○ |  |  | ● | ○ | ○ | ● |
+| Government → businesses | ○ |  |  |  |  | ● | ● |  | ○ | ● | ● | ● |
 
 This is a practical starting model, not a fixed classification. For example, a parent might buy a creative product primarily for entertainment rather than education.
 
 ## 9. What the collection leaves open (for the design step; nothing is decided here)
 
 1. **Age boundaries.** The stages share edges: Baby "up to 3" and Toddlerhood "1 to 3"; Child "3 to 11" with Middle Childhood "5 to 11"; Teenager from 11 while Early Adolescence is "11 to 13"; 18, 25, 40, 55, 65 and 74 each end one stage and start the next. A rule is needed for which stage an exact age belongs to (for example "from, up to but not including"). The doc 28 bands (0 to 2, 3 to 5, 6 to 9, 10 to 12, 13 to 15, 16 to 17, 18 to 24, 25 to 34 and so on) and these stages do not coincide.
-2. **Minors, working adults and seniors overlap other lists.** "Late Adolescents 16 to 18" is both a user stage (1) and a buyer stage (2b); "Active Retirees 65 to 74" is part of Seniors (1) and of the Fully Autonomous Buyers (2a, 18 to 74). Whether a buyer stage and a user stage are one list or two lists that share names is not stated.
-3. **The Buyer's age stages (2) are incomplete:** the numbered list is empty and only the Direct Buyers block (a, b) was given. The other buyer categories (5: Proxy Buyers, Dual-Intent Buyers) have no age-stage detail yet; whether a minor may buy on behalf of someone else varies by country (doc 30), which the design may need.
-4. **The mapping table (8) has 11 cells for 12 purposes in every row** (pasted a second time on 2026-10-27, unchanged). **Most likely reading:** the 11 cells are the first 11 purposes (Learn & develop to Compliance) and the **12th column, Access & support, was dropped from the paste**: read that way the rows are coherent (a parent: learning, health, entertainment, social, everyday needs and protection primary, compliance blank; government to businesses: productivity, business growth, protection and compliance primary), and a one-place shift to the right is not (government to businesses would put health and care first). The rows where Access & support would be expected are sponsor or funder, public authority to citizens and to beneficiaries. **Unconfirmed, and the missing column is not filled in**: the owner supplies it, or says it stays blank. The rest of this item as first written: Which purpose is the missing one is not stated: the cells may be shifted, or the last column (Access & support) may be blank in all rows. The table is kept as pasted and must be confirmed before anything reads it.
+2. **Minors, working adults and seniors overlap other lists.** The buyer stages (2) now use the user stage names for 18 to 74, so those two lists are **one vocabulary used twice**: a buyer stage is the user stage of the same name. The overlap that remains is the Late Adolescents (16 to 18), who are a user stage and, in the first paste, a buyer category (see 9.3).
+3. **The Buyer's age stages (2): settled on 2026-10-27 as 18 to 74 in the user's stage names.** Still open: the **Semi-Autonomous Micro-Buyers (16 to 18)** of the first paste lie outside 18 to 74 (a separate category, or dropped?); the other buyer categories (5: Proxy Buyers, Dual-Intent Buyers) have no age-stage detail, and whether a minor may buy on behalf of someone else varies by country (doc 30).
+4. **The mapping table (8): resolved on 2026-10-27.** The owner's complete table has 12 cells in every row (checked). My earlier reading (that only the Access & support column had been dropped) was **only partly right**: in several rows the cells had also moved (for example Sponsor or funder, Other personal relationship, Public authority to citizens and to beneficiaries), so the second paste replaces the first as a whole.
 5. **Relationship lists (6) and the Positioning answers.** The 22 relationships of 6 (six personal, six business, five public sector, five government-to-business) sit under the four relationship models of Early Positioning (B2C, B2B, B2G, G2B Context), each with an "Other" row. The mapping table (8) lists 15 relationships, fewer than the 22 of 6. The buyer categories of 5 (Direct, Proxy, Dual-Intent) are a different cut from "Proxy Buyers / Gifters" in the life-stage question; how they relate is for the design.
 6. **Accessibility (3) and caregiving (4) are "cross-sections"** of the user and the buyer, not stages: whether they are questions, tags on a Profile, or both is for the design.
 7. **The earlier attempt.** The four End User questions built on 2026-10-26 (doc 28, 8.2, I7d to I7g) were a smaller, earlier structure; whether they stay, change or go once this structure is agreed is for the owner.
