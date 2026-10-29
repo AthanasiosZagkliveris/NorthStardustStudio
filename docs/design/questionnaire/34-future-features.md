@@ -1,6 +1,6 @@
 # 34. Future features: everything that is not in the first published version (owner, 2026-10-29)
 
-Status: **list, not a plan.** The owner's rule: **all other existing information is a future feature.** The first version is exactly what doc 33 says; every other collected, designed or built item below is deferred. Nothing here is scheduled. Items that are already built in the app stay in the code and are hidden or left unused in the first version; they are not deleted.
+Status: **living list**, written 2026-10-29, updated 2026-10-29; not a plan. The owner's rule: **all other existing information is a future feature.** The first version is exactly what doc 33 says; every other collected, designed or built item below is deferred. Nothing here is scheduled. Items that are already built in the app stay in the code and are hidden or left unused in the first version; they are not deleted.
 
 Related: doc 33 (the first version), docs 27 to 32 (where each item is described).
 

@@ -1,6 +1,6 @@
 # 5. What has not been done yet
 
-Status: **living list**, written 2026-10-14, reorganised 2026-10-29. Remove an item when it is done and record it in the log (`04-log.md`). Everything here is a plan or a proposal unless it says "decided". Nothing in sections 5.3 and 5.5 is built.
+Status: **living list**, written 2026-10-14, updated 2026-10-29. Remove an item when it is done and record it in the log (`04-log.md`). Everything here is a plan or a proposal unless it says "decided". Nothing in sections 5.3 and 5.5 is built.
 
 ## Open now
 

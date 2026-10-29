@@ -1,6 +1,6 @@
 # 3. Business System — the pages and their specifications
 
-Status: **specification index**, rewritten 2026-10-29. The five pages of the Business System (System 3 of the Foundation), the file that specifies each, the editor and the data module that build it, and what crosses between the pages.
+Status: **index**, rewritten 2026-10-29. The five pages of the Business System (System 3 of the Foundation), the file that specifies each, the editor and the data module that build it, and what crosses between the pages.
 
 The pages are numbered 1 to 5 as the app numbers them. Each file holds the requirement as the owner wrote it and, where the app does it differently, an **As built** section that wins. The layout of the pages (tiles, cards, measures) is not specified here: it is the rulebook's (`ai/layout-rules.md`), and the page of Customer Engagement has its own (`ai/customer-engagement-layout.md`). The open requirements for the pages are in document 5, section 5.5; this folder says what the pages do, that one what they could do.
 

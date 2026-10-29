@@ -35,7 +35,7 @@ The app files alone are one command away (`npm run export:app`), the examples ex
 
 ## The documents folder
 
-`docs/README.md` is the contents of the documents (by chapter) and `docs/index.md` the alphabetical index; both are written by `npm run docs:index`.
+`docs/README.md` is the contents of the documents (by chapter) and `docs/index.md` the alphabetical index; both are written by `npm run docs:index`, which also writes a README in each design chapter folder. `docs/standard.md` is the standard every document follows; `npm run docs:standard` checks it.
 
 | Folder | Holds |
 |---|---|

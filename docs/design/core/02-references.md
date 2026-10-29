@@ -1,6 +1,6 @@
 # 2. References
 
-Status: **current**, 2026-10-14, checked against `Sources.ts` on 2026-10-29. Every decision in the app and in these documents should rest on a reference. This document holds the rule for what counts as a reference, the references the app itself shows, the references used in the research and analysis, and (section 2.7) the sources for the questionnaire. The sources for the positioning lists of document 31 are in document 32 (`32-positioning-sources.md`) and are not repeated here.
+Status: **reference**, written 2026-10-14, updated 2026-10-29 (checked against `Sources.ts`). Every decision in the app and in these documents should rest on a reference. This document holds the rule for what counts as a reference, the references the app itself shows, the references used in the research and analysis, and (section 2.7) the sources for the questionnaire. The sources for the positioning lists of document 31 are in document 32 (`32-positioning-sources.md`) and are not repeated here.
 
 ## 2.1 The source rule
 

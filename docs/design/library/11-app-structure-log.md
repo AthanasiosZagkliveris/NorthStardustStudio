@@ -1,5 +1,7 @@
 # 11. The app structure log
 
+Status: **log**, started 2026-10-15, updated 2026-10-29. Written by `npm run library:log`; rows are added on top.
+
 Every change of the tables, that is, of the structure of the app: a placement placed, moved or removed (and where), a row of a table added, changed or removed. A placement of a component that is not in the library is marked. Written by `npm run library:log`; do not edit by hand.
 
 | Id | Date | Change | Where | Asset | Not in the library | What | Note |

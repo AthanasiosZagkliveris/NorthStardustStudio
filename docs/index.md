@@ -10,7 +10,7 @@ Status: **index**, updated 2026-10-29, written by `npm run docs:index` (the subj
 - **Age stages**: [31 section 10.1](design/questionnaire/31-positioning-categories.md)
 - **App, contents**: [app/contents](app/contents.md)
 - **App, places (index)**: [app/index](app/index.md)
-- **Archive**: [README section 8](README.md)
+- **Archive**: [README section 9](README.md)
 - **Assets library**: [08](design/library/08-library-system.md); [09](design/library/09-assets-library.md)
 - **Audience (Identity)**: [28 section 8.2](design/questionnaire/28-questionnaire-specification.md)
 ## B
@@ -84,6 +84,7 @@ Status: **index**, updated 2026-10-29, written by `npm run docs:index` (the subj
 
 - **Segment card**: [28 section 6.3](design/questionnaire/28-questionnaire-specification.md)
 - **Shared components**: [21](design/current/21-shared-components.md)
+- **Standard of the documents**: [standard](standard.md)
 - **Structure tables**: [07](design/core/07-structure-tables.md)
 ## T
 

@@ -1,6 +1,6 @@
 # NorthStardust: contents of the app
 
-Status: **contents and reference**, updated 2026-10-29 (checked against the code). How the app is entered, its Systems and pages, where the figures and dates come from, and where things are in the code. The alphabetical list of places is `index.md`; the terms are in `glossary.md`; the contents of the documents are `docs/README.md`.
+Status: **contents**, updated 2026-10-29 (checked against the code). How the app is entered, its Systems and pages, where the figures and dates come from, and where things are in the code. The alphabetical list of places is `index.md`; the terms are in `glossary.md`; the contents of the documents are `docs/README.md`.
 
 What each part of the app is for and what it holds is below. The rules of layout are in `ai/layout-rules.md` and `ai/tile-and-card-pattern.md`; the cost rules are in `design/core/01-current-design.md` (the cost model parts). Where each component is, and which are shared: `ai/code-map.md` and `design/current/21-shared-components.md`. The page-by-page content of the Business System is in `specifications/business-system/`.
 

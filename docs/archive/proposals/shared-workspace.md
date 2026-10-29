@@ -1,6 +1,6 @@
 # Shared Workspace: Working Together Without a Server
 
-**Status:** Archive, written 2026-09-26, moved here 2026-10-21 from `specifications/shared-workspace/`. A proposal, not started; nothing in the app has been changed for it. The app is still a single-user app with its data in the browser. **Held only here:** the whole proposal; no other document points to it (`design/core/05-not-done-yet.md` does not list it, and the log has one row).
+Status: **archive**, written 2026-09-26, updated 2026-10-21 (moved here from `specifications/shared-workspace/`). A proposal, not started; nothing in the app has been changed for it. The app is still a single-user app with its data in the browser. **Held only here:** the whole proposal; no other document points to it (`design/core/05-not-done-yet.md` does not list it, and the log has one row).
 **Date:** 26 September 2026
 **Scope:** North Stardust Studio desktop app (Tauri + React + TypeScript)
 

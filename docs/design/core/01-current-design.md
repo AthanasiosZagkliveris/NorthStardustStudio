@@ -1,6 +1,6 @@
 # 1. Current design of the Foundation capability
 
-Status of this document: **current**, written 2026-10-14, reorganised 2026-10-29 (overlaps between the parts removed, stale statements corrected against the code). It is the single description of what the Foundation capability (Identity, Brand, Business and Strategy Systems) is and what has been decided for it. Where the code and this document disagree, the code is right.
+Status: **current design**, written 2026-10-14, updated 2026-10-29 (overlaps between the parts removed, stale statements corrected against the code). It is the single description of what the Foundation capability (Identity, Brand, Business and Strategy Systems) is and what has been decided for it. Where the code and this document disagree, the code is right.
 
 Part F is read by the catalogue tool (`tools/scripts/catalogue/load.mjs`: it takes the headings with " > " and the numbered table rows between the headings of Part F and Part G) and so by the structure tables (document 7): keep its headings and row format as they are.
 
