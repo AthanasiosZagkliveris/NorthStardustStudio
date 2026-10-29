@@ -1,5 +1,5 @@
 /**
- * Writes the assets library as a document (docs/design/09-assets-library.md) from src/library/data.
+ * Writes the assets library as a document (docs/design/library/09-assets-library.md) from src/library/data.
  *
  *   node tools/scripts/library/generate-library-doc.mjs [--check]
  *
@@ -10,7 +10,7 @@ import { library } from "../../../src/library/data/library.ts";
 import { placements } from "../../../src/library/data/placements.ts";
 import { KINDS } from "../../../src/library/model/types.ts";
 
-const file = "docs/design/09-assets-library.md";
+const file = "docs/design/library/09-assets-library.md";
 const cell = value => String(value ?? "").replace(/\|/g, "/").replace(/\s+/g, " ").trim();
 const out = [];
 const say = (...lines) => out.push(...lines);

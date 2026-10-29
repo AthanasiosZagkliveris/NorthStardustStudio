@@ -17,8 +17,8 @@ add(asset("DAT.001"), "done 2026-10-16: the calendar button is inside the cell, 
 add(asset("DAT.002"), "done 2026-10-16: the day calendar is the app's own (the list under the date cell: month and year with previous and next arrows, the days from Monday, Today and Clear, 6px corners, a day after the latest or before the earliest allowed is dimmed and cannot be chosen); it closes on a choice, on Escape and on a click elsewhere, as a dropdown's list does.");
 
 writeFileSync("src/library/data/library.ts", [
-    "// The assets library, seeded once by tools/scripts/library/seed-library.mjs from the catalogue (docs/design/07-structure-tables.md).",
-    "// From now on the library is the source: it is changed by the procedure of docs/design/08-library-system.md (check, library, library log, inventory, placement, app log).",
+    "// The assets library, seeded once by tools/scripts/library/seed-library.mjs from the catalogue (docs/design/records/07-structure-tables.md).",
+    "// From now on the library is the source: it is changed by the procedure of docs/design/library/08-library-system.md (check, library, library log, inventory, placement, app log).",
     "",
     'import type { Library } from "../model/types.ts";',
     "",

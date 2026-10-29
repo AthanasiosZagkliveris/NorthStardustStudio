@@ -1,7 +1,7 @@
 /**
  * The list of every text link and where it appears: for each link class (src/components/interview/fields/textLinks.ts) the places in the code that draw it
  * (file and line) and what it does, and the links the walk of the app found on a page (tools/catalogue/measures/link-survey.json). Writes
- * docs/design/20-text-links.md and exports/The-text-links.csv.
+ * docs/design/current/20-text-links.md and exports/The-text-links.csv.
  *
  *   node tools/scripts/catalogue/text-links-doc.mjs
  */
@@ -62,7 +62,7 @@ for (const row of survey) {
     out.push("| " + row.scenes[0].replace(/ \/ page$/, "") + " | " + row.text + " | `" + (row.cls || row.tag) + "` | " + row.colour + " | " + row.weight + " |");
 }
 out.push("");
-writeFileSync("docs/design/20-text-links.md", out.join("\n"));
+writeFileSync("docs/design/current/20-text-links.md", out.join("\n"));
 mkdirSync("exports", { recursive: true });
 writeFileSync("exports/The-text-links.csv", "﻿" + csv.join("\r\n"));
-console.log("wrote docs/design/20-text-links.md and exports/The-text-links.csv");
+console.log("wrote docs/design/current/20-text-links.md and exports/The-text-links.csv");

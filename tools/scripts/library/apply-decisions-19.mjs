@@ -1,5 +1,5 @@
 /**
- * The ADD buttons that exist in the four systems, scanned in the source on 2026-10-16 (docs/design/15-fields-list.md):
+ * The ADD buttons that exist in the four systems, scanned in the source on 2026-10-16 (docs/design/library/15-fields-list.md):
  * their words are recorded in the components that carry them. A migration kept as the record.
  *
  *   node tools/scripts/library/apply-decisions-19.mjs
@@ -17,8 +17,8 @@ asset("BTN.001").belongs = "The x of cards and fields; the plus of rows and tile
 asset("BTN.005").belongs = "The end of the grid in an opened tile view (+ Add Card); the profile pages (the plus tile)";
 asset("DRP.001").lookNotes = [...(asset("DRP.001").lookNotes ?? []), "an option may be + Add at the end of a list (the activities): choosing it makes an ordinary activity, chooses it and asks its name (a reaction of the option, scanned 2026-10-16)."];
 writeFileSync("src/library/data/library.ts", [
-    "// The assets library, seeded once by tools/scripts/library/seed-library.mjs from the catalogue (docs/design/07-structure-tables.md).",
-    "// From now on the library is the source: it is changed by the procedure of docs/design/08-library-system.md (check, library, library log, inventory, placement, app log).",
+    "// The assets library, seeded once by tools/scripts/library/seed-library.mjs from the catalogue (docs/design/records/07-structure-tables.md).",
+    "// From now on the library is the source: it is changed by the procedure of docs/design/library/08-library-system.md (check, library, library log, inventory, placement, app log).",
     "",
     'import type { Library } from "../model/types.ts";',
     "",

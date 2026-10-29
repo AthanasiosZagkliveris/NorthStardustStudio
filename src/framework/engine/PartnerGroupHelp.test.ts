@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import designDocument from "../../../docs/design/01-current-design.md?raw";
+import designDocument from "../../../docs/design/current/01-current-design.md?raw";
 import { BUSINESS_PARTNER_GROUPS, BUSINESS_OFFERING_RESOURCE_GROUPS, BUSINESS_RESOURCE_GROUPS, partnerGroupHelp } from "./AnswerUtils";
 
-/* The help texts of docs/design/01-current-design.md (part H) are the ones the app shows: the 47 groups, the partner and supplier groups included. */
+/* The help texts of docs/design/current/01-current-design.md (part H) are the ones the app shows: the 47 groups, the partner and supplier groups included. */
 
 /* The cells of the document's tables, one entry each. */
 const doc = designDocument

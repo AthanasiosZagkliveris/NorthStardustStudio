@@ -8,7 +8,7 @@
  *
  * The app = src/ without the tests, the test helpers, the document tests and the component library (except the library files the app itself imports), the pages that App.tsx
  * loads only in development and their routes (between its "dev-only:start" and "dev-only:end" markers), src-tauri/, public/, index.html, and the settings the build reads.
- * docs/, tools/scripts/, tools/catalogue/ and .github/ are working files and stay out. See docs/design/26-folder-plan.md.
+ * docs/, tools/scripts/, tools/catalogue/ and .github/ are working files and stay out. See docs/design/current/26-folder-plan.md.
  */
 import { execSync } from "node:child_process";
 import { copyFileSync, existsSync, lstatSync, mkdirSync, readFileSync, rmSync, rmdirSync, symlinkSync, writeFileSync } from "node:fs";

@@ -1,5 +1,5 @@
 /**
- * THE ACTIVITIES of the Organization tile (design documents 38, 5.7, and 28, 8.5): up to four rows in the pattern of an activity's Performers. Each row is one path of the country's
+ * THE ACTIVITIES of the Organization tile (design documents 36, 5.7, and 28, 8.5): up to four rows in the pattern of an activity's Performers. Each row is one path of the country's
  * official classification, from the Industry to a final code, and is stored as that code only. The first row is the primary activity (required); the others are optional.
  *
  * Row: the fold arrow and the sub-label (Primary, Secondary, ...) at the left, then, when the row is folded, its code with the scheme's initials in bold on the same line, and the "+" (first row) or the × (the others) in the x column. A folded row shows the last category under its sub-label; an open row shows its dropdowns, each under its level's name.

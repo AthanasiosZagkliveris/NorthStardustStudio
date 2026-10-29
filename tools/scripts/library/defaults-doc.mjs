@@ -1,5 +1,5 @@
 /**
- * Writes the component defaults document (docs/design/13-component-defaults.md): the default look of each
+ * Writes the component defaults document (docs/design/library/13-component-defaults.md): the default look of each
  * component and variant (the most used one measured), the looks merged into it and the looks kept for the
  * owner, each default checked against the text hierarchy of the app (14, 18, 24, 28, 36) and against the
  * target sizes of WCAG 2.2 (24px minimum, 44px enhanced), with the sources.
@@ -9,7 +9,7 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { library } from "../../../src/library/data/library.ts";
 
-const file = "docs/design/13-component-defaults.md";
+const file = "docs/design/library/13-component-defaults.md";
 const out = [];
 const say = (...lines) => out.push(...lines);
 const cell = value => String(value ?? "").replace(/\|/g, "/").replace(/\s+/g, " ").trim();

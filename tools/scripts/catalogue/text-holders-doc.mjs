@@ -1,5 +1,5 @@
 /**
- * Writes docs/design/17-text-holders.md and exports/The-text-holders.csv from tools/catalogue/measures/text-holders.json
+ * Writes docs/design/current/17-text-holders.md and exports/The-text-holders.csv from tools/catalogue/measures/text-holders.json
  * (written by tools/scripts/catalogue/text-holders.mjs).
  *
  *   node tools/scripts/catalogue/text-holders-doc.mjs
@@ -51,9 +51,9 @@ const md = [
     ...cells.map(c => "| " + [c.where, c.surface, c.kind, c.label, c.name, "`" + c.cls + "`", c.size + ", " + c.w + " x " + c.h, c.def, c.filled, c.chars].join(" | ").replace(/\n/g, " ") + " |"),
     ""
 ].join("\n");
-writeFileSync("docs/design/17-text-holders.md", md);
+writeFileSync("docs/design/current/17-text-holders.md", md);
 const csv = ["Where;Surface;Kind;Label;Name;Style;Placeholder;Type size;Width;Height;Default rows;Rows with the example;Characters",
     ...cells.map(c => [c.where, c.surface, c.kind, c.label, c.name, c.cls, c.placeholder, c.size, c.w, c.h, c.def, c.filled, c.chars].map(v => '"' + String(v).replace(/"/g, '""') + '"').join(";"))].join("\r\n");
 mkdirSync("exports", { recursive: true });
 writeFileSync("exports/The-text-holders.csv", "﻿" + csv);
-console.log("wrote docs/design/17-text-holders.md and exports/The-text-holders.csv (" + rows.length + " holders)");
+console.log("wrote docs/design/current/17-text-holders.md and exports/The-text-holders.csv (" + rows.length + " holders)");

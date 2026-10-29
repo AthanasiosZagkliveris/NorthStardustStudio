@@ -20,8 +20,8 @@ add(asset("DAT.002"), "decided 2026-10-16 (owner): the calendar card stands on t
 add(asset("PCK.001"), "decided 2026-10-16 (owner): the colour is a 32px square with rounded corners INSIDE the hex cell at its right end, 6px from the top, bottom and right (as the date cell's calendar button); an x beside the cell, in the card's x column, clears the colour.");
 
 writeFileSync("src/library/data/library.ts", [
-    "// The assets library, seeded once by tools/scripts/library/seed-library.mjs from the catalogue (docs/design/07-structure-tables.md).",
-    "// From now on the library is the source: it is changed by the procedure of docs/design/08-library-system.md (check, library, library log, inventory, placement, app log).",
+    "// The assets library, seeded once by tools/scripts/library/seed-library.mjs from the catalogue (docs/design/records/07-structure-tables.md).",
+    "// From now on the library is the source: it is changed by the procedure of docs/design/library/08-library-system.md (check, library, library log, inventory, placement, app log).",
     "",
     'import type { Library } from "../model/types.ts";',
     "",

@@ -101,7 +101,7 @@ Reactions (`19-reactions.md`, `layout-rules.md` section 6): every control that c
 1. **A table** fits its panel or scrolls sideways with its heading and its first column kept; a column is named by what it holds (not counted); a number is right-aligned in figures of one width, its unit once in the header; a short column never breaks a word; the first column is one row cut by an ellipsis; rows are one height per size step; the text size is one of the three steps (14, 18 and 24px) and the default is the one that fits.
 2. **A list** (a numbered list, a bulleted list, a tile's list) has the one gap between marker and text and the one line height (`--section-tile-line-height` 1.45 for a wrapping list).
 3. **A pop-up window** (a menu, a filter window, a dropdown's list, a note, the calendar's list) opens next to its control, is placed free of the boxes around it, is the card's family in colour (section 6), has the app's type scale (section 3: its labels are field labels, its group heads caps titles, its options the dropdown's options, not smaller than `--font-body` unless the rulebook says), the app's controls (section 5), a width of the closed set, a maximum height with its own scroll, and closes on a press outside and on Escape, the focus returning to its control.
-4. **A tooltip** follows `docs/design/25-tooltips.md`: a pressed control only; an icon says its name; cut words whole; what the words do not say; never what is shown.
+4. **A tooltip** follows `docs/design/current/25-tooltips.md`: a pressed control only; an icon says its name; cut words whole; what the words do not say; never what is shown.
 5. **A dialog** has the one dialog ground and frame; its Back and its rails are the app's.
 
 ## 9. Pages

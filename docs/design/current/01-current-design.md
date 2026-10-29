@@ -4,9 +4,9 @@ Status of this document: **current**, written 2026-10-14, reorganised 2026-10-29
 
 Part F is read by the catalogue tool (`tools/scripts/catalogue/load.mjs`: it takes the headings with " > " and the numbered table rows between the headings of Part F and Part G) and so by the structure tables (document 7): keep its headings and row format as they are.
 
-The other documents of the project, with what each holds, are listed in `docs/README.md`; the map of the app is `docs/app/app-index.md`. Every change is written in the log (document 4) and nowhere else.
+The other documents of the project, with what each holds, are listed in `docs/README.md`; the map of the app is `docs/app/contents.md`. Every change is written in the log (document 4) and nowhere else.
 
-Other current Markdown documents in the project that this one points to and does not repeat: `docs/ai/layout-rules.md` (the measured layout rulebook and the automatic check), `docs/ai/tile-and-card-pattern.md`, `docs/ai/card-kinds.md`, `docs/app/app-index.md`, `docs/specifications/business-system/*.md` (the page specifications), `docs/ai/framework-dsl-grammar.md` and `docs/ai/framework-conventions-and-patterns.md` (the framework).
+Other current Markdown documents in the project that this one points to and does not repeat: `docs/ai/layout-rules.md` (the measured layout rulebook and the automatic check), `docs/ai/tile-and-card-pattern.md`, `docs/ai/card-kinds.md`, `docs/app/contents.md`, `docs/specifications/business-system/*.md` (the page specifications), `docs/ai/framework-dsl-grammar.md` and `docs/ai/framework-conventions-and-patterns.md` (the framework).
 
 ## Contents
 
@@ -68,7 +68,7 @@ Eleven of the thirteen chapters of the Foundation are drawn as Master Tiles. The
 | Tile and card pattern | `docs/ai/tile-and-card-pattern.md` |
 | Card kinds | `docs/ai/card-kinds.md` |
 | Page specifications (Business System) | `docs/specifications/business-system/` |
-| Where each part of the app is | `docs/app/app-index.md` |
+| Where each part of the app is | `docs/app/contents.md` |
 | How to verify a change | `docs/ai/toolchain-and-verification-playbook.md` |
 
 ## Part C. The interface elements
@@ -835,7 +835,7 @@ The three tests (identifiability, control, future economic benefit), the rule th
 
 ## Part F. Card structure: what the user can reach in each card, and why
 
-**Moved to document 37 (card structure) on 2026-10-29.** It holds one entry for each card layout of the Foundation (the path, the help text, the row-by-row table of what the user can reach, and what happens behind the scenes). The structure tables (document 7) and the catalogue record (document 6) are generated from it. Part G below is the access by card type and stays here.
+**Moved to document 35 (card structure) on 2026-10-29.** It holds one entry for each card layout of the Foundation (the path, the help text, the row-by-row table of what the user can reach, and what happens behind the scenes). The structure tables (document 7) and the catalogue record (document 6) are generated from it. Part G below is the access by card type and stays here.
 
 ## Part G. Card access by type: principles and access of each field
 

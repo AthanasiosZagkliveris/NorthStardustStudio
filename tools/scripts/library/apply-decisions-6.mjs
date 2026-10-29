@@ -46,8 +46,8 @@ const dialog = asset("FRM.003");
 dialog.requires = dialog.requires.map(r => (r.asset === "RAL.001" ? { ...r, variant: "RAL.CAR.001.003", role: "moves between the views or cards" } : r));
 
 writeFileSync("src/library/data/library.ts", [
-    "// The assets library, seeded once by tools/scripts/library/seed-library.mjs from the catalogue (docs/design/07-structure-tables.md).",
-    "// From now on the library is the source: it is changed by the procedure of docs/design/08-library-system.md (check, library, library log, inventory, placement, app log).",
+    "// The assets library, seeded once by tools/scripts/library/seed-library.mjs from the catalogue (docs/design/records/07-structure-tables.md).",
+    "// From now on the library is the source: it is changed by the procedure of docs/design/library/08-library-system.md (check, library, library log, inventory, placement, app log).",
     "",
     'import type { Library } from "../model/types.ts";',
     "",

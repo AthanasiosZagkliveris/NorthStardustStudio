@@ -162,4 +162,4 @@ Every change to an asset of the library: added, edited, placed (and where), move
 | L0504 | 2026-10-16 | TXT.001 | edited | text box: defaultVariant, kind, name, summary, variants |  | Defaults are the main assets, calendar list back, no weight 600, add buttons updated, bullet contrast recorded |
 | L0503 | 2026-10-16 | TXS.001 | edited | text: belongs, defaultVariant, kind, look, summary, variants |  | Defaults are the main assets, calendar list back, no weight 600, add buttons updated, bullet contrast recorded |
 
-The older rows are in `11-library-log-archive.md`.
+The older rows are in `docs/archive/library/11-library-log-archive.md`.

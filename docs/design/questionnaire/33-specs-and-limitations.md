@@ -2,7 +2,7 @@
 
 Status: **specification, as given by the owner.** What the first published version of the app contains and what it does not. The owner's items are written as given; the assistant's checks against the app, doc 28 and doc 31 are marked **Check** and are for the owner to confirm. Nothing here is built. What the first version leaves out is in doc 34.
 
-Related: doc 28 (questionnaire specification), doc 31 (positioning categories), doc 32 (sources), doc 34 (future features), `docs/app/app-index.md` (index) and `docs/app/glossary.md` (glossary).
+Related: doc 28 (questionnaire specification), doc 31 (positioning categories), doc 32 (sources), doc 34 (future features), `docs/README.md` (contents), `docs/index.md` (index) and `docs/app/glossary.md` (glossary).
 
 ## 1. The scope at a glance
 
@@ -23,7 +23,7 @@ English only. Every label, tooltip, document and export is in English; there is 
 
 ## 3. Countries, legal forms, activities and codes
 
-1. **Six countries:** United Kingdom, Ireland, United States, Canada, Australia, New Zealand. Each has a **complete list of legal forms** and a **complete list of activities with their related codes**, from the country's own scheme (doc 38, 5.3 and 5.8: the classification, its levels and the label of the code; rule 14 of doc 28 for the legal forms).
+1. **Six countries:** United Kingdom, Ireland, United States, Canada, Australia, New Zealand. Each has a **complete list of legal forms** and a **complete list of activities with their related codes**, from the country's own scheme (doc 36, 5.3 and 5.8: the classification, its levels and the label of the code; rule 14 of doc 28 for the legal forms).
 2. **Other** means **any country outside those six**. For Other:
    - the app user **types the activity and the related code manually**;
    - the **legal form** has five options:

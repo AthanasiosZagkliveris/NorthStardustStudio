@@ -1,5 +1,5 @@
 /**
- * The library against the app (docs/design/16-library-vs-app.md): for each component the library holds a look (height,
+ * The library against the app (docs/design/library/16-library-vs-app.md): for each component the library holds a look (height,
  * width, corners, line, type size); the walk of the running app (tools/scripts/catalogue/app-crawl.mjs, tools/catalogue/measures/
  * crawl-quillfield-1920.json) measured every control. This writes, per component, what the library says, what the app
  * draws (each distinct value, in how many views), and whether they agree. A size 1.1 times the library's is a tile grown
@@ -10,7 +10,7 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { library } from "../../../src/library/data/library.ts";
 
-const file = "docs/design/16-library-vs-app.md";
+const file = "docs/design/library/16-library-vs-app.md";
 const crawl = JSON.parse(readFileSync("tools/catalogue/measures/crawl-quillfield-1920.json", "utf8"));
 const lookOf = code => { const a = library.assets.find(x => x.code === code); if (a) return { name: a.name, look: a.look }; for (const x of library.assets) { const v = x.variants.find(y => y.code === code); if (v) return { name: x.name + ", " + v.name, look: v.look ?? x.look }; } throw new Error("no component " + code); };
 

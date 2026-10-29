@@ -1,6 +1,6 @@
 # The Cost section: what it should record and how it should look
 
-Status: **archive**, written 2026-10-12, moved here 2026-10-21. A proposal with the owner's answers. The Costs and Funding Need pages were built afterwards along the cost model (see the log, `design/04-log.md`); what is built is described in `specifications/business-system/page-4-financial-foundation.md`. Kept for the research and the answers on CapEx, Startup and Pre-operating costs.
+Status: **archive**, written 2026-10-12, moved here 2026-10-21. A proposal with the owner's answers. The Costs and Funding Need pages were built afterwards along the cost model (see the log, `design/records/04-log.md`); what is built is described in `specifications/business-system/page-4-financial-foundation.md`. Kept for the research and the answers on CapEx, Startup and Pre-operating costs.
 
 ## What the app records today
 

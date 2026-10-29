@@ -59,7 +59,7 @@ export function variantSizeOf(a, v) {
     return { height: HEIGHT[v.code] ?? ex?.height ?? own(p.height, true), width: WIDTH[v.code] ?? ex?.width ?? own(p.width, true), corners: p.corners.split(", ").length > 1 ? "–" : p.corners, text: TEXT[v.code] ?? TEXT[a.code] ?? own(p.text, true) };
 }
 
-/** Which rows of the catalogue's card tables (docs/design/07-structure-tables.md) use a component or variant. */
+/** Which rows of the catalogue's card tables (docs/design/records/07-structure-tables.md) use a component or variant. */
 const FIELDS = {
     "DRP.001": "control = 'dropdown' and function not like '%Searchable%'", "DRP.SRC.001.001": "control = 'dropdown' and function like '%Searchable%'",
     "TXT.001": "control = 'text box' and field <> 'Name'", "TXT.NAM.001.002": "control = 'text box' and field = 'Name'", "TXT.ARE.001.001": "control = 'optional note'",
@@ -76,7 +76,7 @@ export const fieldsOf = (db, code) => {
 };
 
 
-/** What happens under the pointer and the keyboard, in words (measured: docs/design/06-catalogue-record.md). */
+/** What happens under the pointer and the keyboard, in words (measured: docs/design/records/06-catalogue-record.md). */
 export const REACTION = {
     "BTN.001": "Hover and focus: the box fills with its colour and the symbol turns light.",
     "BTN.002": "Hover and focus: the circle fills with its colour and the i turns light.",

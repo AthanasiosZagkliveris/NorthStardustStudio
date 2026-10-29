@@ -1,6 +1,6 @@
 /**
  * THE ACTIVITY CLASSIFICATIONS: the official industry classification of the organization's country, as the cascade of the Organization tile's Activities
- * (design document 38, sections 5.7 to 5.10). The files are in src/data/classifications (code, level, title, parent, in the order of the official document);
+ * (design document 36, sections 5.7 to 5.10). The files are in src/data/classifications (code, level, title, parent, in the order of the official document);
  * each is loaded on demand, since the six countries' files are 1.2MB together.
  *
  * An activity is stored as its final code only; its levels and titles are looked up from the code, because codes nest.
@@ -31,7 +31,7 @@ export type SchemeKey = "uk" | "ie" | "us" | "ca" | "au" | "nz" | "isic";
 
 const SCHEME_OF_COUNTRY: Record<string, SchemeKey> = { GB: "uk", IE: "ie", US: "us", CA: "ca", AU: "au", NZ: "nz" };
 
-/** The name of the code in each scheme's own words (document 38, 5.8). */
+/** The name of the code in each scheme's own words (document 36, 5.8). */
 export const SCHEME_CODE_LABEL: Record<SchemeKey, string> = { uk: "SIC", ie: "NACE", us: "NAICS", ca: "NAICS", au: "ANZSIC", nz: "BIC", isic: "ISIC" };
 
 /** The scheme a country's organizations use; ISIC (the United Nations' own) for a country the app has no scheme for. */

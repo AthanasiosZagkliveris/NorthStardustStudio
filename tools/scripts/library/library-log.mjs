@@ -1,5 +1,5 @@
 /**
- * The library checker and the two logs (docs/design/08-library-system.md, sections 5 and 6).
+ * The library checker and the two logs (docs/design/library/08-library-system.md, sections 5 and 6).
  *
  *   node tools/scripts/library/library-check.mjs          npm run library:check
  *       checks the library (codes, uniqueness, variables, variants, requirements, placements),
@@ -7,8 +7,8 @@
  *       library). Fails when the library has problems or a change has no log entry.
  *
  *   node tools/scripts/library/library-log.mjs log [--note "why"]     npm run library:log
- *       writes the entries of every unlogged change to the library log (docs/design/10-library-log.md)
- *       and the app structure log (docs/design/12-app-structure-log.md), then stores the state as
+ *       writes the entries of every unlogged change to the library log (docs/design/library/10-library-log.md)
+ *       and the app structure log (docs/design/library/12-app-structure-log.md), then stores the state as
  *       the last logged one (src/library/logs/snapshot.json).
  */
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
@@ -19,8 +19,8 @@ import { checkLibrary, driftOf } from "../../../src/library/model/check.ts";
 import { diffState, emptyState, stateOf } from "../../../src/library/logs/diff.ts";
 
 const snapshotFile = "src/library/logs/snapshot.json";
-const libraryLog = "docs/design/10-library-log.md";
-const appLog = "docs/design/12-app-structure-log.md";
+const libraryLog = "docs/design/library/10-library-log.md";
+const appLog = "docs/design/library/12-app-structure-log.md";
 const mode = process.argv[2] === "log" ? "log" : "check";
 const note = process.argv.includes("--note") ? process.argv[process.argv.indexOf("--note") + 1] : "";
 const today = new Date().toISOString().slice(0, 10);

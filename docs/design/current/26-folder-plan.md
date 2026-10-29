@@ -32,3 +32,20 @@ The root holds `src/`, `src-tauri/`, `public/`, `docs/`, `tools/` and the settin
 ## Result
 
 The app files alone are one command away (`npm run export:app`), the examples exist once, and the working files are under `tools/`.
+
+## The documents folder
+
+`docs/README.md` is the contents of the documents (by chapter) and `docs/index.md` the alphabetical index; both are written by `npm run docs:index`.
+
+| Folder | Holds |
+|---|---|
+| `docs/app/` | The app: contents, index of its places, glossary |
+| `docs/design/questionnaire/` | The first version (33), its future features (34), the questions, the lists, the positioning decisions and the research (27 to 32, 36) |
+| `docs/design/current/` | What the app is today: the elements, the card structure, shared components, texts, pop-ups, tooltips, reactions, folders (01, 17 to 26, 35) |
+| `docs/design/library/` | The assets library, its generated lists and its logs (08 to 10, 12 to 16) |
+| `docs/design/records/` | The sources, the research, the log, what is not done, the catalogue record and the structure tables (02 to 07) |
+| `docs/ai/` | Rules and references for an assistant |
+| `docs/specifications/` | The pages of the Business System |
+| `docs/archive/` | Finished or replaced documents, kept for their information (plans, proposals, the older library log) |
+
+The number in a document's name is permanent: it is how the documents cite one another ("doc 28"), whatever the folder.

@@ -1,5 +1,5 @@
 /**
- * The tables of the app (docs/design/08-library-system.md): the Foundation Capability table
+ * The tables of the app (docs/design/library/08-library-system.md): the Foundation Capability table
  * (systems 1-4: per system, page, chapter, master tile, view and card, card kind, the types,
  * categories, groups and options), the App table (the header, the landing page, the calendar
  * side panel) and the reference tables of the catalogue (components, reactions, fields,

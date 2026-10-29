@@ -1,6 +1,6 @@
 # Classifications
 
-The official industry classifications behind the Organization tile's activity cascade (design document 38, sections 5.7 to 5.10). Extracted on 2026-10-23 from the files named in each JSON file's `sources`. Only the key information is kept: code, level, title, parent, in the **order of the official document**.
+The official industry classifications behind the Organization tile's activity cascade (design document 36, sections 5.7 to 5.10). Extracted on 2026-10-23 from the files named in each JSON file's `sources`. Only the key information is kept: code, level, title, parent, in the **order of the official document**.
 
 | File | Scheme | Edition |
 |---|---|---|

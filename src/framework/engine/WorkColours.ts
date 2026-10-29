@@ -1,7 +1,7 @@
 import { paletteHue } from "./Palette.ts";
 
 /**
- * THE FOUNDATION'S COLOUR MAP (docs/design/01-current-design.md, part I): a page's colour says what the user does in it. Applied to the pages drawn as tiles
+ * THE FOUNDATION'S COLOUR MAP (docs/design/current/01-current-design.md, part I): a page's colour says what the user does in it. Applied to the pages drawn as tiles
  * (Identity, Brand, Strategy's Situation & Direction); each is drawn as the palette colour nearest the proposal's.
  */
 export type WorkType = "discover" | "define" | "create" | "decide" | "build" | "review" | "connect";

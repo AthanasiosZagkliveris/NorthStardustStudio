@@ -15,8 +15,8 @@ wide.requires = [{ asset: "BTN.001", variant: "BTN.ADD.001.002", role: "the plus
 wide.lookNotes = [...wide.lookNotes.filter(n => !n.startsWith("height:")), "height and plus: by the owner's decision (owner, 2026-10-15) the button looks like a cell, so it is 44px high like every cell (it measured 39px); the plus inside it has the size and the place of the plus box, 32px, at the left, like the plus box."];
 
 writeFileSync("src/library/data/library.ts", [
-    "// The assets library, seeded once by tools/scripts/library/seed-library.mjs from the catalogue (docs/design/07-structure-tables.md).",
-    "// From now on the library is the source: it is changed by the procedure of docs/design/08-library-system.md (check, library, library log, inventory, placement, app log).",
+    "// The assets library, seeded once by tools/scripts/library/seed-library.mjs from the catalogue (docs/design/records/07-structure-tables.md).",
+    "// From now on the library is the source: it is changed by the procedure of docs/design/library/08-library-system.md (check, library, library log, inventory, placement, app log).",
     "",
     'import type { Library } from "../model/types.ts";',
     "",

@@ -1,6 +1,6 @@
 /**
  * Seeds the assets library from the catalogue tables (src/library/tables): every asset once,
- * with its code, variables, variants and requirements (docs/design/08-library-system.md).
+ * with its code, variables, variants and requirements (docs/design/library/08-library-system.md).
  *
  *   node tools/scripts/library/seed-library.mjs [--force]
  *
@@ -226,8 +226,8 @@ for (const r of table("MT").rows) { const c = chapters.get(String(r.chapter)); p
 // ------------------------------------------------------------------------------------------------- write
 mkdirSync(outDir, { recursive: true });
 const header = [
-    "// The assets library, seeded once by tools/scripts/library/seed-library.mjs from the catalogue (docs/design/07-structure-tables.md).",
-    "// From now on the library is the source: it is changed by the procedure of docs/design/08-library-system.md (check, library, library log, inventory, placement, app log).",
+    "// The assets library, seeded once by tools/scripts/library/seed-library.mjs from the catalogue (docs/design/records/07-structure-tables.md).",
+    "// From now on the library is the source: it is changed by the procedure of docs/design/library/08-library-system.md (check, library, library log, inventory, placement, app log).",
     ""
 ].join("\n");
 writeFileSync(outDir + "/library.ts", header + 'import type { Library } from "../model/types.ts";\n\nexport const library: Library = ' + JSON.stringify({ variables, assets }, null, 1) + ";\n");

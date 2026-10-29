@@ -2,14 +2,14 @@
 
 Status: **research, 2026-10-26** (owner's request: identify which activities are connected with age limits, direct or possible, per country). Six researchers read official sources, one country each (the UK, Ireland, the USA, Canada, Australia, New Zealand). **No row is legal advice, and nothing here blocks a user.** It extends the lookup of doc 28, 10.3 (the kinds of goods behind O12) from *goods* to *activities*, so that the Organization tile's activity can say, once, "people of an age may be affected by what you do".
 
-> **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Doc 33 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, age limits, accessibility, caregiving and the rest) is a future feature: doc 34. Index of the app and its documents: `docs/app/app-index.md`; glossary: `docs/app/glossary.md`.
+> **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Doc 33 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, age limits, accessibility, caregiving and the rest) is a future feature: doc 34. Contents of the documents: `docs/README.md`; index: `docs/index.md`; glossary: `docs/app/glossary.md`.
 
 ## 1. How to read it
 
 - **D** (direct): a law sets a minimum age for the customer, participant or user, or forbids selling, supplying, serving or admitting under an age. **P** (possible): no flat age, but an age check, a parent's consent, a child-specific code or an age-related duty may apply depending on the product, platform, state or setting. **–**: none found.
 - **O** (opened): the official page was read in full. **E** (excerpt): a search summary of an official page, to be re-checked by a person (many government sites refused the reader: legislation.govt.nz, health.govt.nz, Citizens Information, the Irish Statute Book, Ofcom, several Quebec pages). **–** under status: no official page.
 - A cell reads "D O": direct, opened. The age, who it binds, the staff age, where it varies inside the country and the source are in the country tables of section 5.
-- **The industry column** says where the activity sits in the industry scheme (ISIC Rev. 4 by division or group, the default scheme of doc 38, 5.3; the national codes follow it by division). It is approximate and is how the Organization tile's activity code would find the activity **(not built)**.
+- **The industry column** says where the activity sits in the industry scheme (ISIC Rev. 4 by division or group, the default scheme of doc 36, 5.3; the national codes follow it by division). It is approximate and is how the Organization tile's activity code would find the activity **(not built)**.
 - **Only O and E rows from an official source may drive a Review check** (the rule of 10.3); a "–" shows "check the rule for your area" and drives nothing.
 
 ## 2. The matrix
