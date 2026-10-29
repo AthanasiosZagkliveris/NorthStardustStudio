@@ -318,7 +318,7 @@ For the owner to decide, or work not done. Each item leaves this list when done 
 - The hand-written rows of doc 10 (L0653 to L0659) and doc 12 (A0029 to A0034) hold facts the log does not (tipWords, aria-pressed, label-arrow.css, MultiPicker); doc 12 mentions `SegmentedToggle`, which is not in `src`.
 
 **The design record (doc 01, 02, 03)**
-- Part F of doc 01 (one repeated template for each card, 60% of the file) could be reduced or moved, but `tools/scripts/catalogue/load.mjs` reads it in place and the structure tables and doc 06 are generated from it: the tool must change first.
+- Part F of doc 01 is now doc 37 (2026-10-29); the repeated template for each card could still be reduced, but the catalogue tool reads its table shapes.
 - Doc 02, 2.7 (the source register, about 100 KB) could become its own document; other documents cite its ids.
 - The Part G "Key flag" idea and the Part E "Both" place are in no code and no longer in doc 01: formally dropped? (They stay in doc 03 R2.)
 - The comment in `PartnerGroupHelp.test.ts` still says "part H"; it is Part D, section 3.
@@ -327,4 +327,4 @@ For the owner to decide, or work not done. Each item leaves this list when done 
 - 25 ids are listed as withdrawn or merged, but 91 minus 67 is 24: the 91 or one id is wrong (doc 28, Appendix B).
 - I6 is counted as a check while 8.2 withdraws it, and I7 is counted as a driver while described as merged into I7c. Without I6 the count is 20 checks and 66 questions.
 - The customers' industry list (G15, P24): 5.7 says the 18 plain industries are retired, but 6.3, 27 section 5 and 29 still use them. Marked [D] in doc 28.
-- Doc 28 is 268 KB and was not split: code comments cite its sections 5.7 to 5.10 and 8.2 and 8.5. A split needs those comments changed first.
+- Doc 28 is 207 KB since section 5 became doc 38 (2026-10-29); sections 6 to 15 remain.

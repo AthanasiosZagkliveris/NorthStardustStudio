@@ -4,6 +4,59 @@ Every change of the tables, that is, of the structure of the app: a placement pl
 
 | Id | Date | Change | Where | Asset | Not in the library | What | Note |
 |---|---|---|---|---|---|---|---|
+| A0087 | 2026-10-29 | edited | K K053 |  |  | row changed: source |  |
+| A0086 | 2026-10-29 | edited | K K052 |  |  | row changed: source |  |
+| A0085 | 2026-10-29 | edited | K K051 |  |  | row changed: source |  |
+| A0084 | 2026-10-29 | edited | K K050 |  |  | row changed: source |  |
+| A0083 | 2026-10-29 | edited | K K049 |  |  | row changed: source |  |
+| A0082 | 2026-10-29 | edited | K K048 |  |  | row changed: source |  |
+| A0081 | 2026-10-29 | edited | K K047 |  |  | row changed: source |  |
+| A0080 | 2026-10-29 | edited | K K046 |  |  | row changed: source |  |
+| A0079 | 2026-10-29 | edited | K K045 |  |  | row changed: source |  |
+| A0078 | 2026-10-29 | edited | K K044 |  |  | row changed: source |  |
+| A0077 | 2026-10-29 | edited | K K043 |  |  | row changed: source |  |
+| A0076 | 2026-10-29 | edited | K K042 |  |  | row changed: source |  |
+| A0075 | 2026-10-29 | edited | K K041 |  |  | row changed: source |  |
+| A0074 | 2026-10-29 | edited | K K040 |  |  | row changed: source |  |
+| A0073 | 2026-10-29 | edited | K K039 |  |  | row changed: source |  |
+| A0072 | 2026-10-29 | edited | K K038 |  |  | row changed: source |  |
+| A0071 | 2026-10-29 | edited | K K037 |  |  | row changed: source |  |
+| A0070 | 2026-10-29 | edited | K K036 |  |  | row changed: source |  |
+| A0069 | 2026-10-29 | edited | K K035 |  |  | row changed: source |  |
+| A0068 | 2026-10-29 | edited | K K034 |  |  | row changed: source |  |
+| A0067 | 2026-10-29 | edited | K K033 |  |  | row changed: source |  |
+| A0066 | 2026-10-29 | edited | K K032 |  |  | row changed: source |  |
+| A0065 | 2026-10-29 | edited | K K031 |  |  | row changed: source |  |
+| A0064 | 2026-10-29 | edited | K K030 |  |  | row changed: source |  |
+| A0063 | 2026-10-29 | edited | K K029 |  |  | row changed: source |  |
+| A0062 | 2026-10-29 | edited | K K028 |  |  | row changed: source |  |
+| A0061 | 2026-10-29 | edited | K K027 |  |  | row changed: source |  |
+| A0060 | 2026-10-29 | edited | K K026 |  |  | row changed: source |  |
+| A0059 | 2026-10-29 | edited | K K025 |  |  | row changed: source |  |
+| A0058 | 2026-10-29 | edited | K K024 |  |  | row changed: source |  |
+| A0057 | 2026-10-29 | edited | K K023 |  |  | row changed: source |  |
+| A0056 | 2026-10-29 | edited | K K022 |  |  | row changed: source |  |
+| A0055 | 2026-10-29 | edited | K K021 |  |  | row changed: source |  |
+| A0054 | 2026-10-29 | edited | K K020 |  |  | row changed: source |  |
+| A0053 | 2026-10-29 | edited | K K019 |  |  | row changed: source |  |
+| A0052 | 2026-10-29 | edited | K K018 |  |  | row changed: source |  |
+| A0051 | 2026-10-29 | edited | K K017 |  |  | row changed: source |  |
+| A0050 | 2026-10-29 | edited | K K016 |  |  | row changed: source |  |
+| A0049 | 2026-10-29 | edited | K K015 |  |  | row changed: source |  |
+| A0048 | 2026-10-29 | edited | K K014 |  |  | row changed: source |  |
+| A0047 | 2026-10-29 | edited | K K013 |  |  | row changed: source |  |
+| A0046 | 2026-10-29 | edited | K K012 |  |  | row changed: source |  |
+| A0045 | 2026-10-29 | edited | K K011 |  |  | row changed: source |  |
+| A0044 | 2026-10-29 | edited | K K010 |  |  | row changed: source |  |
+| A0043 | 2026-10-29 | edited | K K009 |  |  | row changed: source |  |
+| A0042 | 2026-10-29 | edited | K K008 |  |  | row changed: source |  |
+| A0041 | 2026-10-29 | edited | K K007 |  |  | row changed: source |  |
+| A0040 | 2026-10-29 | edited | K K006 |  |  | row changed: source |  |
+| A0039 | 2026-10-29 | edited | K K005 |  |  | row changed: source |  |
+| A0038 | 2026-10-29 | edited | K K004 |  |  | row changed: source |  |
+| A0037 | 2026-10-29 | edited | K K003 |  |  | row changed: source |  |
+| A0036 | 2026-10-29 | edited | K K002 |  |  | row changed: source |  |
+| A0035 | 2026-10-29 | edited | K K001 |  |  | row changed: source |  |
 | A0034 | 2026-10-21 | placed | Business System / Infrastructure & Capability (the Inventory window) |  | yes | The Inventory's controls are the app's: TickField, OptionPicker (hug, tight, keepWidth), NumberCell, RemoveButton, RadioChoice, FoldArrow label with direction and pressed, TextLink with aria-pressed | Logged by hand on 2026-10-21: the tool finds only changes of the library data, and these were changes of the contracts and of the shared components (document 23) |
 | A0033 | 2026-10-20 | placed | all pages |  | yes | TitleTooltips replaces the browser's own tooltip with the app's TooltipBox, once, in App; PopupPanel and usePopupDismiss are the popups' placement and dismissal | Logged by hand on 2026-10-21: the tool finds only changes of the library data, and these were changes of the contracts and of the shared components (document 23) |
 | A0032 | 2026-10-20 | placed | Calendar panel, Business Documents, Settings dialog | DRP.001 |  | The calendar's, the Documents' and the Settings' controls are replaced by the shared ones: AddButton, TextLink, OptionPicker, MultiPicker, SegmentedToggle, RemoveButton | Logged by hand on 2026-10-21: the tool finds only changes of the library data, and these were changes of the contracts and of the shared components (document 23) |

@@ -5,7 +5,7 @@
  * similarities, the differences and the gaps before the library is built).
  *
  * Sources:
- *   variants, variant_rows   document 01, Part F (what the user can reach in each card, row by row)
+ *   variants, variant_rows   document 37 (Part F of document 1) (what the user can reach in each card, row by row)
  *   assets                   the asset contracts in src/library
  *   observations             the card scanner's output (tools/scripts/cards/scan.mjs), one scan per file
  *   reactions                the reaction scanner's output (same files, records of kind "reaction")
@@ -79,7 +79,8 @@ export const ASSET_OF = {
 export function parseVariants(text) {
     const all = text.replace(/\r\n/g, "\n").split("\n");
     const start = all.findIndex(line => line.startsWith("## Part F."));
-    const end = all.findIndex((line, index) => index > start && line.startsWith("## Part G."));
+    const partG = all.findIndex((line, index) => index > start && line.startsWith("## Part G."));
+    const end = partG < 0 ? all.length : partG;
     const variants = [];
     const rows = [];
     let current = null;
@@ -98,7 +99,7 @@ export function parseVariants(text) {
                     category: parts.length > 3 ? parts[2] : "",
                     group: parts[parts.length - 1],
                     line: at + 1,
-                    source: "docs/design/01-current-design.md Part F"
+                    source: "docs/design/37-card-structure.md"
                 };
                 variants.push(current);
             } else if (!/^Category: |^Resources$|^Partners$|^Suppliers$|^Activities$/.test(title)) {

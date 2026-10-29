@@ -60,9 +60,11 @@ const DESIGN = [
   ["docs/design/31-positioning-categories.md", "collection", "Positioning categories, collected as given by the owner before any question or layout: user age stages, buyer age stages, accessibility and caregiving cross-sections, buyer categories, buyer and user relationships, the offering purpose taxonomy and the relationship-to-purpose mapping, with what it leaves open.", true],
   ["docs/design/32-positioning-sources.md", "research", "Sources for the positioning lists: what supports each list of doc 31 (age stages, buyer categories, relationships, purposes, accessibility, caregiving), what has no acceptable source, and the five search result files with every page opened or marked not opened.", true],
   ["docs/design/33-specs-and-limitations.md", "specification", "The first published version: English only; the six countries and Other with their legal forms, activities and codes; single-sided; B2C and/or B2B; the buyer's category separate from the life stage.", true],
-  ["docs/design/34-future-features.md", "living list", "Everything that is not in the first published version: other languages and countries, multi-sided, B2G, G2B, the detailed positioning data, age limits by country, and the research still to do.", true]
+  ["docs/design/34-future-features.md", "living list", "Everything that is not in the first published version: other languages and countries, multi-sided, B2G, G2B, the detailed positioning data, age limits by country, and the research still to do.", true],
+  ["docs/design/37-card-structure.md", "current design", "Card structure: what the user can reach in each card, row by row, and why (Part F of document 1; the structure tables and the catalogue record are generated from it).", true],
+  ["docs/design/38-lists-and-classifications.md", "proposal", "The countries, the shared lists, the national crosswalks, the industry lists, the activity cascade, the codes and the classification data (section 5 of document 28).", true]
 ];
-const QUESTIONNAIRE = DESIGN.filter(([p]) => /design\/(2[7-9]|3\d)-/.test(p));
+const QUESTIONNAIRE = DESIGN.filter(([p]) => /design\/(2[7-9]|3[0-4]|38)-/.test(p));
 const DESIGN_RECORDS = DESIGN.filter(x => !QUESTIONNAIRE.includes(x));
 const SPEC = [
   ["docs/specifications/business-system/README.md", "specification", "The Business System: index of the pages and the editor mapping.", true],
@@ -103,13 +105,13 @@ Status: **index**, updated ${new Date().toISOString().slice(0, 10)}. One line pe
 ## The app: index and glossary (\`app/\`)
 
 ${table(APP)}
-## The first version and the questionnaire (\`design/27\` to \`design/34\`)
+## The first version and the questionnaire (\`design/27\` to \`design/34\`, \`design/38\`)
 
 ${table(QUESTIONNAIRE)}
 ## For the assistant and the rules (\`ai/\`)
 
 ${table(AI)}
-## The design records (\`design/01\` to \`design/26\`)
+## The design records (\`design/01\` to \`design/26\`, \`design/37\`)
 
 ${table(DESIGN_RECORDS)}
 ## The specifications (\`specifications/\`)

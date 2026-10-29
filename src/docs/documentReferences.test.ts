@@ -16,6 +16,7 @@ const DOCUMENTS = [
     "docs/ai/tile-and-card-pattern.md",
     "docs/specifications/business-system/page-3-infrastructure-and-capability.md",
     "docs/design/01-current-design.md",
+    "docs/design/37-card-structure.md",
     "docs/ai/card-kinds.md"
 ];
 

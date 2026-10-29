@@ -1,6 +1,6 @@
 # Questionnaire specification: lists, questions, connections and evidence
 
-Status: **proposal, with parts built.** Revised 2026-10-23 (it replaces the earlier drafts `27-questionnaire-plan.md` and `28-business-pages-structure.md` of 2026-10-22, merged here, and is now the specification that goes with `27-questionnaire-plan.md`). **Built** (marked "as built" or "built" where described): the Organization tile with its activity cascade (5.7 to 5.10, 8.5), the business stage and key dates (8.2a), the Early Positioning questions with the End User questions (8.2), the Legal Entity page (8.5), and the Segment's reading of I3 and I7b (8.2, "What the Segment will read"). **Not built:** everything else (the shared lists as fields, the industry pack, the Segment, Profile, Competitor and Offering questions, the journey, the price questions). The **plan** (the goal, the order, what is built when, what was cut and why) is document 27, and **the flow of the questions as trees** (which answer leads to which question, the key branches, both, mixed, not sure and other, the order) is document 29. This document holds the detail the plan points to: the shared lists with examples, the industry list in two levels, every question with its wording and options, how every characteristic connects to the rest of the app and on what evidence, and the moves and decisions. Decisions for the owner are marked **[D]** and collected in section 13 (which also holds the decisions of documents 27 and 29). The counts of questions, drivers, checks and notes are held only in Appendix B. Where the code and this document disagree, the code is right. The sources are in `02-references.md`, section 2.7, and are cited here by id (for example `DIG-14`).
+Status: **proposal, with parts built.** Revised 2026-10-23 (it replaces the earlier drafts `27-questionnaire-plan.md` and `28-business-pages-structure.md` of 2026-10-22, merged here, and is now the specification that goes with `27-questionnaire-plan.md`). **Built** (marked "as built" or "built" where described): the Organization tile with its activity cascade (doc 38, 5.7 to 5.10, 8.5), the business stage and key dates (8.2a), the Early Positioning questions with the End User questions (8.2), the Legal Entity page (8.5), and the Segment's reading of I3 and I7b (8.2, "What the Segment will read"). **Not built:** everything else (the shared lists as fields, the industry pack, the Segment, Profile, Competitor and Offering questions, the journey, the price questions). The **plan** (the goal, the order, what is built when, what was cut and why) is document 27, and **the flow of the questions as trees** (which answer leads to which question, the key branches, both, mixed, not sure and other, the order) is document 29. This document holds the detail the plan points to: the shared lists with examples, the industry list in two levels, every question with its wording and options, how every characteristic connects to the rest of the app and on what evidence, and the moves and decisions. Decisions for the owner are marked **[D]** and collected in section 13 (which also holds the decisions of documents 27 and 29). The counts of questions, drivers, checks and notes are held only in Appendix B. Where the code and this document disagree, the code is right. The sources are in `02-references.md`, section 2.7, and are cited here by id (for example `DIG-14`).
 
 > **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Doc 33 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, age limits, accessibility, caregiving and the rest) is a future feature: doc 34. Index of the app and its documents: `docs/app/app-index.md`; glossary: `docs/app/glossary.md`.
 
@@ -12,16 +12,16 @@ Status: **proposal, with parts built.** Revised 2026-10-23 (it replaces the earl
 - [4. Plain wording](#4-plain-wording)
   - [4.1 Rules for writing our questions](#41-rules-for-writing-our-questions)
 - [5. The countries and the shared lists](#5-the-countries-and-the-shared-lists)
-  - [5.1 What differs by country](#51-what-differs-by-country)
-  - [5.2 The shared lists](#52-the-shared-lists)
-  - [5.3 The crosswalks (national schemes behind the plain lists)](#53-the-crosswalks-national-schemes-behind-the-plain-lists)
-  - [5.4 Industries, level 2: the "more exactly?" list](#54-industries-level-2-the-more-exactly-list)
-  - [5.5 Examples under the options](#55-examples-under-the-options)
-  - [5.6 The industry pack: what a sub-industry gives the user](#56-the-industry-pack-what-a-sub-industry-gives-the-user)
-  - [5.7 The activity cascade: levels, how many to pick, and what the data shows](#57-the-activity-cascade-levels-how-many-to-pick-and-what-the-data-shows)
-  - [5.8 The code and the words: what the cascade ends on, and how each country names it](#58-the-code-and-the-words-what-the-cascade-ends-on-and-how-each-country-names-it)
-  - [5.9 How many choices at each level (the sufficient numbers)](#59-how-many-choices-at-each-level-the-sufficient-numbers)
-  - [5.10 The classification data](#510-the-classification-data)
+  - [5.1 What differs by country](38-lists-and-classifications.md#51-what-differs-by-country)
+  - [5.2 The shared lists](38-lists-and-classifications.md#52-the-shared-lists)
+  - [5.3 The crosswalks (national schemes behind the plain lists)](38-lists-and-classifications.md#53-the-crosswalks-national-schemes-behind-the-plain-lists)
+  - [5.4 Industries, level 2: the "more exactly?" list](38-lists-and-classifications.md#54-industries-level-2-the-more-exactly-list)
+  - [5.5 Examples under the options](38-lists-and-classifications.md#55-examples-under-the-options)
+  - [5.6 The industry pack: what a sub-industry gives the user](38-lists-and-classifications.md#56-the-industry-pack-what-a-sub-industry-gives-the-user)
+  - [5.7 The activity cascade: levels, how many to pick, and what the data shows](38-lists-and-classifications.md#57-the-activity-cascade-levels-how-many-to-pick-and-what-the-data-shows)
+  - [5.8 The code and the words: what the cascade ends on, and how each country names it](38-lists-and-classifications.md#58-the-code-and-the-words-what-the-cascade-ends-on-and-how-each-country-names-it)
+  - [5.9 How many choices at each level (the sufficient numbers)](38-lists-and-classifications.md#59-how-many-choices-at-each-level-the-sufficient-numbers)
+  - [5.10 The classification data](38-lists-and-classifications.md#510-the-classification-data)
 - [6. Business 1 · Foundation: the customer model and the cards](#6-business-1--foundation-the-customer-model-and-the-cards)
   - [6.1 The owner's customer-segment text: analysis and what was adopted](#61-the-owners-customer-segment-text-analysis-and-what-was-adopted)
   - [6.2 The model: categories, groups and the questions that carry them](#62-the-model-categories-groups-and-the-questions-that-carry-them)
@@ -75,14 +75,14 @@ Status: **proposal, with parts built.** Revised 2026-10-23 (it replaces the earl
 ## 1. Summary
 
 1. **One test for every question: does it save the founder work?** A question is kept as a **driver** when its answer produces a proposal: it pre-fills a field, proposes a card or a channel, drafts a text, or narrows a later list. A question that only raises a Review check is a **check**; a field that nothing reads stays a **note** and is not asked. Of the candidate questions, **67 remain numbered: 41 drivers, 21 checks, 4 notes and 1 parked** (the Brand question); the totals by area, and the ids withdrawn or merged, are in Appendix B, which is the one place that holds them. The plan (document 27) builds the drivers first.
-2. **Target countries: the UK, USA, Canada, Australia, Ireland and New Zealand** (owner, 2026-10-23). Lists that depend on a country (industry, organisation size, education, urban or rural, tax, quoting prices) were checked against official sources of those six countries (section 5). **The UK and the EU have a new industry classification** (UK SIC 2026 and NACE Rev. 2.1, which move the section letters), so the industry list is keyed on divisions, not on letters (5.3).
+2. **Target countries: the UK, USA, Canada, Australia, Ireland and New Zealand** (owner, 2026-10-23). Lists that depend on a country (industry, organisation size, education, urban or rural, tax, quoting prices) were checked against official sources of those six countries (section 5). **The UK and the EU have a new industry classification** (UK SIC 2026 and NACE Rev. 2.1, which move the section letters), so the industry list is keyed on divisions, not on letters (doc 38, 5.3).
 
-**The letters of the ids** are labels, never shown to the user: **I** Identity; **G** the customer Group (the Segment card); **P** the Person (the Profile card); **K** the Competitor (C was taken by Capability); **O** the Offering; **L1 to L16** the shared **Lists** of 5.2; **W** the Work of the Delivery card (it was L1 to L3, which clashed with the Lists, renamed 2026-10-25); **C** Capability and the founders; **R** the Revenue stream; **J** the customer Journey (the stage card); **D** the Demand card; **F** (FS, FC, FV, FO, FI, FD, FQ, FR) the ids of the earlier question files, Appendix A only.
+**The letters of the ids** are labels, never shown to the user: **I** Identity; **G** the customer Group (the Segment card); **P** the Person (the Profile card); **K** the Competitor (C was taken by Capability); **O** the Offering; **L1 to L16** the shared **Lists** of doc 38, 5.2; **W** the Work of the Delivery card (it was L1 to L3, which clashed with the Lists, renamed 2026-10-25); **C** Capability and the founders; **R** the Revenue stream; **J** the customer Journey (the stage card); **D** the Demand card; **F** (FS, FC, FV, FO, FI, FD, FQ, FR) the ids of the earlier question files, Appendix A only.
 3. **Identity is the entry point.** The Organization tile (what kind of work you do, in the levels of the country's classification; when it opens) and the Early Positioning tile (the market structure, who pays, the audience, what you compete on, each a choice beside its free text; 8.2) hold the answers meant to narrow every later list and to suggest examples (segments, offerings, skills, resources, channels). Business 1 reads them only in part so far (8.1, 8.2). Giving the Brand system starting points is parked by the owner (2026-10-23, section 8.3).
 4. **The customer is a model, not a form** (the owner's customer-segment text, 6.1): six categories; a **Segment** takes ranges and a **Profile** takes specifics, **and the Profile can only choose within what the Segment allowed** (the cascade, 6.5); answers filter, reveal and suggest; an answer that changes an earlier one flags what depends on it instead of deleting it.
 5. **Every characteristic is connected to the other parts, with evidence** (section 11). The result is 28 **rules the evidence supports**, a longer list of **rules it does not support** (so they are not built), and an **evidence line** the user can read beside each connection. Demographics connect to competitors only through what customers care about and where they look.
 6. **A suggestion, a Review check or a help line, never a hidden option.** Tendencies from official statistics are shown as tendencies, with their source; no conversion rate, sales cycle or price limit is proposed, because no source supports one.
-7. **The wording is plain and every option has an example** (sections 4, 5.5). **One vocabulary in several places** (5.2): the "what customers care about" list is ticked by a Profile, chosen by an Offering, used for a competitor's strengths and for what you compete on.
+7. **The wording is plain and every option has an example** (sections 4, doc 38, 5.5). **One vocabulary in several places** (doc 38, 5.2): the "what customers care about" list is ticked by a Profile, chosen by an Offering, used for a competitor's strengths and for what you compete on.
 8. **Customer Engagement is rebuilt as a journey** (section 7): one tile per stage, one card per channel, proposed from the Profile's and the Offering's answers. **Founders and capability** are one place with the gap derived (section 9).
 9. **No new page.** Tiles and cards only, from existing components; a chapter may hold any number of tiles.
 
@@ -108,7 +108,7 @@ Status: **proposal, with parts built.** Revised 2026-10-23 (it replaces the earl
 12. **Who they are is a range or one value; what they do is several.** A Segment is a narrow group: an ordered fact (age, education, size) is a range from one band to another, an unordered fact (work, industry, type) is one value, and more than that is another Segment. Several answers belong to what customers do or prefer, mostly in the Profile.
 13. **Each fact is asked once, where it belongs.** A default (a country, a first Segment's answer) is not a second question; it is a starting value the user confirms. A field that only repeats another is not asked.
 
-**Rule 14: lists come only from documents, never from the author** (the owner, 2026-10-23, repeated; refined 2026-10-24). **Where an input asks for a country's own classification (codes, names, categories: industries, legal forms, registers), the list is taken from the official document of a government, a statistics office, a regulator or a statute. Where it is only the options of a dropdown (how a business positions itself, how it wants to be seen), the list may come from the documents of a business school or university** (a faculty's own page, paper or published abstract). In both cases the list keeps that document's order and words, or it is the owner's own wording from this conversation. The author makes up no list and no category. **Audit:** most lists of 5.2 are the author's and fail this rule: L1 (what customers care about), L2 (worries), L3 (frustrations), L4 (goals), L5 (skill areas), L7 (the 18 industries), L9 (age bands, a composite), L11, L13, L14, L15, and the option lists of O1, O3, I5, I9 and several Profile questions. Only L8, L10 and L12 follow statistics offices' own wording, and L6 follows the app. Each is to be replaced by an official list, the owner's wording, or dropped, tile by tile, after the Organization tile. The industry cascade (5.7 to 5.10), the legal forms (existing, by country) and the Stage question (I8) already follow this rule.
+**Rule 14: lists come only from documents, never from the author** (the owner, 2026-10-23, repeated; refined 2026-10-24). **Where an input asks for a country's own classification (codes, names, categories: industries, legal forms, registers), the list is taken from the official document of a government, a statistics office, a regulator or a statute. Where it is only the options of a dropdown (how a business positions itself, how it wants to be seen), the list may come from the documents of a business school or university** (a faculty's own page, paper or published abstract). In both cases the list keeps that document's order and words, or it is the owner's own wording from this conversation. The author makes up no list and no category. **Audit:** most lists of doc 38, 5.2 are the author's and fail this rule: L1 (what customers care about), L2 (worries), L3 (frustrations), L4 (goals), L5 (skill areas), L7 (the 18 industries), L9 (age bands, a composite), L11, L13, L14, L15, and the option lists of O1, O3, I5, I9 and several Profile questions. Only L8, L10 and L12 follow statistics offices' own wording, and L6 follows the app. Each is to be replaced by an official list, the owner's wording, or dropped, tile by tile, after the Organization tile. The industry cascade (doc 38, 5.7 to 5.10), the legal forms (existing, by country) and the Stage question (I8) already follow this rule.
 
 ## 4. Plain wording
 
@@ -153,525 +153,18 @@ From official survey and style guidance (sources in `02-references.md`, QST). Mo
 
 ## 5. The countries and the shared lists
 
-### 5.1 What differs by country
-
-| | UK | Ireland | USA | Canada | Australia | New Zealand |
-|---|---|---|---|---|---|---|
-| Sales tax name | VAT | VAT | State and local sales tax (no federal VAT) | GST, HST in five provinces, PST, QST | GST | GST |
-| Consumer prices normally | include tax [TAX-01, TAX-03] | include tax [TAX-04] | exclude tax (added at checkout) [TAX-10] | exclude tax (added at checkout) [TAX-08] | include tax [TAX-11, excerpt] | include tax, or clearly say they exclude it [TAX-06] |
-| Business-only quotes | may exclude | may exclude | exclude | exclude (practice; no official rule found) | may exclude | may exclude |
-| Registration threshold | £90,000 [TAX-02] | €42,500 services, €85,000 goods [TAX-05] | per state | C$30,000 [TAX-09] | A$75,000 [TAX-11, excerpt] | NZ$60,000 [TAX-07] |
-| Industry scheme | UK SIC 2007, 21 sections [BUS-01] | NACE Rev. 2, moving to Rev. 2.1 from January 2026 [BUS-05] | NAICS 2022, 20 sectors [BUS-03] | NAICS Canada 2022, 20 sectors [BUS-04] | ANZSIC 2006, 19 divisions [BUS-02] | ANZSIC 2006 [BUS-02] |
-| "Small business" starts below | 50 employees [BUS-11] | 50 [BUS-11] | 500 employees or a receipts limit, by industry [BUS-07] | 100 [BUS-09] | 20 (the ABS wording was not verified) [BUS-10] | 20 [BUS-12] |
-
-The tax rates were not checked. The **organisation's** country comes from the Legal Entity (Country) and decides the tax name and the currency; the **customers'** country (G3) decides the education, size, industry and area crosswalks and the equality-law notice.
-
-### 5.2 The shared lists
-
-Each list is one definition used wherever its id appears; counts include "Not sure yet" only where written.
-
-| Id | Name | Plain options | Used by |
-|---|---|---|---|
-| L1 | **What customers care about** (10) | Lower price; Speed; Ease and convenience; Quality and results; Trust and reputation; Expert knowledge; A service made for them; Good support; Safety and low risk; Shared values or identity | I7, P9, K2, K3, O4, the Value Proposition draft |
-| L2 | **Worries that stop a purchase** (8) | The price or their budget; Whether they can trust you; How long it takes to start; How hard it is to use; Risk or security; Whether it fits their needs; Support after they buy; The effort of switching from what they use now | P19, O8 |
-| L3 | **Frustrations** (10) | It costs too much; It takes too long; It is too complicated; The quality is inconsistent; It is hard to find someone they trust; They lack the know-how; Support is poor; They worry about mistakes or rules; They have no time or capacity; Prices are unclear | P18 |
-| L4 | **Goals** (10) | Save time; Save money; Lower their risk; Get better results; Get easier access; Learn something new; Express who they are; Meet a requirement; Win customers or earn more; Stay within the rules | P17 |
-| L5 | **Skill areas** (6) | Delivering your product or service; Marketing; Sales and customer care; Running the business (operations, admin, technology); Money and legal (finance, accounting, legal); Leadership and people (management, hiring) | C1, L2, C4 |
-| L6 | **Channels** | the 13 channel categories and their subchannels, as in the app | P11, K4, the journey |
-| L7 | **Industries, level 1** (18, then Not sure, or more than one; level 2 in 5.4) | Farming, forestry and fishing; Mining, oil, gas and quarrying; Manufacturing; Energy, water and waste; Construction; Wholesale and retail trade; Transport, postal and logistics; Hospitality (accommodation, food, drink); Software, IT, media and telecoms; Finance and insurance; Real estate and property; Professional, scientific and technical services (law, accounting, consulting, engineering, design); Administrative and support services (staffing, cleaning, security, travel); Government and public administration; Education and training; Health and social care; Arts, sport and recreation; Other services (repair, personal, membership, charity) | I1, I2, G15, P24 |
-| L8 | **Organisation size** (6) | Just one person (self-employed, no employees); 1 to 9 employees; 10 to 49; 50 to 249; 250 to 499; 500 or more | G14 |
-| L9 | **Age bands** (13) | 0 to 2; 3 to 5; 6 to 9; 10 to 12; 13 to 15; 16 to 17; 18 to 24; 25 to 34; 35 to 44; 45 to 54; 55 to 64; 65 to 74; 75 or older (with an "i" under each, 6.3) | G6 |
-| L10 | **Education** (6 + Not sure yet) | No formal qualifications; School-level qualifications; Vocational or trade qualification, apprenticeship or diploma; Some college or university, no degree yet; Bachelor's degree or equivalent; Postgraduate degree (master's or doctorate) | G7, P2 |
-| L11 | **What the customer must provide** (9) | Access to their systems or information; A clear brief; Approval within an agreed time; A place to work; Their own equipment or software; A minimum commitment or term; Payment upfront; To meet certain conditions; Nothing | O10 |
-| L12 | **What they spend on** (10) | Housing and home running costs; Food and groceries; Getting around; Phone, internet and communication; Health and wellbeing; Education and learning; Eating out, travel and accommodation; Leisure, hobbies, sport and entertainment; Clothing, home goods and personal care; Insurance, saving and financial services | G18, O11 |
-| L13 | **How they pay** (6) | Debit or credit card; Cash; Bank transfer; Mobile wallet or payment app; Invoice; Buy now, pay later | P14 |
-| L14 | **Kind of area** (5) | City centre or large city; Large town; Small town; Rural area; Remote area | G4 |
-| L15 | **Devices** (5) | Smartphone; Laptop or desktop; Tablet; A shared or public device; None of these | P15 |
-| L16 | **What a figure is based on** (9) | Sales or payments I have had; Website or social-media data; Talking to customers; A signed commitment; A pilot test; A benchmark or a comparison with the market; My costs plus a margin (a price only); My own estimate; Nothing yet | R2, D1 |
-
-L12 follows the UN household-consumption divisions [SPN-01] as customer-friendly labels with the division behind each (housing 04, food 01, transport 07, information and communication 08, health 06, education 10, restaurants and accommodation 11, recreation 09, clothing and furnishings and personal care 03, 05 and 13, insurance and financial services 12). Offices label them differently and the new 2018 split is not yet used everywhere, so each option is a customer label with a code behind it, not a survey category.
-
-### 5.3 The crosswalks (national schemes behind the plain lists)
-
-**Industries (L7), level 1.** The plain list is what the user sees; the national code is stored with it so documents can print the country's own section or code. **Two editions are in use.** The table gives the **division numbers**, which are the same in UK SIC 2007 / NACE Rev. 2 and in UK SIC 2026 / NACE Rev. 2.1 (with the exceptions in the notes), and the section letters of the **2007 edition**. The UK's ONS has published **UK SIC 2026**, aligned to NACE Rev. 2.1, and the Irish CSO is moving to Rev. 2.1 (business register recoded in 2025, outputs from January 2026), so the section letters below are the old edition and the **2026 letters shift** (old J splits into new J, publishing, broadcasting and content, 58–60, and new K, telecoms, computer programming, computing infrastructure and information services, 61–63; finance becomes L, real estate M, professional N, administrative O, public administration P, education Q, health R, arts S, other services T; the letters of P and R are inferred) [BUS-01, BUS-18, BUS-19, BUS-05]. The app therefore **keys the industry on divisions** and stores the code of the edition the country uses. The existing hint on the Organization tile cites SIC 2007 and is to be checked **[D]**. NAICS 2022 is current in the USA and Canada (a 2027 revision is proposed, excerpt only); ANZSIC 2006 Rev 2.0 is current in Australia and New Zealand [BUS-02 to BUS-04, BUS-20].
-
-| Plain industry | SIC 2007 / NACE Rev. 2 section (divisions) | USA, Canada NAICS | Australia, NZ ANZSIC |
-|---|---|---|---|
-| Farming, forestry and fishing | A (01–03) | 11 | A (01–05) |
-| Mining, oil, gas and quarrying | B (05–09) | 21 | B (06–10) |
-| Manufacturing | C (10–33) | 31–33 | C (11–25) |
-| Energy, water and waste | D, E (35–39) | 22 (waste is in 56) | D (26–29) |
-| Construction | F (41–43) | 23 | E (30–32) |
-| Wholesale and retail trade | G (45–47) | 42 (Canada 41), 44–45 | F (33–38), G (39–43) |
-| Transport, postal and logistics | H (49–53) | 48–49 | I (46–53) |
-| Hospitality | I (55–56) | 72 | H (44–45) |
-| Software, IT, media and telecoms | J (58–63) | 51 (and computer services in 54) | J (54–60) (and computer services in M, 70) |
-| Finance and insurance | K (64–66) | 52 | K (62–64) |
-| Real estate and property | L (68) | 53 | L (66–67) |
-| Professional, scientific and technical services | M (69–75) | 54 (and 55) | M (69–70) |
-| Administrative and support services | N (77–82) | 56 | N (72–73) |
-| Government and public administration | O (84) | 92 (Canada 91) | O (75–77) |
-| Education and training | P (85) | 61 | P (80–82) |
-| Health and social care | Q (86–88) | 62 | Q (84–87) |
-| Arts, sport and recreation | R (90–93) | 71 | R (89–92) |
-| Other services | S (94–96) | 81 | S (94–96) |
-
-**Is every industry in the table?** Every section of the four schemes is covered: the UK SIC 2007 sections A to S, all 20 NAICS sectors (55, management of companies, sits with Professional; waste in 56 sits with Energy, water and waste), and all 19 ANZSIC divisions. The plain list leaves out households (SIC T) and extraterritorial bodies (SIC U); the activity cascade (5.7) uses every official section. **Not industries in any official scheme, so not in the list:** non-profit, charity and social enterprise (a legal-form question beside the industry question: the schemes classify by activity), creative industries and "-tech" labels (cross-sector groupings; a tag at most). The list offers **"Not sure, or more than one"**; there is no "Something else" (every section of the schemes sits under one of the 18, and the odd cases are placed with an "i"). **The list is too coarse for the target audience**: all five Tier 1 business types land in two rows (Software, IT, media and telecoms; Professional, scientific and technical services), so the user could not narrow; hence the second level (5.4).
-
-**Organisation size (L8).** Counts paid employees, the owner not counted; revenue tests are ignored. [BUS-06 to BUS-12]
-
-| Plain option | UK, Ireland (EU) | USA (Census size classes) | Canada (ISED) | Australia (ABS) | New Zealand (MBIE, Stats NZ) |
-|---|---|---|---|---|---|
-| Just one person | 0 | non-employer | no employees | non-employing | 0 |
-| 1 to 9 | micro | within 0–19 | 1–4 micro, within small | 1–4, part of 5–19 | micro 0–5, 6–9 |
-| 10 to 49 | small | within 0–19 and 20–99 | small | part of 5–19 and of 20–199 | 10–19, 20–49 |
-| 50 to 249 | medium | 20–99, 100–249 | small 50–99, medium 100–249 | medium | 50–99, 100+ |
-| 250 to 499 | large | 250–499 | medium | large (200+) | large (100+) |
-| 500 or more | large | 500+ (above most SBA limits) | large | large | large |
-
-The bands are exact for the UK, Ireland and the EU and approximate elsewhere. "Small" means under 20 (New Zealand; Australia, not verified), under 50 (UK, Ireland), under 100 (Canada), under 500 (the SBA, varying by industry): the option names therefore state the headcount, not "small". "Self-employed" is defined differently in each country [BUS-13 to BUS-16]; the first option says "no employees", and anyone with staff takes a size band.
-
-**Education (L10).** The crosswalk is the research's inference, not an official concordance; the weakest cells are the Irish and Australian ones, where no office has a "some college or university, no degree" category. The lowest option names what the person has, in the offices' own words: the ONS "No qualifications", Statistics Canada "No certificate, diploma or degree", the Australian Census "Did not go to school" then "Year 8 or below", Stats NZ "No qualification", the CSO "No formal education"; the US ACS starts at "No schooling completed" [DEM-03, DEM-06, DEM-09, QST-11, QST-17, QST-20]. [DEM-03 to DEM-11]
-
-| Plain option | UK | USA | Canada | Australia | Ireland | New Zealand |
-|---|---|---|---|---|---|---|
-| No formal qualifications | none | no schooling to grade 11; 12th grade, no diploma | no certificate, diploma or degree | did not go to school up to Year 9 | no formal education, primary only | no qualification |
-| School-level qualifications | GCSEs, A levels (Levels 1 to 3) | high school diploma or equivalent | high school diploma or equivalency | Year 10 to 12 | secondary (levels 3 to 5) | Level 1 to 3 certificates (NCEA) |
-| Vocational or trade qualification, apprenticeship or diploma | apprenticeship, vocational Level 3, HNC, HND (Levels 4 to 5) | associate's degree (trade certificates are not separate in the ACS) | apprenticeship or trades certificate, college diploma | Certificate III or IV, Diploma, Advanced Diploma | advanced and higher certificates (levels 5 to 6) | Level 4 certificate, Level 5 to 6 diploma |
-| Some college or university, no degree yet | some higher education | some college, no degree | university certificate below a bachelor's | (no separate category) | (no separate category) | (no separate category) |
-| Bachelor's degree or equivalent | Level 6 | bachelor's | bachelor's | Bachelor, Honours | levels 7 to 8 | Level 7 bachelor's, honours (Level 8) |
-| Postgraduate degree (master's or doctorate) | Level 7 to 8 | graduate or professional | master's, doctorate, medicine | Master's, Doctoral | levels 9 to 10 | levels 9 to 10 |
-
-**Age (L9).** Thirteen bands, finer below 18 because a toddler, a ten-year-old and a teenager are different customers, and described by age and development, never by work. Below 18 the bands follow the stages of the UK Children's Code (0 to 5, 6 to 9, 10 to 12, 13 to 15, 16 to 17) with the England early-years stage starting at 3; the adult bands are ten-year groups as in the ABS Age Standard; the older-adult line is 65 and the next is 75. All bands below 18 are children in the UN Convention on the Rights of the Child, while the ICO, the Canadian OPC and the Australian OAIC each ask for treatment by age within it. Wording: "children and young people", "older adults", never "the elderly". The US and New Zealand headline groups (25 to 44, 15 to 39) do not align with ten-year bands, so their five-year tables are used. [AGE-01 to AGE-18, DEM-01, DEM-02]
-
-**Kind of area (L14).** The crosswalk is the research's proposal, to be read as "nearest match" because the thresholds differ. The US has no official remote or suburban class (the Census page does not mention suburban), so the list has neither; a founder who wants "suburban" writes it in the note. [GEO-01 to GEO-06]
-
-| Plain option | UK (England, Wales) | USA | Canada | Australia | Ireland | New Zealand |
-|---|---|---|---|---|---|---|
-| City centre or large city | Urban (large conurbations) | Urban area | Large urban (100,000+) | Major Cities | City (50,000+) | Major or large urban |
-| Large town | Urban | Urban area | Medium (30,000–99,999) | Major Cities (smaller), Inner Regional | Satellite or independent urban town | Medium urban |
-| Small town | Larger rural settlement | Urban area (small) | Small (1,000–29,999) | Inner or Outer Regional | Independent town (1,500+) | Small urban |
-| Rural area | Smaller rural settlement, nearer | Rural | Rural area | Outer Regional | Rural, high or moderate urban influence | Rural settlements, rural other |
-| Remote area | Rural, further | Rural (no remote class) | Rural (no remote class) | Remote, Very Remote | Highly rural or remote | Rural other (no remote class) |
-
-**Income.** No two offices share bands and currencies differ (GBP, USD, CAD, AUD, NZD, EUR; the offices measure person or household, gross or after tax, per week or year) [DEM-12]. The app therefore asks for a **number range in the organisation's own currency** (or in the customers' currency when G3 is one other country, **[D]**), with person or household and per year, not bands.
-
-### 5.4 Industries, level 2: the "more exactly?" list
-
-Level 1 narrows to a sector; level 2 narrows to a kind of business, each with a one-line example the user sees under the option. The codes are the **divisions or groups** in each scheme (where the 2026 edition differs, it is shown as "2026:"); they are stored behind the option so a document prints the country's own code and the Organization tile can **suggest the activity code**. Codes come from the official structures [BUS-01, BUS-18 to BUS-20]; the examples are the author's illustrations. The seven sectors the target audience uses are complete; the other eleven have three to six items and grow later.
-
-**Software, IT, media and telecoms**
-
-| Plain sub-industry | Example | SIC / NACE | NAICS | ANZSIC |
-|---|---|---|---|---|
-| Custom software and app development | An agency building client apps | 62.01 (2026: 62.12, 62.13) | 541511 | 7000 |
-| AI and automation services | An agency building workflows or AI tools for clients | 62.01, 62.02 (2026: 62.13 general AI, 62.12 industry software, 62.20 advice) | 541511, 541512 | 7000 |
-| Web design and development | A studio that builds websites | 62.01 if it codes; 74.10 if it only designs (2026: 62.1 or 74.12) | 541511; 541430 for visual design | 7000 |
-| IT consulting, managed IT, cybersecurity | A managed-service provider | 62.02, 62.03, 62.09 (2026: 62.20, 62.90) | 541512, 541513, 541519 | 7000 |
-| Software products and SaaS | An early-stage subscription app | 58.29 (2026: 58.29, "accessed remotely") | 513210 (Canada 513211) | 5420 |
-| Games development and publishing | An indie game studio | 62.01 (development), 58.21 (publishing) (2026: 62.11, 58.21) | 541511 and 513210 (Canada 541515, 513212) | 7000, 5420 |
-| Cloud, hosting and data processing | A hosting company | 63.11 (2026: 63.10) | 518210 | 5921 |
-| Video, film, animation and VFX | A 3D or VFX studio | 59.11, 59.12 | 512110, 512191 | 5511, 5514 |
-| Publishing, music, audio and podcasts | A publisher or label | 58.1, 59.20, 60.10 | 513, 5122 | 541, 552, 570 |
-| Broadcasting, streaming and web portals | An online media site | 60.1, 60.2, 63.12 | 5161, 5162, 51929 | 56, 57 |
-| Telecoms and internet access | An internet provider | 61 | 517 | 58, 591 |
-
-**Professional, scientific and technical services**
-
-| Plain sub-industry | Example | SIC / NACE | NAICS | ANZSIC |
-|---|---|---|---|---|
-| Management and business consulting | A strategy or operations firm | 70.22 (2026: 70.20) | 541611, 541618 | 6962 |
-| Marketing, advertising and PR agencies | A brand or performance agency | 73.11, 73.12; PR 70.21 (2026: 73.30) | 541810, 541820, 541613 | 6940 |
-| Market research | A survey firm | 73.20 | 541910 | 6950 |
-| Design studios (graphic, brand, UI/UX, product, interior) | A brand or product design studio | 74.10 (2026: 74.11 to 74.14) | 5414 | 6924 |
-| Architecture practices | Architects, landscape architects | 71.11 | 541310, 541320 | 6921 |
-| Engineering consultancies | Civil, structural or building services | 71.12 | 541330, 541340 | 6923, 6922 |
-| Legal | A law firm | 69.10 | 5411 | 693 |
-| Accounting, tax and bookkeeping | An accountancy | 69.20 | 5412 | 693 |
-| Scientific research and testing | A laboratory or biotech | 72, 71.20 | 5417, 54138 | 691, 6925 |
-| Photography, translation and other | A photo studio | 74.20, 74.30, 74.90 | 541921, 541922, 541930 | 6991, 6999 |
-| Head offices and holding companies | A group parent | 70.10 (financial holdings are 64.20) | 5511 | 6961 |
-
-**Administrative and support services**
-
-| Plain sub-industry | Example | SIC / NACE | NAICS | ANZSIC |
-|---|---|---|---|---|
-| Recruitment and staffing | A recruitment agency | 78 | 5613 | 721 |
-| Office administration and virtual assistants | A virtual-assistant firm | 82.1, 82.9 | 5611, 5614 | 7291, 7292, 7299 |
-| Call centres and customer-support outsourcing | A support desk | 82.20 | 561422 | 7294 |
-| Travel and event organisers | A tour operator, a trade-show organiser | 79, 82.30 | 5615, 561920 | 722, 729 |
-| Security and investigation | A guarding company | 80 | 5616 | (group not verified) |
-| Cleaning, landscaping and pest control | A facilities-services company | 81 | 5617 | 731 |
-| Equipment rental and leasing (offered under Real estate) | Tool hire | 77 | 532 | 66 |
-
-**Education and training**
-
-| Plain sub-industry | Example | SIC / NACE | NAICS | ANZSIC |
-|---|---|---|---|---|
-| Schools | A primary or secondary school | 85.1 to 85.3 | 6111 | 80 |
-| Universities and colleges | A higher-education provider | 85.4 | 6112, 6113 | 81 |
-| Business and corporate training | A management-development provider | 85.59 | 6114 | 8219 |
-| IT and technical training | A coding bootcamp | 85.32, 85.59 | 6115, 611420 | 81, 8219 |
-| Arts, language and sports instruction | A music teacher, a coach | 85.51, 85.52, 85.59 | 6116 | 8211, 8212, 8219 |
-| Tutoring, exam preparation and driving | A tutor | 85.59, 85.53 | 611691, 611692 | 8219 |
-| Educational support and edtech | A course platform | 85.60 (2026: 85.61, 85.69); the software itself is 58.29 | 6117 | 822 |
-
-**Arts, sport and recreation**
-
-| Plain sub-industry | Example | SIC / NACE | NAICS | ANZSIC |
-|---|---|---|---|---|
-| Artists, writers and performers | A freelance illustrator | 90 (2026: 90.1, 90.2) | 7111, 7115 | 900 |
-| Museums, libraries and heritage | A gallery | 91 | 7121 | 89 |
-| Sports clubs and fitness | A gym | 93.1 | 7112, 71394 | 911 |
-| Amusement and recreation | A theme park | 93.2 | 7131, 7139 | 91 |
-| Gambling and betting | A betting operator | 92 | 7132 | 92 |
-
-**Finance and insurance**
-
-| Plain sub-industry | Example | SIC / NACE | NAICS | ANZSIC |
-|---|---|---|---|---|
-| Banking and lending | A bank, a credit union | 64.19, 64.92 | 5221, 5222 | 62 |
-| Payments and fintech services | A payment processor | 66.19, 64.99 | 522320 | 62, 64 |
-| Investment, funds and wealth management | An asset manager | 66.30, 64.30 | 523, 525 | 62, 641 |
-| Securities brokerage and advice | A broker | 66.12, 66.19 | 5231, 52393 | 641 |
-| Insurance carriers and pensions | An insurer | 65.1, 65.2, 65.30 | 5241, 52511 | 63 |
-| Insurance and mortgage brokers | A broker | 66.22, 66.19 | 5242, 52231 | 642, 641 |
-
-**Real estate and property**
-
-| Plain sub-industry | Example | SIC / NACE | NAICS | ANZSIC |
-|---|---|---|---|---|
-| Estate agents and brokers | An agency | 68.31 | 5312 | 672 |
-| Property management | A rental manager | 68.32 | 531311, 531312 | 672 |
-| Landlords and property investment | A letting company | 68.20 | 5311 | 671 |
-| Property development | A developer | 41.10 (2026: 68.12) | 2361, 2362 | 30 |
-| Valuation and surveying | A valuer | 68.31, 71.12 | 531320, 541370 | 672, 6922 |
-| Serviced offices and co-working | A co-working operator | 68.20 | 531120 | 671 |
-
-**The other eleven sectors** (level 2, to grow later)
-
-| Sector | Sub-industries | SIC 2007 | NAICS | ANZSIC |
-|---|---|---|---|---|
-| Farming, forestry and fishing | Crops; livestock; forestry; fishing and aquaculture; support services | 01–03 | 11 | 01–05 |
-| Mining, oil, gas and quarrying | Oil and gas; metal ores; quarrying; mining support | 05–09 | 21 | 06–10 |
-| Manufacturing | Food and drink; textiles and clothing; machinery; electronics; furniture and other | 10–33 | 31–33 | 11–25 |
-| Energy, water and waste | Electricity and gas; water; waste collection and recycling | 35–39 | 22, 562 | 26–29 |
-| Construction | Building; civil engineering; trades | 41–43 | 23 | 30–32 |
-| Wholesale and retail trade | Wholesale; shops; online retail; vehicle trade | 45–47 | 42, 44–45 | 33–43 |
-| Transport, postal and logistics | Road; air and sea; courier; warehousing | 49–53 | 48–49 | 46–53 |
-| Hospitality | Hotels; restaurants and cafés; bars; catering | 55–56 | 72 | 44–45 |
-| Government and public administration | Local and central government; defence; public safety | 84 | 92 | 75–77 |
-| Health and social care | Doctors and clinics; dental; care homes; social work | 86–88 | 62 | 84–87 |
-| Other services | Repair; personal services; membership and religious organisations | 94–96 | 81 | 94–96 |
-
-**Where the schemes disagree, and where the plain list places it.**
-
-| Activity | What the schemes do | Placed under |
-|---|---|---|
-| Software publishing and SaaS | 58.29 / 513210 / 5420; SIC 2026 says 58.29 covers software accessed over a network; hosting is separate (63.1x, 518210, 5921) | Software, IT, media and telecoms. If the customer buys access to an application it is SaaS; if infrastructure, hosting |
-| Computer services | SIC 62 and ANZSIC 7000 (Professional) are in different sectors from NAICS 51 (Information) | Software, IT, media and telecoms |
-| Games | SIC 2007 splits publishing (58.21) from development (62.01); SIC 2026 has 62.11 and 58.21; Canada splits 541515 and 513212; the US has no video-game class | Software, IT, media and telecoms |
-| Web design | A studio that codes: 62.01 / 541511 / 7000; visual design only: 74.10 / 541430 / 6924; SIC 2026 separates 74.12 from 62.1 | Software, IT, media and telecoms; offer UI/UX design under Professional |
-| Advertising and marketing | Professional in all schemes (73.11, 5418, 6940); digital marketing consulting is 541613 | Professional, scientific and technical |
-| Management consulting | 70.22 / 541611 / 6962 in all; head offices 70.10 / 5511 / 6961 | Professional, scientific and technical |
-| Architecture and engineering, design, photography | Professional in all schemes | Professional, scientific and technical |
-| Film, animation and VFX | 59.11, 59.12 / 51219 / 5514 (explicitly includes computer graphics, animation and special effects) | Software, IT, media and telecoms, not Arts |
-| AI services | No scheme has an AI class; only SIC 2026 names AI and large language models (62.13, 62.12, 62.20) | Software, IT, media and telecoms |
-| Rental and leasing | SIC N, ANZSIC L, NAICS 53 | Real estate and property |
-| Scientific research and biotech | SIC 72, NAICS 5417, ANZSIC 691 | Professional, scientific and technical |
-
-Not verified: the ANZSIC group codes of Division K groups 62 and 63 and Division O group 77; where ANZSIC places custom games development; the Stats NZ ANZSIC page (404). A "Not sure, or more than one" option ends level 1; "Something else" ends both levels.
-
-### 5.5 Examples under the options
-
-Every option has a one-line example shown under it, so the user understands the choice without leaving the card. The examples are the author's and need the owner's approval **[D]**. The first five lists are written here; the others follow the same pattern.
-
-**L1, what customers care about**
-
-| Option | Example |
-|---|---|
-| Lower price | A cheaper way to get the same result |
-| Speed | Ready in days, not weeks |
-| Ease and convenience | Simple to order, nothing to set up |
-| Quality and results | Fewer errors, a better finish |
-| Trust and reputation | A known name, reviews, guarantees |
-| Expert knowledge | Specialist skills they do not have |
-| A service made for them | Tailored to their situation |
-| Good support | Someone answers when they need help |
-| Safety and low risk | Secure, compliant, easy to undo |
-| Shared values or identity | Ethical, local, sustainable |
-
-**L2, worries that stop a purchase**
-
-| Option | Example |
-|---|---|
-| The price or their budget | "Can we afford it?" |
-| Whether they can trust you | "Have you done this before?" |
-| How long it takes to start | "How soon can we begin?" |
-| How hard it is to use | "Will our team cope?" |
-| Risk or security | "Is our data safe?" |
-| Whether it fits their needs | "Will it work for us?" |
-| Support after they buy | "Who helps when it breaks?" |
-| The effort of switching | "We already use something else" |
-
-**L3, frustrations**
-
-| Option | Example |
-|---|---|
-| It costs too much | Fees that keep rising |
-| It takes too long | Waiting weeks for an answer |
-| It is too complicated | Forms, steps and jargon |
-| The quality is inconsistent | Good one time, poor the next |
-| It is hard to find someone they trust | Many providers, no way to tell |
-| They lack the know-how | No one in the team can do it |
-| Support is poor | Calls and emails go unanswered |
-| They worry about mistakes or rules | Fines, errors, compliance |
-| They have no time or capacity | Busy with the core work |
-| Prices are unclear | Hidden extras, vague quotes |
-
-**L4, goals**
-
-| Option | Example |
-|---|---|
-| Save time | Do in an hour what took a day |
-| Save money | Lower running costs |
-| Lower their risk | Fewer surprises |
-| Get better results | Higher sales, better health, better grades |
-| Get easier access | Reach a service from home |
-| Learn something new | A skill or a qualification |
-| Express who they are | Look and feel like themselves |
-| Meet a requirement | A rule, a contract, a deadline |
-| Win customers or earn more | Grow the business |
-| Stay within the rules | Tax, safety, data protection |
-
-**L5, skill areas**
-
-| Option | Example |
-|---|---|
-| Delivering your product or service | Design, coding, teaching, making, advising |
-| Marketing | Content, advertising, brand, events |
-| Sales and customer care | Proposals, follow-up, support |
-| Running the business | Admin, tools, scheduling, IT |
-| Money and legal | Bookkeeping, tax, contracts |
-| Leadership and people | Planning, managing, hiring |
-
-### 5.6 The industry pack: what a sub-industry gives the user
-
-When the user picks a level-2 industry, the app has a **pack** of examples for it, shown as suggestions the user can add with one click (the existing add-tile pattern), never applied by itself:
-
-| Part of the pack | Fills | Shown on |
-|---|---|---|
-| Example customers (kinds of Segment) | the first Segment's name and description | Business 1, Segment tile |
-| Example offerings (name, form, how bought) | the first Offering | Business 1, Offerings tile |
-| Skill areas usually needed | the Delivery card's skill areas (W2) | Business 3, Delivery |
-| Resource groups shown or hidden | the presets (for example a service business hides Materials and Stock) | Business 3, Resources |
-| Channel categories to consider at the Discover stage | the stage suggestions (7.4) | Business 2, Discover tile |
-| Activity code of the country | the code field | Identity, Organization tile |
-| (parked) Typeface fit for the kind of business | one starting point | Brand, Typography tile |
-
-**A sample pack, marketing, advertising and PR agencies (the author's illustration, to be approved):** customers: small local businesses; funded start-ups; the marketing teams of larger companies. Offerings: a brand identity (project, one purchase); a monthly social-media service (retainer); a website and campaign launch (project). Skill areas: Delivering, Marketing, Sales and customer care, Running the business. Resources: workspace, software and web; no stock or vehicles. Discover channels to consider: Website, Social Media, Email, Referral & Affiliates, Community. The packs for the Tier 1 and Tier 2 business types come first (about twelve); the others show the generic examples. Examples are labelled "for example", never "typical", because no source gives typical customers, offerings or channels by industry.
-
-### 5.7 The activity cascade: levels, how many to pick, and what the data shows
-
-The Organization tile (8.5) asks what the business does as a **cascade of dropdowns in the country's own industry scheme**: an answer opens the next level, down to the final code (the owner, 2026-10-23). The order of the answers is the order of importance: the first activity is the primary, the second the secondary, and so on. Statistics offices classify a business by its **principal activity**, the one with the largest value added [FUN-07; the ABS describes principal and secondary activities, excerpt]; the register's first code is its main activity [FUN-01, secondary sources].
-
-**The levels, by country** (the names are the schemes' own):
-
-| Level | UK | Ireland | USA | Canada | Australia, New Zealand |
-|---|---|---|---|---|---|
-| 1 | Section (21, letters) | Section (21; Rev. 2.1 has 22) | Sector (20) | Sector (20) | Division (19, letters) |
-| 2 | Division (88) | Division (88; Rev. 2.1 has 87) | Subsector (86) | Subsector (99) | Subdivision (86) |
-| 3 | Group (272) | Group (272; Rev. 2.1 has 287) | Industry group (288) | Industry group (323) | Group (214) |
-| 4 | Class (615) | Class (615; Rev. 2.1 has 651) | NAICS industry (638) | Industry (none at five digits in the Canadian table) | Class |
-| 5 | Sub-class, five digits (730 in use; the name is from memory) | none | National industry (970) | Canadian industry (920) | none (New Zealand: the BIC code) |
-
-Counts are from the schemes' pages and the downloaded tables [FUN-02 to FUN-08]; the United States file is NAICS 2017.
-
-**Up to four activities, each ending in one final code (owner, 2026-10-23).** The user may choose **any combination of up to four final codes**, each with its own complete hierarchy (Industry, then the country's next levels, to the final code); two codes may share a division, a group or a class, or share nothing. One activity is one path; **there is no "+" inside an activity**. "+ Add activity (n of 4)" adds the next path and disappears at four. An activity that has its code **folds**: the head stays (arrow, name, ×) and below it come only its last category and the bold code. The first activity is the main one. Every option is the official one, in official order. Dropdown cells are the existing option picker, drawn as an input, never as a button; Business model and Market are the radio choice.
-
-**Layout of the activities (owner, 2026-10-23).** Like the Performer rows: one label **Activities**, a sub-label per activity (Primary, Secondary, Tertiary, Quaternary), the cell, and the x column, with the "+" in the first row's x column. The full specification is in 8.5.
-
-**How many activities.** UK companies (active private limited companies with a real code, 4,652,231) list one code in 77.8%, two in 12.5%, three in 5.3% and four in 4.4% (90.4% have at most two, 95.6% at most three; four is the register's limit, so the last figure is a floor) [FUN-01]. Counting distinct **industries**, 89.2% list one, 97.7% at most two and 99.7% at most three. Companies set up since 2024 list more: 71.6% one code, against 87.0% before 2016.
-
-**Inside one industry** the smallest number of items that covers 95% of the companies there is: divisions 1 to 2; groups 2 (Real estate 3); classes 2 (Wholesale and retail, Information and communication, Real estate 3); codes 2 (Construction, Wholesale and retail, Information and communication, Real estate 3). The average is 1.04, 1.10, 1.13 and 1.14 items per company for divisions, groups, classes and codes.
-
-**How many options to show** (smallest number covering 80% and 90% of businesses; averages weighted by parent size; counts are companies in the UK, firms in the USA, business locations in Canada, enterprises in Ireland):
-
-| Level | UK | USA | Canada | Ireland |
-|---|---|---|---|---|
-| 1 (of 21, 20, 20, 16) | 9 and 12 | 9 and 12 | 9 and 12 | 9 and 11 |
-| 2 | 2.6 and 3.4 (max 12 and 16: Manufacturing) | 2.6 and 3.2 (11 and 13) | 2.4 and 2.7 (11 and 13) | 2.6 and 2.9 (5 and 7) |
-| 3 | 2.1 and 2.6 | 2.8 and 3.8 | 2.4 and 3.2 | 2.3 and 2.5 |
-| 4 | 1.8 and 2.1 | 1.8 and 2.2 | 1.9 and 2.5 | not in the data |
-| 5 | 1.2 and 1.2 | 1.3 and 1.5 | none | none |
-
-So: show **about 12 industries** plus a way to see all; **about four options** at the lower levels plus "Show all"; **Manufacturing** (21 to 24 children) and, in the United States and Canada, retail trade need grouping. Ireland's CSO table has too little detail below divisions (132 categories, mixed levels) [FUN-06].
-
-**What a primary activity tends to pick up** (share of multi-code UK companies with that main activity that also list the second section): Manufacturing with Retail and wholesale 43%; Information and communication with Professional services 35%; Finance with Professional services 31% and Real estate 27%; Transport with Administrative and support 27%; Professional services with Administrative and support 25%; Construction with Real estate 22%. Shown as "tends to" suggestions the user may ignore.
-
-**Not yet known:** Australia and New Zealand class-level counts (the current ABS release has divisions only; the Stats NZ file was seen only through a mirror) (how each country records activities is settled in 5.8). The UK numbers are **provisional** for the other countries.
-
-**The 18 plain industries (L7) are retired** (rule 14: they are the author's merge, not an official list). The customers' industry (G15, P24) will use the same official cascade in the customers' country; this follows the owner's rule and is settled when Business 1 is reached. **Until then G15 (6.3) and documents 27 and 29 are still written with the 18 plain industries of L7 and the two-level list of 5.4 [D]**; only the seller's activity cascade (this section, built) is already official. The cascade uses all 21 official sections, including section T, where 89,021 UK companies use code 98000, "Residents property management" [FUN-01].
-
-**Industry connections (not used for the funnel).** The author's 1 to 5 scores of which industries combine in one business correlate 0.54 to 0.57 (Spearman) with the UK register's real combinations, and 0.42 with Swedish skill-relatedness matrices [FUN-01, FUN-10]; the six headings I had proposed are the author's grouping and no SIC code supports them, so they are not used.
-
-### 5.8 The code and the words: what the cascade ends on, and how each country names it
-
-Settled with the owner on 2026-10-23: **the codes are generated by the cascade, and the names and labels switch with the country**, so the user recognises the words of their own registry and feels sure of each choice.
-
-**Rule 1: the code is generated, never typed.** Every option carries the official code of its country and edition; the codes nest (in the UK a division is the first two digits of the code, a group the first three, a class the first four). The final choice sets the code, which appears **at the end of that activity**. The user may still edit it. A user who stops before the last level keeps the partial code, marked incomplete.
-
-**What the cascade ends on, by country** (the codes are examples):
-
-| Country | Scheme and edition | Final level and stored code | What the register does |
-|---|---|---|---|
-| UK | UK SIC 2007 | Five-digit code, for example 62020 | Companies House: "You must provide at least one code, and you can select up to 4"; a SIC code is "a 5-digit code that describes your company's economic activity"; the codes must come from its condensed list on gov.uk (730 are in use); dormant (99999) and non-trading (74990) companies still give a code. The register still holds 2007 codes although UK SIC 2026 is published (Companies House blog and gov.uk page, opened). |
-| Ireland | NACE Rev. 2, named in the Act (Rev. 2.1 from 2026) | Four-digit class, for example 6202 | **Companies Act 2014, section 22(7) and (8): the statement gives "the general nature of the activity" and "the division, group and class" in the classification the Act defines in section 15 as "NACE Rev. 2"; "a precise description of the activity" when none fits; with two or more activities, the principal activity: one code** (the statute, opened). |
-| USA | NAICS (2022; the downloaded counts are 2017) | Six-digit national industry, for example 541512 | The IRS form SS-4 asks for the principal activity (one box) and a free-text line of business, and takes no code; Schedule C line B takes one six-digit principal business or professional activity code. The Census Bureau assigns the NAICS code to SS-4 applications (Social Security manual, excerpt). |
-| Canada | NAICS Canada 2022 | Six-digit Canadian industry, for example 541510 (a trailing zero means no national detail) | The CRA's tax forms ask one six-digit industry code for the main business activity (opened). **Ontario's business registry requires one "NAICS primary activity code", 2 to 6 digits, at incorporation and registration**, offered after the filer types a word for the activity; it is public only where the Business Names Act or the Limited Partnerships Act requires it (ministry notices, excerpts). Federal articles and BC's incorporation application list no activity code (the federal checklist, excerpt; BC's Corporate Online help page, opened). |
-| Australia | ANZSIC 2006 | Four-digit class, for example 7000 | The Australian Business Register: sign in, "Update ABN record", "ANZSIC and business details", then "Additional business activity at"; the user types a short description and picks the closest match, the code and description fill in automatically, then "Declaration and Submit"; a main activity plus up to four additional ones since December 2021 (Western Australian government page, opened; ABR page, excerpt). |
-| New Zealand | The government's Business Industry Classification (BIC), built on the ANZSIC 2006 class | BIC code, which begins with the ANZSIC 2006 class: five digits in the ACC guide (01110 Nursery production) or a division letter and six digits (C121450 wine manufacturing, on the NZBN page; A013950) | The NZBN "Industry classification" field records the "class(es)" of business activity as BIC codes; the IRD and ACC ask for the BIC code and its "business industry description" ("Choose or update your BIC code with Inland Revenue", ACC guide, opened); the official search tool is businessdescription.co.nz (named by ACC; its page showed no list when fetched); the IRD updates codes (vapes, April 2025). |
-| Another country | ISIC Rev. 4, the international standard (default; the country's own scheme may differ). **First published version (doc 33): Other has the activity and its code typed by the user; the ISIC cascade is built and stays in the code (doc 34, item 4)** | Four-digit class, for example 6202 | Not applicable: the app has no national scheme for it; the "i" says to check the country's own code |
-
-**The registries' own words** (found on the official pages; the status is in the last column):
-
-| Country | What the registry calls the activity | The code's name and form | Where it is said |
-|---|---|---|---|
-| UK | "Nature of business (SIC)" (the company page); gov.uk: "a description of your company's nature of business" | "SIC code", "a 5-digit code that describes your company's economic activity" (Companies House); shown as "62020 - Information technology consultancy activities"; the lookup is "Find your trade description or nature of business"; the list is `SIC07_CH_condensed_list_en.csv` | Companies House company page, blog and gov.uk page, **opened** |
-| Ireland | "The general nature of the activity"; "the principal activity" | "The division, group and class" of NACE Rev. 2 (the Act); "NACE code" (CRO and CSO); "a precise description of the activity" when none fits | Companies Act 2014 sections 15 and 22, **opened**; CRO pages, excerpts |
-| USA | SS-4: "the principal activity of the applicant's business" (line 16, one box) and a free-text "principal line of business" (line 17); Schedule C line A: the "business or professional activity" | Schedule C line B: one six-digit code from the IRS "Principal Business or Professional Activity Codes" chart; **no code is entered on the SS-4** | IRS instructions, **opened** |
-| Canada | "Main business activity" (CRA); "NAICS primary activity code" (Ontario) | "Industry code", six digits (NAICS) on CRA forms; Ontario: 2 to 6 digits, for example "812116 - unisex hair stylist shops" | CRA page **opened**; Ontario ministry notices, excerpts |
-| Australia | "Main business activity"; "Additional business activity at" | "ANZSIC code" with its description, filled in automatically from the activity typed; menu "ANZSIC and business details"; "Declaration and Submit"; not shown on the public ABN Lookup | Western Australian government page **opened**; ABR pages, excerpts |
-| New Zealand | "Industry classification" (NZBN); "business industry description" (ACC, IRD) | "BIC code" (Business Industry Classification); "class(es) of business activity" | NZBN page and ACC levy guide, **opened** |
-| Another country | "Economic activity" (the UN's term) | "ISIC code" | UNSD, excerpts |
-
-The two words are **activity** (UK, Ireland, Australia, Canada, and the statistics offices' "principal activity") and **industry** (the USA's chart, Canada's "industry code", New Zealand).
-
-**Can one organisation carry more than one code?**
-
-| Country | More than one? | What the sources say |
-|---|---|---|
-| UK | **Yes, up to four** | Companies House: "at least one code ... up to 4" (its blog, opened); the register has four code fields, the first being the main one [FUN-01] |
-| Australia | **Yes, a main one and up to four additional** (since December 2021) | Western Australian government page, opened [FUN-12, FUN-16] |
-| New Zealand | **Yes, "class(es)"**; the number is not stated | NZBN page, opened; the ACC guide has rules for the case where more than one classification unit applies [FUN-13, FUN-16] |
-| Ireland | **One: the principal activity** | Companies Act 2014 section 22(8): with two or more activities the particulars are those of the principal activity (the statute, opened) [FUN-16] |
-| USA | **One** | The IRS form SS-4 asks for the principal business activity; Schedule C takes one code, for the activity with the most revenue (secondary guides) [FUN-12, FUN-14] |
-| Canada | **One** | CRA: "use the code that most closely describes your main business activity" (opened); Ontario: one primary code (notices, excerpts); no activity code found for federal or BC incorporation [FUN-12, FUN-16] |
-| Another country | **Default: up to four** | Like the UK, the most flexible of the common cases |
-
-The statistical rule behind all of them is one **principal** activity per entity (ANZSIC: the predominant activity; Statistics Canada: the largest value added). **The app keeps four activities in every country**, because a fifth of UK companies list more than one code and the extra activities help the industry pack, and its "i" says which activities the register uses: all four in the UK, five in Australia, only the first in Ireland, the United States and Canada (the others describe the business).
-
-**Default for another country** (the user names the country; the app has no national scheme for it): the international ISIC (Rev. 4, which most national schemes follow; Rev. 5 was endorsed by the UN in 2023 and 2024 [FUN-14]). The levels carry ISIC's own names (Section, Division, Group, Class), the slot label is "Primary activity", the code label "Industry code (ISIC)", and the "i" says that the country's own scheme may differ slightly. That ISIC is the most common is the author's judgement; no ranking source was found.
-
-**Rule 2: the labels switch with the country.** The country is the organisation's (Legal Entity). The wording follows the table above:
-
-| Country | Heading and slot labels | Level names | Code label | The "i" says |
-|---|---|---|---|---|
-| UK | Nature of business (SIC): Main activity, Additional activity | Industry; Division, Group, Class, Sub-class | SIC code | "Companies House holds up to four codes; the first is the main one." |
-| Ireland | Principal activity: Principal activity, Other activity | Industry; Division, Group, Class (the Act's words) | NACE code | "The Companies Act asks for the general nature of the activity and its division, group and class in NACE Rev. 2; with several activities, the principal one; if none fits, a precise description. Only the first is used." |
-| USA | Principal business activity: Principal business activity, Other activity | Industry; Subsector, Industry group, Industry, National industry | Principal business activity code | "Tax forms ask for one six-digit code, for your principal business activity. The others describe the business." |
-| Canada | Main business activity: Main business activity, Other activity (in Ontario: NAICS primary activity code) | Industry; Subsector, Industry group, Industry, Canadian industry | Industry code (in Ontario: NAICS primary activity code) | "The CRA asks for one six-digit industry code for your main business activity. Ontario's registry asks for one NAICS primary activity code." |
-| Australia | Main business activity: Main business activity, Additional business activity | Industry; Subdivision, Group, Class | ANZSIC code | "The Australian Business Register asks for a main activity and allows four additional ones. Your classification is not shown on the public ABN Lookup." |
-| New Zealand | Industry classification: Industry classification, Additional classification | Industry; Subdivision, Group, Class, Business industry description | BIC code | "The NZBN register records the class(es) of business activity as BIC codes; the IRD and ACC ask for the BIC code and its business industry description." |
-| Another country | Primary activity: Primary activity, Additional activity | Industry; Division, Group, Class | Industry code (ISIC) | "This is the international classification (ISIC); your country's own scheme may differ slightly." |
-
-Every level, the first too, carries the scheme's own official name, **and every entry is printed as the official document prints it, the code first** ("54 Professional, Scientific, and Technical Services", "541 ...", "5415 ..."; owner, 2026-10-24; 5.7): Section (UK, Ireland, ISIC), Sector (United States, Canada), Division (Australia, New Zealand), then Division, Group, Class and Sub-class (UK), Division, Group, Class (Ireland, ISIC), Subsector, Industry group, NAICS industry, National industry (United States), Subsector, Industry group, Industry, Canadian industry (Canada), Subdivision, Group, Class (Australia), Subdivision, Group, Class, BIC code (New Zealand). Titles that repeat on neighbouring levels (NAICS 54 and 541 are both "Professional, Scientific, and Technical Services") are the official ones and stay. In the United States, Canada and Ireland the register holds one code, so the "i" says that only the first activity is used and the others describe the business. **The code is shown at the end of each activity**, with the country's code label and the description (for example "62020 - Information technology consultancy activities", the form Companies House uses).
-
-**Rule 3: a change at a higher level resets the levels below it** (the owner, 2026-10-23). Inside one activity, choosing a different option at any level clears every level under it, empties the generated code at the end of the activity, and reloads the lower dropdowns with the children of the new choice. Choosing the same option again changes nothing. Other activities are untouched. A code the user typed by hand is also cleared by a change above it, and the app's undo restores it.
-
-**Rule 4: a change of country resets every activity** (the owner, 2026-10-23). Whatever the new country's scheme shares with the old one (UK SIC 2007 and Irish NACE Rev. 2 share their codes to four digits, the United States and Canada to five, Australia and New Zealand the ANZSIC class), **nothing is carried over**: all levels of all activities and their codes are cleared, the labels switch to the new country's wording (rule 2), and the user chooses again. The app's undo restores the old choice if the country is changed back at once. The crosswalk of 5.3 is not used to fill anything.
-
-**What was not opened, and where the wording stands.** The research of 2026-10-23 settled the registry terms and the number of codes in all six countries (5.8, FUN-16). Not opened: the CRO's own pages (they returned an error; the Companies Act, which they restate, was opened), the ABR's own page (its steps were read on a state-government page), the Ontario notices (read as search excerpts), the 2022 BIC list (its search site showed no list) and Corporations Canada's own form (the federal checklist was read). The wording carries those limits in the "Where it is said" column.
-
-### 5.9 How many choices at each level (the sufficient numbers)
-
-Each dropdown has two numbers: **how many options it shows** and, as evidence only, **how many items a company usually lists** at that level. They come from the UK register (Companies House, 4,652,231 companies) and, for the options shown, the US, Canadian and Irish tables [FUN-01 to FUN-06]. The activities themselves are the four of 5.7; the only limit is four codes, the rest is guidance in the "i".
-
-| Level | Options shown | Activities under one parent (enough for 95% of companies) | What the data says |
-|---|---|---|---|
-| 1 Industry | About **12** (they cover 90% of businesses; 9 cover 80%), then "See all" | One industry per activity; two distinct industries cover 97.7% of companies, three 99.7%; four activities in all | UK 9, 12 and 14 of 21 sections cover 80, 90 and 95%; the US, Canada and Ireland the same shape |
-| 2 Division | The shortlist that covers 90% of the parent, at most ten, grouped when more (Manufacturing: 16 of 24) | **1 to 2**: divisions of one industry | 3.4 on average (UK), maximum 16 |
-| 3 Group | All, when there are six or fewer; else the 90% shortlist | **2** (Real estate **3**) | 2.6 on average, maximum 6 |
-| 4 Class | All, when six or fewer | **2** (Wholesale and retail, Information and communication, Real estate **3**) | 2.1 on average, maximum 7 |
-| 5 Code | All, when six or fewer | **2** (Construction, Wholesale and retail, Information and communication, Real estate **3**) | 1.2 on average, maximum 4 |
-
-**What a dropdown shows.** All its children when there are six or fewer. Otherwise the shortlist that covers 90% of the businesses under that parent (never more than ten), **in the official order of the classification** (never by popularity), then "Show all", which opens the full list in the same order. This keeps every list within the ABS rule of about ten short items [FUN-11].
-
-**Choices per level, from the classification files (src/data/classifications), counted 2026-10-23.** "Total" = every entry of the level; "per dropdown" = how many options one dropdown holds (the children of its parent): average, 90th percentile (p90), largest.
-
-| Country (scheme) | Level 1 | Level 2 | Level 3 | Level 4 | Level 5 | Total entries |
-|---|---|---|---|---|---|---|
-| UK (SIC 2007) | Section 21 | Division 88 | Group 274 | Class 616 | Sub-class 191 | 1,190 |
-| Ireland (NACE Rev. 2) | Section 21 | Division 88 | Group 272 | Class 615 | none | 996 |
-| USA (NAICS 2022) | Sector 20 | Subsector 96 | Industry group 308 | NAICS industry 689 | National industry 1,012 | 2,125 |
-| Canada (NAICS Canada 2022) | Sector 20 | Subsector 99 | Industry group 323 | Industry 694 | Canadian industry 923 | 2,059 |
-| Australia (ANZSIC 2006) | Division 19 | Subdivision 86 | Group 214 | Class 506 | none | 825 |
-| New Zealand (BIC 2022) | Division 19 | Subdivision 86 | Group 214 | Class 506 | BIC code 2,772 | 3,597 |
-| Other (ISIC Rev. 4) | Section 21 | Division 88 | Group 238 | Class 419 | none | 766 |
-
-| Country | Dropdown | Average | p90 | Largest |
-|---|---|---|---|---|
-| UK | Industry (section) | 21 (one list) | 21 | 21 |
-| UK | Division | 4.2 | 6 | 24 |
-| UK | Group | 3.1 | 6 | 9 |
-| UK | Class | 2.3 | 5 | 9 |
-| UK | Sub-class | 2.4 | 3 | 6 |
-| Ireland | Division / Group / Class | 4.2 / 3.1 / 2.3 | 6 / 6 / 5 | 24 / 9 / 9 |
-| USA | Subsector / Group / Industry / National | 4.8 / 3.2 / 2.2 / 1.5 | 11 / 7 / 4 / 3 | 21 / 9 / 9 / 9 |
-| Canada | Subsector / Group / Industry / Canadian | 5.0 / 3.3 / 2.1 / 1.3 | 11 / 7 / 4 / 2 | 21 / 9 / 8 / 8 |
-| Australia | Subdivision / Group / Class | 4.5 / 2.5 / 2.4 | 8 / 5 / 5 | 15 / 9 / 8 |
-| New Zealand | Subdivision / Group / Class / BIC code | 4.5 / 2.5 / 2.4 / 5.6 | 8 / 5 / 5 / 11 | 15 / 9 / 8 / 36 |
-| ISIC | Division / Group / Class | 4.2 / 2.7 / 1.8 | 6 / 5 / 4 | 24 / 9 / 9 |
-
-The UK sub-class count is the 191 sub-classes in the file, held under 78 classes; the Companies House list accepts 731 codes in all.
-
-**Why four, and what the numbers mean (re-counted 2026-10-23).** Four is the register's limit of codes, not a figure from the data. Companies House, 4,652,231 active private limited companies, distinct items listed per company at each level: industries 89.2% one, 97.7% up to two, 99.7% up to three; divisions 86.1%, 96.0%, 99.0%; groups 80.4%, 92.7%, 97.9%; classes 78.8%, 91.1%, 96.5%; codes 77.8%, 90.4%, 95.6%, and 100% at four. So most businesses need one or two paths (90.4% of companies list two codes or fewer), and four covers everyone the register allows. The numbers are evidence for the "i" and for the shortlist, **never limits** other than the four codes.
-
-**What the per-level numbers do.** The per-industry table below says how many divisions, groups, classes and codes the businesses of an industry usually list; it feeds the "i" text ("Most businesses in this industry list one or two") and the shortlists. It stops nothing: the only limit is four codes.
-
-**Per industry (UK).** Each industry has its own numbers. Options are the children of each parent that cover 90% of its businesses (the average over the industry's parents, weighted by size, with the largest in brackets); picks are the smallest number covering 95% of the industry's companies, for division, group, class and code.
-
-| Industry | Divisions in use | Divisions to show for 80% / 90% | Groups per division: all / for 90% | Classes per group: all / for 90% | Codes per class: all / for 90% | Picks: division / group / class / code |
-|---|---|---|---|---|---|---|
-| A Agriculture, forestry, fishing | 3 | 2 / 2 | 6.1 / 3.7 (max 4) | 4.1 / 2.6 (max 6) | 1.1 / 1.1 (max 2) | 1 / 2 / 2 / 2 |
-| B Mining and quarrying | 5 | 3 / 3 | 2.0 / 2.0 (max 2) | 1.6 / 1.2 (max 2) | 1.0 / 1.0 (max 2) | 1 / 2 / 2 / 2 |
-| C Manufacturing | 24 | 12 / 16 | 4.7 / 3.1 (max 5) | 4.0 / 2.8 (max 6) | 1.2 / 1.1 (max 3) | 2 / 2 / 2 / 2 |
-| D Electricity, gas | 1 | 1 / 1 | 3.0 / 2.0 (max 2) | 3.6 / 2.8 (max 3) | 1.0 / 1.0 (max 1) | 1 / 1 / 2 / 2 |
-| E Water, sewerage, waste | 4 | 2 / 3 | 2.3 / 2.3 (max 3) | 1.7 / 1.5 (max 2) | 1.0 / 1.0 (max 1) | 2 / 2 / 2 / 2 |
-| F Construction | 3 | 2 / 2 | 3.2 / 2.6 (max 3) | 2.4 / 2.2 (max 4) | 1.3 / 1.2 (max 2) | 2 / 2 / 2 / 3 |
-| G Wholesale and retail | 3 | 2 / 3 | 8.0 / 5.0 (max 6) | 4.3 / 3.6 (max 7) | 1.1 / 1.1 (max 3) | 2 / 2 / 3 / 3 |
-| H Transport and storage | 5 | 2 / 3 | 3.9 / 2.0 (max 3) | 2.5 / 2.0 (max 3) | 1.3 / 1.2 (max 3) | 2 / 2 / 2 / 2 |
-| I Accommodation and food | 2 | 1 / 2 | 3.2 / 3.0 (max 3) | 1.2 / 1.2 (max 2) | 2.3 / 2.0 (max 3) | 1 / 2 / 2 / 2 |
-| J Information and communication | 6 | 3 / 4 | 1.5 / 1.4 (max 3) | 3.5 / 2.5 (max 3) | 1.4 / 1.2 (max 3) | 2 / 2 / 3 / 3 |
-| K Finance and insurance | 3 | 1 / 2 | 3.8 / 2.2 (max 3) | 1.6 / 1.4 (max 3) | 4.6 / 2.0 (max 4) | 1 / 1 / 1 / 2 |
-| L Real estate | 1 | 1 / 1 | 3.0 / 3.0 (max 3) | 1.2 / 1.2 (max 2) | 2.0 / 1.0 (max 1) | 1 / 3 / 3 / 3 |
-| M Professional, scientific, technical | 7 | 4 / 5 | 2.5 / 1.6 (max 3) | 1.7 / 1.4 (max 2) | 2.1 / 1.6 (max 3) | 2 / 2 / 2 / 2 |
-| N Administrative and support | 6 | 3 / 5 | 3.5 / 2.4 (max 3) | 2.4 / 1.4 (max 4) | 1.3 / 1.1 (max 3) | 1 / 2 / 2 / 2 |
-| O Public administration | 1 | 1 / 1 | 3.0 / 2.0 (max 2) | 3.8 / 3.0 (max 3) | 1.0 / 1.0 (max 1) | 1 / 1 / 1 / 1 |
-| P Education | 1 | 1 / 1 | 6.0 / 4.0 (max 4) | 2.8 / 2.2 (max 3) | 1.0 / 1.0 (max 2) | 1 / 2 / 2 / 2 |
-| Q Health and social work | 3 | 2 / 3 | 3.0 / 2.3 (max 4) | 1.7 / 1.7 (max 3) | 1.1 / 1.1 (max 2) | 1 / 2 / 2 / 2 |
-| R Arts, entertainment, recreation | 4 | 2 / 2 | 1.5 / 1.5 (max 2) | 3.7 / 3.1 (max 4) | 1.2 / 1.0 (max 2) | 1 / 1 / 2 / 2 |
-| S Other services | 3 | 1 / 1 | 1.1 / 1.1 (max 2) | 4.9 / 3.0 (max 5) | 1.0 / 1.0 (max 1) | 1 / 1 / 1 / 1 |
-| T Households | 2 | 1 / 1 | 3.0 / 1.0 (max 1) | 1.0 / 1.0 (max 1) | 1.0 / 1.0 (max 1) | 1 / 1 / 1 / 1 |
-| U Extraterritorial | 1 | 1 / 1 | 1.0 / 1.0 (max 1) | 1.0 / 1.0 (max 1) | 1.0 / 1.0 (max 1) | 1 / 1 / 1 / 1 |
-
-**The other countries.** The United States, Canada and Ireland show the same pattern (5.7): about nine top industries cover 80%, 2 to 4 options cover most of each lower level, and only Manufacturing (and retail trade in the United States and Canada) runs long. Each country's own counts decide its shortlists. The UK per-level picks are used for all countries until their own data exists (no multi-activity file was found outside the UK, 5.8).
-
-### 5.10 The classification data
-
-The official classifications are extracted into `src/data/classifications/` (one JSON file per scheme and a README), in the **order of the official document**, with the code, level, title and parent of every entry. Only the key information is kept. The counts match the official ones.
-
-| File | Scheme and edition | Levels | Entries | Source |
-|---|---|---|---|---|
-| `uk-sic-2007.json` | UK SIC 2007 | 21 sections, 88 divisions, 272 groups, 615 classes, 191 sub-classes (+3 Companies House codes) | 1,190 | ONS summary of structure; Companies House condensed list (731 final codes, all flagged) |
-| `ie-nace-rev2.json` | NACE Rev. 2 (the Irish Act) | 21, 88, 272, 615 | 996 | CSO correspondence table NACE 2.1 to NACE 2 |
-| `us-naics-2022.json` | NAICS 2022 | 20 sectors, 96, 308, 689, 1,012 | 2,125 | Census Bureau structure file |
-| `ca-naics-2022.json` | NAICS Canada 2022 v1.0 | 20, 99, 323, 694, 923 | 2,059 | Statistics Canada structure file |
-| `au-anzsic-2006.json` | ANZSIC 2006 Rev. 2.0 | 19 divisions, 86, 214, 506 | 825 | ABS codes and titles page |
-| `nz-bic-2022.json` | NZ BIC (BIC Code List 2022) on the ANZSIC levels | 19, 86, 214, 506, 2,772 BIC codes | 3,597 | NZBN API portal; ABS for the upper levels |
-| `isic-rev4.json` | ISIC Rev. 4 (the default for another country) | 21, 88, 238, 419 | 766 | UN Statistics Division |
-
-Notes. The BIC list is valid from 1 April 2022 to 1 April 2023 (status Released); the IRD has changed codes since (for example vapes in April 2025) and a later list was not obtained. In the BIC list 14 ANZSIC classes carry no BIC code and are themselves final. UK SIC 2007: a class always has a five-digit code; the class codes without sub-classes are final; Companies House's list is the set of final codes it accepts; three of its codes (74990, 98000, 99999) are not in the ONS structure and are placed under the nearest existing parent by code. Options are always shown **in this file order, never by popularity**; the popularity counts of 5.9 only decide which entries a shortlist keeps.
+**Moved to doc 38 (`38-lists-and-classifications.md`) on 2026-10-29; the sub-section numbers are unchanged.** It holds the country differences, the shared lists, the national crosswalks, the industry lists, the examples, the industry pack, the activity cascade, the code and the words, the choices at each level and the classification data. References in this document written "doc 38, 5.N" point there.
+
+- [5.1 What differs by country](38-lists-and-classifications.md#51-what-differs-by-country)
+- [5.2 The shared lists](38-lists-and-classifications.md#52-the-shared-lists)
+- [5.3 The crosswalks (national schemes behind the plain lists)](38-lists-and-classifications.md#53-the-crosswalks-national-schemes-behind-the-plain-lists)
+- [5.4 Industries, level 2: the "more exactly?" list](38-lists-and-classifications.md#54-industries-level-2-the-more-exactly-list)
+- [5.5 Examples under the options](38-lists-and-classifications.md#55-examples-under-the-options)
+- [5.6 The industry pack: what a sub-industry gives the user](38-lists-and-classifications.md#56-the-industry-pack-what-a-sub-industry-gives-the-user)
+- [5.7 The activity cascade: levels, how many to pick, and what the data shows](38-lists-and-classifications.md#57-the-activity-cascade-levels-how-many-to-pick-and-what-the-data-shows)
+- [5.8 The code and the words: what the cascade ends on, and how each country names it](38-lists-and-classifications.md#58-the-code-and-the-words-what-the-cascade-ends-on-and-how-each-country-names-it)
+- [5.9 How many choices at each level (the sufficient numbers)](38-lists-and-classifications.md#59-how-many-choices-at-each-level-the-sufficient-numbers)
+- [5.10 The classification data](38-lists-and-classifications.md#510-the-classification-data)
 
 ## 6. Business 1 · Foundation: the customer model and the cards
 
@@ -685,7 +178,7 @@ The text describes the Customer Segment as a **connected information model** rat
 
 - **The two levels.** Segment = ranges and broad choices; Profile = specifics. The earlier "derive the Segment from the Profiles" idea is withdrawn; instead each Profile is checked against its Segment (6.5).
 - **The six categories and their groups** (table 6.2). Groups that earlier drafts missed are added: household and family composition, occupation and employment, nationality and cultural background, language, gender and sex, geography details (country, region, city, local area, urban or rural), digital skills, devices, spending priorities, buying frequency, risk orientation.
-- **The model vocabulary:** Category, Group, Characteristic, Band (a predefined range or list), Question, Option, Connection, Rule, Meaning, Evidence. In the app a Category is a block of fields on the card, a Group a field set, a Characteristic a field, a Band one of the lists of 5.2, a Question its label, an Option an option, a Connection a row of section 11, a Rule what the app does (Filter, Reveal, Suggest or Review), the Meaning the "i" help line and the Evidence the source ids shown with the connection. **[D]** the repository already generates documents from tables (`npm run tables`, the library); the model could be kept as **one content table** from which the fields, options, rules and help lines are generated, so a rule is written once.
+- **The model vocabulary:** Category, Group, Characteristic, Band (a predefined range or list), Question, Option, Connection, Rule, Meaning, Evidence. In the app a Category is a block of fields on the card, a Group a field set, a Characteristic a field, a Band one of the lists of doc 38, 5.2, a Question its label, an Option an option, a Connection a row of section 11, a Rule what the app does (Filter, Reveal, Suggest or Review), the Meaning the "i" help line and the Evidence the source ids shown with the connection. **[D]** the repository already generates documents from tables (`npm run tables`, the library); the model could be kept as **one content table** from which the fields, options, rules and help lines are generated, so a rule is written once.
 - **The four kinds of connection** (contextual, influential, operational, evidence-sensitive) and **the four behaviours** (Filter, Reveal, Suggest, Review dependencies): rules 3.4 and 11.1.
 - **The cautions:** a characteristic never determines another (age does not determine digital skill; gender must not be used to infer an occupation; nationality, location and language are not interchangeable); relationships that rest on evidence say so; nothing is based on stereotypes. Section 11.2 handles each of the 11 connections and section 12 the sensitive characteristics.
 - **Country context:** one shared structure with country-specific options attached (section 5), not six models.
@@ -994,7 +487,7 @@ Drives: channel suggestions by size (P23 merged into it). Evidence line: website
 - Other services, for example repair, personal services, membership organisations *i: Includes households that employ staff, such as cleaners and nannies.*
 - Not sure, or more than one *i: A label that spans industries (creative industries, agri-tech) is not one industry: choose the closest, and make another Segment for a second. Non-profits are not an industry either: the next question asks the type of organisation.*
 
-Drives: the Profile's "which kind of business" (P24) shows the finer list of that sector, each with its example (5.4); competitor industry overlap. Evidence line: adoption depends on industry as much as size [B2B-01, B2B-03, B2B-05, B2B-07].
+Drives: the Profile's "which kind of business" (P24) shows the finer list of that sector, each with its example (doc 38, 5.4); competitor industry overlap. Evidence line: adoption depends on industry as much as size [B2B-01, B2B-03, B2B-05, B2B-07].
 
 #### Box 4: Purchasing Power & Behaviour
 
@@ -1053,7 +546,7 @@ Not part of the customer model (the owner's text, 2026-10-23). The existing box 
 | P20 | How much help do they want before they buy? | Dropdown | They work it out themselves; They like a little guidance; They want to talk to a person; They need a formal demonstration or proposal; Not sure yet | Core | Suggests the relationship type (7.4); Review against the help the offering gives (O7) |
 | P21 | What part do they play in the purchase? (tick all that apply) | Ticks | They will use it; They influence the decision; They place the order; They make the final decision; They control who gets to the decision-maker | Adaptive (businesses or both; any age band below 18; or the audience is Proxy Buyers / Gifters, I7b) | Context on page 2; Review: nobody makes the final decision |
 | P22 | How is the decision made? | Dropdown | They decide alone; They decide with family or colleagues; A manager or budget-holder approves; It goes through a formal tender or procurement; Not sure yet | Adaptive (businesses or both) | Reveals P21 and the tender row (11.5) |
-| P24 | Which kind of business is it? | Dropdown | the level-2 list (5.4) of the industry chosen in G15, each with its example | Adaptive (businesses or both) | The pack's examples for this customer; competitor industry overlap |
+| P24 | Which kind of business is it? | Dropdown | the level-2 list (doc 38, 5.4) of the industry chosen in G15, each with its example | Adaptive (businesses or both) | The pack's examples for this customer; competitor industry overlap |
 
 **P21 explained.** The five roles are the buying-centre roles credited to Webster and Wind (1972): the user, the influencer, the buyer, the decider and the gatekeeper [CHN-02]. "They will use it" is the person who uses the offering day to day, who may be neither the one who pays nor the one who decides. It matters because the user needs support and proof it works, the buyer needs price and terms, and the decision-maker needs the business case. One person often holds several roles, so the question is ticks; for people buying for themselves they are all one person, so it is asked only of business customers.
 
@@ -1228,7 +721,7 @@ Rows are no longer typed from a source list: **one row is proposed for each Disc
 | Legal Form | The ownership questions (a one-owner form has none), owners' drawings in the financials, the open items |
 | Opening Date, with the durations of the Global Settings | The business stage; the plan start; the Review's messages and key dates; the Calendar's key dates; the Positioning tile's name, limits and locks; the exported title |
 | Registration Date, legal expenses | Key dates; the plan start |
-| Activities | The exports only (as codes with the scheme's initials). **The industry pack of 5.6 is not built.** |
+| Activities | The exports only (as codes with the scheme's initials). **The industry pack of doc 38, 5.6 is not built.** |
 | Market Structure, Seller and Buyer Relationship, Audience, Differentiation & Outcome | **The exports, and one step in Business 1:** the Segment card reads the Seller and Buyer Relationship and the audience only to choose and annotate its boxes. No question of any later part reads them yet (8.2, "What the Segment will read") |
 | Positioning Notes (the free text) | The Segment shows it behind an "i" note ("Your Positioning (Identity)") on its first two instructions. It shapes no question. |
 
@@ -1327,7 +820,7 @@ Otherwise nothing of the above is read by Business 1 (8.1). The design, for the 
 |---|---|
 | **Country** (Organization) | G3 starts there; the currency symbol of G8 and G16; the national lists of G7, G14, G15 and G23; the examples; the equality notice |
 | **Legal form, founders** | Nothing: they describe the seller, not the customers |
-| **Activities** (industry, pack) | Suggests the Segment's name and the kinds of business of the Profiles (5.6, not built). **Never fills G15**: G15 is the customers' industry, not the seller's |
+| **Activities** (industry, pack) | Suggests the Segment's name and the kinds of business of the Profiles (doc 38, 5.6, not built). **Never fills G15**: G15 is the customers' industry, not the seller's |
 | **Opening Date, Registration Date** | Nothing directly; through the stage |
 | **Business stage** | Planning and Launching: **one Segment**, drivers only; the checks (G4, G5, G16) are held back and figures are labelled forecast. Managing: up to two. Growing: any number. A stage change flags a Segment that no longer fits and deletes nothing. (The app's instruction text says "1 primary segment (maximum 2)"; it is the owner's wording and stays until the owner decides) |
 | **B2C** | Box 1 (people) is asked; Box 3 is not |
@@ -1359,7 +852,7 @@ A second Segment starts from the first one's answers. Build order proposed: the 
 
 | Id | Question | Component | Options | Type | What it saves or reads |
 |---|---|---|---|---|---|
-| I1 | What does your business do? (up to four activities, in order of importance) | Cascade of dropdowns, one path per activity | The country's own levels (5.7), down to the final code; a shortlist plus "Show all" **(not built: every dropdown lists all its entries)** | Driver | Fills the code at the end of each activity; the industry pack of 5.6 (example Segment, Offering, skill areas, resource groups, Discover channels) and the drafted Description sentence are **not built** |
+| I1 | What does your business do? (up to four activities, in order of importance) | Cascade of dropdowns, one path per activity | The country's own levels (doc 38, 5.7), down to the final code; a shortlist plus "Show all" **(not built: every dropdown lists all its entries)** | Driver | Fills the code at the end of each activity; the industry pack of doc 38, 5.6 (example Segment, Offering, skill areas, resource groups, Discover channels) and the drafted Description sentence are **not built** |
 | I2 | (merged into I1, 2026-10-23) | | | | |
 | I4 | (withdrawn 2026-10-23) | | | | Where your customers are is asked once, on the Segment (G2) |
 | I5 | How do you want to be seen? | Dropdown | Aaker's five dimensions of brand personality (Stanford GSB, 1997) [FUN-20]: Sincerity; Excitement; Competence; Sophistication; Ruggedness | Parked | Brand starting points (8.3) |
@@ -1422,7 +915,7 @@ Settled with the owner on 2026-10-23; **built 2026-10-24 and 25.** The Organizat
 
 **Also built with it (the Legal Entity page).** **One-owner forms (2026-10-24):** where the legal form has one owner in law (Sole Proprietorship, Sole Trader, and the like) there is nothing to ask about ownership, so the Founders & Ownership dialog is the founder's card itself, with **no number and no head** (one person needs no number): its first row is **the Name cell and, on the card's second column, the Capital as an optional field** (the tick box and its word `Capital ($)`, the amount cell appearing under it once ticked, as every optional field of the page does: `OptionalField`; **unticked (the default), the tick and its word stand on the Name cell's own line** (centres 0.5px apart: 281.7 and 282.2 px); **ticked, they move up to the Name label's line and the amount cell stands level with the Name cell** (the row is 78px high in both states, so nothing under it moves); the tick's line is the Name label's line, `--label-line`, so the two labels' centres and the two cells' tops and bottoms are on one line: measured 43px cells, tops 260 and bottoms 303 px on both), the Capital over the same column as a skill's kind (14em wide on every row), then the founder's roles, experience, achievements and skills. There is no ownership table and no "Founders contribute capital" tick: the capital's tick switches the capital on, unticking it empties it and switches it off. **The amount cell takes only a figure** (`limitedNumberText` with the money limit, like every cost, price and expense cell: a letter is refused and the box keeps what it had); the cost filter's From and To cells of the capability overview now do the same. **Capital makes no expense** (it had made one: an expense of a ticked requirement whose own expense was missing was made by whatever the next edit was; an expense is now made only when the requirements change, and one the user removes stays removed). **Founders built 2026-10-24:** the Founders & Ownership dialog is a nested card: **the Ownership itself in the opened master tile** (the founders' names, their shares and capital, and the totals), and, **under a divider line** (edge to edge, 12px of space either side), **one tile for each founder named there** (its dialog is the founder's card: roles, experience, achievements, skills); the tile on the page lists **the founders' profiles, each name a link that opens that founder's card in the dialog** (no longer the names with their shares); the Capability tile stands beside it. **The Legal Entity page's frame is headed "Legal Entity"** (the chapter's name, centred over the tiles as the Strategy's "Situation & Direction" is; a page of one chapter has its heading without a number). **One chapter has the size of one of two** (measured at a 1500px window: the frame 688 by 736px, its tiles 325px, 13px of padding, the heading 12px over the tiles: the same as each frame of Definition and Ethics; it had been 700px wide, 12px more). **A page of one chapter stands at the left, as the Strategy's does** (the Legal Entity page, and every column page drawn as tiles with a single frame).
 
-**Not yet built:** the shortlist with "Show all" (every dropdown lists all its entries, in the official order), the completeness rule for the primary activity, and the industry pack of 5.6.
+**Not yet built:** the shortlist with "Show all" (every dropdown lists all its entries, in the official order), the completeness rule for the primary activity, and the industry pack of doc 38, 5.6.
 
 **Pages.** Page 1, chapter Definition, has four tiles in this order: **Organization** (takes the Description's place, first), Early Positioning (named by the business stage, 8.2), Mission, Vision. Ethics is unchanged. Page 2 has one frame with four tiles: **Founders & Ownership** (the founder tiles of the old chapter "Founders & Capability" become sub tiles inside its dialog: Ownership first, then one tile per founder), **Capability** (its own tile for now; it changes when Business is reached), **Registrations** and **Expenses**. Page 2 is named **Legal Entity** (the owner, 2026-10-23; built 2026-10-24: one frame with four tiles, Founders & Ownership, Capability, Registrations, Expenses; the Founders Profile is no page or frame of its own, a hidden section that keeps its saved answer). The chapter hue of Definition is purple (the "Create" work colour, `#8a6bd1`); under the layout rule the Organization tile takes it and no tile is an exception.
 
@@ -1465,11 +958,11 @@ Notes (the page's Description)  [auto-growing, the whole width]
 | Fills or empties the Registration Number | Nothing happens to the Registration Date (it is independent) |
 | Sets or changes the **Opening Date** | The stage is recalculated (and with it every limit, lock, name and title, 8.2), the plan start may move, the key dates and the Review's messages update |
 
-*Activities, the Performer pattern.* **Only the primary activity is required; Secondary, Tertiary and Quaternary are optional** (a row exists only once the "+" has added it, and its x takes it away). The "i" of "Activities" says so: "The primary activity is required; the others are optional, up to four in all. Each one ends in one official code of your country (the SIC code in the UK)." It changes with the country's code name (5.8). The list is the Performer list of an activity (`business-capability-performers` holding one `business-capability-performer` row per activity: 8px between cells, every cell 44px, the box buttons 32px, all on one centre line):
+*Activities, the Performer pattern.* **Only the primary activity is required; Secondary, Tertiary and Quaternary are optional** (a row exists only once the "+" has added it, and its x takes it away). The "i" of "Activities" says so: "The primary activity is required; the others are optional, up to four in all. Each one ends in one official code of your country (the SIC code in the UK)." It changes with the country's code name (doc 38, 5.8). The list is the Performer list of an activity (`business-capability-performers` holding one `business-capability-performer` row per activity: 8px between cells, every cell 44px, the box buttons 32px, all on one centre line):
 - Each row: the **sub-label** (`FieldLabel`: Primary, Secondary, Tertiary, Quaternary; 92px, the same width on every row), the **cell**, and the **x column**.
 - **The "+" is in the first row's x column** (`AddButton shape="box" small`, "Add activity"), as the Performer's is; every other row has the remove x (`RemoveButton`). At four activities the "+" gives way to the empty slot (`business-capability-performer-slot`), so the cells still end at one x.
-- **A finished activity** (it has its code) is folded. The **fold arrow** (`FoldArrow`, the label arrow) stands **inside the sub-label, left of its words**, as the label-arrow rule says (its glyph on the content edge, the words 26px from it; arrow, then "Primary"; the arrow points right when folded and down when open, so an open one can be folded too). **The code with its scheme's initials, in bold, stands on the same line, next to the sub-label** ("Primary  SIC 59112"; the code label of the country, 5.8: SIC, NACE, NAICS, ANZSIC, BIC), and **under them, from the column's left edge, the last category** (the class, or the sub-class where there is one) as one plain line in regular weight, **not a link and not blue**; a name longer than its place ends in an ellipsis and **slides across as a marquee under the pointer** (the slide the long tile titles and the text links already have; it needs the same small hook for plain text). The code and the name are 6px apart vertically; the arrow, or the folded line, opens it. **Every text of the list is the body size (18px) and the labels' own weight and colour**: the sub-labels and the level names are labels (regular, the label colour), the code is semibold and the name regular in the text colour, as the cells' values are (measured: 18px on all of them; the code and name had been 16px, the dialog's default). **The code stays beside the sub-label while the row is open** (a finished row that is opened to be changed keeps its code in view); what differs between the two states is only what stands under the sub-label (the name, or the dropdowns) and nothing else: **the head row is 44px, a cell's height, in both states**, its arrow, sub-label, code and button on the centre line, so the Primary row is centred on the Organization Name's box whether it is folded or open (measured: the centres of the box, the row, the sub-label, the code, the arrow and the "+" are one line in both states).
-- **An open activity** shows, under its sub-label, the cascade's dropdowns, each as a label above an `OptionPicker` (Industry, then the country's own level names), starting on the column's left edge (the edge of every label and control of the column, the folded lines too) and ending 8px before the x column's left edge, **the edge every control of the right column ends on** (Business stage included: measured 413 to 691 px for the column's labels, the five dropdowns and the Business stage; the "+" and the x from 699 to 731 px). The level labels carry the country's names and "i" (5.8).
+- **A finished activity** (it has its code) is folded. The **fold arrow** (`FoldArrow`, the label arrow) stands **inside the sub-label, left of its words**, as the label-arrow rule says (its glyph on the content edge, the words 26px from it; arrow, then "Primary"; the arrow points right when folded and down when open, so an open one can be folded too). **The code with its scheme's initials, in bold, stands on the same line, next to the sub-label** ("Primary  SIC 59112"; the code label of the country, doc 38, 5.8: SIC, NACE, NAICS, ANZSIC, BIC), and **under them, from the column's left edge, the last category** (the class, or the sub-class where there is one) as one plain line in regular weight, **not a link and not blue**; a name longer than its place ends in an ellipsis and **slides across as a marquee under the pointer** (the slide the long tile titles and the text links already have; it needs the same small hook for plain text). The code and the name are 6px apart vertically; the arrow, or the folded line, opens it. **Every text of the list is the body size (18px) and the labels' own weight and colour**: the sub-labels and the level names are labels (regular, the label colour), the code is semibold and the name regular in the text colour, as the cells' values are (measured: 18px on all of them; the code and name had been 16px, the dialog's default). **The code stays beside the sub-label while the row is open** (a finished row that is opened to be changed keeps its code in view); what differs between the two states is only what stands under the sub-label (the name, or the dropdowns) and nothing else: **the head row is 44px, a cell's height, in both states**, its arrow, sub-label, code and button on the centre line, so the Primary row is centred on the Organization Name's box whether it is folded or open (measured: the centres of the box, the row, the sub-label, the code, the arrow and the "+" are one line in both states).
+- **An open activity** shows, under its sub-label, the cascade's dropdowns, each as a label above an `OptionPicker` (Industry, then the country's own level names), starting on the column's left edge (the edge of every label and control of the column, the folded lines too) and ending 8px before the x column's left edge, **the edge every control of the right column ends on** (Business stage included: measured 413 to 691 px for the column's labels, the five dropdowns and the Business stage; the "+" and the x from 699 to 731 px). The level labels carry the country's names and "i" (doc 38, 5.8).
 - One left edge for everything under a sub-label (the folded lines and the dropdowns) and one right edge; every "+" and x has one right edge (measured in the mock at the 694px dialog: left 389, right 661, x 669 to 701 px).
 
 *Measured in the mock (694px dialog, 3 loops).* Loop 1, alignment: the two columns start on one line; cells 44px, buttons 32px; the centres of the sub-label, cell and x of each row are equal; the "+" and the x have one right edge. Loop 2, behaviour: "+" adds a row up to four and disappears at four; an x removes a row and the "+" returns. Loop 3, widths: no sub-label is clipped; the folded cells and the dropdowns share their edges.
@@ -1480,9 +973,9 @@ Notes (the page's Description)  [auto-growing, the whole width]
 
 - **At the narrow width (768 px)** the left column is followed by the right: Name, Country, Address, then Legal Form, Registration Date, Opening Date, the activities (each ending in its code), and the Notes under a divider line.
 - **The code is at the end of each activity** (the owner, 2026-10-23), in place of the single code row at the bottom of the column: the cascade's final code **generates** it and the user may edit it. Its label and its description come from the country (SIC code, NACE code, principal business activity code, industry code, ANZSIC code, BIC code). A folded activity shows its path and code on one line. Today's tick ("has a code") goes: the code is always shown once the last level is chosen.
-- **Level labels:** every level, the first too, carries the country's own official name (5.7), each with an "i". **Everything the user reads in this part switches with the country:** the slot labels, the level names, the code label and the "i" (5.8).
-- **Changing a level resets the levels below it** in that activity, and the code at the end of the activity empties (5.8, rule 3).
-- **Options per level (5.9):** each dropdown shows all its children when there are six or fewer, else the shortlist that covers 90% of the businesses under that parent (never more than ten) plus "Show all"; **the options are in the official order of the classification (5.10), never by popularity**; the "i" says how many items businesses of the industry usually list (5.9); the only limit is four codes.
+- **Level labels:** every level, the first too, carries the country's own official name (doc 38, 5.7), each with an "i". **Everything the user reads in this part switches with the country:** the slot labels, the level names, the code label and the "i" (doc 38, 5.8).
+- **Changing a level resets the levels below it** in that activity, and the code at the end of the activity empties (doc 38, 5.8, rule 3).
+- **Options per level (doc 38, 5.9):** each dropdown shows all its children when there are six or fewer, else the shortlist that covers 90% of the businesses under that parent (never more than ten) plus "Show all"; **the options are in the official order of the classification (doc 38, 5.10), never by popularity**; the "i" says how many items businesses of the industry usually list (doc 38, 5.9); the only limit is four codes.
 - **Storage (settled 2026-10-23, "codes only"):** the Legal Entity answer holds a list of up to four entries, each the code and the classification edition. The levels and titles are looked up from the code, because codes nest. Today's activity-code field and its tick are read as a fallback for the first entry until it is replaced. A change of level or of country empties the entry or the list.
 - **Description** is the former Main Activity box, renamed. Its "i" carries both former Description prompts as general information: "Who are you, and what do you do? What do you create or provide?"; the old line "Name and legal details go in 3. Legal Entity" changes to say they are in this dialog. No label anywhere is "Main Activity".
 - **Saved text.** The box saves into the Description's saved value, which the Business Plan prints as its paragraph. The old Main Activity text is read as a fallback until replaced. The Business Plan's Organization table row "Main activity" becomes "Activities", filled from the cascade (primary first) **[D, label to confirm]**. The export row, the completeness check and the open item that said "main activity" now say "description".
@@ -1500,10 +993,10 @@ What the app says today, what changes, and what is new. Lists come only from off
 | The text box label | "Main Activity" | **"Description"** |
 | The text box "i" (`INFO.mainActivity`) | "The work the organization actually does, described factually. Write it as a registry or a bank would expect to read it. Some countries classify it with an official activity code." | "Who are you, and what do you do? What do you create or provide? Write it as a registry or a bank would expect to read it. Name, country, address and legal form are above." (the page-1 prompts, one existing sentence kept, the code sentence dropped) |
 | The text box placeholder | "What the organization does, in plain words" | unchanged |
-| The activity-code "i" (`INFO.activityCode`) | "The official code for the organization's main activity: it classifies what the organization does. Asked for when the organization is registered, and on its annual filings where they apply." | The country's sentence of 5.8, then "Generated from your choices; you can edit it." |
-| The code label | the country's code name ("SIC code", and so on) | one label per country, at the end of each activity (5.8) |
+| The activity-code "i" (`INFO.activityCode`) | "The official code for the organization's main activity: it classifies what the organization does. Asked for when the organization is registered, and on its annual filings where they apply." | The country's sentence of doc 38, 5.8, then "Generated from your choices; you can edit it." |
+| The code label | the country's code name ("SIC code", and so on) | one label per country, at the end of each activity (doc 38, 5.8) |
 | Organization Name, Country, Address, Subdivision, Legal Form, "Select a legal form", "Name the legal form", the "waiting for country" hint | as in the app | **unchanged** |
-| Activity heading, slot labels, level names | none | per country (5.8); every level the scheme's own name |
+| Activity heading, slot labels, level names | none | per country (doc 38, 5.8); every level the scheme's own name |
 | Level dropdown placeholders | none | "Select an industry", "Select a division", and so on, with the country's level name (the style of "Select a legal form") |
 | Buttons and tooltips | none | "+ Add another activity" (the existing add-button style); tooltips "Click to add another activity", "Click to remove this activity", "Click to show all" |
 | A long list | none | the last entry "Show all" opens the whole list, in the official order |
@@ -1566,7 +1059,7 @@ The price stays here: price, unit, "Charged", payment timing, volume. The stream
 | R1 | Does your price include {tax name}? (VAT, GST or sales tax, from the Legal Entity's country) | Radio | Yes, the price includes it; No, it is added on top. Default: the price includes it when the customers are people (I3) in the UK, Ireland, Australia or New Zealand; it is added on top for businesses and in the USA and Canada | Core |
 | R2 | What is your price based on? | Dropdown | L16 (the sales and website options appear once the stage is earning, as in D1) | Core |
 
-R1 is the only answer that changes the arithmetic: the plan's VAT basis is display-only today, so a gross price typed under an "excluding VAT" plan gives wrong figures. The defaults follow the regulators (table 5.1: TAX-01 to TAX-11). The registration thresholds could also feed a Review item (expected sales above the threshold while the consumption-tax tick is off) **[D]**. **Pricing methods** in official guidance (the US SBA, Canada's BDC, New Zealand's business.govt.nz) are cost-plus, hourly, competitor-based and value-based [PRC-01 to PRC-03]; **no official source in the six countries names a retainer or a project fee as a method**, so those are the app's own categories. A setup fee plus a recurring price needs a second charge on the stream and is **not** included **[D]**.
+R1 is the only answer that changes the arithmetic: the plan's VAT basis is display-only today, so a gross price typed under an "excluding VAT" plan gives wrong figures. The defaults follow the regulators (table doc 38, 5.1: TAX-01 to TAX-11). The registration thresholds could also feed a Review item (expected sales above the threshold while the consumption-tax tick is off) **[D]**. **Pricing methods** in official guidance (the US SBA, Canada's BDC, New Zealand's business.govt.nz) are cost-plus, hourly, competitor-based and value-based [PRC-01 to PRC-03]; **no official source in the six countries names a retainer or a project fee as a method**, so those are the app's own categories. A setup fee plus a recurring price needs a second charge on the stream and is **not** included **[D]**.
 
 ### 10.3 Minimum ages to buy, by product and country (O12)
 
@@ -1692,7 +1185,7 @@ Adoption rises with size, and industry matters at least as much (information and
 | # | Trigger | Part | Kind | What the app does | Evidence |
 |---|---|---|---|---|---|
 | 1 | I3 (Identity) | Questions | Operational | Reveals the people or the business questions | definition |
-| 2 | G3 (the customers' country) | Lists | Operational | Selects the education, size, industry and area crosswalks; shows the equality notice and language notes | 5.3, EQL-01 to EQL-05 |
+| 2 | G3 (the customers' country) | Lists | Operational | Selects the education, size, industry and area crosswalks; shows the equality notice and language notes | doc 38, 5.3, EQL-01 to EQL-05 |
 | 3 | Legal Entity country | Price | Operational | Names the tax and sets R1's default | TAX-01 to TAX-11 |
 | 4 | P11, P12, P13, O6, O7 | Channels | Suggest | Proposes the channels of each stage (7.4) | logical, definitions |
 | 5 | P14 | Purchase channels | Suggest | Proposes the Direct Payment subchannels for the payment methods ticked | logical |
@@ -1716,7 +1209,7 @@ Adoption rises with size, and industry matters at least as much (information and
 | 23 | G6, G7, G8, G13, P1, P5, P6 | Profile | Review | Each Profile fits its Segment (6.5) | logical |
 | 24 | An earlier answer changes | Dependent answers | Review dependencies | The compatible answers stay; the dependent ones are flagged for review, never deleted | rule 3.4 |
 | 25 | Legal Entity country | Segment | Operational | The first Segment's country (G3) starts from the Legal Entity's country; the user confirms or changes it; a second Segment starts from the first one's answers | definition |
-| 26 | I1, I2 | Industry pack, activity code | Suggest | Proposes the pack's examples (5.6) and the country's activity code for the user to confirm | BUS-01 to BUS-05, BUS-18 to BUS-20 |
+| 26 | I1, I2 | Industry pack, activity code | Suggest | Proposes the pack's examples (doc 38, 5.6) and the country's activity code for the user to confirm | BUS-01 to BUS-05, BUS-18 to BUS-20 |
 | 27 | I5 | Brand | Suggest (parked) | Proposes colour families, typeface style, shapes, image kinds and voice (8.3), each with its evidence strength; never applied automatically; every colour checked against WCAG 2.2 | BRD-01 to BRD-11 |
 | 28 | A Segment answer (G6, G13, G14, G15) | Profile | Filter | The Profile's options are the ones the Segment ticked; a value outside is a Review item | logical (6.5) |
 | 29 | G6 range includes a band below 18 | Segment, Profiles | Reveal, Review | Asks who uses it, who pays and who decides (P21); proposes a Profile for the parent or carer; shows the note "Selling to children and young people" (online consent ages by country; goods with minimum ages; no rule on contracts with minors) | AGE-01 to AGE-18 |
@@ -1741,7 +1234,7 @@ Demographics connect to **competitors** only through rules 21 and 22: what custo
 |---|---|
 | O3 | Demand "Customers Buy", Delivery "Delivered", Revenue "Charged" options. Recurring shows Cancel / Month and Hours Given; one-off shows Calendar Time. |
 | O1 and the Offering Type | If no Product or Hybrid offering exists, Physical Delivery and Retail & Wholesale (channels), Delivery Vehicles, Delivery Running Costs and Materials & Stock (resources) and the Logistics & Fulfilment partner type are hidden. Hidden, not deleted. |
-| I1, I2 | The industry pack's suggestions (5.6); industry overlap checks; the country's section or code, suggested on the Organization tile and printed on the documents. |
+| I1, I2 | The industry pack's suggestions (doc 38, 5.6); industry overlap checks; the country's section or code, suggested on the Organization tile and printed on the documents. |
 | I8 | Hides "sales I have made" and "website or social-media data" in D1 until the stage is earning; labels figures actual or forecast. |
 | I9 | A suggestion for Capital & Funding and for the hire answer of C4 (later). |
 | C1, W2 | Derive each area's status (covered, a gap, not needed). |
@@ -1805,12 +1298,12 @@ The app must not build a segment such as "exclude a group" or "one group pays mo
 | R23 | The Profile's values shown beside the Brand voice tile (6.1) | display | yes or no |
 | R24 | Digital-only channels moved down and labelled, not hidden (rule 6 of 11.5) | rule | confirm |
 | R25 | Identity choices sit beside the free text: the activities on the Organization tile (8.5) and the market, relationship, audience and outcome questions on the Early Positioning tile (8.2); none on Mission, Vision or the Ethics tiles, which stay prose (as built) | placement | confirm |
-| R26 | The industry in two levels with examples, keyed on divisions; the UK activity-code edition (UK SIC 2026 is current; the app's hint cites SIC 2007) (5.3, 5.4) | list, data | approve the list; decide the hint |
-| R27 | Industry packs: the Tier 1 and Tier 2 packs first (about twelve), the others show generic examples; examples labelled "for example" (5.6) | scope | approve |
+| R26 | The industry in two levels with examples, keyed on divisions; the UK activity-code edition (UK SIC 2026 is current; the app's hint cites SIC 2007) (doc 38, 5.3, 5.4) | list, data | approve the list; decide the hint |
+| R27 | Industry packs: the Tier 1 and Tier 2 packs first (about twelve), the others show generic examples; examples labelled "for example" (doc 38, 5.6) | scope | approve |
 | R28 | **Parked by the owner, 2026-10-23.** Brand starting points, when lifted: from I5 only, not from industry or price; suggestions only, with the evidence strength shown; update the colour-association help and its WCAG 2.1 note (8.3) | rule | approve |
 | R29 | The cascade: the Profile may only choose within the Segment's ticks (6.5) | rule | confirm |
 | R30 | The first release builds the 41 drivers; the 21 checks later; the 4 notes are never asked (Appendix B) | scope | choose |
-| R31 | An example under every option, for every list (5.5) | content | approve and complete |
+| R31 | An example under every option, for every list (doc 38, 5.5) | content | approve and complete |
 | R32 | A Segment is narrow: an ordered fact is a range (From, To), an unordered fact is one value, and more is another Segment; a range wider than three bands warns (6.3) | rule | confirm; the limit of three |
 | R33 | Thirteen age bands, finer below 18, with an "i" under each, and the children's notice (6.3) | list | approve the bands and the i lines |
 | R34 | Household income as one of five relative steps shown with the currency symbol, computed from the country's typical income; 60, 100, 150, 200% (6.3) | list, data | approve the steps; the 100% and 150% lines are the author's |
@@ -1822,18 +1315,18 @@ The app must not build a segment such as "exclude a group" or "one group pays mo
 | R40 | (multi-sided: future feature, doc 34) When both parts pay (diners pay for the food, restaurants pay a commission) the Segment holds one payer part; the other payment is noted on O3 and confirmed on the Review page. Alternative: allow a payer flag on each part | rule | choose |
 | R41 | The Organization tile moves to page 1 as its first tile (Organization, Positioning, Mission, Vision); the Description tile is removed; page 2 is named **Legal Entity**: Founders & Ownership (founder tiles inside), Capability, Registrations, Expenses (8.5) | structure | confirmed 2026-10-23 |
 | R42 | The Organization dialog: information on the left (Name, Country, Address, Legal Form, Description), questions on the right (the activities, each ending in its code, then Customers and Who uses it) (8.5) | layout | confirmed |
-| R43 | What the business does is up to four activities, each a complete path of dropdowns in the country's scheme ending in one final code; any combination, no "+" inside an activity; the first is the main one (5.7) | field | confirmed 2026-10-23 |
+| R43 | What the business does is up to four activities, each a complete path of dropdowns in the country's scheme ending in one final code; any combination, no "+" inside an activity; the first is the main one (doc 38, 5.7) | field | confirmed 2026-10-23 |
 | R44 | "Main Activity" is renamed "Description" and placed last; "Other" options are removed in favour of placements with an "i" | label | confirmed |
 | R45 | The Business Plan's "Main activity" row becomes "Activities", filled from the cascade; the box saves into the Description's value (8.5) | label, rule | confirm the label |
-| R46 | The cascade generates the code; the heading, slot labels, level names, code label and "i" switch with the organisation's country, in the registry's own words (5.8) | rule, labels | confirmed 2026-10-23; the wording follows the registries' own pages and the Irish statute (5.8 lists which were opened) |
-| R47 | A change at a higher level of the cascade resets the levels below it; the slot count is four in every country, with the "i" saying which the register uses; another country defaults to ISIC (5.8) | rule | confirmed 2026-10-23; the ISIC default is a judgement |
+| R46 | The cascade generates the code; the heading, slot labels, level names, code label and "i" switch with the organisation's country, in the registry's own words (doc 38, 5.8) | rule, labels | confirmed 2026-10-23; the wording follows the registries' own pages and the Irish statute (doc 38, 5.8 lists which were opened) |
+| R47 | A change at a higher level of the cascade resets the levels below it; the slot count is four in every country, with the "i" saying which the register uses; another country defaults to ISIC (doc 38, 5.8) | rule | confirmed 2026-10-23; the ISIC default is a judgement |
 | R48 | The generated code is shown at the end of each activity, not in one row at the bottom (8.5) | layout | confirmed 2026-10-23 |
-| R49 | The sufficient numbers: options shown per level and activities per parent, by level and by industry (5.9) | numbers | settled from the UK data; provisional elsewhere |
-| R50 | A change of country resets every activity and code; nothing is carried over even where the schemes share codes (5.8, rule 4) | rule | confirmed 2026-10-23 |
+| R49 | The sufficient numbers: options shown per level and activities per parent, by level and by industry (doc 38, 5.9) | numbers | settled from the UK data; provisional elsewhere |
+| R50 | A change of country resets every activity and code; nothing is carried over even where the schemes share codes (doc 38, 5.8, rule 4) | rule | confirmed 2026-10-23 |
 | R51 | Lists come only from official documents; the owner's wording where given; the audit of the other lists is planned tile by tile (rule 14) | rule | confirmed 2026-10-23 |
 | R52 | "Where are you with the business?" sits after the Description with the SBA's four stages (8.2, 8.5) | field | confirmed |
 | R53 | Storage of the activities: codes only, with the edition (8.5) | storage | confirmed |
-| R54 | Options appear in the official order; a shortlist keeps that order and ends with "Show all" (5.9, 5.10) | rule | confirmed |
+| R54 | Options appear in the official order; a shortlist keeps that order and ends with "Show all" (doc 38, 5.9, 5.10) | rule | confirmed |
 | R55 | The Organization tile's labels: Registration Date and Opening Date (the stage follows the Opening Date, 8.2a; the Seller and Buyer Relationship and the Market Structure are on the Positioning tile, 8.2); a folded activity is the fold arrow left of the sub-label, then the code in bold and the last category under it, plain text with a marquee | wording, layout | proposed 2026-10-23; updated 2026-10-25 |
 | R56 | Candidate additions to lists (doc 29, former decision 3): P12 (industry reports or trade press; an AI assistant; asking the supplier's other customers), P13 (a reseller, distributor or agent; an event or trade show; an approved-supplier list or framework), P14 (**someone else pays**; direct debit; cheque or voucher), O1 (a rental or hire; a booking of seats, tickets or rooms), O3 (**free to the customer**; a commission or a share of sales), L5 (research and product development). All are the author's, from reading the lists against the statistics offices' categories | list | approve one by one; "Someone else pays" in P14 and "Free to the customer" in O3 first |
 | R57 | The Profile's behaviour (P9, P11 to P20, P22, P24) is asked first and its specifics (P1, P5, P6) after the first draft; every check is asked only after the first draft (doc 29, section 6; former decisions 4 and 5) | order | recommended: yes |
@@ -1865,7 +1358,7 @@ All sources, with their publisher, country, what they support and whether they w
 | Skill areas, stage, ambition | PLN-01 to PLN-07 | no official capability framework or ambition scale; GEM is an academic consortium |
 | Brand starting points (parked) | BRD-01 to BRD-11 | US samples; cultural limits; imagery and voice have no source; industry and price are not used; several abstracts only |
 
-**Assumptions with no qualifying source:** the shared lists L1 to L5, L11, L13 and L15 and their examples (5.5); the industry packs (5.6); the brand mapping of images and voice (8.3); the stage action lists (J2); the proposal rules of 7.4 and rules 8 to 10 and 13 of 11.5; the "Charged" mapping; the values list; the options of the relationship-status, household, risk and gender questions; that 33 core questions are an acceptable load. No peer-reviewed study validating the Business Model Canvas's channel and relationship blocks with start-ups was found.
+**Assumptions with no qualifying source:** the shared lists L1 to L5, L11, L13 and L15 and their examples (doc 38, 5.5); the industry packs (doc 38, 5.6); the brand mapping of images and voice (8.3); the stage action lists (J2); the proposal rules of 7.4 and rules 8 to 10 and 13 of 11.5; the "Charged" mapping; the values list; the options of the relationship-status, household, risk and gender questions; that 33 core questions are an acceptable load. No peer-reviewed study validating the Business Model Canvas's channel and relationship blocks with start-ups was found.
 
 ## Appendix A. What became of the question files' questions
 

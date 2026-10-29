@@ -126,7 +126,7 @@ One line per term; the document that explains it is in the last column. Doc numb
 | P | The Person (Profile card) | doc 28 1 |
 | K | The Competitor | doc 28 1 |
 | O | The Offering | doc 28 1 |
-| L1 to L16 | The shared Lists | doc 28 5.2 |
+| L1 to L16 | The shared Lists | doc 38 5.2 |
 | W | The Work of the Delivery card | doc 28 1 |
 | C, R, J, D | Capability and founders; Revenue stream; customer Journey; Demand card | doc 28 1 |
 | F | Ids of the earlier question files (Appendix A only) | doc 28 1 |
