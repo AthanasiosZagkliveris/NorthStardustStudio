@@ -984,10 +984,26 @@ export function legalFormOptions(
     subdivisionName: string
 ): LegalFormOption[] {
 
+    // The first published version (design document 33, section 3): the six countries keep their own lists; every other country is "Other" and has the five generic forms.
+    if (!FIRST_VERSION_COUNTRIES.includes(countryCode)) {
+        return GENERIC_LEGAL_FORMS;
+    }
     return subdivisionOption(countryCode, subdivisionName)?.forms
         ?? jurisdictionProfile(countryCode).forms;
 
 }
+
+/** The six countries of the first published version, by code: the United Kingdom, Ireland, the USA, Canada, Australia and New Zealand. Any other country is "Other" (document 33, section 3). */
+export const FIRST_VERSION_COUNTRIES: readonly string[] = ["GB", "IE", "US", "CA", "AU", "NZ"];
+
+/** The legal forms of a country that is not one of the six (the owner's list, document 33): the same five whatever the country. */
+export const GENERIC_LEGAL_FORMS: LegalFormOption[] = [
+    { label: "Sole Proprietorship", capital: false, soleFounder: true },
+    { label: "General Partnership", capital: false },
+    { label: "Private Limited Company (LLC / Ltd / GmbH)", capital: true },
+    { label: "Public Limited Company (PLC / Corp / AG)", capital: true },
+    { label: "Limited Liability Partnership (LLP)", capital: false }
+];
 
 /**
  * The body to prefill into Registration Authority: the

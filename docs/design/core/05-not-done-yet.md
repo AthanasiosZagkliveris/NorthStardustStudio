@@ -335,3 +335,9 @@ For the owner to decide, or work not done. Each item leaves this list when done 
 - The Finance dynamic field points at the retired Revenue Model page (recorded in the specifications README only).
 - Section 6 of `layout-rules.md` (Interactions) holds rows that doc 18 lacks (a parent's status line, a child's name, the Add button, a text holder): move them into doc 18, then keep one text.
 - `src/library/assets/floatingCard.ts` line 86 still cites "docs/design/05, 5.8"; the generated section 19 of the rulebook repeats it.
+
+**Left by the first-version build of the Organization and Positioning tiles (2026-10-29)**
+- The ages in the Segment (doc 33, section 6) and anything in Business 1 that reads the buyer's category, the relationship or the purpose (the second Profile for the user, P25) are not built.
+- Purpose, Differentiation and Outcome: the owner's list gave no separate lists for Differentiation and Outcome, so Differentiation & Outcome stays one question and Purpose is a new question (doc 33, section 8). Confirm or send the lists.
+- The Country question lists the six and Other: a saved organisation of another country opens as Other with its country chosen. The legal-form wording and documents that follow the country's form (capital, the "limited company" phrase) still follow the profile of that country where the app has one.
+- The four coarse user life stages have no age edges (doc 33, section 5).

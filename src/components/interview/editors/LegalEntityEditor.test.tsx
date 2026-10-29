@@ -224,7 +224,7 @@ describe("LegalEntityEditor chained answers", () => {
         expect(address.closest("fieldset")?.disabled).toBe(true);
         expect(address.value).toBe("Leeds");
         expect((screen.getByRole("textbox", { name: "Registration Authority" }) as HTMLInputElement).closest("fieldset")?.disabled).toBe(true);
-        expect((screen.getByRole("textbox", { name: "Legal Form" }) as HTMLInputElement).closest("fieldset")?.disabled).toBe(true);
+        expect((screen.getAllByRole("button", { name: /^Legal Form/ }).find(button => button.classList.contains("option-picker-trigger"))!).closest("fieldset")?.disabled).toBe(true);
         expect(screen.getAllByText("Choose a country first.").length).toBeGreaterThanOrEqual(2);
 
         fireEvent.click(screen.getByRole("button", { name: /^Country/ }));
@@ -559,7 +559,7 @@ function stageKey(stage: string): "plan" | "launch" | "manage" | "grow" {
 
 describe("LegalEntityEditor Early Positioning questions", () => {
 
-    it("asks the market structure, the seller and buyer relationship, the audience and the outcome, one choice each, and the audience follows the model", () => {
+    it("asks the seller and buyer relationship (B2C and B2B only), the audience, the buyer's category, the purpose and the outcome, one choice each, and the audience follows the model", () => {
 
         let saved: ReturnType<typeof asLegalEntityValue> | null = null;
         function Audience() {
@@ -568,22 +568,30 @@ describe("LegalEntityEditor Early Positioning questions", () => {
         }
         render(<Audience />);
 
-        expect(screen.getByRole("radiogroup", { name: "Market Structure" })).toBeTruthy();
+        // (The first version is single-sided and has no B2G or G2B: they are a future feature.)
+        expect(screen.queryByRole("radiogroup", { name: "Market Structure" })).toBeNull();
         expect(screen.getByRole("radiogroup", { name: "Seller and Buyer Relationship" })).toBeTruthy();
+        expect(screen.getByRole("radiogroup", { name: "Seller and Buyer Relationship" }).querySelectorAll("input").length).toBe(2);
+        expect(screen.getByRole("radiogroup", { name: "Buyer's category" })).toBeTruthy();
+        expect(screen.getByRole("radiogroup", { name: "Purpose" })).toBeTruthy();
         expect(screen.getByRole("radiogroup", { name: "Audience Specialization & Scale" })).toBeTruthy();
         expect(screen.getByRole("radiogroup", { name: "Differentiation & Outcome" })).toBeTruthy();
         expect((screen.getByRole("radio", { name: "Startups & SMBs" }) as HTMLInputElement).checked).toBe(true);
 
         // A consumer market has life stages, not scales, and the old audience goes.
         fireEvent.click(screen.getByRole("radio", { name: "B2C (Business-to-Consumer)" }));
-        expect(screen.getByRole("radiogroup", { name: "Buyer's Life-Stage and relationship with the User" })).toBeTruthy();
+        expect(screen.getByRole("radiogroup", { name: "Buyer's Life-Stage" })).toBeTruthy();
         expect(screen.queryByRole("radio", { name: "Startups & SMBs" })).toBeNull();
+        // The Proxy Buyers option is the buyer's category now: the life stage has three.
+        expect(screen.queryByRole("radio", { name: /Proxy Buyers/ })).not.toBeNull();
+        expect(screen.getByRole("radiogroup", { name: "Buyer's Life-Stage" }).querySelectorAll("input").length).toBe(3);
         expect(saved!.organisation.audience).toEqual([]);
 
         fireEvent.click(screen.getByRole("radio", { name: "Seniors" }));
         fireEvent.click(screen.getByRole("radio", { name: "Convenience-driven" }));
-        fireEvent.click(screen.getByRole("radio", { name: "Multi-sided Market / Platform" }));
-        expect(saved!.organisation).toMatchObject({ customerType: ["b2c"], audience: ["senior"], outcome: ["convenience"], marketType: "multi" });
+        fireEvent.click(screen.getByRole("radio", { name: "Dual-Intent Buyers" }));
+        fireEvent.click(screen.getByRole("radio", { name: "Gifting and Appreciation" }));
+        expect(saved!.organisation).toMatchObject({ customerType: ["b2c"], audience: ["senior"], outcome: ["convenience"], buyerCategory: ["b2c:dual"], purpose: ["gifting"], marketType: "single" });
 
     });
 
@@ -612,7 +620,7 @@ describe("LegalEntityEditor Early Positioning limits by business stage", () => {
         fireEvent.click(ticks()[0]);
         fireEvent.click(ticks()[1]);
         expect(ticks().map(tick => tick.disabled)).toEqual([false, false, true, true]);
-        expect([...launching.container.querySelectorAll(".business-foundation-tick-note")].map(note => note.textContent)).toEqual(["2 max"]);
+        expect([...launching.container.querySelectorAll(".business-foundation-tick-note")].map(note => note.textContent)).toEqual(["2 max", "2 max"]);
         // A ticked one is never locked: unticking frees the others.
         fireEvent.click(ticks()[0]);
         expect(ticks().map(tick => tick.disabled)).toEqual([false, false, false, false]);
@@ -622,10 +630,10 @@ describe("LegalEntityEditor Early Positioning limits by business stage", () => {
         render(<Stage stage="manage" />);
         const relationships = screen.getByRole("group", { name: "Seller and Buyer Relationship" });
         fireEvent.click(screen.getByRole("checkbox", { name: /B2C/ }));
-        expect([...relationships.querySelectorAll("input[type=checkbox]")].map(tick => (tick as HTMLInputElement).disabled)).toEqual([false, false, true, true]);
+        expect([...relationships.querySelectorAll("input[type=checkbox]")].map(tick => (tick as HTMLInputElement).disabled)).toEqual([false, false]);
         // Both a business and a consumer buyer: both audience questions.
         expect(screen.getByRole("group", { name: "Audience Specialization & Scale" })).toBeTruthy();
-        expect(screen.getByRole("group", { name: "Buyer's Life-Stage and relationship with the User" })).toBeTruthy();
+        expect(screen.getByRole("group", { name: "Buyer's Life-Stage" })).toBeTruthy();
         cleanup();
 
         // Growing: any number, no locks, no note.
@@ -645,6 +653,18 @@ describe("LegalEntityEditor Early Positioning limits by business stage", () => {
 
     });
 
+    it("reads an older answer without what the first version leaves out: B2G, G2B, a multi-sided market, the Proxy audience and the two End User questions it no longer asks", () => {
+
+        const value = asLegalEntityValue({ organisation: {
+            customerType: ["b2c", "b2g", "g2b"], marketType: "multi", audience: ["proxy", "senior", "central", "heavy"], outcome: ["b2c:cost", "b2g:premium"],
+            endUser: ["age:child", "age:older", "age:adult", "rel:parent", "rel:friend", "decides:asks", "wants:safety"]
+        } });
+        expect(value.organisation).toMatchObject({ customerType: ["b2c"], marketType: "single", audience: ["senior"], outcome: ["cost", "premium"] });
+        // The three ages under 18 are Minors and the older adults are Seniors; the relationships stay; who chooses and what matters most go.
+        expect(value.organisation.endUser).toEqual(["age:minor", "age:senior", "age:adult", "rel:parent", "rel:friend"]);
+
+    });
+
 });
 
 /** The Early Positioning questions of one seller and buyer relationship, at a business stage (planning where none is given). */
@@ -652,92 +672,6 @@ function Model({ model, saved, stage }: { model: string; saved?: { current: Retu
     const [value, setValue] = useState<unknown>(asLegalEntityValue({ organisation: { customerType: [model], businessStage: stage ?? "plan" } }));
     return <LegalEntityEditor value={value} businessStage={stageKey(stage ?? "plan")} audienceOnly onChange={next => { if (saved) saved.current = asLegalEntityValue(next); setValue(next); }} />;
 }
-
-describe("LegalEntityEditor Early Positioning: the government and the compliance context", () => {
-
-    it("asks a public buyer its jurisdiction scale, then the one last question every model ends with", () => {
-
-        render(<Model model="b2g" />);
-        expect(screen.getByRole("radiogroup", { name: "Administrative Level (Jurisdiction Scale)" })).toBeTruthy();
-        expect(screen.getByRole("radiogroup", { name: "Differentiation & Outcome" })).toBeTruthy();
-        expect(screen.queryByRole("radiogroup", { name: "Audience Specialization & Scale" })).toBeNull();
-        expect(screen.getByRole("radio", { name: "Local Government" })).toBeTruthy();
-        expect(screen.getByRole("radio", { name: "Regional Administration" })).toBeTruthy();
-
-    });
-
-    it("asks the compliance context the regulatory intensity of the industry, and keeps the outcome when the model changes", () => {
-
-        const saved: { current: ReturnType<typeof asLegalEntityValue> | null } = { current: null };
-        render(<Model model="g2b" stage="grow" saved={saved} />);
-        expect(screen.getByRole("group", { name: "Regulatory Intensity of the target industry" })).toBeTruthy();
-        fireEvent.click(screen.getByRole("checkbox", { name: /Heavily Regulated Markets/ }));
-        fireEvent.click(screen.getByRole("checkbox", { name: /Compliance, Risk & Security/ }));
-        expect(saved.current!.organisation).toMatchObject({ customerType: ["g2b"], audience: ["heavy"], outcome: ["compliance"] });
-
-        // Another model: the answer of a question no longer asked goes (the audience), the last question's stays.
-        fireEvent.click(screen.getByRole("checkbox", { name: /Relationship: B2C/ }));
-        expect(saved.current!.organisation).toMatchObject({ customerType: ["b2c", "g2b"], audience: ["heavy"], outcome: ["compliance"] });
-        fireEvent.click(screen.getByRole("checkbox", { name: /Relationship: G2B/ }));
-        expect(saved.current!.organisation).toMatchObject({ customerType: ["b2c"], audience: [], outcome: ["compliance"] });
-
-    });
-
-});
-
-describe("LegalEntityEditor Early Positioning: what the stages lock for the government and the compliance context", () => {
-
-    const locked = (name: string) => (screen.getByRole("radio", { name }) as HTMLInputElement).disabled;
-
-    it("locks the central government and the heavily regulated markets while planning and launching, and opens everything from managing", () => {
-
-        for (const stage of ["plan", "launch"]) {
-            render(<Model model="b2g" stage={stage} />);
-            expect(["Local Government", "Regional Administration", "Institutional / Public Organizations", "Central Government & Ministries"].map(locked)).toEqual([false, false, false, true]);
-            cleanup();
-            render(<Model model="g2b" stage={stage} />);
-            expect(["General Commerce / Mass Market", "Specialized Sectors", "Cross-border Trade", "Heavily Regulated Markets"].map(locked)).toEqual([false, false, false, true]);
-            cleanup();
-        }
-
-        for (const stage of ["manage", "grow"]) {
-            render(<Model model="b2g" stage={stage} />);
-            expect(screen.getAllByRole("checkbox").some(box => (box as HTMLInputElement).disabled)).toBe(false);
-            cleanup();
-        }
-
-    });
-
-});
-
-describe("LegalEntityEditor Early Positioning: the sides of a platform", () => {
-
-    function Sides({ market, stage }: { market: string; stage: string }) {
-        const [value, setValue] = useState<unknown>(asLegalEntityValue({ organisation: { customerType: ["b2c", "b2b"], marketType: market, businessStage: stage } }));
-        return <LegalEntityEditor value={value} businessStage={stageKey(stage)} audienceOnly onChange={setValue} />;
-    }
-
-    it("asks the last question once for each side of a platform while managing and growing, and once otherwise", () => {
-
-        render(<Sides market="multi" stage="manage" />);
-        expect(screen.getByRole("group", { name: "Differentiation & Outcome (B2C)" })).toBeTruthy();
-        expect(screen.getByRole("group", { name: "Differentiation & Outcome (B2B)" })).toBeTruthy();
-        expect(screen.queryByRole("group", { name: "Differentiation & Outcome" })).toBeNull();
-        cleanup();
-
-        // The same two models in a single-sided market: one hybrid, one last question.
-        render(<Sides market="single" stage="manage" />);
-        expect(screen.getByRole("group", { name: "Differentiation & Outcome" })).toBeTruthy();
-        expect(screen.queryByRole("group", { name: "Differentiation & Outcome (B2C)" })).toBeNull();
-        cleanup();
-
-        // Planning and launching keep to the anchor side: one model, one last question.
-        render(<Sides market="multi" stage="launch" />);
-        expect(screen.queryByRole("group", { name: "Differentiation & Outcome (B2C)" })).toBeNull();
-
-    });
-
-});
 
 describe("The name of the positioning tile follows the business stage", () => {
 
@@ -973,38 +907,110 @@ describe("LegalEntityEditor as tiles", () => {
 
 });
 
-describe("LegalEntityEditor Early Positioning: the End User of Proxy Buyers / Gifters", () => {
+describe("LegalEntityEditor Early Positioning: the buyer's category and the End User", () => {
 
-    it("asks the four End User questions only for Proxy Buyers / Gifters, and drops their answers with it", () => {
+    it("asks the End User only of a Proxy or Dual-Intent Buyer, and drops its answers with it", () => {
 
         const saved: { current: ReturnType<typeof asLegalEntityValue> | null } = { current: null };
         render(<Model model="b2c" stage="manage" saved={saved} />);
-        expect(screen.queryByRole("group", { name: "End User Age Group" })).toBeNull();
+        expect(screen.queryByRole("group", { name: "Buyer and User relationship" })).toBeNull();
 
-        fireEvent.click(screen.getByRole("checkbox", { name: /Proxy Buyers/ }));
-        expect(screen.getByRole("group", { name: "End User Age Group" })).toBeTruthy();
-        expect(screen.getByRole("group", { name: "Buyer's relationship with the End User" })).toBeTruthy();
-        expect(screen.getByRole("radiogroup", { name: "Who chooses: the Buyer or the End User" })).toBeTruthy();
-        expect(screen.getByRole("group", { name: "What matters most to the End User" })).toBeTruthy();
+        fireEvent.click(screen.getByRole("radio", { name: "Proxy Buyers" }));
+        expect(screen.getByRole("group", { name: "Buyer and User relationship" })).toBeTruthy();
+        expect(screen.getByRole("group", { name: "User's Life-Stage" })).toBeTruthy();
+        // The first version has no "who chooses" and no "what matters most": a future feature.
+        expect(screen.queryByRole("radiogroup", { name: "Who chooses: the Buyer or the End User" })).toBeNull();
+        expect(screen.queryByRole("group", { name: "What matters most to the End User" })).toBeNull();
 
-        fireEvent.click(screen.getByRole("checkbox", { name: /Children \(6 to 12\)/ }));
-        fireEvent.click(screen.getByRole("radio", { name: "The End User asks, the Buyer approves" }));
-        expect(saved.current!.organisation.endUser).toEqual(["age:child", "decides:asks"]);
+        fireEvent.click(screen.getByRole("checkbox", { name: /Parent or legal guardian/ }));
+        fireEvent.click(screen.getByRole("checkbox", { name: /Minors/ }));
+        expect(saved.current!.organisation).toMatchObject({ buyerCategory: ["b2c:proxy"], endUser: ["rel:parent", "age:minor"] });
 
-        // Another life stage: the End User is no longer asked, and its answers go.
-        fireEvent.click(screen.getByRole("checkbox", { name: /Proxy Buyers/ }));
-        expect(saved.current!.organisation.endUser).toEqual([]);
-        expect(screen.queryByRole("group", { name: "End User Age Group" })).toBeNull();
+        // Dual-Intent asks the same; a Direct Buyer asks none, and the answers go.
+        fireEvent.click(screen.getByRole("radio", { name: "Dual-Intent Buyers" }));
+        expect(saved.current!.organisation.endUser).toEqual(["rel:parent", "age:minor"]);
+        fireEvent.click(screen.getByRole("radio", { name: "Direct Buyers" }));
+        expect(saved.current!.organisation).toMatchObject({ buyerCategory: ["b2c:direct"], endUser: [] });
+        expect(screen.queryByRole("group", { name: "Buyer and User relationship" })).toBeNull();
 
     });
 
-    it("limits the End User's age groups by the stage, as the audience is limited", () => {
+    it("offers the six personal relationships to a consumer buyer and the six business ones to a business buyer, and the user's life stage to the consumer only", () => {
+
+        render(<Model model="b2c" />);
+        fireEvent.click(screen.getByRole("radio", { name: "Proxy Buyers" }));
+        expect(screen.getByRole("radiogroup", { name: "Buyer and User relationship" }).querySelectorAll("input").length).toBe(6);
+        expect(screen.getByRole("radio", { name: "Spouse or romantic partner" })).toBeTruthy();
+        expect(screen.getByRole("radiogroup", { name: "User's Life-Stage" }).querySelectorAll("input").length).toBe(4);
+        cleanup();
+
+        render(<Model model="b2b" />);
+        fireEvent.click(screen.getByRole("radio", { name: "Proxy Buyers" }));
+        expect(screen.getByRole("radiogroup", { name: "Buyer and User relationship" }).querySelectorAll("input").length).toBe(6);
+        expect(screen.getByRole("radio", { name: "Employer providing for employees" })).toBeTruthy();
+        expect(screen.queryByRole("radiogroup", { name: "User's Life-Stage" })).toBeNull();
+
+    });
+
+    it("limits the End User's relationship by the stage, as the audience is limited", () => {
 
         render(<Model model="b2c" stage="plan" />);
-        fireEvent.click(screen.getByRole("radio", { name: /Proxy Buyers/ }));
+        fireEvent.click(screen.getByRole("radio", { name: "Proxy Buyers" }));
         // While planning each question is one choice: a radio.
-        expect(screen.getByRole("radiogroup", { name: "End User Age Group" })).toBeTruthy();
-        expect(screen.getByRole("radiogroup", { name: "What matters most to the End User" })).toBeTruthy();
+        expect(screen.getByRole("radiogroup", { name: "Buyer and User relationship" })).toBeTruthy();
+        expect(screen.getByRole("radiogroup", { name: "User's Life-Stage" })).toBeTruthy();
+
+    });
+
+});
+
+describe("LegalEntityEditor the country, the legal form and the activities (the six countries and Other)", () => {
+
+    function Org({ initial }: { initial?: Record<string, unknown> }) {
+        const [value, setValue] = useState<unknown>(asLegalEntityValue({ organisation: initial ?? {} }));
+        return <LegalEntityEditor value={value} onChange={setValue} />;
+    }
+
+    it("lists the six countries and Other; Other opens the list of every other country", () => {
+
+        render(<Org />);
+        fireEvent.click(screen.getByRole("button", { name: /^Country/ }));
+        expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual(["Australia", "Canada", "Ireland", "New Zealand", "United Kingdom", "United States of America", "Other"]);
+        expect(screen.queryByRole("button", { name: /^Other country/ })).toBeNull();
+        fireEvent.click(screen.getByRole("option", { name: "Other" }));
+        expect(screen.getByRole("button", { name: /^Other country/ })).toBeTruthy();
+
+    });
+
+    it("gives Other the five generic legal forms and the typed activities; a country of the six keeps its own", () => {
+
+        render(<Org initial={{ country: "FR" }} />);
+        fireEvent.click(screen.getAllByRole("button", { name: /^Legal Form/ }).find(button => button.classList.contains("option-picker-trigger"))!);
+        expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual(["Sole Proprietorship", "General Partnership", "Private Limited Company (LLC / Ltd / GmbH)", "Public Limited Company (PLC / Corp / AG)", "Limited Liability Partnership (LLP)", "Other"]);
+        fireEvent.click(screen.getByRole("option", { name: "Sole Proprietorship" }));
+        // The activity and its code are typed.
+        expect(screen.getByRole("textbox", { name: "Activity of the primary activity" })).toBeTruthy();
+        expect(screen.getByRole("textbox", { name: "Code of the primary activity" })).toBeTruthy();
+        cleanup();
+
+        render(<Org initial={{ country: "GB" }} />);
+        fireEvent.click(screen.getAllByRole("button", { name: /^Legal Form/ }).find(button => button.classList.contains("option-picker-trigger"))!);
+        expect(screen.getAllByRole("option").map(option => option.textContent)).toContain("Sole Trader");
+        expect(screen.queryByRole("textbox", { name: "Code of the primary activity" })).toBeNull();
+
+    });
+
+    it("saves a typed activity with its code, and reads it back", () => {
+
+        let saved: ReturnType<typeof asLegalEntityValue> | null = null;
+        function Typed() {
+            const [value, setValue] = useState<unknown>(asLegalEntityValue({ organisation: { country: "FR" } }));
+            return <LegalEntityEditor value={value} onChange={next => { saved = asLegalEntityValue(next); setValue(next); }} />;
+        }
+        render(<Typed />);
+        fireEvent.change(screen.getByRole("textbox", { name: "Activity of the primary activity" }), { target: { value: "Web design" } });
+        fireEvent.change(screen.getByRole("textbox", { name: "Code of the primary activity" }), { target: { value: "62.01" } });
+        expect(saved!.organisation.activities).toEqual([{ code: "62.01", edition: "", name: "Web design" }]);
 
     });
 

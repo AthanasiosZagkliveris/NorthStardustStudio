@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { fitPositioningToStage } from "./shared.tsx";
 
-const organisation = (patch: Partial<{ customerType: string[]; marketType: string; audience: string[]; outcome: string[] }>) => ({ customerType: [], marketType: "", audience: [], outcome: [], ...patch });
+const organisation = (patch: Partial<{ customerType: string[]; marketType: string; audience: string[]; outcome: string[]; buyerCategory: string[]; purpose: string[]; endUser: string[] }>) => ({ customerType: [], marketType: "single", audience: [], outcome: [], ...patch });
 
 describe("the Positioning answers follow the business stage", () => {
 
@@ -22,41 +22,45 @@ describe("the Positioning answers follow the business stage", () => {
         expect(fitPositioningToStage(organisation({ customerType: ["b2b", "b2c"] }), "launch").customerType).toEqual([]);
     });
 
-    it("clears an option the stage locks, only in the question that holds it", () => {
-        const held = organisation({ customerType: ["b2g"], audience: ["central", "smb"], outcome: ["cost"] });
-        expect(fitPositioningToStage(held, "manage")).toBe(held);
-        const early = fitPositioningToStage(held, "launch");
-        expect(early.audience).toEqual(["smb"]);
-        expect(early.customerType).toEqual(["b2g"]);
+    it("holds the purpose to the same limit as the outcome", () => {
+        const held = organisation({ customerType: ["b2c"], purpose: ["learning", "gifting"] });
+        expect(fitPositioningToStage(held, "launch")).toBe(held);
+        expect(fitPositioningToStage(held, "plan").purpose).toEqual([]);
     });
 
-    it("leaves a growing business free, and keeps the side outcomes only where each side asks", () => {
-        const many = organisation({ customerType: ["b2b", "b2c", "b2g"], audience: ["solo", "smb", "mid"], outcome: ["cost", "convenience", "premium"] });
+    it("leaves a growing business free", () => {
+        const many = organisation({ customerType: ["b2b", "b2c"], audience: ["solo", "smb", "mid"], outcome: ["cost", "convenience", "premium"], purpose: ["learning", "gifting", "access"] });
         expect(fitPositioningToStage(many, "grow")).toBe(many);
-        const sides = organisation({ customerType: ["b2b", "b2c"], marketType: "multi", outcome: ["b2b:cost", "b2c:premium"] });
-        expect(fitPositioningToStage(sides, "manage")).toBe(sides);
-        // Back to launching: one question, so the side answers go.
-        expect(fitPositioningToStage(sides, "launch").outcome).toEqual([]);
-        // A platform's side answers over the stage's limit go side by side.
-        expect(fitPositioningToStage(organisation({ customerType: ["b2b", "b2c"], marketType: "multi", outcome: ["b2b:cost", "b2b:convenience", "b2b:premium", "b2c:premium"] }), "manage").outcome).toEqual(["b2c:premium"]);
     });
 
 });
 
-describe("fitPositioningToStage: the End User", () => {
-    const base = { customerType: ["b2c"], marketType: "single", audience: ["proxy"], outcome: [] as string[] };
+describe("fitPositioningToStage: the buyer's category and the End User", () => {
+    const base = { customerType: ["b2c"], marketType: "single", audience: ["adult"], outcome: [] as string[], buyerCategory: ["b2c:proxy"] };
 
     it("keeps the End User's answers that fit the stage", () => {
-        const held = { ...base, endUser: ["age:child", "age:teen", "decides:asks", "wants:safety"] };
-        expect(fitPositioningToStage(held, "manage").endUser).toEqual(["age:child", "age:teen", "decides:asks", "wants:safety"]);
+        const held = { ...base, endUser: ["rel:parent", "rel:family", "age:minor", "age:young"] };
+        expect(fitPositioningToStage(held, "manage")).toBe(held);
     });
 
     it("empties a group with more answers than the stage allows, and the others stay", () => {
-        const held = { ...base, endUser: ["age:child", "age:teen", "decides:asks"] };
-        expect(fitPositioningToStage(held, "launch").endUser).toEqual(["decides:asks"]);
+        const held = { ...base, endUser: ["rel:parent", "rel:family", "age:minor"] };
+        expect(fitPositioningToStage(held, "launch").endUser).toEqual(["age:minor"]);
     });
 
-    it("drops the End User when the audience is no longer Proxy Buyers / Gifters", () => {
-        expect(fitPositioningToStage({ ...base, audience: ["adult"], endUser: ["age:child"] }, "grow").endUser).toEqual([]);
+    it("keeps the End User for a Dual-Intent buyer too, and drops it for a Direct Buyer", () => {
+        expect(fitPositioningToStage({ ...base, buyerCategory: ["b2c:dual"], endUser: ["rel:parent"] }, "grow").endUser).toEqual(["rel:parent"]);
+        expect(fitPositioningToStage({ ...base, buyerCategory: ["b2c:direct"], endUser: ["rel:parent", "age:minor"] }, "grow").endUser).toEqual([]);
+    });
+
+    it("asks the user's life stage of a consumer buyer only, and the business relationships of a business buyer", () => {
+        const business = { ...base, customerType: ["b2b"], audience: ["smb"], buyerCategory: ["b2b:proxy"], endUser: ["rel:employer", "age:minor", "rel:parent"] };
+        expect(fitPositioningToStage(business, "grow").endUser).toEqual(["rel:employer"]);
+    });
+
+    it("drops the buyer's category of a relationship that is no longer chosen, and the End User with it", () => {
+        const fitted = fitPositioningToStage({ ...base, customerType: ["b2b"], audience: ["smb"], endUser: ["rel:parent"] }, "grow");
+        expect(fitted.buyerCategory).toEqual([]);
+        expect(fitted.endUser).toEqual([]);
     });
 });

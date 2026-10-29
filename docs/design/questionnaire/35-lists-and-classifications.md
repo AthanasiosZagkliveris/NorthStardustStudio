@@ -2,6 +2,8 @@
 
 Status: **proposal**, updated 2026-10-29; parts are built (as document 28, from which this is section 5, split off on 2026-10-29; the sub-section numbers are unchanged, so "5.7" is still 5.7). Where the first published version differs, doc 33 governs: the six countries and Other, with the five generic legal forms for Other; everything for more countries is a future feature (doc 34).
 
+> **Built on 2026-10-29:** the Country question lists the six countries and Other; Other opens a second list of every other country. For Other the legal form is one of the five generic forms and the activity and its code are typed (they are not chosen from the ISIC cascade described below, which stays in the code and the data files as a future feature, doc 34, item 4).
+
 Related: doc 28 (the questions and the cards that use these lists), doc 02 (the sources), `src/data/classifications/` (the official classification files), doc 33 and doc 34.
 
 ## 5. The countries and the shared lists

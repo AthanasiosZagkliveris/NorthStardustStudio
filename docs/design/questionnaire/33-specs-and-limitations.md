@@ -106,7 +106,27 @@ The B2B list is the six business relationships of doc 31 section 6.2, each with 
 - Smallest supported width is 768 px; the app aims at WCAG 2.2 AA.
 - Sources follow rule 14 (doc 28): classifications from official bodies, plain lists from business-school or university documents.
 
-## 8. Open at the end of this document
+## 8. Built on 2026-10-29
+
+The Organization tile and the Early Positioning tile of the app follow this document. What was built, and how the open readings of section 3 to 5 were settled while building (each can be changed):
+
+**Organization tile**
+- **Country:** the picker lists the six countries and "Other". "Other" opens a second list, "Other country", of every other country (so the currency and the tax wording still follow the country). The six keep their legal forms, their classification and their registration data.
+- **Legal form:** the six countries keep their own lists; every other country has the five generic forms, then "Other" (the way out to a form the list does not carry, kept as in every list).
+- **Activities:** for the six countries the official classification (up to four activities); for Other each activity is typed with its code (an "Activity" box and a "Code" box in each row, up to four rows).
+
+**Early Positioning tile**
+- **Market Structure** is not asked (single-sided). **Seller and Buyer Relationship** offers B2C and B2B only. The built B2G, G2B and multi-sided features stay in the code and are hidden; an older answer that holds them is read without them.
+- **Buyer's Life-Stage** (B2C) has three options; **Audience Specialization & Scale** (B2B) is unchanged. **Buyer's category** (Direct, Proxy, Dual-Intent) is asked for each relationship chosen, one choice.
+- For a Proxy or Dual-Intent Buyer: **Buyer and User relationship** (the six personal ones for B2C, the six business ones for B2B) and, for B2C only, **User's Life-Stage** (Minors, Young Adults, Adults, Seniors).
+- **Purpose** (the twelve purposes) is asked once, with the same limit as the outcome; **Differentiation & Outcome** is kept as the one question it was (the owner's list of "Purpose, Differentiation, Outcome" gave no separate lists for Differentiation and Outcome).
+- "Who chooses" and "what matters most to the End User" are no longer asked (future features).
+
+**Not built:** the ages in the Segment (section 6), anything in Business 1 that reads the category, the relationship or the purpose, and the second Profile for the user.
+
+**Saved answers:** an older answer is read in the new form: B2G, G2B and multi-sided answers drop; Proxy Buyers / Gifters in the life stage drops (the buyer's category is empty and is asked again); the End User ages fold into the four life stages (three under 18 are Minors, the older adults are Seniors), the relationships rel:parent, rel:family and rel:friend keep their ids, and who-chooses and what-matters-most go. The two example organizations carry a buyer's category and a purpose.
+
+## 9. Open at the end of this document
 
 1. The owner's list was sent **unfinished** more than once. Anything after it is to be added here.
 2. The checks of sections 3 to 6, in particular: the country picker; the four coarse life stages; whether B2B users have a life stage; Purpose, Differentiation and Outcome as three questions; which ages go in the Segment and where.

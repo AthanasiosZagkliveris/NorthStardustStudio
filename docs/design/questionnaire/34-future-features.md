@@ -12,9 +12,9 @@ Related: doc 33 (the first version), docs 27 to 32 (where each item is described
 | 2 | Complete lists (legal forms, activities, codes) for more countries | Six countries; Other (any other country) with typed activity and code | doc 28 5 | Any country can be chosen; some have a profile, the rest a neutral one |
 | 3 | Official legal forms, with sources, for countries beyond the six, in place of the five generic forms | Five generic forms for Other | doc 28 rule 14 | Per-country lists in `LegalEntityJurisdictions.ts` |
 | 4 | Other classification schemes and a general crosswalk (ISIC) | The six countries' own schemes; Other typed by hand | doc 35 5.3, 5.8 | Built for the six countries |
-| 5 | Multi-sided markets and platforms: sides, one Segment per side, Differentiation and Outcome per side, the anchor-side rule | Single-sided | doc 28 8.2 | Built (Market Structure option) |
-| 6 | B2G: public-sector buyers, Administrative Level audience, the institutional relationships | B2C and/or B2B | doc 28 8.2; doc 31 6.3 | Built |
-| 7 | G2B: government-to-business, Regulatory Intensity audience, locked audiences, procurement and tender rows, payment-delay notices | B2C and/or B2B | doc 28 8.2; doc 31 6.4 | Built |
+| 5 | Multi-sided markets and platforms: sides, one Segment per side, Differentiation and Outcome per side, the anchor-side rule | Single-sided | doc 28 8.2 | Built and hidden since 2026-10-29 (the Market Structure question is not asked) |
+| 6 | B2G: public-sector buyers, Administrative Level audience, the institutional relationships | B2C and/or B2B | doc 28 8.2; doc 31 6.3 | Built and hidden since 2026-10-29 |
+| 7 | G2B: government-to-business, Regulatory Intensity audience, locked audiences, procurement and tender rows, payment-delay notices | B2C and/or B2B | doc 28 8.2; doc 31 6.4 | Built and hidden since 2026-10-29 |
 
 ## 2. Buyer and user (positioning)
 
@@ -24,7 +24,7 @@ Related: doc 33 (the first version), docs 27 to 32 (where each item is described
 | 9 | The Micro-Buyers (16 to 18) as a restricted sub-category of Direct Buyers | doc 31 2, decision 5 |
 | 10 | The public-sector and government-to-business buyer and user relationships (the other ten of the 22) | doc 31 6.3, 6.4, section 10.4, decision 18 |
 | 11 | The positioning guidance of each B2B relationship (value positioning, buyer and user pain points, messaging focus) as tooltips or text | doc 31 section 10.6 |
-| 12 | "Who chooses" (I7f) with its household wording, and "what matters most to the User" (I7g) | doc 31 section 10.3, decisions 20 to 22 |
+| 12 | "Who chooses" (I7f) with its household wording, and "what matters most to the User" (I7g); the built questions were removed from the app on 2026-10-29 | doc 31 section 10.3, decisions 20 to 22 |
 | 13 | The routing of the End User answers into the second Profile: age, P25 relationship, P21 role, P9 and P17 ticks | doc 31 section 10.3, decision 18, decisions 20 to 22 |
 | 14 | The relationship-to-purpose table (22 rows, 12 purposes) as tooltips and ordering of the purpose list | doc 31 section 10.4 |
 | 15 | Accessibility questions (permanent, temporary, situational; functional categories) saved as Profile tags | doc 31 3, decision 12, decision 12 |

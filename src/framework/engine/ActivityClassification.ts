@@ -93,21 +93,34 @@ export function shownTitle(title: string): string {
 }
 
 /** The activities of an organization said in a line: "SIC 62012, SIC 62020" (the code with its scheme's initials, the primary first); nothing where there are none. */
-export function activitiesLine(country: string, activities: readonly { code: string }[]): string {
+export function activitiesLine(country: string, activities: readonly { code: string; name?: string }[]): string {
     const label = SCHEME_CODE_LABEL[schemeKeyOf(country)];
-    return activities.map(activity => label + " " + activity.code).join(", ");
+    // (A typed activity, of a country with no classification of the app's, is said as the user wrote it: "Web design (62.01)".)
+    return activities.map(activity => activity.name ? activity.name + (activity.code ? " (" + activity.code + ")" : "") : label + " " + activity.code).join(", ");
 }
 
 export const BUSINESS_STAGE_WORDS: Record<string, string> = { plan: "Planning", launch: "Launching", manage: "Managing", grow: "Growing" };
 export const CUSTOMER_TYPE_WORDS: Record<string, string> = { b2c: "B2C (Business-to-Consumer)", b2b: "B2B (Business-to-Business)", b2g: "B2G (Business-to-Government)", g2b: "G2B Context (Regulatory/Compliance)", both: "Both" };
 export const MARKET_TYPE_WORDS: Record<string, string> = { single: "Single-sided Market", multi: "Multi-sided Market / Platform" };
-export const AUDIENCE_WORDS: Record<string, string> = { solo: "Solopreneurs & Freelancers", smb: "Startups & SMBs", mid: "Mid-Market", enterprise: "Enterprise / Public Sector", proxy: "Proxy Buyers / Gifters", young: "Students / Young Adults", adult: "Workers / Professionals / Adults", senior: "Seniors", local: "Local Government", regional: "Regional Administration", central: "Central Government & Ministries", institutional: "Institutional / Public Organizations", lowreg: "General Commerce / Mass Market", specialized: "Specialized Sectors", heavy: "Heavily Regulated Markets", crossborder: "Cross-border Trade" };
-/** The End User answers of Early Positioning (asked when the audience is Proxy Buyers / Gifters), by id: the question's prefix, then the answer. */
+export const AUDIENCE_WORDS: Record<string, string> = { solo: "Solopreneurs & Freelancers", smb: "Startups & SMBs", mid: "Mid-Market", enterprise: "Enterprise / Public Sector", young: "Students / Young Adults", adult: "Workers / Professionals / Adults", senior: "Seniors", local: "Local Government", regional: "Regional Administration", central: "Central Government & Ministries", institutional: "Institutional / Public Organizations", lowreg: "General Commerce / Mass Market", specialized: "Specialized Sectors", heavy: "Heavily Regulated Markets", crossborder: "Cross-border Trade" };
+/** The buyer's category of Early Positioning, by id ("b2c:proxy"): the relationship, then the category. */
+export const BUYER_CATEGORY_WORDS: Record<string, string> = {
+    "b2c:direct": "B2C: Direct Buyers", "b2c:proxy": "B2C: Proxy Buyers", "b2c:dual": "B2C: Dual-Intent Buyers",
+    "b2b:direct": "B2B: Direct Buyers", "b2b:proxy": "B2B: Proxy Buyers", "b2b:dual": "B2B: Dual-Intent Buyers"
+};
+/** The End User answers of Early Positioning (asked of a Proxy or Dual-Intent Buyer), by id: the buyer and user relationship, and the user's life stage. */
 export const END_USER_WORDS: Record<string, string> = {
-    "age:early": "End User: babies and young children (0 to 5)", "age:child": "End User: children (6 to 12)", "age:teen": "End User: teenagers (13 to 17)", "age:adult": "End User: adults (18 to 64)", "age:older": "End User: older adults (65 or older)",
-    "rel:parent": "Buyer is the parent or carer", "rel:family": "Buyer is another family member", "rel:friend": "Buyer is a partner, friend or colleague (a gift)",
-    "decides:buyer": "The Buyer chooses alone", "decides:asks": "The End User asks, the Buyer approves", "decides:user": "The End User chooses, the Buyer pays",
-    "wants:enjoy": "End User wants enjoyment and fun", "wants:comfort": "End User wants comfort and ease", "wants:safety": "End User wants safety and care", "wants:learning": "End User wants learning and growth", "wants:belong": "End User wants looks and belonging", "wants:practical": "End User wants practical use"
+    "rel:parent": "Buyer is the parent or legal guardian", "rel:caregiver": "Buyer is the caregiver or person responsible for their care", "rel:family": "Buyer is a family member or relative",
+    "rel:partner": "Buyer is the spouse or romantic partner", "rel:friend": "Buyer is a friend or acquaintance", "rel:otherpersonal": "Buyer has another personal relationship with the user",
+    "rel:employer": "Buyer is the employer providing for employees", "rel:copartner": "Buyer is a business partner or co-owner", "rel:serving": "Buyer is a business serving its clients or customers",
+    "rel:intermediary": "Buyer is a professional intermediary acting for a client", "rel:sponsor": "Buyer is a sponsor or funder", "rel:otherbusiness": "Buyer has another business relationship with the user",
+    "age:minor": "User: minors", "age:young": "User: young adults", "age:adult": "User: adults", "age:senior": "User: seniors"
+};
+/** The purposes of the offering, by id. */
+export const PURPOSE_WORDS: Record<string, string> = {
+    learning: "Learning and Development", health: "Health, Care and Wellbeing", gifting: "Gifting and Appreciation", entertainment: "Entertainment and Enjoyment", social: "Social Connection and Relationships",
+    productivity: "Productivity and Efficiency", growth: "Business Growth and Performance", creation: "Creation and Expression", everyday: "Everyday Needs and Convenience", protection: "Protection and Risk Reduction",
+    compliance: "Compliance and Obligations", access: "Access and Social Support"
 };
 export const OUTCOME_WORDS: Record<string, string> = { cost: "Cost-driven", convenience: "Convenience-driven", compliance: "Compliance, Risk & Security", premium: "Status & Premium" };
 

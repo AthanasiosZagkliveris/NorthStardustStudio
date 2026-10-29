@@ -196,11 +196,11 @@ The decisions of 2026-10-27 to 2026-10-29, one row each, by topic. The rounds of
 | 16 | I7g (what matters most) routes into the second Profile's P9 and P17 ticks (10.3) | decided; future |
 | 17 | I7f (who chooses) routes into the Profile's P21 (10.5) | decided; future |
 | 18 | I7e is replaced by the 22 relationships; the Profile field is P25, "Buyer's Relationship to this User" | decided; the relationship is in the first version |
-| 19 | Dual-Intent as a fifth option of I7b | superseded by doc 33 section 5: the buyer's category is a separate question |
+| 19 | Dual-Intent as a fifth option of I7b | superseded by doc 33 section 5: the buyer's category is a separate question (built 2026-10-29 as I7h) |
 | 20 | A Dual-Intent buyer gets a second Profile for the dependents; I7f has household wording for them (10.5) | decided; future |
 | 21 | Students / Young Adults means fully autonomous, 18 and over | decided |
 | 22 | Saved values rel:parent, rel:family, rel:friend convert once to rows 1, 3, 5 of the 22 | decided; at the final build |
-| 23 | The built End User questions I7d to I7g stay untouched until the new structure is built all at once | decided |
+| 23 | The built End User questions I7d to I7g stay untouched until the new structure is built all at once | done on 2026-10-29: replaced by the first-version structure (the buyer's category I7h, the relationship I7e and the user's life stage I7d; I7f and I7g removed) |
 | 24 | The six B2B relationships have a default intent (Proxy or Dual-Intent) and positioning text (10.6) | collected; the positioning text is future |
 | 25 | Requirements R-1 and R-2 (age restrictions on the Organization and Positioning cards) | superseded: ages go in the Segment (decision 6) |
 | 26 | Lists with no acceptable source (doc 32) stay the owner's wording | decided |

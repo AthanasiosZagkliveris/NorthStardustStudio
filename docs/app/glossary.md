@@ -60,7 +60,7 @@ Doc 28 is the questionnaire specification, doc 33 the first version, doc 34 what
 
 | Term | Meaning | See |
 |---|---|---|
-| Early Positioning | The Positioning tile while Planning and Launching: a temporary, targeted statement for the first market (market structure, seller and buyer relationship, audience, outcome) | Doc 28, 8.2 |
+| Early Positioning | The Positioning tile while Planning and Launching: a temporary, targeted statement for the first market (seller and buyer relationship, audience, buyer's category, the End User, purpose, outcome) | Doc 28, 8.2 |
 | Core Market Positioning | The tile's name while Managing | Doc 28, 8.2 |
 | Corporate & Portfolio Positioning | The tile's name while Growing | Doc 28, 8.2 |
 | Organization tile | Holds the legal entity, the activity and its code, and when the business opens | Doc 28, 8.5 |

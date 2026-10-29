@@ -47,6 +47,6 @@ export function audienceLine(identity: SegmentIdentity | undefined, ids: readonl
 }
 
 /** The audience ids of a buyer who is a person, and of a business or public buyer. */
-export const PEOPLE_AUDIENCE = ["proxy", "young", "adult", "senior"];
+export const PEOPLE_AUDIENCE = ["young", "adult", "senior"];
 export const BUSINESS_AUDIENCE = ["solo", "smb", "mid", "enterprise", "local", "regional", "central", "institutional", "lowreg", "specialized", "heavy", "crossborder"];
 

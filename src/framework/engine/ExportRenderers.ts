@@ -1,5 +1,5 @@
 import { workspacesOf, WORKSPACE_GROUP_ID } from "./AnswerUtils.ts";
-import { AUDIENCE_WORDS, END_USER_WORDS, CUSTOMER_TYPE_WORDS, MARKET_TYPE_WORDS, activitiesLine, outcomeWord } from "./ActivityClassification.ts";
+import { AUDIENCE_WORDS, BUYER_CATEGORY_WORDS, END_USER_WORDS, CUSTOMER_TYPE_WORDS, MARKET_TYPE_WORDS, PURPOSE_WORDS, activitiesLine, outcomeWord } from "./ActivityClassification.ts";
 /*
     Export blocks for the Answer Structures that have an editor of
     their own -- the pages buildAnswerBlocks has no generic shape for.
@@ -357,7 +357,9 @@ function legalEntityBlocks(value: unknown, context: ExportContext): ExportBlock[
             ["Market Structure", MARKET_TYPE_WORDS[organisation.marketType] ?? ""],
             ["Seller and Buyer Relationship", organisation.customerType.map(id => CUSTOMER_TYPE_WORDS[id] ?? "").filter(Boolean).join("; ")],
             ["Audience", organisation.audience.map(id => AUDIENCE_WORDS[id] ?? "").filter(Boolean).join("; ")],
+            ["Buyer's category", organisation.buyerCategory.map(id => BUYER_CATEGORY_WORDS[id] ?? "").filter(Boolean).join("; ")],
             ["End User", organisation.endUser.map(id => END_USER_WORDS[id] ?? "").filter(Boolean).join("; ")],
+            ["Purpose", organisation.purpose.map(id => PURPOSE_WORDS[id] ?? "").filter(Boolean).join("; ")],
             ["Differentiation & Outcome", organisation.outcome.map(outcomeWord).filter(Boolean).join("; ")],
             ["Legal Form", organisation.legalForm === "Other (not listed)" ? organisation.legalFormOther : organisation.legalForm],
             ["Country", COUNTRIES.find(country => country.code === organisation.country)?.name ?? organisation.country],

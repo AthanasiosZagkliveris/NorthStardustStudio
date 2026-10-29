@@ -6,6 +6,7 @@ import { parseAmount, parseDecimal } from "./Amounts.ts";
 import { asText, randomId } from "./Readers.ts";
 import { todayIsoDate } from "./AnswerProcess.ts";
 import { isoDateText } from "./AnswerBusinessCapability.ts";
+import { AUDIENCE_IDS, BUYER_CATEGORY_KEYS, MODEL_IDS, OUTCOME_IDS, PURPOSE_IDS, endUserFrom } from "./PositioningIds.ts";
 
 /* ==========================================================
    Legal Entity (see AnswerType.LegalEntity)
@@ -28,10 +29,15 @@ export const LEGAL_ENTITY_SECTIONS = [
 ] as const;
 
 /** What the organization legally is, and where. */
-/** One activity: a final code of the classification of the organization's country, and the edition of that classification. */
+/**
+ * One activity: a final code of the classification of the organization's country, and the edition of that classification. For a country the first version has no classification of
+ * (the Other countries, design document 33, section 3) the user types both: the activity in `name` and its code in `code`, with no edition.
+ */
 export interface LegalEntityActivityValue {
     code: string;
     edition: string;
+    /** The activity in the user's words: only where the country has no classification of the app's (typed by hand). */
+    name?: string;
 }
 
 export const MAX_ACTIVITIES = 4;
@@ -72,15 +78,19 @@ export interface LegalEntityOrganisationValue {
     activities: LegalEntityActivityValue[];
     /** (Legacy: the stage was once chosen here. It is now the Opening Date's: see BusinessStage.ts.) plan, launch, manage, grow, or "". */
     businessStage: string;
-    /** The seller and buyer relationship (Early Positioning): the chosen ones of b2c, b2b, b2g, g2b; how many follows the business stage (one while planning). An older answer holds one id, or "both" (b2b and b2c). */
+    /** The seller and buyer relationship (Early Positioning): the chosen ones of b2c, b2b (the first version has no B2G or G2B); how many follows the business stage (one while planning). An older answer holds one id, or "both" (b2b and b2c). */
     customerType: string[];
-    /** The market structure: single or multi (a multi-sided market, a platform), or "". */
+    /** The market structure: the first version has the single-sided market only ("single"; an older "multi" is read as single). */
     marketType: string;
-    /** The audience: the chosen scales (solo, smb, mid, enterprise) for a business or public buyer and life stages (proxy, young, adult, senior) for a consumer. */
+    /** The audience: the chosen scales (solo, smb, mid, enterprise) for a business or public buyer and life stages (young, adult, senior) for a consumer. */
     audience: string[];
     /** The differentiation and outcome: the chosen ones of cost, convenience, compliance, premium. */
     outcome: string[];
-    /** The End User, asked only when the audience is Proxy Buyers / Gifters (the buyer pays, someone else uses it): ids prefixed by their question, age:, rel:, decides:, wants: (see END_USER_WORDS). */
+    /** The buyer's category, one for each relationship: "b2c:direct", "b2c:proxy" (pays for someone else), "b2c:dual" (for themselves and their dependents), "b2b:...". */
+    buyerCategory: string[];
+    /** The purposes of the offering (the twelve of PURPOSE_IDS). */
+    purpose: string[];
+    /** The End User, asked only when the buyer's category is Proxy or Dual-Intent: the buyer and user relationship (rel:) and the user's life stage (age:), see END_USER_WORDS. */
     endUser: string[];
     /*
      * The registered address, in parts.
@@ -397,15 +407,29 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
                 ? organisationSource.activityCodeOn
                 : asText(organisationSource.activityCode).trim().length > 0,
             activities: (Array.isArray(organisationSource.activities) ? organisationSource.activities : [])
-                .map((entry): LegalEntityActivityValue | null => entry && typeof entry === "object" ? { code: asText((entry as Record<string, unknown>).code).trim(), edition: asText((entry as Record<string, unknown>).edition) } : null)
-                .filter((entry): entry is LegalEntityActivityValue => entry !== null && entry.code.length > 0)
+                .map((entry): LegalEntityActivityValue | null => {
+                    if (!entry || typeof entry !== "object") {
+                        return null;
+                    }
+                    const fields = entry as Record<string, unknown>;
+                    const name = asText(fields.name).trim();
+                    return { code: asText(fields.code).trim(), edition: asText(fields.edition), ...(name.length > 0 ? { name } : {}) };
+                })
+                .filter((entry): entry is LegalEntityActivityValue => entry !== null && (entry.code.length > 0 || (entry.name ?? "").length > 0))
                 .slice(0, MAX_ACTIVITIES),
             businessStage: asText(organisationSource.businessStage),
-            customerType: asChoices(organisationSource.customerType).flatMap(id => id === "both" ? ["b2b", "b2c"] : [id]),
-            marketType: asText(organisationSource.marketType),
-            audience: asChoices(organisationSource.audience),
-            outcome: asChoices(organisationSource.outcome),
-            endUser: asChoices(organisationSource.endUser),
+            // (The first version: B2C and B2B, a single-sided market; an older answer's B2G, G2B and multi-sided market are read without them: document 34.)
+            customerType: [...new Set(asChoices(organisationSource.customerType).flatMap(id => id === "both" ? ["b2b", "b2c"] : [id]))].filter(id => (MODEL_IDS as readonly string[]).includes(id)),
+            marketType: "single",
+            audience: asChoices(organisationSource.audience).filter(id => (AUDIENCE_IDS as readonly string[]).includes(id)),
+            // (An outcome once saved for one side of a platform, "b2c:cost", is the outcome.)
+            outcome: [...new Set(asChoices(organisationSource.outcome).map(id => id.includes(":") ? id.split(":")[1] : id))].filter(id => (OUTCOME_IDS as readonly string[]).includes(id)),
+            buyerCategory: asChoices(organisationSource.buyerCategory).filter((id, at, all) => {
+                const [model, key] = id.split(":");
+                return (MODEL_IDS as readonly string[]).includes(model) && (BUYER_CATEGORY_KEYS as readonly string[]).includes(key) && all.findIndex(other => other.startsWith(model + ":")) === at;
+            }),
+            purpose: asChoices(organisationSource.purpose).filter(id => (PURPOSE_IDS as readonly string[]).includes(id)),
+            endUser: endUserFrom(asChoices(organisationSource.endUser)),
 
             // A page saved while the address was one field keeps
             // what was written in it: the whole thing lands on the
