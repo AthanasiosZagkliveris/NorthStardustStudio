@@ -2,6 +2,8 @@
 
 Status: **research.** The owner's rule 14 asks that plain lists be supported by a business-school or university document, and by an official body only where flagged as such. The lists of doc 31 were searched on 2026-10-27 by five parallel searches (about 120 queries in all); **every page was opened with the page reader before it was cited, and a page that could not be opened is listed as not opened and supports nothing.** Sources that are not accepted (Wikipedia, blogs, vendor sites such as the Microsoft inclusive-design pages, consultancies) were rejected; weak ones are marked weak. Nothing here changes a list: where a list has no acceptable source it stays the owner's own wording, as rule 14 allows, and says so.
 
+> **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Doc 33 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, age limits, accessibility, caregiving and the rest) is a future feature: doc 34. Contents: doc 35. Glossary: doc 36.
+
 ## 1. The result for each list
 
 | List (doc 31) | Supported by | Weak or partly supported | No acceptable source found |

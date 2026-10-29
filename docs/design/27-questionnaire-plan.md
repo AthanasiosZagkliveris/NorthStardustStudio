@@ -2,6 +2,8 @@
 
 Status: **proposal**, written 2026-10-23. Nothing is built. This is the plan: the goal, the order, what the user gets at each stage, what was cut and why, and what the owner must decide. The detail (every list with examples, the industry list in two levels, every question and option, the connection map and its evidence, the sources) is in document 28, `28-questionnaire-specification.md`; the sources are in `02-references.md`, section 2.7.
 
+> **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Doc 33 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, age limits, accessibility, caregiving and the rest) is a future feature: doc 34. Contents: doc 35. Glossary: doc 36.
+
 ## 1. The goal, and the one test
 
 The app is for startups and small teams in the UK, USA, Canada, Australia, Ireland and New Zealand. A founder should not have to build the business model by hand: a few clear choices should give a **ready-made first draft** of the Segment, the Profile, the channels at every stage, the relationships, the demand rows, the value proposition, the skills needed and the brand starting points, which the founder then confirms and corrects.

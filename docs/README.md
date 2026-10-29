@@ -1,6 +1,6 @@
 # The documents of NorthStardustStudio
 
-Status: **index**, updated 2026-10-27. One line per document: where it is, what kind it is, what it holds, when it last changed (the date of its last commit).
+Status: **index**, updated 2026-10-29. One line per document: where it is, what kind it is, what it holds, when it last changed (the date of its last commit).
 
 ## How the documents are kept
 
@@ -66,6 +66,10 @@ Status: **index**, updated 2026-10-27. One line per document: where it is, what 
 | [design/30-age-limits-by-activity.md](design/30-age-limits-by-activity.md) | research | Age limits by activity and country: which kinds of business are connected with a minimum age (direct or possible) in the UK, Ireland, the USA, Canada, Australia and New Zealand, with the sources, the open conflicts and how the app would use them. | 2026-10-27 |
 | [design/31-positioning-categories.md](design/31-positioning-categories.md) | collection | Positioning categories, collected as given by the owner before any question or layout: user age stages, buyer age stages, accessibility and caregiving cross-sections, buyer categories, buyer and user relationships, the offering purpose taxonomy and the relationship-to-purpose mapping, with what it leaves open. | 2026-10-27 |
 | [design/32-positioning-sources.md](design/32-positioning-sources.md) | research | Sources for the positioning lists: what supports each list of doc 31 (age stages, buyer categories, relationships, purposes, accessibility, caregiving), what has no acceptable source, and the five search result files with every page opened or marked not opened. | 2026-10-27 |
+| [design/33-specs-and-limitations.md](design/33-specs-and-limitations.md) | specification | The first published version: English only; the six countries and Other with their legal forms, activities and codes; single-sided; B2C and/or B2B; the buyer's category separate from the life stage. | 2026-10-29 |
+| [design/34-future-features.md](design/34-future-features.md) | living list | Everything that is not in the first published version: other languages and countries, multi-sided, B2G, G2B, the detailed positioning data, age limits by country, and the research still to do. | 2026-10-29 |
+| [design/35-contents.md](design/35-contents.md) | index | The questionnaire and first-version documents: what to read first, what each holds, how the first version relates to them. | 2026-10-29 |
+| [design/36-glossary.md](design/36-glossary.md) | reference | The names used in the questionnaire documents: business stages, positioning, buyer and user, question ids and marks. | 2026-10-29 |
 
 ## The specifications (`specifications/`)
 

@@ -2,6 +2,10 @@
 
 Status: **collection only.** The owner's categories for the buyer, the user and the purpose of an offering, written down as given, before any question or layout is designed. **Nothing in the app follows from this document yet, and nothing will until the structure and the layout are agreed** (owner, 2026-10-27: "do not do any changes before complete the proper structure/layout; for now just collect some data / categories, and then we are going to create the proper questions and layout"). The wording, the numbers and the order are the owner's; the only edits are the layout of the lists and the spelling of "Seniors". Section 9 lists what the collection leaves open; it decides nothing.
 
+> **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Doc 33 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, age limits, accessibility, caregiving and the rest) is a future feature: doc 34. Contents: doc 35. Glossary: doc 36.
+
+> **Where the decisions stand (2026-10-29).** The first version uses only: the buyer's category (section 5 here, three categories), the buyer's life stage (three groups), the six personal buyer and user relationships (6.1), the user's life stage (four groups), and Purpose, Differentiation and Outcome (doc 33 section 5). All other collected data in this document, and the decisions 9B to 9L about it, are future features (doc 34), kept here as the record. Order of the decisions: 9B age edges; 9C owner answers; 9D to 9E buyer types and privacy; 9F to 9G lifecycle and the 22-row table; 9H to 9K End User routing and Dual-Intent; 9L the built questions stay.
+
 Related: doc 28, 8.2 (the Positioning questions), doc 29 (the question guide), doc 30 (age limits by activity and country).
 
 ## 1. User age stages
@@ -458,6 +462,8 @@ Nothing is built; the End User questions of the app (I7d to I7g) still hold the 
 Nothing is built.
 
 ## 9J. Dual-Intent in I7b, its second Profile, and the migration of the legacy values (owner's pasted text, 2026-10-27)
+
+> **Superseded on 2026-10-29 (doc 33 section 5) for the first version:** I7b keeps three life-stage options, and the buyer's category (Direct, Proxy, Dual-Intent) is a separate question; the End User block is shown by the category. The rest of this section is kept as the record, and is a future feature where doc 34 lists it.
 
 1. **I7b gets a fifth option, "Dual-Intent Family Buyers"**, beside the four built (`LIFE_STAGES`: Proxy Buyers / Gifters; Students / Young Adults; Workers / Professionals / Adults; Seniors). Proxy Buyers / Gifters: the payer is not the user. Dual-Intent Family Buyers: the payer is the first user and the dependents are the other users, of one offering or one shared tier. Students / Young Adults, Workers / Professionals / Adults and Seniors (65 to 74): the buyer is the user. The terms lead; the traits are the meaning.
 2. **A Dual-Intent buyer gets a second Profile, for the dependents** (not the buyer), in the same Segment. The buyer's own traits are in the first Profile. The second Profile carries P21 "They will use it" and "They influence the decision", and takes the I7g routing of 9H.

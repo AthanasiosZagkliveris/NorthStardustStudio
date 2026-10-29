@@ -2,6 +2,8 @@
 
 Status: **research, 2026-10-26** (owner's request: identify which activities are connected with age limits, direct or possible, per country). Six researchers read official sources, one country each (the UK, Ireland, the USA, Canada, Australia, New Zealand). **No row is legal advice, and nothing here blocks a user.** It extends the lookup of doc 28, 10.3 (the kinds of goods behind O12) from *goods* to *activities*, so that the Organization tile's activity can say, once, "people of an age may be affected by what you do".
 
+> **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Doc 33 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, age limits, accessibility, caregiving and the rest) is a future feature: doc 34. Contents: doc 35. Glossary: doc 36.
+
 ## 1. How to read it
 
 - **D** (direct): a law sets a minimum age for the customer, participant or user, or forbids selling, supplying, serving or admitting under an age. **P** (possible): no flat age, but an age check, a parent's consent, a child-specific code or an age-related duty may apply depending on the product, platform, state or setting. **–**: none found.

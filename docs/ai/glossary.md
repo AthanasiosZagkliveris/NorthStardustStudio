@@ -4,6 +4,8 @@ Status: **reference**, updated 2026-10-25.
 
 Canonical, one-line definitions. Each term has exactly one owner document, linked below — read that document for the full explanation; this file exists for fast lookup and to keep terminology consistent across every other document and Skill, not to explain anything itself.
 
+The questionnaire and first-version terms (business stages, positioning, buyer and user, question ids) are in `docs/design/36-glossary.md`.
+
 ## Project domain
 
 **Capability** — one of 6 top-level groupings (e.g. Foundation, Deliver Value) that the 24 Systems are organized under. *Owned by: `framework-conventions-and-patterns.md`.*
