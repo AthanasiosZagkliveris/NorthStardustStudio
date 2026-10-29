@@ -1,6 +1,6 @@
 # 3. Research
 
-Status: **current record**, 2026-10-14. This document keeps the research behind the design decisions. Parts R1 to R9 are the research notes written 2026-10-04 to 2026-10-08 (converted from the HTML drafts, content unchanged except for formatting); Part R10 is the analysis of 2026-10-14. The notes say "Recommend" where they propose; the decided design is in document 1. Where a note and document 1 differ, document 1 prevails.
+Status: **current record**, 2026-10-14, reorganised 2026-10-29. This document keeps the research behind the design decisions: the question, the recommendation, the reason and the source. Parts R1 to R9 are the research notes written 2026-10-04 to 2026-10-08; Part R10 is the analysis of 2026-10-14. The notes say "Recommend" where they propose; the decided design is in document 1. Where a note and document 1 differ, document 1 prevails. The proposal tables of the notes (the categories, groups, places and behaviours, in their names of the time) are not kept here where document 1, part D, section 3 now holds the decided version; each place says so. The "Decisions for you" and "Questions for you" lists are the questions put to the owner at the time; the answers are the design built, in document 1.
 
 How much each note can be trusted is in document 2, sections 2.3b and 2.4. In short: the notes of October rest mostly on vendor and blog pages and on general knowledge, so they explain *why* a decision was made but do not *prove* it.
 
@@ -15,7 +15,7 @@ How much each note can be trusted is in document 2, sections 2.3b and 2.4. In sh
 | R5 | Industry costs compared with the app, and graded insurances | 2026-10-07 | 98 industry costs checked against the groups; insurance grades | 83 of 98 had a home, 11 none, 4 are not costs |
 | R6 | Event card: three examples | 2026-10-06 | How an event or project card links to others | A recommendation; the activity model (R7) is the rule |
 | R7 | Activity model | 2026-10-06 | How an event or project connects the cards; total cost is calculated, the card holds the price | Recommendation |
-| R8 | Cards priced per project | 2026-10-06 | The 10 groups whose main driver includes Per project | The payment plan |
+| R8 | Cards priced per project | 2026-10-06 | Superseded: a pointer to where the Per project groups and prices are now | The payment plan |
 | R9 | Extra costs table | 2026-10-06 | The extras (service charge, rates, fit-out, insurance...) by group | Early data; the decided extras are in document 1, part D, section 8 |
 | R10 | Business System analysis | 2026-10-14 | How the pages connect today; relationship types; goals; channel expenses; Delivery; Global Settings; screens; accessibility | Input to the requirements in document 5 |
 
@@ -32,17 +32,7 @@ Research and recommendations for page 3 (Infrastructure & Capability). Facts com
 
 ### 2. Resources: types, categories, groups, and where they belong
 
-| Type | Category (existing = ✓) | Groups | Place |
-|---|---|---|---|
-| Physical | Workspace ✓ | kinds: Home, Coworking, Incubator, Dedicated, Other; groups for fit-out and deposit | Infrastructure (Offering when a workspace is only for one offering/project, e.g. a pop-up) |
-| Physical | Utilities ✓ | Electricity, Internet, Heating & Gas, Cooling & Air Conditioning, Water ✓. **Add:** Phone/Mobile, Waste & Cleaning | Infrastructure |
-| Physical | Workstation ✓ | Furniture, Electrical, Supporting ✓ | Infrastructure |
-| Physical | Equipment ✓ | Computing, Peripherals, Specialized ✓. **Add:** Production Machinery & Tools (instead of overloading "Specialized"), Testing & Safety | Both: office equipment = Infrastructure; production machinery = Offering |
-| Physical | **Add: Vehicles & Transport** | Vehicles, Fuel & Charging, Maintenance | Both |
-| Physical | **Add: Materials & Inventory** | Raw Materials, Components, Packaging, Consumables, Stock (finished goods) | Offering (mostly) |
-| Digital | Digital Infrastructure ✓ | Software, Digital Services, Online Presence & Communication ✓. **Add:** Data & Security (backup, cyber security, identity), Platforms & APIs (usage-based tools, e.g. AI APIs) | Both: company tools = Infrastructure; tools bought for one offering or channel = Offering |
-| Intellectual | **Add: Intellectual Property & Licences** | Brand & Trade marks, Patents & Designs, Content & Templates, Licences & Permits, Certifications & Standards, Know-how/Training material | Both: brand, trade mark = Infrastructure; a product certification or licence for one offering = Offering |
-| Human | **Change: Founders → Human Resources** (see section 5) | Founders & Owners, Employees, Interns & Volunteers; compensation per person | Both: admin and management people = Infrastructure; delivery people = Offering (allocated by delivery hours) |
+**Recommended in this note** (built in the end as nine resource categories and 47 groups, in the names of document 1, part D, sections 1 and 3): add Utilities groups for phone and mobile and for waste and cleaning; split production machinery and testing and safety from office equipment (instead of overloading "Specialized"); add Vehicles & Transport (vehicles, fuel and charging, maintenance) and Materials & Inventory (raw materials, components, packaging, consumables, stock); add Data & Security and Platforms & APIs to Digital Infrastructure; add intellectual property, licences, permits and certifications (built as Documents & Rights); change Founders to Human Resources (section 5). **The place of a category:** office equipment, company software, brand and trade marks, workspace for the whole organization: Infrastructure; production machinery, materials, a pop-up or project site, a tool bought for one offering or channel, a product certification or licence: Offering; vehicles, equipment and digital tools can be either, and a card sits in the place it serves. Workspace kinds in this note: Home, Coworking, Incubator, Dedicated, Other, with groups for fit-out and deposit.
 
 Misfits seen in the example data:
 
@@ -56,16 +46,7 @@ insurance belongs with Legal/Compliance expenses (or a Risk & Insurance group), 
 
 Existing categories: Operational, Production, Marketing, Sales & Customer, Other. Compared with Porter and the Canvas the gaps are delivery, after-sales service, product development, procurement, people and administration.
 
-| Category | Typical groups (examples) | Place |
-|---|---|---|
-| Operational (existing) → **keep as umbrella** | Administration & Finance, Legal & Compliance, People & Hiring, IT & Systems, Procurement & Sourcing, Premises & Facilities | Infrastructure |
-| Production (existing) | Make / Build, Quality Control, Develop & Test, Operate the service, Platform & Network upkeep | Offering |
-| **Add: Delivery & Logistics** | Packing, Shipping, Installation, On-site delivery, Returns | Offering (channel delivery) |
-| Marketing (existing) | Brand & Content, Campaigns, Events, SEO & Social, Public relations | Both: brand work = Infrastructure; an offering launch = Offering |
-| Sales & Customer (existing) | Prospecting, Proposals & Contracts, Onboarding, Account management | Both |
-| **Add: Service & Support** (after-sales) | Helpdesk, Warranty & Repairs, Customer success, Feedback & Reviews | Offering |
-| **Add: Product Development** (Porter: technology development) | Research, Design, Prototype, Improvement | Offering (or Infrastructure for internal tools) |
-| Other (existing) | user-made | Either |
+The gaps found were delivery (packing, shipping, installation, returns), after-sales service (helpdesk, warranty and repairs, customer success), product development (research, design, prototype), procurement, people and administration. R3, section 2 settles it: no groups and no additions; the five categories stay with a wider meaning. The decided activity groups are in document 1, part D, section 13.
 
 **Cost on activities:** I agree with your choice. An activity records time, owner and result, and its cost lives in Resources, Partners and Human Resources. **Recommend:** show an *implied labour cost* per activity as a calculated view only (performer hours × their compensation), never as an entered figure, so labour is not counted twice.
 
@@ -73,17 +54,7 @@ Existing categories: Operational, Production, Marketing, Sales & Customer, Other
 
 The Canvas distinguishes partner *relationships* (alliance, coopetition, joint venture, buyer-supplier). The app's Partners vs Providers split is close to that: a **Partner** shares risk or goals (alliance, joint venture, coopetition, referral partner); a **Provider** sells you something (buyer-supplier). **Recommend:** keep Partners/Providers as the first level, and add functional categories:
 
-| Category | Groups (examples) | Place |
-|---|---|---|
-| Professional Services | Legal, Accounting & Tax, Insurance broker, Consulting, Payroll | Infrastructure |
-| Facilities & Property | Landlord, Coworking operator, Cleaning, Maintenance | Infrastructure |
-| Technology & Platform | Hosting, SaaS vendors, App/Marketplace platforms | Both |
-| Suppliers | Raw materials, Components, Packaging, Wholesale stock | Offering |
-| Subcontractors & Freelancers | Production, Design, Development, Delivery staff | Offering |
-| Logistics & Delivery | Couriers, Postal, Freight, Fulfilment | Offering (channel) |
-| Payment & Finance | Payment processors, Bank, Invoice financing | Both (investors and lenders go to Funding and Capital) |
-| Marketing & Sales Partners | Agencies, Affiliates, Resellers, Referral partners, Influencers | Both |
-| Strategic Alliances | Alliance, Joint venture, Coopetition | Both |
+Nine functional categories were proposed: Professional Services (legal, accounting and tax, insurance broker, consulting, payroll), Facilities & Property (landlord, coworking operator, cleaning, maintenance), Technology & Platform (hosting, SaaS, app and marketplace platforms), Suppliers of goods, Subcontractors & Freelancers, Logistics & Delivery, Payment & Finance (investors and lenders go to Funding and Capital), Marketing & Sales Partners, and Strategic Alliances. R3, section 5 revises the list; the groups as built are in document 1, part D, sections 3.3 and 3.4.
 
 ### 5. Legal expenses, Human Resources, compensation
 
@@ -111,16 +82,7 @@ The Canvas distinguishes partner *relationships* (alliance, coopetition, joint v
 
 The Canvas describes channels through five phases: awareness, evaluation, purchase, delivery, after sales (the first, second and last are promotion; purchase and delivery are place). The app's channel kinds: Social Media, Website, Marketplace, Events/Talks, Email, Direct Payment, Physical Delivery (courier, postal), plus file delivery.
 
-| Channel | Existing or potential channel resources | Likely behaviour |
-|---|---|---|
-| Social Media (awareness) | Ad spend, scheduling tool, content tools, influencer fees | Ads and influencers variable; tools fixed |
-| Website (evaluation, purchase) | Domain, hosting, shop platform, plugins, SEO tools | Fixed (domain annual, platform monthly) |
-| Marketplace (purchase) | Seller account, listing fees, commission %, fulfilment fees | Variable (% and per order) |
-| Events / Talks (awareness) | Stall fee, display kit, travel, event insurance | Step: per event; kit one-time |
-| Email (awareness, after sales) | Email platform, list tools, automation | Semi-variable (tier by list size) |
-| Direct Payment (purchase) | Card reader, processing fees, invoicing tool | Semi-variable (fixed fee + %); reader one-time |
-| Physical Delivery (delivery) | Packaging, courier or postal fees, returns, transit insurance | Variable (per order or parcel); account fee fixed |
-| After sales | Helpdesk tool, warranty/repair, review platform | Fixed tool, variable repairs |
+The channel resources, partner candidates and behaviour of each channel category are in R3, section 4. The phase of each: Social Media, awareness; Website, evaluation and purchase; Marketplace, purchase; Events / Talks, awareness; Email, awareness and after sales; Direct Payment, purchase; Physical Delivery, delivery; after sales (helpdesk tool, warranty or repair, review platform: a fixed tool, variable repairs).
 
 **Where they fit (Recommend):** a channel resource lives where it is used. They stay **created by the channel** (not by a button) and shown under Offering with the teal Channel marker. Use the five phases as the Channel **groups**: Awareness & Promotion, Sales & Payment, Delivery & Fulfilment, After-sales. A tool that serves the whole organization (the main website, the email platform) can be linked up to Infrastructure → Digital Infrastructure instead of duplicated. Costs must be counted once.
 
@@ -148,20 +110,7 @@ The Financial model already has Fixed, Variable and Semi-variable (a fixed part 
 
 ### 8. Positioning across all costs
 
-| Cost source | Typical place | Typical behaviour |
-|---|---|---|
-| Workspace rent, deposit | Infrastructure | Rent fixed; deposit one-time, refundable |
-| Utilities, phone | Infrastructure | Semi-variable |
-| Furniture, equipment | Infrastructure (production machinery: Offering) | One-time; depreciated, fixed |
-| Software, digital services | Both | Fixed; usage-based plans semi-variable or variable |
-| Materials, packaging, stock | Offering | Variable |
-| Human Resources: base pay, on-costs | Infrastructure (admin) or Offering (delivery) | Fixed, on-costs semi-variable |
-| Human Resources: commission, bonus | Offering or Both | Variable |
-| Professional services (legal, accountant) | Infrastructure | Fixed if retainer; variable if per job |
-| Legal Entity expenses | Infrastructure (recorded in Legal Entity) | Fixed overhead; formation one-time |
-| Suppliers, subcontractors, logistics | Offering | Variable |
-| Payment processors, marketplaces | Offering (channel) | Semi-variable or variable |
-| Activities | Both | No own cost; implied labour is a calculated view |
+The place and the typical behaviour of each cost source are the decided ones in document 1, part D, section 3 (and the behaviour is worked out by the rules of part E, section 6). The pattern in this note: Human Resources pay is Infrastructure (admin) or Offering (delivery), fixed, with on-costs semi-variable and commission or bonus variable; professional services are fixed on a retainer and variable per job; activities have no cost of their own, only an implied labour view.
 
 **Reading the result:** the place answers *what the cost is for* (overhead for the whole organization vs direct cost of an offering). The behaviour answers *how it moves with volume*. Together they give break-even (Infrastructure and other fixed costs) and the unit margin (Offering's variable costs per unit). The usual pattern is Infrastructure mostly fixed, Offering mostly variable, with exceptions on both sides.
 
@@ -193,98 +142,11 @@ Colours: pink = Infrastructure, brown = Offering, green = Both. Behaviours are *
 
 **Both** means the same group is used in both sections, and the card sits in the section it serves: company-wide use in Infrastructure, use for one offering in Offering.
 
-#### Resources
-
-| Category | Group | Place | Behaviour | Driver / note |
-|---|---|---|---|---|
-| Workspace | Home / Coworking / Incubator / Dedicated | Infrastructure | F | Monthly rent or membership; a day pass is V (per day) |
-| Workspace | Pop-up / Exhibition / Project site | Both (Offering when for one offering) | St | Per event or project; deposit is refundable, not an expense |
-| Workspace | Fit-out & deposit | Infrastructure | F (one-time, depreciated) | Premises improvement, not furniture |
-| Utilities | Electricity, Heating & Gas, Cooling & Air Conditioning, Water | Infrastructure | S | Standing charge + usage; seasonal |
-| Utilities | Internet, Phone/Mobile (add) | Infrastructure | S (mostly F) | Plan + usage or overage |
-| Utilities | Waste & Cleaning (add) | Infrastructure | F or V | Contract = F; per collection = V |
-| Workstation | Furniture, Electrical, Supporting | Infrastructure | F (one-time, depreciated) | Capital purchases |
-| Equipment | Computing, Peripherals | Both | F (one-time) | Office use = Infrastructure; a delivery kit for one offering = Offering |
-| Equipment | Specialized | Both | F (one-time) | Cameras, scanners, printers |
-| Equipment | Production Machinery & Tools (add) | Offering | S | Purchase F + running energy, parts V; units-of-production wear V |
-| Equipment | Testing & Safety (add) | Both | St (periodic) | Calibration, inspection, annual |
-| Vehicles & Transport (add) | Vehicles | Both | F (lease/purchase) | Insurance F |
-| Vehicles & Transport | Fuel & Charging, Maintenance | Both | V / S | Per km or per delivery |
-| Materials & Inventory (add) | Raw Materials, Components | Offering | V | Per unit; minimum order = step |
-| Materials & Inventory | Packaging, Consumables | Offering | V (consumables S) | Per order or unit |
-| Materials & Inventory | Stock (finished goods) | Offering | V | Purchase timing; counts in margin when sold |
-| Digital Infrastructure | Software | Both | F (per seat = St) | Flat or per user monthly/annual |
-| Digital Infrastructure | Digital Services | Both | S | Storage / cloud tiers |
-| Digital Infrastructure | Online Presence & Communication | Both | F (domain annual, hosting S) | Website, email, social |
-| Digital Infrastructure | Data & Security (add) | Infrastructure | F | Backup, cyber security, identity |
-| Digital Infrastructure | Platforms & APIs (add) | Both (usually Offering) | V / S | Per call, token or transaction |
-| Intellectual Property & Licences (add) | Brand & Trade marks | Infrastructure | F (one-time + renewals) | Trade mark for one product line = Offering |
-| Intellectual Property & Licences | Patents & Designs | Both | F (filing, annual renewal) |  |
-| Intellectual Property & Licences | Content & Templates, Know-how | Both | F (one-time) |  |
-| Intellectual Property & Licences | Licences & Permits | Both | F annual, or V (royalty %) | Royalty per unit or % of revenue = V |
-| Intellectual Property & Licences | Certifications & Standards | Both | F annual / St audits | Organization-wide = Infrastructure; product = Offering |
-| Human Resources (changed from Founders) | Founders & Owners | Infrastructure (delivery share = Offering) | F (salary); dividends not an expense | Allocate by delivery hours |
-| Human Resources | Employees | Both | F base; S on-costs; V commission, bonus, overtime | Admin staff = Infrastructure; delivery staff = Offering |
-| Human Resources | Interns & Volunteers | Both | F stipend; V expenses |  |
-
-#### Activities
-
-An activity has no cost of its own. The column shows how its *implied labour* behaves, which is a calculated view.
-
-| Category | Groups | Place | Implied labour |
-|---|---|---|---|
-| Operational | Administration & Finance; Legal & Compliance; People & Hiring; IT & Systems; Procurement & Sourcing; Premises & Facilities | Infrastructure | F (salaried time) |
-| Production | Make / Build; Quality Control; Develop & Test; Operate the service; Platform upkeep | Offering | S (capacity, hours per unit) |
-| Delivery & Logistics (add) | Packing; Shipping; Installation; On-site delivery; Returns | Offering | V (per order) |
-| Marketing | Brand & Content; Campaigns; Events; SEO & Social; Public relations | Both | St (campaigns) / F |
-| Sales & Customer | Prospecting; Proposals & Contracts; Onboarding; Account management | Both | S (commission V) |
-| Service & Support (add) | Helpdesk; Warranty & Repairs; Customer success; Feedback & Reviews | Offering | S |
-| Product Development (add) | Research; Design; Prototype; Improvement | Offering (internal tools: Infrastructure) | F per project |
-
-#### Partners & Providers
-
-| Category | Groups | Place | Behaviour | Driver / note |
-|---|---|---|---|---|
-| Professional Services | Legal; Accounting & Tax; Insurance broker; Consulting; Payroll provider | Infrastructure | F retainer; V per job; payroll S (per employee) | Per project, per month, per employee |
-| Facilities & Property | Landlord; Coworking operator; Cleaning; Maintenance | Infrastructure | F (maintenance V) | Service charge F or S |
-| Technology & Platform | Hosting; SaaS vendors; Marketplaces & app platforms | Both | F or S | Marketplace = fee F + commission V |
-| Suppliers (goods) | Raw materials; Components; Packaging; Wholesale stock | Offering | V | Per unit; minimum order = step; volume discount |
-| Subcontractors & Freelancers | Production; Design; Development; Delivery staff | Offering | V (retainer F) | Per project or hour |
-| Logistics & Delivery | Couriers; Postal; Freight; Fulfilment | Offering (channel) | V (account fee F) | Per parcel or order |
-| Payment & Finance | Payment processors; Bank; Invoice financing | Both | S | Fixed fee + % of order value |
-| Marketing & Sales Partners | Agencies; Affiliates; Resellers; Referral partners; Influencers | Both | F agency retainer; V commission or per post | % of revenue, per lead, per post |
-| Strategic Alliances | Alliance; Joint venture; Coopetition | Both | F fee / V revenue share | Capital in a joint venture goes to Funding and Capital |
-
-#### Channel resources (groups = the five channel phases)
-
-| Group | Examples | Place | Behaviour |
-|---|---|---|---|
-| Awareness & Promotion | Ad spend, influencer fees, scheduling tools | Offering (channel) | Ads and influencers V (a chosen budget); tools F |
-| Evaluation | Demo, samples, website tools | Offering (channel) | Samples V; tools F |
-| Sales & Payment | Shop platform, card reader, processing fees, marketplace commission | Offering (channel) | Platform F; processing S; commission V |
-| Delivery & Fulfilment | Packaging, courier, postal, insurance in transit | Offering (channel) | V (per order) |
-| After-sales | Helpdesk tool, warranty, repairs, returns | Offering (channel) | Tool F; returns V (% of sales) |
-
-#### Legal Entity expenses (recorded in Legal Entity, counted in Infrastructure)
-
-| Expense | Behaviour |
-|---|---|
-| Company formation / incorporation, trade mark registration | F, one-time (establishment) |
-| Confirmation statement, data protection fee, licence renewals | F, annual |
-| Accountant retainer, employers' liability and other insurance | F, monthly or annual |
+The groups of the note, with their place and default behaviour, were a proposal. The decided groups, with their drivers, behaviour and cost nature, are in document 1, part D, sections 3.1 to 3.4. Points that were settled in the note and still hold: a workspace deposit is refundable, not an expense; a day pass is variable (per day); a pop-up or project site is a step per event or project; office equipment and furniture are one-time capital purchases (depreciated); production machinery is semi-variable (the purchase is fixed, energy and parts follow output); consumed materials are variable per unit with a minimum order as a step; a software licence per seat is a step; royalties are variable (per unit or a percentage of revenue); certifications are fixed yearly or a step for audits; founders' pay is fixed and dividends are not an expense; an activity has no cost of its own, only an implied labour view (fixed for salaried time, semi-variable for production, variable for delivery by order, a step for campaigns). A legal formation or trade mark registration is a fixed one-time (establishment) expense; a confirmation statement, a data protection fee and licence renewals are fixed annual; an accountant retainer and employers' liability insurance are fixed monthly or annual. Channel resources were grouped by the five channel phases (Awareness & Promotion, Evaluation, Sales & Payment, Delivery & Fulfilment, After-sales), later replaced by the channel's category (R4, section 4): ads and influencers variable (a chosen budget), tools fixed; samples variable; a shop platform fixed, processing semi-variable, commission variable; packaging, courier, postal and transit insurance variable per order; a helpdesk tool fixed, returns variable (a percentage of sales). A joint venture's capital goes to Funding and Capital; payroll is semi-variable (per employee); a marketplace is a fixed fee plus a variable commission; supplier goods can carry a minimum order (a step) and a volume discount.
 
 ### 2. The frequency list: what could be added
 
-**Today.** Resource, partner and provider cards offer: One-time, Monthly, Annually, Per unit, Per order, Per project, Other. The Financial model also knows Quarterly, which the cards do not show. Salaries use their own period list.
-
-**The issue.** One list mixes two different questions: *when it is paid* (a period) and *what it follows* (a driver). **Recommend:** keep one dropdown, but organize it into two groups, and add the missing options.
-
-| Group | Existing | Add (recommended order of value) |
-|---|---|---|
-| Paid on a schedule (fixed by time) | One-time, Monthly, Annually | **Quarterly** (already in the model), **Weekly**, **Daily**, Fortnightly (salaries), Half-yearly, Every 2/3 years (renewals), On milestone/completion |
-| Follows activity (variable) | Per unit, Per order, Per project | **Per hour**, **Per day**, **Per participant/client**, **Per use/transaction**, Per event/session, Per kilometre/mile, Per seat/user, Per kg/metre/litre |
-| Follows a base figure (percentage) | none | **% of revenue** (commission, royalty), **% of order value** (marketplace, payment fee), % of profit (profit share), % of pay (employer on-costs, pension) |
-| Other | Other | Other (user text) |
+**Today.** Resource, partner and provider cards offered: One-time, Monthly, Annually, Per unit, Per order, Per project, Other. The Financial model also knew Quarterly, which the cards did not show. Salaries use their own period list. **The issue.** One list mixes two questions: *when it is paid* (a period) and *what it follows* (a driver). **Recommend:** one dropdown organised into two groups, with the missing options added. The extra options proposed in this note (weekly, daily, fortnightly, half-yearly, every 2 or 3 years, on milestone; per hour, day, participant, use, event, kilometre, seat, kg; percentages of revenue, of order value, of profit and of pay) are folded into the existing ones in R3, section 2, which is the version decided (document 1, part D, section 1: seven drivers).
 
 **Salaries and pay.** Period: hourly, daily, weekly, fortnightly, monthly, annual. Variable pay options: commission (% of sales or per sale), bonus (one-off or annual), profit share (% of profit), revenue-linked payment (% of revenue), piece rate (per unit), overtime (per hour). Dividends belong to Funding and Capital. A salary or commission is then two fields: a period or driver, plus a rate or amount.
 
@@ -315,23 +177,7 @@ when losing it would stop or seriously damage delivering an offering. The app ca
 
 - The tables in part 1 give the default per group. The summary by **category**:
 
-| Category | Mostly | Because |
-|---|---|---|
-| Workspace | Fixed | Rent or membership is the same each month; pop-ups are steps |
-| Utilities | Semi-variable | Standing charge plus usage |
-| Workstation, Equipment (office) | Fixed (one-time capital, depreciated) | Bought once; no link to volume |
-| Production machinery | Semi-variable | Purchase fixed, running costs and wear follow output |
-| Vehicles | Semi-variable | Lease and insurance fixed, fuel and upkeep follow distance |
-| Materials & Inventory | Variable | Consumed per unit sold |
-| Digital | Fixed, with usage tiers semi-variable | Subscriptions flat; APIs follow use |
-| Intellectual Property & Licences | Fixed, royalties variable | Registration and renewals; royalty follows sales |
-| Human Resources | Fixed base, semi-variable on-costs, variable incentives | Pay is fixed; on-costs follow pay; commission follows sales |
-| Professional services | Fixed or variable | Retainer vs per job |
-| Suppliers, subcontractors, logistics | Variable | Per unit, order or job |
-| Payment, marketplaces | Semi-variable | Fee plus percentage |
-| Marketing partners | Fixed or variable | Retainer vs commission |
-| Legal Entity | Fixed | Formation one-time, then annual or monthly |
-| Activities | No cost; implied labour fixed (salaried) to variable (per job) | Cost sits on resources, partners and people |
+The default behaviour per category is the decided one in document 1, part D, section 3 (Behaviour column). In short: rent and membership are fixed; utilities semi-variable; capital purchases fixed (one-time, depreciated); production machinery and vehicles semi-variable; materials variable; digital subscriptions fixed with usage tiers semi-variable; royalties variable; pay fixed, on-costs semi-variable, incentives variable; professional services fixed on a retainer or variable per job; suppliers, subcontractors and logistics variable; payment fees and marketplaces semi-variable.
 
 **Using it.** Variable costs per unit give the unit margin of each Offering. Fixed costs (mostly Infrastructure) give break-even. A semi-variable cost is split into a fixed part (to break-even) and a rate per unit (to margin), which the Financial model already supports with a fixed part and a variable amount per unit. A step cost is entered as fixed until its threshold, then as a new fixed cost.
 
@@ -379,17 +225,7 @@ You are right: most of the options I proposed collapse into the existing ones on
 
 #### Groups that can be merged
 
-| Category | Before | After | Place | Behaviour |
-|---|---|---|---|---|
-| Utilities | Electricity, Internet, Heating & Gas, Cooling & Air Conditioning, Water (+ Phone, Waste) | **Electricity; Heating & Cooling; Water & Waste; Connectivity** (internet, phone) | Infrastructure | S |
-| Workstation | Furniture, Electrical, Supporting | **Furniture & Accessories; Electrical** | Infrastructure | F (one-time) |
-| Equipment | Computing, Peripherals, Specialized (+ Production Machinery, Testing & Safety) | **Computing & Peripherals; Specialized; Production Machinery & Tools** (testing and safety go into Specialized) | Both; machinery = Offering | F; machinery S |
-| Vehicles & Transport | Vehicles, Fuel & Charging, Maintenance | **Vehicles; Running Costs** | Both | F; running S |
-| Materials & Inventory | Raw Materials, Components, Packaging, Consumables, Stock | **Materials & Components; Packaging & Consumables; Stock** | Offering | V |
-| Digital Infrastructure | Software, Digital Services, Online Presence & Communication, Data & Security, Platforms & APIs | **Software; Cloud, Data & Security; Online Presence & Communication; Platforms & APIs** | Both | F / S / V (APIs) |
-| Intellectual Property & Licences | Brand & Trade marks, Patents & Designs, Content & Templates, Know-how, Licences & Permits, Certifications | **Trade marks, Patents & Designs; Content & Know-how; Licences, Permits & Certifications** | Both | F; royalties V |
-| Human Resources | Founders & Owners, Employees, Interns & Volunteers | **Founders & Owners; Team** (employees, interns, volunteers) | Both | F; on-costs S; incentives V |
-| Workspace | Home, Coworking, Incubator, Dedicated, Pop-up, Fit-out | Kinds stay; fit-out and deposit are parts of the workspace card | Infrastructure; pop-up = Offering | F; pop-up St |
+The merged group lists proposed here (for example Electricity, Heating & Cooling, Water & Waste and Connectivity for Utilities; Furniture & Accessories and Electrical for Workstation; Vehicles and Running Costs; Materials & Components, Packaging & Consumables and Stock; Founders & Owners and Team for Human Resources) were a step towards the groups as built, which are in document 1, part D, section 3.
 
 #### Activities: categories only
 
@@ -465,21 +301,7 @@ Sales and distribution channels are described as direct (own store, website, sho
 
 #### Updated list
 
-| Type | Category | Examples | Place | Behaviour |
-|---|---|---|---|---|
-| **Partners** | Strategic Alliances & Joint Ventures | Alliance, joint venture, coopetition | Both | F fee / V revenue share |
-| Resellers & Distributors | Stockists, wholesalers, retailers, agents | Offering (channel) | V (% of revenue) |  |
-| Referral & Affiliates | Referral partners, affiliate programmes | Both | V (% of revenue) |  |
-| Co-delivery & Collaborators | Co-teachers, joint producers, research partners | Offering | V / revenue share |  |
-| Associations & Communities | Trade bodies, networks, accelerators | Infrastructure | F (membership) |  |
-| **Suppliers** | Materials & Goods | Raw materials, components, packaging, wholesale stock | Offering | V |
-| Subcontractors & Freelancers | Production, design, development, delivery staff | Offering | V; retainer F |  |
-| Logistics & Fulfilment | Courier, postal, freight, fulfilment | Offering | V; account fee F |  |
-| Professional Services | Legal, accounting, insurance, payroll, consulting | Infrastructure | F retainer / V per job |  |
-| Facilities & Property | Landlord, coworking operator, cleaning, maintenance | Infrastructure | F |  |
-| Technology & Platforms | Hosting, software vendors, marketplaces, APIs | Both | F / S |  |
-| Payment & Finance Services | Payment processors, bank | Both | S (fee + %) |  |
-| Marketing & Creative Services | Agencies, designers, printers, influencers (paid) | Both | F retainer / V per job |  |
+The updated list proposed Partners (Strategic Alliances & Joint Ventures; Resellers & Distributors; Referral & Affiliates; Co-delivery & Collaborators; Associations & Communities) and Suppliers (Materials & Goods; Subcontractors & Freelancers; Logistics & Fulfilment; Professional Services; Facilities & Property; Technology & Platforms; Payment & Finance Services; Marketing & Creative Services). Resellers and referrals are variable as a percentage of revenue; associations are fixed memberships in Infrastructure; the party behind a reseller or affiliate is a Partner because it shares the customer relationship. The groups as built are in document 1, part D, sections 3.3 and 3.4.
 
 #### What stayed out, and where it goes
 
@@ -548,12 +370,7 @@ resource card
 
 Agreed. The category already gives the default **place**. The **cost behaviour** inside a category varies (a lawyer on retainer is fixed, per job is variable), so the group would not predict it either; it comes from the frequency and driver on the card.
 
-| Type | Categories | Default place |
-|---|---|---|
-| Partners | Strategic Alliances & Joint Ventures; Resellers & Distributors; Referral & Affiliates; Co-delivery & Collaborators; Associations & Communities | Both; Resellers = Offering (channel); Associations = Infrastructure |
-| Suppliers | Materials & Goods; Subcontractors & Freelancers; Logistics & Fulfilment | Offering |
-| Suppliers | Professional Services; Facilities & Property | Infrastructure |
-| Suppliers | Technology & Platforms; Payment & Finance Services; Marketing & Creative Services | Both: Offering when the card links to offerings or a channel, Infrastructure when it links to none |
+The Partner and Supplier categories of R3, section 5 give the default place: Resellers & Distributors and Referral & Affiliates are Offering (channel), Associations & Communities Infrastructure, Materials, Subcontractors and Logistics Offering, Professional Services and Facilities Infrastructure; Technology & Platforms, Payment & Finance and Marketing & Creative Services are Offering when the card links to offerings or a channel and Infrastructure when it links to none.
 
 ### 3. Do groups help to see the place and the cost behaviour?
 
@@ -578,11 +395,7 @@ I compared the Resource categories and groups of parts 2 and 3. The test: *does 
 
 I agree with separate sets, because the questions differ: Infrastructure asks "what does the organization need to exist", Offering asks "what does each offering need", and channel resources are generated, not typed.
 
-| Section | Categories | Groups |
-|---|---|---|
-| Infrastructure | Workspace; Utilities; Workstation; Equipment; Digital Infrastructure; Intellectual Property & Licences; Human Resources | As in section 3; Equipment: Computing & Peripherals, Specialized, Vehicles & Transport |
-| Offering's Capability | Materials & Inventory; Equipment; Digital Services; Licences & Certifications; Workspace (pop-up, project site); Human Resources (delivery team) | Equipment: Production Machinery & Tools; Vehicles & Transport. Materials: Materials & Components; Packaging & Consumables; Stock |
-| Channel (automatic) | No categories to type. The group is **filled automatically from the channel's category**: Social Media, Community, Website, Marketplace, In Person, Email, Online / Live, Direct Payment, File Delivery, Physical Delivery, Other | The Journey Stage (Discovery, Evaluation, Purchase, Delivery, Support) is shown as a tag, not a group |
+Separate sets: Infrastructure (Workspace, Utilities, Workstation, Equipment, Digital Infrastructure, Intellectual Property & Licences, Human Resources), Offering's Capability (Materials & Inventory, Equipment, Digital Services, Licences & Certifications, Workspace for a pop-up or project site, Human Resources for the delivery team) and Channel (automatic). For a channel the group is **filled automatically from the channel's category** (Social Media, Community, Website, Marketplace, In Person, Email, Online / Live, Direct Payment, File Delivery, Physical Delivery, Other) and the Journey Stage (Discovery, Evaluation, Purchase, Delivery, Support) is shown as a tag, not a group. The sets as built are in document 1, part D, sections 1 and 3.
 
 **Why the channel category and not the journey stage as the group:** cost behaviour follows the type of channel (marketplace commission is variable, an in-person stall is a step, a courier is variable, a website platform is fixed), not the stage. The 11 channel categories already exist and are set by the Customer Engagement page, so the user types nothing, and a channel card can never be moved into the wrong group.
 
@@ -887,103 +700,75 @@ Recommendation only; nothing is changed in the app. Arrows show a link from a ca
 
 ## R8. Cards priced per project
 
-Pink = Infrastructure, brown = Offering. Recommendations only; nothing is changed in the app.
-
-### 1. Groups whose main driver includes Per project (10)
-
-| Place | Category | Group | Main driver | Companion price | Extras? | Kinds |
-|---|---|---|---|---|---|---|
-| Infrastructure | Transport & Travel | Business Travel | Per unit (trip); Per project | Visa, travel insurance | No | — |
-| Infrastructure | Suppliers | Creative & IT Services | Per project | Retainer | No | — |
-| Offering | Workspace | Event & Pop-up Space | Per project (event) | Permit, insurance | No | — |
-| Offering | Workspace | Project Sites | Per project | Access permit | No | — |
-| Offering | Transport & Travel | Customer Travel | Per unit (trip); Per project | — | No | — |
-| Offering | Intellectual Property | Approvals | Per project; Annually | Surveillance audit | No | — |
-| Offering | Suppliers | Contractors & Advisers | Per project; Per unit (hour) | Discovery fee | No | — |
-| Offering | Suppliers | Agencies & Influencers | Per project | Retainer, share of sales | Yes | 2, 5 |
-| Offering | Suppliers | Venues & Organisers | Per project (event) | Set-up, cancellation | No | — |
-| Offering | Partners | Revenue Partners | % of revenue; Per project | Onboarding fee, minimum guarantee | Yes | 1, 6 |
-
-### 2. Extra costs and channel prices with a Per project driver (6)
-
-| Place | Group | Item | What it is | Role | Kind | Driver | Beh. |
-|---|---|---|---|---|---|---|---|
-| Infrastructure | Admin Team | Training | A course or certification for the person. | Extra line | 1 One-time charge | One-time; Per project | St |
-| Offering | Event & Pop-up Space | Stall, pitch, stand or event fee | The price of a place to sell for the length of one event. | Channel expense (main price) | P | Per project (event) | St |
-| Offering | Customer Travel | Travel and van hire | Getting to a customer, a market or a fair, with the hire of a van. | Channel expense (main price) | P | Per project; Per unit (trip) | V |
-| Offering | Accreditation Bodies | Assessment or exam | The charge to be assessed for the accreditation. | Own card | 3 Check or event charge | Per project | St |
-| Offering | Contractors & Advisers | Event or transit insurance | Cover for a market stall, a fair or goods on the move. | Channel expense (main price) | P | Per project | St |
-| Offering | Agencies & Influencers | Ads and influencers | The price of a campaign, a post or a print job. | Channel expense (main price) | P | Per project; Monthly budget | V |
-
-Behaviour: V variable, St step. Source: the group table of version 8 and the extras data of versions 11 and 13.
+Superseded; kept as a pointer. The note listed the ten groups whose main driver includes Per project (Business Travel, Creative & IT Services, Event & Pop-up Space, Project Sites, Customer Travel, Approvals, Contractors & Advisers, Agencies & Influencers, Venues & Organisers, Revenue Partners; the last two with extras) and six extra costs and channel prices priced per project (Training; stall, pitch, stand or event fee; travel and van hire; assessment or exam; event or transit insurance; ads and influencers), in the group names of version 8. Today the groups with a Per project driver are those of document 1, part D, section 3 (Drivers column), their behaviour is rule B5 of part E, section 6, the channel prices are templates T4, T5, T7 and T12 (part D, section 11) and the extras are in R9.
 
 ## R9. Extra costs table
 
-*Early data table, 2026-10-06 (converted from `extra-costs-table.csv`, since removed). The decided extras are in document 1, part D, section 8.*
+*Early data table, 2026-10-06, in the group names of that date (the file it came from, `extra-costs-table.csv`, was removed). The decided extras are in document 1, part D, section 8 and, for the cases solved without extras, section 5. Columns: **Role** OC = own card (a second card in the same group, explained by a message), EL = extra line (inside the card, under the Extra costs tick), CE = channel expense (the card price); **Kind** 1 one-time charge, 2 recurring charge, 3 check or event charge, 4 usage charge, 5 percentage charge, 6 minimum or threshold; **Family** A = paid on a schedule, B = follows an activity, C = follows a base figure.*
 
-| Place | Card type | Group or category | No. | Extra cost | What it is | Role | Kind | Driver family | Driver | Behaviour | Channel expense that creates it |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| Infrastructure | Resource | Premises & Fit-out | 1 | Service charge | What the building charges for shared services, beside the rent. | Own card (a second card in the same group, explained by a message) | 2 Recurring charge | A paid on a schedule | Monthly | Fixed |  |
-| Infrastructure | Resource | Premises & Fit-out | 2 | Business rates | A yearly tax on the premises. | Own card (a second card in the same group, explained by a message) | 2 Recurring charge | A paid on a schedule | Annually | Fixed |  |
-| Infrastructure | Resource | Premises & Fit-out | 3 | Fit-out | The one-off works that make the space usable. | Own card (a second card in the same group, explained by a message) | 1 One-time charge | A paid on a schedule | One-time | Step |  |
-| Infrastructure | Resource | Company Vehicles | 1 | Insurance | Cover for the vehicle. | Own card (a second card in the same group, explained by a message) | 2 Recurring charge | A paid on a schedule | Annually | Fixed |  |
-| Infrastructure | Resource | Company Vehicles | 2 | Road tax | The yearly tax for using the vehicle on the road. | Own card (a second card in the same group, explained by a message) | 2 Recurring charge | A paid on a schedule | Annually | Fixed |  |
-| Infrastructure | Resource | Company Vehicles | 3 | Annual inspection | The yearly check that the vehicle is fit for the road. | Own card (a second card in the same group, explained by a message) | 3 Check or event charge | A paid on a schedule | Annually | Step |  |
-| Infrastructure | Resource | Founders & Owners | 1 | Employer on-costs | Taxes and pension the business pays on top of the salary. | Extra line (inside the card, under the Extra costs tick) | 5 Percentage charge | C follows a base figure | % of pay | Semi-variable |  |
-| Infrastructure | Resource | Founders & Owners | 2 | Bonus | A reward on top of the pay, tied to results or paid once a year. | Extra line (inside the card, under the Extra costs tick) | 5 or 2 | C follows a base figure or A paid on a schedule | % of revenue; Annually | Variable or Fixed |  |
-| Infrastructure | Resource | Founders & Owners | 3 | Training | A course or certification for the person. | Extra line (inside the card, under the Extra costs tick) | 1 One-time charge | A paid on a schedule | One-time | Step |  |
-| Infrastructure | Resource | Admin Team | 1 | Employer on-costs | Taxes and pension paid on top of the salary. | Extra line (inside the card, under the Extra costs tick) | 5 Percentage charge | C follows a base figure | % of pay | Semi-variable |  |
-| Infrastructure | Resource | Admin Team | 2 | Bonus | A reward on top of the pay. | Extra line (inside the card, under the Extra costs tick) | 5 or 2 | C follows a base figure or A paid on a schedule | % of revenue; Annually | Variable or Fixed |  |
-| Infrastructure | Resource | Admin Team | 3 | Recruitment and onboarding | Finding and starting a new person: agency fee, advert, first equipment. | Extra line (inside the card, under the Extra costs tick) | 1 One-time charge | A paid on a schedule | One-time | Step |  |
-| Infrastructure | Resource | Admin Team | 4 | Training | A course or certification for the person. | Extra line (inside the card, under the Extra costs tick) | 1 One-time charge | A paid on a schedule | One-time; Per project | Step |  |
-| Infrastructure | Resource | Admin Team | 5 | A hire when the work grows | A new person needed once the workload passes a set point. | Extra line (inside the card, under the Extra costs tick) | 6 Minimum or threshold | A paid on a schedule | Other (threshold) | Step |  |
-| Infrastructure | Supplier | Property & Facilities | 1 | Service charge | What the landlord charges for shared services, beside the rent. | Own card (a second card in the same group, explained by a message) | 2 Recurring charge | A paid on a schedule | Monthly | Fixed |  |
-| Offering | Resource | Workshop & Storage | 1 | Service charge | What the unit charges for shared services. | Own card (a second card in the same group, explained by a message) | 2 Recurring charge | A paid on a schedule | Monthly | Fixed |  |
-| Offering | Resource | Workshop & Storage | 2 | Insurance | Cover for the unit and its contents. | Own card (a second card in the same group, explained by a message) | 2 Recurring charge | A paid on a schedule | Annually | Fixed |  |
-| Offering | Resource | Workshop & Storage | 3 | Handling per pallet | A charge for each pallet stored or moved. | Own card (a second card in the same group, explained by a message) | 4 Usage charge | B follows an activity | Per unit (pallet) | Variable |  |
-| Offering | Resource | Production Machinery | 1 | Installation | Setting the machine up and bringing it into use. | Own card (a second card in the same group, explained by a message) | 1 One-time charge | A paid on a schedule | One-time | Step |  |
-| Offering | Resource | Production Machinery | 2 | Yearly servicing | The planned service that keeps the machine working. | Own card (a second card in the same group, explained by a message) | 3 Check or event charge | A paid on a schedule | Annually | Step |  |
-| Offering | Resource | Production Machinery | 3 | Repair | Fixing the machine when it breaks. | Own card (a second card in the same group, explained by a message) | 3 Check or event charge | A paid on a schedule | Other (per event) | Step |  |
-| Offering | Resource | Delivery Vehicles | 1 | Insurance | Cover for the van. | Own card (a second card in the same group, explained by a message) | 2 Recurring charge | A paid on a schedule | Annually | Fixed |  |
-| Offering | Resource | Delivery Vehicles | 2 | Road tax | The yearly tax for using the van on the road. | Own card (a second card in the same group, explained by a message) | 2 Recurring charge | A paid on a schedule | Annually | Fixed |  |
-| Offering | Resource | Delivery Vehicles | 3 | Annual inspection | The yearly check that the van is fit for the road. | Own card (a second card in the same group, explained by a message) | 3 Check or event charge | A paid on a schedule | Annually | Step |  |
-| Offering | Resource | Sales & Delivery Tools |  | T1 Platform or tool subscription | Channel expense: the price of the channel card in this group; extra costs are listed below it. | Channel expense (card price) |  |  |  |  | T1 |
-| Offering | Resource | Sales & Delivery Tools | 1 | Add-on or higher plan | An extra module or a larger plan, billed apart. | Own card (a second card in the same group, explained by a message) | 2 Recurring charge | A paid on a schedule | Monthly | Fixed |  |
-| Offering | Resource | Sales & Delivery Tools | 2 | Set-up fee | A one-off charge to start using the tool. | Own card (a second card in the same group, explained by a message) | 1 One-time charge | A paid on a schedule | One-time | Step |  |
-| Offering | Resource | Platforms & APIs | 1 | Monthly minimum | The least you pay each month, even if you use less. | Extra line (inside the card, under the Extra costs tick) | 6 Minimum or threshold | A paid on a schedule | Monthly | Step |  |
-| Offering | Resource | Platforms & APIs | 2 | Overage | The price for use above an included allowance. | Extra line (inside the card, under the Extra costs tick) | 4 Usage charge | B follows an activity | Per unit | Variable |  |
-| Offering | Resource | Royalties | 1 | Minimum guarantee | The least in royalties you pay over a year. | Own card (a second card in the same group, explained by a message) | 6 Minimum or threshold | A paid on a schedule | Annually | Step |  |
-| Offering | Resource | Royalties | 2 | Advance | An amount paid up front against future royalties. | Own card (a second card in the same group, explained by a message) | 6 Minimum or threshold | A paid on a schedule | One-time | Step |  |
-| Offering | Resource | Delivery Team | 1 | Employer on-costs | Taxes and pension paid on top of the salary. | Extra line (inside the card, under the Extra costs tick) | 5 Percentage charge | C follows a base figure | % of pay | Semi-variable |  |
-| Offering | Resource | Delivery Team | 2 | Overtime | Extra hours when the work needs them, paid by the hour. | Extra line (inside the card, under the Extra costs tick) | 4 Usage charge | B follows an activity | Per unit (hour) | Variable |  |
-| Offering | Resource | Delivery Team | 3 | Commission | A share of the sales the person brings in. | Extra line (inside the card, under the Extra costs tick) | 5 Percentage charge | C follows a base figure | % of revenue | Variable |  |
-| Offering | Resource | Delivery Team | 4 | Piece rate | A fixed amount for each item the person makes or delivers. | Extra line (inside the card, under the Extra costs tick) | 4 Usage charge | B follows an activity | Per unit | Variable |  |
-| Offering | Resource | Delivery Team | 5 | Recruitment and onboarding | Finding and starting a new delivery person. | Extra line (inside the card, under the Extra costs tick) | 1 One-time charge | A paid on a schedule | One-time | Step |  |
-| Offering | Resource | Delivery Team | 6 | A hire when volume grows | A new person needed once sales pass a set point. | Extra line (inside the card, under the Extra costs tick) | 6 Minimum or threshold | A paid on a schedule | Other (threshold) | Step |  |
-| Offering | Partner | Revenue Partners |  | T10 Referral or reseller commission | Channel expense: the price of the channel card in this group; extra costs are listed below it. | Channel expense (card price) |  |  |  |  | T10 |
-| Offering | Partner | Revenue Partners | 1 | Onboarding fee | A one-off fee to start working with the partner. | Own card (a second card in the same group, explained by a message) | 1 One-time charge | A paid on a schedule | One-time | Step |  |
-| Offering | Partner | Revenue Partners | 2 | Minimum guarantee | The least you pay the partner over a year, whatever is sold. | Own card (a second card in the same group, explained by a message) | 6 Minimum or threshold | A paid on a schedule | Annually | Step |  |
-| Offering | Partner | Accreditation Bodies | 1 | Assessment or exam | The charge to be assessed for the accreditation. | Own card (a second card in the same group, explained by a message) | 3 Check or event charge | A paid on a schedule | Per project | Step |  |
-| Offering | Partner | Accreditation Bodies | 2 | Audit visit | The yearly visit that confirms you still qualify. | Own card (a second card in the same group, explained by a message) | 3 Check or event charge | A paid on a schedule | Annually | Step |  |
-| Offering | Supplier | Materials & Goods | 1 | Minimum order | The least you must buy at one time. | Own card (a second card in the same group, explained by a message) | 6 Minimum or threshold | B follows an activity | Per unit (minimum) | Step |  |
-| Offering | Supplier | Materials & Goods | 2 | Tooling | A one-off charge for the mould, plate or tool made for you. | Own card (a second card in the same group, explained by a message) | 1 One-time charge | A paid on a schedule | One-time | Step |  |
-| Offering | Supplier | Materials & Goods | 3 | Import duties | Taxes and duties charged on goods brought from abroad. | Own card (a second card in the same group, explained by a message) | 4 Usage charge | C follows a base figure | % of cost | Variable |  |
-| Offering | Supplier | Logistics & Fulfilment |  | T9 Courier, postal, fulfilment | Channel expense: the price of the channel card in this group; extra costs are listed below it. | Channel expense (card price) |  |  |  |  | T9 |
-| Offering | Supplier | Logistics & Fulfilment | 1 | Monthly account fee | A fixed fee for having the account, whatever you ship. | Extra line (inside the card, under the Extra costs tick) | 2 Recurring charge | A paid on a schedule | Monthly | Fixed |  |
-| Offering | Supplier | Logistics & Fulfilment | 2 | Fuel surcharge | A percentage the carrier adds to the price for fuel. | Extra line (inside the card, under the Extra costs tick) | 4 Usage charge | C follows a base figure | % of cost | Variable |  |
-| Offering | Supplier | Logistics & Fulfilment | 3 | Minimum monthly volume | The least you must ship, or pay for, each month. | Extra line (inside the card, under the Extra costs tick) | 6 Minimum or threshold | A paid on a schedule | Monthly | Step |  |
-| Offering | Supplier | Agencies & Influencers |  | T4 Ads and influencers | Channel expense: the price of the channel card in this group; extra costs are listed below it. | Channel expense (card price) |  |  |  |  | T4 |
-| Offering | Supplier | Agencies & Influencers | 1 | Monthly retainer | A fixed monthly fee for the agency. | Own card (a second card in the same group, explained by a message) | 2 Recurring charge | A paid on a schedule | Monthly | Fixed |  |
-| Offering | Supplier | Agencies & Influencers | 2 | Share of sales | A percentage of what the work brings in. | Own card (a second card in the same group, explained by a message) | 5 Percentage charge | C follows a base figure | % of revenue | Variable |  |
-| Offering | Supplier | Landlords & Warehouses | 1 | Service charge | What the owner charges for shared services, beside the rent. | Own card (a second card in the same group, explained by a message) | 2 Recurring charge | A paid on a schedule | Monthly | Fixed |  |
-| Offering | Supplier | Platforms & Payments |  | T2 Payment processing fees | Channel expense: the price of the channel card in this group; extra costs are listed below it. | Channel expense (card price) |  |  |  |  | T2 |
-| Offering | Supplier | Platforms & Payments |  | T3 Marketplace fees and commission | Channel expense: the price of the channel card in this group; extra costs are listed below it. | Channel expense (card price) |  |  |  |  | T3 |
-| Offering | Supplier | Platforms & Payments | 1 | Monthly fee | A fixed fee for the account, charged whatever you sell. | Extra line (inside the card, under the Extra costs tick) | 2 Recurring charge | A paid on a schedule | Monthly | Fixed | T3 |
-| Offering | Supplier | Platforms & Payments | 2 | Percentage of each sale | The share of every sale the processor or marketplace keeps. | Extra line (inside the card, under the Extra costs tick) | 5 Percentage charge | C follows a base figure | % of revenue | Variable | T2, T3 |
-| Offering | Supplier | Platforms & Payments | 3 | Charge per transaction | A flat amount for each payment or order. | Extra line (inside the card, under the Extra costs tick) | 4 Usage charge | B follows an activity | Per unit (order) | Variable | T2 |
-| Offering | Supplier | Platforms & Payments | 4 | Listing fee | A charge for each product listed on a marketplace. | Extra line (inside the card, under the Extra costs tick) | 4 Usage charge | B follows an activity | Per unit (listing) | Variable | T3 |
-| Offering | Supplier | Platforms & Payments | 5 | Set-up fee | A one-off charge to open the account. | Extra line (inside the card, under the Extra costs tick) | 1 One-time charge | A paid on a schedule | One-time | Step | T2 |
-| Offering | Supplier | Platforms & Payments | 6 | Chargeback and currency fees | Fees when a payment is disputed or converted to another currency. | Extra line (inside the card, under the Extra costs tick) | 4 Usage charge | B follows an activity or C follows a base figure | Per unit; % of revenue | Variable |  |
+| Place and card | Group | Extra | What it is | Role | Kind | Family | Driver | Behaviour | Channel expense that creates it |
+|---|---|---|---|---|---|---|---|---|---|
+| Infrastructure resource | Premises & Fit-out | 1. Service charge | What the building charges for shared services, beside the rent. | OC | 2 Recurring charge | A | Monthly | Fixed |  |
+| Infrastructure resource | Premises & Fit-out | 2. Business rates | A yearly tax on the premises. | OC | 2 Recurring charge | A | Annually | Fixed |  |
+| Infrastructure resource | Premises & Fit-out | 3. Fit-out | The one-off works that make the space usable. | OC | 1 One-time charge | A | One-time | Step |  |
+| Infrastructure resource | Company Vehicles | 1. Insurance | Cover for the vehicle. | OC | 2 Recurring charge | A | Annually | Fixed |  |
+| Infrastructure resource | Company Vehicles | 2. Road tax | The yearly tax for using the vehicle on the road. | OC | 2 Recurring charge | A | Annually | Fixed |  |
+| Infrastructure resource | Company Vehicles | 3. Annual inspection | The yearly check that the vehicle is fit for the road. | OC | 3 Check or event charge | A | Annually | Step |  |
+| Infrastructure resource | Founders & Owners | 1. Employer on-costs | Taxes and pension the business pays on top of the salary. | EL | 5 Percentage charge | C | % of pay | Semi-variable |  |
+| Infrastructure resource | Founders & Owners | 2. Bonus | A reward on top of the pay, tied to results or paid once a year. | EL | 5 or 2 | C or A | % of revenue; Annually | Variable or Fixed |  |
+| Infrastructure resource | Founders & Owners | 3. Training | A course or certification for the person. | EL | 1 One-time charge | A | One-time | Step |  |
+| Infrastructure resource | Admin Team | 1. Employer on-costs | Taxes and pension paid on top of the salary. | EL | 5 Percentage charge | C | % of pay | Semi-variable |  |
+| Infrastructure resource | Admin Team | 2. Bonus | A reward on top of the pay. | EL | 5 or 2 | C or A | % of revenue; Annually | Variable or Fixed |  |
+| Infrastructure resource | Admin Team | 3. Recruitment and onboarding | Finding and starting a new person: agency fee, advert, first equipment. | EL | 1 One-time charge | A | One-time | Step |  |
+| Infrastructure resource | Admin Team | 4. Training | A course or certification for the person. | EL | 1 One-time charge | A | One-time; Per project | Step |  |
+| Infrastructure resource | Admin Team | 5. A hire when the work grows | A new person needed once the workload passes a set point. | EL | 6 Minimum or threshold | A | Other (threshold) | Step |  |
+| Infrastructure supplier | Property & Facilities | 1. Service charge | What the landlord charges for shared services, beside the rent. | OC | 2 Recurring charge | A | Monthly | Fixed |  |
+| Offering resource | Workshop & Storage | 1. Service charge | What the unit charges for shared services. | OC | 2 Recurring charge | A | Monthly | Fixed |  |
+| Offering resource | Workshop & Storage | 2. Insurance | Cover for the unit and its contents. | OC | 2 Recurring charge | A | Annually | Fixed |  |
+| Offering resource | Workshop & Storage | 3. Handling per pallet | A charge for each pallet stored or moved. | OC | 4 Usage charge | B | Per unit (pallet) | Variable |  |
+| Offering resource | Production Machinery | 1. Installation | Setting the machine up and bringing it into use. | OC | 1 One-time charge | A | One-time | Step |  |
+| Offering resource | Production Machinery | 2. Yearly servicing | The planned service that keeps the machine working. | OC | 3 Check or event charge | A | Annually | Step |  |
+| Offering resource | Production Machinery | 3. Repair | Fixing the machine when it breaks. | OC | 3 Check or event charge | A | Other (per event) | Step |  |
+| Offering resource | Delivery Vehicles | 1. Insurance | Cover for the van. | OC | 2 Recurring charge | A | Annually | Fixed |  |
+| Offering resource | Delivery Vehicles | 2. Road tax | The yearly tax for using the van on the road. | OC | 2 Recurring charge | A | Annually | Fixed |  |
+| Offering resource | Delivery Vehicles | 3. Annual inspection | The yearly check that the van is fit for the road. | OC | 3 Check or event charge | A | Annually | Step |  |
+| Offering resource | Sales & Delivery Tools | T1 Platform or tool subscription | Channel expense: the price of the channel card in this group; extra costs are listed below it. | CE |  |  |  |  | T1 |
+| Offering resource | Sales & Delivery Tools | 1. Add-on or higher plan | An extra module or a larger plan, billed apart. | OC | 2 Recurring charge | A | Monthly | Fixed |  |
+| Offering resource | Sales & Delivery Tools | 2. Set-up fee | A one-off charge to start using the tool. | OC | 1 One-time charge | A | One-time | Step |  |
+| Offering resource | Platforms & APIs | 1. Monthly minimum | The least you pay each month, even if you use less. | EL | 6 Minimum or threshold | A | Monthly | Step |  |
+| Offering resource | Platforms & APIs | 2. Overage | The price for use above an included allowance. | EL | 4 Usage charge | B | Per unit | Variable |  |
+| Offering resource | Royalties | 1. Minimum guarantee | The least in royalties you pay over a year. | OC | 6 Minimum or threshold | A | Annually | Step |  |
+| Offering resource | Royalties | 2. Advance | An amount paid up front against future royalties. | OC | 6 Minimum or threshold | A | One-time | Step |  |
+| Offering resource | Delivery Team | 1. Employer on-costs | Taxes and pension paid on top of the salary. | EL | 5 Percentage charge | C | % of pay | Semi-variable |  |
+| Offering resource | Delivery Team | 2. Overtime | Extra hours when the work needs them, paid by the hour. | EL | 4 Usage charge | B | Per unit (hour) | Variable |  |
+| Offering resource | Delivery Team | 3. Commission | A share of the sales the person brings in. | EL | 5 Percentage charge | C | % of revenue | Variable |  |
+| Offering resource | Delivery Team | 4. Piece rate | A fixed amount for each item the person makes or delivers. | EL | 4 Usage charge | B | Per unit | Variable |  |
+| Offering resource | Delivery Team | 5. Recruitment and onboarding | Finding and starting a new delivery person. | EL | 1 One-time charge | A | One-time | Step |  |
+| Offering resource | Delivery Team | 6. A hire when volume grows | A new person needed once sales pass a set point. | EL | 6 Minimum or threshold | A | Other (threshold) | Step |  |
+| Offering partner | Revenue Partners | T10 Referral or reseller commission | Channel expense: the price of the channel card in this group; extra costs are listed below it. | CE |  |  |  |  | T10 |
+| Offering partner | Revenue Partners | 1. Onboarding fee | A one-off fee to start working with the partner. | OC | 1 One-time charge | A | One-time | Step |  |
+| Offering partner | Revenue Partners | 2. Minimum guarantee | The least you pay the partner over a year, whatever is sold. | OC | 6 Minimum or threshold | A | Annually | Step |  |
+| Offering partner | Accreditation Bodies | 1. Assessment or exam | The charge to be assessed for the accreditation. | OC | 3 Check or event charge | A | Per project | Step |  |
+| Offering partner | Accreditation Bodies | 2. Audit visit | The yearly visit that confirms you still qualify. | OC | 3 Check or event charge | A | Annually | Step |  |
+| Offering supplier | Materials & Goods | 1. Minimum order | The least you must buy at one time. | OC | 6 Minimum or threshold | B | Per unit (minimum) | Step |  |
+| Offering supplier | Materials & Goods | 2. Tooling | A one-off charge for the mould, plate or tool made for you. | OC | 1 One-time charge | A | One-time | Step |  |
+| Offering supplier | Materials & Goods | 3. Import duties | Taxes and duties charged on goods brought from abroad. | OC | 4 Usage charge | C | % of cost | Variable |  |
+| Offering supplier | Logistics & Fulfilment | T9 Courier, postal, fulfilment | Channel expense: the price of the channel card in this group; extra costs are listed below it. | CE |  |  |  |  | T9 |
+| Offering supplier | Logistics & Fulfilment | 1. Monthly account fee | A fixed fee for having the account, whatever you ship. | EL | 2 Recurring charge | A | Monthly | Fixed |  |
+| Offering supplier | Logistics & Fulfilment | 2. Fuel surcharge | A percentage the carrier adds to the price for fuel. | EL | 4 Usage charge | C | % of cost | Variable |  |
+| Offering supplier | Logistics & Fulfilment | 3. Minimum monthly volume | The least you must ship, or pay for, each month. | EL | 6 Minimum or threshold | A | Monthly | Step |  |
+| Offering supplier | Agencies & Influencers | T4 Ads and influencers | Channel expense: the price of the channel card in this group; extra costs are listed below it. | CE |  |  |  |  | T4 |
+| Offering supplier | Agencies & Influencers | 1. Monthly retainer | A fixed monthly fee for the agency. | OC | 2 Recurring charge | A | Monthly | Fixed |  |
+| Offering supplier | Agencies & Influencers | 2. Share of sales | A percentage of what the work brings in. | OC | 5 Percentage charge | C | % of revenue | Variable |  |
+| Offering supplier | Landlords & Warehouses | 1. Service charge | What the owner charges for shared services, beside the rent. | OC | 2 Recurring charge | A | Monthly | Fixed |  |
+| Offering supplier | Platforms & Payments | T2 Payment processing fees | Channel expense: the price of the channel card in this group; extra costs are listed below it. | CE |  |  |  |  | T2 |
+| Offering supplier | Platforms & Payments | T3 Marketplace fees and commission | Channel expense: the price of the channel card in this group; extra costs are listed below it. | CE |  |  |  |  | T3 |
+| Offering supplier | Platforms & Payments | 1. Monthly fee | A fixed fee for the account, charged whatever you sell. | EL | 2 Recurring charge | A | Monthly | Fixed | T3 |
+| Offering supplier | Platforms & Payments | 2. Percentage of each sale | The share of every sale the processor or marketplace keeps. | EL | 5 Percentage charge | C | % of revenue | Variable | T2, T3 |
+| Offering supplier | Platforms & Payments | 3. Charge per transaction | A flat amount for each payment or order. | EL | 4 Usage charge | B | Per unit (order) | Variable | T2 |
+| Offering supplier | Platforms & Payments | 4. Listing fee | A charge for each product listed on a marketplace. | EL | 4 Usage charge | B | Per unit (listing) | Variable | T3 |
+| Offering supplier | Platforms & Payments | 5. Set-up fee | A one-off charge to open the account. | EL | 1 One-time charge | A | One-time | Step | T2 |
+| Offering supplier | Platforms & Payments | 6. Chargeback and currency fees | Fees when a payment is disputed or converted to another currency. | EL | 4 Usage charge | B or C | Per unit; % of revenue | Variable |  |
 
 ## R10. Business System analysis (2026-10-14)
 
@@ -1022,7 +807,7 @@ Method: read-only audits of the code and the specifications, plus web research g
 6. Not connected: cost per acquired customer; spend against demand per channel; shares weighted by demand.
 7. Gaps found: removing a channel leaves its cards (probable, not run); renaming a template card breaks template and fee matching.
 
-Channel cost templates: T1 platform or tool subscription; T2 payment processing fees; T3 marketplace fees and commission; T4 ads and influencers; T5 stall, pitch, stand or event fee; T6 display kit or hardware; T7 travel and van hire (filed under Tickets & Trip Costs although it says van hire); T8 packaging and samples; T9 courier, postal, fulfilment; T10 referral or reseller commission; T12 event or transit insurance. T11 was removed.
+The channel cost templates T1 to T12 (T11 was removed) are in document 1, part D, section 11. T7 "Travel and van hire" is filed under Tickets & Trip Costs although it says van hire; whether to move it to Vehicles or split it is a decision (document 5, C13 and 5.8).
 
 ### R10.4 Delivery
 
@@ -1045,20 +830,7 @@ Channel cost templates: T1 platform or tool subscription; T2 payment processing 
 
 ### R10.6 Global Settings: what could move (suggestions)
 
-| Setting | Proposed home |
-|---|---|
-| Income tax rate (global) | Remove: it silently overrides the Financial Foundation rate |
-| Income tax basis and rate | Identity > Organization > Legal Entity > Tax |
-| VAT/GST basis | Same card as "registered?" |
-| Opening Date, Plan Start, Plan Length | Financial Foundation plan header; Strategic Period shows them read-only |
-| Contingency rates, reserve months | Financial Foundation > Funding Need |
-| Employer on-cost rate | Financial Foundation > Costs, people costs |
-| Insurance per employee | The key-person health card (already overrides it) |
-| Capitalisation limit | Financial Foundation > Costs, classification |
-| Useful life per asset group | Infrastructure > Resources, group default |
-| Royalty, affiliate, agent rates | Partner or Supplier card; Referral & Affiliates subchannel |
-| Channel Fee Table | Channel or subchannel card, found by id |
-| Date format, user name, reading mode, focus mode | Stay global (per user and device) |
+The twelve settings found, with the proposed home and the effort of each, are in document 5, section 5.5.6. The finding: the global income tax rate silently overrides the Financial Foundation rate (the examples show the clash); the date format, user name, reading mode and focus mode stay global (per user and device).
 
 ### R10.7 Screens and accessibility
 

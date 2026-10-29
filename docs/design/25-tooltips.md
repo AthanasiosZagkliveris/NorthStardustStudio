@@ -1,6 +1,6 @@
 # The tooltips: what has one, and what it says
 
-Status: **current design**, updated 2026-10-21.
+Status: **current design**, updated 2026-10-29. This document owns the tip (its place, words and look); `24-popups.md` (category P4) points here.
 
 A tooltip is a small dark label above a control, in the app's own style (`TooltipBox`, `src/components/controls/Tooltip.tsx`), never the browser's own (a white rectangle with a black frame and letters, in the system's mode). One host draws every one (`TitleTooltips`, `src/components/controls/TitleTooltips.tsx`, mounted once in `App.tsx`): it takes the `title` of an element away and shows its words only by the rules below.
 
@@ -13,9 +13,9 @@ A tooltip is a small dark label above a control, in the app's own style (`Toolti
 5. **Never what the control already shows**: its text, its name or its value. A `title` that only repeats the name is not written.
 6. **A control whose pop-up window is open has none (owner, 2026-10-25)**: the calendar button, the "i", a menu. The window is the answer, so the tip goes the moment the control says `aria-expanded="true"` (with `aria-haspopup`), whatever opened it, and does not come back while the window stays open. One rule in `TitleTooltips`, not one per control.
 
-A tooltip is one line, at most 360px wide, **in one place for every control**: its bottom 6px over the control's top and its left edge on the control's left edge (where every pop-up cell starts) (its right edge on the control's right edge where the control says so), under the control (6px) only where there is no room above, kept inside the window. It **never follows the pointer**. It opens under the pointer and on the keyboard focus, closes on Escape, on a press and when the pointer leaves. (This is the same place for the keyboard and the pointer: `aboveTipPosition`, `Tooltip.tsx`.)
+A tooltip is one line, at most 360px wide, **in one place for every control**: its bottom 6px over the control's top and its left edge on the control's left edge, where every pop-up cell starts (its right edge on the control's right edge where the control says so); under the control (6px) only where there is no room above; kept 8px inside the window. It **never follows the pointer**. It opens under the pointer and on the keyboard focus, closes on Escape, on a press and when the pointer leaves. (This is the same place for the keyboard and the pointer: `aboveTipPosition`, `Tooltip.tsx`.)
 
-### How its words are written (2026-10-21)
+### How its words are written
 
 A tooltip says what a click does, in one sentence that begins "Click to ...": "Click to remove Offering 2", "Click to show Include", "Click to learn about Revenue", "Click to search, or press Ctrl+K". A control's name or title is written as a name (what a screen reader says: "Remove Offering 2", "Revenue: what this means"); one function (`tipWords`, `TitleTooltips.tsx`) turns it into the sentence, so no place writes its own and no two say the same thing two ways.
 
@@ -54,9 +54,9 @@ The app's own terms keep their capitals (Offering, Resource, Status, page names)
 
 `title` is the way a place gives words to the host (`title="..."` on a button or a link); the host removes it, gives the control its name (`aria-label` where it has no words, `aria-description` where it has) and decides by the rules. A place never writes a `title` that is its `aria-label`. The Roadmap's bars, the card tiles' tips, the action symbols and the noted fields draw their own through `useAboveTip` (the same box, the same placement).
 
-## 4. The tooltips the code writes itself (a `title`), as of 2026-10-21
+## 4. The tooltips the code writes itself (a `title`)
 
-The icons' tooltips (the "i", the ×, the +, the arrows, the funnel, the fold arrows) are their accessible names turned into the sentence of section 3 by `tipWords`. The words a place writes by hand are names too, and are said the same way:
+The icons' tooltips (the "i", the ×, the +, the arrows, the funnel, the fold arrows) are their accessible names turned into the sentence of section 1 by `tipWords`. The words a place writes by hand are names too, and are said the same way:
 
 | Where | Written as | Said |
 |---|---|---|
@@ -76,4 +76,4 @@ The icons' tooltips (the "i", the ×, the +, the arrows, the funnel, the fold ar
 
 ### Look of a tooltip
 
-One pop-up cell of the 32px pitch (the words centred, 12px at each side), the small size (14px) at weight 500, the tooltip's own ground; over a card its ground and line are mixed with the card's hue (the pop-ups' rule, `review-criteria.md` section 6).
+One pop-up cell of the 32px pitch (the words centred, 12px at each side), the small size (14px) at weight 500, the tooltip's own ground; over a card its ground is mixed with the card's hue (78% of the tooltip's own ground) and its line is the card's accent line (the pop-ups' rule, `review-criteria.md` section 6).

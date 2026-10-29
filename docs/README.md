@@ -34,7 +34,7 @@ Status: **index**, updated 2026-10-29. One line per document: where it is, what 
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [ai/README.md](ai/README.md) | index | The map of this folder: what to read first, what to read for a task. | 2026-10-21 |
+| [ai/README.md](ai/README.md) | index | The map of this folder: what to read first, what to read for a task. | 2026-10-29 |
 | [ai/ai-collaboration-rules.md](ai/ai-collaboration-rules.md) | rules | Standing rules for an AI assistant: commit but do not push, no unrequested changes, when to ask, what done requires, how work flows. | 2026-10-21 |
 | [ai/toolchain-and-verification-playbook.md](ai/toolchain-and-verification-playbook.md) | playbook | What to run after a change (typecheck, tests, the lints and document checks, build, layout check) and the list of expected test failures. | 2026-10-22 |
 | [ai/framework-dsl-grammar.md](ai/framework-dsl-grammar.md) | reference | Grammar of the Markdown that defines a System's content. | 2026-10-20 |
@@ -52,7 +52,7 @@ Status: **index**, updated 2026-10-29. One line per document: where it is, what 
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [design/01-current-design.md](design/01-current-design.md) | current design | Every kind of element the Foundation capability is built from, by layer. | 2026-10-25 |
+| [design/01-current-design.md](design/01-current-design.md) | current design | Every kind of element the Foundation capability is built from, by layer. | 2026-10-29 |
 | [design/02-references.md](design/02-references.md) | reference | Every decision in the app and the source behind it. | 2026-10-25 |
 | [design/03-research.md](design/03-research.md) | reference | The research record: sources, findings, how they were weighed. | 2026-10-14 |
 | [design/04-log.md](design/04-log.md) | log | History, changes and updates, newest on top. Every change is written here, nowhere else. | 2026-10-29 |
@@ -72,12 +72,12 @@ Status: **index**, updated 2026-10-29. One line per document: where it is, what 
 | [design/18-frequency-options.md](design/18-frequency-options.md) | generated | The Frequency options by group, and the open proposals. | 2026-10-22 |
 | [design/19-reactions.md](design/19-reactions.md) | current design | How elements react to the pointer and the keyboard. | 2026-10-21 |
 | [design/20-text-links.md](design/20-text-links.md) | generated | The text link: look and behaviour. | 2026-10-22 |
-| [design/21-free-text-categories.md](design/21-free-text-categories.md) | current design | Free texts in four categories. | 2026-10-21 |
-| [design/22-shared-components.md](design/22-shared-components.md) | current design | Which components are shared, with their props, what is still hand-made, and a short history. | 2026-10-25 |
+| [design/21-free-text-categories.md](design/21-free-text-categories.md) | current design | Free texts in four categories: the categories, the decided limits, and what is still to build. | 2026-10-21 |
+| [design/22-shared-components.md](design/22-shared-components.md) | current design | Which components are shared, with their props, and what is still hand-made. | 2026-10-29 |
 | [design/23-help-texts.md](design/23-help-texts.md) | generated | The help texts of the app. | 2026-10-22 |
 | [design/24-popups.md](design/24-popups.md) | current design | Pop-ups in six categories, with their placement rules. | 2026-10-21 |
-| [design/25-tooltips.md](design/25-tooltips.md) | current design | Which controls have a tooltip, what it says, and the five rules. | 2026-10-25 |
-| [design/26-folder-plan.md](design/26-folder-plan.md) | proposal | The app files, the examples and the working files: what is where, and a three-step plan to separate them. | 2026-10-22 |
+| [design/25-tooltips.md](design/25-tooltips.md) | current design | Which controls have a tooltip, what it says, its look and its rules (the owner of the tip). | 2026-10-25 |
+| [design/26-folder-plan.md](design/26-folder-plan.md) | current design | The folders of the repository: the app files, the examples, the working files and the exports, and what is where. | 2026-10-22 |
 
 ## The specifications (`specifications/`)
 

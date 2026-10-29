@@ -1,30 +1,28 @@
 # 5. What has not been done yet
 
-Status: **living list**, written 2026-10-14, reorganised 2026-10-21. Remove an item when it is done and record it in the log (`04-log.md`). Everything here is a plan or a proposal unless it says "decided". Nothing in sections 5.3 and 5.5 is built.
+Status: **living list**, written 2026-10-14, reorganised 2026-10-29. Remove an item when it is done and record it in the log (`04-log.md`). Everything here is a plan or a proposal unless it says "decided". Nothing in sections 5.3 and 5.5 is built.
 
-## Open now (2026-10-21)
+## Open now
 
-**The release**: the branch `chore/light-cleanup` is not pushed and `main` has not moved since 478da24. After the owner has tried it once: merge, push and tag; then extract the Foundation web app (5.7).
+**The release**: `chore/light-cleanup` is merged into `main` (log, 2026-10-22). Next: the Tile System (5.3), then Batches D and E (5.4), then the extraction (5.7).
 
-**Waiting for the owner**: the proposals in `18-frequency-options.md` (frequency groups); the generated cards' inputs beyond "adding, not removing"; the open decisions of 5.8; the values of 5.14 (in the archive: the sizes and gaps that are not on a step).
+**Waiting for the owner**: the proposals in `18-frequency-options.md` (frequency groups); the generated cards' inputs beyond "adding, not removing"; the open decisions of 5.8; the sizes and gaps that are not on a step (5.6).
 
-**To unify** (the counted list is in `22-shared-components.md`, "What is left"): the Legal Entity cards' own CSS (`legal-entity-*`; the merge was tried on 2026-10-20 and put back because the shared card's classes move the number, the name gap and the ground); the Inventory grid's columns come from the stylesheet and stay. Not copies, so not joined: `NumberedListInput` and `SuggestedInput`, the image-holder label, the sub-channel head, the Strategy boxes' heads, the Brand column headings.
+**To unify**: the Legal Entity cards' own CSS (`legal-entity-*`) stays: the merge was tried on 2026-10-20 and put back because the shared card's classes move the number, the name gap and the ground. The Inventory grid's columns come from the stylesheet and stay. The other places once thought to be copies are not (`22-shared-components.md`, "What is hand-made, read one by one").
 
 **Not looked at in a browser**: the Process library and Operational log pages (not reachable in this version of the app); the tooltips of the Roadmap bars, the action symbols and the noted fields. The tests cover them.
 
 **The catalogue records** (`06-catalogue-record.md` and the crawl behind it) still show Quillfield as an LLC (its "Form the LLC and get an EIN" activity); the next full crawl rewrites them. Quillfield is a sole proprietorship in the example now, and its figures moved with it (Funding Need $24,734, cash in hand $10,675, still short after the SBA loan's repayments $1,208; the golden files: `WRITE_GOLDEN=all`).
 
-**The library** (`08-library-system.md`): the sync between the app and the tables (step 7) and replacing the assets system by system wait for the owner; the library and its logs were last logged on 2026-10-17, before the Inventory and tooltip rounds of 2026-10-20 and 2026-10-21 (a `library:check` is what says whether they have drifted). Library and clean-up, what is left: see 5.6.
-
 **The checks**: the wide layout check (`npm run check:layout:wide`) has no baseline yet; the standard baseline is rewritten only by the owner's decision.
 
-**The documents**: every document has its kind and date under its title and `README.md` indexes them; the changes are written in the log only. The content of the documents written on 2026-10-14 (`01`, `02`, `03`, and 5.1 to 5.5, 5.7 and 5.8 below) is not re-checked line by line: where the log says an item is done, it is done. The clean-up and library plans of 2026-10-14 (old 5.6, 5.11 to 5.14) are in `../archive/plans/2026-10-14-cleanup-and-library-plans.md`.
+**The library and the documents**: see 5.6 for the library (`npm run library:check` says whether it has drifted from the app). The content of the documents written on 2026-10-14 (`01`, `02`, `03`, and 5.1 to 5.5, 5.7 and 5.8 below) is not re-checked line by line: where the log says an item is done, it is done. The clean-up and library plans of 2026-10-14 (old 5.6, 5.11 to 5.14) are in `../archive/plans/2026-10-14-cleanup-and-library-plans.md`.
 
 ## 5.1 The road (decided 2026-10-14)
 
-| Phase | Content | State on 2026-10-21 |
+| Phase | Content | State |
 |---|---|---|
-| 1 | Light clean-up: one rulebook, baseline triage, current page names, a wider layout check; the drafts converted; asset library, first half | Done (log, 2026-10-14 to 2026-10-21) |
+| 1 | Light clean-up: one rulebook, baseline triage, current page names, a wider layout check; the drafts converted; asset library, first half | Done and merged (log, 2026-10-14 to 2026-10-22) |
 | 2 | **Finish the Tile System** on the places that are not tiles yet (5.3) | Open |
 | 3 | **Batches D and E** (5.4) | Open |
 | 4 | **Full clean-up and optimisation** of the completed Foundation (5.6), plus the second half of the asset library (merge duplicates, fold the rules into the contracts) | Partly done: the CSS clean-up, the token source, the shared components and the lints are built; the load and run measurements of 5.6 are not |
@@ -273,23 +271,23 @@ The plans of 2026-10-14 for the clean-up round, the library automation and its s
 - **Desktop-only code:** one import (`@tauri-apps/plugin-opener` in `InfoNote`, with a web fallback already in place), plus the Tauri folder and two port settings in the build file. A web build is straightforward.
 - **Storage:** all data is in the browser's local storage (about 5 MB), behind one store interface. A server or IndexedDB store fits behind the same interface. The two example organizations alone are 580 KB.
 - **Calendar: decided, it exists in the new app.** The earlier Foundation App Plan listed it as staying behind. It reads card dates, so it depends on the card engine and travels with it; its sources (card dates, Operational Log, schedules) are kept.
-- **Decision:** is the new app still a web app with accounts (as in the Foundation App Plan), or something else?
+- **Decision:** the form of the new app is open (5.8, item 8).
 
 
 ## 5.8 Open decisions
 
 Decided on 2026-10-14 and therefore not open: Delivery Teams are connected to the Delivery cards; the Calendar exists in the new app; the order of the road; the Master Tile definition; the Inventory tile is a help tile; the minimum width 768; WCAG 2.2 AA; English only.
 
-Still open:
+Still open (the requirement ids are those of 5.5):
 
-1. What exactly the Delivery Team connection does to the numbers. Proposed reading: each linked Delivery Team card appears on the offering's Delivery card as a person row, like a linked partner, with hours that count as external hours beside the founders' capacity; the card keeps its cost.
-2. Does the Offering type drive anything (materials group and stock for a product, delivery hours for a service, both for a hybrid)?
-3. T7 "Travel and van hire": move to Vehicles, or split into trips and van hire?
-4. Remove the duplicate global income tax rate first?
-5. Which relationship-type definition (six fields) is accepted, and who writes it?
-6. Is a rough cost per customer by channel wanted at this stage?
-7. The 768 px floor against WCAG 1.4.10 Reflow: accept as a declared exception?
-8. Is the new app still a web app with accounts (as in the Foundation App Plan), and does it keep the Examples?
+1. What exactly the Delivery Team connection does to the numbers (I2). Proposed reading: each linked Delivery Team card appears on the offering's Delivery card as a person row, like a linked partner, with hours that count as external hours beside the founders' capacity; the card keeps its cost.
+2. Does the Offering type drive anything (F8)?
+3. T7 "Travel and van hire": move to Vehicles, or split into trips and van hire (C13)?
+4. Remove the duplicate global income tax rate first (5.5.6)?
+5. Which relationship-type definition (the six fields, C4) is accepted, and who writes it?
+6. Is a rough cost per customer by channel wanted at this stage (C14)?
+7. The 768 px floor against WCAG 1.4.10 Reflow: accept as a declared exception (5.6)?
+8. Is the new app still a web app with accounts (as in the Foundation App Plan), and does it keep the Examples (5.7, X2)?
 
 ## 5.9 Known open findings (from `docs/ai/outstanding-findings.md`)
 
@@ -300,3 +298,33 @@ Still open:
 ## 5.10 What stayed in the project, and why
 
 - `src/data/examples/`: the one copy of the two examples (the app reads it; `docs/examples/` was removed 2026-10-22). `UPDATE_EXAMPLES=1 npx vitest run src/services/ExampleDrift.test.ts` writes both from the app's own readers; the drift and review tests fail when an example is behind the interface.
+
+## 5.11 Open from the documents review (2026-10-29)
+
+For the owner to decide, or work not done. Each item leaves this list when done and the log records it.
+
+**Pop-ups and tooltips (doc 24, 25)**
+- P2's panels are 260px wide today for the calendar and the colour card; a menu is as wide as its longest line. One width for every P2 panel would be simpler: say if wanted.
+- A P4 tip is not announced to a screen reader except by the control's own label; the label already says it.
+- The comment on `useAboveTip` in `Tooltip.tsx` says "centred on it"; the code puts the tip's left edge on the control's left edge. Fix the comment.
+
+**Free texts (doc 21, 17)**
+- The character limits (60, 200, 600, 1000) and one component for each free-text category are not built.
+- The tile text is decided at 8 rows by default; doc 17 shows 6 today.
+
+**Library (doc 08, 10, 11, 12)**
+- Step 7 of the library plan (the sync of the app to the tables, with a watch mode) is not built.
+- Doc 11 (the library log archive, 110 KB) is read by no one: move it to `docs/archive/`? The library log script does not touch it.
+- The hand-written rows of doc 10 (L0653 to L0659) and doc 12 (A0029 to A0034) hold facts the log does not (tipWords, aria-pressed, label-arrow.css, MultiPicker); doc 12 mentions `SegmentedToggle`, which is not in `src`.
+
+**The design record (doc 01, 02, 03)**
+- Part F of doc 01 (one repeated template for each card, 60% of the file) could be reduced or moved, but `tools/scripts/catalogue/load.mjs` reads it in place and the structure tables and doc 06 are generated from it: the tool must change first.
+- Doc 02, 2.7 (the source register, about 100 KB) could become its own document; other documents cite its ids.
+- The Part G "Key flag" idea and the Part E "Both" place are in no code and no longer in doc 01: formally dropped? (They stay in doc 03 R2.)
+- The comment in `PartnerGroupHelp.test.ts` still says "part H"; it is Part D, section 3.
+
+**The questionnaire (doc 27, 28, 29)**
+- 25 ids are listed as withdrawn or merged, but 91 minus 67 is 24: the 91 or one id is wrong (doc 28, Appendix B).
+- I6 is counted as a check while 8.2 withdraws it, and I7 is counted as a driver while described as merged into I7c. Without I6 the count is 20 checks and 66 questions.
+- The customers' industry list (G15, P24): 5.7 says the 18 plain industries are retired, but 6.3, 27 section 5 and 29 still use them. Marked [D] in doc 28.
+- Doc 28 is 268 KB and was not split: code comments cite its sections 5.7 to 5.10 and 8.2 and 8.5. A split needs those comments changed first.

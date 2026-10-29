@@ -1,10 +1,12 @@
 # 29. Question guide: the flow, the branches and how a question earns its place
 
-Status: **proposal**, written 2026-10-23, **updated 2026-10-25 for the Identity questions as built (Early Positioning, doc 28 section 8.2)**. The Segment does not yet read any of them; the flow below is the design. This is the guide to the questions as a **flow**: which answer leads to which question, which questions are the key branches, what happens when the answer is "both" or "other", in what order to ask so that the user answers as little as possible, and why each question matters to the user. It answers the owner's review of 2026-10-23. Document 27 is the plan, document 28 holds the lists, wording, connection map and evidence; this document holds the logic between them. (Before it there was no such guide: the nearest were 28, which is organised by card and list, and `ai/framework-dsl-grammar.md`, which defines how a System's content is written in Markdown, not how a founder's questions behave.)
+Status: **proposal**, written 2026-10-23, **updated 2026-10-26 for the Identity questions as built (Early Positioning and the End User questions, doc 28 section 8.2)**. The Segment card reads only I3 and I7b so far (to choose and annotate its boxes); the flow below is otherwise the design. This is the guide to the questions as a **flow**: which answer leads to which question, which questions are the key branches, what happens when the answer is "both" or "other", in what order to ask so that the user answers as little as possible, and why each question matters to the user. It answers the owner's review of 2026-10-23. Document 27 is the plan, document 28 holds the lists, wording, connection map, evidence, decisions and the counts of questions (Appendix B); this document holds the logic between them.
 
 > **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Doc 33 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, age limits, accessibility, caregiving and the rest) is a future feature: doc 34. Index of the app and its documents: `docs/app/app-index.md`; glossary: `docs/app/glossary.md`.
 
-> **Decision (owner, 2026-10-25): there is no Segment question "Who uses it?".** G24 and G25, and the Buyer part and User part they created, are **withdrawn**. The buyer's relationship with the user is already asked once, in Identity: the audience of a consumer buyer, "Buyer's Life-Stage and relationship with the User" (I7b), whose option Proxy Buyers / Gifters says the buyer pays and the product is for someone else. The user becomes **a second Profile** of the same Segment. G17, G18 and G19 are merged away (I7c, O11, O3). The Delivery questions L1 to L3 are renamed **W1 to W3**, because L1 to L15 are the shared lists. Section 10 lists every question and where it stands; section 11 what Identity gives the Segment; section 12 what is merged, and what is recommended next.
+> **Decision (owner, 2026-10-25): there is no Segment question "Who uses it?"** (28, 6.3 and R36). The buyer's relationship with the user is already asked once, in Identity (I7b, whose option Proxy Buyers / Gifters says the buyer pays and the product is for someone else); the user becomes **a second Profile** of the same Segment. The Delivery questions L1 to L3 are renamed **W1 to W3**, because L1 to L15 are the shared lists. Section 10 lists every question and where it stands; section 11 the conflicts found and decided; section 12 what was merged. The decisions still open are in 28, section 13.
+
+> **Marked in place.** Trees and tables below keep the options the code has but the first version leaves out (B2G, G2B, multi-sided, I7f and I7g); they are marked "future feature, doc 34".
 
 ## 1. How to read it
 
@@ -23,7 +25,7 @@ Status: **proposal**, written 2026-10-23, **updated 2026-10-25 for the Identity 
 
 ## 2. The trees
 
-### 2.1 Identity (the Organization, Positioning, Vision and Values tiles)
+### 2.1 Identity (the Organization and Early Positioning tiles)
 
 ```
 I1  What does your business do? (up to four activities, in order; the first is the primary)
@@ -36,25 +38,26 @@ I1  What does your business do? (up to four activities, in order; the first is t
  └─ Not sure ................ ○ the lower levels · ⇒ the generic pack · ⇒ "describe your main one first"
 I3  Seller and Buyer Relationship   (on Early Positioning; one choice or ticks with a limit, by the stage)
  ├─ B2C ..................... ⇒ one Segment frame, Box 1
- ├─ B2B, B2G, G2B Context ... ⇒ one Segment frame, Box 3 (B2G: the public body and its level; G2B: the industry and its regulation)
+ ├─ B2B ..................... ⇒ one Segment frame, Box 3
+ ├─ B2G, G2B Context (future feature, doc 34) ... ⇒ one Segment frame, Box 3 (B2G: the public body and its level; G2B: the industry and its regulation)
  └─ Several (Managing, Growing) ⇒ one Segment frame for each
 I11 Market Structure
  ├─ Single-sided Market ....... one audience of buyers; the relationships chosen in I3 are one hybrid
- └─ Multi-sided Market / Platform ... a platform of two or more distinct groups: each side is one relationship of I3, so each side is its own Segment frame
+ └─ Multi-sided Market / Platform (future feature, doc 34) ... a platform of two or more distinct groups: each side is one relationship of I3, so each side is its own Segment frame
 I7b Audience   (one question for each relationship: scale, life stage, administrative level, regulatory intensity)
- └─ the choice ⇒ the Segment's size or age range starts there · "Proxy Buyers / Gifters" ⇒ a second Profile for the person who uses it is proposed
- └─ Proxy Buyers / Gifters ⇒ the End User questions (asked only here):
+  ├─ the choice ⇒ the Segment's size or age range starts there
+ └─ Proxy Buyers / Gifters ⇒ a second Profile for the person who uses it is proposed, and the End User questions (asked only here):
       I7d End User Age Group (broad: 0 to 5, 6 to 12, 13 to 17, 18 to 64, 65 or older)
       I7e Buyer's relationship with the End User (parent or carer, another family member, partner, friend or colleague)
-      I7f Who chooses: the Buyer or the End User (alone, the End User asks, the End User chooses)
-      I7g What matters most to the End User (enjoyment, comfort, safety, learning, belonging, practical use)
+      I7f Who chooses: the Buyer or the End User (alone, the End User asks, the End User chooses)   (future feature, doc 34)
+      I7g What matters most to the End User (enjoyment, comfort, safety, learning, belonging, practical use)   (future feature, doc 34)
       ⇒ the Segment proposes a second Profile for the End User (P21 "They will use it")
 I7c Differentiation & Outcome ⇒ the Value Proposition prompt and the Competitor types
 I8  Business stage (worked out from the Opening Date, not asked)
  ├─ Just an idea / Setting up ... ○ "sales I have made" and "website data" in the estimate basis (D1);
  │                              ⇒ figures labelled forecast
  └─ Earning / Established ....... ● every option of D1 · ⇒ figures can be labelled actual
-I7  (withdrawn: merged into I7c)
+I7  (merged into I7c, which is the counted driver; 28 Appendix B)
 I6, I9 (price position withdrawn; ambition)   a check, asked after the first draft  (no branch; I10 values merged into the Values tile)
 ```
 
@@ -121,7 +124,7 @@ O1 What form does it take?
  ├─ a physical item ................................ ⇒ stock, vehicles and shipping stay in the presets
  ├─ a digital file, a digital product or tool, online access ... ○ stock, vehicles, shipping
  ├─ a live online session, an in-person session, project work, an ongoing service ... ⇒ hours and roles (W2)
- ├─ A mix .......................................... one Offering is one thing: ⇒ make one Offering per form
+ ├─ (no "A mix": the options follow the Offering Type; a Hybrid asks once for each part, or one Offering is made per form, 28 6.8)
  ├─ Something else (candidate: a rental or hire; a booking of seats, tickets or rooms)
  └─ Not sure yet ................................... the presets stay open
 O3 How do customers buy it?
@@ -163,7 +166,7 @@ No question branches heavily here: the stage cards are **proposed** from P11, P1
 | P14 | How they pay | Direct Payment subchannels; P21 | 7 | several allowed | "Someone else pays" (candidate) |
 | P16 | Comfort with online tools | channel order; help level | 2 | one only | none needed |
 | P22 | How the decision is made | P21; the tender row | 3 | one only | none needed |
-| O1 | Form | presets; hours and roles | 5 | **A mix = one Offering per form** | "Something else" (candidate) |
+| O1 | Form | presets; hours and roles | 5 | **A Hybrid Type: asked once for each part, or one Offering per form** | "Something else" (candidate) |
 | O12 | Minimum age by law | Review against G6; the age lookup | 3 | several kinds may be ticked | none needed |
 | O3 | How it is bought | Demand, Delivery, Charged, Cancel / Month | 7 | one only | candidates: free to the customer; a commission |
 
@@ -171,14 +174,14 @@ No question branches heavily here: the stage cards are **proposed** from P11, P1
 
 | Question | The answer | What the app does | Why |
 |---|---|---|---|
-| I3 | Several relationships | One Segment for each, people first; G2 and G3 are copied to the next | A Segment is one group; its questions differ for people and businesses |
+| I3 | Several relationships (B2C and B2B in the first version) | One Segment for each, people first; G2 and G3 are copied to the next | A Segment is one group; its questions differ for people and businesses |
 | G6 | children and adults in one range | Warns; offers to split into two Segments | Needs, who pays and the law differ |
 | I7b | Proxy Buyers / Gifters (a parent buys for a child), or a business buyer whose staff use it | One Segment; a second Profile for the user (P21 "They will use it") | The buyer is reached by price, trust and convenience; the user by use and enjoyment. This is a single-sided market |
-| I11 | Multi-sided market (a platform) where one side pays nothing (advertising, a funded service) | Each side is its own Segment frame; the free side's offering is "Free to the customer" in O3 | Each side is one group with its own questions |
-| I11 | Multi-sided market (a platform) where both sides pay (diners and restaurants) | Each side is its own Segment frame with its own payer; which side pays the platform is confirmed on the Review page (decision R40 in 28) | One payer for each Segment |
+| I11 (future feature, doc 34) | Multi-sided market (a platform) where one side pays nothing (advertising, a funded service) | Each side is its own Segment frame; the free side's offering is "Free to the customer" in O3 | Each side is one group with its own questions |
+| I11 (future feature, doc 34) | Multi-sided market (a platform) where both sides pay (diners and restaurants) | Each side is its own Segment frame with its own payer; which side pays the platform is confirmed on the Review page (decision R40 in 28) | One payer for each Segment |
 | G15 | more than one industry | Asks for the main one; another Segment for the other | One industry per Segment keeps P24 meaningful |
 | G2 | in several countries / anywhere online | Asks for the main country; others are another Segment | National lists and the law differ by country |
-| O1 | A mix | One Offering per form | Delivery, hours and stock differ by form |
+| O1 | The Offering Type is Hybrid (O1 has no "A mix") | Asked once for each part, or one Offering per form | Delivery, hours and stock differ by form |
 | O6 | A mix | Several Deliver channels | A stage may have several channels |
 | P11 to P14 | several ticked | All are proposed as channels (several allowed) | A person uses several |
 | Any list | Not sure yet | A safe default is used and flagged; it never blocks; a Review item asks again later | The user should not be stopped by a fact they do not have |
@@ -242,7 +245,7 @@ No question branches heavily here: the stage cards are **proposed** from P11, P1
 | Bought for a child (user under 13, parent pays) | 5 (with I3) | 5 (G2, G6, G8, G13, G10; G7 skipped) | 11 (with P21; the child is a second Profile) | 21 |
 | A second Profile in the same Segment | 0 | 0 | only what differs, with "Copy a Profile" | far fewer |
 
-A second Segment repeats only what differs (G2 and G3 are copied). The checks (21 in all, 3 on the Segment card) come after the draft and can be skipped.
+A second Segment repeats only what differs (G2 and G3 are copied). The checks (28, Appendix B) come after the draft and can be skipped.
 
 ## 7. Does a question matter, and how does it help the user?
 
@@ -250,11 +253,10 @@ The test for every question: *what does the user get for answering?* "Limited" m
 
 | Id | Matters? | How it helps the user |
 |---|---|---|
-| I1, I3, I11, I7b, I7c | Yes | Narrows the next lists and gives example customers, offerings, skills, channels and the activity code to start from; arranges the Segment frames; each side of a platform is a Segment frame; the audience starts the ranges; the outcome frames the Value Proposition |
+| I1, I3, I11, I7b, I7c | Yes | Shows only the questions that apply and sets the tax default (I3); narrows the next lists and gives example customers, offerings, skills, channels and the activity code to start from; arranges the Segment frames; each side of a platform is a Segment frame; the audience starts the ranges; the outcome frames the Value Proposition |
 | I7 | Yes | Writes a first Positioning sentence |
 | I8 | Yes | Stops the app asking for sales or website figures a new business cannot have |
 | I9 | Limited | Later checks and suggestions |
-| I3 | Yes | Shows only the questions that apply and sets the tax default |
 | G2 | Yes | Puts the likeliest channels first (a local business starts with local ones) |
 | G3 | Yes | Shows examples in the customers' country (qualifications, sizes, tax names) |
 | G6 | Yes | Limits the Profile's age, proposes a Profile per band, and warns when selling to children |
@@ -293,27 +295,11 @@ A question is added only when it passes this list.
 
 ## 9. Decisions for the owner
 
-| # | Decision | Recommendation |
-|---|---|---|
-| 1 | Several relationships in I3 create one Segment for each (people first) | Yes |
-| 2 | ~~Add "Another type" to G23~~ Withdrawn: the cases sit under the four existing types with an "i" | Yes |
-| 3 | Candidate additions: P12, P13, P14, O1, O3 (section 5) | Approve one by one; "Someone else pays" in P14 and "Free to the customer" in O3 first |
-| 4 | Ask the Profile's behaviour first and its specifics after the draft | Yes |
-| 5 | Ask the checks only after the first draft | Yes |
-| 6 | "Copy a Profile" | Yes |
-| 7 | G10 asked last in its box | Yes |
-| 8 | A split offered when a range mixes children and adults | Yes |
-| 9 | ~~Add "Other" to P6~~ Withdrawn: an "i" on P6 places armed forces and clergy | Yes |
-| 10 | **Decided (owner, 2026-10-25: "there is no such question").** The buyer (who pays) and the user (who uses) are **one Segment**; the Segment describes the buyer and the user is a **second Profile** (P21 "They will use it"), proposed for Proxy Buyers / Gifters (I7b). G24 and G25 are withdrawn. A multi-sided market is not a buyer-and-user split: each side is its own Segment frame. The word "consumer" is not used | Done in the documents |
-| 15 | When both parts pay (diners and restaurants), keep one payer part and note the other payment (28, R40) | Choose |
-| 13 | Ask "Who do you sell to?" in Identity (I3, the Seller and Buyer Relationship) so Business 1 opens arranged; several relationships make several Segment frames | Yes |
-| 14 | "Free to the customer" and "A commission on sales" in O3 are proposed, not only candidates (needed by platforms and funded services) | Yes |
-| 11 | O12 and the minimum-age lookup; only official-source rows drive a check | Yes; have the Excerpt rows re-checked first |
-| 12 | Allow customers under 18 who pay, with notes, Review lines and a filter on P14, and no stated rule on contracts | Yes |
+The decision list is in one place: document 28, section 13. The twelve decisions this guide used to hold are there as R35 (several relationships; Identity asks "Who do you sell to?"), R44 (the "Another type" of G23 and the "Other" of P6 withdrawn, placed with an "i"), R56 to R61 (candidate additions, behaviour first and checks after the draft, "Copy a Profile", G10 last, the split of a mixed range, the O3 options), R36 (decided 2026-10-25: no "Who uses it?"), R40 (both parts pay), R37 (O12 and the minimum-age lookup) and R38 (customers under 18 who pay).
 
-## 10. Where each question stands, and what should change (as built, 2026-10-25)
+## 10. Where each question stands, and what should change (as built, 2026-10-26)
 
-**Exists** = a question the app asks now. **Text box** = the app has a free-text box on the card; the question is a proposal that would refine it. **Proposal** = in these documents only. The owner's own wording is never changed (rule 14). Checked against the code and against doc 28, sections 6, 8 and Appendix A.
+**Exists** = a question the app asks now. **Text box** = the app has a free-text box on the card; the question is a proposal that would refine it. **Proposal** = in these documents only. The owner's own wording is never changed (rule 14). Checked against the code and against doc 28, sections 6 and 8. This table is the status in the app; what each question is worth (driver, check or note) and where each question of the earlier files went are in doc 28, Appendices B and A.
 
 | Id | Question | Status | Where it is | Change proposed to its wording or place |
 |---|---|---|---|---|
@@ -325,7 +311,7 @@ A question is added only when it passes this list.
 | I7d to I7g | End User Age Group; Buyer's relationship with the End User; Who chooses; What matters most to the End User | **Exists** (built 2026-10-26) | Early Positioning, right column, under the life-stage question; asked only for Proxy Buyers / Gifters | The lists of I7e and I7g are the author's: the owner approves or amends them |
 | I7c | Differentiation & Outcome | **Exists** | Early Positioning, right column, under the audience | None. Not yet read by the Value Proposition |
 | (Notes) | The Positioning free text | **Exists** | Early Positioning, under the questions | Shorten its prompt (28, 8.2, open decisions) |
-| I5, I6, I7, I9, I10 | Brand personality; price position; (merged); ambition; values | I5 parked; I6, I7 withdrawn; I10 **merged into the Values tile**; I9 **proposal** | Not on a tile | None until the owner decides |
+| I5, I6, I7, I9, I10 | Brand personality; price position; (merged); ambition; values | I5 parked; I6 withdrawn as a question (counted as a check in 28, Appendix B); the old I7 is merged into I7c; I10 **merged into the Values tile**; I9 **proposal** | Not on a tile | None until the owner decides |
 | I2, I4, G1, G9, G11 | | Merged or withdrawn | | None |
 | G2 to G5 | Where; main country; kind of area; languages | **Text box** (Geographics) | Segment card | G2 and G3 first, G4 and G5 after the draft; G3 starts from the Legal Entity's country |
 | G6, G7, G8, G10, G13 | Age range; education; income step; gender mix; work situation | **Text box** (Demographics); asked only when the buyer is a person | Segment card | Order: G6, G7, G8, G13, G10 last. G6 reads "the customer, the person who pays" |
@@ -341,36 +327,18 @@ A question is added only when it passes this list.
 | Needs | Functional, Emotional, Social lists | **Exists** | Profile card | Each line gets an id |
 | Competitor Name, Type | | **Exists** | Competitor card | None |
 | K1 to K4, K6 | Price against yours; what they are chosen for; shortfalls; reach; confidence (K5, K7, K8 are no longer numbered) | **Text box** or **proposal** | Competitor card (What they sell, Which areas, How they reach, What customers say, SWOT, Insights) | K2 and K3 first |
-| Offering Name, Type, Functional Needs Addressed | | **Exists** | Offering card | **O1 "What form does it take?" overlaps the existing Type (Product, Service, Hybrid, Other):** keep Type, and let O1 refine it only where the presets need it, or merge them (owner to decide) |
+| Offering Name, Type, Functional Needs Addressed | | **Exists** | Offering card | **Decided 2026-10-26:** O1 "What form does it take?" follows the existing Type and refines it (its options depend on Product, Service or Hybrid; 28, 6.8) |
 | O1 to O4, O6 to O8, O10 to O12 | Form; can customers buy it; how bought; benefits (O5 merged into O4); how received; help after; worries answered; what comes with it; what the customer must give; what they spend on; minimum age | **Text box** (Customer Benefit, Content & Scope, Purchase & Delivery, Support & Communication, Requirements & Conditions) or **proposal** | Offering card | O3 and O6 first; O12 shown only when G6 includes a band below 21 |
-| Value Proposition | The one promise made to each Segment (text), with a drafted sentence | **Exists** (text, one per Segment) | Business 1, tile "Value Proposition" | The draft reads P9, P17, P18, O4 and **starts from the outcome of I7c** (section 11); the three open items are read-only |
+| Value Proposition | The one promise made to each Segment (text), with a drafted sentence | **Exists** (text, one per Segment) | Business 1, tile "Value Proposition" | The draft reads P9, P17, P18, O4 and **starts from the outcome of I7c** (28, 8.2); the three open items are read-only |
 | W1 to W3, C1, C4, R1, R2, J1 to J3 and J7, D1 | Delivery (Work), Founders and Capability, Revenue, Journey, Demand estimate basis | The pages and cards **exist**; these questions are **proposals** | Business 2 to 5 | See doc 28, sections 7, 9 and 10. **The Delivery questions were L1 to L3 and are now W1 to W3**, because L1 to L15 are the shared lists |
 
-**What should move or be reworded (summary).**
+**No wording of Identity changes**: the Early Positioning questions are the owner's words (rule 14). The merges and renamings (G24, G25, G17 to G19, the W ids) are in section 12.
 
-1. **G24, G25 and the two parts are gone**; the user is a second Profile; a platform's sides are separate Segment frames.
-2. **G17, G18, G19 are merged** into I7c, O11 and O3. The Segment now has 10 drivers (G2, G3, G6, G7, G8, G10, G13, G14, G15, G23), 3 checks (G4, G5, G16) and 3 notes (G20 to G22).
-3. **The ids of the Delivery questions** are W1 to W3 (they were L1 to L3, which are the shared lists).
-4. **O1 and the existing Offering Type** overlap; one of them should go or be defined by the other.
-5. **No wording of Identity changes**: the Early Positioning questions are the owner's words (rule 14).
+## 11. Conflicts found and decided (Identity and the Segment)
 
-## 11. What Identity gives the Segment (organisation, positioning, stage)
+What each Identity answer gives the Segment is in doc 28, section 8.2 ("What the Segment will read"). The conflicts found while writing it:
 
-The full table is in doc 28, section 8.2 ("What the Segment will read"). In short, what each Identity answer can start (a starting value the user confirms; never a hidden option):
-
-| Identity | Starts or decides | Question reviewed |
-|---|---|---|
-| Country | the country (G3), the currency of G8 and G16, the national lists | G3, G7, G8, G14, G15, G16, G23 |
-| Activities | the Segment's name and the Profile kinds (pack, not built); **not** G15 (the customers' industry) | name, P24 |
-| Legal form, founders, dates | nothing (they describe the seller) | none |
-| Stage | how many Segments (one, one, two, any), which checks wait, forecast or actual | the number of Segments; G4, G5, G16 |
-| B2C / B2B / B2G / G2B | which box: people (Box 1) or business (Box 3); B2G presets G23 and G15 | G6 to G13 or G23, G14, G15 |
-| Several relationships, multi-sided | one Segment frame for each relationship, each side of a platform its own | the frame, not a question |
-| Audience: scale | G23 (a freelancer), G14 (the size range's start) | G14, G23 |
-| Audience: life stage | G6 (the age range's start), G13 (the work situation's start), the second Profile for Proxy Buyers | G6, G13 |
-| Outcome (I7c) | the Value Proposition prompt, the competitor comparison, the starting ticks of P9, O4, K2; **replaces G17** | Value Proposition, K1, K2, P9 |
-
-**Conflicts found and decided.** (1) Doc 28 said both "several relationships: one Segment for each" and "multi-sided: one Segment in parts"; they could not both hold. Decided: one Segment frame for each relationship, a platform's sides included, and no parts. (2) The app's instruction text says "1 primary segment (maximum 2)" while the stage limits are one, one, two, any; the stage limit is the design, the instruction text is the owner's wording, and the owner decides whether it changes. (3) Mid-Market lies inside the official EU "medium" size (under 250 employees); the mapping of the owner's scales to the size bands is the author's.
+(1) Doc 28 said both "several relationships: one Segment for each" and "multi-sided: one Segment in parts"; they could not both hold. Decided: one Segment frame for each relationship, a platform's sides included (a platform is a future feature, doc 34), and no parts. (2) The app's instruction text says "1 primary segment (maximum 2)" while the stage limits are one, one, two, any; the stage limit is the design, the instruction text is the owner's wording, and the owner decides whether it changes. (3) Mid-Market lies inside the official EU "medium" size (under 250 employees); the mapping of the owner's scales to the size bands is the author's.
 
 ## 12. Optimisation: what was merged or deleted
 
@@ -391,4 +359,4 @@ The full table is in doc 28, section 8.2 ("What the Segment will read"). In shor
 | Notes G12, P3, P4, K5, K7, K8, O9, C2, C3, J5, J6 | Removed from the numbered questions (the text boxes stay); W3 stays as a note derived from O10 | They were never asked |
 | O1 and the Offering Type | O1 **follows the Type** (its options depend on Product, Service or Hybrid); "A mix" is the Type Hybrid | Two questions about one thing |
 
-**Counts after the merges:** 67 questions (from 91): 41 drivers, 21 checks, 4 notes (G20 to G22, W3) and 1 parked (I5). The Segment card has 10 drivers, 3 checks and 3 notes.
+**Counts after the merges:** 67 questions; see doc 28, Appendix B.

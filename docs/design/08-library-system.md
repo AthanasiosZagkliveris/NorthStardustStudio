@@ -1,6 +1,6 @@
 # The library system: tables, library, inventory and logs
 
-Status: **approved by the owner (2026-10-15); steps 2 to 6 built (the sync, step 7, waits for the owner).** It records the owner's requirements as stated in chat, and how they will be met, step by step. The starting data is the catalogue (the card scan, the probes and document 01 Part F), printed in documents 06 and 07.
+Status: **requirements and plan**, updated 2026-10-29. Approved by the owner on 2026-10-15; steps 1 to 6 (section 7) are built, step 7 (the sync) is not. It records the owner's requirements as stated in chat, and how they are met, step by step. The starting data is the catalogue (the card scan, the probes and document 01 Part F), printed in documents 06 and 07.
 
 ## 1. What a variable is
 
@@ -27,13 +27,13 @@ Variables of this app, by kind (the first set, to be confirmed by the owner): ki
 
 **What is one asset and what is a variant.** The x (Delete) and the "+" (Add) are the same box button with a different function and symbol: one asset, BTN.001, with the variants BTN.DLT.001.001 and BTN.ADD.001.002. The "i" in a circle is **not** the same asset: it has a different function, shape and purpose, so it is another asset (for example BTN.002). The x box button and the circle "i" share their hover reaction, and nothing else: a shared reaction does not connect assets (the reaction is a variable of each).
 
-**Letters of the kinds (approved by the owner; LST added for the lists and confirmed by the owner, 2026-10-15; RAL removed: the rail is the page tag, a field):** BTN button, LST list, DRP dropdown, TIK tick box, TXT text input (box and area), NUM number box, DAT date cell, LBL label, ARW arrow, BUL bullet, FLD field, TIL tile, CRD card, FRM frame (chapter, page, dialog view). A new kind of asset gets a new three-letter code, written in the library first.
+**Letters of the kinds (approved by the owner; the list is `KINDS` in `src/library/model/types.ts`):** BTN button, DRP dropdown, TIK tick box, TXT text input (box and area), LST list, DIV divider, TXS text, SYM card symbol, PCK picker, IMG image holder, ICN icon, DAT date cell, ARW arrow, BUL bullet (all components); FLD field; TIL tile; CRD card; FRM frame (chapter, page, dialog view). There is no rail kind: the rail is the page tag, a field. A new kind of asset gets a new three-letter code, written in the library first.
 
 Every variable has an id, a name and a description (VAR followed by a three-digit number until the owner decides otherwise). The ids in document 07 (CO, F, K...) are working ids of the catalogue; the library assigns the codes above.
 
 Categories of asset: **component**, **field** (a label with its components), **card type** (made of fields and components), **tile** (master tile, tile, open tile, add tile), **frame** (chapter, page, dialog view).
 
-**Every asset is unique.** An asset's key is its code. If the same asset appears more than once in the scan it is one asset, and the places it appears are recorded as placements, not as copies. Where one asset has more than one look today (the text area has 22 looks, the label 8, the text box 6) those looks are listed with their counts and the owner decides which is the default; the others become variants or are retired.
+**Every asset is unique.** An asset's key is its code. If the same asset appears more than once in the scan it is one asset, and the places it appears are recorded as placements, not as copies. Where one asset has more than one look today (in the first scan the text area had 22 looks, the label 8, the text box 6) those looks are listed with their counts and the owner decides which is the default; the others become variants or are retired.
 
 ## 4. Adding or changing something: the order
 
@@ -63,13 +63,13 @@ The owner's decision: **the app changes the table.** The table follows the app i
 
 **The two logs.** The **library log** states every change to the assets of the library (section 5). The **app structure log** records every change of the tables, that is, of the structure of the app (what stands where).
 
-**How a change in the app reaches the table.** A sync reads the app, compares what it finds with the table, and for every difference updates the table and writes the app structure log entry. It runs on demand for the whole app, and in watch mode during development: when a file in src changes and the dev server reloads, the sync re-reads the pages that file affects and updates the table within seconds. That is the "real time".
+**How a change in the app reaches the table (step 7; not built).** A sync reads the app, compares what it finds with the table, and for every difference updates the table and writes the app structure log entry. It runs on demand for the whole app, and in watch mode during development: when a file in src changes and the dev server reloads, the sync re-reads the pages that file affects and updates the table within seconds. That is the "real time".
 
-**How the three cases are told apart.** For every asset the sync finds in the app, it looks the asset up in the library. Found: case 1 or 2 (the library log has, or gets, its entry with where it is placed). Not found: case 3 (app structure log only, marked not in the library, and listed as a drift).
+**How the three cases are told apart (the same step).** For every asset the sync finds in the app, it looks the asset up in the library. Found: case 1 or 2 (the library log has, or gets, its entry with where it is placed). Not found: case 3 (app structure log only, marked not in the library, and listed as a drift).
 
-**Checker.** npm run library:check (built) holds a snapshot of the last logged state of the library and the tables, lists every difference, classifies it, and fails when a change has no log entry. npm run library:log writes the entries (docs 10 and 11) and stores the state.
+**Checker (built).** `npm run library:check` holds a snapshot of the last logged state of the library and the tables, lists every difference, classifies it, and fails when a change has no log entry. `npm run library:log` writes the entries (docs 10 and 12) and stores the state.
 
-**What the sync reads (recommendation; the owner may change it).** The running app: what the user sees, exact, and it needs the dev server running. A check of the source finds a component or class name that is in the app and not in the library. Reading only the source is faster, but the cards are separate builders today, so it cannot yet tell fields from components.
+**What the sync reads (recommendation for step 7; the owner may change it).** The running app: what the user sees, exact, and it needs the dev server running. A check of the source finds a component or class name that is in the app and not in the library. Reading only the source is faster, but the cards are separate builders today, so it cannot yet tell fields from components.
 
 **Later.** Once an asset has replaced the old one (phase 3), the app is built from the library for that asset, and the sync then finds the asset where the library put it.
 
@@ -83,14 +83,14 @@ The size of a component is written once, in the library (the look of the asset o
 
 To change a size: change the look in the library (section 4), run `npm run library:tokens`, walk the app and run the comparison. A component that differs is fixed in the stylesheet at the root (the one rule that draws it), not by a rule on top of it.
 
-## 7. The steps (one commit each)
+## 7. The steps
 
-1. This specification, approved by the owner.
-2. The data model in code: Variable, Asset, Placement, with their checks (unique key, every placement points to an asset, every asset has its variables described).
-3. The Foundation Capability table and the App table as data, generated from documents 06 and 07 (ids kept).
-4. The library: every asset once, with variables (id, name, description) and variants, and what each requires. The owner decides the defaults where there are several looks.
-5. The two logs and the checker (snapshot, the three cases, the drift list).
-6. The inventory: the components built from the library, then the fields, then the cards and tiles, shown on a gallery page.
-7. The sync between the app and the tables (on demand, then watch mode), then replacing the assets system by system.
+1. This specification, approved by the owner. Built.
+2. Built: the data model in code: Variable, Asset, Placement, with their checks (unique key, every placement points to an asset, every asset has its variables described).
+3. Built: the Foundation Capability table and the App table as data, generated from documents 06 and 07 (ids kept).
+4. Built: the library, every asset once, with variables (id, name, description) and variants, and what each requires. The owner decides the defaults where there are several looks.
+5. Built: the two logs and the checker (snapshot, the three cases, the drift list).
+6. Built: the inventory, the components built from the library, then the fields, then the cards and tiles, shown on a gallery page.
+7. Not built: the sync between the app and the tables (on demand, then watch mode), then replacing the assets system by system.
 
 Not in this work: the Customer Engagement, Financial Foundation and Sustainability pages (they will change as a whole), and layout checks (the owner's rule until the library has unified the elements).

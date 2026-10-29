@@ -1,7 +1,8 @@
 # 1. Current design of the Foundation capability
 
-Status of this document: **current**, written 2026-10-14, brought up to 2026-10-21 in its notes. It is the single description of what the Foundation capability (Identity, Brand, Business and Strategy Systems) is and what has been decided for it. It replaces the design drafts that were kept as HTML and PDF files (those were converted into the parts below, and only the current version of each was kept).
+Status of this document: **current**, written 2026-10-14, reorganised 2026-10-29 (overlaps between the parts removed, stale statements corrected against the code). It is the single description of what the Foundation capability (Identity, Brand, Business and Strategy Systems) is and what has been decided for it. Where the code and this document disagree, the code is right.
 
+Part F is read by the catalogue tool (`tools/scripts/catalogue/load.mjs`: it takes the headings with " > " and the numbered table rows between the headings of Part F and Part G) and so by the structure tables (document 7): keep its headings and row format as they are.
 
 The other documents of the project, with what each holds, are listed in `docs/README.md`; the map of the app is `docs/app/app-index.md`. Every change is written in the log (document 4) and nowhere else.
 
@@ -12,12 +13,12 @@ Other current Markdown documents in the project that this one points to and does
 - Part A. What the app does
 - Part B. How the Foundation is organised
 - Part C. The interface elements
-- Part D. The cost model
-- Part E. The automatic rules
-- Part F. Card structure: what the user can reach in each card
-- Part G. Card access by type
-- Part H. Help texts
-- Part I. Colour map (work types)
+- Part D. Cost model
+- Part E. The rules that calculate and categorise automatically
+- Part F. Card structure: what the user can reach in each card, and why
+- Part G. Card access by type: principles and access of each field
+- Part H. Categories, groups and "i" texts
+- Part I. Foundation colour map: Identity, Brand, Business, Strategy
 
 ## Part A. What the app does
 
@@ -72,7 +73,7 @@ Eleven of the thirteen chapters of the Foundation are drawn as Master Tiles. The
 
 ## Part C. The interface elements
 
-This part records every kind of element the Foundation capability is built from, by layer, so that nothing is missing when the asset library is written (document 5). It comes from a read of the code on 2026-10-14. It was verified for structure and exports; CSS classes and runtime behaviour were not each checked. Paths: `I/` is `src/components/interview/`, `C/` is `src/components/`. Since 2026-10-20 the files of `I/` are in its folders `cards/`, `tiles/`, `fields/`, `editors/` and `tests/`, and the shared controls in `C/controls/`: a file is found by its name (see `code-map.md`).
+This part records every kind of element the Foundation capability is built from, by layer, so that nothing is missing when the asset library is written (document 5). It comes from a read of the code on 2026-10-14, with later notes; it was verified for structure and exports, and CSS classes and runtime behaviour were not each checked (a test checks that every file, class and custom property named here exists). Paths: `I/` is `src/components/interview/`, `C/` is `src/components/`. Since 2026-10-20 the files of `I/` are in its folders `cards/`, `tiles/`, `fields/`, `editors/` and `tests/`, and the shared controls in `C/controls/`: a file is found by its name (see `code-map.md`).
 
 Global rules that apply to every element (2026-10-14; the sizes and states are in the rulebook `docs/ai/layout-rules.md` and in the contracts under `src/library`): an "i" stands 6px after its label's last word (`--info-gap`); text that goes bold under the pointer, or is bold by default, is 0.05em wider (`--bold-tracking`); a wired button (the "i", the "+" box, the remove x, an "Add ..." button) has no fill at rest.
 
@@ -290,7 +291,7 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 - **In code, not named in `tile-and-card-pattern.md` or `card-kinds.md`:** `SubTiles`, `PictureBoxes`, `CardBoxes`, `SectionView`, `SubcategoryBoxes`, `AddTile`, `CardNav`, `BoxActions`, `FoldAllToggle`, `FigureTiles`, `SignalList`, `CashTimelineChart`, the Introduction page, the status line, Focus mode, the undo toast, the Notepad, the search dialog, the Inventory funnel, "Completed".
 - **Named in documents, not in code:** "Master Tile", "Chapter" and "help tile" are the owner's words and have no code counterpart. "Marker column" is gone, as `card-kinds.md` says.
 - **Unused:** `I/cards/CardColumns.tsx` is imported only by its own test; `InterviewProgress` is switched off.
-- **Near-duplicates to merge in the asset library:** the two funnels (`CapabilityOverview`, `CalendarFunnel`); the confirmation-dialog markup repeated in six places; `business-channel-table` and `business-relationship-table`; the three rails (`BulletRail`, `CardNav`, the dialog rail); several "empty note" classes.
+- **Near-duplicates seen on 2026-10-14 (the shared components built since are in document 22):** the two funnels (`CapabilityOverview`, `CalendarFunnel`); the confirmation-dialog markup repeated in six places; `business-channel-table` and `business-relationship-table`; the three rails (`BulletRail`, `CardNav`, the dialog rail); several "empty note" classes.
 
 
 ## Part D. Cost model
@@ -401,7 +402,7 @@ The app unlocks a field only where it is needed, to keep the card quiet.
 | Suppliers | Business Services | Firms that run the administrative side, e.g. Accountant, Lawyer, Insurance broker, Payroll bureau, Business bank, Web host. | Monthly; Annually; Per project | Fixed; Variable | OpEx | None | An insurance broker links to Insurances |
 | Suppliers | Creative & IT Services | Freelancers and small agencies for design, branding, content or technology work, e.g. Web builder, Brand identity house, Photographer, IT support, Copywriter. | Per project; Monthly (retainer) | Variable; Fixed | OpEx | None | Software & Web |
 | Suppliers | Property, Vehicles & Facilities | Owners and caretakers of the premises, and lessors of vehicles, e.g. Landlord, Coworking operator, Cleaner, Car lessor. | Monthly (rent, lease, service contract) | Fixed | OpEx | When a workspace is connected: Deposit, Service charge, Commercial property tax. When a vehicle is connected: Qty before the price and Road tax | Holds the rent of a rented Premises card, or the lease of a Company Vehicles card, and shows the link to it |
-| Suppliers | Technical Support | Outsourced technicians who maintain, repair and install the company's assets, e.g. Electrical engineer, Plumber, Boiler fitter, Network cabling. An installation is linked to the asset it installs. | Per project; Per unit (hour, visit); Annually (service contract) | Variable | A service that builds or installs an asset is added to the asset (rule 2). Otherwise: Start-up expense before the opening; OpEx after it | None | A supplier card with a start date; it takes no cost nature from an activity card |
+| Suppliers | Technical Support | Outsourced technicians who maintain, repair and install the company's assets, e.g. Electrical engineer, Plumber, Boiler fitter, Network cabling. An installation is linked to the asset it installs. | Per project; Per unit (hour, visit); Annually (service contract) | Variable | A service that builds or installs an asset is added to the asset (C2). Otherwise: Start-up expense before the opening; OpEx after it | None | A supplier card with a start date; it takes no cost nature from an activity card |
 
 #### 3.4 Offering: Partners and Suppliers
 
@@ -419,22 +420,22 @@ The app unlocks a field only where it is needed, to keep the card quiet.
 
 ### 4. Cost nature, set automatically
 
-The first rule that fits sets the cost nature. The capitalisation limit is the user's own figure.
+The first rule that fits sets the cost nature. The capitalisation limit is the user's own figure. The rules, their order of evaluation, their priority and worked examples are in Part E (sections 1, 3 and 5); this part keeps no second copy. Where this part says "C5" and the like, it means the rule of Part E, section 5:
 
-| No. | When the card | Cost nature |
-|---|---|---|
-| 1 | The cost is dated before the opening date, except a Percentage cost (rule 5) and opening stock (rule 10), which sits outside the contingency base | Counts in the Total Pre-operational Budget: Start-up, or CapEx for an asset. The same card from the opening date follows the other rules. A manual change of cost nature never stops this split |
-| 2 | A supplier's or partner's service (installation, a build, a design) that passes three tests (an identifiable asset, owned or controlled by the company, expected to bring future benefit) and whose card is linked to that asset, whether it is paid before or after the opening | Capitalised: added to the value of the asset it builds or installs, so a machine and its installation are one asset, whoever is paid and whenever. A partner's time, general advice, early research, or a service with no link to an asset is expensed: a Start-up expense before the opening |
-| 3 | A lump sum in Documents & Rights, Platforms & Payments or Revenue Partners: legal documents, an initial operating licence, a set-up fee, a franchise or master licence fee | Pre-operational budget: Start-up expense, or an intangible asset (CapEx) amortised automatically over the period the user sets, typically 5 to 10 years for a franchise or master licence; a franchise bought after the opening is amortised from its purchase date. This rule overrides rule 4: the capitalisation limit never applies to an intangible right |
-| 4 | A purchase, priced Per unit, in a physical asset group (Furniture & Fittings, Devices & Tools, Fixtures & Displays, Production Machinery, Vehicles), or a bought Premises or Workshop & Storage | CapEx when the price of one unit is at or above the capitalisation limit the user sets; below it, OpEx (a Start-up expense before the opening) |
-| 5 | The billing type is Percentage (a commission, a payment, marketplace or delivery-platform fee, a royalty on sales), or the driver is % of Rev | A calculated line in COGS, linked to the revenue it follows, whatever its date: it overrides rule 1, so a fee on pre-sales before the opening is COGS and never charged to the startup fund. If the sale does not take place, it is zero |
-| 6 | A recurring fixed cost (Monthly, Quarterly or Annually) in Infrastructure, or in Offering when rule 7 does not apply; or a Fixed amount: rent, a subscription, an insurance premium, an annual licence, a fixed royalty, a platform's monthly fee | OpEx |
-| 7 | A card in the Offering place with a Per unit or Per project driver, or in Materials, Delivery Team, Delivery Running Costs or Site Hire | COGS |
-| 8 | Employer on-costs, and key-person or health insurance per employee | A calculated line in OpEx, from the gross salaries and the rate in Global Settings |
-| 9 | A repair (a later batch, with actual data): a dated record that links a resource and a Technical Support supplier. In the forecast there is no repair card; the Operational Contingency reservation covers failures | Drawn from the Contingency Fund |
-| 10 | A Materials & Stock card dated before the opening (opening stock) | Opening stock: the cash is a separate line of the cash needed before the opening, labelled as the initial cash outflow for opening inventory (working capital). It is added after the contingency calculation, outside the contingency base, and it is not a Start-up expense. On the first day it becomes Inventory, a current asset, and it reaches COGS only as units are sold, following the sales volume forecast. |
-| 11 | A cost after the opening that no rule above covers: an Infrastructure card with a Per unit or Per project frequency, a One-time Infrastructure cost that is neither an asset nor a lump sum, or a One time Legal Entity expense | OpEx. It keeps the company running and is not related to an offering. In the Offering place the same kinds of cost are COGS (rule 7) |
-| 12 | A pre-launch cost that is not capitalised, not opening stock and not a Percentage cost | A cost dated before the opening that is not capitalised, not opening stock and not a percentage cost is a pre-launch expense. A one-time cost is a Startup Expense (legal and incorporation fees, licences, brand identity and logo, a domain). A monthly or otherwise time-dependent cost is a Pre-Operating Expense (rent during works, pre-launch utilities, salaries of staff hired early, pre-launch marketing). Neither is an asset: both are written off, never capitalised. In the cash flow each falls in the month it occurs; on the income statement they appear as one row in the first operating month, “Accumulated Start-up & Pre-Operating Expenses”, which carries the total of the earlier months. Pre-Operating is the behaviour of a Start-up expense with a Monthly frequency, not a separate type. |
+| Rule | Subject |
+|---|---|
+| C1 | A cost dated before the Opening Date (the Total Pre-operational Budget) |
+| C2 | A supplier's or partner's service that builds or installs an asset (below) |
+| C3 | A lump sum in Documents & Rights, Platforms & Payments or Revenue Partners |
+| C4 | A physical asset purchase against the capitalisation limit |
+| C5 | Billing type Percentage or driver % of Rev |
+| C6, C8 | A recurring fixed cost: OpEx |
+| C7 | An Offering card with a Per unit or Per project driver, or in Materials, Delivery Team, Delivery Running Costs or Site Hire: COGS |
+| C10 | Employer on-costs and key-person or health insurance per employee |
+| C11 | A repair (a later batch) |
+| C14 | Opening stock |
+| C15 | Any other cost after the opening: OpEx |
+| C16 | A pre-launch cost that is not capitalised: Startup or Pre-Operating Expense |
 
 #### Capitalising a supplier's or partner's service
 
@@ -456,9 +457,9 @@ A card in Platforms & Payments, Revenue Partners, Royalties, Insurances or Licen
 
 | Billing type | Cost options | Driver | Routing |
 |---|---|---|---|
-| Percentage | Payment gateway, marketplace or delivery platform, royalty on sales, affiliate or agent commission | The billing type is locked to Percentage; the driver becomes % of Rev | Rule 5: a calculated COGS line linked to the revenue. Zero if no sale |
-| Fixed amount | Commercial property insurance, annual licence, fixed royalty, SaaS platform | The billing type is Fixed amount; the driver is Monthly or Annually | Rule 6: an OpEx line |
-| Lump sum | Upfront franchise fee, legal drafting, set-up fee, initial operating licence | The billing type is Lump sum; the driver is One-time | Rule 3 (or Rule 1 when dated before the opening): a Start-up expense, or an intangible asset amortised automatically |
+| Percentage | Payment gateway, marketplace or delivery platform, royalty on sales, affiliate or agent commission | The billing type is locked to Percentage; the driver becomes % of Rev | C5: a calculated COGS line linked to the revenue. Zero if no sale |
+| Fixed amount | Commercial property insurance, annual licence, fixed royalty, SaaS platform | The billing type is Fixed amount; the driver is Monthly or Annually | C6: an OpEx line |
+| Lump sum | Upfront franchise fee, legal drafting, set-up fee, initial operating licence | The billing type is Lump sum; the driver is One-time | C3 (or C1 when dated before the opening): a Start-up expense, or an intangible asset amortised automatically |
 
 #### Billing type and routing
 
@@ -509,7 +510,7 @@ Global Settings is its own central screen, reached from the main menu or from th
 | Royalty and commission rates | A default rate for each option | Royalties and Revenue Partners; a card may override it for its contract | 5 to 15% royalty; 10 to 20% affiliate |
 | Capitalisation limit | An amount | A one-time purchase: CapEx above it, OpEx below | For example 500 |
 | Default useful life per asset group | Years | The depreciation line, unless the card sets its own | Computers 3, Vehicles 5, Machinery 10 |
-| Opening Date | A date, entered on the Organization tile (Identity) and shown in the Global Settings | Rule 1: the split of every card by period | 1 April |
+| Opening Date | A date, entered on the Organization tile (Identity) and shown in the Global Settings | C1: the split of every card by period | 1 April |
 | Target operating reserve months | A number of months of OpEx | The Operational Contingency Fund | 3 by default; an investor may ask for 6 |
 | Insurance per employee | An amount | The calculated OpEx line for key-person and health cover | An amount a month |
 | Corporate income tax rate | A percentage | The income tax line, calculated on net profit | A rate on profit |
@@ -541,10 +542,7 @@ Global Settings is its own central screen, reached from the main menu or from th
 
 #### Depreciation and amortisation
 
-| Line | Applies to | Formula | Where it appears |
-|---|---|---|---|
-| Depreciation | A card in an asset group whose price is at or above the capitalisation limit | (Cost of the asset + its linked services) ÷ useful life (the card's own, or the default of its group in Global Settings) | A non-cash expense line in the profit and loss; added back in the cash flow, because the cash left when the asset was bought. Depreciation starts at the Opening Date for an asset bought before it (it is kept on the balance sheet, with no income statement effect, until then), and in the month the asset is installed and ready to run for an asset bought after it. It lands in COGS for an asset that helps to make or deliver the offering (the Offering place) and in OpEx for an asset that does not (Infrastructure). An optional End date (a planned sale or retirement) stops the line and removes the asset from the balance sheet. |
-| Amortisation | A Lump sum in Documents & Rights, Platforms & Payments or Revenue Partners (for example an upfront franchise fee) | Lump sum ÷ the amortisation period, which the user always enters | A non-cash expense line, starting at the Opening Date. |
+The formulas, the start of each line and where it lands are rules X1 (depreciation) and X2 (amortisation) in Part E, section 7.
 
 ### 8. Extras: required or optional, and how they combine
 
@@ -617,7 +615,7 @@ Channel categories include Retail & Wholesale, and Referral & Affiliates. A chan
 |---|---|
 | Plan Start | The day the company is established and pre-operational expenses begin (for example 1 January). It is never typed: it is the earlier of the Opening Date's month and the earliest cost, a costed card's or a legal expense's. |
 | Opening Date | A field on the Organization tile: the day the business opens and issues its first receipt (for example 1 April). Its value is stored in the Global Settings store, so the engine can compare it with the start date of every card. The gap between the two defines the pre-operational period. |
-| Start date of a card | A Calendar straight after the card's name. Required on every card. Rule 1 puts any cost dated before the Opening Date in the Total Pre-operational Budget. |
+| Start date of a card | A Calendar straight after the card's name. Required on every card. C1 puts any cost dated before the Opening Date in the Total Pre-operational Budget. |
 | End date of a card | A Calendar. Always optional. A lease or subscription that ends in month 6 stops its OpEx from that month. With the start date it splits a card by period. |
 
 A card that starts before the opening and continues after it splits by date: its early months count in the pre-operational budget and its later months are OpEx or COGS. The lengths of pre-launch and launch are information, not a rule.
@@ -666,13 +664,9 @@ A card with a Per project driver has a Payment Plan tick box, placed after the d
 | Opening Inventory | The cash for opening stock, added after the contingency | Balance sheet: a current asset |
 | Cash to raise before the opening | Budget + contingency + opening inventory |  |
 
-#### Startup Contingency Fund
+#### The two contingency funds
 
-10 to 15% of the Total Pre-operational Budget, which adds CapEx, Startup Expenses and Pre-Operating Expenses. The cash for opening inventory is added after the contingency calculation, as a flat line outside the base. Example: CapEx 30,000, pre-operational expenses 5,000 and fixed costs 9,000 give 44,000, so the fund is 4,400 at 10% and 6,600 at 15%. It is already held when operations start.
-
-#### Operational Contingency Fund
-
-After launch, each month 3 to 5% of OpEx is added on top of the startup fund, until the total fund equals the target reserve months of OpEx (3 by default, a setting in Global Settings). The contribution is a cash set-aside, not an expense. Months to reach the target = (target months × monthly OpEx − startup fund) ÷ (rate × monthly OpEx). If the startup fund already equals the target, no contribution is made. A repair becomes an expense when it happens and the fund pays it; the contribution then restarts until the target is reached again. Stock loss and spoilage are covered by the fund.
+The Startup Contingency Fund (10 to 15% of the Total Pre-operational Budget, with its worked example) and the Operational Contingency Fund (3 to 5% of OpEx each month on top of it, up to the target reserve months, 3 by default, a setting in Global Settings) are rules F1 to F6 of Part E, section 8, with the formula for the months to reach the target, the use of the fund for a repair or a stock loss, and the cash to raise before the opening. In months, with a monthly OpEx of 4,000 and a target of 12,000:
 
 | Monthly OpEx 4,000, target 12,000 | At 3% a month (120) | At 5% a month (200) | At 10% a month (400) |
 |---|---|---|---|
@@ -778,7 +772,7 @@ The user never chooses fixed, variable, semi-variable or step.
 | X5 | Royalties and partner commissions | Revenue of the product, link or contracts × the rate (the default in Global Settings, or the card's override). | 40,000 × 10% = 4,000 in COGS. |
 | X6 | Minimum order, as a floor | Each month, the demand is first met from stock carried over. If a purchase is still needed and the net volume is below the minimum, the month's COGS and cash use the minimum. The excess is carried over as inventory to the next month, and reduces that month's demand before the floor is checked again. No purchase is made when stock covers the demand. | Minimum 500 at 2. Month 1: demand 300, buy 500 (1,000), carry 200. Month 2: demand 300, 200 from stock, net 100 is below the floor, buy 500 (1,000), carry 400. Month 3: demand 300 from stock, buy none (0). |
 | X7 | Customs duty | Customs value (goods + shipping + insurance) × the duty rate of the tariff code. Clearance and other duties are added. | Customs value 1,100 × 5% = 55. Import VAT of 231 is a later batch. |
-| X8 | Quantity | Total = Qty × price. Qty is optional on resource cards, placed before the price: whole numbers, with decimals only when the unit is hour, metre, litre or kWh; a new card starts at 1. A Per unit frequency needs a unit name. A % of Rev frequency does not use Qty. | 3 laptops at 1,000 = 3,000. |
+| X8 | Quantity | Total = Qty × price. The rules for Qty (optional on resource cards, whole numbers, a new card starts at 1, the unit name, % of Rev) are in Part D, section 2, "Quantity and the driver". | 3 laptops at 1,000 = 3,000. |
 | X9 | Payment plan | A Per project card with the Payment Plan ticked splits its price by the plan; the percentages total 100% and each payment has a date. Unticked, the price is paid in full on the Start date. The plan moves the cash, not the cost. | 2,000 on a 50/50 plan: 1,000 at the start and 1,000 on delivery. |
 | X10 | Currency, and monthly and yearly equivalents | The currency follows the Legal Entity country. Monthly equivalent: monthly as entered, quarterly ÷ 3, annually ÷ 12; yearly is × 12. The smoothing allows OpEx to be compared month by month and feeds the target reserve months. Per unit, per project and % of Rev are scheduled by the forecast from the sales volume. | Quarterly 120 is 40 a month; annually 1,200 is 100 a month. |
 | X11 | Inventory | Opening stock enters the balance sheet on the first day as a current asset; each month the cost of the units sold (the sales volume forecast × the unit cost) moves from Inventory to COGS. Stock bought after the opening follows the same flow; the minimum order carry-over of X6 is part of it. | Stock of 8,000; 3,000 sold in month 1: 3,000 in COGS, 5,000 left in Inventory. |
@@ -837,21 +831,13 @@ The user never chooses fixed, variable, semi-variable or step.
 
 ### 12. Capitalising a supplier's or partner's service
 
-A service is recorded as an asset only when it passes three tests: **identifiability** (it results in a specific, identifiable resource, such as a machine, a software code repository or a trade mark), **control** (the company owns or controls the result, for example it owns the code the supplier wrote) and **future economic benefit** (the result is expected to bring revenue or savings once operations begin). A partner's time or general advice cannot be capitalised: it is an expense, a Start-up expense before the opening.
-
-**The link decides.** A supplier or partner service is capitalised only when its card is linked to the asset it builds or installs (the asset card has the status Costs or Buy and a Partners & Suppliers status row naming that supplier). The link is the only data: there is no category tag and no purpose field. A linked service is bundled into the asset whatever its own invoice size, even 50, because the capitalisation limit is tested on the asset's combined cost (a machine of 20,000 and an installation of 1,500 are one asset of 21,500). A service that is not linked is never capitalised: it is a Start-up expense before the opening and OpEx after it, so for it the limit changes nothing. The service card shows no Useful life and no capitalisation limit: it needs only the link.
-
-The amount also decides:
-
-- **Materiality.** The limit is tested on the combined cost of the asset, never on the invoice of a linked service.
-- **Research and development.** Payments for brainstorming, concepts or testing alternatives are expensed, however large. Once the work is technically feasible and builds the actual asset (a final prototype, production-ready software), the user links it to that asset and it is capitalised with it.
-- **Combined costs.** When one payment covers a service and an asset (a machine of 20,000 and the technician's installation), the service is linked to the asset and added to its value: the whole amount is capitalised. The value for depreciation is the sum: an oven of 4,000 and an electrician's installation of 800 give 4,800, depreciated together over the oven's useful life.
+The three tests (identifiability, control, future economic benefit), the rule that the link decides, and the points on materiality, research and development and combined costs are written once, in Part D, section 4, "Capitalising a supplier's or partner's service". The rule is C2 above.
 
 ## Part F. Card structure: what the user can reach in each card, and why
 
 Each card is described on its own, by place, section, category and group, from the top row to the bottom row.
 
-> **How to read an entry.** The title gives the path. **Purpose** is the help text of the group. The strip gives the frequencies, extras and links. In the table, one row is one line of the card on screen, and the fields that sit side by side on that line are listed together, left to right. **Field** is the element of the row; **Label shown** is the text written beside it on the card. **Action** is what the user does (type, select, tick, pick a date, click, or none). **Function** is the control (text box, dropdown, number box, Calendar, checkbox, button, read-only text). **Status** is coloured: **Required** (red) means the user has to act (type, select) to complete the card; **Optional** (orange) means the card is complete without it; **Automatic** (green) means the app fills it, so the user does nothing; a **Button** (grey) is an action and is neither required nor optional. A field that appears only in some cases says so in its description. **General rule:** a dropdown with only one option is not a dropdown: the option is shown as text (Group, Frequency). A Frequency of One-time is implied and is not shown at all. Below each table, **Behind the scenes** shows the behaviour and cost nature the engine gives the card; they are hidden from the user and estimated from the rules. A card linked to another by choosing it from a dropdown shows the link symbol 🔗 beside the name; a card generated by another card has no symbol, and its name is the link. A link is never required.
+> **How to read an entry.** The title gives the path. The help text of the group (the "i" text) is in Part D, section 3 (column "What the user writes") and is not repeated here. The strip gives the frequencies, extras and links. In the table, one row is one line of the card on screen, and the fields that sit side by side on that line are listed together, left to right. **Field** is the element of the row; **Label shown** is the text written beside it on the card. **Action** is what the user does (type, select, tick, pick a date, click, or none). **Function** is the control (text box, dropdown, number box, Calendar, checkbox, button, read-only text). **Status** is coloured: **Required** (red) means the user has to act (type, select) to complete the card; **Optional** (orange) means the card is complete without it; **Automatic** (green) means the app fills it, so the user does nothing; a **Button** (grey) is an action and is neither required nor optional. A field that appears only in some cases says so in its description. **General rule:** a dropdown with only one option is not a dropdown: the option is shown as text (Group, Frequency). A Frequency of One-time is implied and is not shown at all. Below each table, **Behind the scenes** shows the behaviour and cost nature the engine gives the card; they are hidden from the user and estimated from the rules. A card linked to another by choosing it from a dropdown shows the link symbol 🔗 beside the name; a card generated by another card has no symbol, and its name is the link. A link is never required.
 
 ### Display rules
 
@@ -889,8 +875,6 @@ Each card is described on its own, by place, section, category and group, from t
 
 ##### Infrastructure > Resources > Workspace > Premises
 
-**Purpose:** The space where the team works, owned, rented through a landlord or at home, e.g. Studio rent, Shared-space seat, Home-office allowance, Owned office.
-
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
 | One-time | Commercial property tax (when bought); Service charge (when bought) | a rented space uses the status Partners & Suppliers with a supplier in Property, Vehicles & Facilities, which holds the rent and its extras; an Insurances card is generated |
@@ -922,8 +906,6 @@ Rented (status Partners & Suppliers): the cost sits on the supplier's card. Boug
 
 ##### Infrastructure > Resources > Utilities > Premises Utilities
 
-**Purpose:** The services the daily operation consumes, e.g. Electricity, Gas heating, Broadband line, Mobile plan.
-
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
 | Monthly | None | Premises |
@@ -950,8 +932,6 @@ Rented (status Partners & Suppliers): the cost sits on the supplier's card. Boug
 #### Category: Workstation
 
 ##### Infrastructure > Resources > Workstation > Furniture & Fittings
-
-**Purpose:** The furniture and fittings of the work areas, e.g. Standing desk, Drawing table, Ergonomic chair, Filing cabinet.
 
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
@@ -982,8 +962,6 @@ Rented (status Partners & Suppliers): the cost sits on the supplier's card. Boug
 #### Category: Equipment
 
 ##### Infrastructure > Resources > Equipment > Devices & Tools
-
-**Purpose:** The devices and tools the team uses for its own work, bought or leased, e.g. Laptop, Label printer, Mirrorless camera, Vehicle tracker, Protective goggles.
 
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
@@ -1017,8 +995,6 @@ Rented (status Partners & Suppliers): the cost sits on the supplier's card. Boug
 
 ##### Infrastructure > Resources > Vehicles > Company Vehicles
 
-**Purpose:** Cars and bikes the company owns or leases for general use, e.g. Sales car, Cargo bike, Minibus lease.
-
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
 | Per unit | Road tax (when bought) | a leased vehicle uses the status Partners & Suppliers with a supplier in Property, Vehicles & Facilities, which holds the lease; an Insurances card is generated |
@@ -1050,8 +1026,6 @@ Leased (status Partners & Suppliers): the cost sits on the supplier's card, as a
 
 ##### Infrastructure > Resources > Vehicles > Vehicle Running Costs
 
-**Purpose:** Fuel and the everyday running costs of company vehicles, e.g. Petrol, Electric charging, Car wash, Washer fluid.
-
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
 | Per unit, Monthly | None | the vehicle |
@@ -1080,8 +1054,6 @@ Leased (status Partners & Suppliers): the cost sits on the supplier's card, as a
 
 ##### Infrastructure > Resources > Digital Infrastructure > Software & Web
 
-**Purpose:** Software subscriptions and the public website, e.g. Bookkeeping software, Company website, Shared mailbox, Fleet tracking.
-
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
 | Per unit, Monthly, Annually | None | Creative & IT Services for building |
@@ -1109,8 +1081,6 @@ Leased (status Partners & Suppliers): the cost sits on the supplier's card, as a
 
 ##### Infrastructure > Resources > Digital Infrastructure > Cloud & Security
 
-**Purpose:** Storage, back-up and protection of files and data, e.g. Cloud drive, Nightly back-up, Password vault, Antivirus.
-
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
 | Monthly | None | Software & Web |
@@ -1137,8 +1107,6 @@ Leased (status Partners & Suppliers): the cost sits on the supplier's card, as a
 #### Category: Materials & Inventory
 
 ##### Infrastructure > Resources > Materials & Inventory > Business Consumables
-
-**Purpose:** Everyday items the business uses up and replaces, e.g. Copy paper, Dish soap, Coffee beans.
 
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
@@ -1168,8 +1136,6 @@ Leased (status Partners & Suppliers): the cost sits on the supplier's card, as a
 
 ##### Infrastructure > Resources > Documents & Rights > Insurances
 
-**Purpose:** Policies that cover the company's liability, premises and people, e.g. Public liability, Cyber, Key person, Directors and officers.
-
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
 | Annually, Monthly | Cost option and billing type | Generated by vehicles, premises and assets; the insurer is a Business Services supplier |
@@ -1196,8 +1162,6 @@ Leased (status Partners & Suppliers): the cost sits on the supplier's card, as a
 | Monthly | Fixed | OpEx | Pre-Operating Expense (time-dependent): written off, never capitalised |
 
 ##### Infrastructure > Resources > Documents & Rights > Licences
-
-**Purpose:** Paid permissions: the right to use another's work and permits from authorities, e.g. Stock photo licence, Typeface rights, Image library, Staff parking permit.
 
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
@@ -1227,8 +1191,6 @@ Leased (status Partners & Suppliers): the cost sits on the supplier's card, as a
 
 ##### Infrastructure > Resources > Documents & Rights > Certificates
 
-**Purpose:** Certificates and inspections of the premises and the team, e.g. Gas safety certificate, Fire-risk assessment, First-aid award, Energy rating.
-
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
 | One-time, Annually | None | Technical Support for inspections. Inputs: issued by, valid until, outcome |
@@ -1254,8 +1216,6 @@ Leased (status Partners & Suppliers): the cost sits on the supplier's card, as a
 | Annually | Fixed | OpEx | Pre-Operating Expense (time-dependent): written off, never capitalised |
 
 ##### Infrastructure > Resources > Documents & Rights > Tickets & Trip Costs
-
-**Purpose:** The fares and stops of trips that serve the whole company, e.g. Conference train fare, Hotel for a seminar, Airport taxi, Car park.
 
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
@@ -1289,8 +1249,6 @@ Leased (status Partners & Suppliers): the cost sits on the supplier's card, as a
 
 ##### Infrastructure > Resources > Human Resources > Admin Team
 
-**Purpose:** Staff and helpers who handle the company's administration, e.g. Operations manager, Bookkeeper, Receptionist, Intern.
-
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
 | Monthly | Commission; Bonus | None |
@@ -1318,8 +1276,6 @@ Leased (status Partners & Suppliers): the cost sits on the supplier's card, as a
 | Monthly | Fixed | OpEx | Pre-Operating Expense (time-dependent): written off, never capitalised |
 
 ##### Infrastructure > Resources > Human Resources > Founders & Owners (the Founders tile)
-
-**Purpose:** Owners who work in the company and draw pay from it, e.g. Founder salary, Part-time director fee.
 
 | # | Field, left to right | Label shown | Action | Function | Status | What it contains | Why |
 |---|---|---|---|---|---|---|---|
@@ -1386,8 +1342,6 @@ The activity card carries no cost and no cost nature, and no card takes its cost
 
 ##### Infrastructure > Partners > Alliances & Networks > Alliances & Networks
 
-**Purpose:** Organisations you join for the benefit of the whole company, e.g. Trade association, Buying group, Start-up accelerator, Producers cooperative.
-
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
 | Annually | None | None |
@@ -1411,8 +1365,6 @@ The activity card carries no cost and no cost nature, and no card takes its cost
 
 ##### Infrastructure > Suppliers > Goods & Equipment > Goods & Equipment
 
-**Purpose:** Sellers of furniture, devices and consumables for the company, e.g. Furniture dealer, Stationery merchant, Computer reseller, Water-cooler rental.
-
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
 | Per unit | None | Furniture & Fittings, Devices & Tools, Business Consumables |
@@ -1433,8 +1385,6 @@ The activity card carries no cost and no cost nature, and no card takes its cost
 | Per unit | Variable | OpEx (a company running cost, not related to an offering) | Startup Expense (one-time): written off, never capitalised |
 
 ##### Infrastructure > Suppliers > Business Services > Business Services
-
-**Purpose:** Firms that run the administrative side, e.g. Accountant, Lawyer, Insurance broker, Payroll bureau, Business bank, Web host.
 
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
@@ -1462,8 +1412,6 @@ The activity card carries no cost and no cost nature, and no card takes its cost
 | Per project | Variable (grows with the number of jobs) | OpEx (a company running cost, not related to an offering) | Startup Expense (one-time): written off, never capitalised |
 
 ##### Infrastructure > Suppliers > Creative & IT Services > Creative & IT Services
-
-**Purpose:** Freelancers and small agencies for design, branding, content or technology work, e.g. Web builder, Brand identity house, Photographer, IT support, Copywriter.
 
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
@@ -1493,8 +1441,6 @@ A build that results in an identifiable asset the company owns (a website, code)
 
 ##### Infrastructure > Suppliers > Property, Vehicles & Facilities > Property, Vehicles & Facilities
 
-**Purpose:** Owners and caretakers of the premises, and lessors of vehicles, e.g. Landlord, Coworking operator, Cleaner, Vehicle lessor.
-
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
 | Monthly | Deposit; Service charge; Commercial property tax; Road tax (by what is connected) | holds the rent of a rented Premises card, or the lease of a Company Vehicles card, and shows the link to it |
@@ -1519,8 +1465,6 @@ A build that results in an identifiable asset the company owns (a website, code)
 | Monthly | Fixed | OpEx | Pre-Operating Expense (time-dependent): written off, never capitalised |
 
 ##### Infrastructure > Suppliers > Technical Support > Technical Support
-
-**Purpose:** Outsourced technicians who maintain, repair and install the company's assets, e.g. Electrical engineer, Plumber, Boiler fitter, Network cabling. An installation is linked to the asset it installs.
 
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
@@ -1547,7 +1491,7 @@ A build that results in an identifiable asset the company owns (a website, code)
 | Per unit | Variable | OpEx (a company running cost, not related to an offering) | Startup Expense (one-time): written off, never capitalised |
 | Annually | Fixed | OpEx | Pre-Operating Expense (time-dependent): written off, never capitalised |
 
-A service that builds or installs an asset (a machine and its installation) passes the three tests and is added to the asset's value when the amount is at or above the capitalisation limit; time, advice or research is expensed. Before the opening it is a Start-up expense; after it, OpEx.
+A service that builds or installs an asset (a machine and its installation) passes the three tests and, when its card is linked to that asset, is added to the asset's value whatever its own amount (Part D, section 4); a service that is not linked, and time, advice or research, is expensed: a Start-up expense before the opening, OpEx after it.
 
 ### Offering
 
@@ -1556,8 +1500,6 @@ A service that builds or installs an asset (a machine and its installation) pass
 #### Category: Workspace
 
 ##### Offering > Resources > Workspace > Site Hire
-
-**Purpose:** The site rented for one event or job, e.g. Market pitch fee, Stand levy, Marquee frame, Rehearsal room slot.
 
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
@@ -1588,8 +1530,6 @@ A service that builds or installs an asset (a machine and its installation) pass
 | Per project | Step (a job-sized amount) | COGS | Startup Expense (one-time): written off, never capitalised |
 
 ##### Offering > Resources > Workspace > Workshop & Storage
-
-**Purpose:** The permanent base where the product is made or stored, e.g. Warehouse bay, Container yard, Shared-kitchen membership, Chiller space.
 
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
@@ -1623,8 +1563,6 @@ Rented (status Partners & Suppliers): the cost sits on the supplier's card. Boug
 
 ##### Offering > Resources > Utilities > Process Utilities
 
-**Purpose:** The energy, water and waste services that production consumes, e.g. Firing power, Rinse water, Chemical disposal.
-
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
 | Per unit | None | Workshop & Storage |
@@ -1652,8 +1590,6 @@ Rented (status Partners & Suppliers): the cost sits on the supplier's card. Boug
 #### Category: Workstation
 
 ##### Offering > Resources > Workstation > Fixtures & Displays
-
-**Purpose:** Fixed installations in your premises for making or showing the product, e.g. Workbench, Pallet racking, Showcase shelves, Sign board.
 
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
@@ -1686,8 +1622,6 @@ Rented (status Partners & Suppliers): the cost sits on the supplier's card. Boug
 
 ##### Offering > Resources > Equipment > Production Machinery
 
-**Purpose:** Machines that turn raw materials into finished goods, e.g. Floor loom, Industrial oven, Laser cutter.
-
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
 | Per unit | None | its installation is a Technical Support supplier card; an Insurances card is generated |
@@ -1717,8 +1651,6 @@ Rented (status Partners & Suppliers): the cost sits on the supplier's card. Boug
 **Depreciation:** Starts at the Opening Date for an asset bought before it, and in the month the asset is installed and ready to run for an asset bought after it. It lands in COGS, because the asset helps to make or deliver the offering.
 
 ##### Offering > Resources > Equipment > Devices & Tools
-
-**Purpose:** The tools, instruments and gear used to make or deliver the offering, besides its machines, e.g. Card reader, Stall display kit, Tripod rig, Hard hat, Moisture meter.
 
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
@@ -1753,8 +1685,6 @@ Rented (status Partners & Suppliers): the cost sits on the supplier's card. Boug
 
 ##### Offering > Resources > Vehicles > Delivery Vehicles
 
-**Purpose:** Vans and trucks that carry or install the product, e.g. Transit van, Refrigerated truck, Short-term hire.
-
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
 | Per unit | Road tax (when bought) | a leased vehicle uses the status Partners & Suppliers with a supplier in Landlords, Leasing & Warehouses, which holds the lease; an Insurances card is generated |
@@ -1787,8 +1717,6 @@ Leased (status Partners & Suppliers): the cost sits on the supplier's card. Boug
 
 ##### Offering > Resources > Vehicles > Delivery Running Costs
 
-**Purpose:** Fuel and the everyday running costs of delivery vehicles, e.g. Diesel, AdBlue, Van valet, Windscreen cleaner.
-
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
 | Per unit | None | Delivery Vehicles |
@@ -1817,8 +1745,6 @@ Leased (status Partners & Suppliers): the cost sits on the supplier's card. Boug
 
 ##### Offering > Resources > Digital Infrastructure > Sales & Delivery Tools
 
-**Purpose:** Software that takes orders, bookings and payments, then delivers the result, e.g. Web shop, Booking app, Newsletter tool, File transfer.
-
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
 | Monthly, Annually | None | channel template T1 creates this card |
@@ -1845,8 +1771,6 @@ Leased (status Partners & Suppliers): the cost sits on the supplier's card. Boug
 | Annually | Fixed | OpEx | Pre-Operating Expense (time-dependent): written off, never capitalised |
 
 ##### Offering > Resources > Digital Infrastructure > Platforms & APIs
-
-**Purpose:** Online services your product calls, billed per use, e.g. AI text service, Maps lookup, Address check, Speech transcription.
 
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
@@ -1876,8 +1800,6 @@ Leased (status Partners & Suppliers): the cost sits on the supplier's card. Boug
 
 ##### Offering > Resources > Materials & Inventory > Materials & Stock
 
-**Purpose:** The materials, parts, packaging and resale goods that each sale uses, e.g. Yarn, Brass fittings, Mailer boxes, Gift wrap, Sample swatches, Resale mugs.
-
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
 | Per unit | None | channel template T8 creates this card for packaging and samples |
@@ -1905,8 +1827,6 @@ Leased (status Partners & Suppliers): the cost sits on the supplier's card. Boug
 #### Category: Documents & Rights
 
 ##### Offering > Resources > Documents & Rights > Insurances
-
-**Purpose:** Policies that cover products, jobs and events, e.g. Product recall, Carriage of goods, Event cancellation, Customer default.
 
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
@@ -1940,8 +1860,6 @@ Leased (status Partners & Suppliers): the cost sits on the supplier's card. Boug
 
 ##### Offering > Resources > Documents & Rights > Licences
 
-**Purpose:** Paid permissions for the offering: the right to use another's work and permits from authorities, e.g. Licensed artwork, Backing track, Patented method, Parking-bay suspension.
-
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
 | One-time, Annually, Per unit | Cost option and billing type | None |
@@ -1970,8 +1888,6 @@ Leased (status Partners & Suppliers): the cost sits on the supplier's card. Boug
 | Per unit | Variable | COGS | Startup Expense (one-time): written off, never capitalised |
 
 ##### Offering > Resources > Documents & Rights > Royalties
-
-**Purpose:** Payments that follow the sales or use of another's creation, e.g. Author royalty, Franchise percentage, Patent share, Master-rights split.
 
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
@@ -2005,8 +1921,6 @@ Leased (status Partners & Suppliers): the cost sits on the supplier's card. Boug
 
 ##### Offering > Resources > Documents & Rights > Certificates
 
-**Purpose:** Certificates, inspections and the tests behind them, needed to sell or use an offering, e.g. CE-mark testing, Organic certification, Flame trial, Food-safety swab.
-
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
 | Per project, Annually | None | Accreditation Bodies. Inputs: issued by, valid until, outcome (certificate, test report, permit) |
@@ -2037,8 +1951,6 @@ Leased (status Partners & Suppliers): the cost sits on the supplier's card. Boug
 | Annually | Fixed | OpEx | Pre-Operating Expense (time-dependent): written off, never capitalised |
 
 ##### Offering > Resources > Documents & Rights > Tickets & Trip Costs
-
-**Purpose:** The fares, stops and tolls of trips that the work requires, e.g. Coach ticket, Ferry crossing, Toll bridge, Loading-bay fee.
 
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
@@ -2072,8 +1984,6 @@ Leased (status Partners & Suppliers): the cost sits on the supplier's card. Boug
 #### Category: Human Resources
 
 ##### Offering > Resources > Human Resources > Delivery Team
-
-**Purpose:** The people who make the product or serve the customer, e.g. Weaver, Instructor, Installer, Barista.
 
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
@@ -2172,8 +2082,6 @@ The activity card carries no cost and no cost nature, and no card takes its cost
 
 ##### Offering > Partners > Revenue Partners > Revenue Partners
 
-**Purpose:** Parties who sell for you or send customers, and take a cut of each sale, e.g. Boutique stockist, Distributor, Referral partner, Affiliate blogger, Co-teacher.
-
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
 | % of Rev, Per project | Cost option and billing type | created by channel template T10 |
@@ -2203,8 +2111,6 @@ The activity card carries no cost and no cost nature, and no card takes its cost
 
 ##### Offering > Partners > Accreditation Bodies > Accreditation Bodies
 
-**Purpose:** Bodies whose approval gives your work credibility, e.g. Weavers' guild, Craft standards panel, Culinary institute.
-
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
 | Annually | None | assessments and audits are Certificates cards |
@@ -2228,8 +2134,6 @@ The activity card carries no cost and no cost nature, and no card takes its cost
 #### Suppliers
 
 ##### Offering > Suppliers > Producers & Wholesalers > Producers & Wholesalers
-
-**Purpose:** Producers and wholesalers that sell the materials and parts in the product, e.g. Wool mill, Box maker, Fabric importer, Flour miller.
 
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
@@ -2257,8 +2161,6 @@ The activity card carries no cost and no cost nature, and no card takes its cost
 
 ##### Offering > Suppliers > Logistics & Fulfilment > Logistics & Fulfilment
 
-**Purpose:** Carriers and warehouses that deliver orders to buyers, e.g. Courier, National post, Fulfilment centre, Freight forwarder.
-
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
 | Per unit, Monthly | Cost options, one per card | created by channel template T9 with the price blank |
@@ -2284,8 +2186,6 @@ The activity card carries no cost and no cost nature, and no card takes its cost
 Semi-variable when a percentage and a fixed part are both present on the card.
 
 ##### Offering > Suppliers > Contractors & Advisers > Contractors & Advisers
-
-**Purpose:** Outsourced specialists who do part of an offering's job or guide it, e.g. Dye works, Freelance developer, Product-safety adviser, Electrician.
 
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
@@ -2313,8 +2213,6 @@ Semi-variable when a percentage and a fixed part are both present on the card.
 | Per unit | Variable | COGS | Startup Expense (one-time): written off, never capitalised |
 
 ##### Offering > Suppliers > Agencies & Influencers > Agencies & Influencers
-
-**Purpose:** Firms and creators paid to spread the word, e.g. Marketing agency, Instagram creator, Poster press, Podcast sponsor.
 
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
@@ -2344,8 +2242,6 @@ Semi-variable when a percentage and a fixed part are both present on the card.
 
 ##### Offering > Suppliers > Venues & Organisers > Venues & Organisers
 
-**Purpose:** Hosts of the places and events where you sell, e.g. Fair organiser, Exhibition hall, Show promoter.
-
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
 | Per project | None | Site Hire |
@@ -2371,8 +2267,6 @@ Semi-variable when a percentage and a fixed part are both present on the card.
 | Per project | Step (a job-sized amount) | COGS | Startup Expense (one-time): written off, never capitalised |
 
 ##### Offering > Suppliers > Landlords, Leasing & Warehouses > Landlords, Leasing & Warehouses
-
-**Purpose:** Owners of premises used for making or storing stock, and lessors of vehicles, e.g. Estate owner, Depot firm, Chilled-storage outfit, Van lessor.
 
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
@@ -2400,8 +2294,6 @@ Semi-variable when a percentage and a fixed part are both present on the card.
 | Monthly | Fixed | OpEx | Pre-Operating Expense (time-dependent): written off, never capitalised |
 
 ##### Offering > Suppliers > Platforms & Payments > Platforms & Payments
-
-**Purpose:** Intermediaries between you and the customer who charge a fee, e.g. Online marketplace, Payment processor, App store, Reservation portal.
 
 | Frequencies offered | Extras or options | Links and generated cards |
 |---|---|---|
@@ -2442,21 +2334,7 @@ The app has no per-template cards yet: the only generator on page 2 is the “+ 
 
 #### What the templates below would add
 
-A card made from a channel template would have the layout of its group's card above. It would differ only in two ways: its price is blank, so it is incomplete until priced, and it carries a link to the channel and its actions, with the channel's colour. The user can also create the same card directly, with no channel at all: the channel link is an extra, not a condition. The link to the channel is shown as the link symbol 🔗 beside the name, like every other link.
-
-| No. | Template | Group whose card layout it uses |
-|---|---|---|
-| T1 | Platform or tool subscription | Offering > Resources > Digital Infrastructure > Sales & Delivery Tools |
-| T2 | Payment processing fees | Offering > Suppliers > Platforms & Payments |
-| T3 | Marketplace fees and commission | Offering > Suppliers > Platforms & Payments |
-| T4 | Ads and influencers | Offering > Suppliers > Agencies & Influencers |
-| T5 | Stall, pitch, stand or event fee | Offering > Resources > Workspace > Site Hire |
-| T6 | Display kit or hardware | Offering > Resources > Equipment > Devices & Tools |
-| T7 | Travel and van hire | Offering > Resources > Documents & Rights > Tickets & Trip Costs; Offering > Resources > Vehicles > Delivery Vehicles |
-| T8 | Packaging and samples | Offering > Resources > Materials & Inventory > Materials & Stock |
-| T9 | Courier, postal, fulfilment | Offering > Suppliers > Logistics & Fulfilment |
-| T10 | Referral or reseller commission | Offering > Partners > Revenue Partners |
-| T12 | Event or transit insurance | Offering > Resources > Documents & Rights > Insurances |
+A card made from a channel template would have the layout of its group's card above. It would differ only in two ways: its price is blank, so it is incomplete until priced, and it carries a link to the channel and its actions, with the channel's colour. The user can also create the same card directly, with no channel at all: the channel link is an extra, not a condition. The link to the channel is shown as the link symbol 🔗 beside the name, like every other link. The templates T1 to T12 (T11 is not used), the group each one uses and its drivers are in Part D, section 11.
 
 ### Legal Entity expense card
 
@@ -2547,9 +2425,9 @@ A performer is a founder, then a partner or supplier of the same place. A resour
 
 ## Part G. Card access by type: principles and access of each field
 
-*Written from version 25 of the specification on 2026-10-08. Part F is later and prevails where they differ.*
+*Written from version 25 of the specification on 2026-10-08 and corrected on 2026-10-29 against Parts D and F and the code. Part F prevails where they differ.*
 
-From the decided specification, version 25. Nothing is changed in the app. Colours: red = required, green = automatic, blue-grey = shown, orange = optional, grey = hidden.
+The four principles and, for each kind of card, why a field is shown, required or hidden. The fields themselves, row by row, are in Part F. Colours: red = required, green = automatic, blue-grey = shown, orange = optional, grey = hidden.
 
 > **Four principles.** (1) A field is shown only when the engine needs it to calculate. (2) Anything that can be calculated moves to Global Settings or the financial foundation, so the user types only basic numbers. (3) A field is required when the engine cannot place the cost without it. (4) Everything else is hidden, so a card stays quiet.
 
@@ -2563,16 +2441,15 @@ From the decided specification, version 25. Nothing is changed in the app. Colou
 | Price | Required (at Costs) | A card without a price is incomplete: it shows the red glow and is not counted anywhere. |
 | Currency | Automatic, editable | It follows the country of the Legal Entity, so the user rarely touches it. |
 | Quantity | Shown, starts at 1 | It is the number of objects or people, or the units of a Per unit driver. It is read-only when the driver is % of Rev, because the calculation follows revenue. |
-| Driver | Required | One of the 8 drivers. Locked when a billing type or cost option sets it (for example a payment gateway is always % of Rev). |
+| Driver | Required | One of the 7 drivers. Locked when a billing type or cost option sets it (for example a payment gateway is always % of Rev). |
 | Unit name | Required for Per unit | Quantity × price is meaningless without the unit (kg, km, kWh, seat, order). |
 | Behaviour | Automatic | Fixed, variable, semi-variable or step is worked out from the driver and the billing type, so the user never chooses it. |
-| Cost nature | Automatic, editable | Start-up, CapEx, OpEx or COGS is set by the 11 rules from place, group, driver, date and purchase or lease. The user may correct it. |
+| Cost nature | Automatic, editable | Start-up, CapEx, OpEx or COGS is set by the rules of Part E, section 5 from place, group, driver, date and purchase or lease. The user may correct it. |
 | Start date | Required if the cost falls before the Opening Date | The engine cannot place a cost in the pre-operational budget, or in a month of the cash flow, without it. |
 | End date | Optional | A lease or subscription that ends in month 6 stops its cost; a planned sale stops depreciation. |
 | Payment plan | Shown for Per project | It sets when the money leaves (full, deposit and balance, instalments, milestones). The percentages must total 100% or the card shows the red glow. |
 | Linked offerings | Optional | It lets All Tiles and the Financial Foundation attribute the cost to an offering. |
 | Linked actions | Optional | It ties the card to the actions of a channel or a journey stage. |
-| Key flag | Optional | It marks a card the business cannot run without. |
 
 ### 2. What changes by card
 
@@ -2584,17 +2461,17 @@ From the decided specification, version 25. Nothing is changed in the app. Colou
 | Warranty checkbox, and Warranty until | Shown on Equipment cards only (Devices & Tools, Production Machinery) | Information only: it shows how long the warranty lasts and locks nothing. |
 | Supplier link | Optional | It names the seller; Technical Support is linked through an activity card, not here. |
 | Extras | Road tax on vehicles only | Road tax depends on the one vehicle. Insurance is a generated Insurances card, not an extra. |
-| Billing type, rate override, customs fields, Held as | Hidden | None of them applies to a purchased or leased asset. |
+| Billing type, rate override, customs fields | Hidden | None of them applies to a purchased or leased asset. |
 
 #### B. Premises (Infrastructure) and Workshop & Storage (Offering)
 
 | Field | Access | Why |
 |---|---|---|
-| Held as | Required | Rent, Own or Home decides where the cost sits and how it is routed. |
+| Status | Required | Rent or Buy decides where the cost sits and how it is routed. |
 | Landlord link | Required when Rent | The landlord Supplier holds the rent, the deposit, the commercial property tax and the service charge, so the workspace card stays clean. |
-| Price | Shown when Own or Home | Own is a one-time purchase routed to CapEx; Home is an allowance. When Rent, the price is on the landlord card. |
-| Useful life | Shown when Own | An owned building is an asset that depreciates. |
-| Extras | Commercial property tax and service charge when Own; Handling per pallet on Workshop & Storage | They depend on this one place. When Rent they sit on the landlord. |
+| Price | Shown when Buy | A purchase is one-time and routed to CapEx. When Rent, the price is on the landlord card. |
+| Useful life | Shown when Buy | A bought building is an asset that depreciates. |
+| Extras | Commercial property tax and service charge when bought; Handling per pallet on Workshop & Storage | They depend on this one place. When Rent they sit on the landlord. |
 | Deposit | Hidden | A deposit exists only with a rent, so it is on the landlord card. |
 
 #### C. Site Hire (Offering)
@@ -2605,7 +2482,7 @@ From the decided specification, version 25. Nothing is changed in the app. Colou
 | Payment plan | Shown | Venues often take a deposit and a balance. |
 | Start and end date | Shown | The dates of the event or job place the cost in a month. |
 | Generated Insurances card | Automatic | Event cover is created from the site and linked to it. |
-| Useful life, warranty, Held as, extras | Hidden | A hired site is not an asset and has no landlord relationship to track. |
+| Useful life, warranty, extras | Hidden | A hired site is not an asset and has no landlord relationship to track. |
 
 #### D. Usage cards: Premises Utilities, Process Utilities, Vehicle Running & Maintenance, Delivery Running Costs, Business Consumables, Materials & Stock, Tickets & Trip Costs
 
@@ -2699,43 +2576,11 @@ From the decided specification, version 25. Nothing is changed in the app. Colou
 
 ## Part H. Categories, groups and "i" texts
 
-*This part is the source of these texts: the test `PartnerGroupHelp.test.ts` reads it and checks that the app shows them word for word.*
+The 47 texts the app shows for the groups are written once, in Part D, section 3 (3.1 to 3.4), in the column "What the user writes (the "i" text)", Resources and Partners and Suppliers, Infrastructure and Offering. The test `PartnerGroupHelp.test.ts` reads the cells of the tables of this document and checks that the app shows them word for word. The texts were checked by script: no negative wording and no repeated example or word across the 47 texts.
 
-Pink = Infrastructure, brown = Offering.
+### 1. Resources and 2. Partners and Suppliers
 
-> The texts were checked by script: no negative wording and no repeated example or word across the 47 texts.
-
-### 1. Resources
-
-| Category | Place | Groups | Text shown in the app |
-|---|---|---|---|
-| Workspace | Infrastructure | Premises | The space where the team works, owned, rented through a landlord or at home, e.g. Studio rent, Shared-space seat, Home-office allowance, Owned office. |
-| Utilities | Infrastructure | Premises Utilities | The services the daily operation consumes, e.g. Electricity, Gas heating, Broadband line, Mobile plan. |
-| Workstation | Infrastructure | Furniture & Fittings | The furniture and fittings of the work areas, e.g. Standing desk, Drawing table, Ergonomic chair, Filing cabinet. |
-| Equipment | Infrastructure | Devices & Tools | The devices and tools the team uses for its own work, bought or leased, e.g. Laptop, Label printer, Mirrorless camera, Vehicle tracker, Protective goggles. |
-| Vehicles | Infrastructure | Company Vehicles<br>Vehicle Running Costs | • **Company Vehicles:** cars and bikes the company owns or leases for general use, e.g. Sales car, Cargo bike, Minibus lease.<br>• **Vehicle Running Costs:** fuel and the everyday running costs of company vehicles, e.g. Petrol, Electric charging, Car wash, Washer fluid. |
-| Digital Infrastructure | Infrastructure | Software & Web<br>Cloud & Security | • **Software & Web:** software subscriptions and the public website, e.g. Bookkeeping software, Company website, Shared mailbox, Fleet tracking.<br>• **Cloud & Security:** storage, back-up and protection of files and data, e.g. Cloud drive, Nightly back-up, Password vault, Antivirus. |
-| Materials & Inventory | Infrastructure | Business Consumables | Everyday items the business uses up and replaces, e.g. Copy paper, Dish soap, Coffee beans. |
-| Documents & Rights | Infrastructure | Insurances<br>Licences<br>Certificates<br>Tickets & Trip Costs | • **Insurances:** policies that cover the company's liability, premises and people, e.g. Public liability, Cyber, Key person, Directors and officers.<br>• **Licences:** paid permissions: the right to use another's work and permits from authorities, e.g. Stock photo licence, Typeface rights, Image library, Staff parking permit.<br>• **Certificates:** certificates and inspections of the premises and the team, e.g. Gas safety certificate, Fire-risk assessment, First-aid award, Energy rating.<br>• **Tickets & Trip Costs:** the fares and stops of trips that serve the whole company, e.g. Conference train fare, Hotel for a seminar, Airport taxi, Car park. |
-| Human Resources | Infrastructure | Founders & Owners<br>Admin Team | • **Founders & Owners:** owners who work in the company and draw pay from it, e.g. Founder salary, Part-time director fee.<br>• **Admin Team:** staff and helpers who handle the company's administration, e.g. Operations manager, Bookkeeper, Receptionist, Intern. |
-| Workspace | Offering | Site Hire<br>Workshop & Storage | • **Site Hire:** the site rented for one event or job, e.g. Market pitch fee, Stand levy, Marquee frame, Rehearsal room slot.<br>• **Workshop & Storage:** the permanent base where the product is made or stored, e.g. Warehouse bay, Container yard, Shared-kitchen membership, Chiller space. |
-| Utilities | Offering | Process Utilities | The energy, water and waste services that production consumes, e.g. Firing power, Rinse water, Chemical disposal. |
-| Workstation | Offering | Fixtures & Displays | Fixed installations in your premises for making or showing the product, e.g. Workbench, Pallet racking, Showcase shelves, Sign board. |
-| Equipment | Offering | Production Machinery<br>Devices & Tools | • **Production Machinery:** machines that turn raw materials into finished goods, e.g. Floor loom, Industrial oven, Laser cutter.<br>• **Devices & Tools:** the tools, instruments and gear used to make or deliver the offering, besides its machines, e.g. Card reader, Stall display kit, Tripod rig, Hard hat, Moisture meter. |
-| Vehicles | Offering | Delivery Vehicles<br>Delivery Running Costs | • **Delivery Vehicles:** vans and trucks that carry or install the product, e.g. Transit van, Refrigerated truck, Short-term hire.<br>• **Delivery Running Costs:** fuel and the everyday running costs of delivery vehicles, e.g. Diesel, AdBlue, Van valet, Cab air freshener. |
-| Digital Infrastructure | Offering | Sales & Delivery Tools<br>Platforms & APIs | • **Sales & Delivery Tools:** software that takes orders, bookings and payments, then delivers the result, e.g. Web shop, Booking app, Newsletter tool, File transfer.<br>• **Platforms & APIs:** online services your product calls, billed per use, e.g. AI text service, Maps lookup, Address check, Speech transcription. |
-| Materials & Inventory | Offering | Materials & Stock | The materials, parts, packaging and resale goods that each sale uses, e.g. Yarn, Brass fittings, Mailer boxes, Gift wrap, Sample swatches, Resale mugs. |
-| Documents & Rights | Offering | Insurances<br>Licences<br>Royalties<br>Certificates<br>Tickets & Trip Costs | • **Insurances:** policies that cover products, jobs and events, e.g. Product recall, Carriage of goods, Event cancellation, Customer default.<br>• **Licences:** paid permissions for the offering: the right to use another's work and permits from authorities, e.g. Licensed artwork, Backing track, Patented method, Parking-bay suspension.<br>• **Royalties:** payments that follow the sales or use of another's creation, e.g. Author royalty, Franchise percentage, Patent share, Master-rights split.<br>• **Certificates:** certificates, inspections and the tests behind them, needed to sell or use an offering, e.g. CE-mark testing, Organic certification, Flame trial, Food-safety swab.<br>• **Tickets & Trip Costs:** the fares, stops and tolls of trips that the work requires, e.g. Coach ticket, Ferry crossing, Toll bridge, Loading-bay fee. |
-| Human Resources | Offering | Delivery Team | The people who make the product or serve the customer, e.g. Weaver, Instructor, Installer, Barista. |
-
-### 2. Partners and Suppliers (the categories play the part of groups)
-
-| Type | Place | Groups | Text shown in the app |
-|---|---|---|---|
-| Partners | Infrastructure | Alliances & Networks | Organisations you join for the benefit of the whole company, e.g. Trade association, Buying group, Start-up accelerator, Producers cooperative. |
-| Suppliers | Infrastructure | Goods & Equipment<br>Business Services<br>Creative & IT Services<br>Property, Vehicles & Facilities<br>Technical Support | • **Goods & Equipment:** sellers of furniture, devices and consumables for the company, e.g. Furniture dealer, Stationery merchant, Computer reseller, Water-cooler rental.<br>• **Business Services:** firms that run the administrative side, e.g. Accountant, Lawyer, Insurance broker, Payroll bureau, Business bank, Web host.<br>• **Creative & IT Services:** freelancers and small agencies for design, branding, content or technology work, e.g. Web builder, Brand identity house, Photographer, IT support, Copywriter.<br>• **Property, Vehicles & Facilities:** owners and caretakers of the premises, and lessors of vehicles, e.g. Landlord, Coworking operator, Cleaner, Car lessor.<br>• **Technical Support:** outsourced technicians who maintain, repair and install the company's assets, e.g. Electrical engineer, Plumber, Boiler fitter, Network cabling. An installation is linked to the asset it installs. |
-| Partners | Offering | Revenue Partners<br>Accreditation Bodies | • **Revenue Partners:** parties who sell for you or send customers, and take a cut of each sale, e.g. Boutique stockist, Distributor, Referral partner, Affiliate blogger, Co-teacher.<br>• **Accreditation Bodies:** bodies whose approval gives your work credibility, e.g. Weavers' guild, Craft standards panel, Culinary institute. |
-| Suppliers | Offering | Producers & Wholesalers<br>Logistics & Fulfilment<br>Contractors & Advisers<br>Agencies & Influencers<br>Venues & Organisers<br>Landlords, Leasing & Warehouses<br>Platforms & Payments | • **Producers & Wholesalers:** producers and wholesalers that sell the materials and parts in the product, e.g. Wool mill, Box maker, Fabric importer, Flour miller.<br>• **Logistics & Fulfilment:** carriers and warehouses that deliver orders to buyers, e.g. Courier, National post, Fulfilment centre, Freight forwarder.<br>• **Contractors & Advisers:** outsourced specialists who do part of an offering's job or guide it, e.g. Dye works, Freelance developer, Product-safety adviser, Electrician.<br>• **Agencies & Influencers:** firms and creators paid to spread the word, e.g. Marketing agency, Instagram creator, Poster press, Podcast sponsor.<br>• **Venues & Organisers:** hosts of the places and events where you sell, e.g. Fair organiser, Exhibition hall, Show promoter.<br>• **Landlords, Leasing & Warehouses:** owners of premises used for making or storing stock, and lessors of vehicles, e.g. Estate owner, Depot firm, Chilled-storage outfit, Van leasing specialist.<br>• **Platforms & Payments:** intermediaries between you and the customer who charge a fee, e.g. Online marketplace, Payment processor, App store, Reservation portal. |
+See Part D, section 3. The categories play the part of groups for Partners and Suppliers.
 
 ### 3. Open point: group names that repeat a category word
 
@@ -2750,9 +2595,7 @@ A group name that repeats its category's word reads twice on screen. These still
 
 ## Part I. Foundation colour map: Identity, Brand, Business, Strategy
 
-*The code applies these work colours through `src/framework/engine/WorkColours.ts`. The original draft said "proposal, not applied"; it is applied.*
-
-Colour = what the user does in the section (work type). Proposal, not applied in the app.
+Colour = what the user does in the section (work type). The code applies these work colours through `src/framework/engine/WorkColours.ts` (`workHue`), as the palette colour nearest to each, to the pages drawn as tiles: Identity, Brand and Strategy's Situation & Direction. The Business rows are the map for the Business pages and are not applied to them.
 
 ### Work types
 
