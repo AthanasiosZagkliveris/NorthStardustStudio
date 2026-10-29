@@ -1,6 +1,6 @@
 # Framework Content DSL — Grammar Reference
 
-Status: **reference**, updated 2026-09-28.
+Status: **reference**, updated 2026-10-29.
 
 This is the complete syntax for authoring a System's content in plain Markdown. Every rule below was confirmed directly against `framework/parser/AnswerParser.ts` — if this file and the parser ever disagree, the parser wins and this file is out of date and needs fixing.
 
@@ -8,12 +8,12 @@ Read this instead of the parser source when authoring or auditing System content
 
 ## File triad
 
-Each System is authored as three separate Markdown files:
+Each System is authored as three separate Markdown files, one in each of `src/assets/SystemAnswers/`, `SystemQuestions/` and `SystemHelp/`:
 - `NN_<Name>SystemAnswer.md` — the structural definition (this grammar).
 - `NN_<Name>SystemQuestions.md` — the plain-language questions shown per Section.
 - `NN_<Name>SystemHelp.md` — longer explanatory help text per Section.
 
-**Naming is not perfectly consistent across a triad — verify, don't assume.** At least one System's Answer/Help files use a literal `&` in the name while its Questions file spells the word out as "And" instead. Before editing, list the directory rather than guessing the filename.
+**Naming is not perfectly consistent across a triad — verify, don't assume.** System 22's Answer and Help files use a literal `&` in the name (`22_Metrics&ReportingSystemAnswer.md`) while its Questions file spells the word out as "And" (`22_MetricsAndReportingSystemQuestions.md`). Before editing, list the directory rather than guessing the filename.
 
 **Section numbers must match across all three files for the same System**, and if a change adds, removes, or merges Sections, all three files need updating together, plus a check for any code that hardcodes that System's section numbers (rare, but exists for at least one System — grep for a constant naming pattern like `<SYSTEM>_<SECTION>_SECTION` before assuming section numbers are purely content).
 
@@ -74,13 +74,14 @@ Each of these keywords opts a whole Section into a hand-built React editor. As w
 | `Structure:` value | Used by | Editor |
 |---|---|---|
 | `Legal Entity` | `01_IdentitySystemAnswer.md` — 03. Legal Entity | `LegalEntityEditor` |
+| `Founders Profile` | `01_IdentitySystemAnswer.md` — 04. Founders Profile | `FoundersProfileEditor` |
 | `Brand Style` | `02_BrandSystemAnswer.md` — 02. Style | `BrandStyleEditor` |
-| `Brand Inventory` | `02_BrandSystemAnswer.md` — 03. Inventory | `BrandInventoryEditor` |
+| `Brand Inventory` | no System file uses it now: the Inventory is part of the Style page (`BRAND_STYLE_PAGE_SECTIONS`); the parser still accepts it | `BrandInventoryEditor` |
 | `Business Foundation` | `03_BusinessSystemAnswer.md` — 01. Foundation | `BusinessFoundationEditor` |
 | `Business Engagement` | `03_BusinessSystemAnswer.md` — 02. Customer Engagement | `BusinessEngagementEditor` |
 | `Business Capability` | `03_BusinessSystemAnswer.md` — 03. Infrastructure & Capability | `BusinessCapabilityEditor` |
 | `Financial Foundation` | `03_BusinessSystemAnswer.md` — 04. Financial Foundation | `FinancialFoundationEditor` |
-| `Financial Sustainability` | `03_BusinessSystemAnswer.md` — 05. Financial Sustainability | `FinancialSustainabilityEditor` |
+| `Financial Sustainability` | `03_BusinessSystemAnswer.md` — 05. Sustainability | `FinancialSustainabilityEditor` |
 | `Strategy Foundation` | `04_StrategySystemAnswer.md` — 01. Situation & Direction | `StrategyFoundationEditor` |
 | `Strategic Period` | `04_StrategySystemAnswer.md` — 02. Goals & Objectives | `StrategicPeriodEditor` |
 | `Strategic Roadmap` | `04_StrategySystemAnswer.md` — 03. Roadmap | `StrategicRoadmapEditor` |
@@ -89,8 +90,8 @@ Each of these keywords opts a whole Section into a hand-built React editor. As w
 
 ## Shared Field Registry
 
-Referenced by suffix (`- Status Field`, `- Frequency Field`, etc.), defined once in the Field Registry reference, not repeated per System. If a Table needs a new *shared* option set, add it to the registry rather than inlining a one-off Variant list on a Fixed Variant Text Section that's really acting as a dropdown definition.
+Referenced by suffix (`- Status Field`, `- Frequency Field`, etc.), defined once in `src/assets/Status_Scale_Frequency_Fields.md` (Status, Scale, Frequency, Category, Platform), not repeated per System. If a Table needs a new *shared* option set, add it to the registry rather than inlining a one-off Variant list on a Fixed Variant Text Section that's really acting as a dropdown definition.
 
 ## What's NOT in this grammar
 
-The three hand-built editors — Process Library, Operational Log, Roles Responsibilities — use these same `Structure:` keywords to opt in, but their actual field-level behavior (the Process→SOP→Step hierarchy, auto-generated log rows, derived role collection) is real application code, not further Markdown DSL. See the Framework Conventions & Patterns Reference for what that code does — don't try to express their behavior by adding more columns/tags here.
+The three hand-built editors — Process Library, Operational Log, Roles Responsibilities — use these same `Structure:` keywords to opt in, but their actual field-level behavior (the Process→SOP→Step hierarchy, auto-generated log rows, derived role collection) is real application code, not further Markdown DSL. See `framework-conventions-and-patterns.md` for what that code does — don't try to express their behavior by adding more columns/tags here.

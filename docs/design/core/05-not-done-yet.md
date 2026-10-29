@@ -47,7 +47,7 @@ Eleven of thirteen chapters are drawn as tiles. The rest:
 
 ## 5.4 Workspace batches D and E: checked against the code on 2026-10-14
 
-The briefs (written 2026-09-29, in `docs/archive/plans/`) say D and E wait until the structure is stable; it now is, and the order is decided (after the Tile System).
+The briefs (written 2026-09-29, in `docs/archive/plans/`; they are not finished work, only kept there) say D and E wait until the structure is stable; it now is, and the order is decided (after the Tile System).
 
 **Already built** (the briefs asked to reuse them): `FieldKey`, `openField`, the field status line (with the unused "Changed in … · Reset" parts), the Review page, the Notepad, the undo toast, search, and `Sources.ts`. **Absent:** `planOutcomes`, scenarios, duplicate organization and card, the Compare route, the lender check, the One-Pager, the glossary.
 
@@ -191,7 +191,7 @@ Ordering of work (decided): the **Tile System** is finished first (T1–T2), the
 
 #### 5.5.4.2 Page 3 · Infrastructure & Capability
 
-**How Delivery works today.** The Delivery card of an offering holds: *Delivered* (per unit or every month); for every month, *Hours Given* (per week or per month) and hours per client; for per unit, hours per unit and *Calendar Time (weeks)*; constraints. The weeks are elapsed time only: they give the "While one runs: hours a week" line and "about N running at once", and are **never multiplied into hours** or turned into dates. Capacity is the founders' delivery hours; the check compares expected sales times each person's hours against it, with recurring work served first. People listed on the card: every founder, and the **partners** linked to that offering. Suppliers (including Logistics & Fulfilment) and Delivery Team cards are **not** listed.
+The Delivery card as built is described in the page 3 specification (specifications/business-system/page-3-infrastructure-and-capability.md, section 7).
 
 | Id | Requirement | P | State |
 |---|---|---|---|
@@ -289,11 +289,9 @@ Still open (the requirement ids are those of 5.5):
 7. The 768 px floor against WCAG 1.4.10 Reflow: accept as a declared exception (5.6)?
 8. Is the new app still a web app with accounts (as in the Foundation App Plan), and does it keep the Examples (5.7, X2)?
 
-## 5.9 Known open findings (from `docs/ai/outstanding-findings.md`)
+## 5.9 Known open findings
 
-- `useListAutoFormat`: cursor lands mid-word after a paste whose renumbering crosses a digit-count boundary (marked as an expected failure in the test; a real bug).
-- `react-router`: a known high-severity advisory in the resolved dependency range (`npm audit`).
-- `.vscode/extensions.json` is ignored by git, so its recommendation is never shared.
+The confirmed problems that no turn has fixed are kept in one place: `docs/ai/outstanding-findings.md`.
 
 ## 5.10 What stayed in the project, and why
 
@@ -328,3 +326,12 @@ For the owner to decide, or work not done. Each item leaves this list when done 
 - I6 is counted as a check while 8.2 withdraws it, and I7 is counted as a driver while described as merged into I7c. Without I6 the count is 20 checks and 66 questions.
 - The customers' industry list (G15, P24): 5.7 says the 18 plain industries are retired, but 6.3, 27 section 5 and 29 still use them. Marked [D] in doc 28.
 - Doc 28 is 207 KB since section 5 became doc 35 (2026-10-29); sections 6 to 15 remain.
+
+**Added by the review of the docs folder (2026-10-29)**
+- The Shared Workspace proposal (`docs/archive/proposals/shared-workspace.md`) has no item in this list; its place is to be decided.
+- Doc 1, B.1 and the app index differ on whether the Organization tile is on Identity page 1 (Definition & Ethics) or page 2 (Legal Entity); check the code and fix the wrong one.
+- `docs/ai/customer-engagement-layout.md` says every Journey Stage band starts folded; the code (`useItemFolds(true)`) starts them open and a test expects no fold arrow: the sentence is probably stale.
+- `docs/ai/layout-rules.md`: section 8 says a dropdown list is exactly the width of its cell, section 10 says it is as wide as its longest option; the tile title in section 8 (a multi-line title) disagrees with `.section-tile-title` (nowrap, ellipsis). `tools/scripts/layout-check/run.mjs` cites a rulebook heading "Run the check" that does not exist.
+- The Finance dynamic field points at the retired Revenue Model page (recorded in the specifications README only).
+- Section 6 of `layout-rules.md` (Interactions) holds rows that doc 18 lacks (a parent's status line, a child's name, the Add button, a text holder): move them into doc 18, then keep one text.
+- `src/library/assets/floatingCard.ts` line 86 still cites "docs/design/05, 5.8"; the generated section 19 of the rulebook repeats it.

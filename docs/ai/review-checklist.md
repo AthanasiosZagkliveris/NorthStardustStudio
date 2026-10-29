@@ -1,10 +1,10 @@
 # The review checklist: what to check when reviewing a table, tile, card, page or control
 
-Status: **rules**, updated 2026-10-20.
+Status: **rules**, updated 2026-10-29.
 
 The standard behind each line, with the numbers and how to measure them, is `review-criteria.md`.
 
-Read this before reviewing or changing anything on screen, and tick every line that applies before saying "done". Each line is here because it was missed once. The rules it points to are in `layout-rules.md`, `tile-and-card-pattern.md`, `18-reactions.md`, `21-shared-components.md` and `24-tooltips.md`.
+Read this before reviewing or changing anything on screen, and tick every line that applies before saying "done". Each line is here because it was missed once. The rules it points to are in `layout-rules.md`, `tile-and-card-pattern.md` and, in `../design/current/`, doc 18 (the reactions), doc 21 (the shared components) and doc 24 (the tooltips).
 
 ## 0. Before looking
 
@@ -38,7 +38,7 @@ Read this before reviewing or changing anything on screen, and tick every line t
 
 ## 4. Tooltips and names
 
-1. Only a pressed control has a tooltip; an icon says its name; cut text says itself whole; never what is already shown (`24-tooltips.md`). A dropdown, a field, a tick, a tile, a label: none.
+1. Only a pressed control has a tooltip; an icon says its name; cut text says itself whole; never what is already shown (doc 24). A dropdown, a field, a tick, a tile, a label: none.
 2. Every control has an accessible name; an icon-only control has an `aria-label`; no `title` that repeats it.
 
 ## 5. Layout and behaviour
@@ -58,11 +58,11 @@ Read this before reviewing or changing anything on screen, and tick every line t
 
 ## 7. Proof before "done"
 
-1. `tsc`, the whole test suite, `lint:css`, `lint:styles`, `tokens:check`, `docs:check`, `library:check`, the layout check (0 new findings).
+1. The steps of `toolchain-and-verification-playbook.md`, in its order: typecheck, the whole test suite, the checks (`tokens:check`, `lint:styles`, `lint:css`, `docs:check`, `tables:check`, `library:check`), the build, the layout check (0 new findings).
 2. **The pictures after**, next to the pictures before, in the browser: say what was looked at and what was not (dark and sepia, the widths, the other pages that use the same component).
-3. **Documents**: the log row (dated, newest on top), the component's state in `21-shared-components.md`, the rule if a rule changed, the examples if the interface changed, `npm run docs:index`.
+3. **Documents**: step 7 of the playbook (the log row, the rule, the examples, `npm run docs:index`) and the component's state in doc 21.
 4. **Report per request**, one line each: what was done, how it was checked, what is left. Never "done" for what was not looked at.
-5. **Commit** only what was changed; no push, merge or tag without the owner's yes.
+5. **Commit** only what was changed; no push, merge or tag without the owner's yes (`ai-collaboration-rules.md`).
 
 ## 8. What the headless browser cannot see
 

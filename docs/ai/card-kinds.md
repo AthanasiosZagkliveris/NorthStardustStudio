@@ -1,8 +1,8 @@
 # The kinds of card (internal list)
 
-Status: **reference**, updated 2026-10-21.
+Status: **reference**, updated 2026-10-29.
 
-Every card that opens from a tile (floating, or in a tile's dialog), by kind: where its code is and how its head is built. **The order number stands inside the name cell** on every card that has a name cell (drawn over the name's left, 10px in; the name's text starts at 38px); the marker column is gone, so the name cell and everything under it start at the card's own 12px padding, and the x has its own 32px column (+8px) at the right.
+Every card that opens from a tile (floating, or in a tile's dialog), by kind: where its code is (paths in the Code column are under `src/components/interview/editors/`) and how its head is built. **The order number stands inside the name cell** on every card that has a name cell (drawn over the name's left, 10px in; the name's text starts at 38px); the marker column is gone, so the name cell and everything under it start at the card's own 12px padding, and the x has its own 32px column (+8px) at the right.
 
 | # | Card | Opens from | Code | Head | Number inside the name cell |
 |---|---|---|---|---|---|
@@ -25,4 +25,4 @@ Every card that opens from a tile (floating, or in a tile's dialog), by kind: wh
 
 Not cards (page frames with a fold arrow): the Financial page's numbered sections (`FinancialSectionCard`), the Segment frame's head, Customer Relationship's table bands.
 
-The parts are shared (design document 21): `BusinessCard` draws a card (its box `CardShell`, head `CardHead`, name `NameCell`, number `CardNumber`); the number keeps its kind's class (`.legal-entity-card-number`, `.strategy-box-number`) and is placed over the name by the rules of `section-tiles/` ("THE ORDER NUMBER STANDS INSIDE THE NAME CELL"). The Strategy boxes' heads and the sub-channel's head stay their own, on purpose. A new kind of card takes one of these heads. A card of a completed activity is the Completed grey wherever it stands (layout rules, 36).
+The parts are shared (doc 21): `BusinessCard` draws a card (its box `CardShell`, head `CardHead`, name `NameCell`, number `CardNumber`); the number keeps its kind's class (`.legal-entity-card-number`, `.strategy-box-number`) and is placed over the name by the rules of `section-tiles/` ("THE ORDER NUMBER STANDS INSIDE THE NAME CELL"). The Strategy boxes' heads and the sub-channel's head stay their own, on purpose. A new kind of card takes one of these heads. A card of a completed activity is the Completed grey wherever it stands (layout rules, 36).
