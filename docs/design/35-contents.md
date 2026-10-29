@@ -28,12 +28,13 @@ Where a later document disagrees with doc 33, **doc 33 governs**.
 | Topic | First version (doc 33) | Detail in |
 |---|---|---|
 | Countries and codes | Six countries and Other | doc 28 5 |
-| Legal forms | Five generic forms | doc 33 section 3 |
+| Legal forms | The six countries' own lists; five generic forms for Other (any other country) | doc 33 section 3 |
 | Market structure and relationship | Single-sided; B2C and/or B2B | doc 28 8.2 |
 | Buyer category and life stage | Three categories, three life stages, separate questions | doc 31 (collection), doc 33 section 5 |
-| Buyer and user relationship; user's life stage | Six personal relationships; four life stages | doc 31 6.1 |
+| Buyer and user relationship; user's life stage | Six personal (B2C) or six business (B2B) relationships; four life stages (B2C) | doc 31 6.1, 6.2, 9M |
 | Purpose, differentiation, outcome | Three items | doc 28 8.2, doc 31 7 |
-| Age limits, accessibility, caregiving, other countries, multi-sided, B2G, G2B | Not included | doc 34 |
+| Ages | In the Segment, maybe as an "i" | doc 33 section 6, docs 30 and 31 |
+| Accessibility, caregiving, full lists for more countries, multi-sided, B2G, G2B | Not included | doc 34 |
 
 ## 4. Related documents outside this set
 

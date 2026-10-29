@@ -509,3 +509,23 @@ Nothing is built.
 ## 9L. The built End User questions stay (owner, 2026-10-27)
 
 I7d to I7g and their old option lists **stay as built**, untouched, so the app runs as today. They are overwritten and replaced together, once, when the final implementation begins with the new layout. This closes the open point of 9 item 7 (keep, change or go): **keep until then.** The layout and the dialogue diagrams of this structure were drawn on 2026-10-27 in the session (not stored in the repository).
+
+## 9M. The B2B relationships as Proxy and Dual-Intent archetypes (owner's pasted text, 2026-10-29)
+
+The owner pasted a text on how the six business relationships (6.2) position, grouped by intent. Recorded as collected material. The text has **no sources** and ends with two questions to the owner (is this for an internal sales deck or an external pitch; which archetype is the primary target customer), which are **not answered** here.
+
+| Relationship (6.2) | Intent | Example | Value positioning | Buyer pain point | End-user pain point | Messaging focus |
+|---|---|---|---|---|---|---|
+| Employer providing for employees | Proxy | A company buys health and safety training for its staff | Risk mitigation, compliance, duty of care; the end user must find it engaging enough to finish | Compliance and liability | Course length and boredom | "Zero-friction compliance" |
+| Professional intermediary acting for a client | Proxy | An architect buys a visualisation service on behalf of a property developer | Capability extension and leverage; the tool makes the intermediary look expert to their client | Delivery speed and margins | Clarity of deliverables | "Impress clients faster" |
+| Sponsor or funder | Proxy | A company funds access to a coding programme for selected participants | Social proof, impact verification, ROI tracking; the sponsor wants outcomes such as graduation rates | Outcome measurement | Accessibility and learning curve | "Verified skill growth" |
+| Other business relationship | Proxy ("B2B2Network") | A franchise owner buys training materials for franchise operators | Brand standardisation and operational consistency across the network | Quality drift across locations | Implementation friction | "Network-wide excellence" |
+| Business partner or co-owner | Dual-Intent | One partner buys project-management software for another partner to use | Operational transparency and collaborative alignment; a shared source of truth | Communication gaps | Task management | "One source of truth" |
+| Business serving its clients or customers | Dual-Intent | An accountancy firm buys financial-planning software to serve its clients | Service differentiation and client stickiness; the tool is the engine of delivery; co-branding and portals | High churn and manual reports | Financial complexity | "Collaborative advisory engine" |
+
+**Checked against the earlier material:**
+1. **Agrees with 9D:** Employer, Intermediary and Business partner were already given there as Proxy, Proxy and Dual-Intent. The four others are new to the split: Sponsor or funder and Other business relationship as Proxy; Business serving its clients as Dual-Intent.
+2. **The relationship only suggests the intent** (9E 1). This text gives each B2B relationship a **default** intent; the buyer's own answer (does the buyer use it too?) governs. For example a sponsor who also uses the programme is Dual-Intent.
+3. **The Dual-Intent label of "Business partner" fits the examples poorly:** the example says one partner buys for the other to use, which is the Proxy test of 9D (the payer does not consume). The text justifies it as "active user or operational partner"; it stays as the owner's reading, flagged.
+4. **"B2B2Network"** is the text's own label for the franchise case; it is not a term of the questionnaire and is not used.
+5. **Not in the first version:** the positioning columns (value positioning, pain points, messaging focus). Doc 33 uses only the six relationships and the Proxy or Dual-Intent grouping; the columns are a future feature (doc 34).

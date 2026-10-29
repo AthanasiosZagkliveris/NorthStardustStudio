@@ -21,6 +21,7 @@ Status: **reference.** One line per term, with the document that explains it. Th
 | Term | Meaning | See |
 |---|---|---|
 | Organization tile | Holds the legal entity, the activity and its code, and when the business opens | doc 28 8.5 |
+| Other (country) | Any country outside the six named; legal form from five generic options, activity and code typed by hand | doc 33 section 3 |
 | Market Structure (I11) | Single-sided or multi-sided; the first version has single-sided only | doc 33 section 4 |
 | Seller and Buyer Relationship (I3) | Who pays: B2C or B2B in the first version | doc 33 section 4 |
 | B2C, B2B | Business to consumer; business to business | doc 28 8.2 |
@@ -45,7 +46,8 @@ Status: **reference.** One line per term, with the document that explains it. Th
 | Buyer's category | Direct, Proxy or Dual-Intent; separate from the life stage | doc 33 section 5 |
 | Buyer's life stage | Students / Young Adults; Workers / Professionals / Adults; Seniors | doc 33 section 5 |
 | User's life stage | Minors; Young Adults; Adults; Seniors | doc 33 section 5 |
-| Buyer and User relationship | One of six personal relationships in the first version (22 in the collection) | doc 31 6 |
+| Buyer and User relationship | One of six personal (B2C) or six business (B2B) relationships in the first version (22 in the collection) | doc 31 6 |
+| Proxy archetype, Dual-Intent archetype | The default intent of a B2B relationship; the buyer's own answer governs | doc 31 9M |
 | Micro-Buyer | A buyer aged 16 to 18 with restricted payment methods (future) | doc 31 2 |
 | Stage edge rule | "From X up to but not including Y": an age belongs to one stage only | doc 31 9B |
 | Purpose | Why the offering is bought; 12 in the collection | doc 31 7 |
