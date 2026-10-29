@@ -1,4 +1,4 @@
-# 38. Lists and classifications: the countries, the shared lists, the industries and the codes
+# 35. Lists and classifications: the countries, the shared lists, the industries and the codes
 
 Status: **proposal, with parts built** (as document 28, from which this is section 5, split off on 2026-10-29; the sub-section numbers are unchanged, so "5.7" is still 5.7). Where the first published version differs, doc 33 governs: the six countries and Other, with the five generic legal forms for Other; everything for more countries is a future feature (doc 34).
 

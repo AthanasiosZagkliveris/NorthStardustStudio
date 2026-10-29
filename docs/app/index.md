@@ -8,7 +8,7 @@ Paths are written "System › page › tile". Document numbers are the files in 
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Activities (Business) | Business › 3 Infrastructure & Capability › Activities | specifications/business-system page 3; design 35 card structure |
+| Activities (Business) | Business › 3 Infrastructure & Capability › Activities | specifications/business-system page 3; design 26 card structure |
 | Activities (Organization) | Identity › 1 Definition & Ethics › Organization | design 28, 8.5 and 5.7 (lists in 36) |
 | Assets library | Inventory (Help tile); the library itself is in `src/library` | design 08, 09 |
 
@@ -45,8 +45,8 @@ Paths are written "System › page › tile". Document numbers are the files in 
 | Item | Where in the app | Described in |
 |---|---|---|
 | Early Positioning (tile) | Identity › 1 Definition & Ethics | design 28, 8.2; 33 |
-| Examples | Organizations (home): Lumen & Loom Studio, Quillfield Automation | design 26 |
-| Expenses (Legal Entity) | Identity › 2 Legal Entity › Expenses | design 35 card structure |
+| Examples | Organizations (home): Lumen & Loom Studio, Quillfield Automation | design 25 |
+| Expenses (Legal Entity) | Identity › 2 Legal Entity › Expenses | design 26 card structure |
 
 ## F
 
@@ -117,7 +117,7 @@ Paths are written "System › page › tile". Document numbers are the files in 
 | Item | Where in the app | Described in |
 |---|---|---|
 | Reading mode | Header: light, sepia, dark, auto | design 01, B.2 |
-| Registrations | Identity › 2 Legal Entity | design 35 card structure |
+| Registrations | Identity › 2 Legal Entity | design 26 card structure |
 | Resources | Business › 3 Infrastructure & Capability | specifications/business-system page 3 |
 | Revenue | Business › 5 Sustainability | specifications/business-system page 5 |
 | Roadmap | Strategy | design 01 |

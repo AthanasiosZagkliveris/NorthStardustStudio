@@ -1,4 +1,4 @@
-# Folders: the app files, the examples and the working files
+# 25. Folders: the app files, the examples and the working files
 
 Status: **current design**, updated 2026-10-29. The owner needs the app's files only, kept apart from the examples and the working files. The three steps of the plan (ignore the working folders, one copy of the examples, the app's export and the `tools/` folder) were done on 2026-10-22; the log (`04-log.md`) has them.
 
@@ -40,12 +40,12 @@ The app files alone are one command away (`npm run export:app`), the examples ex
 | Folder | Holds |
 |---|---|
 | `docs/app/` | The app: contents, index of its places, glossary |
-| `docs/design/questionnaire/` | The first version (33), its future features (34), the questions, the lists, the positioning decisions and the research (27 to 32, 36) |
-| `docs/design/current/` | What the app is today: the elements, the card structure, shared components, texts, pop-ups, tooltips, reactions, folders (01, 17 to 26, 35) |
-| `docs/design/library/` | The assets library, its generated lists and its logs (08 to 10, 12 to 16) |
-| `docs/design/records/` | The sources, the research, the log, what is not done, the catalogue record and the structure tables (02 to 07) |
+| `docs/design/questionnaire/` | The first version (33), its future features (34), the questions, the lists, the positioning decisions and the research (27 to 35) |
+| `docs/design/current/` | What the app is today: the elements, the card structure, shared components, texts, pop-ups, tooltips, reactions, folders (16 to 26) |
+| `docs/design/library/` | The assets library, its generated lists and its logs (8 to 15) |
+| `docs/design/core/` | The current design of the Foundation, the sources, the research, the log, what is not done, the catalogue record and the structure tables (1 to 7) |
 | `docs/ai/` | Rules and references for an assistant |
 | `docs/specifications/` | The pages of the Business System |
 | `docs/archive/` | Finished or replaced documents, kept for their information (plans, proposals, the older library log) |
 
-The number in a document's name is permanent: it is how the documents cite one another ("doc 28"), whatever the folder.
+The documents are numbered 1 to 35 in the order of the chapters; the number is in the file name and the title, and it is how the documents cite one another ("doc 28"), whatever the folder. A new document takes the next number, or the numbers after it move up (the index fails if there is a gap).

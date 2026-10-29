@@ -26,7 +26,7 @@ export interface ContrastNeed {
     readonly min: 3 | 4.5;
 }
 
-/** The screen classes of the website's profiles (docs/design/records/05-not-done-yet.md): Tablet 768-1199 wide; Laptop 1200 and wider, under 1250 high; Desktop 1200 and wider, 1250 high and over. */
+/** The screen classes of the website's profiles (docs/design/core/05-not-done-yet.md): Tablet 768-1199 wide; Laptop 1200 and wider, under 1250 high; Desktop 1200 and wider, 1250 high and over. */
 export const SCREEN_CLASSES = ["tablet", "laptop", "desktop"] as const;
 export type ScreenClass = (typeof SCREEN_CLASSES)[number];
 

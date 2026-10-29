@@ -16,7 +16,7 @@ This document is the standard a table, a tile, a card, a floating card, a dialog
 ## 2. The rules of the work
 
 1. **Replace, never adjust.** A hand-made control is replaced by the app's own component of its kind; its style is not tuned. If no component of the kind exists, the review asks before writing one.
-2. **Components first** (`22-shared-components.md`): `RemoveButton`, `AddButton` (shapes wide, box, tile; `look`), `TextLink`, `OptionPicker`, `ValuePicker`, `MultiPicker`, `TickField`, `TextBox`, `NumberCell`, `TextField`, `DateCellInput`, `FoldArrow`, `NavArrow`, `FunnelButton`, `InfoNote`, `CardShell`, `CardHead`, `Tile`, `TileGrid`, `BusinessCard`.
+2. **Components first** (`21-shared-components.md`): `RemoveButton`, `AddButton` (shapes wide, box, tile; `look`), `TextLink`, `OptionPicker`, `ValuePicker`, `MultiPicker`, `TickField`, `TextBox`, `NumberCell`, `TextField`, `DateCellInput`, `FoldArrow`, `NavArrow`, `FunnelButton`, `InfoNote`, `CardShell`, `CardHead`, `Tile`, `TileGrid`, `BusinessCard`.
 3. **Tokens, not values.** A size, a gap, a colour or a radius is a token (`global.css`, `colors.generated.css`, `components.generated.css`); a value written in a rule is a finding unless the rulebook lists it.
 4. **The style lives with the component.** What a shared control looks like is in the sheet the component imports, so it is the same on every page (the Landing, the System Selection, the Notes panel, the header and the documents load no interview sheet).
 5. **One of each.** One component, one rule, one reaction per kind. A second class that adds a look, a hover or a size to a shared control is a finding.
@@ -78,7 +78,7 @@ Measure: the box rectangles of the two neighbours; the gap is the distance betwe
 
 A dropdown is **one** component for one choice (`OptionPicker`) and **one** for several (`MultiPicker`): its trigger, its chevron, its list (no stroke, the raised edge and the drop shadow; options 43px; the chosen one bold) are the same on every page. A dropdown is never drawn as a button or as an input.
 
-Reactions (`19-reactions.md`, `layout-rules.md` section 6): every control that can has **hover**, **focus**, **pressed** and **disabled**; measure each state's `boxShadow`, `backgroundColor`, `color`, `textShadow` against the kind's row and against a second control of the kind. A control that is not a button does not look like one, and a button does not look like a field.
+Reactions (`18-reactions.md`, `layout-rules.md` section 6): every control that can has **hover**, **focus**, **pressed** and **disabled**; measure each state's `boxShadow`, `backgroundColor`, `color`, `textShadow` against the kind's row and against a second control of the kind. A control that is not a button does not look like one, and a button does not look like a field.
 
 ## 6. Colour: what follows what
 
@@ -101,7 +101,7 @@ Reactions (`19-reactions.md`, `layout-rules.md` section 6): every control that c
 1. **A table** fits its panel or scrolls sideways with its heading and its first column kept; a column is named by what it holds (not counted); a number is right-aligned in figures of one width, its unit once in the header; a short column never breaks a word; the first column is one row cut by an ellipsis; rows are one height per size step; the text size is one of the three steps (14, 18 and 24px) and the default is the one that fits.
 2. **A list** (a numbered list, a bulleted list, a tile's list) has the one gap between marker and text and the one line height (`--section-tile-line-height` 1.45 for a wrapping list).
 3. **A pop-up window** (a menu, a filter window, a dropdown's list, a note, the calendar's list) opens next to its control, is placed free of the boxes around it, is the card's family in colour (section 6), has the app's type scale (section 3: its labels are field labels, its group heads caps titles, its options the dropdown's options, not smaller than `--font-body` unless the rulebook says), the app's controls (section 5), a width of the closed set, a maximum height with its own scroll, and closes on a press outside and on Escape, the focus returning to its control.
-4. **A tooltip** follows `docs/design/current/25-tooltips.md`: a pressed control only; an icon says its name; cut words whole; what the words do not say; never what is shown.
+4. **A tooltip** follows `docs/design/current/24-tooltips.md`: a pressed control only; an icon says its name; cut words whole; what the words do not say; never what is shown.
 5. **A dialog** has the one dialog ground and frame; its Back and its rails are the app's.
 
 ## 9. Pages

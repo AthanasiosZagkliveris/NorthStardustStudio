@@ -55,7 +55,7 @@ rewrite(txt, n => n.includes("text box height 44, type 18, corners 0px"), () => 
 rewrite(txt, n => n.startsWith("free text: kept"), () => "free text with square corners and no border (the note of Brand Images 1 to 3, 3 found): by the owner's decision (" + DATE + ") the Brand Images follow the new layout, that is, the standard free text.");
 
 writeFileSync("src/library/data/library.ts", [
-    "// The assets library, seeded once by tools/scripts/library/seed-library.mjs from the catalogue (docs/design/records/07-structure-tables.md).",
+    "// The assets library, seeded once by tools/scripts/library/seed-library.mjs from the catalogue (docs/design/core/07-structure-tables.md).",
     "// From now on the library is the source: it is changed by the procedure of docs/design/library/08-library-system.md (check, library, library log, inventory, placement, app log).",
     "",
     'import type { Library } from "../model/types.ts";',

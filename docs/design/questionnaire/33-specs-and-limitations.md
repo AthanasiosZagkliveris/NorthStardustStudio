@@ -23,7 +23,7 @@ English only. Every label, tooltip, document and export is in English; there is 
 
 ## 3. Countries, legal forms, activities and codes
 
-1. **Six countries:** United Kingdom, Ireland, United States, Canada, Australia, New Zealand. Each has a **complete list of legal forms** and a **complete list of activities with their related codes**, from the country's own scheme (doc 36, 5.3 and 5.8: the classification, its levels and the label of the code; rule 14 of doc 28 for the legal forms).
+1. **Six countries:** United Kingdom, Ireland, United States, Canada, Australia, New Zealand. Each has a **complete list of legal forms** and a **complete list of activities with their related codes**, from the country's own scheme (doc 35, 5.3 and 5.8: the classification, its levels and the label of the code; rule 14 of doc 28 for the legal forms).
 2. **Other** means **any country outside those six**. For Other:
    - the app user **types the activity and the related code manually**;
    - the **legal form** has five options:

@@ -26,7 +26,7 @@ One tree, edited in place. There is no separate build tree and no sync step.
 4. **Build:** `npm run build` (`tsc && vite build`). Must succeed.
 5. **Layout check** (for any change to a page, tile, card or style): `npm run check:layout` (it starts `npm run dev` on port 1420 itself when no server answers, and stops it at the end; it restarts an example when a page reloads under it). It opens every Foundation page of the examples at 1920, 1366 and 768 in light and dark and fails on a finding that is not in `tools/scripts/layout-check/baseline.json`. `npm run check:layout:wide` is the long run (three modes, seven windows, both examples); its baseline is not written yet. Rewrite a baseline only by the owner's decision.
 6. **Look at it** in a browser as the owner sees it, in the way `review-checklist.md` says; the automatic checks do not replace it. `npm run tauri dev` runs the same frontend in the desktop shell.
-7. **Documents:** the log row in `design/records/04-log.md`, the rule if a rule changed, the examples if the interface changed (`docs/examples`), then `npm run docs:index`.
+7. **Documents:** the log row in `design/core/04-log.md`, the rule if a rule changed, the examples if the interface changed (`docs/examples`), then `npm run docs:index`.
 8. **Commit** only what was changed. Do not push, merge or tag without the owner's yes.
 
 ## What the unit tests cover, and what they do not
@@ -45,7 +45,7 @@ To rewrite the examples after an interface change: `UPDATE_EXAMPLES=1 npx vitest
 
 ## The app files alone
 
-`npm run export:app` copies the app's own files (no tests, documents, tools or catalogue) into `exports/app/` (ignored by git) and builds them there; `-- --clean` also installs in that folder alone. It fails, naming the file, if an app file imports something that was left out. See `docs/design/current/26-folder-plan.md`.
+`npm run export:app` copies the app's own files (no tests, documents, tools or catalogue) into `exports/app/` (ignored by git) and builds them there; `-- --clean` also installs in that folder alone. It fails, naming the file, if an app file imports something that was left out. See `docs/design/current/25-folder-plan.md`.
 
 ## Continuous integration
 

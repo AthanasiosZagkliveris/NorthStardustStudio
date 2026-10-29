@@ -1,6 +1,6 @@
 /**
  * The field names of the library with a description of each, as one part of the fields document
- * (docs/design/library/15-fields-list.md, written by tools/scripts/library/fields-list.mjs): the code, the name, the names it was
+ * (docs/design/library/14-fields-list.md, written by tools/scripts/library/fields-list.mjs): the code, the name, the names it was
  * made from, what it contains (the words of document 01 Part F), the components it is built from, how many card
  * kinds hold it, and a flag where the name needs the owner's look. This module only returns the lines; it writes no file.
  */

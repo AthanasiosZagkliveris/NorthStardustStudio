@@ -1,4 +1,4 @@
-# The text holders
+# 16. The text holders
 
 Status: **current design**, updated 2026-10-17.
 

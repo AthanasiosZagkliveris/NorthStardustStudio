@@ -84,7 +84,7 @@ const hold = families.find(f => f.code === "HOLD");
 hold.groups.find(g => g.code === "HOLD.CEL").description = "The cells the person writes or chooses in: the holder (text and numbers), the list, the date cell, the dropdown.";
 
 writeFileSync("src/library/data/library.ts", [
-    "// The assets library, seeded once by tools/scripts/library/seed-library.mjs from the catalogue (docs/design/records/07-structure-tables.md).",
+    "// The assets library, seeded once by tools/scripts/library/seed-library.mjs from the catalogue (docs/design/core/07-structure-tables.md).",
     "// From now on the library is the source: it is changed by the procedure of docs/design/library/08-library-system.md (check, library, library log, inventory, placement, app log).",
     "",
     'import type { Library } from "../model/types.ts";',

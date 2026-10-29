@@ -1,8 +1,8 @@
-# 37. Card structure: what the user can reach in each card, and why
+# 26. Card structure: what the user can reach in each card, and why
 
 Status: **current design**, written 2026-10-14 as Part F of document 1 and split off on 2026-10-29 (the headings keep their names; document 1 points here). It is read by the catalogue tool (`tools/scripts/catalogue/load.mjs`): the variants and rows below become the structure tables (document 7) and the catalogue record (document 6), so the table and heading shapes must not change without changing the tool.
 
-Related: document 1 (the rest of the current design; Part G is the access by type), document 6 and 7 (generated from this), document 22 (the shared components).
+Related: document 1 (the rest of the current design; Part G is the access by type), document 6 and 7 (generated from this), document 21 (the shared components).
 
 ## Part F. Card structure: what the user can reach in each card, and why
 

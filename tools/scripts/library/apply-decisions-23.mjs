@@ -20,7 +20,7 @@ add(asset("DAT.001"), "decided 2026-10-16 (owner): the day cell and the month-an
 add(asset("DAT.002"), "decided 2026-10-16 (owner): the month calendar is the day calendar's card (head with the double and single arrows and the title, the grid in the same width, a foot), the grid being the twelve months of the year in four columns; its foot offers This month.");
 
 writeFileSync("src/library/data/library.ts", [
-    "// The assets library, seeded once by tools/scripts/library/seed-library.mjs from the catalogue (docs/design/records/07-structure-tables.md).",
+    "// The assets library, seeded once by tools/scripts/library/seed-library.mjs from the catalogue (docs/design/core/07-structure-tables.md).",
     "// From now on the library is the source: it is changed by the procedure of docs/design/library/08-library-system.md (check, library, library log, inventory, placement, app log).",
     "",
     'import type { Library } from "../model/types.ts";',

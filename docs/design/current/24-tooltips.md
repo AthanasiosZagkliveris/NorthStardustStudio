@@ -1,6 +1,6 @@
-# The tooltips: what has one, and what it says
+# 24. The tooltips: what has one, and what it says
 
-Status: **current design**, updated 2026-10-29. This document owns the tip (its place, words and look); `24-popups.md` (category P4) points here.
+Status: **current design**, updated 2026-10-29. This document owns the tip (its place, words and look); `23-popups.md` (category P4) points here.
 
 A tooltip is a small dark label above a control, in the app's own style (`TooltipBox`, `src/components/controls/Tooltip.tsx`), never the browser's own (a white rectangle with a black frame and letters, in the system's mode). One host draws every one (`TitleTooltips`, `src/components/controls/TitleTooltips.tsx`, mounted once in `App.tsx`): it takes the `title` of an element away and shows its words only by the rules below.
 

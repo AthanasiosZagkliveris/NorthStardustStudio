@@ -59,7 +59,7 @@ note(asset("BTN.003"), "walk of the running app 2026-10-16: the Back of the caro
 note(asset("BTN.002"), "walk of the running app 2026-10-16: the info button (info-note-button) is 22 by 22px today (816 found); the owner's decision is 24px.");
 
 writeFileSync("src/library/data/library.ts", [
-    "// The assets library, seeded once by tools/scripts/library/seed-library.mjs from the catalogue (docs/design/records/07-structure-tables.md).",
+    "// The assets library, seeded once by tools/scripts/library/seed-library.mjs from the catalogue (docs/design/core/07-structure-tables.md).",
     "// From now on the library is the source: it is changed by the procedure of docs/design/library/08-library-system.md (check, library, library log, inventory, placement, app log).",
     "",
     'import type { Library } from "../model/types.ts";',

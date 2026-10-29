@@ -6,8 +6,8 @@ Standing rules for any AI assistant working on this project. They come from expl
 
 ## Always
 
-- **Commit finished, verified work; do not push without the owner's yes.** A change that is only in the working tree has no history and can be lost by an unrelated git operation (a checkout, a stash, a discard). So a turn that changes project files ends with the change committed (only what was changed), or with a plain statement that it is not yet committed. Pushing, merging and tagging wait for the owner. Today the branch `chore/light-cleanup` is not pushed and `main` has not moved; after the owner has tried the app once: merge, push, tag (`design/records/05-not-done-yet.md`).
-- **Update the documents with the change**: the log row (`design/records/04-log.md`), the rule or the shared-component state where one changed, the examples (`docs/examples`) when the interface changed, then `npm run docs:index`. Documents are Markdown; PDFs are exports only and are not kept in the project.
+- **Commit finished, verified work; do not push without the owner's yes.** A change that is only in the working tree has no history and can be lost by an unrelated git operation (a checkout, a stash, a discard). So a turn that changes project files ends with the change committed (only what was changed), or with a plain statement that it is not yet committed. Pushing, merging and tagging wait for the owner. Today the branch `chore/light-cleanup` is not pushed and `main` has not moved; after the owner has tried the app once: merge, push, tag (`design/core/05-not-done-yet.md`).
+- **Update the documents with the change**: the log row (`design/core/04-log.md`), the rule or the shared-component state where one changed, the examples (`docs/examples`) when the interface changed, then `npm run docs:index`. Documents are Markdown; PDFs are exports only and are not kept in the project.
 - **Verify before saying done** (`toolchain-and-verification-playbook.md`, `review-checklist.md`). Say what was looked at and what was not.
 
 ## Never

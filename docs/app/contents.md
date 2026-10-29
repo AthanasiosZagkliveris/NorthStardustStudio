@@ -2,7 +2,7 @@
 
 Status: **contents and reference**, updated 2026-10-29. How the app is entered, its Systems and pages, where the figures and dates come from, and where things are in the code. The alphabetical list of places is `index.md`; the terms are in `glossary.md`; the contents of the documents are `docs/README.md`.
 
-What each part of the app is for and what it holds is below. The rules of layout are in `ai/layout-rules.md` and `ai/tile-and-card-pattern.md`; the cost rules are in `design/current/01-current-design.md` (the cost model parts). Where each component is, and which are shared: `ai/code-map.md` and `design/current/22-shared-components.md`.
+What each part of the app is for and what it holds is below. The rules of layout are in `ai/layout-rules.md` and `ai/tile-and-card-pattern.md`; the cost rules are in `design/core/01-current-design.md` (the cost model parts). Where each component is, and which are shared: `ai/code-map.md` and `design/current/21-shared-components.md`.
 
 ## How the app is entered
 1. **Organizations** (home): create, import or export an Organization; the two examples are in `src/data/examples/` (Lumen & Loom Studio, Quillfield Automation).

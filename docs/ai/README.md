@@ -2,7 +2,7 @@
 
 This folder is NorthStardustStudio's shared knowledge for AI assistants (Claude, ChatGPT, or any other coding assistant working on this project). It exists so an assistant does not have to re-derive facts about the code every session. This file is the map. It does not explain any concept itself; every concept below is owned by exactly one other file.
 
-The index of every document of the project (design, specifications, archive), with its kind and date, is `../README.md`. The history of what changed is `../design/records/04-log.md`; what is still open is `../design/records/05-not-done-yet.md`.
+The index of every document of the project (design, specifications, archive), with its kind and date, is `../README.md`. The history of what changed is `../design/core/04-log.md`; what is still open is `../design/core/05-not-done-yet.md`.
 
 ## Read this first, every session
 
@@ -17,7 +17,7 @@ The index of every document of the project (design, specifications, archive), wi
 - **`review-criteria.md`**: the standard a screen is judged by (type, spacing, controls, colour, tiles, cards, tables, pop-up windows, pages, data), how each criterion is measured, and the form of the report.
 - **`review-checklist.md`**: what to check when reviewing a table, tile, card, page or control, and the proof before saying done. Read it before any change on screen.
 - **`card-kinds.md`**: the kinds of card, where each one's code is and how its head is built.
-- Also read, from `../design/`: `22-shared-components.md` (which components are shared; use them), `25-tooltips.md`, `24-popups.md`, `19-reactions.md`.
+- Also read, from `../design/`: `21-shared-components.md` (which components are shared; use them), `24-tooltips.md`, `23-popups.md`, `18-reactions.md`.
 
 ## Changing the content (the framework)
 
@@ -33,7 +33,7 @@ The index of every document of the project (design, specifications, archive), wi
 
 ## How these files relate
 
-Nothing here should duplicate another file's knowledge. If two files seem to say the same thing, flag it rather than trusting whichever was read first. For the look of the Foundation pages, each fact has one home: colours, sizes and breakpoints in `src/styles/tokens/tokens.ts` (generated into the stylesheets), and an asset's geometry, states and variants in its contract under `src/library`. The rulebook, `tile-and-card-pattern.md`, the page specifications and `docs/design/current/01-current-design.md` describe them in words; where one of them disagrees with the code, the code is right and the document is the one to fix.
+Nothing here should duplicate another file's knowledge. If two files seem to say the same thing, flag it rather than trusting whichever was read first. For the look of the Foundation pages, each fact has one home: colours, sizes and breakpoints in `src/styles/tokens/tokens.ts` (generated into the stylesheets), and an asset's geometry, states and variants in its contract under `src/library`. The rulebook, `tile-and-card-pattern.md`, the page specifications and `docs/design/core/01-current-design.md` describe them in words; where one of them disagrees with the code, the code is right and the document is the one to fix.
 
 Skills (kept outside this folder) point at files here by path; this folder is the single source of truth they read, and a skill carries no copy of it.
 

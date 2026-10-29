@@ -291,7 +291,7 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 - **In code, not named in `tile-and-card-pattern.md` or `card-kinds.md`:** `SubTiles`, `PictureBoxes`, `CardBoxes`, `SectionView`, `SubcategoryBoxes`, `AddTile`, `CardNav`, `BoxActions`, `FoldAllToggle`, `FigureTiles`, `SignalList`, `CashTimelineChart`, the Introduction page, the status line, Focus mode, the undo toast, the Notepad, the search dialog, the Inventory funnel, "Completed".
 - **Named in documents, not in code:** "Master Tile", "Chapter" and "help tile" are the owner's words and have no code counterpart. "Marker column" is gone, as `card-kinds.md` says.
 - **Unused:** `I/cards/CardColumns.tsx` is imported only by its own test; `InterviewProgress` is switched off.
-- **Near-duplicates seen on 2026-10-14 (the shared components built since are in document 22):** the two funnels (`CapabilityOverview`, `CalendarFunnel`); the confirmation-dialog markup repeated in six places; `business-channel-table` and `business-relationship-table`; the three rails (`BulletRail`, `CardNav`, the dialog rail); several "empty note" classes.
+- **Near-duplicates seen on 2026-10-14 (the shared components built since are in document 21):** the two funnels (`CapabilityOverview`, `CalendarFunnel`); the confirmation-dialog markup repeated in six places; `business-channel-table` and `business-relationship-table`; the three rails (`BulletRail`, `CardNav`, the dialog rail); several "empty note" classes.
 
 
 ## Part D. Cost model
@@ -835,7 +835,7 @@ The three tests (identifiability, control, future economic benefit), the rule th
 
 ## Part F. Card structure: what the user can reach in each card, and why
 
-**Moved to document 35 (card structure) on 2026-10-29.** It holds one entry for each card layout of the Foundation (the path, the help text, the row-by-row table of what the user can reach, and what happens behind the scenes). The structure tables (document 7) and the catalogue record (document 6) are generated from it. Part G below is the access by card type and stays here.
+**Moved to document 26 (card structure) on 2026-10-29.** It holds one entry for each card layout of the Foundation (the path, the help text, the row-by-row table of what the user can reach, and what happens behind the scenes). The structure tables (document 7) and the catalogue record (document 6) are generated from it. Part G below is the access by card type and stays here.
 
 ## Part G. Card access by type: principles and access of each field
 

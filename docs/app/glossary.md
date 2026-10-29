@@ -27,9 +27,9 @@ Canonical, one-line definitions. Each term has exactly one owner document, linke
 
 ## The app (Foundation pages)
 
-**Page** — one screen of a System, with its title and rails. **Chapter** — a frame on a page that holds Master Tiles. *Owned by: `design/current/01-current-design.md`, C.0.*
+**Page** — one screen of a System, with its title and rails. **Chapter** — a frame on a page that holds Master Tiles. *Owned by: `design/core/01-current-design.md`, C.0.*
 
-**Master Tile / Tile** — the square on a page that opens a dialog (the page tile), and the other tile drawings (a section tile in a dialog, a category tile, a card tile); all are drawn by one `Tile` component. A **Diagram tile** is a Master Tile that stands for a drawing (the Roadmap). *Owned by: `tile-and-card-pattern.md`, `design/current/22-shared-components.md`.*
+**Master Tile / Tile** — the square on a page that opens a dialog (the page tile), and the other tile drawings (a section tile in a dialog, a category tile, a card tile); all are drawn by one `Tile` component. A **Diagram tile** is a Master Tile that stands for a drawing (the Roadmap). *Owned by: `tile-and-card-pattern.md`, `design/current/21-shared-components.md`.*
 
 **Card / Floating card** — an opened tile; a floating card is a card placed over the page (a placement, not a type). A card of a completed activity is grey. *Owned by: `card-kinds.md`, `tile-and-card-pattern.md`.*
 
@@ -39,9 +39,9 @@ Canonical, one-line definitions. Each term has exactly one owner document, linke
 
 **Reading mode** — light, sepia, dark or auto; the colours are tokens per mode. **Token** — a named colour or size in `src/styles/tokens/tokens.ts`, generated into the stylesheets. *Owned by: `layout-rules.md`, section 2.*
 
-**Shared component** — a control or part drawn once and used everywhere (`AddButton`, `RemoveButton`, `NavArrow`, `FoldArrow`, `RadioChoice`, `TextLink`, `OptionPicker` and the rest). A look is a token or a global rule, never a page's own. *Owned by: `design/current/22-shared-components.md`.*
+**Shared component** — a control or part drawn once and used everywhere (`AddButton`, `RemoveButton`, `NavArrow`, `FoldArrow`, `RadioChoice`, `TextLink`, `OptionPicker` and the rest). A look is a token or a global rule, never a page's own. *Owned by: `design/current/21-shared-components.md`.*
 
-**Tooltip** — a dark label above a pressed control that says what a click does, in one sentence beginning "Click to ...". *Owned by: `design/current/25-tooltips.md`.*
+**Tooltip** — a dark label above a pressed control that says what a click does, in one sentence beginning "Click to ...". *Owned by: `design/current/24-tooltips.md`.*
 
 **Layout check** — the automatic check of every Foundation page against the rulebook (`npm run check:layout`), with a baseline of known findings. *Owned by: `layout-rules.md`, section 18.*
 
@@ -61,7 +61,7 @@ Canonical, one-line definitions. Each term has exactly one owner document, linke
 
 **Outstanding Finding** — a real, confirmed problem found by a diagnostic and not fixed in that turn, recorded so it is not lost. *Owned by: `outstanding-findings.md`.*
 
-**Log** — `design/records/04-log.md`: every change, newest row on top, and nowhere else. **Generated document** — written by a script; never edited by hand (`docs/README.md` says which).
+**Log** — `design/core/04-log.md`: every change, newest row on top, and nowhere else. **Generated document** — written by a script; never edited by hand (`docs/README.md` says which).
 
 ## The questionnaire and the first version
 
@@ -126,7 +126,7 @@ One line per term; the document that explains it is in the last column. Doc numb
 | P | The Person (Profile card) | doc 28 1 |
 | K | The Competitor | doc 28 1 |
 | O | The Offering | doc 28 1 |
-| L1 to L16 | The shared Lists | doc 36 5.2 |
+| L1 to L16 | The shared Lists | doc 35 5.2 |
 | W | The Work of the Delivery card | doc 28 1 |
 | C, R, J, D | Capability and founders; Revenue stream; customer Journey; Demand card | doc 28 1 |
 | F | Ids of the earlier question files (Appendix A only) | doc 28 1 |

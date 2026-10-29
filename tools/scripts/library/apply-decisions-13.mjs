@@ -14,7 +14,7 @@ variant("CAL.PNL.001.002").kind = "Side panel: the opened panel";
 variant("DAT.DAY.002.001").kind = "Popup: a grid of days";
 variant("DAT.MON.002.002").kind = "Popup: a grid of months";
 writeFileSync("src/library/data/library.ts", [
-    "// The assets library, seeded once by tools/scripts/library/seed-library.mjs from the catalogue (docs/design/records/07-structure-tables.md).",
+    "// The assets library, seeded once by tools/scripts/library/seed-library.mjs from the catalogue (docs/design/core/07-structure-tables.md).",
     "// From now on the library is the source: it is changed by the procedure of docs/design/library/08-library-system.md (check, library, library log, inventory, placement, app log).",
     "",
     'import type { Library } from "../model/types.ts";',

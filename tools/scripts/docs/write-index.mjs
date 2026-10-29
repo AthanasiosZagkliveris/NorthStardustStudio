@@ -28,32 +28,32 @@ const AI = [
   ["docs/ai/outstanding-findings.md", "living list", "Confirmed problems found by diagnostic skills and not yet fixed.", true]
 ];
 const DESIGN = [
-  ["docs/design/current/01-current-design.md", "current design", "Every kind of element the Foundation capability is built from, by layer.", false],
-  ["docs/design/records/02-references.md", "reference", "Every decision in the app and the source behind it.", false],
-  ["docs/design/records/03-research.md", "reference", "The research record: sources, findings, how they were weighed.", false],
-  ["docs/design/records/04-log.md", "log", "History, changes and updates, newest on top. Every change is written here, nowhere else.", false],
-  ["docs/design/records/05-not-done-yet.md", "living list", "The road, the plans and what has not been done yet.", false],
-  ["docs/design/records/06-catalogue-record.md", "generated", "The catalogue record of the app's pages, fields and cards.", false],
-  ["docs/design/records/07-structure-tables.md", "generated", "The structure tables (npm run tables).", false],
+  ["docs/design/core/01-current-design.md", "current design", "Every kind of element the Foundation capability is built from, by layer.", false],
+  ["docs/design/core/02-references.md", "reference", "Every decision in the app and the source behind it.", false],
+  ["docs/design/core/03-research.md", "reference", "The research record: sources, findings, how they were weighed.", false],
+  ["docs/design/core/04-log.md", "log", "History, changes and updates, newest on top. Every change is written here, nowhere else.", false],
+  ["docs/design/core/05-not-done-yet.md", "living list", "The road, the plans and what has not been done yet.", false],
+  ["docs/design/core/06-catalogue-record.md", "generated", "The catalogue record of the app's pages, fields and cards.", false],
+  ["docs/design/core/07-structure-tables.md", "generated", "The structure tables (npm run tables).", false],
   ["docs/design/library/08-library-system.md", "current design", "The library system: tables, library, inventory and logs.", false],
   ["docs/design/library/09-assets-library.md", "generated", "The assets library: every asset, its variants and contract.", false],
   ["docs/design/library/10-library-log.md", "log", "The library log, newest rows on top (npm run library:log).", false],
-  ["docs/archive/library/11-library-log-archive.md", "archive", "Older rows of the library log.", false],
-  ["docs/design/library/12-app-structure-log.md", "log", "The app structure log.", false],
-  ["docs/design/library/13-component-defaults.md", "generated", "Component defaults.", false],
-  ["docs/design/library/14-components-list.md", "generated", "The components, and which fields and cards use each.", false],
-  ["docs/design/library/15-fields-list.md", "generated", "The fields, the add buttons and the field names.", false],
-  ["docs/design/library/16-library-vs-app.md", "generated", "The library measured against the app.", false],
-  ["docs/design/current/17-text-holders.md", "generated", "The text holders: sizes and rules.", true],
-  ["docs/design/current/18-frequency-options.md", "generated", "The Frequency options by group, and the open proposals.", true],
-  ["docs/design/current/19-reactions.md", "current design", "How elements react to the pointer and the keyboard.", true],
-  ["docs/design/current/20-text-links.md", "generated", "The text link: look and behaviour.", true],
-  ["docs/design/current/21-free-text-categories.md", "current design", "Free texts in four categories: the categories, the decided limits, and what is still to build.", true],
-  ["docs/design/current/22-shared-components.md", "current design", "Which components are shared, with their props, and what is still hand-made.", false],
-  ["docs/design/current/23-help-texts.md", "generated", "The help texts of the app.", true],
-  ["docs/design/current/24-popups.md", "current design", "Pop-ups in six categories, with their placement rules.", true],
-  ["docs/design/current/25-tooltips.md", "current design", "Which controls have a tooltip, what it says, its look and its rules (the owner of the tip).", true],
-  ["docs/design/current/26-folder-plan.md", "current design", "The folders of the repository: the app files, the examples, the working files and the exports, and what is where.", true],
+  ["docs/archive/library/library-log-archive.md", "archive", "Older rows of the library log.", false],
+  ["docs/design/library/11-app-structure-log.md", "log", "The app structure log.", false],
+  ["docs/design/library/12-component-defaults.md", "generated", "Component defaults.", false],
+  ["docs/design/library/13-components-list.md", "generated", "The components, and which fields and cards use each.", false],
+  ["docs/design/library/14-fields-list.md", "generated", "The fields, the add buttons and the field names.", false],
+  ["docs/design/library/15-library-vs-app.md", "generated", "The library measured against the app.", false],
+  ["docs/design/current/16-text-holders.md", "generated", "The text holders: sizes and rules.", true],
+  ["docs/design/current/17-frequency-options.md", "generated", "The Frequency options by group, and the open proposals.", true],
+  ["docs/design/current/18-reactions.md", "current design", "How elements react to the pointer and the keyboard.", true],
+  ["docs/design/current/19-text-links.md", "generated", "The text link: look and behaviour.", true],
+  ["docs/design/current/20-free-text-categories.md", "current design", "Free texts in four categories: the categories, the decided limits, and what is still to build.", true],
+  ["docs/design/current/21-shared-components.md", "current design", "Which components are shared, with their props, and what is still hand-made.", false],
+  ["docs/design/current/22-help-texts.md", "generated", "The help texts of the app.", true],
+  ["docs/design/current/23-popups.md", "current design", "Pop-ups in six categories, with their placement rules.", true],
+  ["docs/design/current/24-tooltips.md", "current design", "Which controls have a tooltip, what it says, its look and its rules (the owner of the tip).", true],
+  ["docs/design/current/25-folder-plan.md", "current design", "The folders of the repository: the app files, the examples, the working files and the exports, and what is where.", true],
   ["docs/design/questionnaire/27-questionnaire-plan.md", "proposal", "The questionnaire plan: the one test (does an answer save the founder work), the funnel from Identity to the journey, a worked example, the 42 drivers, the six building blocks, the stages and the decisions.", true],
   ["docs/design/questionnaire/28-questionnaire-specification.md", "proposal", "The questionnaire specification: the countries and shared lists with examples, the industry list in two levels, every question and option, the connection map with its evidence, the equality rules, the moves and the decisions.", true],
   ["docs/design/questionnaire/29-question-guide.md", "proposal", "The question guide: the flow of questions as trees, the key branching questions, what happens on both, mixed, not sure and other, the order that asks the least, why each question matters to the user, and how to write a new one.", true],
@@ -62,11 +62,11 @@ const DESIGN = [
   ["docs/design/questionnaire/32-positioning-sources.md", "research", "Sources for the positioning lists: what supports each list of doc 31 (age stages, buyer categories, relationships, purposes, accessibility, caregiving), what has no acceptable source, and the five search result files with every page opened or marked not opened.", true],
   ["docs/design/questionnaire/33-specs-and-limitations.md", "specification", "The first published version: English only; the six countries and Other with their legal forms, activities and codes; single-sided; B2C and/or B2B; the buyer's category separate from the life stage.", true],
   ["docs/design/questionnaire/34-future-features.md", "living list", "Everything that is not in the first published version: other languages and countries, multi-sided, B2G, G2B, the detailed positioning data, age limits by country, and the research still to do.", true],
-  ["docs/design/current/35-card-structure.md", "current design", "Card structure: what the user can reach in each card, row by row, and why (Part F of document 1; the structure tables and the catalogue record are generated from it).", true],
-  ["docs/design/questionnaire/36-lists-and-classifications.md", "proposal", "The countries, the shared lists, the national crosswalks, the industry lists, the activity cascade, the codes and the classification data (section 5 of document 28).", true]
+  ["docs/design/current/26-card-structure.md", "current design", "Card structure: what the user can reach in each card, row by row, and why (Part F of document 1; the structure tables and the catalogue record are generated from it).", true],
+  ["docs/design/questionnaire/35-lists-and-classifications.md", "proposal", "The countries, the shared lists, the national crosswalks, the industry lists, the activity cascade, the codes and the classification data (section 5 of document 28).", true]
 ];
 const chapter = (name) => DESIGN.filter(([p]) => p.startsWith("docs/design/" + name + "/"));
-const CURRENT = chapter("current"), LIBRARY = chapter("library"), RECORDS = chapter("records"), QUESTIONNAIRE = chapter("questionnaire");
+const CURRENT = chapter("current"), LIBRARY = chapter("library"), CORE = chapter("core"), QUESTIONNAIRE = chapter("questionnaire");
 const ARCHIVED_DESIGN = DESIGN.filter(([p]) => p.startsWith("docs/archive/"));
 const SPEC = [
   ["docs/specifications/business-system/README.md", "specification", "The Business System: index of the pages and the editor mapping.", true],
@@ -92,76 +92,51 @@ const ARCHIVE = [
 const row = ([p, kind, what]) => "| [" + p.replace(/^docs\//, "") + "](" + p.replace(/^docs\//, "") + ") | " + kind + " | " + what + " | " + date(p) + " |";
 const ar = ARCHIVE.map(([, to, kind, what]) => [to, kind, what]);
 const table = (list) => "| Document | Kind | What it holds | Updated |\n|---|---|---|---|\n" + list.map(row).join("\n") + "\n";
+
+const slug = (h) => h.toLowerCase().replace(/[^a-z0-9 _-]/g, "").replace(/ /g, "-");
+const archiveRows = [...ARCHIVED_DESIGN.map(([p, k, w]) => [p, k, w]), ...ar];
+const CHAPTERS = [
+  ["The app (`app/`)", "How the app is entered, its Systems and pages, the places in it, and the terms.", APP],
+  ["The design and its records (`design/core/`, documents 1 to 7)", "The current design of the Foundation, the sources, the research, the log of every change, what has not been done, and the generated catalogue and structure tables.", CORE],
+  ["The library (`design/library/`, documents 8 to 15)", "The assets library, its generated lists, its logs, and the library measured against the app.", LIBRARY],
+  ["The current design (`design/current/`, documents 16 to 26)", "What the app is today in detail: the texts, the reactions, the shared components, the pop-ups, the tooltips, the folders and the card structure.", CURRENT],
+  ["The first version and the questionnaire (`design/questionnaire/`, documents 27 to 35)", "What the first published version contains (read 33 first; it governs), what it leaves for later (34), and the questions, the lists and the research behind them. Reading order: 33, 34, then 27 (the plan), 28 (every question and rule), 29 (the flow), 35 (the lists and classifications), 31 and 32 (the positioning decisions and their sources), 30 (age limits).", QUESTIONNAIRE],
+  ["Rules for the assistant (`ai/`)", "Standing rules, references and playbooks for an AI assistant working on the project.", AI],
+  ["The specifications (`specifications/`)", "The pages of the Business System.", SPEC],
+  ["The archive (`archive/`)", "Documents that are finished or replaced; each is kept for its information.", "| Document | Kind | What it holds | Updated |\n|---|---|---|---|\n" + archiveRows.map(row).join("\n") + "\n"]
+];
 const idx = `# The documents of NorthStardustStudio
 
 Status: **index**, updated ${new Date().toISOString().slice(0, 10)}. One line per document: where it is, what kind it is, what it holds, when it last changed (the date of its last commit).
 
 ## How the documents are kept
 
-- **A change is written in the log** (\`design/records/04-log.md\`), newest row on top, and nowhere else. The other documents **describe the present**: each says what is true now, under a dated heading, the newest on top, with its own status line (kind and date) under the title.
+- **A change is written in the log** (\`design/core/04-log.md\`), newest row on top, and nowhere else. The other documents **describe the present**: each says what is true now, under a dated heading, the newest on top, with its own status line (kind and date) under the title.
 - **Kinds**: *rules* (what must hold; a check enforces most of them), *reference* (how things are, to look up), *current design* (what the app is today), *living list* (an open list: an item leaves it when done and the log records it), *log*, *proposal* (nothing built; in the archive), *specification* (what a page asks and shows), *playbook* (a procedure), *generated* (written by a script; never edit by hand, run its command), *archive* (finished or older; kept for the record).
 - **Where the code and a document disagree, the code is right** and the document is the one to fix. The checks that keep them honest: \`npm run docs:check\` (generated sections), \`npm run tables:check\`, \`npm run library:check\`, and the document-reference test (six documents name only properties, classes and files the code has).
 - **This index is written by \`npm run docs:index\`** (the lists are in \`tools/scripts/docs/write-index.mjs\`; a new document is added there). Do not edit it by hand.
-- **Who reads what**: an assistant starts with \`ai/README.md\`; the owner starts with \`app/contents.md\` (the map), \`design/records/05-not-done-yet.md\` (what is open) and \`design/records/04-log.md\` (what changed).
+- **Who reads what**: an assistant starts with \`ai/README.md\`; the owner starts with \`app/contents.md\` (the map), \`design/core/05-not-done-yet.md\` (what is open) and \`design/core/04-log.md\` (what changed).
 
 ## Contents
 
-1. [The app](#1-the-app-app): contents, index and glossary
-2. [The first version and the questionnaire](#2-the-first-version-and-the-questionnaire-designquestionnaire)
-3. [The current design](#3-the-current-design-designcurrent)
-4. [The library](#4-the-library-designlibrary)
-5. [Records, logs and open lists](#5-records-logs-and-open-lists-designrecords)
-6. [Rules for the assistant](#6-rules-for-the-assistant-ai)
-7. [The specifications](#7-the-specifications-specifications)
-8. [The archive](#8-the-archive-archive)
+${CHAPTERS.map(([title, , ], i) => (i + 1) + ". [" + title.replace(/ \(`[^`]*`\)$/, "") + "](#" + slug((i + 1) + ". " + title) + ")").join("\n")}
 
-The alphabetical index of the subjects in these documents is [index.md](index.md); the index of the places in the app is [app/index.md](app/index.md); the terms are in [app/glossary.md](app/glossary.md).
+The documents are numbered in the order of the chapters (the number is in the file name and the title, and it is how they cite one another: "doc 28"). The alphabetical index of the subjects is [index.md](index.md); the index of the places in the app is [app/index.md](app/index.md); the terms are in [app/glossary.md](app/glossary.md).
 
-## 1. The app (\`app/\`)
-
-How the app is entered, its Systems and pages, the places in it, and the terms.
-
-${table(APP)}
-## 2. The first version and the questionnaire (\`design/questionnaire/\`)
-
-What the first published version contains (read **33** first; it governs), what it leaves for later (**34**), and the questions, the lists and the research behind them. Reading order: 33, 34, then 27 (the plan), 28 (every question and rule), 29 (the flow), 36 (the lists and classifications), 31 and 32 (the positioning decisions and their sources), 30 (age limits).
-
-${table(QUESTIONNAIRE)}
-## 3. The current design (\`design/current/\`)
-
-What the app is today: the elements by layer, the card structure, the shared components, the texts, pop-ups, tooltips, reactions and the folders.
-
-${table(CURRENT)}
-## 4. The library (\`design/library/\`)
-
-The assets library, its generated lists, its logs, and the library measured against the app.
-
-${table(LIBRARY)}
-## 5. Records, logs and open lists (\`design/records/\`)
-
-The sources, the research, the log of every change, what has not been done, and the generated catalogue and structure tables.
-
-${table(RECORDS)}
-## 6. Rules for the assistant (\`ai/\`)
-
-${table(AI)}
-## 7. The specifications (\`specifications/\`)
-
-${table(SPEC)}
-## 8. The archive (\`archive/\`)
-
-Documents that are finished or replaced; each is kept for its information.
-
-| Document | Kind | What it holds | Updated |
-|---|---|---|---|
-${[...ARCHIVED_DESIGN.map(([p, k, w]) => [p, k, w]), ...ar].map(row).join("\n")}
+${CHAPTERS.map(([title, blurb, list], i) => "## " + (i + 1) + ". " + title + "\n\n" + blurb + "\n\n" + (typeof list === "string" ? list : table(list))).join("\n")}
 `;
 
+
+{
+    const nums = DESIGN.map(([p]) => /\/(\d\d)-/.exec(p)).filter(Boolean).map(m => +m[1]).sort((x, y) => x - y);
+    const gaps = []; for (let n = 1; n <= nums[nums.length - 1]; n++) if (!nums.includes(n)) gaps.push(n);
+    if (gaps.length || new Set(nums).size !== nums.length) { console.error("the design documents are not numbered 1 to " + nums[nums.length - 1] + " without a gap or a repeat: gaps " + gaps.join(", ")); process.exit(1); }
+}
 writeFileSync(R + "docs/README.md", idx);
 console.log("docs/README.md written");
 
 // 4. the subject index (docs/index.md): topic -> where it is described
-const TOPICS = [ [ "Accessibility (user needs)", [ [ "31 section 3", "design/questionnaire/31-positioning-categories.md" ], [ "34 (future)", "design/questionnaire/34-future-features.md" ] ] ], [ "Activities and codes (classifications)", [ [ "36 sections 5.7 to 5.10", "design/questionnaire/36-lists-and-classifications.md" ], [ "28 section 8.5", "design/questionnaire/28-questionnaire-specification.md" ] ] ], [ "Age limits by activity and country", [ [ "30", "design/questionnaire/30-age-limits-by-activity.md" ], [ "31 section 10.2", "design/questionnaire/31-positioning-categories.md" ] ] ], [ "Age stages", [ [ "31 section 10.1", "design/questionnaire/31-positioning-categories.md" ] ] ], [ "App, contents", [ [ "app/contents", "app/contents.md" ] ] ], [ "App, places (index)", [ [ "app/index", "app/index.md" ] ] ], [ "Archive", [ [ "README section 8", "README.md" ] ] ], [ "Assets library", [ [ "08", "design/library/08-library-system.md" ], [ "09", "design/library/09-assets-library.md" ] ] ], [ "Audience (Identity)", [ [ "28 section 8.2", "design/questionnaire/28-questionnaire-specification.md" ] ] ], [ "Business stage and Opening Date", [ [ "28 section 8.2a", "design/questionnaire/28-questionnaire-specification.md" ] ] ], [ "Buyer category and life stage", [ [ "33 section 5", "design/questionnaire/33-specs-and-limitations.md" ], [ "31", "design/questionnaire/31-positioning-categories.md" ] ] ], [ "Business System pages", [ [ "specifications", "specifications/business-system/README.md" ] ] ], [ "Card kinds", [ [ "card-kinds", "ai/card-kinds.md" ] ] ], [ "Card structure", [ [ "35", "design/current/35-card-structure.md" ], [ "tile and card pattern", "ai/tile-and-card-pattern.md" ] ] ], [ "Caregiving", [ [ "31 section 4", "design/questionnaire/31-positioning-categories.md" ] ] ], [ "Catalogue record", [ [ "06", "design/records/06-catalogue-record.md" ] ] ], [ "Change history (log)", [ [ "04", "design/records/04-log.md" ] ] ], [ "Colour map of the pages", [ [ "01 Part I", "design/current/01-current-design.md" ] ] ], [ "Components, defaults", [ [ "13", "design/library/13-component-defaults.md" ] ] ], [ "Components, list", [ [ "14", "design/library/14-components-list.md" ] ] ], [ "Components, shared", [ [ "22", "design/current/22-shared-components.md" ] ] ], [ "Cost model", [ [ "01 Part D", "design/current/01-current-design.md" ] ] ], [ "Countries of the first version", [ [ "33 section 3", "design/questionnaire/33-specs-and-limitations.md" ] ] ], [ "Customer Engagement", [ [ "specifications page 2", "specifications/business-system/page-2-section-1-channels.md" ], [ "28 section 7", "design/questionnaire/28-questionnaire-specification.md" ] ] ], [ "Differentiation and Outcome", [ [ "28 section 8.2", "design/questionnaire/28-questionnaire-specification.md" ] ] ], [ "Dual-Intent Buyer, Proxy Buyer", [ [ "31 section 10.5", "design/questionnaire/31-positioning-categories.md" ], [ "33 section 5", "design/questionnaire/33-specs-and-limitations.md" ] ] ], [ "End User questions", [ [ "31 section 9", "design/questionnaire/31-positioning-categories.md" ], [ "28 section 8.2", "design/questionnaire/28-questionnaire-specification.md" ] ] ], [ "Fields, list", [ [ "15", "design/library/15-fields-list.md" ] ] ], [ "First version", [ [ "33", "design/questionnaire/33-specs-and-limitations.md" ] ] ], [ "Folders of the repository", [ [ "26", "design/current/26-folder-plan.md" ] ] ], [ "Free texts", [ [ "21", "design/current/21-free-text-categories.md" ], [ "17 (text holders)", "design/current/17-text-holders.md" ] ] ], [ "Frequency options", [ [ "18", "design/current/18-frequency-options.md" ] ] ], [ "Future features", [ [ "34", "design/questionnaire/34-future-features.md" ] ] ], [ "Glossary", [ [ "app/glossary", "app/glossary.md" ] ] ], [ "Help texts", [ [ "23", "design/current/23-help-texts.md" ] ] ], [ "Layout rules and the layout check", [ [ "layout-rules", "ai/layout-rules.md" ] ] ], [ "Legal forms", [ [ "33 section 3", "design/questionnaire/33-specs-and-limitations.md" ] ] ], [ "Library log", [ [ "10", "design/library/10-library-log.md" ], [ "archive", "archive/library/11-library-log-archive.md" ], [ "12 (app structure)", "design/library/12-app-structure-log.md" ] ] ], [ "Market structure (single- and multi-sided)", [ [ "28 section 8.2", "design/questionnaire/28-questionnaire-specification.md" ], [ "34 (multi-sided is future)", "design/questionnaire/34-future-features.md" ] ] ], [ "Not done yet", [ [ "05", "design/records/05-not-done-yet.md" ] ] ], [ "Pop-ups", [ [ "24", "design/current/24-popups.md" ] ] ], [ "Positioning", [ [ "28 section 8.2", "design/questionnaire/28-questionnaire-specification.md" ], [ "31", "design/questionnaire/31-positioning-categories.md" ] ] ], [ "Profile card", [ [ "28 section 6.4", "design/questionnaire/28-questionnaire-specification.md" ] ] ], [ "Purposes of an offering", [ [ "31 sections 7 and 10.4", "design/questionnaire/31-positioning-categories.md" ] ] ], [ "Reactions (hover, press, focus)", [ [ "19", "design/current/19-reactions.md" ] ] ], [ "References and sources", [ [ "02", "design/records/02-references.md" ], [ "32 (positioning)", "design/questionnaire/32-positioning-sources.md" ] ] ], [ "Relationships (buyer and user)", [ [ "31 section 6", "design/questionnaire/31-positioning-categories.md" ], [ "33 section 5", "design/questionnaire/33-specs-and-limitations.md" ] ] ], [ "Research", [ [ "03", "design/records/03-research.md" ], [ "30", "design/questionnaire/30-age-limits-by-activity.md" ], [ "32", "design/questionnaire/32-positioning-sources.md" ] ] ], [ "Rule 14 (lists come from documents)", [ [ "28 section 3", "design/questionnaire/28-questionnaire-specification.md" ] ] ], [ "Segment card", [ [ "28 section 6.3", "design/questionnaire/28-questionnaire-specification.md" ] ] ], [ "Shared components", [ [ "22", "design/current/22-shared-components.md" ] ] ], [ "Structure tables", [ [ "07", "design/records/07-structure-tables.md" ] ] ], [ "Text holders", [ [ "17", "design/current/17-text-holders.md" ] ] ], [ "Text links", [ [ "20", "design/current/20-text-links.md" ] ] ], [ "Tile and card pattern", [ [ "tile-and-card-pattern", "ai/tile-and-card-pattern.md" ] ] ], [ "Tooltips", [ [ "25", "design/current/25-tooltips.md" ] ] ], [ "Verification (what to run after a change)", [ [ "toolchain playbook", "ai/toolchain-and-verification-playbook.md" ] ] ], [ "Questions, the plan and the guide", [ [ "27", "design/questionnaire/27-questionnaire-plan.md" ], [ "29", "design/questionnaire/29-question-guide.md" ], [ "28", "design/questionnaire/28-questionnaire-specification.md" ] ] ]
+const TOPICS = [ [ "Accessibility (user needs)", [ [ "31 section 3", "design/questionnaire/31-positioning-categories.md" ], [ "34 (future)", "design/questionnaire/34-future-features.md" ] ] ], [ "Activities and codes (classifications)", [ [ "36 sections 5.7 to 5.10", "design/questionnaire/35-lists-and-classifications.md" ], [ "28 section 8.5", "design/questionnaire/28-questionnaire-specification.md" ] ] ], [ "Age limits by activity and country", [ [ "30", "design/questionnaire/30-age-limits-by-activity.md" ], [ "31 section 10.2", "design/questionnaire/31-positioning-categories.md" ] ] ], [ "Age stages", [ [ "31 section 10.1", "design/questionnaire/31-positioning-categories.md" ] ] ], [ "App, contents", [ [ "app/contents", "app/contents.md" ] ] ], [ "App, places (index)", [ [ "app/index", "app/index.md" ] ] ], [ "Archive", [ [ "README section 8", "README.md" ] ] ], [ "Assets library", [ [ "08", "design/library/08-library-system.md" ], [ "09", "design/library/09-assets-library.md" ] ] ], [ "Audience (Identity)", [ [ "28 section 8.2", "design/questionnaire/28-questionnaire-specification.md" ] ] ], [ "Business stage and Opening Date", [ [ "28 section 8.2a", "design/questionnaire/28-questionnaire-specification.md" ] ] ], [ "Buyer category and life stage", [ [ "33 section 5", "design/questionnaire/33-specs-and-limitations.md" ], [ "31", "design/questionnaire/31-positioning-categories.md" ] ] ], [ "Business System pages", [ [ "specifications", "specifications/business-system/README.md" ] ] ], [ "Card kinds", [ [ "card-kinds", "ai/card-kinds.md" ] ] ], [ "Card structure", [ [ "35", "design/current/26-card-structure.md" ], [ "tile and card pattern", "ai/tile-and-card-pattern.md" ] ] ], [ "Caregiving", [ [ "31 section 4", "design/questionnaire/31-positioning-categories.md" ] ] ], [ "Catalogue record", [ [ "06", "design/core/06-catalogue-record.md" ] ] ], [ "Change history (log)", [ [ "04", "design/core/04-log.md" ] ] ], [ "Colour map of the pages", [ [ "01 Part I", "design/core/01-current-design.md" ] ] ], [ "Components, defaults", [ [ "13", "design/library/12-component-defaults.md" ] ] ], [ "Components, list", [ [ "14", "design/library/13-components-list.md" ] ] ], [ "Components, shared", [ [ "22", "design/current/21-shared-components.md" ] ] ], [ "Cost model", [ [ "01 Part D", "design/core/01-current-design.md" ] ] ], [ "Countries of the first version", [ [ "33 section 3", "design/questionnaire/33-specs-and-limitations.md" ] ] ], [ "Customer Engagement", [ [ "specifications page 2", "specifications/business-system/page-2-section-1-channels.md" ], [ "28 section 7", "design/questionnaire/28-questionnaire-specification.md" ] ] ], [ "Differentiation and Outcome", [ [ "28 section 8.2", "design/questionnaire/28-questionnaire-specification.md" ] ] ], [ "Dual-Intent Buyer, Proxy Buyer", [ [ "31 section 10.5", "design/questionnaire/31-positioning-categories.md" ], [ "33 section 5", "design/questionnaire/33-specs-and-limitations.md" ] ] ], [ "End User questions", [ [ "31 section 9", "design/questionnaire/31-positioning-categories.md" ], [ "28 section 8.2", "design/questionnaire/28-questionnaire-specification.md" ] ] ], [ "Fields, list", [ [ "15", "design/library/14-fields-list.md" ] ] ], [ "First version", [ [ "33", "design/questionnaire/33-specs-and-limitations.md" ] ] ], [ "Folders of the repository", [ [ "26", "design/current/25-folder-plan.md" ] ] ], [ "Free texts", [ [ "21", "design/current/20-free-text-categories.md" ], [ "17 (text holders)", "design/current/16-text-holders.md" ] ] ], [ "Frequency options", [ [ "18", "design/current/17-frequency-options.md" ] ] ], [ "Future features", [ [ "34", "design/questionnaire/34-future-features.md" ] ] ], [ "Glossary", [ [ "app/glossary", "app/glossary.md" ] ] ], [ "Help texts", [ [ "23", "design/current/22-help-texts.md" ] ] ], [ "Layout rules and the layout check", [ [ "layout-rules", "ai/layout-rules.md" ] ] ], [ "Legal forms", [ [ "33 section 3", "design/questionnaire/33-specs-and-limitations.md" ] ] ], [ "Library log", [ [ "10", "design/library/10-library-log.md" ], [ "archive", "archive/library/library-log-archive.md" ], [ "12 (app structure)", "design/library/11-app-structure-log.md" ] ] ], [ "Market structure (single- and multi-sided)", [ [ "28 section 8.2", "design/questionnaire/28-questionnaire-specification.md" ], [ "34 (multi-sided is future)", "design/questionnaire/34-future-features.md" ] ] ], [ "Not done yet", [ [ "05", "design/core/05-not-done-yet.md" ] ] ], [ "Pop-ups", [ [ "24", "design/current/23-popups.md" ] ] ], [ "Positioning", [ [ "28 section 8.2", "design/questionnaire/28-questionnaire-specification.md" ], [ "31", "design/questionnaire/31-positioning-categories.md" ] ] ], [ "Profile card", [ [ "28 section 6.4", "design/questionnaire/28-questionnaire-specification.md" ] ] ], [ "Purposes of an offering", [ [ "31 sections 7 and 10.4", "design/questionnaire/31-positioning-categories.md" ] ] ], [ "Reactions (hover, press, focus)", [ [ "19", "design/current/18-reactions.md" ] ] ], [ "References and sources", [ [ "02", "design/core/02-references.md" ], [ "32 (positioning)", "design/questionnaire/32-positioning-sources.md" ] ] ], [ "Relationships (buyer and user)", [ [ "31 section 6", "design/questionnaire/31-positioning-categories.md" ], [ "33 section 5", "design/questionnaire/33-specs-and-limitations.md" ] ] ], [ "Research", [ [ "03", "design/core/03-research.md" ], [ "30", "design/questionnaire/30-age-limits-by-activity.md" ], [ "32", "design/questionnaire/32-positioning-sources.md" ] ] ], [ "Rule 14 (lists come from documents)", [ [ "28 section 3", "design/questionnaire/28-questionnaire-specification.md" ] ] ], [ "Segment card", [ [ "28 section 6.3", "design/questionnaire/28-questionnaire-specification.md" ] ] ], [ "Shared components", [ [ "22", "design/current/21-shared-components.md" ] ] ], [ "Structure tables", [ [ "07", "design/core/07-structure-tables.md" ] ] ], [ "Text holders", [ [ "17", "design/current/16-text-holders.md" ] ] ], [ "Text links", [ [ "20", "design/current/19-text-links.md" ] ] ], [ "Tile and card pattern", [ [ "tile-and-card-pattern", "ai/tile-and-card-pattern.md" ] ] ], [ "Tooltips", [ [ "25", "design/current/24-tooltips.md" ] ] ], [ "Verification (what to run after a change)", [ [ "toolchain playbook", "ai/toolchain-and-verification-playbook.md" ] ] ], [ "Questions, the plan and the guide", [ [ "27", "design/questionnaire/27-questionnaire-plan.md" ], [ "29", "design/questionnaire/29-question-guide.md" ], [ "28", "design/questionnaire/28-questionnaire-specification.md" ] ] ]
 ];
 {
     const missing = TOPICS.flatMap(([, refs]) => refs.map(r => r[1])).filter(f => !existsSync(R + "docs/" + f));

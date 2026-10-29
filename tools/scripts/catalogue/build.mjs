@@ -30,7 +30,7 @@ create index vr_control on variant_rows (control);
 export async function build(root = ".") {
     const db = new DatabaseSync(":memory:");
     db.exec(SCHEMA);
-    const { variants, rows } = parseVariants(readFileSync(root + "/docs/design/current/35-card-structure.md", "utf8"));
+    const { variants, rows } = parseVariants(readFileSync(root + "/docs/design/current/26-card-structure.md", "utf8"));
     const insert = (table, record) => {
         const keys = Object.keys(record);
         db.prepare("insert into " + table + " (" + keys.join(",") + ") values (" + keys.map(() => "?").join(",") + ")")

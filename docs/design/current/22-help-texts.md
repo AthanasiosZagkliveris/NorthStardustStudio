@@ -1,4 +1,4 @@
-# The help texts
+# 22. The help texts
 
 Status: **current design**, updated 2026-10-17.
 

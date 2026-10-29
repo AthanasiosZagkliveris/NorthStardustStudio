@@ -1,4 +1,4 @@
-# The library system: tables, library, inventory and logs
+# 8. The library system: tables, library, inventory and logs
 
 Status: **requirements and plan**, updated 2026-10-29. Approved by the owner on 2026-10-15; steps 1 to 6 (section 7) are built, step 7 (the sync) is not. It records the owner's requirements as stated in chat, and how they are met, step by step. The starting data is the catalogue (the card scan, the probes and document 01 Part F), printed in documents 06 and 07.
 
@@ -67,7 +67,7 @@ The owner's decision: **the app changes the table.** The table follows the app i
 
 **How the three cases are told apart (the same step).** For every asset the sync finds in the app, it looks the asset up in the library. Found: case 1 or 2 (the library log has, or gets, its entry with where it is placed). Not found: case 3 (app structure log only, marked not in the library, and listed as a drift).
 
-**Checker (built).** `npm run library:check` holds a snapshot of the last logged state of the library and the tables, lists every difference, classifies it, and fails when a change has no log entry. `npm run library:log` writes the entries (docs 10 and 12) and stores the state.
+**Checker (built).** `npm run library:check` holds a snapshot of the last logged state of the library and the tables, lists every difference, classifies it, and fails when a change has no log entry. `npm run library:log` writes the entries (docs 10 and 11) and stores the state.
 
 **What the sync reads (recommendation for step 7; the owner may change it).** The running app: what the user sees, exact, and it needs the dev server running. A check of the source finds a component or class name that is in the app and not in the library. Reading only the source is faster, but the cards are separate builders today, so it cannot yet tell fields from components.
 
@@ -79,7 +79,7 @@ The size of a component is written once, in the library (the look of the asset o
 
 1. **The tokens.** `src/library/componentTokens.ts` reads the looks and gives the custom properties the stylesheets read with var(): the height of a cell (--card-cell-height, from TXT.001), of a box button (--size-box-button, BTN.001), of a mark (--size-mark, BTN.002, which TIK.001 and BTN.007 must equal), the square number (--control-square), the corners of a cell (--box-radius), the wide add button (--add-button-height), the tool button, the fold arrow (--fold-arrow-size) and the card symbol. `npm run library:tokens` writes them into `src/styles/components.generated.css`; no other stylesheet defines them. Two components that share a size and disagree in the library stop the generator.
 2. **The contracts.** The older asset contracts of `src/library/assets` (plus box, info note, remove x, fold arrow, dropdown, floating card) take their sizes from the same place, so a size is not written twice there either.
-3. **The comparison.** `npm run library:compare` (`tools/scripts/library/app-compare.mjs`) puts the library's look of every component beside what the walk of the running app measured, and writes `docs/design/library/16-library-vs-app.md`; with the flag check it fails when the app differs from the library and the difference is not a known one. The walk is `tools/scripts/catalogue/app-crawl.mjs`.
+3. **The comparison.** `npm run library:compare` (`tools/scripts/library/app-compare.mjs`) puts the library's look of every component beside what the walk of the running app measured, and writes `docs/design/library/15-library-vs-app.md`; with the flag check it fails when the app differs from the library and the difference is not a known one. The walk is `tools/scripts/catalogue/app-crawl.mjs`.
 
 To change a size: change the look in the library (section 4), run `npm run library:tokens`, walk the app and run the comparison. A component that differs is fixed in the stylesheet at the root (the one rule that draws it), not by a rule on top of it.
 

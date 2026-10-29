@@ -6,9 +6,9 @@ Status: **living list**, written 2026-10-14, reorganised 2026-10-29. Remove an i
 
 **The release**: `chore/light-cleanup` is merged into `main` (log, 2026-10-22). Next: the Tile System (5.3), then Batches D and E (5.4), then the extraction (5.7).
 
-**Waiting for the owner**: the proposals in `18-frequency-options.md` (frequency groups); the generated cards' inputs beyond "adding, not removing"; the open decisions of 5.8; the sizes and gaps that are not on a step (5.6).
+**Waiting for the owner**: the proposals in `17-frequency-options.md` (frequency groups); the generated cards' inputs beyond "adding, not removing"; the open decisions of 5.8; the sizes and gaps that are not on a step (5.6).
 
-**To unify**: the Legal Entity cards' own CSS (`legal-entity-*`) stays: the merge was tried on 2026-10-20 and put back because the shared card's classes move the number, the name gap and the ground. The Inventory grid's columns come from the stylesheet and stay. The other places once thought to be copies are not (`22-shared-components.md`, "What is hand-made, read one by one").
+**To unify**: the Legal Entity cards' own CSS (`legal-entity-*`) stays: the merge was tried on 2026-10-20 and put back because the shared card's classes move the number, the name gap and the ground. The Inventory grid's columns come from the stylesheet and stay. The other places once thought to be copies are not (`21-shared-components.md`, "What is hand-made, read one by one").
 
 **Not looked at in a browser**: the Process library and Operational log pages (not reachable in this version of the app); the tooltips of the Roadmap bars, the action symbols and the noted fields. The tests cover them.
 
@@ -303,22 +303,22 @@ Still open (the requirement ids are those of 5.5):
 
 For the owner to decide, or work not done. Each item leaves this list when done and the log records it.
 
-**Pop-ups and tooltips (doc 24, 25)**
+**Pop-ups and tooltips (doc 23, 25)**
 - P2's panels are 260px wide today for the calendar and the colour card; a menu is as wide as its longest line. One width for every P2 panel would be simpler: say if wanted.
 - A P4 tip is not announced to a screen reader except by the control's own label; the label already says it.
 - The comment on `useAboveTip` in `Tooltip.tsx` says "centred on it"; the code puts the tip's left edge on the control's left edge. Fix the comment.
 
-**Free texts (doc 21, 17)**
+**Free texts (doc 20, 17)**
 - The character limits (60, 200, 600, 1000) and one component for each free-text category are not built.
-- The tile text is decided at 8 rows by default; doc 17 shows 6 today.
+- The tile text is decided at 8 rows by default; doc 16 shows 6 today.
 
 **Library (doc 08, 10, 11, 12)**
 - Step 7 of the library plan (the sync of the app to the tables, with a watch mode) is not built.
 - Doc 11 (the library log archive) was moved to `docs/archive/library/` on 2026-10-29; its rows are only older entries of the library log.
-- The hand-written rows of doc 10 (L0653 to L0659) and doc 12 (A0029 to A0034) hold facts the log does not (tipWords, aria-pressed, label-arrow.css, MultiPicker); doc 12 mentions `SegmentedToggle`, which is not in `src`.
+- The hand-written rows of doc 10 (L0653 to L0659) and doc 11 (A0029 to A0034) hold facts the log does not (tipWords, aria-pressed, label-arrow.css, MultiPicker); doc 11 mentions `SegmentedToggle`, which is not in `src`.
 
 **The design record (doc 01, 02, 03)**
-- Part F of doc 01 is now doc 35 (2026-10-29); the repeated template for each card could still be reduced, but the catalogue tool reads its table shapes.
+- Part F of doc 01 is now doc 26 (2026-10-29); the repeated template for each card could still be reduced, but the catalogue tool reads its table shapes.
 - Doc 02, 2.7 (the source register, about 100 KB) could become its own document; other documents cite its ids.
 - The Part G "Key flag" idea and the Part E "Both" place are in no code and no longer in doc 01: formally dropped? (They stay in doc 03 R2.)
 - The comment in `PartnerGroupHelp.test.ts` still says "part H"; it is Part D, section 3.
@@ -327,4 +327,4 @@ For the owner to decide, or work not done. Each item leaves this list when done 
 - 25 ids are listed as withdrawn or merged, but 91 minus 67 is 24: the 91 or one id is wrong (doc 28, Appendix B).
 - I6 is counted as a check while 8.2 withdraws it, and I7 is counted as a driver while described as merged into I7c. Without I6 the count is 20 checks and 66 questions.
 - The customers' industry list (G15, P24): 5.7 says the 18 plain industries are retired, but 6.3, 27 section 5 and 29 still use them. Marked [D] in doc 28.
-- Doc 28 is 207 KB since section 5 became doc 36 (2026-10-29); sections 6 to 15 remain.
+- Doc 28 is 207 KB since section 5 became doc 35 (2026-10-29); sections 6 to 15 remain.

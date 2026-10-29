@@ -1,4 +1,4 @@
-# The Frequency options
+# 17. The Frequency options
 
 Status: **current design**, updated 2026-10-19.
 

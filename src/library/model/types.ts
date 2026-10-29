@@ -124,7 +124,7 @@ export interface Asset {
     belongs?: string;
     /** The measured contracts of src/library/assets that describe this asset (by their names), if there are any. */
     contracts?: readonly string[];
-    /** The ids of the catalogue it was made from (docs/design/records/07-structure-tables.md). */
+    /** The ids of the catalogue it was made from (docs/design/core/07-structure-tables.md). */
     catalogue: readonly string[];
 }
 

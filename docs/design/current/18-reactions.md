@@ -1,4 +1,4 @@
-# The reactions
+# 18. The reactions
 
 Status: **current design**, updated 2026-10-29.
 
@@ -12,7 +12,7 @@ What the app does when a part of it is pointed at, pressed, focused, ticked, ope
 | R2 | **Ring** (focus, or pressed and held) | The primary edge and a ring 3px wide at 35%, one rule for every cell in every mode (`cell-focus.css`); a box that holds a field (a date cell, the colour cell, a numbered list) draws it round the box, with the cell's corners, and the field inside draws none. | Keyboard focus and the active field; independent of the border colour (accessibility). |
 | R3 | **Recess** (rest) | Fields rest recessed: no stroke, the inset shade at the top left and light at the bottom right. Pickers rest raised. | A field that cannot be changed is flat. |
 | R4 | **Fill** (the "+" family) | At rest the ground of what it stands on, a 2px stroke and the symbol in the card's darker tone; under the pointer or the keyboard the tone fills the box, the stroke goes, the symbol takes the ground (150ms). | The +, the calendar button, the funnel, the day, month and arrow buttons of the calendar card. The x does the same in danger red. |
-| R5 | **Bold and underline** (text links) | The letters thicken (the app's bold, no change of width) and a line 1px under the descenders. | Every text link (the look and the list of kinds are in `20-text-links.md`); list items of a tile are underlined only. |
+| R5 | **Bold and underline** (text links) | The letters thicken (the app's bold, no change of width) and a line 1px under the descenders. | Every text link (the look and the list of kinds are in `19-text-links.md`); list items of a tile are underlined only. |
 | R6 | **Marquee** (a long text link) | The text slides across its place to be read whole (about 100px a second, quicker on the way back, `textLinks.ts`). | One row only; at rest an ellipsis. It slides whatever the system's motion setting (only while the pointer is on it; it is the one way to read the cut text). |
 | R7 | **Bold** (titles and labels) | The letters thicken, nothing moves (the bold's letter spacing is already there). | Tile titles, buttons, the label of a tick option. A labelled button keeps its size: the thickening takes no room and its tracking stays what it is at rest. |
 | R8 | **Grow** (tiles and blocks) | A tile grows about its aimed corner, edge or centre, above its neighbours, a drop shadow growing with it; a colour or image block (6px corners) grows 10% inwards and keeps its inset light and shade. | Page tiles, boxes of a dialog, the blocks of a master tile. |
