@@ -20,7 +20,7 @@ Status: **reference.** One line per term, with the document that explains it. Th
 
 | Term | Meaning | See |
 |---|---|---|
-| Organization tile | Holds the legal entity, the activity and its code, and when the business opens | doc 28 8.1 |
+| Organization tile | Holds the legal entity, the activity and its code, and when the business opens | doc 28 8.5 |
 | Market Structure (I11) | Single-sided or multi-sided; the first version has single-sided only | doc 33 section 4 |
 | Seller and Buyer Relationship (I3) | Who pays: B2C or B2B in the first version | doc 33 section 4 |
 | B2C, B2B | Business to consumer; business to business | doc 28 8.2 |

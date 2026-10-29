@@ -174,6 +174,8 @@ This is a practical starting model, not a fixed classification. For example, a p
 
 ## 9. What the collection leaves open (for the design step; nothing is decided here)
 
+> **Status of these nine points (2026-10-29):** 1 decided (9B); 2 resolved (9B, 9F 5); 3 settled (9F 5); 4 resolved (9F); 5 resolved (9F, 9G, 9I); 6 both questions and Profile tags, a future feature (9F 7, doc 34); 7 the built questions stay until the final build (9L); 8 decided (9B); 9 sources are in doc 32. The text of the points below is the record as first written.
+
 1. **Age boundaries: decided on 2026-10-27** (owner): **one fixed set of stages with an edge rule, "from X up to but not including Y"**. See 9B for the stages written that way. The doc 28 bands (0 to 2, 3 to 5, 6 to 9, and so on) are a different set and are not used for these stages.
 2. **Minors, working adults and seniors overlap other lists.** The buyer stages (2) now use the user stage names for 18 to 74, so those two lists are **one vocabulary used twice**: a buyer stage is the user stage of the same name. The Late Adolescents (16 to 18) are a user stage and the buyer category Micro-Buyers: the same people described twice, once as a user and once as a buyer.
 3. **The Buyer's age stages (2): settled on 2026-10-27** as the Micro-Buyers (16 to 18) and 18 to 74 in the user's stage names. Still open: the other buyer categories (5: Proxy Buyers, Dual-Intent Buyers) have no age-stage detail, and whether a minor may buy on behalf of someone else varies by country (doc 30).
@@ -183,6 +185,23 @@ This is a practical starting model, not a fixed classification. For example, a p
 7. **The earlier attempt.** The four End User questions built on 2026-10-26 (doc 28, 8.2, I7d to I7g) were a smaller, earlier structure; whether they stay, change or go once this structure is agreed is for the owner.
 8. **Tailoring by country: decided on 2026-10-27** (owner: "any differentiation per country should be done automatically on the app"). The stages do not change by country (item 1). What changes by country is **what the law does at an age**: the ages of 9A (consent, majority, alcohol, tobacco, credit, work and so on). **The app applies them from the customers' country without the user entering them** (see 9B).
 9. **Sources.** None of these lists has a source yet (rule 14: plain lists need a business-school or university document, classifications an official one). The age-stage names (Infancy, Toddlerhood, Early Childhood, Middle Childhood, Early, Mid and Late Adolescence) are developmental-psychology terms and can be sourced; the buyer and purpose taxonomies are the owner's.
+
+## 9A. Legal anchors by country (from docs 28 and 30; for the tailoring option in 9.8; not decisions)
+
+What the law of each country already fixes, so that a stage boundary can be tied to it where a business is affected. Status as in doc 30 (O opened, E excerpt); ages are the ones found, not legal advice.
+
+| Anchor | UK | Ireland | USA | Canada | Australia | New Zealand |
+|---|---|---|---|---|---|---|
+| Age of majority (contracts) | 18 (Scotland: 16 and over have capacity) | 18 | 18; contracts voidable by a minor in most states | 18 or 19 by province | 18 | 18 (under-18 contracts unenforceable against the minor) |
+| Online consent or social media | 13 for online services (UK GDPR Art. 8) | 16 (digital age of consent) | Under 13 (COPPA) | Under 13 needs a parent; Quebec 14 | Social media minimum age 16 from 10 Dec 2025 (a duty on platforms) | No minimum age in the Privacy Act; an under-16 bill introduced 24 Aug 2026 (passage not found) |
+| Alcohol | 18 | 18 | 21 (state law) | 18 (AB, MB, QC) or 19 | 18 | 18 |
+| Tobacco and vapes | 18 (all nicotine products from 29 Oct 2026; generational ban from 1 Jan 2027) | 18 (21 from 1 Feb 2028) | 21 federal | 18 federal baseline; ON and BC 19, AB 18 (an Ontario bill for 21 is at first reading) | 18 in the states sampled; vapes pharmacy only | 18 |
+| Credit and payment cards | 18 | no flat age found | Credit card under 21 needs own ability to pay or a cosigner aged 21 or over | Primary cardholder of age | no flat age found | no flat age found |
+| Employment of young people | Not under 13; part-time from 14 (13 where councils allow); full-time after school-leaving age | Under 16 generally not; light work 14 to 15 | 14 non-farm with hours limits; 16 unlimited | By province (BC: permit rules to age 15, none from 16; ON 14 to 19 by industry) | By state (QLD 13, VIC 13, WA 13 to 14, NSW no general minimum) | Outside school hours for those 15 or under |
+
+Each of these edges falls inside or between the owner's stages: 13 and 14 inside Mid Adolescence (13 to 16), 16 at the start of Late Adolescence, 18 and 19 at the end of it, 21 inside Young (18 to 25). A stage boundary that follows the law would therefore be a country-specific boundary, not a single number.
+
+**What the developmental sources say about the stage edges** (searched 2026-10-27 on cdc.gov and nih.gov; not yet opened one by one): the stage **names** are consistent across sources but the **cut-offs are not**. One NIH (StatPearls) chapter gives adolescence three phases: early 10 to 13, middle 14 to 17, late 18 to 21; another excerpt gives 12 to 18 for adolescence; early childhood is given as 1 to 4 (WHO), 3 to 8 (an excerpt) or up to 6 (another); middle childhood as about 9 to 11. The owner's edges (11, 13, 16, 18) sit inside these ranges; none of the sources gives them exactly, so the owner's boundaries remain the owner's, and the names can be cited.
 
 ## 9B. Decisions of 2026-10-27 and what follows from them (owner)
 
@@ -215,23 +234,6 @@ The groups are the same intervals joined: Baby [0, 3), Child [3, 11), Teenager [
 - for a country outside the six, the stages and the plain lists stand and the legal ages say "check the law of that country";
 - where a country's law varies inside it (Canada by province, the USA and Australia by state), the app takes the **region of the Organization** where it is known, else the strictest age found and says so;
 - a rule can be **dated** (the UK's tobacco age for people born from 2009, Ireland's 21 from 2028, Australia's social media age from 10 Dec 2025): the app uses the date it applies from.
-
-## 9A. Legal anchors by country (from docs 28 and 30; for the tailoring option in 9.8; not decisions)
-
-What the law of each country already fixes, so that a stage boundary can be tied to it where a business is affected. Status as in doc 30 (O opened, E excerpt); ages are the ones found, not legal advice.
-
-| Anchor | UK | Ireland | USA | Canada | Australia | New Zealand |
-|---|---|---|---|---|---|---|
-| Age of majority (contracts) | 18 (Scotland: 16 and over have capacity) | 18 | 18; contracts voidable by a minor in most states | 18 or 19 by province | 18 | 18 (under-18 contracts unenforceable against the minor) |
-| Online consent or social media | 13 for online services (UK GDPR Art. 8) | 16 (digital age of consent) | Under 13 (COPPA) | Under 13 needs a parent; Quebec 14 | Social media minimum age 16 from 10 Dec 2025 (a duty on platforms) | No minimum age in the Privacy Act; an under-16 bill introduced 24 Aug 2026 (passage not found) |
-| Alcohol | 18 | 18 | 21 (state law) | 18 (AB, MB, QC) or 19 | 18 | 18 |
-| Tobacco and vapes | 18 (all nicotine products from 29 Oct 2026; generational ban from 1 Jan 2027) | 18 (21 from 1 Feb 2028) | 21 federal | 18 federal baseline; ON and BC 19, AB 18 (an Ontario bill for 21 is at first reading) | 18 in the states sampled; vapes pharmacy only | 18 |
-| Credit and payment cards | 18 | no flat age found | Credit card under 21 needs own ability to pay or a cosigner aged 21 or over | Primary cardholder of age | no flat age found | no flat age found |
-| Employment of young people | Not under 13; part-time from 14 (13 where councils allow); full-time after school-leaving age | Under 16 generally not; light work 14 to 15 | 14 non-farm with hours limits; 16 unlimited | By province (BC: permit rules to age 15, none from 16; ON 14 to 19 by industry) | By state (QLD 13, VIC 13, WA 13 to 14, NSW no general minimum) | Outside school hours for those 15 or under |
-
-Each of these edges falls inside or between the owner's stages: 13 and 14 inside Mid Adolescence (13 to 16), 16 at the start of Late Adolescence, 18 and 19 at the end of it, 21 inside Young (18 to 25). A stage boundary that follows the law would therefore be a country-specific boundary, not a single number.
-
-**What the developmental sources say about the stage edges** (searched 2026-10-27 on cdc.gov and nih.gov; not yet opened one by one): the stage **names** are consistent across sources but the **cut-offs are not**. One NIH (StatPearls) chapter gives adolescence three phases: early 10 to 13, middle 14 to 17, late 18 to 21; another excerpt gives 12 to 18 for adolescence; early childhood is given as 1 to 4 (WHO), 3 to 8 (an excerpt) or up to 6 (another); middle childhood as about 9 to 11. The owner's edges (11, 13, 16, 18) sit inside these ranges; none of the sources gives them exactly, so the owner's boundaries remain the owner's, and the names can be cited.
 
 ## 9C. The owner's answers of 2026-10-27 to the open points, and two requirements
 
