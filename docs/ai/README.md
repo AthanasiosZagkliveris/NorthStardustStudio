@@ -26,9 +26,9 @@ The index of every document of the project (design, specifications, archive), wi
 
 ## Finding your way
 
-- **`app-guide.md`**: where each part of the app is, what it is for, with the code locations. Start here to find your way into the product.
+- **`../app/app-index.md`**: the index of the app and of its documents: where each part is, what it is for, the code locations. Start here to find your way into the product.
 - **`code-map.md`**: where things are in `src` (the folders and what is in each), and the rules for a new file.
-- **`glossary.md`**: one line per project term, with a pointer to the document that explains it.
+- **`../app/glossary.md`**: one line per term (framework, app, questionnaire, documents), with a pointer to the document that explains it.
 - **`outstanding-findings.md`**: confirmed problems a diagnostic found and did not fix. Check it before running a diagnostic.
 
 ## How these files relate

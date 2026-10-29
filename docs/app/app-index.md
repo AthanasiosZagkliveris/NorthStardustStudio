@@ -1,8 +1,10 @@
-# NorthStardust: guide to the app (navigation, purpose, content)
+# NorthStardust: index of the app and of its documents
 
-Status: **reference**, updated 2026-10-25.
+Status: **index and reference**, updated 2026-10-29.
 
-One page to find your way: what each part of the app is for, what it holds, and where the data and the rules live. The rules of layout are in `layout-rules.md` and `tile-and-card-pattern.md`; the cost rules in `design/01-current-design.md` (the cost model parts); this file is the map. Where each component is, and which are shared: `code-map.md` and `design/22-shared-components.md`.
+One page to find your way, in the app and in its documents. Terms: `app/glossary.md`. The list of every document: `README.md` in this folder's parent.
+
+This page covers: what each part of the app is for, what it holds, and where the data and the rules live. what each part of the app is for, what it holds, and where the data and the rules live. The rules of layout are in `ai/layout-rules.md` and `ai/tile-and-card-pattern.md`; the cost rules in `design/01-current-design.md` (the cost model parts); this file is the map. Where each component is, and which are shared: `ai/code-map.md` and `design/22-shared-components.md`.
 
 ## How the app is entered
 1. **Organizations** (home): create, import or export an Organization; the two examples are in `src/data/examples/` (Lumen & Loom Studio, Quillfield Automation).
@@ -44,3 +46,43 @@ Tiles open a dialog; a dialog lists card boxes; a card box opens a floating card
 - Data shapes and readers, by domain in `src/framework/engine/`: `AnswerUtils.ts` (the generic part: defaults, emptiness, roles; it also re-exports all the others, so imports from it keep working), `AnswerProcess.ts` (process library and operational log), `AnswerBrand.ts`, `AnswerExport.ts`, `AnswerStrategy.ts`, `AnswerLegal.ts`, `AnswerFounders.ts`, `AnswerBusinessFoundation.ts`, `AnswerBusinessCapability.ts`; the money model: `FinancialModel.ts`; settings: `GlobalSettings.ts`; the business stage and its windows: `BusinessStage.ts`; key dates: `KeyDates.ts`; the Review: `ReviewItems.ts`; calendar dates: `CalendarCardDates.ts`.
 - Styles: `src/styles/` (colours and sizes are tokens in `tokens/tokens.ts`, generated into `colors.generated.css` and `sizes.generated.css` (`npm run tokens`); tiles and cards in `section-tiles/` and `card-tile.css`; the global rules of a control in `cell-focus.css`). The shared controls are in `src/components/controls/` and each loads its own style.
 - Examples: `src/data/examples/`. Rules for AI assistants: `docs/ai/README.md`.
+
+## Where each part is described
+
+| Subject | Read | Kind |
+|---|---|---|
+| What the first published version contains | `design/33-specs-and-limitations.md` | specification |
+| What it leaves for later | `design/34-future-features.md` | living list |
+| The Business System pages, one by one | `specifications/business-system/` | specification |
+| The Foundation elements, by layer | `design/01-current-design.md` | current design |
+| Tiles, cards, rails, dialogs | `ai/tile-and-card-pattern.md`, `ai/card-kinds.md` | rules, reference |
+| Layout, sizes, tokens, the layout check | `ai/layout-rules.md` | rules |
+| Shared components, fields, defaults | `design/22-shared-components.md`, `design/14-components-list.md`, `design/15-fields-list.md`, `design/13-component-defaults.md` | current design, generated |
+| Texts: holders, free texts, help, tooltips, pop-ups | `design/17-text-holders.md`, `design/21-free-text-categories.md`, `design/23-help-texts.md`, `design/25-tooltips.md`, `design/24-popups.md` | current design, generated |
+| The assets library and its logs | `design/08-library-system.md`, `design/09-assets-library.md`, `design/10-library-log.md` | current design, generated, log |
+| What changed, what is open | `design/04-log.md`, `design/05-not-done-yet.md` | log, living list |
+
+## The questionnaire and the first version
+
+The questions the app asks, in the order to read them. Where a later document disagrees with doc 33, **doc 33 governs**.
+
+| Read | Document | What it answers |
+|---|---|---|
+| 1 | `design/33-specs-and-limitations.md` | The first published version: language, countries, legal forms, market structure, relationships, buyer and user, ages |
+| 2 | `design/34-future-features.md` | Everything else, collected, designed or built, and deferred |
+| 3 | `design/27-questionnaire-plan.md` | The goal, the funnel, the one test (does an answer save the founder work?) |
+| 4 | `design/28-questionnaire-specification.md` | Every question, list, option and rule (the largest document) |
+| 5 | `design/29-question-guide.md` | The flow of questions as trees and branches |
+| 6 | `design/30-age-limits-by-activity.md` | Minimum ages by activity and country (research) |
+| 7 | `design/31-positioning-categories.md` | The owner's buyer, user and purpose categories, and the decisions on them |
+| 8 | `design/32-positioning-sources.md` | The sources behind each list of doc 31 |
+
+| Topic | First version (doc 33) | Detail in |
+|---|---|---|
+| Countries and codes | The six countries and Other (any other country) | doc 28 5 |
+| Legal forms | The six countries' own lists; five generic forms for Other | doc 33 section 3 |
+| Market structure and relationship | Single-sided; B2C and/or B2B | doc 28 8.2 |
+| Buyer category and life stage | Three categories, three life stages, separate questions | doc 33 section 5 |
+| Buyer and user relationship; user's life stage | Six personal (B2C) or six business (B2B) relationships; four life stages (B2C) | doc 31 6.1, 6.2, section 10.6 |
+| Ages | In the Segment, maybe as an "i" | doc 33 section 6, docs 30 and 31 |
+| Accessibility, caregiving, full lists for more countries, multi-sided, B2G, G2B | Not included | doc 34 |

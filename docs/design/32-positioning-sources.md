@@ -2,7 +2,7 @@
 
 Status: **research.** The owner's rule 14 asks that plain lists be supported by a business-school or university document, and by an official body only where flagged as such. The lists of doc 31 were searched on 2026-10-27 by five parallel searches (about 120 queries in all); **every page was opened with the page reader before it was cited, and a page that could not be opened is listed as not opened and supports nothing.** Sources that are not accepted (Wikipedia, blogs, vendor sites such as the Microsoft inclusive-design pages, consultancies) were rejected; weak ones are marked weak. Nothing here changes a list: where a list has no acceptable source it stays the owner's own wording, as rule 14 allows, and says so.
 
-> **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Doc 33 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, age limits, accessibility, caregiving and the rest) is a future feature: doc 34. Contents: doc 35. Glossary: doc 36.
+> **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Doc 33 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, age limits, accessibility, caregiving and the rest) is a future feature: doc 34. Index of the app and its documents: `docs/app/app-index.md`; glossary: `docs/app/glossary.md`.
 
 ## 1. The result for each list
 
@@ -19,9 +19,9 @@ Status: **research.** The owner's rule 14 asks that plain lists be supported by 
 ## 2. What follows (for the owner; nothing is changed)
 
 1. **Keep the owner's wording and mark the status.** Under rule 14 a list with no acceptable source stays the owner's own and is marked so: Established, Peak, Mature, Dependent seniors; Dual-Intent Buyers; the business and public subtypes of the relationships; four of the 12 purposes; the childcare, eldercare and specialised care split.
-2. **Where a source differs from the owner's edge, the owner's edge stands** (doc 31, 9B) and the difference is stated, not hidden: Neugarten (young old 55 to 75), middle childhood from 6, adolescence as one stage of 12 to 18.
+2. **Where a source differs from the owner's edge, the owner's edge stands** (doc 31, section 10.1) and the difference is stated, not hidden: Neugarten (young old 55 to 75), middle childhood from 6, adolescence as one stage of 12 to 18.
 3. **"Dependent seniors" needs care.** The only official sense of dependency is a ratio of age groups; the doc 31 emphasis (the term leads, it describes an age group, and the app never infers a person's situation) is consistent with that, and a source can be cited for the ratio.
-4. **The laws.** The accessibility laws of the six countries are opened and can be added to the table of legal rules by country (doc 31, 9B); the Irish statutes need a manual open.
+4. **The laws.** The accessibility laws of the six countries are opened and can be added to the table of legal rules by country (doc 31, section 10.1); the Irish statutes need a manual open.
 5. **Not claimed from any page that failed to open** (Rochet and Tirole 2003, the 1972 Webster and Wind paper, the Sheth 1991 and Holbrook 1999 originals, the Cambridge toolkit, the UN and OECD papers, the US NIA and ACL pages). If an original is wanted, the owner can supply a copy.
 
 ## 3. The five result files, as returned (every row has its URL, domain class, what it supports, whether it was opened and the date)

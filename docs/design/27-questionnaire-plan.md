@@ -2,7 +2,7 @@
 
 Status: **proposal**, written 2026-10-23. Nothing is built. This is the plan: the goal, the order, what the user gets at each stage, what was cut and why, and what the owner must decide. The detail (every list with examples, the industry list in two levels, every question and option, the connection map and its evidence, the sources) is in document 28, `28-questionnaire-specification.md`; the sources are in `02-references.md`, section 2.7.
 
-> **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Doc 33 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, age limits, accessibility, caregiving and the rest) is a future feature: doc 34. Contents: doc 35. Glossary: doc 36.
+> **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Doc 33 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, age limits, accessibility, caregiving and the rest) is a future feature: doc 34. Index of the app and its documents: `docs/app/app-index.md`; glossary: `docs/app/glossary.md`.
 
 ## 1. The goal, and the one test
 

@@ -2,19 +2,10 @@
 
 Status of this document: **current**, written 2026-10-14, brought up to 2026-10-21 in its notes. It is the single description of what the Foundation capability (Identity, Brand, Business and Strategy Systems) is and what has been decided for it. It replaces the design drafts that were kept as HTML and PDF files (those were converted into the parts below, and only the current version of each was kept).
 
-**Since 2026-10-14** (newest first; the changes themselves are in document 4, the log): on 2026-10-20 and 2026-10-21 the Inventory was reworked (a filter and sort window that always opens outward and narrows the dialog, the Tiles / Table and the three "Aa" text-size radios, a column list, no Channel column), the Inventory and Completed row moved into the footer band of page 3 (the footer lets the pointer through, the page's Back is the default blue, the Completed layers are grey), every page of chapters got one shape (cards side by side down to a 700px page card; one tile size by window), and every tooltip became one sentence in one place that begins "Click to ..." (document 25); on 2026-10-19 the repeated parts of the interface became shared components (the back, remove, funnel, add and tick controls, the number, text and one-line cells, the field label, the free text, the card head and outer box, the name cell, the tooltip, the tile grid, the dropdown and the date popup), and `SectionTiles.tsx` was split into its parts; what is shared and what is left is in document 23. The tables of elements below are the 2026-10-14 reading; where a file or class named here has moved, document 22 and the code are right.
 
-The five documents of this set:
+The other documents of the project, with what each holds, are listed in `docs/README.md`; the map of the app is `docs/app/app-index.md`. Every change is written in the log (document 4) and nowhere else.
 
-| Document | Holds |
-|---|---|
-| 1. Current design (this one) | What the app is, how it is built, the decided design |
-| 2. References | The sources the app and the documents rely on, the source rule |
-| 3. Research | The research behind the design decisions |
-| 4. Log | History: what changed and when, version history, decisions |
-| 5. Not done yet | What is still to do, in order, with open decisions |
-
-Other current Markdown documents in the project that this one points to and does not repeat: `docs/ai/layout-rules.md` (the measured layout rulebook and the automatic check), `docs/ai/tile-and-card-pattern.md`, `docs/ai/card-kinds.md`, `docs/ai/app-guide.md`, `docs/specifications/business-system/*.md` (the page specifications), `docs/ai/framework-dsl-grammar.md` and `docs/ai/framework-conventions-and-patterns.md` (the framework).
+Other current Markdown documents in the project that this one points to and does not repeat: `docs/ai/layout-rules.md` (the measured layout rulebook and the automatic check), `docs/ai/tile-and-card-pattern.md`, `docs/ai/card-kinds.md`, `docs/app/app-index.md`, `docs/specifications/business-system/*.md` (the page specifications), `docs/ai/framework-dsl-grammar.md` and `docs/ai/framework-conventions-and-patterns.md` (the framework).
 
 ## Contents
 
@@ -76,7 +67,7 @@ Eleven of the thirteen chapters of the Foundation are drawn as Master Tiles. The
 | Tile and card pattern | `docs/ai/tile-and-card-pattern.md` |
 | Card kinds | `docs/ai/card-kinds.md` |
 | Page specifications (Business System) | `docs/specifications/business-system/` |
-| Where each part of the app is | `docs/ai/app-guide.md` |
+| Where each part of the app is | `docs/app/app-index.md` |
 | How to verify a change | `docs/ai/toolchain-and-verification-playbook.md` |
 
 ## Part C. The interface elements

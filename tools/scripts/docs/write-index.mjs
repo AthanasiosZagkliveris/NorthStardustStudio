@@ -7,17 +7,19 @@ const git = (args) => execSync("git " + args, { cwd: R, encoding: "utf8" }).trim
 const date = (p) => git('log -1 --format=%cs -- "' + p + '"') || new Date().toISOString().slice(0, 10);
 
 // [path, kind, what it is, addHeader]
+const APP = [
+  ["docs/app/app-index.md", "index", "The index of the app and of its documents: how it is entered, the pages and tiles, where each part is described, the questionnaire documents in reading order.", true],
+  ["docs/app/glossary.md", "reference", "One line per term: the framework, the app, the business stage, positioning, buyer and user, the question ids, the documents.", true]
+];
 const AI = [
   ["docs/ai/README.md", "index", "The map of this folder: what to read first, what to read for a task.", false],
   ["docs/ai/ai-collaboration-rules.md", "rules", "Standing rules for an AI assistant: commit but do not push, no unrequested changes, when to ask, what done requires, how work flows.", true],
   ["docs/ai/toolchain-and-verification-playbook.md", "playbook", "What to run after a change (typecheck, tests, the lints and document checks, build, layout check) and the list of expected test failures.", true],
   ["docs/ai/framework-dsl-grammar.md", "reference", "Grammar of the Markdown that defines a System's content.", true],
   ["docs/ai/framework-conventions-and-patterns.md", "reference", "The architectural patterns and the data model of the framework.", true],
-  ["docs/ai/glossary.md", "reference", "One line per project term, with a pointer to where it is explained.", true],
   ["docs/ai/review-criteria.md", "rules", "The standard a screen is judged by: criteria by kind (type, spacing, controls, colour, tiles, cards, tables, windows, pages, data), how each is measured, the report.", true],
   ["docs/ai/review-checklist.md", "rules", "What to check when reviewing a table, tile, card, page or control, and the proof before saying done.", true],
   ["docs/ai/code-map.md", "reference", "Where things are in src: the folders and what is in each; the rules for a new file.", true],
-  ["docs/ai/app-guide.md", "reference", "Where each part of the app is, what it is for, with the code locations.", true],
   ["docs/ai/layout-rules.md", "rules", "The measured rulebook of the Foundation pages (tokens, sizes, alignment, interactions) and the layout check.", false],
   ["docs/ai/tile-and-card-pattern.md", "rules", "How tiles, frames, cards, rails and dialogs are built; the global rules.", true],
   ["docs/ai/card-kinds.md", "reference", "The kinds of card, where each one's code is, how its head is built.", true],
@@ -40,14 +42,14 @@ const DESIGN = [
   ["docs/design/13-component-defaults.md", "generated", "Component defaults.", false],
   ["docs/design/14-components-list.md", "generated", "The components, and which fields and cards use each.", false],
   ["docs/design/15-fields-list.md", "generated", "The fields, the add buttons and the field names.", false],
-  ["docs/design/16-library-vs-app.md", "reference", "The library measured against the app.", false],
-  ["docs/design/17-text-holders.md", "current design", "The text holders: sizes and rules.", true],
-  ["docs/design/18-frequency-options.md", "current design", "The Frequency options by group, and the open proposals.", true],
+  ["docs/design/16-library-vs-app.md", "generated", "The library measured against the app.", false],
+  ["docs/design/17-text-holders.md", "generated", "The text holders: sizes and rules.", true],
+  ["docs/design/18-frequency-options.md", "generated", "The Frequency options by group, and the open proposals.", true],
   ["docs/design/19-reactions.md", "current design", "How elements react to the pointer and the keyboard.", true],
-  ["docs/design/20-text-links.md", "current design", "The text link: look and behaviour.", true],
+  ["docs/design/20-text-links.md", "generated", "The text link: look and behaviour.", true],
   ["docs/design/21-free-text-categories.md", "current design", "Free texts in four categories.", true],
   ["docs/design/22-shared-components.md", "current design", "Which components are shared, with their props, what is still hand-made, and a short history.", false],
-  ["docs/design/23-help-texts.md", "current design", "The help texts of the app.", true],
+  ["docs/design/23-help-texts.md", "generated", "The help texts of the app.", true],
   ["docs/design/24-popups.md", "current design", "Pop-ups in six categories, with their placement rules.", true],
   ["docs/design/25-tooltips.md", "current design", "Which controls have a tooltip, what it says, and the five rules.", true],
   ["docs/design/26-folder-plan.md", "proposal", "The app files, the examples and the working files: what is where, and a three-step plan to separate them.", true],
@@ -58,10 +60,10 @@ const DESIGN = [
   ["docs/design/31-positioning-categories.md", "collection", "Positioning categories, collected as given by the owner before any question or layout: user age stages, buyer age stages, accessibility and caregiving cross-sections, buyer categories, buyer and user relationships, the offering purpose taxonomy and the relationship-to-purpose mapping, with what it leaves open.", true],
   ["docs/design/32-positioning-sources.md", "research", "Sources for the positioning lists: what supports each list of doc 31 (age stages, buyer categories, relationships, purposes, accessibility, caregiving), what has no acceptable source, and the five search result files with every page opened or marked not opened.", true],
   ["docs/design/33-specs-and-limitations.md", "specification", "The first published version: English only; the six countries and Other with their legal forms, activities and codes; single-sided; B2C and/or B2B; the buyer's category separate from the life stage.", true],
-  ["docs/design/34-future-features.md", "living list", "Everything that is not in the first published version: other languages and countries, multi-sided, B2G, G2B, the detailed positioning data, age limits by country, and the research still to do.", true],
-  ["docs/design/35-contents.md", "index", "The questionnaire and first-version documents: what to read first, what each holds, how the first version relates to them.", true],
-  ["docs/design/36-glossary.md", "reference", "The names used in the questionnaire documents: business stages, positioning, buyer and user, question ids and marks.", true]
+  ["docs/design/34-future-features.md", "living list", "Everything that is not in the first published version: other languages and countries, multi-sided, B2G, G2B, the detailed positioning data, age limits by country, and the research still to do.", true]
 ];
+const QUESTIONNAIRE = DESIGN.filter(([p]) => /design\/(2[7-9]|3\d)-/.test(p));
+const DESIGN_RECORDS = DESIGN.filter(x => !QUESTIONNAIRE.includes(x));
 const SPEC = [
   ["docs/specifications/business-system/README.md", "specification", "The Business System: index of the pages and the editor mapping.", true],
   ["docs/specifications/business-system/page-1-foundation.md", "specification", "Page 1: Foundation.", true],
@@ -96,14 +98,20 @@ Status: **index**, updated ${new Date().toISOString().slice(0, 10)}. One line pe
 - **Kinds**: *rules* (what must hold; a check enforces most of them), *reference* (how things are, to look up), *current design* (what the app is today), *living list* (an open list: an item leaves it when done and the log records it), *log*, *proposal* (nothing built; in the archive), *specification* (what a page asks and shows), *playbook* (a procedure), *generated* (written by a script; never edit by hand, run its command), *archive* (finished or older; kept for the record).
 - **Where the code and a document disagree, the code is right** and the document is the one to fix. The checks that keep them honest: \`npm run docs:check\` (generated sections), \`npm run tables:check\`, \`npm run library:check\`, and the document-reference test (six documents name only properties, classes and files the code has).
 - **This index is written by \`npm run docs:index\`** (the lists are in \`tools/scripts/docs/write-index.mjs\`; a new document is added there). Do not edit it by hand.
-- **Who reads what**: an assistant starts with \`ai/README.md\`; the owner starts with \`design/05-not-done-yet.md\` (what is open) and \`design/04-log.md\` (what changed).
+- **Who reads what**: an assistant starts with \`ai/README.md\`; the owner starts with \`app/app-index.md\` (the map), \`design/05-not-done-yet.md\` (what is open) and \`design/04-log.md\` (what changed).
 
+## The app: index and glossary (\`app/\`)
+
+${table(APP)}
+## The first version and the questionnaire (\`design/27\` to \`design/34\`)
+
+${table(QUESTIONNAIRE)}
 ## For the assistant and the rules (\`ai/\`)
 
 ${table(AI)}
-## The design of the app (\`design/\`)
+## The design records (\`design/01\` to \`design/26\`)
 
-${table(DESIGN)}
+${table(DESIGN_RECORDS)}
 ## The specifications (\`specifications/\`)
 
 ${table(SPEC)}

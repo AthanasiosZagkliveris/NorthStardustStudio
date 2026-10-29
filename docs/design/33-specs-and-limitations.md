@@ -2,7 +2,7 @@
 
 Status: **specification, as given by the owner.** What the first published version of the app contains and what it does not. The owner's items are written as given; the assistant's checks against the app, doc 28 and doc 31 are marked **Check** and are for the owner to confirm. Nothing here is built. What the first version leaves out is in doc 34.
 
-Related: doc 28 (questionnaire specification), doc 31 (positioning categories), doc 32 (sources), doc 34 (future features), doc 35 (contents), doc 36 (glossary).
+Related: doc 28 (questionnaire specification), doc 31 (positioning categories), doc 32 (sources), doc 34 (future features), `docs/app/app-index.md` (index) and `docs/app/glossary.md` (glossary).
 
 ## 1. The scope at a glance
 
@@ -73,7 +73,7 @@ The buyer's category no longer sits inside the life-stage list.
 | Friend or acquaintance | Sponsor or funder |
 | Other personal relationship | Other business relationship |
 
-The B2B list is the six business relationships of doc 31 section 6.2, each with the owner's description of how it positions (doc 31 9M). They split into **Proxy archetypes** (Employer providing for employees; Professional intermediary; Sponsor or funder; Other business relationship, for example a franchise owner buying for franchise operators) and **Dual-Intent archetypes** (Business partner or co-owner; Business serving its clients or customers).
+The B2B list is the six business relationships of doc 31 section 6.2, each with the owner's description of how it positions (doc 31 section 10.6). They split into **Proxy archetypes** (Employer providing for employees; Professional intermediary; Sponsor or funder; Other business relationship, for example a franchise owner buying for franchise operators) and **Dual-Intent archetypes** (Business partner or co-owner; Business serving its clients or customers).
 
 **2. User's life stage (B2C):**
 1. Minors
@@ -86,19 +86,19 @@ The B2B list is the six business relationships of doc 31 section 6.2, each with 
 **What the End User block holds in the first version:** the relationship and, for B2C, the user's life stage. The questions "who chooses" (I7f) and "what matters most to the User" (I7g), the routing into the second Profile's ticks, and everything else collected about the End User are **future features** (doc 34).
 
 **Check, for the owner:**
-1. **This replaces the I7b design of doc 31 9J.** There the life-stage list had five options, with Proxy and Dual-Intent among them. Now **I7b keeps three life-stage options** and **the category is a separate question**. The End User block is shown by the category.
-2. **The built app still has "Proxy Buyers / Gifters" inside the life-stage list** (saved value `proxy`). It stays until the new structure is built (doc 31 9L); the saved value needs converting then.
+1. **This replaces the I7b design of doc 31 decision 19.** There the life-stage list had five options, with Proxy and Dual-Intent among them. Now **I7b keeps three life-stage options** and **the category is a separate question**. The End User block is shown by the category.
+2. **The built app still has "Proxy Buyers / Gifters" inside the life-stage list** (saved value `proxy`). It stays until the new structure is built (doc 31 decision 23); the saved value needs converting then.
 3. **The user's life stage has four coarse groups** with no age edges given. Minors is read as under 18 and Seniors as 65 and over (which includes the Dependent seniors of 74 and over). Do the four replace the detailed stages of doc 31 section 1 or group them? Not stated.
 4. **B2B users have no life stage.** The user's life stage is read as B2C only; for B2B the relationship is the only End User item.
-5. **The buyer's category for B2B:** the archetypes of 9M suggest a category for each relationship (Proxy or Dual-Intent); as decided in doc 31 9E, the relationship only **suggests** it and the buyer's own answer governs.
-6. **Purpose, Differentiation and Outcome are three items.** Before, Differentiation and Outcome was one question (I7c) and the 12 purposes were information only (doc 31 9C 3). Read here as three questions for every buyer, with Purpose using the 12 purposes of doc 31 section 7.
+5. **The buyer's category for B2B:** the archetypes of section 10.6 suggest a category for each relationship (Proxy or Dual-Intent); as decided in doc 31 decisions 8 to 10, the relationship only **suggests** it and the buyer's own answer governs.
+6. **Purpose, Differentiation and Outcome are three items.** Before, Differentiation and Outcome was one question (I7c) and the 12 purposes were information only (doc 31 decision 11). Read here as three questions for every buyer, with Purpose using the 12 purposes of doc 31 section 7.
 
 ## 6. Ages
 
 **Ages are placed in the Segment, and maybe as an "i"** (owner). Read as the age information collected in docs 30 and 31, shown on the Segment card (Business 1) and possibly in an "i" beside the relevant answer.
 
 **Check, for the owner:**
-- **Which ages?** Three kinds exist: the **legal ages by activity and country** (doc 30: alcohol, tobacco, gambling and so on), the **legal ages for a buyer** (majority, consent, credit; doc 31 9A), and the **life-stage age ranges** (doc 31 section 1; the Segment's age range G6 already exists). The first two were requirements R-1 (Organization card) and R-2 (Positioning card) of doc 31 9C; they now move to the Segment. Read here as **all three, shown on the Segment**, with the legal ones applied from the customers' country automatically.
+- **Which ages?** Three kinds exist: the **legal ages by activity and country** (doc 30: alcohol, tobacco, gambling and so on), the **legal ages for a buyer** (majority, consent, credit; doc 31 section 10.2), and the **life-stage age ranges** (doc 31 section 1; the Segment's age range G6 already exists). The first two were requirements R-1 (Organization card) and R-2 (Positioning card) of doc 31 section 9; they now move to the Segment. Read here as **all three, shown on the Segment**, with the legal ones applied from the customers' country automatically.
 - **Where, exactly:** a line in the Segment card, an "i", or both is not decided.
 
 ## 7. Limits that already stand (from earlier owner decisions)

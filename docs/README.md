@@ -8,7 +8,27 @@ Status: **index**, updated 2026-10-29. One line per document: where it is, what 
 - **Kinds**: *rules* (what must hold; a check enforces most of them), *reference* (how things are, to look up), *current design* (what the app is today), *living list* (an open list: an item leaves it when done and the log records it), *log*, *proposal* (nothing built; in the archive), *specification* (what a page asks and shows), *playbook* (a procedure), *generated* (written by a script; never edit by hand, run its command), *archive* (finished or older; kept for the record).
 - **Where the code and a document disagree, the code is right** and the document is the one to fix. The checks that keep them honest: `npm run docs:check` (generated sections), `npm run tables:check`, `npm run library:check`, and the document-reference test (six documents name only properties, classes and files the code has).
 - **This index is written by `npm run docs:index`** (the lists are in `tools/scripts/docs/write-index.mjs`; a new document is added there). Do not edit it by hand.
-- **Who reads what**: an assistant starts with `ai/README.md`; the owner starts with `design/05-not-done-yet.md` (what is open) and `design/04-log.md` (what changed).
+- **Who reads what**: an assistant starts with `ai/README.md`; the owner starts with `app/app-index.md` (the map), `design/05-not-done-yet.md` (what is open) and `design/04-log.md` (what changed).
+
+## The app: index and glossary (`app/`)
+
+| Document | Kind | What it holds | Updated |
+|---|---|---|---|
+| [app/app-index.md](app/app-index.md) | index | The index of the app and of its documents: how it is entered, the pages and tiles, where each part is described, the questionnaire documents in reading order. | 2026-10-29 |
+| [app/glossary.md](app/glossary.md) | reference | One line per term: the framework, the app, the business stage, positioning, buyer and user, the question ids, the documents. | 2026-10-29 |
+
+## The first version and the questionnaire (`design/27` to `design/34`)
+
+| Document | Kind | What it holds | Updated |
+|---|---|---|---|
+| [design/27-questionnaire-plan.md](design/27-questionnaire-plan.md) | proposal | The questionnaire plan: the one test (does an answer save the founder work), the funnel from Identity to the journey, a worked example, the 42 drivers, the six building blocks, the stages and the decisions. | 2026-10-29 |
+| [design/28-questionnaire-specification.md](design/28-questionnaire-specification.md) | proposal | The questionnaire specification: the countries and shared lists with examples, the industry list in two levels, every question and option, the connection map with its evidence, the equality rules, the moves and the decisions. | 2026-10-29 |
+| [design/29-question-guide.md](design/29-question-guide.md) | proposal | The question guide: the flow of questions as trees, the key branching questions, what happens on both, mixed, not sure and other, the order that asks the least, why each question matters to the user, and how to write a new one. | 2026-10-29 |
+| [design/30-age-limits-by-activity.md](design/30-age-limits-by-activity.md) | research | Age limits by activity and country: which kinds of business are connected with a minimum age (direct or possible) in the UK, Ireland, the USA, Canada, Australia and New Zealand, with the sources, the open conflicts and how the app would use them. | 2026-10-29 |
+| [design/31-positioning-categories.md](design/31-positioning-categories.md) | collection | Positioning categories, collected as given by the owner before any question or layout: user age stages, buyer age stages, accessibility and caregiving cross-sections, buyer categories, buyer and user relationships, the offering purpose taxonomy and the relationship-to-purpose mapping, with what it leaves open. | 2026-10-29 |
+| [design/32-positioning-sources.md](design/32-positioning-sources.md) | research | Sources for the positioning lists: what supports each list of doc 31 (age stages, buyer categories, relationships, purposes, accessibility, caregiving), what has no acceptable source, and the five search result files with every page opened or marked not opened. | 2026-10-29 |
+| [design/33-specs-and-limitations.md](design/33-specs-and-limitations.md) | specification | The first published version: English only; the six countries and Other with their legal forms, activities and codes; single-sided; B2C and/or B2B; the buyer's category separate from the life stage. | 2026-10-29 |
+| [design/34-future-features.md](design/34-future-features.md) | living list | Everything that is not in the first published version: other languages and countries, multi-sided, B2G, G2B, the detailed positioning data, age limits by country, and the research still to do. | 2026-10-29 |
 
 ## For the assistant and the rules (`ai/`)
 
@@ -19,18 +39,16 @@ Status: **index**, updated 2026-10-29. One line per document: where it is, what 
 | [ai/toolchain-and-verification-playbook.md](ai/toolchain-and-verification-playbook.md) | playbook | What to run after a change (typecheck, tests, the lints and document checks, build, layout check) and the list of expected test failures. | 2026-10-22 |
 | [ai/framework-dsl-grammar.md](ai/framework-dsl-grammar.md) | reference | Grammar of the Markdown that defines a System's content. | 2026-10-20 |
 | [ai/framework-conventions-and-patterns.md](ai/framework-conventions-and-patterns.md) | reference | The architectural patterns and the data model of the framework. | 2026-10-20 |
-| [ai/glossary.md](ai/glossary.md) | reference | One line per project term, with a pointer to where it is explained. | 2026-10-29 |
 | [ai/review-criteria.md](ai/review-criteria.md) | rules | The standard a screen is judged by: criteria by kind (type, spacing, controls, colour, tiles, cards, tables, windows, pages, data), how each is measured, the report. | 2026-10-25 |
 | [ai/review-checklist.md](ai/review-checklist.md) | rules | What to check when reviewing a table, tile, card, page or control, and the proof before saying done. | 2026-10-25 |
 | [ai/code-map.md](ai/code-map.md) | reference | Where things are in src: the folders and what is in each; the rules for a new file. | 2026-10-25 |
-| [ai/app-guide.md](ai/app-guide.md) | reference | Where each part of the app is, what it is for, with the code locations. | 2026-10-25 |
 | [ai/layout-rules.md](ai/layout-rules.md) | rules | The measured rulebook of the Foundation pages (tokens, sizes, alignment, interactions) and the layout check. | 2026-10-26 |
 | [ai/tile-and-card-pattern.md](ai/tile-and-card-pattern.md) | rules | How tiles, frames, cards, rails and dialogs are built; the global rules. | 2026-10-25 |
 | [ai/card-kinds.md](ai/card-kinds.md) | reference | The kinds of card, where each one's code is, how its head is built. | 2026-10-22 |
 | [ai/customer-engagement-layout.md](ai/customer-engagement-layout.md) | rules | Layout of the Customer Engagement tables, the channel resources and the action markers. | 2026-10-20 |
 | [ai/outstanding-findings.md](ai/outstanding-findings.md) | living list | Confirmed problems found by diagnostic skills and not yet fixed. | 2026-10-21 |
 
-## The design of the app (`design/`)
+## The design records (`design/01` to `design/26`)
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
@@ -49,27 +67,17 @@ Status: **index**, updated 2026-10-29. One line per document: where it is, what 
 | [design/13-component-defaults.md](design/13-component-defaults.md) | generated | Component defaults. | 2026-10-22 |
 | [design/14-components-list.md](design/14-components-list.md) | generated | The components, and which fields and cards use each. | 2026-10-22 |
 | [design/15-fields-list.md](design/15-fields-list.md) | generated | The fields, the add buttons and the field names. | 2026-10-22 |
-| [design/16-library-vs-app.md](design/16-library-vs-app.md) | reference | The library measured against the app. | 2026-10-22 |
-| [design/17-text-holders.md](design/17-text-holders.md) | current design | The text holders: sizes and rules. | 2026-10-22 |
-| [design/18-frequency-options.md](design/18-frequency-options.md) | current design | The Frequency options by group, and the open proposals. | 2026-10-22 |
+| [design/16-library-vs-app.md](design/16-library-vs-app.md) | generated | The library measured against the app. | 2026-10-22 |
+| [design/17-text-holders.md](design/17-text-holders.md) | generated | The text holders: sizes and rules. | 2026-10-22 |
+| [design/18-frequency-options.md](design/18-frequency-options.md) | generated | The Frequency options by group, and the open proposals. | 2026-10-22 |
 | [design/19-reactions.md](design/19-reactions.md) | current design | How elements react to the pointer and the keyboard. | 2026-10-21 |
-| [design/20-text-links.md](design/20-text-links.md) | current design | The text link: look and behaviour. | 2026-10-22 |
+| [design/20-text-links.md](design/20-text-links.md) | generated | The text link: look and behaviour. | 2026-10-22 |
 | [design/21-free-text-categories.md](design/21-free-text-categories.md) | current design | Free texts in four categories. | 2026-10-21 |
 | [design/22-shared-components.md](design/22-shared-components.md) | current design | Which components are shared, with their props, what is still hand-made, and a short history. | 2026-10-25 |
-| [design/23-help-texts.md](design/23-help-texts.md) | current design | The help texts of the app. | 2026-10-22 |
+| [design/23-help-texts.md](design/23-help-texts.md) | generated | The help texts of the app. | 2026-10-22 |
 | [design/24-popups.md](design/24-popups.md) | current design | Pop-ups in six categories, with their placement rules. | 2026-10-21 |
 | [design/25-tooltips.md](design/25-tooltips.md) | current design | Which controls have a tooltip, what it says, and the five rules. | 2026-10-25 |
 | [design/26-folder-plan.md](design/26-folder-plan.md) | proposal | The app files, the examples and the working files: what is where, and a three-step plan to separate them. | 2026-10-22 |
-| [design/27-questionnaire-plan.md](design/27-questionnaire-plan.md) | proposal | The questionnaire plan: the one test (does an answer save the founder work), the funnel from Identity to the journey, a worked example, the 42 drivers, the six building blocks, the stages and the decisions. | 2026-10-29 |
-| [design/28-questionnaire-specification.md](design/28-questionnaire-specification.md) | proposal | The questionnaire specification: the countries and shared lists with examples, the industry list in two levels, every question and option, the connection map with its evidence, the equality rules, the moves and the decisions. | 2026-10-29 |
-| [design/29-question-guide.md](design/29-question-guide.md) | proposal | The question guide: the flow of questions as trees, the key branching questions, what happens on both, mixed, not sure and other, the order that asks the least, why each question matters to the user, and how to write a new one. | 2026-10-29 |
-| [design/30-age-limits-by-activity.md](design/30-age-limits-by-activity.md) | research | Age limits by activity and country: which kinds of business are connected with a minimum age (direct or possible) in the UK, Ireland, the USA, Canada, Australia and New Zealand, with the sources, the open conflicts and how the app would use them. | 2026-10-29 |
-| [design/31-positioning-categories.md](design/31-positioning-categories.md) | collection | Positioning categories, collected as given by the owner before any question or layout: user age stages, buyer age stages, accessibility and caregiving cross-sections, buyer categories, buyer and user relationships, the offering purpose taxonomy and the relationship-to-purpose mapping, with what it leaves open. | 2026-10-29 |
-| [design/32-positioning-sources.md](design/32-positioning-sources.md) | research | Sources for the positioning lists: what supports each list of doc 31 (age stages, buyer categories, relationships, purposes, accessibility, caregiving), what has no acceptable source, and the five search result files with every page opened or marked not opened. | 2026-10-29 |
-| [design/33-specs-and-limitations.md](design/33-specs-and-limitations.md) | specification | The first published version: English only; the six countries and Other with their legal forms, activities and codes; single-sided; B2C and/or B2B; the buyer's category separate from the life stage. | 2026-10-29 |
-| [design/34-future-features.md](design/34-future-features.md) | living list | Everything that is not in the first published version: other languages and countries, multi-sided, B2G, G2B, the detailed positioning data, age limits by country, and the research still to do. | 2026-10-29 |
-| [design/35-contents.md](design/35-contents.md) | index | The questionnaire and first-version documents: what to read first, what each holds, how the first version relates to them. | 2026-10-29 |
-| [design/36-glossary.md](design/36-glossary.md) | reference | The names used in the questionnaire documents: business stages, positioning, buyer and user, question ids and marks. | 2026-10-29 |
 
 ## The specifications (`specifications/`)
 

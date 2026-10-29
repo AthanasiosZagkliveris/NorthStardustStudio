@@ -20,18 +20,18 @@ Related: doc 33 (the first version), docs 27 to 32 (where each item is described
 
 | # | Future feature | Described in |
 |---|---|---|
-| 8 | The detailed life stages (Infancy through Late Adolescence; Young, Established, Peak, Mature, Active Retirees; Dependent seniors) with the edge rule "from X up to but not including Y", in place of the coarse groups | doc 31 1, 2, 9B |
-| 9 | The Micro-Buyers (16 to 18) as a restricted sub-category of Direct Buyers | doc 31 2, 9F 5 |
-| 10 | The public-sector and government-to-business buyer and user relationships (the other ten of the 22) | doc 31 6.3, 6.4, 9G, 9I |
-| 11 | The positioning guidance of each B2B relationship (value positioning, buyer and user pain points, messaging focus) as tooltips or text | doc 31 9M |
-| 12 | "Who chooses" (I7f) with its household wording, and "what matters most to the User" (I7g) | doc 31 9H, 9K |
-| 13 | The routing of the End User answers into the second Profile: age, P25 relationship, P21 role, P9 and P17 ticks | doc 31 9H, 9I, 9K |
-| 14 | The relationship-to-purpose table (22 rows, 12 purposes) as tooltips and ordering of the purpose list | doc 31 9G |
-| 15 | Accessibility questions (permanent, temporary, situational; functional categories) saved as Profile tags | doc 31 3, 9C 4, 9F 7 |
-| 16 | Caregiving questions (who is cared for, the role, the household) saved as Profile tags | doc 31 4, 9C 4 |
-| 17 | The buyer-category rules beyond age: data separation, contract and liability flags, payment routing | doc 31 9F 4 |
-| 18 | The caregiver override of privacy walls, decided by each country's law | doc 31 9E 2 |
-| 19 | Review checks: a household plan's unit price against a single-user purchase option (O3); the exact syntax of the P25 field | doc 31 9K |
+| 8 | The detailed life stages (Infancy through Late Adolescence; Young, Established, Peak, Mature, Active Retirees; Dependent seniors) with the edge rule "from X up to but not including Y", in place of the coarse groups | doc 31 1, 2, section 10.1 |
+| 9 | The Micro-Buyers (16 to 18) as a restricted sub-category of Direct Buyers | doc 31 2, decision 5 |
+| 10 | The public-sector and government-to-business buyer and user relationships (the other ten of the 22) | doc 31 6.3, 6.4, section 10.4, decision 18 |
+| 11 | The positioning guidance of each B2B relationship (value positioning, buyer and user pain points, messaging focus) as tooltips or text | doc 31 section 10.6 |
+| 12 | "Who chooses" (I7f) with its household wording, and "what matters most to the User" (I7g) | doc 31 section 10.3, decisions 20 to 22 |
+| 13 | The routing of the End User answers into the second Profile: age, P25 relationship, P21 role, P9 and P17 ticks | doc 31 section 10.3, decision 18, decisions 20 to 22 |
+| 14 | The relationship-to-purpose table (22 rows, 12 purposes) as tooltips and ordering of the purpose list | doc 31 section 10.4 |
+| 15 | Accessibility questions (permanent, temporary, situational; functional categories) saved as Profile tags | doc 31 3, decision 12, decision 12 |
+| 16 | Caregiving questions (who is cared for, the role, the household) saved as Profile tags | doc 31 4, decision 12 |
+| 17 | The buyer-category rules beyond age: data separation, contract and liability flags, payment routing | doc 31 decision 27 |
+| 18 | The caregiver override of privacy walls, decided by each country's law | doc 31 decision 9 |
+| 19 | Review checks: a household plan's unit price against a single-user purchase option (O3); the exact syntax of the P25 field | doc 31 decisions 20 to 22 |
 
 Age limits by activity and by buyer, which were listed here, are now in the first version, in the Segment (doc 33 section 6).
 
