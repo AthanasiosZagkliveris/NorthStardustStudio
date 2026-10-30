@@ -50,9 +50,13 @@
               "audience": [
                 "adult"
               ],
-              "outcome": [
+              "differentiation": [
                 "premium"
               ],
+              "outcome": [
+                "prestige"
+              ],
+              "outcomeUser": [],
               "buyerCategory": [
                 "b2c:direct"
               ],

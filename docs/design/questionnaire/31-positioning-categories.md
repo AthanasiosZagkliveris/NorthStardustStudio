@@ -206,6 +206,8 @@ The decisions of 2026-10-27 to 2026-10-29, one row each, by topic. The rounds of
 | 26 | Lists with no acceptable source (doc 32) stay the owner's wording | decided |
 | 28 | A seventh consumer relationship, "Commercial & Professional", is a proxy buyer (the owner's instruction of 2026-10-30); the consumer list is the six personal ones plus it, "Other personal relationship" last | built 2026-10-30 |
 | 29 | The purpose list is ordered by relevance (the tables of 10.7): the buyer and user relationship, else the buyer's category, else the seller and buyer relationship; nothing is taken away | built 2026-10-30 |
+| 30 | Only the buyer and user relationships that can be the buyer's category are offered (the table at the end of 10.7); a relationship that no longer fits goes with a change of category | built 2026-10-30 |
+| 31 | "Differentiation & Outcome" is two questions: the **Differentiation** (what the offering does differently) and the **Outcome** (the measurable result for the buyer); where the buyer is a Proxy or Dual-Intent Buyer the user has an **Outcome for the user** (the six of the former I7g) | built 2026-10-30 |
 | 27 | Rules of the buyer categories beyond age: data separation (a Proxy Buyer does not see the user's behavioural data), contract and liability flags, payment routing | decided as rules applied by country; future |
 
 **Still open** (doc 33, section 8): the four coarse user life stages and their edges; Purpose, Differentiation and Outcome as three questions; which ages go in the Segment and where; the country picker.
@@ -433,3 +435,21 @@ Structural rationale (owner): Commercial & Professional is a strict business min
 | Friend or acquaintance | Proxy | Almost exclusively gifting or a favour: appreciation and social connection over utility |
 | Commercial & Professional (new) | Proxy | The buyer buys for a client, a patient or a member in a professional capacity (the owner's instruction: a proxy buyer) |
 | Other personal relationship | Dual or proxy | Varies with closeness: the roommate dynamic (dual, shared spaces) or community support |
+
+**Which relationships are offered for which category (2026-10-30; owner's instruction to hide the options that do not reflect the previous choices; the lists are the owner's judgement from the tables above and doc 10.6)**
+
+| Relationship | Offered to a Proxy Buyer | Offered to a Dual-Intent Buyer |
+|---|---|---|
+| Parent or legal guardian | yes | yes (a family plan) |
+| Caregiver or person responsible | yes | yes (the sandwich-generation caregiver) |
+| Family member or relative | yes | yes |
+| Spouse or romantic partner | no | yes |
+| Friend or acquaintance | yes | no |
+| Commercial & Professional | yes | no |
+| Other personal relationship | yes | yes |
+| Employer providing for employees (B2B) | yes | no |
+| Business partner or co-owner (B2B) | no | yes |
+| Business serving its clients (B2B) | no | yes |
+| Professional intermediary (B2B) | yes | no |
+| Sponsor or funder (B2B) | yes | no |
+| Other business relationship (B2B) | yes | no |

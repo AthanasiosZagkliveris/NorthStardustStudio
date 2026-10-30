@@ -90,6 +90,8 @@ Doc 28 is the questionnaire specification, doc 33 the first version, doc 34 what
 | Buyer | The one who pays | Doc 31, 5 |
 | User | The one who uses the offering | Doc 31, 5 |
 | End User | The user when the buyer is a Proxy or Dual-Intent buyer; the built questions I7d to I7g (age group, relationship, who chooses, what matters most) stay until the new structure is built; only the relationship and the user's life stage are in the first version | Doc 28, 8.2; doc 33, section 5 |
+| Differentiation | What the offering does differently from the competitors: Cost-driven, Convenience-driven, Compliance, Risk & Security, Status & Premium | Doc 28, 8.2 |
+| Outcome (for the buyer, for the user) | The measurable result the buyer gets; where the buyer is a Proxy or Dual-Intent Buyer the user has an outcome of their own (what matters most to them) | Doc 28, 8.2 |
 | Buyer's category | Direct, Proxy or Dual-Intent; separate from the life stage | Doc 33, section 5 |
 | Direct Buyer | Buys exclusively for personal use | Doc 33, section 5 |
 | Proxy Buyer | Buys exclusively on behalf of someone else; the payer is not the user. The built life-stage option "Proxy Buyers / Gifters" is the older form of it | Doc 33, section 5 |

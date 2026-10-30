@@ -122,14 +122,12 @@ export const PURPOSE_WORDS: Record<string, string> = {
     productivity: "Productivity and Efficiency", growth: "Business Growth and Performance", creation: "Creation and Expression", everyday: "Everyday Needs and Convenience", protection: "Protection and Risk Reduction",
     compliance: "Compliance and Obligations", access: "Access and Social Support"
 };
-export const OUTCOME_WORDS: Record<string, string> = { cost: "Cost-driven", convenience: "Convenience-driven", compliance: "Compliance, Risk & Security", premium: "Status & Premium" };
-
-/** The words of a saved outcome: "cost", or "b2c:cost" for the outcome of one side of a platform. */
-export function outcomeWord(id: string): string {
-    const [side, key] = id.includes(":") ? id.split(":") : ["", id];
-    const word = OUTCOME_WORDS[key] ?? "";
-    return word && side ? side.toUpperCase() + ": " + word : word;
-}
+/** The differentiation: what the offering does differently from the competitors. */
+export const DIFFERENTIATION_WORDS: Record<string, string> = { cost: "Cost-driven", convenience: "Convenience-driven", compliance: "Compliance, Risk & Security", premium: "Status & Premium" };
+/** The outcome for the buyer: the measurable result. */
+export const OUTCOME_WORDS: Record<string, string> = { savings: "Lower costs", time: "Time saved", assurance: "Legal and data-protection cover", prestige: "Higher quality and prestige" };
+/** The outcome for the user (a Proxy or Dual-Intent Buyer's): what matters most to the user. */
+export const OUTCOME_USER_WORDS: Record<string, string> = { enjoy: "Enjoyment and fun", comfort: "Comfort and ease", safety: "Safety and care", learning: "Learning and growth", belong: "Looks and belonging", practical: "Practical use" };
 
 /**
  * THE NAME OF THE POSITIONING FOLLOWS THE BUSINESS STAGE (the owner's text, 2026-10-24): while planning and launching it is a temporary, highly targeted statement for the first market, the Early Positioning;

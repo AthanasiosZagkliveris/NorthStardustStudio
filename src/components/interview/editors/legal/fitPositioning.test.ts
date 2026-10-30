@@ -63,4 +63,16 @@ describe("fitPositioningToStage: the buyer's category and the End User", () => {
         expect(fitted.buyerCategory).toEqual([]);
         expect(fitted.endUser).toEqual([]);
     });
+
+    it("takes a relationship that cannot be the category away: a partner is not a Proxy Buyer's", () => {
+        const held = { ...base, endUser: ["rel:partner", "rel:parent"] };
+        expect(fitPositioningToStage(held, "grow").endUser).toEqual(["rel:parent"]);
+        expect(fitPositioningToStage({ ...base, buyerCategory: ["b2c:dual"], endUser: ["rel:friend", "rel:partner"] }, "grow").endUser).toEqual(["rel:partner"]);
+    });
+
+    it("keeps the user's outcome only while a buyer is a Proxy or Dual-Intent Buyer, to the stage's limit", () => {
+        expect(fitPositioningToStage({ ...base, outcomeUser: ["safety"] }, "grow").outcomeUser).toEqual(["safety"]);
+        expect(fitPositioningToStage({ ...base, buyerCategory: ["b2c:direct"], outcomeUser: ["safety"] }, "grow").outcomeUser).toEqual([]);
+        expect(fitPositioningToStage({ ...base, outcomeUser: ["safety", "enjoy", "comfort"] }, "manage").outcomeUser).toEqual([]);
+    });
 });

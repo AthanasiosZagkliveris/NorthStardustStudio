@@ -42,3 +42,13 @@ describe("a tick box's click area", () => {
     });
 
 });
+
+describe("a radio's reaction", () => {
+
+    it("reacts under the pointer as a tick box does: its words underlined and the round's glow ring", () => {
+        const css = stylesheet("radio-choice.css");
+        expect(css).toContain(".radio-choice-option > input[type=\"radio\"]:hover:not(:disabled):not(:focus-visible) { box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) calc(18% * var(--hover-lift, 1)), transparent); }");
+        expect(css).toContain(".radio-choice-option:has(> input[type=\"radio\"]:not(:disabled)):hover > :not(input) { text-decoration: underline;");
+    });
+
+});

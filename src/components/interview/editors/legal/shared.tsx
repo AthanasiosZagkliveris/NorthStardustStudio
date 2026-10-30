@@ -7,6 +7,7 @@ import { FoundersProfileValue, LegalEntityValue, todayIsoDate, createLegalEntity
 import { InfoPoint } from "../../fields/InfoNote.tsx";
 import { SOURCES } from "../../../../framework/engine/Sources.ts";
 import { FIRST_VERSION_COUNTRIES } from "../../../../framework/engine/LegalEntityJurisdictions.ts";
+import { categoryOfModel, relationshipFits } from "../../../../framework/engine/RelationshipFit.ts";
 
 /**
  * The last entry in every Legal Form list. The brief forbids
@@ -169,12 +170,30 @@ export const PURPOSES = [
     { id: "access", label: "Access and Social Support" }
 ] as const;
 
-/** Differentiation & Outcome, one choice. */
-export const OUTCOMES = [
+/** Differentiation: what the OFFERING does differently from the competitors (the owner's words). */
+export const DIFFERENTIATIONS = [
     { id: "cost", label: "Cost-driven" },
     { id: "convenience", label: "Convenience-driven" },
     { id: "compliance", label: "Compliance, Risk & Security" },
     { id: "premium", label: "Status & Premium" }
+] as const;
+
+/** Outcome for the buyer: the measurable result the buyer gets (the results the differentiation text names: lower costs, time saved, legal cover, prestige). */
+export const OUTCOMES = [
+    { id: "savings", label: "Lower costs" },
+    { id: "time", label: "Time saved" },
+    { id: "assurance", label: "Legal and data-protection cover" },
+    { id: "prestige", label: "Higher quality and prestige" }
+] as const;
+
+/** Outcome for the user, asked of a Proxy or Dual-Intent Buyer: what matters most to the user. */
+export const USER_OUTCOMES = [
+    { id: "enjoy", label: "Enjoyment and fun" },
+    { id: "comfort", label: "Comfort and ease" },
+    { id: "safety", label: "Safety and care" },
+    { id: "learning", label: "Learning and growth" },
+    { id: "belong", label: "Looks and belonging" },
+    { id: "practical", label: "Practical use" }
 ] as const;
 
 /**
@@ -212,7 +231,7 @@ export function lockedAudience(stage: string, model: string): string[] {
  * it (more than the stage allows, or a choice the stage locks) goes back to its default, empty; a question that fits keeps its answers. The last question is asked once, or once for each side of a platform
  * (while managing or growing, with several relationships chosen), so answers of the other form go. Returns the organisation itself where nothing changes.
  */
-export function fitPositioningToStage<T extends { customerType: string[]; marketType: string; audience: string[]; outcome: string[]; buyerCategory?: string[]; purpose?: string[]; endUser?: string[] }>(organisation: T, stage: string): T {
+export function fitPositioningToStage<T extends { customerType: string[]; marketType: string; audience: string[]; outcome: string[]; differentiation?: string[]; outcomeUser?: string[]; buyerCategory?: string[]; purpose?: string[]; endUser?: string[] }>(organisation: T, stage: string): T {
     const relationship = choiceLimit(stage, "relationship");
     const customerType = relationship !== null && organisation.customerType.length > relationship ? [] : organisation.customerType;
     // The audience question of each relationship: its options.
@@ -228,6 +247,8 @@ export function fitPositioningToStage<T extends { customerType: string[]; market
     // The outcome and the purpose: one question each, up to the stage's limit.
     const outcomeLimit = choiceLimit(stage, "outcome");
     const outcome = outcomeLimit !== null && organisation.outcome.length > outcomeLimit ? [] : organisation.outcome;
+    const differentiationBefore = organisation.differentiation ?? [];
+    const differentiation = outcomeLimit !== null && differentiationBefore.length > outcomeLimit ? [] : differentiationBefore;
     const purposeBefore = organisation.purpose ?? [];
     const purpose = outcomeLimit !== null && purposeBefore.length > outcomeLimit ? [] : purposeBefore;
     // The buyer's category is asked for a relationship that is chosen; the End User for a relationship whose category is Proxy or Dual-Intent.
@@ -238,19 +259,27 @@ export function fitPositioningToStage<T extends { customerType: string[]; market
     const groups: [readonly { id: string }[], string, number | null][] = [
         [BUYER_USER_RELATIONS.b2c, "b2c", audienceLimit], [BUYER_USER_RELATIONS.b2b, "b2b", audienceLimit], [USER_LIFE_STAGES, "b2c", audienceLimit]
     ];
+    // The user has an outcome of their own only where some buyer is a Proxy or Dual-Intent Buyer.
+    const outcomeUserBefore = organisation.outcomeUser ?? [];
+    const outcomeUser = !(endsUser("b2c") || endsUser("b2b")) || (outcomeLimit !== null && outcomeUserBefore.length > outcomeLimit) ? [] : outcomeUserBefore;
     let endUser = endUserBefore;
     for (const [options, model, limit] of groups) {
         const ids = options.map(option => option.id);
         if (!endsUser(model) || (limit !== null && endUser.filter(id => ids.includes(id)).length > limit)) {
             endUser = endUser.filter(id => !ids.includes(id));
         }
+        // (A relationship that cannot be the chosen category goes with the change of category.)
+        const category = categoryOfModel(buyerCategory, model);
+        endUser = endUser.filter(id => !ids.includes(id) || relationshipFits(id, category));
     }
     const same = (one: string[], other: string[]) => one.length === other.length && one.every((id, index) => id === other[index]);
-    return same(customerType, organisation.customerType) && same(audience, organisation.audience) && same(outcome, organisation.outcome) && same(purpose, purposeBefore) && same(buyerCategory, categoryBefore) && same(endUser, endUserBefore)
+    return same(customerType, organisation.customerType) && same(audience, organisation.audience) && same(outcome, organisation.outcome) && same(differentiation, differentiationBefore) && same(outcomeUser, outcomeUserBefore) && same(purpose, purposeBefore) && same(buyerCategory, categoryBefore) && same(endUser, endUserBefore)
         ? organisation
         : {
             ...organisation, customerType, audience, outcome,
             ...(organisation.buyerCategory !== undefined || buyerCategory.length > 0 ? { buyerCategory } : {}),
+            ...(organisation.differentiation !== undefined || differentiation.length > 0 ? { differentiation } : {}),
+            ...(organisation.outcomeUser !== undefined || outcomeUser.length > 0 ? { outcomeUser } : {}),
             ...(organisation.purpose !== undefined || purpose.length > 0 ? { purpose } : {}),
             ...(organisation.endUser !== undefined || endUser.length > 0 ? { endUser } : {})
         };
@@ -384,15 +413,27 @@ export const INFO = {
         "Learning and Development. Health, Care and Wellbeing. Gifting and Appreciation. Entertainment and Enjoyment. Social Connection and Relationships. Productivity and Efficiency. Business Growth and Performance. Creation and Expression. Everyday Needs and Convenience. Protection and Risk Reduction. Compliance and Obligations. Access and Social Support."
     ],
 
-    outcome: [
-        "Transforms the technical characteristics of the product into a measurable result (Outcome/ROI), hitting exactly where competitors fail to offer a solution.",
-        "Cost-driven (saving resources): targets the blind spot of expensive competitors. Result: immediate reduction in operating costs or a budget-friendly alternative.",
-        "Convenience-driven (speed and ease): targets the blind spot of complex/slow solutions. Result: zeroing out the execution time of a process or drastically simplifying the workflow.",
-        "Compliance, Risk & Security: targets the blind spot of uncertified or questionable alternatives. Result: absolute legal coverage, zero risk of fines or data protection.",
-        "Status & Premium (exclusivity): targets the blind spot of mass-market/cheap products. Result: top quality, custom service and upgrading the buyer's prestige.",
-        "In a multi-sided market, while managing or growing, with more than one side chosen, this question is asked for each side.",
+    differentiation: [
+        "What the offering does differently from the competitors: where it hits exactly the blind spot they leave. It is about the offering; the result the buyer gets from it is the outcome, asked next.",
+        "Cost-driven (saving resources): targets the blind spot of expensive competitors with a budget-friendly alternative.",
+        "Convenience-driven (speed and ease): targets the blind spot of complex or slow solutions.",
+        "Compliance, Risk & Security: targets the blind spot of uncertified or questionable alternatives.",
+        "Status & Premium (exclusivity): targets the blind spot of mass-market or cheap products with top quality and custom service.",
         { title: "Based on", source: SOURCES.strategicPositioning },
         { title: "Also", source: SOURCES.positioningTemplate }
+    ],
+
+    outcome: [
+        "The measurable result the buyer gets from the offering (Outcome / ROI): what the buyer is paying for.",
+        "Lower costs: an immediate reduction in operating costs. Time saved: the execution time of a process cut to almost nothing, or the workflow drastically simplified. Legal and data-protection cover: absolute legal coverage and no risk of fines. Higher quality and prestige: top quality, custom service and an upgrade of the buyer's prestige.",
+        "For a Proxy or Dual-Intent Buyer the user has an outcome of their own, asked next.",
+        { title: "Based on", source: SOURCES.strategicPositioning },
+        { title: "Also", source: SOURCES.positioningTemplate }
+    ],
+
+    outcomeUser: [
+        "What matters most to the user, apart from the buyer's own reasons for paying: the result the user gets. It starts the user's Profile.",
+        "Enjoyment and fun. Comfort and ease. Safety and care. Learning and growth. Looks and belonging (fitting in with friends, a style). Practical use."
     ],
 
     legalForm: [

@@ -3,7 +3,7 @@ import { CSSProperties, useState } from "react";
 import CardShell from "../cards/CardShell.tsx";
 import { OptionalNote } from "../cards/BusinessCardFields.tsx";
 import { positioningName } from "./legal/shared.tsx";
-import { AUDIENCE_WORDS, BUYER_CATEGORY_WORDS, CUSTOMER_TYPE_WORDS, END_USER_WORDS, OUTCOME_WORDS, PURPOSE_WORDS } from "../../../framework/engine/ActivityClassification.ts";
+import { AUDIENCE_WORDS, BUYER_CATEGORY_WORDS, CUSTOMER_TYPE_WORDS, DIFFERENTIATION_WORDS, END_USER_WORDS, OUTCOME_USER_WORDS, OUTCOME_WORDS, PURPOSE_WORDS } from "../../../framework/engine/ActivityClassification.ts";
 import { AnswerType } from "../../../framework/enums/AnswerType.ts";
 import { asLegalEntityValue, isAnswerEmpty } from "../../../framework/engine/AnswerUtils.ts";
 import { useDragToScroll } from "../../../hooks/useDragToScroll.ts";
@@ -197,7 +197,9 @@ function MultiPartAnswerRenderer({
             ...organisation.buyerCategory.map(id => BUYER_CATEGORY_WORDS[id]),
             ...organisation.endUser.map(id => END_USER_WORDS[id]),
             ...organisation.purpose.map(id => PURPOSE_WORDS[id]),
-            ...organisation.outcome.map(id => OUTCOME_WORDS[id.replace(/^[^:]*:/, "")])
+            ...organisation.differentiation.map(id => DIFFERENTIATION_WORDS[id]),
+            ...organisation.outcome.map(id => OUTCOME_WORDS[id]),
+            ...organisation.outcomeUser.map(id => OUTCOME_USER_WORDS[id])
         ].filter((line): line is string => typeof line === "string" && line.length > 0);
 
         const tiles: SectionTile[] = parts.map(part => part.id === "description" && onChangeLegalEntity ? organizationTile(part) : ({

@@ -6,7 +6,7 @@ import { parseAmount, parseDecimal } from "./Amounts.ts";
 import { asText, randomId } from "./Readers.ts";
 import { todayIsoDate } from "./AnswerProcess.ts";
 import { isoDateText } from "./AnswerBusinessCapability.ts";
-import { AUDIENCE_IDS, BUYER_CATEGORY_KEYS, MODEL_IDS, OUTCOME_IDS, PURPOSE_IDS, endUserFrom } from "./PositioningIds.ts";
+import { AUDIENCE_IDS, BUYER_CATEGORY_KEYS, DIFFERENTIATION_IDS, MODEL_IDS, OUTCOME_IDS, PURPOSE_IDS, USER_OUTCOME_IDS, endUserFrom, userOutcomeFrom } from "./PositioningIds.ts";
 
 /* ==========================================================
    Legal Entity (see AnswerType.LegalEntity)
@@ -84,8 +84,12 @@ export interface LegalEntityOrganisationValue {
     marketType: string;
     /** The audience: the chosen scales (solo, smb, mid, enterprise) for a business or public buyer and life stages (young, adult, senior) for a consumer. */
     audience: string[];
-    /** The differentiation and outcome: the chosen ones of cost, convenience, compliance, premium. */
+    /** The differentiation (what the offering does differently): the chosen ones of cost, convenience, compliance, premium. */
+    differentiation: string[];
+    /** The outcome for the buyer: the chosen ones of savings, time, assurance, prestige. */
     outcome: string[];
+    /** The outcome for the user, asked of a Proxy or Dual-Intent Buyer: the chosen ones of enjoy, comfort, safety, learning, belong, practical. */
+    outcomeUser: string[];
     /** The buyer's category, one for each relationship: "b2c:direct", "b2c:proxy" (pays for someone else), "b2c:dual" (for themselves and their dependents), "b2b:...". */
     buyerCategory: string[];
     /** The purposes of the offering (the twelve of PURPOSE_IDS). */
@@ -422,8 +426,11 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
             customerType: [...new Set(asChoices(organisationSource.customerType).flatMap(id => id === "both" ? ["b2b", "b2c"] : [id]))].filter(id => (MODEL_IDS as readonly string[]).includes(id)),
             marketType: "single",
             audience: asChoices(organisationSource.audience).filter(id => (AUDIENCE_IDS as readonly string[]).includes(id)),
-            // (An outcome once saved for one side of a platform, "b2c:cost", is the outcome.)
-            outcome: [...new Set(asChoices(organisationSource.outcome).map(id => id.includes(":") ? id.split(":")[1] : id))].filter(id => (OUTCOME_IDS as readonly string[]).includes(id)),
+            // (The first answer was one question, "Differentiation & Outcome": its ids, cost, convenience, compliance, premium, are the differentiation now; one saved for a side of a platform, "b2c:cost", is the differentiation.)
+            differentiation: [...new Set([...asChoices(organisationSource.differentiation), ...asChoices(organisationSource.outcome)].map(id => id.includes(":") ? id.split(":")[1] : id))].filter(id => (DIFFERENTIATION_IDS as readonly string[]).includes(id)),
+            outcome: [...new Set(asChoices(organisationSource.outcome))].filter(id => (OUTCOME_IDS as readonly string[]).includes(id)),
+            // (The End User's "what matters most", wants:safety, is the outcome for the user.)
+            outcomeUser: [...new Set([...asChoices(organisationSource.outcomeUser), ...userOutcomeFrom(asChoices(organisationSource.endUser))])].filter(id => (USER_OUTCOME_IDS as readonly string[]).includes(id)),
             buyerCategory: asChoices(organisationSource.buyerCategory).filter((id, at, all) => {
                 const [model, key] = id.split(":");
                 return (MODEL_IDS as readonly string[]).includes(model) && (BUYER_CATEGORY_KEYS as readonly string[]).includes(key) && all.findIndex(other => other.startsWith(model + ":")) === at;

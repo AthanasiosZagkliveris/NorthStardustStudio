@@ -575,7 +575,9 @@ describe("LegalEntityEditor Early Positioning questions", () => {
         expect(screen.getByRole("radiogroup", { name: "Buyer's category" })).toBeTruthy();
         expect(screen.getByRole("radiogroup", { name: "Purpose" })).toBeTruthy();
         expect(screen.getByRole("radiogroup", { name: "Audience Specialization & Scale" })).toBeTruthy();
-        expect(screen.getByRole("radiogroup", { name: "Differentiation & Outcome" })).toBeTruthy();
+        expect(screen.getByRole("radiogroup", { name: "Differentiation" })).toBeTruthy();
+        expect(screen.getByRole("radiogroup", { name: "Outcome" })).toBeTruthy();
+        expect(screen.queryByRole("radiogroup", { name: "Outcome for the user" })).toBeNull();
         expect((screen.getByRole("radio", { name: "Startups & SMBs" }) as HTMLInputElement).checked).toBe(true);
 
         // A consumer market has life stages, not scales, and the old audience goes.
@@ -589,9 +591,12 @@ describe("LegalEntityEditor Early Positioning questions", () => {
 
         fireEvent.click(screen.getByRole("radio", { name: "Seniors" }));
         fireEvent.click(screen.getByRole("radio", { name: "Convenience-driven" }));
+        fireEvent.click(screen.getByRole("radio", { name: "Time saved" }));
         fireEvent.click(screen.getByRole("radio", { name: "Dual-Intent Buyers" }));
         fireEvent.click(screen.getByRole("radio", { name: "Gifting and Appreciation" }));
-        expect(saved!.organisation).toMatchObject({ customerType: ["b2c"], audience: ["senior"], outcome: ["convenience"], buyerCategory: ["b2c:dual"], purpose: ["gifting"], marketType: "single" });
+        // A Dual-Intent Buyer's user has an outcome of their own.
+        fireEvent.click(screen.getByRole("radio", { name: "Safety and care" }));
+        expect(saved!.organisation).toMatchObject({ customerType: ["b2c"], audience: ["senior"], differentiation: ["convenience"], outcome: ["time"], outcomeUser: ["safety"], buyerCategory: ["b2c:dual"], purpose: ["gifting"], marketType: "single" });
 
     });
 
@@ -615,12 +620,12 @@ describe("LegalEntityEditor Early Positioning limits by business stage", () => {
         // Launching: one relationship, up to two outcomes (ticks, "2 max").
         const launching = render(<Stage stage="launch" />);
         expect(screen.getByRole("radio", { name: "B2B (Business-to-Business)" })).toBeTruthy();
-        const outcomes = screen.getByRole("group", { name: "Differentiation & Outcome" });
+        const outcomes = screen.getByRole("group", { name: "Differentiation" });
         const ticks = () => [...outcomes.querySelectorAll("input[type=checkbox]")] as HTMLInputElement[];
         fireEvent.click(ticks()[0]);
         fireEvent.click(ticks()[1]);
         expect(ticks().map(tick => tick.disabled)).toEqual([false, false, true, true]);
-        expect([...launching.container.querySelectorAll(".business-foundation-tick-note")].map(note => note.textContent)).toEqual(["2 max", "2 max"]);
+        expect([...launching.container.querySelectorAll(".business-foundation-tick-note")].map(note => note.textContent)).toEqual(["2 max", "2 max", "2 max"]);
         // A ticked one is never locked: unticking frees the others.
         fireEvent.click(ticks()[0]);
         expect(ticks().map(tick => tick.disabled)).toEqual([false, false, false, false]);
@@ -638,8 +643,8 @@ describe("LegalEntityEditor Early Positioning limits by business stage", () => {
 
         // Growing: any number, no locks, no note.
         const growing = render(<Stage stage="grow" />);
-        for (const tick of [...screen.getByRole("group", { name: "Differentiation & Outcome" }).querySelectorAll("input[type=checkbox]")]) fireEvent.click(tick);
-        expect([...screen.getByRole("group", { name: "Differentiation & Outcome" }).querySelectorAll("input[type=checkbox]")].every(tick => (tick as HTMLInputElement).checked && !(tick as HTMLInputElement).disabled)).toBe(true);
+        for (const tick of [...screen.getByRole("group", { name: "Differentiation" }).querySelectorAll("input[type=checkbox]")]) fireEvent.click(tick);
+        expect([...screen.getByRole("group", { name: "Differentiation" }).querySelectorAll("input[type=checkbox]")].every(tick => (tick as HTMLInputElement).checked && !(tick as HTMLInputElement).disabled)).toBe(true);
         expect(growing.container.querySelector(".business-foundation-tick-note")).toBeNull();
 
     });
@@ -649,7 +654,9 @@ describe("LegalEntityEditor Early Positioning limits by business stage", () => {
         const value = asLegalEntityValue({ organisation: { customerType: "both", audience: "smb", outcome: "cost" } });
         expect(value.organisation.customerType).toEqual(["b2b", "b2c"]);
         expect(value.organisation.audience).toEqual(["smb"]);
-        expect(value.organisation.outcome).toEqual(["cost"]);
+        // The first answer was one question, "Differentiation & Outcome": its ids are the differentiation now.
+        expect(value.organisation.differentiation).toEqual(["cost"]);
+        expect(value.organisation.outcome).toEqual([]);
 
     });
 
@@ -659,9 +666,10 @@ describe("LegalEntityEditor Early Positioning limits by business stage", () => {
             customerType: ["b2c", "b2g", "g2b"], marketType: "multi", audience: ["proxy", "senior", "central", "heavy"], outcome: ["b2c:cost", "b2g:premium"],
             endUser: ["age:child", "age:older", "age:adult", "rel:parent", "rel:friend", "decides:asks", "wants:safety"]
         } });
-        expect(value.organisation).toMatchObject({ customerType: ["b2c"], marketType: "single", audience: ["senior"], outcome: ["cost", "premium"] });
-        // The three ages under 18 are Minors and the older adults are Seniors; the relationships stay; who chooses and what matters most go.
+        expect(value.organisation).toMatchObject({ customerType: ["b2c"], marketType: "single", audience: ["senior"], differentiation: ["cost", "premium"], outcome: [] });
+        // The three ages under 18 are Minors and the older adults are Seniors; the relationships stay; who chooses goes and what matters most is the outcome for the user.
         expect(value.organisation.endUser).toEqual(["age:minor", "age:senior", "age:adult", "rel:parent", "rel:friend"]);
+        expect(value.organisation.outcomeUser).toEqual(["safety"]);
 
     });
 
@@ -935,21 +943,55 @@ describe("LegalEntityEditor Early Positioning: the buyer's category and the End 
 
     });
 
-    it("offers the seven consumer relationships (the personal ones and the Commercial & Professional one) to a consumer buyer and the six business ones to a business buyer, and the user's life stage to the consumer only", () => {
+    it("offers only the buyer and user relationships that can be the buyer's category, the user's life stage to a consumer buyer only", () => {
 
+        const relations = () => [...screen.getByRole("radiogroup", { name: "Buyer and User relationship" }).querySelectorAll("label")].map(label => label.textContent);
         render(<Model model="b2c" />);
+        // A Proxy Buyer buys for the other: not a spouse or partner (a shared purchase).
         fireEvent.click(screen.getByRole("radio", { name: "Proxy Buyers" }));
-        expect(screen.getByRole("radiogroup", { name: "Buyer and User relationship" }).querySelectorAll("input").length).toBe(7);
-        expect(screen.getByRole("radio", { name: "Spouse or romantic partner" })).toBeTruthy();
-        expect(screen.getByRole("radio", { name: "Commercial & Professional relationship" })).toBeTruthy();
+        expect(relations()).toEqual(["Parent or legal guardian", "Caregiver or person responsible for their care", "Family member or relative", "Friend or acquaintance", "Commercial & Professional relationship", "Other personal relationship"]);
         expect(screen.getByRole("radiogroup", { name: "User's Life-Stage" }).querySelectorAll("input").length).toBe(4);
+        // A Dual-Intent Buyer shares the purchase: not a friend or a commercial and professional buyer.
+        fireEvent.click(screen.getByRole("radio", { name: "Dual-Intent Buyers" }));
+        expect(relations()).toEqual(["Parent or legal guardian", "Caregiver or person responsible for their care", "Family member or relative", "Spouse or romantic partner", "Other personal relationship"]);
         cleanup();
 
         render(<Model model="b2b" />);
         fireEvent.click(screen.getByRole("radio", { name: "Proxy Buyers" }));
-        expect(screen.getByRole("radiogroup", { name: "Buyer and User relationship" }).querySelectorAll("input").length).toBe(6);
-        expect(screen.getByRole("radio", { name: "Employer providing for employees" })).toBeTruthy();
+        expect(relations()).toEqual(["Employer providing for employees", "Professional intermediary acting for a client", "Sponsor or funder", "Other business relationship"]);
         expect(screen.queryByRole("radiogroup", { name: "User's Life-Stage" })).toBeNull();
+        fireEvent.click(screen.getByRole("radio", { name: "Dual-Intent Buyers" }));
+        expect(relations()).toEqual(["Business partner or co-owner", "Business serving its clients or customers"]);
+
+    });
+
+    it("takes a relationship that no longer fits away with the change of category", () => {
+
+        const saved: { current: ReturnType<typeof asLegalEntityValue> | null } = { current: null };
+        render(<Model model="b2c" stage="manage" saved={saved} />);
+        fireEvent.click(screen.getByRole("radio", { name: "Dual-Intent Buyers" }));
+        fireEvent.click(screen.getByRole("checkbox", { name: /Spouse or romantic partner/ }));
+        fireEvent.click(screen.getByRole("checkbox", { name: /Parent or legal guardian/ }));
+        expect(saved.current!.organisation.endUser.sort()).toEqual(["rel:parent", "rel:partner"]);
+        // A Proxy Buyer is not a partner: the answer goes, the parent stays.
+        fireEvent.click(screen.getByRole("radio", { name: "Proxy Buyers" }));
+        expect(saved.current!.organisation.endUser).toEqual(["rel:parent"]);
+
+    });
+
+    it("gives a Proxy or Dual-Intent Buyer's user an outcome of their own, and takes it away with the category", () => {
+
+        const saved: { current: ReturnType<typeof asLegalEntityValue> | null } = { current: null };
+        render(<Model model="b2c" stage="manage" saved={saved} />);
+        expect(screen.queryByRole("group", { name: "Outcome for the user" })).toBeNull();
+        expect(screen.getByRole("group", { name: "Outcome" })).toBeTruthy();
+        fireEvent.click(screen.getByRole("radio", { name: "Proxy Buyers" }));
+        expect(screen.getByRole("group", { name: "Outcome for the buyer" })).toBeTruthy();
+        fireEvent.click(screen.getByRole("checkbox", { name: /Safety and care/ }));
+        expect(saved.current!.organisation.outcomeUser).toEqual(["safety"]);
+        fireEvent.click(screen.getByRole("radio", { name: "Direct Buyers" }));
+        expect(saved.current!.organisation.outcomeUser).toEqual([]);
+        expect(screen.queryByRole("group", { name: "Outcome for the user" })).toBeNull();
 
     });
 
@@ -1028,7 +1070,7 @@ describe("LegalEntityEditor Early Positioning: the two columns and the order of 
         const [left, right] = [...container.querySelectorAll(".legal-entity-audience > .legal-entity-field")];
         const names = (column: Element) => [...column.querySelectorAll("[role=radiogroup], [role=group]")].map(group => group.getAttribute("aria-label"));
         expect(names(left)).toEqual(["Seller and Buyer Relationship", "Buyer's Life-Stage", "Buyer's category"]);
-        expect(names(right)).toEqual(["Buyer and User relationship", "User's Life-Stage", "Purpose", "Differentiation & Outcome"]);
+        expect(names(right)).toEqual(["Buyer and User relationship", "User's Life-Stage", "Purpose", "Differentiation", "Outcome for the buyer", "Outcome for the user"]);
 
     });
 

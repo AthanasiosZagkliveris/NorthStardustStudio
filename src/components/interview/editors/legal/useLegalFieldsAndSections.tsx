@@ -22,10 +22,11 @@ import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import ActivitiesField from "./ActivitiesField.tsx";
 import { orderedByRelevance, purposeRelevance } from "../../../../framework/engine/PurposeRelevance.ts";
+import { categoryOfModel, relationshipFits } from "../../../../framework/engine/RelationshipFit.ts";
 import DateCellInput from "../../fields/DateCellInput.tsx";
 import { todayIsoDate } from "../../../../framework/engine/AnswerUtils.ts";
 import { BUSINESS_STAGE_WORDS } from "../../../../framework/engine/ActivityClassification.ts";
-import { AUDIENCE_SCALES, BUYER_CATEGORIES, BUYER_USER_RELATIONS, FIRST_VERSION_CUSTOMER_TYPES, INFO, LIFE_STAGES, OUTCOMES, PURPOSES, USER_LIFE_STAGES, choiceLimit, LEGAL_FORM_OTHER, activitiesInfo, formationIssues, MAX_OTHER_NUMBER_LENGTH, OTHER_OPTION, TOTAL_OWNERSHIP_HELP, savedOther, shownOther } from "./shared.tsx";
+import { AUDIENCE_SCALES, BUYER_CATEGORIES, BUYER_USER_RELATIONS, DIFFERENTIATIONS, FIRST_VERSION_CUSTOMER_TYPES, INFO, LIFE_STAGES, OUTCOMES, PURPOSES, USER_LIFE_STAGES, USER_OUTCOMES, choiceLimit, LEGAL_FORM_OTHER, activitiesInfo, formationIssues, MAX_OTHER_NUMBER_LENGTH, OTHER_OPTION, TOTAL_OWNERSHIP_HELP, savedOther, shownOther } from "./shared.tsx";
 import type { useLegalState } from "./useLegalState.tsx";
 
 type Earlier = ReturnType<typeof useLegalState>;
@@ -163,9 +164,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
         { model: "b2b", label: "Audience Specialization & Scale", group: "legal-entity-audience-scale", options: AUDIENCE_SCALES, info: INFO.audienceScale },
         { model: "b2c", label: "Buyer's Life-Stage", group: "legal-entity-audience-life", options: LIFE_STAGES, info: INFO.lifeStage }
     ] as const;
-    // One question for the whole offering: the main behavioral trigger and the measurable outcome.
     const SIDE_NAMES: Record<string, string> = { b2c: "B2C", b2b: "B2B" };
-    const outcomeSets = [{ label: "Differentiation & Outcome", group: "legal-entity-outcome", options: OUTCOMES, info: INFO.outcome }];
     // (Before any model is chosen the commercial questions stand, the audience one frozen.)
     const audienceShown = (set: (typeof audienceSets)[number], chosen: readonly string[]) => chosen.includes(set.model) || (chosen.length === 0 && set.model === "b2b");
     const idsOf = (options: readonly { id: string }[]): string[] => options.map(option => option.id);
@@ -180,6 +179,10 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
     /** The End User ids of a model's questions. */
     const endUserIdsOf = (model: string) => model === "b2c" ? [...idsOf(BUYER_USER_RELATIONS.b2c), ...idsOf(USER_LIFE_STAGES)] : idsOf(BUYER_USER_RELATIONS.b2b);
     const suffix = (model: string) => models.length > 1 ? " (" + SIDE_NAMES[model] + ")" : "";
+    /** The user has an outcome of their own where some buyer is a Proxy or Dual-Intent Buyer (the buyer and the user want different things). */
+    const userHasOutcome = models.some(model => endsUser(model));
+    /** The buyer and user relationships a model offers: only those that can be the buyer's category (fewer options help); one already chosen stays. */
+    const relationOptions = (model: "b2c" | "b2b") => BUYER_USER_RELATIONS[model].filter(option => relationshipFits(option.id, categoryOfModel(entity.organisation.buyerCategory, model)) || entity.organisation.endUser.includes(option.id));
 
     /** One question: a radio where one choice is allowed (and at most one is held), else ticks that lock at the limit. */
     function choice(
@@ -263,7 +266,8 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                         customerType: next,
                         audience: kept(entity.organisation.audience, audienceSets, index => audienceShown(audienceSets[index], next)),
                         buyerCategory: entity.organisation.buyerCategory.filter(id => next.includes(id.split(":")[0])),
-                        endUser: entity.organisation.endUser.filter(id => ["b2c", "b2b"].every(model => next.includes(model) || !endUserIdsOf(model).includes(id)))
+                        endUser: entity.organisation.endUser.filter(id => ["b2c", "b2b"].every(model => next.includes(model) || !endUserIdsOf(model).includes(id))),
+                        outcomeUser: next.some(model => endsUser(model)) ? entity.organisation.outcomeUser : []
                     }),
                     INFO.customerType
                 )}
@@ -295,7 +299,13 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                             (next) => {
                                 const categories = [...entity.organisation.buyerCategory.filter(id => !id.startsWith(set.model + ":")), ...next];
                                 // (The End User is asked for Proxy and Dual-Intent Buyers only: its answers go with that choice.)
-                                updateOrganisation({ buyerCategory: categories, endUser: endsUser(set.model, categories) ? entity.organisation.endUser : entity.organisation.endUser.filter(id => !endUserIdsOf(set.model).includes(id)) });
+                                // (A relationship that cannot be the new category goes with it, and so does the user's outcome where no buyer is a Proxy or Dual-Intent Buyer any more.)
+                                const category = categoryOfModel(categories, set.model);
+                                updateOrganisation({
+                                    buyerCategory: categories,
+                                    endUser: entity.organisation.endUser.filter(id => !endUserIdsOf(set.model).includes(id) || (category !== "" && relationshipFits(id, category))),
+                                    outcomeUser: models.some(model => endsUser(model, categories)) ? entity.organisation.outcomeUser : []
+                                });
                             },
                             INFO.buyerCategory
                         )}
@@ -314,7 +324,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                     {choice(
                         "Buyer and User relationship" + suffix(set.model),
                         "legal-entity-enduser-relation-" + set.model,
-                        BUYER_USER_RELATIONS[set.model],
+                        relationOptions(set.model),
                         chosenOf(entity.organisation.endUser, BUYER_USER_RELATIONS[set.model]),
                         choiceLimit(stage, "audience"),
                         (next) => updateOrganisation({ endUser: [...entity.organisation.endUser.filter(id => !idsOf(BUYER_USER_RELATIONS[set.model]).includes(id)), ...next] }),
@@ -350,19 +360,43 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                 )}
                 </div>
 
-                {outcomeSets.map(set => (
-                    <div key={set.group} className="legal-entity-org-section legal-entity-org-outcome">
+                <div className="legal-entity-org-section legal-entity-org-outcome">
+                {choice(
+                    "Differentiation",
+                    "legal-entity-differentiation",
+                    DIFFERENTIATIONS,
+                    chosenOf(entity.organisation.differentiation, DIFFERENTIATIONS),
+                    choiceLimit(stage, "outcome"),
+                    (next) => updateOrganisation({ differentiation: next }),
+                    INFO.differentiation
+                )}
+                </div>
+
+                <div className="legal-entity-org-section legal-entity-org-outcome">
+                {choice(
+                    userHasOutcome ? "Outcome for the buyer" : "Outcome",
+                    "legal-entity-outcome",
+                    OUTCOMES,
+                    chosenOf(entity.organisation.outcome, OUTCOMES),
+                    choiceLimit(stage, "outcome"),
+                    (next) => updateOrganisation({ outcome: next }),
+                    INFO.outcome
+                )}
+                </div>
+
+                {userHasOutcome && (
+                    <div className="legal-entity-org-section legal-entity-org-outcome">
                     {choice(
-                        set.label,
-                        set.group,
-                        set.options,
-                        chosenOf(entity.organisation.outcome, set.options),
+                        "Outcome for the user",
+                        "legal-entity-outcome-user",
+                        USER_OUTCOMES,
+                        chosenOf(entity.organisation.outcomeUser, USER_OUTCOMES),
                         choiceLimit(stage, "outcome"),
-                        (next) => updateOrganisation({ outcome: next }),
-                        set.info
+                        (next) => updateOrganisation({ outcomeUser: next }),
+                        INFO.outcomeUser
                     )}
                     </div>
-                ))}
+                )}
 
             </div>
 

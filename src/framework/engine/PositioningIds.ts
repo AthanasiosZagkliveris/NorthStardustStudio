@@ -13,8 +13,14 @@ export const BUYER_CATEGORY_KEYS = ["direct", "proxy", "dual"] as const;
 /** The audience: the scales of a business buyer and the life stages of a consumer buyer (the Proxy Buyers option is now the buyer's category). */
 export const AUDIENCE_IDS = ["solo", "smb", "mid", "enterprise", "young", "adult", "senior"] as const;
 
-/** The differentiation and outcome. */
-export const OUTCOME_IDS = ["cost", "convenience", "compliance", "premium"] as const;
+/** The differentiation: what the OFFERING does differently from the competitors (it was the first half of "Differentiation & Outcome"; an older answer's outcome is the differentiation). */
+export const DIFFERENTIATION_IDS = ["cost", "convenience", "compliance", "premium"] as const;
+
+/** The outcome for the buyer: the measurable result the buyer gets. */
+export const OUTCOME_IDS = ["savings", "time", "assurance", "prestige"] as const;
+
+/** The outcome for the user, asked when the buyer is a Proxy or Dual-Intent Buyer (the buyer and the user want different things): what matters most to the user. */
+export const USER_OUTCOME_IDS = ["enjoy", "comfort", "safety", "learning", "belong", "practical"] as const;
 
 /** The twelve purposes of an offering (document 31, section 7). */
 export const PURPOSE_IDS = ["learning", "health", "gifting", "entertainment", "social", "productivity", "growth", "creation", "everyday", "protection", "compliance", "access"] as const;
@@ -25,6 +31,11 @@ export const RELATION_IDS_B2B = ["rel:employer", "rel:copartner", "rel:serving",
 
 /** The user's life stage (a consumer buyer's Proxy and Dual-Intent buyers), saved in the End User answers. */
 export const USER_AGE_IDS = ["age:minor", "age:young", "age:adult", "age:senior"] as const;
+
+/** What an older answer's "what matters most to the End User" (wants:safety) becomes: the outcome for the user (safety). */
+export function userOutcomeFrom(ids: readonly string[]): string[] {
+    return [...new Set(ids.filter(id => id.startsWith("wants:")).map(id => id.slice("wants:".length)).filter(id => (USER_OUTCOME_IDS as readonly string[]).includes(id)))];
+}
 
 /**
  * What an older answer's End User ids become: the three relationships it had stay (the Parent, Family member and Friend rows), its five ages fold into the four life stages (the

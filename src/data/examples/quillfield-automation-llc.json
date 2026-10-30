@@ -50,9 +50,13 @@
               "audience": [
                 "smb"
               ],
-              "outcome": [
+              "differentiation": [
                 "convenience"
               ],
+              "outcome": [
+                "time"
+              ],
+              "outcomeUser": [],
               "buyerCategory": [
                 "b2b:direct"
               ],
