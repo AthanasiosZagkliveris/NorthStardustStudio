@@ -5745,7 +5745,7 @@
    ]
   },
   {
-   "label": "Seller and Buyer Relationship",
+   "label": "Seller & Buyer Relationship",
    "place": "tile dialog",
    "text": "Who pays: focuses on the Economic Buyer who approves the budget, separating them from the end user. The positioning statement is written for the target market, and each distinct segment may need its own.\nB2C (Business-to-Consumer): individuals or consumers who pay for personal/family use.\nB2B (Business-to-Business): businesses, companies or freelancers.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: eCornell, Cornell University, “How to Write Market Positioning Statements”\nAlso: Stanford University, “E145 Technology Entrepreneurship, Session 6”",
    "lines": 25,
@@ -5783,11 +5783,11 @@
   {
    "label": "Purpose",
    "place": "tile dialog",
-   "text": "Why the offering is bought: the purpose it serves for the person who gets it. Choose the ones that fit best.\nOnly the purposes that fit your answers above are offered: the primary ones first, then the possible ones. The ones that are generally less directly relevant to that buyer are left out.\nLearning and Development. Health, Care and Wellbeing. Gifting and Appreciation. Entertainment and Enjoyment. Social Connection and Relationships. Productivity and Efficiency. Business Growth and Performance. Creation and Expression. Everyday Needs and Convenience. Protection and Risk Reduction. Compliance and Obligations. Access and Social Support.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.",
-   "lines": 31,
+   "text": "Why the offering is bought: the purpose it serves for the person who gets it. Choose the ones that fit best.\nOnly the purposes that fit your answers above are offered: the primary ones first, then the possible ones. The ones that are generally less directly relevant to that buyer are left out.\nLearning & Development. Health, Care & Wellbeing. Gifting & Appreciation. Entertainment & Enjoyment. Social Connection & Relationships. Productivity & Efficiency. Business Growth & Performance. Creation & Expression. Everyday Needs & Convenience. Protection & Risk Reduction. Compliance & Obligations. Access & Social Support.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.",
+   "lines": 29,
    "points": 4,
    "w": 360,
-   "chars": 771,
+   "chars": 747,
    "scenes": [
     "Identity System / 1. Definition / tile Early Positioning"
    ]
@@ -5807,11 +5807,11 @@
   {
    "label": "Outcome",
    "place": "tile dialog",
-   "text": "The measurable result the buyer gets from the offering (Outcome / ROI): what the buyer is paying for.\nLower costs: an immediate reduction in operating costs. Time saved: the execution time of a process cut to almost nothing, or the workflow drastically simplified. Legal and data-protection cover: absolute legal coverage and no risk of fines. Higher quality and prestige: top quality, custom service and an upgrade of the buyer's prestige.\nFor a Proxy or Dual-Intent Buyer the user has an outcome of their own, asked next.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: Harvard Business School, Institute for Strategy & Competitiveness, “Strategic Positioning”\nAlso: Stanford University, “E145 Technology Entrepreneurship, Session 6”",
+   "text": "The measurable result the buyer gets from the offering (Outcome / ROI): what the buyer is paying for.\nLower costs: an immediate reduction in operating costs. Time saved: the execution time of a process cut to almost nothing, or the workflow drastically simplified. Legal & data-protection cover: absolute legal coverage and no risk of fines. Higher quality & prestige: top quality, custom service and an upgrade of the buyer's prestige.\nFor a Proxy or Dual-Intent Buyer the user has an outcome of their own, asked next.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: Harvard Business School, Institute for Strategy & Competitiveness, “Strategic Positioning”\nAlso: Stanford University, “E145 Technology Entrepreneurship, Session 6”",
    "lines": 31,
    "points": 6,
    "w": 360,
-   "chars": 823,
+   "chars": 819,
    "scenes": [
     "Identity System / 1. Definition / tile Early Positioning"
    ]

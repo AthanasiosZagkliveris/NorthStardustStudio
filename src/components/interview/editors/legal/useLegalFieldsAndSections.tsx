@@ -272,12 +272,9 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
 
             <div className="legal-entity-field">
 
-                {/* THE BUSINESS: who pays (the relationship), its audience or life stage, and its buyer's category. */}
-                <div className="legal-entity-org-section legal-entity-org-subtitle"><span className="field-group-title business-foundation-subhead">Business</span></div>
-
                 <div className="legal-entity-org-section legal-entity-org-customer">
                 {choice(
-                    "Seller and Buyer Relationship",
+                    "Seller & Buyer Relationship",
                     "legal-entity-customer-type",
                     FIRST_VERSION_CUSTOMER_TYPES,
                     models,
@@ -335,18 +332,15 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                     </div>
                 ))}
 
-                {/* THE USER (a Proxy or Dual-Intent buyer's): the buyer and user relationship and, for a consumer, the user's life stage, under a divider line and a subtitle. */}
+                {/* THE USER (a Proxy or Dual-Intent buyer's): the buyer and user relationship and, for a consumer, the user's life stage, under a double divider line (the Business is above it; the page's tile names the groups). */}
                 {audienceSets.some(set => models.includes(set.model) && endsUser(set.model)) && (
-                    <>
-                    <div className="business-capability-card-rule legal-entity-org-rule" role="separator" />
-                    <div className="legal-entity-org-section legal-entity-org-subtitle"><span className="field-group-title business-foundation-subhead">User</span></div>
-                    </>
+                    <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double" role="separator" />
                 )}
                 {audienceSets.filter(set => models.includes(set.model) && endsUser(set.model)).map(set => (
                     <div key={set.group}>
                     <div className="legal-entity-org-section legal-entity-org-audience legal-entity-org-enduser">
                     {choice(
-                        "Buyer and User relationship" + suffix(set.model),
+                        "Buyer & User relationship" + suffix(set.model),
                         "legal-entity-enduser-relation-" + set.model,
                         relationOptions(set.model),
                         chosenOf(entity.organisation.endUser, BUYER_USER_RELATIONS[set.model]),
@@ -380,8 +374,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
 
             <div className="legal-entity-field legal-entity-questions">
 
-                {/* THE OFFERING (the purpose and the differentiation), then, under a divider line, THE OUTCOME. */}
-                <div className="legal-entity-org-section legal-entity-org-subtitle"><span className="field-group-title business-foundation-subhead">Offering</span></div>
+                {/* THE OFFERING (the purpose and the differentiation), then, under a double divider line, THE OUTCOME. */}
 
                 <div className="legal-entity-org-section legal-entity-org-outcome">
                 {choice(
@@ -407,8 +400,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                 )}
                 </div>
 
-                <div className="business-capability-card-rule legal-entity-org-rule" role="separator" />
-                <div className="legal-entity-org-section legal-entity-org-subtitle"><span className="field-group-title business-foundation-subhead">{userHasOutcome ? "Outcomes" : "Outcome"}</span></div>
+                <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double" role="separator" />
 
                 <div className="legal-entity-org-section legal-entity-org-outcome">
                 {choice(

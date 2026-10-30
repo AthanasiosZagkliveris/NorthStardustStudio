@@ -61,19 +61,19 @@ The buyer's category no longer sits inside the life-stage list.
 
 **Shown only for Proxy Buyers or Dual-Intent Buyers (a filter):**
 
-**1. Buyer and User relationships**, by the relationship model chosen:
+**1. Buyer & User relationships**, by the relationship model chosen:
 
 | B2C (personal) | B2B (business) |
 |---|---|
-| Parent or legal guardian | Employer providing for employees |
-| Caregiver or person responsible for their care | Business partner or co-owner |
-| Family member or relative | Business serving its clients or customers |
-| Spouse or romantic partner | Professional intermediary acting for a client |
+| Parent or guardian | Employer |
+| Caregiver | Business partner |
+| Family member | Business serving clients |
+| Spouse or partner | Professional intermediary |
 | Friend or acquaintance | Sponsor or funder |
-| Commercial & Professional relationship (a proxy buyer; added 2026-10-30) | |
-| Other personal relationship | Other business relationship |
+| Commercial & Professional (a proxy buyer; added 2026-10-30) | |
+| Other | Other |
 
-The B2B list is the six business relationships of doc 31 section 6.2, each with the owner's description of how it positions (doc 31 section 10.6). They split into **Proxy archetypes** (Employer providing for employees; Professional intermediary; Sponsor or funder; Other business relationship, for example a franchise owner buying for franchise operators) and **Dual-Intent archetypes** (Business partner or co-owner; Business serving its clients or customers).
+The B2B list is the six business relationships of doc 31 section 6.2, each with the owner's description of how it positions (doc 31 section 10.6). They split into **Proxy archetypes** (Employer; Professional intermediary; Sponsor or funder; Other, for example a franchise owner buying for franchise operators) and **Dual-Intent archetypes** (Business partner; Business serving clients).
 
 **2. User's life stage (B2C):**
 1. Minors
@@ -118,9 +118,9 @@ The Organization tile and the Early Positioning tile of the app follow this docu
 **Early Positioning tile**
 - **Market Structure** is not asked (single-sided). **Seller and Buyer Relationship** offers B2C and B2B only. The built B2G, G2B and multi-sided features stay in the code and are hidden; an older answer that holds them is read without them.
 - **Buyer's Life-Stage** (B2C) has three options; **Audience Specialization & Scale** (B2B) is unchanged. **Buyer's category** (Direct, Proxy, Dual-Intent) is asked for each relationship chosen, one choice.
-- For a Proxy or Dual-Intent Buyer: **Buyer and User relationship** (the six personal ones and the Commercial & Professional one for B2C, the six business ones for B2B) and, for B2C only, **User's Life-Stage** (Minors, Young Adults, Adults, Seniors).
-- **Purpose** (the twelve purposes) is asked once, with the same limit as the outcome. **Differentiation** (Cost-driven; Convenience-driven; Compliance, Risk & Security; Status & Premium; and, added 2026-10-30, Performance & Innovation; Ecosystem & Integration) is about the offering. **Outcome** (Lower costs; Time saved; Legal and data-protection cover; Higher quality and prestige) is the buyer's result, and where some buyer is a Proxy or Dual-Intent Buyer it is asked as "Outcome for the buyer" beside an **Outcome for the user** (Enjoyment and fun; Comfort and ease; Safety and care; Learning and growth; Looks and belonging; Practical use). The lists of the outcomes are made from the words of the former question (the results it named) and of the former "what matters most"; confirm or send your own.
-- **Only the relationships that fit the category are offered** (2026-10-30): a Proxy Buyer is not offered the Spouse or romantic partner; a Dual-Intent Buyer is not offered the Friend or acquaintance or the Commercial & Professional relationship; for a business buyer the proxy ones and the dual ones are told apart in the same way (doc 31, 10.7).
+- For a Proxy or Dual-Intent Buyer: **Buyer & User relationship** (the six personal ones and the Commercial & Professional one for B2C, the six business ones for B2B) and, for B2C only, **User's Life-Stage** (Minors, Young Adults, Adults, Seniors).
+- **Purpose** (the twelve purposes) is asked once, with the same limit as the outcome. **Differentiation** (Cost-driven; Convenience-driven; Compliance, Risk & Security; Status & Premium; and, added 2026-10-30, Performance & Innovation; Ecosystem & Integration) is about the offering. **Outcome** (Lower costs; Time saved; Legal & data-protection cover; Higher quality & prestige) is the buyer's result, and where some buyer is a Proxy or Dual-Intent Buyer it is asked as "Outcome for the buyer" beside an **Outcome for the user** (Enjoyment & fun; Comfort & ease; Safety & care; Learning & growth; Looks & belonging; Practical use). The lists of the outcomes are made from the words of the former question (the results it named) and of the former "what matters most"; confirm or send your own.
+- **Only the relationships that fit the category are offered** (2026-10-30): a Proxy Buyer is not offered the Spouse or partner; a Dual-Intent Buyer is not offered the Friend or acquaintance or the Commercial & Professional; for a business buyer the proxy ones and the dual ones are told apart in the same way (doc 31, 10.7).
 - **A radio reacts under the pointer as a tick box does** (its words underlined, the round's glow ring): doc 18 and the rulebook.
 - "Who chooses" and "what matters most to the End User" are no longer asked (future features).
 

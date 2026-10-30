@@ -42,7 +42,7 @@ The questions behind the tiles are in `src/assets/SystemQuestions/01_IdentitySys
 - **The frame** of the master tile: 12px padding, 8px corners, one hairline edge in its hue, its heading "1. DEFINITION" in capitals, centred, 28px semi-bold. The Definition takes the colour of the work "create"; Ethics the colour of "decide" (`WorkColours.ts`). A tile, its dialog and its floating cards take the frame's hue.
 - **The tiles** are four squares in a 2 × 2 grid, one size by the window's width and height, each in the frame's tint with the box's inset light and shade, a 110% rise under the pointer growing inwards (doc 18). A tile's title is in capitals (18px, semi-bold, centred, underlined by a hairline), and below it a list or a text in 14px muted colour:
   - **Organization:** the name in bold, the legal form, a divider line, then the address (a long address keeps its first lines and joins the last two). Until something is written it shows the first line of what the column asks.
-  - **Early Positioning:** one bullet for each option chosen, in the order of the questions (relationship, audience, buyer's category, the End User's answers, purposes, differentiations, outcomes).
+  - **Early Positioning:** the options chosen, one bullet each, under the names of its groups in bold: **Business** (the audience and the buyer's category, with its relationship), **User** (the buyer and user relationship and the user's life stage), **Offering** (the purposes and the differentiations) and **Outcome** (**Outcomes** where the user has one): a group with no answer is left out.
   - **Mission, Vision:** the first lines of the text.
 - **At the narrow width** (768px, the smallest the app supports) the frames stack below the window width of 812px; the tiles keep their grid (doc 18, layout rules, "One shape on every page of chapters").
 - **The page's own controls** stand in the header: Reading mode (Auto), Focus, Search (Ctrl+K), Notes, Review (with the number of items), Global Settings, and the organization's name; the lower left has Back. The **Pages rail** (a navigation named "Pages": Introduction, 1. Definition and Ethics, 2. Legal Entity) with its previous and next arrows moves between the System's pages.
@@ -100,16 +100,15 @@ Only one dialog is open at a time; which one is open is view state and is never 
 
 The tile's name follows the stage: **Early Positioning** (Planning, Launching), **Core Market Positioning** (Managing), **Corporate & Portfolio Positioning** (Growing; `positioningName`).
 
-**Dialog:** two columns with four named groups: **Business** and **User** on the left, **Offering** and **Outcome** on the right, each with a subtitle (the group title style) and a divider line between the two groups of a column. The User group (and its divider) appears only for a Proxy or Dual-Intent buyer; the right group is titled "Outcomes" where the user has an outcome of their own. At the narrow width the right column follows the left.
+**Dialog:** two columns, each with two groups, told apart by a **double divider line** (two 1px lines 2px apart) and not by subtitles (the page's tile names the groups): Business then User on the left, Offering then Outcome on the right. The User group (and its divider) appears only for a Proxy or Dual-Intent buyer; the right group is titled "Outcomes" where the user has an outcome of their own. At the narrow width the right column follows the left.
 
 | Left | Right |
 |---|---|
-| **Business** (subtitle) | **Offering** (subtitle) |
-| **Seller and Buyer Relationship** (B2C, B2B) | **Purpose** (twelve) |
+| **Seller & Buyer Relationship** (B2C, B2B) | **Purpose** (twelve) |
 | for each relationship chosen, its audience: **B2C Buyer's Life-Stage** (Students / Young Adults; Workers / Professionals / Adults; Seniors) or **B2B Audience Specialization & Scale** (Solopreneurs & Freelancers; Startups & SMBs; Mid-Market; Enterprise / Public Sector) | **Differentiation** (six: Cost-driven; Convenience-driven; Compliance, Risk & Security; Status & Premium; Performance & Innovation; Ecosystem & Integration) |
-| **Buyer's category** (Direct Buyers; Proxy Buyers; Dual-Intent Buyers), one for each relationship | **Outcome** or **Outcomes** (subtitle). **Outcome** (the buyer's: Lower costs; Time saved; Legal and data-protection cover; Higher quality and prestige), named "Outcome for the buyer" where the user has one of their own |
-| *divider line* | *divider line* |
-| **User** (subtitle), for a Proxy or Dual-Intent category: **Buyer and User relationship** (B2C: seven, with Commercial & Professional; B2B: six) and, for B2C, **User's Life-Stage** (Minors; Young Adults; Adults; Seniors) | **Outcome for the user** (Enjoyment and fun; Comfort and ease; Safety and care; Learning and growth; Looks and belonging; Practical use), only where some buyer is a Proxy or Dual-Intent Buyer |
+| **Buyer's category** (Direct Buyers; Proxy Buyers; Dual-Intent Buyers), one for each relationship | **Outcome** (the buyer's: Lower costs; Time saved; Legal & data-protection cover; Higher quality & prestige), named "Outcome for the buyer" where the user has one of their own |
+| *double divider line* | *double divider line* |
+| for a Proxy or Dual-Intent category: **Buyer & User relationship** (B2C: seven, with Commercial & Professional; B2B: six) and, for B2C, **User's Life-Stage** (Minors; Young Adults; Adults; Seniors) | **Outcome for the user** (Enjoyment & fun; Comfort & ease; Safety & care; Learning & growth; Looks & belonging; Practical use), only where some buyer is a Proxy or Dual-Intent Buyer |
 | | **Notes** (optional note across the width) |
 
 The audience scale is **the app user's audience** (the customers of the business described), not the app's audience (the people who use the app).
@@ -118,7 +117,7 @@ The audience scale is **the app user's audience** (the customers of the business
 
 | Question | Planning | Launching | Managing | Growing |
 |---|---|---|---|---|
-| Seller and Buyer Relationship | 1 | 1 | 2 | any |
+| Seller & Buyer Relationship | 1 | 1 | 2 | any |
 | Each audience question | 1 | 1 | 2 | any |
 | Differentiation, Outcome (both) | 1 | 2 | 2 | any |
 | Buyer's category | 1 | 1 | 1 | 1 |
@@ -126,7 +125,7 @@ The audience scale is **the app user's audience** (the customers of the business
 
 **How the lists are shaped** (the owner's tables, doc 31, 10.7; never chooses for the user, and an answer already given always stays visible):
 
-- **Buyer and User relationship:** only the relationships that can be the buyer's category; a Students / Young Adults buyer is not offered Commercial & Professional; Parent or legal guardian is not offered when the user life stages chosen are only ones the matrix leaves blank for it.
+- **Buyer & User relationship:** only the relationships that can be the buyer's category; a Students / Young Adults buyer is not offered Commercial & Professional; Parent or guardian is not offered when the user life stages chosen are only ones the matrix leaves blank for it.
 - **User's Life-Stage:** only the stages the matrix allows for the buyer's life stage and the relationship chosen.
 - **Purpose:** ordered by relevance and without the ones the tables call generally less directly relevant; for each purpose the first table that covers it decides (buyer and user life stage; business relationship; audience scale and category; consumer relationship; buyer's category; seller and buyer relationship).
 - **Outcome for the buyer and Outcome for the user:** the outcomes the purposes chosen drive come first (the buyer's by the buyer's category; a Direct Buyer has no user outcome); nothing is hidden or ticked.
@@ -164,7 +163,7 @@ The business stage (Planning, Launching, Managing, Growing) is **not asked**: it
 | Opening Date | The stage; the plan start; key dates; the Review's messages; the exported title |
 | Activities | The exports only (as codes with the scheme's initials) |
 | Description (the Organization's Notes) | The Business Plan's company paragraph |
-| Seller and Buyer Relationship, audiences | The Segment card of Business 1 (to choose and annotate its boxes) and the exports |
+| Seller & Buyer Relationship, audiences | The Segment card of Business 1 (to choose and annotate its boxes) and the exports |
 | Early Positioning's other answers | The exports (as lines and words, `ExportRenderers.ts`) |
 | Early Positioning Notes | The Segment shows it behind an "i" ("Your Positioning (Identity)") on its first two instructions |
 | Mission, Vision | The Business Plan's summary |
@@ -174,6 +173,7 @@ The business stage (Planning, Launching, Managing, Growing) is **not asked**: it
 - **Saving:** every change is saved at once into the organization (browser storage); the header shows "Saved". An older answer is read in the new form (an audience, a purpose or a legal form that no longer exists is dropped or kept as text; `AnswerLegal.ts`).
 - **Review items** the Definition raises (doc 28, 8.6a): for the Organization, what is missing among the name, country, address and legal form ("1. Definition: Organization: …"); for the Early Positioning (named by the stage), each question with no choice ("…: the purpose and the outcome not chosen yet."); for Mission and Vision, "not answered yet" while empty. The two Notes are optional and raise nothing. The Review's "go there" opens the tile.
 - **Scenario tests:** `src/components/interview/editors/CountryScenarios.test.tsx` runs ten seeded random organizations for each of the six countries through the answer and the editor (the legal form is the country's own, the activity is a final code with every level named and its scheme's initials, the Positioning answers survive and are complete); **three of the ten are the owner's target audience** (the document "Target Audience Selection": Tier 1, knowledge-based service businesses such as AI automation and software development agencies, UI/UX and design studios, marketing agencies and business consulting firms; Tier 2, such as architecture and engineering practices, game studios, digital product studios and early-stage SaaS companies): a software agency, a marketing agency and a consulting firm, each with its country's code.
+- **Layout:** the Definition page (the dialogs of the Organization and the Early Positioning, and the page's tiles) is covered by the layout check (`tools/scripts/layout-check/run.mjs`; the Lumen & Loom example is a Proxy business, so the User group is open), and the tick boxes and the radios are drawn from the same tokens (doc 21).
 - **Checks that keep it true:** the component tests of the tiles (`src/components/interview/tiles/SectionTiles.test.tsx`, `src/components/interview/editors/LegalEntityEditor.test.tsx`), the tests of the lists (`src/framework/engine/PurposeRelevance.test.ts`, `src/framework/engine/RelationshipFit.test.ts`, `src/components/interview/editors/legal/fitPositioning.test.ts`, `src/components/interview/editors/legal/positioningIds.test.ts`), the layout check (`tools/scripts/layout-check/run.mjs`), `npm run docs:check` and the document-reference test.
 
 ## 11. Where it is in the code

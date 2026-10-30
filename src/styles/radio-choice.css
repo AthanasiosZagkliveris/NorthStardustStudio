@@ -34,7 +34,7 @@
 
 }
 
-/* THE ROUND, DRAWN (not the browser's, whose glow is the shape of its box): 16px, in a text input's own look as a tick box is (no stroke, the recessed inset, the ring when active); chosen, it is filled with the
+/* THE ROUND, DRAWN (not the browser's, whose glow is the shape of its box): 24px, the size of a tick box, in a text input's own look as a tick box is (no stroke, the recessed inset, the ring when active); chosen, it is filled with the
    app's blue and a white bullet stands in its centre. */
 .radio-choice-option > input[type="radio"] {
 
@@ -44,8 +44,8 @@
 
     box-sizing: border-box;
 
-    width: 16px;
-    height: 16px;
+    width: var(--size-mark);
+    height: var(--size-mark);
 
     margin: 0;
 
@@ -73,13 +73,13 @@
 /* AN OPTION UNDER THE POINTER reacts as a tick box does (docs/ai/layout-rules.md, "Interactions"): its words underlined, and the round the soft glow ring of a field you write into (4px at 18%, no wire), round as the radio is. */
 .radio-choice-option > input[type="radio"]:hover:not(:disabled):not(:focus-visible) {
 
-    box-shadow: var(--cell-inset-recess), 0 0 0 4px color-mix(in srgb, var(--glow-color) calc(18% * var(--hover-lift, 1)), transparent);
+    box-shadow: var(--cell-inset-recess), var(--choice-glow);
 
 }
 
 .radio-choice-option > input[type="radio"]:checked:hover:not(:disabled):not(:focus-visible) {
 
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) calc(18% * var(--hover-lift, 1)), transparent);
+    box-shadow: var(--choice-glow);
 
 }
 
@@ -87,7 +87,15 @@
 
     outline: none;
 
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+    border-color: var(--line-primary);
+
+    box-shadow: var(--cell-inset-recess), var(--choice-ring);
+
+}
+
+.radio-choice-option > input[type="radio"]:checked:focus-visible {
+
+    box-shadow: var(--choice-ring);
 
 }
 

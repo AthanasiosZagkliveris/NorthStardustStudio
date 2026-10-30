@@ -1177,6 +1177,12 @@ h6 {
   overflow: visible;
 }
 
+/* THE RING AND THE GLOW OF A CHOICE BOX, one definition for the tick box and for the radio (radio-choice.css reads them too): change one here and both change. */
+:root {
+  --choice-glow: 0 0 0 4px color-mix(in srgb, var(--glow-color) calc(18% * var(--hover-lift, 1)), transparent);
+  --choice-ring: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+}
+
 /* ONE TICK BOX: every checkbox in the app is the same fixed box (--size-mark,
    24px), never squeezed by a label that
    wraps (flex: none), in the app's blue. It stands beside the FIRST
@@ -1204,21 +1210,21 @@ input[type="checkbox"] {
 }
 
 input[type="checkbox"]:hover:not(:disabled):not(:focus-visible) {
-  box-shadow: var(--cell-inset-recess), 0 0 0 4px color-mix(in srgb, var(--glow-color) calc(18% * var(--hover-lift, 1)), transparent);
+  box-shadow: var(--cell-inset-recess), var(--choice-glow);
 }
 
 input[type="checkbox"]:focus-visible {
   outline: none;
   border-color: var(--line-primary);
-  box-shadow: var(--cell-inset-recess), 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+  box-shadow: var(--cell-inset-recess), var(--choice-ring);
 }
 
 input[type="checkbox"]:checked:hover:not(:disabled):not(:focus-visible) {
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) calc(18% * var(--hover-lift, 1)), transparent);
+  box-shadow: var(--choice-glow);
 }
 
 input[type="checkbox"]:checked:focus-visible {
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+  box-shadow: var(--choice-ring);
 }
 
 /* Ticked, the box is FLAT: the fill, no inner light or shade (the glow of the pointer and the ring of the keyboard still show). */

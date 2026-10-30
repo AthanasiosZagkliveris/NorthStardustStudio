@@ -1106,6 +1106,7 @@
 
     white-space:normal;
 
+    /* As a tick box's label (global.css): the round beside the FIRST line of its word, centred on it, the word wrapping beside it. */
     align-items:flex-start;
 
 }
@@ -1114,7 +1115,7 @@
 
     flex:none;
 
-    margin-top:4px;
+    margin-top:calc((1lh - var(--size-mark)) / 2);
 
 }
 

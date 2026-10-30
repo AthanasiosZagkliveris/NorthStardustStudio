@@ -190,17 +190,18 @@ function MultiPartAnswerRenderer({
             )
         });
 
-        // THE POSITIONING TILE lists the options chosen in its questions, one bullet each (the structure of the market, the seller and buyer relationship, the audience, the outcome); no text.
-        const positioningItems = [
-            ...organisation.customerType.map(id => CUSTOMER_TYPE_WORDS[id]),
-            ...organisation.audience.map(id => AUDIENCE_WORDS[id]),
-            ...organisation.buyerCategory.map(id => BUYER_CATEGORY_WORDS[id]),
-            ...organisation.endUser.map(id => END_USER_WORDS[id]),
-            ...organisation.purpose.map(id => PURPOSE_WORDS[id]),
-            ...organisation.differentiation.map(id => DIFFERENTIATION_WORDS[id]),
-            ...organisation.outcome.map(id => OUTCOME_WORDS[id]),
-            ...organisation.outcomeUser.map(id => OUTCOME_USER_WORDS[id])
-        ].filter((line): line is string => typeof line === "string" && line.length > 0);
+        // THE POSITIONING TILE lists the options chosen in its questions, one bullet each, under the names of its groups (Business, User, Offering, Outcome or Outcomes); no text.
+        const wordsOf = (ids: readonly string[], words: Record<string, string>) => ids.map(id => words[id]).filter((line): line is string => typeof line === "string" && line.length > 0);
+        const positioningGroups: [string, string[]][] = [
+            // (The buyer's category words already say their relationship, "B2C: Direct Buyers": the relationship has its own line only where it has no category yet.)
+            ["Business", [...wordsOf(organisation.customerType.filter(model => !organisation.buyerCategory.some(id => id.startsWith(model + ":"))), CUSTOMER_TYPE_WORDS), ...wordsOf(organisation.audience, AUDIENCE_WORDS), ...wordsOf(organisation.buyerCategory, BUYER_CATEGORY_WORDS)]],
+            ["User", wordsOf(organisation.endUser, END_USER_WORDS)],
+            ["Offering", [...wordsOf(organisation.purpose, PURPOSE_WORDS), ...wordsOf(organisation.differentiation, DIFFERENTIATION_WORDS)]],
+            [organisation.outcomeUser.length > 0 ? "Outcomes" : "Outcome", [...wordsOf(organisation.outcome, OUTCOME_WORDS), ...wordsOf(organisation.outcomeUser, OUTCOME_USER_WORDS)]]
+        ];
+        const shownGroups = positioningGroups.filter(([, lines]) => lines.length > 0);
+        const positioningItems = shownGroups.flatMap(([name, lines]) => ["**" + name + "**", ...lines]);
+        const positioningMarks = shownGroups.flatMap(([, lines]) => [{ centre: true }, ...lines.map(() => ({ bullet: true }))]);
 
         const tiles: SectionTile[] = parts.map(part => part.id === "description" && onChangeLegalEntity ? organizationTile(part) : ({
             id: part.id,
@@ -208,7 +209,7 @@ function MultiPartAnswerRenderer({
             title: part.id === "positioning" ? positioningName(businessStage) : part.label,
             rail: part.id,
             items: part.id === "positioning" && onChangeLegalEntity ? positioningItems : snippet(part),
-            itemMarks: part.id === "positioning" && onChangeLegalEntity ? positioningItems.map(() => ({ bullet: true })) : undefined,
+            itemMarks: part.id === "positioning" && onChangeLegalEntity ? positioningMarks : undefined,
             content: () => (
                 <div className="column-tile-content" data-rail={part.id} role="group" aria-label={part.label}>
                     {/* The dialog's title, as every tile's dialog has one. */}

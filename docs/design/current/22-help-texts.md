@@ -492,9 +492,9 @@ What was covered: every page of the four systems, every master tile opened, the 
 | Buyer's category | tile dialog | 30 | 7 | 742 | What the buyer buys for. It tells the buyer who pays from the person who uses it, whatever the buyer's life stage or scale. Direct Buyers: purchasing exclusivel... |
 | Differentiation | tile dialog | 46 | 10 | 1230 | What the offering does differently from the competitors: where it hits exactly the blind spot they leave. It is about the offering; the result the buyer gets fr... |
 | Early Positioning | tile dialog | 8 | 3 | 111 | Who is your target audience? Which market or category do you belong to? How are you different from competitors? |
-| Outcome | tile dialog | 31 | 6 | 823 | The measurable result the buyer gets from the offering (Outcome / ROI): what the buyer is paying for. Lower costs: an immediate reduction in operating costs. Ti... |
-| Purpose | tile dialog | 31 | 4 | 771 | Why the offering is bought: the purpose it serves for the person who gets it. Choose the ones that fit best. Only the purposes that fit your answers above are o... |
-| Seller and Buyer Relationship | tile dialog | 25 | 6 | 639 | Who pays: focuses on the Economic Buyer who approves the budget, separating them from the end user. The positioning statement is written for the target market, ... |
+| Outcome | tile dialog | 31 | 6 | 819 | The measurable result the buyer gets from the offering (Outcome / ROI): what the buyer is paying for. Lower costs: an immediate reduction in operating costs. Ti... |
+| Purpose | tile dialog | 29 | 4 | 747 | Why the offering is bought: the purpose it serves for the person who gets it. Choose the ones that fit best. Only the purposes that fit your answers above are o... |
+| Seller & Buyer Relationship | tile dialog | 25 | 6 | 639 | Who pays: focuses on the Economic Buyer who approves the budget, separating them from the end user. The positioning statement is written for the target market, ... |
 
 **Manifesto**
 

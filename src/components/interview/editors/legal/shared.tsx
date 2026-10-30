@@ -69,7 +69,7 @@ export const BUSINESS_STAGES = [
 export type CustomerType = "b2c" | "b2b" | "b2g" | "g2b" | "both" | "";
 export type MarketType = "single" | "multi" | "";
 
-/** Seller and Buyer Relationship (design document 28, 8.2): the owner's words as written, one choice. */
+/** Seller & Buyer Relationship (design document 28, 8.2): the owner's words as written, one choice. */
 export const CUSTOMER_TYPES = [
     { id: "b2c", label: "B2C (Business-to-Consumer)" },
     { id: "b2b", label: "B2B (Business-to-Business)" },
@@ -130,21 +130,21 @@ export const BUYER_CATEGORIES = [
 /** The End User, asked when the buyer's category is Proxy or Dual-Intent: the buyer and user relationship of the model, and (a consumer buyer) the user's life stage. */
 export const BUYER_USER_RELATIONS = {
     b2c: [
-        { id: "rel:parent", label: "Parent or legal guardian" },
-        { id: "rel:caregiver", label: "Caregiver or person responsible for their care" },
-        { id: "rel:family", label: "Family member or relative" },
-        { id: "rel:partner", label: "Spouse or romantic partner" },
+        { id: "rel:parent", label: "Parent or guardian" },
+        { id: "rel:caregiver", label: "Caregiver" },
+        { id: "rel:family", label: "Family member" },
+        { id: "rel:partner", label: "Spouse or partner" },
         { id: "rel:friend", label: "Friend or acquaintance" },
-        { id: "rel:commercial", label: "Commercial & Professional relationship" },
-        { id: "rel:otherpersonal", label: "Other personal relationship" }
+        { id: "rel:commercial", label: "Commercial & Professional" },
+        { id: "rel:otherpersonal", label: "Other" }
     ],
     b2b: [
-        { id: "rel:employer", label: "Employer providing for employees" },
-        { id: "rel:copartner", label: "Business partner or co-owner" },
-        { id: "rel:serving", label: "Business serving its clients or customers" },
-        { id: "rel:intermediary", label: "Professional intermediary acting for a client" },
+        { id: "rel:employer", label: "Employer" },
+        { id: "rel:copartner", label: "Business partner" },
+        { id: "rel:serving", label: "Business serving clients" },
+        { id: "rel:intermediary", label: "Professional intermediary" },
         { id: "rel:sponsor", label: "Sponsor or funder" },
-        { id: "rel:otherbusiness", label: "Other business relationship" }
+        { id: "rel:otherbusiness", label: "Other" }
     ]
 } as const;
 export const USER_LIFE_STAGES = [
@@ -156,18 +156,18 @@ export const USER_LIFE_STAGES = [
 
 /** The purpose of the offering: the twelve of document 31, section 7. */
 export const PURPOSES = [
-    { id: "learning", label: "Learning and Development" },
-    { id: "health", label: "Health, Care and Wellbeing" },
-    { id: "gifting", label: "Gifting and Appreciation" },
-    { id: "entertainment", label: "Entertainment and Enjoyment" },
-    { id: "social", label: "Social Connection and Relationships" },
-    { id: "productivity", label: "Productivity and Efficiency" },
-    { id: "growth", label: "Business Growth and Performance" },
-    { id: "creation", label: "Creation and Expression" },
-    { id: "everyday", label: "Everyday Needs and Convenience" },
-    { id: "protection", label: "Protection and Risk Reduction" },
-    { id: "compliance", label: "Compliance and Obligations" },
-    { id: "access", label: "Access and Social Support" }
+    { id: "learning", label: "Learning & Development" },
+    { id: "health", label: "Health, Care & Wellbeing" },
+    { id: "gifting", label: "Gifting & Appreciation" },
+    { id: "entertainment", label: "Entertainment & Enjoyment" },
+    { id: "social", label: "Social Connection & Relationships" },
+    { id: "productivity", label: "Productivity & Efficiency" },
+    { id: "growth", label: "Business Growth & Performance" },
+    { id: "creation", label: "Creation & Expression" },
+    { id: "everyday", label: "Everyday Needs & Convenience" },
+    { id: "protection", label: "Protection & Risk Reduction" },
+    { id: "compliance", label: "Compliance & Obligations" },
+    { id: "access", label: "Access & Social Support" }
 ] as const;
 
 /** Differentiation: what the OFFERING does differently from the competitors (the owner's words). */
@@ -184,17 +184,17 @@ export const DIFFERENTIATIONS = [
 export const OUTCOMES = [
     { id: "savings", label: "Lower costs" },
     { id: "time", label: "Time saved" },
-    { id: "assurance", label: "Legal and data-protection cover" },
-    { id: "prestige", label: "Higher quality and prestige" }
+    { id: "assurance", label: "Legal & data-protection cover" },
+    { id: "prestige", label: "Higher quality & prestige" }
 ] as const;
 
 /** Outcome for the user, asked of a Proxy or Dual-Intent Buyer: what matters most to the user. */
 export const USER_OUTCOMES = [
-    { id: "enjoy", label: "Enjoyment and fun" },
-    { id: "comfort", label: "Comfort and ease" },
-    { id: "safety", label: "Safety and care" },
-    { id: "learning", label: "Learning and growth" },
-    { id: "belong", label: "Looks and belonging" },
+    { id: "enjoy", label: "Enjoyment & fun" },
+    { id: "comfort", label: "Comfort & ease" },
+    { id: "safety", label: "Safety & care" },
+    { id: "learning", label: "Learning & growth" },
+    { id: "belong", label: "Looks & belonging" },
     { id: "practical", label: "Practical use" }
 ] as const;
 
@@ -417,7 +417,7 @@ export const INFO = {
     purpose: [
         "Why the offering is bought: the purpose it serves for the person who gets it. Choose the ones that fit best.",
         "Only the purposes that fit your answers above are offered: the primary ones first, then the possible ones. The ones that are generally less directly relevant to that buyer are left out.",
-        "Learning and Development. Health, Care and Wellbeing. Gifting and Appreciation. Entertainment and Enjoyment. Social Connection and Relationships. Productivity and Efficiency. Business Growth and Performance. Creation and Expression. Everyday Needs and Convenience. Protection and Risk Reduction. Compliance and Obligations. Access and Social Support."
+        "Learning & Development. Health, Care & Wellbeing. Gifting & Appreciation. Entertainment & Enjoyment. Social Connection & Relationships. Productivity & Efficiency. Business Growth & Performance. Creation & Expression. Everyday Needs & Convenience. Protection & Risk Reduction. Compliance & Obligations. Access & Social Support."
     ],
 
     differentiation: [
@@ -434,7 +434,7 @@ export const INFO = {
 
     outcome: [
         "The measurable result the buyer gets from the offering (Outcome / ROI): what the buyer is paying for.",
-        "Lower costs: an immediate reduction in operating costs. Time saved: the execution time of a process cut to almost nothing, or the workflow drastically simplified. Legal and data-protection cover: absolute legal coverage and no risk of fines. Higher quality and prestige: top quality, custom service and an upgrade of the buyer's prestige.",
+        "Lower costs: an immediate reduction in operating costs. Time saved: the execution time of a process cut to almost nothing, or the workflow drastically simplified. Legal & data-protection cover: absolute legal coverage and no risk of fines. Higher quality & prestige: top quality, custom service and an upgrade of the buyer's prestige.",
         "For a Proxy or Dual-Intent Buyer the user has an outcome of their own, asked next.",
         { title: "Based on", source: SOURCES.strategicPositioning },
         { title: "Also", source: SOURCES.positioningTemplate }
@@ -442,7 +442,7 @@ export const INFO = {
 
     outcomeUser: [
         "What matters most to the user, apart from the buyer's own reasons for paying: the result the user gets. It starts the user's Profile.",
-        "Enjoyment and fun. Comfort and ease. Safety and care. Learning and growth. Looks and belonging (fitting in with friends, a style). Practical use."
+        "Enjoyment & fun. Comfort & ease. Safety & care. Learning & growth. Looks & belonging (fitting in with friends, a style). Practical use."
     ],
 
     legalForm: [

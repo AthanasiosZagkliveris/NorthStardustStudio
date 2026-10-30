@@ -56,14 +56,20 @@
               "outcome": [
                 "prestige"
               ],
-              "outcomeUser": [],
+              "outcomeUser": [
+                "belong"
+              ],
               "buyerCategory": [
-                "b2c:direct"
+                "b2c:proxy"
               ],
               "purpose": [
+                "gifting",
                 "creation"
               ],
-              "endUser": [],
+              "endUser": [
+                "rel:friend",
+                "age:young"
+              ],
               "addressLine1": "Unit 4, Hackney Wick Maker Yard, 92 Wallis Road\nLondon\nE9 5LN",
               "addressLine2": "",
               "city": "",

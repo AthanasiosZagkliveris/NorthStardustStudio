@@ -110,24 +110,24 @@ export const BUYER_CATEGORY_WORDS: Record<string, string> = {
 };
 /** The End User answers of Early Positioning (asked of a Proxy or Dual-Intent Buyer), by id: the buyer and user relationship, and the user's life stage. */
 export const END_USER_WORDS: Record<string, string> = {
-    "rel:parent": "Buyer is the parent or legal guardian", "rel:caregiver": "Buyer is the caregiver or person responsible for their care", "rel:family": "Buyer is a family member or relative",
-    "rel:partner": "Buyer is the spouse or romantic partner", "rel:friend": "Buyer is a friend or acquaintance", "rel:commercial": "Buyer is in a commercial or professional relationship with the user", "rel:otherpersonal": "Buyer has another personal relationship with the user",
-    "rel:employer": "Buyer is the employer providing for employees", "rel:copartner": "Buyer is a business partner or co-owner", "rel:serving": "Buyer is a business serving its clients or customers",
-    "rel:intermediary": "Buyer is a professional intermediary acting for a client", "rel:sponsor": "Buyer is a sponsor or funder", "rel:otherbusiness": "Buyer has another business relationship with the user",
+    "rel:parent": "Buyer is the parent or guardian", "rel:caregiver": "Buyer is the caregiver", "rel:family": "Buyer is a family member",
+    "rel:partner": "Buyer is the spouse or partner", "rel:friend": "Buyer is a friend or acquaintance", "rel:commercial": "Buyer is in a commercial or professional relationship with the user", "rel:otherpersonal": "Buyer has another personal relationship with the user",
+    "rel:employer": "Buyer is the employer", "rel:copartner": "Buyer is a business partner", "rel:serving": "Buyer is a business serving clients",
+    "rel:intermediary": "Buyer is a professional intermediary", "rel:sponsor": "Buyer is a sponsor or funder", "rel:otherbusiness": "Buyer has another business relationship with the user",
     "age:minor": "User: minors", "age:young": "User: young adults", "age:adult": "User: adults", "age:senior": "User: seniors"
 };
 /** The purposes of the offering, by id. */
 export const PURPOSE_WORDS: Record<string, string> = {
-    learning: "Learning and Development", health: "Health, Care and Wellbeing", gifting: "Gifting and Appreciation", entertainment: "Entertainment and Enjoyment", social: "Social Connection and Relationships",
-    productivity: "Productivity and Efficiency", growth: "Business Growth and Performance", creation: "Creation and Expression", everyday: "Everyday Needs and Convenience", protection: "Protection and Risk Reduction",
-    compliance: "Compliance and Obligations", access: "Access and Social Support"
+    learning: "Learning & Development", health: "Health, Care & Wellbeing", gifting: "Gifting & Appreciation", entertainment: "Entertainment & Enjoyment", social: "Social Connection & Relationships",
+    productivity: "Productivity & Efficiency", growth: "Business Growth & Performance", creation: "Creation & Expression", everyday: "Everyday Needs & Convenience", protection: "Protection & Risk Reduction",
+    compliance: "Compliance & Obligations", access: "Access & Social Support"
 };
 /** The differentiation: what the offering does differently from the competitors. */
 export const DIFFERENTIATION_WORDS: Record<string, string> = { cost: "Cost-driven", convenience: "Convenience-driven", compliance: "Compliance, Risk & Security", premium: "Status & Premium", performance: "Performance & Innovation", ecosystem: "Ecosystem & Integration" };
 /** The outcome for the buyer: the measurable result. */
-export const OUTCOME_WORDS: Record<string, string> = { savings: "Lower costs", time: "Time saved", assurance: "Legal and data-protection cover", prestige: "Higher quality and prestige" };
+export const OUTCOME_WORDS: Record<string, string> = { savings: "Lower costs", time: "Time saved", assurance: "Legal & data-protection cover", prestige: "Higher quality & prestige" };
 /** The outcome for the user (a Proxy or Dual-Intent Buyer's): what matters most to the user. */
-export const OUTCOME_USER_WORDS: Record<string, string> = { enjoy: "Enjoyment and fun", comfort: "Comfort and ease", safety: "Safety and care", learning: "Learning and growth", belong: "Looks and belonging", practical: "Practical use" };
+export const OUTCOME_USER_WORDS: Record<string, string> = { enjoy: "Enjoyment & fun", comfort: "Comfort & ease", safety: "Safety & care", learning: "Learning & growth", belong: "Looks & belonging", practical: "Practical use" };
 
 /**
  * THE NAME OF THE POSITIONING FOLLOWS THE BUSINESS STAGE (the owner's text, 2026-10-24): while planning and launching it is a temporary, highly targeted statement for the first market, the Early Positioning;

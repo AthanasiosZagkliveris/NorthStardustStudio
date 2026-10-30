@@ -199,10 +199,10 @@ describe.each(["GB", "IE", "US", "CA", "AU", "NZ"])("ten scenarios for %s, three
             const expected = 1 + 1 + 1 + value.organisation.purpose.length + value.organisation.differentiation.length + value.organisation.outcome.length
                 + value.organisation.endUser.length + value.organisation.outcomeUser.length;
             expect(checked.length, where + ": " + checked.join(" | ")).toBe(expected);
-            expect(container.textContent, where).toContain("Business");
-            expect(container.textContent, where).toContain("Offering");
-            // (The "User" subtitle is there only for a Proxy or Dual-Intent buyer.)
-            expect(container.textContent?.includes("Buyer and User relationship"), where).toBe(!value.organisation.buyerCategory[0].endsWith("direct"));
+            // (The groups are told apart by double divider lines, no subtitles: one between the Offering and the Outcome, and one between the Business and the User where there is a user.)
+            const user = !value.organisation.buyerCategory[0].endsWith("direct");
+            expect(container.querySelectorAll(".business-capability-card-rule-double").length, where).toBe(user ? 2 : 1);
+            expect(container.textContent?.includes("Buyer & User relationship"), where).toBe(user);
             unmount();
         }
     });

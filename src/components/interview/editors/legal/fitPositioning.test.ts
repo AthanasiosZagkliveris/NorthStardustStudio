@@ -82,7 +82,7 @@ describe("fitPositioningToStage: the buyer's category and the End User", () => {
         expect(fitPositioningToStage({ ...held, endUser: ["rel:caregiver", "age:adult", "age:senior"] }, "grow").endUser).toEqual(["rel:caregiver", "age:adult", "age:senior"]);
     });
 
-    it("takes the Commercial & Professional relationship away from a Student or Young Adult buyer", () => {
+    it("takes the Commercial & Professional away from a Student or Young Adult buyer", () => {
         const held = { ...base, customerType: ["b2c"], buyerCategory: ["b2c:proxy"], audience: ["young"], endUser: ["rel:commercial", "age:minor"] };
         expect(fitPositioningToStage(held, "manage").endUser).toEqual(["age:minor"]);
         expect(fitPositioningToStage({ ...held, audience: ["adult"] }, "manage").endUser).toEqual(["rel:commercial", "age:minor"]);
