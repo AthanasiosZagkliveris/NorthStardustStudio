@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { RELATION_IDS_B2B, RELATION_IDS_B2C } from "./PositioningIds.ts";
-import { RELATIONSHIP_FITS, categoryOfModel, relationshipFits, userStageFits } from "./RelationshipFit.ts";
+import { RELATIONSHIP_FITS, categoryOfModel, relationshipFits, relationshipFitsUserStages, userStageFits } from "./RelationshipFit.ts";
 import { RELATIONSHIP_INTENT } from "./PurposeRelevance.ts";
 
 describe("which buyer and user relationships fit the buyer's category", () => {
@@ -44,5 +44,14 @@ describe("which buyer and user relationships fit the buyer's category", () => {
         expect(stages(["rel:parent", "rel:partner"], ["adult"])).toEqual(["age:minor", "age:young", "age:adult", "age:senior"]);
         expect(stages([], ["young"])).toHaveLength(4);
         expect(stages(["rel:family"], [])).toHaveLength(4);
+    });
+
+    it("does not offer the parent to a buyer who cares for an adult or a senior", () => {
+        expect(relationshipFitsUserStages("rel:parent", ["adult"], ["age:adult"])).toBe(false);
+        expect(relationshipFitsUserStages("rel:parent", ["adult"], ["age:senior"])).toBe(false);
+        expect(relationshipFitsUserStages("rel:parent", ["adult"], ["age:adult", "age:minor"])).toBe(true);
+        expect(relationshipFitsUserStages("rel:parent", ["senior"], ["age:adult"])).toBe(true);
+        expect(relationshipFitsUserStages("rel:caregiver", ["adult"], ["age:senior"])).toBe(true);
+        expect(relationshipFitsUserStages("rel:parent", [], ["age:adult"])).toBe(true);
     });
 });

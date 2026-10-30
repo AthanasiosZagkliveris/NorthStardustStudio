@@ -44,3 +44,11 @@ export function userStageFits(relationships: readonly string[], stageId: string,
 export function relationshipFitsBuyerStage(id: string, audience: readonly string[]): boolean {
     return !(id === "rel:commercial" && audience.includes("young"));
 }
+
+/** Whether the Parent or legal guardian relationship can be offered, given the user's life stages already chosen: a buyer who cares for an adult or a senior is the caring person, not a parent (the owner's rule, 2026-10-30; the parent cell of the matrix above is blank for every chosen user stage). True for any other relationship, and while a buyer's or a user's life stage is not chosen. */
+export function relationshipFitsUserStages(id: string, buyerStages: readonly string[], userStages: readonly string[]): boolean {
+    const stages = buyerStages.filter(stage => MATRIX[stage] !== undefined);
+    const users = userStages.map(stage => USER_STAGES.indexOf(stage)).filter(column => column >= 0);
+    if (id !== "rel:parent" || stages.length === 0 || users.length === 0) return true;
+    return stages.some(stage => users.some(column => MATRIX[stage][id][column] !== "."));
+}

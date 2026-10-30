@@ -22,7 +22,7 @@ import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import ActivitiesField from "./ActivitiesField.tsx";
 import { orderedByRelevance, purposeRelevance } from "../../../../framework/engine/PurposeRelevance.ts";
-import { categoryOfModel, relationshipFits, relationshipFitsBuyerStage, userStageFits } from "../../../../framework/engine/RelationshipFit.ts";
+import { categoryOfModel, relationshipFits, relationshipFitsBuyerStage, relationshipFitsUserStages, userStageFits } from "../../../../framework/engine/RelationshipFit.ts";
 import DateCellInput from "../../fields/DateCellInput.tsx";
 import { todayIsoDate } from "../../../../framework/engine/AnswerUtils.ts";
 import { BUSINESS_STAGE_WORDS } from "../../../../framework/engine/ActivityClassification.ts";
@@ -182,7 +182,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
     /** The user has an outcome of their own where some buyer is a Proxy or Dual-Intent Buyer (the buyer and the user want different things). */
     const userHasOutcome = models.some(model => endsUser(model));
     /** The buyer and user relationships a model offers: only those that can be the buyer's category (fewer options help); one already chosen stays. */
-    const relationOptions = (model: "b2c" | "b2b") => BUYER_USER_RELATIONS[model].filter(option => (relationshipFits(option.id, categoryOfModel(entity.organisation.buyerCategory, model)) && relationshipFitsBuyerStage(option.id, entity.organisation.audience)) || entity.organisation.endUser.includes(option.id));
+    const relationOptions = (model: "b2c" | "b2b") => BUYER_USER_RELATIONS[model].filter(option => (relationshipFits(option.id, categoryOfModel(entity.organisation.buyerCategory, model)) && relationshipFitsBuyerStage(option.id, entity.organisation.audience) && relationshipFitsUserStages(option.id, entity.organisation.audience, entity.organisation.endUser)) || entity.organisation.endUser.includes(option.id));
 
     /** One question: a radio where one choice is allowed (and at most one is held), else ticks that lock at the limit. */
     function choice(

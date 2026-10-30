@@ -518,3 +518,5 @@ The buyer's life stage is a Student / Young Adult, a Worker (Adult) or a Senior 
 **Validation logic (the owner's notes):** 1. A Student / Young Adult buyer has no Commercial & Professional row. 2. The parent shift: a Worker / Adult parent focuses on Minors and Young Adults; a Senior parent shifts to Adults (adult children). 3. The caregiver U-curve: a Worker caregiver splits between their own children (Minors) and ageing parents (Seniors); a Senior caregiver concentrates on ageing peers and spouses (Seniors).
 
 **Note:** this matrix supersedes the earlier parent rule where the buyer's life stage is chosen: a Senior parent is offered Adults (and Minors), as the matrix says.
+
+**A buyer who cares for an adult or a senior is the caring person, not a parent (owner's rule, 2026-10-30):** the Parent or legal guardian relationship is not offered while the user's life stages chosen are all ones the matrix leaves blank for it (for a Worker / Adult buyer: Adults and Seniors only).
