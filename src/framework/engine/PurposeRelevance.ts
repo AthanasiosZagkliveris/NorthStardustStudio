@@ -1,7 +1,7 @@
 /**
- * HOW RELEVANT EACH PURPOSE IS to the buyer (the owner's tables of 2026-10-30, design document 31, 10.4): used to ORDER the purpose list, the most relevant first, and to leave out the purposes the table calls generally less directly
- * relevant (fewer options help the user; the editor keeps one that is already chosen). It never chooses for the user. The most specific table that covers a purpose is used: the buyer's and the user's life stage, else the buyer's relationship with the user (a consumer buyer), else the buyer's category, else the
- * relationship model (B2B or B2C). Two levels: 2 primary relevance, 1 possible relevance; none is generally less directly relevant.
+ * HOW RELEVANT EACH PURPOSE IS to the buyer (the owner's tables of 2026-10-30, design document 31, 10.7): used to ORDER the purpose list, the most relevant first, and to leave out the purposes the table calls generally less directly
+ * relevant (fewer options help the user; the editor keeps one that is already chosen). It never chooses for the user. For each purpose the first table that covers it is used: the buyer's and the user's life stage (a consumer buyer), else the business buyer and user relationship, else the audience scale and the business buyer's category, else the consumer buyer and user relationship, else the buyer's category, else the relationship model (B2B or B2C).
+ * Two levels: 2 primary relevance, 1 possible relevance; none is generally less directly relevant.
  */
 import { DIFFERENTIATION_IDS, PURPOSE_IDS } from "./PositioningIds.ts";
 
@@ -29,7 +29,7 @@ const TABLES = {
         columns: ["solo|direct", "solo|other", "smb|direct", "smb|proxy", "mid|direct", "mid|proxy", "enterprise|direct", "enterprise|proxy"],
         rows: ["P.PSPSPP", "S.SPSPSP", ".PSPSPSP", "S.PSPSPS", "S.S.S.S.", "P.PSPSPS", "P.P.P.P.", "P.S.S.S.", "P.PPPPPP", "S.SPSPSP", "S.SPSPSP", "...S.P.P"]
     },
-    /** The same columns for the four differentiations (cost, convenience, compliance, premium): the owner's table of 2026-10-30. */
+    /** The same columns for the six differentiations (cost, convenience, compliance, premium, performance, ecosystem): the owner's table of 2026-10-30. */
     differentiationScale: {
         columns: ["solo|direct", "solo|other", "smb|direct", "smb|proxy", "mid|direct", "mid|proxy", "enterprise|direct", "enterprise|proxy"],
         rows: ["PSPSSS.S", "PPPPPSP.", "..SPSPPP", "S.S.P.P.", "P.PSPSPP", "S.SPPPPP"]

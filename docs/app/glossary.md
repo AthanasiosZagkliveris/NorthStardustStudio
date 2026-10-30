@@ -78,7 +78,7 @@ Doc 28 is the questionnaire specification, doc 33 the first version, doc 34 what
 | B2G, G2B | Business to government; government to business (future) | Doc 34, items 6 and 7 |
 | Audience (I7b) | The buyer's life stage (B2C) or scale (B2B), one question for each relationship chosen; for B2G the Administrative Level (Local Government to Institutional / Public Organizations), for G2B the Regulatory Intensity of the target industry (General Commerce to Heavily Regulated Markets) | Doc 28, 8.2 |
 | Locked audience | An audience option that is greyed while Planning and Launching (Central Government & Ministries, Heavily Regulated Markets) | Doc 28, 8.2 |
-| Differentiation and Outcome (I7c) | What the business competes on (Cost-driven, Convenience-driven, Compliance, Risk & Security, Status & Premium, Performance & Innovation, Ecosystem & Integration) and the result it gives; in the first version asked with Purpose as three items | Doc 28, 8.2; doc 33, section 5 |
+| Differentiation (I7c), Outcome (I7j), Outcome for the user (I7k) | What the offering does differently (six options), the buyer's measurable result, and what matters most to a Proxy or Dual-Intent buyer's user; asked with the Purpose as separate items | Doc 28, 8.2 |
 | Segment | A group of customers described by ranges; the card on Business 1 | Doc 28, 6.3 |
 | Profile | A typical person inside a Segment, described by specifics | Doc 28, 6.4 |
 | Cascade | The Segment sets the range; the Profile chooses within it | Doc 28, 6.5 |
@@ -89,7 +89,7 @@ Doc 28 is the questionnaire specification, doc 33 the first version, doc 34 what
 |---|---|---|
 | Buyer | The one who pays | Doc 31, 5 |
 | User | The one who uses the offering | Doc 31, 5 |
-| End User | The user when the buyer is a Proxy or Dual-Intent buyer; the built questions I7d to I7g (age group, relationship, who chooses, what matters most) stay until the new structure is built; only the relationship and the user's life stage are in the first version | Doc 28, 8.2; doc 33, section 5 |
+| End User | The user when the buyer is a Proxy or Dual-Intent buyer; asked in the first version: the relationship (I7e), the user's life stage (I7d) and the outcome for the user (I7k, the former "what matters most"); "who chooses" (I7f) is a future feature | Doc 28, 8.2; doc 33, section 5 |
 | Differentiation | What the offering does differently from the competitors: Cost-driven, Convenience-driven, Compliance, Risk & Security, Status & Premium, Performance & Innovation, Ecosystem & Integration | Doc 28, 8.2 |
 | Outcome (for the buyer, for the user) | The measurable result the buyer gets; where the buyer is a Proxy or Dual-Intent Buyer the user has an outcome of their own (what matters most to them) | Doc 28, 8.2 |
 | Buyer's category | Direct, Proxy or Dual-Intent; separate from the life stage | Doc 33, section 5 |
@@ -111,7 +111,7 @@ Doc 28 is the questionnaire specification, doc 33 the first version, doc 34 what
 
 | Term | Meaning | See |
 |---|---|---|
-| I | Identity question; I3 Seller and Buyer Relationship, I7b Audience, I7c Differentiation and Outcome, I7d to I7g the End User questions, I11 Market Structure | Doc 28, 1 and 8.2 |
+| I | Identity question; I3 Seller and Buyer Relationship, I7b Audience, I7c Differentiation, I7d and I7e the End User questions (life stage, relationship), I7h Buyer's category, I7i Purpose, I7j and I7k the Outcomes, I11 Market Structure | Doc 28, 1 and 8.2 |
 | G | The customer Group (the Segment card); G6 is its age range | Doc 28, 1 |
 | P | The Person (the Profile card): P1 an age, P9 what they care about, P13 how they buy, P14 how they pay, P17 goals, P21 "What part do they play in the purchase" (use, influence, order, decide, control access), P22 how it is decided, P25 "Buyer's Relationship to this User" (proposed) | Doc 28, 1 and 6.4; doc 31, decision 18 |
 | K | The Competitor | Doc 28, 1 |

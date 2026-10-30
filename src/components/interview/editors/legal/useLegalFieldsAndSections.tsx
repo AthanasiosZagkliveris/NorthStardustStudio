@@ -258,7 +258,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
     // The purposes chosen then bring the differentiations they drive first (inside each level the business relationships chosen order them, and inside theirs the audience scale and category; nothing is chosen for the user).
     const differentiationOptions = orderedByRelevance(orderedByRelevance(differentiationFirst, differentiationByRelationship(entity.organisation.endUser)), byPurpose);
     const purposeOptions = orderedByRelevance(PURPOSES, relevance).filter(option => relevance === null || relevance[option.id] > 0 || entity.organisation.purpose.includes(option.id));
-    // The left column asks WHO PAYS: the relationship, and for each relationship its audience and its buyer's category. The right column asks about the End User (a Proxy or Dual-Intent Buyer's), the purpose and the outcome.
+    // The left column asks every question before the purpose: the relationship, and for each relationship its audience, its buyer's category and, for a Proxy or Dual-Intent buyer, the buyer and user relationship and (consumer) the user's life stage. The right column asks the purpose, the differentiation and the outcomes.
     const audience = (
         <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience">
 

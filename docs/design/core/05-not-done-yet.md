@@ -338,7 +338,7 @@ For the owner to decide, or work not done. Each item leaves this list when done 
 
 **Left by the first-version build of the Organization and Positioning tiles (2026-10-29)**
 - The ages in the Segment (doc 33, section 6) and anything in Business 1 that reads the buyer's category, the relationship or the purpose (the second Profile for the user, P25) are not built.
-- Purpose, Differentiation and Outcome: the owner's list gave no separate lists for Differentiation and Outcome, so Differentiation & Outcome stays one question and Purpose is a new question (doc 33, section 8). Confirm or send the lists.
+- Purpose, Differentiation and Outcome: settled 2026-10-30 as separate questions (doc 33, section 8, point 6); the Outcome lists are the author's (see the entry on the outcomes).
 - The Country question lists the six and Other: a saved organisation of another country opens as Other with its country chosen. The legal-form wording and documents that follow the country's form (capital, the "limited company" phrase) still follow the profile of that country where the app has one.
 - The four coarse user life stages have no age edges (doc 33, section 5).
 - The lists of the Outcome (for the buyer) and the Outcome for the user were made from the words of the former question and of the former "what matters most": confirm or send your own (doc 33, section 8). The routing of the user's outcome into the second Profile (P9, P17) is not built.

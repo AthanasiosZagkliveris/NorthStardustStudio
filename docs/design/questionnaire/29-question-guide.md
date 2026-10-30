@@ -48,13 +48,16 @@ I11 Market Structure
  └─ Multi-sided Market / Platform (future feature, doc 34) ... a platform of two or more distinct groups: each side is one relationship of I3, so each side is its own Segment frame
 I7b Audience   (one question for each relationship: scale, life stage, administrative level, regulatory intensity)
   ├─ the choice ⇒ the Segment's size or age range starts there
- └─ Proxy Buyers / Gifters ⇒ a second Profile for the person who uses it is proposed, and the End User questions (asked only here):
-      I7d End User Age Group (broad: 0 to 5, 6 to 12, 13 to 17, 18 to 64, 65 or older)
-      I7e Buyer's relationship with the End User (parent or carer, another family member, partner, friend or colleague)
-      I7f Who chooses: the Buyer or the End User (alone, the End User asks, the End User chooses)   (future feature, doc 34)
-      I7g What matters most to the End User (enjoyment, comfort, safety, learning, belonging, practical use)   (future feature, doc 34)
-      ⇒ the Segment proposes a second Profile for the End User (P21 "They will use it")
-I7c Differentiation & Outcome ⇒ the Value Proposition prompt and the Competitor types
+ ├─ I7h Buyer's category: Direct, Proxy or Dual-Intent (built 2026-10-29)
+ │    └─ Proxy or Dual-Intent ⇒ a second Profile for the person who uses it is proposed, and the End User questions (asked only here):
+ │          I7e Buyer and User relationship (only those that fit the category, doc 31, 10.7)
+ │          I7d User's Life-Stage (B2C: Minors, Young Adults, Adults, Seniors; only those the matrix allows)
+ │          ⇒ the Segment proposes a second Profile for the End User (P21 "They will use it")
+ │          (I7f Who chooses is a future feature, doc 34; "what matters most" is now I7k, the outcome for the user)
+I7i Purpose (twelve; ordered and filtered by the owner's tables, doc 31, 10.7)
+I7c Differentiation (six; ordered by the purposes, the relationship, the scale and the category)
+I7j Outcome (for the buyer) ⇒ the Value Proposition prompt and the Competitor types
+I7k Outcome for the user (asked only for a Proxy or Dual-Intent buyer)
 I8  Business stage (worked out from the Opening Date, not asked)
  ├─ Just an idea / Setting up ... ○ "sales I have made" and "website data" in the estimate basis (D1);
  │                              ⇒ figures labelled forecast
@@ -308,10 +311,14 @@ The decision list is in one place: document 28, section 13. The twelve decisions
 | I1 | What does the business do? | **Exists** | Organization tile, the activity cascade (up to four) | Add "Show all" after a shortlist (not built); the industry pack is not built |
 | I8 | Business stage | **Exists, not asked** | Worked out from the Opening Date; the Positioning tile's name and limits follow it | None |
 | I11 | Market Structure | **Exists** | Early Positioning, left column, first, a radio (Single-sided; Multi-sided / Platform) | None: the owner's words. Its "i" says it is not the buyer-and-user split |
-| I3 | Seller and Buyer Relationship (who pays) | **Exists** | Early Positioning, left column, under Market Structure; radio or ticks by stage | None: the owner's words. Read by the Segment since 2026-10-25: it decides whether Demographics or Business Data is asked |
-| I7b | Audience: scale (B2B), **Buyer's Life-Stage and relationship with the User** (B2C), administrative level (B2G), regulatory intensity (G2B) | **Exists** | Early Positioning, right column, one question for each relationship chosen | None: the owner's words. **This is where the buyer's relationship with the user is already asked** (Proxy Buyers / Gifters). Read by the Segment since 2026-10-25 only to show the choice in the "i" of Demographics or Business Data |
-| I7d to I7g | End User Age Group; Buyer's relationship with the End User; Who chooses; What matters most to the End User | **Exists** (built 2026-10-26) | Early Positioning, right column, under the life-stage question; asked only for Proxy Buyers / Gifters | The lists of I7e and I7g are the author's: the owner approves or amends them |
-| I7c | Differentiation & Outcome | **Exists** | Early Positioning, right column, under the audience | None. Not yet read by the Value Proposition |
+| I3 | Seller and Buyer Relationship (who pays) | **Exists** | Early Positioning, left column, first; radio or ticks by stage | None: the owner's words. Read by the Segment since 2026-10-25: it decides whether Demographics or Business Data is asked |
+| I7b | Audience: scale (B2B), **Buyer's Life-Stage and relationship with the User** (B2C), administrative level (B2G), regulatory intensity (G2B) | **Exists** | Early Positioning, left column, one question for each relationship chosen | None: the owner's words. **This is where the buyer's relationship with the user is already asked** (Proxy Buyers / Gifters). Read by the Segment since 2026-10-25 only to show the choice in the "i" of Demographics or Business Data |
+| I7h | Buyer's category (Direct, Proxy, Dual-Intent) | **Exists** (built 2026-10-29) | Early Positioning, left column, under the audience | None: the owner's words |
+| I7e, I7d | Buyer and User relationship; User's Life-Stage | **Exists** (rebuilt 2026-10-29; moved to the left column 2026-10-30) | Early Positioning, left column, under the buyer's category; asked only for Proxy or Dual-Intent buyers | The lists are the owner's; only those that fit the category and the matrix are offered (doc 31, 10.7) |
+| I7f | Who chooses | **Removed from the app** (2026-10-29) | Future feature (doc 34) | None |
+| I7i | Purpose | **Exists** (2026-10-29) | Early Positioning, right column, first | The order and the options follow the owner's tables (doc 31, 10.7) |
+| I7c | Differentiation | **Exists** (split from Differentiation & Outcome 2026-10-30; six options) | Early Positioning, right column, under the purpose | None. Not yet read by the Value Proposition |
+| I7j, I7k | Outcome (for the buyer); Outcome for the user | **Exist** (2026-10-30) | Early Positioning, right column, under the differentiation; I7k only for a Proxy or Dual-Intent buyer | The lists are the author's from the former text: the owner approves or amends them. Not yet read by the Value Proposition |
 | (Notes) | The Positioning free text | **Exists** | Early Positioning, under the questions | Shorten its prompt (28, 8.2, open decisions) |
 | I5, I6, I7, I9, I10 | Brand personality; price position; (merged); ambition; values | I5 parked; I6 withdrawn as a question (counted as a check in 28, Appendix B); the old I7 is merged into I7c; I10 **merged into the Values tile**; I9 **proposal** | Not on a tile | None until the owner decides |
 | I2, I4, G1, G9, G11 | | Merged or withdrawn | | None |

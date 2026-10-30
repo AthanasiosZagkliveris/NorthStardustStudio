@@ -204,15 +204,19 @@ The decisions of 2026-10-27 to 2026-10-29, one row each, by topic. The rounds of
 | 24 | The six B2B relationships have a default intent (Proxy or Dual-Intent) and positioning text (10.6) | collected; the positioning text is future |
 | 25 | Requirements R-1 and R-2 (age restrictions on the Organization and Positioning cards) | superseded: ages go in the Segment (decision 6) |
 | 26 | Lists with no acceptable source (doc 32) stay the owner's wording | decided |
+| 27 | Rules of the buyer categories beyond age: data separation (a Proxy Buyer does not see the user's behavioural data), contract and liability flags, payment routing | decided as rules applied by country; future |
 | 28 | A seventh consumer relationship, "Commercial & Professional", is a proxy buyer (the owner's instruction of 2026-10-30); the consumer list is the six personal ones plus it, "Other personal relationship" last | built 2026-10-30 |
 | 29 | The purpose list is ordered by relevance (the tables of 10.7): the buyer and user relationship, else the buyer's category, else the seller and buyer relationship; from the second request of 2026-10-30 the purposes that are generally less directly relevant are not offered (one already chosen stays) | built 2026-10-30 |
 | 30 | Only the buyer and user relationships that can be the buyer's category are offered (the table at the end of 10.7); a relationship that no longer fits goes with a change of category | built 2026-10-30 |
-| 32 | The purposes follow the buyer's and the user's life stage first (the cross-tabulation at the end of 10.7), then the relationship, the category and the seller and buyer relationship; a purpose the first table that covers it calls generally less directly relevant is not offered | built 2026-10-30 |
-| 33 | A parent or legal guardian has a Minor or a Young Adult as the user: the Adult and Senior user life stages are not offered (and go if already chosen) | built 2026-10-30 |
 | 31 | "Differentiation & Outcome" is two questions: the **Differentiation** (what the offering does differently) and the **Outcome** (the measurable result for the buyer); where the buyer is a Proxy or Dual-Intent Buyer the user has an **Outcome for the user** (the six of the former I7g) | built 2026-10-30 |
-| 27 | Rules of the buyer categories beyond age: data separation (a Proxy Buyer does not see the user's behavioural data), contract and liability flags, payment routing | decided as rules applied by country; future |
+| 32 | The purposes follow the buyer's and the user's life stage first, then the relationship, the category and the seller and buyer relationship (the summary at the top of 10.7); a purpose the first table that covers it calls blank is not offered | built 2026-10-30 |
+| 33 | A parent or legal guardian has a Minor or a Young Adult as the user until a buyer's life stage is chosen; then the user's life stage follows the matrix (10.7), and a Senior parent is offered Adults | built 2026-10-30 |
+| 34 | A Students / Young Adults buyer is not offered the Commercial & Professional relationship; a buyer who cares only for adults or seniors is not offered Parent or legal guardian | built 2026-10-30 |
+| 35 | The Differentiation has six pillars (Performance & Innovation and Ecosystem & Integration added); the list is ordered by the purposes chosen, the business relationship, the audience scale and category, and the buyer's category; a business buyer is not offered the blanks of the scale table | built 2026-10-30 |
+| 36 | A business buyer's Purpose follows the owner's tables of the business relationship and of the audience scale and category | built 2026-10-30 |
+| 37 | Every question before the Purpose (including the buyer and user relationship and the user's life stage) is in the left column of the Early Positioning tile | built 2026-10-30 |
 
-**Still open** (doc 33, section 8): the four coarse user life stages and their edges; Purpose, Differentiation and Outcome as three questions; which ages go in the Segment and where; the country picker.
+**Still open** (doc 33, section 8): the four coarse user life stages and their edges; which ages go in the Segment and where; the country picker. (Purpose, Differentiation and Outcome as three questions: settled 2026-10-30, decision 31.)
 
 ## 10. Reference tables
 
@@ -272,7 +276,7 @@ Each of these edges falls inside or between the owner's stages: 13 and 14 inside
 
 ### 10.3 Routing of the End User answers into the second Profile
 
-**Routing of I7g into the second Profile (the closer matches adopted):**
+**Routing of I7g into the second Profile (the closer matches adopted; I7g is now the Outcome for the user, I7k, and its routing is still future):**
 
 | I7g, what matters most to the End User | Profile P9 tick (list L1) | Profile P17 tick (list L4) |
 |---|---|---|
@@ -371,7 +375,18 @@ The owner pasted a text on how the six business relationships (6.2) position, gr
 
 ### 10.7 How relevant each purpose is: the owner's tables of 2026-10-30
 
-● primary relevance · ○ possible relevance · blank = generally less directly relevant. **Used to order the purpose list** (the most relevant first) **and to leave out the purposes that are generally less directly relevant** to the answers so far (fewer options help the user; a purpose already chosen stays). The most specific table that applies is used: the buyer and user relationship (a consumer buyer), else the buyer's category, else the seller and buyer relationship.
+● primary relevance · ○ possible relevance · blank = generally less directly relevant.
+
+**How the tables shape the lists (summary; this is what the app does, 2026-10-30).** Fewer options help the user, and the app never chooses for the user: a choice already made always stays visible.
+
+| List | Hidden when | Ordered by (first key first) | Tables below |
+|---|---|---|---|
+| Buyer and user relationship (consumer) | it cannot be the buyer's category (Proxy: not the Spouse or romantic partner; Dual-Intent: not the Friend or Commercial & Professional); a Students / Young Adults buyer is not offered Commercial & Professional; a buyer who cares only for adults or seniors is not offered Parent or legal guardian | the list's own order | the category table; the rules of the matrix |
+| User's Life-Stage (consumer) | the matrix leaves it blank for every chosen combination of buyer life stage and relationship (before a buyer life stage is chosen: a Parent or legal guardian has only Minors and Young Adults) | the list's own order | the user life stage matrix |
+| Purpose | the first table that covers the purpose calls it blank | relevance, then the list's own order | in this order: buyer life stage × user life stage; business relationship; audience scale × category; consumer relationship; category; seller and buyer relationship (**for each purpose the first table that covers it decides; a purpose a table leaves out is read from the next**) |
+| Differentiation | a business buyer's audience scale × category table leaves it blank | the purposes chosen; then the business relationship; then the audience scale × category (a business buyer) or the buyer's category (usual pairing) | purpose drives; relationship drives; scale; category pairing |
+
+A blank means the owner's tables call it generally less directly relevant, never an invalid answer. Where a table has no row for a purpose (Entertainment, Social Connection and Creation in the life stage table; Access in the Dual-Intent business table; Social Connection, Business Growth and Creation in the Proxy business table) the next table is read.
 
 **By seller and buyer relationship**
 
@@ -481,9 +496,7 @@ The buyer's life stage is a Student / Young Adult, a Worker (Adult) or a Senior 
 2. **The career / professional cluster (Worker buyer → Adult user).** The only combination where Business Growth and Performance is primary.
 3. **Universal triggers.** Gifting and Appreciation, with Everyday Needs and Convenience, stay highly active across almost every combination.
 
-**Which table is read first (2026-10-30):** the buyer's and the user's life stage (when both are answered), then the buyer and user relationship, then the buyer's category, then the seller and buyer relationship; for each purpose the first table that covers it decides.
-
-**A parent or legal guardian has a Minor or a Young Adult as the user (owner's rule, 2026-10-30):** when that relationship is chosen the user's life stage offers only Minors and Young Adults, and an Adult or a Senior already chosen goes.
+**A parent or legal guardian has a Minor or a Young Adult as the user (owner's rule, 2026-10-30):** when that relationship is chosen the user's life stage offers only Minors and Young Adults, and an Adult or a Senior already chosen goes. **This applies until a buyer's life stage is chosen: the matrix below then decides (a Senior parent is offered Adults).**
 
 **A Student / Young Adult buyer is not a Commercial & Professional buyer (owner's rule, 2026-10-30):** that relationship is not offered when the buyer's life stage is Students / Young Adults, and one already chosen goes.
 
@@ -521,7 +534,7 @@ The buyer's life stage is a Student / Young Adult, a Worker (Adult) or a Senior 
 
 **A buyer who cares for an adult or a senior is the caring person, not a parent (owner's rule, 2026-10-30):** the Parent or legal guardian relationship is not offered while the user's life stages chosen are all ones the matrix leaves blank for it (for a Worker / Adult buyer: Adults and Seniors only).
 
-**The owner's master configuration matrix (2026-10-30; reference, not built except for the differentiation order)**
+**The owner's master configuration matrix (2026-10-30; reference only: its example paths are not rules; what is built from it is the differentiation order and the six differentiations)**
 
 Example paths from the seller and buyer relationship to the differentiation: B2C Personal & Family (Student, Worker / Adult and Senior buyers with Direct, Proxy and Dual-Intent categories), B2C Commercial & Professional (Landlord / Property manager, Personal professional, Employer for work and life), B2B Solopreneur, Startups & SMBs, Mid-Market and Enterprise / Government. Rules: (1) with B2B the buyer's life stage is not applicable; (2) the Commercial & Professional path matches Proxy Buyers and high-compliance, low-experiential purposes; (3) the differentiation couples with the category: **Proxy: Compliance, Risk & Security or Cost-driven; Direct: Convenience-driven or Cost-driven; Dual-Intent: Convenience-driven or Status & Premium**. Built: the Differentiation list shows those first for the chosen buyer categories (nothing is taken away). Not built: the umbrella relationships (Landlord, Personal professional, Employer), "Direct Buyer (Self)" as a relationship and the B2B relationship and user names, which differ from the questions of doc 28.
 
@@ -546,7 +559,7 @@ Example paths from the seller and buyer relationship to the differentiation: B2C
 
 **Core operational logic (the owner's notes):** 1. **The Solopreneur shift:** a team of one buying for themselves is Direct (Growth, Productivity, Creation); as a Proxy or Dual-Intent buyer it is almost only micro-scale client relations (Gifting and Appreciation). 2. **The Proxy split:** from Startups & SMBs to Enterprise a Proxy buyer is about governance: Protection and Risk Reduction, Compliance and Obligations, Gifting and Appreciation (corporate perks), Health, Care and Wellbeing (benefits packages). 3. **The Direct / Dual split:** at mid to large scale a Direct or Dual-Intent buyer is about business metrics: Business Growth and Performance, Productivity and Efficiency, Learning and Development (upskilling).
 
-**The differentiation by the audience scale and the business buyer's category (the owner's table, 2026-10-30; used to order the Differentiation list; from the owner's answer of 2026-10-30 the blank ones are not offered, and one already chosen stays)**
+**The differentiation by the audience scale and the business buyer's category (the owner's tables, 2026-10-30; the six differentiations; used to order the Differentiation list; the blanks are not offered, and one already chosen stays)**
 
 | Differentiation | Solopreneur: Direct | Solopreneur: Proxy / Dual | Startups & SMBs: Direct / Dual | Startups & SMBs: Proxy | Mid-Market: Direct / Dual | Mid-Market: Proxy | Enterprise / Gov: Direct / Dual | Enterprise / Gov: Proxy |
 |---|---|---|---|---|---|---|---|---|
@@ -554,8 +567,10 @@ Example paths from the seller and buyer relationship to the differentiation: B2C
 | Convenience-driven | ● | ● | ● | ● | ● | ○ | ● |  |
 | Compliance, Risk & Security |  |  | ○ | ● | ○ | ● | ● | ● |
 | Status & Premium | ○ |  | ○ |  | ● |  | ● |  |
+| Performance & Innovation | ● |  | ● | ○ | ● | ○ | ● | ● |
+| Ecosystem & Integration | ○ |  | ○ | ● | ● | ● | ● | ● |
 
-**Rationale (the owner's notes):** 1. Cost to status: Solopreneurs and Startups are cost-conscious; at Mid-Market and Enterprise price gives way to Status & Premium and specialised deployment. 2. Compliance guardrails: a Proxy buyer (IT, Legal, Procurement) puts Compliance, Risk & Security first from SMB to Enterprise. 3. Convenience stays strong across almost every segment.
+**Rationale (the owner's notes):** 1. Cost to status: Solopreneurs and Startups are cost-conscious; at Mid-Market and Enterprise price gives way to Status & Premium and specialised deployment. 2. Compliance guardrails: a Proxy buyer (IT, Legal, Procurement) puts Compliance, Risk & Security first from SMB to Enterprise. 3. Convenience stays strong across almost every segment. 4. Ecosystem & Integration is secondary for the smallest buyers and primary from Mid-Market up (large organisations want a tool that connects to their stacks); an Enterprise / Government Proxy buyer values Performance & Innovation (superior or proprietary features for large data volumes).
 
 **By the business buyer and user relationship (the owner's tables, 2026-10-30; read before the audience scale's table; blank = not offered; a purpose not in a table is read from the next one)**
 
@@ -591,22 +606,22 @@ Example paths from the seller and buyer relationship to the differentiation: B2C
 
 **Relationship logic (the owner's notes):** a business partner or co-owner buys for the operations (Growth, Productivity, Everyday Needs); a business serving its clients is a B2B2C or agency path, where Learning and Development and Entertainment deliver experience to its clients; an employer surfaces workplace enablement (Learning, Health, Gifting); a professional intermediary and a sponsor or funder are gatekeepers (protection, compliance, Access and Social Support).
 
-**Which differentiations a purpose drives (the owner's matrix, 2026-10-30; the purposes chosen bring these differentiations first, nothing is hidden or chosen for the user)**
+**Which differentiations a purpose drives (the owner's matrix, 2026-10-30, six differentiations; the purposes chosen bring these differentiations first; nothing is hidden or chosen for the user)**
 
-| Purpose | Cost-driven | Convenience-driven | Compliance, Risk & Security | Status & Premium |
-|---|---|---|---|---|
-| Learning and Development | ○ | ● |  | ○ |
-| Health, Care and Wellbeing |  | ● | ○ |  |
-| Gifting and Appreciation |  | ○ |  | ● |
-| Entertainment and Enjoyment |  | ○ |  | ● |
-| Social Connection and Relationships |  | ● |  |  |
-| Productivity and Efficiency | ○ | ● |  |  |
-| Business Growth and Performance |  | ● |  | ● |
-| Creation and Expression |  | ● |  | ○ |
-| Everyday Needs and Convenience | ● | ● |  |  |
-| Protection and Risk Reduction |  |  | ● |  |
-| Compliance and Obligations |  |  | ● |  |
-| Access and Social Support | ● | ● | ○ |  |
+| Purpose | Cost-driven | Convenience-driven | Compliance, Risk & Security | Status & Premium | Performance & Innovation | Ecosystem & Integration |
+|---|---|---|---|---|---|---|
+| Learning and Development | ○ | ● |  | ○ | ● | ○ |
+| Health, Care and Wellbeing |  | ● | ○ |  |  |  |
+| Gifting and Appreciation |  | ○ |  | ● |  |  |
+| Entertainment and Enjoyment |  | ○ |  | ● |  |  |
+| Social Connection and Relationships |  | ● |  |  |  | ○ |
+| Productivity and Efficiency | ○ | ● |  |  | ○ | ● |
+| Business Growth and Performance |  | ● |  | ● | ● | ○ |
+| Creation and Expression |  | ● |  | ○ | ● | ○ |
+| Everyday Needs and Convenience | ● | ● |  |  |  | ○ |
+| Protection and Risk Reduction |  |  | ● |  | ○ | ● |
+| Compliance and Obligations |  |  | ● |  |  | ● |
+| Access and Social Support | ● | ● | ○ |  |  |  |
 
 **Clusters (the owner's notes):** Protection and Compliance are about exposure, so they shape Compliance, Risk & Security; Business Growth and Entertainment are about expansion and prestige, so they shape Status & Premium or Convenience; Productivity and Everyday Needs are about time and friction, so they shape Convenience or Cost. The order inside a level stays as the audience scale and the buyer's category set it. Decided 2026-10-30: the matching boxes are **not pre-selected**; they are ranked first (the app never chooses for the user, doc 33). A "Recommended" tag or a highlight on them was suggested and is not built (it needs a new element; doc 05).
 
@@ -621,27 +636,6 @@ Example paths from the seller and buyer relationship to the differentiation: B2C
 | Performance & Innovation | ● | ○ |  | ● |  |  |
 | Ecosystem & Integration | ● | ● | ● | ○ | ○ | ○ |
 
-**Two pillars added (2026-10-30):** Performance & Innovation (product superiority) and Ecosystem & Integration (fits what the buyer already uses). The rows for the purposes and for the audience scale followed the same day (below).
+**The two newest differentiations (2026-10-30):** Performance & Innovation (product superiority) and Ecosystem & Integration (fits what the buyer already uses) were added to the four of the first version; every table above has their rows. The owner's "Productivity pivot": an Employer who chooses Productivity gets Ecosystem & Integration first.
 
 **Rules (the owner's notes):** Dual-Intent relationships push Convenience and Status & Premium to the top; the institutional Proxy relationships (employer, intermediary, sponsor) put Compliance, Risk & Security first; another business relationship highlights Convenience and Cost. **Order of the keys:** the purposes chosen, then the relationship, then the audience scale and the buyer's category (a blank or equal value is decided by the next key: the inheritance rule).
-
-**The two new pillars by purpose and by audience scale (the owner's rows, 2026-10-30)**
-
-| Purpose | Performance & Innovation | Ecosystem & Integration |
-|---|---|---|
-| Learning and Development | ● | ○ |
-| Social Connection and Relationships |  | ○ |
-| Productivity and Efficiency | ○ | ● |
-| Business Growth and Performance | ● | ○ |
-| Everyday Needs and Convenience |  | ○ |
-| Protection and Risk Reduction | ○ | ● |
-| Creation and Expression | ● | ○ |
-| Compliance and Obligations |  | ● |
-| Entertainment, Health, Gifting, Access |  |  |
-
-| Differentiation | Solopreneur: Direct | Solopreneur: Proxy / Dual | Startups & SMBs: Direct / Dual | Startups & SMBs: Proxy | Mid-Market: Direct / Dual | Mid-Market: Proxy | Enterprise / Gov: Direct / Dual | Enterprise / Gov: Proxy |
-|---|---|---|---|---|---|---|---|---|
-| Performance & Innovation | ● |  | ● | ○ | ● | ○ | ● | ● |
-| Ecosystem & Integration | ○ |  | ○ | ● | ● | ● | ● | ● |
-
-Rules (the owner's notes): Ecosystem & Integration is secondary for the smallest buyers and primary from Mid-Market up (large organisations want a tool that connects to their stacks); an Enterprise / Government Proxy buyer values Performance & Innovation (superior or proprietary features for large data volumes).
