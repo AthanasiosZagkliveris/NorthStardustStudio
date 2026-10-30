@@ -127,6 +127,7 @@ The audience scale is **the app user's audience** (the customers of the business
 - **Buyer and User relationship:** only the relationships that can be the buyer's category; a Students / Young Adults buyer is not offered Commercial & Professional; Parent or legal guardian is not offered when the user life stages chosen are only ones the matrix leaves blank for it.
 - **User's Life-Stage:** only the stages the matrix allows for the buyer's life stage and the relationship chosen.
 - **Purpose:** ordered by relevance and without the ones the tables call generally less directly relevant; for each purpose the first table that covers it decides (buyer and user life stage; business relationship; audience scale and category; consumer relationship; buyer's category; seller and buyer relationship).
+- **Outcome for the buyer and Outcome for the user:** the outcomes the purposes chosen drive come first (the buyer's by the buyer's category; a Direct Buyer has no user outcome); nothing is hidden or ticked.
 - **Differentiation:** ordered by the purposes chosen, then the business relationship, then the audience scale and category (or the buyer's category); a business buyer is not offered the ones the scale table leaves blank.
 
 **How it reacts**

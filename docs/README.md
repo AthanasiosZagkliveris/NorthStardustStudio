@@ -31,7 +31,7 @@ How the documents are numbered, headed and written.
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [standard.md](standard.md) | rules | The standard of the documents: where a document goes, how it is numbered, the head every document has, the kinds, how a document is written, and how to add one. | 2026-10-29 |
+| [standard.md](standard.md) | rules | The standard of the documents: where a document goes, how it is numbered, the head every document has, the kinds, how a document is written, and how to add one. | 2026-10-30 |
 
 ## 2. The app (`app/`)
 

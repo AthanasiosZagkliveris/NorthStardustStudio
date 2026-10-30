@@ -1075,6 +1075,20 @@ describe("LegalEntityEditor Early Positioning: the two columns and the order of 
 
     });
 
+    it("puts first the outcomes the purposes chosen drive, for the buyer and for the user", () => {
+
+        render(<Model model="b2c" stage="launch" />);
+        fireEvent.click(screen.getByRole("radio", { name: "Proxy Buyers" }));
+        const labelsOfGroup = (name: string) => [...screen.getByRole("group", { name }).querySelectorAll("label")].map(label => label.textContent);
+        expect(labelsOfGroup("Outcome for the buyer")[0]).toBe("Lower costs");
+        fireEvent.click(within(screen.getByRole("group", { name: "Purpose" })).getByRole("checkbox", { name: /Protection and Risk Reduction/ }));
+        expect(labelsOfGroup("Outcome for the buyer")[0]).toBe("Legal and data-protection cover");
+        expect(labelsOfGroup("Outcome for the user")[0]).toBe("Safety and care");
+        // (Nothing is hidden and nothing is ticked for the user.)
+        expect(labelsOfGroup("Outcome for the user")).toHaveLength(6);
+
+    });
+
     it("offers the purposes that fit the buyer, the most relevant first, and leaves out the ones that are generally less directly relevant", () => {
 
         render(<Model model="b2c" />);

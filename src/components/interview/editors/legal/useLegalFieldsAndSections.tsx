@@ -21,7 +21,7 @@ import OptionPicker from "../../fields/OptionPicker.tsx";
 import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import ActivitiesField from "./ActivitiesField.tsx";
-import { differentiationByPurpose, differentiationByRelationship, differentiationRelevance, orderedByRelevance, purposeRelevance } from "../../../../framework/engine/PurposeRelevance.ts";
+import { outcomeByPurpose, userOutcomeByPurpose, differentiationByPurpose, differentiationByRelationship, differentiationRelevance, orderedByRelevance, purposeRelevance } from "../../../../framework/engine/PurposeRelevance.ts";
 import { categoryOfModel, relationshipFits, relationshipFitsBuyerStage, relationshipFitsUserStages, orderedByCategory, userStageFits } from "../../../../framework/engine/RelationshipFit.ts";
 import DateCellInput from "../../fields/DateCellInput.tsx";
 import { todayIsoDate } from "../../../../framework/engine/AnswerUtils.ts";
@@ -390,7 +390,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                 {choice(
                     userHasOutcome ? "Outcome for the buyer" : "Outcome",
                     "legal-entity-outcome",
-                    OUTCOMES,
+                    orderedByRelevance(OUTCOMES, outcomeByPurpose(entity.organisation.purpose, entity.organisation.buyerCategory)),
                     chosenOf(entity.organisation.outcome, OUTCOMES),
                     choiceLimit(stage, "outcome"),
                     (next) => updateOrganisation({ outcome: next }),
@@ -403,7 +403,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                     {choice(
                         "Outcome for the user",
                         "legal-entity-outcome-user",
-                        USER_OUTCOMES,
+                        orderedByRelevance(USER_OUTCOMES, userOutcomeByPurpose(entity.organisation.purpose)),
                         chosenOf(entity.organisation.outcomeUser, USER_OUTCOMES),
                         choiceLimit(stage, "outcome"),
                         (next) => updateOrganisation({ outcomeUser: next }),

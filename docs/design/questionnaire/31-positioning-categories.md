@@ -608,3 +608,58 @@ Example paths from the seller and buyer relationship to the differentiation: B2C
 **The two newest differentiations (2026-10-30):** Performance & Innovation (product superiority) and Ecosystem & Integration (fits what the buyer already uses) were added to the four of the first version; every table above has their rows. The owner's "Productivity pivot": an Employer who chooses Productivity gets Ecosystem & Integration first.
 
 **Rules (the owner's notes):** Dual-Intent relationships push Convenience and Status & Premium to the top; the institutional Proxy relationships (employer, intermediary, sponsor) put Compliance, Risk & Security first; another business relationship highlights Convenience and Cost. **Order of the keys:** the purposes chosen, then the relationship, then the audience scale and the buyer's category (a blank or equal value is decided by the next key: the inheritance rule).
+
+**Which outcomes a purpose drives (the owner's matrix, 2026-10-30; the purposes chosen bring these outcomes first; nothing is hidden or ticked for the user)**
+
+The outcome for the buyer by the buyer's category: Direct Buyers.
+
+| Purpose | Lower costs | Time saved | Legal and data-protection cover | Higher quality and prestige |
+|---|---|---|---|---|
+| Learning and Development |  | ○ |  | ● |
+| Health, Care and Wellbeing |  |  |  |  |
+| Gifting and Appreciation |  |  |  |  |
+| Entertainment and Enjoyment |  |  |  | ● |
+| Social Connection and Relationships |  |  |  |  |
+| Productivity and Efficiency | ○ | ● |  |  |
+| Business Growth and Performance | ○ |  |  | ● |
+| Creation and Expression |  |  |  |  |
+| Everyday Needs and Convenience | ● | ● |  |  |
+| Protection and Risk Reduction |  |  | ● |  |
+| Compliance and Obligations |  |  | ● |  |
+| Access and Social Support | ● | ○ |  |  |
+
+Proxy and Dual-Intent Buyers:
+
+| Purpose | Lower costs | Time saved | Legal and data-protection cover | Higher quality and prestige |
+|---|---|---|---|---|
+| Learning and Development |  |  |  | ● |
+| Health, Care and Wellbeing | ○ |  |  |  |
+| Gifting and Appreciation |  |  |  | ● |
+| Entertainment and Enjoyment |  |  |  | ● |
+| Social Connection and Relationships |  |  |  | ● |
+| Productivity and Efficiency |  | ● |  |  |
+| Business Growth and Performance |  |  |  | ● |
+| Creation and Expression |  | ○ |  |  |
+| Everyday Needs and Convenience | ○ | ● |  |  |
+| Protection and Risk Reduction |  |  | ● |  |
+| Compliance and Obligations |  |  | ● |  |
+| Access and Social Support | ● |  |  |  |
+
+The outcome for the user (a Proxy or Dual-Intent Buyer's user):
+
+| Purpose | Enjoyment and fun | Comfort and ease | Safety and care | Learning and growth | Looks and belonging | Practical use |
+|---|---|---|---|---|---|---|
+| Learning and Development |  |  |  | ● |  |  |
+| Health, Care and Wellbeing |  |  | ● |  |  |  |
+| Gifting and Appreciation |  |  |  |  | ● |  |
+| Entertainment and Enjoyment | ● |  |  |  |  |  |
+| Social Connection and Relationships |  |  |  |  | ● |  |
+| Productivity and Efficiency |  |  |  |  |  | ● |
+| Business Growth and Performance |  |  |  |  |  | ● |
+| Creation and Expression | ● |  |  |  |  |  |
+| Everyday Needs and Convenience |  | ● |  |  |  |  |
+| Protection and Risk Reduction |  |  | ● |  |  |  |
+| Compliance and Obligations |  |  |  |  |  | ● |
+| Access and Social Support |  | ● |  |  |  |  |
+
+**Rules (the owner's notes):** the Outcome for the buyer ranks the structural value to the person paying; the Outcome for the user ranks the experience of the person using it. A Direct Buyer has no outcome for the user (the block is not shown). With several purposes or categories chosen the strongest mark of each outcome is used. The limits by stage are those of section 8.2 of doc 28 (Planning 1; Launching and Managing 2; Growing any). The Direct Buyer's table has no rows for Social Connection, Health, Gifting and Creation: those leave the order as it is.

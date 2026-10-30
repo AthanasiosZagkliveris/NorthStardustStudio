@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { PURPOSE_IDS } from "./PositioningIds.ts";
-import { differentiationByPurpose, differentiationByRelationship, differentiationRelevance, orderedByRelevance, purposeOrderAbout, purposeRelevance, RELATIONSHIP_INTENT } from "./PurposeRelevance.ts";
+import { outcomeByPurpose, userOutcomeByPurpose, differentiationByPurpose, differentiationByRelationship, differentiationRelevance, orderedByRelevance, purposeOrderAbout, purposeRelevance, RELATIONSHIP_INTENT } from "./PurposeRelevance.ts";
 
 const none = { models: [], categories: [], relationships: [] };
 
@@ -131,5 +131,18 @@ describe("the relevance of a purpose to the buyer (the owner's tables of 2026-10
         expect(differentiationByRelationship(["rel:employer"])).toEqual({ cost: 1, convenience: 2, compliance: 2, premium: 0, performance: 0, ecosystem: 2 });
         expect(differentiationByRelationship(["rel:sponsor"])).toEqual({ cost: 2, convenience: 0, compliance: 2, premium: 0, performance: 0, ecosystem: 1 });
         expect(differentiationByRelationship(["rel:otherbusiness"])).toEqual({ cost: 2, convenience: 2, compliance: 1, premium: 0, performance: 0, ecosystem: 1 });
+    });
+
+    it("says which outcomes the purposes chosen drive: the buyer's, by the category, and the user's", () => {
+        expect(outcomeByPurpose([], ["b2c:direct"])).toBeNull();
+        expect(outcomeByPurpose(["productivity"], [])).toBeNull();
+        expect(outcomeByPurpose(["productivity"], ["b2c:direct"])).toEqual({ savings: 1, time: 2, assurance: 0, prestige: 0 });
+        expect(outcomeByPurpose(["everyday"], ["b2c:direct"])).toEqual({ savings: 2, time: 2, assurance: 0, prestige: 0 });
+        expect(outcomeByPurpose(["everyday"], ["b2c:proxy"])).toEqual({ savings: 1, time: 2, assurance: 0, prestige: 0 });
+        expect(outcomeByPurpose(["gifting"], ["b2c:direct"])).toEqual({ savings: 0, time: 0, assurance: 0, prestige: 0 });
+        expect(outcomeByPurpose(["gifting", "compliance"], ["b2b:dual"])).toEqual({ savings: 0, time: 0, assurance: 2, prestige: 2 });
+        expect(userOutcomeByPurpose([])).toBeNull();
+        expect(userOutcomeByPurpose(["learning", "protection"])).toEqual({ enjoy: 0, comfort: 0, safety: 2, learning: 2, belong: 0, practical: 0 });
+        expect(userOutcomeByPurpose(["access"])).toMatchObject({ comfort: 2, practical: 0 });
     });
 });
