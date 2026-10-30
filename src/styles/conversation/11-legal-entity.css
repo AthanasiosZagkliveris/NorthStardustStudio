@@ -1102,6 +1102,13 @@
 
 }
 
+/* A stack of radios starts the 1px lower a tick list's first row does (a radio's line is 21px, a tick's 18px), so the label above is the same distance from either. */
+.radio-choice.legal-entity-radio-stack:has(> .radio-choice-option){
+
+    padding-top:1px;
+
+}
+
 .radio-choice.legal-entity-radio-stack .radio-choice-option{
 
     white-space:normal;
@@ -1115,7 +1122,7 @@
 
     flex:none;
 
-    margin-top:calc((1lh - var(--size-mark)) / 2);
+    margin-top:4px;
 
 }
 
@@ -1400,5 +1407,16 @@
 .founders-profile-sole-row > .optional-field:not(:has(> .optional-field-body)) > .optional-field-head {
 
     margin-top: calc(var(--label-line) + var(--space-label) + (var(--control-square) - var(--label-line)) / 2);
+
+}
+
+/* The sections of one relationship (its audience and its buyer's category; its buyer and user relationship and the user's life stage) stand one field gap (12px) apart, as every section of the card does. */
+.legal-entity-org-set{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-field);
 
 }

@@ -37,7 +37,7 @@ What the app does when a part of it is pointed at, pressed, focused, ticked, ope
 | Colour box (inside the hex cell) | the colour, no frame | - | R2 on the cell | the colour card opens (R13) | R12 |
 | Colour picker card | the square of shades, the hue bar, the code's picker (a short cell) and the hex or R G B / H S L cells, every cell 44px tall | the cells R1 | the cells R2 | - | R12 |
 | Tick box | R3, 24px, 4px corners | R1 (and its words underlined) | R2 | flat, filled with the blue, the check centred | 55% |
-| Radio (Units / %, the choices of Early Positioning) | the browser's | R1 on the round (drawn 24px, the tick box's size and look, so the ring is round), and its words underlined (as a tick box) | focus ring | the chosen one filled | not-allowed |
+| Radio (Units / %, the choices of Early Positioning) | the browser's | R1 on the round (drawn 16px, in the tick box's look, so the ring is round), and its words underlined (as a tick box) | focus ring | the chosen one filled | not-allowed |
 | "+" box | R4 at rest | R4 filled | R4 filled and outline | - | 50% |
 | x (remove) | transparent, 2px red stroke and X | filled red, X in the ground | outline | - | muted |
 | "i" (info) | stroke and letter in the tint | filled with the tint, letter in the ground | the same | its note opens (R13) | n/a |

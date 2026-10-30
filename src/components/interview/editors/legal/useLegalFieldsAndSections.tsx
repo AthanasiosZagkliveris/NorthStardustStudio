@@ -292,7 +292,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                 </div>
 
                 {audienceSets.filter(set => audienceShown(set, models)).map(set => (
-                    <div key={set.group}>
+                    <div key={set.group} className="legal-entity-org-set">
                     <div className="legal-entity-org-section legal-entity-org-audience">
                     {choice(
                         set.label,
@@ -337,7 +337,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                     <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double" role="separator" />
                 )}
                 {audienceSets.filter(set => models.includes(set.model) && endsUser(set.model)).map(set => (
-                    <div key={set.group}>
+                    <div key={set.group} className="legal-entity-org-set">
                     <div className="legal-entity-org-section legal-entity-org-audience legal-entity-org-enduser">
                     {choice(
                         "Buyer & User relationship" + suffix(set.model),

@@ -1,3 +1,8 @@
+:root {
+    /* The round of a radio: 16px (a tick box's is --size-mark, 24px). */
+    --size-radio: 16px;
+}
+
 /* THE RADIO CHOICE (RadioChoice): the options side by side, each a round with a bullet and its word on one line. */
 .radio-choice {
 
@@ -34,7 +39,7 @@
 
 }
 
-/* THE ROUND, DRAWN (not the browser's, whose glow is the shape of its box): 24px, the size of a tick box, in a text input's own look as a tick box is (no stroke, the recessed inset, the ring when active); chosen, it is filled with the
+/* THE ROUND, DRAWN (not the browser's, whose glow is the shape of its box): 16px (--size-radio), in a text input's own look as a tick box is (no stroke, the recessed inset, the ring when active); chosen, it is filled with the
    app's blue and a white bullet stands in its centre. */
 .radio-choice-option > input[type="radio"] {
 
@@ -44,8 +49,8 @@
 
     box-sizing: border-box;
 
-    width: var(--size-mark);
-    height: var(--size-mark);
+    width: var(--size-radio);
+    height: var(--size-radio);
 
     margin: 0;
 

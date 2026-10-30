@@ -83,7 +83,7 @@ What the app is today in detail: the texts, the reactions, the shared components
 | [design/current/18-reactions.md](design/current/18-reactions.md) | current design | How elements react to the pointer and the keyboard: the reactions by component. The check is in the layout rules; this is the lookup. | 2026-10-30 |
 | [design/current/19-text-links.md](design/current/19-text-links.md) | generated | The text link: look and behaviour, from the code and the walk of the app. | 2026-10-30 |
 | [design/current/20-free-text-categories.md](design/current/20-free-text-categories.md) | current design | Free texts in four categories: the categories, the owner's decisions, the proposed limits and what is still to build. | 2026-10-29 |
-| [design/current/21-shared-components.md](design/current/21-shared-components.md) | current design | Which components are shared, with their props, and what is still hand-made. | 2026-10-29 |
+| [design/current/21-shared-components.md](design/current/21-shared-components.md) | current design | Which components are shared, with their props, and what is still hand-made. | 2026-10-30 |
 | [design/current/22-help-texts.md](design/current/22-help-texts.md) | generated | The help texts of the app, from the walk of the running app. | 2026-10-30 |
 | [design/current/23-popups.md](design/current/23-popups.md) | current design | Pop-ups in six categories, with their placement rules and the order of fallbacks. | 2026-10-29 |
 | [design/current/24-tooltips.md](design/current/24-tooltips.md) | current design | Which controls have a tooltip, what it says, its look and its rules. This document owns the tip. | 2026-10-29 |
