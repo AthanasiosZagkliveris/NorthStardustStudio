@@ -1470,7 +1470,14 @@
 
     display:flex;
 
-    width:100%;
+    /* The line runs the section's whole width, from the card's side to the middle divider (the section is that wide; its words keep their place). */
+    width:calc(100% + 2 * var(--space-cell));
+
+    margin-inline:calc(-1 * var(--space-cell));
+
+    padding-inline:var(--space-cell);
+
+    box-sizing:border-box;
 
     padding-bottom:4px;
 
@@ -1514,8 +1521,16 @@
 
 }
 
+/* A double rule has no margin of its own: the section above ends 12px (its own bottom padding) from it, and the section below starts 12px (its top padding, made 12 here) from it, so the gap is one 12px, not two. */
 .legal-entity-audience .business-capability-card-rule-double{
 
-    margin-block:var(--space-field);
+    margin-block:0;
+
+}
+
+.legal-entity-audience .business-capability-card-rule-double + .legal-entity-org-section,
+.legal-entity-audience .business-capability-card-rule-double + .legal-entity-org-set > .legal-entity-org-section:first-child{
+
+    padding-top:var(--space-field);
 
 }
