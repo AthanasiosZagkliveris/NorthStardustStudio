@@ -264,7 +264,6 @@ const JURISDICTIONS: Record<string, JurisdictionProfile> = {
             { label: "Sole Trader", capital: false, soleFounder: true },
             { label: "Partnership", capital: false },
             { label: "Proprietary Limited Company (Pty Ltd)", capital: true },
-            { label: "Public Company (Ltd)", capital: true },
             { label: "Trust", capital: false }
         ],
         commonRequirements: ["officer", "licence"]
@@ -338,7 +337,6 @@ const JURISDICTIONS: Record<string, JurisdictionProfile> = {
             { label: "Limited Partnership", capital: true },
             { label: "Corporation (federal)", capital: true },
             { label: "Corporation (provincial)", capital: true },
-            { label: "Cooperative", capital: true }
         ],
         commonRequirements: ["officer", "licence"]
     },
@@ -507,7 +505,6 @@ const JURISDICTIONS: Record<string, JurisdictionProfile> = {
             { label: "Private Company Limited by Shares (LTD)", capital: true },
             { label: "Designated Activity Company (DAC)", capital: true },
             { label: "Company Limited by Guarantee (CLG)", capital: false },
-            { label: "Public Limited Company (PLC)", capital: true }
         ],
         commonRequirements: EU_COMPANY_REQUIREMENTS
     },
@@ -524,7 +521,6 @@ const JURISDICTIONS: Record<string, JurisdictionProfile> = {
             { label: "Limited Liability Partnership (LLP)", capital: true },
             { label: "One Person Company (OPC)", capital: true, soleFounder: true },
             { label: "Private Limited Company", capital: true },
-            { label: "Public Limited Company", capital: true }
         ],
         commonRequirements: ["officer", "additional"]
     },
@@ -690,7 +686,6 @@ const JURISDICTIONS: Record<string, JurisdictionProfile> = {
             { label: "Partnership", capital: false },
             { label: "Limited Liability Partnership (LLP)", capital: false },
             { label: "Private Limited Company (Pte Ltd)", capital: true },
-            { label: "Public Company Limited by Shares", capital: true }
         ],
         commonRequirements: ["officer", "beneficial-owner"]
     },
@@ -742,7 +737,6 @@ const JURISDICTIONS: Record<string, JurisdictionProfile> = {
             { label: "Limited Liability Partnership (LLP)", capital: false },
             { label: "Private Company Limited by Shares (Ltd)", capital: true },
             { label: "Private Company Limited by Guarantee", capital: false },
-            { label: "Public Limited Company (PLC)", capital: true },
             { label: "Community Interest Company (CIC)", capital: true }
         ],
         commonRequirements: ["officer", "beneficial-owner"]
@@ -818,7 +812,6 @@ const JURISDICTIONS: Record<string, JurisdictionProfile> = {
             { label: "Limited Liability Company (LLC)", capital: false },
             { label: "C Corporation", capital: true },
             { label: "S Corporation", capital: true },
-            { label: "Nonprofit Corporation", capital: false }
         ],
         commonRequirements: ["licence", "additional"]
     },
@@ -832,7 +825,6 @@ const JURISDICTIONS: Record<string, JurisdictionProfile> = {
             { label: "Sole Proprietor", capital: false, soleFounder: true },
             { label: "Partnership", capital: false },
             { label: "Private Company (Pty) Ltd", capital: true },
-            { label: "Public Company (Ltd)", capital: true },
             { label: "Non-Profit Company (NPC)", capital: false }
         ],
         commonRequirements: ["officer", "beneficial-owner"]
@@ -1001,7 +993,6 @@ export const GENERIC_LEGAL_FORMS: LegalFormOption[] = [
     { label: "Sole Proprietorship", capital: false, soleFounder: true },
     { label: "General Partnership", capital: false },
     { label: "Private Limited Company (LLC / Ltd / GmbH)", capital: true },
-    { label: "Public Limited Company (PLC / Corp / AG)", capital: true },
     { label: "Limited Liability Partnership (LLP)", capital: false }
 ];
 

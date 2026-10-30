@@ -26,23 +26,22 @@ English only. Every label, tooltip, document and export is in English; there is 
 1. **Six countries:** United Kingdom, Ireland, United States, Canada, Australia, New Zealand. Each has a **complete list of legal forms** and a **complete list of activities with their related codes**, from the country's own scheme (doc 35, 5.3 and 5.8: the classification, its levels and the label of the code; rule 14 of doc 28 for the legal forms).
 2. **Other** means **any country outside those six**. For Other:
    - the app user **types the activity and the related code manually**;
-   - the **legal form** has five options:
+   - the **legal form** has four options (public company, nonprofit and cooperative forms are left out: doc 34, section 5):
      1. Sole Proprietorship
      2. General Partnership
      3. Private Limited Company (LLC / Ltd / GmbH)
-     4. Public Limited Company (PLC / Corp / AG)
-     5. Limited Liability Partnership (LLP)
+     4. Limited Liability Partnership (LLP)
 
 **Check, for the owner:**
 - **The built app differs.** Today every country in the world can be chosen from a list; some carry a profile with their own legal forms (for example a GmbH entry exists for one of them) and the rest use a neutral profile with free text. In the first version, the six countries keep their profiles; every other country is "Other" with the five forms. Whether the country picker lists the six and Other only, or all countries mapped to Other, is not stated; the first is read here.
 - **Do the six countries' built legal-form lists count as "complete"?** The lists in the code are the ones the owner's rule 14 allows only from official documents; whether each is complete and sourced for the six countries has not been re-checked here.
-- **The five generic forms are the owner's own list** (not from an official document), allowed because Other has no official source. Option 3 and 4 name several countries' forms in one option; the documents that follow the legal form (the "limited company" phrase, capital, registration authority) would follow the option for Other.
+- **The four generic forms are the owner's own list** (not from an official document), allowed because Other has no official source. Option 3 names several countries' forms in one option; the documents that follow the legal form (the "limited company" phrase, capital, registration authority) would follow the option for Other.
 - **General Partnership** is new on the list in this form; the built lists name partnership forms per country.
 
 ## 4. Market structure and relationships
 
 1. **Single-sided only.** The Market Structure question (I11) has no Multi-sided option in the first version.
-2. **B2C and/or B2B only.** The Seller and Buyer Relationship question (I3) offers B2C and B2B; **B2G and G2B are left out**.
+2. **B2C and/or B2B only.** The Seller and Buyer Relationship question (I3) offers B2C and B2B; **B2G and G2B are left out** (their information is in doc 34, section 5).
 
 **Check:** what this makes unnecessary in doc 28 8.2: the anchor-side rule and the "side:outcome" per-side answers (no sides), the audience lists for B2G (Administrative Level) and G2B (Regulatory Intensity), the locked audiences (Central Government and Ministries; Heavily Regulated Markets), and the public-sector and government-to-business relationships of doc 31 sections 6.3 and 6.4. The stage limits (1, 1, 2, any) still apply to B2C and B2B. The built app has these options; they are hidden in the first version, not deleted (doc 34).
 
@@ -137,3 +136,7 @@ The Organization tile and the Early Positioning tile of the app follow this docu
 2. The checks of sections 3 to 6, in particular: the country picker; the four coarse life stages; whether B2B users have a life stage; Purpose, Differentiation and Outcome as three questions; which ages go in the Segment and where.
 
 **Closed on 2026-10-30 (the owner: close the open points of the Positioning tile):** the Outcome lists (buyer and user) and the relationships offered for each category are approved as written; a purpose a table does not list is read from the next table; the master matrix stays a reference; no "Recommended" tag is added (doc 31, decision 38). Still future: the routing of the outcome for the user into the second Profile (doc 34, item 13).
+
+**Left out on 2026-10-30 as heavy, public or late-stage institutional (the owner):** the audience scale **Enterprise / Public Sector**; the **public company** legal forms (Public Limited Company, PLC, Public Company, Corp, AG) in every country list and in the four generic forms; the **Nonprofit Corporation** (United States) and **Cooperative** (Canada) forms. All of them are listed in doc 34, section 5. Saved answers: an audience of Enterprise / Public Sector is dropped when the answer is read; a legal form already saved stays as the user's text.
+
+**A change of country empties the dependent answers (2026-10-30):** the instant the Country changes to another value, the State (the subdivision) and the Address are emptied with the legal form, the activities and the registration numbers, so no address stays under another country's state or postcode. Choosing the same country again changes nothing.

@@ -11,7 +11,7 @@ export const MODEL_IDS = ["b2c", "b2b"] as const;
 export const BUYER_CATEGORY_KEYS = ["direct", "proxy", "dual"] as const;
 
 /** The audience: the scales of a business buyer and the life stages of a consumer buyer (the Proxy Buyers option is now the buyer's category). */
-export const AUDIENCE_IDS = ["solo", "smb", "mid", "enterprise", "young", "adult", "senior"] as const;
+export const AUDIENCE_IDS = ["solo", "smb", "mid", "young", "adult", "senior"] as const;
 
 /** The differentiation: what the OFFERING does differently from the competitors (it was the first half of "Differentiation & Outcome"; an older answer's outcome is the differentiation). */
 export const DIFFERENTIATION_IDS = ["cost", "convenience", "compliance", "premium", "performance", "ecosystem"] as const;

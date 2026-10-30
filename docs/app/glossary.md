@@ -90,6 +90,7 @@ Doc 28 is the questionnaire specification, doc 33 the first version, doc 34 what
 | Buyer | The one who pays | Doc 31, 5 |
 | User | The one who uses the offering | Doc 31, 5 |
 | End User | The user when the buyer is a Proxy or Dual-Intent buyer; asked in the first version: the relationship (I7e), the user's life stage (I7d) and the outcome for the user (I7k, the former "what matters most"); "who chooses" (I7f) is a future feature | Doc 28, 8.2; doc 33, section 5 |
+| Audience scale (B2B) | The **app user's audience**: the customers of the business the app user describes (Solopreneurs & Freelancers, Startups & SMBs, Mid-Market). It is not the **app's audience**, the people who use the app (the app users themselves). Enterprise / Public Sector is a future feature | Doc 31, 10.7; doc 34, section 5 |
 | Differentiation | What the offering does differently from the competitors: Cost-driven, Convenience-driven, Compliance, Risk & Security, Status & Premium, Performance & Innovation, Ecosystem & Integration | Doc 28, 8.2 |
 | Outcome (for the buyer, for the user) | The measurable result the buyer gets; where the buyer is a Proxy or Dual-Intent Buyer the user has an outcome of their own (what matters most to them) | Doc 28, 8.2 |
 | Buyer's category | Direct, Proxy or Dual-Intent; separate from the life stage | Doc 33, section 5 |

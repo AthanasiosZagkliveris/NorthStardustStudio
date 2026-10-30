@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { asLegalEntityValue } from "../../../../framework/engine/AnswerLegal.ts";
 import { AUDIENCE_WORDS, BUYER_CATEGORY_WORDS, DIFFERENTIATION_WORDS, END_USER_WORDS, OUTCOME_USER_WORDS, OUTCOME_WORDS, PURPOSE_WORDS } from "../../../../framework/engine/ActivityClassification.ts";
 import { AUDIENCE_IDS, BUYER_CATEGORY_KEYS, DIFFERENTIATION_IDS, MODEL_IDS, OUTCOME_IDS, PURPOSE_IDS, RELATION_IDS_B2B, RELATION_IDS_B2C, USER_AGE_IDS, USER_OUTCOME_IDS, endUserFrom, userOutcomeFrom } from "../../../../framework/engine/PositioningIds.ts";
 import { AUDIENCE_SCALES, BUYER_CATEGORIES, BUYER_USER_RELATIONS, DIFFERENTIATIONS, FIRST_VERSION_CUSTOMER_TYPES, LIFE_STAGES, OUTCOMES, PURPOSES, USER_LIFE_STAGES, USER_OUTCOMES } from "./shared.tsx";
@@ -37,5 +38,10 @@ describe("the ids of Early Positioning (design document 33): the lists the user 
 
     it("reads an older answer to what matters most as the outcome for the user", () => {
         expect(userOutcomeFrom(["wants:safety", "wants:belong", "decides:buyer", "rel:parent", "wants:unknown", "wants:safety"])).toEqual(["safety", "belong"]);
+    });
+
+    it("drops the audience Enterprise / Public Sector of an older answer, and keeps the others", () => {
+        const value = asLegalEntityValue({ organisation: { customerType: ["b2b"], audience: ["solo", "enterprise", "mid"] } });
+        expect(value.organisation.audience).toEqual(["solo", "mid"]);
     });
 });

@@ -231,7 +231,8 @@ describe("LegalEntityEditor chained answers", () => {
         fireEvent.click(screen.getByRole("option", { name: "United Kingdom" }));
 
         expect((screen.getByRole("textbox", { name: "Address" }) as HTMLTextAreaElement).closest("fieldset")?.disabled).toBe(false);
-        expect((screen.getByRole("textbox", { name: "Address" }) as HTMLTextAreaElement).value).toBe("Leeds");
+        // (The country changed from none to one: the address written before it is emptied.)
+        expect((screen.getByRole("textbox", { name: "Address" }) as HTMLTextAreaElement).value).toBe("");
         expect(screen.queryByText("Choose a country first.")).toBeNull();
 
     });
@@ -1025,11 +1026,11 @@ describe("LegalEntityEditor the country, the legal form and the activities (the 
 
     });
 
-    it("gives Other the five generic legal forms and the typed activities; a country of the six keeps its own", () => {
+    it("gives Other the four generic legal forms and the typed activities; a country of the six keeps its own", () => {
 
         render(<Org initial={{ country: "FR" }} />);
         fireEvent.click(screen.getAllByRole("button", { name: /^Legal Form/ }).find(button => button.classList.contains("option-picker-trigger"))!);
-        expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual(["Sole Proprietorship", "General Partnership", "Private Limited Company (LLC / Ltd / GmbH)", "Public Limited Company (PLC / Corp / AG)", "Limited Liability Partnership (LLP)", "Other"]);
+        expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual(["Sole Proprietorship", "General Partnership", "Private Limited Company (LLC / Ltd / GmbH)", "Limited Liability Partnership (LLP)", "Other"]);
         fireEvent.click(screen.getByRole("option", { name: "Sole Proprietorship" }));
         // The activity and its code are typed.
         expect(screen.getByRole("textbox", { name: "Activity of the primary activity" })).toBeTruthy();
@@ -1160,6 +1161,32 @@ describe("LegalEntityEditor Early Positioning: the user of a parent, and the lif
         expect(screen.queryByRole("radio", { name: /Commercial & Professional/ }) ?? screen.queryByRole("checkbox", { name: /Commercial & Professional/ })).not.toBeNull();
         fireEvent.click(screen.getByRole("radio", { name: "Students / Young Adults" }));
         expect(screen.queryByRole("radio", { name: /Commercial & Professional/ }) ?? screen.queryByRole("checkbox", { name: /Commercial & Professional/ })).toBeNull();
+
+    });
+
+});
+
+describe("LegalEntityEditor: a change of country empties the state and the address", () => {
+
+    function Harness({ initial }: { initial: unknown }) {
+        const [value, setValue] = useState<unknown>(initial);
+        return <LegalEntityEditor value={value} onChange={setValue} />;
+    }
+    const address = () => (screen.getByRole("textbox", { name: "Address" }) as HTMLTextAreaElement).value;
+
+    it("empties the address and the state the instant the country changes, and keeps them when the same country is chosen again", () => {
+
+        const empty = asLegalEntityValue(undefined);
+        render(<Harness initial={{ ...empty, organisation: { ...empty.organisation, country: "US", subdivision: "Delaware", addressLine1: "1 Main Street", city: "Dover", postalCode: "19901" } }} />);
+        expect(address()).toContain("1 Main Street");
+
+        fireEvent.click(screen.getByRole("button", { name: /^Country/ }));
+        fireEvent.click(screen.getByRole("option", { name: "United States of America" }));
+        expect(address()).toContain("1 Main Street");
+
+        fireEvent.click(screen.getByRole("button", { name: /^Country/ }));
+        fireEvent.click(screen.getByRole("option", { name: "Canada" }));
+        expect(address()).toBe("");
 
     });
 

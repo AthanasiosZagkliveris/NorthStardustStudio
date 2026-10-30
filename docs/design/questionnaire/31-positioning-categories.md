@@ -87,7 +87,7 @@ Not buyer stages (nothing stated): Minors under 16 (Baby, Child, and Early and M
 
 ## 6. Buyer and user relationships, with examples
 
-Practical examples for each buyer and user relationship, using real-world organisational scenarios across B2C, B2B, B2G and G2B.
+Practical examples for each buyer and user relationship, using real-world organisational scenarios across B2C and B2B (B2G and G2B: doc 34, section 5).
 
 ### 6.1 Personal relationships
 
@@ -111,27 +111,7 @@ Practical examples for each buyer and user relationship, using real-world organi
 | Sponsor or funder | A company funds access to a coding programme for selected participants. |
 | Other business relationship | A franchise owner purchases training materials for franchise operators. |
 
-### 6.3 Government and public-sector relationships
-
-| Relationship | Example |
-|---|---|
-| Public authority providing for employees | A local council purchases case-management software for its social workers. |
-| Public authority providing for citizens or residents | A municipality funds access to a public transport service for residents. |
-| Public authority providing for service recipients or beneficiaries | A government agency commissions vocational training for unemployed people. |
-| Public authority acting through another institution or service provider | A government department funds a charity to deliver support services to vulnerable households. |
-| Other institutional relationship | A public library purchases accessible reading software for its registered users. |
-
-### 6.4 Government-to-business relationships
-
-These examples are slightly different because G2B often involves a government service or regulatory obligation rather than a conventional purchase.
-
-| Relationship | Example |
-|---|---|
-| Government serving business owners or operators | A business owner uses a government portal to register a new company. |
-| Government serving employees or authorised representatives | A company's authorised accountant submits employment records through a government portal. |
-| Government providing regulatory or compliance services | A manufacturer uses a government system to submit mandatory safety documentation. |
-| Government supporting or funding businesses | A small business applies for a government grant through an official funding portal. |
-| Other institutional relationship | A business uses a government-provided export advisory service. |
+*(The government and public-sector relationships (B2G) and the government-to-business relationships (G2B) are a future feature: their examples are in doc 34, section 5.)*
 
 ## 7. Proposed offering purpose taxonomy
 
@@ -165,10 +145,6 @@ The table shows which of the 12 purposes are most relevant to each relationship.
 | Business → clients / customers | ○ | ○ | ○ | ○ | ○ | ● | ● | ● | ● | ● | ○ | ○ |
 | Professional intermediary → client | ○ | ○ |  |  |  | ● | ● | ● | ○ | ● |  | ○ |
 | Sponsor / funder → recipients | ● | ● | ○ | ○ | ○ | ○ | ○ | ○ | ○ |  |  | ● |
-| Public authority → employees | ● | ○ |  |  | ○ | ● |  |  | ○ | ● | ○ | ○ |
-| Public authority → citizens | ● | ● |  | ● | ● | ○ |  | ○ | ● | ○ | ○ | ● |
-| Public authority → beneficiaries | ● | ● |  | ○ | ● | ○ |  |  | ● | ○ | ○ | ● |
-| Government → businesses | ○ |  |  |  |  | ● | ● |  | ○ | ● | ● | ● |
 
 This is a practical starting model, not a fixed classification. For example, a parent might buy a creative product primarily for entertainment rather than education.
 
@@ -294,7 +270,7 @@ Each of these edges falls inside or between the owner's stages: 13 and 14 inside
 
 ### 10.4 The 22 relationships and the purposes
 
-The purpose table for all 22 relationships
+The purpose table for the 12 relationships of the first version (the ten public-sector and government rows, 13 to 22, are in doc 34, section 5)
 
 ● primary · ○ possible · blank = low direct relevance. Information and ordering only (section 9 item 3, section 9). This **replaces the 15-row table of section 8** for use; section 8 stays as the first collection.
 
@@ -312,18 +288,8 @@ The purpose table for all 22 relationships
 | 10 | Professional intermediary acting for a client | ○ | ○ |  |  |  | ● | ● | ● | ○ | ● |  | ○ |
 | 11 | Sponsor or funder | ● | ● | ○ | ○ | ○ | ○ | ○ | ○ | ○ |  |  | ● |
 | 12 | Other business relationship (new row) | ○ |  | ○ |  | ○ | ● | ● | ○ | ● | ○ | ● |  |
-| 13 | Public authority providing for employees | ● | ○ |  |  | ○ | ● |  |  | ○ | ● | ○ | ○ |
-| 14 | Public authority providing for citizens or residents | ● | ● |  | ● | ● | ○ |  | ○ | ● | ○ | ○ | ● |
-| 15 | Public authority providing for service recipients or beneficiaries | ● | ● |  | ○ | ● | ○ |  |  | ● | ○ | ○ | ● |
-| 16 | Public authority acting through another institution or service provider (new row) | ○ | ○ |  |  |  | ● |  |  | ○ | ● | ● | ● |
-| 17 | Other institutional relationship (public sector) (new row) | ○ | ○ |  | ○ | ○ | ● |  | ○ | ● | ● |  | ● |
-| 18 | Government serving business owners or operators |  |  |  |  |  | ● | ● |  | ○ | ● | ● | ● |
-| 19 | Government serving employees or authorised representatives (new row) |  |  |  |  |  | ● | ○ |  |  | ○ | ● | ○ |
-| 20 | Government providing regulatory or compliance services (new row) |  |  |  |  |  | ○ |  |  |  | ● | ● |  |
-| 21 | Government supporting or funding businesses (new row) | ○ |  |  |  |  | ○ | ● |  |  |  | ● | ● |
-| 22 | Other institutional relationship (government to business) (new row) |  |  |  |  |  | ● | ● |  |  | ● | ● | ○ |
 
-**Checked against section 8:** differences from the 15 rows: Government serving business owners or operators: was o....BB.oBBB now .....BB.oBBB. The **seven new rows** are marked (new row): the text does not say who drew them or on what basis; they have **no source** and stay the owner's wording. Row 18 replaces the single row "Government to businesses" of section 8, which is now split into rows 18 to 22 by the sub-types of 6.4.
+**(The public-sector and government rows named below are in doc 34, section 5.)** **Checked against section 8:** differences from the 15 rows: Government serving business owners or operators: was o....BB.oBBB now .....BB.oBBB. The **seven new rows** are marked (new row): the text does not say who drew them or on what basis; they have **no source** and stay the owner's wording. Row 18 replaces the single row "Government to businesses" of section 8, which is now split into rows 18 to 22 by the sub-types of 6.4.
 
 ### 10.5 Proxy Buyer and Dual-Intent Buyer, and the I7f wording
 
@@ -539,39 +505,41 @@ The buyer's life stage is a Student / Young Adult, a Worker (Adult) or a Senior 
 
 Example paths from the seller and buyer relationship to the differentiation: B2C Personal & Family (Student, Worker / Adult and Senior buyers with Direct, Proxy and Dual-Intent categories), B2C Commercial & Professional (Landlord / Property manager, Personal professional, Employer for work and life), B2B Solopreneur, Startups & SMBs, Mid-Market and Enterprise / Government. Rules: (1) with B2B the buyer's life stage is not applicable; (2) the Commercial & Professional path matches Proxy Buyers and high-compliance, low-experiential purposes; (3) the differentiation couples with the category: **Proxy: Compliance, Risk & Security or Cost-driven; Direct: Convenience-driven or Cost-driven; Dual-Intent: Convenience-driven or Status & Premium**. Built: the Differentiation list shows those first for the chosen buyer categories (nothing is taken away). Not built: the umbrella relationships (Landlord, Personal professional, Employer), "Direct Buyer (Self)" as a relationship and the B2B relationship and user names, which differ from the questions of doc 28.
 
+**The audience scale is the app user's audience in B2B: the customers of the business the app user describes (Solopreneurs & Freelancers, Startups & SMBs, Mid-Market; since 2026-10-30 not Enterprise / Public Sector). It is not the app's audience, the people who use the app.**
+
 **By the audience scale and the business buyer's category (the owner's cross-tabulation, 2026-10-30; completed with Entertainment and Everyday Needs the same day)**
 
 ● primary · ○ possible · blank = generally less directly relevant (not offered). All twelve purposes. For a business buyer this table is read first. Entertainment is team morale and client hospitality at the corporate scales; Everyday Needs is relevant at every scale except a solopreneur's Proxy / Dual-Intent buyer.
 
-| Purpose | Solopreneur: Direct | Solopreneur: Proxy / Dual | Startups & SMBs: Direct / Dual | Startups & SMBs: Proxy | Mid-Market: Direct / Dual | Mid-Market: Proxy | Enterprise / Gov: Direct / Dual | Enterprise / Gov: Proxy |
-|---|---|---|---|---|---|---|---|---|
-| Learning and Development | ● |  | ● | ○ | ● | ○ | ● | ● |
-| Health, Care and Wellbeing | ○ |  | ○ | ● | ○ | ● | ○ | ● |
-| Gifting and Appreciation |  | ● | ○ | ● | ○ | ● | ○ | ● |
-| Entertainment and Enjoyment | ○ |  | ● | ○ | ● | ○ | ● | ○ |
-| Social Connection and Relationships | ○ |  | ○ |  | ○ |  | ○ |  |
-| Productivity and Efficiency | ● |  | ● | ○ | ● | ○ | ● | ○ |
-| Business Growth and Performance | ● |  | ● |  | ● |  | ● |  |
-| Creation and Expression | ● |  | ○ |  | ○ |  | ○ |  |
-| Everyday Needs and Convenience | ● |  | ● | ● | ● | ● | ● | ● |
-| Protection and Risk Reduction | ○ |  | ○ | ● | ○ | ● | ○ | ● |
-| Compliance and Obligations | ○ |  | ○ | ● | ○ | ● | ○ | ● |
-| Access and Social Support |  |  |  | ○ |  | ● |  | ● |
+| Purpose | Solopreneur: Direct | Solopreneur: Proxy / Dual | Startups & SMBs: Direct / Dual | Startups & SMBs: Proxy | Mid-Market: Direct / Dual | Mid-Market: Proxy |
+|---|---|---|---|---|---|---|
+| Learning and Development | ● |  | ● | ○ | ● | ○ |
+| Health, Care and Wellbeing | ○ |  | ○ | ● | ○ | ● |
+| Gifting and Appreciation |  | ● | ○ | ● | ○ | ● |
+| Entertainment and Enjoyment | ○ |  | ● | ○ | ● | ○ |
+| Social Connection and Relationships | ○ |  | ○ |  | ○ |  |
+| Productivity and Efficiency | ● |  | ● | ○ | ● | ○ |
+| Business Growth and Performance | ● |  | ● |  | ● |  |
+| Creation and Expression | ● |  | ○ |  | ○ |  |
+| Everyday Needs and Convenience | ● |  | ● | ● | ● | ● |
+| Protection and Risk Reduction | ○ |  | ○ | ● | ○ | ● |
+| Compliance and Obligations | ○ |  | ○ | ● | ○ | ● |
+| Access and Social Support |  |  |  | ○ |  | ● |
 
-**Core operational logic (the owner's notes):** 1. **The Solopreneur shift:** a team of one buying for themselves is Direct (Growth, Productivity, Creation); as a Proxy or Dual-Intent buyer it is almost only micro-scale client relations (Gifting and Appreciation). 2. **The Proxy split:** from Startups & SMBs to Enterprise a Proxy buyer is about governance: Protection and Risk Reduction, Compliance and Obligations, Gifting and Appreciation (corporate perks), Health, Care and Wellbeing (benefits packages). 3. **The Direct / Dual split:** at mid to large scale a Direct or Dual-Intent buyer is about business metrics: Business Growth and Performance, Productivity and Efficiency, Learning and Development (upskilling).
+**Core operational logic (the owner's notes):** 1. **The Solopreneur shift:** a team of one buying for themselves is Direct (Growth, Productivity, Creation); as a Proxy or Dual-Intent buyer it is almost only micro-scale client relations (Gifting and Appreciation). 2. **The Proxy split:** from Startups & SMBs to Mid-Market a Proxy buyer is about governance: Protection and Risk Reduction, Compliance and Obligations, Gifting and Appreciation (corporate perks), Health, Care and Wellbeing (benefits packages). 3. **The Direct / Dual split:** at mid to large scale a Direct or Dual-Intent buyer is about business metrics: Business Growth and Performance, Productivity and Efficiency, Learning and Development (upskilling).
 
 **The differentiation by the audience scale and the business buyer's category (the owner's tables, 2026-10-30; the six differentiations; used to order the Differentiation list; the blanks are not offered, and one already chosen stays)**
 
-| Differentiation | Solopreneur: Direct | Solopreneur: Proxy / Dual | Startups & SMBs: Direct / Dual | Startups & SMBs: Proxy | Mid-Market: Direct / Dual | Mid-Market: Proxy | Enterprise / Gov: Direct / Dual | Enterprise / Gov: Proxy |
-|---|---|---|---|---|---|---|---|---|
-| Cost-driven | ● | ○ | ● | ○ | ○ | ○ |  | ○ |
-| Convenience-driven | ● | ● | ● | ● | ● | ○ | ● |  |
-| Compliance, Risk & Security |  |  | ○ | ● | ○ | ● | ● | ● |
-| Status & Premium | ○ |  | ○ |  | ● |  | ● |  |
-| Performance & Innovation | ● |  | ● | ○ | ● | ○ | ● | ● |
-| Ecosystem & Integration | ○ |  | ○ | ● | ● | ● | ● | ● |
+| Differentiation | Solopreneur: Direct | Solopreneur: Proxy / Dual | Startups & SMBs: Direct / Dual | Startups & SMBs: Proxy | Mid-Market: Direct / Dual | Mid-Market: Proxy |
+|---|---|---|---|---|---|---|
+| Cost-driven | ● | ○ | ● | ○ | ○ | ○ |
+| Convenience-driven | ● | ● | ● | ● | ● | ○ |
+| Compliance, Risk & Security |  |  | ○ | ● | ○ | ● |
+| Status & Premium | ○ |  | ○ |  | ● |  |
+| Performance & Innovation | ● |  | ● | ○ | ● | ○ |
+| Ecosystem & Integration | ○ |  | ○ | ● | ● | ● |
 
-**Rationale (the owner's notes):** 1. Cost to status: Solopreneurs and Startups are cost-conscious; at Mid-Market and Enterprise price gives way to Status & Premium and specialised deployment. 2. Compliance guardrails: a Proxy buyer (IT, Legal, Procurement) puts Compliance, Risk & Security first from SMB to Enterprise. 3. Convenience stays strong across almost every segment. 4. Ecosystem & Integration is secondary for the smallest buyers and primary from Mid-Market up (large organisations want a tool that connects to their stacks); an Enterprise / Government Proxy buyer values Performance & Innovation (superior or proprietary features for large data volumes).
+**Rationale (the owner's notes):** 1. Cost to status: Solopreneurs and Startups are cost-conscious; at Mid-Market price gives way to Status & Premium and specialised deployment. 2. Compliance guardrails: a Proxy buyer (IT, Legal, Procurement) puts Compliance, Risk & Security first from SMB to Enterprise. 3. Convenience stays strong across almost every segment. 4. Ecosystem & Integration is secondary for the smallest buyers and primary at Mid-Market (larger organisations want a tool that connects to their stacks). The Enterprise / Public Sector audience is a future feature (doc 34, section 5): its columns are not in the tables.
 
 **By the business buyer and user relationship (the owner's tables, 2026-10-30; read before the audience scale's table; blank = not offered; a purpose not in a table is read from the next one)**
 

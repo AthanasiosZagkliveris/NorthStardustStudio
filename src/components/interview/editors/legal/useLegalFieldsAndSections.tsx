@@ -249,10 +249,10 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
         relationships: entity.organisation.endUser.filter(id => id.startsWith("rel:")),
         buyerStages: models.includes("b2c") && endsUser("b2c") ? entity.organisation.audience.filter(id => ["young", "adult", "senior"].includes(id)) : [],
         userStages: models.includes("b2c") && endsUser("b2c") ? entity.organisation.endUser.filter(id => id.startsWith("age:")) : [],
-        businessScales: models.includes("b2b") ? entity.organisation.audience.filter(id => ["solo", "smb", "mid", "enterprise"].includes(id)) : []
+        businessScales: models.includes("b2b") ? entity.organisation.audience.filter(id => ["solo", "smb", "mid"].includes(id)) : []
     });
     // The differentiations: a business buyer's audience scale and category order them (the owner's table); otherwise the buyer's category does.
-    const differentiationAbout = differentiationRelevance({ models, categories: entity.organisation.buyerCategory, relationships: [], businessScales: models.includes("b2b") ? entity.organisation.audience.filter(id => ["solo", "smb", "mid", "enterprise"].includes(id)) : [] });
+    const differentiationAbout = differentiationRelevance({ models, categories: entity.organisation.buyerCategory, relationships: [], businessScales: models.includes("b2b") ? entity.organisation.audience.filter(id => ["solo", "smb", "mid"].includes(id)) : [] });
     const byPurpose = differentiationByPurpose(entity.organisation.purpose);
     const differentiationFirst = differentiationAbout ? orderedByRelevance(DIFFERENTIATIONS, differentiationAbout).filter(option => differentiationAbout[option.id] > 0 || entity.organisation.differentiation.includes(option.id)) : orderedByCategory(DIFFERENTIATIONS, entity.organisation.buyerCategory);
     // The purposes chosen then bring the differentiations they drive first (inside each level the business relationships chosen order them, and inside theirs the audience scale and category; nothing is chosen for the user).

@@ -87,8 +87,7 @@ export const MARKET_TYPES = [
 export const AUDIENCE_SCALES = [
     { id: "solo", label: "Solopreneurs & Freelancers" },
     { id: "smb", label: "Startups & SMBs" },
-    { id: "mid", label: "Mid-Market" },
-    { id: "enterprise", label: "Enterprise / Public Sector" }
+    { id: "mid", label: "Mid-Market" }
 ] as const;
 
 /** Buyer's Life-Stage (a consumer buyer), one choice. The buyer's category (direct, proxy, dual-intent) is a question of its own. */
@@ -363,7 +362,6 @@ export const INFO = {
         "Solopreneurs & Freelancers: individual professionals (immediate decision, need for low cost/self-service).",
         "Startups & SMBs: small and medium-sized or rapidly growing companies (need for speed, flexibility and immediate solution).",
         "Mid-Market: medium-sized businesses with structured departments (need for workflows, roles and scale).",
-        "Enterprise / Public Sector: multinationals or public bodies (multi-month sales/tender cycle, need for maximum security).",
         { title: "Based on", source: SOURCES.marketResearch }
     ],
 

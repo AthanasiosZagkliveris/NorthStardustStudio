@@ -98,7 +98,6 @@ describe("the relevance of a purpose to the buyer (the owner's tables of 2026-10
         const levels = (scale: string, category: string) => differentiationRelevance({ models: ["b2b"], categories: ["b2b:" + category], relationships: [], businessScales: [scale] });
         expect(levels("solo", "direct")).toEqual({ cost: 2, convenience: 2, compliance: 0, premium: 1, performance: 2, ecosystem: 1 });
         expect(levels("mid", "proxy")).toEqual({ cost: 1, convenience: 1, compliance: 2, premium: 0, performance: 1, ecosystem: 2 });
-        expect(levels("enterprise", "dual")).toEqual({ cost: 0, convenience: 2, compliance: 2, premium: 2, performance: 2, ecosystem: 2 });
         expect(differentiationRelevance({ models: ["b2b"], categories: ["b2b:dual"], relationships: [] })).toBeNull();
     });
 
