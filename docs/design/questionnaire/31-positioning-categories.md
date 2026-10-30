@@ -268,7 +268,7 @@ Each of these edges falls inside or between the owner's stages: 13 and 14 inside
 
 **I7e (the Buyer's relationship with the End User):** the text says it fills a "Relationship Type" field on the new Profile and is cross-checked against the 22 rows.
 
-### 10.4 The 22 relationships and the purposes
+### 10.4 The relationships and the purposes (12 in the first version; the ten public-sector and government rows are in doc 34, section 5)
 
 The purpose table for the 12 relationships of the first version (the ten public-sector and government rows, 13 to 22, are in doc 34, section 5)
 
@@ -505,41 +505,41 @@ The buyer's life stage is a Student / Young Adult, a Worker (Adult) or a Senior 
 
 Example paths from the seller and buyer relationship to the differentiation: B2C Personal & Family (Student, Worker / Adult and Senior buyers with Direct, Proxy and Dual-Intent categories), B2C Commercial & Professional (Landlord / Property manager, Personal professional, Employer for work and life), B2B Solopreneur, Startups & SMBs, Mid-Market and Enterprise / Government. Rules: (1) with B2B the buyer's life stage is not applicable; (2) the Commercial & Professional path matches Proxy Buyers and high-compliance, low-experiential purposes; (3) the differentiation couples with the category: **Proxy: Compliance, Risk & Security or Cost-driven; Direct: Convenience-driven or Cost-driven; Dual-Intent: Convenience-driven or Status & Premium**. Built: the Differentiation list shows those first for the chosen buyer categories (nothing is taken away). Not built: the umbrella relationships (Landlord, Personal professional, Employer), "Direct Buyer (Self)" as a relationship and the B2B relationship and user names, which differ from the questions of doc 28.
 
-**The audience scale is the app user's audience in B2B: the customers of the business the app user describes (Solopreneurs & Freelancers, Startups & SMBs, Mid-Market; since 2026-10-30 not Enterprise / Public Sector). It is not the app's audience, the people who use the app.**
+**The audience scale is the app user's audience in B2B: the customers of the business the app user describes (Solopreneurs & Freelancers, Startups & SMBs, Mid-Market, Enterprise / Public Sector). It is not the app's audience, the people who use the app. The options left out on 2026-10-30 as heavy, public or late-stage institutional concern the app user's own organisation (its legal forms), not this audience.**
 
 **By the audience scale and the business buyer's category (the owner's cross-tabulation, 2026-10-30; completed with Entertainment and Everyday Needs the same day)**
 
 ● primary · ○ possible · blank = generally less directly relevant (not offered). All twelve purposes. For a business buyer this table is read first. Entertainment is team morale and client hospitality at the corporate scales; Everyday Needs is relevant at every scale except a solopreneur's Proxy / Dual-Intent buyer.
 
-| Purpose | Solopreneur: Direct | Solopreneur: Proxy / Dual | Startups & SMBs: Direct / Dual | Startups & SMBs: Proxy | Mid-Market: Direct / Dual | Mid-Market: Proxy |
-|---|---|---|---|---|---|---|
-| Learning and Development | ● |  | ● | ○ | ● | ○ |
-| Health, Care and Wellbeing | ○ |  | ○ | ● | ○ | ● |
-| Gifting and Appreciation |  | ● | ○ | ● | ○ | ● |
-| Entertainment and Enjoyment | ○ |  | ● | ○ | ● | ○ |
-| Social Connection and Relationships | ○ |  | ○ |  | ○ |  |
-| Productivity and Efficiency | ● |  | ● | ○ | ● | ○ |
-| Business Growth and Performance | ● |  | ● |  | ● |  |
-| Creation and Expression | ● |  | ○ |  | ○ |  |
-| Everyday Needs and Convenience | ● |  | ● | ● | ● | ● |
-| Protection and Risk Reduction | ○ |  | ○ | ● | ○ | ● |
-| Compliance and Obligations | ○ |  | ○ | ● | ○ | ● |
-| Access and Social Support |  |  |  | ○ |  | ● |
+| Purpose | Solopreneur: Direct | Solopreneur: Proxy / Dual | Startups & SMBs: Direct / Dual | Startups & SMBs: Proxy | Mid-Market: Direct / Dual | Mid-Market: Proxy | Enterprise / Public Sector: Direct / Dual | Enterprise / Public Sector: Proxy |
+|---|---|---|---|---|---|---|---|---|
+| Learning and Development | ● |  | ● | ○ | ● | ○ | ● | ● |
+| Health, Care and Wellbeing | ○ |  | ○ | ● | ○ | ● | ○ | ● |
+| Gifting and Appreciation |  | ● | ○ | ● | ○ | ● | ○ | ● |
+| Entertainment and Enjoyment | ○ |  | ● | ○ | ● | ○ | ● | ○ |
+| Social Connection and Relationships | ○ |  | ○ |  | ○ |  | ○ |  |
+| Productivity and Efficiency | ● |  | ● | ○ | ● | ○ | ● | ○ |
+| Business Growth and Performance | ● |  | ● |  | ● |  | ● |  |
+| Creation and Expression | ● |  | ○ |  | ○ |  | ○ |  |
+| Everyday Needs and Convenience | ● |  | ● | ● | ● | ● | ● | ● |
+| Protection and Risk Reduction | ○ |  | ○ | ● | ○ | ● | ○ | ● |
+| Compliance and Obligations | ○ |  | ○ | ● | ○ | ● | ○ | ● |
+| Access and Social Support |  |  |  | ○ |  | ● |  | ● |
 
-**Core operational logic (the owner's notes):** 1. **The Solopreneur shift:** a team of one buying for themselves is Direct (Growth, Productivity, Creation); as a Proxy or Dual-Intent buyer it is almost only micro-scale client relations (Gifting and Appreciation). 2. **The Proxy split:** from Startups & SMBs to Mid-Market a Proxy buyer is about governance: Protection and Risk Reduction, Compliance and Obligations, Gifting and Appreciation (corporate perks), Health, Care and Wellbeing (benefits packages). 3. **The Direct / Dual split:** at mid to large scale a Direct or Dual-Intent buyer is about business metrics: Business Growth and Performance, Productivity and Efficiency, Learning and Development (upskilling).
+**Core operational logic (the owner's notes):** 1. **The Solopreneur shift:** a team of one buying for themselves is Direct (Growth, Productivity, Creation); as a Proxy or Dual-Intent buyer it is almost only micro-scale client relations (Gifting and Appreciation). 2. **The Proxy split:** from Startups & SMBs to Enterprise a Proxy buyer is about governance: Protection and Risk Reduction, Compliance and Obligations, Gifting and Appreciation (corporate perks), Health, Care and Wellbeing (benefits packages). 3. **The Direct / Dual split:** at mid to large scale a Direct or Dual-Intent buyer is about business metrics: Business Growth and Performance, Productivity and Efficiency, Learning and Development (upskilling).
 
 **The differentiation by the audience scale and the business buyer's category (the owner's tables, 2026-10-30; the six differentiations; used to order the Differentiation list; the blanks are not offered, and one already chosen stays)**
 
-| Differentiation | Solopreneur: Direct | Solopreneur: Proxy / Dual | Startups & SMBs: Direct / Dual | Startups & SMBs: Proxy | Mid-Market: Direct / Dual | Mid-Market: Proxy |
-|---|---|---|---|---|---|---|
-| Cost-driven | ● | ○ | ● | ○ | ○ | ○ |
-| Convenience-driven | ● | ● | ● | ● | ● | ○ |
-| Compliance, Risk & Security |  |  | ○ | ● | ○ | ● |
-| Status & Premium | ○ |  | ○ |  | ● |  |
-| Performance & Innovation | ● |  | ● | ○ | ● | ○ |
-| Ecosystem & Integration | ○ |  | ○ | ● | ● | ● |
+| Differentiation | Solopreneur: Direct | Solopreneur: Proxy / Dual | Startups & SMBs: Direct / Dual | Startups & SMBs: Proxy | Mid-Market: Direct / Dual | Mid-Market: Proxy | Enterprise / Public Sector: Direct / Dual | Enterprise / Public Sector: Proxy |
+|---|---|---|---|---|---|---|---|---|
+| Cost-driven | ● | ○ | ● | ○ | ○ | ○ |  | ○ |
+| Convenience-driven | ● | ● | ● | ● | ● | ○ | ● |  |
+| Compliance, Risk & Security |  |  | ○ | ● | ○ | ● | ● | ● |
+| Status & Premium | ○ |  | ○ |  | ● |  | ● |  |
+| Performance & Innovation | ● |  | ● | ○ | ● | ○ | ● | ● |
+| Ecosystem & Integration | ○ |  | ○ | ● | ● | ● | ● | ● |
 
-**Rationale (the owner's notes):** 1. Cost to status: Solopreneurs and Startups are cost-conscious; at Mid-Market price gives way to Status & Premium and specialised deployment. 2. Compliance guardrails: a Proxy buyer (IT, Legal, Procurement) puts Compliance, Risk & Security first from SMB to Enterprise. 3. Convenience stays strong across almost every segment. 4. Ecosystem & Integration is secondary for the smallest buyers and primary at Mid-Market (larger organisations want a tool that connects to their stacks). The Enterprise / Public Sector audience is a future feature (doc 34, section 5): its columns are not in the tables.
+**Rationale (the owner's notes):** 1. Cost to status: Solopreneurs and Startups are cost-conscious; at Mid-Market and Enterprise price gives way to Status & Premium and specialised deployment. 2. Compliance guardrails: a Proxy buyer (IT, Legal, Procurement) puts Compliance, Risk & Security first from SMB to Enterprise. 3. Convenience stays strong across almost every segment. 4. Ecosystem & Integration is secondary for the smallest buyers and primary from Mid-Market up (large organisations want a tool that connects to their stacks); an Enterprise / Public Sector Proxy buyer values Performance & Innovation (superior or proprietary features for large data volumes).
 
 **By the business buyer and user relationship (the owner's tables, 2026-10-30; read before the audience scale's table; blank = not offered; a purpose not in a table is read from the next one)**
 

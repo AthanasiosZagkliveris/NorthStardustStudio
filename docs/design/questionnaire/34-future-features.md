@@ -11,7 +11,7 @@ Related: doc 33 (the first version), docs 27 to 32 (where each item is described
 | 1 | Other languages | English only | doc 28 4.1 (wording rules) | English |
 | 2 | Complete lists (legal forms, activities, codes) for more countries | Six countries; Other (any other country) with typed activity and code | doc 28 5 | Any country can be chosen; some have a profile, the rest a neutral one |
 | 3 | Official legal forms, with sources, for countries beyond the six, in place of the four generic forms | Four generic forms for Other | doc 28 rule 14 | Per-country lists in `LegalEntityJurisdictions.ts` |
-| 4a | Heavy, public or late-stage institutional options: the audience scale Enterprise / Public Sector; the public company legal forms; the Nonprofit Corporation (US) and Cooperative (Canada) forms | Left out on 2026-10-30 | section 5 below | Removed from the app |
+| 4a | Heavy, public or late-stage institutional legal forms: the public company forms; the Nonprofit Corporation (US) and Cooperative (Canada) forms | Left out on 2026-10-30 | section 5 below | Removed from the app |
 | 4 | Other classification schemes and a general crosswalk (ISIC) | The six countries' own schemes; Other typed by hand | doc 35 5.3, 5.8 | Built for the six countries |
 | 5 | Multi-sided markets and platforms: sides, one Segment per side, Differentiation and Outcome per side, the anchor-side rule | Single-sided | doc 28 8.2 | Built and hidden since 2026-10-29 (the Market Structure question is not asked) |
 | 6 | B2G: public-sector buyers, Administrative Level audience, the institutional relationships | B2C and/or B2B | doc 28 8.2; doc 34 5.1 | Built and hidden since 2026-10-29 |
@@ -50,35 +50,9 @@ An item moves into doc 33 only when the owner says so. If the owner names a feat
 
 ## 5. Heavy, public and institutional options (moved from doc 31 and the app, 2026-10-30)
 
+The audience scale (Enterprise / Public Sector included) is the app user's audience and **stays**; what is removed concerns the app user's own organisation.
+
 The owner removed these from the first version; they are kept here until a later version brings them back.
-
-**The audience scale Enterprise / Public Sector** (multinationals or public bodies: multi-month sales and tender cycle, need for maximum security; 250 or more employees; "a public body" offered in the Segment). Its two columns of the owner's tables (doc 31, 10.7) were, as Direct / Dual then Proxy (● primary, ○ possible):
-
-| Purpose | Enterprise / Public Sector: Direct / Dual | Enterprise / Public Sector: Proxy |
-|---|---|---|
-| Learning and Development | ● | ● |
-| Health, Care and Wellbeing | ○ | ● |
-| Gifting and Appreciation | ○ | ● |
-| Entertainment and Enjoyment | ● | ○ |
-| Social Connection and Relationships | ○ |  |
-| Productivity and Efficiency | ● | ○ |
-| Business Growth and Performance | ● |  |
-| Creation and Expression | ○ |  |
-| Everyday Needs and Convenience | ● | ● |
-| Protection and Risk Reduction | ○ | ● |
-| Compliance and Obligations | ○ | ● |
-| Access and Social Support |  | ● |
-
-| Differentiation | Enterprise / Public Sector: Direct / Dual | Enterprise / Public Sector: Proxy |
-|---|---|---|
-| Cost-driven |  | ○ |
-| Convenience-driven | ● |  |
-| Compliance, Risk & Security | ● | ● |
-| Status & Premium | ● |  |
-| Performance & Innovation | ● | ● |
-| Ecosystem & Integration | ● | ● |
-
-The owner's notes: Ecosystem & Integration is primary from Mid-Market up (large organisations want a tool that connects to their stacks); an Enterprise / Government Proxy buyer values Performance & Innovation (superior or proprietary features for large data volumes).
 
 **The legal forms** left out: Public Limited Company (PLC) and Public Company (Ltd) in the country lists, Public Limited Company (PLC / Corp / AG) among the generic forms, Nonprofit Corporation (United States) and Cooperative (Canada).
 

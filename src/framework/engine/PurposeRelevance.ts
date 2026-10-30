@@ -26,13 +26,13 @@ const TABLES = {
     },
     /** The audience scale and the buyer's category of a business buyer (the owner's table of 2026-10-30): a solopreneur is direct or other (proxy or dual-intent); the larger scales are direct or dual-intent, or proxy. */
     scale: {
-        columns: ["solo|direct", "solo|other", "smb|direct", "smb|proxy", "mid|direct", "mid|proxy"],
-        rows: ["P.PSPS", "S.SPSP", ".PSPSP", "S.PSPS", "S.S.S.", "P.PSPS", "P.P.P.", "P.S.S.", "P.PPPP", "S.SPSP", "S.SPSP", "...S.P"]
+        columns: ["solo|direct", "solo|other", "smb|direct", "smb|proxy", "mid|direct", "mid|proxy", "enterprise|direct", "enterprise|proxy"],
+        rows: ["P.PSPSPP", "S.SPSPSP", ".PSPSPSP", "S.PSPSPS", "S.S.S.S.", "P.PSPSPS", "P.P.P.P.", "P.S.S.S.", "P.PPPPPP", "S.SPSPSP", "S.SPSPSP", "...S.P.P"]
     },
     /** The same columns for the six differentiations (cost, convenience, compliance, premium, performance, ecosystem): the owner's table of 2026-10-30. */
     differentiationScale: {
-        columns: ["solo|direct", "solo|other", "smb|direct", "smb|proxy", "mid|direct", "mid|proxy"],
-        rows: ["PSPSSS", "PPPPPS", "..SPSP", "S.S.P.", "P.PSPS", "S.SPPP"]
+        columns: ["solo|direct", "solo|other", "smb|direct", "smb|proxy", "mid|direct", "mid|proxy", "enterprise|direct", "enterprise|proxy"],
+        rows: ["PSPSSS.S", "PPPPPSP.", "..SPSPPP", "S.S.P.P.", "P.PSPSPP", "S.SPPPPP"]
     },
     /** The seven buyer and user relationships of a consumer buyer. */
     relationship: {
@@ -67,7 +67,7 @@ export interface PurposeContext {
     buyerStages?: readonly string[];
     /** The user's life stages chosen (age:minor, age:young, age:adult, age:senior). */
     userStages?: readonly string[];
-    /** The business buyer's audience scales chosen (solo, smb, mid). */
+    /** The business buyer's audience scales chosen (solo, smb, mid, enterprise). */
     businessScales?: readonly string[];
 }
 

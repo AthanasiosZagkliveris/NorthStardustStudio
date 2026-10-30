@@ -1030,7 +1030,7 @@ describe("LegalEntityEditor the country, the legal form and the activities (the 
 
         render(<Org initial={{ country: "FR" }} />);
         fireEvent.click(screen.getAllByRole("button", { name: /^Legal Form/ }).find(button => button.classList.contains("option-picker-trigger"))!);
-        expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual(["Sole Proprietorship", "General Partnership", "Private Limited Company (LLC / Ltd / GmbH)", "Limited Liability Partnership (LLP)", "Other"]);
+        expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual(["Sole Proprietorship", "General Partnership", "Private Limited Company (LLC / Ltd / GmbH)", "Limited Liability Partnership (LLP)"]);
         fireEvent.click(screen.getByRole("option", { name: "Sole Proprietorship" }));
         // The activity and its code are typed.
         expect(screen.getByRole("textbox", { name: "Activity of the primary activity" })).toBeTruthy();
