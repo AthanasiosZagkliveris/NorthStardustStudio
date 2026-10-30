@@ -175,7 +175,9 @@ export const DIFFERENTIATIONS = [
     { id: "cost", label: "Cost-driven" },
     { id: "convenience", label: "Convenience-driven" },
     { id: "compliance", label: "Compliance, Risk & Security" },
-    { id: "premium", label: "Status & Premium" }
+    { id: "premium", label: "Status & Premium" },
+    { id: "performance", label: "Performance & Innovation" },
+    { id: "ecosystem", label: "Ecosystem & Integration" }
 ] as const;
 
 /** Outcome for the buyer: the measurable result the buyer gets (the results the differentiation text names: lower costs, time saved, legal cover, prestige). */
@@ -423,6 +425,8 @@ export const INFO = {
         "Convenience-driven (speed and ease): targets the blind spot of complex or slow solutions.",
         "Compliance, Risk & Security: targets the blind spot of uncertified or questionable alternatives.",
         "Status & Premium (exclusivity): targets the blind spot of mass-market or cheap products with top quality and custom service.",
+        "Performance & Innovation (product superiority): targets the blind spot of dated or underpowered alternatives with better results and newer methods.",
+        "Ecosystem & Integration (fits what they already use): targets the blind spot of standalone tools that do not connect to the buyer's other systems and workflows.",
         { title: "Based on", source: SOURCES.strategicPositioning },
         { title: "Also", source: SOURCES.positioningTemplate }
     ],

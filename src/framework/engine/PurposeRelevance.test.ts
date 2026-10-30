@@ -96,9 +96,9 @@ describe("the relevance of a purpose to the buyer (the owner's tables of 2026-10
 
     it("orders the differentiations by the business buyer's audience scale and category", () => {
         const levels = (scale: string, category: string) => differentiationRelevance({ models: ["b2b"], categories: ["b2b:" + category], relationships: [], businessScales: [scale] });
-        expect(levels("solo", "direct")).toEqual({ cost: 2, convenience: 2, compliance: 0, premium: 1 });
-        expect(levels("mid", "proxy")).toEqual({ cost: 1, convenience: 1, compliance: 2, premium: 0 });
-        expect(levels("enterprise", "dual")).toEqual({ cost: 0, convenience: 2, compliance: 2, premium: 2 });
+        expect(levels("solo", "direct")).toEqual({ cost: 2, convenience: 2, compliance: 0, premium: 1, performance: 1, ecosystem: 1 });
+        expect(levels("mid", "proxy")).toEqual({ cost: 1, convenience: 1, compliance: 2, premium: 0, performance: 1, ecosystem: 1 });
+        expect(levels("enterprise", "dual")).toEqual({ cost: 0, convenience: 2, compliance: 2, premium: 2, performance: 1, ecosystem: 1 });
         expect(differentiationRelevance({ models: ["b2b"], categories: ["b2b:dual"], relationships: [] })).toBeNull();
     });
 
@@ -119,17 +119,17 @@ describe("the relevance of a purpose to the buyer (the owner's tables of 2026-10
 
     it("says which differentiations the purposes chosen drive", () => {
         expect(differentiationByPurpose([])).toBeNull();
-        expect(differentiationByPurpose(["compliance"])).toEqual({ cost: 0, convenience: 0, compliance: 2, premium: 0 });
-        expect(differentiationByPurpose(["growth", "protection"])).toEqual({ cost: 0, convenience: 2, compliance: 2, premium: 2 });
-        expect(differentiationByPurpose(["access"])).toEqual({ cost: 2, convenience: 2, compliance: 1, premium: 0 });
-        expect(differentiationByPurpose(["entertainment"])).toEqual({ cost: 0, convenience: 1, compliance: 0, premium: 2 });
+        expect(differentiationByPurpose(["compliance"])).toEqual({ cost: 0, convenience: 0, compliance: 2, premium: 0, performance: 0, ecosystem: 0 });
+        expect(differentiationByPurpose(["growth", "protection"])).toEqual({ cost: 0, convenience: 2, compliance: 2, premium: 2, performance: 0, ecosystem: 0 });
+        expect(differentiationByPurpose(["access"])).toEqual({ cost: 2, convenience: 2, compliance: 1, premium: 0, performance: 0, ecosystem: 0 });
+        expect(differentiationByPurpose(["entertainment"])).toEqual({ cost: 0, convenience: 1, compliance: 0, premium: 2, performance: 0, ecosystem: 0 });
     });
 
     it("says which differentiations a business buyer and user relationship drives", () => {
         expect(differentiationByRelationship(["age:minor"])).toBeNull();
-        expect(differentiationByRelationship(["rel:copartner"])).toEqual({ cost: 0, convenience: 2, compliance: 1, premium: 2 });
-        expect(differentiationByRelationship(["rel:employer"])).toEqual({ cost: 1, convenience: 2, compliance: 2, premium: 0 });
-        expect(differentiationByRelationship(["rel:sponsor"])).toEqual({ cost: 2, convenience: 0, compliance: 2, premium: 0 });
-        expect(differentiationByRelationship(["rel:otherbusiness"])).toEqual({ cost: 2, convenience: 2, compliance: 1, premium: 0 });
+        expect(differentiationByRelationship(["rel:copartner"])).toEqual({ cost: 0, convenience: 1, compliance: 1, premium: 2, performance: 2, ecosystem: 2 });
+        expect(differentiationByRelationship(["rel:employer"])).toEqual({ cost: 1, convenience: 2, compliance: 2, premium: 0, performance: 0, ecosystem: 2 });
+        expect(differentiationByRelationship(["rel:sponsor"])).toEqual({ cost: 2, convenience: 0, compliance: 2, premium: 0, performance: 0, ecosystem: 1 });
+        expect(differentiationByRelationship(["rel:otherbusiness"])).toEqual({ cost: 2, convenience: 2, compliance: 1, premium: 0, performance: 0, ecosystem: 1 });
     });
 });

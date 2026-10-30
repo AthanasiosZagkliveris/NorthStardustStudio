@@ -624,11 +624,11 @@ describe("LegalEntityEditor Early Positioning limits by business stage", () => {
         const ticks = () => [...outcomes.querySelectorAll("input[type=checkbox]")] as HTMLInputElement[];
         fireEvent.click(ticks()[0]);
         fireEvent.click(ticks()[1]);
-        expect(ticks().map(tick => tick.disabled)).toEqual([false, false, true, true]);
+        expect(ticks().map(tick => tick.disabled)).toEqual([false, false, true, true, true, true]);
         expect([...launching.container.querySelectorAll(".business-foundation-tick-note")].map(note => note.textContent)).toEqual(["2 max", "2 max", "2 max"]);
         // A ticked one is never locked: unticking frees the others.
         fireEvent.click(ticks()[0]);
-        expect(ticks().map(tick => tick.disabled)).toEqual([false, false, false, false]);
+        expect(ticks().map(tick => tick.disabled)).toEqual([false, false, false, false, false, false]);
         cleanup();
 
         // Managing: two relationships as well; the third is locked.

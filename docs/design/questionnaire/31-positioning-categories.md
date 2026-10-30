@@ -610,13 +610,17 @@ Example paths from the seller and buyer relationship to the differentiation: B2C
 
 **Clusters (the owner's notes):** Protection and Compliance are about exposure, so they shape Compliance, Risk & Security; Business Growth and Entertainment are about expansion and prestige, so they shape Status & Premium or Convenience; Productivity and Everyday Needs are about time and friction, so they shape Convenience or Cost. The order inside a level stays as the audience scale and the buyer's category set it. Decided 2026-10-30: the matching boxes are **not pre-selected**; they are ranked first (the app never chooses for the user, doc 33). A "Recommended" tag or a highlight on them was suggested and is not built (it needs a new element; doc 05).
 
-**The differentiation by the business buyer and user relationship (the owner's table, 2026-10-30; ranks the Differentiation list, nothing is hidden by it)**
+**The differentiation by the business buyer and user relationship (the owner's table, 2026-10-30, six pillars; ranks the Differentiation list, nothing is hidden by it)**
 
 | Differentiation | Business partner or co-owner | Business serving its clients | Employer providing for employees | Professional intermediary | Sponsor or funder | Other business relationship |
 |---|---|---|---|---|---|---|
 | Cost-driven |  | ○ | ○ |  | ● | ● |
-| Convenience-driven | ● | ● | ● | ○ |  | ● |
+| Convenience-driven | ○ | ● | ● | ○ |  | ● |
 | Compliance, Risk & Security | ○ |  | ● | ● | ● | ○ |
 | Status & Premium | ● | ● |  |  |  |  |
+| Performance & Innovation | ● | ○ |  | ● |  |  |
+| Ecosystem & Integration | ● | ● | ● | ○ | ○ | ○ |
+
+**Two pillars added (2026-10-30):** Performance & Innovation (product superiority) and Ecosystem & Integration (fits what the buyer already uses). The owner's other tables (the purposes, the audience scale and the category) have no rows for them: they are read as possible for the audience scale (shown, below the primary ones) and not driven by any purpose until the owner sends the rows.
 
 **Rules (the owner's notes):** Dual-Intent relationships push Convenience and Status & Premium to the top; the institutional Proxy relationships (employer, intermediary, sponsor) put Compliance, Risk & Security first; another business relationship highlights Convenience and Cost. **Order of the keys:** the purposes chosen, then the relationship, then the audience scale and the buyer's category (a blank or equal value is decided by the next key: the inheritance rule).

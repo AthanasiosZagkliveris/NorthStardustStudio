@@ -78,7 +78,7 @@ Doc 28 is the questionnaire specification, doc 33 the first version, doc 34 what
 | B2G, G2B | Business to government; government to business (future) | Doc 34, items 6 and 7 |
 | Audience (I7b) | The buyer's life stage (B2C) or scale (B2B), one question for each relationship chosen; for B2G the Administrative Level (Local Government to Institutional / Public Organizations), for G2B the Regulatory Intensity of the target industry (General Commerce to Heavily Regulated Markets) | Doc 28, 8.2 |
 | Locked audience | An audience option that is greyed while Planning and Launching (Central Government & Ministries, Heavily Regulated Markets) | Doc 28, 8.2 |
-| Differentiation and Outcome (I7c) | What the business competes on (Cost-driven, Convenience-driven, Compliance, Risk & Security, Status & Premium) and the result it gives; in the first version asked with Purpose as three items | Doc 28, 8.2; doc 33, section 5 |
+| Differentiation and Outcome (I7c) | What the business competes on (Cost-driven, Convenience-driven, Compliance, Risk & Security, Status & Premium, Performance & Innovation, Ecosystem & Integration) and the result it gives; in the first version asked with Purpose as three items | Doc 28, 8.2; doc 33, section 5 |
 | Segment | A group of customers described by ranges; the card on Business 1 | Doc 28, 6.3 |
 | Profile | A typical person inside a Segment, described by specifics | Doc 28, 6.4 |
 | Cascade | The Segment sets the range; the Profile chooses within it | Doc 28, 6.5 |
@@ -90,7 +90,7 @@ Doc 28 is the questionnaire specification, doc 33 the first version, doc 34 what
 | Buyer | The one who pays | Doc 31, 5 |
 | User | The one who uses the offering | Doc 31, 5 |
 | End User | The user when the buyer is a Proxy or Dual-Intent buyer; the built questions I7d to I7g (age group, relationship, who chooses, what matters most) stay until the new structure is built; only the relationship and the user's life stage are in the first version | Doc 28, 8.2; doc 33, section 5 |
-| Differentiation | What the offering does differently from the competitors: Cost-driven, Convenience-driven, Compliance, Risk & Security, Status & Premium | Doc 28, 8.2 |
+| Differentiation | What the offering does differently from the competitors: Cost-driven, Convenience-driven, Compliance, Risk & Security, Status & Premium, Performance & Innovation, Ecosystem & Integration | Doc 28, 8.2 |
 | Outcome (for the buyer, for the user) | The measurable result the buyer gets; where the buyer is a Proxy or Dual-Intent Buyer the user has an outcome of their own (what matters most to them) | Doc 28, 8.2 |
 | Buyer's category | Direct, Proxy or Dual-Intent; separate from the life stage | Doc 33, section 5 |
 | Direct Buyer | Buys exclusively for personal use | Doc 33, section 5 |

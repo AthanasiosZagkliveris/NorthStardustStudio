@@ -14,7 +14,7 @@ export const BUYER_CATEGORY_KEYS = ["direct", "proxy", "dual"] as const;
 export const AUDIENCE_IDS = ["solo", "smb", "mid", "enterprise", "young", "adult", "senior"] as const;
 
 /** The differentiation: what the OFFERING does differently from the competitors (it was the first half of "Differentiation & Outcome"; an older answer's outcome is the differentiation). */
-export const DIFFERENTIATION_IDS = ["cost", "convenience", "compliance", "premium"] as const;
+export const DIFFERENTIATION_IDS = ["cost", "convenience", "compliance", "premium", "performance", "ecosystem"] as const;
 
 /** The outcome for the buyer: the measurable result the buyer gets. */
 export const OUTCOME_IDS = ["savings", "time", "assurance", "prestige"] as const;

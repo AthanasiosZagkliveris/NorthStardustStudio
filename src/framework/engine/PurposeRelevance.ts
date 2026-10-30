@@ -48,7 +48,7 @@ const TABLES = {
 /** What a table says of one purpose for one column: 2 primary, 1 possible, 0 none (or no such column), null where the table does not cover the purpose. */
 function levelIn(table: Table, purpose: number, column: string): number | null {
     const row = table.rows[purpose];
-    if (row === null) {
+    if (row === null || row === undefined) {
         return null;
     }
     const at = table.columns.indexOf(column);
@@ -87,7 +87,8 @@ export function differentiationRelevance(context: PurposeContext): Record<string
     }
     const out: Record<string, number> = {};
     DIFFERENTIATION_IDS.forEach((id, at) => {
-        out[id] = Math.max(...columns.map(column => levelIn(TABLES.differentiationScale, at, column) ?? 0));
+        // (A differentiation the table does not cover, Performance & Innovation and Ecosystem & Integration, is read as possible: shown, below the primary ones.)
+        out[id] = Math.max(...columns.map(column => levelIn(TABLES.differentiationScale, at, column) ?? 1));
     });
     return out;
 }
@@ -108,9 +109,9 @@ export function differentiationByPurpose(purposes: readonly string[]): Record<st
     return out;
 }
 
-/** How strongly each business buyer and user relationship drives each differentiation (cost, convenience, compliance, premium; the owner's table of 2026-10-30): columns in the order of BUSINESS_RELATIONSHIPS. */
+/** How strongly each business buyer and user relationship drives each differentiation (cost, convenience, compliance, premium, performance, ecosystem; the owner's table of 2026-10-30): columns in the order of BUSINESS_RELATIONSHIPS. */
 const BUSINESS_RELATIONSHIPS = ["rel:copartner", "rel:serving", "rel:employer", "rel:intermediary", "rel:sponsor", "rel:otherbusiness"];
-const RELATIONSHIP_DRIVES = [".SS.PP", "PPPS.P", "S.PPPS", "PP...."];
+const RELATIONSHIP_DRIVES = [".SS.PP", "SPPS.P", "S.PPPS", "PP....", "PS.P..", "PPPSSS"];
 
 /** The relevance of each differentiation (2 primary, 1 secondary, 0 none) for the business relationships chosen, by differentiation id: the strongest of those chosen; null where none is chosen. */
 export function differentiationByRelationship(relationships: readonly string[]): Record<string, number> | null {
