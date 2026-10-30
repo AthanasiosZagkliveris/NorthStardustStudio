@@ -138,7 +138,7 @@ The audience scale is **the app user's audience** (the customers of the business
 | Chooses or removes a relationship | The audience question and the buyer's category of the other relationship are removed; the End User answers of a relationship no longer chosen go |
 | Chooses a buyer's category | The End User questions appear for Proxy and Dual-Intent and go for Direct; a relationship that cannot be the new category goes with the change; the user's outcome goes where no buyer is Proxy or Dual-Intent any more |
 | Chooses a relationship or a life stage | The lists of the other questions are re-shaped as above, and answers no longer allowed go (`fitPositioningToStage`) |
-| The stage changes | Each question is checked against the new stage: an answer with more choices than the stage allows, or an option it locks, returns to empty; a question that still fits keeps its answers |
+| The stage changes | Each question is checked against the new stage: an answer with more choices than the stage allows, or an option it locks, returns to empty, **without a notice** (the "i" of the Opening Date says it sets the stage, not that Positioning follows); a question that still fits keeps its answers |
 
 ## 6. The Mission tile
 
@@ -169,7 +169,7 @@ The business stage (Planning, Launching, Managing, Growing) is **not asked**: it
 ## 10. Saving, review and checks
 
 - **Saving:** every change is saved at once into the organization (browser storage); the header shows "Saved". An older answer is read in the new form (an audience, a purpose or a legal form that no longer exists is dropped or kept as text; `AnswerLegal.ts`).
-- **Review items** the Definition raises: for the Organization, what is missing among the name, country, address and legal form ("1. Definition: Organization: …"); for Mission and Vision, "not answered yet" while empty. The Review's "go there" opens the tile.
+- **Review items** the Definition raises, one for each empty free text of the page: "Description: not answered yet" (the Organization's Notes), "Positioning: not answered yet" (the Early Positioning's Notes), "Mission: not answered yet", "Vision: not answered yet"; and, for the Organization, what is missing among the name, country, address and legal form ("1. Definition: Organization: …"). The Notes are optional in their dialogs, yet their emptiness is flagged; the Early Positioning's choice questions are not checked at all. The items use the page's part names (Description, Positioning), not the tiles' names. The Review's "go there" opens the tile.
 - **Checks that keep it true:** the component tests of the tiles (`src/components/interview/tiles/SectionTiles.test.tsx`, `src/components/interview/editors/LegalEntityEditor.test.tsx`), the tests of the lists (`src/framework/engine/PurposeRelevance.test.ts`, `src/framework/engine/RelationshipFit.test.ts`, `src/components/interview/editors/legal/fitPositioning.test.ts`, `src/components/interview/editors/legal/positioningIds.test.ts`), the layout check (`tools/scripts/layout-check/run.mjs`), `npm run docs:check` and the document-reference test.
 
 ## 11. Where it is in the code
