@@ -1,6 +1,6 @@
 # Index of the documents
 
-Status: **index**, updated 2026-10-29, written by `npm run docs:index` (the subjects are in `tools/scripts/docs/write-index.mjs`; do not edit by hand). An alphabetical list of subjects and where each is described. The contents by chapter are in [README.md](README.md); the places in the app are in [app/index.md](app/index.md); the terms are in [app/glossary.md](app/glossary.md).
+Status: **index**, updated 2026-10-30, written by `npm run docs:index` (the subjects are in `tools/scripts/docs/write-index.mjs`; do not edit by hand). An alphabetical list of subjects and where each is described. The contents by chapter are in [README.md](README.md); the places in the app are in [app/index.md](app/index.md); the terms are in [app/glossary.md](app/glossary.md).
 
 ## A
 

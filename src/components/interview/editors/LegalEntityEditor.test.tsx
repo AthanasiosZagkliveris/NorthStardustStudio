@@ -935,12 +935,13 @@ describe("LegalEntityEditor Early Positioning: the buyer's category and the End 
 
     });
 
-    it("offers the six personal relationships to a consumer buyer and the six business ones to a business buyer, and the user's life stage to the consumer only", () => {
+    it("offers the seven consumer relationships (the personal ones and the Commercial & Professional one) to a consumer buyer and the six business ones to a business buyer, and the user's life stage to the consumer only", () => {
 
         render(<Model model="b2c" />);
         fireEvent.click(screen.getByRole("radio", { name: "Proxy Buyers" }));
-        expect(screen.getByRole("radiogroup", { name: "Buyer and User relationship" }).querySelectorAll("input").length).toBe(6);
+        expect(screen.getByRole("radiogroup", { name: "Buyer and User relationship" }).querySelectorAll("input").length).toBe(7);
         expect(screen.getByRole("radio", { name: "Spouse or romantic partner" })).toBeTruthy();
+        expect(screen.getByRole("radio", { name: "Commercial & Professional relationship" })).toBeTruthy();
         expect(screen.getByRole("radiogroup", { name: "User's Life-Stage" }).querySelectorAll("input").length).toBe(4);
         cleanup();
 
@@ -1011,6 +1012,45 @@ describe("LegalEntityEditor the country, the legal form and the activities (the 
         fireEvent.change(screen.getByRole("textbox", { name: "Activity of the primary activity" }), { target: { value: "Web design" } });
         fireEvent.change(screen.getByRole("textbox", { name: "Code of the primary activity" }), { target: { value: "62.01" } });
         expect(saved!.organisation.activities).toEqual([{ code: "62.01", edition: "", name: "Web design" }]);
+
+    });
+
+});
+
+describe("LegalEntityEditor Early Positioning: the two columns and the order of the purposes", () => {
+
+    const labelsOf = (name: string) => [...screen.getByRole("radiogroup", { name }).querySelectorAll("label")].map(label => label.textContent);
+
+    it("asks who pays on the left (the relationship, the buyer's life stage, the buyer's category) and the End User, the purpose and the outcome on the right", () => {
+
+        const { container } = render(<Model model="b2c" />);
+        fireEvent.click(screen.getByRole("radio", { name: "Proxy Buyers" }));
+        const [left, right] = [...container.querySelectorAll(".legal-entity-audience > .legal-entity-field")];
+        const names = (column: Element) => [...column.querySelectorAll("[role=radiogroup], [role=group]")].map(group => group.getAttribute("aria-label"));
+        expect(names(left)).toEqual(["Seller and Buyer Relationship", "Buyer's Life-Stage", "Buyer's category"]);
+        expect(names(right)).toEqual(["Buyer and User relationship", "User's Life-Stage", "Purpose", "Differentiation & Outcome"]);
+
+    });
+
+    it("puts the purposes most relevant to the buyer first, and keeps all twelve", () => {
+
+        render(<Model model="b2c" />);
+        // A consumer buyer: Business Growth is the one purpose that is not relevant, and Compliance is only possible.
+        let purposes = labelsOf("Purpose");
+        expect(purposes).toHaveLength(12);
+        expect(purposes.slice(-2)).toEqual(["Compliance and Obligations", "Business Growth and Performance"]);
+
+        // A Direct Buyer does not gift: Gifting goes last.
+        fireEvent.click(screen.getByRole("radio", { name: "Direct Buyers" }));
+        purposes = labelsOf("Purpose");
+        expect(purposes[purposes.length - 1]).toBe("Gifting and Appreciation");
+
+        // A Proxy Buyer who is a friend: Productivity is not relevant, Gifting and Entertainment are primary.
+        fireEvent.click(screen.getByRole("radio", { name: "Proxy Buyers" }));
+        fireEvent.click(screen.getByRole("radio", { name: "Friend or acquaintance" }));
+        purposes = labelsOf("Purpose");
+        expect(purposes.indexOf("Gifting and Appreciation")).toBeLessThan(purposes.indexOf("Health, Care and Wellbeing"));
+        expect(purposes.slice(-5)).toContain("Productivity and Efficiency");
 
     });
 

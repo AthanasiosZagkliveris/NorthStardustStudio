@@ -71,6 +71,7 @@ The buyer's category no longer sits inside the life-stage list.
 | Family member or relative | Business serving its clients or customers |
 | Spouse or romantic partner | Professional intermediary acting for a client |
 | Friend or acquaintance | Sponsor or funder |
+| Commercial & Professional relationship (a proxy buyer; added 2026-10-30) | |
 | Other personal relationship | Other business relationship |
 
 The B2B list is the six business relationships of doc 31 section 6.2, each with the owner's description of how it positions (doc 31 section 10.6). They split into **Proxy archetypes** (Employer providing for employees; Professional intermediary; Sponsor or funder; Other business relationship, for example a franchise owner buying for franchise operators) and **Dual-Intent archetypes** (Business partner or co-owner; Business serving its clients or customers).
@@ -118,9 +119,11 @@ The Organization tile and the Early Positioning tile of the app follow this docu
 **Early Positioning tile**
 - **Market Structure** is not asked (single-sided). **Seller and Buyer Relationship** offers B2C and B2B only. The built B2G, G2B and multi-sided features stay in the code and are hidden; an older answer that holds them is read without them.
 - **Buyer's Life-Stage** (B2C) has three options; **Audience Specialization & Scale** (B2B) is unchanged. **Buyer's category** (Direct, Proxy, Dual-Intent) is asked for each relationship chosen, one choice.
-- For a Proxy or Dual-Intent Buyer: **Buyer and User relationship** (the six personal ones for B2C, the six business ones for B2B) and, for B2C only, **User's Life-Stage** (Minors, Young Adults, Adults, Seniors).
+- For a Proxy or Dual-Intent Buyer: **Buyer and User relationship** (the six personal ones and the Commercial & Professional one for B2C, the six business ones for B2B) and, for B2C only, **User's Life-Stage** (Minors, Young Adults, Adults, Seniors).
 - **Purpose** (the twelve purposes) is asked once, with the same limit as the outcome; **Differentiation & Outcome** is kept as the one question it was (the owner's list of "Purpose, Differentiation, Outcome" gave no separate lists for Differentiation and Outcome).
 - "Who chooses" and "what matters most to the End User" are no longer asked (future features).
+
+**Arranged on 2026-10-30:** the Early Positioning tile has two columns. Left, who pays: the Seller and Buyer Relationship and, for each relationship, its audience (Buyer's Life-Stage or Audience Specialization & Scale) and its Buyer's category. Right, the End User (the buyer and user relationship, the user's life stage), the Purpose and the Differentiation & Outcome. The **Purpose** options are ordered by relevance to the answers so far (the owner's tables, doc 31, 10.7: the buyer and user relationship, else the buyer's category, else the seller and buyer relationship); all twelve stay.
 
 **Not built:** the ages in the Segment (section 6), anything in Business 1 that reads the category, the relationship or the purpose, and the second Profile for the user.
 

@@ -1,6 +1,6 @@
 # The library (documents 8 to 15)
 
-Status: **index**, updated 2026-10-29. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
+Status: **index**, updated 2026-10-30. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
 
 The assets library, its generated lists, its logs, and the library measured against the app.
 

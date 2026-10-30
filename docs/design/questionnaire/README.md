@@ -1,6 +1,6 @@
 # The first version and the questionnaire (documents 27 to 35)
 
-Status: **index**, updated 2026-10-29. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
+Status: **index**, updated 2026-10-30. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
 
 What the first published version contains (read 33 first; it governs), what it leaves for later (34), and the questions, the lists and the research behind them. Reading order: 33, 34, then 27 (the plan), 28 (every question and rule), 29 (the flow), 35 (the lists and classifications), 31 and 32 (the positioning decisions and their sources), 30 (age limits).
 

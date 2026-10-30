@@ -20,7 +20,7 @@ export const OUTCOME_IDS = ["cost", "convenience", "compliance", "premium"] as c
 export const PURPOSE_IDS = ["learning", "health", "gifting", "entertainment", "social", "productivity", "growth", "creation", "everyday", "protection", "compliance", "access"] as const;
 
 /** The buyer and user relationships (document 31, 6.1 and 6.2), saved in the End User answers. */
-export const RELATION_IDS_B2C = ["rel:parent", "rel:caregiver", "rel:family", "rel:partner", "rel:friend", "rel:otherpersonal"] as const;
+export const RELATION_IDS_B2C = ["rel:parent", "rel:caregiver", "rel:family", "rel:partner", "rel:friend", "rel:commercial", "rel:otherpersonal"] as const;
 export const RELATION_IDS_B2B = ["rel:employer", "rel:copartner", "rel:serving", "rel:intermediary", "rel:sponsor", "rel:otherbusiness"] as const;
 
 /** The user's life stage (a consumer buyer's Proxy and Dual-Intent buyers), saved in the End User answers. */

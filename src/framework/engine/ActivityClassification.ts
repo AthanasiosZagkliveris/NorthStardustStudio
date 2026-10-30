@@ -111,7 +111,7 @@ export const BUYER_CATEGORY_WORDS: Record<string, string> = {
 /** The End User answers of Early Positioning (asked of a Proxy or Dual-Intent Buyer), by id: the buyer and user relationship, and the user's life stage. */
 export const END_USER_WORDS: Record<string, string> = {
     "rel:parent": "Buyer is the parent or legal guardian", "rel:caregiver": "Buyer is the caregiver or person responsible for their care", "rel:family": "Buyer is a family member or relative",
-    "rel:partner": "Buyer is the spouse or romantic partner", "rel:friend": "Buyer is a friend or acquaintance", "rel:otherpersonal": "Buyer has another personal relationship with the user",
+    "rel:partner": "Buyer is the spouse or romantic partner", "rel:friend": "Buyer is a friend or acquaintance", "rel:commercial": "Buyer is in a commercial or professional relationship with the user", "rel:otherpersonal": "Buyer has another personal relationship with the user",
     "rel:employer": "Buyer is the employer providing for employees", "rel:copartner": "Buyer is a business partner or co-owner", "rel:serving": "Buyer is a business serving its clients or customers",
     "rel:intermediary": "Buyer is a professional intermediary acting for a client", "rel:sponsor": "Buyer is a sponsor or funder", "rel:otherbusiness": "Buyer has another business relationship with the user",
     "age:minor": "User: minors", "age:young": "User: young adults", "age:adult": "User: adults", "age:senior": "User: seniors"

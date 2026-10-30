@@ -204,6 +204,8 @@ The decisions of 2026-10-27 to 2026-10-29, one row each, by topic. The rounds of
 | 24 | The six B2B relationships have a default intent (Proxy or Dual-Intent) and positioning text (10.6) | collected; the positioning text is future |
 | 25 | Requirements R-1 and R-2 (age restrictions on the Organization and Positioning cards) | superseded: ages go in the Segment (decision 6) |
 | 26 | Lists with no acceptable source (doc 32) stay the owner's wording | decided |
+| 28 | A seventh consumer relationship, "Commercial & Professional", is a proxy buyer (the owner's instruction of 2026-10-30); the consumer list is the six personal ones plus it, "Other personal relationship" last | built 2026-10-30 |
+| 29 | The purpose list is ordered by relevance (the tables of 10.7): the buyer and user relationship, else the buyer's category, else the seller and buyer relationship; nothing is taken away | built 2026-10-30 |
 | 27 | Rules of the buyer categories beyond age: data separation (a Proxy Buyer does not see the user's behavioural data), contract and liability flags, payment routing | decided as rules applied by country; future |
 
 **Still open** (doc 33, section 8): the four coarse user life stages and their edges; Purpose, Differentiation and Outcome as three questions; which ages go in the Segment and where; the country picker.
@@ -362,3 +364,72 @@ The owner pasted a text on how the six business relationships (6.2) position, gr
 3. **The Dual-Intent label of "Business partner" fits the examples poorly:** the example says one partner buys for the other to use, which is the Proxy test of section 10.5 (the payer does not consume). The text justifies it as "active user or operational partner"; it stays as the owner's reading, flagged.
 4. **"B2B2Network"** is the text's own label for the franchise case; it is not a term of the questionnaire and is not used.
 5. **Not in the first version:** the positioning columns (value positioning, pain points, messaging focus). Doc 33 uses only the six relationships and the Proxy or Dual-Intent grouping; the columns are a future feature (doc 34).
+
+### 10.7 How relevant each purpose is: the owner's tables of 2026-10-30
+
+● primary relevance · ○ possible relevance · blank = generally less directly relevant. **Used only to order the purpose list** (the most relevant first); nothing is taken away. The most specific table that applies is used: the buyer and user relationship (a consumer buyer), else the buyer's category, else the seller and buyer relationship.
+
+**By seller and buyer relationship**
+
+| Purpose | B2B | B2C |
+|---|---|---|
+| Learning and Development | ● | ● |
+| Health, Care and Wellbeing | ○ | ● |
+| Gifting and Appreciation | ● | ● |
+| Entertainment and Enjoyment |  | ● |
+| Social Connection and Relationships | ○ | ● |
+| Productivity and Efficiency | ● | ● |
+| Business Growth and Performance | ● |  |
+| Creation and Expression | ○ | ● |
+| Everyday Needs and Convenience |  | ● |
+| Protection and Risk Reduction | ● | ● |
+| Compliance and Obligations | ● | ○ |
+| Access and Social Support | ○ | ● |
+
+**By buyer's category**
+
+| Purpose | Direct (for themselves) | Proxy (on behalf of someone) | Dual-Intent (shared) |
+|---|---|---|---|
+| Learning and Development | ● | ○ | ● |
+| Health, Care and Wellbeing | ● | ● | ○ |
+| Gifting and Appreciation |  | ● | ○ |
+| Entertainment and Enjoyment | ● | ○ | ● |
+| Social Connection and Relationships | ● |  | ● |
+| Productivity and Efficiency | ● | ○ | ● |
+| Business Growth and Performance | ● | ● | ● |
+| Creation and Expression | ● |  | ○ |
+| Everyday Needs and Convenience | ● | ● | ● |
+| Protection and Risk Reduction | ● | ● | ● |
+| Compliance and Obligations | ● | ● | ○ |
+| Access and Social Support | ● | ● | ○ |
+
+**By buyer and user relationship (a consumer buyer)**
+
+| Purpose | Parent or legal guardian | Caregiver or person responsible | Family member or relative | Spouse or romantic partner | Friend or acquaintance | Commercial & Professional | Other personal relationship |
+|---|---|---|---|---|---|---|---|
+| Learning and Development | ● | ○ | ○ | ○ |  | ● | ○ |
+| Health, Care and Wellbeing | ● | ● | ● | ● | ○ | ● | ○ |
+| Gifting and Appreciation | ● | ○ | ● | ● | ● | ● | ● |
+| Entertainment and Enjoyment | ● | ○ | ● | ● | ● |  | ● |
+| Social Connection and Relationships | ○ |  | ● | ● | ● |  | ● |
+| Productivity and Efficiency | ● | ● | ○ | ● |  | ● | ○ |
+| Business Growth and Performance |  |  |  | ○ |  | ● |  |
+| Creation and Expression | ● |  | ○ | ○ | ○ |  | ○ |
+| Everyday Needs and Convenience | ● | ● | ● | ● |  | ● | ● |
+| Protection and Risk Reduction | ● | ● | ● | ● |  | ● | ○ |
+| Compliance and Obligations | ● | ● | ○ | ○ |  | ● |  |
+| Access and Social Support | ● | ● | ● | ○ | ○ | ● | ○ |
+
+Structural rationale (owner): Commercial & Professional is a strict business mindset, skipping Entertainment and Social Connection and tracking Learning, Health, Productivity, Business Growth and Protection or Compliance; Parent or legal guardian and Caregiver are highly dependent, indexed on Everyday Needs, Protection, Compliance and Access; Spouse or romantic partner is a dual-intent relationship relevant to nearly every purpose; Friend or acquaintance relies on social capital: Gifting, Entertainment and Social Connection.
+
+**How a consumer relationship usually reads (owner's table)**
+
+| Relationship | Usual intent | Behaviour |
+|---|---|---|
+| Parent or legal guardian | Proxy | Pure proxy when buying for young children: the parent weighs safety and cost, the child experiences the product |
+| Caregiver or person responsible | Proxy | Highly functional proxy buying (medical supplies, specialised food): ease of administration and utility over personal preference |
+| Family member or relative | Dual or proxy | Gifting (proxy) or shared household utility (dual), such as a streaming subscription or a holiday for the extended family |
+| Spouse or romantic partner | Dual | Purchases usually affect both: groceries, furniture, appliances; shared alignment |
+| Friend or acquaintance | Proxy | Almost exclusively gifting or a favour: appreciation and social connection over utility |
+| Commercial & Professional (new) | Proxy | The buyer buys for a client, a patient or a member in a professional capacity (the owner's instruction: a proxy buyer) |
+| Other personal relationship | Dual or proxy | Varies with closeness: the roommate dynamic (dual, shared spaces) or community support |

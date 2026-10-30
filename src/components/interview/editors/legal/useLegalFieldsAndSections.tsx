@@ -21,6 +21,7 @@ import OptionPicker from "../../fields/OptionPicker.tsx";
 import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import ActivitiesField from "./ActivitiesField.tsx";
+import { orderedByRelevance, purposeRelevance } from "../../../../framework/engine/PurposeRelevance.ts";
 import DateCellInput from "../../fields/DateCellInput.tsx";
 import { todayIsoDate } from "../../../../framework/engine/AnswerUtils.ts";
 import { BUSINESS_STAGE_WORDS } from "../../../../framework/engine/ActivityClassification.ts";
@@ -237,6 +238,14 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
         return frozen ? <FrozenUntil answered={frozen.answered} hint={frozen.hint}>{row}</FrozenUntil> : row;
     }
 
+    // THE PURPOSES in the order of their relevance (the owner's tables, document 31, 10.4): the buyer and user relationship, else the buyer's category, else the seller and buyer relationship. Every
+    // purpose stays; the order only puts the most relevant first.
+    const purposeOptions = orderedByRelevance(PURPOSES, purposeRelevance({
+        models,
+        categories: entity.organisation.buyerCategory,
+        relationships: entity.organisation.endUser.filter(id => id.startsWith("rel:"))
+    }));
+    // The left column asks WHO PAYS: the relationship, and for each relationship its audience and its buyer's category. The right column asks about the End User (a Proxy or Dual-Intent Buyer's), the purpose and the outcome.
     const audience = (
         <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience">
 
@@ -259,10 +268,6 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                     INFO.customerType
                 )}
                 </div>
-
-            </div>
-
-            <div className="legal-entity-field legal-entity-questions">
 
                 {audienceSets.filter(set => audienceShown(set, models)).map(set => (
                     <div key={set.group}>
@@ -296,22 +301,28 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                         )}
                         </div>
                     )}
+                    </div>
+                ))}
 
-                    {models.includes(set.model) && endsUser(set.model) && (
-                        <div className="legal-entity-org-section legal-entity-org-audience legal-entity-org-enduser">
-                        {choice(
-                            "Buyer and User relationship" + suffix(set.model),
-                            "legal-entity-enduser-relation-" + set.model,
-                            BUYER_USER_RELATIONS[set.model],
-                            chosenOf(entity.organisation.endUser, BUYER_USER_RELATIONS[set.model]),
-                            choiceLimit(stage, "audience"),
-                            (next) => updateOrganisation({ endUser: [...entity.organisation.endUser.filter(id => !idsOf(BUYER_USER_RELATIONS[set.model]).includes(id)), ...next] }),
-                            INFO.buyerUserRelation
-                        )}
-                        </div>
+            </div>
+
+            <div className="legal-entity-field legal-entity-questions">
+
+                {audienceSets.filter(set => models.includes(set.model) && endsUser(set.model)).map(set => (
+                    <div key={set.group}>
+                    <div className="legal-entity-org-section legal-entity-org-audience legal-entity-org-enduser">
+                    {choice(
+                        "Buyer and User relationship" + suffix(set.model),
+                        "legal-entity-enduser-relation-" + set.model,
+                        BUYER_USER_RELATIONS[set.model],
+                        chosenOf(entity.organisation.endUser, BUYER_USER_RELATIONS[set.model]),
+                        choiceLimit(stage, "audience"),
+                        (next) => updateOrganisation({ endUser: [...entity.organisation.endUser.filter(id => !idsOf(BUYER_USER_RELATIONS[set.model]).includes(id)), ...next] }),
+                        INFO.buyerUserRelation
                     )}
+                    </div>
 
-                    {set.model === "b2c" && models.includes("b2c") && endsUser("b2c") && (
+                    {set.model === "b2c" && (
                         <div className="legal-entity-org-section legal-entity-org-audience legal-entity-org-enduser">
                         {choice(
                             "User's Life-Stage",
@@ -331,7 +342,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                 {choice(
                     "Purpose",
                     "legal-entity-purpose",
-                    PURPOSES,
+                    purposeOptions,
                     entity.organisation.purpose,
                     choiceLimit(stage, "outcome"),
                     (next) => updateOrganisation({ purpose: next }),

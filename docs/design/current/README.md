@@ -1,6 +1,6 @@
 # The current design (documents 16 to 26)
 
-Status: **index**, updated 2026-10-29. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
+Status: **index**, updated 2026-10-30. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
 
 What the app is today in detail: the texts, the reactions, the shared components, the pop-ups, the tooltips, the folders and the card structure.
 

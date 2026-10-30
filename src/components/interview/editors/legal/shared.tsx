@@ -134,6 +134,7 @@ export const BUYER_USER_RELATIONS = {
         { id: "rel:family", label: "Family member or relative" },
         { id: "rel:partner", label: "Spouse or romantic partner" },
         { id: "rel:friend", label: "Friend or acquaintance" },
+        { id: "rel:commercial", label: "Commercial & Professional relationship" },
         { id: "rel:otherpersonal", label: "Other personal relationship" }
     ],
     b2b: [
@@ -367,7 +368,8 @@ export const INFO = {
 
     buyerUserRelation: [
         "How is the buyer related to the person who will use it? It shapes the message: a parent is reached by safety and trust, an employer by compliance and duty of care.",
-        "A consumer buyer: parent or legal guardian, caregiver, family member, spouse or partner, friend, another personal relationship. A business buyer: employer, business partner, a business serving its clients, a professional intermediary, a sponsor or funder, another business relationship.",
+        "A consumer buyer: parent or legal guardian, caregiver, family member, spouse or partner, friend, a commercial and professional relationship (a proxy buyer: someone buying for a client, a patient or a member), another personal relationship. A business buyer: employer, business partner, a business serving its clients, a professional intermediary, a sponsor or funder, another business relationship.",
+        "A consumer buyer's relationship usually reads as proxy (the buyer buys for the other): parent or legal guardian, caregiver, friend or acquaintance, commercial and professional; as dual-intent (the purchase is for both): spouse or romantic partner; as either: family member or relative, another personal relationship.",
         "The relationship suggests the category above; the buyer's own answer decides it."
     ],
 
@@ -378,6 +380,7 @@ export const INFO = {
 
     purpose: [
         "Why the offering is bought: the purpose it serves for the person who gets it. Choose the ones that fit best.",
+        "Primary relevance (the buyer's relationship, category or seller relationship above) comes first, then the possible ones, then the rest. Nothing is taken away: choose what is true of your offering.",
         "Learning and Development. Health, Care and Wellbeing. Gifting and Appreciation. Entertainment and Enjoyment. Social Connection and Relationships. Productivity and Efficiency. Business Growth and Performance. Creation and Expression. Everyday Needs and Convenience. Protection and Risk Reduction. Compliance and Obligations. Access and Social Support."
     ],
 

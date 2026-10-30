@@ -1,6 +1,6 @@
 # The design and its records (documents 1 to 7)
 
-Status: **index**, updated 2026-10-29. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
+Status: **index**, updated 2026-10-30. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
 
 The current design of the Foundation, the sources, the research, the log of every change, what has not been done, and the generated catalogue and structure tables.
 
