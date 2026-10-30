@@ -14,14 +14,15 @@ import NumberedListInput from "../../fields/NumberedListInput.tsx";
 import OptionPicker from "../../fields/OptionPicker.tsx";
 import { FieldMark, FieldStatus } from "../../fields/fieldMarks.tsx";
 import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
-import { BusinessNeedKind, CATEGORY_OTHER, COMPETITOR_TYPE_QUESTIONS, SUBSECTIONS, competitorParts, otherProfileNeeds } from "./shared.tsx";
+import { BusinessNeedKind, CATEGORY_OTHER, COMPETITOR_TYPE_QUESTIONS, OPTIONAL_DESCRIPTION_PART, SUBSECTIONS, competitorParts, otherProfileNeeds } from "./shared.tsx";
+import { BUSINESS_AUDIENCE, PEOPLE_AUDIENCE, audienceLine, segmentFrame } from "./identityLink.ts";
 import type { useFoundationState } from "./useFoundationState.tsx";
 
 type Earlier = ReturnType<typeof useFoundationState>;
 
 export function useFoundationSubsections(earlier: Earlier) {
 
-    const { built, description, disabled, folds, forceOpen, group, groupFold, labelled, note, targetAudience, text, updateProfile, updateSegment } = earlier;
+    const { built, description, disabled, folds, forceOpen, group, groupFold, labelled, note, targetAudience, identity, text, updateProfile, updateSegment } = earlier;
 
     /** The delete control every card on this page carries. */
     function remove(what: string, onRemove: () => void) {
@@ -169,9 +170,21 @@ export function useFoundationSubsections(earlier: Earlier) {
 
         const segmentPath = "Segment " + (segmentIndex + 1);
 
+        // The boxes follow the Seller and Buyer Relationship (Identity): people only asks Demographics (not Business Data); businesses only asks Business Data (not Demographics) and
+        // asks it without the tick; otherwise (nothing chosen, or several) every box stands, as before. The audience chosen in Identity is added to the "i" of the box it belongs to.
+        const frame = segmentFrame(identity);
+        const segmentParts = SUBSECTIONS.segments.segmentDescription
+            // (A box that already has text stays, so nothing written is hidden.)
+            .filter(part => !((frame === "people" && part.id === OPTIONAL_DESCRIPTION_PART) || (frame === "business" && part.id === "demographics")) || (segment.description[part.id] ?? "").trim().length > 0)
+            .map(part => part.id === "demographics"
+                ? { ...part, extra: audienceLine(identity, PEOPLE_AUDIENCE) }
+                : part.id === OPTIONAL_DESCRIPTION_PART
+                    ? { ...part, extra: audienceLine(identity, BUSINESS_AUDIENCE), always: frame === "business" }
+                    : part);
+
         const segmentDescription = description(
             segmentPath,
-            SUBSECTIONS.segments.segmentDescription,
+            segmentParts,
             segment.description,
             (next) => updateSegment(segmentIndex, { description: next }),
             true,

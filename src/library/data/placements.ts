@@ -1,5 +1,5 @@
-// The assets library, seeded once by tools/scripts/library/seed-library.mjs from the catalogue (docs/design/07-structure-tables.md).
-// From now on the library is the source: it is changed by the procedure of docs/design/08-library-system.md (check, library, library log, inventory, placement, app log).
+// The assets library, seeded once by tools/scripts/library/seed-library.mjs from the catalogue (docs/design/core/07-structure-tables.md).
+// From now on the library is the source: it is changed by the procedure of docs/design/library/08-library-system.md (check, library, library log, inventory, placement, app log).
 import type { Placement } from "../model/types.ts";
 
 export const placements: readonly Placement[] = [
@@ -7132,140 +7132,140 @@ export const placements: readonly Placement[] = [
  {
   "asset": "FLD.001",
   "system": "Identity System",
-  "page": "2. Organization",
+  "page": "2. Legal Entity",
   "card": "CRD.010/CRD.LGL.010.001",
   "position": 1
  },
  {
   "asset": "FLD.002",
   "system": "Identity System",
-  "page": "2. Organization",
+  "page": "2. Legal Entity",
   "card": "CRD.010/CRD.LGL.010.001",
   "position": 2
  },
  {
   "asset": "FLD.063",
   "system": "Identity System",
-  "page": "2. Organization",
+  "page": "2. Legal Entity",
   "card": "CRD.010/CRD.LGL.010.001",
   "position": 3
  },
  {
   "asset": "FLD.047",
   "system": "Identity System",
-  "page": "2. Organization",
+  "page": "2. Legal Entity",
   "card": "CRD.010/CRD.LGL.010.001",
   "position": 4
  },
  {
   "asset": "FLD.017",
   "system": "Identity System",
-  "page": "2. Organization",
+  "page": "2. Legal Entity",
   "card": "CRD.010/CRD.LGL.010.001",
   "position": 5
  },
  {
   "asset": "FLD.064",
   "system": "Identity System",
-  "page": "2. Organization",
+  "page": "2. Legal Entity",
   "card": "CRD.010/CRD.LGL.010.001",
   "position": 6
  },
  {
   "asset": "FLD.065",
   "system": "Identity System",
-  "page": "2. Organization",
+  "page": "2. Legal Entity",
   "card": "CRD.010/CRD.LGL.010.001",
   "position": 7
  },
  {
   "asset": "FLD.014",
   "system": "Identity System",
-  "page": "2. Organization",
+  "page": "2. Legal Entity",
   "card": "CRD.010/CRD.LGL.010.001",
   "position": 8
  },
  {
   "asset": "FLD.015",
   "system": "Identity System",
-  "page": "2. Organization",
+  "page": "2. Legal Entity",
   "card": "CRD.010/CRD.LGL.010.001",
   "position": 9
  },
  {
   "asset": "FLD.066",
   "system": "Identity System",
-  "page": "2. Organization",
+  "page": "2. Legal Entity",
   "card": "CRD.010/CRD.ADD.010.002",
   "position": 1
  },
  {
   "asset": "FLD.063",
   "system": "Identity System",
-  "page": "2. Organization",
+  "page": "2. Legal Entity",
   "card": "CRD.010/CRD.ADD.010.002",
   "position": 2
  },
  {
   "asset": "FLD.063",
   "system": "Identity System",
-  "page": "2. Organization",
+  "page": "2. Legal Entity",
   "card": "CRD.010/CRD.ADD.010.002",
   "position": 3
  },
  {
   "asset": "FLD.067",
   "system": "Identity System",
-  "page": "2. Organization",
+  "page": "2. Legal Entity",
   "card": "CRD.010/CRD.ADD.010.002",
   "position": 4
  },
  {
   "asset": "FLD.017",
   "system": "Identity System",
-  "page": "2. Organization",
+  "page": "2. Legal Entity",
   "card": "CRD.010/CRD.ADD.010.002",
   "position": 5
  },
  {
   "asset": "FLD.065",
   "system": "Identity System",
-  "page": "2. Organization",
+  "page": "2. Legal Entity",
   "card": "CRD.010/CRD.ADD.010.002",
   "position": 6
  },
  {
   "asset": "FLD.014",
   "system": "Identity System",
-  "page": "2. Organization",
+  "page": "2. Legal Entity",
   "card": "CRD.010/CRD.ADD.010.002",
   "position": 7
  },
  {
   "asset": "FLD.104",
   "system": "Identity System",
-  "page": "2. Organization",
+  "page": "2. Legal Entity",
   "card": "CRD.010/CRD.ALR.010.003",
   "position": 1
  },
  {
   "asset": "FLD.105",
   "system": "Identity System",
-  "page": "2. Organization",
+  "page": "2. Legal Entity",
   "card": "CRD.010/CRD.ALR.010.003",
   "position": 2
  },
  {
   "asset": "FLD.042",
   "system": "Identity System",
-  "page": "2. Organization",
+  "page": "2. Legal Entity",
   "card": "CRD.010/CRD.ALR.010.003",
   "position": 3
  },
  {
   "asset": "FLD.014",
   "system": "Identity System",
-  "page": "2. Organization",
+  "page": "2. Legal Entity",
   "card": "CRD.010/CRD.ALR.010.003",
   "position": 4
  },
@@ -7991,13 +7991,13 @@ export const placements: readonly Placement[] = [
  {
   "asset": "FRM.001",
   "system": "Identity System",
-  "page": "2. Organization",
+  "page": "2. Legal Entity",
   "chapter": "1. Legal Entity"
  },
  {
   "asset": "FRM.001",
   "system": "Identity System",
-  "page": "2. Organization",
+  "page": "2. Legal Entity",
   "chapter": "2. Founders & Capability"
  },
  {
@@ -8119,42 +8119,42 @@ export const placements: readonly Placement[] = [
  {
   "asset": "TIL.001",
   "system": "Identity System",
-  "page": "2. Organization",
+  "page": "2. Legal Entity",
   "chapter": "1. Legal Entity",
   "tile": "Organization"
  },
  {
   "asset": "TIL.001",
   "system": "Identity System",
-  "page": "2. Organization",
+  "page": "2. Legal Entity",
   "chapter": "1. Legal Entity",
   "tile": "Founders & Ownership"
  },
  {
   "asset": "TIL.001",
   "system": "Identity System",
-  "page": "2. Organization",
+  "page": "2. Legal Entity",
   "chapter": "1. Legal Entity",
   "tile": "Registrations"
  },
  {
   "asset": "TIL.001",
   "system": "Identity System",
-  "page": "2. Organization",
+  "page": "2. Legal Entity",
   "chapter": "1. Legal Entity",
   "tile": "Expenses"
  },
  {
   "asset": "TIL.001",
   "system": "Identity System",
-  "page": "2. Organization",
+  "page": "2. Legal Entity",
   "chapter": "2. Founders & Capability",
   "tile": "Jordan Ellis"
  },
  {
   "asset": "TIL.001",
   "system": "Identity System",
-  "page": "2. Organization",
+  "page": "2. Legal Entity",
   "chapter": "2. Founders & Capability",
   "tile": "Capability"
  },

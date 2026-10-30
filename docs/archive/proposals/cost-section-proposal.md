@@ -1,6 +1,6 @@
 # The Cost section: what it should record and how it should look
 
-Status: **archive**, written 2026-10-12, moved here 2026-10-21. A proposal with the owner's answers. The Costs and Funding Need pages were built afterwards along the cost model (see the log, `design/04-log.md`); what is built is described in `specifications/business-system/page-4-financial-foundation.md`. Kept for the research and the answers on CapEx, Startup and Pre-operating costs.
+Status: **archive**, written 2026-10-12, moved here 2026-10-21. A proposal with the owner's answers. Where its information now lives: the layout it recommends was built and is described in `specifications/business-system/page-4-financial-foundation.md` ("As built", Costs) and the cost model in `design/core/01-current-design.md`, Part D. **Held only here:** the research on what a cost budget holds (the templates and guides of Stripe, Xero, Shakuro and AccountingTools) and the worked answers on pre-operating costs and on capitalising a freelancer's or a website's cost (IAS 38, FRS 102); the sources on capitalising are partly in `design/core/02-references.md`. The Costs and Funding Need pages were built afterwards along the cost model (see the log, `design/core/04-log.md`); what is built is described in `specifications/business-system/page-4-financial-foundation.md`. Kept for the research and the answers on CapEx, Startup and Pre-operating costs.
 
 ## What the app records today
 

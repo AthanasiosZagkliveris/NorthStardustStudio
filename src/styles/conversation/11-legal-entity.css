@@ -98,11 +98,55 @@
 
 }
 
+/* THE POSITIONING CARD (Early Positioning): the left column is as wide as its longest option, so every option stands on one line; the right column takes the rest. The 1px divider between them is the right column's own left border (12px clear on each side), not the grid's centre line. (Under 901px the grid is one column, below.) */
+.legal-entity-grid-organization.legal-entity-audience{
+
+    grid-template-columns:max-content minmax(0, 1fr);
+
+    column-gap:0;
+
+}
+
+.legal-entity-grid-organization.legal-entity-audience::before{
+
+    display:none;
+
+}
+
+.legal-entity-grid-organization.legal-entity-audience > .legal-entity-field:first-child{
+
+    padding-right:var(--space-cell);
+
+}
+
+.legal-entity-grid-organization.legal-entity-audience > .legal-entity-field + .legal-entity-field{
+
+    padding-left:var(--space-cell);
+
+    border-left:1px solid var(--line-divider);
+
+}
+
 @media (max-width: 900px){
 
-    .legal-entity-grid{
+    .legal-entity-grid,
+    .legal-entity-grid-organization.legal-entity-audience{
 
         grid-template-columns:minmax(0, 1fr);
+
+    }
+
+    .legal-entity-grid-organization.legal-entity-audience > .legal-entity-field:first-child{
+
+        padding-right:0;
+
+    }
+
+    .legal-entity-grid-organization.legal-entity-audience > .legal-entity-field + .legal-entity-field{
+
+        padding-left:0;
+
+        border-left:0;
 
     }
 
@@ -1106,6 +1150,7 @@
 
     white-space:normal;
 
+    /* As a tick box's label (global.css): the round beside the FIRST line of its word, centred on it, the word wrapping beside it. */
     align-items:flex-start;
 
 }
@@ -1114,7 +1159,7 @@
 
     flex:none;
 
-    margin-top:6px;
+    margin-top:4px;
 
 }
 
@@ -1399,5 +1444,105 @@
 .founders-profile-sole-row > .optional-field:not(:has(> .optional-field-body)) > .optional-field-head {
 
     margin-top: calc(var(--label-line) + var(--space-label) + (var(--control-square) - var(--label-line)) / 2);
+
+}
+
+/* The sections of one relationship (its audience and its buyer's category; its buyer and user relationship and the user's life stage) stand one field gap (12px) apart, as every section of the card does. */
+.legal-entity-org-set{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-field);
+
+}
+
+/* A divider line under the title of each question of the Positioning card, across its column. */
+.legal-entity-audience .legal-entity-label-info{
+
+    display:flex;
+
+    /* The line runs the section's whole width, from the card's side to the middle divider (the section is that wide; its words keep their place). */
+    width:calc(100% + 2 * var(--space-cell));
+
+    margin-inline:calc(-1 * var(--space-cell));
+
+    padding-inline:var(--space-cell);
+
+    box-sizing:border-box;
+
+    padding-bottom:4px;
+
+    border-bottom:1px solid var(--line-divider);
+
+    /* Every title row is one height, so the first lines of the two columns stand at one height whatever a row holds (the "i", a limit's note). */
+    align-items:center;
+
+    min-height:calc(var(--label-line) + var(--space-label) + 4px);
+
+}
+
+/* The first option stands a field gap (12px) under its title's line, for a radio and for a tick list: the title's own 6px and this. */
+.legal-entity-audience .legal-entity-radio-stack{
+
+    padding-top:var(--space-label);
+
+}
+
+/* The rule above the Notes closes the last questions: 12px from their words (the last section's own bottom padding), not 12 more (the body's gap). */
+.legal-entity-audience + .legal-entity-org-rule{
+
+    margin-top:calc(-1 * var(--space-field));
+
+}
+
+/* THE QUESTIONS OF THE POSITIONING CARD ARE BANDS, as the channel card's parts are (the card's own label colour, 12%, on every other question; the others on the card's ground), each the column's whole width and the card's edge to the divider, no gap between, the words keeping their place. */
+.legal-entity-grid-organization.legal-entity-audience > .legal-entity-field{
+
+    gap:0;
+
+}
+
+.legal-entity-audience .legal-entity-org-set{
+
+    gap:0;
+
+}
+
+.legal-entity-audience .legal-entity-org-section{
+
+    margin:0 calc(-1 * var(--space-cell));
+
+    padding:var(--space-label) var(--space-cell) var(--space-cell);
+
+}
+
+.legal-entity-audience .legal-entity-org-band{
+
+    background:color-mix(in srgb, var(--label-color, var(--text-default)) 12%, transparent);
+
+}
+
+/* THE BANDS AND THE DOUBLE RULES RUN FROM THE CARD'S SIDES TO THE MIDDLE DIVIDER: the dialog's body, which scrolls and so clips what is wider than itself, reaches the dialog's own sides for this card (it stands 6px inside them otherwise), its contents keeping their place; and a double rule has a field gap (12px) above and below it. */
+.section-tile-dialog-body:has(.legal-entity-audience){
+
+    margin-inline:calc(-1 * var(--card-padding));
+
+    padding-inline:var(--card-padding);
+
+}
+
+/* A double rule has no margin of its own: the section above ends 12px (its own bottom padding) from it, and the section below starts 12px (its top padding, made 12 here) from it, so the gap is one 12px, not two. */
+.legal-entity-audience .business-capability-card-rule-double{
+
+    margin-block:0;
+
+}
+
+.legal-entity-audience .business-capability-card-rule-double + .legal-entity-org-section,
+.legal-entity-audience .business-capability-card-rule-double + .legal-entity-org-set > .legal-entity-org-section:first-child{
+
+    padding-top:var(--space-field);
 
 }

@@ -243,7 +243,7 @@ export function useLegalState(props: LegalEntityEditorProps) {
     }
     /**
      * Changing country changes what a legal form even means, so the
-     * chosen one is cleared with it -- a "GmbH" left standing under
+     * chosen one is cleared with it, and so are the state and the address -- a "GmbH" left standing under
      * "France" would be worse than an empty field. Anything TYPED
      * survives: that was never drawn from the list.
      */
@@ -255,6 +255,8 @@ export function useLegalState(props: LegalEntityEditorProps) {
                 ...entity.organisation,
                 country,
                 subdivision: "",
+                // (The address was written for the country just left: a change of country empties it, with the state, so no address stays under another country's state or postcode. Choosing the same country again changes nothing.)
+                ...(country !== entity.organisation.country ? { addressLine1: "", addressLine2: "", city: "", postalCode: "" } : {}),
                 legalForm: "",
                 activityCode: "",
                 // Nothing carries over to another country: its classification is its own, even where the codes look alike.

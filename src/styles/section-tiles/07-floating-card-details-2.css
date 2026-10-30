@@ -245,9 +245,10 @@
 
 }
 
+/* THE LINES OF A TILE ARE ONE LINE: 1px, the title ink at 40%, as the title's own rule is (its border, 01-tiles-and-dialog.css), so a title's line and a line between two topics read alike. */
 .section-tile-list > li.section-tile-divider {
 
-    background: color-mix(in srgb, currentColor 55%, transparent);
+    background: color-mix(in srgb, var(--title-ink) 40%, transparent);
 
 }
 

@@ -1,12 +1,24 @@
-# Business System — Page 2: Customers Engagement
+# Business System — Page 2, Section 2: Customer Relationships
 
-Status: **specification**, updated 2026-09-27.
-## Section 2 — Customer Relationships
+Status: **specification**, updated 2026-10-29. The requirement as written (sections 1 to 17) is preceded by "As built", which wins where they differ. The page is called Customer Engagement in the app.
 
 > **3. Business System — Page 2 of 5, Section 2 of 2.**
 > Follows **Section 1 — Channels** on the same page, and
 > references the Channels defined there.
 
+## As built
+
+**The page.** Page 2 is one Structure, `Business Engagement`, drawn by `BusinessEngagementEditor`. There is one card for each Customer Segment of Page 1, in the Segment's own colour (so the same Segment is the same colour on both pages). The card holds the references (Segment, Profiles, Offerings, read from Page 1, in no box and with no Show / Hide button), then three folding sections: **1. Customer Channel** (Section 1), **2. Customer Relationship** (this section) and **3. Demand & Conversion** (not part of these specifications: document 28, 7.5; the layout of all three is `ai/customer-engagement-layout.md`). The two specified sections are one editor, not two parts of a `MultiPart`, because Customer Relationship picks the channels that Customer Channel defines.
+
+**The relationship is kept about an Offering, once, not about a Profile.** The worked example puts the Profile first and the Relationship Type before the Offering; the app turns on the Offering, so three Profiles who buy the same thing are not three relationships, the same person can buy a product on their own and be walked through a service, and one answer stands for everyone who buys the same thing. `types` and `purpose` are stored per Offering under `segment.offerings[].typeDetail`. The Profiles an Offering serves are listed under it as reference (each with an "i" opening what Page 1 records about them) and are answered nowhere. Answers kept per Profile before are merged into the Offering's field by field, first-written wins; the old per-Profile store is read and never written.
+
+**Nothing is asked that Pages 1 and 2 have answered.** The rows are derived from Section 1 along a chain of three answers already given: (1) the Profile's **Functional needs** (Page 1, Profile › Needs); (2) the Offerings whose **Functional Needs Addressed** include one of them (Page 1, Offering); (3) the channels that carry those Offerings, and at which **Journey Stages** (Section 1). An Offering that answers none of a Profile's needs produces no rows for that Profile, and adding a Journey Stage to a channel adds the rows for every Profile whose needs that channel's Offerings answer. The Offering and Journey Stage / Channel columns are read-only, and the empty state names whichever link in the chain is missing. A channel marked as carrying **all** of a Segment's Offerings (`BUSINESS_CHANNEL_ALL_OFFERINGS`) counts as all of them, also as Page 1 gains more (read it through `businessChannelOfferings`).
+
+**Answered against Page 1, by id.** Segments, Profiles and Offerings are referenced and never copied: the stored value holds ids only, so renaming a Profile on Page 1 renames it here.
+
+**The table.** Three columns; the two headings **Relationship Type and Purpose** and **Engagement Strategy** (the Interaction Context is part of it, not a heading beside it) are repeated under each Offering. The nesting is drawn as bands, each a 24px step in from the arrow that folds the level above: `1. Offering - Make Up Masterclass` from the left edge, then the Profiles, the headings and the Relationship Types a step in. The Engagement Strategy is two parts: the Journey Stage (a band in the second column, above the kinds of channel used at it) and, on the band's own line in the third column, the Goal, with the Approach following under it beside the channels. Three levels fold: Offering, Relationship Type and Journey Stage (a folded Offering shows the relationship types kept about it, a folded Relationship Type the journey and the Approach written at each stage); **every Journey Stage starts folded**, and a stage's arrow folds only the kinds of channel under it (the Goal and the Approach stay). Each kind of channel lists its channels, in the fixed category order, underlined; **the Approach and the Goal are written once per stage**, spanning those rows, because an organisation has an approach to being discovered rather than a different one per platform; both are labelled inside the Engagement Strategy cell. They are keyed by `offering|stage`; the two earlier keyings (per channel, then per category) are read as fallbacks and never written. The Goal sits on the interaction and is optional, per the worked example; the Goal selector shows each goal's meaning beside its name, not "Get / Keep / Grow" alone.
+
+**Journey Stages** are the five of Section 1; the stage "Discover" is stored as `discovery`.
 ## 1. Purpose
 
 Create a **Customer Relationships** section that defines how the organisation maintains relationships with its Customer Profiles.
@@ -184,7 +196,7 @@ Use a dropdown or multi-selection control.
 
 Available options:
 
-1. **Discovery**
+1. **Discover** (stored as `discovery`)
 2. **Evaluation**
 3. **Purchase**
 4. **Delivery**
@@ -247,7 +259,7 @@ Answers:
 
 Examples:
 
-- Discovery
+- Discover
 - Evaluation
 - Purchase
 - Delivery

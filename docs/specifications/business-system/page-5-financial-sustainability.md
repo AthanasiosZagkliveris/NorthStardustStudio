@@ -1,12 +1,18 @@
 # Business System — Page 5: Financial Sustainability
 
-Status: **specification**, updated 2026-09-27.
-## Design & Development Prompt
+Status: **specification**, updated 2026-10-29. The requirement as written (sections 1 to 23) is preceded by "As built", which wins where they differ.
 
 > **3. Business System — Page 5 of 5.**
-> Was labelled "Page B", with **Page 4 — Financial Foundation**
-> called "Page A" throughout. The second of the two Financial
-> pages.
+> The second of the two Financial pages; it follows **Page 4 — Financial Foundation**.
+
+## As built
+
+Page 5 is a Structure of its own, `Financial Sustainability` (editor `FinancialSustainabilityEditor`), two folding cards numbered 5.1 and 5.2; they are not tiles yet (document 5, section 5.3). It shares its model, its month field, its time and its currency with Page 4 (`page-4-financial-foundation.md`, "As built"). The revenue stream card is also described in document 28, 10.2.
+
+| Section | How it is built |
+|---|---|
+| 5.1 Revenue | One stream card for each Offering, named by it. **How a stream is charged is one question**: Per sale, Per project, Monthly, Quarterly or Annually (the revenue model is derived from it: Sale, Project / Contract, Subscription / Retainer, Subscription / Licence); an earlier answer's one-time, usage-based or other is read as Per sale, and per contract as Per project. Revenue Unit: Product, Project, Session, Participant, Hour, Day, Client, Licence, Subscription, Other. Volume is per month at the normal level (for a subscription, the number active). Development: steady from a start month, a gradual build-up, or month by month (each entry holds until the next). Payment timing moves cash, not revenue: on completion, split, or milestone, with a delay in months. The variable cost per unit is read from Page 4's per-unit costs linked to the Offering and can be overridden ("Each Offering's Costs"). A note appears where the charging disagrees with how Customer Engagement says customers buy. **Can the Expected Sales Be Delivered?** compares the expected sales with the founders' delivery hours (Page 3, Delivery): a shortfall is reported, never corrected. **Revenue Summary**: the expected revenue a month, with each stream's share |
+| 5.2 Break Even | Cost inputs read from Page 4 by behaviour (fixed, variable, semi-variable). Fixed = the monthly equivalent of every recurring cost plus loan interest (principal and one-time costs excluded), with caveats where a semi-variable cost is unseparated. **Break-Even Point** for an Offering alone, and the organisation's on the expected mix scaled to cover the fixed costs. **Break-Even Time** month by month. Financial exhaustion from Page 4's timeline with the revenue and the variable costs laid over it (**Revenue-Adjusted Financial Position**). **Sustainability**: the status, the buffer, the summary table (Expected Monthly Revenue, Break-Even Revenue, Expected Break Even, Financial Exhaustion, Sustainability Buffer) and the decision signals. Zero revenue is valid. Two blocks go beyond the requirement: the **Stress Test** (the plan as it stands and four worse cases fixed for everyone: sales 20% lower, revenue 3 months later, costs 10% higher with the founders' pay aside, customers paying a month later, and all four together; the funding being sought counted as if it arrives as planned, its repayments included; it says whether the plan holds and, if not, how much more money would) and **What It Would Take** (the smallest single change that keeps the cash at zero or above in every month, each tried on its own; where the plan already holds, how far sales, the start of revenue or costs could go against it) |
 
 ## 1. Page Purpose
 
@@ -114,7 +120,7 @@ Each Revenue Stream should contain:
 Select an existing Offering from the Foundation (Page 1).
 
 ### Revenue Model
-Use a conservative predefined list:
+(As built it is derived from how the stream is charged, above.) Use a conservative predefined list:
 
 - Product Sale
 - Service Fee

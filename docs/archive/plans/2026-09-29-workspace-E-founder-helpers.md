@@ -1,6 +1,6 @@
 # Workspace features E — helpers for founders (user-approved 2026-09-29)
 
-Status: **archive**, updated 2026-10-01.
+Status: **archive**, updated 2026-10-01. A brief that was not started and is **still the open work**, not a finished or replaced one. Where its information now lives: `design/core/05-not-done-yet.md`, section 5.4, holds the state checked against the code on 2026-10-14, what is outdated in the brief and the order. **The full text of each item (E1 to E4, with the ten rules of the lender check and the reference rule) is held only here.**
 
 Same repo, branch, conventions, verification rules (NO screenshots; tests, `tsc`, `build`, and the check scripts ONLY on the screens this batch touches, at 1920 in light and dark (768 only where a layout reflows); the full sweep runs once in the final overall check; localStorage backup/restore) and hard rule as `workspace-A-brief.md` in this folder — read its header first. Batches A–D are committed; build on them. DO NOT merge, push or switch branches. One commit per item.
 

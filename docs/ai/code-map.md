@@ -1,6 +1,6 @@
 # The code map: where things are in `src`
 
-Status: **reference**, updated 2026-10-21.
+Status: **reference**, updated 2026-10-29.
 
 One line per folder: what is in it and what is not. A file's name is its component's name (PascalCase for a component, camelCase for a module of functions); a test stands beside what it tests, with the same name and `.test`.
 
@@ -8,7 +8,7 @@ One line per folder: what is in it and what is not. A file's name is its compone
 
 | Folder | Holds |
 |---|---|
-| `components/controls/` | The shared controls, each drawn once and used everywhere: `AddButton`, `BackButton`, `FoldHead`, `NavArrow` (also `vertical`: the 32px square of a row's move), `RadioChoice`, `TitleTooltips` (every tooltip: one place, `tipWords` makes the "Click to ..." sentence), `FunnelButton`, `RemoveButton`, `NumberCell`, `TextBox`, `TextField`, `TickBox`, `TickField`, `FieldLabel`, `PopupPanel` (with `usePopupDismiss`), `Tooltip` (`TooltipBox`, `useAboveTip`). A new control that more than one place needs goes here. |
+| `components/controls/` | The shared controls, each drawn once and used everywhere: `AddButton`, `BackButton`, `FoldHead`, `NavArrow` (also `vertical`: the 32px square of a row's move), `RadioChoice`, `TitleTooltips` (every tooltip: one place, `tipWords` makes the "Click to ..." sentence), `FunnelButton`, `RemoveButton`, `NumberCell`, `TextBox`, `TextField`, `TickBox`, `TickField`, `FieldLabel`, `PopupPanel` (with `usePopupDismiss`), `Tooltip` (`TooltipBox`, `useAboveTip`); also `ChipOpen`, `ChoiceCard`, `DayButton`, `MenuOption`, `PressRow`, `SuggestionOption`, `TabList`. A new control that more than one place needs goes here. |
 | `components/` | The app's own parts: the header, the footer, the lists of Capabilities and Systems, the calendar, the search, the undo toast, the settings and preferences dialogs. |
 | `components/interview/cards/` | The card: `BusinessCard` (in `BusinessCardFields.tsx`), its box (`CardShell`), head (`CardHead`), number (`CardNumber`), name (`NameCell`, `CardNameInput`), the boxes and columns of cards, what a card says folded (`cardSummary`), the cards just made (`freshCards`). |
 | `components/interview/tiles/` | The tile and everything that opens from it: `Tile`, `TileGrid`, `TileParts` (the face, the links, the "+", the hover origin), the page tile (`SectionTiles`), the section and category views, the card tile, the dialog's levels, the floating cards and their arrows, the Inventory (`CapabilityOverview`: its table, its filter and sort window, the Tiles / Table and `Aa` radios). |
@@ -18,15 +18,18 @@ One line per folder: what is in it and what is not. A file's name is its compone
 | `components/interview/tests/` | The tests that cross several components (a whole card, a page's rules); a test of one component stands beside it. |
 | `components/notepad/` | The Notes panel and the noted fields' hover. |
 | `pages/` | The routes: the landing page, the system selection, the conversation (the interview; what it reads and checks before it draws is `conversationHelpers.tsx`), the documents, the review, the global settings, the generator; and, in development only, the library, the inventory and the looks pages. |
+| `framework/parser/`, `model/`, `enums/`, `interview/`, `application/` | The content side with no screen in it: `AnswerParser` reads a System's Markdown (grammar: `framework-dsl-grammar.md`), `model/` holds its types (`FrameworkDocument`, `Section`, `AnswerDefinition`, `TableColumnDefinition`...), `enums/AnswerType`, `InterviewSession`, and the managers of the interview and the review (`InterviewManager`, `ReviewManager`). |
 | `framework/engine/` | The rules and the data model, with no screen in them: the answers, the cards' completeness, the financial forecast, the generated cards, the exports, the search index. Everything a test can say about the content is tested here first. |
 | `hooks/`, `services/` | The React hooks (`useAutoGrow`, `useListAutoFormat`, `useFloatingPanel`…) and the services that keep state (the organizations, the notes, the preferences, the calendar). |
 | `styles/` | The stylesheets: `tokens/tokens.ts` generates the colours; `cell-focus.css` loads last and holds the global rules (ring, hover, label, underline); `conversation/` and `section-tiles/` are the big sheets split by topic. A look is a token or a global rule, never a page's own. |
 | `library/` | The asset library (contracts, gallery, inventory) and its checks. |
-| `data/examples/` | The two example organizations. |
+| `data/` | The static lists (`capabilities`, `systems`, the icons, `classifications/`) and `examples/`: the two example organizations (the one copy; the app reads it). |
+| `assets/` | The Systems' content: `SystemAnswers`, `SystemQuestions`, `SystemHelp` (the Markdown triads), the icons and the cursors. |
+| `test/`, `docs/` | Test helpers and tests that cross the project (`noEmDash`, `layoutProbe`); `docs/` holds the tests of the documents (`documentReferences`, `documentValues`, `documentAssets`). |
 
 ## Rules for a new file
 
 - One component per file; its CSS in the stylesheet of its topic, not in a file of its own, unless it is a control (`back-button.css`).
 - A control that two places need is written in `components/controls/` before the second place is written.
 - A file over about 1,500 lines is split by card kind or by section before more is added to it.
-- `docs/README.md` indexes the documents; `npm run docs:index` rewrites it.
+- `docs/README.md` and `docs/index.md` index the documents; `npm run docs:index` rewrites them. The tools are in `tools/scripts/` and `tools/catalogue/`, not in `src`.

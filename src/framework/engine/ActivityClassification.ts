@@ -1,6 +1,6 @@
 /**
  * THE ACTIVITY CLASSIFICATIONS: the official industry classification of the organization's country, as the cascade of the Organization tile's Activities
- * (design document 28, sections 5.7 to 5.10). The files are in src/data/classifications (code, level, title, parent, in the order of the official document);
+ * (design document 35, sections 5.7 to 5.10). The files are in src/data/classifications (code, level, title, parent, in the order of the official document);
  * each is loaded on demand, since the six countries' files are 1.2MB together.
  *
  * An activity is stored as its final code only; its levels and titles are looked up from the code, because codes nest.
@@ -31,7 +31,7 @@ export type SchemeKey = "uk" | "ie" | "us" | "ca" | "au" | "nz" | "isic";
 
 const SCHEME_OF_COUNTRY: Record<string, SchemeKey> = { GB: "uk", IE: "ie", US: "us", CA: "ca", AU: "au", NZ: "nz" };
 
-/** The name of the code in each scheme's own words (document 28, 5.8). */
+/** The name of the code in each scheme's own words (document 35, 5.8). */
 export const SCHEME_CODE_LABEL: Record<SchemeKey, string> = { uk: "SIC", ie: "NACE", us: "NAICS", ca: "NAICS", au: "ANZSIC", nz: "BIC", isic: "ISIC" };
 
 /** The scheme a country's organizations use; ISIC (the United Nations' own) for a country the app has no scheme for. */
@@ -93,23 +93,41 @@ export function shownTitle(title: string): string {
 }
 
 /** The activities of an organization said in a line: "SIC 62012, SIC 62020" (the code with its scheme's initials, the primary first); nothing where there are none. */
-export function activitiesLine(country: string, activities: readonly { code: string }[]): string {
+export function activitiesLine(country: string, activities: readonly { code: string; name?: string }[]): string {
     const label = SCHEME_CODE_LABEL[schemeKeyOf(country)];
-    return activities.map(activity => label + " " + activity.code).join(", ");
+    // (A typed activity, of a country with no classification of the app's, is said as the user wrote it: "Web design (62.01)".)
+    return activities.map(activity => activity.name ? activity.name + (activity.code ? " (" + activity.code + ")" : "") : label + " " + activity.code).join(", ");
 }
 
 export const BUSINESS_STAGE_WORDS: Record<string, string> = { plan: "Planning", launch: "Launching", manage: "Managing", grow: "Growing" };
 export const CUSTOMER_TYPE_WORDS: Record<string, string> = { b2c: "B2C (Business-to-Consumer)", b2b: "B2B (Business-to-Business)", b2g: "B2G (Business-to-Government)", g2b: "G2B Context (Regulatory/Compliance)", both: "Both" };
 export const MARKET_TYPE_WORDS: Record<string, string> = { single: "Single-sided Market", multi: "Multi-sided Market / Platform" };
-export const AUDIENCE_WORDS: Record<string, string> = { solo: "Solopreneurs & Freelancers", smb: "Startups & SMBs", mid: "Mid-Market", enterprise: "Enterprise / Public Sector", proxy: "Proxy Buyers / Gifters", young: "Students / Young Adults", adult: "Workers / Professionals / Adults", senior: "Seniors", local: "Local Government", regional: "Regional Administration", central: "Central Government & Ministries", institutional: "Institutional / Public Organizations", lowreg: "General Commerce / Mass Market", specialized: "Specialized Sectors", heavy: "Heavily Regulated Markets", crossborder: "Cross-border Trade" };
-export const OUTCOME_WORDS: Record<string, string> = { cost: "Cost-driven", convenience: "Convenience-driven", compliance: "Compliance, Risk & Security", premium: "Status & Premium" };
-
-/** The words of a saved outcome: "cost", or "b2c:cost" for the outcome of one side of a platform. */
-export function outcomeWord(id: string): string {
-    const [side, key] = id.includes(":") ? id.split(":") : ["", id];
-    const word = OUTCOME_WORDS[key] ?? "";
-    return word && side ? side.toUpperCase() + ": " + word : word;
-}
+export const AUDIENCE_WORDS: Record<string, string> = { solo: "Solopreneurs & Freelancers", smb: "Startups & SMBs", mid: "Mid-Market", enterprise: "Enterprise / Public Sector", young: "Students / Young Adults", adult: "Workers / Professionals", senior: "Seniors", local: "Local Government", regional: "Regional Administration", central: "Central Government & Ministries", institutional: "Institutional / Public Organizations", lowreg: "General Commerce / Mass Market", specialized: "Specialized Sectors", heavy: "Heavily Regulated Markets", crossborder: "Cross-border Trade" };
+/** The buyer's category of Early Positioning, by id ("b2c:proxy"): the relationship, then the category. */
+export const BUYER_CATEGORY_WORDS: Record<string, string> = {
+    "b2c:direct": "B2C: Direct Buyers", "b2c:proxy": "B2C: Proxy Buyers", "b2c:dual": "B2C: Dual-Intent Buyers",
+    "b2b:direct": "B2B: Direct Buyers", "b2b:proxy": "B2B: Proxy Buyers", "b2b:dual": "B2B: Dual-Intent Buyers"
+};
+/** The End User answers of Early Positioning (asked of a Proxy or Dual-Intent Buyer), by id: the buyer and user relationship, and the user's life stage. */
+export const END_USER_WORDS: Record<string, string> = {
+    "rel:parent": "Buyer is the parent or guardian", "rel:caregiver": "Buyer is the caregiver", "rel:family": "Buyer is a family member",
+    "rel:partner": "Buyer is the spouse or partner", "rel:friend": "Buyer is a friend or acquaintance", "rel:commercial": "Buyer is in a commercial or professional relationship with the user", "rel:otherpersonal": "Buyer has another personal relationship with the user",
+    "rel:employer": "Buyer is the employer", "rel:copartner": "Buyer is a business partner", "rel:serving": "Buyer is a business serving clients",
+    "rel:intermediary": "Buyer is a professional intermediary", "rel:sponsor": "Buyer is a sponsor or funder", "rel:otherbusiness": "Buyer has another business relationship with the user",
+    "age:minor": "User: minors", "age:young": "User: young adults", "age:adult": "User: adults", "age:senior": "User: seniors"
+};
+/** The purposes of the offering, by id. */
+export const PURPOSE_WORDS: Record<string, string> = {
+    learning: "Learning & Development", health: "Health, Care & Wellbeing", gifting: "Gifting & Appreciation", entertainment: "Entertainment & Enjoyment", social: "Social Connection & Relationships",
+    productivity: "Productivity & Efficiency", growth: "Business Growth & Performance", creation: "Creation & Expression", everyday: "Everyday Needs & Convenience", protection: "Protection & Risk Reduction",
+    compliance: "Compliance & Obligations", access: "Access & Social Support"
+};
+/** The differentiation: what the offering does differently from the competitors. */
+export const DIFFERENTIATION_WORDS: Record<string, string> = { cost: "Cost-driven", convenience: "Convenience-driven", compliance: "Compliance, Risk & Security", premium: "Status & Premium", performance: "Performance & Innovation", ecosystem: "Ecosystem & Integration" };
+/** The outcome for the buyer: the measurable result. */
+export const OUTCOME_WORDS: Record<string, string> = { savings: "Lower costs", time: "Time saved", assurance: "Legal & data-protection cover", prestige: "Higher quality & prestige" };
+/** The outcome for the user (a Proxy or Dual-Intent Buyer's): what matters most to the user. */
+export const OUTCOME_USER_WORDS: Record<string, string> = { enjoy: "Enjoyment & fun", comfort: "Comfort & ease", safety: "Safety & care", learning: "Learning & growth", belong: "Looks & belonging", practical: "Practical use" };
 
 /**
  * THE NAME OF THE POSITIONING FOLLOWS THE BUSINESS STAGE (the owner's text, 2026-10-24): while planning and launching it is a temporary, highly targeted statement for the first market, the Early Positioning;

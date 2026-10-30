@@ -10,7 +10,7 @@ export const driftOf = (placements: readonly Placement[]): Placement[] => placem
 const normal = (text: string) => text.trim().toLowerCase().replace(/\s+/g, " ");
 
 /**
- * The checks of the library (docs/design/08-library-system.md): every code well formed
+ * The checks of the library (docs/design/library/08-library-system.md): every code well formed
  * and unique, every asset unique by its category and name, every variable and value
  * named and described, every variant an edit of its own asset with values of the
  * asset's variables, every requirement and placement pointing at something that exists.

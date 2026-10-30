@@ -6,7 +6,8 @@ import { fieldKey, type FieldKey } from "./FieldKeys.ts";
 import { pageRailItems } from "../../components/interview/rails/railItems.ts";
 import { openItemsOf } from "./OpenItems.ts";
 import { pageStatuses } from "./PageStatus.ts";
-import { stageMessages } from "./BusinessStage.ts";
+import { stageMessages, stageOf } from "./BusinessStage.ts";
+import { positioningName } from "./ActivityClassification.ts";
 import { keyDateText, keyDatesOfSessions } from "./KeyDates.ts";
 import { asGlobalSettings, stageDurationsOf } from "./GlobalSettings.ts";
 
@@ -115,7 +116,9 @@ function stillOpen(input: ReviewInput): ReviewItem[] {
         if (!foundation && ![...pageStatuses(session, input.resolveSharedValue).values()].some(status => status !== "not-started")) {
             continue;
         }
-        for (const item of openItemsOf(systemNumber, session, section => system + " → " + pageName(section), input.resolveSharedValue)) {
+        const settings = input.globalSettings === undefined ? undefined : asGlobalSettings(input.globalSettings);
+        const stage = stageOf(settings?.openingDate ?? "", input.today ?? new Date(), settings ? stageDurationsOf(settings) : undefined);
+        for (const item of openItemsOf(systemNumber, session, section => system + " → " + pageName(section), input.resolveSharedValue, positioningName(stage))) {
             items.push({ group: "open", text: item.text, place: item.place, capability });
         }
     }

@@ -67,7 +67,7 @@ function Built({ asset }: { asset: Asset }) {
 
 /**
  * THE INVENTORY (development only, /library/inventory): every asset of the library built from its
- * parts (docs/design/08-library-system.md). Components are drawn from the app's own components and
+ * parts (docs/design/library/08-library-system.md). Components are drawn from the app's own components and
  * classes, fields from components, cards from fields, tiles and frames from their parts. The three
  * reading modes can be switched above.
  */

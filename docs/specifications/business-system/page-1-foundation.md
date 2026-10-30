@@ -1,11 +1,26 @@
 # Business System — Page 1: Foundation
 
-Status: **specification**, updated 2026-09-27.
+Status: **specification**, updated 2026-10-29. The text from "Describe and implement" on is the owner's requirement as given (its wording is used exactly); "As built" says how the app draws it today.
 
 > **3. Business System — Page 1 of 5.**
-> Pages: **1. Foundation** · 2. Customers Engagement ·
+> Pages: **1. Foundation** · 2. Customer Engagement ·
 > 3. Infrastructure & Capability · 4. Financial Foundation ·
 > 5. Financial Sustainability
+
+## As built
+
+The four columns below are four **tiles**, drawn in one frame for each Customer Segment (the frame's title is the Segment's name, typed there; the Segment is added with "+ Add Segment"):
+
+| Requirement column | Tile in the app | What it opens |
+|---|---|---|
+| 1. Customer Segments and Profiles | **Segment Description** (listing its Profiles) | The Segment's Description, then the Profiles as small tiles; a Profile is a card that floats over the tile |
+| 2. Competitors and Alternatives | **Competitors** | The Competitors as small tiles; each is a card |
+| 3. Value Proposition | **Value Proposition** | The one text of the Segment |
+| 4. Offerings | **Offerings** | The Offerings as small tiles; each is a card |
+
+The tile order in the frame is Segment Description, Value Proposition, Competitors, Offerings. The figures of the requirement (one primary Segment, a maximum of 2; up to 3 Profiles each) are **advice** given in the guidance: the Add buttons are always offered and nothing is cut off. A Competitor's Type options read in the singular ("Direct competitor"). The older four-column drawing is kept in the code but is not reached. What the Segment and Profile questions ask now is in document 28, 6.3 to 6.8 (`design/questionnaire/28-questionnaire-specification.md`); the open requirements for this page are in document 5, section 5.5.3.
+
+---
 
 Describe and implement **Page 1 of the Business System** exactly according to the structure, hierarchy, and texts below.
 

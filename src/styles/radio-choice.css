@@ -1,3 +1,8 @@
+:root {
+    /* The round of a radio: 16px (a tick box's is --size-mark, 24px). */
+    --size-radio: 16px;
+}
+
 /* THE RADIO CHOICE (RadioChoice): the options side by side, each a round with a bullet and its word on one line. */
 .radio-choice {
 
@@ -31,5 +36,88 @@
     opacity: 0.6;
 
     cursor: not-allowed;
+
+}
+
+/* THE ROUND, DRAWN (not the browser's, whose glow is the shape of its box): 16px (--size-radio), in a text input's own look as a tick box is (no stroke, the recessed inset, the ring when active); chosen, it is filled with the
+   app's blue and a white bullet stands in its centre. */
+.radio-choice-option > input[type="radio"] {
+
+    appearance: none;
+
+    flex: none;
+
+    box-sizing: border-box;
+
+    width: var(--size-radio);
+    height: var(--size-radio);
+
+    margin: 0;
+
+    border: 1px solid transparent;
+    border-radius: 50%;
+
+    background: var(--bg-surface);
+
+    box-shadow: var(--cell-inset-recess);
+
+    cursor: pointer;
+
+    transition: background-color .15s ease, box-shadow .15s ease;
+
+}
+
+.radio-choice-option > input[type="radio"]:checked {
+
+    box-shadow: none;
+
+    background: radial-gradient(circle, var(--text-on-fill) 0 32%, transparent 36%), var(--bg-primary);
+
+}
+
+/* AN OPTION UNDER THE POINTER reacts as a tick box does (docs/ai/layout-rules.md, "Interactions"): its words underlined, and the round the soft glow ring of a field you write into (4px at 18%, no wire), round as the radio is. */
+.radio-choice-option > input[type="radio"]:hover:not(:disabled):not(:focus-visible) {
+
+    box-shadow: var(--cell-inset-recess), var(--choice-glow);
+
+}
+
+.radio-choice-option > input[type="radio"]:checked:hover:not(:disabled):not(:focus-visible) {
+
+    box-shadow: var(--choice-glow);
+
+}
+
+.radio-choice-option > input[type="radio"]:focus-visible {
+
+    outline: none;
+
+    border-color: var(--line-primary);
+
+    box-shadow: var(--cell-inset-recess), var(--choice-ring);
+
+}
+
+.radio-choice-option > input[type="radio"]:checked:focus-visible {
+
+    box-shadow: var(--choice-ring);
+
+}
+
+.radio-choice-option > input[type="radio"]:disabled {
+
+    cursor: not-allowed;
+
+    opacity: 0.55;
+
+    box-shadow: none;
+
+}
+
+.radio-choice-option:has(> input[type="radio"]:not(:disabled)):hover > :not(input) {
+
+    text-decoration: underline;
+
+    text-underline-offset: 0.2em;
 
 }

@@ -2,7 +2,7 @@
  * THE FIELDS and the first two sections (Organization, Founders & Ownership).
  * One part of LegalEntityEditor (see LegalEntityEditor.tsx): what it needs of the parts before it comes in as `earlier`; what the parts after it need goes out.
  */
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import FieldRow from "../../fields/FieldRow.tsx";
 import TickField from "../../../controls/TickField.tsx";
 import AddButton from "../../../controls/AddButton.tsx";
@@ -11,7 +11,7 @@ import RemoveButton from "../../../controls/RemoveButton.tsx";
 import { type OpenRequest } from "../../tiles/SectionTiles.tsx";
 import { BusinessTicks, LinkSymbol, OptionalNote } from "../../cards/BusinessCardFields.tsx";
 import { LEGAL_ENTITY_SECTIONS, LegalEntityNumberValue, createLegalEntityFounder } from "../../../../framework/engine/AnswerUtils.ts";
-import { COUNTRIES, countrySearchAliases, subdivisionSearchAliases } from "../../../../framework/engine/LegalEntityJurisdictions.ts";
+import { COUNTRIES, FIRST_VERSION_COUNTRIES, countrySearchAliases, subdivisionSearchAliases } from "../../../../framework/engine/LegalEntityJurisdictions.ts";
 import InfoNote, { InfoText, type InfoPoint } from "../../fields/InfoNote.tsx";
 import CardNameInput from "../../cards/CardNameInput.tsx";
 import { FrozenUntil } from "../../fields/fieldMarks.tsx";
@@ -21,10 +21,12 @@ import OptionPicker from "../../fields/OptionPicker.tsx";
 import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import ActivitiesField from "./ActivitiesField.tsx";
+import { differentiationByLifeStage, outcomesByLifeStage, outcomeByPurpose, userOutcomeByPurpose, differentiationByPurpose, differentiationByRelationship, differentiationRelevance, orderedByRelevance, purposeRelevance } from "../../../../framework/engine/PurposeRelevance.ts";
+import { categoryOfModel, relationshipFits, relationshipFitsBuyerStage, relationshipFitsUserStages, orderedByCategory, userStageFits } from "../../../../framework/engine/RelationshipFit.ts";
 import DateCellInput from "../../fields/DateCellInput.tsx";
 import { todayIsoDate } from "../../../../framework/engine/AnswerUtils.ts";
 import { BUSINESS_STAGE_WORDS } from "../../../../framework/engine/ActivityClassification.ts";
-import { AUDIENCE_SCALES, CUSTOMER_TYPES, INFO, JURISDICTIONS, LIFE_STAGES, OUTCOMES, REGULATORY_INTENSITIES, choiceLimit, lockedAudience, LEGAL_FORM_OTHER, MARKET_TYPES, activitiesInfo, formationIssues, type MarketType, MAX_OTHER_NUMBER_LENGTH, OTHER_OPTION, TOTAL_OWNERSHIP_HELP, savedOther, shownOther } from "./shared.tsx";
+import { AUDIENCE_SCALES, BUYER_CATEGORIES, BUYER_USER_RELATIONS, DIFFERENTIATIONS, FIRST_VERSION_CUSTOMER_TYPES, INFO, LIFE_STAGES, OUTCOMES, PURPOSES, USER_LIFE_STAGES, USER_OUTCOMES, choiceLimit, LEGAL_FORM_OTHER, activitiesInfo, formationIssues, MAX_OTHER_NUMBER_LENGTH, OTHER_OPTION, TOTAL_OWNERSHIP_HELP, savedOther, shownOther } from "./shared.tsx";
 import type { useLegalState } from "./useLegalState.tsx";
 
 type Earlier = ReturnType<typeof useLegalState>;
@@ -32,6 +34,12 @@ type Earlier = ReturnType<typeof useLegalState>;
 export function useLegalFieldsAndSections(earlier: Earlier) {
 
     const { openingDate, onChangeOpeningDate, businessStage, updateFormation, description, onDescriptionChange, amountLabel, amountName, chooseCountry, chooseLegalForm, chooseSubdivision, countryChosen, currency, disabled, entity, forms, founderLabel, labelled, openOnPage, ownershipComplete, ownershipOver, ownershipShort, percent, placeChosen, placeHint, postalLabel, profiled, removeFieldButton, removeFounder, soleFounderForm, soleFounderSettled, soleFounderSurplus, subdivisionSpec, subsection, subsectionNumber, textControl, totalCapital, totalOwnership, update, updateFounder, updateOrganisation } = earlier;
+
+    // THE COUNTRY is one of the six of the first published version or "Other" (design document 33, section 3): "Other" opens a second list of every other country. The choice of "Other" before a country is picked is held here.
+    const [otherChosen, setOtherChosen] = useState(false);
+    const sixCountries = COUNTRIES.filter(country => FIRST_VERSION_COUNTRIES.includes(country.code));
+    const otherCountries = COUNTRIES.filter(country => !FIRST_VERSION_COUNTRIES.includes(country.code));
+    const inOther = otherChosen || (entity.organisation.country !== "" && !FIRST_VERSION_COUNTRIES.includes(entity.organisation.country));
 
     /** The first expense linked to a registration (its number's or requirement's id), as a link symbol that opens it; nothing where none is. */
     function expenseSymbol(targetId: string, hang = false) {
@@ -137,11 +145,12 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
         ));
 
     }
-    // THE FIVE QUESTIONS OF EARLY POSITIONING (design document 28, 8.2). The structure of the market and the seller and buyer relationship on the left; the audience (a scale for a
-    // business or public buyer, a life stage for a consumer) and the differentiation and outcome on the right. How many choices a question takes follows the business stage (one
-    // while planning, up to two while managing, free while growing): a question of one choice is a radio, a question of several is a tick group that LOCKS its other options once
-    // the limit is reached (no warning), with its limit beside the label ("2 max"). Saved with the organisation, as its other answers are.
-    // (The stage is the Opening Date's and the Global Settings' durations': planning before it, then launching, managing, growing.)
+    // THE QUESTIONS OF EARLY POSITIONING (design documents 28, 8.2, and 33, sections 4 and 5), in the first published version: the structure of the market is single-sided (no question), the seller and
+    // buyer relationship is B2C or B2B, and each relationship asks its audience (a scale for a business, a life stage for a consumer), the buyer's category (direct, proxy or dual-intent), the End User
+    // (for a proxy or dual-intent buyer: the buyer and user relationship and, for a consumer, the user's life stage), then, once, the purpose and the differentiation and outcome. How many choices a
+    // question takes follows the business stage (one while planning, up to two while managing, free while growing): a question of one choice is a radio, a question of several is a tick group that LOCKS its
+    // other options once the limit is reached (no warning), with its limit beside the label ("2 max"). Saved with the organisation, as its other answers are.
+    // (B2G, G2B and the multi-sided market are built and hidden: a future feature, document 34.)
     const stage = businessStage;
     // An "i" says only what holds at the business stage the user is in: the points about the other stages, and the sentences about what is locked or ideal while planning and launching, go.
     const early = stage !== "manage" && stage !== "grow";
@@ -150,30 +159,30 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
         .map(point => typeof point !== "string" || early ? point : point.replace(/ The ideal beachhead( while planning and launching)?\./, "").replace(/ Locked while planning and launching\./, ""));
     const models = entity.organisation.customerType;
     const modelChosen = models.length > 0;
-    // Each market model asks its own audience question (a scale for businesses, a life stage for consumers, an administrative level for the government, a regulatory intensity for the
-    // compliance context); the government and the compliance context ask their own trigger, in place of the Differentiation & Outcome of the commercial models.
+    // Each relationship asks its own audience question (a scale for businesses, a life stage for consumers).
     const audienceSets = [
         { model: "b2b", label: "Audience Specialization & Scale", group: "legal-entity-audience-scale", options: AUDIENCE_SCALES, info: INFO.audienceScale },
-        { model: "b2c", label: "Buyer's Life-Stage and relationship with the User", group: "legal-entity-audience-life", options: LIFE_STAGES, info: INFO.lifeStage },
-        { model: "b2g", label: "Administrative Level (Jurisdiction Scale)", group: "legal-entity-audience-jurisdiction", options: JURISDICTIONS, info: INFO.jurisdiction },
-        { model: "g2b", label: "Regulatory Intensity of the target industry", group: "legal-entity-audience-regulatory", options: REGULATORY_INTENSITIES, info: INFO.regulatory }
+        { model: "b2c", label: "Buyer's Life-Stage", group: "legal-entity-audience-life", options: LIFE_STAGES, info: INFO.lifeStage }
     ] as const;
-    // One last question for every model: the main behavioral trigger and the measurable outcome. In a multi-sided market the sides are opened in parallel while managing and growing
-    // (more than one model chosen), and then the question is repeated for each side, its answers kept as "side:outcome".
-    const SIDE_NAMES: Record<string, string> = { b2c: "B2C", b2b: "B2B", b2g: "B2G", g2b: "G2B" };
-    type OutcomeSet = { models: readonly string[]; label: string; group: string; options: readonly { id: string; label: string }[]; info: InfoPoint[] };
-    const outcomeSetsFor = (chosen: readonly string[], market: string): OutcomeSet[] =>
-        market === "multi" && (stage === "manage" || stage === "grow") && chosen.length > 1
-            ? chosen.map(model => ({ models: [model], label: "Differentiation & Outcome (" + (SIDE_NAMES[model] ?? model) + ")", group: "legal-entity-outcome-" + model, options: OUTCOMES.map(option => ({ id: model + ":" + option.id, label: option.label })), info: INFO.outcome }))
-            : [{ models: ["b2c", "b2b", "b2g", "g2b"], label: "Differentiation & Outcome", group: "legal-entity-outcome", options: OUTCOMES, info: INFO.outcome }];
-    const outcomeSets = outcomeSetsFor(models, entity.organisation.marketType);
+    const SIDE_NAMES: Record<string, string> = { b2c: "B2C", b2b: "B2B" };
     // (Before any model is chosen the commercial questions stand, the audience one frozen.)
     const audienceShown = (set: (typeof audienceSets)[number], chosen: readonly string[]) => chosen.includes(set.model) || (chosen.length === 0 && set.model === "b2b");
-    const outcomeShown = (set: OutcomeSet, chosen: readonly string[]) => set.models.some(model => chosen.includes(model)) || (chosen.length === 0 && set.models.includes("b2b" as never));
     const idsOf = (options: readonly { id: string }[]): string[] => options.map(option => option.id);
     const chosenOf = (all: string[], options: readonly { id: string }[]) => all.filter(id => idsOf(options).includes(id));
-    /** What a set of models keeps of the saved audience and outcome: the answers of the questions still asked. */
+    /** What a set of models keeps of the saved audience: the answers of the questions still asked. */
     const kept = (all: string[], sets: readonly { options: readonly { id: string }[] }[], shown: (index: number) => boolean) => all.filter(id => sets.some((set, index) => shown(index) && idsOf(set.options).includes(id)));
+    /** The buyer's category of a model, as its options hold it ("b2c:proxy"). */
+    const categoryOptions = (model: string) => BUYER_CATEGORIES.map(option => ({ id: model + ":" + option.id, label: option.label }));
+    const categoryOf = (model: string) => entity.organisation.buyerCategory.find(id => id.startsWith(model + ":")) ?? "";
+    /** A Proxy or Dual-Intent buyer has an End User: the questions about the user follow. */
+    const endsUser = (model: string, categories = entity.organisation.buyerCategory) => categories.includes(model + ":proxy") || categories.includes(model + ":dual");
+    /** The End User ids of a model's questions. */
+    const endUserIdsOf = (model: string) => model === "b2c" ? [...idsOf(BUYER_USER_RELATIONS.b2c), ...idsOf(USER_LIFE_STAGES)] : idsOf(BUYER_USER_RELATIONS.b2b);
+    const suffix = (model: string) => models.length > 1 ? " (" + SIDE_NAMES[model] + ")" : "";
+    /** The user has an outcome of their own where some buyer is a Proxy or Dual-Intent Buyer (the buyer and the user want different things). */
+    const userHasOutcome = models.some(model => endsUser(model));
+    /** The buyer and user relationships a model offers: only those that can be the buyer's category (fewer options help); one already chosen stays. */
+    const relationOptions = (model: "b2c" | "b2b") => BUYER_USER_RELATIONS[model].filter(option => (relationshipFits(option.id, categoryOfModel(entity.organisation.buyerCategory, model)) && relationshipFitsBuyerStage(option.id, entity.organisation.audience) && relationshipFitsUserStages(option.id, entity.organisation.audience, entity.organisation.endUser)) || entity.organisation.endUser.includes(option.id));
 
     /** One question: a radio where one choice is allowed (and at most one is held), else ticks that lock at the limit. */
     function choice(
@@ -193,6 +202,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
         const lockedWords = options.filter(option => locked.includes(option.id)).map(option => option.label);
         const allowed = "At this stage (" + (BUSINESS_STAGE_WORDS[stage] ?? "Planning") + "): "
             + (limit === null ? "choose as many as apply." : limit === 1 ? "choose one." : "choose up to " + limit + ".")
+            + " When the stage changes (the Opening Date), an answer over the limit goes back to empty."
             + (lockedWords.length > 0 ? " Not open yet: " + lockedWords.join(", ") + ". " + (lockedWords.length > 1 ? "They open" : "It opens") + " when the business reaches Managing." : "");
         info = forStage(info);
         const sourceAt = info.findIndex(point => typeof point !== "string" && "source" in point);
@@ -232,58 +242,61 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
         return frozen ? <FrozenUntil answered={frozen.answered} hint={frozen.hint}>{row}</FrozenUntil> : row;
     }
 
+    // THE PURPOSES in the order of their relevance (the owner's tables, document 31, 10.7): the buyer and user relationship, else the buyer's category, else the seller and buyer relationship. The ones the
+    // owner's table calls generally less directly relevant are not offered (fewer options help the user); one already chosen stays.
+    const relevance = purposeRelevance({
+        models,
+        categories: entity.organisation.buyerCategory,
+        relationships: entity.organisation.endUser.filter(id => id.startsWith("rel:")),
+        buyerStages: models.includes("b2c") && endsUser("b2c") ? entity.organisation.audience.filter(id => ["young", "adult", "senior"].includes(id)) : [],
+        userStages: models.includes("b2c") && endsUser("b2c") ? entity.organisation.endUser.filter(id => id.startsWith("age:")) : [],
+        businessScales: models.includes("b2b") ? entity.organisation.audience.filter(id => ["solo", "smb", "mid", "enterprise"].includes(id)) : []
+    });
+    // The differentiations: a business buyer's audience scale and category order them (the owner's table); otherwise the buyer's category does.
+    const differentiationAbout = differentiationRelevance({ models, categories: entity.organisation.buyerCategory, relationships: [], businessScales: models.includes("b2b") ? entity.organisation.audience.filter(id => ["solo", "smb", "mid", "enterprise"].includes(id)) : [] });
+    const byPurpose = differentiationByPurpose(entity.organisation.purpose);
+    const differentiationFirst = differentiationAbout ? orderedByRelevance(DIFFERENTIATIONS, differentiationAbout).filter(option => differentiationAbout[option.id] > 0 || entity.organisation.differentiation.includes(option.id)) : orderedByCategory(DIFFERENTIATIONS, entity.organisation.buyerCategory);
+    // The purposes chosen then bring the differentiations they drive first (inside each level the business relationships chosen order them, and inside theirs the audience scale and category; nothing is chosen for the user).
+    const differentiationOptions = orderedByRelevance(orderedByRelevance(differentiationFirst, differentiationByRelationship(entity.organisation.endUser)), byPurpose);
+    // THE BUYER'S AND THE USER'S LIFE STAGES, once both are answered, are the first key of the differentiations and of the outcomes (the owner's precedence, 2026-10-30: life stages, then the relationship, then the category); the purposes chosen come next.
+    const lifeBuyer = models.includes("b2c") && endsUser("b2c") ? entity.organisation.audience.filter(id => ["young", "adult", "senior"].includes(id)) : [];
+    const lifeUser = models.includes("b2c") && endsUser("b2c") ? entity.organisation.endUser.filter(id => id.startsWith("age:")) : [];
+    const byLifeStage = outcomesByLifeStage(lifeBuyer, lifeUser);
+    const differentiationShown = orderedByRelevance(differentiationOptions, differentiationByLifeStage(lifeBuyer, lifeUser));
+    const outcomeShown = orderedByRelevance(orderedByRelevance(OUTCOMES, outcomeByPurpose(entity.organisation.purpose, entity.organisation.buyerCategory)), byLifeStage?.buyer ?? null);
+    const userOutcomeShown = orderedByRelevance(orderedByRelevance(USER_OUTCOMES, userOutcomeByPurpose(entity.organisation.purpose)), byLifeStage?.user ?? null);
+    // THE QUESTIONS ARE BANDS, as the channel card's parts are: every other question of a column stands on a tint (the card's own label colour, 12%), the others on the card's ground, edge to edge, no gap between.
+    const bandsAt = { left: 0, right: 0 };
+    const band = (column: "left" | "right") => (bandsAt[column]++ % 2 === 1 ? " legal-entity-org-band" : "");
+    const purposeOptions = orderedByRelevance(PURPOSES, relevance).filter(option => relevance === null || relevance[option.id] > 0 || entity.organisation.purpose.includes(option.id));
+    // The left column asks every question before the purpose: the relationship, and for each relationship its audience, its buyer's category and, for a Proxy or Dual-Intent buyer, the buyer and user relationship and (consumer) the user's life stage. The right column asks the purpose, the differentiation and the outcomes.
     const audience = (
         <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience">
 
             <div className="legal-entity-field">
 
-                <div className="legal-entity-org-section legal-entity-org-market">
-                <FieldRow pair fullList label="Market Structure" info={forStage(INFO.marketType)}>
-                    <RadioChoice
-                        label="Market Structure"
-                        group="legal-entity-market-type"
-                        className="legal-entity-radio-stack"
-                        disabled={disabled}
-                        value={entity.organisation.marketType as MarketType}
-                        // (A platform's sides each ask the last question; another structure asks it once: what no longer fits goes.)
-                        onChange={(next) => updateOrganisation({
-                            marketType: next,
-                            outcome: (() => {
-                                const sets = outcomeSetsFor(models, next);
-                                return kept(entity.organisation.outcome, sets, index => outcomeShown(sets[index], models));
-                            })()
-                        })}
-                        options={MARKET_TYPES}
-                    />
-                </FieldRow>
-                </div>
-
-                <div className="legal-entity-org-section legal-entity-org-customer">
+                <div className={"legal-entity-org-section legal-entity-org-customer" + band("left")}>
                 {choice(
-                    "Seller and Buyer Relationship",
+                    "Seller & Buyer Relationship",
                     "legal-entity-customer-type",
-                    CUSTOMER_TYPES,
+                    FIRST_VERSION_CUSTOMER_TYPES,
                     models,
                     choiceLimit(stage, "relationship"),
                     // (Another set of models asks other questions: the answers of the questions no longer asked go.)
                     (next) => updateOrganisation({
                         customerType: next,
                         audience: kept(entity.organisation.audience, audienceSets, index => audienceShown(audienceSets[index], next)),
-                        outcome: (() => {
-                            const sets = outcomeSetsFor(next, entity.organisation.marketType);
-                            return kept(entity.organisation.outcome, sets, index => outcomeShown(sets[index], next));
-                        })()
+                        buyerCategory: entity.organisation.buyerCategory.filter(id => next.includes(id.split(":")[0])),
+                        endUser: entity.organisation.endUser.filter(id => ["b2c", "b2b"].every(model => next.includes(model) || !endUserIdsOf(model).includes(id))),
+                        outcomeUser: next.some(model => endsUser(model)) ? entity.organisation.outcomeUser : []
                     }),
                     INFO.customerType
                 )}
                 </div>
 
-            </div>
-
-            <div className="legal-entity-field legal-entity-questions">
-
                 {audienceSets.filter(set => audienceShown(set, models)).map(set => (
-                    <div key={set.group} className="legal-entity-org-section legal-entity-org-audience">
+                    <div key={set.group} className="legal-entity-org-set">
+                    <div className={"legal-entity-org-section legal-entity-org-audience" + band("left")}>
                     {choice(
                         set.label,
                         set.group,
@@ -292,25 +305,131 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                         choiceLimit(stage, "audience"),
                         (next) => updateOrganisation({ audience: [...entity.organisation.audience.filter(id => !idsOf(set.options).includes(id)), ...next] }),
                         set.info,
-                        { answered: modelChosen, hint: "Choose a seller and buyer relationship first." },
-                        lockedAudience(stage, set.model)
+                        { answered: modelChosen, hint: "Choose a seller and buyer relationship first." }
+                    )}
+                    </div>
+
+                    {models.includes(set.model) && (
+                        <div className={"legal-entity-org-section legal-entity-org-audience" + band("left")}>
+                        {choice(
+                            "Buyer's category" + suffix(set.model),
+                            "legal-entity-buyer-category-" + set.model,
+                            categoryOptions(set.model),
+                            categoryOf(set.model) ? [categoryOf(set.model)] : [],
+                            1,
+                            (next) => {
+                                const categories = [...entity.organisation.buyerCategory.filter(id => !id.startsWith(set.model + ":")), ...next];
+                                // (The End User is asked for Proxy and Dual-Intent Buyers only: its answers go with that choice.)
+                                // (A relationship that cannot be the new category goes with it, and so does the user's outcome where no buyer is a Proxy or Dual-Intent Buyer any more.)
+                                const category = categoryOfModel(categories, set.model);
+                                updateOrganisation({
+                                    buyerCategory: categories,
+                                    endUser: entity.organisation.endUser.filter(id => !endUserIdsOf(set.model).includes(id) || (category !== "" && relationshipFits(id, category))),
+                                    outcomeUser: models.some(model => endsUser(model, categories)) ? entity.organisation.outcomeUser : []
+                                });
+                            },
+                            INFO.buyerCategory
+                        )}
+                        </div>
                     )}
                     </div>
                 ))}
 
-                {outcomeSets.filter(set => outcomeShown(set, models)).map(set => (
-                    <div key={set.group} className="legal-entity-org-section legal-entity-org-outcome">
+                {/* THE USER (a Proxy or Dual-Intent buyer's): the buyer and user relationship and, for a consumer, the user's life stage, under a double divider line (the Business is above it; the page's tile names the groups). */}
+                {audienceSets.some(set => models.includes(set.model) && endsUser(set.model)) && (
+                    <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double" role="separator" />
+                )}
+                {audienceSets.filter(set => models.includes(set.model) && endsUser(set.model)).map(set => (
+                    <div key={set.group} className="legal-entity-org-set">
+                    <div className={"legal-entity-org-section legal-entity-org-audience legal-entity-org-enduser" + band("left")}>
                     {choice(
-                        set.label,
-                        set.group,
-                        set.options,
-                        chosenOf(entity.organisation.outcome, set.options),
-                        choiceLimit(stage, "outcome"),
-                        (next) => updateOrganisation({ outcome: [...entity.organisation.outcome.filter(id => !idsOf(set.options).includes(id)), ...next] }),
-                        set.info
+                        "Buyer & User relationship" + suffix(set.model),
+                        "legal-entity-enduser-relation-" + set.model,
+                        relationOptions(set.model),
+                        chosenOf(entity.organisation.endUser, BUYER_USER_RELATIONS[set.model]),
+                        choiceLimit(stage, "audience"),
+                        (next) => {
+                            // (A parent or legal guardian has a minor or a young adult as the user: an adult or a senior already chosen goes.)
+                            const endUser = [...entity.organisation.endUser.filter(id => !idsOf(BUYER_USER_RELATIONS[set.model]).includes(id)), ...next];
+                            updateOrganisation({ endUser: endUser.filter(id => userStageFits(endUser, id, entity.organisation.audience)) });
+                        },
+                        INFO.buyerUserRelation
+                    )}
+                    </div>
+
+                    {set.model === "b2c" && (
+                        <div className={"legal-entity-org-section legal-entity-org-audience legal-entity-org-enduser" + band("left")}>
+                        {choice(
+                            "User's Life-Stage",
+                            "legal-entity-enduser-life",
+                            USER_LIFE_STAGES.filter(option => userStageFits(entity.organisation.endUser, option.id, entity.organisation.audience)),
+                            chosenOf(entity.organisation.endUser, USER_LIFE_STAGES),
+                            choiceLimit(stage, "audience"),
+                            (next) => updateOrganisation({ endUser: [...entity.organisation.endUser.filter(id => !idsOf(USER_LIFE_STAGES).includes(id)), ...next] }),
+                            INFO.userLifeStage
+                        )}
+                        </div>
                     )}
                     </div>
                 ))}
+
+            </div>
+
+            <div className="legal-entity-field legal-entity-questions">
+
+                {/* THE OFFERING (the purpose and the differentiation), then, under a double divider line, THE OUTCOME. */}
+
+                <div className={"legal-entity-org-section legal-entity-org-outcome" + band("right")}>
+                {choice(
+                    "Purpose",
+                    "legal-entity-purpose",
+                    purposeOptions,
+                    entity.organisation.purpose,
+                    choiceLimit(stage, "outcome"),
+                    (next) => updateOrganisation({ purpose: next }),
+                    INFO.purpose
+                )}
+                </div>
+
+                <div className={"legal-entity-org-section legal-entity-org-outcome" + band("right")}>
+                {choice(
+                    "Differentiation",
+                    "legal-entity-differentiation",
+                    differentiationShown,
+                    chosenOf(entity.organisation.differentiation, DIFFERENTIATIONS),
+                    choiceLimit(stage, "outcome"),
+                    (next) => updateOrganisation({ differentiation: next }),
+                    INFO.differentiation
+                )}
+                </div>
+
+                <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double" role="separator" />
+
+                <div className={"legal-entity-org-section legal-entity-org-outcome" + band("right")}>
+                {choice(
+                    userHasOutcome ? "Outcome for the buyer" : "Outcome",
+                    "legal-entity-outcome",
+                    outcomeShown,
+                    chosenOf(entity.organisation.outcome, OUTCOMES),
+                    choiceLimit(stage, "outcome"),
+                    (next) => updateOrganisation({ outcome: next }),
+                    INFO.outcome
+                )}
+                </div>
+
+                {userHasOutcome && (
+                    <div className={"legal-entity-org-section legal-entity-org-outcome" + band("right")}>
+                    {choice(
+                        "Outcome for the user",
+                        "legal-entity-outcome-user",
+                        userOutcomeShown,
+                        chosenOf(entity.organisation.outcomeUser, USER_OUTCOMES),
+                        choiceLimit(stage, "outcome"),
+                        (next) => updateOrganisation({ outcomeUser: next }),
+                        INFO.outcomeUser
+                    )}
+                    </div>
+                )}
 
             </div>
 
@@ -352,24 +471,39 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                     <OptionPicker
                         label="Country"
                         placeholder="Select a country"
-                        options={COUNTRIES.map(country => country.name)}
-                        // 195 rows: quicker to type three
-                        // letters than to scroll to
-                        // Zimbabwe, and "UK" or "USA"
-                        // find their own.
+                        options={[...sixCountries.map(country => country.name), OTHER_OPTION]}
+                        disabled={disabled}
+                        value={inOther ? OTHER_OPTION : sixCountries.find(country => country.code === entity.organisation.country)?.name ?? ""}
+                        onChange={(next) => {
+                            if (next === OTHER_OPTION) {
+                                // (A change of country empties what depends on it: choosing Other leaves a country of the six.)
+                                setOtherChosen(true);
+                                if (FIRST_VERSION_COUNTRIES.includes(entity.organisation.country)) {
+                                    chooseCountry("");
+                                }
+                            } else {
+                                setOtherChosen(false);
+                                chooseCountry(sixCountries.find(country => country.name === next)?.code ?? "");
+                            }
+                        }}
+                    />,
+                    false
+                )}
+
+                {/* Other: the country itself, from every country but the six (195 rows: quicker to type three letters, and "UK" or "USA" find their own). */}
+                {inOther && labelled(
+                    "Other country",
+                    <OptionPicker
+                        label="Other country"
+                        placeholder="Select a country"
+                        options={otherCountries.map(country => country.name)}
                         searchable
                         searchAliases={countrySearchAliases()}
                         disabled={disabled}
-                        value={
-                            COUNTRIES.find(
-                                country => country.code === entity.organisation.country
-                            )?.name ?? ""
-                        }
-                        onChange={(next) => chooseCountry(
-                            COUNTRIES.find(country => country.name === next)?.code ?? ""
-                        )}
+                        value={otherCountries.find(country => country.code === entity.organisation.country)?.name ?? ""}
+                        onChange={(next) => chooseCountry(otherCountries.find(country => country.name === next)?.code ?? "")}
                     />,
-                    false
+                    true
                 )}
 
                 {/*
@@ -444,10 +578,8 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                     <OptionPicker
                         label="Legal Form"
                         placeholder="Select a legal form"
-                        options={[
-                            ...forms.map(form => form.label),
-                            OTHER_OPTION
-                        ]}
+                        // (No "Other" in the list: the legal form is one of the country's own, or of the generic four for Other. A saved "Other" still shows, with its typed name.)
+                        options={forms.map(form => form.label)}
                         disabled={disabled}
                         value={shownOther(entity.organisation.legalForm)}
                         onChange={(next) => chooseLegalForm(savedOther(next))}
@@ -483,15 +615,14 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                 </div>
                 </div>
 
-                {/* The two dates of the opening, side by side: when the organization was registered (once it is: the number given makes it so), and the day the business opens. */}
+                {/* The two dates of the opening, side by side: when the organization was registered (its own date, whether or not a registration number is given), and the day the business opens. */}
                 <div className="legal-entity-org-dates">
-                {entity.formation.status !== "planned" && (
-                    <div className="legal-entity-org-section legal-entity-org-registration">
+                <div className="legal-entity-org-section legal-entity-org-registration">
                     {labelled(
                         "Registration Date",
                         <DateCellInput
                             ariaLabel="Formation date"
-                            // (A registered company has been formed: its day is today or earlier.)
+                            // (A formation date is a day that has come: today or earlier.)
                             max={todayIsoDate()}
                             disabled={disabled}
                             value={entity.formation.date}
@@ -501,8 +632,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                         undefined,
                         INFO.registrationDate
                     )}
-                    </div>
-                )}
+                </div>
                 <div className="legal-entity-org-section legal-entity-org-opening">
                 {labelled(
                     "Opening Date",

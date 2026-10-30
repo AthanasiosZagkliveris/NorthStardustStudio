@@ -124,6 +124,8 @@ export async function seedExample(page, base, exampleText) {
 export const REACTIONS = [
     // A tick box: under the pointer, the box's glow ring.
     { kind: "tick box", selector: "input[type=checkbox]:not(:disabled)", property: "boxShadow", on: "self" },
+    // A radio: as a tick box, under the pointer the round's glow ring.
+    { kind: "radio", selector: "input[type=radio]:not(:disabled)", property: "boxShadow", on: "self" },
     // A box you write into: the glow round it (R1: the edge never changes under the pointer; the primary edge is the ring's). (An image's
     // name and description react as their one holder, .brand-image-text.)
     { kind: "text box", selector: "input.interview-input:not([type=checkbox]):not(:disabled):not(:focus):not(.brand-image-text *), textarea.interview-input:not(:disabled):not(:focus):not(.brand-image-text *)", property: "boxShadow", on: "self" },

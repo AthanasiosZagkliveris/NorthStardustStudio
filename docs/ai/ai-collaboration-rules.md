@@ -1,20 +1,20 @@
 # AI Collaboration Rules
 
-Status: **rules**, updated 2026-10-21. It also holds what was in `ai-development-methodology.md` (merged here).
+Status: **rules**, updated 2026-10-29.
 
 Standing rules for any AI assistant working on this project. They come from explicit instruction by the owner, not from inference: treat them as binding, not as defaults to weigh against convenience.
 
 ## Always
 
-- **Commit finished, verified work; do not push without the owner's yes.** A change that is only in the working tree has no history and can be lost by an unrelated git operation (a checkout, a stash, a discard). So a turn that changes project files ends with the change committed (only what was changed), or with a plain statement that it is not yet committed. Pushing, merging and tagging wait for the owner. Today the branch `chore/light-cleanup` is not pushed and `main` has not moved; after the owner has tried the app once: merge, push, tag (`design/05-not-done-yet.md`).
-- **Update the documents with the change**: the log row (`design/04-log.md`), the rule or the shared-component state where one changed, the examples (`docs/examples`) when the interface changed, then `npm run docs:index`. Documents are Markdown; PDFs are exports only and are not kept in the project.
+- **Commit finished, verified work; do not push without the owner's yes.** A change that is only in the working tree has no history and can be lost by an unrelated git operation (a checkout, a stash, a discard). So a turn that changes project files ends with the change committed (only what was changed), or with a plain statement that it is not yet committed. Pushing, merging and tagging wait for the owner. What is open before the next release is in `../design/core/05-not-done-yet.md`.
+- **Update the documents with the change**: the log row (`../design/core/04-log.md`, the only place a change is written), the rule or the shared-component state where one changed, the examples (`src/data/examples/`; the playbook says how to rewrite them) when the interface changed, then `npm run docs:index`. Documents are Markdown; PDFs are exports only and are not kept in the project.
 - **Verify before saying done** (`toolchain-and-verification-playbook.md`, `review-checklist.md`). Say what was looked at and what was not.
 
 ## Never
 
 - **Do not make changes that were not requested.** If a task suggests an adjacent change, surface it as a question or a suggestion. Do not apply a design decision to real project files just to test a process; use a synthetic or historical example.
 - **Do not change the layout, style or structure of the app** when the task is content or logic; reuse the existing components and styles (`review-checklist.md`, section 1). A look is fixed in a shared token or component, not in one page.
-- **Do not edit a generated document by hand** (`docs/README.md` says which are generated and by which command).
+- **Do not edit a generated document by hand** (`../README.md` says which are generated and by which command).
 
 ## When genuinely unsure
 

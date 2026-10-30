@@ -18,7 +18,7 @@ The full procedure is `docs/ai/toolchain-and-verification-playbook.md`.
 
 ## The documents
 
-Everything is in `docs/`; `docs/README.md` indexes it. An assistant starts with `docs/ai/README.md`; the owner starts with `docs/design/05-not-done-yet.md` (what is open) and `docs/design/04-log.md` (what changed).
+Everything is in `docs/`; `docs/README.md` indexes it. An assistant starts with `docs/ai/README.md`; the owner starts with `docs/design/core/05-not-done-yet.md` (what is open) and `docs/design/core/04-log.md` (what changed).
 
 ## Recommended IDE setup
 

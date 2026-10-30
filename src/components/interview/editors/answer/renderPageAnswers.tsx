@@ -11,17 +11,22 @@ import LegalEntityEditor from "../LegalEntityEditor.tsx";
 import FoundersProfileEditor from "../FoundersProfileEditor.tsx";
 import BrandInventoryEditor from "../BrandInventoryEditor.tsx";
 
+import { asLegalEntityValue } from "../../../../framework/engine/AnswerUtils.ts";
 import type { FoundersProfileValue } from "../../../../framework/engine/AnswerUtils.ts";
 import type { AnswerScope } from "./scope.ts";
 
 export function renderBusinessFoundation(scope: AnswerScope) {
 
-    const { value, onChange, disabled, targetAudience, columnsDivider, frameTitle, showInstructions } = scope;
+    const { value, onChange, disabled, targetAudience, legalEntity, columnsDivider, frameTitle, showInstructions } = scope;
+
+    // What Identity says of who the Segment sells to (the Positioning tile's answers).
+    const organisation = asLegalEntityValue(legalEntity).organisation;
 
     return (
 
         <BusinessFoundationEditor
             value={value}
+            identity={{ relationships: organisation.customerType, marketType: organisation.marketType, audience: organisation.audience }}
             showInstructions={showInstructions}
             columnsDivider={columnsDivider}
             frameTitle={frameTitle}

@@ -11,7 +11,7 @@
           "value": {
             "description": "Lumen & Loom Studio Ltd is a London-based textile design studio, founded in 2026 by Maya Chen, Oliver Grant and Priya Shah and based at a shared workshop in Hackney Wick, East London. We design and handweave sustainable home textiles (cushions, throws, table linen and wall hangings) from British wool, organic cotton and recycled yarns. Alongside our own collection we run small-group weaving workshops and take bespoke commissions for interior designers and boutique hotels.",
             "mission": "To bring slow, handmade craft back into everyday homes: making beautiful, durable textiles from responsibly sourced materials, paying fair prices along our supply chain, and teaching people the skills to make and repair for themselves.",
-            "positioning": "For design-conscious Londoners and interior professionals who want homeware with a story, Lumen & Loom is an independent textile studio that makes every piece by hand in London from traceable, low-impact yarns. Unlike mass-market homeware brands, each piece is made in small batches, can be repaired for life, and comes with the name of the weaver who made it. Unlike other makers, we also open our studio: customers can learn to weave with us.",
+            "positioning": "For design-conscious Londoners and interior professionals who want homeware with a story, and for the friends and family who give them a handwoven piece, Lumen & Loom is an independent textile studio that makes every piece by hand in London from traceable, low-impact yarns. Unlike mass-market homeware brands, each piece is made in small batches, can be repaired for life, and comes with the name of the weaver who made it, which is why it is chosen as a gift. Unlike other makers, we also open our studio: customers can learn to weave with us. ",
             "vision": "By 2030, to be London's best-known independent weaving studio: a self-sustaining team of eight makers, a collection stocked by twenty UK independent retailers, a waiting list for our workshops, and a verified low-carbon supply chain from sheep to sofa."
           }
         },
@@ -36,10 +36,6 @@
               "mainActivity": "Design, handweaving and sale of sustainable home textiles; weaving workshops and bespoke textile commissions (SIC 13921: manufacture of soft furnishings).",
               "activityCode": "13921",
               "activityCodeOn": true,
-              "addressLine1": "Unit 4, Hackney Wick Maker Yard, 92 Wallis Road\nLondon\nE9 5LN",
-              "addressLine2": "",
-              "city": "",
-              "postalCode": "",
               "activities": [
                 {
                   "code": "13921",
@@ -47,10 +43,37 @@
                 }
               ],
               "businessStage": "",
-              "customerType": ["b2c"],
+              "customerType": [
+                "b2c"
+              ],
               "marketType": "single",
-              "audience": ["adult"],
-              "outcome": ["premium"]
+              "audience": [
+                "adult"
+              ],
+              "differentiation": [
+                "premium"
+              ],
+              "outcome": [
+                "prestige"
+              ],
+              "outcomeUser": [
+                "belong"
+              ],
+              "buyerCategory": [
+                "b2c:proxy"
+              ],
+              "purpose": [
+                "gifting",
+                "creation"
+              ],
+              "endUser": [
+                "rel:friend",
+                "age:young"
+              ],
+              "addressLine1": "Unit 4, Hackney Wick Maker Yard, 92 Wallis Road\nLondon\nE9 5LN",
+              "addressLine2": "",
+              "city": "",
+              "postalCode": ""
             },
             "capitalApplies": true,
             "founders": [

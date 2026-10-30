@@ -1,16 +1,19 @@
-# Business System — Page 2: Customers Engagement
+# Business System — Page 2, Section 1: Channels
 
-Status: **specification**, updated 2026-10-12.
-## Section 1 — Channels
+Status: **specification**, updated 2026-10-29. The requirement as written, with what the app does where it differs marked "as built". The page is called Customer Engagement in the app; the order of the page's sections and how they are built are in `README.md` (page 2).
 
 > **3. Business System — Page 2 of 5, Section 1 of 2.**
 > Page 2 holds **Channels** (this section), then
 > **Customer Relationships**, which references the Channels
 > defined here.
 
+## As built
+
+Section 1 is "1. Customer Channel" in each Segment's card on Page 2 (the page, its editor and the sections that follow are in `page-2-section-2-customer-relationships.md`, "As built"; the layout is `ai/customer-engagement-layout.md`). The reference header of section 4 is the card's three reference columns (Segment, Profiles, Offerings), always shown. The channels are a four-column table (Channel, Offerings, Journey Stage, Action) with each channel's Links under its name (an optional field: the "Links" tick opens a numbered list of links, placeholder "Link"). Channels are grouped under their category, drawn once, in the fixed category order; each category carries a fold arrow and its channels sit a step in from it, and channels keep their numbers when a category is folded. Actions are stored by Journey Stage (`Record<stageId, string[]>`), so unticking a stage hides its Actions without deleting them.
+
 ## 1. Purpose
 
-Design and develop the **Channels** section: Section 1 of Page 2, Customers Engagement, of the Business System.
+Design and develop the **Channels** section: Section 1 of Page 2, Customer Engagement, of the Business System.
 
 The Channels section defines **how the organisation reaches, communicates with, sells to, delivers to, and supports customers** throughout the customer journey.
 
@@ -168,11 +171,11 @@ Use, in this fixed order (as built):
 8. Direct Payment
 9. File Delivery
 10. Physical Delivery
-11. Retail & Wholesale (Stockist, Distributor, Wholesale Account, Reseller, Concession / Shop-in-shop; stages Discover, Evaluation, Purchase, Delivery)
-12. Referral & Affiliates (Referral Partner, Affiliate, Influencer / Ambassador, Customer Referral; stages Discover, Evaluation, Purchase)
+11. Retail & Wholesale (Stockist, Distributor, Wholesale Account, Reseller, Concession / Shop-in-shop)
+12. Referral & Affiliates (Referral Partner, Affiliate, Influencer / Ambassador, Customer Referral)
 13. Other
 
-Each category lists its own channels as presets (for example Social Media: Instagram, Facebook, LinkedIn, YouTube, TikTok, Pinterest, X) and ends in **Other**, which takes a name typed by the user. The earlier category "File Delivery / Client Portal" is now **File Delivery**.
+Each category lists its own channels as presets (for example Social Media: Instagram, Facebook, LinkedIn, YouTube, TikTok, Pinterest, X) and ends in **Other**, which takes a name typed by the user. The earlier category "File Delivery / Client Portal" is now **File Delivery**. As built, each category offers only the Journey Stages that fit it: Social Media and Community, Discover, Evaluation, Support & Follow Up; Marketplace and Retail & Wholesale, Discover, Evaluation, Purchase, Delivery; In Person, Discover, Evaluation, Delivery, Support & Follow Up; Email and Online / Live, Evaluation, Delivery, Support & Follow Up; Referral & Affiliates, Discover, Evaluation, Purchase; Direct Payment, Purchase; File Delivery and Physical Delivery, Delivery; Website and Other, all five.
 
 Do not allow unlimited custom categories unless explicitly required by the implementation.
 
@@ -218,7 +221,7 @@ Each channel should contain the following fields:
 | Channel | Offerings | Journey Stage | Action |
 |---|---|---|---|
 
-As built, the table has these four columns. A channel's **Links** (optional, a list of destinations or access points, placeholder "Links (optional)") sit under its name in the Channel cell, not in a column of their own. A channel has a × to remove it (not on the last channel).
+As built, the table has these four columns. A channel's **Links** (optional: the "Links" tick opens a numbered list of destinations or access points) sit under its name in the Channel cell, not in a column of their own. A channel has a × to remove it (not on the last channel).
 
 Do not include a separate **Purpose / Description** column.
 
@@ -388,7 +391,7 @@ Example:
 
 ```text
 Journey Stage
-☑ Discovery
+☑ Discover
 ☑ Evaluation
 ☐ Purchase
 ☐ Delivery
@@ -400,7 +403,7 @@ Then display:
 ```text
 Actions
 
-Discovery
+Discover
     + Add Action
 
 Evaluation
@@ -427,7 +430,7 @@ Example:
 ```text
 LinkedIn
 
-Discovery
+Discover
     • Publish educational content to build awareness.
     • Share relevant work and examples to attract potential customers.
 
@@ -467,10 +470,10 @@ Social Media
     ↳ LinkedIn
 ```
 
-| Channel | Links | Offerings | Journey Stage | Action |
-|---|---|---|---|---|
-| LinkedIn | Profile link | Practical Guide, Digital Resource Pack | Discovery | Publish educational content to build awareness and attract relevant customers. |
-|  |  |  | Evaluation | Explain offering benefits and provide examples to help customers assess suitability. |
+| Channel | Offerings | Journey Stage | Action |
+|---|---|---|---|
+| LinkedIn (Links: Profile link) | Practical Guide, Digital Resource Pack | Discover | Publish educational content to build awareness and attract relevant customers. |
+|  |  | Evaluation | Explain offering benefits and provide examples to help customers assess suitability. |
 
 ---
 
@@ -481,10 +484,10 @@ Marketplace
     ↳ Gumroad
 ```
 
-| Channel | Links | Offerings | Journey Stage | Action |
-|---|---|---|---|---|
-| Gumroad | Product links | Practical Guide, Digital Resource Pack | Purchase | Process the customer's order and payment. |
-|  |  |  | Delivery | Provide automatic access to the purchased digital product. |
+| Channel | Offerings | Journey Stage | Action |
+|---|---|---|---|
+| Gumroad (Links: Product links) | Practical Guide, Digital Resource Pack | Purchase | Process the customer's order and payment. |
+|  |  | Delivery | Provide automatic access to the purchased digital product. |
 
 ---
 
@@ -494,14 +497,16 @@ Marketplace
 Direct Payment
     ↳ Stripe
 
-File Delivery / Client Portal
+File Delivery
     ↳ WeTransfer
 ```
 
-| Channel | Links | Offerings | Journey Stage | Action |
-|---|---|---|---|---|
-| Stripe | Payment link | Custom Offering | Purchase | Collect and confirm payment for the agreed work. |
-| WeTransfer | Delivery link | Custom Offering | Delivery | Transfer large project files and final deliverables. |
+| Channel | Offerings | Journey Stage | Action |
+|---|---|---|---|
+| Stripe (Links: Payment link) | Custom Offering | Purchase | Collect and confirm payment for the agreed work. |
+| WeTransfer (Links: Delivery link) | Custom Offering | Delivery | Transfer large project files and final deliverables. |
+
+(In the app Stripe is typed with **Other** under Direct Payment; Gumroad and WeTransfer are presets.)
 
 This separation must be supported by the data model.
 
@@ -559,18 +564,18 @@ Information / References ⓘ
 
 CHANNELS
 
-┌───────────────┬────────┬────────────┬────────────────────┬────────────┐
-│ Channel       │ Links  │ Offerings  │ Journey Stage      │ Action     │
-├───────────────┼────────┼────────────┼────────────────────┼────────────┤
-│ Social Media  │        │            │                    │            │
-│   ↳ LinkedIn  │ URL    │ Offering A │ Discovery          │ Action     │
-│               │        │            │ Evaluation         │ Action     │
-│   ↳ Instagram │ URL    │ Offering B │ Discovery          │ Action     │
-│               │        │            │                    │            │
-│ Marketplace   │        │            │                    │            │
-│   ↳ Gumroad   │ URLs   │ A, B       │ Purchase           │ Action     │
-│               │        │            │ Delivery           │ Action     │
-└───────────────┴────────┴────────────┴────────────────────┴────────────┘
+┌─────────────────┬────────────┬────────────────────┬────────────┐
+│ Channel         │ Offerings  │ Journey Stage      │ Action     │
+├─────────────────┼────────────┼────────────────────┼────────────┤
+│ Social Media    │            │                    │            │
+│   ↳ LinkedIn    │ Offering A │ Discover           │ Action     │
+│     Links: URL  │            │ Evaluation         │ Action     │
+│   ↳ Instagram   │ Offering B │ Discover           │ Action     │
+│     Links: URL  │            │                    │            │
+│ Marketplace     │            │                    │            │
+│   ↳ Gumroad     │ A, B       │ Purchase           │ Action     │
+│     Links: URLs │            │ Delivery           │ Action     │
+└─────────────────┴────────────┴────────────────────┴────────────┘
 
 + ADD CHANNEL
 ```

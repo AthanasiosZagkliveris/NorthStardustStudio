@@ -1,6 +1,6 @@
 # Building a Customer Segment by selection (proposal)
 
-Status: **archive**, written 2026-10-12, moved here 2026-10-21. A proposal; nothing of it is built (the Segment still asks four written boxes per Profile). Kept for the research on segment variables.
+Status: **archive**, written 2026-10-12, moved here 2026-10-21. A proposal; nothing of it is built. Where its direction now lives: the questionnaire (`design/questionnaire/28-questionnaire-specification.md`, 6.1 to 6.5) designs the Segment from ranges chosen in lists, with the Profile choosing within them, which replaces the idea of chips that write into the text. **Held only here:** the five families of segmentation variables with their keys (demographic, geographic, psychographic, behavioural, firmographic) and the test of which text boxes can be chosen and which are narrative. Kept for the research on segment variables.
 
 ## What the app asks today
 

@@ -290,6 +290,13 @@ export const SOURCES = {
         checked: "2026-10-25"
     },
 
+    buyingRoles: {
+        title: "Understanding your customers, 3.4",
+        publisher: "The Open University",
+        url: "https://www.open.edu/openlearn/money-business/understanding-your-customers/content-section-3.4",
+        checked: "2026-10-26"
+    },
+
     marketResearch: {
         title: "Market research and competitive analysis",
         publisher: "U.S. Small Business Administration",

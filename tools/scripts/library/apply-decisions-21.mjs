@@ -26,8 +26,8 @@ const toggle = assets.find(a => a.code === "BTN.008");
 toggle.look = { ...toggle.look, corners: "4px" };
 toggle.lookNotes = [...(toggle.lookNotes ?? []), "corners corrected 2026-10-16: 4px, as the walk of the app measured them (the library had 0 by assumption)."];
 writeFileSync("src/library/data/library.ts", [
-    "// The assets library, seeded once by tools/scripts/library/seed-library.mjs from the catalogue (docs/design/07-structure-tables.md).",
-    "// From now on the library is the source: it is changed by the procedure of docs/design/08-library-system.md (check, library, library log, inventory, placement, app log).",
+    "// The assets library, seeded once by tools/scripts/library/seed-library.mjs from the catalogue (docs/design/core/07-structure-tables.md).",
+    "// From now on the library is the source: it is changed by the procedure of docs/design/library/08-library-system.md (check, library, library log, inventory, placement, app log).",
     "",
     'import type { Library } from "../model/types.ts";',
     "",

@@ -1,6 +1,6 @@
 /**
  * Which fields and cards use each component and variant, as one part of the components document
- * (docs/design/14-components-list.md, written by tools/scripts/library/components-list.mjs), from the requirements in the
+ * (docs/design/library/13-components-list.md, written by tools/scripts/library/components-list.mjs), from the requirements in the
  * library. This module only returns the lines; it writes no file.
  */
 import { library } from "../../../src/library/data/library.ts";
