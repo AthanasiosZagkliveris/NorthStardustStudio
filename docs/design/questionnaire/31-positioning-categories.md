@@ -546,7 +546,7 @@ Example paths from the seller and buyer relationship to the differentiation: B2C
 
 **Core operational logic (the owner's notes):** 1. **The Solopreneur shift:** a team of one buying for themselves is Direct (Growth, Productivity, Creation); as a Proxy or Dual-Intent buyer it is almost only micro-scale client relations (Gifting and Appreciation). 2. **The Proxy split:** from Startups & SMBs to Enterprise a Proxy buyer is about governance: Protection and Risk Reduction, Compliance and Obligations, Gifting and Appreciation (corporate perks), Health, Care and Wellbeing (benefits packages). 3. **The Direct / Dual split:** at mid to large scale a Direct or Dual-Intent buyer is about business metrics: Business Growth and Performance, Productivity and Efficiency, Learning and Development (upskilling).
 
-**The differentiation by the audience scale and the business buyer's category (the owner's table, 2026-10-30; used to order the Differentiation list, nothing is taken away)**
+**The differentiation by the audience scale and the business buyer's category (the owner's table, 2026-10-30; used to order the Differentiation list; from the owner's answer of 2026-10-30 the blank ones are not offered, and one already chosen stays)**
 
 | Differentiation | Solopreneur: Direct | Solopreneur: Proxy / Dual | Startups & SMBs: Direct / Dual | Startups & SMBs: Proxy | Mid-Market: Direct / Dual | Mid-Market: Proxy | Enterprise / Gov: Direct / Dual | Enterprise / Gov: Proxy |
 |---|---|---|---|---|---|---|---|---|
