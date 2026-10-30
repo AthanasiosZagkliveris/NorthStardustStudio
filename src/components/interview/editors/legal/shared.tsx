@@ -268,13 +268,13 @@ export function fitPositioningToStage<T extends { customerType: string[]; market
         if (!endsUser(model) || (limit !== null && endUser.filter(id => ids.includes(id)).length > limit)) {
             endUser = endUser.filter(id => !ids.includes(id));
         }
-        // (A parent or legal guardian has a minor or a young adult as the user: an adult or a senior goes with it.)
-        endUser = endUser.filter(id => userStageFits(endUser, id));
+        // (A Student or Young Adult buyer is not a Commercial & Professional buyer.)
+        endUser = endUser.filter(id => relationshipFitsBuyerStage(id, audience));
+        // (A user's life stage the buyer's life stage and the relationship leave blank goes: RelationshipFit.ts.)
+        endUser = endUser.filter(id => userStageFits(endUser, id, audience));
         // (A relationship that cannot be the chosen category goes with the change of category.)
         const category = categoryOfModel(buyerCategory, model);
         endUser = endUser.filter(id => !ids.includes(id) || relationshipFits(id, category));
-        // (A Student or Young Adult buyer is not a Commercial & Professional buyer.)
-        endUser = endUser.filter(id => relationshipFitsBuyerStage(id, audience));
     }
     const same = (one: string[], other: string[]) => one.length === other.length && one.every((id, index) => id === other[index]);
     return same(customerType, organisation.customerType) && same(audience, organisation.audience) && same(outcome, organisation.outcome) && same(differentiation, differentiationBefore) && same(outcomeUser, outcomeUserBefore) && same(purpose, purposeBefore) && same(buyerCategory, categoryBefore) && same(endUser, endUserBefore)

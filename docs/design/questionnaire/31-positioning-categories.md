@@ -486,3 +486,35 @@ The buyer's life stage is a Student / Young Adult, a Worker (Adult) or a Senior 
 **A parent or legal guardian has a Minor or a Young Adult as the user (owner's rule, 2026-10-30):** when that relationship is chosen the user's life stage offers only Minors and Young Adults, and an Adult or a Senior already chosen goes.
 
 **A Student / Young Adult buyer is not a Commercial & Professional buyer (owner's rule, 2026-10-30):** that relationship is not offered when the buyer's life stage is Students / Young Adults, and one already chosen goes.
+
+**The user's life stage by the buyer's life stage and the relationship (the owner's matrix, 2026-10-30)**
+
+● primary · ○ possible · blank = generally less directly relevant / invalid state. **A user's life stage left blank by every chosen combination is not offered** in "User's Life-Stage" (one already chosen goes); with several buyer stages or relationships chosen, a stage is offered when any combination offers it. Before a buyer's life stage is chosen only the parent rule above applies.
+
+| Buyer's life stage | Buyer and user relationship | User: Minors | User: Young Adults | User: Adults | User: Seniors |
+|---|---|---|---|---|---|
+| Students / Young Adults | Parent or legal guardian | ○ |  |  |  |
+|  | Caregiver or person responsible | ○ | ○ |  |  |
+|  | Family member or relative | ● | ● | ● | ● |
+|  | Spouse or romantic partner |  | ● | ● |  |
+|  | Friend or acquaintance | ○ | ● | ● |  |
+|  | Commercial & Professional |  |  |  |  |
+|  | Other personal relationship | ○ | ● | ● |  |
+| Workers / Adults | Parent or legal guardian | ● | ● |  |  |
+|  | Caregiver or person responsible | ● | ○ | ○ | ● |
+|  | Family member or relative | ● | ● | ● | ● |
+|  | Spouse or romantic partner |  | ● | ● | ○ |
+|  | Friend or acquaintance | ○ | ● | ● | ○ |
+|  | Commercial & Professional | ● | ● | ● | ● |
+|  | Other personal relationship | ○ | ● | ● | ○ |
+| Seniors | Parent or legal guardian | ○ |  | ○ |  |
+|  | Caregiver or person responsible |  |  | ○ | ● |
+|  | Family member or relative | ● | ● | ● | ● |
+|  | Spouse or romantic partner |  |  | ○ | ● |
+|  | Friend or acquaintance |  | ○ | ● | ● |
+|  | Commercial & Professional | ○ |  | ○ | ● |
+|  | Other personal relationship | ○ | ○ | ● | ● |
+
+**Validation logic (the owner's notes):** 1. A Student / Young Adult buyer has no Commercial & Professional row. 2. The parent shift: a Worker / Adult parent focuses on Minors and Young Adults; a Senior parent shifts to Adults (adult children). 3. The caregiver U-curve: a Worker caregiver splits between their own children (Minors) and ageing parents (Seniors); a Senior caregiver concentrates on ageing peers and spouses (Seniors).
+
+**Note:** this matrix supersedes the earlier parent rule where the buyer's life stage is chosen: a Senior parent is offered Adults (and Minors), as the matrix says.

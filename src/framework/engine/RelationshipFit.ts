@@ -22,12 +22,22 @@ export function relationshipFits(id: string, category: CategoryKey | ""): boolea
     return category === "" || (RELATIONSHIP_FITS[id] ?? ["proxy", "dual"]).includes(category);
 }
 
-/** The user's life stages a parent or legal guardian cannot have as the user: a child of a parent is a minor or a young adult, never an adult or a senior (the owner's rule, 2026-10-30). */
-const NOT_A_PARENT_S_USER = ["age:adult", "age:senior"];
+/** The user's life stages (minor, young adult, adult, senior) of each buyer's life stage and each buyer and user relationship of a consumer buyer (the owner's matrix of 2026-10-30): P primary, S possible, . generally less directly relevant, so not offered. */
+const USER_STAGES = ["age:minor", "age:young", "age:adult", "age:senior"];
+const MATRIX: Record<string, Record<string, string>> = {
+    young: { "rel:parent": "S...", "rel:caregiver": "SS..", "rel:family": "PPPP", "rel:partner": ".PP.", "rel:friend": "SPP.", "rel:commercial": "....", "rel:otherpersonal": "SPP." },
+    adult: { "rel:parent": "PP..", "rel:caregiver": "PSSP", "rel:family": "PPPP", "rel:partner": ".PPS", "rel:friend": "SPPS", "rel:commercial": "PPPP", "rel:otherpersonal": "SPPS" },
+    senior: { "rel:parent": "S.S.", "rel:caregiver": "..SP", "rel:family": "PPPP", "rel:partner": "..SP", "rel:friend": ".SPP", "rel:commercial": "S.SP", "rel:otherpersonal": "SSPP" }
+};
 
-/** Whether the user's life stage can be the user of the buyer and user relationships chosen (true for every stage unless a parent or legal guardian is chosen). */
-export function userStageFits(relationships: readonly string[], stageId: string): boolean {
-    return !(relationships.includes("rel:parent") && NOT_A_PARENT_S_USER.includes(stageId));
+/** Whether the user's life stage can be the user of the buyer and user relationships chosen, for the buyer's life stages chosen (the matrix above: a stage is offered when some chosen combination does not leave it blank). Before a buyer's life stage is chosen only the parent rule applies: a parent or legal guardian has a minor or a young adult as the user. True for every stage where no relationship is chosen. */
+export function userStageFits(relationships: readonly string[], stageId: string, buyerStages: readonly string[] = []): boolean {
+    const chosen = relationships.filter(id => id.startsWith("rel:") && MATRIX.adult[id] !== undefined);
+    const stages = buyerStages.filter(id => MATRIX[id] !== undefined);
+    const column = USER_STAGES.indexOf(stageId);
+    if (chosen.length === 0 || column < 0) return true;
+    if (stages.length === 0) return !(chosen.includes("rel:parent") && column >= 2);
+    return stages.some(stage => chosen.some(id => MATRIX[stage][id][column] !== "."));
 }
 
 /** Whether a relationship can be the buyer's, given the buyer's life stage: a Student or Young Adult is not a Commercial & Professional buyer (the owner's rule, 2026-10-30). */

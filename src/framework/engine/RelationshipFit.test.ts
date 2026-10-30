@@ -32,4 +32,17 @@ describe("which buyer and user relationships fit the buyer's category", () => {
         expect(["age:minor", "age:young", "age:adult", "age:senior"].map(id => userStageFits(["rel:caregiver"], id))).toEqual([true, true, true, true]);
         expect(userStageFits([], "age:senior")).toBe(true);
     });
+
+    it("reads the owner's matrix of the buyer's life stage and the relationship for the user's life stage", () => {
+        const stages = (rel: string[], buyer: string[]) => ["age:minor", "age:young", "age:adult", "age:senior"].filter(id => userStageFits(rel, id, buyer));
+        expect(stages(["rel:parent"], ["young"])).toEqual(["age:minor"]);
+        expect(stages(["rel:parent"], ["adult"])).toEqual(["age:minor", "age:young"]);
+        expect(stages(["rel:parent"], ["senior"])).toEqual(["age:minor", "age:adult"]);
+        expect(stages(["rel:caregiver"], ["senior"])).toEqual(["age:adult", "age:senior"]);
+        expect(stages(["rel:partner"], ["young"])).toEqual(["age:young", "age:adult"]);
+        // Several choices: a stage is offered when any combination offers it. None chosen: all.
+        expect(stages(["rel:parent", "rel:partner"], ["adult"])).toEqual(["age:minor", "age:young", "age:adult", "age:senior"]);
+        expect(stages([], ["young"])).toHaveLength(4);
+        expect(stages(["rel:family"], [])).toHaveLength(4);
+    });
 });

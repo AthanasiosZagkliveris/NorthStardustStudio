@@ -333,7 +333,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                         (next) => {
                             // (A parent or legal guardian has a minor or a young adult as the user: an adult or a senior already chosen goes.)
                             const endUser = [...entity.organisation.endUser.filter(id => !idsOf(BUYER_USER_RELATIONS[set.model]).includes(id)), ...next];
-                            updateOrganisation({ endUser: endUser.filter(id => userStageFits(endUser, id)) });
+                            updateOrganisation({ endUser: endUser.filter(id => userStageFits(endUser, id, entity.organisation.audience)) });
                         },
                         INFO.buyerUserRelation
                     )}
@@ -344,7 +344,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                         {choice(
                             "User's Life-Stage",
                             "legal-entity-enduser-life",
-                            USER_LIFE_STAGES.filter(option => userStageFits(entity.organisation.endUser, option.id)),
+                            USER_LIFE_STAGES.filter(option => userStageFits(entity.organisation.endUser, option.id, entity.organisation.audience)),
                             chosenOf(entity.organisation.endUser, USER_LIFE_STAGES),
                             choiceLimit(stage, "audience"),
                             (next) => updateOrganisation({ endUser: [...entity.organisation.endUser.filter(id => !idsOf(USER_LIFE_STAGES).includes(id)), ...next] }),
