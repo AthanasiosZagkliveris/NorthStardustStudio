@@ -72,6 +72,8 @@ const chapter = (name) => DESIGN.filter(([p]) => p.startsWith("docs/design/" + n
 const CURRENT = chapter("current"), LIBRARY = chapter("library"), CORE = chapter("core"), QUESTIONNAIRE = chapter("questionnaire");
 const ARCHIVED_DESIGN = DESIGN.filter(([p]) => p.startsWith("docs/archive/"));
 const SPEC = [
+  ["docs/specifications/identity-system/README.md", "specification", "The Identity System: index of the pages that have a document of their own.", true],
+  ["docs/specifications/identity-system/page-1-definition.md", "current design", "1. Identity System, 1. Definition: the master tile with its four tiles (Organization, Early Positioning, Mission, Vision), its layout, reactions and readers, and the extra information that is neither built nor a future feature.", true],
   ["docs/specifications/business-system/README.md", "specification", "The Business System: index of the pages and the editor mapping.", true],
   ["docs/specifications/business-system/page-1-foundation.md", "specification", "Page 1: Foundation.", true],
   ["docs/specifications/business-system/page-2-section-1-channels.md", "specification", "Page 2, section 1: the channels.", true],
@@ -106,7 +108,7 @@ const CHAPTERS = [
   ["The current design (`design/current/`, documents 16 to 26)", "What the app is today in detail: the texts, the reactions, the shared components, the pop-ups, the tooltips, the folders and the card structure.", CURRENT],
   ["The first version and the questionnaire (`design/questionnaire/`, documents 27 to 35)", "What the first published version contains (read 33 first; it governs), what it leaves for later (34), and the questions, the lists and the research behind them. Reading order: 33, 34, then 27 (the plan), 28 (every question and rule), 29 (the flow), 35 (the lists and classifications), 31 and 32 (the positioning decisions and their sources), 30 (age limits).", QUESTIONNAIRE],
   ["Rules for the assistant (`ai/`)", "Standing rules, references and playbooks for an AI assistant working on the project.", AI],
-  ["The specifications (`specifications/`)", "The pages of the Business System.", SPEC],
+  ["The specifications (`specifications/`)", "The pages of the Business System and of the Identity System.", SPEC],
   ["The archive (`archive/`)", "Documents that are finished or replaced; each is kept for its information.", "| Document | Kind | What it holds | Updated |\n|---|---|---|---|\n" + archiveRows.map(row).join("\n") + "\n"]
 ];
 const idx = `# The documents of NorthStardustStudio

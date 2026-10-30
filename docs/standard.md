@@ -13,6 +13,7 @@ Status: **rules**, written 2026-10-29. How a document in `docs/` is named, numbe
 | `docs/design/questionnaire/` | The first version, its future features, the questions, the lists, the research (27 to 35) | `NN-name.md` |
 | `docs/ai/` | Rules, references and playbooks for an AI assistant | plain names |
 | `docs/specifications/business-system/` | The pages of the Business System | `page-N-name.md` |
+| `docs/specifications/identity-system/` | The pages of the Identity System that have a document of their own | `page-N-name.md` |
 | `docs/archive/` | Finished or replaced documents, kept for their information | plain names |
 
 **Numbering** (checked): the design documents are numbered 1 to N in the order of the chapters, with no gap and no repeat. The number is in the file name (two digits), in the title, and it is how documents cite one another ("doc 28"). A new document takes the next number in its chapter; the numbers after it move up and the references are rewritten (the index fails on a gap). A document that leaves the numbered set goes to the archive with a plain name.
