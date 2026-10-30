@@ -484,3 +484,5 @@ The buyer's life stage is a Student / Young Adult, a Worker (Adult) or a Senior 
 **Which table is read first (2026-10-30):** the buyer's and the user's life stage (when both are answered), then the buyer and user relationship, then the buyer's category, then the seller and buyer relationship; for each purpose the first table that covers it decides.
 
 **A parent or legal guardian has a Minor or a Young Adult as the user (owner's rule, 2026-10-30):** when that relationship is chosen the user's life stage offers only Minors and Young Adults, and an Adult or a Senior already chosen goes.
+
+**A Student / Young Adult buyer is not a Commercial & Professional buyer (owner's rule, 2026-10-30):** that relationship is not offered when the buyer's life stage is Students / Young Adults, and one already chosen goes.

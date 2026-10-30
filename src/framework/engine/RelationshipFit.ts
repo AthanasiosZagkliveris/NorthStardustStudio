@@ -29,3 +29,8 @@ const NOT_A_PARENT_S_USER = ["age:adult", "age:senior"];
 export function userStageFits(relationships: readonly string[], stageId: string): boolean {
     return !(relationships.includes("rel:parent") && NOT_A_PARENT_S_USER.includes(stageId));
 }
+
+/** Whether a relationship can be the buyer's, given the buyer's life stage: a Student or Young Adult is not a Commercial & Professional buyer (the owner's rule, 2026-10-30). */
+export function relationshipFitsBuyerStage(id: string, audience: readonly string[]): boolean {
+    return !(id === "rel:commercial" && audience.includes("young"));
+}

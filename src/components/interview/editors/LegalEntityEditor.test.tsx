@@ -1153,4 +1153,14 @@ describe("LegalEntityEditor Early Positioning: the user of a parent, and the lif
 
     });
 
+    it("does not offer the Commercial & Professional relationship to a Student or Young Adult buyer", () => {
+
+        render(<Model model="b2c" />);
+        fireEvent.click(screen.getByRole("radio", { name: "Proxy Buyers" }));
+        expect(screen.queryByRole("radio", { name: /Commercial & Professional/ }) ?? screen.queryByRole("checkbox", { name: /Commercial & Professional/ })).not.toBeNull();
+        fireEvent.click(screen.getByRole("radio", { name: "Students / Young Adults" }));
+        expect(screen.queryByRole("radio", { name: /Commercial & Professional/ }) ?? screen.queryByRole("checkbox", { name: /Commercial & Professional/ })).toBeNull();
+
+    });
+
 });

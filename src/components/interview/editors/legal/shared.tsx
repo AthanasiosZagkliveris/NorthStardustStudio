@@ -7,7 +7,7 @@ import { FoundersProfileValue, LegalEntityValue, todayIsoDate, createLegalEntity
 import { InfoPoint } from "../../fields/InfoNote.tsx";
 import { SOURCES } from "../../../../framework/engine/Sources.ts";
 import { FIRST_VERSION_COUNTRIES } from "../../../../framework/engine/LegalEntityJurisdictions.ts";
-import { categoryOfModel, relationshipFits, userStageFits } from "../../../../framework/engine/RelationshipFit.ts";
+import { categoryOfModel, relationshipFits, relationshipFitsBuyerStage, userStageFits } from "../../../../framework/engine/RelationshipFit.ts";
 
 /**
  * The last entry in every Legal Form list. The brief forbids
@@ -273,6 +273,8 @@ export function fitPositioningToStage<T extends { customerType: string[]; market
         // (A relationship that cannot be the chosen category goes with the change of category.)
         const category = categoryOfModel(buyerCategory, model);
         endUser = endUser.filter(id => !ids.includes(id) || relationshipFits(id, category));
+        // (A Student or Young Adult buyer is not a Commercial & Professional buyer.)
+        endUser = endUser.filter(id => relationshipFitsBuyerStage(id, audience));
     }
     const same = (one: string[], other: string[]) => one.length === other.length && one.every((id, index) => id === other[index]);
     return same(customerType, organisation.customerType) && same(audience, organisation.audience) && same(outcome, organisation.outcome) && same(differentiation, differentiationBefore) && same(outcomeUser, outcomeUserBefore) && same(purpose, purposeBefore) && same(buyerCategory, categoryBefore) && same(endUser, endUserBefore)
