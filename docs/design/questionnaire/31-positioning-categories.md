@@ -205,7 +205,7 @@ The decisions of 2026-10-27 to 2026-10-29, one row each, by topic. The rounds of
 | 25 | Requirements R-1 and R-2 (age restrictions on the Organization and Positioning cards) | superseded: ages go in the Segment (decision 6) |
 | 26 | Lists with no acceptable source (doc 32) stay the owner's wording | decided |
 | 28 | A seventh consumer relationship, "Commercial & Professional", is a proxy buyer (the owner's instruction of 2026-10-30); the consumer list is the six personal ones plus it, "Other personal relationship" last | built 2026-10-30 |
-| 29 | The purpose list is ordered by relevance (the tables of 10.7): the buyer and user relationship, else the buyer's category, else the seller and buyer relationship; nothing is taken away | built 2026-10-30 |
+| 29 | The purpose list is ordered by relevance (the tables of 10.7): the buyer and user relationship, else the buyer's category, else the seller and buyer relationship; from the second request of 2026-10-30 the purposes that are generally less directly relevant are not offered (one already chosen stays) | built 2026-10-30 |
 | 30 | Only the buyer and user relationships that can be the buyer's category are offered (the table at the end of 10.7); a relationship that no longer fits goes with a change of category | built 2026-10-30 |
 | 31 | "Differentiation & Outcome" is two questions: the **Differentiation** (what the offering does differently) and the **Outcome** (the measurable result for the buyer); where the buyer is a Proxy or Dual-Intent Buyer the user has an **Outcome for the user** (the six of the former I7g) | built 2026-10-30 |
 | 27 | Rules of the buyer categories beyond age: data separation (a Proxy Buyer does not see the user's behavioural data), contract and liability flags, payment routing | decided as rules applied by country; future |
@@ -369,7 +369,7 @@ The owner pasted a text on how the six business relationships (6.2) position, gr
 
 ### 10.7 How relevant each purpose is: the owner's tables of 2026-10-30
 
-● primary relevance · ○ possible relevance · blank = generally less directly relevant. **Used only to order the purpose list** (the most relevant first); nothing is taken away. The most specific table that applies is used: the buyer and user relationship (a consumer buyer), else the buyer's category, else the seller and buyer relationship.
+● primary relevance · ○ possible relevance · blank = generally less directly relevant. **Used to order the purpose list** (the most relevant first) **and to leave out the purposes that are generally less directly relevant** to the answers so far (fewer options help the user; a purpose already chosen stays). The most specific table that applies is used: the buyer and user relationship (a consumer buyer), else the buyer's category, else the seller and buyer relationship.
 
 **By seller and buyer relationship**
 

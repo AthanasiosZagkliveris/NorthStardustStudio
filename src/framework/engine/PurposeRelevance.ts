@@ -1,6 +1,6 @@
 /**
- * HOW RELEVANT EACH PURPOSE IS to the buyer (the owner's tables of 2026-10-30, design document 31, 10.4): used only to ORDER the purpose list, the most relevant first. It never takes an
- * option away and never chooses for the user. The most specific table that applies is used: the buyer's relationship with the user (a consumer buyer), else the buyer's category, else the
+ * HOW RELEVANT EACH PURPOSE IS to the buyer (the owner's tables of 2026-10-30, design document 31, 10.4): used to ORDER the purpose list, the most relevant first, and to leave out the purposes the table calls generally less directly
+ * relevant (fewer options help the user; the editor keeps one that is already chosen). It never chooses for the user. The most specific table that applies is used: the buyer's relationship with the user (a consumer buyer), else the buyer's category, else the
  * relationship model (B2B or B2C). Two levels: 2 primary relevance, 1 possible relevance; none is generally less directly relevant.
  */
 import { PURPOSE_IDS } from "./PositioningIds.ts";

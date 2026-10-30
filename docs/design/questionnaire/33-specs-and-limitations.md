@@ -125,7 +125,7 @@ The Organization tile and the Early Positioning tile of the app follow this docu
 - **A radio reacts under the pointer as a tick box does** (its words underlined, the round's glow ring): doc 18 and the rulebook.
 - "Who chooses" and "what matters most to the End User" are no longer asked (future features).
 
-**Arranged on 2026-10-30:** the Early Positioning tile has two columns. Left, who pays: the Seller and Buyer Relationship and, for each relationship, its audience (Buyer's Life-Stage or Audience Specialization & Scale) and its Buyer's category. Right, the End User (the buyer and user relationship, the user's life stage), the Purpose and the Differentiation & Outcome. The **Purpose** options are ordered by relevance to the answers so far (the owner's tables, doc 31, 10.7: the buyer and user relationship, else the buyer's category, else the seller and buyer relationship); all twelve stay.
+**Arranged on 2026-10-30:** the Early Positioning tile has two columns. Left, who pays: the Seller and Buyer Relationship and, for each relationship, its audience (Buyer's Life-Stage or Audience Specialization & Scale) and its Buyer's category. Right, the End User (the buyer and user relationship, the user's life stage), the Purpose and the Differentiation & Outcome. The **Purpose** options are ordered by relevance to the answers so far (the owner's tables, doc 31, 10.7: the buyer and user relationship, else the buyer's category, else the seller and buyer relationship); the purposes the tables call generally less directly relevant are not offered (2026-10-30; one already chosen stays).
 
 **Not built:** the ages in the Segment (section 6), anything in Business 1 that reads the category, the relationship or the purpose, and the second Profile for the user.
 

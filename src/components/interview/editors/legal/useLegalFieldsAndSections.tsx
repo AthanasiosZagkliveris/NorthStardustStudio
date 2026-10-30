@@ -241,13 +241,14 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
         return frozen ? <FrozenUntil answered={frozen.answered} hint={frozen.hint}>{row}</FrozenUntil> : row;
     }
 
-    // THE PURPOSES in the order of their relevance (the owner's tables, document 31, 10.4): the buyer and user relationship, else the buyer's category, else the seller and buyer relationship. Every
-    // purpose stays; the order only puts the most relevant first.
-    const purposeOptions = orderedByRelevance(PURPOSES, purposeRelevance({
+    // THE PURPOSES in the order of their relevance (the owner's tables, document 31, 10.7): the buyer and user relationship, else the buyer's category, else the seller and buyer relationship. The ones the
+    // owner's table calls generally less directly relevant are not offered (fewer options help the user); one already chosen stays.
+    const relevance = purposeRelevance({
         models,
         categories: entity.organisation.buyerCategory,
         relationships: entity.organisation.endUser.filter(id => id.startsWith("rel:"))
-    }));
+    });
+    const purposeOptions = orderedByRelevance(PURPOSES, relevance).filter(option => relevance === null || relevance[option.id] > 0 || entity.organisation.purpose.includes(option.id));
     // The left column asks WHO PAYS: the relationship, and for each relationship its audience and its buyer's category. The right column asks about the End User (a Proxy or Dual-Intent Buyer's), the purpose and the outcome.
     const audience = (
         <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience">

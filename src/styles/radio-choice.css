@@ -34,18 +34,70 @@
 
 }
 
-/* AN OPTION UNDER THE POINTER reacts as a tick box does (docs/ai/layout-rules.md, "Interactions"): its words underlined, and the round the soft glow ring of a field you write into (4px at 18%, no wire). */
+/* THE ROUND, DRAWN (not the browser's, whose glow is the shape of its box): 16px, in a text input's own look as a tick box is (no stroke, the recessed inset, the ring when active); chosen, it is filled with the
+   app's blue and a white bullet stands in its centre. */
 .radio-choice-option > input[type="radio"] {
 
+    appearance: none;
+
+    flex: none;
+
+    box-sizing: border-box;
+
+    width: 16px;
+    height: 16px;
+
+    margin: 0;
+
+    border: 1px solid transparent;
     border-radius: 50%;
 
-    transition: box-shadow .15s ease;
+    background: var(--bg-surface);
+
+    box-shadow: var(--cell-inset-recess);
+
+    cursor: pointer;
+
+    transition: background-color .15s ease, box-shadow .15s ease;
 
 }
 
+.radio-choice-option > input[type="radio"]:checked {
+
+    box-shadow: none;
+
+    background: radial-gradient(circle, var(--text-on-fill) 0 32%, transparent 36%), var(--bg-primary);
+
+}
+
+/* AN OPTION UNDER THE POINTER reacts as a tick box does (docs/ai/layout-rules.md, "Interactions"): its words underlined, and the round the soft glow ring of a field you write into (4px at 18%, no wire), round as the radio is. */
 .radio-choice-option > input[type="radio"]:hover:not(:disabled):not(:focus-visible) {
 
+    box-shadow: var(--cell-inset-recess), 0 0 0 4px color-mix(in srgb, var(--glow-color) calc(18% * var(--hover-lift, 1)), transparent);
+
+}
+
+.radio-choice-option > input[type="radio"]:checked:hover:not(:disabled):not(:focus-visible) {
+
     box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) calc(18% * var(--hover-lift, 1)), transparent);
+
+}
+
+.radio-choice-option > input[type="radio"]:focus-visible {
+
+    outline: none;
+
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+
+}
+
+.radio-choice-option > input[type="radio"]:disabled {
+
+    cursor: not-allowed;
+
+    opacity: 0.55;
+
+    box-shadow: none;
 
 }
 

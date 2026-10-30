@@ -1074,25 +1074,37 @@ describe("LegalEntityEditor Early Positioning: the two columns and the order of 
 
     });
 
-    it("puts the purposes most relevant to the buyer first, and keeps all twelve", () => {
+    it("offers the purposes that fit the buyer, the most relevant first, and leaves out the ones that are generally less directly relevant", () => {
 
         render(<Model model="b2c" />);
-        // A consumer buyer: Business Growth is the one purpose that is not relevant, and Compliance is only possible.
+        // A consumer buyer: Business Growth is the one purpose that is not relevant; Compliance is only possible, so it comes last.
         let purposes = labelsOf("Purpose");
-        expect(purposes).toHaveLength(12);
-        expect(purposes.slice(-2)).toEqual(["Compliance and Obligations", "Business Growth and Performance"]);
+        expect(purposes).toHaveLength(11);
+        expect(purposes).not.toContain("Business Growth and Performance");
+        expect(purposes[purposes.length - 1]).toBe("Compliance and Obligations");
 
-        // A Direct Buyer does not gift: Gifting goes last.
+        // A Direct Buyer does not gift: Gifting is left out.
         fireEvent.click(screen.getByRole("radio", { name: "Direct Buyers" }));
         purposes = labelsOf("Purpose");
-        expect(purposes[purposes.length - 1]).toBe("Gifting and Appreciation");
+        expect(purposes).not.toContain("Gifting and Appreciation");
+        expect(purposes).toHaveLength(11);
 
-        // A Proxy Buyer who is a friend: Productivity is not relevant, Gifting and Entertainment are primary.
+        // A Proxy Buyer who is a friend: Gifting, Entertainment and Social Connection are primary, Health, Creation and Access possible; the other six are left out.
         fireEvent.click(screen.getByRole("radio", { name: "Proxy Buyers" }));
         fireEvent.click(screen.getByRole("radio", { name: "Friend or acquaintance" }));
         purposes = labelsOf("Purpose");
-        expect(purposes.indexOf("Gifting and Appreciation")).toBeLessThan(purposes.indexOf("Health, Care and Wellbeing"));
-        expect(purposes.slice(-5)).toContain("Productivity and Efficiency");
+        expect(purposes).toEqual(["Gifting and Appreciation", "Entertainment and Enjoyment", "Social Connection and Relationships", "Health, Care and Wellbeing", "Creation and Expression", "Access and Social Support"]);
+
+    });
+
+    it("keeps a purpose that was chosen even when the answers above no longer make it relevant", () => {
+
+        function Held() {
+            const [value, setValue] = useState<unknown>(asLegalEntityValue({ organisation: { customerType: ["b2c"], buyerCategory: ["b2c:direct"], purpose: ["gifting"] } }));
+            return <LegalEntityEditor value={value} audienceOnly onChange={setValue} />;
+        }
+        render(<Held />);
+        expect(labelsOf("Purpose")).toContain("Gifting and Appreciation");
 
     });
 

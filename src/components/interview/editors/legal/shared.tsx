@@ -409,7 +409,7 @@ export const INFO = {
 
     purpose: [
         "Why the offering is bought: the purpose it serves for the person who gets it. Choose the ones that fit best.",
-        "Primary relevance (the buyer's relationship, category or seller relationship above) comes first, then the possible ones, then the rest. Nothing is taken away: choose what is true of your offering.",
+        "Only the purposes that fit your answers above are offered: the primary ones first, then the possible ones. The ones that are generally less directly relevant to that buyer are left out.",
         "Learning and Development. Health, Care and Wellbeing. Gifting and Appreciation. Entertainment and Enjoyment. Social Connection and Relationships. Productivity and Efficiency. Business Growth and Performance. Creation and Expression. Everyday Needs and Convenience. Protection and Risk Reduction. Compliance and Obligations. Access and Social Support."
     ],
 

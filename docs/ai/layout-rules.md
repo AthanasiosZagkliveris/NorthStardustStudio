@@ -366,7 +366,7 @@ This table is what the layout check runs against: it hovers up to three of each 
 | Text holder (an image's name and description, one box) | as a text box, on the holder | as a text box | as a text box |
 | Picker | as a text box | as a text box | as a text box |
 | Tick box | its words underlined, the box's glow ring (the field's, 4px at 18%, no wire; whether or not the words are in its label: `.brand-tick` too); ticked, the box is flat (no inner light or shade) and keeps the glow | focus ring | not-allowed cursor |
-| Radio (`RadioChoice`) | its words underlined, the round's glow ring (as a tick box: 4px at 18%, no wire) | the browser's focus ring | not-allowed cursor |
+| Radio (`RadioChoice`) | its words underlined, the round's glow ring (as a tick box: 4px at 18%, no wire); the round is drawn (16px, a circle in a tick box's own look; chosen, the app's blue with a white bullet), so the ring is round | the browser's focus ring | not-allowed cursor |
 | Date cell, month cell | as a text box (no stroke, recessed, glow, ring); never bold | as a text box | muted, no reaction |
 | Calendar button (inside a date or month cell) | the "+" box's swap: ground, 2px stroke and symbol in the card's tone, filled under the pointer (outside a coloured card, the tone every cell has) | the same and a 2px outline | 50% |
 | Calendar card, colour picker card | its day, month and arrow buttons: the "+" box's swap, every button with the same 2px frame so none changes size; no bold | outline | the day dimmed; a click outside, or Escape, closes the card |

@@ -12,6 +12,6 @@ The standard for these documents is [the standard of the documents](../../standa
 | [02-references.md](02-references.md) | reference | The source register: the rule for what counts as a reference, and every decision in the app and in these documents with the source behind it. | 2026-10-29 |
 | [03-research.md](03-research.md) | research | The research behind the design decisions: the question, the recommendation, the reason and the source. Document 1 prevails where they differ. | 2026-10-29 |
 | [04-log.md](04-log.md) | log | Every change to the app, the design, the documents or the plan, newest on top. The only place a change is written. | 2026-10-30 |
-| [05-not-done-yet.md](05-not-done-yet.md) | living list | What has not been done: the road, the plans, the requirements still open, the open decisions and the open points of the reviews. | 2026-10-29 |
+| [05-not-done-yet.md](05-not-done-yet.md) | living list | What has not been done: the road, the plans, the requirements still open, the open decisions and the open points of the reviews. | 2026-10-30 |
 | [06-catalogue-record.md](06-catalogue-record.md) | generated | The catalogue record of the app's pages, tiles, cards and controls, from the card scan and the probes. | 2026-10-29 |
 | [07-structure-tables.md](07-structure-tables.md) | generated | The structure tables of the app (pages, chapters, tiles, views, components, fields, card kinds), from the catalogue. | 2026-10-29 |

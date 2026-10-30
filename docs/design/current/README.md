@@ -10,7 +10,7 @@ The standard for these documents is [the standard of the documents](../../standa
 |---|---|---|---|
 | [16-text-holders.md](16-text-holders.md) | generated | The text holders: sizes, style classes and rules. | 2026-10-29 |
 | [17-frequency-options.md](17-frequency-options.md) | generated | The Frequency options by group, compared with the code. | 2026-10-29 |
-| [18-reactions.md](18-reactions.md) | current design | How elements react to the pointer and the keyboard: the reactions by component. The check is in the layout rules; this is the lookup. | 2026-10-29 |
+| [18-reactions.md](18-reactions.md) | current design | How elements react to the pointer and the keyboard: the reactions by component. The check is in the layout rules; this is the lookup. | 2026-10-30 |
 | [19-text-links.md](19-text-links.md) | generated | The text link: look and behaviour, from the code and the walk of the app. | 2026-10-29 |
 | [20-free-text-categories.md](20-free-text-categories.md) | current design | Free texts in four categories: the categories, the owner's decisions, the proposed limits and what is still to build. | 2026-10-29 |
 | [21-shared-components.md](21-shared-components.md) | current design | Which components are shared, with their props, and what is still hand-made. | 2026-10-29 |
