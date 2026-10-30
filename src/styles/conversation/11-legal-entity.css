@@ -1420,3 +1420,49 @@
     gap:var(--space-field);
 
 }
+
+/* THE POSITIONING CARD (Early Positioning): the left column is as wide as its longest option, so every option stands on one line; the right column takes the rest. The 1px divider between them is the right column's own left border (12px clear on each side), not the grid's centre line. Under 901px the grid is one column, as for every dialog. */
+@media (min-width: 901px){
+
+    .legal-entity-grid-organization.legal-entity-audience{
+
+        grid-template-columns:max-content minmax(0, 1fr);
+
+        column-gap:0;
+
+    }
+
+    .legal-entity-grid-organization.legal-entity-audience::before{
+
+        display:none;
+
+    }
+
+    .legal-entity-grid-organization.legal-entity-audience > .legal-entity-field:first-child{
+
+        padding-right:var(--space-cell);
+
+    }
+
+    .legal-entity-grid-organization.legal-entity-audience > .legal-entity-field + .legal-entity-field{
+
+        padding-left:var(--space-cell);
+
+        border-left:1px solid var(--line-divider);
+
+    }
+
+}
+
+/* A divider line under the title of each question of the Positioning card, across its column. */
+.legal-entity-audience .legal-entity-label-info{
+
+    display:flex;
+
+    width:100%;
+
+    padding-bottom:4px;
+
+    border-bottom:1px solid var(--line-divider);
+
+}

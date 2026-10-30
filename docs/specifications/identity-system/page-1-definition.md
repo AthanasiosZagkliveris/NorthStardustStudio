@@ -100,7 +100,7 @@ Only one dialog is open at a time; which one is open is view state and is never 
 
 The tile's name follows the stage: **Early Positioning** (Planning, Launching), **Core Market Positioning** (Managing), **Corporate & Portfolio Positioning** (Growing; `positioningName`).
 
-**Dialog:** two columns, each with two groups, told apart by a **double divider line** (two 1px lines 2px apart) and not by subtitles (the page's tile names the groups): Business then User on the left, Offering then Outcome on the right. The User group (and its divider) appears only for a Proxy or Dual-Intent buyer; the right group is titled "Outcomes" where the user has an outcome of their own. At the narrow width the right column follows the left.
+**Dialog:** two columns, each with two groups, told apart by a **double divider line** (two 1px lines 2px apart) and not by subtitles (the page's tile names the groups): Business then User on the left, Offering then Outcome on the right. The User group (and its divider) appears only for a Proxy or Dual-Intent buyer; the right group is titled "Outcomes" where the user has an outcome of their own. **The left column is as wide as its longest option and the right takes the rest, with a 1px divider between them, so every option stands on one line from a window about 1440px wide** (below it a long option wraps; under 901px the columns are one). **Under the title of each question there is a hairline** across its column.
 
 | Left | Right |
 |---|---|
