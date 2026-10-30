@@ -201,17 +201,9 @@ function MultiPartAnswerRenderer({
             [...wordsOf(organisation.purpose, PURPOSE_WORDS), ...wordsOf(organisation.differentiation, DIFFERENTIATION_WORDS)],
             [...wordsOf(organisation.outcome, OUTCOME_WORDS), ...wordsOf(organisation.outcomeUser, OUTCOME_USER_WORDS)]
         ].filter(words => words.length > 0);
-        // One option on each line, with its bullet, six lines in all for the tile (what its square holds with the hairlines): each group has one line, and the lines left go, in the order of the groups, to the groups with more options, two lines at most; the options a group has no line for are counted on its last line ("Gifting & Appreciation +2": the card has them all). A hairline under the last line of each group but the last.
-        const linesOf = (() => {
-            const lines = positioningGroups.map(() => 1);
-            let left = Math.max(0, 6 - positioningGroups.length);
-            positioningGroups.forEach((words, at) => { if (left > 0 && words.length > 1) { lines[at] = 2; left--; } });
-            return lines;
-        })();
-        const groupLines = (words: string[], count: number) => words.length <= count ? words : count === 1 ? [words[0] + " +" + (words.length - 1)] : [words[0], words[1] + " +" + (words.length - 2)];
-        const shownLines = positioningGroups.map((words, at) => groupLines(words, linesOf[at]));
-        const positioningItems = shownLines.flat();
-        const positioningMarks = shownLines.flatMap((lines, at) => lines.map((_, line) => ({ bullet: true, ...(line === lines.length - 1 && at < shownLines.length - 1 ? { rule: true } : {}) })));
+        // One option on each line, with its bullet, every option said in its own words (no count stands for options left out; the tile ends at a whole line where its square is full, as every tile does); a hairline line (the tile's divider) between two groups.
+        const positioningItems = positioningGroups.flatMap((words, at) => [...(at > 0 ? [TILE_DIVIDER] : []), ...words]);
+        const positioningMarks = positioningItems.map(item => item === TILE_DIVIDER ? undefined : { bullet: true });
 
         const tiles: SectionTile[] = parts.map(part => part.id === "description" && onChangeLegalEntity ? organizationTile(part) : ({
             id: part.id,
