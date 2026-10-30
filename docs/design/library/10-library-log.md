@@ -6,6 +6,33 @@ Every change to an asset of the library: added, edited, placed (and where), move
 
 | Id | Date | Asset | Change | What | Where | Note |
 |---|---|---|---|---|---|---|
+| L0686 | 2026-10-30 | TIL.001 | moved | TIL.001 moved | from Identity System / 2. Organization / 2. Founders & Capability / Capability to Identity System / 2. Legal Entity / 2. Founders & Capability / Capability |  |
+| L0685 | 2026-10-30 | TIL.001 | moved | TIL.001 moved | from Identity System / 2. Organization / 2. Founders & Capability / Jordan Ellis to Identity System / 2. Legal Entity / 2. Founders & Capability / Jordan Ellis |  |
+| L0684 | 2026-10-30 | TIL.001 | moved | TIL.001 moved | from Identity System / 2. Organization / 1. Legal Entity / Expenses to Identity System / 2. Legal Entity / 1. Legal Entity / Expenses |  |
+| L0683 | 2026-10-30 | TIL.001 | moved | TIL.001 moved | from Identity System / 2. Organization / 1. Legal Entity / Registrations to Identity System / 2. Legal Entity / 1. Legal Entity / Registrations |  |
+| L0682 | 2026-10-30 | TIL.001 | moved | TIL.001 moved | from Identity System / 2. Organization / 1. Legal Entity / Founders & Ownership to Identity System / 2. Legal Entity / 1. Legal Entity / Founders & Ownership |  |
+| L0681 | 2026-10-30 | TIL.001 | moved | TIL.001 moved | from Identity System / 2. Organization / 1. Legal Entity / Organization to Identity System / 2. Legal Entity / 1. Legal Entity / Organization |  |
+| L0680 | 2026-10-30 | FRM.001 | moved | FRM.001 moved | from Identity System / 2. Organization / 2. Founders & Capability to Identity System / 2. Legal Entity / 2. Founders & Capability |  |
+| L0679 | 2026-10-30 | FRM.001 | moved | FRM.001 moved | from Identity System / 2. Organization / 1. Legal Entity to Identity System / 2. Legal Entity / 1. Legal Entity |  |
+| L0678 | 2026-10-30 | FLD.042 | moved | FLD.042 moved | from Identity System / 2. Organization / CRD.010/CRD.ALR.010.003 to Identity System / 2. Legal Entity / CRD.010/CRD.ALR.010.003 |  |
+| L0677 | 2026-10-30 | FLD.105 | moved | FLD.105 moved | from Identity System / 2. Organization / CRD.010/CRD.ALR.010.003 to Identity System / 2. Legal Entity / CRD.010/CRD.ALR.010.003 |  |
+| L0676 | 2026-10-30 | FLD.104 | moved | FLD.104 moved | from Identity System / 2. Organization / CRD.010/CRD.ALR.010.003 to Identity System / 2. Legal Entity / CRD.010/CRD.ALR.010.003 |  |
+| L0675 | 2026-10-30 | FLD.067 | moved | FLD.067 moved | from Identity System / 2. Organization / CRD.010/CRD.ADD.010.002 to Identity System / 2. Legal Entity / CRD.010/CRD.ADD.010.002 |  |
+| L0674 | 2026-10-30 | FLD.066 | moved | FLD.066 moved | from Identity System / 2. Organization / CRD.010/CRD.ADD.010.002 to Identity System / 2. Legal Entity / CRD.010/CRD.ADD.010.002 |  |
+| L0673 | 2026-10-30 | FLD.015 | moved | FLD.015 moved | from Identity System / 2. Organization / CRD.010/CRD.LGL.010.001 to Identity System / 2. Legal Entity / CRD.010/CRD.LGL.010.001 |  |
+| L0672 | 2026-10-30 | FLD.014 | moved | FLD.014 moved | from Identity System / 2. Organization / CRD.010/CRD.ALR.010.003 to Identity System / 2. Legal Entity / CRD.010/CRD.ALR.010.003 |  |
+| L0671 | 2026-10-30 | FLD.014 | moved | FLD.014 moved | from Identity System / 2. Organization / CRD.010/CRD.ADD.010.002 to Identity System / 2. Legal Entity / CRD.010/CRD.ADD.010.002 |  |
+| L0670 | 2026-10-30 | FLD.014 | moved | FLD.014 moved | from Identity System / 2. Organization / CRD.010/CRD.LGL.010.001 to Identity System / 2. Legal Entity / CRD.010/CRD.LGL.010.001 |  |
+| L0669 | 2026-10-30 | FLD.065 | moved | FLD.065 moved | from Identity System / 2. Organization / CRD.010/CRD.ADD.010.002 to Identity System / 2. Legal Entity / CRD.010/CRD.ADD.010.002 |  |
+| L0668 | 2026-10-30 | FLD.065 | moved | FLD.065 moved | from Identity System / 2. Organization / CRD.010/CRD.LGL.010.001 to Identity System / 2. Legal Entity / CRD.010/CRD.LGL.010.001 |  |
+| L0667 | 2026-10-30 | FLD.064 | moved | FLD.064 moved | from Identity System / 2. Organization / CRD.010/CRD.LGL.010.001 to Identity System / 2. Legal Entity / CRD.010/CRD.LGL.010.001 |  |
+| L0666 | 2026-10-30 | FLD.017 | moved | FLD.017 moved | from Identity System / 2. Organization / CRD.010/CRD.ADD.010.002 to Identity System / 2. Legal Entity / CRD.010/CRD.ADD.010.002 |  |
+| L0665 | 2026-10-30 | FLD.017 | moved | FLD.017 moved | from Identity System / 2. Organization / CRD.010/CRD.LGL.010.001 to Identity System / 2. Legal Entity / CRD.010/CRD.LGL.010.001 |  |
+| L0664 | 2026-10-30 | FLD.047 | moved | FLD.047 moved | from Identity System / 2. Organization / CRD.010/CRD.LGL.010.001 to Identity System / 2. Legal Entity / CRD.010/CRD.LGL.010.001 |  |
+| L0663 | 2026-10-30 | FLD.063 | moved | FLD.063 moved | from Identity System / 2. Organization / CRD.010/CRD.ADD.010.002 to Identity System / 2. Legal Entity / CRD.010/CRD.ADD.010.002 |  |
+| L0662 | 2026-10-30 | FLD.063 | moved | FLD.063 moved | from Identity System / 2. Organization / CRD.010/CRD.LGL.010.001 to Identity System / 2. Legal Entity / CRD.010/CRD.LGL.010.001 |  |
+| L0661 | 2026-10-30 | FLD.002 | moved | FLD.002 moved | from Identity System / 2. Organization / CRD.010/CRD.LGL.010.001 to Identity System / 2. Legal Entity / CRD.010/CRD.LGL.010.001 |  |
+| L0660 | 2026-10-30 | FLD.001 | moved | FLD.001 moved | from Identity System / 2. Organization / CRD.010/CRD.LGL.010.001 to Identity System / 2. Legal Entity / CRD.010/CRD.LGL.010.001 |  |
 | L0659 | 2026-10-21 | DRP.001 | edited | dropdown: words |  | Tooltips say one sentence that begins Click to (tipWords, TitleTooltips); the Inventory's filter dropdowns and the calendar's list of ticks (MultiPicker) are the option picker's. Logged by hand on 2026-10-21: the tool finds only changes of the library data, and these were changes of the contracts and of the shared components (document 22) |
 | L0658 | 2026-10-21 | DRP.001 | edited | dropdown: component, width rules |  | OptionPicker gets keepWidth (a hugging dropdown alone in its row keeps its longest option's width) and tight (hug without counting the placeholder); the calendar's, the Documents' and the Settings' dropdown cells are the shared one at 44px. Logged by hand on 2026-10-21: the tool finds only changes of the library data, and these were changes of the contracts and of the shared components (document 22) |
 | L0657 | 2026-10-21 | ARW.LAB.002.001 | edited | label arrow: variants of use |  | FoldArrow label gets direction (up, down) and pressed: the Inventory's cost order, outlined and filled while chosen. Logged by hand on 2026-10-21: the tool finds only changes of the library data, and these were changes of the contracts and of the shared components (document 22) |

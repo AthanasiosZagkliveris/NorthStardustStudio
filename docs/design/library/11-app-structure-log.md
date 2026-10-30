@@ -6,6 +6,33 @@ Every change of the tables, that is, of the structure of the app: a placement pl
 
 | Id | Date | Change | Where | Asset | Not in the library | What | Note |
 |---|---|---|---|---|---|---|---|
+| A0114 | 2026-10-30 | moved | from Identity System / 2. Organization / 2. Founders & Capability / Capability to Identity System / 2. Legal Entity / 2. Founders & Capability / Capability | TIL.001 |  | TIL.001 moved |  |
+| A0113 | 2026-10-30 | moved | from Identity System / 2. Organization / 2. Founders & Capability / Jordan Ellis to Identity System / 2. Legal Entity / 2. Founders & Capability / Jordan Ellis | TIL.001 |  | TIL.001 moved |  |
+| A0112 | 2026-10-30 | moved | from Identity System / 2. Organization / 1. Legal Entity / Expenses to Identity System / 2. Legal Entity / 1. Legal Entity / Expenses | TIL.001 |  | TIL.001 moved |  |
+| A0111 | 2026-10-30 | moved | from Identity System / 2. Organization / 1. Legal Entity / Registrations to Identity System / 2. Legal Entity / 1. Legal Entity / Registrations | TIL.001 |  | TIL.001 moved |  |
+| A0110 | 2026-10-30 | moved | from Identity System / 2. Organization / 1. Legal Entity / Founders & Ownership to Identity System / 2. Legal Entity / 1. Legal Entity / Founders & Ownership | TIL.001 |  | TIL.001 moved |  |
+| A0109 | 2026-10-30 | moved | from Identity System / 2. Organization / 1. Legal Entity / Organization to Identity System / 2. Legal Entity / 1. Legal Entity / Organization | TIL.001 |  | TIL.001 moved |  |
+| A0108 | 2026-10-30 | moved | from Identity System / 2. Organization / 2. Founders & Capability to Identity System / 2. Legal Entity / 2. Founders & Capability | FRM.001 |  | FRM.001 moved |  |
+| A0107 | 2026-10-30 | moved | from Identity System / 2. Organization / 1. Legal Entity to Identity System / 2. Legal Entity / 1. Legal Entity | FRM.001 |  | FRM.001 moved |  |
+| A0106 | 2026-10-30 | moved | from Identity System / 2. Organization / CRD.010/CRD.ALR.010.003 to Identity System / 2. Legal Entity / CRD.010/CRD.ALR.010.003 | FLD.042 |  | FLD.042 moved |  |
+| A0105 | 2026-10-30 | moved | from Identity System / 2. Organization / CRD.010/CRD.ALR.010.003 to Identity System / 2. Legal Entity / CRD.010/CRD.ALR.010.003 | FLD.105 |  | FLD.105 moved |  |
+| A0104 | 2026-10-30 | moved | from Identity System / 2. Organization / CRD.010/CRD.ALR.010.003 to Identity System / 2. Legal Entity / CRD.010/CRD.ALR.010.003 | FLD.104 |  | FLD.104 moved |  |
+| A0103 | 2026-10-30 | moved | from Identity System / 2. Organization / CRD.010/CRD.ADD.010.002 to Identity System / 2. Legal Entity / CRD.010/CRD.ADD.010.002 | FLD.067 |  | FLD.067 moved |  |
+| A0102 | 2026-10-30 | moved | from Identity System / 2. Organization / CRD.010/CRD.ADD.010.002 to Identity System / 2. Legal Entity / CRD.010/CRD.ADD.010.002 | FLD.066 |  | FLD.066 moved |  |
+| A0101 | 2026-10-30 | moved | from Identity System / 2. Organization / CRD.010/CRD.LGL.010.001 to Identity System / 2. Legal Entity / CRD.010/CRD.LGL.010.001 | FLD.015 |  | FLD.015 moved |  |
+| A0100 | 2026-10-30 | moved | from Identity System / 2. Organization / CRD.010/CRD.ALR.010.003 to Identity System / 2. Legal Entity / CRD.010/CRD.ALR.010.003 | FLD.014 |  | FLD.014 moved |  |
+| A0099 | 2026-10-30 | moved | from Identity System / 2. Organization / CRD.010/CRD.ADD.010.002 to Identity System / 2. Legal Entity / CRD.010/CRD.ADD.010.002 | FLD.014 |  | FLD.014 moved |  |
+| A0098 | 2026-10-30 | moved | from Identity System / 2. Organization / CRD.010/CRD.LGL.010.001 to Identity System / 2. Legal Entity / CRD.010/CRD.LGL.010.001 | FLD.014 |  | FLD.014 moved |  |
+| A0097 | 2026-10-30 | moved | from Identity System / 2. Organization / CRD.010/CRD.ADD.010.002 to Identity System / 2. Legal Entity / CRD.010/CRD.ADD.010.002 | FLD.065 |  | FLD.065 moved |  |
+| A0096 | 2026-10-30 | moved | from Identity System / 2. Organization / CRD.010/CRD.LGL.010.001 to Identity System / 2. Legal Entity / CRD.010/CRD.LGL.010.001 | FLD.065 |  | FLD.065 moved |  |
+| A0095 | 2026-10-30 | moved | from Identity System / 2. Organization / CRD.010/CRD.LGL.010.001 to Identity System / 2. Legal Entity / CRD.010/CRD.LGL.010.001 | FLD.064 |  | FLD.064 moved |  |
+| A0094 | 2026-10-30 | moved | from Identity System / 2. Organization / CRD.010/CRD.ADD.010.002 to Identity System / 2. Legal Entity / CRD.010/CRD.ADD.010.002 | FLD.017 |  | FLD.017 moved |  |
+| A0093 | 2026-10-30 | moved | from Identity System / 2. Organization / CRD.010/CRD.LGL.010.001 to Identity System / 2. Legal Entity / CRD.010/CRD.LGL.010.001 | FLD.017 |  | FLD.017 moved |  |
+| A0092 | 2026-10-30 | moved | from Identity System / 2. Organization / CRD.010/CRD.LGL.010.001 to Identity System / 2. Legal Entity / CRD.010/CRD.LGL.010.001 | FLD.047 |  | FLD.047 moved |  |
+| A0091 | 2026-10-30 | moved | from Identity System / 2. Organization / CRD.010/CRD.ADD.010.002 to Identity System / 2. Legal Entity / CRD.010/CRD.ADD.010.002 | FLD.063 |  | FLD.063 moved |  |
+| A0090 | 2026-10-30 | moved | from Identity System / 2. Organization / CRD.010/CRD.LGL.010.001 to Identity System / 2. Legal Entity / CRD.010/CRD.LGL.010.001 | FLD.063 |  | FLD.063 moved |  |
+| A0089 | 2026-10-30 | moved | from Identity System / 2. Organization / CRD.010/CRD.LGL.010.001 to Identity System / 2. Legal Entity / CRD.010/CRD.LGL.010.001 | FLD.002 |  | FLD.002 moved |  |
+| A0088 | 2026-10-30 | moved | from Identity System / 2. Organization / CRD.010/CRD.LGL.010.001 to Identity System / 2. Legal Entity / CRD.010/CRD.LGL.010.001 | FLD.001 |  | FLD.001 moved |  |
 | A0087 | 2026-10-29 | edited | K K053 |  |  | row changed: source |  |
 | A0086 | 2026-10-29 | edited | K K052 |  |  | row changed: source |  |
 | A0085 | 2026-10-29 | edited | K K051 |  |  | row changed: source |  |

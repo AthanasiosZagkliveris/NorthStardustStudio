@@ -333,6 +333,7 @@ export const INFO = {
 
     openingDate: [
         "The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it.",
+        "The stage also sets the name of the Positioning tile and how many choices each of its questions allows. When a new date moves the business into another stage, an answer that no longer fits goes back to empty.",
         "The days from the plan's start to the day before it are the pre-operational period: every cost is split around it by its own dates.",
         "You can change it at any time."
     ],

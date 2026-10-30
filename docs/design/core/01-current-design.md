@@ -41,7 +41,7 @@ A page of a System can be a **compound page**: several sections drawn as chapter
 
 | System | Page | Chapters (frames) and their Master Tiles |
 |---|---|---|
-| 1. Identity | 1. Definition and Ethics | Chapter 1 Definition: Description, Mission, Positioning, Vision. Chapter 2 Ethics: Philosophy, Values, Principles, Manifesto. |
+| 1. Identity | 1. Definition and Ethics | Chapter 1 Definition: Organization, Early Positioning, Mission, Vision. Chapter 2 Ethics: Philosophy, Values, Principles, Manifesto. |
 | 1. Identity | 2. Organization | Chapter 1 Legal Entity: Organization, Founders & Ownership, Registration Numbers (Formation & Registration and Tax & Business Registration, one tile), Additional Legal Requirements, Legal Entity Expenses. Chapter 2 Founders & Capability: Founders; Capability (Gaps and Cover). |
 | 2. Brand | Brand System (one page) | Chapter 1 Ambassador: Aesthetics, Body Language, Communication & Voice, Imprint. Chapter 2 Style: Colours, Typography, Text Hierarchy, Icon & Logo, Brand Images (the former Inventory page is folded in). |
 | 3. Business | 1. Foundation | One chapter per Segment: Customer Segment and Profile, Competitor and Alternative, Value Proposition, Offering. |
@@ -1028,7 +1028,7 @@ Colour = what the user does in the section (work type). The code applies these w
 | Section | Work type | Colour |
 |---|---|---|
 | 1. Identity |  |  |
-| Definition (Description, Mission, Positioning, Vision) | Create | Purple |
+| Definition (Organization, Early Positioning, Mission, Vision) | Create | Purple |
 | Ethics (Philosophy, Values, Principles, Manifesto) | Decide | Orange |
 | Legal Entity | Define | Green |
 | Founders Profile | Define | Green |

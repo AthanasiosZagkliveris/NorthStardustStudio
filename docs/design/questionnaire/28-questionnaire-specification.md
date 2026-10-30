@@ -807,7 +807,7 @@ The earlier the business, the narrower its focus. The stage is not chosen: it is
 | Chooses a relationship while Single-sided | Nothing else changes: the market structure does not restrict the relationships, only the stage's limit does |
 | Reaches a question's limit | The unchosen options lock; unticking one unlocks the rest |
 | Chooses B2G or G2B while Planning or Launching | Central Government & Ministries, or Heavily Regulated Markets, is locked |
-| Changes the Opening Date or a duration so the stage changes | Limits, locks, the tile's name, the "i" notes and the exported title change at once; questions whose answers no longer fit go back to empty |
+| Changes the Opening Date or a duration so the stage changes | Limits, locks, the tile's name, the "i" notes and the exported title change at once; questions whose answers no longer fit go back to empty (no notice appears; the "i" of the Opening Date and the "i" of each choice question say it) |
 | Writes in Notes | Nothing else changes |
 
 What does not react, on purpose: the market structure does not limit the relationships; an audience answer does not limit an outcome; the outcome list is the same for every relationship; the Notes depend on nothing.
@@ -984,11 +984,17 @@ Notes (the page's Description)  [auto-growing, the whole width]
 - **Options per level (doc 35, 5.9):** each dropdown shows all its children when there are six or fewer, else the shortlist that covers 90% of the businesses under that parent (never more than ten) plus "Show all"; **the options are in the official order of the classification (doc 35, 5.10), never by popularity**; the "i" says how many items businesses of the industry usually list (doc 35, 5.9); the only limit is four codes.
 - **Storage (settled 2026-10-23, "codes only"):** the Legal Entity answer holds a list of up to four entries, each the code and the classification edition. The levels and titles are looked up from the code, because codes nest. Today's activity-code field and its tick are read as a fallback for the first entry until it is replaced. A change of level or of country empties the entry or the list.
 - **Description** is the former Main Activity box, renamed. Its "i" carries both former Description prompts as general information: "Who are you, and what do you do? What do you create or provide?"; the old line "Name and legal details go in 3. Legal Entity" changes to say they are in this dialog. No label anywhere is "Main Activity".
-- **Saved text.** The box saves into the Description's saved value, which the Business Plan prints as its paragraph. The old Main Activity text is read as a fallback until replaced. The Business Plan's Organization table row "Main activity" becomes "Activities", filled from the cascade (primary first) **[D, label to confirm]**. The export row, the completeness check and the open item that said "main activity" now say "description".
+- **Saved text.** The box saves into the Description's saved value, which the Business Plan prints as its paragraph. The old Main Activity text is read as a fallback until replaced. The Business Plan's Organization table row "Main activity" becomes "Activities", filled from the cascade (primary first) **[D, label to confirm]**. The export row says "description". **The Notes box is optional, so an empty one is no open item** (the Review's "not answered yet" is for the free texts that are required: Mission, Vision and the Ethics). What the Review says of the Definition is in 8.6a.
 - **Answers read elsewhere:** see 8.1. The country, the legal form, the dates and the activities' codes are read by the Legal Entity page, the financials, the Review, the Calendar and the exports; the Segment of Business 1 does not read the Organization yet (8.2, "What the Segment will read").
 - **Impacts to change together:** `PageGroups.ts` (both pages), the Review "go there" places and `MISSING_PLACES`, the rail and arrows, the colour map, `LegalEntityEditor`, the document and export builders that name Main Activity or the founders' profile, `SectionStatus`, the tests that read them.
 - **Open:** the Capability tile's later change; the audit of lists under rule 14 (section 3), tile by tile. The examples hold the new fields (the activities' codes: Lumen & Loom 13921, Quillfield 541512; the Positioning answers; the Opening Dates).
 
+
+### 8.6a What the Review says of the Organization and the Positioning
+
+- **Organization:** "1. Definition: Organization: name, country, address and legal form." for what is empty among them; nothing for the Description (the Notes are optional).
+- **Positioning:** "1. Definition: <the tile's name at the stage>: the seller and buyer relationship, the audience, the buyer's category, the purpose, the differentiation and the outcome not chosen yet." for each question with no choice (the audience and the buyer's category are asked of each relationship chosen). The Positioning's Notes are optional: an empty one is no item. The item uses the tile's name, which follows the stage (Early Positioning, Core Market Positioning, Corporate & Portfolio Positioning).
+- **Mission, Vision:** "not answered yet" while empty.
 
 ### 8.6 The wording of the Organization tile
 
@@ -1006,7 +1012,7 @@ What the app says today, what changes, and what is new. Lists come only from off
 | Level dropdown placeholders | none | "Select an industry", "Select a division", and so on, with the country's level name (the style of "Select a legal form") |
 | Buttons and tooltips | none | "+ Add another activity" (the existing add-button style); tooltips "Click to add another activity", "Click to remove this activity", "Click to show all" |
 | A long list | none | the last entry "Show all" opens the whole list, in the official order |
-| Export row, Business Plan table row, open item, completeness | "Main Activity", "Main activity", "main activity" | "Description" in the export and the open item; the Business Plan's table row becomes "Activities" |
+| Export row, Business Plan table row, open item, completeness | "Main Activity", "Main activity", "main activity" | "Description" in the export (no open item: the Notes are optional); the Business Plan's table row becomes "Activities" |
 | Page names | page 2 "Organization"; page 1 tile "Description" | page 2 **"Legal Entity"**; the Description tile is removed |
 
 ## 9. Founders and Capability

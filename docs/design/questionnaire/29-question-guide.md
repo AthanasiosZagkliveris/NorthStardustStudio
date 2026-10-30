@@ -319,7 +319,7 @@ The decision list is in one place: document 28, section 13. The twelve decisions
 | I7i | Purpose | **Exists** (2026-10-29) | Early Positioning, right column, first | The order and the options follow the owner's tables (doc 31, 10.7) |
 | I7c | Differentiation | **Exists** (split from Differentiation & Outcome 2026-10-30; six options) | Early Positioning, right column, under the purpose | None. Not yet read by the Value Proposition |
 | I7j, I7k | Outcome (for the buyer); Outcome for the user | **Exist** (2026-10-30) | Early Positioning, right column, under the differentiation; I7k only for a Proxy or Dual-Intent buyer | The lists are the author's from the former text: the owner approves or amends them. Not yet read by the Value Proposition |
-| (Notes) | The Positioning free text | **Exists** | Early Positioning, under the questions | Shorten its prompt (28, 8.2, open decisions) |
+| (Notes) | The Positioning free text | **Exists** | Early Positioning, under the questions | Optional: an empty one is no Review item; the Review checks the choice questions instead (28, 8.6a). Shorten its prompt (28, 8.2, open decisions) |
 | I5, I6, I7, I9, I10 | Brand personality; price position; (merged); ambition; values | I5 parked; I6 withdrawn as a question (counted as a check in 28, Appendix B); the old I7 is merged into I7c; I10 **merged into the Values tile**; I9 **proposal** | Not on a tile | None until the owner decides |
 | I2, I4, G1, G9, G11 | | Merged or withdrawn | | None |
 | G2 to G5 | Where; main country; kind of area; languages | **Text box** (Geographics) | Segment card | G2 and G3 first, G4 and G5 after the draft; G3 starts from the Legal Entity's country |

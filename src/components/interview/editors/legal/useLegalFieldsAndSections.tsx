@@ -202,6 +202,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
         const lockedWords = options.filter(option => locked.includes(option.id)).map(option => option.label);
         const allowed = "At this stage (" + (BUSINESS_STAGE_WORDS[stage] ?? "Planning") + "): "
             + (limit === null ? "choose as many as apply." : limit === 1 ? "choose one." : "choose up to " + limit + ".")
+            + " When the stage changes (the Opening Date), an answer over the limit goes back to empty."
             + (lockedWords.length > 0 ? " Not open yet: " + lockedWords.join(", ") + ". " + (lockedWords.length > 1 ? "They open" : "It opens") + " when the business reaches Managing." : "");
         info = forStage(info);
         const sourceAt = info.findIndex(point => typeof point !== "string" && "source" in point);
