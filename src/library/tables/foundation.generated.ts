@@ -24,7 +24,7 @@ export const foundationTables: readonly TableData[] = [
     "pages": "2 (plus Introduction)",
     "page_ids": "P01, P02",
     "page_names": "1. Definition; 2. Organization",
-    "page_types": "tiles page (chapters of master tiles)"
+    "page_types": "tiles page (chapters of master tiles); inline cards page (cards on the page, no master tiles)"
    },
    {
     "id": "S2",
@@ -82,10 +82,10 @@ export const foundationTables: readonly TableData[] = [
     "id": "P02",
     "system": "S1",
     "name": "2. Organization",
-    "type": "tiles page (chapters of master tiles)",
+    "type": "inline cards page (cards on the page, no master tiles)",
     "chapters": 2,
-    "master_tiles": 6,
-    "base_content": "header; Pages rail; page arrows; chapter frames"
+    "master_tiles": 0,
+    "base_content": "header; Pages rail; page arrows"
    },
    {
     "id": "P03",
@@ -186,16 +186,16 @@ export const foundationTables: readonly TableData[] = [
     "page": "P02",
     "order": 1,
     "title": "1. Legal Entity",
-    "extra_features": "none",
-    "master_tiles": 4
+    "extra_features": "none recorded",
+    "master_tiles": 0
    },
    {
     "id": "C04",
     "page": "P02",
-    "order": 2,
+    "order": 1,
     "title": "2. Founders & Capability",
-    "extra_features": "none",
-    "master_tiles": 2
+    "extra_features": "none recorded",
+    "master_tiles": 0
    },
    {
     "id": "C05",
@@ -295,7 +295,7 @@ export const foundationTables: readonly TableData[] = [
    {
     "id": "MT01",
     "chapter": "C01",
-    "title": "Description",
+    "title": "Organization",
     "opens": "dialog view",
     "inside_the_tile": "none",
     "add_button": "none"
@@ -303,7 +303,7 @@ export const foundationTables: readonly TableData[] = [
    {
     "id": "MT02",
     "chapter": "C01",
-    "title": "Mission",
+    "title": "Early Positioning",
     "opens": "dialog view",
     "inside_the_tile": "none",
     "add_button": "none"
@@ -311,7 +311,7 @@ export const foundationTables: readonly TableData[] = [
    {
     "id": "MT03",
     "chapter": "C01",
-    "title": "Positioning",
+    "title": "Mission",
     "opens": "dialog view",
     "inside_the_tile": "none",
     "add_button": "none"
@@ -358,54 +358,6 @@ export const foundationTables: readonly TableData[] = [
    },
    {
     "id": "MT09",
-    "chapter": "C03",
-    "title": "Organization",
-    "opens": "dialog view",
-    "inside_the_tile": "none",
-    "add_button": "none"
-   },
-   {
-    "id": "MT10",
-    "chapter": "C03",
-    "title": "Founders & Ownership",
-    "opens": "dialog view",
-    "inside_the_tile": "none",
-    "add_button": "none"
-   },
-   {
-    "id": "MT11",
-    "chapter": "C03",
-    "title": "Registrations",
-    "opens": "dialog view",
-    "inside_the_tile": "3 links: Formation & registration, Tax & business registration, Additional legal requirements",
-    "add_button": "none"
-   },
-   {
-    "id": "MT12",
-    "chapter": "C03",
-    "title": "Expenses",
-    "opens": "dialog view",
-    "inside_the_tile": "4 links: NY Articles of Organization filing, LLC publication requirement (NY LLC Law, Section 2, Certificate of Publication filing, NYS LLC annual filing fee (Form IT-204-LL)",
-    "add_button": "Add Expense to Expenses"
-   },
-   {
-    "id": "MT13",
-    "chapter": "C04",
-    "title": "Jordan Ellis",
-    "opens": "dialog view",
-    "inside_the_tile": "none",
-    "add_button": "none"
-   },
-   {
-    "id": "MT14",
-    "chapter": "C04",
-    "title": "Capability",
-    "opens": "dialog view",
-    "inside_the_tile": "none",
-    "add_button": "none"
-   },
-   {
-    "id": "MT15",
     "chapter": "C05",
     "title": "Aesthetics",
     "opens": "dialog view",
@@ -413,7 +365,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "none"
    },
    {
-    "id": "MT16",
+    "id": "MT10",
     "chapter": "C05",
     "title": "Body Language",
     "opens": "dialog view",
@@ -421,7 +373,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "none"
    },
    {
-    "id": "MT17",
+    "id": "MT11",
     "chapter": "C05",
     "title": "Communication & Voice",
     "opens": "dialog view",
@@ -429,7 +381,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "none"
    },
    {
-    "id": "MT18",
+    "id": "MT12",
     "chapter": "C05",
     "title": "Imprint",
     "opens": "dialog view",
@@ -437,7 +389,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "none"
    },
    {
-    "id": "MT19",
+    "id": "MT13",
     "chapter": "C06",
     "title": "Colours",
     "opens": "dialog view",
@@ -445,7 +397,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "Add Colour to Colours"
    },
    {
-    "id": "MT20",
+    "id": "MT14",
     "chapter": "C06",
     "title": "Typography &Text Hierarchy",
     "opens": "dialog view",
@@ -453,7 +405,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "Add Typeface to Typography & Text Hierarchy"
    },
    {
-    "id": "MT21",
+    "id": "MT15",
     "chapter": "C06",
     "title": "Icon & Logo",
     "opens": "dialog view",
@@ -461,7 +413,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "none"
    },
    {
-    "id": "MT22",
+    "id": "MT16",
     "chapter": "C06",
     "title": "Brand Images",
     "opens": "dialog view",
@@ -469,7 +421,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "Add Image to Brand Images"
    },
    {
-    "id": "MT23",
+    "id": "MT17",
     "chapter": "C07",
     "title": "Segment Description",
     "opens": "dialog view",
@@ -477,7 +429,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "Add Profile to Segment Description"
    },
    {
-    "id": "MT24",
+    "id": "MT18",
     "chapter": "C07",
     "title": "Value Proposition",
     "opens": "dialog view",
@@ -485,7 +437,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "none"
    },
    {
-    "id": "MT25",
+    "id": "MT19",
     "chapter": "C07",
     "title": "Competitors",
     "opens": "dialog view",
@@ -493,7 +445,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "Add Competitor to Competitors"
    },
    {
-    "id": "MT26",
+    "id": "MT20",
     "chapter": "C07",
     "title": "Offerings",
     "opens": "dialog view",
@@ -501,7 +453,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "Add Offering to Offerings"
    },
    {
-    "id": "MT27",
+    "id": "MT21",
     "chapter": "C08",
     "title": "Social Media",
     "opens": "dialog view",
@@ -509,7 +461,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "Add Subchannel to Social Media"
    },
    {
-    "id": "MT28",
+    "id": "MT22",
     "chapter": "C08",
     "title": "Website",
     "opens": "dialog view",
@@ -517,7 +469,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "Add Subchannel to Website"
    },
    {
-    "id": "MT29",
+    "id": "MT23",
     "chapter": "C08",
     "title": "Email",
     "opens": "dialog view",
@@ -525,7 +477,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "Add Subchannel to Email"
    },
    {
-    "id": "MT30",
+    "id": "MT24",
     "chapter": "C08",
     "title": "Other",
     "opens": "dialog view",
@@ -533,7 +485,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "Add Subchannel to Other"
    },
    {
-    "id": "MT31",
+    "id": "MT25",
     "chapter": "C08",
     "title": "In Person",
     "opens": "dialog view",
@@ -541,7 +493,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "Add Subchannel to In Person"
    },
    {
-    "id": "MT32",
+    "id": "MT26",
     "chapter": "C08",
     "title": "Direct Payment",
     "opens": "dialog view",
@@ -549,7 +501,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "Add Subchannel to Direct Payment"
    },
    {
-    "id": "MT33",
+    "id": "MT27",
     "chapter": "C08",
     "title": "Online / Live",
     "opens": "dialog view",
@@ -557,7 +509,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "Add Subchannel to Online / Live"
    },
    {
-    "id": "MT34",
+    "id": "MT28",
     "chapter": "C08",
     "title": "File Delivery",
     "opens": "dialog view",
@@ -565,7 +517,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "Add Subchannel to File Delivery"
    },
    {
-    "id": "MT35",
+    "id": "MT29",
     "chapter": "C08",
     "title": "Community",
     "opens": "floating card",
@@ -573,7 +525,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "Add Subchannel to Community"
    },
    {
-    "id": "MT36",
+    "id": "MT30",
     "chapter": "C08",
     "title": "Marketplace",
     "opens": "floating card",
@@ -581,7 +533,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "Add Subchannel to Marketplace"
    },
    {
-    "id": "MT37",
+    "id": "MT31",
     "chapter": "C08",
     "title": "Physical Delivery",
     "opens": "floating card",
@@ -589,7 +541,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "Add Subchannel to Physical Delivery"
    },
    {
-    "id": "MT38",
+    "id": "MT32",
     "chapter": "C08",
     "title": "Retail & Wholesale",
     "opens": "floating card",
@@ -597,7 +549,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "Add Subchannel to Retail & Wholesale"
    },
    {
-    "id": "MT39",
+    "id": "MT33",
     "chapter": "C08",
     "title": "Referral & Affiliates",
     "opens": "floating card",
@@ -605,7 +557,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "Add Subchannel to Referral & Affiliates"
    },
    {
-    "id": "MT40",
+    "id": "MT34",
     "chapter": "C09",
     "title": "Founders",
     "opens": "dialog view",
@@ -613,7 +565,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "none"
    },
    {
-    "id": "MT41",
+    "id": "MT35",
     "chapter": "C09",
     "title": "Resources",
     "opens": "dialog view",
@@ -621,7 +573,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "Add Resource to Resources"
    },
    {
-    "id": "MT42",
+    "id": "MT36",
     "chapter": "C09",
     "title": "Activities",
     "opens": "dialog view",
@@ -629,7 +581,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "Add Activity to Activities"
    },
    {
-    "id": "MT43",
+    "id": "MT37",
     "chapter": "C09",
     "title": "Partners & Suppliers",
     "opens": "dialog view",
@@ -637,7 +589,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "Add Partner to Partners & Suppliers"
    },
    {
-    "id": "MT44",
+    "id": "MT38",
     "chapter": "C10",
     "title": "Resources",
     "opens": "dialog view",
@@ -645,7 +597,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "Add Resource to Resources"
    },
    {
-    "id": "MT45",
+    "id": "MT39",
     "chapter": "C10",
     "title": "Activities",
     "opens": "dialog view",
@@ -653,7 +605,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "Add Activity to Activities"
    },
    {
-    "id": "MT46",
+    "id": "MT40",
     "chapter": "C10",
     "title": "Partners & Suppliers",
     "opens": "dialog view",
@@ -661,7 +613,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "Add Partner to Partners & Suppliers"
    },
    {
-    "id": "MT47",
+    "id": "MT41",
     "chapter": "C10",
     "title": "Delivery",
     "opens": "dialog view",
@@ -669,7 +621,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "none"
    },
    {
-    "id": "MT48",
+    "id": "MT42",
     "chapter": "C11",
     "title": "Inventory",
     "opens": "dialog view",
@@ -677,15 +629,15 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "none"
    },
    {
-    "id": "MT49",
+    "id": "MT43",
     "chapter": "C11",
     "title": "Completed",
     "opens": "dialog view",
-    "inside_the_tile": "3 links: Form the LLC and get an EIN, Open a business bank account, Complete the LLC publication",
+    "inside_the_tile": "2 links: Register the business name and get an EIN, Open a business bank account",
     "add_button": "none"
    },
    {
-    "id": "MT50",
+    "id": "MT44",
     "chapter": "C14",
     "title": "Current Situation",
     "opens": "dialog view",
@@ -693,7 +645,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "none"
    },
    {
-    "id": "MT51",
+    "id": "MT45",
     "chapter": "C14",
     "title": "SWOT Analysis",
     "opens": "dialog view",
@@ -701,7 +653,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "none"
    },
    {
-    "id": "MT52",
+    "id": "MT46",
     "chapter": "C14",
     "title": "Strategic Compass",
     "opens": "dialog view",
@@ -709,7 +661,7 @@ export const foundationTables: readonly TableData[] = [
     "add_button": "none"
    },
    {
-    "id": "MT53",
+    "id": "MT47",
     "chapter": "C14",
     "title": "Strategic Period",
     "opens": "dialog view",
@@ -4088,162 +4040,192 @@ export const foundationTables: readonly TableData[] = [
    },
    {
     "id": "K054",
-    "card_type": "Legal Entity card",
-    "name": "Add Expense to Expenses",
-    "category": "",
-    "group": "",
-    "field_count": 9,
-    "fields_in_order": "F076 F077 F072 F078 F079 F026 F080 F081 F082",
-    "source": "add probe (a new card)"
-   },
-   {
-    "id": "K055",
     "card_type": "Brand card",
     "name": "Add Colour to Colours",
     "category": "",
     "group": "",
     "field_count": 8,
-    "fields_in_order": "F083 F084 F085 F086 F087 F088 F088 F089",
+    "fields_in_order": "F076 F077 F078 F079 F080 F081 F082 F083",
     "source": "add probe (a new card)"
    },
    {
-    "id": "K056",
+    "id": "K055",
     "card_type": "Brand card",
     "name": "Add Typeface to Typography & Text Hierarchy",
     "category": "",
     "group": "",
     "field_count": 5,
-    "fields_in_order": "F090 F091 F085 F086 F089",
+    "fields_in_order": "F084 F085 F078 F079 F083",
     "source": "add probe (a new card)"
    },
    {
-    "id": "K057",
+    "id": "K056",
     "card_type": "Brand card",
     "name": "Add Image to Brand Images",
     "category": "",
     "group": "",
-    "field_count": 3,
-    "fields_in_order": "F092 F093 F094",
+    "field_count": 4,
+    "fields_in_order": "F086 F087 F088 F083",
     "source": "add probe (a new card)"
    },
    {
-    "id": "K058",
+    "id": "K057",
     "card_type": "Foundation card",
     "name": "Add Profile to Segment Description",
     "category": "",
     "group": "",
     "field_count": 22,
-    "fields_in_order": "F095 F096 F097 F098 F099 F100 F101 F102 F103 F104 F105 F106 F107 F108 F109 F110 F111 F112 F113 F114 F115 F116",
+    "fields_in_order": "F089 F090 F091 F092 F093 F094 F095 F096 F097 F098 F099 F100 F101 F102 F103 F104 F105 F106 F107 F108 F109 F110",
     "source": "add probe (a new card)"
    },
    {
-    "id": "K059",
+    "id": "K058",
     "card_type": "Foundation card",
     "name": "Add Competitor to Competitors",
     "category": "",
     "group": "",
     "field_count": 22,
-    "fields_in_order": "F117 F118 F119 F120 F121 F122 F123 F124 F125 F126 F127 F128 F129 F130 F131 F132 F133 F134 F135 F136 F137 F117",
+    "fields_in_order": "F111 F112 F113 F114 F115 F116 F117 F118 F119 F120 F121 F122 F123 F124 F125 F126 F127 F128 F129 F130 F131 F111",
     "source": "add probe (a new card)"
    },
    {
-    "id": "K060",
+    "id": "K059",
     "card_type": "Foundation card",
     "name": "Add Offering to Offerings",
     "category": "",
     "group": "",
     "field_count": 20,
-    "fields_in_order": "F138 F139 F051 F140 F140 F140 F140 F140 F141 F142 F143 F144 F145 F146 F147 F148 F149 F150 F151 F152",
+    "fields_in_order": "F132 F133 F051 F134 F134 F134 F134 F134 F135 F136 F137 F138 F139 F140 F141 F142 F143 F144 F145 F146",
+    "source": "add probe (a new card)"
+   },
+   {
+    "id": "K060",
+    "card_type": "Channel card",
+    "name": "Add Subchannel to Social Media",
+    "category": "",
+    "group": "",
+    "field_count": 11,
+    "fields_in_order": "F147 F148 F149 F150 F151 F152 F153 F154 F155 F156 F157",
     "source": "add probe (a new card)"
    },
    {
     "id": "K061",
     "card_type": "Channel card",
-    "name": "Add Subchannel to Social Media",
+    "name": "Add Subchannel to Website",
     "category": "",
     "group": "",
-    "field_count": 10,
-    "fields_in_order": "F153 F154 F155 F156 F157 F158 F159 F160 F161 F162",
+    "field_count": 11,
+    "fields_in_order": "F147 F148 F149 F150 F151 F152 F158 F159 F160 F161 F162",
     "source": "add probe (a new card)"
    },
    {
     "id": "K062",
     "card_type": "Channel card",
-    "name": "Add Subchannel to Website",
+    "name": "Add Subchannel to Email",
     "category": "",
     "group": "",
-    "field_count": 10,
-    "fields_in_order": "F153 F154 F155 F156 F157 F163 F164 F165 F166 F167",
+    "field_count": 11,
+    "fields_in_order": "F147 F148 F149 F150 F151 F152 F163 F164 F165 F166 F167",
     "source": "add probe (a new card)"
    },
    {
     "id": "K063",
     "card_type": "Channel card",
-    "name": "Add Subchannel to Email",
+    "name": "Add Subchannel to Other",
     "category": "",
     "group": "",
-    "field_count": 10,
-    "fields_in_order": "F153 F154 F155 F156 F157 F168 F169 F170 F171 F172",
+    "field_count": 11,
+    "fields_in_order": "F168 F148 F149 F150 F151 F152 F169 F170 F171 F172 F173",
     "source": "add probe (a new card)"
    },
    {
     "id": "K064",
     "card_type": "Channel card",
-    "name": "Add Subchannel to Other",
+    "name": "Add Subchannel to In Person",
     "category": "",
     "group": "",
-    "field_count": 10,
-    "fields_in_order": "F173 F154 F155 F156 F157 F174 F175 F176 F177 F178",
+    "field_count": 11,
+    "fields_in_order": "F147 F148 F149 F150 F151 F152 F174 F175 F176 F177 F178",
     "source": "add probe (a new card)"
    },
    {
     "id": "K065",
     "card_type": "Channel card",
-    "name": "Add Subchannel to In Person",
+    "name": "Add Subchannel to Direct Payment",
     "category": "",
     "group": "",
-    "field_count": 10,
-    "fields_in_order": "F153 F154 F155 F156 F157 F179 F180 F181 F182 F183",
+    "field_count": 11,
+    "fields_in_order": "F147 F148 F149 F150 F151 F152 F179 F180 F181 F182 F183",
     "source": "add probe (a new card)"
    },
    {
     "id": "K066",
     "card_type": "Channel card",
-    "name": "Add Subchannel to Direct Payment",
+    "name": "Add Subchannel to Online / Live",
     "category": "",
     "group": "",
-    "field_count": 10,
-    "fields_in_order": "F153 F154 F155 F156 F157 F184 F185 F186 F187 F188",
+    "field_count": 11,
+    "fields_in_order": "F147 F148 F149 F150 F151 F152 F184 F185 F186 F187 F188",
     "source": "add probe (a new card)"
    },
    {
     "id": "K067",
     "card_type": "Channel card",
-    "name": "Add Subchannel to Online / Live",
+    "name": "Add Subchannel to File Delivery",
     "category": "",
     "group": "",
-    "field_count": 10,
-    "fields_in_order": "F153 F154 F155 F156 F157 F189 F190 F191 F192 F193",
+    "field_count": 11,
+    "fields_in_order": "F147 F148 F149 F150 F151 F152 F189 F190 F191 F192 F193",
     "source": "add probe (a new card)"
    },
    {
     "id": "K068",
     "card_type": "Channel card",
-    "name": "Add Subchannel to File Delivery",
+    "name": "Add Subchannel to Community",
     "category": "",
     "group": "",
-    "field_count": 10,
-    "fields_in_order": "F153 F154 F155 F156 F157 F194 F195 F196 F197 F198",
+    "field_count": 11,
+    "fields_in_order": "F147 F148 F149 F150 F151 F152 F189 F190 F191 F192 F193",
     "source": "add probe (a new card)"
    },
    {
     "id": "K069",
-    "card_type": "Legal Entity card",
-    "name": "Add Legal requirement to Additional legal requirements",
+    "card_type": "Channel card",
+    "name": "Add Subchannel to Marketplace",
     "category": "",
     "group": "",
-    "field_count": 7,
-    "fields_in_order": "F199 F200 F201 F119 F120 F202 F082",
+    "field_count": 11,
+    "fields_in_order": "F147 F148 F149 F150 F151 F152 F189 F190 F191 F192 F193",
+    "source": "add probe (a new card)"
+   },
+   {
+    "id": "K070",
+    "card_type": "Channel card",
+    "name": "Add Subchannel to Physical Delivery",
+    "category": "",
+    "group": "",
+    "field_count": 11,
+    "fields_in_order": "F147 F148 F149 F150 F151 F152 F189 F190 F191 F192 F193",
+    "source": "add probe (a new card)"
+   },
+   {
+    "id": "K071",
+    "card_type": "Channel card",
+    "name": "Add Subchannel to Retail & Wholesale",
+    "category": "",
+    "group": "",
+    "field_count": 11,
+    "fields_in_order": "F147 F148 F149 F150 F151 F152 F189 F190 F191 F192 F193",
+    "source": "add probe (a new card)"
+   },
+   {
+    "id": "K072",
+    "card_type": "Channel card",
+    "name": "Add Subchannel to Referral & Affiliates",
+    "category": "",
+    "group": "",
+    "field_count": 11,
+    "fields_in_order": "F147 F148 F149 F150 F151 F152 F189 F190 F191 F192 F193",
     "source": "add probe (a new card)"
    }
   ]
@@ -4301,22 +4283,22 @@ export const foundationTables: readonly TableData[] = [
    {
     "id": "T09",
     "type": "Legal Entity card",
-    "kinds": "K053 K054 K069"
+    "kinds": "K053"
    },
    {
     "id": "T10",
     "type": "Brand card",
-    "kinds": "K055 K056 K057"
+    "kinds": "K054 K055 K056"
    },
    {
     "id": "T11",
     "type": "Foundation card",
-    "kinds": "K058 K059 K060"
+    "kinds": "K057 K058 K059"
    },
    {
     "id": "T12",
     "type": "Channel card",
-    "kinds": "K061 K062 K063 K064 K065 K066 K067 K068"
+    "kinds": "K060 K061 K062 K063 K064 K065 K066 K067 K068 K069 K070 K071 K072"
    }
   ]
  },

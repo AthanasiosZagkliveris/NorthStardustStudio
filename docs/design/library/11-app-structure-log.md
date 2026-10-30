@@ -6,6 +6,210 @@ Every change of the tables, that is, of the structure of the app: a placement pl
 
 | Id | Date | Change | Where | Asset | Not in the library | What | Note |
 |---|---|---|---|---|---|---|---|
+| A0318 | 2026-10-30 | removed | F F202 |  |  | row removed |  |
+| A0317 | 2026-10-30 | removed | F F201 |  |  | row removed |  |
+| A0316 | 2026-10-30 | removed | F F200 |  |  | row removed |  |
+| A0315 | 2026-10-30 | removed | F F199 |  |  | row removed |  |
+| A0314 | 2026-10-30 | removed | F F198 |  |  | row removed |  |
+| A0313 | 2026-10-30 | removed | F F197 |  |  | row removed |  |
+| A0312 | 2026-10-30 | removed | F F196 |  |  | row removed |  |
+| A0311 | 2026-10-30 | removed | F F195 |  |  | row removed |  |
+| A0310 | 2026-10-30 | removed | F F194 |  |  | row removed |  |
+| A0309 | 2026-10-30 | removed | MT MT53 |  |  | row removed |  |
+| A0308 | 2026-10-30 | removed | MT MT52 |  |  | row removed |  |
+| A0307 | 2026-10-30 | removed | MT MT51 |  |  | row removed |  |
+| A0306 | 2026-10-30 | removed | MT MT50 |  |  | row removed |  |
+| A0305 | 2026-10-30 | removed | MT MT49 |  |  | row removed |  |
+| A0304 | 2026-10-30 | removed | MT MT48 |  |  | row removed |  |
+| A0303 | 2026-10-30 | edited | F F193 |  |  | row changed: name, used_in |  |
+| A0302 | 2026-10-30 | edited | F F192 |  |  | row changed: name, used_in |  |
+| A0301 | 2026-10-30 | edited | F F191 |  |  | row changed: name, used_in |  |
+| A0300 | 2026-10-30 | edited | F F190 |  |  | row changed: name, used_in |  |
+| A0299 | 2026-10-30 | edited | F F189 |  |  | row changed: name, used_in |  |
+| A0298 | 2026-10-30 | edited | F F188 |  |  | row changed: name |  |
+| A0297 | 2026-10-30 | edited | F F187 |  |  | row changed: name |  |
+| A0296 | 2026-10-30 | edited | F F186 |  |  | row changed: name |  |
+| A0295 | 2026-10-30 | edited | F F185 |  |  | row changed: name |  |
+| A0294 | 2026-10-30 | edited | F F184 |  |  | row changed: name |  |
+| A0293 | 2026-10-30 | edited | F F183 |  |  | row changed: name |  |
+| A0292 | 2026-10-30 | edited | F F182 |  |  | row changed: name |  |
+| A0291 | 2026-10-30 | edited | F F181 |  |  | row changed: name |  |
+| A0290 | 2026-10-30 | edited | F F180 |  |  | row changed: name |  |
+| A0289 | 2026-10-30 | edited | F F179 |  |  | row changed: name |  |
+| A0288 | 2026-10-30 | edited | F F178 |  |  | row changed: name |  |
+| A0287 | 2026-10-30 | edited | F F177 |  |  | row changed: name |  |
+| A0286 | 2026-10-30 | edited | F F176 |  |  | row changed: name |  |
+| A0285 | 2026-10-30 | edited | F F175 |  |  | row changed: name |  |
+| A0284 | 2026-10-30 | edited | F F174 |  |  | row changed: name |  |
+| A0283 | 2026-10-30 | edited | F F173 |  |  | row changed: component, component_id, name |  |
+| A0282 | 2026-10-30 | edited | F F172 |  |  | row changed: component, component_id, name |  |
+| A0281 | 2026-10-30 | edited | F F171 |  |  | row changed: name |  |
+| A0280 | 2026-10-30 | edited | F F170 |  |  | row changed: name |  |
+| A0279 | 2026-10-30 | edited | F F169 |  |  | row changed: name |  |
+| A0278 | 2026-10-30 | edited | F F168 |  |  | row changed: component, component_id, name |  |
+| A0277 | 2026-10-30 | edited | F F167 |  |  | row changed: name |  |
+| A0276 | 2026-10-30 | edited | F F166 |  |  | row changed: name |  |
+| A0275 | 2026-10-30 | edited | F F165 |  |  | row changed: name |  |
+| A0274 | 2026-10-30 | edited | F F164 |  |  | row changed: name |  |
+| A0273 | 2026-10-30 | edited | F F163 |  |  | row changed: name |  |
+| A0272 | 2026-10-30 | edited | F F162 |  |  | row changed: name |  |
+| A0271 | 2026-10-30 | edited | F F161 |  |  | row changed: name |  |
+| A0270 | 2026-10-30 | edited | F F160 |  |  | row changed: name |  |
+| A0269 | 2026-10-30 | edited | F F159 |  |  | row changed: name |  |
+| A0268 | 2026-10-30 | edited | F F158 |  |  | row changed: name |  |
+| A0267 | 2026-10-30 | edited | F F157 |  |  | row changed: component, component_id, name, used_in |  |
+| A0266 | 2026-10-30 | edited | F F156 |  |  | row changed: component, component_id, name, used_in |  |
+| A0265 | 2026-10-30 | edited | F F155 |  |  | row changed: component, component_id, name, used_in |  |
+| A0264 | 2026-10-30 | edited | F F154 |  |  | row changed: component, component_id, name, used_in |  |
+| A0263 | 2026-10-30 | edited | F F153 |  |  | row changed: component, component_id, name, used_in |  |
+| A0262 | 2026-10-30 | edited | F F152 |  |  | row changed: component, component_id, name, used_in |  |
+| A0261 | 2026-10-30 | edited | F F151 |  |  | row changed: component, component_id, name, used_in |  |
+| A0260 | 2026-10-30 | edited | F F150 |  |  | row changed: component, component_id, name, used_in |  |
+| A0259 | 2026-10-30 | edited | F F149 |  |  | row changed: name, used_in |  |
+| A0258 | 2026-10-30 | edited | F F148 |  |  | row changed: component, component_id, name, used_in |  |
+| A0257 | 2026-10-30 | edited | F F147 |  |  | row changed: component, component_id, name, used_in |  |
+| A0256 | 2026-10-30 | edited | F F146 |  |  | row changed: name |  |
+| A0255 | 2026-10-30 | edited | F F145 |  |  | row changed: name |  |
+| A0254 | 2026-10-30 | edited | F F144 |  |  | row changed: name |  |
+| A0253 | 2026-10-30 | edited | F F143 |  |  | row changed: name |  |
+| A0252 | 2026-10-30 | edited | F F142 |  |  | row changed: name |  |
+| A0251 | 2026-10-30 | edited | F F141 |  |  | row changed: name |  |
+| A0250 | 2026-10-30 | edited | F F140 |  |  | row changed: component, component_id, name, used_in |  |
+| A0249 | 2026-10-30 | edited | F F139 |  |  | row changed: component, component_id, name |  |
+| A0248 | 2026-10-30 | edited | F F138 |  |  | row changed: name |  |
+| A0247 | 2026-10-30 | edited | F F137 |  |  | row changed: name |  |
+| A0246 | 2026-10-30 | edited | F F136 |  |  | row changed: name |  |
+| A0245 | 2026-10-30 | edited | F F135 |  |  | row changed: name |  |
+| A0244 | 2026-10-30 | edited | F F134 |  |  | row changed: component, component_id, name, used_in |  |
+| A0243 | 2026-10-30 | edited | F F133 |  |  | row changed: component, component_id, name |  |
+| A0242 | 2026-10-30 | edited | F F132 |  |  | row changed: name |  |
+| A0241 | 2026-10-30 | edited | F F131 |  |  | row changed: name |  |
+| A0240 | 2026-10-30 | edited | F F130 |  |  | row changed: name |  |
+| A0239 | 2026-10-30 | edited | F F129 |  |  | row changed: name |  |
+| A0238 | 2026-10-30 | edited | F F128 |  |  | row changed: name |  |
+| A0237 | 2026-10-30 | edited | F F127 |  |  | row changed: name |  |
+| A0236 | 2026-10-30 | edited | F F126 |  |  | row changed: name |  |
+| A0235 | 2026-10-30 | edited | F F125 |  |  | row changed: name |  |
+| A0234 | 2026-10-30 | edited | F F124 |  |  | row changed: name |  |
+| A0233 | 2026-10-30 | edited | F F123 |  |  | row changed: name |  |
+| A0232 | 2026-10-30 | edited | F F122 |  |  | row changed: name |  |
+| A0231 | 2026-10-30 | edited | F F121 |  |  | row changed: name |  |
+| A0230 | 2026-10-30 | edited | F F120 |  |  | row changed: component, component_id, name, used_in |  |
+| A0229 | 2026-10-30 | edited | F F119 |  |  | row changed: name, used_in |  |
+| A0228 | 2026-10-30 | edited | F F118 |  |  | row changed: component, component_id, name |  |
+| A0227 | 2026-10-30 | edited | F F117 |  |  | row changed: component, component_id, name, used_in |  |
+| A0226 | 2026-10-30 | edited | F F116 |  |  | row changed: name |  |
+| A0225 | 2026-10-30 | edited | F F115 |  |  | row changed: name |  |
+| A0224 | 2026-10-30 | edited | F F114 |  |  | row changed: component, component_id, name |  |
+| A0223 | 2026-10-30 | edited | F F113 |  |  | row changed: name |  |
+| A0222 | 2026-10-30 | edited | F F112 |  |  | row changed: component, component_id, name |  |
+| A0221 | 2026-10-30 | edited | F F111 |  |  | row changed: component, component_id, name, used_in |  |
+| A0220 | 2026-10-30 | edited | F F110 |  |  | row changed: name |  |
+| A0219 | 2026-10-30 | edited | F F109 |  |  | row changed: name |  |
+| A0218 | 2026-10-30 | edited | F F108 |  |  | row changed: name |  |
+| A0217 | 2026-10-30 | edited | F F107 |  |  | row changed: name |  |
+| A0216 | 2026-10-30 | edited | F F106 |  |  | row changed: name |  |
+| A0215 | 2026-10-30 | edited | F F105 |  |  | row changed: name |  |
+| A0214 | 2026-10-30 | edited | F F104 |  |  | row changed: name |  |
+| A0213 | 2026-10-30 | edited | F F103 |  |  | row changed: name |  |
+| A0212 | 2026-10-30 | edited | F F102 |  |  | row changed: name |  |
+| A0211 | 2026-10-30 | edited | F F101 |  |  | row changed: name |  |
+| A0210 | 2026-10-30 | edited | F F100 |  |  | row changed: name |  |
+| A0209 | 2026-10-30 | edited | F F099 |  |  | row changed: name |  |
+| A0208 | 2026-10-30 | edited | F F098 |  |  | row changed: name |  |
+| A0207 | 2026-10-30 | edited | F F097 |  |  | row changed: name |  |
+| A0206 | 2026-10-30 | edited | F F096 |  |  | row changed: component, component_id, name |  |
+| A0205 | 2026-10-30 | edited | F F095 |  |  | row changed: component, component_id, name |  |
+| A0204 | 2026-10-30 | edited | F F094 |  |  | row changed: name |  |
+| A0203 | 2026-10-30 | edited | F F093 |  |  | row changed: component, component_id, name |  |
+| A0202 | 2026-10-30 | edited | F F092 |  |  | row changed: component, component_id, name |  |
+| A0201 | 2026-10-30 | edited | F F091 |  |  | row changed: component, component_id, name |  |
+| A0200 | 2026-10-30 | edited | F F090 |  |  | row changed: component, component_id, name |  |
+| A0199 | 2026-10-30 | edited | F F089 |  |  | row changed: component, component_id, name, used_in |  |
+| A0198 | 2026-10-30 | edited | F F088 |  |  | row changed: name, used_in |  |
+| A0197 | 2026-10-30 | edited | F F087 |  |  | row changed: component, component_id, name |  |
+| A0196 | 2026-10-30 | edited | F F086 |  |  | row changed: component, component_id, name, used_in |  |
+| A0195 | 2026-10-30 | edited | F F085 |  |  | row changed: component, component_id, name, used_in |  |
+| A0194 | 2026-10-30 | edited | F F084 |  |  | row changed: component, component_id, name |  |
+| A0193 | 2026-10-30 | edited | F F083 |  |  | row changed: component, component_id, name, used_in |  |
+| A0192 | 2026-10-30 | edited | F F082 |  |  | row changed: component, component_id, name, used_in |  |
+| A0191 | 2026-10-30 | edited | F F081 |  |  | row changed: component, component_id, name |  |
+| A0190 | 2026-10-30 | edited | F F080 |  |  | row changed: name |  |
+| A0189 | 2026-10-30 | edited | F F079 |  |  | row changed: component, component_id, name, used_in |  |
+| A0188 | 2026-10-30 | edited | F F078 |  |  | row changed: component, component_id, name, used_in |  |
+| A0187 | 2026-10-30 | edited | F F077 |  |  | row changed: name |  |
+| A0186 | 2026-10-30 | edited | F F076 |  |  | row changed: name |  |
+| A0185 | 2026-10-30 | edited | F F072 |  |  | row changed: used_in |  |
+| A0184 | 2026-10-30 | edited | F F026 |  |  | row changed: used_in |  |
+| A0183 | 2026-10-30 | edited | T T12 |  |  | row changed: kinds |  |
+| A0182 | 2026-10-30 | edited | T T11 |  |  | row changed: kinds |  |
+| A0181 | 2026-10-30 | edited | T T10 |  |  | row changed: kinds |  |
+| A0180 | 2026-10-30 | edited | T T09 |  |  | row changed: kinds |  |
+| A0179 | 2026-10-30 | placed | K K072 |  |  | row added |  |
+| A0178 | 2026-10-30 | placed | K K071 |  |  | row added |  |
+| A0177 | 2026-10-30 | placed | K K070 |  |  | row added |  |
+| A0176 | 2026-10-30 | edited | K K069 |  |  | row changed: card_type, field_count, fields_in_order, name |  |
+| A0175 | 2026-10-30 | edited | K K068 |  |  | row changed: field_count, fields_in_order, name |  |
+| A0174 | 2026-10-30 | edited | K K067 |  |  | row changed: field_count, fields_in_order, name |  |
+| A0173 | 2026-10-30 | edited | K K066 |  |  | row changed: field_count, fields_in_order, name |  |
+| A0172 | 2026-10-30 | edited | K K065 |  |  | row changed: field_count, fields_in_order, name |  |
+| A0171 | 2026-10-30 | edited | K K064 |  |  | row changed: field_count, fields_in_order, name |  |
+| A0170 | 2026-10-30 | edited | K K063 |  |  | row changed: field_count, fields_in_order, name |  |
+| A0169 | 2026-10-30 | edited | K K062 |  |  | row changed: field_count, fields_in_order, name |  |
+| A0168 | 2026-10-30 | edited | K K061 |  |  | row changed: field_count, fields_in_order, name |  |
+| A0167 | 2026-10-30 | edited | K K060 |  |  | row changed: card_type, field_count, fields_in_order, name |  |
+| A0166 | 2026-10-30 | edited | K K059 |  |  | row changed: field_count, fields_in_order, name |  |
+| A0165 | 2026-10-30 | edited | K K058 |  |  | row changed: fields_in_order, name |  |
+| A0164 | 2026-10-30 | edited | K K057 |  |  | row changed: card_type, field_count, fields_in_order, name |  |
+| A0163 | 2026-10-30 | edited | K K056 |  |  | row changed: field_count, fields_in_order, name |  |
+| A0162 | 2026-10-30 | edited | K K055 |  |  | row changed: field_count, fields_in_order, name |  |
+| A0161 | 2026-10-30 | edited | K K054 |  |  | row changed: card_type, field_count, fields_in_order, name |  |
+| A0160 | 2026-10-30 | edited | MT MT47 |  |  | row changed: add_button, chapter, inside_the_tile, title |  |
+| A0159 | 2026-10-30 | edited | MT MT46 |  |  | row changed: add_button, chapter, inside_the_tile, title |  |
+| A0158 | 2026-10-30 | edited | MT MT45 |  |  | row changed: add_button, chapter, inside_the_tile, title |  |
+| A0157 | 2026-10-30 | edited | MT MT44 |  |  | row changed: add_button, chapter, inside_the_tile, title |  |
+| A0156 | 2026-10-30 | edited | MT MT43 |  |  | row changed: add_button, chapter, inside_the_tile, title |  |
+| A0155 | 2026-10-30 | edited | MT MT42 |  |  | row changed: add_button, chapter, inside_the_tile, title |  |
+| A0154 | 2026-10-30 | edited | MT MT41 |  |  | row changed: add_button, chapter, inside_the_tile, title |  |
+| A0153 | 2026-10-30 | edited | MT MT40 |  |  | row changed: add_button, chapter, inside_the_tile, title |  |
+| A0152 | 2026-10-30 | edited | MT MT39 |  |  | row changed: add_button, chapter, inside_the_tile, opens, title |  |
+| A0151 | 2026-10-30 | edited | MT MT38 |  |  | row changed: add_button, chapter, inside_the_tile, opens, title |  |
+| A0150 | 2026-10-30 | edited | MT MT37 |  |  | row changed: add_button, chapter, inside_the_tile, opens, title |  |
+| A0149 | 2026-10-30 | edited | MT MT36 |  |  | row changed: add_button, chapter, inside_the_tile, opens, title |  |
+| A0148 | 2026-10-30 | edited | MT MT35 |  |  | row changed: add_button, chapter, inside_the_tile, opens, title |  |
+| A0147 | 2026-10-30 | edited | MT MT34 |  |  | row changed: add_button, chapter, inside_the_tile, title |  |
+| A0146 | 2026-10-30 | edited | MT MT33 |  |  | row changed: add_button, opens, title |  |
+| A0145 | 2026-10-30 | edited | MT MT32 |  |  | row changed: add_button, opens, title |  |
+| A0144 | 2026-10-30 | edited | MT MT31 |  |  | row changed: add_button, opens, title |  |
+| A0143 | 2026-10-30 | edited | MT MT30 |  |  | row changed: add_button, opens, title |  |
+| A0142 | 2026-10-30 | edited | MT MT29 |  |  | row changed: add_button, opens, title |  |
+| A0141 | 2026-10-30 | edited | MT MT28 |  |  | row changed: add_button, title |  |
+| A0140 | 2026-10-30 | edited | MT MT27 |  |  | row changed: add_button, title |  |
+| A0139 | 2026-10-30 | edited | MT MT26 |  |  | row changed: add_button, chapter, inside_the_tile, title |  |
+| A0138 | 2026-10-30 | edited | MT MT25 |  |  | row changed: add_button, chapter, inside_the_tile, title |  |
+| A0137 | 2026-10-30 | edited | MT MT24 |  |  | row changed: add_button, chapter, title |  |
+| A0136 | 2026-10-30 | edited | MT MT23 |  |  | row changed: add_button, chapter, inside_the_tile, title |  |
+| A0135 | 2026-10-30 | edited | MT MT22 |  |  | row changed: add_button, chapter, title |  |
+| A0134 | 2026-10-30 | edited | MT MT21 |  |  | row changed: add_button, chapter, title |  |
+| A0133 | 2026-10-30 | edited | MT MT20 |  |  | row changed: add_button, chapter, inside_the_tile, title |  |
+| A0132 | 2026-10-30 | edited | MT MT19 |  |  | row changed: add_button, chapter, inside_the_tile, title |  |
+| A0131 | 2026-10-30 | edited | MT MT18 |  |  | row changed: chapter, title |  |
+| A0130 | 2026-10-30 | edited | MT MT17 |  |  | row changed: add_button, chapter, inside_the_tile, title |  |
+| A0129 | 2026-10-30 | edited | MT MT16 |  |  | row changed: add_button, chapter, title |  |
+| A0128 | 2026-10-30 | edited | MT MT15 |  |  | row changed: chapter, title |  |
+| A0127 | 2026-10-30 | edited | MT MT14 |  |  | row changed: add_button, chapter, title |  |
+| A0126 | 2026-10-30 | edited | MT MT13 |  |  | row changed: add_button, chapter, title |  |
+| A0125 | 2026-10-30 | edited | MT MT12 |  |  | row changed: add_button, chapter, inside_the_tile, title |  |
+| A0124 | 2026-10-30 | edited | MT MT11 |  |  | row changed: chapter, inside_the_tile, title |  |
+| A0123 | 2026-10-30 | edited | MT MT10 |  |  | row changed: chapter, title |  |
+| A0122 | 2026-10-30 | edited | MT MT09 |  |  | row changed: chapter, title |  |
+| A0121 | 2026-10-30 | edited | MT MT03 |  |  | row changed: title |  |
+| A0120 | 2026-10-30 | edited | MT MT02 |  |  | row changed: title |  |
+| A0119 | 2026-10-30 | edited | MT MT01 |  |  | row changed: title |  |
+| A0118 | 2026-10-30 | edited | C C04 |  |  | row changed: extra_features, master_tiles, order |  |
+| A0117 | 2026-10-30 | edited | C C03 |  |  | row changed: extra_features, master_tiles |  |
+| A0116 | 2026-10-30 | edited | P P02 |  |  | row changed: base_content, master_tiles, type |  |
+| A0115 | 2026-10-30 | edited | S S1 |  |  | row changed: page_types |  |
 | A0114 | 2026-10-30 | moved | from Identity System / 2. Organization / 2. Founders & Capability / Capability to Identity System / 2. Legal Entity / 2. Founders & Capability / Capability | TIL.001 |  | TIL.001 moved |  |
 | A0113 | 2026-10-30 | moved | from Identity System / 2. Organization / 2. Founders & Capability / Jordan Ellis to Identity System / 2. Legal Entity / 2. Founders & Capability / Jordan Ellis | TIL.001 |  | TIL.001 moved |  |
 | A0112 | 2026-10-30 | moved | from Identity System / 2. Organization / 1. Legal Entity / Expenses to Identity System / 2. Legal Entity / 1. Legal Entity / Expenses | TIL.001 |  | TIL.001 moved |  |

@@ -335,12 +335,12 @@ The Organization tile (doc 28, 8.5) asks what the business does as a **cascade o
 | Level | UK | Ireland | USA | Canada | Australia, New Zealand |
 |---|---|---|---|---|---|
 | 1 | Section (21, letters) | Section (21; Rev. 2.1 has 22) | Sector (20) | Sector (20) | Division (19, letters) |
-| 2 | Division (88) | Division (88; Rev. 2.1 has 87) | Subsector (86) | Subsector (99) | Subdivision (86) |
-| 3 | Group (272) | Group (272; Rev. 2.1 has 287) | Industry group (288) | Industry group (323) | Group (214) |
-| 4 | Class (615) | Class (615; Rev. 2.1 has 651) | NAICS industry (638) | Industry (none at five digits in the Canadian table) | Class |
-| 5 | Sub-class, five digits (730 in use; the name is from memory) | none | National industry (970) | Canadian industry (920) | none (New Zealand: the BIC code) |
+| 2 | Division (88) | Division (88; Rev. 2.1 has 87) | Subsector (96) | Subsector (99) | Subdivision (86) |
+| 3 | Group (272; the file has 274: two Companies House entries, 98000 and 99999) | Group (272; Rev. 2.1 has 287) | Industry group (308) | Industry group (323) | Group (214) |
+| 4 | Class (615; the file has 616: one Companies House entry, 74990) | Class (615; Rev. 2.1 has 651) | NAICS industry (689) | Industry (694 in the file; Statistics Canada says 695) | Class (506) |
+| 5 | Sub-class (191); the final codes are the five-digit codes (731, the 728 of SIC 2007 and the three Companies House entries) | none | National industry (1,012) | Canadian industry (923 in the file; Statistics Canada says 922) | none (New Zealand: the BIC code, 2,772) |
 
-Counts are from the schemes' pages and the downloaded tables [FUN-02 to FUN-08]; the United States file is NAICS 2017.
+Counts are from the schemes' pages and the downloaded tables [FUN-02 to FUN-08]; the United States file is NAICS 2022 (its counts, and those of the UK, Ireland and Australia, equal the official ones). **Checked 2026-10-30 (structure, codes, titles, level names):** every file's codes are unique, nest by their parent, and keep one shape for each level; the level names are the schemes' own. **One open point:** the Canadian file has one industry fewer and one Canadian industry more than Statistics Canada's published counts (694 and 923 against 695 and 922): one code sits at the wrong level or is missing; it is to be checked against the Statistics Canada structure file before the Canadian list is called complete.
 
 **Up to four activities, each ending in one final code (owner, 2026-10-23).** The user may choose **any combination of up to four final codes**, each with its own complete hierarchy (Industry, then the country's next levels, to the final code); two codes may share a division, a group or a class, or share nothing. One activity is one path; **there is no "+" inside an activity**. "+ Add activity (n of 4)" adds the next path and disappears at four. An activity that has its code **folds**: the head stays (arrow, name, ×) and below it come only its last category and the bold code. The first activity is the main one. Every option is the official one, in official order. Dropdown cells are the existing option picker, drawn as an input, never as a button; Business model and Market are the radio choice.
 
