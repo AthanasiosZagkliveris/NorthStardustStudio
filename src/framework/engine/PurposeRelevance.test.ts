@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { PURPOSE_IDS } from "./PositioningIds.ts";
-import { differentiationByPurpose, differentiationRelevance, orderedByRelevance, purposeOrderAbout, purposeRelevance, RELATIONSHIP_INTENT } from "./PurposeRelevance.ts";
+import { differentiationByPurpose, differentiationByRelationship, differentiationRelevance, orderedByRelevance, purposeOrderAbout, purposeRelevance, RELATIONSHIP_INTENT } from "./PurposeRelevance.ts";
 
 const none = { models: [], categories: [], relationships: [] };
 
@@ -123,5 +123,13 @@ describe("the relevance of a purpose to the buyer (the owner's tables of 2026-10
         expect(differentiationByPurpose(["growth", "protection"])).toEqual({ cost: 0, convenience: 2, compliance: 2, premium: 2 });
         expect(differentiationByPurpose(["access"])).toEqual({ cost: 2, convenience: 2, compliance: 1, premium: 0 });
         expect(differentiationByPurpose(["entertainment"])).toEqual({ cost: 0, convenience: 1, compliance: 0, premium: 2 });
+    });
+
+    it("says which differentiations a business buyer and user relationship drives", () => {
+        expect(differentiationByRelationship(["age:minor"])).toBeNull();
+        expect(differentiationByRelationship(["rel:copartner"])).toEqual({ cost: 0, convenience: 2, compliance: 1, premium: 2 });
+        expect(differentiationByRelationship(["rel:employer"])).toEqual({ cost: 1, convenience: 2, compliance: 2, premium: 0 });
+        expect(differentiationByRelationship(["rel:sponsor"])).toEqual({ cost: 2, convenience: 0, compliance: 2, premium: 0 });
+        expect(differentiationByRelationship(["rel:otherbusiness"])).toEqual({ cost: 2, convenience: 2, compliance: 1, premium: 0 });
     });
 });

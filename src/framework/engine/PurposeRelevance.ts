@@ -108,6 +108,23 @@ export function differentiationByPurpose(purposes: readonly string[]): Record<st
     return out;
 }
 
+/** How strongly each business buyer and user relationship drives each differentiation (cost, convenience, compliance, premium; the owner's table of 2026-10-30): columns in the order of BUSINESS_RELATIONSHIPS. */
+const BUSINESS_RELATIONSHIPS = ["rel:copartner", "rel:serving", "rel:employer", "rel:intermediary", "rel:sponsor", "rel:otherbusiness"];
+const RELATIONSHIP_DRIVES = [".SS.PP", "PPPS.P", "S.PPPS", "PP...."];
+
+/** The relevance of each differentiation (2 primary, 1 secondary, 0 none) for the business relationships chosen, by differentiation id: the strongest of those chosen; null where none is chosen. */
+export function differentiationByRelationship(relationships: readonly string[]): Record<string, number> | null {
+    const columns = relationships.map(id => BUSINESS_RELATIONSHIPS.indexOf(id)).filter(at => at >= 0);
+    if (columns.length === 0) {
+        return null;
+    }
+    const out: Record<string, number> = {};
+    DIFFERENTIATION_IDS.forEach((id, at) => {
+        out[id] = Math.max(...columns.map(column => (RELATIONSHIP_DRIVES[at][column] === "P" ? 2 : RELATIONSHIP_DRIVES[at][column] === "S" ? 1 : 0)));
+    });
+    return out;
+}
+
 /** The tables that apply to the answers so far, the most specific first; none where nothing is answered. */
 function applicable(context: PurposeContext): Use[] {
     const uses: Use[] = [];
