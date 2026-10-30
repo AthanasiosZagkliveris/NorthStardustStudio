@@ -351,7 +351,8 @@ The owner pasted a text on how the six business relationships (6.2) position, gr
 | Buyer and user relationship (consumer) | it cannot be the buyer's category (Proxy: not the Spouse or romantic partner; Dual-Intent: not the Friend or Commercial & Professional); a Students / Young Adults buyer is not offered Commercial & Professional; a buyer who cares only for adults or seniors is not offered Parent or legal guardian | the list's own order | the category table; the rules of the matrix |
 | User's Life-Stage (consumer) | the matrix leaves it blank for every chosen combination of buyer life stage and relationship (before a buyer life stage is chosen: a Parent or legal guardian has only Minors and Young Adults) | the list's own order | the user life stage matrix |
 | Purpose | the first table that covers the purpose calls it blank | relevance, then the list's own order | in this order: buyer life stage × user life stage; business relationship; audience scale × category; consumer relationship; category; seller and buyer relationship (**for each purpose the first table that covers it decides; a purpose a table leaves out is read from the next**) |
-| Differentiation | a business buyer's audience scale × category table leaves it blank | the purposes chosen; then the business relationship; then the audience scale × category (a business buyer) or the buyer's category (usual pairing) | purpose drives; relationship drives; scale; category pairing |
+| Differentiation | a business buyer's audience scale × category table leaves it blank | **a consumer buyer's and user's life stages, once both are answered** (the buyer's life stage: a Student / Young Adult prefers Cost-driven and Convenience-driven; a Worker Convenience-driven and Compliance, Risk & Security; a Senior Compliance, Risk & Security and Status & Premium); then the purposes chosen; then the business relationship; then the audience scale × category (a business buyer) or the buyer's category (usual pairing) | the life stage preference below; purpose drives; relationship drives; scale; category pairing |
+| Outcome for the buyer, Outcome for the user | nothing | **the life stages, once both are answered** (the purposes they make primary in the life stage table, each driving its outcomes by the tables of this section: the scores are added); then the purposes chosen | the three outcome tables below |
 
 A blank means the owner's tables call it generally less directly relevant, never an invalid answer. Where a table has no row for a purpose (Entertainment, Social Connection and Creation in the life stage table; Access in the Dual-Intent business table; Social Connection, Business Growth and Creation in the Proxy business table) the next table is read.
 
@@ -462,6 +463,16 @@ The buyer's life stage is a Student / Young Adult, a Worker (Adult) or a Senior 
 1. **The caregiving / proxy diagonal (Worker or Senior buyers → Minor or Senior users).** Whenever a Worker or a Senior buys for a Minor or a Senior, Health, Care and Wellbeing, Protection and Risk Reduction, and Compliance and Obligations are primary.
 2. **The career / professional cluster (Worker buyer → Adult user).** The only combination where Business Growth and Performance is primary.
 3. **Universal triggers.** Gifting and Appreciation, with Everyday Needs and Convenience, stay highly active across almost every combination.
+
+**The precedence of the keys (the owner, 2026-10-30):** first the buyer's and the user's life stages (once both are answered), then the buyer and user relationship, then the buyer's category; a blank of the first leaves the order to the next, because each key re-sorts the list the previous one left (a stable sort). The life stages shape the **Purpose** (the table above), the **Differentiation** (the preference below) and the **Outcomes** (the purposes the life stages make primary, mapped to the outcomes). The preference of a buyer's life stage for a differentiation:
+
+| Buyer's life stage | Cost-driven | Convenience-driven | Compliance, Risk & Security | Status & Premium |
+|---|---|---|---|---|
+| Students / Young Adults | ● | ● |  |  |
+| Workers / Professionals / Adults |  | ● | ● |  |
+| Seniors |  |  | ● | ● |
+
+For the outcomes the purposes counted are only those the life stage table lists as primary (Entertainment, Social Connection and Creation are not in it); two outcomes can tie, and then the list's own order decides.
 
 **A parent or legal guardian has a Minor or a Young Adult as the user (owner's rule, 2026-10-30):** when that relationship is chosen the user's life stage offers only Minors and Young Adults, and an Adult or a Senior already chosen goes. **This applies until a buyer's life stage is chosen: the matrix below then decides (a Senior parent is offered Adults).**
 

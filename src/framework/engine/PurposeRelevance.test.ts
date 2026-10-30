@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { PURPOSE_IDS } from "./PositioningIds.ts";
-import { outcomeByPurpose, userOutcomeByPurpose, differentiationByPurpose, differentiationByRelationship, differentiationRelevance, orderedByRelevance, purposeOrderAbout, purposeRelevance, RELATIONSHIP_INTENT } from "./PurposeRelevance.ts";
+import { differentiationByLifeStage, outcomesByLifeStage, outcomeByPurpose, userOutcomeByPurpose, differentiationByPurpose, differentiationByRelationship, differentiationRelevance, orderedByRelevance, purposeOrderAbout, purposeRelevance, RELATIONSHIP_INTENT } from "./PurposeRelevance.ts";
 
 const none = { models: [], categories: [], relationships: [] };
 
@@ -144,5 +144,22 @@ describe("the relevance of a purpose to the buyer (the owner's tables of 2026-10
         expect(userOutcomeByPurpose([])).toBeNull();
         expect(userOutcomeByPurpose(["learning", "protection"])).toEqual({ enjoy: 0, comfort: 0, safety: 2, learning: 2, belong: 0, practical: 0 });
         expect(userOutcomeByPurpose(["access"])).toMatchObject({ comfort: 2, practical: 0 });
+    });
+
+    it("makes the life stages, once both are answered, the first key of the differentiations and the outcomes", () => {
+        // Not before both are answered.
+        expect(differentiationByLifeStage(["young"], [])).toBeNull();
+        expect(outcomesByLifeStage([], ["age:minor"])).toBeNull();
+        // The buyer's life stage prefers: a Student cost and convenience, a Worker convenience and compliance, a Senior compliance and premium.
+        expect(differentiationByLifeStage(["young"], ["age:minor"])).toEqual({ cost: 2, convenience: 2, compliance: 0, premium: 0, performance: 0, ecosystem: 0 });
+        expect(differentiationByLifeStage(["adult"], ["age:senior"])).toEqual({ cost: 0, convenience: 2, compliance: 2, premium: 0, performance: 0, ecosystem: 0 });
+        expect(differentiationByLifeStage(["senior"], ["age:adult"])).toEqual({ cost: 0, convenience: 0, compliance: 2, premium: 2, performance: 0, ecosystem: 0 });
+        // A Worker buying for a Senior: health, protection and compliance are primary, so the legal cover (buyer) and safety and care (user) come out first.
+        const workerSenior = outcomesByLifeStage(["adult"], ["age:senior"])!;
+        // (Health, protection and compliance make the legal cover and the safety and care score at the top; everyday needs and access tie them, so they are among the first, not alone.)
+        const first = (scores: Record<string, number>) => Object.keys(scores).filter(id => scores[id] === Math.max(...Object.values(scores)));
+        expect(first(workerSenior.buyer)).toContain("assurance");
+        expect(first(workerSenior.user)).toContain("safety");
+        expect(workerSenior.user.learning).toBe(0);
     });
 });

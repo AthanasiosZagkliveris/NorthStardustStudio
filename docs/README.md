@@ -54,8 +54,8 @@ The current design of the Foundation, the sources, the research, the log of ever
 | [design/core/03-research.md](design/core/03-research.md) | research | The research behind the design decisions: the question, the recommendation, the reason and the source. Document 1 prevails where they differ. | 2026-10-29 |
 | [design/core/04-log.md](design/core/04-log.md) | log | Every change to the app, the design, the documents or the plan, newest on top. The only place a change is written. | 2026-10-30 |
 | [design/core/05-not-done-yet.md](design/core/05-not-done-yet.md) | living list | What has not been done: the road, the plans, the requirements still open, the open decisions and the open points of the reviews. | 2026-10-30 |
-| [design/core/06-catalogue-record.md](design/core/06-catalogue-record.md) | generated | The catalogue record of the app's pages, tiles, cards and controls, from the card scan and the probes. | 2026-10-29 |
-| [design/core/07-structure-tables.md](design/core/07-structure-tables.md) | generated | The structure tables of the app (pages, chapters, tiles, views, components, fields, card kinds), from the catalogue. | 2026-10-29 |
+| [design/core/06-catalogue-record.md](design/core/06-catalogue-record.md) | generated | The catalogue record of the app's pages, tiles, cards and controls, from the card scan and the probes. | 2026-10-30 |
+| [design/core/07-structure-tables.md](design/core/07-structure-tables.md) | generated | The structure tables of the app (pages, chapters, tiles, views, components, fields, card kinds), from the catalogue. | 2026-10-30 |
 
 ## 4. The library (`design/library/`, documents 8 to 15)
 
@@ -69,7 +69,7 @@ The assets library, its generated lists, its logs, and the library measured agai
 | [design/library/11-app-structure-log.md](design/library/11-app-structure-log.md) | log | The app structure log: every change of the tables, that is of the structure of the app, newest on top. | 2026-10-30 |
 | [design/library/12-component-defaults.md](design/library/12-component-defaults.md) | generated | The default of each component: the reference sizes and the criteria. | 2026-10-29 |
 | [design/library/13-components-list.md](design/library/13-components-list.md) | generated | The components, and which fields and cards use each. | 2026-10-29 |
-| [design/library/14-fields-list.md](design/library/14-fields-list.md) | generated | The fields, the add buttons and the field names. | 2026-10-29 |
+| [design/library/14-fields-list.md](design/library/14-fields-list.md) | generated | The fields, the add buttons and the field names. | 2026-10-30 |
 | [design/library/15-library-vs-app.md](design/library/15-library-vs-app.md) | generated | The library measured against the running app. | 2026-10-29 |
 
 ## 5. The current design (`design/current/`, documents 16 to 26)
@@ -78,13 +78,13 @@ What the app is today in detail: the texts, the reactions, the shared components
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [design/current/16-text-holders.md](design/current/16-text-holders.md) | generated | The text holders: sizes, style classes and rules. | 2026-10-29 |
+| [design/current/16-text-holders.md](design/current/16-text-holders.md) | generated | The text holders: sizes, style classes and rules. | 2026-10-30 |
 | [design/current/17-frequency-options.md](design/current/17-frequency-options.md) | generated | The Frequency options by group, compared with the code. | 2026-10-29 |
 | [design/current/18-reactions.md](design/current/18-reactions.md) | current design | How elements react to the pointer and the keyboard: the reactions by component. The check is in the layout rules; this is the lookup. | 2026-10-30 |
-| [design/current/19-text-links.md](design/current/19-text-links.md) | generated | The text link: look and behaviour, from the code and the walk of the app. | 2026-10-29 |
+| [design/current/19-text-links.md](design/current/19-text-links.md) | generated | The text link: look and behaviour, from the code and the walk of the app. | 2026-10-30 |
 | [design/current/20-free-text-categories.md](design/current/20-free-text-categories.md) | current design | Free texts in four categories: the categories, the owner's decisions, the proposed limits and what is still to build. | 2026-10-29 |
 | [design/current/21-shared-components.md](design/current/21-shared-components.md) | current design | Which components are shared, with their props, and what is still hand-made. | 2026-10-29 |
-| [design/current/22-help-texts.md](design/current/22-help-texts.md) | generated | The help texts of the app, from the walk of the running app. | 2026-10-29 |
+| [design/current/22-help-texts.md](design/current/22-help-texts.md) | generated | The help texts of the app, from the walk of the running app. | 2026-10-30 |
 | [design/current/23-popups.md](design/current/23-popups.md) | current design | Pop-ups in six categories, with their placement rules and the order of fallbacks. | 2026-10-29 |
 | [design/current/24-tooltips.md](design/current/24-tooltips.md) | current design | Which controls have a tooltip, what it says, its look and its rules. This document owns the tip. | 2026-10-29 |
 | [design/current/25-folder-plan.md](design/current/25-folder-plan.md) | current design | The folders of the repository: the app files, the examples, the working files and the exports, and the documents folder. | 2026-10-29 |
@@ -104,7 +104,7 @@ What the first published version contains (read 33 first; it governs), what it l
 | [design/questionnaire/32-positioning-sources.md](design/questionnaire/32-positioning-sources.md) | research | The sources behind each positioning list of doc 31, what has none, and the pages checked. | 2026-10-29 |
 | [design/questionnaire/33-specs-and-limitations.md](design/questionnaire/33-specs-and-limitations.md) | specification | The first published version: language, countries, legal forms, market structure, relationships, buyer and user, ages. It governs the other questionnaire documents. | 2026-10-30 |
 | [design/questionnaire/34-future-features.md](design/questionnaire/34-future-features.md) | living list | Everything that is not in the first published version: other languages and countries, multi-sided, B2G, G2B, the detailed positioning data, age rules, research to do. | 2026-10-30 |
-| [design/questionnaire/35-lists-and-classifications.md](design/questionnaire/35-lists-and-classifications.md) | proposal | The countries, the shared lists, the national crosswalks, the industry lists, the activity cascade, the codes and the classification data (section 5 of the former questionnaire specification). | 2026-10-29 |
+| [design/questionnaire/35-lists-and-classifications.md](design/questionnaire/35-lists-and-classifications.md) | proposal | The countries, the shared lists, the national crosswalks, the industry lists, the activity cascade, the codes and the classification data (section 5 of the former questionnaire specification). | 2026-10-30 |
 
 ## 7. Rules for the assistant (`ai/`)
 

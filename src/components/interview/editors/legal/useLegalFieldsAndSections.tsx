@@ -21,7 +21,7 @@ import OptionPicker from "../../fields/OptionPicker.tsx";
 import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import ActivitiesField from "./ActivitiesField.tsx";
-import { outcomeByPurpose, userOutcomeByPurpose, differentiationByPurpose, differentiationByRelationship, differentiationRelevance, orderedByRelevance, purposeRelevance } from "../../../../framework/engine/PurposeRelevance.ts";
+import { differentiationByLifeStage, outcomesByLifeStage, outcomeByPurpose, userOutcomeByPurpose, differentiationByPurpose, differentiationByRelationship, differentiationRelevance, orderedByRelevance, purposeRelevance } from "../../../../framework/engine/PurposeRelevance.ts";
 import { categoryOfModel, relationshipFits, relationshipFitsBuyerStage, relationshipFitsUserStages, orderedByCategory, userStageFits } from "../../../../framework/engine/RelationshipFit.ts";
 import DateCellInput from "../../fields/DateCellInput.tsx";
 import { todayIsoDate } from "../../../../framework/engine/AnswerUtils.ts";
@@ -258,12 +258,22 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
     const differentiationFirst = differentiationAbout ? orderedByRelevance(DIFFERENTIATIONS, differentiationAbout).filter(option => differentiationAbout[option.id] > 0 || entity.organisation.differentiation.includes(option.id)) : orderedByCategory(DIFFERENTIATIONS, entity.organisation.buyerCategory);
     // The purposes chosen then bring the differentiations they drive first (inside each level the business relationships chosen order them, and inside theirs the audience scale and category; nothing is chosen for the user).
     const differentiationOptions = orderedByRelevance(orderedByRelevance(differentiationFirst, differentiationByRelationship(entity.organisation.endUser)), byPurpose);
+    // THE BUYER'S AND THE USER'S LIFE STAGES, once both are answered, are the first key of the differentiations and of the outcomes (the owner's precedence, 2026-10-30: life stages, then the relationship, then the category); the purposes chosen come next.
+    const lifeBuyer = models.includes("b2c") && endsUser("b2c") ? entity.organisation.audience.filter(id => ["young", "adult", "senior"].includes(id)) : [];
+    const lifeUser = models.includes("b2c") && endsUser("b2c") ? entity.organisation.endUser.filter(id => id.startsWith("age:")) : [];
+    const byLifeStage = outcomesByLifeStage(lifeBuyer, lifeUser);
+    const differentiationShown = orderedByRelevance(differentiationOptions, differentiationByLifeStage(lifeBuyer, lifeUser));
+    const outcomeShown = orderedByRelevance(orderedByRelevance(OUTCOMES, outcomeByPurpose(entity.organisation.purpose, entity.organisation.buyerCategory)), byLifeStage?.buyer ?? null);
+    const userOutcomeShown = orderedByRelevance(orderedByRelevance(USER_OUTCOMES, userOutcomeByPurpose(entity.organisation.purpose)), byLifeStage?.user ?? null);
     const purposeOptions = orderedByRelevance(PURPOSES, relevance).filter(option => relevance === null || relevance[option.id] > 0 || entity.organisation.purpose.includes(option.id));
     // The left column asks every question before the purpose: the relationship, and for each relationship its audience, its buyer's category and, for a Proxy or Dual-Intent buyer, the buyer and user relationship and (consumer) the user's life stage. The right column asks the purpose, the differentiation and the outcomes.
     const audience = (
         <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience">
 
             <div className="legal-entity-field">
+
+                {/* THE BUSINESS: who pays (the relationship), its audience or life stage, and its buyer's category. */}
+                <div className="legal-entity-org-section legal-entity-org-subtitle"><span className="field-group-title business-foundation-subhead">Business</span></div>
 
                 <div className="legal-entity-org-section legal-entity-org-customer">
                 {choice(
@@ -322,9 +332,18 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                         )}
                         </div>
                     )}
+                    </div>
+                ))}
 
-                    {models.includes(set.model) && endsUser(set.model) && (
+                {/* THE USER (a Proxy or Dual-Intent buyer's): the buyer and user relationship and, for a consumer, the user's life stage, under a divider line and a subtitle. */}
+                {audienceSets.some(set => models.includes(set.model) && endsUser(set.model)) && (
                     <>
+                    <div className="business-capability-card-rule legal-entity-org-rule" role="separator" />
+                    <div className="legal-entity-org-section legal-entity-org-subtitle"><span className="field-group-title business-foundation-subhead">User</span></div>
+                    </>
+                )}
+                {audienceSets.filter(set => models.includes(set.model) && endsUser(set.model)).map(set => (
+                    <div key={set.group}>
                     <div className="legal-entity-org-section legal-entity-org-audience legal-entity-org-enduser">
                     {choice(
                         "Buyer and User relationship" + suffix(set.model),
@@ -354,14 +373,15 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                         )}
                         </div>
                     )}
-                    </>
-                    )}
                     </div>
                 ))}
 
             </div>
 
             <div className="legal-entity-field legal-entity-questions">
+
+                {/* THE OFFERING (the purpose and the differentiation), then, under a divider line, THE OUTCOME. */}
+                <div className="legal-entity-org-section legal-entity-org-subtitle"><span className="field-group-title business-foundation-subhead">Offering</span></div>
 
                 <div className="legal-entity-org-section legal-entity-org-outcome">
                 {choice(
@@ -379,7 +399,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                 {choice(
                     "Differentiation",
                     "legal-entity-differentiation",
-                    differentiationOptions,
+                    differentiationShown,
                     chosenOf(entity.organisation.differentiation, DIFFERENTIATIONS),
                     choiceLimit(stage, "outcome"),
                     (next) => updateOrganisation({ differentiation: next }),
@@ -387,11 +407,14 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                 )}
                 </div>
 
+                <div className="business-capability-card-rule legal-entity-org-rule" role="separator" />
+                <div className="legal-entity-org-section legal-entity-org-subtitle"><span className="field-group-title business-foundation-subhead">{userHasOutcome ? "Outcomes" : "Outcome"}</span></div>
+
                 <div className="legal-entity-org-section legal-entity-org-outcome">
                 {choice(
                     userHasOutcome ? "Outcome for the buyer" : "Outcome",
                     "legal-entity-outcome",
-                    orderedByRelevance(OUTCOMES, outcomeByPurpose(entity.organisation.purpose, entity.organisation.buyerCategory)),
+                    outcomeShown,
                     chosenOf(entity.organisation.outcome, OUTCOMES),
                     choiceLimit(stage, "outcome"),
                     (next) => updateOrganisation({ outcome: next }),
@@ -404,7 +427,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                     {choice(
                         "Outcome for the user",
                         "legal-entity-outcome-user",
-                        orderedByRelevance(USER_OUTCOMES, userOutcomeByPurpose(entity.organisation.purpose)),
+                        userOutcomeShown,
                         chosenOf(entity.organisation.outcomeUser, USER_OUTCOMES),
                         choiceLimit(stage, "outcome"),
                         (next) => updateOrganisation({ outcomeUser: next }),

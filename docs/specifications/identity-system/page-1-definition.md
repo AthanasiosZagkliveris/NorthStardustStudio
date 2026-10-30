@@ -100,14 +100,16 @@ Only one dialog is open at a time; which one is open is view state and is never 
 
 The tile's name follows the stage: **Early Positioning** (Planning, Launching), **Core Market Positioning** (Managing), **Corporate & Portfolio Positioning** (Growing; `positioningName`).
 
-**Dialog:** two columns. **Left, every question before the Purpose; right, the offering.** At the narrow width the right column follows the left.
+**Dialog:** two columns with four named groups: **Business** and **User** on the left, **Offering** and **Outcome** on the right, each with a subtitle (the group title style) and a divider line between the two groups of a column. The User group (and its divider) appears only for a Proxy or Dual-Intent buyer; the right group is titled "Outcomes" where the user has an outcome of their own. At the narrow width the right column follows the left.
 
 | Left | Right |
 |---|---|
+| **Business** (subtitle) | **Offering** (subtitle) |
 | **Seller and Buyer Relationship** (B2C, B2B) | **Purpose** (twelve) |
 | for each relationship chosen, its audience: **B2C Buyer's Life-Stage** (Students / Young Adults; Workers / Professionals / Adults; Seniors) or **B2B Audience Specialization & Scale** (Solopreneurs & Freelancers; Startups & SMBs; Mid-Market; Enterprise / Public Sector) | **Differentiation** (six: Cost-driven; Convenience-driven; Compliance, Risk & Security; Status & Premium; Performance & Innovation; Ecosystem & Integration) |
-| **Buyer's category** (Direct Buyers; Proxy Buyers; Dual-Intent Buyers), one for each relationship | **Outcome** (the buyer's: Lower costs; Time saved; Legal and data-protection cover; Higher quality and prestige), named "Outcome for the buyer" where the user has one of their own |
-| for a Proxy or Dual-Intent category: **Buyer and User relationship** (B2C: seven, with Commercial & Professional; B2B: six) and, for B2C, **User's Life-Stage** (Minors; Young Adults; Adults; Seniors) | **Outcome for the user** (Enjoyment and fun; Comfort and ease; Safety and care; Learning and growth; Looks and belonging; Practical use), only where some buyer is a Proxy or Dual-Intent Buyer |
+| **Buyer's category** (Direct Buyers; Proxy Buyers; Dual-Intent Buyers), one for each relationship | **Outcome** or **Outcomes** (subtitle). **Outcome** (the buyer's: Lower costs; Time saved; Legal and data-protection cover; Higher quality and prestige), named "Outcome for the buyer" where the user has one of their own |
+| *divider line* | *divider line* |
+| **User** (subtitle), for a Proxy or Dual-Intent category: **Buyer and User relationship** (B2C: seven, with Commercial & Professional; B2B: six) and, for B2C, **User's Life-Stage** (Minors; Young Adults; Adults; Seniors) | **Outcome for the user** (Enjoyment and fun; Comfort and ease; Safety and care; Learning and growth; Looks and belonging; Practical use), only where some buyer is a Proxy or Dual-Intent Buyer |
 | | **Notes** (optional note across the width) |
 
 The audience scale is **the app user's audience** (the customers of the business described), not the app's audience (the people who use the app).
@@ -128,6 +130,7 @@ The audience scale is **the app user's audience** (the customers of the business
 - **User's Life-Stage:** only the stages the matrix allows for the buyer's life stage and the relationship chosen.
 - **Purpose:** ordered by relevance and without the ones the tables call generally less directly relevant; for each purpose the first table that covers it decides (buyer and user life stage; business relationship; audience scale and category; consumer relationship; buyer's category; seller and buyer relationship).
 - **Outcome for the buyer and Outcome for the user:** the outcomes the purposes chosen drive come first (the buyer's by the buyer's category; a Direct Buyer has no user outcome); nothing is hidden or ticked.
+- **The life stages come first** (consumer buyer, once the buyer's and the user's life stages are both answered): they re-sort the Differentiation (a Student: Cost-driven and Convenience-driven; a Worker: Convenience-driven and Compliance, Risk & Security; a Senior: Compliance, Risk & Security and Status & Premium) and the two Outcome lists (by the purposes the life stages make primary), before the purposes chosen (doc 31, 10.7).
 - **Differentiation:** ordered by the purposes chosen, then the business relationship, then the audience scale and category (or the buyer's category); a business buyer is not offered the ones the scale table leaves blank.
 
 **How it reacts**
@@ -170,6 +173,7 @@ The business stage (Planning, Launching, Managing, Growing) is **not asked**: it
 
 - **Saving:** every change is saved at once into the organization (browser storage); the header shows "Saved". An older answer is read in the new form (an audience, a purpose or a legal form that no longer exists is dropped or kept as text; `AnswerLegal.ts`).
 - **Review items** the Definition raises (doc 28, 8.6a): for the Organization, what is missing among the name, country, address and legal form ("1. Definition: Organization: …"); for the Early Positioning (named by the stage), each question with no choice ("…: the purpose and the outcome not chosen yet."); for Mission and Vision, "not answered yet" while empty. The two Notes are optional and raise nothing. The Review's "go there" opens the tile.
+- **Scenario tests:** `src/components/interview/editors/CountryScenarios.test.tsx` runs ten seeded random organizations for each of the six countries through the answer and the editor (the legal form is the country's own, the activity is a final code with every level named and its scheme's initials, the Positioning answers survive and are complete); **three of the ten are the owner's target audience** (the document "Target Audience Selection": Tier 1, knowledge-based service businesses such as AI automation and software development agencies, UI/UX and design studios, marketing agencies and business consulting firms; Tier 2, such as architecture and engineering practices, game studios, digital product studios and early-stage SaaS companies): a software agency, a marketing agency and a consulting firm, each with its country's code.
 - **Checks that keep it true:** the component tests of the tiles (`src/components/interview/tiles/SectionTiles.test.tsx`, `src/components/interview/editors/LegalEntityEditor.test.tsx`), the tests of the lists (`src/framework/engine/PurposeRelevance.test.ts`, `src/framework/engine/RelationshipFit.test.ts`, `src/components/interview/editors/legal/fitPositioning.test.ts`, `src/components/interview/editors/legal/positioningIds.test.ts`), the layout check (`tools/scripts/layout-check/run.mjs`), `npm run docs:check` and the document-reference test.
 
 ## 11. Where it is in the code

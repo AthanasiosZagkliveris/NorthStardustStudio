@@ -231,3 +231,48 @@ export function userOutcomeByPurpose(purposes: readonly string[]): Record<string
     });
     return out;
 }
+
+/** What a buyer's life stage prefers in a differentiation (the owner's rule, 2026-10-30), in the order cost, convenience, compliance, premium, performance, ecosystem: a Student / Young Adult is price and speed sensitive; a Worker values workflow and liability protection; a Senior is risk-averse and values prestige. */
+const LIFE_STAGE_DIFFERENTIATION: Record<string, string> = { young: "PP....", adult: ".PP...", senior: "..PP.." };
+
+/** Both life stages answered (a consumer buyer's and the user's): the key that comes first. */
+function bothStages(buyerStages: readonly string[], userStages: readonly string[]): string[] {
+    return userStages.length > 0 ? buyerStages.filter(stage => LIFE_STAGE_DIFFERENTIATION[stage] !== undefined) : [];
+}
+
+/** The differentiations the buyer's life stage prefers, by id (2 or 0), once the buyer's and the user's life stages are both answered; null before. */
+export function differentiationByLifeStage(buyerStages: readonly string[], userStages: readonly string[]): Record<string, number> | null {
+    const stages = bothStages(buyerStages, userStages);
+    if (stages.length === 0) {
+        return null;
+    }
+    const out: Record<string, number> = {};
+    DIFFERENTIATION_IDS.forEach((id, at) => {
+        out[id] = Math.max(...stages.map(stage => (LIFE_STAGE_DIFFERENTIATION[stage][at] === "P" ? 2 : 0)));
+    });
+    return out;
+}
+
+/** The purposes the buyer's and the user's life stages make primary: a primary mark in the life stage table itself (a purpose that table does not list is read from no other table here). */
+function lifeStagePurposes(buyerStages: readonly string[], userStages: readonly string[]): string[] {
+    const pairs = bothStages(buyerStages, userStages).flatMap(buyer => userStages.map(user => buyer + "|" + user)).filter(column => (TABLES.lifeStages.columns as readonly string[]).includes(column));
+    return PURPOSE_IDS.filter((_, at) => pairs.some(column => levelIn(TABLES.lifeStages, at, column) === 2));
+}
+
+/** The outcomes for the buyer, and for the user, the life stages drive: the sum over the purposes they make primary of what each purpose drives (the same tables as the purposes chosen); null before both are answered. */
+export function outcomesByLifeStage(buyerStages: readonly string[], userStages: readonly string[]): { buyer: Record<string, number>; user: Record<string, number> } | null {
+    const purposes = lifeStagePurposes(buyerStages, userStages);
+    if (purposes.length === 0) {
+        return null;
+    }
+    const at = purposes.map(id => PURPOSE_IDS.indexOf(id as typeof PURPOSE_IDS[number]));
+    const buyer: Record<string, number> = {};
+    OUTCOME_IDS.forEach((id, column) => {
+        buyer[id] = at.reduce((sum, row) => sum + (SHARED_OUTCOME_DRIVES[row][column] === "P" ? 2 : SHARED_OUTCOME_DRIVES[row][column] === "S" ? 1 : 0), 0);
+    });
+    const user: Record<string, number> = {};
+    USER_OUTCOME_IDS.forEach((id, column) => {
+        user[id] = at.reduce((sum, row) => sum + (USER_OUTCOME_DRIVES[row][column] === "P" ? 2 : 0), 0);
+    });
+    return { buyer, user };
+}
