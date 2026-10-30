@@ -190,7 +190,7 @@ function MultiPartAnswerRenderer({
             )
         });
 
-        // THE POSITIONING TILE says what was chosen in four groups, each of one or two lines (the options of a group in one sentence, comma between), a hairline between two groups: the business (its audience and its buyer's category), the user (only for a Proxy or Dual-Intent buyer: the relationship and the life stage), the offering (the purposes and the differentiations) and the outcome (the buyer's and the user's); a group with no answer is left out; no text.
+        // THE POSITIONING TILE says what was chosen in four groups, each of one or two bulleted lines, a hairline between two groups: the business (its audience and its buyer's category), the user (only for a Proxy or Dual-Intent buyer: the relationship and the life stage), the offering (the purposes and the differentiations) and the outcome (the buyer's and the user's); a group with no answer is left out; no text.
         const wordsOf = (ids: readonly string[], words: Record<string, string>) => ids.map(id => words[id]).filter((line): line is string => typeof line === "string" && line.length > 0);
         // (The user's words are the card's own, shortened to their first part so that a group takes one line or two: "Friend" for "Friend or acquaintance", "Other relationship" for "Other"; the life stages as they are.)
         const userWords: Record<string, string> = Object.fromEntries([...BUYER_USER_RELATIONS.b2c, ...BUYER_USER_RELATIONS.b2b, ...USER_LIFE_STAGES].map(option => [option.id, option.label === "Other" ? "Other relationship" : option.id.startsWith("rel:") ? option.label.split(" or ")[0] : option.label]));
@@ -201,9 +201,17 @@ function MultiPartAnswerRenderer({
             [...wordsOf(organisation.purpose, PURPOSE_WORDS), ...wordsOf(organisation.differentiation, DIFFERENTIATION_WORDS)],
             [...wordsOf(organisation.outcome, OUTCOME_WORDS), ...wordsOf(organisation.outcomeUser, OUTCOME_USER_WORDS)]
         ].filter(words => words.length > 0);
-        const positioningItems = positioningGroups.map(words => words.join(", "));
-        // (A hairline under the last line of each group but the last.)
-        const positioningMarks = positioningItems.map((_, at) => at < positioningItems.length - 1 ? { rule: true } : undefined);
+        // One option on each line, with its bullet, six lines in all for the tile (what its square holds with the hairlines): each group has one line, and the lines left go, in the order of the groups, to the groups with more options, two lines at most; the options a group has no line for are counted on its last line ("Gifting & Appreciation +2": the card has them all). A hairline under the last line of each group but the last.
+        const linesOf = (() => {
+            const lines = positioningGroups.map(() => 1);
+            let left = Math.max(0, 6 - positioningGroups.length);
+            positioningGroups.forEach((words, at) => { if (left > 0 && words.length > 1) { lines[at] = 2; left--; } });
+            return lines;
+        })();
+        const groupLines = (words: string[], count: number) => words.length <= count ? words : count === 1 ? [words[0] + " +" + (words.length - 1)] : [words[0], words[1] + " +" + (words.length - 2)];
+        const shownLines = positioningGroups.map((words, at) => groupLines(words, linesOf[at]));
+        const positioningItems = shownLines.flat();
+        const positioningMarks = shownLines.flatMap((lines, at) => lines.map((_, line) => ({ bullet: true, ...(line === lines.length - 1 && at < shownLines.length - 1 ? { rule: true } : {}) })));
 
         const tiles: SectionTile[] = parts.map(part => part.id === "description" && onChangeLegalEntity ? organizationTile(part) : ({
             id: part.id,
