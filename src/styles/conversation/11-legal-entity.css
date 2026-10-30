@@ -1504,3 +1504,18 @@
     background:color-mix(in srgb, var(--label-color, var(--text-default)) 12%, transparent);
 
 }
+
+/* THE BANDS AND THE DOUBLE RULES RUN FROM THE CARD'S SIDES TO THE MIDDLE DIVIDER: the dialog's body, which scrolls and so clips what is wider than itself, reaches the dialog's own sides for this card (it stands 6px inside them otherwise), its contents keeping their place; and a double rule has a field gap (12px) above and below it. */
+.section-tile-dialog-body:has(.legal-entity-audience){
+
+    margin-inline:calc(-1 * var(--card-padding));
+
+    padding-inline:var(--card-padding);
+
+}
+
+.legal-entity-audience .business-capability-card-rule-double{
+
+    margin-block:var(--space-field);
+
+}
