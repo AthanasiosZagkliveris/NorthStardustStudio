@@ -22,7 +22,7 @@ import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import ActivitiesField from "./ActivitiesField.tsx";
 import { orderedByRelevance, purposeRelevance } from "../../../../framework/engine/PurposeRelevance.ts";
-import { categoryOfModel, relationshipFits, relationshipFitsBuyerStage, relationshipFitsUserStages, userStageFits } from "../../../../framework/engine/RelationshipFit.ts";
+import { categoryOfModel, relationshipFits, relationshipFitsBuyerStage, relationshipFitsUserStages, orderedByCategory, userStageFits } from "../../../../framework/engine/RelationshipFit.ts";
 import DateCellInput from "../../fields/DateCellInput.tsx";
 import { todayIsoDate } from "../../../../framework/engine/AnswerUtils.ts";
 import { BUSINESS_STAGE_WORDS } from "../../../../framework/engine/ActivityClassification.ts";
@@ -371,7 +371,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                 {choice(
                     "Differentiation",
                     "legal-entity-differentiation",
-                    DIFFERENTIATIONS,
+                    orderedByCategory(DIFFERENTIATIONS, entity.organisation.buyerCategory),
                     chosenOf(entity.organisation.differentiation, DIFFERENTIATIONS),
                     choiceLimit(stage, "outcome"),
                     (next) => updateOrganisation({ differentiation: next }),

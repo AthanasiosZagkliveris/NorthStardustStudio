@@ -52,3 +52,12 @@ export function relationshipFitsUserStages(id: string, buyerStages: readonly str
     if (id !== "rel:parent" || stages.length === 0 || users.length === 0) return true;
     return stages.some(stage => users.some(column => MATRIX[stage][id][column] !== "."));
 }
+
+/** The differentiations a buyer's category usually pairs with (the owner's master matrix, 2026-10-30): a Proxy Buyer buys for compliance, risk and security or for cost; a Direct Buyer for convenience or cost; a Dual-Intent Buyer for convenience or status and premium. */
+const USUAL_DIFFERENTIATION: Record<string, readonly string[]> = { proxy: ["compliance", "cost"], direct: ["convenience", "cost"], dual: ["convenience", "premium"] };
+
+/** The options with the differentiations the chosen buyer categories usually pair with first (the order of the list otherwise). None is taken away; no category chosen leaves the list as it is. */
+export function orderedByCategory<T extends { id: string }>(options: readonly T[], categories: readonly string[]): T[] {
+    const usual = new Set(categories.flatMap(id => USUAL_DIFFERENTIATION[id.split(":")[1]] ?? []));
+    return [...options.filter(option => usual.has(option.id)), ...options.filter(option => !usual.has(option.id))];
+}

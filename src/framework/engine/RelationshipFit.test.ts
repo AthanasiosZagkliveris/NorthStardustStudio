@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { RELATION_IDS_B2B, RELATION_IDS_B2C } from "./PositioningIds.ts";
-import { RELATIONSHIP_FITS, categoryOfModel, relationshipFits, relationshipFitsUserStages, userStageFits } from "./RelationshipFit.ts";
+import { RELATIONSHIP_FITS, categoryOfModel, relationshipFits, relationshipFitsUserStages, orderedByCategory, userStageFits } from "./RelationshipFit.ts";
 import { RELATIONSHIP_INTENT } from "./PurposeRelevance.ts";
 
 describe("which buyer and user relationships fit the buyer's category", () => {
@@ -53,5 +53,15 @@ describe("which buyer and user relationships fit the buyer's category", () => {
         expect(relationshipFitsUserStages("rel:parent", ["senior"], ["age:adult"])).toBe(true);
         expect(relationshipFitsUserStages("rel:caregiver", ["adult"], ["age:senior"])).toBe(true);
         expect(relationshipFitsUserStages("rel:parent", [], ["age:adult"])).toBe(true);
+    });
+
+    it("puts first the differentiations the buyer's category usually pairs with, and takes none away", () => {
+        const all = ["cost", "convenience", "compliance", "premium"].map(id => ({ id }));
+        const order = (categories: string[]) => orderedByCategory(all, categories).map(option => option.id);
+        expect(order([])).toEqual(["cost", "convenience", "compliance", "premium"]);
+        expect(order(["b2c:proxy"])).toEqual(["cost", "compliance", "convenience", "premium"]);
+        expect(order(["b2c:direct"])).toEqual(["cost", "convenience", "compliance", "premium"]);
+        expect(order(["b2b:dual"])).toEqual(["convenience", "premium", "cost", "compliance"]);
+        expect(order(["b2c:proxy", "b2b:dual"])).toEqual(["cost", "convenience", "compliance", "premium"]);
     });
 });
