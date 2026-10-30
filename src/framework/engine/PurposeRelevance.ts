@@ -14,6 +14,11 @@ const TABLES = {
         columns: ["young|age:minor", "young|age:young", "young|age:adult", "young|age:senior", "adult|age:minor", "adult|age:young", "adult|age:adult", "adult|age:senior", "senior|age:minor", "senior|age:young", "senior|age:adult", "senior|age:senior"],
         rows: ["PPS.PPPSPPSS", "SSSSPSPPPSSP", "PPPPPPPPPPPP", null, null, "SPP.SPPS.SS.", ".SS..SP.....", null, "PPPSPPPPPPPP", "SSSSPSPPPSPP", "....PSPPP.SP", "PPSSPPSPPPSP"]
     },
+    /** The audience scale and the buyer's category of a business buyer (the owner's table of 2026-10-30): a solopreneur is direct or other (proxy or dual-intent); the larger scales are direct or dual-intent, or proxy. */
+    scale: {
+        columns: ["solo|direct", "solo|other", "smb|direct", "smb|proxy", "mid|direct", "mid|proxy", "enterprise|direct", "enterprise|proxy"],
+        rows: ["P.PSPSPP", "S.SPSPSP", ".PSPSPSP", null, "S.S.S.S.", "P.PSPSPS", "P.P.P.P.", "P.S.S.S.", null, "S.SPSPSP", "S.SPSPSP", "...S.P.P"]
+    },
     /** The seven buyer and user relationships of a consumer buyer. */
     relationship: {
         columns: ["rel:parent", "rel:caregiver", "rel:family", "rel:partner", "rel:friend", "rel:commercial", "rel:otherpersonal"],
@@ -47,6 +52,8 @@ export interface PurposeContext {
     buyerStages?: readonly string[];
     /** The user's life stages chosen (age:minor, age:young, age:adult, age:senior). */
     userStages?: readonly string[];
+    /** The business buyer's audience scales chosen (solo, smb, mid, enterprise). */
+    businessScales?: readonly string[];
 }
 
 interface Use { table: Table; columns: string[]; about: string }
@@ -57,6 +64,11 @@ function applicable(context: PurposeContext): Use[] {
     const pairs = (context.buyerStages ?? []).flatMap(buyer => (context.userStages ?? []).map(user => buyer + "|" + user)).filter(column => (TABLES.lifeStages.columns as readonly string[]).includes(column));
     if (pairs.length > 0) {
         uses.push({ table: TABLES.lifeStages, columns: pairs, about: "the buyer's and the user's life stage" });
+    }
+    const business = context.categories.filter(id => id.startsWith("b2b:")).map(id => id.split(":")[1]);
+    const scales = (context.businessScales ?? []).flatMap(scale => business.map(key => scale + "|" + (scale === "solo" ? (key === "direct" ? "direct" : "other") : (key === "proxy" ? "proxy" : "direct")))).filter(column => (TABLES.scale.columns as readonly string[]).includes(column));
+    if (scales.length > 0) {
+        uses.push({ table: TABLES.scale, columns: scales, about: "the audience scale and the buyer's category" });
     }
     const consumer = context.relationships.filter(id => (TABLES.relationship.columns as readonly string[]).includes(id));
     if (consumer.length > 0) {

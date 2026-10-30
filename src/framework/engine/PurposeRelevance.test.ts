@@ -78,4 +78,18 @@ describe("the relevance of a purpose to the buyer (the owner's tables of 2026-10
             expect(purposeRelevance({ models: ["b2c"], categories: [], relationships: [], buyerStages: [buyer], userStages: [user] })!.gifting, buyer + user).toBe(2);
         }
     });
+
+    it("reads the owner's table of the audience scale and the business buyer's category first for a business buyer", () => {
+        const solo = purposeRelevance({ models: ["b2b"], categories: ["b2b:direct"], relationships: [], businessScales: ["solo"] })!;
+        expect(solo).toMatchObject({ growth: 2, productivity: 2, creation: 2, learning: 2, gifting: 0, access: 0, compliance: 1 });
+        const soloProxy = purposeRelevance({ models: ["b2b"], categories: ["b2b:proxy"], relationships: [], businessScales: ["solo"] })!;
+        expect(soloProxy).toMatchObject({ gifting: 2, growth: 0, productivity: 0 });
+        const midProxy = purposeRelevance({ models: ["b2b"], categories: ["b2b:proxy"], relationships: [], businessScales: ["mid"] })!;
+        expect(midProxy).toMatchObject({ protection: 2, compliance: 2, health: 2, gifting: 2, access: 2, growth: 0, learning: 1 });
+        const smbDual = purposeRelevance({ models: ["b2b"], categories: ["b2b:dual"], relationships: [], businessScales: ["smb"] })!;
+        expect(smbDual).toMatchObject({ growth: 2, productivity: 2, learning: 2, compliance: 1 });
+        // (Entertainment and Everyday Needs are not in the table: the category table says them.)
+        expect(smbDual.entertainment).toBe(purposeRelevance({ models: ["b2b"], categories: ["b2b:dual"], relationships: [] })!.entertainment);
+        expect(purposeOrderAbout({ models: ["b2b"], categories: ["b2b:dual"], relationships: [], businessScales: ["smb"] })).toBe("the audience scale and the buyer's category");
+    });
 });
