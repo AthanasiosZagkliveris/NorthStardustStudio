@@ -40,8 +40,8 @@ describe("the relevance of a purpose to the buyer (the owner's tables of 2026-10
         const parent = purposeRelevance({ models: ["b2c"], categories: ["b2c:proxy"], relationships: ["rel:parent"] })!;
         expect(parent).toMatchObject({ growth: 0, everyday: 2, protection: 2, social: 1 });
         expect(purposeOrderAbout({ models: ["b2c"], categories: ["b2c:proxy"], relationships: ["rel:parent"] })).toBe("the buyer and user relationship");
-        // A business relationship has no table of its own: the buyer's category is used.
-        expect(purposeOrderAbout({ models: ["b2b"], categories: ["b2b:proxy"], relationships: ["rel:employer"] })).toBe("the buyer's category");
+        // A business relationship has its own table (below); without one chosen the buyer's category is used.
+        expect(purposeOrderAbout({ models: ["b2b"], categories: ["b2b:proxy"], relationships: [] })).toBe("the buyer's category");
     });
 
     it("puts the primary purposes first, then the possible ones, then the rest, and takes none away", () => {
@@ -100,5 +100,20 @@ describe("the relevance of a purpose to the buyer (the owner's tables of 2026-10
         expect(levels("mid", "proxy")).toEqual({ cost: 1, convenience: 1, compliance: 2, premium: 0 });
         expect(levels("enterprise", "dual")).toEqual({ cost: 0, convenience: 2, compliance: 2, premium: 2 });
         expect(differentiationRelevance({ models: ["b2b"], categories: ["b2b:dual"], relationships: [] })).toBeNull();
+    });
+
+    it("reads the owner's tables of the business buyer and user relationships before the audience scale", () => {
+        const base = { models: ["b2b"], businessScales: ["mid"] };
+        const employer = purposeRelevance({ ...base, categories: ["b2b:proxy"], relationships: ["rel:employer"] })!;
+        expect(employer).toMatchObject({ learning: 2, health: 2, gifting: 2, protection: 2, compliance: 2, everyday: 2, entertainment: 1, productivity: 1, access: 1 });
+        // (Business Growth is not in the proxy table: the audience scale's table says it.)
+        expect(employer.growth).toBe(purposeRelevance({ ...base, categories: ["b2b:proxy"], relationships: [] })!.growth);
+        const intermediary = purposeRelevance({ ...base, categories: ["b2b:proxy"], relationships: ["rel:intermediary"] })!;
+        expect(intermediary).toMatchObject({ access: 2, protection: 2, entertainment: 0, health: 1 });
+        const partner = purposeRelevance({ models: ["b2b"], categories: ["b2b:dual"], relationships: ["rel:copartner"] })!;
+        expect(partner).toMatchObject({ growth: 2, productivity: 2, everyday: 2, learning: 1, health: 0, gifting: 0 });
+        const serving = purposeRelevance({ models: ["b2b"], categories: ["b2b:dual"], relationships: ["rel:serving"] })!;
+        expect(serving).toMatchObject({ learning: 2, entertainment: 2, health: 0 });
+        expect(purposeOrderAbout({ models: ["b2b"], categories: ["b2b:dual"], relationships: ["rel:serving"] })).toBe("the buyer and user relationship");
     });
 });

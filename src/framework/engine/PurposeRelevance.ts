@@ -14,6 +14,16 @@ const TABLES = {
         columns: ["young|age:minor", "young|age:young", "young|age:adult", "young|age:senior", "adult|age:minor", "adult|age:young", "adult|age:adult", "adult|age:senior", "senior|age:minor", "senior|age:young", "senior|age:adult", "senior|age:senior"],
         rows: ["PPS.PPPSPPSS", "SSSSPSPPPSSP", "PPPPPPPPPPPP", null, null, "SPP.SPPS.SS.", ".SS..SP.....", null, "PPPSPPPPPPPP", "SSSSPSPPPSPP", "....PSPPP.SP", "PPSSPPSPPPSP"]
     },
+    /** The two relationships of a Dual-Intent business buyer: a business partner or co-owner, a business serving its clients (the owner's table of 2026-10-30; Access is not in it). */
+    businessDual: {
+        columns: ["rel:copartner", "rel:serving"],
+        rows: ["SP", "..", "..", "SP", "SS", "PP", "PP", "SS", "PP", "SS", "SS", null]
+    },
+    /** The four relationships of a Proxy business buyer: an employer, a professional intermediary, a sponsor or funder, another business relationship (Social Connection, Business Growth and Creation are not in it). */
+    businessProxy: {
+        columns: ["rel:employer", "rel:intermediary", "rel:sponsor", "rel:otherbusiness"],
+        rows: ["PSSS", "PS..", "PS.S", "S...", null, "SS.S", null, null, "PPPP", "PPPS", "PPPS", "SPPS"]
+    },
     /** The audience scale and the buyer's category of a business buyer (the owner's table of 2026-10-30): a solopreneur is direct or other (proxy or dual-intent); the larger scales are direct or dual-intent, or proxy. */
     scale: {
         columns: ["solo|direct", "solo|other", "smb|direct", "smb|proxy", "mid|direct", "mid|proxy", "enterprise|direct", "enterprise|proxy"],
@@ -88,6 +98,12 @@ function applicable(context: PurposeContext): Use[] {
     const pairs = (context.buyerStages ?? []).flatMap(buyer => (context.userStages ?? []).map(user => buyer + "|" + user)).filter(column => (TABLES.lifeStages.columns as readonly string[]).includes(column));
     if (pairs.length > 0) {
         uses.push({ table: TABLES.lifeStages, columns: pairs, about: "the buyer's and the user's life stage" });
+    }
+    for (const table of [TABLES.businessDual, TABLES.businessProxy]) {
+        const business = context.relationships.filter(id => (table.columns as readonly string[]).includes(id));
+        if (business.length > 0) {
+            uses.push({ table, columns: business, about: "the buyer and user relationship" });
+        }
     }
     const scales = scaleColumns(context);
     if (scales.length > 0) {

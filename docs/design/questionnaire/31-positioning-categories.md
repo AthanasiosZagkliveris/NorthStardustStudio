@@ -556,3 +556,37 @@ Example paths from the seller and buyer relationship to the differentiation: B2C
 | Status & Premium | ○ |  | ○ |  | ● |  | ● |  |
 
 **Rationale (the owner's notes):** 1. Cost to status: Solopreneurs and Startups are cost-conscious; at Mid-Market and Enterprise price gives way to Status & Premium and specialised deployment. 2. Compliance guardrails: a Proxy buyer (IT, Legal, Procurement) puts Compliance, Risk & Security first from SMB to Enterprise. 3. Convenience stays strong across almost every segment.
+
+**By the business buyer and user relationship (the owner's tables, 2026-10-30; read before the audience scale's table; blank = not offered; a purpose not in a table is read from the next one)**
+
+*Dual-Intent buyers* (Access and Social Support is not in the table):
+
+| Purpose | Business partner or co-owner | Business serving its clients or customers |
+|---|---|---|
+| Learning and Development | ○ | ● |
+| Health, Care and Wellbeing |  |  |
+| Gifting and Appreciation |  |  |
+| Entertainment and Enjoyment | ○ | ● |
+| Social Connection and Relationships | ○ | ○ |
+| Productivity and Efficiency | ● | ● |
+| Business Growth and Performance | ● | ● |
+| Creation and Expression | ○ | ○ |
+| Everyday Needs and Convenience | ● | ● |
+| Protection and Risk Reduction | ○ | ○ |
+| Compliance and Obligations | ○ | ○ |
+
+*Proxy buyers* (Social Connection, Business Growth and Creation are not in the table):
+
+| Purpose | Employer providing for employees | Professional intermediary acting for a client | Sponsor or funder | Other business relationship |
+|---|---|---|---|---|
+| Learning and Development | ● | ○ | ○ | ○ |
+| Health, Care and Wellbeing | ● | ○ |  |  |
+| Gifting and Appreciation | ● | ○ |  | ○ |
+| Entertainment and Enjoyment | ○ |  |  |  |
+| Productivity and Efficiency | ○ | ○ |  | ○ |
+| Everyday Needs and Convenience | ● | ● | ● | ● |
+| Protection and Risk Reduction | ● | ● | ● | ○ |
+| Compliance and Obligations | ● | ● | ● | ○ |
+| Access and Social Support | ○ | ● | ● | ○ |
+
+**Relationship logic (the owner's notes):** a business partner or co-owner buys for the operations (Growth, Productivity, Everyday Needs); a business serving its clients is a B2B2C or agency path, where Learning and Development and Entertainment deliver experience to its clients; an employer surfaces workplace enablement (Learning, Health, Gifting); a professional intermediary and a sponsor or funder are gatekeepers (protection, compliance, Access and Social Support).
