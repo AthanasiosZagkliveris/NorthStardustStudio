@@ -32,7 +32,7 @@ const TABLES = {
     /** The same columns for the four differentiations (cost, convenience, compliance, premium): the owner's table of 2026-10-30. */
     differentiationScale: {
         columns: ["solo|direct", "solo|other", "smb|direct", "smb|proxy", "mid|direct", "mid|proxy", "enterprise|direct", "enterprise|proxy"],
-        rows: ["PSPSSS.S", "PPPPPSP.", "..SPSPPP", "S.S.P.P."]
+        rows: ["PSPSSS.S", "PPPPPSP.", "..SPSPPP", "S.S.P.P.", "P.PSPSPP", "S.SPPPPP"]
     },
     /** The seven buyer and user relationships of a consumer buyer. */
     relationship: {
@@ -87,14 +87,13 @@ export function differentiationRelevance(context: PurposeContext): Record<string
     }
     const out: Record<string, number> = {};
     DIFFERENTIATION_IDS.forEach((id, at) => {
-        // (A differentiation the table does not cover, Performance & Innovation and Ecosystem & Integration, is read as possible: shown, below the primary ones.)
         out[id] = Math.max(...columns.map(column => levelIn(TABLES.differentiationScale, at, column) ?? 1));
     });
     return out;
 }
 
-/** How strongly each purpose drives each differentiation (cost, convenience, compliance, premium; the owner's matrix of 2026-10-30), one row per purpose in the order of the purpose ids. */
-const PURPOSE_DRIVES = ["SP.S", ".PS.", ".S.P", ".S.P", ".P..", "SP..", ".P.P", ".P.S", "PP..", "..P.", "..P.", "PPS."];
+/** How strongly each purpose drives each differentiation (cost, convenience, compliance, premium, performance, ecosystem; the owner's matrix of 2026-10-30), one row per purpose in the order of the purpose ids. */
+const PURPOSE_DRIVES = ["SP.SPS", ".PS...", ".S.P..", ".S.P..", ".P...S", "SP..SP", ".P.PPS", ".P.SPS", "PP...S", "..P.SP", "..P..P", "PPS..."];
 
 /** The relevance of each differentiation (2 primary driver, 1 secondary, 0 none) for the purposes chosen, by differentiation id: the strongest of the purposes chosen; null where no purpose is chosen. */
 export function differentiationByPurpose(purposes: readonly string[]): Record<string, number> | null {

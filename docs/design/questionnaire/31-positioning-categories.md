@@ -621,6 +621,27 @@ Example paths from the seller and buyer relationship to the differentiation: B2C
 | Performance & Innovation | ● | ○ |  | ● |  |  |
 | Ecosystem & Integration | ● | ● | ● | ○ | ○ | ○ |
 
-**Two pillars added (2026-10-30):** Performance & Innovation (product superiority) and Ecosystem & Integration (fits what the buyer already uses). The owner's other tables (the purposes, the audience scale and the category) have no rows for them: they are read as possible for the audience scale (shown, below the primary ones) and not driven by any purpose until the owner sends the rows.
+**Two pillars added (2026-10-30):** Performance & Innovation (product superiority) and Ecosystem & Integration (fits what the buyer already uses). The rows for the purposes and for the audience scale followed the same day (below).
 
 **Rules (the owner's notes):** Dual-Intent relationships push Convenience and Status & Premium to the top; the institutional Proxy relationships (employer, intermediary, sponsor) put Compliance, Risk & Security first; another business relationship highlights Convenience and Cost. **Order of the keys:** the purposes chosen, then the relationship, then the audience scale and the buyer's category (a blank or equal value is decided by the next key: the inheritance rule).
+
+**The two new pillars by purpose and by audience scale (the owner's rows, 2026-10-30)**
+
+| Purpose | Performance & Innovation | Ecosystem & Integration |
+|---|---|---|
+| Learning and Development | ● | ○ |
+| Social Connection and Relationships |  | ○ |
+| Productivity and Efficiency | ○ | ● |
+| Business Growth and Performance | ● | ○ |
+| Everyday Needs and Convenience |  | ○ |
+| Protection and Risk Reduction | ○ | ● |
+| Creation and Expression | ● | ○ |
+| Compliance and Obligations |  | ● |
+| Entertainment, Health, Gifting, Access |  |  |
+
+| Differentiation | Solopreneur: Direct | Solopreneur: Proxy / Dual | Startups & SMBs: Direct / Dual | Startups & SMBs: Proxy | Mid-Market: Direct / Dual | Mid-Market: Proxy | Enterprise / Gov: Direct / Dual | Enterprise / Gov: Proxy |
+|---|---|---|---|---|---|---|---|---|
+| Performance & Innovation | ● |  | ● | ○ | ● | ○ | ● | ● |
+| Ecosystem & Integration | ○ |  | ○ | ● | ● | ● | ● | ● |
+
+Rules (the owner's notes): Ecosystem & Integration is secondary for the smallest buyers and primary from Mid-Market up (large organisations want a tool that connects to their stacks); an Enterprise / Government Proxy buyer values Performance & Innovation (superior or proprietary features for large data volumes).

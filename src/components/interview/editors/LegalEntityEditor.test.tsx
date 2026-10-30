@@ -1063,14 +1063,14 @@ describe("LegalEntityEditor Early Positioning: the two columns and the order of 
 
     const labelsOf = (name: string) => [...screen.getByRole("radiogroup", { name }).querySelectorAll("label")].map(label => label.textContent);
 
-    it("asks who pays on the left (the relationship, the buyer's life stage, the buyer's category) and the End User, the purpose and the outcome on the right", () => {
+    it("asks every question before the purpose on the left (the relationship, the buyer's life stage, the buyer's category, the End User) and the purpose, the differentiation and the outcome on the right", () => {
 
         const { container } = render(<Model model="b2c" />);
         fireEvent.click(screen.getByRole("radio", { name: "Proxy Buyers" }));
         const [left, right] = [...container.querySelectorAll(".legal-entity-audience > .legal-entity-field")];
         const names = (column: Element) => [...column.querySelectorAll("[role=radiogroup], [role=group]")].map(group => group.getAttribute("aria-label"));
-        expect(names(left)).toEqual(["Seller and Buyer Relationship", "Buyer's Life-Stage", "Buyer's category"]);
-        expect(names(right)).toEqual(["Buyer and User relationship", "User's Life-Stage", "Purpose", "Differentiation", "Outcome for the buyer", "Outcome for the user"]);
+        expect(names(left)).toEqual(["Seller and Buyer Relationship", "Buyer's Life-Stage", "Buyer's category", "Buyer and User relationship", "User's Life-Stage"]);
+        expect(names(right)).toEqual(["Purpose", "Differentiation", "Outcome for the buyer", "Outcome for the user"]);
 
     });
 

@@ -321,15 +321,9 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                         )}
                         </div>
                     )}
-                    </div>
-                ))}
 
-            </div>
-
-            <div className="legal-entity-field legal-entity-questions">
-
-                {audienceSets.filter(set => models.includes(set.model) && endsUser(set.model)).map(set => (
-                    <div key={set.group}>
+                    {models.includes(set.model) && endsUser(set.model) && (
+                    <>
                     <div className="legal-entity-org-section legal-entity-org-audience legal-entity-org-enduser">
                     {choice(
                         "Buyer and User relationship" + suffix(set.model),
@@ -359,8 +353,14 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                         )}
                         </div>
                     )}
+                    </>
+                    )}
                     </div>
                 ))}
+
+            </div>
+
+            <div className="legal-entity-field legal-entity-questions">
 
                 <div className="legal-entity-org-section legal-entity-org-outcome">
                 {choice(
