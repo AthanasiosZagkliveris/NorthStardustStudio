@@ -338,13 +338,6 @@ For the owner to decide, or work not done. Each item leaves this list when done 
 
 **Left by the first-version build of the Organization and Positioning tiles (2026-10-29)**
 - The ages in the Segment (doc 33, section 6) and anything in Business 1 that reads the buyer's category, the relationship or the purpose (the second Profile for the user, P25) are not built.
-- Purpose, Differentiation and Outcome: settled 2026-10-30 as separate questions (doc 33, section 8, point 6); the Outcome lists are the author's (see the entry on the outcomes).
 - The Country question lists the six and Other: a saved organisation of another country opens as Other with its country chosen. The legal-form wording and documents that follow the country's form (capital, the "limited company" phrase) still follow the profile of that country where the app has one.
 - The four coarse user life stages have no age edges (doc 33, section 5).
-- The lists of the Outcome (for the buyer) and the Outcome for the user were made from the words of the former question and of the former "what matters most": confirm or send your own (doc 33, section 8). The routing of the user's outcome into the second Profile (P9, P17) is not built.
-- The relationships offered for each category are the owner's judgement from the tables (doc 31, 10.7): a Parent or a Caregiver is offered to both categories because a family plan or a household is a Dual-Intent purchase; change the table in `RelationshipFit.ts` if the owner reads it otherwise.
-- The owner's life-stage table covers nine of the twelve purposes; Entertainment, Social Connection and Creation fall back to the relationship, category and seller and buyer tables (doc 31, 10.7). Confirm or send the three rows.
-- The user's life-stage matrix is used only to hide the blank cells; the ● and ○ levels do not yet order or mark the options. The earlier parent rule is superseded by it where the buyer's life stage is chosen (a Senior parent: Adults offered).
-- The owner's master matrix (doc 31) differs from the questions of doc 28: the Commercial & Professional umbrella with Landlord, Personal professional and Employer relationships, Direct Buyer (Self) as a relationship, other B2B relationship names and a Team / Org user are not built.
-- The owner's business relationship tables leave out Access (Dual-Intent) and Social Connection, Business Growth and Creation (Proxy): those are read from the audience scale's table (doc 31, 10.7). Confirm or send the cells.
-- A "Recommended" tag or highlight on the differentiations the chosen purposes drive was suggested (they are only ranked first now); it needs a new element, so it waits for the owner's word (doc 31, 10.7).
+- The routing of the outcome for the user into the second Profile (P9, P17) is not built (doc 34, item 13).

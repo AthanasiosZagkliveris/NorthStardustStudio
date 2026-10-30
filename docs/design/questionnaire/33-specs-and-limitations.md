@@ -135,3 +135,5 @@ The Organization tile and the Early Positioning tile of the app follow this docu
 
 1. The owner's list was sent **unfinished** more than once. Anything after it is to be added here.
 2. The checks of sections 3 to 6, in particular: the country picker; the four coarse life stages; whether B2B users have a life stage; Purpose, Differentiation and Outcome as three questions; which ages go in the Segment and where.
+
+**Closed on 2026-10-30 (the owner: close the open points of the Positioning tile):** the Outcome lists (buyer and user) and the relationships offered for each category are approved as written; a purpose a table does not list is read from the next table; the master matrix stays a reference; no "Recommended" tag is added (doc 31, decision 38). Still future: the routing of the outcome for the user into the second Profile (doc 34, item 13).
