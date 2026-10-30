@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { RELATION_IDS_B2B, RELATION_IDS_B2C } from "./PositioningIds.ts";
-import { RELATIONSHIP_FITS, categoryOfModel, relationshipFits } from "./RelationshipFit.ts";
+import { RELATIONSHIP_FITS, categoryOfModel, relationshipFits, userStageFits } from "./RelationshipFit.ts";
 import { RELATIONSHIP_INTENT } from "./PurposeRelevance.ts";
 
 describe("which buyer and user relationships fit the buyer's category", () => {
@@ -25,5 +25,11 @@ describe("which buyer and user relationships fit the buyer's category", () => {
         expect(relationshipFits("rel:partner", "")).toBe(true);
         expect(relationshipFits("rel:partner", "proxy")).toBe(false);
         expect(relationshipFits("rel:friend", "dual")).toBe(false);
+    });
+
+    it("gives a parent or legal guardian a minor or a young adult as the user, never an adult or a senior", () => {
+        expect(["age:minor", "age:young", "age:adult", "age:senior"].map(id => userStageFits(["rel:parent"], id))).toEqual([true, true, false, false]);
+        expect(["age:minor", "age:young", "age:adult", "age:senior"].map(id => userStageFits(["rel:caregiver"], id))).toEqual([true, true, true, true]);
+        expect(userStageFits([], "age:senior")).toBe(true);
     });
 });

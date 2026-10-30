@@ -1,27 +1,38 @@
 /**
  * HOW RELEVANT EACH PURPOSE IS to the buyer (the owner's tables of 2026-10-30, design document 31, 10.4): used to ORDER the purpose list, the most relevant first, and to leave out the purposes the table calls generally less directly
- * relevant (fewer options help the user; the editor keeps one that is already chosen). It never chooses for the user. The most specific table that applies is used: the buyer's relationship with the user (a consumer buyer), else the buyer's category, else the
+ * relevant (fewer options help the user; the editor keeps one that is already chosen). It never chooses for the user. The most specific table that covers a purpose is used: the buyer's and the user's life stage, else the buyer's relationship with the user (a consumer buyer), else the buyer's category, else the
  * relationship model (B2B or B2C). Two levels: 2 primary relevance, 1 possible relevance; none is generally less directly relevant.
  */
 import { PURPOSE_IDS } from "./PositioningIds.ts";
 
-/** The twelve purposes in the order of PURPOSE_IDS; each string is one cell per column: "P" primary, "S" possible, "." none. */
+type Table = { columns: readonly string[]; rows: readonly (string | null)[] };
+
+/** The twelve purposes in the order of PURPOSE_IDS; each string is one cell per column: "P" primary, "S" possible, "." none; null where the table does not cover the purpose (the next table is used). */
 const TABLES = {
-    /** B2B relevance, B2C relevance. */
-    model: { columns: ["b2b", "b2c"], rows: ["PP", "SP", "PP", ".P", "SP", "PP", "P.", "SP", ".P", "PP", "PS", "SP"] },
-    /** Direct (for themselves), Proxy (on behalf of someone), Dual-Intent (for themselves and their dependents). */
-    category: { columns: ["direct", "proxy", "dual"], rows: ["PSP", "PPS", ".PS", "PSP", "P.P", "PSP", "PPP", "P.S", "PPP", "PPP", "PPS", "PPS"] },
+    /** The buyer's life stage and the user's life stage (a consumer Proxy or Dual-Intent buyer; the owner's table of 2026-10-30): Student (young), Worker (adult), Senior, each with the user a Minor, a Young Adult, an Adult, a Senior. The table does not cover Entertainment, Social Connection and Creation. */
+    lifeStages: {
+        columns: ["young|age:minor", "young|age:young", "young|age:adult", "young|age:senior", "adult|age:minor", "adult|age:young", "adult|age:adult", "adult|age:senior", "senior|age:minor", "senior|age:young", "senior|age:adult", "senior|age:senior"],
+        rows: ["PPS.PPPSPPSS", "SSSSPSPPPSSP", "PPPPPPPPPPPP", null, null, "SPP.SPPS.SS.", ".SS..SP.....", null, "PPPSPPPPPPPP", "SSSSPSPPPSPP", "....PSPPP.SP", "PPSSPPSPPPSP"]
+    },
     /** The seven buyer and user relationships of a consumer buyer. */
     relationship: {
         columns: ["rel:parent", "rel:caregiver", "rel:family", "rel:partner", "rel:friend", "rel:commercial", "rel:otherpersonal"],
         rows: ["PSSS.PS", "PPPPSPS", "PSPPPPP", "PSPPP.P", "S.PPP.P", "PPSP.PS", "...S.P.", "P.SSS.S", "PPPP.PP", "PPPP.PS", "PPSS.P.", "PPPSSPS"]
-    }
-} as const satisfies Record<string, { columns: readonly string[]; rows: readonly string[] }>;
+    },
+    /** Direct (for themselves), Proxy (on behalf of someone), Dual-Intent (for themselves and their dependents). */
+    category: { columns: ["direct", "proxy", "dual"], rows: ["PSP", "PPS", ".PS", "PSP", "P.P", "PSP", "PPP", "P.S", "PPP", "PPP", "PPS", "PPS"] },
+    /** B2B relevance, B2C relevance. */
+    model: { columns: ["b2b", "b2c"], rows: ["PP", "SP", "PP", ".P", "SP", "PP", "P.", "SP", ".P", "PP", "PS", "SP"] }
+} as const satisfies Record<string, Table>;
 
-/** What a table says of one purpose for one column: 2 primary, 1 possible, 0 none (or no such column). */
-function levelIn(table: { columns: readonly string[]; rows: readonly string[] }, purpose: number, column: string): number {
+/** What a table says of one purpose for one column: 2 primary, 1 possible, 0 none (or no such column), null where the table does not cover the purpose. */
+function levelIn(table: Table, purpose: number, column: string): number | null {
+    const row = table.rows[purpose];
+    if (row === null) {
+        return null;
+    }
     const at = table.columns.indexOf(column);
-    const cell = at < 0 ? "." : table.rows[purpose][at];
+    const cell = at < 0 ? "." : row[at];
     return cell === "P" ? 2 : cell === "S" ? 1 : 0;
 }
 
@@ -32,36 +43,59 @@ export interface PurposeContext {
     categories: readonly string[];
     /** The buyer and user relationships chosen (the End User ids that start rel:). */
     relationships: readonly string[];
+    /** The consumer buyer's life stages chosen (young, adult, senior). */
+    buyerStages?: readonly string[];
+    /** The user's life stages chosen (age:minor, age:young, age:adult, age:senior). */
+    userStages?: readonly string[];
 }
 
-/** The table and the columns that apply to the answers so far; none where nothing is answered. */
-function applicable(context: PurposeContext): { table: { columns: readonly string[]; rows: readonly string[] }; columns: string[]; about: string } | null {
+interface Use { table: Table; columns: string[]; about: string }
+
+/** The tables that apply to the answers so far, the most specific first; none where nothing is answered. */
+function applicable(context: PurposeContext): Use[] {
+    const uses: Use[] = [];
+    const pairs = (context.buyerStages ?? []).flatMap(buyer => (context.userStages ?? []).map(user => buyer + "|" + user)).filter(column => (TABLES.lifeStages.columns as readonly string[]).includes(column));
+    if (pairs.length > 0) {
+        uses.push({ table: TABLES.lifeStages, columns: pairs, about: "the buyer's and the user's life stage" });
+    }
     const consumer = context.relationships.filter(id => (TABLES.relationship.columns as readonly string[]).includes(id));
     if (consumer.length > 0) {
-        return { table: TABLES.relationship, columns: consumer, about: "the buyer and user relationship" };
+        uses.push({ table: TABLES.relationship, columns: consumer, about: "the buyer and user relationship" });
     }
     const categories = context.categories.map(id => id.split(":")[1]).filter(key => (TABLES.category.columns as readonly string[]).includes(key));
     if (categories.length > 0) {
-        return { table: TABLES.category, columns: categories, about: "the buyer's category" };
+        uses.push({ table: TABLES.category, columns: categories, about: "the buyer's category" });
     }
     const models = context.models.filter(id => (TABLES.model.columns as readonly string[]).includes(id));
-    return models.length > 0 ? { table: TABLES.model, columns: [...models], about: "the seller and buyer relationship" } : null;
+    if (models.length > 0) {
+        uses.push({ table: TABLES.model, columns: [...models], about: "the seller and buyer relationship" });
+    }
+    return uses;
 }
 
-/** The relevance of each purpose (2 primary, 1 possible, 0 none) for the answers so far, by purpose id; null where nothing is answered (the list keeps its order). */
+/** The relevance of each purpose (2 primary, 1 possible, 0 none) for the answers so far, by purpose id: from the most specific table that covers it; null where nothing is answered (the list keeps its order). */
 export function purposeRelevance(context: PurposeContext): Record<string, number> | null {
-    const use = applicable(context);
-    if (!use) {
+    const uses = applicable(context);
+    if (uses.length === 0) {
         return null;
     }
     const out: Record<string, number> = {};
-    PURPOSE_IDS.forEach((id, at) => { out[id] = Math.max(...use.columns.map(column => levelIn(use.table, at, column))); });
+    PURPOSE_IDS.forEach((id, at) => {
+        for (const use of uses) {
+            const levels = use.columns.map(column => levelIn(use.table, at, column));
+            if (levels.every(level => level !== null)) {
+                out[id] = Math.max(...(levels as number[]));
+                return;
+            }
+        }
+        out[id] = 0;
+    });
     return out;
 }
 
 /** What the order follows, in words (for the "i"), or "" where the list keeps its order. */
 export function purposeOrderAbout(context: PurposeContext): string {
-    return applicable(context)?.about ?? "";
+    return applicable(context)[0]?.about ?? "";
 }
 
 /** The options in the order of their relevance, the most relevant first; the order they came in within each level. All of them stay. */

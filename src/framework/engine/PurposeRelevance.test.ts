@@ -58,4 +58,24 @@ describe("the relevance of a purpose to the buyer (the owner's tables of 2026-10
     it("says how each consumer relationship usually reads: proxy, dual-intent or either (the owner's table)", () => {
         expect(RELATIONSHIP_INTENT).toEqual({ "rel:parent": "proxy", "rel:caregiver": "proxy", "rel:family": "either", "rel:partner": "dual", "rel:friend": "proxy", "rel:commercial": "proxy", "rel:otherpersonal": "either" });
     });
+
+    it("reads the table of the buyer's and the user's life stage first, and the next table for the three purposes it does not cover", () => {
+        // A Student buying for a Minor: Business Growth is not relevant, Gifting and Everyday Needs are primary, Health only possible.
+        const studentMinor = purposeRelevance({ models: ["b2c"], categories: ["b2c:proxy"], relationships: ["rel:friend"], buyerStages: ["young"], userStages: ["age:minor"] })!;
+        expect(studentMinor).toMatchObject({ growth: 0, gifting: 2, everyday: 2, health: 1, learning: 2, productivity: 1, compliance: 0, access: 2, protection: 1 });
+        // (Entertainment, Social Connection and Creation are not in that table: the relationship's table says them: a friend's Entertainment is primary, Creation possible.)
+        expect(studentMinor).toMatchObject({ entertainment: 2, social: 2, creation: 1 });
+        // A Worker buying for an Adult: the one place where Business Growth is primary.
+        const workerAdult = purposeRelevance({ models: ["b2c"], categories: ["b2c:dual"], relationships: [], buyerStages: ["adult"], userStages: ["age:adult"] })!;
+        expect(workerAdult).toMatchObject({ growth: 2, protection: 2, compliance: 2, learning: 2 });
+        // A Worker or a Senior buying for a Minor or a Senior: Health, Protection and Compliance are primary (the caregiving diagonal).
+        for (const [buyer, user] of [["adult", "age:senior"], ["senior", "age:senior"], ["senior", "age:minor"]]) {
+            expect(purposeRelevance({ models: ["b2c"], categories: [], relationships: [], buyerStages: [buyer], userStages: [user] })!).toMatchObject({ health: user === "age:senior" ? 2 : 2, protection: 2, compliance: 2 });
+        }
+        expect(purposeOrderAbout({ models: ["b2c"], categories: [], relationships: [], buyerStages: ["young"], userStages: ["age:minor"] })).toBe("the buyer's and the user's life stage");
+        // Gifting is relevant in every combination.
+        for (const buyer of ["young", "adult", "senior"]) for (const user of ["age:minor", "age:young", "age:adult", "age:senior"]) {
+            expect(purposeRelevance({ models: ["b2c"], categories: [], relationships: [], buyerStages: [buyer], userStages: [user] })!.gifting, buyer + user).toBe(2);
+        }
+    });
 });

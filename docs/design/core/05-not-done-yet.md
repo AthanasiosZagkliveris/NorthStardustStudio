@@ -343,3 +343,4 @@ For the owner to decide, or work not done. Each item leaves this list when done 
 - The four coarse user life stages have no age edges (doc 33, section 5).
 - The lists of the Outcome (for the buyer) and the Outcome for the user were made from the words of the former question and of the former "what matters most": confirm or send your own (doc 33, section 8). The routing of the user's outcome into the second Profile (P9, P17) is not built.
 - The relationships offered for each category are the owner's judgement from the tables (doc 31, 10.7): a Parent or a Caregiver is offered to both categories because a family plan or a household is a Dual-Intent purchase; change the table in `RelationshipFit.ts` if the owner reads it otherwise.
+- The owner's life-stage table covers nine of the twelve purposes; Entertainment, Social Connection and Creation fall back to the relationship, category and seller and buyer tables (doc 31, 10.7). Confirm or send the three rows.

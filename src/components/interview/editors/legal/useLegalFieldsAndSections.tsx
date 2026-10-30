@@ -22,7 +22,7 @@ import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import ActivitiesField from "./ActivitiesField.tsx";
 import { orderedByRelevance, purposeRelevance } from "../../../../framework/engine/PurposeRelevance.ts";
-import { categoryOfModel, relationshipFits } from "../../../../framework/engine/RelationshipFit.ts";
+import { categoryOfModel, relationshipFits, userStageFits } from "../../../../framework/engine/RelationshipFit.ts";
 import DateCellInput from "../../fields/DateCellInput.tsx";
 import { todayIsoDate } from "../../../../framework/engine/AnswerUtils.ts";
 import { BUSINESS_STAGE_WORDS } from "../../../../framework/engine/ActivityClassification.ts";
@@ -246,7 +246,9 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
     const relevance = purposeRelevance({
         models,
         categories: entity.organisation.buyerCategory,
-        relationships: entity.organisation.endUser.filter(id => id.startsWith("rel:"))
+        relationships: entity.organisation.endUser.filter(id => id.startsWith("rel:")),
+        buyerStages: models.includes("b2c") && endsUser("b2c") ? entity.organisation.audience.filter(id => ["young", "adult", "senior"].includes(id)) : [],
+        userStages: models.includes("b2c") && endsUser("b2c") ? entity.organisation.endUser.filter(id => id.startsWith("age:")) : []
     });
     const purposeOptions = orderedByRelevance(PURPOSES, relevance).filter(option => relevance === null || relevance[option.id] > 0 || entity.organisation.purpose.includes(option.id));
     // The left column asks WHO PAYS: the relationship, and for each relationship its audience and its buyer's category. The right column asks about the End User (a Proxy or Dual-Intent Buyer's), the purpose and the outcome.
@@ -328,7 +330,11 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                         relationOptions(set.model),
                         chosenOf(entity.organisation.endUser, BUYER_USER_RELATIONS[set.model]),
                         choiceLimit(stage, "audience"),
-                        (next) => updateOrganisation({ endUser: [...entity.organisation.endUser.filter(id => !idsOf(BUYER_USER_RELATIONS[set.model]).includes(id)), ...next] }),
+                        (next) => {
+                            // (A parent or legal guardian has a minor or a young adult as the user: an adult or a senior already chosen goes.)
+                            const endUser = [...entity.organisation.endUser.filter(id => !idsOf(BUYER_USER_RELATIONS[set.model]).includes(id)), ...next];
+                            updateOrganisation({ endUser: endUser.filter(id => userStageFits(endUser, id)) });
+                        },
                         INFO.buyerUserRelation
                     )}
                     </div>
@@ -338,7 +344,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                         {choice(
                             "User's Life-Stage",
                             "legal-entity-enduser-life",
-                            USER_LIFE_STAGES,
+                            USER_LIFE_STAGES.filter(option => userStageFits(entity.organisation.endUser, option.id)),
                             chosenOf(entity.organisation.endUser, USER_LIFE_STAGES),
                             choiceLimit(stage, "audience"),
                             (next) => updateOrganisation({ endUser: [...entity.organisation.endUser.filter(id => !idsOf(USER_LIFE_STAGES).includes(id)), ...next] }),

@@ -75,4 +75,10 @@ describe("fitPositioningToStage: the buyer's category and the End User", () => {
         expect(fitPositioningToStage({ ...base, buyerCategory: ["b2c:direct"], outcomeUser: ["safety"] }, "grow").outcomeUser).toEqual([]);
         expect(fitPositioningToStage({ ...base, outcomeUser: ["safety", "enjoy", "comfort"] }, "manage").outcomeUser).toEqual([]);
     });
+
+    it("gives a parent or legal guardian a minor or a young adult as the user: an adult or a senior goes", () => {
+        const held = { ...base, endUser: ["rel:parent", "age:minor", "age:adult", "age:senior"] };
+        expect(fitPositioningToStage(held, "grow").endUser).toEqual(["rel:parent", "age:minor"]);
+        expect(fitPositioningToStage({ ...held, endUser: ["rel:caregiver", "age:adult", "age:senior"] }, "grow").endUser).toEqual(["rel:caregiver", "age:adult", "age:senior"]);
+    });
 });

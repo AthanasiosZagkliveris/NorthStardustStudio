@@ -207,6 +207,8 @@ The decisions of 2026-10-27 to 2026-10-29, one row each, by topic. The rounds of
 | 28 | A seventh consumer relationship, "Commercial & Professional", is a proxy buyer (the owner's instruction of 2026-10-30); the consumer list is the six personal ones plus it, "Other personal relationship" last | built 2026-10-30 |
 | 29 | The purpose list is ordered by relevance (the tables of 10.7): the buyer and user relationship, else the buyer's category, else the seller and buyer relationship; from the second request of 2026-10-30 the purposes that are generally less directly relevant are not offered (one already chosen stays) | built 2026-10-30 |
 | 30 | Only the buyer and user relationships that can be the buyer's category are offered (the table at the end of 10.7); a relationship that no longer fits goes with a change of category | built 2026-10-30 |
+| 32 | The purposes follow the buyer's and the user's life stage first (the cross-tabulation at the end of 10.7), then the relationship, the category and the seller and buyer relationship; a purpose the first table that covers it calls generally less directly relevant is not offered | built 2026-10-30 |
+| 33 | A parent or legal guardian has a Minor or a Young Adult as the user: the Adult and Senior user life stages are not offered (and go if already chosen) | built 2026-10-30 |
 | 31 | "Differentiation & Outcome" is two questions: the **Differentiation** (what the offering does differently) and the **Outcome** (the measurable result for the buyer); where the buyer is a Proxy or Dual-Intent Buyer the user has an **Outcome for the user** (the six of the former I7g) | built 2026-10-30 |
 | 27 | Rules of the buyer categories beyond age: data separation (a Proxy Buyer does not see the user's behavioural data), contract and liability flags, payment routing | decided as rules applied by country; future |
 
@@ -453,3 +455,32 @@ Structural rationale (owner): Commercial & Professional is a strict business min
 | Professional intermediary (B2B) | yes | no |
 | Sponsor or funder (B2B) | yes | no |
 | Other business relationship (B2B) | yes | no |
+
+**By the buyer's and the user's life stage (the owner's cross-tabulation, 2026-10-30)**
+
+The buyer's life stage is a Student / Young Adult, a Worker (Adult) or a Senior (columns "Student", "Worker", "Senior"); the user's is a Minor, a Young Adult, an Adult or a Senior. ● primary · ○ possible · blank = generally less directly relevant. The table has nine purposes: Entertainment, Social Connection and Creation are not in it, so for those the next table (the relationship, then the category, then the seller and buyer relationship) is read.
+
+| Purpose | Student → Minor | Student → Young Adult | Student → Adult | Student → Senior | Worker → Minor | Worker → Young Adult | Worker → Adult | Worker → Senior | Senior → Minor | Senior → Young Adult | Senior → Adult | Senior → Senior |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Learning and Development | ● | ● | ○ |  | ● | ● | ● | ○ | ● | ● | ○ | ○ |
+| Health, Care and Wellbeing | ○ | ○ | ○ | ○ | ● | ○ | ● | ● | ● | ○ | ○ | ● |
+| Gifting and Appreciation | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
+| Entertainment and Enjoyment | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) |
+| Social Connection and Belonging | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) |
+| Productivity and Efficiency | ○ | ● | ● |  | ○ | ● | ● | ○ |  | ○ | ○ |  |
+| Business Growth and Performance |  | ○ | ○ |  |  | ○ | ● |  |  |  |  |  |
+| Creation and Self-Expression | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) |
+| Everyday Needs and Convenience | ● | ● | ● | ○ | ● | ● | ● | ● | ● | ● | ● | ● |
+| Protection and Risk Reduction | ○ | ○ | ○ | ○ | ● | ○ | ● | ● | ● | ○ | ● | ● |
+| Compliance and Obligations |  |  |  |  | ● | ○ | ● | ● | ● |  | ○ | ● |
+| Access and Affordability | ● | ● | ○ | ○ | ● | ● | ○ | ● | ● | ● | ○ | ● |
+
+**Core relationship logic (the owner's notes):**
+
+1. **The caregiving / proxy diagonal (Worker or Senior buyers → Minor or Senior users).** Whenever a Worker or a Senior buys for a Minor or a Senior, Health, Care and Wellbeing, Protection and Risk Reduction, and Compliance and Obligations are primary.
+2. **The career / professional cluster (Worker buyer → Adult user).** The only combination where Business Growth and Performance is primary.
+3. **Universal triggers.** Gifting and Appreciation, with Everyday Needs and Convenience, stay highly active across almost every combination.
+
+**Which table is read first (2026-10-30):** the buyer's and the user's life stage (when both are answered), then the buyer and user relationship, then the buyer's category, then the seller and buyer relationship; for each purpose the first table that covers it decides.
+
+**A parent or legal guardian has a Minor or a Young Adult as the user (owner's rule, 2026-10-30):** when that relationship is chosen the user's life stage offers only Minors and Young Adults, and an Adult or a Senior already chosen goes.

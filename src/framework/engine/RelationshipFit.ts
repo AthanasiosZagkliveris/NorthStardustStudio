@@ -21,3 +21,11 @@ export function categoryOfModel(categories: readonly string[], model: string): C
 export function relationshipFits(id: string, category: CategoryKey | ""): boolean {
     return category === "" || (RELATIONSHIP_FITS[id] ?? ["proxy", "dual"]).includes(category);
 }
+
+/** The user's life stages a parent or legal guardian cannot have as the user: a child of a parent is a minor or a young adult, never an adult or a senior (the owner's rule, 2026-10-30). */
+const NOT_A_PARENT_S_USER = ["age:adult", "age:senior"];
+
+/** Whether the user's life stage can be the user of the buyer and user relationships chosen (true for every stage unless a parent or legal guardian is chosen). */
+export function userStageFits(relationships: readonly string[], stageId: string): boolean {
+    return !(relationships.includes("rel:parent") && NOT_A_PARENT_S_USER.includes(stageId));
+}

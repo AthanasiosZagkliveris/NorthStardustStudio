@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 
 import LegalEntityEditor from "./LegalEntityEditor";
 import { positioningName } from "./legal/shared.tsx";
@@ -1105,6 +1105,51 @@ describe("LegalEntityEditor Early Positioning: the two columns and the order of 
         }
         render(<Held />);
         expect(labelsOf("Purpose")).toContain("Gifting and Appreciation");
+
+    });
+
+
+});
+
+describe("LegalEntityEditor Early Positioning: the user of a parent, and the life stages of the buyer and the user", () => {
+
+    const labelsOf = (name: string) => [...screen.getByRole("radiogroup", { name }).querySelectorAll("label")].map(label => label.textContent);
+
+    it("offers a parent or legal guardian only a minor or a young adult as the user", () => {
+
+        const saved: { current: ReturnType<typeof asLegalEntityValue> | null } = { current: null };
+        render(<Model model="b2c" saved={saved} />);
+        fireEvent.click(screen.getByRole("radio", { name: "Proxy Buyers" }));
+        expect(labelsOf("User's Life-Stage")).toEqual(["Minors", "Young Adults", "Adults", "Seniors"]);
+        fireEvent.click(screen.getByRole("radio", { name: "Parent or legal guardian" }));
+        expect(labelsOf("User's Life-Stage")).toEqual(["Minors", "Young Adults"]);
+        // Another relationship brings them back.
+        fireEvent.click(screen.getByRole("radio", { name: "Caregiver or person responsible for their care" }));
+        expect(labelsOf("User's Life-Stage")).toEqual(["Minors", "Young Adults", "Adults", "Seniors"]);
+
+    });
+
+    it("takes an adult or a senior user away when a parent is chosen", () => {
+
+        const saved: { current: ReturnType<typeof asLegalEntityValue> | null } = { current: null };
+        render(<Model model="b2c" stage="manage" saved={saved} />);
+        fireEvent.click(screen.getByRole("radio", { name: "Proxy Buyers" }));
+        fireEvent.click(within(screen.getByRole("group", { name: "User's Life-Stage" })).getByRole("checkbox", { name: /Seniors/ }));
+        fireEvent.click(screen.getByRole("checkbox", { name: /Parent or legal guardian/ }));
+        expect(saved.current!.organisation.endUser).not.toContain("age:senior");
+
+    });
+
+    it("offers the purposes of the buyer's and the user's life stage: a student buying for a minor has no business growth", () => {
+
+        render(<Model model="b2c" />);
+        fireEvent.click(screen.getByRole("radio", { name: "Students / Young Adults" }));
+        fireEvent.click(screen.getByRole("radio", { name: "Proxy Buyers" }));
+        fireEvent.click(screen.getByRole("radio", { name: "Minors" }));
+        const purposes = labelsOf("Purpose");
+        expect(purposes).not.toContain("Business Growth and Performance");
+        expect(purposes).not.toContain("Compliance and Obligations");
+        expect(purposes[0]).toBe("Learning and Development");
 
     });
 

@@ -7,7 +7,7 @@ import { FoundersProfileValue, LegalEntityValue, todayIsoDate, createLegalEntity
 import { InfoPoint } from "../../fields/InfoNote.tsx";
 import { SOURCES } from "../../../../framework/engine/Sources.ts";
 import { FIRST_VERSION_COUNTRIES } from "../../../../framework/engine/LegalEntityJurisdictions.ts";
-import { categoryOfModel, relationshipFits } from "../../../../framework/engine/RelationshipFit.ts";
+import { categoryOfModel, relationshipFits, userStageFits } from "../../../../framework/engine/RelationshipFit.ts";
 
 /**
  * The last entry in every Legal Form list. The brief forbids
@@ -268,6 +268,8 @@ export function fitPositioningToStage<T extends { customerType: string[]; market
         if (!endsUser(model) || (limit !== null && endUser.filter(id => ids.includes(id)).length > limit)) {
             endUser = endUser.filter(id => !ids.includes(id));
         }
+        // (A parent or legal guardian has a minor or a young adult as the user: an adult or a senior goes with it.)
+        endUser = endUser.filter(id => userStageFits(endUser, id));
         // (A relationship that cannot be the chosen category goes with the change of category.)
         const category = categoryOfModel(buyerCategory, model);
         endUser = endUser.filter(id => !ids.includes(id) || relationshipFits(id, category));
