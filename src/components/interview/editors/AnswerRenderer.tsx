@@ -201,7 +201,8 @@ function MultiPartAnswerRenderer({
             [...wordsOf(organisation.purpose, PURPOSE_WORDS), ...wordsOf(organisation.differentiation, DIFFERENTIATION_WORDS)],
             [...wordsOf(organisation.outcome, OUTCOME_WORDS), ...wordsOf(organisation.outcomeUser, OUTCOME_USER_WORDS)]
         ].filter(words => words.length > 0);
-        // One option on each line, with its bullet, every option said in its own words (no count stands for options left out; the tile ends at a whole line where its square is full, as every tile does); a hairline line (the tile's divider) between two groups.
+        // One option on each line, with its bullet, every option said in its own words (no count stands for options left out; the tile ends at a whole line where its square is full, as every tile does); a divider line between two groups.
+        // (The tile's divider is one line of its list, as high as a line of text, so the list still ends at a whole line.)
         const positioningItems = positioningGroups.flatMap((words, at) => [...(at > 0 ? [TILE_DIVIDER] : []), ...words]);
         const positioningMarks = positioningItems.map(item => item === TILE_DIVIDER ? undefined : { bullet: true });
 

@@ -1146,13 +1146,6 @@
 
 }
 
-/* A stack of radios starts the 1px lower a tick list's first row does (a radio's line is 21px, a tick's 18px), so the label above is the same distance from either. */
-.radio-choice.legal-entity-radio-stack:has(> .radio-choice-option){
-
-    padding-top:1px;
-
-}
-
 .radio-choice.legal-entity-radio-stack .radio-choice-option{
 
     white-space:normal;
@@ -1482,6 +1475,25 @@
     padding-bottom:4px;
 
     border-bottom:1px solid var(--line-divider);
+
+    /* Every title row is one height, so the first lines of the two columns stand at one height whatever a row holds (the "i", a limit's note). */
+    align-items:center;
+
+    min-height:calc(var(--label-line) + var(--space-label) + 4px);
+
+}
+
+/* The first option stands a field gap (12px) under its title's line, for a radio and for a tick list: the title's own 6px and this. */
+.legal-entity-audience .legal-entity-radio-stack{
+
+    padding-top:var(--space-label);
+
+}
+
+/* The rule above the Notes closes the last questions: 12px from their words (the last section's own bottom padding), not 12 more (the body's gap). */
+.legal-entity-audience + .legal-entity-org-rule{
+
+    margin-top:calc(-1 * var(--space-field));
 
 }
 
