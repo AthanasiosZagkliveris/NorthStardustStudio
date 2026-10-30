@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { PURPOSE_IDS } from "./PositioningIds.ts";
-import { orderedByRelevance, purposeOrderAbout, purposeRelevance, RELATIONSHIP_INTENT } from "./PurposeRelevance.ts";
+import { differentiationRelevance, orderedByRelevance, purposeOrderAbout, purposeRelevance, RELATIONSHIP_INTENT } from "./PurposeRelevance.ts";
 
 const none = { models: [], categories: [], relationships: [] };
 
@@ -88,8 +88,17 @@ describe("the relevance of a purpose to the buyer (the owner's tables of 2026-10
         expect(midProxy).toMatchObject({ protection: 2, compliance: 2, health: 2, gifting: 2, access: 2, growth: 0, learning: 1 });
         const smbDual = purposeRelevance({ models: ["b2b"], categories: ["b2b:dual"], relationships: [], businessScales: ["smb"] })!;
         expect(smbDual).toMatchObject({ growth: 2, productivity: 2, learning: 2, compliance: 1 });
-        // (Entertainment and Everyday Needs are not in the table: the category table says them.)
-        expect(smbDual.entertainment).toBe(purposeRelevance({ models: ["b2b"], categories: ["b2b:dual"], relationships: [] })!.entertainment);
+        // Entertainment (corporate hospitality) is primary for the larger Direct / Dual buyers; Everyday Needs for every scale but a solopreneur's Proxy / Dual.
+        expect(smbDual).toMatchObject({ entertainment: 2, everyday: 2 });
+        expect(soloProxy.everyday).toBe(0);
         expect(purposeOrderAbout({ models: ["b2b"], categories: ["b2b:dual"], relationships: [], businessScales: ["smb"] })).toBe("the audience scale and the buyer's category");
+    });
+
+    it("orders the differentiations by the business buyer's audience scale and category", () => {
+        const levels = (scale: string, category: string) => differentiationRelevance({ models: ["b2b"], categories: ["b2b:" + category], relationships: [], businessScales: [scale] });
+        expect(levels("solo", "direct")).toEqual({ cost: 2, convenience: 2, compliance: 0, premium: 1 });
+        expect(levels("mid", "proxy")).toEqual({ cost: 1, convenience: 1, compliance: 2, premium: 0 });
+        expect(levels("enterprise", "dual")).toEqual({ cost: 0, convenience: 2, compliance: 2, premium: 2 });
+        expect(differentiationRelevance({ models: ["b2b"], categories: ["b2b:dual"], relationships: [] })).toBeNull();
     });
 });

@@ -21,7 +21,7 @@ import OptionPicker from "../../fields/OptionPicker.tsx";
 import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import ActivitiesField from "./ActivitiesField.tsx";
-import { orderedByRelevance, purposeRelevance } from "../../../../framework/engine/PurposeRelevance.ts";
+import { differentiationRelevance, orderedByRelevance, purposeRelevance } from "../../../../framework/engine/PurposeRelevance.ts";
 import { categoryOfModel, relationshipFits, relationshipFitsBuyerStage, relationshipFitsUserStages, orderedByCategory, userStageFits } from "../../../../framework/engine/RelationshipFit.ts";
 import DateCellInput from "../../fields/DateCellInput.tsx";
 import { todayIsoDate } from "../../../../framework/engine/AnswerUtils.ts";
@@ -251,6 +251,9 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
         userStages: models.includes("b2c") && endsUser("b2c") ? entity.organisation.endUser.filter(id => id.startsWith("age:")) : [],
         businessScales: models.includes("b2b") ? entity.organisation.audience.filter(id => ["solo", "smb", "mid", "enterprise"].includes(id)) : []
     });
+    // The differentiations: a business buyer's audience scale and category order them (the owner's table); otherwise the buyer's category does.
+    const differentiationAbout = differentiationRelevance({ models, categories: entity.organisation.buyerCategory, relationships: [], businessScales: models.includes("b2b") ? entity.organisation.audience.filter(id => ["solo", "smb", "mid", "enterprise"].includes(id)) : [] });
+    const differentiationOptions = differentiationAbout ? orderedByRelevance(DIFFERENTIATIONS, differentiationAbout) : orderedByCategory(DIFFERENTIATIONS, entity.organisation.buyerCategory);
     const purposeOptions = orderedByRelevance(PURPOSES, relevance).filter(option => relevance === null || relevance[option.id] > 0 || entity.organisation.purpose.includes(option.id));
     // The left column asks WHO PAYS: the relationship, and for each relationship its audience and its buyer's category. The right column asks about the End User (a Proxy or Dual-Intent Buyer's), the purpose and the outcome.
     const audience = (
@@ -372,7 +375,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                 {choice(
                     "Differentiation",
                     "legal-entity-differentiation",
-                    orderedByCategory(DIFFERENTIATIONS, entity.organisation.buyerCategory),
+                    differentiationOptions,
                     chosenOf(entity.organisation.differentiation, DIFFERENTIATIONS),
                     choiceLimit(stage, "outcome"),
                     (next) => updateOrganisation({ differentiation: next }),

@@ -525,23 +525,34 @@ The buyer's life stage is a Student / Young Adult, a Worker (Adult) or a Senior 
 
 Example paths from the seller and buyer relationship to the differentiation: B2C Personal & Family (Student, Worker / Adult and Senior buyers with Direct, Proxy and Dual-Intent categories), B2C Commercial & Professional (Landlord / Property manager, Personal professional, Employer for work and life), B2B Solopreneur, Startups & SMBs, Mid-Market and Enterprise / Government. Rules: (1) with B2B the buyer's life stage is not applicable; (2) the Commercial & Professional path matches Proxy Buyers and high-compliance, low-experiential purposes; (3) the differentiation couples with the category: **Proxy: Compliance, Risk & Security or Cost-driven; Direct: Convenience-driven or Cost-driven; Dual-Intent: Convenience-driven or Status & Premium**. Built: the Differentiation list shows those first for the chosen buyer categories (nothing is taken away). Not built: the umbrella relationships (Landlord, Personal professional, Employer), "Direct Buyer (Self)" as a relationship and the B2B relationship and user names, which differ from the questions of doc 28.
 
-**By the audience scale and the business buyer's category (the owner's cross-tabulation, 2026-10-30)**
+**By the audience scale and the business buyer's category (the owner's cross-tabulation, 2026-10-30; completed with Entertainment and Everyday Needs the same day)**
 
-● primary · ○ possible · blank = generally less directly relevant (not offered). Ten purposes; Entertainment and Enjoyment and Everyday Needs and Convenience are not in it, so for those the next table is read. For a business buyer this table is read first.
+● primary · ○ possible · blank = generally less directly relevant (not offered). All twelve purposes. For a business buyer this table is read first. Entertainment is team morale and client hospitality at the corporate scales; Everyday Needs is relevant at every scale except a solopreneur's Proxy / Dual-Intent buyer.
 
 | Purpose | Solopreneur: Direct | Solopreneur: Proxy / Dual | Startups & SMBs: Direct / Dual | Startups & SMBs: Proxy | Mid-Market: Direct / Dual | Mid-Market: Proxy | Enterprise / Gov: Direct / Dual | Enterprise / Gov: Proxy |
 |---|---|---|---|---|---|---|---|---|
 | Learning and Development | ● |  | ● | ○ | ● | ○ | ● | ● |
 | Health, Care and Wellbeing | ○ |  | ○ | ● | ○ | ● | ○ | ● |
 | Gifting and Appreciation |  | ● | ○ | ● | ○ | ● | ○ | ● |
-| Entertainment and Enjoyment | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) |
+| Entertainment and Enjoyment | ○ |  | ● | ○ | ● | ○ | ● | ○ |
 | Social Connection and Relationships | ○ |  | ○ |  | ○ |  | ○ |  |
 | Productivity and Efficiency | ● |  | ● | ○ | ● | ○ | ● | ○ |
 | Business Growth and Performance | ● |  | ● |  | ● |  | ● |  |
 | Creation and Expression | ● |  | ○ |  | ○ |  | ○ |  |
-| Everyday Needs and Convenience | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) |
+| Everyday Needs and Convenience | ● |  | ● | ● | ● | ● | ● | ● |
 | Protection and Risk Reduction | ○ |  | ○ | ● | ○ | ● | ○ | ● |
 | Compliance and Obligations | ○ |  | ○ | ● | ○ | ● | ○ | ● |
 | Access and Social Support |  |  |  | ○ |  | ● |  | ● |
 
 **Core operational logic (the owner's notes):** 1. **The Solopreneur shift:** a team of one buying for themselves is Direct (Growth, Productivity, Creation); as a Proxy or Dual-Intent buyer it is almost only micro-scale client relations (Gifting and Appreciation). 2. **The Proxy split:** from Startups & SMBs to Enterprise a Proxy buyer is about governance: Protection and Risk Reduction, Compliance and Obligations, Gifting and Appreciation (corporate perks), Health, Care and Wellbeing (benefits packages). 3. **The Direct / Dual split:** at mid to large scale a Direct or Dual-Intent buyer is about business metrics: Business Growth and Performance, Productivity and Efficiency, Learning and Development (upskilling).
+
+**The differentiation by the audience scale and the business buyer's category (the owner's table, 2026-10-30; used to order the Differentiation list, nothing is taken away)**
+
+| Differentiation | Solopreneur: Direct | Solopreneur: Proxy / Dual | Startups & SMBs: Direct / Dual | Startups & SMBs: Proxy | Mid-Market: Direct / Dual | Mid-Market: Proxy | Enterprise / Gov: Direct / Dual | Enterprise / Gov: Proxy |
+|---|---|---|---|---|---|---|---|---|
+| Cost-driven | ● | ○ | ● | ○ | ○ | ○ |  | ○ |
+| Convenience-driven | ● | ● | ● | ● | ● | ○ | ● |  |
+| Compliance, Risk & Security |  |  | ○ | ● | ○ | ● | ● | ● |
+| Status & Premium | ○ |  | ○ |  | ● |  | ● |  |
+
+**Rationale (the owner's notes):** 1. Cost to status: Solopreneurs and Startups are cost-conscious; at Mid-Market and Enterprise price gives way to Status & Premium and specialised deployment. 2. Compliance guardrails: a Proxy buyer (IT, Legal, Procurement) puts Compliance, Risk & Security first from SMB to Enterprise. 3. Convenience stays strong across almost every segment.
