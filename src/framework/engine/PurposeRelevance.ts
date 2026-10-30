@@ -92,6 +92,22 @@ export function differentiationRelevance(context: PurposeContext): Record<string
     return out;
 }
 
+/** How strongly each purpose drives each differentiation (cost, convenience, compliance, premium; the owner's matrix of 2026-10-30), one row per purpose in the order of the purpose ids. */
+const PURPOSE_DRIVES = ["SP.S", ".PS.", ".S.P", ".S.P", ".P..", "SP..", ".P.P", ".P.S", "PP..", "..P.", "..P.", "PPS."];
+
+/** The relevance of each differentiation (2 primary driver, 1 secondary, 0 none) for the purposes chosen, by differentiation id: the strongest of the purposes chosen; null where no purpose is chosen. */
+export function differentiationByPurpose(purposes: readonly string[]): Record<string, number> | null {
+    const rows = purposes.map(id => PURPOSE_IDS.indexOf(id as typeof PURPOSE_IDS[number])).filter(at => at >= 0).map(at => PURPOSE_DRIVES[at]);
+    if (rows.length === 0) {
+        return null;
+    }
+    const out: Record<string, number> = {};
+    DIFFERENTIATION_IDS.forEach((id, at) => {
+        out[id] = Math.max(...rows.map(row => (row[at] === "P" ? 2 : row[at] === "S" ? 1 : 0)));
+    });
+    return out;
+}
+
 /** The tables that apply to the answers so far, the most specific first; none where nothing is answered. */
 function applicable(context: PurposeContext): Use[] {
     const uses: Use[] = [];

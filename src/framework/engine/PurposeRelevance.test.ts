@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { PURPOSE_IDS } from "./PositioningIds.ts";
-import { differentiationRelevance, orderedByRelevance, purposeOrderAbout, purposeRelevance, RELATIONSHIP_INTENT } from "./PurposeRelevance.ts";
+import { differentiationByPurpose, differentiationRelevance, orderedByRelevance, purposeOrderAbout, purposeRelevance, RELATIONSHIP_INTENT } from "./PurposeRelevance.ts";
 
 const none = { models: [], categories: [], relationships: [] };
 
@@ -115,5 +115,13 @@ describe("the relevance of a purpose to the buyer (the owner's tables of 2026-10
         const serving = purposeRelevance({ models: ["b2b"], categories: ["b2b:dual"], relationships: ["rel:serving"] })!;
         expect(serving).toMatchObject({ learning: 2, entertainment: 2, health: 0 });
         expect(purposeOrderAbout({ models: ["b2b"], categories: ["b2b:dual"], relationships: ["rel:serving"] })).toBe("the buyer and user relationship");
+    });
+
+    it("says which differentiations the purposes chosen drive", () => {
+        expect(differentiationByPurpose([])).toBeNull();
+        expect(differentiationByPurpose(["compliance"])).toEqual({ cost: 0, convenience: 0, compliance: 2, premium: 0 });
+        expect(differentiationByPurpose(["growth", "protection"])).toEqual({ cost: 0, convenience: 2, compliance: 2, premium: 2 });
+        expect(differentiationByPurpose(["access"])).toEqual({ cost: 2, convenience: 2, compliance: 1, premium: 0 });
+        expect(differentiationByPurpose(["entertainment"])).toEqual({ cost: 0, convenience: 1, compliance: 0, premium: 2 });
     });
 });

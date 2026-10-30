@@ -590,3 +590,22 @@ Example paths from the seller and buyer relationship to the differentiation: B2C
 | Access and Social Support | ○ | ● | ● | ○ |
 
 **Relationship logic (the owner's notes):** a business partner or co-owner buys for the operations (Growth, Productivity, Everyday Needs); a business serving its clients is a B2B2C or agency path, where Learning and Development and Entertainment deliver experience to its clients; an employer surfaces workplace enablement (Learning, Health, Gifting); a professional intermediary and a sponsor or funder are gatekeepers (protection, compliance, Access and Social Support).
+
+**Which differentiations a purpose drives (the owner's matrix, 2026-10-30; the purposes chosen bring these differentiations first, nothing is hidden or chosen for the user)**
+
+| Purpose | Cost-driven | Convenience-driven | Compliance, Risk & Security | Status & Premium |
+|---|---|---|---|---|
+| Learning and Development | ○ | ● |  | ○ |
+| Health, Care and Wellbeing |  | ● | ○ |  |
+| Gifting and Appreciation |  | ○ |  | ● |
+| Entertainment and Enjoyment |  | ○ |  | ● |
+| Social Connection and Relationships |  | ● |  |  |
+| Productivity and Efficiency | ○ | ● |  |  |
+| Business Growth and Performance |  | ● |  | ● |
+| Creation and Expression |  | ● |  | ○ |
+| Everyday Needs and Convenience | ● | ● |  |  |
+| Protection and Risk Reduction |  |  | ● |  |
+| Compliance and Obligations |  |  | ● |  |
+| Access and Social Support | ● | ● | ○ |  |
+
+**Clusters (the owner's notes):** Protection and Compliance are about exposure, so they shape Compliance, Risk & Security; Business Growth and Entertainment are about expansion and prestige, so they shape Status & Premium or Convenience; Productivity and Everyday Needs are about time and friction, so they shape Convenience or Cost. The order inside a level stays as the audience scale and the buyer's category set it. The owner also suggested pre-selecting the matching boxes: the app only orders them, as it never chooses for the user (doc 33).
