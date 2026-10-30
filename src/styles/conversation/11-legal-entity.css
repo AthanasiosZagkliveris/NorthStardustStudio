@@ -1477,3 +1477,30 @@
     border-bottom:1px solid var(--line-divider);
 
 }
+
+/* THE QUESTIONS OF THE POSITIONING CARD ARE BANDS, as the channel card's parts are (the card's own label colour, 12%, on every other question; the others on the card's ground), each the column's whole width and the card's edge to the divider, no gap between, the words keeping their place. */
+.legal-entity-grid-organization.legal-entity-audience > .legal-entity-field{
+
+    gap:0;
+
+}
+
+.legal-entity-audience .legal-entity-org-set{
+
+    gap:0;
+
+}
+
+.legal-entity-audience .legal-entity-org-section{
+
+    margin:0 calc(-1 * var(--space-cell));
+
+    padding:var(--space-label) var(--space-cell) var(--space-cell);
+
+}
+
+.legal-entity-audience .legal-entity-org-band{
+
+    background:color-mix(in srgb, var(--label-color, var(--text-default)) 12%, transparent);
+
+}

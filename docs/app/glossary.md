@@ -97,7 +97,7 @@ Doc 28 is the questionnaire specification, doc 33 the first version, doc 34 what
 | Direct Buyer | Buys exclusively for personal use | Doc 33, section 5 |
 | Proxy Buyer | Buys exclusively on behalf of someone else; the payer is not the user. The built life-stage option "Proxy Buyers / Gifters" is the older form of it | Doc 33, section 5 |
 | Dual-Intent Buyer | Buys one offering for themselves and their dependents | Doc 33, section 5 |
-| Buyer's life stage | Students / Young Adults; Workers / Professionals / Adults; Seniors | Doc 33, section 5 |
+| Buyer's life stage | Students / Young Adults; Workers / Professionals; Seniors | Doc 33, section 5 |
 | User's life stage | Minors; Young Adults; Adults; Seniors (B2C only) | Doc 33, section 5 |
 | Detailed life stages, Dependent seniors | The fine stages (Infancy through Late Adolescence; Young, Established, Peak, Mature, Active Retirees); Dependent seniors are 74 and over; a future feature | Doc 31, 1 and 2; doc 34, item 8 |
 | Stage edge rule | "From X up to but not including Y": an age belongs to one stage only | Doc 31, 10.1 |

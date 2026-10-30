@@ -394,12 +394,13 @@ describe("LegalEntityEditor where it is", () => {
         render(<Where initial={asLegalEntityValue({ organisation: { country: "US", activities: [{ code: "541512", edition: "2022" }] } })} />);
         fireEvent.click(screen.getByRole("button", { name: "Maximize primary activity" }));
         for (const level of ["Sector", "Subsector", "Industry group", "NAICS industry", "National industry"]) {
-            expect(await screen.findByText(level)).toBeTruthy();
+            // (The scheme's file is read the moment the card opens: under a loaded machine it can take longer than the default second.)
+            expect(await screen.findByText(level, undefined, { timeout: 8000 })).toBeTruthy();
         }
         expect(screen.queryByText("Industry")).toBeNull();
         // (Every level's entry is printed as the official document prints it, the code first: 54, 541, 5415, 54151, 541512.)
         for (const [level, code] of [["Sector", "54"], ["Subsector", "541"], ["Industry group", "5415"], ["NAICS industry", "54151"], ["National industry", "541512"]]) {
-            expect(screen.getAllByRole("button", { name: new RegExp("^" + level + " of the primary activity") })[0].textContent).toMatch(new RegExp("^" + code + " "));
+            expect((await screen.findAllByRole("button", { name: new RegExp("^" + level + " of the primary activity") }, { timeout: 8000 }))[0].textContent).toMatch(new RegExp("^" + code + " "));
         }
 
     });

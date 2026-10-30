@@ -265,6 +265,9 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
     const differentiationShown = orderedByRelevance(differentiationOptions, differentiationByLifeStage(lifeBuyer, lifeUser));
     const outcomeShown = orderedByRelevance(orderedByRelevance(OUTCOMES, outcomeByPurpose(entity.organisation.purpose, entity.organisation.buyerCategory)), byLifeStage?.buyer ?? null);
     const userOutcomeShown = orderedByRelevance(orderedByRelevance(USER_OUTCOMES, userOutcomeByPurpose(entity.organisation.purpose)), byLifeStage?.user ?? null);
+    // THE QUESTIONS ARE BANDS, as the channel card's parts are: every other question of a column stands on a tint (the card's own label colour, 12%), the others on the card's ground, edge to edge, no gap between.
+    const bandsAt = { left: 0, right: 0 };
+    const band = (column: "left" | "right") => (bandsAt[column]++ % 2 === 1 ? " legal-entity-org-band" : "");
     const purposeOptions = orderedByRelevance(PURPOSES, relevance).filter(option => relevance === null || relevance[option.id] > 0 || entity.organisation.purpose.includes(option.id));
     // The left column asks every question before the purpose: the relationship, and for each relationship its audience, its buyer's category and, for a Proxy or Dual-Intent buyer, the buyer and user relationship and (consumer) the user's life stage. The right column asks the purpose, the differentiation and the outcomes.
     const audience = (
@@ -272,7 +275,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
 
             <div className="legal-entity-field">
 
-                <div className="legal-entity-org-section legal-entity-org-customer">
+                <div className={"legal-entity-org-section legal-entity-org-customer" + band("left")}>
                 {choice(
                     "Seller & Buyer Relationship",
                     "legal-entity-customer-type",
@@ -293,7 +296,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
 
                 {audienceSets.filter(set => audienceShown(set, models)).map(set => (
                     <div key={set.group} className="legal-entity-org-set">
-                    <div className="legal-entity-org-section legal-entity-org-audience">
+                    <div className={"legal-entity-org-section legal-entity-org-audience" + band("left")}>
                     {choice(
                         set.label,
                         set.group,
@@ -307,7 +310,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                     </div>
 
                     {models.includes(set.model) && (
-                        <div className="legal-entity-org-section legal-entity-org-audience">
+                        <div className={"legal-entity-org-section legal-entity-org-audience" + band("left")}>
                         {choice(
                             "Buyer's category" + suffix(set.model),
                             "legal-entity-buyer-category-" + set.model,
@@ -338,7 +341,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                 )}
                 {audienceSets.filter(set => models.includes(set.model) && endsUser(set.model)).map(set => (
                     <div key={set.group} className="legal-entity-org-set">
-                    <div className="legal-entity-org-section legal-entity-org-audience legal-entity-org-enduser">
+                    <div className={"legal-entity-org-section legal-entity-org-audience legal-entity-org-enduser" + band("left")}>
                     {choice(
                         "Buyer & User relationship" + suffix(set.model),
                         "legal-entity-enduser-relation-" + set.model,
@@ -355,7 +358,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                     </div>
 
                     {set.model === "b2c" && (
-                        <div className="legal-entity-org-section legal-entity-org-audience legal-entity-org-enduser">
+                        <div className={"legal-entity-org-section legal-entity-org-audience legal-entity-org-enduser" + band("left")}>
                         {choice(
                             "User's Life-Stage",
                             "legal-entity-enduser-life",
@@ -376,7 +379,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
 
                 {/* THE OFFERING (the purpose and the differentiation), then, under a double divider line, THE OUTCOME. */}
 
-                <div className="legal-entity-org-section legal-entity-org-outcome">
+                <div className={"legal-entity-org-section legal-entity-org-outcome" + band("right")}>
                 {choice(
                     "Purpose",
                     "legal-entity-purpose",
@@ -388,7 +391,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                 )}
                 </div>
 
-                <div className="legal-entity-org-section legal-entity-org-outcome">
+                <div className={"legal-entity-org-section legal-entity-org-outcome" + band("right")}>
                 {choice(
                     "Differentiation",
                     "legal-entity-differentiation",
@@ -402,7 +405,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
 
                 <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double" role="separator" />
 
-                <div className="legal-entity-org-section legal-entity-org-outcome">
+                <div className={"legal-entity-org-section legal-entity-org-outcome" + band("right")}>
                 {choice(
                     userHasOutcome ? "Outcome for the buyer" : "Outcome",
                     "legal-entity-outcome",
@@ -415,7 +418,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                 </div>
 
                 {userHasOutcome && (
-                    <div className="legal-entity-org-section legal-entity-org-outcome">
+                    <div className={"legal-entity-org-section legal-entity-org-outcome" + band("right")}>
                     {choice(
                         "Outcome for the user",
                         "legal-entity-outcome-user",

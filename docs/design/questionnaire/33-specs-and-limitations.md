@@ -56,7 +56,7 @@ The buyer's category no longer sits inside the life-stage list.
 
 **Buyer's life stage** (B2C):
 1. Students / Young Adults
-2. Workers / Professionals / Adults
+2. Workers / Professionals
 3. Seniors
 
 **Shown only for Proxy Buyers or Dual-Intent Buyers (a filter):**

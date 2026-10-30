@@ -94,7 +94,7 @@ export const AUDIENCE_SCALES = [
 /** Buyer's Life-Stage (a consumer buyer), one choice. The buyer's category (direct, proxy, dual-intent) is a question of its own. */
 export const LIFE_STAGES = [
     { id: "young", label: "Students / Young Adults" },
-    { id: "adult", label: "Workers / Professionals / Adults" },
+    { id: "adult", label: "Workers / Professionals" },
     { id: "senior", label: "Seniors" }
 ] as const;
 
@@ -371,7 +371,7 @@ export const INFO = {
     lifeStage: [
         "Limits the target group to a specific niche, aligning the startup with the corresponding sales cycle and the buyer's daily life.",
         "Students / Young Adults (Gen Z, students): they buy for themselves. Tech-savvy, low budget, sensitive to trends.",
-        "Workers / Professionals / Adults: they buy for themselves, with their own income. They seek time savings, convenience or status, and they decide inside a busy working life.",
+        "Workers / Professionals: they buy for themselves, with their own income. They seek time savings, convenience or status, and they decide inside a busy working life.",
         "Seniors: they buy for themselves, often with a fixed income and more time to compare. They have needs for accessibility, simplicity, trust and health support; a family member may help decide (then the buyer's category below is Proxy or Dual-Intent).",
         { title: "Based on", source: SOURCES.marketResearch },
         { title: "Also", source: SOURCES.brandPositioningStatement }

@@ -469,7 +469,7 @@ The buyer's life stage is a Student / Young Adult, a Worker (Adult) or a Senior 
 | Buyer's life stage | Cost-driven | Convenience-driven | Compliance, Risk & Security | Status & Premium |
 |---|---|---|---|---|
 | Students / Young Adults | ● | ● |  |  |
-| Workers / Professionals / Adults |  | ● | ● |  |
+| Workers / Professionals |  | ● | ● |  |
 | Seniors |  |  | ● | ● |
 
 For the outcomes the purposes counted are only those the life stage table lists as primary (Entertainment, Social Connection and Creation are not in it); two outcomes can tie, and then the list's own order decides.
