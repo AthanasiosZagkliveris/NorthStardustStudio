@@ -295,4 +295,4 @@ Grouped in batches F to K, so that you try the result once per batch.
 | 3 | H1 to H5 | Activities, Technical Support, Insurances and Certificates, channel templates, Legal Entity. |
 | 4 | I1 to I8 | Global Settings, Opening Date, billing types, cost nature, calculated lines, funds and the page 4 screens. |
 | 5 | J1 to J3 | Examples, specifications, tests, the layout check and your one visual pass. |
-| 6 | Batch D, then Batch E | After the structure is stable: scenarios store overrides keyed by field, and the helpers read the model, so both would break if the structure changed afterwards. |
+| 6 | Batch D, then Batch E | After the structure is stable: scenarios store overrides keyed by field, and the helpers read the model, so both would break if the structure changed afterwards. | **Brand Images blocks keep one look on hover (2026-10-31):** each uploaded picture of the Brand Images tile is drawn from a thumbnail sized to its block (`ThumbBlock`, block width × screen density × 1.1), and the tile keeps one raster layer (`will-change: transform`), so the picture no longer looks denser when the tile scales up on hover.

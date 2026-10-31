@@ -24,6 +24,7 @@ import {
 } from "../../../framework/engine/AnswerUtils.ts";
 import { railId } from "../rails/railItems.ts";
 import { inwardOrigin } from "../tiles/CardTile.tsx";
+import ThumbBlock from "../tiles/ThumbBlock.tsx";
 
 interface BrandInventoryEditorProps {
 
@@ -660,7 +661,7 @@ export default function BrandInventoryEditor({
             picture: inventory.images.some(image => image.dataUrl)
                 ? (
                     <span className="brand-mosaic brand-mosaic-images" style={{ "--mosaic-across": Math.ceil(Math.sqrt(inventory.images.length)), "--mosaic-rows": Math.ceil(inventory.images.length / Math.ceil(Math.sqrt(inventory.images.length))) } as CSSProperties}>
-                        {inventory.images.map((image, index) => <span key={index} className="brand-mosaic-image" data-card={imageId(index)} style={{ transformOrigin: inwardOrigin(index, inventory.images.length, Math.ceil(Math.sqrt(inventory.images.length))), ...(image.dataUrl ? { backgroundImage: "url(" + image.dataUrl + ")" } : {}) }} />)}
+                        {inventory.images.map((image, index) => <ThumbBlock key={index} className="brand-mosaic-image" data-card={imageId(index)} dataUrl={image.dataUrl} style={{ transformOrigin: inwardOrigin(index, inventory.images.length, Math.ceil(Math.sqrt(inventory.images.length))) }} />)}
                     </span>
                 )
                 : <span className="section-tile-picture-colour section-tile-picture-colour-empty">No images yet</span>,

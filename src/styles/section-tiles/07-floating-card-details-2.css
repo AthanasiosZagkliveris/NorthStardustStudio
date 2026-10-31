@@ -1298,3 +1298,10 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     font-size: var(--font-small);
 
 }
+
+/* THE BRAND IMAGES TILE GROWS AS ONE PICTURE: under the pointer its slot is scaled by the compositor from the picture drawn at rest (will-change keeps that raster, as the images' own layer was meant to), so a block under the pointer is the very picture it was, a tenth larger, and not the image drawn again with other pixels (a fine weave looked denser). */
+.section-tile-slot:has(.brand-mosaic-images) {
+
+    will-change: transform;
+
+}
