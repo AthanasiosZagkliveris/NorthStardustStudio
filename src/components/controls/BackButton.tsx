@@ -7,7 +7,7 @@ import { ButtonHTMLAttributes } from "react";
  */
 export default function BackButton({ className, children, ...rest }: ButtonHTMLAttributes<HTMLButtonElement>) {
     return (
-        <button type="button" {...rest} className={"back-button" + (className ? " " + className : "")}>
+        <button type="button" aria-label={typeof children === "string" ? children : "Back"} {...rest} className={"back-button" + (className ? " " + className : "")}>
             <span className="back-arrow" aria-hidden="true" />
             <span className="back-button-word">{children ?? "Back"}</span>
         </button>

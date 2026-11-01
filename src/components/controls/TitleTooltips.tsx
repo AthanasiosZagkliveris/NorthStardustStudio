@@ -21,8 +21,18 @@ const plain = (text: string) => text.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "
 /** What is pressed: rule 1. (A field, a tick, a tile, a card, a label is not here.) */
 const PRESSED = "button, a[href], summary, [role=button], [role=tab], [role=menuitem], [role=link]";
 
-/** The words an element shows. */
-const shown = (element: HTMLElement) => (element.textContent ?? "").trim();
+/** The words an element shows (a part hidden with display: none, as the word of a Back button is in a narrow window, is not shown: the control is then an icon, rule 2). */
+const shown = (element: HTMLElement): string => {
+    let text = "";
+    element.childNodes.forEach(node => {
+        if (node.nodeType === Node.TEXT_NODE) {
+            text += node.textContent ?? "";
+        } else if (node instanceof HTMLElement && getComputedStyle(node).display !== "none") {
+            text += shown(node);
+        }
+    });
+    return text.trim();
+};
 
 /** Rule 3: the words of the element, or of a part of it, run past its edge and are cut (side to side only; a part drawn only to measure is hidden). */
 const isCut = (element: HTMLElement) => [element, ...element.querySelectorAll<HTMLElement>("*")].some(node => {

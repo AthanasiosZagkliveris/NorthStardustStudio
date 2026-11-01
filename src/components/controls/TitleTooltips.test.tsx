@@ -58,4 +58,11 @@ describe("TitleTooltips", () => {
         expect(screen.queryByRole("tooltip")).toBeNull();
     });
 
+    it("gives a Back button that shows only its arrow (its word hidden in a narrow window) a tooltip", () => {
+        render(<><TitleTooltips /><button type="button" aria-label="Back" data-testid="back"><span aria-hidden="true" /><span style={{ display: "none" }}>Back</span></button></>);
+        const back = screen.getByTestId("back");
+        act(() => { fireEvent.pointerOver(back, { clientX: 10, clientY: 10 }); });
+        expect(screen.getByRole("tooltip").textContent).toBe("Click to go back");
+    });
+
 });
