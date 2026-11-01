@@ -784,6 +784,8 @@ main.conversation-content[data-reserve],
 
 }
 
+/* A tab too narrow to name its options (under 160px beside the card) keeps only the back arrow: the word would be cut off at the window's edge. */
+.carousel-rail:not(.carousel-rail-named) .carousel-rail-back .back-button-word,
 .carousel-rail:not(.carousel-rail-named) .carousel-rail-back-word {
 
     display: none;
