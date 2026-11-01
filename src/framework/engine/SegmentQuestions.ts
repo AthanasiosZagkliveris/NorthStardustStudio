@@ -22,8 +22,6 @@ export interface SegmentQuestion {
     options: readonly SegmentOption[];
     /** What its "i" says. */
     info: readonly string[];
-    /** A single tick that opens more questions (not hidden for having one option, never filled in for the user). */
-    toggle?: boolean;
 }
 
 /** What a Segment's questions follow: Identity's answers and the business stage. */
@@ -155,7 +153,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     {
         id: "education", box: "demographics", label: "What is the highest level of education they have reached?", many: false,
         options: [
-            { id: "school", label: "Up to high school" },
+            { id: "school", label: "Less than high school" },
             { id: "highschool", label: "High school" },
             { id: "vocational", label: "Vocational or technical diploma" },
             { id: "bachelor", label: "Bachelor" },
@@ -226,50 +224,6 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "women", label: "Mostly women (80%+)" }
         ],
         info: ["The share of your customers who are men or women. Choose Balanced mix when it does not matter for what you sell."]
-    },
-
-    {
-        id: "extras", box: "demographics", label: "Specialized needs", many: true, max: 1, toggle: true,
-        options: [{ id: "on", label: "Add specialized accessibility or caregiving profiles" }],
-        info: ["Optional. Opens questions about accessibility needs and caregiving roles, which help the later parts adapt what you offer."]
-    },
-    {
-        id: "access", box: "demographics", label: "Do they have specific accessibility or user needs?", many: false,
-        options: [
-            { id: "standard", label: "Standard needs" },
-            { id: "temporary", label: "Temporary needs (acute recovery, situational)" },
-            { id: "permanent", label: "Permanent needs (chronic or stable conditions)" }
-        ],
-        info: ["Temporary: short-term limitations, for example healing from surgery or acute medical recovery.", "Permanent: long-term or progressive conditions that affect the tools they use every day.", "Choosing temporary or permanent opens the functional categories."]
-    },
-    {
-        id: "access2", box: "demographics", label: "What is their primary functional limitation category?", many: true,
-        options: [
-            { id: "physical", label: "Physical and mobility needs (motor coordination, fine motor limitations)" },
-            { id: "sensory", label: "Sensory needs (visual impairments, hearing loss, sensory sensitivities)" },
-            { id: "cognitive", label: "Cognitive and neurodivergent needs (ADHD, autism, age-related slowing)" }
-        ],
-        info: ["Select all that apply, so that the later parts can adapt the accessibility of what you offer, digital and physical."]
-    },
-    {
-        id: "care", box: "demographics", label: "Do they balance high-intensity caregiving or family life roles?", many: false,
-        options: [
-            { id: "none", label: "No primary caregiving responsibilities" },
-            { id: "child", label: "Yes, primary childcare provider (parent or legal guardian of minors)" },
-            { id: "elder", label: "Yes, primary eldercare provider (aging parents or senior relatives)" },
-            { id: "special", label: "Yes, specialized care provider (spouse, sibling, or child with permanent needs)" },
-            { id: "sandwich", label: "Yes, \"Sandwich Generation\" provider (simultaneously balancing children and elders)" }
-        ],
-        info: ["The person mainly responsible for daily care and lifestyle choices.", "\"Sandwich Generation\" flags extreme time poverty across several generations of one household."]
-    },
-    {
-        id: "care2", box: "demographics", label: "What is their household or caregiving structure?", many: true, max: 2,
-        options: [
-            { id: "single", label: "Single-parent / Solo-caregiver household" },
-            { id: "multigen", label: "Multigenerational household (care is structurally shared with extended family)" },
-            { id: "shared", label: "Co-caregiver / Shared support (shares load with a partner or professional aides)" }
-        ],
-        info: ["Choose up to two. It describes the support around them at home."]
     },
 
     /* ---- Box 2, Geographics ---- */
@@ -576,18 +530,12 @@ export function segmentQuestionAsked(question: SegmentQuestion, answers: Segment
     const business = context.frame !== "people";
 
     switch (question.id) {
-        case "age": case "work": case "gender": case "extras":
+        case "age": case "work": case "gender":
             return people;
         case "work2":
             return people && has(answers, "work", "notworking");
         case "workenv": case "workschedule": case "workincome":
             return people && has(answers, "work", "working");
-        case "access": case "care":
-            return people && has(answers, "extras", "on");
-        case "access2":
-            return people && has(answers, "extras", "on") && (has(answers, "access", "temporary") || has(answers, "access", "permanent"));
-        case "care2":
-            return people && has(answers, "extras", "on") && (answers.care ?? []).some(id => id !== "none");
         case "education": case "income":
             return people && !has(answers, "age", "minor");
         case "area":
@@ -658,7 +606,7 @@ export function segmentOptions(question: SegmentQuestion, answers: SegmentAnswer
 /** The questions of one box a Segment is asked and shows, in order: a question with only one option left is not shown (there is nothing to choose); its answer is that option (see segmentSettle). */
 export function segmentQuestionsOf(box: SegmentBox, answers: SegmentAnswers, context: SegmentContext): SegmentQuestion[] {
     return QUESTIONS.filter(question => question.box === box && segmentQuestionAsked(question, answers, context)
-        && (question.toggle || segmentOptions(question, answers, context, false).length !== 1));
+        && segmentOptions(question, answers, context, false).length !== 1);
 }
 
 /** The answers after one question's choice changed: "They don't typically share" and the other ways exclude each other; ticks stay within their limit. */
@@ -721,7 +669,7 @@ export function segmentSettle(answers: SegmentAnswers, context: SegmentContext):
             const offered = segmentOptions(question, current, context, false).map(option => option.id);
 
             // The one option left is the answer, shown or not.
-            if (offered.length === 1 && !question.toggle) {
+            if (offered.length === 1) {
                 next[question.id] = [offered[0]];
                 continue;
             }

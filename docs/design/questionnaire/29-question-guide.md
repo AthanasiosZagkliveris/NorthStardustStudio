@@ -68,6 +68,8 @@ I6, I9 (price position withdrawn; ambition)   a check, asked after the first dra
 
 ### 2.2 Segment (the Segment card)
 
+> **Built since 2026-11-01:** the Segment card asks the questions of doc 36 (design in doc 28, 6.3a), not those of the tree below. What differs: the age is a stage term chosen from the life stage of Positioning (not a range, G6); the work situation is two questions with a branch for the working and one for the not working; G2 to G5 are one question and one check; G10 is five radios; G14, G15 and G23 are asked as doc 36 says (type, size, sector, industry); G16 is not a Segment question; the user is a part of the same card (not a second Profile), asked for a Proxy or Dual-Intent buyer; the habits are a handful of choice questions, the specific platforms, communities and events go to the Profile. The tree below is the earlier design and is kept for the branches it shows (the Profile questions, the reads).
+
 ```
 I3  Seller and Buyer Relationship   (asked in Identity; the Segment card only reads it)
  ├─ B2C ..................... ● Box 1 (G6 ...) · ○ Box 3

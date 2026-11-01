@@ -304,6 +304,8 @@ Each case is one Segment. The needs (comfort, safety, cost, prestige) are the ow
 
 **Multi-sided platforms.** A platform has two or more distinct groups that need each other, and one group's value grows with the number in the other [MSP-03]. The model above covers **who is who, and who pays**: each side is one Segment frame (one for each relationship in I3, with its own outcome in I7c). It does **not** model the dependence between the groups (how one side's size changes the other's value, the start-up problem of needing both sides, subsidising one side); that is listed in 11.6 as not built. A zero price is still a product: the European Commission's 2024 notice says a service supplied at no price does not mean there is no market [MSP-04]. The one-Segment-for-each-side rule is the owner's, not a finding of the sources.
 
+> **For the Profile (owner, 2026-11-02):** the specialized needs moved here from the Segment card, to be specified with the Profile's questions: *Do they have specific accessibility or user needs?* (standard, temporary, permanent), *What is their primary functional limitation category?* (physical and mobility, sensory, cognitive and neurodivergent; ticks), *Do they balance high-intensity caregiving or family life roles?* (none; childcare, eldercare, specialized care, sandwich generation) and *What is their household or caregiving structure?* (single-parent or solo caregiver, multigenerational, co-caregiver or shared support; up to two), behind one optional tick. The words are the owner's text of 2026-11-01.
+
 #### Box 1: Demographics (asked when the relationship includes B2C)
 
 **G6. What is the age range of the customer, the person who pays?** From … To … · Driver. Each band has an "i" line, written by age and development, never by work.
@@ -524,7 +526,7 @@ Every question is a radio (one answer) or ticks (several; a limit where stated),
 | # | Question | Options | Asked when |
 |---|---|---|---|
 | 1 | What age group are the people who pay? | Minors, semi-dependent ~13–18; Young adults ~18–25; Established ~25–40; Peak ~40–55; Mature ~55–65; Active Retirees ~65–75; Dependent seniors ~75+ (the approximate ages, with the "~", are in the option) | The terms of the buyer's life stage chosen in Positioning (Students / Young Adults: the first two; Workers / Professionals: the next three; Seniors: the last two; none chosen: all). The "i" gives the ages (doc 31, 10.1; a term runs from its first age up to but not including the second; Dependent seniors from 75, the owner's figure) |
-| 2 | What is the highest level of education they have reached? | Up to high school; High school; Vocational or technical diploma; Bachelor; Postgraduate (Master); Doctorate | Not for Minors. Each level includes the ones below |
+| 2 | What is the highest level of education they have reached? | Less than high school; High school; Vocational or technical diploma; Bachelor; Postgraduate (Master); Doctorate | Not for Minors. Each level includes the ones below |
 | 3 | What is their primary work status? | Working / Employed; Not currently working | Always. Choosing an age term starts it (established, peak, mature: Working; a minor or young adult: Not currently working and Student; a retiree: Not currently working and Retired) |
 | 3b | What is their primary working environment? | Desk-based / Remote; Desk-based / Corporate office; On-site / Frontline; Field-based / On-the-road | The primary work status is Working / Employed |
 | 3c | How is their working schedule structured? | Standard daytime hours; Shift work / Variable hours; Flexible / Self-directed hours | As 3b |
@@ -532,11 +534,6 @@ Every question is a radio (one answer) or ticks (several; a limit where stated),
 | 3a | Which best describes their non-working situation? | Student; Homemaker / Full-time caregiver; Unemployed / Seeking work; Retired; Unable to work / long-term illness / disability | "Not currently working" is chosen; "Retired" is not offered to Minors |
 | 4 | What is their household income? | Low; Lower-middle; Middle; Upper-middle; High | Not for Minors. Relative to the typical household income of the country |
 | 5 | What is the usual gender mix of your customers? | Mostly men; Leans men; Balanced mix; Leans women; Mostly women (the shares, 80%+, 60–80%, 40–60%, 60–80% and 80%+, in the "i") | Always |
-| 6 | Specialized needs (a tick: Add specialized accessibility or caregiving profiles) | the tick | Always; optional; opens the four questions below |
-| 6a | Do they have specific accessibility or user needs? | Standard needs; Temporary needs; Permanent needs | The tick is on |
-| 6b | What is their primary functional limitation category? (ticks) | Physical and mobility needs; Sensory needs; Cognitive and neurodivergent needs | Temporary or permanent needs |
-| 6c | Do they balance high-intensity caregiving or family life roles? | No primary caregiving responsibilities; Yes, primary childcare provider; Yes, primary eldercare provider; Yes, specialized care provider; Yes, "Sandwich Generation" provider | The tick is on |
-| 6d | What is their household or caregiving structure? (ticks, up to 2) | Single-parent / Solo-caregiver household; Multigenerational household; Co-caregiver / Shared support | Any "Yes" in 6c |
 
 **Box 3, Business Data** (asked when the buyer is a business, or not yet known and the box is ticked; for a business buyer it comes before Geographics)
 

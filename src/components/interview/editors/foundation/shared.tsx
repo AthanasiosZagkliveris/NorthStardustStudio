@@ -39,7 +39,7 @@ export const SUBSECTIONS = {
         boxNotes: {
             demographics: [
                 "Asked when the customers are people. The age groups offered follow the life stage chosen in Positioning, and the questions that do not apply to minors are not asked of them.",
-                "Choosing an age group starts the work situation with the one that goes with it, which you can change. The specialized needs are optional: tick them to describe accessibility needs and caregiving roles."
+                "Choosing an age group starts the work situation with the one that goes with it, which you can change."
             ],
             geographics: [
                 "Where most of your customers are, and, for customers in one place or one country, the kind of area they live or work in (asked once the business is managing or growing).",

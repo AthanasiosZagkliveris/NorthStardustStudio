@@ -50,7 +50,7 @@ describe("the Segment's questions", () => {
         const students = { ...OPEN, frame: "people" as const, lifeStages: ["young"] };
         expect(ids(segmentOptions(question("age"), {}, students))).toEqual(["minor", "young"]);
         expect(ids(segmentOptions(question("age"), {}, { ...students, lifeStages: ["senior"] }))).toEqual(["active", "dependent"]);
-        expect(ids(segmentQuestionsOf("demographics", { age: ["minor"] }, students))).toEqual(["age", "work", "gender", "extras"]);
+        expect(ids(segmentQuestionsOf("demographics", { age: ["minor"] }, students))).toEqual(["age", "work", "gender"]);
         expect(ids(segmentOptions(question("work2"), { age: ["minor"] }, students))).not.toContain("retired");
         expect(ids(segmentOptions(question("work2"), { age: ["peak"] }, students))).toContain("retired");
         expect(ids(segmentOptions(question("pay"), { age: ["minor"] }, students))).not.toContain("bnpl");
@@ -113,21 +113,16 @@ describe("the Segment's questions", () => {
         expect(work("peak", { work: ["notworking"] })).toEqual(["notworking"]);
     });
 
-    it("asks the non-working situation only when the person is not working, and the specialized needs only when asked for", () => {
+    it("asks the non-working situation only when the person is not working", () => {
         const people = { ...OPEN, frame: "people" as const };
-        expect(ids(segmentQuestionsOf("demographics", {}, people))).toEqual(["age", "education", "work", "income", "gender", "extras"]);
+        expect(ids(segmentQuestionsOf("demographics", {}, people))).toEqual(["age", "education", "work", "income", "gender"]);
         expect(ids(segmentQuestionsOf("demographics", { work: ["notworking"] }, people))).toContain("work2");
-        const on = { extras: ["on"] };
-        expect(ids(segmentQuestionsOf("demographics", on, people))).toEqual(["age", "education", "work", "income", "gender", "extras", "access", "care"]);
-        expect(ids(segmentQuestionsOf("demographics", { ...on, access: ["permanent"], care: ["elder"] }, people))).toEqual(["age", "education", "work", "income", "gender", "extras", "access", "access2", "care", "care2"]);
-        expect(segmentSettle({ ...on, access: ["standard"], access2: ["sensory"], care: ["none"], care2: ["single"] }, people)).toEqual({ ...on, access: ["standard"], care: ["none"] });
-        expect(segmentSettle({ access: ["permanent"], care: ["elder"] }, people)).toEqual({});
-        expect(segmentChoose(question("care2"), {}, ["single", "multigen", "shared"]).care2).toHaveLength(2);
+        expect(ids(segmentQuestionsOf("demographics", { work: ["working"] }, people))).not.toContain("work2");
     });
 
     it("asks the working environment, schedule and income structure of someone who is working", () => {
         const people = { ...OPEN, frame: "people" as const };
-        expect(ids(segmentQuestionsOf("demographics", { work: ["working"] }, people))).toEqual(["age", "education", "work", "workenv", "workschedule", "workincome", "income", "gender", "extras"]);
+        expect(ids(segmentQuestionsOf("demographics", { work: ["working"] }, people))).toEqual(["age", "education", "work", "workenv", "workschedule", "workincome", "income", "gender"]);
         expect(segmentSettle({ work: ["notworking"], work2: ["student"], workenv: ["remote"], workschedule: ["shift"], workincome: ["hourly"] }, people)).toEqual({ work: ["notworking"], work2: ["student"] });
         expect(segmentSettle({ work: ["working"], work2: ["student"], workenv: ["remote"] }, people)).toEqual({ work: ["working"], workenv: ["remote"] });
     });

@@ -192,7 +192,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                     fullList
                     label={question.label}
                     info={[...question.info]}
-                    labelNote={question.max !== undefined && !question.toggle ? <span className="business-foundation-tick-note">{question.max + " max"}</span> : undefined}
+                    labelNote={question.max !== undefined ? <span className="business-foundation-tick-note">{question.max + " max"}</span> : undefined}
                 >
                     {question.many
                         ? (

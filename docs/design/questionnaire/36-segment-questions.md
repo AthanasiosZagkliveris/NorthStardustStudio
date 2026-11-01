@@ -10,7 +10,7 @@ The rules that hold for all of them: a radio is one choice, ticks are several (w
 
 ## Box 1. Demographics
 
-The people who pay (the buyer is people, or the Segment has not ticked Business Data where the buyer is not known). Questions that have no answer for Minors are skipped for them. The last four questions are the optional specialized extension.
+The people who pay (the buyer is people, or the Segment has not ticked Business Data where the buyer is not known). Questions that have no answer for Minors are skipped for them. The specialized needs (accessibility and caregiving) are not asked here: they belong to the Profile, which is specified separately.
 
 ### 1. What age group are the people who pay?
 
@@ -34,7 +34,7 @@ The people who pay (the buyer is people, or the Segment has not ticked Business 
 - **Control:** one choice (a radio).
 - **Asked when:** The buyer is people, and the age is not Minors.
 - **Options:**
-  - Up to high school
+  - Less than high school
   - High school
   - Vocational or technical diploma
   - Bachelor
@@ -144,76 +144,6 @@ The people who pay (the buyer is people, or the Segment has not ticked Business 
   - Balanced mix: 40–60%
   - Leans women: 60–80%
   - Mostly women: 80%+
-
-### 10. Specialized needs
-
-- **Control:** one tick.
-- **Asked when:** The buyer is people. A tick that opens the four questions below; it is optional.
-- **Options:**
-  - Add specialized accessibility or caregiving profiles
-- **The "i" says:**
-  - Optional. Opens questions about accessibility needs and caregiving roles, which help the later parts adapt what you offer.
-
-### 11. Do they have specific accessibility or user needs?
-
-- **Control:** one choice (a radio).
-- **Asked when:** The specialized needs tick is on.
-- **Options:**
-  - Standard needs
-  - Temporary needs
-  - Permanent needs
-- **The "i" says:**
-  - Temporary: short-term limitations, for example healing from surgery or acute medical recovery.
-  - Permanent: long-term or progressive conditions that affect the tools they use every day.
-  - Choosing temporary or permanent opens the functional categories.
-  - Temporary needs: acute recovery, situational
-  - Permanent needs: chronic or stable conditions
-
-### 12. What is their primary functional limitation category?
-
-- **Control:** ticks, as many as apply.
-- **Asked when:** The needs are temporary or permanent.
-- **Options:**
-  - Physical and mobility needs
-  - Sensory needs
-  - Cognitive and neurodivergent needs
-- **The "i" says:**
-  - Select all that apply, so that the later parts can adapt the accessibility of what you offer, digital and physical.
-  - Physical and mobility needs: motor coordination, fine motor limitations
-  - Sensory needs: visual impairments, hearing loss, sensory sensitivities
-  - Cognitive and neurodivergent needs: ADHD, autism, age-related slowing
-
-### 13. Do they balance high-intensity caregiving or family life roles?
-
-- **Control:** one choice (a radio).
-- **Asked when:** The specialized needs tick is on.
-- **Options:**
-  - No primary caregiving responsibilities
-  - Yes, primary childcare provider
-  - Yes, primary eldercare provider
-  - Yes, specialized care provider
-  - Yes, "Sandwich Generation" provider
-- **The "i" says:**
-  - The person mainly responsible for daily care and lifestyle choices.
-  - "Sandwich Generation" flags extreme time poverty across several generations of one household.
-  - Yes, primary childcare provider: parent or legal guardian of minors
-  - Yes, primary eldercare provider: aging parents or senior relatives
-  - Yes, specialized care provider: spouse, sibling, or child with permanent needs
-  - Yes, "Sandwich Generation" provider: simultaneously balancing children and elders
-
-### 14. What is their household or caregiving structure?
-
-- **Control:** ticks, up to 2.
-- **Asked when:** The caregiving answer is any "Yes".
-- **Options:**
-  - Single-parent / Solo-caregiver household
-  - Multigenerational household
-  - Co-caregiver / Shared support
-- **The "i" says:**
-  - Choose up to two. It describes the support around them at home.
-  - Multigenerational household: care is structurally shared with extended family
-  - Co-caregiver / Shared support: shares load with a partner or professional aides
-
 
 ## Box 2. Geographics
 

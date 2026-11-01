@@ -32,8 +32,7 @@ describe.each([["Lumen & Loom Studio", lumen], ["Quillfield Automation LLC", qui
         expect(segmentSettle(segment.questions, context)).toEqual(segment.questions);
         // (A question with one option left is not shown, and holds that option as its answer: it is still asked.)
         const asked = SEGMENT_QUESTIONS.filter(question => segmentQuestionAsked(question, segment.questions, context)).map(question => question.id);
-        // (A tick that only opens more questions is optional.)
-        expect(asked.filter(id => !(segment.questions[id]?.length) && !SEGMENT_QUESTIONS.find(question => question.id === id)?.toggle)).toEqual([]);
+        expect(asked.filter(id => !(segment.questions[id]?.length))).toEqual([]);
         expect(Object.keys(segment.questions).filter(id => !asked.includes(id))).toEqual([]);
     });
 
