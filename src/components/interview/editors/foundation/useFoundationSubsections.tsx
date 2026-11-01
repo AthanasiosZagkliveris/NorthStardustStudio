@@ -10,7 +10,7 @@ import { BUSINESS_COMPETITOR_TYPES, BUSINESS_OFFERING_CATEGORIES, BusinessCompet
 import FieldRow from "../../fields/FieldRow.tsx";
 import { BusinessAddButton, BusinessCard, BusinessRemove, BusinessTicks } from "../../cards/BusinessCardFields.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
-import { type SegmentBox, type SegmentQuestion, segmentChoose, segmentOptions, segmentQuestionsOf, segmentSettle } from "../../../../framework/engine/SegmentQuestions.ts";
+import { type SegmentBox, type SegmentQuestion, segmentChoose, segmentOptions, segmentQuestionsOf, segmentRowChoice, segmentSettle, segmentSettledNotes } from "../../../../framework/engine/SegmentQuestions.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
 import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
 import NumberedListInput from "../../fields/NumberedListInput.tsx";
@@ -204,7 +204,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                             <RadioChoice
                                 label={question.label}
                                 group={segment.id + "-" + question.id}
-                                className="legal-entity-radio-stack"
+                                className={segmentRowChoice(question, options) ? "business-segment-row" : "legal-entity-radio-stack"}
                                 disabled={disabled}
                                 value={chosen[0] ?? ""}
                                 onChange={(next) => choose([next])}
@@ -214,19 +214,28 @@ export function useFoundationSubsections(earlier: Earlier) {
                 </FieldRow>
             );
         };
-        const questionsOf = (box: SegmentBox) => segmentQuestionsOf(box, segment.questions, asked).map(questionOf);
+        const settledNotes = (box: SegmentBox) => segmentSettledNotes(box, segment.questions, asked);
+        const questionsOf = (box: SegmentBox) => {
+            const notes = settledNotes(box);
+            const list = segmentQuestionsOf(box, segment.questions, asked).map(questionOf);
+            // (What Positioning or the answers above have set is said in one line, in the small note style the cards already use, so a hidden answer is never a silent one.)
+            return notes.length > 0
+                ? [<span key="settled" className="business-foundation-tick-note business-segment-settled">{"Set for you from Positioning and your answers above: " + notes.join("; ") + "."}</span>, ...list]
+                : list;
+        };
         /** A box's height in lines: its title, and each question's label and options. */
         const weightOf = (box: SegmentBox) => 2 + segmentQuestionsOf(box, segment.questions, asked).reduce((sum, question) => sum + 2 + segmentOptions(question, segment.questions, asked).length, 0);
 
         const segmentParts: DescriptionPart[] = SUBSECTIONS.segments.segmentDescription
-            .filter(part => !((frame === "people" && part.id === OPTIONAL_DESCRIPTION_PART) || (frame === "business" && part.id === "demographics")))
+            // (A Segment is one group: a business Segment has no Demographics, a people Segment no Business Data.)
+            .filter(part => !((frame === "people" && part.id === OPTIONAL_DESCRIPTION_PART) || (asked.frame === "business" && part.id === "demographics")))
             .map(part => part.id === "demographics"
                 ? { ...part, extra: [...SUBSECTIONS.segments.boxNotes[part.id], ...audienceLine(identity, PEOPLE_AUDIENCE)], questions: questionsOf("demographics"), weight: weightOf("demographics") }
                 : part.id === OPTIONAL_DESCRIPTION_PART
                     ? { ...part, extra: [...SUBSECTIONS.segments.boxNotes[part.id], ...audienceLine(identity, BUSINESS_AUDIENCE)], always: frame === "business", questions: questionsOf("business-data"), weight: weightOf("business-data") }
                     : { ...part, extra: SUBSECTIONS.segments.boxNotes[part.id], questions: questionsOf(part.id as SegmentBox), weight: weightOf(part.id as SegmentBox) })
             // A business buyer's Business Data comes before Geographics.
-            .sort((a, b) => frame === "business"
+            .sort((a, b) => asked.frame === "business"
                 ? Number(b.id === OPTIONAL_DESCRIPTION_PART) - Number(a.id === OPTIONAL_DESCRIPTION_PART)
                 : 0);
 

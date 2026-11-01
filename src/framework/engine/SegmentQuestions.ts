@@ -22,6 +22,8 @@ export interface SegmentQuestion {
     options: readonly SegmentOption[];
     /** What its "i" says. */
     info: readonly string[];
+    /** A short name for the notes that say what Positioning or the answers above set ("Size: Medium-sized business"). */
+    name?: string;
 }
 
 /** What a Segment's questions follow: Identity's answers and the business stage. */
@@ -157,7 +159,8 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         id: "age", box: "demographics", label: "What age group are the people who pay?", many: false,
         options: BUYER_AGES.map(({ id, label }) => ({ id, label })),
         info: [
-            "Minors, semi-dependent: Mid and Late Adolescence. They have limited buying power and mostly use cash, wallets and gift cards; credit and long contracts are not open to them. Look up the country's online-consent age and its minimum working age.",
+            "Minors, semi-dependent: Mid and Late Adolescence, with limited buying power; mostly cash, wallets and gift cards.",
+            "Credit and long contracts are not open to them. Look up the country's online-consent age and its minimum working age.",
             "Choose the group that pays, not the one that uses it.",
             AGE_NOTE
         ]
@@ -174,16 +177,17 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         ],
         info: [
             "Each level includes the ones below it: someone with a Master has a Bachelor.",
-            "Examples: High school is A-levels or the Leaving Certificate (UK, Ireland), a high school diploma (USA, Canada) and Year 12 (Australia, New Zealand). A vocational or technical diploma is a post-school qualification such as a BTEC, a trade certificate or an associate degree."
+            "High school: A-levels or the Leaving Certificate (UK, Ireland), a diploma (USA, Canada), Year 12 (Australia, New Zealand).",
+            "Vocational or technical diploma: a post-school qualification such as a BTEC, a trade certificate or an associate degree."
         ]
     },
     {
-        id: "work", box: "demographics", label: "What is their primary work status?", many: false,
+        id: "work", name: "Work status", box: "demographics", label: "What is their primary work status?", many: false,
         options: WORKING,
-        info: WORKING_INFO
+        info: [...WORKING_INFO, "Choosing an age group starts this with the one that goes with it; change it freely."]
     },
     {
-        id: "work2", box: "demographics", label: "Which best describes their non-working situation?", many: false,
+        id: "work2", name: "Non-working situation", box: "demographics", label: "Which best describes their non-working situation?", many: false,
         options: NOT_WORKING,
         info: NOT_WORKING_INFO
     },
@@ -195,7 +199,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "onsite", label: "On-site / Frontline (Retail, hospitality, healthcare, construction)" },
             { id: "field", label: "Field-based / On-the-road (Logistics, sales, field engineering)" }
         ],
-        info: ["Where they spend most of their working hours. Remote workers are online through the day; frontline and field workers are highly mobile but have little screen time during shifts."]
+        info: ["Where they spend most of their working hours.", "Remote workers are online through the day; frontline and field workers are mobile, with little screen time on shift."]
     },
     {
         id: "workschedule", box: "demographics", label: "How is their working schedule structured?", many: false,
@@ -213,7 +217,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "hourly", label: "Hourly wage (Fluctuating based on scheduled shifts)" },
             { id: "variable", label: "Variable / Performance-based (Freelance invoices, commission, seasonal contracts)" }
         ],
-        info: ["How steady their pay is, not how much it is (that is the household income below). A fixed salary suits regular subscriptions; variable or hourly earners are sensitive to sudden cash-flow dips."]
+        info: ["How steady their pay is, not how much it is (that is the household income below).", "A fixed salary suits regular subscriptions; variable or hourly earners feel sudden cash-flow dips."]
     },
     {
         id: "income", box: "demographics", label: "What is their household income?", many: false,
@@ -224,7 +228,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "upper-middle", label: "Upper-middle" },
             { id: "high", label: "High" }
         ],
-        info: ["Compare with the typical household income in their country: Middle is around the median, Low and High are the two ends, and Lower-middle and Upper-middle lie between.", "Household income is what the home earns together, not one person's pay."]
+        info: ["Compare with the typical household income in their country: Middle is around the median, Low and High are the ends.", "Household income is what the home earns together, not one person's pay."]
     },
     {
         id: "gender", box: "demographics", label: "What is the usual gender mix of your customers?", many: false,
@@ -264,7 +268,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     /* ---- Box 3, Business Data ---- */
 
     {
-        id: "orgtype", box: "business-data", label: "What type of organisation are they?", many: false,
+        id: "orgtype", name: "Type of organisation", box: "business-data", label: "What type of organisation are they?", many: false,
         options: ORG_TYPES,
         info: [
             "Private business includes co-operatives. A social enterprise belongs here or under non-profit, by how it is owned.",
@@ -274,9 +278,9 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         ]
     },
     {
-        id: "size", box: "business-data", label: "What is the size of the target organization?", many: false,
+        id: "size", name: "Size", box: "business-data", label: "What is the size of the target organization?", many: false,
         options: ORG_SIZES,
-        info: ["The EU's definition of small and medium-sized enterprises: micro under 10 employees, small under 50, medium-sized under 250. Countries define them a little differently (the United States and Canada by other limits)."]
+        info: ["The EU's definition of small and medium-sized enterprises: micro under 10 employees, small under 50, medium-sized under 250.", "Countries define them a little differently; the United States and Canada use other limits.", "The sizes follow the scale chosen in Positioning."]
     },
     {
         id: "sector", box: "business-data", label: "Which sector are they in?", many: false,
@@ -309,7 +313,8 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "algorithmic", label: "Algorithmic discovery (Feeds, targeted ads, marketplace recommendations)" }
         ],
         info: [
-            "Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn. What you tick here is offered on the Profile as related platforms to choose from.",
+            "Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn.",
+            "What you tick here is offered on the Profile as related platforms to choose from.",
             "Choose up to three."
         ]
     },
@@ -373,11 +378,12 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         info: [
             "Digital wallets are for example Apple Pay, Google Pay and PayPal. Buy Now, Pay Later is for example Klarna and Afterpay.",
             "Invoicing is asked for business customers only. Credit and Buy Now, Pay Later are not open to minors.",
+            "Choosing a phone as where they buy starts Digital wallets here; change it freely.",
             "Select all that apply."
         ]
     },
     {
-        id: "authorise", box: "purchasing", label: "How is the purchase decision authorized?", many: true,
+        id: "authorise", name: "Decision", box: "purchasing", label: "How is the purchase decision authorized?", many: true,
         options: [
             { id: "solo", label: "Sole practitioner decision: The end-user has full purchasing autonomy and budget." },
             { id: "champions", label: "End-user champions / Department consensus: Teams test the solution and push it upward." },
@@ -434,7 +440,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     /* ---- The user (a Proxy or Dual-Intent buyer) ---- */
 
     {
-        id: "u-age", box: "user", label: "What life stage is the user in?", many: false,
+        id: "u-age", name: "User's life stage", box: "user", label: "What life stage is the user in?", many: false,
         options: USER_AGES.map(({ id, label }) => ({ id, label })),
         info: [
             "Teenager covers Early Adolescence (11 to 13), Mid (13 to 16) and Late (16 to 18).",
@@ -442,7 +448,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         ]
     },
     {
-        id: "u-school", box: "user", label: "What school stage are they at?", many: false,
+        id: "u-school", name: "School stage", box: "user", label: "What school stage are they at?", many: false,
         options: [
             { id: "early", label: "Early years" },
             { id: "primary", label: "Primary school" },
@@ -652,6 +658,34 @@ export function segmentOptions(question: SegmentQuestion, answers: SegmentAnswer
         default:
             return question.options;
     }
+
+}
+
+/** Whether a radio's options are short enough to stand in a row (they wrap onto the next line where the column is narrow): the card draws the others one under the other. */
+export function segmentRowChoice(question: SegmentQuestion, options: readonly SegmentOption[]): boolean {
+    // (The words an option shows: what stands in brackets or after a colon is in the question's "i".)
+    const words = options.map(option => splitOption(option).option.label.length);
+    return !question.many && options.length >= 2 && options.length <= 6 && words.every(length => length <= 24) && words.reduce((sum, length) => sum + length, 0) <= 90;
+}
+
+/**
+ * What Positioning or the answers above have set in a box, in words, for the lines under its title ("From Positioning: Type of organisation: Self-employed"): a question asked of the Segment
+ * whose one option left is its answer, and the size of customers who are only freelancers (no employees). Nothing the user chose is repeated here.
+ */
+export function segmentSettledNotes(box: SegmentBox, answers: SegmentAnswers, context: SegmentContext): string[] {
+
+    const notes = QUESTIONS
+        .filter(question => question.box === box && segmentQuestionAsked(question, answers, context))
+        .flatMap(question => {
+            const options = segmentOptions(question, answers, context, false);
+            return options.length === 1 ? [(question.name ?? question.label) + ": " + options[0].label] : [];
+        });
+
+    if (box === "business-data" && onlySolo(context)) {
+        notes.push("Size: no employees");
+    }
+
+    return notes;
 
 }
 

@@ -21,7 +21,7 @@ describe("the buyer the Segment card follows", () => {
 
     it("makes a Segment of people of one that has not ticked Business Data, where the buyer is not known", () => {
         expect(segmentContextFor(identity([]), false).frame).toBe("people");
-        expect(segmentContextFor(identity([]), true).frame).toBe("open");
+        expect(segmentContextFor(identity([]), true).frame).toBe("business");
         expect(segmentContextFor(identity(["b2b"]), false).frame).toBe("business");
     });
 

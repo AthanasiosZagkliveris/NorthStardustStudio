@@ -83,14 +83,14 @@ export function segmentContext(identity: SegmentIdentity | undefined): SegmentCo
 }
 
 /**
- * The questions of ONE Segment: where Identity chose both relationships (or none), a Segment that has not ticked Business Data is a Segment of people, and one that has is asked both
- * (the people's questions and the business's). Otherwise the Segment follows Identity.
+ * The questions of ONE Segment: where Identity chose both relationships (or none), a Segment is a Segment of people until it ticks Business Data, and then a Segment of businesses (a Segment is one
+ * group: the people's questions and the business's are never asked of the same one). Otherwise the Segment follows Identity.
  */
 export function segmentContextFor(identity: SegmentIdentity | undefined, businessTicked: boolean): SegmentContext {
 
     const context = segmentContext(identity);
 
-    return context.frame === "open" && !businessTicked ? { ...context, frame: "people" } : context;
+    return context.frame === "open" ? { ...context, frame: businessTicked ? "business" : "people" } : context;
 
 }
 

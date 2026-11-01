@@ -1043,6 +1043,24 @@
 
 }
 
+/* A radio of short options stands in a row, wrapping onto the next line where the column is narrow (the options keep their one-line words); the others stand one under the other. */
+.radio-choice.business-segment-row{
+
+    flex-wrap:wrap;
+
+    gap:var(--gap-8) var(--gap-16);
+
+    padding-top:var(--space-label);
+
+}
+
+/* The line saying what Positioning set stands as the first band of its box, over the questions: small, and in the ink of the card's notes. */
+.business-segment-settled{
+
+    display:block;
+
+}
+
 @media (max-width: 900px){
 
     .legal-entity-grid-organization.legal-entity-audience.business-segment-grid{
