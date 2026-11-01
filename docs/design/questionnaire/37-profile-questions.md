@@ -58,62 +58,6 @@ The Segment's rule holds here: **a question that is no longer asked, or an optio
 
 The Profile is a card inside the Segment's Profiles list, opened as a floating card. It is built from the existing parts only, laid out as the Segment card and the Positioning card are (doc 36, 39): questions are bands (every other one tinted), each box has a title band on the primary fill with light letters and its "i", a divider line under each title and each question's label, a double rule between one box and the next, and a 1px divider down the middle of two columns. A card has no inner light and shade, only its drop shadow. Its colour is its tile's.
 
-```
-+--------------------------------------------------------------------------------------+
-| 1.  [ The Considered Nester ................................................ ]   [x] |  head: number, name cell, remove
-+--------------------------------------------------------------------------------------+
-| v Description (i)                                                                    |  group, folds
-|                                                                                      |
-| +---------------------------------------+  +---------------------------------------+ |
-| | SPECIFIC PERSONAL INFORMATION   (i)   |  | SOCIAL & INTEREST HUBS          (i)   | |  title bands, light letters
-| +---------------------------------------+  +---------------------------------------+ |
-| | A1 How old is this typical customer?  |  | C1 Which devices do they use?         | |  question bands, label + (i)
-| | [ 34 ]                                |  | [x] Smartphone  [ ] Laptop or desktop | |
-| +---------------------------------------+  |  [ ] Tablet  [ ] Shared  [ ] None     | |
-| | A2 What is their gender?              |  +---------------------------------------+ |
-| |  ( ) Woman  ( ) Man  ( ) Non-binary   |  | C2 Which social media do they use?    | |
-| |  ( ) Differently  ( ) Prefer not      |  |  [x] Instagram  [x] Pinterest  [ ] .. | |
-| +---------------------------------------+  +---------------------------------------+ |
-| | A3 What kind of work do they do?      |  | C3 Which communities do they join?    | |
-| |  ( ) Owner or senior executive        |  |  [ ] Facebook Group  [ ] Reddit ...   | |
-| |  ( ) Manager   ( ) Professional  ...  |  +---------------------------------------+ |
-| +---------------------------------------+  | C4 Which events do they go to?        | |
-| | A5 What part do they play? (business, |  |  [x] Market / Pop-up  [ ] Workshop .. | |
-| |    user, or minors only)              |  +---------------------------------------+ |
-| +---------------------------------------+  |                                       | |
-| | Notes  [ free text ................ ] |  | Notes  [ free text ................ ] | |  each box keeps its note
-| +=======================================+  +=======================================+ |  double rule between boxes
-| | PSYCHOGRAPHICS                  (i)   |  | INFORMATION & SHOPPING HABITS   (i)   | |
-| +---------------------------------------+  +---------------------------------------+ |
-| | B1 What do they care about? (3 max)   |  | D1 How do they compare options?       | |
-| |  [x] Trust and reputation  [ ] ...    |  |  [x] Reviews  [ ] Demo, trial ...     | |
-| |                                       |  +---------------------------------------+ |
-| |                                       |  | D2 How much help do they want?        | |
-| |                                       |  |  ( ) Alone  ( ) A little guidance ... | |
-| +---------------------------------------+  +---------------------------------------+ |
-| | Notes  [ ...                        ] |  | Notes  [ ...                        ] | |
-| +---------------------------------------+  +---------------------------------------+ |
-|                                                                                      |
-+======================================================================================+  double rule between groups
-| v Motivations (i)                                                                    |
-| +------------------------+  +------------------------+  +-------------------------+ |
-| | GOALS & DESIRES   (i)  |  | CHALLENGES & PROBLEMS  |  | OBJECTIONS         (i)  | |  three boxes, as the three notes today
-| | E1 What are they       |  | E2 What frustrates     |  | E3 What might stop      | |
-| |    trying to achieve?  |  |    them today?         |  |    them buying?         | |
-| |    (3 max)             |  |    (3 max)             |  |    (3 max)              | |
-| | Notes [ ...          ] |  | Notes [ ...          ] |  | Notes [ ...          ] | |
-| +------------------------+  +------------------------+  +-------------------------+ |
-+======================================================================================+
-| v Needs (i)                                                                          |
-| +------------------------+  +------------------------+  +-------------------------+ |
-| | FUNCTIONAL        (i)  |  | EMOTIONAL         (i)  |  | SOCIAL             (i)  | |  text lists, unchanged
-| | 1. Send an invoice in  |  | 1. Confidence the      |  | 1. Recognition for      | |
-| |    under a minute      |  |    maker will deliver  |  |    sustainable design   | |
-| | 2. [ add a need ]      |  | 2. [ add a need ]      |  | 2. [ add a need ]       | |
-| +------------------------+  +------------------------+  +-------------------------+ |
-+--------------------------------------------------------------------------------------+
-```
-
 **How it is built.**
 
 | Part | Existing component or rule |
