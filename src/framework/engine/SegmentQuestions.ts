@@ -685,6 +685,11 @@ export function segmentChoose(question: SegmentQuestion, answers: SegmentAnswers
         delete settled[question.id];
     }
 
+    // A starting value the user can change (owner, 2026-11-01): Digital wallets, where they buy on a phone and no way of paying is chosen yet.
+    if (question.id === "setting" && chosen.includes("mobile") && !settled.pay) {
+        settled.pay = ["wallet"];
+    }
+
     // A starting value the user confirms: the work situation that goes with the age term, where none is chosen yet.
     if (question.id === "age" && chosen.length > 0 && !settled.work) {
         const age = chosen[0];

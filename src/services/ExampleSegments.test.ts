@@ -16,12 +16,13 @@ describe.each([["Lumen & Loom Studio", lumen], ["Quillfield Automation LLC", qui
 
     const systems = example.systems as unknown as Record<string, { responses: { value: unknown }[] }>;
     const organisation = asLegalEntityValue(systems["1"].responses[2].value).organisation;
-    const identity = { relationships: organisation.customerType, marketType: organisation.marketType, audience: organisation.audience, buyerCategory: organisation.buyerCategory, endUser: organisation.endUser, stage: "plan" };
+    const currentStage = stageOf((example as unknown as { globalSettings: { openingDate: string } }).globalSettings.openingDate, new Date());
+    const identity = { relationships: organisation.customerType, marketType: organisation.marketType, audience: organisation.audience, buyerCategory: organisation.buyerCategory, endUser: organisation.endUser, stage: currentStage };
     const segments = asBusinessFoundationValue(systems["3"].responses[0].value).segments;
 
     // The Positioning answers of an example stand at its stage today and at every later one: where a stage allows fewer choices, the app empties the answer, and the example would then open with its Positioning blank.
     const stages = ["plan", "launch", "manage", "grow"] as const;
-    const today = stages.indexOf(stageOf((example as unknown as { globalSettings: { openingDate: string } }).globalSettings.openingDate, new Date()));
+    const today = stages.indexOf(currentStage);
     it.each(stages.slice(today))("keeps its Positioning answers at the %s stage", stage => {
         expect(fitPositioningToStage(organisation, stage)).toBe(organisation);
     });

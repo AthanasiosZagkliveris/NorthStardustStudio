@@ -111,6 +111,6 @@ Related: doc 39 (Early Positioning, the next tile, in the same form), doc 36 (th
 - **Connections:**
   - *Read by (built):* the Business Plan's company description and the exports.
 
-**Approved by the owner on 2026-11-01, not built:** (1) the Country starts from the browser's region, as a soft hint the user confirms, never an answer; (2) the Registration Date is not asked where the chosen legal form is not registered (a sole trader in the United Kingdom, a sole proprietorship in the United States).
+**Built on 2026-11-01 (owner's decision):** (1) the empty Country picker shows the country the browser suggests as a soft hint ("Select a country, for example United Kingdom"), from the language's region, else the time zone, for the six countries only; it is never chosen for the user (`BrowserRegion.ts`); (2) the Registration Date is not asked, not required and not checked where the legal form is a sole trader or a sole proprietorship in the six countries (`registrationDateApplies`); what is already saved stays.
 
 The Founders' questions (the capital tick, each founder's roles, hours and contribution) belong to the next tile of the page, not to this one.

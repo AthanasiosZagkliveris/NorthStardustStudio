@@ -49,7 +49,7 @@ describe("exporting the Foundation capability", () => {
         expect(outputs.strategy).toContain("Financial Resilience");
         expect(outputs.strategy).toContain("2.1.1 Launch the Trade Collection");
         expect(outputs.strategy).toContain("Goals & Objectives · Oct 2026 – Sep 2029");
-        expect(outputs.identity).toContain("Formation Date: 2 March 2026");
+        expect(outputs.identity).toContain("Formation Date: 2 March 2025");
     });
 
     test("the Funding Need table uses an em dash, not \"n/a\", for a $0 need's When", () => {

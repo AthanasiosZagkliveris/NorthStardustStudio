@@ -2,6 +2,7 @@
  * THE LEGAL ENTITY page.
  * Split out of AnswerUtils.ts (still importable from there).
  */
+import { registrationDateApplies } from "./LegalEntityJurisdictions.ts";
 import { parseAmount, parseDecimal } from "./Amounts.ts";
 import { asText, randomId } from "./Readers.ts";
 import { todayIsoDate } from "./AnswerProcess.ts";
@@ -562,7 +563,7 @@ export function legalEntitySectionsEmpty(value: unknown): boolean[] {
     const planned = entity.formation.status === "planned";
     const formationEmpty = planned
         ? entity.formation.authority.trim().length === 0
-        : entity.formation.date.trim().length === 0 ||
+        : (entity.formation.date.trim().length === 0 && registrationDateApplies(entity.organisation.country, entity.organisation.subdivision, entity.organisation.legalForm)) ||
             entity.formation.authority.trim().length === 0 ||
             entity.formation.registrationNumber.trim().length === 0;
 

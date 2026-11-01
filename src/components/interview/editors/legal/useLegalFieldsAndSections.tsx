@@ -2,6 +2,8 @@
  * THE FIELDS and the first two sections (Organization, Founders & Ownership).
  * One part of LegalEntityEditor (see LegalEntityEditor.tsx): what it needs of the parts before it comes in as `earlier`; what the parts after it need goes out.
  */
+import { currentBrowserCountryHint } from "../../../../framework/engine/BrowserRegion.ts";
+import { registrationDateApplies } from "../../../../framework/engine/LegalEntityJurisdictions.ts";
 import { ReactNode, useState } from "react";
 import FieldRow from "../../fields/FieldRow.tsx";
 import TickField from "../../../controls/TickField.tsx";
@@ -152,6 +154,10 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
     // other options once the limit is reached (no warning), with its limit beside the label ("2 max"). Saved with the organisation, as its other answers are.
     // (B2G, G2B and the multi-sided market are built and hidden: a future feature, document 34.)
     const stage = businessStage;
+    // The country the browser suggests (a soft hint in the empty picker, never chosen), and whether the legal form is registered as a company: a sole trader or sole proprietorship is not, so no Registration Date is asked.
+    const hintCode = currentBrowserCountryHint(FIRST_VERSION_COUNTRIES);
+    const countryHintName = hintCode ? sixCountries.find(country => country.code === hintCode)?.name ?? "" : "";
+    const registrationDateShown = registrationDateApplies(entity.organisation.country, entity.organisation.subdivision, entity.organisation.legalForm);
     // An "i" says only what holds at the business stage the user is in: the points about the other stages, and the sentences about what is locked or ideal while planning and launching, go.
     const early = stage !== "manage" && stage !== "grow";
     const forStage = (points: InfoPoint[]): InfoPoint[] => points
@@ -471,7 +477,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                     "Country",
                     <OptionPicker
                         label="Country"
-                        placeholder="Select a country"
+                        placeholder={countryHintName ? "Select a country, for example " + countryHintName : "Select a country"}
                         options={[...sixCountries.map(country => country.name), OTHER_OPTION]}
                         disabled={disabled}
                         value={inOther ? OTHER_OPTION : sixCountries.find(country => country.code === entity.organisation.country)?.name ?? ""}
@@ -618,6 +624,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
 
                 {/* The two dates of the opening, side by side: when the organization was registered (its own date, whether or not a registration number is given), and the day the business opens. */}
                 <div className="legal-entity-org-dates">
+                {registrationDateShown && (
                 <div className="legal-entity-org-section legal-entity-org-registration">
                     {labelled(
                         "Registration Date",
@@ -634,6 +641,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                         INFO.registrationDate
                     )}
                 </div>
+                )}
                 <div className="legal-entity-org-section legal-entity-org-opening">
                 {labelled(
                     "Opening Date",
@@ -646,7 +654,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                 </div>
 
                 {/* What cannot be: a registered company whose date has not come, and a company formed after the day the business opens. */}
-                {formationIssues(entity.formation, openingDate).map(issue => (
+                {formationIssues(registrationDateShown ? entity.formation : { date: "" }, openingDate).map(issue => (
                     <p key={issue} className="legal-entity-note-line settings-alarm" role="alert">{issue}</p>
                 ))}
 

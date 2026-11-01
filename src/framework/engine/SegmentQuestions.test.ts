@@ -127,6 +127,12 @@ describe("the Segment's questions", () => {
         expect(segmentSettle({ work: ["working"], work2: ["student"], workenv: ["remote"] }, people)).toEqual({ work: ["working"], workenv: ["remote"] });
     });
 
+    it("starts the way of paying from where they buy: Digital wallets on a phone, and leaves a chosen way alone", () => {
+        expect(segmentChoose(question("setting"), {}, ["mobile"]).pay).toEqual(["wallet"]);
+        expect(segmentChoose(question("setting"), {}, ["desktop"]).pay).toBeUndefined();
+        expect(segmentChoose(question("setting"), { pay: ["card"] }, ["mobile"]).pay).toEqual(["card"]);
+    });
+
     it("reads an older saved work situation as working or not, and the situation", () => {
         expect(asSegmentAnswers({ work: ["employed"] })).toEqual({ work: ["working"] });
         expect(asSegmentAnswers({ work: ["home"], "u-work": ["retired"] })).toEqual({ work: ["notworking"], work2: ["homemaker"], "u-work": ["notworking"], "u-work2": ["retired"] });

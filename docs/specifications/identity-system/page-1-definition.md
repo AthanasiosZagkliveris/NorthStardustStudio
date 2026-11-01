@@ -189,7 +189,7 @@ The business stage (Planning, Launching, Managing, Growing) is **not asked**: it
 | The ids, the words and the reader of older answers | `src/framework/engine/PositioningIds.ts`, `src/framework/engine/ActivityClassification.ts`, `src/framework/engine/AnswerLegal.ts` |
 | The tables that shape the lists | `src/framework/engine/PurposeRelevance.ts`, `src/framework/engine/RelationshipFit.ts` |
 | The countries and legal forms | `src/framework/engine/LegalEntityJurisdictions.ts` |
-| The examples (an organization with all four tiles filled: Lumen & Loom is a B2C business of Direct Buyers; Quillfield Automation is a direct B2B one; neither has a user group) | `src/data/examples/lumen-and-loom-studio.json`, `src/data/examples/quillfield-automation-llc.json` |
+| The examples (an organization with all four tiles filled: Lumen & Loom sells to people and to businesses, as Direct Buyers, and is in its Managing stage (opened 1 April 2025); Quillfield Automation is a direct B2B one, in Planning; neither has a user group) | `src/data/examples/lumen-and-loom-studio.json`, `src/data/examples/quillfield-automation-llc.json` |
 
 ## 12. Extra Information
 

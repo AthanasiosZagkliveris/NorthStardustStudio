@@ -74,8 +74,8 @@ In this order; a point that has nothing to say is left out.
 
 | Place | What its "i" holds | Size budget |
 |---|---|---|
-| **A question or field label** (a radio, ticks, a number, a date, a picker) | the structure above | 3 points of up to 2 sentences, and the option notes; about 300 characters beside them |
-| **A group of questions** (the box of a Description, a section of a tile: Demographics, Purchasing Power & Behaviour) | the owner's prompt first; then what the group asks **of whom**, and what its questions follow (the answers they follow, the stage) | 3 points; about 350 characters |
+| **A question or field label** (a radio, ticks, a number, a date, a picker) | the structure above | 3 points and the option notes; **a point of at most 160 characters** (owner, 2026-11-01) |
+| **A group of questions** (the box of a Description, a section of a tile: Demographics, Purchasing Power & Behaviour) | the owner's prompt first; then what the group asks **of whom**, and what its questions follow (the answers they follow, the stage) | 3 points, each at most 160 characters |
 | **A tile or a card title** (Segment Description, Early Positioning, an Offering) | the owner's instructions first; then, in one point, how the questions inside it come and go | the instructions plus 1 point |
 | **A column or page instruction** | the owner's text, as it is | as written |
 | **An option** | none: its meaning is a line in its question's "i" | none |
@@ -120,7 +120,17 @@ Words to avoid in an "i": *tile, card, locked, frozen, driver, check, Segment fr
 2. **The walk of doc 22 is the check.** It already measures each text. Flag, in the generated list: a text over its budget, a text with more points than its place allows, two labels with identical text, a text with a word of the avoid list. Today's flags would be the 31 over 500 characters, the 14 over 8 points and the 10 identical texts.
 3. **A stale prompt is a defect.** The owner's texts are changed only with the owner; the review lists the ones that no longer match what is asked (found on 2026-11-01: Demographics and Purchasing Power & Behaviour, and the Segment's first instruction against the stage limits; all three were reworded with the owner's word).
 
-## 4. For the owner to decide
+## 4. Decided (owner, 2026-11-01), and what was built
+
+1. **The size budget** is a point of **at most 160 characters**, for every place.
+2. **When texts are rewritten:** only when their field is next changed, one component at a time; the 31 over-long texts are not rewritten in one pass.
+3. **The avoid list** (an industry code, or a jargon acronym, in the text; the internal words) is built as a check on the walk of doc 22.
+4. **The standard phrases** stand as in 3.4: short, active fragments ("Choose the primary group that pays, not the one that uses it.").
+5. **The check lists warnings only; it never fails.** Doc 22 has a *Warnings* section (a point over 160 characters, the same text under several labels, an industry code, a jargon acronym, an internal word), written by `help-texts-doc.mjs`; the docs check does not read it.
+
+Nothing in this document is open except the first rewrite of each text, which waits for its field.
+
+**The questions as they were put (for the record):**
 
 1. **The budgets** (about 300 characters and 3 points for a field, 350 for a group): confirm, or set others.
 2. **"What it changes now"** as a point of its own, and the rule that future reads do not belong in an "i" (they stay in the documents).

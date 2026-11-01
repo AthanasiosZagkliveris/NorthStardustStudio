@@ -24,6 +24,87 @@ What was covered: every page of the four systems, every master tile opened, the 
 | floating card | 46 | 2 to 77 | 29 to 1740 |
 | page | 47 | 2 to 30 | 34 to 688 |
 
+## Warnings
+
+Listed, never failed (doc 40, 3.6). The budget is 160 characters a point; the avoid list is an industry code or a jargon acronym in the text, and the internal words tile, card, locked, frozen and driver.
+
+| Kind | Count |
+|---|---|
+| a point over 160 characters | 37 |
+| an internal word (tile, card, locked, frozen, driver) | 16 |
+| the same text under several labels | 12 |
+| a jargon acronym | 2 |
+
+| Kind | Label | Where | Found |
+|---|---|---|---|
+| a point over 160 characters (168) | Icon & Logo | Brand System / main page / Icon & Logo | PDF: a vector file for print: the format printers and sign makers usually ask for, so keep |
+| an internal word (tile, card, locked, frozen, driver) | Icon & Logo | Brand System / main page / Icon & Logo | cards |
+| the same text under 2 labels | Typography | Brand System / main page / Typography &Text HierarchyManr | Typography, Typography & Text Hierarchy |
+| the same text under 2 labels | Typography & Text Hierarchy | Brand System / main page / Typography &Text HierarchyManr | Typography, Typography & Text Hierarchy |
+| a point over 160 characters (169) | Geographics | Business System / 1. Foundation / Segment Description | Where most of your customers are, and, for customers in one place or one country, the kind |
+| a point over 160 characters (163) | Market Size & Industry Outlook | Business System / 1. Foundation / Segment Description | How large is this group? Where is this market heading: growth, key trends, changes in tech |
+| a point over 160 characters (226) | Profiles | Business System / 1. Foundation / Segment Description | Divide your Target Audience into segments, as many as your business stage allows (one whil |
+| a point over 160 characters (265) | Profiles | Business System / 1. Foundation / Segment Description | Each box asks choice questions. Which ones appear follows your Positioning (Identity): who |
+| the same text under 2 labels | Profiles | Business System / 1. Foundation / Segment Description | Profiles, Segment Description |
+| a point over 160 characters (227) | Purchasing Power & Behaviour | Business System / 1. Foundation / Segment Description | Some questions are for every customer (online comfort, where they discover ideas, where th |
+| a point over 160 characters (226) | Segment Description | Business System / 1. Foundation / Segment Description | Divide your Target Audience into segments, as many as your business stage allows (one whil |
+| a point over 160 characters (265) | Segment Description | Business System / 1. Foundation / Segment Description | Each box asks choice questions. Which ones appear follows your Positioning (Identity): who |
+| the same text under 2 labels | Segment Description | Business System / 1. Foundation / Segment Description | Profiles, Segment Description |
+| a point over 160 characters (215) | What is the size of the target organization? | Business System / 1. Foundation / Segment Description | The EU's definition of small and medium-sized enterprises: micro under 10 employees, small |
+| a point over 160 characters (201) | Where do they discover and validate new ideas? | Business System / 1. Foundation / Segment Description | Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Ins |
+| a point over 160 characters (165) | Which industry are they in? | Business System / 1. Foundation / Segment Description | Government and public administration includes embassies and international bodies. Other se |
+| a jargon acronym | Which industry are they in? | Business System / 1. Foundation / Segment Description | SIC |
+| an internal word (tile, card, locked, frozen, driver) | Channel | Business System / Customer Engagement / Social Media | card |
+| the same text under 2 labels | Channel | Business System / Customer Engagement / Social Media | Channel, Social Media |
+| an internal word (tile, card, locked, frozen, driver) | Social Media | Business System / Customer Engagement / Social Media | card |
+| the same text under 2 labels | Social Media | Business System / Customer Engagement / Social Media | Channel, Social Media |
+| an internal word (tile, card, locked, frozen, driver) | Social Media | Business System / Customer Engagement / Social Media | card |
+| the same text under 2 labels | Social Media | Business System / Customer Engagement / Social Media | Channel, Social Media |
+| the same text under 2 labels | 2. Customer Relationship | Business System / Customer Engagement / the page itself | 2. Customer Relationship, 3. Demand & Conversion |
+| the same text under 2 labels | 3. Demand & Conversion | Business System / Customer Engagement / the page itself | 2. Customer Relationship, 3. Demand & Conversion |
+| a point over 160 characters (201) | AI Workflow Audit | Business System / Customer Engagement / the page itself | Content & Scope: Two interviews, a review of up to eight core workflows and the software s |
+| a point over 160 characters (192) | AI Workflow Audit | Business System / Customer Engagement / the page itself | Purchase & Delivery: Booked through the website after a free 30-minute call; paid in full |
+| an internal word (tile, card, locked, frozen, driver) | AI Workflow Audit | Business System / Customer Engagement / the page itself | card |
+| a point over 160 characters (184) | AI Workflow Audit | Business System / Customer Engagement / the page itself | Two interviews, a review of up to eight core workflows and the software stack, a privacy a |
+| a point over 160 characters (171) | AI Workflow Audit | Business System / Customer Engagement / the page itself | Booked through the website after a free 30-minute call; paid in full upfront by QuickBooks |
+| an internal word (tile, card, locked, frozen, driver) | AI Workflow Audit | Business System / Customer Engagement / the page itself | card |
+| a point over 160 characters (184) | Automation Build | Business System / Customer Engagement / the page itself | Content & Scope: Two to four automations, testing with real cases, a privacy review, staff |
+| an internal word (tile, card, locked, frozen, driver) | Automation Build | Business System / Customer Engagement / the page itself | card |
+| a point over 160 characters (167) | Automation Build | Business System / Customer Engagement / the page itself | Two to four automations, testing with real cases, a privacy review, staff training and wri |
+| an internal word (tile, card, locked, frozen, driver) | Automation Build | Business System / Customer Engagement / the page itself | card |
+| a point over 160 characters (189) | Automation Care Retainer | Business System / Customer Engagement / the page itself | Content & Scope: Error monitoring and alerts, fixes within one business day, AI model and |
+| an internal word (tile, card, locked, frozen, driver) | Automation Care Retainer | Business System / Customer Engagement / the page itself | card |
+| a point over 160 characters (172) | Automation Care Retainer | Business System / Customer Engagement / the page itself | Error monitoring and alerts, fixes within one business day, AI model and prompt updates, o |
+| an internal word (tile, card, locked, frozen, driver) | Automation Care Retainer | Business System / Customer Engagement / the page itself | card |
+| a point over 160 characters (191) | Customer Source | Business System / Customer Engagement / the page itself | Repeat customers: Customers already won who buy again. Count the repeat purchases only, ne |
+| a point over 160 characters (191) | Customers Buy | Business System / Customer Engagement / the page itself | Every month, until they cancel: A subscription, membership or retainer. The sources give t |
+| a point over 160 characters (166) | Demand & Conversion | Business System / Customer Engagement / the page itself | Where this Offering’s customers come from, and so how many sales to expect. One source wit |
+| a point over 160 characters (270) | The Agency Founder | Business System / Customer Engagement / the page itself | Personal & Psychographics: Sam Okafor, 34, founder and creative director of a 9-person mar |
+| a point over 160 characters (188) | The Agency Founder | Business System / Customer Engagement / the page itself | Information & Shopping Habits: Discovers through LinkedIn posts and founder peers; books a |
+| a point over 160 characters (309) | The Stretched Operations Manager | Business System / Customer Engagement / the page itself | Personal & Psychographics: Dana Morales, 38, operations manager at a 22-person accounting |
+| a point over 160 characters (170) | The Stretched Operations Manager | Business System / Customer Engagement / the page itself | Social & Interest Hubs: LinkedIn, the firm's software vendor webinars, NYSSCPA events, loc |
+| a point over 160 characters (205) | The Stretched Operations Manager | Business System / Customer Engagement / the page itself | Information & Shopping Habits: Researches on LinkedIn and vendor sites, asks peers for rec |
+| a point over 160 characters (174) | The Stretched Operations Manager | Business System / Customer Engagement / the page itself | Researches on LinkedIn and vendor sites, asks peers for recommendations, needs a written p |
+| an internal word (tile, card, locked, frozen, driver) | Channel | Business System / Customer Engagement / Website | card |
+| the same text under 2 labels | Channel | Business System / Customer Engagement / Website | Channel, Website |
+| an internal word (tile, card, locked, frozen, driver) | Website | Business System / Customer Engagement / Website | card |
+| the same text under 2 labels | Website | Business System / Customer Engagement / Website | Channel, Website |
+| an internal word (tile, card, locked, frozen, driver) | Website | Business System / Customer Engagement / Website | card |
+| the same text under 2 labels | Website | Business System / Customer Engagement / Website | Channel, Website |
+| a point over 160 characters (162) | Buyer's category | Identity System / 1. Definition / Early Positioning | Proxy Buyers: purchasing exclusively on behalf of someone else. The payer is not the user |
+| a point over 160 characters (193) | Differentiation | Identity System / 1. Definition / Early Positioning | What the offering does differently from the competitors: where it hits exactly the blind s |
+| a point over 160 characters (334) | Outcome | Identity System / 1. Definition / Early Positioning | Lower costs: an immediate reduction in operating costs. Time saved: the execution time of |
+| a point over 160 characters (185) | Purpose | Identity System / 1. Definition / Early Positioning | Only the purposes that fit your answers above are offered: the primary ones first, then th |
+| a point over 160 characters (326) | Purpose | Identity System / 1. Definition / Early Positioning | Learning & Development. Health, Care & Wellbeing. Gifting & Appreciation. Entertainment & |
+| a point over 160 characters (203) | Seller & Buyer Relationship | Identity System / 1. Definition / Early Positioning | Who pays: focuses on the Economic Buyer who approves the budget, separating them from the |
+| a jargon acronym | Activities | Identity System / 1. Definition / Organization | NAICS |
+| a point over 160 characters (208) | Opening Date | Identity System / 1. Definition / Organization | The stage also sets the name of the Positioning tile and how many choices each of its ques |
+| an internal word (tile, card, locked, frozen, driver) | Opening Date | Identity System / 1. Definition / Organization | tile |
+| a point over 160 characters (178) | Registration Date | Identity System / 1. Definition / Organization | The day the organization was registered with the registry of its country. It is its own da |
+| an internal word (tile, card, locked, frozen, driver) | Expenses | Identity System / 2. Legal Entity / Expenses | cards |
+| an internal word (tile, card, locked, frozen, driver) | Expenses | Identity System / 2. Legal Entity / Expenses | cards |
+| a point over 160 characters (195) | Skills, Expertise & Qualifications | Identity System / 2. Legal Entity / Founders & Ownership | Add one entry for each, and choose its type: a skill, professional or technical expertise, |
+
 ## Every help text, by category and group
 
 ### Brand System / main page

@@ -44,11 +44,13 @@
               ],
               "businessStage": "",
               "customerType": [
-                "b2c"
+                "b2c",
+                "b2b"
               ],
               "marketType": "single",
               "audience": [
-                "adult"
+                "adult",
+                "smb"
               ],
               "differentiation": [
                 "premium"
@@ -58,7 +60,8 @@
               ],
               "outcomeUser": [],
               "buyerCategory": [
-                "b2c:direct"
+                "b2c:direct",
+                "b2b:direct"
               ],
               "purpose": [
                 "gifting",
@@ -105,7 +108,7 @@
             ],
             "formation": {
               "status": "registered",
-              "date": "2026-03-02",
+              "date": "2025-03-02",
               "authority": "Companies House",
               "registrationNumber": "16234587",
               "additionalNumbers": [
@@ -504,6 +507,9 @@
                   "reach": [
                     "region"
                   ],
+                  "area": [
+                    "urban"
+                  ],
                   "comfort": [
                     "savvy"
                   ],
@@ -696,7 +702,9 @@
                 "id": "segment-majxtl1u",
                 "hue": 214,
                 "name": "Interior Designers & Boutique Hospitality",
-                "description": {},
+                "description": {
+                  "business-data": ""
+                },
                 "questions": {
                   "age": [
                     "established"
@@ -725,6 +733,21 @@
                   "reach": [
                     "country"
                   ],
+                  "area": [
+                    "urban"
+                  ],
+                  "orgtype": [
+                    "private"
+                  ],
+                  "size": [
+                    "small"
+                  ],
+                  "sector": [
+                    "tech"
+                  ],
+                  "industry": [
+                    "professional"
+                  ],
                   "comfort": [
                     "moderate"
                   ],
@@ -750,6 +773,9 @@
                   "pay": [
                     "card",
                     "wallet"
+                  ],
+                  "authorise": [
+                    "solo"
                   ],
                   "trajectory": [
                     "growing"
@@ -5440,7 +5466,7 @@
   "financialSustainabilityPageInserted": true,
   "legacyBusinessPagesRetired": true,
   "globalSettings": {
-    "openingDate": "2026-10-01",
+    "openingDate": "2025-04-01",
     "onCostRate": "",
     "channelFees": [
       {

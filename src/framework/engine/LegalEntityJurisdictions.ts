@@ -988,6 +988,22 @@ export function legalFormOptions(
 /** The six countries of the first published version, by code: the United Kingdom, Ireland, the USA, Canada, Australia and New Zealand. Any other country is "Other" (document 33, section 3). */
 export const FIRST_VERSION_COUNTRIES: readonly string[] = ["GB", "IE", "US", "CA", "AU", "NZ"];
 
+/**
+ * WHETHER A REGISTRATION DATE IS ASKED (owner, 2026-11-01): not where the legal form is not registered as a company, which in the six countries of the first version is the sole trader or sole proprietorship
+ * (one owner by law, no capital). The date is then not asked, not required and not checked. Any other form, and any other country, is asked.
+ */
+export function registrationDateApplies(countryCode: string, subdivision: string, legalForm: string): boolean {
+
+    if (!FIRST_VERSION_COUNTRIES.includes(countryCode)) {
+        return true;
+    }
+
+    const form = legalFormOptions(countryCode, subdivision).find(option => option.label === legalForm);
+
+    return !(form?.soleFounder === true && form.capital === false);
+
+}
+
 /** The legal forms of a country that is not one of the six (the owner's list, document 33): the same five whatever the country. */
 export const GENERIC_LEGAL_FORMS: LegalFormOption[] = [
     { label: "Sole Proprietorship", capital: false, soleFounder: true },

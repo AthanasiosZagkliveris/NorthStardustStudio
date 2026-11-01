@@ -15,7 +15,7 @@ const where = row => {
     const group = (parts.find(part => part.startsWith("tile ")) ?? "the page itself").replace(/^tile /, "");
     return { category, group };
 };
-const list = rows.map(row => ({ ...row, ...where(row), text: cell(row.text) }))
+const list = rows.map(row => ({ ...row, ...where(row), raw: row.text, text: cell(row.text) }))
     .sort((a, b) => a.category.localeCompare(b.category) || a.group.localeCompare(b.group) || a.label.localeCompare(b.label) || a.place.localeCompare(b.place));
 
 const range = values => values.length ? (Math.min(...values) === Math.max(...values) ? String(values[0]) : Math.min(...values) + " to " + Math.max(...values)) : "-";
@@ -29,6 +29,32 @@ for (const row of list) {
     if (!byPlace.has(row.place)) byPlace.set(row.place, []);
     byPlace.get(row.place).push(row);
 }
+
+/*
+    THE WARNINGS (doc 40, 3.6; the owner, 2026-11-01): listed, never failed. A point of more than 160 characters; the same text under more than one label; a raw industry code, or a jargon acronym, in the text.
+    A word of the avoid list is a warning, not a block: the texts are the owner's, and are rewritten when their field is next changed.
+*/
+const POINT_BUDGET = 160;
+const AVOID = [
+    ["an industry code in the text", /\b(?:SIC|NACE|NAICS|ANZSIC|ISIC)\b[^.\n]{0,24}\d|\b\d{2}\.\d{2}\b|\b\d{5,6}\b/],
+    ["a jargon acronym", /\b(?:NACE|NAICS|ANZSIC|ISIC|ISCO|SIC|ICLS)\b/],
+    ["an internal word (tile, card, locked, frozen, driver)", /\b(?:tile|tiles|card|cards|locked|frozen|driver)\b/i]
+];
+const sameText = new Map();
+for (const row of list) sameText.set(row.text, new Set([...(sameText.get(row.text) ?? []), row.label]));
+const warnings = [];
+for (const row of list) {
+    for (const point of String(row.raw).split("\n")) {
+        if (point.length > POINT_BUDGET) warnings.push([row, "a point over " + POINT_BUDGET + " characters (" + point.length + ")", point]);
+    }
+    for (const [name, pattern] of AVOID) {
+        const found = pattern.exec(row.text);
+        if (found) warnings.push([row, name, found[0]]);
+    }
+    if (sameText.get(row.text).size > 1) warnings.push([row, "the same text under " + sameText.get(row.text).size + " labels", [...sameText.get(row.text)].join(", ")]);
+}
+const warningKinds = new Map();
+for (const [, kind] of warnings) warningKinds.set(kind.replace(/ \(\d+\)$/, "").replace(/under \d+ labels/, "under several labels"), (warningKinds.get(kind.replace(/ \(\d+\)$/, "").replace(/under \d+ labels/, "under several labels")) ?? 0) + 1);
 
 const md = [
     "# 22. The help texts",
@@ -50,6 +76,18 @@ const md = [
     "| Opens in | Help texts | Rows | Characters |",
     "|---|---|---|---|",
     ...[...byPlace].map(([name, items]) => "| " + name + " | " + items.length + " | " + range(items.map(r => r.lines)) + " | " + range(items.map(r => r.chars)) + " |"),
+    "",
+    "## Warnings",
+    "",
+    "Listed, never failed (doc 40, 3.6). The budget is " + POINT_BUDGET + " characters a point; the avoid list is an industry code or a jargon acronym in the text, and the internal words tile, card, locked, frozen and driver.",
+    "",
+    "| Kind | Count |",
+    "|---|---|",
+    ...[...warningKinds].map(([kind, count]) => "| " + kind + " | " + count + " |"),
+    "",
+    "| Kind | Label | Where | Found |",
+    "|---|---|---|---|",
+    ...warnings.map(([row, kind, found]) => "| " + kind + " | " + cell(row.label) + " | " + row.category + " / " + row.group + " | " + cell(String(found).slice(0, 90)) + " |"),
     "",
     "## Every help text, by category and group",
     ""
