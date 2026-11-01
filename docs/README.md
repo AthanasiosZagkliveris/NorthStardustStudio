@@ -18,7 +18,7 @@ Status: **index**, updated 2026-11-01. One line per document: where it is, what 
 3. [The design and its records (`design/core/`, documents 1 to 7)](#3-the-design-and-its-records-designcore-documents-1-to-7)
 4. [The library (`design/library/`, documents 8 to 15)](#4-the-library-designlibrary-documents-8-to-15)
 5. [The current design (`design/current/`, documents 16 to 26)](#5-the-current-design-designcurrent-documents-16-to-26)
-6. [The first version and the questionnaire (`design/questionnaire/`, documents 27 to 40)](#6-the-first-version-and-the-questionnaire-designquestionnaire-documents-27-to-40)
+6. [The first version and the questionnaire (`design/questionnaire/`, documents 27 to 41)](#6-the-first-version-and-the-questionnaire-designquestionnaire-documents-27-to-41)
 7. [Rules for the assistant](#7-rules-for-the-assistant-ai)
 8. [The specifications](#8-the-specifications-specifications)
 9. [The archive](#9-the-archive-archive)
@@ -90,9 +90,9 @@ What the app is today in detail: the texts, the reactions, the shared components
 | [design/current/25-folder-plan.md](design/current/25-folder-plan.md) | current design | The folders of the repository: the app files, the examples, the working files and the exports, and the documents folder. | 2026-10-29 |
 | [design/current/26-card-structure.md](design/current/26-card-structure.md) | current design | Card structure: what the user can reach in each card, row by row, and why. The structure tables and the catalogue record are generated from it. | 2026-10-29 |
 
-## 6. The first version and the questionnaire (`design/questionnaire/`, documents 27 to 40)
+## 6. The first version and the questionnaire (`design/questionnaire/`, documents 27 to 41)
 
-What the first published version contains (read 33 first; it governs), what it leaves for later (34), and the questions, the lists and the research behind them. Reading order: 33, 34, then 27 (the plan), 28 (every question and rule), 29 (the flow), 35 (the lists and classifications), 31 and 32 (the positioning decisions and their sources), 30 (age limits), then 38, 39 and 36 (the Organization, Positioning and Segment as built), 37 (the Profile, proposed) and 40 (what a help text says).
+What the first published version contains (read 33 first; it governs), what it leaves for later (34), and the questions, the lists and the research behind them. Read in this order. **What governs:** 33 (the first version), 34 (what is left for later). **The tiles, one document each (41 gives the form and the list):** 38 (the Organization), 39 (Positioning), 36 (the Segment), 37 (the Profile, proposed). **How to word them:** 40 (what an "i" says) and, in 28, sections 3 and 4 (the rules and the plain wording). **The design behind them:** 28 (every question, the connections and the evidence), 29 (the flow), 27 (the plan). **The lists and the data:** 35 (the lists and classifications), 31 and 32 (the positioning decisions and their sources), 30 (age limits).
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
@@ -109,6 +109,7 @@ What the first published version contains (read 33 first; it governs), what it l
 | [design/questionnaire/38-organization-fields.md](design/questionnaire/38-organization-fields.md) | specification | The Organization tile's fields as built: control, when asked, options, the help and the connections. | 2026-11-01 |
 | [design/questionnaire/39-positioning-questions.md](design/questionnaire/39-positioning-questions.md) | specification | The Positioning tile's questions as built, by stage: control, limits, options, the help and the connections. | 2026-11-01 |
 | [design/questionnaire/40-help-texts-guide.md](design/questionnaire/40-help-texts-guide.md) | proposal | What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check. | 2026-11-01 |
+| [design/questionnaire/41-tile-documents.md](design/questionnaire/41-tile-documents.md) | proposal | The form every tile document takes (one for each tile or card), and where each tile stands: which has a document and which does not yet. | 2026-11-01 |
 | [design/questionnaire/35-lists-and-classifications.md](design/questionnaire/35-lists-and-classifications.md) | proposal | The countries, the shared lists, the national crosswalks, the industry lists, the activity cascade, the codes and the classification data (section 5 of the former questionnaire specification). | 2026-10-30 |
 
 ## 7. Rules for the assistant (`ai/`)
