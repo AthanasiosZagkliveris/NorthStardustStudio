@@ -100,8 +100,9 @@ A typical person of the Segment, asked specifically.
   - Prefer not to say
 - **The "i" would say:** Asked only when the Segment's mix leans one way. The categories follow the Australian standard for sex and gender [SEX-01]. Optional: nothing reads it but the note and the equality notice.
 - **Connections:**
-  - *Comes from:* the Segment's gender mix.
-  - *Read by (not built yet):* the Review (the gender should fit the mix); the equality notice.
+  - *Comes from:* the Segment's gender mix. When it leans one way (60 to 80%) or is mostly one way (80%+), A2 **starts** as Woman or Man, a starting value the user can change; the question stays visible, because a Segment holds up to three Profiles and one of them can be the minority. When the mix is Balanced the question is not asked: gender does not matter for what is sold.
+  - *Read by (not built yet):* the Review (a gender that does not fit the mix is noted, never cleared); the equality notice.
+  - *When the Segment's mix changes (owner, 2026-11-01):* a gender chosen on a Profile is **never cleared** because the mix flips (a man in a Segment that leans women is a real case); the Review notes it. Only when the mix becomes Balanced is the question no longer asked, and its answer is then removed on the next choice, as for any question no longer asked.
 
 ### A3. What kind of work do they do?
 
@@ -296,7 +297,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 | A3 job level | the Segment's customers are self-employed | Owner or senior executive |
 | A5 part in the purchase | the Segment's decision is "Sole practitioner decision" | all five roles ticked |
 
-**Starting values the user can change (owner, 2026-11-01).** D1 and D2 start from the Segment's path to purchase and online comfort (a Researcher: reviews; a Social validator: what other people recommend; Tech-savvy: they work it out themselves; Tech-averse: they want to talk to a person); D2 starts at a formal proposal where the Segment's decision includes a formal procurement loop; A2 starts from the Segment's gender mix when it is 80% or more one way; C1 as in 5. Impulse buyers skip D1.
+**Starting values the user can change (owner, 2026-11-01).** D1 and D2 start from the Segment's path to purchase and online comfort (a Researcher: reviews; a Social validator: what other people recommend; Tech-savvy: they work it out themselves; Tech-averse: they want to talk to a person); D2 starts at a formal proposal where the Segment's decision includes a formal procurement loop; A2 starts from the Segment's gender mix when it leans (60 to 80%) or is mostly (80%+) one way, and stays visible; C1 as in 5. Impulse buyers skip D1.
 
 **One list for the job levels.** A3 and the Segment's user question ("What job level do they have?") take the same six levels, written once (`JOB_LEVELS`, `SegmentQuestions.ts`), so the words never differ between the two cards or the exports.
 
