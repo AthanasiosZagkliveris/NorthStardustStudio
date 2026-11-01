@@ -228,16 +228,51 @@ export function useFoundationSubsections(earlier: Earlier) {
 
         const segmentParts: DescriptionPart[] = SUBSECTIONS.segments.segmentDescription
             // (A Segment is one group: a business Segment has no Demographics, a people Segment no Business Data.)
-            .filter(part => !((frame === "people" && part.id === OPTIONAL_DESCRIPTION_PART) || (asked.frame === "business" && part.id === "demographics")))
+            .filter(part => !((asked.frame === "people" && part.id === OPTIONAL_DESCRIPTION_PART) || (asked.frame === "business" && part.id === "demographics")))
             .map(part => part.id === "demographics"
                 ? { ...part, extra: [...SUBSECTIONS.segments.boxNotes[part.id], ...audienceLine(identity, PEOPLE_AUDIENCE)], questions: questionsOf("demographics"), weight: weightOf("demographics") }
                 : part.id === OPTIONAL_DESCRIPTION_PART
-                    ? { ...part, extra: [...SUBSECTIONS.segments.boxNotes[part.id], ...audienceLine(identity, BUSINESS_AUDIENCE)], always: frame === "business", questions: questionsOf("business-data"), weight: weightOf("business-data") }
+                    ? { ...part, extra: [...SUBSECTIONS.segments.boxNotes[part.id], ...audienceLine(identity, BUSINESS_AUDIENCE)], always: true, questions: questionsOf("business-data"), weight: weightOf("business-data") }
                     : { ...part, extra: SUBSECTIONS.segments.boxNotes[part.id], questions: questionsOf(part.id as SegmentBox), weight: weightOf(part.id as SegmentBox) })
             // A business buyer's Business Data comes before Geographics.
             .sort((a, b) => asked.frame === "business"
                 ? Number(b.id === OPTIONAL_DESCRIPTION_PART) - Number(a.id === OPTIONAL_DESCRIPTION_PART)
                 : 0);
+
+        // Where Positioning chose both relationships (or none) the Segment says which it is, People (B2C) first, then Businesses (B2B): the one question that opens its first box.
+        // (The choice is kept as the presence of the Business Data key, as the old tick was, so a saved Segment reads as it did.)
+        if (frame === "open" && segmentParts.length > 0) {
+            const isBusiness = segment.description[OPTIONAL_DESCRIPTION_PART] !== undefined;
+            const kindOptions = [{ id: "people", label: "People (B2C)" }, { id: "business", label: "Businesses (B2B)" }];
+            const kindQuestion = (
+                <FieldRow
+                    key="kind"
+                    pair
+                    fullList
+                    label="Who is this Segment's customer?"
+                    info={["The Segment is one group: people, or businesses.", "Choosing one changes the questions asked; answers that no longer apply are removed."]}
+                >
+                    <RadioChoice
+                        label="Who is this Segment's customer?"
+                        group={segment.id + "-kind"}
+                        className="business-segment-row"
+                        disabled={disabled}
+                        value={isBusiness ? "business" : "people"}
+                        onChange={(next) => {
+                            const description = { ...segment.description };
+                            if (next === "business") {
+                                description[OPTIONAL_DESCRIPTION_PART] = description[OPTIONAL_DESCRIPTION_PART] ?? "";
+                            } else {
+                                delete description[OPTIONAL_DESCRIPTION_PART];
+                            }
+                            updateSegment(segmentIndex, { description, questions: segmentSettle(segment.questions, segmentContextFor(identity, next === "business")) });
+                        }}
+                        options={kindOptions}
+                    />
+                </FieldRow>
+            );
+            segmentParts[0] = { ...segmentParts[0], questions: [kindQuestion, ...(segmentParts[0].questions ?? [])], weight: (segmentParts[0].weight ?? 0) + 3 };
+        }
 
         // The user of a Proxy or Dual-Intent buyer: described in the same card.
         if (asked.endsUser) {

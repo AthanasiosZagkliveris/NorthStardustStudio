@@ -4,7 +4,7 @@ Status: **specification**, written 2026-11-01, updated 2026-11-01. Every questio
 
 Related: doc 28 (6.3a, the design and the reads not built yet), doc 31 (the age terms), doc 33 (the first version), doc 34 (thoughts, section 6), `src/framework/engine/SegmentQuestions.ts` (where these words are kept; where the two differ, the code is right).
 
-The rules that hold for all of them: a radio is one choice, ticks are several (with a limit where stated); an option says its few words, and what is added in brackets or after a colon (an example, a range, an explanation, a platform or brand) is in the "i" of the question; a box has no free-text note; where they buy on a phone ("Mobile app / Smartphone website") and no way of paying is chosen yet, "Digital wallets" starts ticked, a starting value the user can change; a question that the answers above settle is **answered for the user and not shown** (owner, 2026-11-01): the Positioning scale of a business buyer sets the organisation's type and size; a self-employed customer decides alone; a retiree is not working and retired; a user's age sets the school stage and removes the work and tool questions that do not apply. A question with only one option left is likewise not shown (there is nothing to choose) and its answer is that option; an answer to a question that is no longer asked, or to an option no longer offered, is removed when the next choice is made. Where Identity chose both relationships (or none), a Segment that has not ticked Business Data is a Segment of people and is asked the people's questions only; one that has ticked it is a Segment of businesses and is asked the business's questions only (a Segment is one group, never both). What Positioning or the answers above have set in a box is said in one small line under its title ("Set for you from Positioning and your answers above: Size: no employees."), so an answer that is not asked is never silent. A radio whose options are short (each of 24 characters or fewer, 90 in all) stands in a row, wrapping where the column is narrow; the others stand one under the other. The starting values (the work situation from the age group, a wallet from a phone) are said in the "i". Where Identity chose no relationship, the buyer is read from the buyer's category, then from the audience (a business scale is a business buyer, a life stage a person). Choosing an age term starts the work situation with the one that goes with it (a minor or a young adult: Student; an established, peak or mature adult: Employed; a retiree: Retired) where none is chosen; the user changes it freely. The two columns are of nearly one height: the boxes are shared between them by their length, each column keeping the order of the boxes. The card is laid out as the Positioning card is (two columns with a divider, each question a band, a double rule between boxes). The box titles are in capitals.
+The rules that hold for all of them: a radio is one choice, ticks are several (with a limit where stated); an option says its few words, and what is added in brackets or after a colon (an example, a range, an explanation, a platform or brand) is in the "i" of the question; a box has no free-text note; where they buy on a phone ("Mobile app / Smartphone website") and no way of paying is chosen yet, "Digital wallets" starts ticked, a starting value the user can change; a question that the answers above settle is **answered for the user and not shown** (owner, 2026-11-01): the Positioning scale of a business buyer sets the organisation's type and size; a self-employed customer decides alone; a retiree is not working and retired; a user's age sets the school stage and removes the work and tool questions that do not apply. A question with only one option left is likewise not shown (there is nothing to choose) and its answer is that option; an answer to a question that is no longer asked, or to an option no longer offered, is removed when the next choice is made. Where Identity chose both relationships (or none), a Segment says who its customer is in the first question of its first box ("Who is this Segment's customer?": People (B2C), then Businesses (B2B)), and there is no Business Data tick (owner, 2026-11-02); a Segment of people is asked the people's questions only, one of businesses and is asked the business's questions only (a Segment is one group, never both). What Positioning or the answers above have set in a box is said in one small line under its title ("Set for you from Positioning and your answers above: Size: no employees."), so an answer that is not asked is never silent. A radio whose options are short (each of 24 characters or fewer, 90 in all) stands in a row, wrapping where the column is narrow; the others stand one under the other. The starting values (the work situation from the age group, a wallet from a phone) are said in the "i". Where Identity chose no relationship, the buyer is read from the buyer's category, then from the audience (a business scale is a business buyer, a life stage a person). Choosing an age term starts the work situation with the one that goes with it (a minor or a young adult: Student; an established, peak or mature adult: Employed; a retiree: Retired) where none is chosen; the user changes it freely. The two columns are of nearly one height: the boxes are shared between them by their length, each column keeping the order of the boxes. The card is laid out as the Positioning card is (two columns with a divider, each question a band, a double rule between boxes). The box titles are in capitals.
 
 
 
@@ -13,7 +13,7 @@ The rules that hold for all of them: a radio is one choice, ticks are several (w
 
 ## Box 1. Demographics
 
-The people who pay (the buyer is people, or the Segment has not ticked Business Data where the buyer is not known). Questions that have no answer for Minors are skipped for them. The specialized needs (accessibility and caregiving) are not asked here: they belong to the Profile, which is specified in doc 37.
+The people who pay (the buyer is people, or the Segment's customer is People where Positioning chose both relationships). Questions that have no answer for Minors are skipped for them. The specialized needs (accessibility and caregiving) are not asked here: they belong to the Profile, which is specified in doc 37.
 
 ### 1. What age group are the people who pay?
 
@@ -227,7 +227,7 @@ Both.
 
 ## Box 3. Business Data
 
-The buyer is a business, or not yet known and the box is ticked. For a business buyer this box comes before Geographics.
+The buyer is a business, or the Segment's customer is Businesses where Positioning chose both relationships. For a business buyer this box comes before Geographics.
 
 ### 1. What type of organisation are they?
 
@@ -245,7 +245,7 @@ The buyer is a business, or not yet known and the box is ticked. For a business 
   - Self-employed skips the question about size.
   - Private business: For-profit
 - **Connections:**
-  - *Comes from:* Early Positioning: the seller and buyer relationship (business), or the Business Data tick.
+  - *Comes from:* Early Positioning: the seller and buyer relationship (business), or the Segment's customer question.
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* The tender row for a public body on the Customer Engagement page; the Profile's kind of business.
 
@@ -321,7 +321,7 @@ The buyer is a business, or not yet known and the box is ticked. For a business 
 
 ## Box 4. Purchasing Power & Behaviour
 
-Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6. Part C (every Segment): 7 and 8. Part D (the buyer is a business): 9. A Segment that has not ticked Business Data, where the buyer is not known, is asked parts A, B and C; one that has ticked it, part D and the questions that are not about people.
+Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6. Part C (every Segment): 7 and 8. Part D (the buyer is a business): 9. A Segment of people is asked parts A, B and C; one of businesses, part D and the questions that are not about people.
 
 ### 1. How comfortable are they with online tools?
 
