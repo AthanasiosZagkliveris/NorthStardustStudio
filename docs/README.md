@@ -18,7 +18,7 @@ Status: **index**, updated 2026-11-01. One line per document: where it is, what 
 3. [The design and its records (`design/core/`, documents 1 to 7)](#3-the-design-and-its-records-designcore-documents-1-to-7)
 4. [The library (`design/library/`, documents 8 to 15)](#4-the-library-designlibrary-documents-8-to-15)
 5. [The current design (`design/current/`, documents 16 to 26)](#5-the-current-design-designcurrent-documents-16-to-26)
-6. [The first version and the questionnaire (`design/questionnaire/`, documents 27 to 35)](#6-the-first-version-and-the-questionnaire-designquestionnaire-documents-27-to-35)
+6. [The first version and the questionnaire (`design/questionnaire/`, documents 27 to 40)](#6-the-first-version-and-the-questionnaire-designquestionnaire-documents-27-to-40)
 7. [Rules for the assistant](#7-rules-for-the-assistant-ai)
 8. [The specifications](#8-the-specifications-specifications)
 9. [The archive](#9-the-archive-archive)
@@ -84,15 +84,15 @@ What the app is today in detail: the texts, the reactions, the shared components
 | [design/current/19-text-links.md](design/current/19-text-links.md) | generated | The text link: look and behaviour, from the code and the walk of the app. | 2026-10-30 |
 | [design/current/20-free-text-categories.md](design/current/20-free-text-categories.md) | current design | Free texts in four categories: the categories, the owner's decisions, the proposed limits and what is still to build. | 2026-10-29 |
 | [design/current/21-shared-components.md](design/current/21-shared-components.md) | current design | Which components are shared, with their props, and what is still hand-made. | 2026-10-30 |
-| [design/current/22-help-texts.md](design/current/22-help-texts.md) | generated | The help texts of the app, from the walk of the running app. | 2026-10-30 |
+| [design/current/22-help-texts.md](design/current/22-help-texts.md) | generated | The help texts of the app, from the walk of the running app. | 2026-11-01 |
 | [design/current/23-popups.md](design/current/23-popups.md) | current design | Pop-ups in six categories, with their placement rules and the order of fallbacks. | 2026-10-29 |
 | [design/current/24-tooltips.md](design/current/24-tooltips.md) | current design | Which controls have a tooltip, what it says, its look and its rules. This document owns the tip. | 2026-10-29 |
 | [design/current/25-folder-plan.md](design/current/25-folder-plan.md) | current design | The folders of the repository: the app files, the examples, the working files and the exports, and the documents folder. | 2026-10-29 |
 | [design/current/26-card-structure.md](design/current/26-card-structure.md) | current design | Card structure: what the user can reach in each card, row by row, and why. The structure tables and the catalogue record are generated from it. | 2026-10-29 |
 
-## 6. The first version and the questionnaire (`design/questionnaire/`, documents 27 to 35)
+## 6. The first version and the questionnaire (`design/questionnaire/`, documents 27 to 40)
 
-What the first published version contains (read 33 first; it governs), what it leaves for later (34), and the questions, the lists and the research behind them. Reading order: 33, 34, then 27 (the plan), 28 (every question and rule), 29 (the flow), 35 (the lists and classifications), 31 and 32 (the positioning decisions and their sources), 30 (age limits).
+What the first published version contains (read 33 first; it governs), what it leaves for later (34), and the questions, the lists and the research behind them. Reading order: 33, 34, then 27 (the plan), 28 (every question and rule), 29 (the flow), 35 (the lists and classifications), 31 and 32 (the positioning decisions and their sources), 30 (age limits), then 38, 39 and 36 (the Organization, Positioning and Segment as built), 37 (the Profile, proposed) and 40 (what a help text says).
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
@@ -104,6 +104,11 @@ What the first published version contains (read 33 first; it governs), what it l
 | [design/questionnaire/32-positioning-sources.md](design/questionnaire/32-positioning-sources.md) | research | The sources behind each positioning list of doc 31, what has none, and the pages checked. | 2026-10-29 |
 | [design/questionnaire/33-specs-and-limitations.md](design/questionnaire/33-specs-and-limitations.md) | specification | The first published version: language, countries, legal forms, market structure, relationships, buyer and user, ages. It governs the other questionnaire documents. | 2026-11-01 |
 | [design/questionnaire/34-future-features.md](design/questionnaire/34-future-features.md) | living list | Everything that is not in the first published version: other languages and countries, multi-sided, B2G, G2B, the detailed positioning data, age rules, research to do. | 2026-11-01 |
+| [design/questionnaire/36-segment-questions.md](design/questionnaire/36-segment-questions.md) | specification | The Segment card's questions as built: every question and option in order, when it is asked, what its help says and what it comes from and is read by. | 2026-11-01 |
+| [design/questionnaire/37-profile-questions.md](design/questionnaire/37-profile-questions.md) | proposal | The Profile card's questions as proposed, in the form of document 36: nothing repeated from the Segment; the specialized needs, devices, social media, communities and events are there. | 2026-11-01 |
+| [design/questionnaire/38-organization-fields.md](design/questionnaire/38-organization-fields.md) | specification | The Organization tile's fields as built: control, when asked, options, the help and the connections. | 2026-11-01 |
+| [design/questionnaire/39-positioning-questions.md](design/questionnaire/39-positioning-questions.md) | specification | The Positioning tile's questions as built, by stage: control, limits, options, the help and the connections. | 2026-11-01 |
+| [design/questionnaire/40-help-texts-guide.md](design/questionnaire/40-help-texts-guide.md) | proposal | What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check. | 2026-11-01 |
 | [design/questionnaire/35-lists-and-classifications.md](design/questionnaire/35-lists-and-classifications.md) | proposal | The countries, the shared lists, the national crosswalks, the industry lists, the activity cascade, the codes and the classification data (section 5 of the former questionnaire specification). | 2026-10-30 |
 
 ## 7. Rules for the assistant (`ai/`)

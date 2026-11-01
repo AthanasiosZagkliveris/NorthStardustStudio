@@ -1,8 +1,8 @@
-# The first version and the questionnaire (documents 27 to 35)
+# The first version and the questionnaire (documents 27 to 40)
 
 Status: **index**, updated 2026-11-01. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
 
-What the first published version contains (read 33 first; it governs), what it leaves for later (34), and the questions, the lists and the research behind them. Reading order: 33, 34, then 27 (the plan), 28 (every question and rule), 29 (the flow), 35 (the lists and classifications), 31 and 32 (the positioning decisions and their sources), 30 (age limits).
+What the first published version contains (read 33 first; it governs), what it leaves for later (34), and the questions, the lists and the research behind them. Reading order: 33, 34, then 27 (the plan), 28 (every question and rule), 29 (the flow), 35 (the lists and classifications), 31 and 32 (the positioning decisions and their sources), 30 (age limits), then 38, 39 and 36 (the Organization, Positioning and Segment as built), 37 (the Profile, proposed) and 40 (what a help text says).
 
 The standard for these documents is [the standard of the documents](../../standard.md); the contents of all the documents are [README.md](../../README.md) and the alphabetical index is [index.md](../../index.md).
 
@@ -16,4 +16,9 @@ The standard for these documents is [the standard of the documents](../../standa
 | [32-positioning-sources.md](32-positioning-sources.md) | research | The sources behind each positioning list of doc 31, what has none, and the pages checked. | 2026-10-29 |
 | [33-specs-and-limitations.md](33-specs-and-limitations.md) | specification | The first published version: language, countries, legal forms, market structure, relationships, buyer and user, ages. It governs the other questionnaire documents. | 2026-11-01 |
 | [34-future-features.md](34-future-features.md) | living list | Everything that is not in the first published version: other languages and countries, multi-sided, B2G, G2B, the detailed positioning data, age rules, research to do. | 2026-11-01 |
+| [36-segment-questions.md](36-segment-questions.md) | specification | The Segment card's questions as built: every question and option in order, when it is asked, what its help says and what it comes from and is read by. | 2026-11-01 |
+| [37-profile-questions.md](37-profile-questions.md) | proposal | The Profile card's questions as proposed, in the form of document 36: nothing repeated from the Segment; the specialized needs, devices, social media, communities and events are there. | 2026-11-01 |
+| [38-organization-fields.md](38-organization-fields.md) | specification | The Organization tile's fields as built: control, when asked, options, the help and the connections. | 2026-11-01 |
+| [39-positioning-questions.md](39-positioning-questions.md) | specification | The Positioning tile's questions as built, by stage: control, limits, options, the help and the connections. | 2026-11-01 |
+| [40-help-texts-guide.md](40-help-texts-guide.md) | proposal | What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check. | 2026-11-01 |
 | [35-lists-and-classifications.md](35-lists-and-classifications.md) | proposal | The countries, the shared lists, the national crosswalks, the industry lists, the activity cascade, the codes and the classification data (section 5 of the former questionnaire specification). | 2026-10-30 |
