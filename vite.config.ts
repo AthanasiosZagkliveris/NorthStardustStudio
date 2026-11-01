@@ -26,7 +26,8 @@ export default defineConfig(async () => ({
       : undefined,
     watch: {
       // 3. tell Vite to ignore watching `src-tauri`
-      ignored: ["**/src-tauri/**"],
+      // (and .claude: a worktree there has its own index.html and tsconfig, which Vite would watch, and removing it clears the dependency cache of the running server)
+      ignored: ["**/src-tauri/**", "**/.claude/**"],
     },
   },
 }));
