@@ -8,9 +8,12 @@ The rules that hold for all of them: a radio is one choice, ticks are several (w
 
 
 
+
+**Connections.** Under each question: *Comes from* is what it takes from Identity or from the Segment's own earlier answers (built); *Read by* is what reads it. Built: the Market document and the export list every answer, the Business Plan's Market Analysis counts as covered when a market question is answered, and the Segment's own questions follow one another as stated. *Not built yet* is what the design plans to read it (doc 28, 6.3a and 6.5; doc 34, section 6): until it is built, nothing else reads the answer.
+
 ## Box 1. Demographics
 
-The people who pay (the buyer is people, or the Segment has not ticked Business Data where the buyer is not known). Questions that have no answer for Minors are skipped for them. The specialized needs (accessibility and caregiving) are not asked here: they belong to the Profile, which is specified separately.
+The people who pay (the buyer is people, or the Segment has not ticked Business Data where the buyer is not known). Questions that have no answer for Minors are skipped for them. The specialized needs (accessibility and caregiving) are not asked here: they belong to the Profile, which is specified in doc 37.
 
 ### 1. What age group are the people who pay?
 
@@ -28,6 +31,10 @@ The people who pay (the buyer is people, or the Segment has not ticked Business 
   - Minors, semi-dependent: Mid and Late Adolescence. They have limited buying power and mostly use cash, wallets and gift cards; credit and long contracts are not open to them. Look up the country's online-consent age and its minimum working age.
   - Choose the group that pays, not the one that uses it.
   - The ages are approximate (~): each runs from the first number up to, but not including, the second.
+- **Connections:**
+  - *Comes from:* Early Positioning: the buyer's life stage (the terms offered) and the seller and buyer relationship (people).
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* The Profile's typical age is chosen within this group, and the Profiles proposed follow it; the Review checks the online-consent ages.
 
 ### 2. What is the highest level of education they have reached?
 
@@ -44,6 +51,10 @@ The people who pay (the buyer is people, or the Segment has not ticked Business 
   - Each level includes the ones below it: someone with a Master has a Bachelor.
   - Examples: High school is A-levels or the Leaving Certificate (UK, Ireland), a high school diploma (USA, Canada) and Year 12 (Australia, New Zealand). A vocational or technical diploma is a post-school qualification such as a BTEC, a trade certificate or an associate degree.
   - Postgraduate: Master
+- **Connections:**
+  - *Comes from:* This Segment's age (not asked of Minors).
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* The order of the Profile's job levels.
 
 ### 3. What is their primary work status?
 
@@ -55,6 +66,10 @@ The people who pay (the buyer is people, or the Segment has not ticked Business 
 - **The "i" says:**
   - Working includes full-time, part-time, contract and self-employed roles.
   - Not currently working opens a second question about their main daily role.
+- **Connections:**
+  - *Comes from:* This Segment's age: choosing the age term starts it.
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* The Profile's job level (for someone working).
 
 ### 4. Which best describes their non-working situation?
 
@@ -69,6 +84,10 @@ The people who pay (the buyer is people, or the Segment has not ticked Business 
 - **The "i" says:**
   - Choose their dominant daily role.
   - Unable to work: sidelined from the workforce by a chronic medical condition, long-term illness or disability. They typically live on fixed support incomes.
+- **Connections:**
+  - *Comes from:* This Segment's work status and age ("Retired" not for Minors).
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* Nothing yet.
 
 ### 5. What is their primary working environment?
 
@@ -84,6 +103,10 @@ The people who pay (the buyer is people, or the Segment has not ticked Business 
   - Desk-based / Remote: Work from home
   - On-site / Frontline: Retail, hospitality, healthcare, construction
   - Field-based / On-the-road: Logistics, sales, field engineering
+- **Connections:**
+  - *Comes from:* This Segment's work status.
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* Channel order (desktop and daytime channels for remote workers) and the customer journey (a thought, doc 34, row 7).
 
 ### 6. How is their working schedule structured?
 
@@ -98,6 +121,10 @@ The people who pay (the buyer is people, or the Segment has not ticked Business 
   - Standard daytime hours: Traditional 9-to-5, fixed weekdays
   - Shift work / Variable hours: Nights, weekends, rotating rosters
   - Flexible / Self-directed hours: Freelancers, business owners, autonomous professionals
+- **Connections:**
+  - *Comes from:* This Segment's work status.
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* The times to reach them in the customer journey (a thought, doc 34, row 7).
 
 ### 7. What is the stability or structure of their income?
 
@@ -112,6 +139,10 @@ The people who pay (the buyer is people, or the Segment has not ticked Business 
   - Fixed salary: Predictable monthly/bi-weekly paycheck
   - Hourly wage: Fluctuating based on scheduled shifts
   - Variable / Performance-based: Freelance invoices, commission, seasonal contracts
+- **Connections:**
+  - *Comes from:* This Segment's work status.
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* Payment terms the Offering suggests (a thought, doc 34, row 7).
 
 ### 8. What is their household income?
 
@@ -126,6 +157,10 @@ The people who pay (the buyer is people, or the Segment has not ticked Business 
 - **The "i" says:**
   - Compare with the typical household income in their country: Middle is around the median, Low and High are the two ends, and Lower-middle and Upper-middle lie between.
   - Household income is what the home earns together, not one person's pay.
+- **Connections:**
+  - *Comes from:* This Segment's age (not asked of Minors).
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* The Review: the price against what they earn.
 
 ### 9. What is the usual gender mix of your customers?
 
@@ -144,6 +179,11 @@ The people who pay (the buyer is people, or the Segment has not ticked Business 
   - Balanced mix: 40–60%
   - Leans women: 60–80%
   - Mostly women: 80%+
+- **Connections:**
+  - *Comes from:* Nothing; the seller and buyer relationship (people).
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* The Profile's gender (the Review: it should fit the mix).
+
 
 ## Box 2. Geographics
 
@@ -161,6 +201,10 @@ Both.
   - Anywhere online
 - **The "i" says:**
   - The widest area most of your customers are spread over, now or as you plan it. If it is more than one, make another Segment.
+- **Connections:**
+  - *Comes from:* Nothing.
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* Channel suggestions by country; the Review (distant customers and delivery).
 
 ### 2. What environment best describes where they physically spend most of their time?
 
@@ -175,6 +219,10 @@ Both.
   - Urban: High-density city center
   - Suburban: Residential towns surrounding a city
   - Rural / Remote: Low-density countryside or isolated areas
+- **Connections:**
+  - *Comes from:* This Segment's reach, and the business stage (Organization: the Opening Date).
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* The Review (remote customers and delivery in person).
 
 
 ## Box 3. Business Data
@@ -196,6 +244,10 @@ The buyer is a business, or not yet known and the box is ticked. For a business 
   - A public body is for example a government department, council, school or hospital.
   - Self-employed skips the question about size.
   - Private business: For-profit
+- **Connections:**
+  - *Comes from:* Early Positioning: the seller and buyer relationship (business), or the Business Data tick.
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* The tender row for a public body on the Customer Engagement page; the Profile's kind of business.
 
 ### 2. What is the size of the target organization?
 
@@ -212,6 +264,10 @@ The buyer is a business, or not yet known and the box is ticked. For a business 
   - Small business: 10 to 49 employees
   - Medium-sized business: 50 to 249 employees
   - Large enterprise: 250+ employees
+- **Connections:**
+  - *Comes from:* This Segment's type of organisation.
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* Channel suggestions by size.
 
 ### 3. Which sector are they in?
 
@@ -226,6 +282,10 @@ The buyer is a business, or not yet known and the box is ticked. For a business 
   - Human services & public sector, and other services
 - **The "i" says:**
   - Six classes over the industries below. If they work in more than one industry, make another Segment.
+- **Connections:**
+  - *Comes from:* Early Positioning: the relationship (business).
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* The industry question.
 
 ### 4. Which industry are they in?
 
@@ -253,6 +313,10 @@ The buyer is a business, or not yet known and the box is ticked. For a business 
 - **The "i" says:**
   - The industries of the sector chosen, as the official schemes (SIC and NACE, NAICS, ANZSIC) name their sections.
   - Government and public administration includes embassies and international bodies. Other services includes households that employ staff, such as cleaners and nannies.
+- **Connections:**
+  - *Comes from:* This Segment's sector.
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* The Profile's kind of business; competitor industry overlap; channel suggestions by industry.
 
 
 ## Box 4. Purchasing Power & Behaviour
@@ -269,6 +333,10 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
   - Tech-savvy / Digital native
 - **The "i" says:**
   - How easily they use websites, apps and online payment, not whether they own a device.
+- **Connections:**
+  - *Comes from:* Nothing.
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* Channel order (digital-only channels lower, personal help higher).
 
 ### 2. Where do they discover and validate new ideas?
 
@@ -285,6 +353,10 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
   - Choose up to three.
   - Direct recommendations from close peers: friends, family, colleagues
   - Algorithmic discovery: Feeds, targeted ads, marketplace recommendations
+- **Connections:**
+  - *Comes from:* Nothing.
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* The Profile's related platforms; the order of the channels where customers discover you.
 
 ### 3. What does their primary social environment look like?
 
@@ -299,6 +371,10 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
   - Where they spend their free time. It decides how they meet brands and products.
   - Mostly digital/virtual: online gaming, community servers, chat apps
   - High-frequency in-person socializing: events, hospitality, clubs, sports
+- **Connections:**
+  - *Comes from:* Early Positioning: the relationship (people).
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* The Profile's social and interest hubs.
 
 ### 4. How do they share their favorite finds or experiences?
 
@@ -312,6 +388,10 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
   - They don't typically share or discuss purchases
 - **The "i" says:**
   - Private chat apps are for example WhatsApp and iMessage. "They don't typically share" excludes the other three.
+- **Connections:**
+  - *Comes from:* Early Positioning: the relationship (people).
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* The Profile's habits.
 
 ### 5. What triggers a typical shopping session?
 
@@ -326,6 +406,10 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
   - Choose up to two.
   - Boredom/Entertainment: Browsing feeds, window shopping
   - Social proof: Seeing a friend or creator use a product
+- **Connections:**
+  - *Comes from:* Early Positioning: the relationship (people).
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* The customer journey.
 
 ### 6. What is their typical path to purchase?
 
@@ -340,6 +424,10 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
   - Impulse buyer: See it, like it, buy it immediately
   - The Researcher: Extensive comparison window before finalizing
   - Social validator: Needs to ask a friend or check reviews before paying
+- **Connections:**
+  - *Comes from:* Early Positioning: the relationship (people).
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* The Profile's habits; the customer journey (consideration).
 
 ### 7. What platform or setting do they usually buy on?
 
@@ -353,6 +441,10 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
 - **The "i" says:**
   - Where most of their purchases start and finish. Choose Multi-channel when they mix online and in-person about equally.
   - Multi-channel: Mix of online and offline retail
+- **Connections:**
+  - *Comes from:* Nothing.
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* The order of the channels where customers buy; the customer journey.
 
 ### 8. How do they prefer to pay?
 
@@ -367,6 +459,10 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
   - Digital wallets are for example Apple Pay, Google Pay and PayPal. Buy Now, Pay Later is for example Klarna and Afterpay.
   - Invoicing is asked for business customers only. Credit and Buy Now, Pay Later are not open to minors.
   - Select all that apply.
+- **Connections:**
+  - *Comes from:* This Segment's age (credit and Buy Now, Pay Later not for Minors) and Early Positioning's relationship (invoicing for business).
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* The Offering's payment plan (instalments, invoicing) and the Direct Payment channels.
 
 ### 9. How is the purchase decision authorized?
 
@@ -386,6 +482,10 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
   - Executive / Budget-holder sign-off: Requires formal approval from a manager or C-level executive.
   - Multi-department evaluation: Involves separate checks from IT/Security, Legal, and Finance.
   - Formal procurement loop: Strict compliance pathway via requests for proposals (RFPs) or tenders.
+- **Connections:**
+  - *Comes from:* Early Positioning: the relationship (business).
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* The Profile's part in the purchase and hints; the tender row (a formal procurement loop).
 
 
 ## Box 5. Market Size & Industry Outlook
@@ -407,6 +507,10 @@ Both.
   - Steady growth: Mature market, predictable upward trend
   - Flat / Stable: Saturated market, consistent volume but low growth
   - Declining / Disrupting: Shrinking market or undergoing severe structural changes
+- **Connections:**
+  - *Comes from:* Nothing.
+  - *Read by (built):* The Market document and the export; the Business Plan's Market Analysis is covered once a market question is answered.
+  - *Read by (not built yet):* Competitor emphasis (a thought, doc 34, row 2).
 
 ### 2. What is the approximate size of your Total Addressable Market (TAM)?
 
@@ -423,6 +527,10 @@ Both.
   - Boutique / Specialized: 1,000 to 50,000 potential customers
   - Mid-Market: 50,000 to 500,000 potential customers
   - Mass Market: 500,000+ potential customers
+- **Connections:**
+  - *Comes from:* Nothing.
+  - *Read by (built):* The Market document and the export; the Business Plan's Market Analysis is covered once a market question is answered.
+  - *Read by (not built yet):* The Review.
 
 ### 3. What is the biggest macro trend impacting your buyers right now?
 
@@ -441,6 +549,10 @@ Both.
   - Economic pressures: Inflation, budget cuts, shifts in consumer spending power
   - Socio-cultural changes: Remote work preferences, sustainability demands, lifestyle shifts
   - Supply chain & infrastructure: Material shortages, logistics costs, local sourcing needs
+- **Connections:**
+  - *Comes from:* Nothing.
+  - *Read by (built):* The Market document and the export; the Business Plan's Market Analysis is covered once a market question is answered.
+  - *Read by (not built yet):* The Review.
 
 ### 4. How competitive is this market environment?
 
@@ -455,6 +567,10 @@ Both.
   - Red Ocean: Highly saturated. Dominated by massive legacy players; price wars are common.
   - Fragmented: Many small-to-medium players; no single company controls the market.
   - Blue Ocean: Underserved. Very few direct competitors; the solution or niche is highly novel.
+- **Connections:**
+  - *Comes from:* Nothing.
+  - *Read by (built):* The Market document and the export; the Business Plan's Market Analysis is covered once a market question is answered.
+  - *Read by (not built yet):* Competitor emphasis (a thought, doc 34, row 2).
 
 
 ## The user (a part of the same card)
@@ -478,6 +594,10 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
 - **The "i" says:**
   - Teenager covers Early Adolescence (11 to 13), Mid (13 to 16) and Late (16 to 18).
   - The ages are approximate (~): each runs from the first number up to, but not including, the second.
+- **Connections:**
+  - *Comes from:* Early Positioning: the buyer's category (Proxy or Dual-Intent) and the user's life stage.
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* The Profile for the user (proposed beside the buyer's).
 
 ### 2. What school stage are they at?
 
@@ -489,6 +609,10 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
   - Secondary school
 - **The "i" says:**
   - Asked of a parent or guardian, and of a caregiver, who buy for a child. Secondary school is not offered for a Baby or a Child.
+- **Connections:**
+  - *Comes from:* Early Positioning: the buyer and user relationship; this part's life stage.
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* The Profile for the user.
 
 ### 3. What is their primary work status?
 
@@ -501,6 +625,10 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
   - The same question as for the buyer, asked of the user: an adult the buyer is related to, or sponsors.
   - Working includes full-time, part-time, contract and self-employed roles.
   - Not currently working opens a second question about their main daily role.
+- **Connections:**
+  - *Comes from:* Early Positioning: the buyer and user relationship.
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* The Profile for the user.
 
 ### 4. Which best describes their non-working situation?
 
@@ -515,6 +643,10 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
 - **The "i" says:**
   - Choose their dominant daily role.
   - Unable to work: sidelined from the workforce by a chronic medical condition, long-term illness or disability. They typically live on fixed support incomes.
+- **Connections:**
+  - *Comes from:* This part's work status and life stage.
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* Nothing yet.
 
 ### 5. What job level do they have?
 
@@ -529,6 +661,10 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
   - Operator or labourer
 - **The "i" says:**
   - The ISCO-08 major groups, in plain words.
+- **Connections:**
+  - *Comes from:* Early Positioning: the buyer and user relationship.
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* The Profile for the user.
 
 ### 6. What type of organisation are the clients?
 
@@ -542,6 +678,10 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
 - **The "i" says:**
   - Asked of a business serving clients and of a professional intermediary.
   - Private business: For-profit
+- **Connections:**
+  - *Comes from:* Early Positioning: the buyer and user relationship.
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* The Profile for the user.
 
 ### 7. What is the size of the clients' organization?
 
@@ -558,6 +698,10 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
   - Small business: 10 to 49 employees
   - Medium-sized business: 50 to 249 employees
   - Large enterprise: 250+ employees
+- **Connections:**
+  - *Comes from:* This part's type of organisation.
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* Nothing yet.
 
 ### 8. How comfortable are they with online tools?
 
@@ -569,3 +713,7 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
   - Tech-savvy / Digital native
 - **The "i" says:**
   - How easily they use websites, apps and online payment, not whether they own a device.
+- **Connections:**
+  - *Comes from:* Early Positioning: the buyer's category.
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* Channel order for the user's side.
