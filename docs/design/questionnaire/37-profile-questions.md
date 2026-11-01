@@ -46,13 +46,13 @@ The app also **proposes Profiles** (up to three): one for each age term of the g
 | **B2C, Proxy or Dual-Intent** | the payer's Profile, and a second Profile for the user (proposed beside it, doc 28, 6.5) | the payer: all but A5's "will use it"; the user: A1, A2, A5 (who uses it, who influences), A6, B1, C, E | the user's Box D: the user does not run the purchase (the payer's Profile holds how they compare and what help they want) |
 | **B2B** | the person who decides (or the one asked to use it) | A1, A3, A4, A5, B1, C, D, E | A2 and A6 (they are asked only where the owner turns them on) |
 
-A5 starts, for the payer of a Proxy Segment, with "They place the order" and "They make the final decision" ticked, as starting values the user can change; nothing is locked.
+**A5 (owner, 2026-11-01).** A pure B2C Direct Segment: A5 is not asked and leaves no gap (the one person plays every part). A B2C Proxy or Dual-Intent Segment: A5 is asked on both Profiles, starting with "They place the order" and "They make the final decision" ticked on the payer's and "They will use it" ticked on the user's, as starting values the user can change; nothing is locked. A B2B Segment: A5 is always asked.
 
 ### 2.2 When an answer above changes
 
 The Segment's rule holds here: **a question that is no longer asked, or an option no longer offered, has its answer removed on the next choice**, and the documents read the answers settled against what is asked now.
 
-**The exact age (A1), decided by the owner (2026-11-01).** When the Segment's age group changes, A1 is **cleared if its number falls outside the new group, and kept if it is still inside it**. A Profile of 21 stays when the Segment goes from Young adults (~18–25) to a group that still holds 21 (or to none chosen), and is cleared when it goes to Peak (~40–55). The cleared cell says why, in its placeholder: *"Age reset to match the Segment's age group. Enter a typical age from 40 to 54."* (the range of the new group: from its first age up to, but not including, its second; for the last group, "75 or older"). Nothing else on the Profile is touched. **A user's Profile** whose Segment is no longer Proxy or Dual-Intent is hidden and left out of the documents and the exports at once; whether it is deleted too is to be decided (section 9).
+**The exact age (A1), decided by the owner (2026-11-01).** When the Segment's age group changes, A1 is **cleared if its number falls outside the new group, and kept if it is still inside it**. A Profile of 21 stays when the Segment goes from Young adults (~18–25) to a group that still holds 21 (or to none chosen), and is cleared when it goes to Peak (~40–55). The cleared cell says why, in its placeholder: *"Age reset to match the Segment's age group. Enter a typical age from 40 to 54."* (the range of the new group: from its first age up to, but not including, its second; for the last group, "75 or older"). Nothing else on the Profile is touched. **A user's Profile (owner, 2026-11-01).** When the Segment stops being Proxy or Dual-Intent (a change of the buyer's category in Positioning, or of the relationship), the user's Profile is **deleted completely at once**, not hidden: what it holds (its name, notes, needs and answers) is removed from the Segment's saved answer, so nothing of it reaches the documents, the exports or the wire, and a later change back to Proxy starts a new, empty user's Profile. The payer's Profile is untouched.
 
 ### 2.3 The card's layout (proposed)
 
@@ -293,8 +293,6 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 **The devices (C1) stay a starting value and a Review note, not a rule.** The Segment's "where they buy" starts C1 (a store: no device; the phone: Smartphone), and the Review notes a contradiction, but C1 is never unticked for the user: a shopper who buys in a store still finds the shop on a phone. A tendency never removes an option.
 
-**Still to decide.**
+**Also decided (owner, 2026-11-01).** A5 is asked only for a business buyer, a Segment with a user part, or a group that includes Minors (2.1); a user's Profile is deleted completely when its Segment loses its user (2.2).
 
-1. **A5** (what part they play in the purchase) is asked only with a user part or a business buyer; a consumer Segment with no user never sees it. Confirm.
-2. **A user's Profile when the Segment stops being Proxy or Dual-Intent** (section 2.2). The user's Profile card is hidden and left out of the documents and the exports at once, so nothing of it leaks. Whether it is also **deleted** at once, or kept until the user removes it, is yours: it holds what the user wrote (a name, notes, needs), and the app's rule for a stage change is that nothing is deleted. Which?
-3. **Nothing here is built.** The reads are the design's, to be built when the Segment's are.
+**Still to decide.** Nothing but that none of it is built: the reads are the design's, to be built when the Segment's are.
