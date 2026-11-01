@@ -17,7 +17,7 @@ import type { AnswerScope } from "./scope.ts";
 
 export function renderBusinessFoundation(scope: AnswerScope) {
 
-    const { value, onChange, disabled, targetAudience, legalEntity, columnsDivider, frameTitle, showInstructions } = scope;
+    const { value, onChange, disabled, targetAudience, legalEntity, columnsDivider, frameTitle, showInstructions, businessStage } = scope;
 
     // What Identity says of who the Segment sells to (the Positioning tile's answers).
     const organisation = asLegalEntityValue(legalEntity).organisation;
@@ -26,7 +26,7 @@ export function renderBusinessFoundation(scope: AnswerScope) {
 
         <BusinessFoundationEditor
             value={value}
-            identity={{ relationships: organisation.customerType, marketType: organisation.marketType, audience: organisation.audience }}
+            identity={{ relationships: organisation.customerType, marketType: organisation.marketType, audience: organisation.audience, buyerCategory: organisation.buyerCategory, endUser: organisation.endUser, stage: businessStage }}
             showInstructions={showInstructions}
             columnsDivider={columnsDivider}
             frameTitle={frameTitle}

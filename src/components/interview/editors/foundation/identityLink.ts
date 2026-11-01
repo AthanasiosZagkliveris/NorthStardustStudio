@@ -3,6 +3,7 @@
  * Pure functions, so the card and its tests read the same rules.
  */
 import { AUDIENCE_WORDS } from "../../../../framework/engine/ActivityClassification.ts";
+import type { SegmentContext } from "../../../../framework/engine/SegmentQuestions.ts";
 
 /** The Identity answers the Segment card reads. Absent: nothing is known, and the card is as it was. */
 export interface SegmentIdentity {
@@ -12,6 +13,12 @@ export interface SegmentIdentity {
     marketType: string;
     /** The ids of the audience answers. */
     audience: readonly string[];
+    /** The buyer's category of each relationship ("b2c:proxy"). */
+    buyerCategory?: readonly string[];
+    /** The End User answers: the buyer and user relationships and the user's life stage. */
+    endUser?: readonly string[];
+    /** The business stage (plan, launch, manage, grow). */
+    stage?: string;
 }
 
 /** Who the Segment's questions are written for: people (Box 1), businesses and public bodies (Box 3), or not yet known / both (both boxes). */
@@ -43,6 +50,27 @@ export function audienceLine(identity: SegmentIdentity | undefined, ids: readonl
     return words.length > 0
         ? ["Your Positioning (Identity) chose: " + words.join(", ") + "."]
         : [];
+
+}
+
+/** What the Segment's questions follow (see SegmentQuestions.ts): who the buyer is, the stage, and the user of a Proxy or Dual-Intent buyer. */
+export function segmentContext(identity: SegmentIdentity | undefined): SegmentContext {
+
+    const categories = identity?.buyerCategory ?? [];
+    const endUser = identity?.endUser ?? [];
+    const relationships = identity?.relationships ?? [];
+
+    // The user is described where a consumer or a business buyer is a Proxy or Dual-Intent buyer of a relationship chosen.
+    const endsUser = relationships.some(model => categories.includes(model + ":proxy") || categories.includes(model + ":dual"));
+
+    return {
+        frame: segmentFrame(identity),
+        stage: identity?.stage ?? "",
+        lifeStages: (identity?.audience ?? []).filter(id => PEOPLE_AUDIENCE.includes(id)),
+        endsUser,
+        userStages: endUser.filter(id => id.startsWith("age:")),
+        relations: endUser.filter(id => id.startsWith("rel:"))
+    };
 
 }
 

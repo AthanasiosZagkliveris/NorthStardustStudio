@@ -102,3 +102,16 @@ And, from the first collection (section 8 of doc 31), the four rows of the 15-ro
 | Public authority → beneficiaries | ● | ● |  | ○ | ● | ○ |  |  | ● | ○ | ○ | ● |
 | Government → businesses | ○ |  |  |  |  | ● | ● |  | ○ | ● | ● | ● |
 
+## 6. Thoughts (evaluated, not decided, not scheduled; owner's review of the Segment, 2026-11-01)
+
+These came from a review of how the Segment's Box 4 and Box 5 answers could be read by the later parts. Only the reads that fit what the app has today are in doc 28 (6.3a, "Not built yet (the reads)"); the rest are kept here as thoughts, each with what it waits for. The rule they all follow: a tendency is shown as "tends to", orders or highlights, and never hides an option or sets a price (doc 28, rule 5).
+
+| # | Thought | Why it is worth keeping | Waits for |
+|---|---|---|---|
+| 1 | **Persona archetype tags** on a Profile (for example "Trend-Driven Impulse Buyer"), compiled from Box 4 | A Profile can be summarised at a glance | A fixed list of archetypes in the owner's words; the app must not invent the names |
+| 2 | **Competitor emphasis from Box 5, question 4**: Red Ocean raises differentiation and price comparison, Blue Ocean raises market education | It points the user to the work that matters | A place in the Competitor card; it highlights and orders, it does not add or remove rows |
+| 3 | **Demand and capacity warning**: Box 5 size and trend against the capacity to deliver (a solo team with manual fulfilment) | A scaling bottleneck is seen early | The Capability page and the Review checks, which are held back while Planning and Launching |
+| 4 | **"Why this is suggested" notice** on a page whose suggestions follow the Segment, with a way to see everything | The user knows why a list is ordered as it is | The owner's word on a new element (the notice and its switch) |
+| 5 | **Journey auto-layout**: Awareness from Box 4 question 2, Consideration from question 6, Decision from questions 7 and 8 | The data already maps onto the three stages | A customer journey part; none is in the documents today |
+
+**Dropped:** a pricing tip from "economic pressures" (it sets a price from a tendency, against rule 5) and examples such as named marketing sites in the channel list (the channel list the app already has is the only source).

@@ -5,6 +5,7 @@
 import { asObject, asText, randomId } from "./Readers.ts";
 import { type DemandValue, asDemandMap } from "./DemandCapacity.ts";
 import { pickHue } from "./AnswerStrategy.ts";
+import { type SegmentAnswers, asSegmentAnswers } from "./SegmentQuestions.ts";
 
 /* ==================================================================
    Business System -- Foundation (Page 1)
@@ -149,6 +150,12 @@ export interface BusinessCustomerSegmentValue {
      */
     hue?: number;
     description: BusinessDescriptionValue;
+    /**
+     * The choices made in the questions of its Description's boxes
+     * and of its user block, by question (see SegmentQuestions.ts).
+     * The boxes' own text stays beside them, as notes.
+     */
+    questions: SegmentAnswers;
     profiles: BusinessCustomerProfileValue[];
     /**
      * This Segment's single Value Proposition -- the one thing the
@@ -225,6 +232,7 @@ export function createBusinessCustomerSegment(
         hue: pickHue(taken),
         name: "",
         description: {},
+        questions: {},
         // "By default, at least 1 Customer Profile card should
         // exist." The competitor and the Offering are there for
         // the same reason: a subsection showing nothing but an Add
@@ -495,6 +503,7 @@ export function asBusinessFoundationValue(value: unknown): BusinessFoundationVal
                     segment.description,
                     BUSINESS_FIRST_DESCRIPTION_PART.segment
                 )),
+                questions: asSegmentAnswers(segment.questions),
                 profiles: profiles.length > 0
                     ? profiles
                     : [createBusinessCustomerProfile()],

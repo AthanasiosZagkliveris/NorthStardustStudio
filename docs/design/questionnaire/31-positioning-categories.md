@@ -52,6 +52,8 @@ These are the **Fully Autonomous Buyers** (Working Adults and Active Retirees, 1
 
 So the buyer side has **Micro-Buyers (16 to 18)** and then the five stages from 18 to 74 above. The user stage Late Adolescence (16 to 18) is the user stage of the Micro-Buyers.
 
+**Owner, 2026-11-01 (the Segment card):** the card says **Minors, semi-dependent** instead of Micro-Buyers, for the buyer who is Mid or Late Adolescent (13 to 18); the "i" gives the limited buying power, the usual payment methods, the country's online-consent age and its minimum working age. The buyer terms follow the Positioning life stage (Students / Young Adults: Minors, semi-dependent and Young adults; Workers / Professionals: Established, Peak, Mature; Seniors: Active Retirees and Dependent seniors). In the card Dependent seniors start at **75** (the owner's figure; the list in section 1 says 74).
+
 Not buyer stages (nothing stated): Minors under 16 (Baby, Child, and Early and Mid Adolescence), and Dependent seniors (74 and over). They appear as **users** (1), and as the people a Proxy Buyer buys for.
 
 ## 3. Accessibility and user needs (dynamic cross-sections)

@@ -975,3 +975,30 @@
 
 }
 
+
+/* THE SEGMENT'S QUESTIONS (SegmentQuestions.ts): the choice questions of a Description box, between its title and its text. One field gap (--space-field)
+   from one question to the next, and from the last to the box's text; a question's label to its choices is the label gap (--space-label). A question's
+   label is body ink, so the box's own title (primary) stays the heading of the box. */
+.business-segment-questions{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-field);
+
+    margin:var(--space-label) 0 var(--space-field);
+
+}
+
+.business-segment-questions > .business-foundation-field{
+
+    gap:var(--space-label);
+
+}
+
+.business-segment-questions .business-foundation-label{
+
+    color:var(--text-default);
+
+}

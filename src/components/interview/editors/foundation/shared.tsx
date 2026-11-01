@@ -130,6 +130,10 @@ export interface DescriptionPart {
     extra?: string[];
     /** Asked without the tick that asks whether it applies (Business Data, where the Segment's customers are businesses). */
     always?: boolean;
+    /** The choice questions of the box (see SegmentQuestions.ts), above its text. */
+    questions?: ReactNode;
+    /** Only questions: no text box beside them (the user block). */
+    questionsOnly?: boolean;
 }
 
 /**

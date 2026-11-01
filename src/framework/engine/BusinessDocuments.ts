@@ -1,6 +1,7 @@
 import { workspacesOf, WORKSPACE_GROUP_ID } from "./AnswerUtils.ts";
 import { activitiesLine, positioningDocumentTitle } from "./ActivityClassification.ts";
 import { stageOf } from "./BusinessStage.ts";
+import { segmentAnswerLines } from "./SegmentQuestions.ts";
 /*
     The two documents the Foundation capability adds up to, built from
     what has been answered -- nothing is asked again:
@@ -822,6 +823,7 @@ function marketBlocks(f: Foundation): ExportBlock[] {
             ...labelled("Who", segment.description.demographics ?? ""),
             ...labelled("Where", segment.description.geographics ?? ""),
             ...labelled("Market size and outlook", segment.description["market-size"] ?? ""),
+            ...titled2("What we know of them", details(segmentAnswerLines(segment.questions).map(line => [line.label, line.value]))),
             ...titled2("Customer Profiles", table(["Profile", "Goals", "Challenges", "Needs"], segment.profiles.map(profile => [
                 profile.name,
                 profile.goals,

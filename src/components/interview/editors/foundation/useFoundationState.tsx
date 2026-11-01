@@ -285,7 +285,9 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
 
                     </span>
 
-                    {asked && (
+                    {asked && part.questions}
+
+                    {asked && !part.questionsOnly && (
                         <StrategyTextArea
                             className="interview-input business-foundation-note"
                             ariaLabel={kind + " description: " + part.title}

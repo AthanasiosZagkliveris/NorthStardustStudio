@@ -2,14 +2,14 @@
   "lumen": {
     "founders": "| Founder | Roles | Salary / month | Working Hours / month | Delivery Hours / month | Responsibilities |\n| --- | --- | --- | --- | --- | --- |\n| Maya Chen |  | £1,800 | 160 | 112 | Investigate Warping mill; Source British wool and organic cotton yarns; Weave spring collection (40 pieces); Test fire-retardant finish for hospitality orders; Sample three headboard panels for hotel pitches; Run the first six beginner workshops; Freelance weaving tutor |\n| Oliver Grant |  | £1,800 | 160 | 48 | Set up Product photography; Launch website and journal (completed); Plan Clerkenwell Design Week stand; Instagram content calendar; Build trade price list and swatch box; DPD Local (courier); Royal Mail Tracked 48 |\n| Priya Shah |  | £1,800 | 160 | 40 | Register trade mark and ICO data protection fee (completed); Set up Xero, VAT returns and payroll; Monthly bookkeeping with the accountant; Set up the lifetime repair service; Accountant; Lawyer; Hackney Wick Maker Yard (landlord); Hackney Sparks (electrician); FlameGuard Finishing Ltd (Tottenham); Stripe card payments (Shopify Payments); SumUp in-person card fees |\n\n",
     "forecast": "1354bedd907f0f:14261",
-    "plan": "13060540cad2e4:164665",
-    "exported": "cb3a3fc0cf388:45657"
+    "plan": "7d0ce5d230788:166812",
+    "exported": "1e68afa87c7662:47750"
   },
   "quillfield": {
     "founders": "| Founder | Roles | Salary / month | Working Hours / month | Delivery Hours / month | Responsibilities |\n| --- | --- | --- | --- | --- | --- |\n| Jordan Ellis |  | £4,500 | 160 | 96 | Register the business name and get an EIN (completed); Open a business bank account (completed); Standard client contract templates; Write a client data privacy and AI use policy; Launch the website with booking; Set up bookkeeping and quarterly estimated taxes; Investigate Password and credential vault for client logins; Build a reusable automation component library; Create the audit interview guide and roadmap template; Define the build handover pack; Set up retainer monitoring and alerts; LinkedIn content plan; Start the monthly newsletter; Publish three case studies; Proposal and statement-of-work templates; Recruit three referral partners; Accountant (CPA); Lawyer; Copywriting and web design for launch; Brooklyn coworking space (hot desk membership); Referral partners (10% of a referred audit); Freelance developer (overflow); Card and ACH processing (QuickBooks Payments) |\n\n",
     "forecast": "6ba0c7377f83f:11418",
-    "plan": "19ea52a79f6011:85580",
-    "exported": "14a7791d0abc3b:35156"
+    "plan": "55f23715c98d2:86997",
+    "exported": "1a79b7254e46ae:36546"
   },
   "lumen-weekly": {
     "founders": "| Founder | Roles | Salary / month | Working Hours / month | Delivery Hours / month | Responsibilities |\n| --- | --- | --- | --- | --- | --- |\n| Maya Chen |  | £1,800 | 38 | 26 | Investigate Warping mill; Source British wool and organic cotton yarns; Weave spring collection (40 pieces); Test fire-retardant finish for hospitality orders; Sample three headboard panels for hotel pitches; Run the first six beginner workshops; Freelance weaving tutor |\n| Oliver Grant |  | £1,800 | 38 | 26 | Set up Product photography; Launch website and journal (completed); Plan Clerkenwell Design Week stand; Instagram content calendar; Build trade price list and swatch box; DPD Local (courier); Royal Mail Tracked 48 |\n| Priya Shah |  | £1,800 | 38 | 26 | Register trade mark and ICO data protection fee (completed); Set up Xero, VAT returns and payroll; Monthly bookkeeping with the accountant; Set up the lifetime repair service; Accountant; Lawyer; Hackney Wick Maker Yard (landlord); Hackney Sparks (electrician); FlameGuard Finishing Ltd (Tottenham); Stripe card payments (Shopify Payments); SumUp in-person card fees |\n\n",
@@ -2358,7 +2358,7 @@
       0,
       0
     ],
-    "planShape": "3e54404212761:159418",
+    "planShape": "c104c9477b69d:161543",
     "planNumbers": [
       64,
       2,
@@ -2497,6 +2497,10 @@
       2.5,
       450000,
       15000,
+      60,
+      80,
+      50000,
+      500000,
       2,
       30,
       55,
@@ -2506,6 +2510,8 @@
       50,
       5867,
       7176,
+      1000,
+      50000,
       4,
       95,
       8,
@@ -16497,7 +16503,7 @@
       4,
       5
     ],
-    "exportedShape": "a9e004d9d23e2:44567",
+    "exportedShape": "fe76295f30f97:46638",
     "exportedNumbers": [
       3,
       1,
@@ -16514,6 +16520,10 @@
       2.5,
       450000,
       15000,
+      60,
+      80,
+      50000,
+      500000,
       1.1,
       36,
       1.2,
@@ -16546,6 +16556,8 @@
       50,
       5867,
       7176,
+      1000,
+      50000,
       2.1,
       41,
       6,

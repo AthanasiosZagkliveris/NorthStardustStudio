@@ -486,6 +486,58 @@
                   "purchasing": "Spend £400–1,500 a year on homeware; buy fewer, better pieces; research before buying; pay 20–40% more for sustainable, handmade and local; buy gifts at Christmas and for weddings.",
                   "market-size": "UK homeware market ≈ £13bn; UK soft furnishings ≈ £2.5bn. Roughly 450,000 London households fit the profile; a realistic reachable niche of ~15,000 buyers of premium handmade textiles.\n\nOutlook: overall homeware spending is flat, but demand for sustainable, traceable and British-made products keeps growing; buyers increasingly discover makers on Instagram and buy direct online, and rising cotton and wool prices favour small-batch makers who can price on craft rather than volume."
                 },
+                "questions": {
+                  "age": [
+                    "established"
+                  ],
+                  "education": [
+                    "bachelor"
+                  ],
+                  "work": [
+                    "employed"
+                  ],
+                  "income": [
+                    "upper-middle"
+                  ],
+                  "gender": [
+                    "leans-women"
+                  ],
+                  "reach": [
+                    "region"
+                  ],
+                  "comfort": [
+                    "savvy"
+                  ],
+                  "discover": [
+                    "creators",
+                    "media"
+                  ],
+                  "trigger": [
+                    "seasonal"
+                  ],
+                  "path": [
+                    "researcher"
+                  ],
+                  "trajectory": [
+                    "flat"
+                  ],
+                  "tam": [
+                    "mid"
+                  ],
+                  "trends": [
+                    "economy",
+                    "society"
+                  ],
+                  "competition": [
+                    "fragmented"
+                  ],
+                  "u-age": [
+                    "young"
+                  ],
+                  "u-comfort": [
+                    "savvy"
+                  ]
+                },
                 "profiles": [
                   {
                     "id": "profile-bzpp2z2j",
@@ -643,6 +695,21 @@
                   "geographics": "London first (Shoreditch, Clerkenwell, Marylebone design studios); then boutique hotels and restaurants across the South East and UK cities.",
                   "purchasing": "Project budgets from £2k (single room) to £40k (hotel refurbishment) for soft furnishings; buy on specification with samples, lead times and trade pricing; repeat business when a supplier is reliable.",
                   "market-size": "Around 3,000 interior design practices in London and ~1,200 independent boutique hotels in the UK; target 30–50 trade relationships within five years.\n\nOutlook: boutique hotels and restaurants are refurbishing again, with briefs asking for local craft and lower-impact materials; fire-safety rules for contract textiles (BS 5867 / BS 7176) mean fabrics must be tested and certified for commercial use."
+                },
+                "questions": {
+                  "reach": [
+                    "country"
+                  ],
+                  "trajectory": [
+                    "growing"
+                  ],
+                  "tam": [
+                    "boutique"
+                  ],
+                  "trends": [
+                    "regulation",
+                    "society"
+                  ]
                 },
                 "profiles": [
                   {
