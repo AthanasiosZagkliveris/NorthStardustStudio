@@ -3,7 +3,7 @@
  * One part of BusinessFoundationEditor (see BusinessFoundationEditor.tsx): what it needs of the parts before it comes in as `earlier`; what the parts after it need goes out.
  */
 import TickField from "../../../controls/TickField.tsx";
-import { CSSProperties, Fragment, ReactNode, useRef, useState } from "react";
+import { CSSProperties, Fragment, ReactNode, useEffect, useRef, useState } from "react";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
 import { BusinessCustomerProfileValue, BusinessCustomerSegmentValue, BusinessDescriptionValue, BusinessFoundationValue, asBusinessFoundationValue } from "../../../../framework/engine/AnswerUtils.ts";
 import { BusinessField, BusinessGroup, BusinessNote, BusinessText } from "../../cards/BusinessCardFields.tsx";
@@ -13,6 +13,9 @@ import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import { useItemFolds } from "../../fields/useItemFolds.ts";
 import { toggledIn } from "../../fields/toggledIn.ts";
 import { BusinessFoundationEditorProps, DescriptionPart, OPTIONAL_DESCRIPTION_PART } from "./shared.tsx";
+import { createBusinessCustomerSegment, segmentHue } from "../../../../framework/engine/AnswerUtils.ts";
+import { segmentSettle } from "../../../../framework/engine/SegmentQuestions.ts";
+import { segmentContextFor } from "../../../../framework/engine/SegmentContext.ts";
 
 export function useFoundationState(props: BusinessFoundationEditorProps) {
 
@@ -64,6 +67,32 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
     function update(patch: Partial<BusinessFoundationValue>) {
         onChange({ ...foundation, ...patch });
     }
+
+    /*
+        Where Positioning chose both B2C and B2B, the first two Segment cards are made for the user and are not asked: the first is of people, the second of businesses
+        (the kind is the presence of the Business Data key). A Segment added after them asks who its customer is.
+    */
+    const relationships = identity?.relationships ?? [];
+    const bothChosen = relationships.includes("b2c") && relationships.some(id => id === "b2b" || id === "b2g" || id === "g2b");
+    const [first, second] = foundation.segments;
+    const needsFix = bothChosen && !disabled && (!second || first.description[OPTIONAL_DESCRIPTION_PART] !== undefined || second.description[OPTIONAL_DESCRIPTION_PART] === undefined);
+    useEffect(() => {
+        if (!needsFix) {
+            return;
+        }
+        const current = latest.current.segments;
+        const made = [current[0], current[1] ?? createBusinessCustomerSegment(current.map(segmentHue))].map((segment, at) => {
+            const description = { ...segment.description };
+            if (at === 0) {
+                delete description[OPTIONAL_DESCRIPTION_PART];
+            } else {
+                description[OPTIONAL_DESCRIPTION_PART] = description[OPTIONAL_DESCRIPTION_PART] ?? "";
+            }
+            return { ...segment, description, questions: segmentSettle(segment.questions, segmentContextFor(identity, at === 1)) };
+        });
+        onChange({ ...latest.current, segments: [...made, ...current.slice(2)] });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [needsFix]);
     function updateSegment(index: number, patch: Partial<BusinessCustomerSegmentValue>) {
         update({
             segments: foundation.segments.map(

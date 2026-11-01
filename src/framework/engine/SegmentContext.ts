@@ -82,10 +82,15 @@ export function segmentContext(identity: SegmentIdentity | undefined): SegmentCo
 
 }
 
-/** The questions of ONE Segment: those Identity settles; where it chose both relationships (or none), both the people's boxes and the business's are asked (People first, then Businesses). */
-export function segmentContextFor(identity: SegmentIdentity | undefined): SegmentContext {
+/**
+ * The questions of ONE Segment: where Identity chose both relationships (or none), a Segment is of one kind, people or businesses (a Segment is one group: the people's questions and the
+ * business's are never asked of the same one); the kind is the presence of its Business Data key. Otherwise the Segment follows Identity.
+ */
+export function segmentContextFor(identity: SegmentIdentity | undefined, business: boolean): SegmentContext {
 
-    return segmentContext(identity);
+    const context = segmentContext(identity);
+
+    return context.frame === "open" ? { ...context, frame: business ? "business" : "people" } : context;
 
 }
 
@@ -111,7 +116,7 @@ export function settledSegmentAnswers(
         buyerCategory: organisation.buyerCategory,
         endUser: organisation.endUser,
         stage: "grow"
-    });
+    }, segment.description["business-data"] !== undefined);
 
     return segmentSettle(segment.questions, context);
 

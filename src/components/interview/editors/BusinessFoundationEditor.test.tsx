@@ -128,11 +128,16 @@ describe("BusinessFoundationEditor follows the Identity answers", () => {
         expect(screen.queryByRole("checkbox", { name: /Business Data/ })).toBeNull();
     });
 
-    it("keeps every box, Demographics then Business Data, with no tick, when nothing or several relationships are chosen", () => {
-        render(<Identified identity={identity(["b2c", "b2b"])} />);
-        expect(screen.queryByRole("radiogroup", { name: "What age group are the people who pay?" })).not.toBeNull();
-        expect(screen.queryByRole("radiogroup", { name: "What is the size of the target organization?" })).not.toBeNull();
+    it("makes the first two Segments for the user, People then Businesses, when both relationships are chosen", () => {
+        function Held() {
+            const [value, setValue] = useState<unknown>(twoProfiles());
+            return <BusinessFoundationEditor value={value} onChange={setValue} identity={identity(["b2c", "b2b"])} />;
+        }
+        render(<Held />);
         expect(screen.queryByRole("checkbox", { name: /Business Data/ })).toBeNull();
+        expect(screen.queryByRole("radiogroup", { name: "Who is this Segment's customer?" })).toBeNull();
+        expect(screen.queryAllByRole("radiogroup", { name: "What age group are the people who pay?" }).length).toBe(1);
+        expect(screen.queryAllByRole("radiogroup", { name: "What is the size of the target organization?" }).length).toBe(1);
     });
 
 });

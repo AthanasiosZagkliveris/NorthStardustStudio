@@ -176,7 +176,7 @@ export function useFoundationSubsections(earlier: Earlier) {
         // The boxes follow the Seller and Buyer Relationship (Identity): people only asks Demographics (not Business Data); businesses only asks Business Data (not Demographics) and
         // asks it without the tick; otherwise (nothing chosen, or several) every box stands, as before. The audience chosen in Identity is added to the "i" of the box it belongs to.
         const frame = segmentFrame(identity);
-        const asked = segmentContextFor(identity);
+        const asked = segmentContextFor(identity, segment.description[OPTIONAL_DESCRIPTION_PART] !== undefined);
 
         /** One question of a box, as the Positioning card asks one: its label with its "i" (and its limit) over the radio or the ticks, settled against what the other answers and Identity allow. */
         const questionOf = (question: SegmentQuestion) => {
@@ -227,17 +227,52 @@ export function useFoundationSubsections(earlier: Earlier) {
         const weightOf = (box: SegmentBox) => 2 + segmentQuestionsOf(box, segment.questions, asked).reduce((sum, question) => sum + 2 + segmentOptions(question, segment.questions, asked).length, 0);
 
         const segmentParts: DescriptionPart[] = SUBSECTIONS.segments.segmentDescription
-            // (Business Data is never a tick: a Segment of people has none, one of businesses has it first and no Demographics, and where both relationships are chosen both stand, Demographics first.)
-            .filter(part => !((frame === "people" && part.id === OPTIONAL_DESCRIPTION_PART) || (frame === "business" && part.id === "demographics")))
+            // (A Segment is one group: a business Segment has no Demographics, a people Segment no Business Data.)
+            .filter(part => !((asked.frame === "people" && part.id === OPTIONAL_DESCRIPTION_PART) || (asked.frame === "business" && part.id === "demographics")))
             .map(part => part.id === "demographics"
                 ? { ...part, extra: [...SUBSECTIONS.segments.boxNotes[part.id], ...audienceLine(identity, PEOPLE_AUDIENCE)], questions: questionsOf("demographics"), weight: weightOf("demographics") }
                 : part.id === OPTIONAL_DESCRIPTION_PART
                     ? { ...part, extra: [...SUBSECTIONS.segments.boxNotes[part.id], ...audienceLine(identity, BUSINESS_AUDIENCE)], always: true, questions: questionsOf("business-data"), weight: weightOf("business-data") }
                     : { ...part, extra: SUBSECTIONS.segments.boxNotes[part.id], questions: questionsOf(part.id as SegmentBox), weight: weightOf(part.id as SegmentBox) })
             // A business buyer's Business Data comes before Geographics.
-            .sort((a, b) => frame === "business"
+            .sort((a, b) => asked.frame === "business"
                 ? Number(b.id === OPTIONAL_DESCRIPTION_PART) - Number(a.id === OPTIONAL_DESCRIPTION_PART)
                 : 0);
+
+        // Where Positioning chose both relationships the first two Segments are made for the user, the first of people (B2C) and the second of businesses (B2B), and are not asked; a Segment added after
+        // them asks who its customer is, as the one question that opens its first box. (The choice is kept as the presence of the Business Data key.)
+        if (frame === "open" && segmentIndex >= 2 && segmentParts.length > 0) {
+            const isBusiness = segment.description[OPTIONAL_DESCRIPTION_PART] !== undefined;
+            const kindOptions = [{ id: "people", label: "People (B2C)" }, { id: "business", label: "Businesses (B2B)" }];
+            const kindQuestion = (
+                <FieldRow
+                    key="kind"
+                    pair
+                    fullList
+                    label="Who is this Segment's customer?"
+                    info={["The Segment is one group: people, or businesses.", "Choosing one changes the questions asked; answers that no longer apply are removed."]}
+                >
+                    <RadioChoice
+                        label="Who is this Segment's customer?"
+                        group={segment.id + "-kind"}
+                        className="business-segment-row"
+                        disabled={disabled}
+                        value={isBusiness ? "business" : "people"}
+                        onChange={(next) => {
+                            const description = { ...segment.description };
+                            if (next === "business") {
+                                description[OPTIONAL_DESCRIPTION_PART] = description[OPTIONAL_DESCRIPTION_PART] ?? "";
+                            } else {
+                                delete description[OPTIONAL_DESCRIPTION_PART];
+                            }
+                            updateSegment(segmentIndex, { description, questions: segmentSettle(segment.questions, segmentContextFor(identity, next === "business")) });
+                        }}
+                        options={kindOptions}
+                    />
+                </FieldRow>
+            );
+            segmentParts[0] = { ...segmentParts[0], questions: [kindQuestion, ...(segmentParts[0].questions ?? [])], weight: (segmentParts[0].weight ?? 0) + 3 };
+        }
 
         // The user of a Proxy or Dual-Intent buyer: described in the same card.
         if (asked.endsUser) {

@@ -19,10 +19,10 @@ describe("the buyer the Segment card follows", () => {
         expect(segmentFrame(identity([]))).toBe("open");
     });
 
-    it("asks both the people's and the business's questions of a Segment where the buyer is not known, and follows Identity otherwise", () => {
-        expect(segmentContextFor(identity([])).frame).toBe("open");
-        expect(segmentContextFor(identity(["b2c", "b2b"])).frame).toBe("open");
-        expect(segmentContextFor(identity(["b2b"])).frame).toBe("business");
+    it("makes a Segment of one kind where the buyer is not known: businesses with the Business Data key, people without", () => {
+        expect(segmentContextFor(identity([]), false).frame).toBe("people");
+        expect(segmentContextFor(identity(["b2c", "b2b"]), true).frame).toBe("business");
+        expect(segmentContextFor(identity(["b2b"]), false).frame).toBe("business");
     });
 
 

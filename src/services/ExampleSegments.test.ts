@@ -28,15 +28,12 @@ describe.each([["Lumen & Loom Studio", lumen], ["Quillfield Automation LLC", qui
     });
 
     it.each(segments.map(segment => [segment.name, segment] as const))("answers every question asked of %s, and nothing else", (_segmentName, segment) => {
-        const context = segmentContextFor(identity);
+        // (Where both relationships are chosen, the Segment is of businesses if it has the Business Data key.)
+        const context = segmentContextFor(identity, segment.description["business-data"] !== undefined);
         expect(segmentSettle(segment.questions, context)).toEqual(segment.questions);
         // (A question with one option left is not shown, and holds that option as its answer: it is still asked.)
         const asked = SEGMENT_QUESTIONS.filter(question => segmentQuestionAsked(question, segment.questions, context)).map(question => question.id);
-        // (Where Identity chose both relationships both kinds of box stand: a Segment of people, or of businesses, owes the answers of its own kind only.)
-        const has = (box: string) => SEGMENT_QUESTIONS.some(question => question.box === box && segment.questions[question.id]?.length);
-        const own = context.frame === "open" && has("demographics") !== has("business-data") ? { ...context, frame: has("business-data") ? "business" as const : "people" as const } : context;
-        const owed = SEGMENT_QUESTIONS.filter(question => segmentQuestionAsked(question, segment.questions, own)).map(question => question.id);
-        expect(owed.filter(id => !(segment.questions[id]?.length))).toEqual([]);
+        expect(asked.filter(id => !(segment.questions[id]?.length))).toEqual([]);
         expect(Object.keys(segment.questions).filter(id => !asked.includes(id))).toEqual([]);
     });
 
