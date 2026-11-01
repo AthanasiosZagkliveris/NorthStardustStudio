@@ -29,7 +29,7 @@ Related: doc 36 (the Segment's questions, built, in the same form), doc 28 (6.4 
 
 | Segment answer (doc 36) | Profile question | What the Profile gets |
 |---|---|---|
-| Age group | A1 an exact age | a number within the group (outside it is a Review item, not an error); a group that includes Minors also asks A6 |
+| Age group | A1 an exact age | a number within the group (when the group changes and the number is outside the new one, it is cleared: 2.2); a group that includes Minors also asks A5 |
 | Work status (Working) | A3 job level | the job levels, for someone who is working |
 | Gender mix (not Balanced) | A2 gender | shown when the mix is not Balanced mix; a Profile's gender should fit the mix (Review) |
 | Industry | A4 kind of business | the finer list (doc 35, 5.4) of the Segment's industry, each with its example |
@@ -50,7 +50,9 @@ A5 starts, for the payer of a Proxy Segment, with "They place the order" and "Th
 
 ### 2.2 When an answer above changes
 
-The Segment's rule holds here: **a question that is no longer asked, or an option no longer offered, has its answer removed on the next choice**, and the documents read the answers settled against what is asked now. Two cases need a decision (section 9): an exact age (A1) that falls outside a Segment's new age group; and a Profile of a user whose Segment is no longer Proxy or Dual-Intent.
+The Segment's rule holds here: **a question that is no longer asked, or an option no longer offered, has its answer removed on the next choice**, and the documents read the answers settled against what is asked now.
+
+**The exact age (A1), decided by the owner (2026-11-01).** When the Segment's age group changes, A1 is **cleared if its number falls outside the new group, and kept if it is still inside it**. A Profile of 21 stays when the Segment goes from Young adults (~18–25) to a group that still holds 21 (or to none chosen), and is cleared when it goes to Peak (~40–55). The cleared cell says why, in its placeholder: *"Age reset to match the Segment's age group. Enter a typical age from 40 to 54."* (the range of the new group: from its first age up to, but not including, its second; for the last group, "75 or older"). Nothing else on the Profile is touched. A Profile of a user whose Segment is no longer Proxy or Dual-Intent is the second case to decide (section 9).
 
 ## 3. Box A. Specific Personal Information
 
@@ -60,10 +62,10 @@ A typical person of the Segment, asked specifically.
 
 - **Control:** a number (years), in the existing number cell.
 - **Asked when:** the Segment's buyer is people; for a business Segment, the age of the person who decides.
-- **The "i" would say:** An exact age within the Segment's age group, for a typical person of the group, not the average. The ages of the terms are approximate.
+- **The "i" would say:** An exact age within the Segment's age group, for a typical person of the group, not the average. The ages of the terms are approximate. If the Segment's age group changes and this age is no longer inside it, the age is cleared and the box says so.
 - **Connections:**
   - *Comes from:* the Segment's age group (the number is held to it).
-  - *Read by (not built yet):* the Review (an age outside the group; the online-consent ages for under-18s); A6 (below 18); the proposed Profiles.
+  - *Read by (not built yet):* the online-consent ages for under-18s (the Review); the proposed Profiles (one for each age term of the group); the number is cleared when it leaves the group (2.2).
 
 ### A2. What is their gender?
 
@@ -263,6 +265,5 @@ What the Segment cannot say: which devices, which social media, which communitie
 2. **Their conditions** (online comfort, the ways of discovering ideas, the social environment) make the Profile ask less when the Segment says it is not needed; confirm that a tendency is enough to hide a question here, or ask all three always.
 3. **A5** needs a user part or a business buyer to be asked; a consumer Segment with no user never sees it.
 4. **The needs** stay text lists, as doc 28 says; say if they should also get a choice question.
-5. **An exact age outside the Segment's new age group (A1).** The design (doc 28) is a Review item, not an error and not an erasure: the number is the user's own words about a typical person. The alternative is to clear A1 when the group changes, as the choice questions are. Which?
-6. **The user's Profile skips Box D** (section 2.1): confirm, or let the user's Profile ask how they compare and what help they want.
-7. **Nothing here is built.** The reads are the design's, to be built when the Segment's are.
+5. **The user's Profile skips Box D** (section 2.1): confirm, or let the user's Profile ask how they compare and what help they want.
+6. **Nothing here is built.** The reads are the design's, to be built when the Segment's are.

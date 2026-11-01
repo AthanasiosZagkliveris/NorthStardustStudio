@@ -617,7 +617,7 @@ The Segment holds a range or one value and each Profile a specific answer, and *
 | Segment answer | Profile question | What the Profile gets |
 |---|---|---|
 | G3 main country | every list with a national scheme (P24) | the country's crosswalk |
-| G6 age range of the customer (From, To) | P1 an age | a number within the range; outside it is a Review item, not an error. **A range that includes a band below 18 also asks P21** (who uses it, who pays, who decides) |
+| G6 age range of the customer (From, To) | P1 an age | a number within the range; when the range changes and the number is outside the new one, it is cleared (doc 37, 2.2). **A range that includes a band below 18 also asks P21** (who uses it, who pays, who decides) |
 | G13 work situation (one) | P6 what kind of work | the job-level list, for the employed and self-employed |
 | G15 industry (one) | P24 which kind of business | the finer list of that industry, each with its example |
 | G10 gender mix | P5 gender | shown when the mix is not "not relevant"; a Profile's gender should fit the mix (Review) |
