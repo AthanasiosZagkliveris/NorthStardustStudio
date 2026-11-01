@@ -54,6 +54,83 @@ The Segment's rule holds here: **a question that is no longer asked, or an optio
 
 **The exact age (A1), decided by the owner (2026-11-01).** When the Segment's age group changes, A1 is **cleared if its number falls outside the new group, and kept if it is still inside it**. A Profile of 21 stays when the Segment goes from Young adults (~18–25) to a group that still holds 21 (or to none chosen), and is cleared when it goes to Peak (~40–55). The cleared cell says why, in its placeholder: *"Age reset to match the Segment's age group. Enter a typical age from 40 to 54."* (the range of the new group: from its first age up to, but not including, its second; for the last group, "75 or older"). Nothing else on the Profile is touched. A Profile of a user whose Segment is no longer Proxy or Dual-Intent is the second case to decide (section 9).
 
+### 2.3 The card's layout (proposed)
+
+The Profile is a card inside the Segment's Profiles list, opened as a floating card. It is built from the existing parts only, laid out as the Segment card and the Positioning card are (doc 36, 39): questions are bands (every other one tinted), each box has a title band on the primary fill with light letters and its "i", a divider line under each title and each question's label, a double rule between one box and the next, and a 1px divider down the middle of two columns. A card has no inner light and shade, only its drop shadow. Its colour is its tile's.
+
+```
++--------------------------------------------------------------------------------------+
+| 1.  [ The Considered Nester ................................................ ]   [x] |  head: number, name cell, remove
++--------------------------------------------------------------------------------------+
+| v Description (i)                                                                    |  group, folds
+|                                                                                      |
+| +---------------------------------------+  +---------------------------------------+ |
+| | SPECIFIC PERSONAL INFORMATION   (i)   |  | SOCIAL & INTEREST HUBS          (i)   | |  title bands, light letters
+| +---------------------------------------+  +---------------------------------------+ |
+| | A1 How old is this typical customer?  |  | C1 Which devices do they use?         | |  question bands, label + (i)
+| | [ 34 ]                                |  | [x] Smartphone  [ ] Laptop or desktop | |
+| +---------------------------------------+  |  [ ] Tablet  [ ] Shared  [ ] None     | |
+| | A2 What is their gender?              |  +---------------------------------------+ |
+| |  ( ) Woman  ( ) Man  ( ) Non-binary   |  | C2 Which social media do they use?    | |
+| |  ( ) Differently  ( ) Prefer not      |  |  [x] Instagram  [x] Pinterest  [ ] .. | |
+| +---------------------------------------+  +---------------------------------------+ |
+| | A3 What kind of work do they do?      |  | C3 Which communities do they join?    | |
+| |  ( ) Owner or senior executive        |  |  [ ] Facebook Group  [ ] Reddit ...   | |
+| |  ( ) Manager   ( ) Professional  ...  |  +---------------------------------------+ |
+| +---------------------------------------+  | C4 Which events do they go to?        | |
+| | A5 What part do they play? (business, |  |  [x] Market / Pop-up  [ ] Workshop .. | |
+| |    user, or minors only)              |  +---------------------------------------+ |
+| +---------------------------------------+  |                                       | |
+| | Notes  [ free text ................ ] |  | Notes  [ free text ................ ] | |  each box keeps its note
+| +=======================================+  +=======================================+ |  double rule between boxes
+| | PSYCHOGRAPHICS                  (i)   |  | INFORMATION & SHOPPING HABITS   (i)   | |
+| +---------------------------------------+  +---------------------------------------+ |
+| | B1 What do they care about? (3 max)   |  | D1 How do they compare options?       | |
+| |  [x] Trust and reputation  [ ] ...    |  |  [x] Reviews  [ ] Demo, trial ...     | |
+| |                                       |  +---------------------------------------+ |
+| |                                       |  | D2 How much help do they want?        | |
+| |                                       |  |  ( ) Alone  ( ) A little guidance ... | |
+| +---------------------------------------+  +---------------------------------------+ |
+| | Notes  [ ...                        ] |  | Notes  [ ...                        ] | |
+| +---------------------------------------+  +---------------------------------------+ |
+|                                                                                      |
++======================================================================================+  double rule between groups
+| v Motivations (i)                                                                    |
+| +------------------------+  +------------------------+  +-------------------------+ |
+| | GOALS & DESIRES   (i)  |  | CHALLENGES & PROBLEMS  |  | OBJECTIONS         (i)  | |  three boxes, as the three notes today
+| | E1 What are they       |  | E2 What frustrates     |  | E3 What might stop      | |
+| |    trying to achieve?  |  |    them today?         |  |    them buying?         | |
+| |    (3 max)             |  |    (3 max)             |  |    (3 max)              | |
+| | Notes [ ...          ] |  | Notes [ ...          ] |  | Notes [ ...          ] | |
+| +------------------------+  +------------------------+  +-------------------------+ |
++======================================================================================+
+| v Needs (i)                                                                          |
+| +------------------------+  +------------------------+  +-------------------------+ |
+| | FUNCTIONAL        (i)  |  | EMOTIONAL         (i)  |  | SOCIAL             (i)  | |  text lists, unchanged
+| | 1. Send an invoice in  |  | 1. Confidence the      |  | 1. Recognition for      | |
+| |    under a minute      |  |    maker will deliver  |  |    sustainable design   | |
+| | 2. [ add a need ]      |  | 2. [ add a need ]      |  | 2. [ add a need ]       | |
+| +------------------------+  +------------------------+  +-------------------------+ |
++--------------------------------------------------------------------------------------+
+```
+
+**How it is built.**
+
+| Part | Existing component or rule |
+|---|---|
+| Head | the card's head: the number, the name cell (`CardNameInput`), the remove button (the one x) |
+| Groups (Description, Motivations, Needs) | the card's fold group (`BusinessGroup`), open or folded, remembered while the page is open |
+| Box title band | the Segment card's band (`business-segment-box` first section: the primary fill, light letters, the "i") |
+| Questions | `FieldRow` with `RadioChoice` (one choice), `BusinessTicks` (several, with `max`), the number cell (A1); long lists in the picker |
+| Columns of the Description | the two columns with the divider, the boxes shared between them by their length so the columns stand at nearly one height (as the Segment's); one column below 900px |
+| Motivations and Needs | three columns (one below 900px); the Needs are the existing numbered text lists |
+| A box's note | the box's own text note, under its questions, as the Description has today |
+| What is not asked | a question that is not asked leaves no gap: its band is not drawn |
+
+**What changes with the Segment's kind (2.1).** A B2C Direct Profile shows boxes A (without A4 and A5), B, C, D, E; a Proxy Segment adds the user's Profile card beside it, with box D left out; a B2B Profile shows A1, A3, A4, A5, hides A2 and the specialized needs, and C asks the professional hubs only.
+
+**At narrow widths** (below 900px, never below 768px) the two columns become one, in the order A, B, C, D; the three columns of Motivations and Needs stack in the order Goals, Challenges, Objections; Functional, Emotional, Social.
+
 ## 3. Box A. Specific Personal Information
 
 A typical person of the Segment, asked specifically.
