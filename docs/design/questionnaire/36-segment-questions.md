@@ -43,7 +43,7 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
 - **Options:**
   - Less than high school
   - High school
-  - Vocational or technical diploma
+  - Vocational / technical diploma
   - Bachelor
   - Postgraduate
   - Doctorate
@@ -194,8 +194,8 @@ Both.
 - **Control:** one choice (a radio).
 - **Asked when:** Always.
 - **Options:**
-  - In my city or town
-  - In my state or region
+  - In my city / town
+  - In my state / region
   - Across my country
   - In several countries
   - Anywhere online
@@ -236,8 +236,8 @@ The buyer is a business, or the Segment is of businesses where both relationship
 - **Options:**
   - Private business
   - Public body / Government agency
-  - Non-profit, charity, or NGO
-  - Self-employed, freelancer, or sole trader
+  - Non-profit / charity / NGO
+  - Self-employed / freelancer / sole trader
 - **The "i" says:**
   - Private business includes co-operatives. A social enterprise belongs here or under non-profit, by how it is owned.
   - Non-profit includes membership and professional bodies and religious organisations.
@@ -344,8 +344,8 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
 - **Asked when:** Always.
 - **Options:**
   - Direct recommendations from close peers
-  - Niche online communities or forums
-  - Social media creators, influencers, or industry experts
+  - Niche online communities / forums
+  - Social media creators / influencers / industry experts
   - Traditional media, reviews, and independent comparison sites
   - Algorithmic discovery
 - **The "i" says:**
@@ -380,12 +380,12 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
 
 - **Control:** ticks, as many as apply.
 - **Asked when:** The buyer is people.
-- **Exclusion:** choosing "They don't typically share or discuss purchases" clears every other choice, and choosing any other way clears it.
+- **Exclusion:** choosing "They don't typically share / discuss purchases" clears every other choice, and choosing any other way clears it.
 - **Options:**
   - Posting publicly on personal social media feeds
   - Sending direct links to close friends via private chat apps
   - Verbally during face-to-face conversations
-  - They don't typically share or discuss purchases
+  - They don't typically share / discuss purchases
 - **The "i" says:**
   - Private chat apps are for example WhatsApp and iMessage. "They don't typically share" excludes the other three.
 - **Connections:**
@@ -400,8 +400,8 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
 - **Options:**
   - Boredom/Entertainment
   - Social proof
-  - Immediate necessity or resolving a specific problem
-  - Seasonal trends, sales events, or planned gift-giving
+  - Immediate necessity / resolving a specific problem
+  - Seasonal trends / sales events / planned gift-giving
 - **The "i" says:**
   - Choose up to two.
   - Boredom/Entertainment: Browsing feeds, window shopping
@@ -449,12 +449,12 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
 ### 8. How do they prefer to pay?
 
 - **Control:** ticks, as many as apply.
-- **Asked when:** Always. "Buy Now, Pay Later or financing" is not offered to Minors; "Invoicing, bank transfers, or corporate purchase orders" is not offered when the buyer is people only.
+- **Asked when:** Always. "Buy Now, Pay Later / financing" is not offered to Minors; "Invoicing / bank transfers / corporate purchase orders" is not offered when the buyer is people only.
 - **Options:**
   - Traditional credit / debit card
   - Digital wallets
-  - Buy Now, Pay Later or financing
-  - Invoicing, bank transfers, or corporate purchase orders
+  - Buy Now, Pay Later / financing
+  - Invoicing / bank transfers / corporate purchase orders
 - **The "i" says:**
   - Digital wallets are for example Apple Pay, Google Pay and PayPal. Buy Now, Pay Later is for example Klarna and Afterpay.
   - Invoicing is asked for business customers only. Credit and Buy Now, Pay Later are not open to minors.
@@ -653,12 +653,12 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
 - **Control:** one choice (a radio).
 - **Asked when:** As the user's life stage, and the relationship is Employer, Business partner or Other (business).
 - **Options:**
-  - Owner or senior executive
+  - Owner / senior executive
   - Manager
-  - Professional or specialist
-  - Technician or skilled trade
-  - Administrative, sales or service
-  - Operator or labourer
+  - Professional / specialist
+  - Technician / skilled trade
+  - Administrative / sales / service
+  - Operator / labourer
 - **The "i" says:**
   - The ISCO-08 major groups, in plain words.
 - **Connections:**
@@ -673,8 +673,8 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
 - **Options:**
   - Private business
   - Public body / Government agency
-  - Non-profit, charity, or NGO
-  - Self-employed, freelancer, or sole trader
+  - Non-profit / charity / NGO
+  - Self-employed / freelancer / sole trader
 - **The "i" says:**
   - Asked of a business serving clients and of a professional intermediary.
   - Private business: For-profit

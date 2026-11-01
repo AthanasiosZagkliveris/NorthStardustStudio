@@ -73,8 +73,8 @@ const COMFORT = [
 const ORG_TYPES = [
     { id: "private", label: "Private business (For-profit)" },
     { id: "public", label: "Public body / Government agency" },
-    { id: "nonprofit", label: "Non-profit, charity, or NGO" },
-    { id: "self", label: "Self-employed, freelancer, or sole trader" }
+    { id: "nonprofit", label: "Non-profit / charity / NGO" },
+    { id: "self", label: "Self-employed / freelancer / sole trader" }
 ] as const;
 
 const ORG_SIZES = [
@@ -141,12 +141,12 @@ const USER_AGES = [
 
 /** The job levels (the ISCO-08 major groups in plain words): the Segment's user question and the Profile's "What kind of work do they do?" take this one list, so the words are written once. */
 export const JOB_LEVELS = [
-    { id: "owner", label: "Owner or senior executive" },
+    { id: "owner", label: "Owner / senior executive" },
     { id: "manager", label: "Manager" },
-    { id: "professional", label: "Professional or specialist" },
-    { id: "technician", label: "Technician or skilled trade" },
-    { id: "service", label: "Administrative, sales or service" },
-    { id: "operator", label: "Operator or labourer" }
+    { id: "professional", label: "Professional / specialist" },
+    { id: "technician", label: "Technician / skilled trade" },
+    { id: "service", label: "Administrative / sales / service" },
+    { id: "operator", label: "Operator / labourer" }
 ] as const;
 
 const AGE_NOTE = "The ages are approximate (~): each runs from the first number up to, but not including, the second.";
@@ -170,7 +170,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         options: [
             { id: "school", label: "Less than high school" },
             { id: "highschool", label: "High school" },
-            { id: "vocational", label: "Vocational or technical diploma" },
+            { id: "vocational", label: "Vocational / technical diploma" },
             { id: "bachelor", label: "Bachelor" },
             { id: "master", label: "Postgraduate (Master)" },
             { id: "doctorate", label: "Doctorate" }
@@ -247,8 +247,8 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     {
         id: "reach", box: "geographics", label: "Where are your customers?", many: false,
         options: [
-            { id: "city", label: "In my city or town" },
-            { id: "region", label: "In my state or region" },
+            { id: "city", label: "In my city / town" },
+            { id: "region", label: "In my state / region" },
             { id: "country", label: "Across my country" },
             { id: "countries", label: "In several countries" },
             { id: "online", label: "Anywhere online" }
@@ -307,8 +307,8 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         id: "discover", box: "purchasing", label: "Where do they discover and validate new ideas?", many: true, max: 3,
         options: [
             { id: "peers", label: "Direct recommendations from close peers (friends, family, colleagues)" },
-            { id: "communities", label: "Niche online communities or forums" },
-            { id: "creators", label: "Social media creators, influencers, or industry experts" },
+            { id: "communities", label: "Niche online communities / forums" },
+            { id: "creators", label: "Social media creators / influencers / industry experts" },
             { id: "media", label: "Traditional media, reviews, and independent comparison sites" },
             { id: "algorithmic", label: "Algorithmic discovery (Feeds, targeted ads, marketplace recommendations)" }
         ],
@@ -334,7 +334,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "public", label: "Posting publicly on personal social media feeds" },
             { id: "private", label: "Sending direct links to close friends via private chat apps" },
             { id: "verbal", label: "Verbally during face-to-face conversations" },
-            { id: "none", label: "They don't typically share or discuss purchases" }
+            { id: "none", label: "They don't typically share / discuss purchases" }
         ],
         info: ["Private chat apps are for example WhatsApp and iMessage. \"They don't typically share\" excludes the other three."]
     },
@@ -343,8 +343,8 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         options: [
             { id: "boredom", label: "Boredom/Entertainment (Browsing feeds, window shopping)" },
             { id: "proof", label: "Social proof (Seeing a friend or creator use a product)" },
-            { id: "need", label: "Immediate necessity or resolving a specific problem" },
-            { id: "seasonal", label: "Seasonal trends, sales events, or planned gift-giving" }
+            { id: "need", label: "Immediate necessity / resolving a specific problem" },
+            { id: "seasonal", label: "Seasonal trends / sales events / planned gift-giving" }
         ],
         info: ["Choose up to two."]
     },
@@ -372,8 +372,8 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         options: [
             { id: "card", label: "Traditional credit / debit card" },
             { id: "wallet", label: "Digital wallets" },
-            { id: "bnpl", label: "Buy Now, Pay Later or financing" },
-            { id: "invoice", label: "Invoicing, bank transfers, or corporate purchase orders" }
+            { id: "bnpl", label: "Buy Now, Pay Later / financing" },
+            { id: "invoice", label: "Invoicing / bank transfers / corporate purchase orders" }
         ],
         info: [
             "Digital wallets are for example Apple Pay, Google Pay and PayPal. Buy Now, Pay Later is for example Klarna and Afterpay.",

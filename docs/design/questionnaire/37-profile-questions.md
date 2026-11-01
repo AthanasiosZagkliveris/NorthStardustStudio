@@ -109,12 +109,12 @@ A typical person of the Segment, asked specifically.
 - **Control:** one choice (a radio).
 - **Asked when:** the Segment's primary work status is Working / Employed (for a business Segment, the decision-maker's job level).
 - **Options:**
-  - Owner or senior executive
+  - Owner / senior executive
   - Manager
-  - Professional or specialist
-  - Technician or skilled trade
-  - Administrative, sales or service
-  - Operator or labourer
+  - Professional / specialist
+  - Technician / skilled trade
+  - Administrative / sales / service
+  - Operator / labourer
 - **The "i" would say:** The ISCO-08 major groups in plain words: choose the group that fits the role; armed forces: choose the group that fits the role; clergy count as professionals. The Segment's education orders the list, most likely first, as a tendency and never as a filter.
 - **Connections:**
   - *Comes from:* the Segment's work status and education.
@@ -294,7 +294,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 | Question | Set when | To |
 |---|---|---|
-| A3 job level | the Segment's customers are self-employed | Owner or senior executive |
+| A3 job level | the Segment's customers are self-employed | Owner / senior executive |
 | A5 part in the purchase | the Segment's decision is "Sole practitioner decision" | all five roles ticked |
 
 **Starting values the user can change (owner, 2026-11-01).** D1 and D2 start from the Segment's path to purchase and online comfort (a Researcher: reviews; a Social validator: what other people recommend; Tech-savvy: they work it out themselves; Tech-averse: they want to talk to a person); D2 starts at a formal proposal where the Segment's decision includes a formal procurement loop; A2 starts from the Segment's gender mix when it leans (60 to 80%) or is mostly (80%+) one way, and stays visible; C1 as in 5. Impulse buyers skip D1. **E3** starts with "The price or their budget" ticked where the Segment's household income is Low, a starting value the user can change without any validation in the way (owner, 2026-11-01).
