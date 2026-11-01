@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { RELATION_IDS_B2B, RELATION_IDS_B2C } from "./PositioningIds.ts";
-import { RELATIONSHIP_FITS, categoryOfModel, relationshipFits, relationshipFitsUserStages, orderedByCategory, userStageFits } from "./RelationshipFit.ts";
+import { RELATIONSHIP_FITS, categoryOfModel, relationshipFits, relationshipFitsUserStages, orderedByCategory, userStageFits, withOnlyUserStage } from "./RelationshipFit.ts";
 import { RELATIONSHIP_INTENT } from "./PurposeRelevance.ts";
 
 describe("which buyer and user relationships fit the buyer's category", () => {
@@ -63,5 +63,24 @@ describe("which buyer and user relationships fit the buyer's category", () => {
         expect(order(["b2c:direct"])).toEqual(["cost", "convenience", "compliance", "premium"]);
         expect(order(["b2b:dual"])).toEqual(["convenience", "premium", "cost", "compliance"]);
         expect(order(["b2c:proxy", "b2b:dual"])).toEqual(["cost", "convenience", "compliance", "premium"]);
+    });
+});
+
+describe("the user's life stage when only one fits", () => {
+    const org = (audience: string[], endUser: string[], buyerCategory = ["b2c:proxy"], customerType = ["b2c"]) => ({ customerType, audience, endUser, buyerCategory });
+
+    it("is set for a parent of a Students / Young Adults buyer's dependent: Minors", () => {
+        expect(withOnlyUserStage(org(["young"], ["rel:parent"])).endUser).toEqual(["rel:parent", "age:minor"]);
+    });
+
+    it("is left alone when several stages fit, one is chosen, or it is not a consumer Proxy or Dual-Intent buyer", () => {
+        const several = org(["adult"], ["rel:parent"]);
+        expect(withOnlyUserStage(several)).toBe(several);
+        const chosen = org(["young"], ["rel:parent", "age:minor"]);
+        expect(withOnlyUserStage(chosen)).toBe(chosen);
+        const direct = org(["young"], ["rel:parent"], ["b2c:direct"]);
+        expect(withOnlyUserStage(direct)).toBe(direct);
+        const business = org(["smb"], ["rel:employer"], ["b2b:proxy"], ["b2b"]);
+        expect(withOnlyUserStage(business)).toBe(business);
     });
 });

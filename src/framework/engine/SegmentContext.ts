@@ -4,6 +4,7 @@
  */
 import { AUDIENCE_WORDS } from "./ActivityClassification.ts";
 import { type SegmentAnswers, type SegmentContext, segmentSettle } from "./SegmentQuestions.ts";
+import { withOnlyUserStage } from "./RelationshipFit.ts";
 
 /** The Identity answers the Segment card reads. Absent: nothing is known, and the card is as it was. */
 export interface SegmentIdentity {
@@ -62,8 +63,9 @@ export function audienceLine(identity: SegmentIdentity | undefined, ids: readonl
 export function segmentContext(identity: SegmentIdentity | undefined): SegmentContext {
 
     const categories = identity?.buyerCategory ?? [];
-    const endUser = identity?.endUser ?? [];
     const relationships = identity?.relationships ?? [];
+    // The user's life stage is the one that fits where only one does, even if an older answer never saved it (RelationshipFit.ts).
+    const endUser = withOnlyUserStage({ customerType: [...relationships], audience: [...(identity?.audience ?? [])], endUser: [...(identity?.endUser ?? [])], buyerCategory: [...categories] }).endUser;
 
     // The user is described where a consumer or a business buyer is a Proxy or Dual-Intent buyer of a relationship chosen.
     const endsUser = relationships.some(model => categories.includes(model + ":proxy") || categories.includes(model + ":dual"));
@@ -74,7 +76,8 @@ export function segmentContext(identity: SegmentIdentity | undefined): SegmentCo
         lifeStages: (identity?.audience ?? []).filter(id => PEOPLE_AUDIENCE.includes(id)),
         endsUser,
         userStages: endUser.filter(id => id.startsWith("age:")),
-        relations: endUser.filter(id => id.startsWith("rel:"))
+        relations: endUser.filter(id => id.startsWith("rel:")),
+        scales: (identity?.audience ?? []).filter(id => ["solo", "smb", "mid", "enterprise"].includes(id))
     };
 
 }

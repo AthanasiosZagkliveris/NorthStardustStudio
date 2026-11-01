@@ -78,7 +78,7 @@ Related: doc 38 (the Organization tile, whose Opening Date sets the stage), doc 
 ### 6. User's Life-Stage (a consumer buyer)
 
 - **Control:** as question 1.
-- **Asked when:** B2C and a Proxy or Dual-Intent buyer.
+- **Asked when:** B2C and a Proxy or Dual-Intent buyer, and more than one life stage fits. Where only one fits (a Parent of a Students / Young Adults buyer's dependent: Minors) it is set and the question is not drawn (owner, 2026-11-01).
 - **Options:**
   - Minors
   - Young Adults

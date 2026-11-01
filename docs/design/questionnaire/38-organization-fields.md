@@ -111,4 +111,6 @@ Related: doc 39 (Early Positioning, the next tile, in the same form), doc 36 (th
 - **Connections:**
   - *Read by (built):* the Business Plan's company description and the exports.
 
+**Approved by the owner on 2026-11-01, not built:** (1) the Country starts from the browser's region, as a soft hint the user confirms, never an answer; (2) the Registration Date is not asked where the chosen legal form is not registered (a sole trader in the United Kingdom, a sole proprietorship in the United States).
+
 The Founders' questions (the capital tick, each founder's roles, hours and contribution) belong to the next tile of the page, not to this one.

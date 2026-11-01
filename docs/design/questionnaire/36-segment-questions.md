@@ -4,7 +4,7 @@ Status: **specification**, written 2026-11-01, updated 2026-11-01. Every questio
 
 Related: doc 28 (6.3a, the design and the reads not built yet), doc 31 (the age terms), doc 33 (the first version), doc 34 (thoughts, section 6), `src/framework/engine/SegmentQuestions.ts` (where these words are kept; where the two differ, the code is right).
 
-The rules that hold for all of them: a radio is one choice, ticks are several (with a limit where stated); an option says its few words, and what is added in brackets or after a colon (an example, a range, an explanation, a platform or brand) is in the "i" of the question; a box has no free-text note; a question with only one option left is not shown (there is nothing to choose) and its answer is that option; an answer to a question that is no longer asked, or to an option no longer offered, is removed when the next choice is made. Where Identity chose both relationships (or none), a Segment that has not ticked Business Data is a Segment of people and is asked the people's questions only; one that has ticked it is asked both. Where Identity chose no relationship, the buyer is read from the buyer's category, then from the audience (a business scale is a business buyer, a life stage a person). Choosing an age term starts the work situation with the one that goes with it (a minor or a young adult: Student; an established, peak or mature adult: Employed; a retiree: Retired) where none is chosen; the user changes it freely. The two columns are of nearly one height: the boxes are shared between them by their length, each column keeping the order of the boxes. The card is laid out as the Positioning card is (two columns with a divider, each question a band, a double rule between boxes). The box titles are in capitals.
+The rules that hold for all of them: a radio is one choice, ticks are several (with a limit where stated); an option says its few words, and what is added in brackets or after a colon (an example, a range, an explanation, a platform or brand) is in the "i" of the question; a box has no free-text note; a question that the answers above settle is **answered for the user and not shown** (owner, 2026-11-01): the Positioning scale of a business buyer sets the organisation's type and size; a self-employed customer decides alone; a retiree is not working and retired; a user's age sets the school stage and removes the work and tool questions that do not apply. A question with only one option left is likewise not shown (there is nothing to choose) and its answer is that option; an answer to a question that is no longer asked, or to an option no longer offered, is removed when the next choice is made. Where Identity chose both relationships (or none), a Segment that has not ticked Business Data is a Segment of people and is asked the people's questions only; one that has ticked it is asked both. Where Identity chose no relationship, the buyer is read from the buyer's category, then from the audience (a business scale is a business buyer, a life stage a person). Choosing an age term starts the work situation with the one that goes with it (a minor or a young adult: Student; an established, peak or mature adult: Employed; a retiree: Retired) where none is chosen; the user changes it freely. The two columns are of nearly one height: the boxes are shared between them by their length, each column keeping the order of the boxes. The card is laid out as the Positioning card is (two columns with a divider, each question a band, a double rule between boxes). The box titles are in capitals.
 
 
 
@@ -59,7 +59,7 @@ The people who pay (the buyer is people, or the Segment has not ticked Business 
 ### 3. What is their primary work status?
 
 - **Control:** one choice (a radio).
-- **Asked when:** The buyer is people.
+- **Asked when:** The buyer is people. For Active Retirees and Dependent seniors it is set to "Not currently working" and not shown.
 - **Options:**
   - Working / Employed
   - Not currently working
@@ -74,7 +74,7 @@ The people who pay (the buyer is people, or the Segment has not ticked Business 
 ### 4. Which best describes their non-working situation?
 
 - **Control:** one choice (a radio).
-- **Asked when:** The primary work status is "Not currently working". "Retired" is not offered to Minors.
+- **Asked when:** The primary work status is "Not currently working". "Retired" is not offered to Minors. For Active Retirees and Dependent seniors it is set to "Retired" and not shown.
 - **Options:**
   - Student
   - Homemaker / Full-time caregiver
@@ -232,7 +232,7 @@ The buyer is a business, or not yet known and the box is ticked. For a business 
 ### 1. What type of organisation are they?
 
 - **Control:** one choice (a radio).
-- **Asked when:** The buyer is a business.
+- **Asked when:** The buyer is a business. The types follow the scale chosen in Positioning: Solopreneurs & Freelancers: Self-employed only, so it is set and not shown; Startups & SMBs or Mid-Market: Private business and Non-profit; Enterprise / Public Sector adds Public body.
 - **Options:**
   - Private business
   - Public body / Government agency
@@ -252,7 +252,7 @@ The buyer is a business, or not yet known and the box is ticked. For a business 
 ### 2. What is the size of the target organization?
 
 - **Control:** one choice (a radio).
-- **Asked when:** As above, and the type is not self-employed. When the type is changed to self-employed, an answer already given here is removed at once.
+- **Asked when:** As above, and the type is not self-employed. When the type is changed to self-employed, an answer already given here is removed at once. The sizes follow the scale chosen in Positioning: Startups & SMBs: Micro and Small; Mid-Market: Medium-sized only (set, not shown); Enterprise / Public Sector: Large only (set, not shown); Solopreneurs & Freelancers: not asked.
 - **Options:**
   - Micro business
   - Small business
@@ -467,7 +467,7 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
 ### 9. How is the purchase decision authorized?
 
 - **Control:** ticks, as many as apply.
-- **Asked when:** The buyer is a business.
+- **Asked when:** The buyer is a business. For a self-employed customer (chosen, or because only freelancers were chosen in Positioning) it is set to "Sole practitioner decision" and not shown.
 - **Options:**
   - Sole practitioner decision
   - End-user champions / Department consensus
@@ -602,7 +602,7 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
 ### 2. What school stage are they at?
 
 - **Control:** one choice (a radio).
-- **Asked when:** As the user's life stage, and the relationship is Parent or guardian, or Caregiver. "Secondary school" is not offered when the user is a Baby or a Child; one already chosen goes when the life stage changes.
+- **Asked when:** As the user's life stage, and the relationship is Parent or guardian, or Caregiver. "Secondary school" is not offered when the user is a Baby or a Child; one already chosen goes when the life stage changes. Not asked of a user of 18 or more. A Baby: Early years only (set, not shown); a Child: Early years or Primary school; a Teenager: Secondary school only (set, not shown).
 - **Options:**
   - Early years
   - Primary school
@@ -617,7 +617,7 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
 ### 3. What is their primary work status?
 
 - **Control:** one choice (a radio).
-- **Asked when:** As the user's life stage, and the relationship is Family member, Spouse or partner, Friend, Commercial & Professional, Other (personal) or Sponsor or funder.
+- **Asked when:** As the user's life stage, and the relationship is Family member, Spouse or partner, Friend, Commercial & Professional, Other (personal) or Sponsor or funder. Not asked of a Baby or a Child.
 - **Options:**
   - Working / Employed
   - Not currently working
@@ -706,7 +706,7 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
 ### 8. How comfortable are they with online tools?
 
 - **Control:** one choice (a radio).
-- **Asked when:** As the user's life stage.
+- **Asked when:** As the user's life stage. Not asked of a Baby.
 - **Options:**
   - Tech-averse / Traditional
   - Moderately comfortable

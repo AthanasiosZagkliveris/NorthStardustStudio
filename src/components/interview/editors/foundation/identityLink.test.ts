@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { segmentContextFor, segmentFrame, settledSegmentAnswers } from "./identityLink";
+import { segmentContext, segmentContextFor, segmentFrame, settledSegmentAnswers } from "./identityLink";
 
 const identity = (relationships: string[], audience: string[] = [], buyerCategory: string[] = []) => ({ relationships, marketType: "single", audience, buyerCategory });
 
@@ -37,6 +37,12 @@ describe("the buyer the Segment card follows", () => {
         // A Proxy buyer of a child: the user's questions stand.
         expect(settledSegmentAnswers(stale, { customerType: ["b2c"], marketType: "single", audience: ["adult"], buyerCategory: ["b2c:proxy"], endUser: ["rel:parent", "age:minor"] }))
             .toEqual({ age: ["peak"], "u-age": ["child"], "u-school": ["primary"], comfort: ["savvy"], discover: ["peers"] });
+    });
+
+
+    it("takes the user's life stage that fits where only one does, even if it was never saved", () => {
+        const context = segmentContext({ relationships: ["b2c"], marketType: "single", audience: ["young"], buyerCategory: ["b2c:proxy"], endUser: ["rel:parent"] });
+        expect(context.userStages).toEqual(["age:minor"]);
     });
 
 });

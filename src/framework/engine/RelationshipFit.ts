@@ -41,6 +41,27 @@ export function userStageFits(relationships: readonly string[], stageId: string,
 }
 
 /** Whether a relationship can be the buyer's, given the buyer's life stage: a Student or Young Adult is not a Commercial & Professional buyer (the owner's rule, 2026-10-30). */
+/**
+ * THE USER'S LIFE STAGE WHEN ONLY ONE FITS (owner, 2026-11-01): a consumer buyer's Proxy or Dual-Intent relationship and life stage can leave a single user stage (a parent buying for a Students /
+ * Young Adults buyer's dependent: Minors). Then there is nothing to choose: the stage is set, and the question is not drawn. An organisation with a stage already chosen, no relationship yet or
+ * several stages left is returned as it is.
+ */
+export function withOnlyUserStage<T extends { customerType: string[]; audience: string[]; endUser: string[]; buyerCategory?: string[] }>(organisation: T): T {
+
+    if (!organisation.customerType.includes("b2c") || categoryOfModel(organisation.buyerCategory ?? [], "b2c") === "") {
+        return organisation;
+    }
+
+    if (organisation.endUser.some(id => id.startsWith("age:")) || !organisation.endUser.some(id => id.startsWith("rel:"))) {
+        return organisation;
+    }
+
+    const fitting = USER_STAGES.filter(id => userStageFits(organisation.endUser, id, organisation.audience));
+
+    return fitting.length === 1 ? { ...organisation, endUser: [...organisation.endUser, fitting[0]] } : organisation;
+
+}
+
 export function relationshipFitsBuyerStage(id: string, audience: readonly string[]): boolean {
     return !(id === "rel:commercial" && audience.includes("young"));
 }

@@ -38,6 +38,8 @@ export interface SegmentContext {
     userStages: readonly string[];
     /** The buyer and user relationships chosen in Positioning (rel:parent and so on). */
     relations: readonly string[];
+    /** The scales of a business buyer chosen in Positioning (solo, smb, mid, enterprise). */
+    scales: readonly string[];
 }
 
 /** One saved answer: question id to the ids chosen. */
@@ -512,6 +514,22 @@ const QUESTIONS: readonly SegmentQuestion[] = RAW_QUESTIONS.map(question => {
 
 export const SEGMENT_QUESTIONS = QUESTIONS;
 
+/** The sizes each Positioning scale of a business buyer holds (the mapping of doc 28, 8.2; the owner approved it 2026-11-01): a solo buyer has no employees, so no size is asked. */
+const SIZES_OF_SCALE: Record<string, readonly string[]> = { solo: [], smb: ["micro", "small"], mid: ["medium"], enterprise: ["large"] };
+
+/** Only Solopreneurs & Freelancers were chosen: the customers are self-employed, with no employees. */
+function onlySolo(context: SegmentContext): boolean {
+    return context.scales.length > 0 && context.scales.every(id => id === "solo");
+}
+
+/** The age terms of a retired buyer (Active Retirees, Dependent seniors): the work situation is implied by the term. */
+function retiredByAge(answers: SegmentAnswers): boolean {
+    return has(answers, "age", "active") || has(answers, "age", "dependent");
+}
+
+/** The user's age terms from 18 on: no school stage is asked of them. */
+const ADULT_USER_AGES = ["young", "established", "peak", "mature", "active", "dependent"];
+
 const PERSONAL = ["rel:parent", "rel:caregiver"];
 const ADULT_PERSONAL = ["rel:family", "rel:partner", "rel:friend", "rel:otherpersonal", "rel:commercial", "rel:sponsor"];
 const JOB = ["rel:employer", "rel:copartner", "rel:otherbusiness"];
@@ -536,7 +554,7 @@ export function segmentQuestionAsked(question: SegmentQuestion, answers: Segment
         case "age": case "work": case "gender":
             return people;
         case "work2":
-            return people && has(answers, "work", "notworking");
+            return people && (has(answers, "work", "notworking") || retiredByAge(answers));
         case "workenv": case "workschedule": case "workincome":
             return people && has(answers, "work", "working");
         case "education": case "income":
@@ -546,19 +564,24 @@ export function segmentQuestionAsked(question: SegmentQuestion, answers: Segment
         case "orgtype": case "sector":
             return business;
         case "size":
-            return business && !has(answers, "orgtype", "self");
+            return business && !has(answers, "orgtype", "self") && !onlySolo(context);
         case "industry":
             return business && (answers.sector ?? []).length > 0;
         case "social": case "share": case "trigger": case "path":
             return people;
         case "authorise":
             return business;
-        case "u-age": case "u-comfort":
+        case "u-age":
             return context.endsUser;
+        case "u-comfort":
+            // A baby does not use online tools.
+            return context.endsUser && !has(answers, "u-age", "baby");
         case "u-school":
-            return context.endsUser && context.relations.some(id => PERSONAL.includes(id));
+            // No school stage for a user of 18 or more.
+            return context.endsUser && context.relations.some(id => PERSONAL.includes(id)) && !ADULT_USER_AGES.some(id => has(answers, "u-age", id));
         case "u-work":
-            return context.endsUser && context.relations.some(id => ADULT_PERSONAL.includes(id));
+            // No work status for a baby or a child.
+            return context.endsUser && context.relations.some(id => ADULT_PERSONAL.includes(id)) && !has(answers, "u-age", "baby") && !has(answers, "u-age", "child");
         case "u-work2":
             return context.endsUser && context.relations.some(id => ADULT_PERSONAL.includes(id)) && has(answers, "u-work", "notworking");
         case "u-job":
@@ -583,8 +606,30 @@ export function segmentOptions(question: SegmentQuestion, answers: SegmentAnswer
         case "age":
             return BUYER_AGES.filter(option => keep(option, context.lifeStages.length === 0 || context.lifeStages.includes(option.stage)))
                 .map(({ id, label }) => ({ id, label }));
+        case "work":
+            // A retiree is not working.
+            return question.options.filter(option => keep(option, !(retiredByAge(answers) && option.id !== "notworking")));
         case "work2":
-            return question.options.filter(option => keep(option, !(option.id === "retired" && has(answers, "age", "minor"))));
+            // A retiree is retired; a minor is not.
+            return question.options.filter(option => keep(option, retiredByAge(answers)
+                ? option.id === "retired"
+                : !(option.id === "retired" && has(answers, "age", "minor"))));
+        case "orgtype": {
+            // The scales chosen in Positioning: Solopreneurs & Freelancers are self-employed; a public body goes with Enterprise / Public Sector.
+            const scales = context.scales;
+            const solo = scales.includes("solo");
+            const bigger = scales.some(id => id !== "solo");
+            return question.options.filter(option => keep(option, scales.length === 0
+                || (option.id === "self" ? solo : option.id === "public" ? scales.includes("enterprise") : bigger)));
+        }
+        case "size": {
+            const scales = context.scales;
+            const sizes = scales.flatMap(id => SIZES_OF_SCALE[id] ?? []);
+            return question.options.filter(option => keep(option, scales.length === 0 || sizes.length === 0 || sizes.includes(option.id)));
+        }
+        case "authorise":
+            // A self-employed customer, or one who is only a freelancer, decides alone.
+            return question.options.filter(option => keep(option, !(has(answers, "orgtype", "self") || onlySolo(context)) || option.id === "solo"));
         case "u-work2":
             return question.options.filter(option => keep(option, !(option.id === "retired" && (has(answers, "u-age", "baby") || has(answers, "u-age", "child") || has(answers, "u-age", "teen")))));
         case "industry":
@@ -595,8 +640,12 @@ export function segmentOptions(question: SegmentQuestion, answers: SegmentAnswer
                 !(option.id === "bnpl" && has(answers, "age", "minor"))
                 && !(option.id === "invoice" && context.frame === "people")));
         case "u-school":
-            // A baby or a child (up to 11) is not at secondary school.
-            return question.options.filter(option => keep(option, !(option.id === "secondary" && (has(answers, "u-age", "baby") || has(answers, "u-age", "child")))));
+            // A baby is in the early years, a child in the early years or primary school, a teenager at secondary school.
+            return question.options.filter(option => keep(option,
+                has(answers, "u-age", "baby") ? option.id === "early"
+                    : has(answers, "u-age", "child") ? option.id !== "secondary"
+                        : has(answers, "u-age", "teen") ? option.id === "secondary"
+                            : true));
         case "u-age":
             return USER_AGES.filter(option => keep(option, context.userStages.length === 0 || context.userStages.includes(option.stage)))
                 .map(({ id, label }) => ({ id, label }));

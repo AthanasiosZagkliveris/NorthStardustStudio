@@ -289,6 +289,15 @@ What the Segment cannot say: which devices, which social media, which communitie
 3. **The needs** stay open text lists.
 4. **The user's Profile skips Box D** (2.1); the payer's Profile holds how they compare and what help they want.
 
+**Answered for the user and not shown (owner, 2026-11-01).** The same rule as the Segment's (doc 36): where the answers above leave one answer, it is set and the question is not drawn.
+
+| Question | Set when | To |
+|---|---|---|
+| A3 job level | the Segment's customers are self-employed | Owner or senior executive |
+| A5 part in the purchase | the Segment's decision is "Sole practitioner decision" | all five roles ticked |
+
+**Starting values the user can change (owner, 2026-11-01).** D1 and D2 start from the Segment's path to purchase and online comfort (a Researcher: reviews; a Social validator: what other people recommend; Tech-savvy: they work it out themselves; Tech-averse: they want to talk to a person); D2 starts at a formal proposal where the Segment's decision includes a formal procurement loop; A2 starts from the Segment's gender mix when it is 80% or more one way; C1 as in 5. Impulse buyers skip D1.
+
 **One list for the job levels.** A3 and the Segment's user question ("What job level do they have?") take the same six levels, written once (`JOB_LEVELS`, `SegmentQuestions.ts`), so the words never differ between the two cards or the exports.
 
 **The devices (C1) stay a starting value and a Review note, not a rule.** The Segment's "where they buy" starts C1 (a store: no device; the phone: Smartphone), and the Review notes a contradiction, but C1 is never unticked for the user: a shopper who buys in a store still finds the shop on a phone. A tendency never removes an option.

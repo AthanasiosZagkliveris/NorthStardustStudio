@@ -13,7 +13,7 @@ import {
     segmentSettle
 } from "./SegmentQuestions.ts";
 
-const OPEN: SegmentContext = { frame: "open", stage: "manage", lifeStages: [], endsUser: false, userStages: [], relations: [] };
+const OPEN: SegmentContext = { frame: "open", stage: "manage", lifeStages: [], endsUser: false, userStages: [], relations: [], scales: [] };
 const question = (id: string) => SEGMENT_QUESTIONS.find(entry => entry.id === id)!;
 const ids = (list: readonly { id: string }[]) => list.map(option => option.id);
 
@@ -81,7 +81,7 @@ describe("the Segment's questions", () => {
         expect(ids(segmentOptions(question("u-age"), {}, parent))).toEqual(["baby", "child", "teen"]);
         expect(ids(segmentOptions(question("u-school"), {}, parent))).toEqual(["early", "primary", "secondary"]);
         expect(ids(segmentOptions(question("u-school"), { "u-age": ["child"] }, parent))).toEqual(["early", "primary"]);
-        expect(segmentSettle({ "u-age": ["baby"], "u-school": ["secondary"] }, parent)).toEqual({ "u-age": ["baby"] });
+        expect(segmentSettle({ "u-age": ["baby"], "u-school": ["secondary"] }, parent)).toEqual({ "u-age": ["baby"], "u-school": ["early"] });
         const serving = { ...OPEN, endsUser: true, relations: ["rel:serving"] };
         expect(ids(segmentQuestionsOf("user", { "u-orgtype": ["self"] }, serving))).toEqual(["u-age", "u-orgtype", "u-comfort"]);
         const employer = { ...OPEN, endsUser: true, relations: ["rel:employer", "rel:friend"] };
@@ -92,7 +92,7 @@ describe("the Segment's questions", () => {
         const students = { ...OPEN, frame: "people" as const, lifeStages: ["young"] };
         expect(segmentSettle({ age: ["minor"], education: ["bachelor"], income: ["high"], work: ["retired"] }, students)).toEqual({ age: ["minor"] });
         expect(segmentSettle({ age: ["peak"] }, students)).toEqual({});
-        expect(segmentSettle({ orgtype: ["self"], size: ["micro"], sector: ["tech"], industry: ["health"] }, { ...OPEN, frame: "business" })).toEqual({ orgtype: ["self"], sector: ["tech"] });
+        expect(segmentSettle({ orgtype: ["self"], size: ["micro"], sector: ["tech"], industry: ["health"] }, { ...OPEN, frame: "business" })).toEqual({ orgtype: ["self"], sector: ["tech"], authorise: ["solo"] });
     });
 
     it("does not show a question with one option left, and its answer is that option", () => {
@@ -139,6 +139,53 @@ describe("the Segment's questions", () => {
             { label: "How do they share their favorite finds or experiences?", value: "Posting publicly on personal social media feeds; Verbally during face-to-face conversations" },
             { label: "How do they prefer to pay?", value: "Traditional credit / debit card" }
         ]);
+    });
+
+
+    describe("what the answers above settle (asked of no one, answered for them)", () => {
+
+        const business = { ...OPEN, frame: "business" as const };
+
+        it("makes freelancers self-employed with no size, and shows them no question about who decides", () => {
+            const solo = { ...business, scales: ["solo"] };
+            expect(ids(segmentQuestionsOf("business-data", {}, solo))).toEqual(["sector"]);
+            expect(segmentSettle({}, solo)).toEqual({ orgtype: ["self"], authorise: ["solo"] });
+            expect(ids(segmentQuestionsOf("purchasing", {}, solo))).not.toContain("authorise");
+            expect(segmentSettle({ ...{}, orgtype: ["private"], size: ["small"], authorise: ["executive"] }, solo)).toEqual({ orgtype: ["self"], authorise: ["solo"] });
+        });
+
+        it("takes the sizes of the scale chosen, and offers a public body only for Enterprise / Public Sector", () => {
+            expect(ids(segmentOptions(question("size"), {}, { ...business, scales: ["smb"] }))).toEqual(["micro", "small"]);
+            expect(segmentSettle({}, { ...business, scales: ["mid"] }).size).toEqual(["medium"]);
+            expect(segmentSettle({}, { ...business, scales: ["enterprise"] }).size).toEqual(["large"]);
+            expect(ids(segmentOptions(question("orgtype"), {}, { ...business, scales: ["smb"] }))).toEqual(["private", "nonprofit"]);
+            expect(ids(segmentOptions(question("orgtype"), {}, { ...business, scales: ["enterprise"] }))).toEqual(["private", "public", "nonprofit"]);
+            expect(ids(segmentOptions(question("orgtype"), {}, { ...business, scales: ["solo", "smb"] }))).toEqual(["private", "nonprofit", "self"]);
+            expect(ids(segmentOptions(question("size"), {}, { ...business, scales: [] }))).toEqual(["micro", "small", "medium", "large"]);
+        });
+
+        it("makes a self-employed customer decide alone", () => {
+            expect(segmentSettle({ orgtype: ["self"] }, { ...business, scales: ["solo", "smb"] })).toEqual({ orgtype: ["self"], authorise: ["solo"] });
+        });
+
+        it("makes a retiree not working and retired", () => {
+            const people = { ...OPEN, frame: "people" as const };
+            expect(segmentSettle({ age: ["active"] }, people)).toEqual({ age: ["active"], work: ["notworking"], work2: ["retired"] });
+            expect(segmentSettle({ age: ["dependent"], work: ["working"] }, people)).toEqual({ age: ["dependent"], work: ["notworking"], work2: ["retired"] });
+            expect(ids(segmentQuestionsOf("demographics", { age: ["active"] }, people))).toEqual(["age", "education", "income", "gender"]);
+        });
+
+        it("asks the user's school stage, work and tool comfort only where the user's age calls for them", () => {
+            const parent = { ...OPEN, endsUser: true, userStages: ["age:minor"], relations: ["rel:parent", "rel:friend"] };
+            expect(segmentSettle({ "u-age": ["baby"] }, parent)).toEqual({ "u-age": ["baby"], "u-school": ["early"] });
+            expect(ids(segmentQuestionsOf("user", { "u-age": ["baby"] }, parent))).toEqual(["u-age"]);
+            expect(ids(segmentOptions(question("u-school"), { "u-age": ["child"] }, parent))).toEqual(["early", "primary"]);
+            expect(segmentSettle({ "u-age": ["teen"] }, parent)["u-school"]).toEqual(["secondary"]);
+            expect(ids(segmentQuestionsOf("user", { "u-age": ["child"] }, parent))).toEqual(["u-age", "u-school", "u-comfort"]);
+            const adults = { ...OPEN, endsUser: true, userStages: ["age:adult"], relations: ["rel:parent", "rel:friend"] };
+            expect(ids(segmentQuestionsOf("user", { "u-age": ["peak"] }, adults))).toEqual(["u-age", "u-work", "u-comfort"]);
+        });
+
     });
 
 });

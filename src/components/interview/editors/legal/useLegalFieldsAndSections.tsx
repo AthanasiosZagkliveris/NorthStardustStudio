@@ -357,7 +357,8 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                     )}
                     </div>
 
-                    {set.model === "b2c" && (
+                    {/* (Where only one life stage fits, it is set and the question is not drawn.) */}
+                    {set.model === "b2c" && USER_LIFE_STAGES.filter(option => userStageFits(entity.organisation.endUser, option.id, entity.organisation.audience)).length !== 1 && (
                         <div className={"legal-entity-org-section legal-entity-org-audience legal-entity-org-enduser" + band("left")}>
                         {choice(
                             "User's Life-Stage",
