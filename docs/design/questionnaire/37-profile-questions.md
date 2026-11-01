@@ -38,6 +38,20 @@ Related: doc 36 (the Segment's questions, built, in the same form), doc 28 (6.4 
 
 The app also **proposes Profiles** (up to three): one for each age term of the group; for a business Segment, the kinds of business of its industry; for a Proxy or Dual-Intent buyer, a second Profile for the user (doc 36, the user part). The user presses Add on the ones they want.
 
+### 2.1 How the Profile follows the Segment's kind (proposed)
+
+| The Segment is | The Profiles | Asked | Not asked |
+|---|---|---|---|
+| **B2C, Direct Buyers** | one typical person, who pays and uses | A1 to A3, A6; B1; C; D; E | A5 (the person plays every part) |
+| **B2C, Proxy or Dual-Intent** | the payer's Profile, and a second Profile for the user (proposed beside it, doc 28, 6.5) | the payer: all but A5's "will use it"; the user: A1, A2, A5 (who uses it, who influences), A6, B1, C, E | the user's Box D: the user does not run the purchase (the payer's Profile holds how they compare and what help they want) |
+| **B2B** | the person who decides (or the one asked to use it) | A1, A3, A4, A5, B1, C, D, E | A2 and A6 (they are asked only where the owner turns them on) |
+
+A5 starts, for the payer of a Proxy Segment, with "They place the order" and "They make the final decision" ticked, as starting values the user can change; nothing is locked.
+
+### 2.2 When an answer above changes
+
+The Segment's rule holds here: **a question that is no longer asked, or an option no longer offered, has its answer removed on the next choice**, and the documents read the answers settled against what is asked now. Two cases need a decision (section 9): an exact age (A1) that falls outside a Segment's new age group; and a Profile of a user whose Segment is no longer Proxy or Dual-Intent.
+
 ## 3. Box A. Specific Personal Information
 
 A typical person of the Segment, asked specifically.
@@ -146,8 +160,8 @@ What the Segment cannot say: which devices, which social media, which communitie
 - **Options:** the list L15 (doc 35, 5.2): Smartphone; Laptop or desktop; Tablet; A shared or public device; None of these (excludes the others).
 - **The "i" would say:** The devices they use to find and buy, not those they own.
 - **Connections:**
-  - *Comes from:* the Segment's online comfort and where they buy.
-  - *Read by (not built yet):* the Review (make the order and the forms work on a phone).
+  - *Comes from:* the Segment's online comfort and where they buy: the setting starts it (Mobile app: Smartphone; Desktop / Laptop computer: Laptop or desktop; Physical storefront: none; Multi-channel: Smartphone and Laptop or desktop), as a starting value the user can change.
+  - *Read by (not built yet):* the Review (make the order and the forms work on a phone; a note where the devices ticked leave out the one the Segment buys on).
 
 ### C2. Which social media do they use?
 
@@ -249,4 +263,6 @@ What the Segment cannot say: which devices, which social media, which communitie
 2. **Their conditions** (online comfort, the ways of discovering ideas, the social environment) make the Profile ask less when the Segment says it is not needed; confirm that a tendency is enough to hide a question here, or ask all three always.
 3. **A5** needs a user part or a business buyer to be asked; a consumer Segment with no user never sees it.
 4. **The needs** stay text lists, as doc 28 says; say if they should also get a choice question.
-5. **Nothing here is built.** The reads are the design's, to be built when the Segment's are.
+5. **An exact age outside the Segment's new age group (A1).** The design (doc 28) is a Review item, not an error and not an erasure: the number is the user's own words about a typical person. The alternative is to clear A1 when the group changes, as the choice questions are. Which?
+6. **The user's Profile skips Box D** (section 2.1): confirm, or let the user's Profile ask how they compare and what help they want.
+7. **Nothing here is built.** The reads are the design's, to be built when the Segment's are.

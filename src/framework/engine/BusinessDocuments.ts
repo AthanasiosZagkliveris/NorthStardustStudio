@@ -2,6 +2,7 @@ import { workspacesOf, WORKSPACE_GROUP_ID } from "./AnswerUtils.ts";
 import { activitiesLine, positioningDocumentTitle } from "./ActivityClassification.ts";
 import { stageOf } from "./BusinessStage.ts";
 import { segmentAnswerLines, segmentBoxAnswered } from "./SegmentQuestions.ts";
+import { settledSegmentAnswers } from "./SegmentContext.ts";
 /*
     The two documents the Foundation capability adds up to, built from
     what has been answered -- nothing is asked again:
@@ -820,7 +821,7 @@ function marketBlocks(f: Foundation): ExportBlock[] {
         ...labelled(positioningDocumentTitle(f.stage), text(f.definition.positioning)),
         ...f.segments.flatMap((segment, index) => [
             heading("Segment " + (index + 1) + ": " + (segment.name.trim() || "Unnamed segment")),
-            ...titled2("What we know of them", details(segmentAnswerLines(segment.questions).map(line => [line.label, line.value]))),
+            ...titled2("What we know of them", details(segmentAnswerLines(settledSegmentAnswers(segment, f.legalEntity.organisation)).map(line => [line.label, line.value]))),
             ...titled2("Customer Profiles", table(["Profile", "Goals", "Challenges", "Needs"], segment.profiles.map(profile => [
                 profile.name,
                 profile.goals,
@@ -837,7 +838,7 @@ function marketBlocks(f: Foundation): ExportBlock[] {
         ]),
         // Each segment's market size and outlook is under it; said to
         // be missing only when no segment has one.
-        ...(f.segments.some(segment => segmentBoxAnswered(segment.questions, "market-size"))
+        ...(f.segments.some(segment => segmentBoxAnswered(settledSegmentAnswers(segment, f.legalEntity.organisation), "market-size"))
             ? []
             : notCovered("Market Size and Industry Outlook"))
     ];

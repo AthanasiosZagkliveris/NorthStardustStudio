@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { segmentContextFor, segmentFrame } from "./identityLink";
+import { segmentContextFor, segmentFrame, settledSegmentAnswers } from "./identityLink";
 
 const identity = (relationships: string[], audience: string[] = [], buyerCategory: string[] = []) => ({ relationships, marketType: "single", audience, buyerCategory });
 
@@ -23,6 +23,20 @@ describe("the buyer the Segment card follows", () => {
         expect(segmentContextFor(identity([]), false).frame).toBe("people");
         expect(segmentContextFor(identity([]), true).frame).toBe("open");
         expect(segmentContextFor(identity(["b2b"]), false).frame).toBe("business");
+    });
+
+
+    it("settles a Segment's answers against Identity as it is now, so a change in Positioning leaves no old answer in the documents", () => {
+        const stale = { questions: { age: ["peak"], "u-age": ["child"], "u-school": ["primary"], orgtype: ["private"], size: ["small"], comfort: ["savvy"], discover: ["peers"] }, description: {} };
+        // A consumer buyer of Direct Buyers: the business questions and the user's questions are not asked.
+        expect(settledSegmentAnswers(stale, { customerType: ["b2c"], marketType: "single", audience: ["adult"], buyerCategory: ["b2c:direct"], endUser: [] }))
+            .toEqual({ age: ["peak"], comfort: ["savvy"], discover: ["peers"] });
+        // The buyer became a business: the people's age is no longer asked.
+        expect(settledSegmentAnswers(stale, { customerType: ["b2b"], marketType: "single", audience: ["smb"], buyerCategory: ["b2b:direct"], endUser: [] }))
+            .toEqual({ orgtype: ["private"], size: ["small"], comfort: ["savvy"], discover: ["peers"] });
+        // A Proxy buyer of a child: the user's questions stand.
+        expect(settledSegmentAnswers(stale, { customerType: ["b2c"], marketType: "single", audience: ["adult"], buyerCategory: ["b2c:proxy"], endUser: ["rel:parent", "age:minor"] }))
+            .toEqual({ age: ["peak"], "u-age": ["child"], "u-school": ["primary"], comfort: ["savvy"], discover: ["peers"] });
     });
 
 });

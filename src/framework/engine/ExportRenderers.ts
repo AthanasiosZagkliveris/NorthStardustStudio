@@ -1,4 +1,5 @@
 import { segmentAnswerLines } from "./SegmentQuestions.ts";
+import { settledSegmentAnswers } from "./SegmentContext.ts";
 import { workspacesOf, WORKSPACE_GROUP_ID } from "./AnswerUtils.ts";
 import { AUDIENCE_WORDS, BUYER_CATEGORY_WORDS, END_USER_WORDS, CUSTOMER_TYPE_WORDS, MARKET_TYPE_WORDS, DIFFERENTIATION_WORDS, OUTCOME_USER_WORDS, OUTCOME_WORDS, PURPOSE_WORDS, activitiesLine } from "./ActivityClassification.ts";
 /*
@@ -482,10 +483,10 @@ function describe(description: Record<string, string>, fields: [string, string][
     return fields.flatMap(([id, label]) => paragraph(description[id] ?? "", label));
 }
 
-function segmentBlocks(segment: BusinessCustomerSegmentValue, index: number): ExportBlock[] {
+function segmentBlocks(segment: BusinessCustomerSegmentValue, index: number, organisation: Parameters<typeof settledSegmentAnswers>[1]): ExportBlock[] {
     return [
         heading("Segment " + (index + 1) + ": " + (segment.name.trim() || "Unnamed segment")),
-        ...details(segmentAnswerLines(segment.questions).map((line): [string, string] => [line.label, line.value])),
+        ...details(segmentAnswerLines(settledSegmentAnswers(segment, organisation)).map((line): [string, string] => [line.label, line.value])),
 
         ...segment.profiles.flatMap((profile, position) => [
             heading("Profile " + (index + 1) + "." + (position + 1) + ": " + (profile.name.trim() || "Unnamed profile"), 2),
@@ -524,8 +525,9 @@ function segmentBlocks(segment: BusinessCustomerSegmentValue, index: number): Ex
     ];
 }
 
-function businessFoundationBlocks(value: unknown): ExportBlock[] {
-    return asBusinessFoundationValue(value).segments.flatMap(segmentBlocks);
+function businessFoundationBlocks(value: unknown, context: ExportContext): ExportBlock[] {
+    const organisation = asLegalEntityValue(context.responseOf?.(AnswerType.LegalEntity) ?? context.legalEntity).organisation;
+    return asBusinessFoundationValue(value).segments.flatMap((segment, index) => segmentBlocks(segment, index, organisation));
 }
 
 /* ==========================================================
@@ -1136,7 +1138,7 @@ export function bespokeAnswerBlocks(
         case AnswerType.FoundersProfile: return foundersProfileBlocks(value, context);
         case AnswerType.BrandStyle: return brandStyleBlocks(value);
         case AnswerType.BrandInventory: return brandInventoryBlocks(value);
-        case AnswerType.BusinessFoundation: return businessFoundationBlocks(value);
+        case AnswerType.BusinessFoundation: return businessFoundationBlocks(value, context);
         case AnswerType.BusinessEngagement: return businessEngagementBlocks(value, context);
         case AnswerType.BusinessCapability: return businessCapabilityBlocks(value, context);
         case AnswerType.FinancialFoundation: return financialFoundationBlocks(value, context);
