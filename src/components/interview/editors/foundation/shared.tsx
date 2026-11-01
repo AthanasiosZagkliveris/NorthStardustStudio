@@ -18,21 +18,48 @@ export const SUBSECTIONS = {
 
     segments: {
         instructions: [
-            "Divide your Target Audience into 1 primary segment (maximum 2), focusing on the highest-value or easiest-to-reach groups.",
+            "Divide your Target Audience into segments, as many as your business stage allows (one while planning and launching, up to two while managing, any number while growing), focusing on the highest-value or easiest-to-reach groups.",
             "Define up to 3 customer profiles, including their problems, needs, and the best approach for reaching them."
         ],
         segmentDescription: [
-            { id: "demographics", title: "Demographics", text: "What are their age range, education level, and income range?" },
+            { id: "demographics", title: "Demographics", text: "What are their age group, education, work situation, household income and gender mix?" },
             { id: "geographics", title: "Geographics", text: "Where do they live, work or operate?" },
-            { id: "business-data", title: "Business Data", text: "If you sell to companies, what is their company type, size and industry?" },
-            { id: "purchasing", title: "Purchasing Power & Behaviour", text: "What influences how much they spend, when they buy, and whether it is worthwhile?" },
+            { id: "business-data", title: "Business Data", text: "If you sell to companies, what type of organisation are they, how big, and in which sector and industry?" },
+            { id: "purchasing", title: "Purchasing Power & Behaviour", text: "How do they find, choose, buy and pay, and who decides?" },
             // The specification's Market Size, with Industry Outlook &
             // Trends asked in the same box: not the specification's,
             // added at the product owner's request for the Business
             // Plan's Market Analysis. Optional, like every Description
             // parameter.
-            { id: "market-size", title: "Market Size & Industry Outlook", text: "How large is this group? Where this market is heading: growth, key trends, changes in technology or regulation, and what they mean for your customers." }
+            { id: "market-size", title: "Market Size & Industry Outlook", text: "How large is this group? Where is this market heading: growth, key trends, changes in technology or regulation, competition, and what they mean for your customers?" }
         ],
+        // What the "i" of the Segment Description adds to the two instructions (which stand above the line on the page): how the questions of its boxes come and go.
+        questionsNote: "Each box asks choice questions. Which ones appear follows your Positioning (Identity): who the buyer is (people or businesses), their life stage, the buyer's category and the business stage. A question that no longer applies is not asked, and its answer is removed.",
+        // What the "i" of each box adds to its prompt: what it asks and what its questions follow.
+        boxNotes: {
+            demographics: [
+                "Asked when the customers are people. The age groups offered follow the life stage chosen in Positioning, and the questions that do not apply to minors are not asked of them.",
+                "Choosing an age group starts the work situation with the one that goes with it, which you can change. The specialized needs are optional: tick them to describe accessibility needs and caregiving roles."
+            ],
+            geographics: [
+                "Where most of your customers are, and, for customers in one place or one country, the kind of area they live or work in (asked once the business is managing or growing).",
+                "If your customers are in more than one place, make another Segment."
+            ],
+            "business-data": [
+                "Asked when the customers are businesses; for a business buyer this box comes before Geographics.",
+                "Where Positioning has not said whether the buyer is a person or a business, tick the box to describe a business."
+            ],
+            purchasing: [
+                "Some questions are for every customer (online comfort, where they discover ideas, where they buy, how they pay), some for people (their habits and how they decide to buy) and one for businesses (how the purchase is authorized).",
+                "The ways of discovering ideas that you tick are offered on the Profile as related platforms."
+            ],
+            "market-size": [
+                "These answers describe the market the customers belong to, not your own business."
+            ],
+            user: [
+                "Shown when Positioning says the buyer buys for someone else (a Proxy or Dual-Intent buyer). It describes the person who uses what the buyer buys: their life stage, how they relate to the buyer, and how comfortable they are with online tools."
+            ]
+        } as Record<string, string[]>,
         profileDescription: [
             { id: "personal", title: "Specific Personal Information", text: "What are their exact age, gender, marital status, education and job title?" },
             { id: "psychographics", title: "Psychographics", text: "What do they value, believe in, enjoy and consider important?" },
@@ -130,10 +157,11 @@ export interface DescriptionPart {
     extra?: string[];
     /** Asked without the tick that asks whether it applies (Business Data, where the Segment's customers are businesses). */
     always?: boolean;
-    /** The choice questions of the box (see SegmentQuestions.ts), above its text. */
-    questions?: ReactNode;
-    /** Only questions: no text box beside them (the user block). */
-    questionsOnly?: boolean;
+    /** The choice questions of the box (see SegmentQuestions.ts), each one band of the box. */
+    questions?: ReactNode[];
+    /** How tall the box stands (its title and each question with its options, in lines), so the two columns can be of one height. */
+    weight?: number;
+
 }
 
 /**

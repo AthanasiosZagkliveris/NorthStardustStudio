@@ -64,13 +64,13 @@ describe("BusinessFoundationEditor folding", () => {
 
 describe("BusinessFoundationEditor industry outlook", () => {
 
-    it("asks it with Market Size, in one box with one note", () => {
+    it("asks it with Market Size, in one box, as choice questions and no free text", () => {
 
         render(<Harness initial={twoProfiles()} />);
 
-        const merged = screen.getByLabelText("Segment 1 description: Market Size & Industry Outlook") as HTMLTextAreaElement;
-        expect(merged.tagName).toBe("TEXTAREA");
-        expect(screen.queryByLabelText("Segment 1 description: Industry Outlook & Trends")).toBeNull();
+        expect(screen.getByRole("radiogroup", { name: "How would you describe the current trajectory of the target industry/niche?" })).toBeTruthy();
+        expect(screen.getByRole("group", { name: "What is the biggest macro trend impacting your buyers right now?" })).toBeTruthy();
+        expect(screen.queryByLabelText(/Segment 1 description:/)).toBeNull();
         expect(screen.getByRole("button", { name: "Market Size & Industry Outlook: what this means" })).toBeTruthy();
 
     });
@@ -117,34 +117,44 @@ describe("BusinessFoundationEditor follows the Identity answers", () => {
 
     it("asks people's Demographics and not Business Data for a B2C seller", () => {
         render(<Identified identity={identity(["b2c"])} />);
-        expect(screen.queryByLabelText("Segment 1 description: Demographics")).not.toBeNull();
+        expect(screen.queryByRole("radiogroup", { name: "What age group are the people who pay?" })).not.toBeNull();
         expect(screen.queryByText("Business Data")).toBeNull();
     });
 
     it("asks Business Data without its tick, and not Demographics, for a B2B seller", () => {
         render(<Identified identity={identity(["b2b"])} />);
-        expect(screen.queryByLabelText("Segment 1 description: Demographics")).toBeNull();
-        expect(screen.queryByLabelText("Segment 1 description: Business Data")).not.toBeNull();
+        expect(screen.queryByRole("radiogroup", { name: "What age group are the people who pay?" })).toBeNull();
+        expect(screen.queryByRole("radiogroup", { name: "What type of organisation are they?" })).not.toBeNull();
         expect(screen.queryByRole("checkbox", { name: /Business Data/ })).toBeNull();
     });
 
     it("keeps every box, with the tick, when nothing or several relationships are chosen", () => {
         render(<Identified identity={identity(["b2c", "b2b"])} />);
-        expect(screen.queryByLabelText("Segment 1 description: Demographics")).not.toBeNull();
+        expect(screen.queryByRole("radiogroup", { name: "What age group are the people who pay?" })).not.toBeNull();
         expect(screen.queryByRole("checkbox", { name: /Business Data/ })).not.toBeNull();
     });
 
 });
 
-describe("BusinessFoundationEditor keeps what is written", () => {
-    it("still shows Demographics for a B2B seller when the Segment has text in it", () => {
-        const base = twoProfiles();
-        const written = { ...base, segments: [{ ...base.segments[0], description: { demographics: "Managing partners aged 30 to 60" } }] };
+describe("BusinessFoundationEditor asks its questions", () => {
+
+    it("saves a choice on the Segment, and offers the age terms of the Positioning life stage", () => {
+        let saved: unknown;
         function Held() {
-            const [value, setValue] = useState<unknown>(written);
-            return <BusinessFoundationEditor value={value} onChange={setValue} identity={{ relationships: ["b2b"], marketType: "single", audience: [] }} />;
+            const [value, setValue] = useState<unknown>(twoProfiles());
+            saved = value;
+            return <BusinessFoundationEditor value={value} onChange={setValue} identity={{ relationships: ["b2c"], marketType: "single", audience: ["adult"] }} />;
         }
         render(<Held />);
-        expect(screen.queryByLabelText("Segment 1 description: Demographics")).not.toBeNull();
+        const ages = screen.getByRole("radiogroup", { name: "What age group are the people who pay?" });
+        expect(Array.from(ages.querySelectorAll("label")).map(label => label.textContent)).toEqual(["Established ~25–40", "Peak ~40–55", "Mature ~55–65"]);
+        fireEvent.click(screen.getByRole("radio", { name: "Peak ~40–55" }));
+        expect(asBusinessFoundationValue(saved).segments[0].questions).toEqual({ age: ["peak"], work: ["working"] });
     });
+
+    it("has no free-text box in a box of the Segment's Description", () => {
+        render(<Harness initial={twoProfiles()} />);
+        expect(screen.queryByLabelText(/Segment 1 description:/)).toBeNull();
+    });
+
 });

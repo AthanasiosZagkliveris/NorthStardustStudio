@@ -14,7 +14,7 @@ import { railId } from "../rails/railItems.ts";
 import { FieldMark } from "../fields/fieldMarks.tsx";
 import { toggledIn } from "../fields/toggledIn.ts";
 
-import { BusinessFoundationEditorProps } from "./foundation/shared.tsx";
+import { BusinessFoundationEditorProps, SUBSECTIONS } from "./foundation/shared.tsx";
 
 import { useFoundationState } from "./foundation/useFoundationState.tsx";
 import { useFoundationSubsections } from "./foundation/useFoundationSubsections.tsx";
@@ -107,7 +107,7 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
         );
         const DESCRIPTION = ":description";
         const PROPOSITION = ":proposition";
-        const info = (section: number): InfoPoint[] => [...heads[section].instructions];
+        const info = (section: number): InfoPoint[] => [...heads[section].instructions, ...(section === 0 ? [SUBSECTIONS.segments.questionsNote] : [])];
         const written = (names: readonly string[], count = 6) => names.map(name => name.trim()).filter(name => name.length > 0).slice(0, count);
         const boxesOf = (segment: BusinessCustomerSegmentValue, kind: Kind): CardBox[] => listOf(segment, kind).map((entry, at) => ({
             id: entry.id,

@@ -48,7 +48,7 @@ Under each column, provide **maximum 3 instructions/information points** to assi
 
 ### Column Instructions
 
-* Divide your Target Audience into 1 primary segment (maximum 2), focusing on the highest-value or easiest-to-reach groups.
+* Divide your Target Audience into segments, as many as your business stage allows (one while planning and launching, up to two while managing, any number while growing), focusing on the highest-value or easiest-to-reach groups.
 * Define up to 3 customer profiles, including their problems, needs, and the best approach for reaching them.
 
 ### Customer Segment Inputs
@@ -63,11 +63,11 @@ The information section must present all the parameters the user should take int
 
 **Parameters:**
 
-a. Demographics: What are their age range, education level, and income range?  
+a. Demographics: What are their age group, education, work situation, household income and gender mix?  
 b. Geographics: Where do they live, work or operate?  
-c. Business Data: If you sell to companies, what is their company type, size and industry?  
-d. Purchasing Power \& Behavior: What influences how much they spend, when they buy, and whether it is worthwhile?
-e. Market Size: How large is this group?
+c. Business Data: If you sell to companies, what type of organisation are they, how big, and in which sector and industry?  
+d. Purchasing Power \& Behaviour: How do they find, choose, buy and pay, and who decides?
+e. Market Size \& Industry Outlook: How large is this group? Where is this market heading: growth, key trends, changes in technology or regulation, competition, and what they mean for your customers?
 
 ### Customer Profile Inputs
 

@@ -26,7 +26,12 @@ export type SegmentFrame = "people" | "business" | "open";
 
 export function segmentFrame(identity: SegmentIdentity | undefined): SegmentFrame {
 
-    const chosen = identity?.relationships ?? [];
+    // The relationships chosen; where none is, what the buyer's category or the audience says (a business scale is a business buyer, a life stage a person).
+    const named = identity?.relationships ?? [];
+    const chosen = named.length > 0 ? named : [
+        ...(identity?.buyerCategory ?? []).map(id => id.split(":")[0]),
+        ...(identity?.audience ?? []).map(id => PEOPLE_AUDIENCE.includes(id) ? "b2c" : BUSINESS_AUDIENCE.includes(id) ? "b2b" : "")
+    ];
     const people = chosen.includes("b2c");
     const business = chosen.some(id => id === "b2b" || id === "b2g" || id === "g2b");
 
@@ -71,6 +76,18 @@ export function segmentContext(identity: SegmentIdentity | undefined): SegmentCo
         userStages: endUser.filter(id => id.startsWith("age:")),
         relations: endUser.filter(id => id.startsWith("rel:"))
     };
+
+}
+
+/**
+ * The questions of ONE Segment: where Identity chose both relationships (or none), a Segment that has not ticked Business Data is a Segment of people, and one that has is asked both
+ * (the people's questions and the business's). Otherwise the Segment follows Identity.
+ */
+export function segmentContextFor(identity: SegmentIdentity | undefined, businessTicked: boolean): SegmentContext {
+
+    const context = segmentContext(identity);
+
+    return context.frame === "open" && !businessTicked ? { ...context, frame: "people" } : context;
 
 }
 

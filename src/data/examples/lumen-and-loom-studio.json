@@ -11,7 +11,7 @@
           "value": {
             "description": "Lumen & Loom Studio Ltd is a London-based textile design studio, founded in 2026 by Maya Chen, Oliver Grant and Priya Shah and based at a shared workshop in Hackney Wick, East London. We design and handweave sustainable home textiles (cushions, throws, table linen and wall hangings) from British wool, organic cotton and recycled yarns. Alongside our own collection we run small-group weaving workshops and take bespoke commissions for interior designers and boutique hotels.",
             "mission": "To bring slow, handmade craft back into everyday homes: making beautiful, durable textiles from responsibly sourced materials, paying fair prices along our supply chain, and teaching people the skills to make and repair for themselves.",
-            "positioning": "For design-conscious Londoners and interior professionals who want homeware with a story, and for the friends and family who give them a handwoven piece, Lumen & Loom is an independent textile studio that makes every piece by hand in London from traceable, low-impact yarns. Unlike mass-market homeware brands, each piece is made in small batches, can be repaired for life, and comes with the name of the weaver who made it, which is why it is chosen as a gift. Unlike other makers, we also open our studio: customers can learn to weave with us. ",
+            "positioning": "For design-conscious Londoners and interior professionals who want homeware with a story, Lumen & Loom is an independent textile studio that makes every piece by hand in London from traceable, low-impact yarns. Unlike mass-market homeware brands, each piece is made in small batches, can be repaired for life, and comes with the name of the weaver who made it. Unlike other makers, we also open our studio: customers can learn to weave with us. ",
             "vision": "By 2030, to be London's best-known independent weaving studio: a self-sustaining team of eight makers, a collection stocked by twenty UK independent retailers, a waiting list for our workshops, and a verified low-carbon supply chain from sheep to sofa."
           }
         },
@@ -56,20 +56,15 @@
               "outcome": [
                 "prestige"
               ],
-              "outcomeUser": [
-                "belong"
-              ],
+              "outcomeUser": [],
               "buyerCategory": [
-                "b2c:proxy"
+                "b2c:direct"
               ],
               "purpose": [
                 "gifting",
                 "creation"
               ],
-              "endUser": [
-                "rel:friend",
-                "age:young"
-              ],
+              "endUser": [],
               "addressLine1": "Unit 4, Hackney Wick Maker Yard, 92 Wallis Road\nLondon\nE9 5LN",
               "addressLine2": "",
               "city": "",
@@ -480,12 +475,7 @@
                 "id": "segment-8lu427u5",
                 "hue": 34.5,
                 "name": "Conscious London Homemakers",
-                "description": {
-                  "demographics": "Adults 28–55, mostly women (≈70%), household income £55k+, degree-educated, homeowners or long-term renters; many in creative, professional or public-sector jobs.",
-                  "geographics": "Greater London first, especially East and North London (Hackney, Islington, Walthamstow, Stoke Newington), then UK-wide online.",
-                  "purchasing": "Spend £400–1,500 a year on homeware; buy fewer, better pieces; research before buying; pay 20–40% more for sustainable, handmade and local; buy gifts at Christmas and for weddings.",
-                  "market-size": "UK homeware market ≈ £13bn; UK soft furnishings ≈ £2.5bn. Roughly 450,000 London households fit the profile; a realistic reachable niche of ~15,000 buyers of premium handmade textiles.\n\nOutlook: overall homeware spending is flat, but demand for sustainable, traceable and British-made products keeps growing; buyers increasingly discover makers on Instagram and buy direct online, and rising cotton and wool prices favour small-batch makers who can price on craft rather than volume."
-                },
+                "description": {},
                 "questions": {
                   "age": [
                     "established"
@@ -494,7 +484,16 @@
                     "bachelor"
                   ],
                   "work": [
-                    "employed"
+                    "working"
+                  ],
+                  "workenv": [
+                    "office"
+                  ],
+                  "workschedule": [
+                    "standard"
+                  ],
+                  "workincome": [
+                    "salary"
                   ],
                   "income": [
                     "upper-middle"
@@ -512,11 +511,25 @@
                     "creators",
                     "media"
                   ],
+                  "social": [
+                    "mixed"
+                  ],
+                  "share": [
+                    "public",
+                    "private"
+                  ],
                   "trigger": [
                     "seasonal"
                   ],
                   "path": [
                     "researcher"
+                  ],
+                  "setting": [
+                    "mobile"
+                  ],
+                  "pay": [
+                    "card",
+                    "wallet"
                   ],
                   "trajectory": [
                     "flat"
@@ -530,12 +543,6 @@
                   ],
                   "competition": [
                     "fragmented"
-                  ],
-                  "u-age": [
-                    "young"
-                  ],
-                  "u-comfort": [
-                    "savvy"
                   ]
                 },
                 "profiles": [
@@ -689,16 +696,60 @@
                 "id": "segment-majxtl1u",
                 "hue": 214,
                 "name": "Interior Designers & Boutique Hospitality",
-                "description": {
-                  "business-data": "Design studios of 1–15 people; boutique hotels of 10–60 rooms; restaurants and members’ clubs refurbishing every 5–7 years; many with B Corp or sustainability commitments.",
-                  "demographics": "Decision-makers aged 30–55: independent interior designers, studio founders and boutique-hotel owners or operations managers.",
-                  "geographics": "London first (Shoreditch, Clerkenwell, Marylebone design studios); then boutique hotels and restaurants across the South East and UK cities.",
-                  "purchasing": "Project budgets from £2k (single room) to £40k (hotel refurbishment) for soft furnishings; buy on specification with samples, lead times and trade pricing; repeat business when a supplier is reliable.",
-                  "market-size": "Around 3,000 interior design practices in London and ~1,200 independent boutique hotels in the UK; target 30–50 trade relationships within five years.\n\nOutlook: boutique hotels and restaurants are refurbishing again, with briefs asking for local craft and lower-impact materials; fire-safety rules for contract textiles (BS 5867 / BS 7176) mean fabrics must be tested and certified for commercial use."
-                },
+                "description": {},
                 "questions": {
+                  "age": [
+                    "established"
+                  ],
+                  "education": [
+                    "bachelor"
+                  ],
+                  "work": [
+                    "working"
+                  ],
+                  "workenv": [
+                    "office"
+                  ],
+                  "workschedule": [
+                    "flexible"
+                  ],
+                  "workincome": [
+                    "variable"
+                  ],
+                  "income": [
+                    "upper-middle"
+                  ],
+                  "gender": [
+                    "balanced"
+                  ],
                   "reach": [
                     "country"
+                  ],
+                  "comfort": [
+                    "moderate"
+                  ],
+                  "discover": [
+                    "peers",
+                    "media"
+                  ],
+                  "social": [
+                    "mixed"
+                  ],
+                  "share": [
+                    "verbal"
+                  ],
+                  "trigger": [
+                    "need"
+                  ],
+                  "path": [
+                    "researcher"
+                  ],
+                  "setting": [
+                    "multi"
+                  ],
+                  "pay": [
+                    "card",
+                    "wallet"
                   ],
                   "trajectory": [
                     "growing"
@@ -709,6 +760,9 @@
                   "trends": [
                     "regulation",
                     "society"
+                  ],
+                  "competition": [
+                    "fragmented"
                   ]
                 },
                 "profiles": [

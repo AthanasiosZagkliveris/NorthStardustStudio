@@ -378,7 +378,7 @@ This table is what the layout check runs against: it hovers up to three of each 
 | x (remove) | filled with the danger red (`--x-red`), no stroke, the X in the card's ground (`--x-ground`); at rest transparent (no fill), a 2px red stroke and a red X; the same on every x | outline, the focus ring ink, 2px, 2px off | muted |
 | Fold arrow (`FoldArrow`, 36px) | its ground and the card-line edge -- **not** a founder's Responsibilities / Completed arrows, which have none | focus ring | n/a |
 | Page tile (its slot: button, list, "+") | grows to 110% about its aimed corner (set once per stay), above its neighbours, a drop shadow growing with it | a 2px primary outline on the control that holds it (no growth) | n/a |
-| Box in a dialog (subcategory, card, founder, add) | soft glow (18%) beside its inset light and shade (no stroke) | a 2px primary outline | n/a |
+| Box in a dialog (subcategory, founder, add; a card has no inset light and shade, only its drop shadow) | soft glow (18%) beside its inset light and shade (no stroke) | a 2px primary outline | n/a |
 | Item of a page tile's list | underlined | underlined and a 2px primary outline | n/a |
 | "+" box (a page tile's, 36px; the Activity card's Add Performer, 32px) | the colours swap (150ms): at rest the ground, a 2px stroke and the "+" in the darker tone; under the pointer the darker tone filled, no stroke, the "+" in the ground | the same and a 2px outline | muted, not-allowed |
 | "i" of a coloured card | stroke gone, filled with the tint, the letter in the ground (a swap) | the same | n/a |

@@ -466,10 +466,6 @@ export function brandInventoryBlocks(value: unknown): ExportBlock[] {
    3. Business -- Foundation
 ========================================================== */
 
-const SEGMENT_FIELDS: [string, string][] = [
-    ["demographics", "Demographics"], ["geographics", "Geographics"], ["business-data", "Business Data"],
-    ["purchasing", "Purchasing Power & Behaviour"], ["market-size", "Market Size & Industry Outlook"]
-];
 const PROFILE_FIELDS: [string, string][] = [
     ["personal", "Specific Personal Information"], ["psychographics", "Psychographics"],
     ["hubs", "Social & Interest Hubs"], ["habits", "Information & Shopping Habits"]
@@ -489,7 +485,6 @@ function describe(description: Record<string, string>, fields: [string, string][
 function segmentBlocks(segment: BusinessCustomerSegmentValue, index: number): ExportBlock[] {
     return [
         heading("Segment " + (index + 1) + ": " + (segment.name.trim() || "Unnamed segment")),
-        ...describe(segment.description, SEGMENT_FIELDS),
         ...details(segmentAnswerLines(segment.questions).map((line): [string, string] => [line.label, line.value])),
 
         ...segment.profiles.flatMap((profile, position) => [

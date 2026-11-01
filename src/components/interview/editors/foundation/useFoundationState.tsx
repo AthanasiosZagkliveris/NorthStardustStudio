@@ -3,7 +3,7 @@
  * One part of BusinessFoundationEditor (see BusinessFoundationEditor.tsx): what it needs of the parts before it comes in as `earlier`; what the parts after it need goes out.
  */
 import TickField from "../../../controls/TickField.tsx";
-import { CSSProperties, ReactNode, useRef, useState } from "react";
+import { CSSProperties, Fragment, ReactNode, useRef, useState } from "react";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
 import { BusinessCustomerProfileValue, BusinessCustomerSegmentValue, BusinessDescriptionValue, BusinessFoundationValue, asBusinessFoundationValue } from "../../../../framework/engine/AnswerUtils.ts";
 import { BusinessField, BusinessGroup, BusinessNote, BusinessText } from "../../cards/BusinessCardFields.tsx";
@@ -228,10 +228,8 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
 
             const asked = !optional || current[part.id] !== undefined;
 
-            return (
-                <div className="business-foundation-field" key={part.id}>
-
-                    <span className="business-foundation-label-info">
+            const labelRow = (
+                    <span className={"business-foundation-label-info" + (part.questions ? " legal-entity-label-info" : "")}>
 
                         {optional ? (
                             /*
@@ -284,10 +282,26 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
                         <FieldStatus label={part.title} anchor={anchor} />
 
                     </span>
+            );
 
-                    {asked && part.questions}
+            // A box with questions (the Segment's) is laid out as the Positioning card is: its title over a divider line, then each question a band (see below).
+            if (part.questions) {
+                return (
+                    <div className="business-segment-box" key={part.id}>
+                        <div className="legal-entity-org-section">{labelRow}</div>
+                        {asked && part.questions.map((question, at) => (
+                            <div className={"legal-entity-org-section" + (at % 2 === 1 ? " legal-entity-org-band" : "")} key={at}>{question}</div>
+                        ))}
+                    </div>
+                );
+            }
 
-                    {asked && !part.questionsOnly && (
+            return (
+                <div className="business-foundation-field" key={part.id}>
+
+                    {labelRow}
+
+                    {asked && (
                         <StrategyTextArea
                             className="interview-input business-foundation-note"
                             ariaLabel={kind + " description: " + part.title}
@@ -305,6 +319,14 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
 
         };
 
+        /** The boxes of a column, a double rule between one box and the next (as between the Positioning card's groups). */
+        const column = (list: DescriptionPart[]) => list.map((part, at) => (
+            <Fragment key={part.id}>
+                {at > 0 && <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double" role="separator" />}
+                {box(part)}
+            </Fragment>
+        ));
+
         // Three then two, for the Segment's five: the first column
         // takes the larger half so the two read top-to-bottom,
         // left-to-right.
@@ -317,7 +339,34 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
             ? "repeat(" + (half - 1) + ", auto) 1fr"
             : "auto";
 
-        const boxes = split
+        // The columns of the questions' layout are of one height: the boxes are shared between them, each column keeping the order of the boxes, in the way that leaves the two nearest in height
+        // (the first box stays in the left column).
+        const weights = parts.map(part => part.weight ?? 1);
+        const total = weights.reduce((sum, weight) => sum + weight, 0);
+        let leftSet = new Set(parts.slice(0, Math.min(half, parts.length)).map(part => part.id));
+        let best = Infinity;
+        for (let mask = 1; mask < (1 << parts.length) - 1; mask++) {
+            if (!(mask & 1)) {
+                continue;
+            }
+            const left = weights.reduce((sum, weight, at) => sum + (mask & (1 << at) ? weight : 0), 0);
+            const gap = Math.abs(total - 2 * left);
+            if (gap < best) {
+                best = gap;
+                leftSet = new Set(parts.filter((_part, at) => mask & (1 << at)).map(part => part.id));
+            }
+        }
+        const leftBoxes = parts.filter(part => leftSet.has(part.id));
+        const rightBoxes = parts.filter(part => !leftSet.has(part.id));
+
+        const boxes = split && parts.some(part => part.questions)
+            ? (
+                <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid">
+                    <div className="legal-entity-field">{column(leftBoxes)}</div>
+                    <div className="legal-entity-field legal-entity-questions">{column(rightBoxes)}</div>
+                </div>
+            )
+            : split
                 ? (
                     <div
                         className="business-foundation-description-split"

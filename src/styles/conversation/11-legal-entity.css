@@ -101,7 +101,7 @@
 /* THE POSITIONING CARD (Early Positioning): the left column is as wide as its longest option, so every option stands on one line; the right column takes the rest. The 1px divider between them is the right column's own left border (12px clear on each side), not the grid's centre line. (Under 901px the grid is one column, below.) */
 .legal-entity-grid-organization.legal-entity-audience{
 
-    grid-template-columns:max-content minmax(0, 1fr);
+    grid-template-columns:fit-content(60%) minmax(0, 1fr);
 
     column-gap:0;
 

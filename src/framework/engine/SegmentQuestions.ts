@@ -22,6 +22,8 @@ export interface SegmentQuestion {
     options: readonly SegmentOption[];
     /** What its "i" says. */
     info: readonly string[];
+    /** A single tick that opens more questions (not hidden for having one option, never filled in for the user). */
+    toggle?: boolean;
 }
 
 /** What a Segment's questions follow: Identity's answers and the business stage. */
@@ -43,14 +45,22 @@ export interface SegmentContext {
 /** One saved answer: question id to the ids chosen. */
 export type SegmentAnswers = Record<string, string[]>;
 
-const WORK = [
-    { id: "employed", label: "Employed" },
-    { id: "student", label: "Student" },
-    { id: "seeking", label: "Looking for work" },
-    { id: "home", label: "Looking after home or family" },
-    { id: "retired", label: "Retired" },
-    { id: "unable", label: "Unable to work" }
+/** The work situation is asked in two steps: working or not, then what the non-working situation is. */
+const WORKING = [
+    { id: "working", label: "Working / Employed" },
+    { id: "notworking", label: "Not currently working" }
 ] as const;
+
+const NOT_WORKING = [
+    { id: "student", label: "Student" },
+    { id: "homemaker", label: "Homemaker / Full-time caregiver" },
+    { id: "seeking", label: "Unemployed / Seeking work" },
+    { id: "retired", label: "Retired" },
+    { id: "unable", label: "Unable to work / long-term illness / disability" }
+] as const;
+
+const WORKING_INFO = ["Working includes full-time, part-time, contract and self-employed roles.", "Not currently working opens a second question about their main daily role."];
+const NOT_WORKING_INFO = ["Choose their dominant daily role.", "Unable to work: sidelined from the workforce by a chronic medical condition, long-term illness or disability. They typically live on fixed support incomes."];
 
 const COMFORT = [
     { id: "averse", label: "Tech-averse / Traditional" },
@@ -105,31 +115,31 @@ export const SEGMENT_INDUSTRIES: readonly (SegmentOption & { sector: string })[]
 
 /** The buyer's age terms (document 31, 10.1: the term leads, the age defines it), and the Positioning life stage each belongs to. */
 const BUYER_AGES = [
-    { id: "minor", stage: "young", label: "Minors, semi-dependent" },
-    { id: "young", stage: "young", label: "Young adults" },
-    { id: "established", stage: "adult", label: "Established" },
-    { id: "peak", stage: "adult", label: "Peak" },
-    { id: "mature", stage: "adult", label: "Mature" },
-    { id: "active", stage: "senior", label: "Active Retirees" },
-    { id: "dependent", stage: "senior", label: "Dependent seniors" }
+    { id: "minor", stage: "young", label: "Minors, semi-dependent ~13–18" },
+    { id: "young", stage: "young", label: "Young adults ~18–25" },
+    { id: "established", stage: "adult", label: "Established ~25–40" },
+    { id: "peak", stage: "adult", label: "Peak ~40–55" },
+    { id: "mature", stage: "adult", label: "Mature ~55–65" },
+    { id: "active", stage: "senior", label: "Active Retirees ~65–75" },
+    { id: "dependent", stage: "senior", label: "Dependent seniors ~75+" }
 ] as const;
 
 /** The user's age terms, and the Positioning user stage each belongs to. */
 const USER_AGES = [
-    { id: "baby", stage: "age:minor", label: "Baby" },
-    { id: "child", stage: "age:minor", label: "Child" },
-    { id: "teen", stage: "age:minor", label: "Teenager" },
-    { id: "young", stage: "age:young", label: "Young adult" },
-    { id: "established", stage: "age:adult", label: "Established" },
-    { id: "peak", stage: "age:adult", label: "Peak" },
-    { id: "mature", stage: "age:adult", label: "Mature" },
-    { id: "active", stage: "age:senior", label: "Active Retirees" },
-    { id: "dependent", stage: "age:senior", label: "Dependent seniors" }
+    { id: "baby", stage: "age:minor", label: "Baby ~0–3" },
+    { id: "child", stage: "age:minor", label: "Child ~3–11" },
+    { id: "teen", stage: "age:minor", label: "Teenager ~11–18" },
+    { id: "young", stage: "age:young", label: "Young adult ~18–25" },
+    { id: "established", stage: "age:adult", label: "Established ~25–40" },
+    { id: "peak", stage: "age:adult", label: "Peak ~40–55" },
+    { id: "mature", stage: "age:adult", label: "Mature ~55–65" },
+    { id: "active", stage: "age:senior", label: "Active Retirees ~65–75" },
+    { id: "dependent", stage: "age:senior", label: "Dependent seniors ~75+" }
 ] as const;
 
-const AGE_NOTE = "Each age runs from the first number up to, but not including, the second.";
+const AGE_NOTE = "The ages are approximate (~): each runs from the first number up to, but not including, the second.";
 
-const QUESTIONS: readonly SegmentQuestion[] = [
+const RAW_QUESTIONS: readonly SegmentQuestion[] = [
 
     /* ---- Box 1, Demographics ---- */
 
@@ -137,9 +147,8 @@ const QUESTIONS: readonly SegmentQuestion[] = [
         id: "age", box: "demographics", label: "What age group are the people who pay?", many: false,
         options: BUYER_AGES.map(({ id, label }) => ({ id, label })),
         info: [
-            "Minors, semi-dependent: 13 to 18 (Mid and Late Adolescence). They have limited buying power and mostly use cash, wallets and gift cards; credit and long contracts are not open to them. Look up the country's online-consent age and its minimum working age.",
-            "Young adults: 18 to 25. Established: 25 to 40. Peak: 40 to 55. Mature: 55 to 65.",
-            "Active Retirees: 65 to 75. Dependent seniors: 75 and over.",
+            "Minors, semi-dependent: Mid and Late Adolescence. They have limited buying power and mostly use cash, wallets and gift cards; credit and long contracts are not open to them. Look up the country's online-consent age and its minimum working age.",
+            "Choose the group that pays, not the one that uses it.",
             AGE_NOTE
         ]
     },
@@ -159,9 +168,42 @@ const QUESTIONS: readonly SegmentQuestion[] = [
         ]
     },
     {
-        id: "work", box: "demographics", label: "What is their work situation?", many: false,
-        options: WORK,
-        info: ["Where they spend most of their working week today."]
+        id: "work", box: "demographics", label: "What is their primary work status?", many: false,
+        options: WORKING,
+        info: WORKING_INFO
+    },
+    {
+        id: "work2", box: "demographics", label: "Which best describes their non-working situation?", many: false,
+        options: NOT_WORKING,
+        info: NOT_WORKING_INFO
+    },
+    {
+        id: "workenv", box: "demographics", label: "What is their primary working environment?", many: false,
+        options: [
+            { id: "remote", label: "Desk-based / Remote (Work from home)" },
+            { id: "office", label: "Desk-based / Corporate office" },
+            { id: "onsite", label: "On-site / Frontline (Retail, hospitality, healthcare, construction)" },
+            { id: "field", label: "Field-based / On-the-road (Logistics, sales, field engineering)" }
+        ],
+        info: ["Where they spend most of their working hours. Remote workers are online through the day; frontline and field workers are highly mobile but have little screen time during shifts."]
+    },
+    {
+        id: "workschedule", box: "demographics", label: "How is their working schedule structured?", many: false,
+        options: [
+            { id: "standard", label: "Standard daytime hours (Traditional 9-to-5, fixed weekdays)" },
+            { id: "shift", label: "Shift work / Variable hours (Nights, weekends, rotating rosters)" },
+            { id: "flexible", label: "Flexible / Self-directed hours (Freelancers, business owners, autonomous professionals)" }
+        ],
+        info: ["When they are free to shop and to be reached. Standard daytime workers shop at lunch and in the evening; shift workers have a very different daily routine."]
+    },
+    {
+        id: "workincome", box: "demographics", label: "What is the stability or structure of their income?", many: false,
+        options: [
+            { id: "salary", label: "Fixed salary (Predictable monthly/bi-weekly paycheck)" },
+            { id: "hourly", label: "Hourly wage (Fluctuating based on scheduled shifts)" },
+            { id: "variable", label: "Variable / Performance-based (Freelance invoices, commission, seasonal contracts)" }
+        ],
+        info: ["How steady their pay is, not how much it is (that is the household income below). A fixed salary suits regular subscriptions; variable or hourly earners are sensitive to sudden cash-flow dips."]
     },
     {
         id: "income", box: "demographics", label: "What is their household income?", many: false,
@@ -172,7 +214,7 @@ const QUESTIONS: readonly SegmentQuestion[] = [
             { id: "upper-middle", label: "Upper-middle" },
             { id: "high", label: "High" }
         ],
-        info: ["Relative to the typical household income of their country: Middle is around the national median, and each step above or below is a band away from it."]
+        info: ["Compare with the typical household income in their country: Middle is around the median, Low and High are the two ends, and Lower-middle and Upper-middle lie between.", "Household income is what the home earns together, not one person's pay."]
     },
     {
         id: "gender", box: "demographics", label: "What is the usual gender mix of your customers?", many: false,
@@ -183,7 +225,51 @@ const QUESTIONS: readonly SegmentQuestion[] = [
             { id: "leans-women", label: "Leans women (60–80%)" },
             { id: "women", label: "Mostly women (80%+)" }
         ],
-        info: ["Choose Balanced mix when it does not matter for what you sell."]
+        info: ["The share of your customers who are men or women. Choose Balanced mix when it does not matter for what you sell."]
+    },
+
+    {
+        id: "extras", box: "demographics", label: "Specialized needs", many: true, max: 1, toggle: true,
+        options: [{ id: "on", label: "Add specialized accessibility or caregiving profiles" }],
+        info: ["Optional. Opens questions about accessibility needs and caregiving roles, which help the later parts adapt what you offer."]
+    },
+    {
+        id: "access", box: "demographics", label: "Do they have specific accessibility or user needs?", many: false,
+        options: [
+            { id: "standard", label: "Standard needs" },
+            { id: "temporary", label: "Temporary needs (acute recovery, situational)" },
+            { id: "permanent", label: "Permanent needs (chronic or stable conditions)" }
+        ],
+        info: ["Temporary: short-term limitations, for example healing from surgery or acute medical recovery.", "Permanent: long-term or progressive conditions that affect the tools they use every day.", "Choosing temporary or permanent opens the functional categories."]
+    },
+    {
+        id: "access2", box: "demographics", label: "What is their primary functional limitation category?", many: true,
+        options: [
+            { id: "physical", label: "Physical and mobility needs (motor coordination, fine motor limitations)" },
+            { id: "sensory", label: "Sensory needs (visual impairments, hearing loss, sensory sensitivities)" },
+            { id: "cognitive", label: "Cognitive and neurodivergent needs (ADHD, autism, age-related slowing)" }
+        ],
+        info: ["Select all that apply, so that the later parts can adapt the accessibility of what you offer, digital and physical."]
+    },
+    {
+        id: "care", box: "demographics", label: "Do they balance high-intensity caregiving or family life roles?", many: false,
+        options: [
+            { id: "none", label: "No primary caregiving responsibilities" },
+            { id: "child", label: "Yes, primary childcare provider (parent or legal guardian of minors)" },
+            { id: "elder", label: "Yes, primary eldercare provider (aging parents or senior relatives)" },
+            { id: "special", label: "Yes, specialized care provider (spouse, sibling, or child with permanent needs)" },
+            { id: "sandwich", label: "Yes, \"Sandwich Generation\" provider (simultaneously balancing children and elders)" }
+        ],
+        info: ["The person mainly responsible for daily care and lifestyle choices.", "\"Sandwich Generation\" flags extreme time poverty across several generations of one household."]
+    },
+    {
+        id: "care2", box: "demographics", label: "What is their household or caregiving structure?", many: true, max: 2,
+        options: [
+            { id: "single", label: "Single-parent / Solo-caregiver household" },
+            { id: "multigen", label: "Multigenerational household (care is structurally shared with extended family)" },
+            { id: "shared", label: "Co-caregiver / Shared support (shares load with a partner or professional aides)" }
+        ],
+        info: ["Choose up to two. It describes the support around them at home."]
     },
 
     /* ---- Box 2, Geographics ---- */
@@ -197,7 +283,7 @@ const QUESTIONS: readonly SegmentQuestion[] = [
             { id: "countries", label: "In several countries" },
             { id: "online", label: "Anywhere online" }
         ],
-        info: ["Name the places in the box below."]
+        info: ["The widest area most of your customers are spread over, now or as you plan it. If it is more than one, make another Segment."]
     },
     {
         id: "area", box: "geographics", label: "What environment best describes where they physically spend most of their time?", many: false,
@@ -206,7 +292,7 @@ const QUESTIONS: readonly SegmentQuestion[] = [
             { id: "suburban", label: "Suburban (Residential towns surrounding a city)" },
             { id: "rural", label: "Rural / Remote (Low-density countryside or isolated areas)" }
         ],
-        info: ["Asked while managing or growing, and only for customers in one place or one country."]
+        info: ["The kind of place they live or work in. Asked once the business is managing or growing, and only for customers in one place or one country."]
     },
 
     /* ---- Box 3, Business Data ---- */
@@ -245,7 +331,7 @@ const QUESTIONS: readonly SegmentQuestion[] = [
     {
         id: "comfort", box: "purchasing", label: "How comfortable are they with online tools?", many: false,
         options: COMFORT,
-        info: ["Comfort with online tools, not whether they own a device."]
+        info: ["How easily they use websites, apps and online payment, not whether they own a device."]
     },
     {
         id: "discover", box: "purchasing", label: "Where do they discover and validate new ideas?", many: true, max: 3,
@@ -269,7 +355,7 @@ const QUESTIONS: readonly SegmentQuestion[] = [
             { id: "inperson", label: "High-frequency in-person socializing (events, hospitality, clubs, sports)" },
             { id: "independent", label: "Low-frequency socializer/highly independent" }
         ],
-        info: ["Where they spend their leisure time decides how they meet brands and products."]
+        info: ["Where they spend their free time. It decides how they meet brands and products."]
     },
     {
         id: "share", box: "purchasing", label: "How do they share their favorite finds or experiences?", many: true,
@@ -298,7 +384,7 @@ const QUESTIONS: readonly SegmentQuestion[] = [
             { id: "researcher", label: "The Researcher: Extensive comparison window before finalizing" },
             { id: "validator", label: "Social validator: Needs to ask a friend or check reviews before paying" }
         ],
-        info: ["Their dominant way of buying."]
+        info: ["Their usual way of buying, the one that fits most of them."]
     },
     {
         id: "setting", box: "purchasing", label: "What platform or setting do they usually buy on?", many: false,
@@ -308,10 +394,10 @@ const QUESTIONS: readonly SegmentQuestion[] = [
             { id: "store", label: "In-person / Physical storefront" },
             { id: "multi", label: "Multi-channel (Mix of online and offline retail)" }
         ],
-        info: ["Their main way in to a purchase."]
+        info: ["Where most of their purchases start and finish. Choose Multi-channel when they mix online and in-person about equally."]
     },
     {
-        id: "pay", box: "purchasing", label: "How do they prefer to pay? (Select all that apply)", many: true,
+        id: "pay", box: "purchasing", label: "How do they prefer to pay?", many: true,
         options: [
             { id: "card", label: "Traditional credit / debit card" },
             { id: "wallet", label: "Digital wallets" },
@@ -320,11 +406,12 @@ const QUESTIONS: readonly SegmentQuestion[] = [
         ],
         info: [
             "Digital wallets are for example Apple Pay, Google Pay and PayPal. Buy Now, Pay Later is for example Klarna and Afterpay.",
-            "Invoicing is asked for business customers only. Credit and Buy Now, Pay Later are not open to minors."
+            "Invoicing is asked for business customers only. Credit and Buy Now, Pay Later are not open to minors.",
+            "Select all that apply."
         ]
     },
     {
-        id: "authorise", box: "purchasing", label: "How is the purchase decision authorized? (Select all that apply)", many: true,
+        id: "authorise", box: "purchasing", label: "How is the purchase decision authorized?", many: true,
         options: [
             { id: "solo", label: "Sole practitioner decision: The end-user has full purchasing autonomy and budget." },
             { id: "champions", label: "End-user champions / Department consensus: Teams test the solution and push it upward." },
@@ -332,7 +419,7 @@ const QUESTIONS: readonly SegmentQuestion[] = [
             { id: "multi", label: "Multi-department evaluation: Involves separate checks from IT/Security, Legal, and Finance." },
             { id: "procurement", label: "Formal procurement loop: Strict compliance pathway via requests for proposals (RFPs) or tenders." }
         ],
-        info: ["Asked for business customers only. A formal procurement loop reveals the tender row on the Customer Engagement page."]
+        info: ["Asked for business customers only. A formal procurement loop reveals the tender row on the Customer Engagement page.", "Select all that apply."]
     },
 
     /* ---- Box 5, Market Size & Industry Outlook ---- */
@@ -345,7 +432,7 @@ const QUESTIONS: readonly SegmentQuestion[] = [
             { id: "flat", label: "Flat / Stable (Saturated market, consistent volume but low growth)" },
             { id: "declining", label: "Declining / Disrupting (Shrinking market or undergoing severe structural changes)" }
         ],
-        info: ["A market can be large and declining, or tiny and expanding fast."]
+        info: ["Where the market is heading, apart from its size: a market can be large and declining, or small and expanding fast."]
     },
     {
         id: "tam", box: "market-size", label: "What is the approximate size of your Total Addressable Market (TAM)?", many: false,
@@ -355,7 +442,7 @@ const QUESTIONS: readonly SegmentQuestion[] = [
             { id: "mid", label: "Mid-Market (50,000 to 500,000 potential customers)" },
             { id: "mass", label: "Mass Market (500,000+ potential customers)" }
         ],
-        info: ["The total volume of potential buyers if you had 100% market share."]
+        info: ["The total number of potential buyers if you had 100% of the market, in the area you serve."]
     },
     {
         id: "trends", box: "market-size", label: "What is the biggest macro trend impacting your buyers right now?", many: true, max: 2,
@@ -375,7 +462,7 @@ const QUESTIONS: readonly SegmentQuestion[] = [
             { id: "fragmented", label: "Fragmented: Many small-to-medium players; no single company controls the market." },
             { id: "blue", label: "Blue Ocean (Underserved): Very few direct competitors; the solution or niche is highly novel." }
         ],
-        info: ["Red and Blue Ocean are the strategy terms of Kim and Mauborgne."]
+        info: ["Red Ocean and Blue Ocean are the strategy terms of Kim and Mauborgne: a crowded market against an uncontested one."]
     },
 
     /* ---- The user (a Proxy or Dual-Intent buyer) ---- */
@@ -384,8 +471,7 @@ const QUESTIONS: readonly SegmentQuestion[] = [
         id: "u-age", box: "user", label: "What life stage is the user in?", many: false,
         options: USER_AGES.map(({ id, label }) => ({ id, label })),
         info: [
-            "Baby: up to 3. Child: 3 to 11. Teenager: 11 to 18 (Early Adolescence 11 to 13, Mid 13 to 16, Late 16 to 18).",
-            "Young adult: 18 to 25. Established: 25 to 40. Peak: 40 to 55. Mature: 55 to 65. Active Retirees: 65 to 75. Dependent seniors: 75 and over.",
+            "Teenager covers Early Adolescence (11 to 13), Mid (13 to 16) and Late (16 to 18).",
             AGE_NOTE
         ]
     },
@@ -396,12 +482,17 @@ const QUESTIONS: readonly SegmentQuestion[] = [
             { id: "primary", label: "Primary school" },
             { id: "secondary", label: "Secondary school" }
         ],
-        info: ["Asked of a parent or guardian, and a caregiver, buying for a child."]
+        info: ["Asked of a parent or guardian, and of a caregiver, who buy for a child. Secondary school is not offered for a Baby or a Child."]
     },
     {
-        id: "u-work", box: "user", label: "What is their work situation?", many: false,
-        options: WORK,
-        info: ["Asked when the user is an adult the buyer is related to or sponsors."]
+        id: "u-work", box: "user", label: "What is their primary work status?", many: false,
+        options: WORKING,
+        info: ["The same question as for the buyer, asked of the user: an adult the buyer is related to, or sponsors.", ...WORKING_INFO]
+    },
+    {
+        id: "u-work2", box: "user", label: "Which best describes their non-working situation?", many: false,
+        options: NOT_WORKING,
+        info: NOT_WORKING_INFO
     },
     {
         id: "u-job", box: "user", label: "What job level do they have?", many: false,
@@ -428,10 +519,39 @@ const QUESTIONS: readonly SegmentQuestion[] = [
     {
         id: "u-comfort", box: "user", label: "How comfortable are they with online tools?", many: false,
         options: COMFORT,
-        info: ["Comfort with online tools, not whether they own a device."]
+        info: ["How easily they use websites, apps and online payment, not whether they own a device."]
     }
 
 ];
+
+/**
+ * An option says its few words; what is added in brackets or after a colon (an example, a range, an explanation) stands in the question's "i", under the option's name.
+ */
+function splitOption(option: SegmentOption): { option: SegmentOption; note?: string } {
+
+    const colon = option.label.match(/^([^:]+): (.+)$/);
+    const head = colon ? colon[1] : option.label;
+    const bracket = head.match(/^(.*?)\s*\((.+)\)$/);
+    const label = bracket ? bracket[1] : head;
+    const notes = [bracket?.[2], colon?.[2]].filter((note): note is string => !!note);
+
+    return notes.length === 0
+        ? { option }
+        : { option: { ...option, label }, note: notes.join(". ") };
+
+}
+
+const QUESTIONS: readonly SegmentQuestion[] = RAW_QUESTIONS.map(question => {
+
+    const split = question.options.map(splitOption);
+
+    return {
+        ...question,
+        options: split.map(entry => entry.option),
+        info: [...question.info, ...split.filter(entry => entry.note).map(entry => entry.option.label + ": " + entry.note)]
+    };
+
+});
 
 export const SEGMENT_QUESTIONS = QUESTIONS;
 
@@ -456,8 +576,18 @@ export function segmentQuestionAsked(question: SegmentQuestion, answers: Segment
     const business = context.frame !== "people";
 
     switch (question.id) {
-        case "age": case "work": case "gender":
+        case "age": case "work": case "gender": case "extras":
             return people;
+        case "work2":
+            return people && has(answers, "work", "notworking");
+        case "workenv": case "workschedule": case "workincome":
+            return people && has(answers, "work", "working");
+        case "access": case "care":
+            return people && has(answers, "extras", "on");
+        case "access2":
+            return people && has(answers, "extras", "on") && (has(answers, "access", "temporary") || has(answers, "access", "permanent"));
+        case "care2":
+            return people && has(answers, "extras", "on") && (answers.care ?? []).some(id => id !== "none");
         case "education": case "income":
             return people && !has(answers, "age", "minor");
         case "area":
@@ -478,6 +608,8 @@ export function segmentQuestionAsked(question: SegmentQuestion, answers: Segment
             return context.endsUser && context.relations.some(id => PERSONAL.includes(id));
         case "u-work":
             return context.endsUser && context.relations.some(id => ADULT_PERSONAL.includes(id));
+        case "u-work2":
+            return context.endsUser && context.relations.some(id => ADULT_PERSONAL.includes(id)) && has(answers, "u-work", "notworking");
         case "u-job":
             return context.endsUser && context.relations.some(id => JOB.includes(id));
         case "u-orgtype":
@@ -500,8 +632,10 @@ export function segmentOptions(question: SegmentQuestion, answers: SegmentAnswer
         case "age":
             return BUYER_AGES.filter(option => keep(option, context.lifeStages.length === 0 || context.lifeStages.includes(option.stage)))
                 .map(({ id, label }) => ({ id, label }));
-        case "work":
+        case "work2":
             return question.options.filter(option => keep(option, !(option.id === "retired" && has(answers, "age", "minor"))));
+        case "u-work2":
+            return question.options.filter(option => keep(option, !(option.id === "retired" && (has(answers, "u-age", "baby") || has(answers, "u-age", "child") || has(answers, "u-age", "teen")))));
         case "industry":
             return SEGMENT_INDUSTRIES.filter(option => keep(option, (answers.sector ?? []).includes(option.sector)))
                 .map(({ id, label }) => ({ id, label }));
@@ -509,6 +643,9 @@ export function segmentOptions(question: SegmentQuestion, answers: SegmentAnswer
             return question.options.filter(option => keep(option,
                 !(option.id === "bnpl" && has(answers, "age", "minor"))
                 && !(option.id === "invoice" && context.frame === "people")));
+        case "u-school":
+            // A baby or a child (up to 11) is not at secondary school.
+            return question.options.filter(option => keep(option, !(option.id === "secondary" && (has(answers, "u-age", "baby") || has(answers, "u-age", "child")))));
         case "u-age":
             return USER_AGES.filter(option => keep(option, context.userStages.length === 0 || context.userStages.includes(option.stage)))
                 .map(({ id, label }) => ({ id, label }));
@@ -518,9 +655,10 @@ export function segmentOptions(question: SegmentQuestion, answers: SegmentAnswer
 
 }
 
-/** The questions of one box a Segment is asked, in order. */
+/** The questions of one box a Segment is asked and shows, in order: a question with only one option left is not shown (there is nothing to choose); its answer is that option (see segmentSettle). */
 export function segmentQuestionsOf(box: SegmentBox, answers: SegmentAnswers, context: SegmentContext): SegmentQuestion[] {
-    return QUESTIONS.filter(question => question.box === box && segmentQuestionAsked(question, answers, context));
+    return QUESTIONS.filter(question => question.box === box && segmentQuestionAsked(question, answers, context)
+        && (question.toggle || segmentOptions(question, answers, context, false).length !== 1));
 }
 
 /** The answers after one question's choice changed: "They don't typically share" and the other ways exclude each other; ticks stay within their limit. */
@@ -547,6 +685,17 @@ export function segmentChoose(question: SegmentQuestion, answers: SegmentAnswers
         delete settled[question.id];
     }
 
+    // A starting value the user confirms: the work situation that goes with the age term, where none is chosen yet.
+    if (question.id === "age" && chosen.length > 0 && !settled.work) {
+        const age = chosen[0];
+        if (age === "established" || age === "peak" || age === "mature") {
+            settled.work = ["working"];
+        } else {
+            settled.work = ["notworking"];
+            settled.work2 = [age === "active" || age === "dependent" ? "retired" : "student"];
+        }
+    }
+
     return settled;
 
 }
@@ -565,11 +714,22 @@ export function segmentSettle(answers: SegmentAnswers, context: SegmentContext):
 
             const chosen = current[question.id];
 
-            if (!chosen || chosen.length === 0 || !segmentQuestionAsked(question, current, context)) {
+            if (!segmentQuestionAsked(question, current, context)) {
                 continue;
             }
 
             const offered = segmentOptions(question, current, context, false).map(option => option.id);
+
+            // The one option left is the answer, shown or not.
+            if (offered.length === 1 && !question.toggle) {
+                next[question.id] = [offered[0]];
+                continue;
+            }
+
+            if (!chosen || chosen.length === 0) {
+                continue;
+            }
+
             const kept = chosen.filter(id => offered.includes(id));
 
             if (kept.length > 0) {
@@ -599,9 +759,23 @@ export function asSegmentAnswers(source: unknown): SegmentAnswers {
         return answers;
     }
 
+    // An older answer held the work situation as one list: it is now working or not, and the non-working situation.
+    const migrated: Record<string, unknown> = { ...(source as Record<string, unknown>) };
+    for (const [main, sub] of [["work", "work2"], ["u-work", "u-work2"]]) {
+        const old = Array.isArray(migrated[main]) ? (migrated[main] as unknown[])[0] : undefined;
+        if (typeof old === "string" && !["working", "notworking"].includes(old)) {
+            if (old === "employed") {
+                migrated[main] = ["working"];
+            } else {
+                migrated[main] = ["notworking"];
+                migrated[sub] = [old === "home" ? "homemaker" : old];
+            }
+        }
+    }
+
     for (const question of QUESTIONS) {
 
-        const entry = (source as Record<string, unknown>)[question.id];
+        const entry = migrated[question.id];
         const ids = (Array.isArray(entry) ? entry : []).filter((id): id is string => typeof id === "string");
         const known = ids.filter((id, at) => ids.indexOf(id) === at && question.options.some(option => option.id === id));
 
@@ -613,6 +787,11 @@ export function asSegmentAnswers(source: unknown): SegmentAnswers {
 
     return answers;
 
+}
+
+/** Whether any question of a box has an answer. */
+export function segmentBoxAnswered(answers: SegmentAnswers, box: SegmentBox): boolean {
+    return QUESTIONS.some(question => question.box === box && (answers[question.id] ?? []).length > 0);
 }
 
 /** Each answered question as its label and the words chosen, for the documents. */
