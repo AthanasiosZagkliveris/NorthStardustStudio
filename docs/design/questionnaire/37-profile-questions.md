@@ -52,7 +52,7 @@ A5 starts, for the payer of a Proxy Segment, with "They place the order" and "Th
 
 The Segment's rule holds here: **a question that is no longer asked, or an option no longer offered, has its answer removed on the next choice**, and the documents read the answers settled against what is asked now.
 
-**The exact age (A1), decided by the owner (2026-11-01).** When the Segment's age group changes, A1 is **cleared if its number falls outside the new group, and kept if it is still inside it**. A Profile of 21 stays when the Segment goes from Young adults (~18–25) to a group that still holds 21 (or to none chosen), and is cleared when it goes to Peak (~40–55). The cleared cell says why, in its placeholder: *"Age reset to match the Segment's age group. Enter a typical age from 40 to 54."* (the range of the new group: from its first age up to, but not including, its second; for the last group, "75 or older"). Nothing else on the Profile is touched. A Profile of a user whose Segment is no longer Proxy or Dual-Intent is the second case to decide (section 9).
+**The exact age (A1), decided by the owner (2026-11-01).** When the Segment's age group changes, A1 is **cleared if its number falls outside the new group, and kept if it is still inside it**. A Profile of 21 stays when the Segment goes from Young adults (~18–25) to a group that still holds 21 (or to none chosen), and is cleared when it goes to Peak (~40–55). The cleared cell says why, in its placeholder: *"Age reset to match the Segment's age group. Enter a typical age from 40 to 54."* (the range of the new group: from its first age up to, but not including, its second; for the last group, "75 or older"). Nothing else on the Profile is touched. **A user's Profile** whose Segment is no longer Proxy or Dual-Intent is hidden and left out of the documents and the exports at once; whether it is deleted too is to be decided (section 9).
 
 ### 2.3 The card's layout (proposed)
 
@@ -280,11 +280,21 @@ What the Segment cannot say: which devices, which social media, which communitie
 | P22 how is the decision made | the Segment asks how the decision is authorized; A5 says what part this person plays |
 | Education, household income, language, household and relationship status, job title | the Segment asks education and income; the rest stay in the note |
 
-## 9. For the owner to decide
+## 9. Decided, and still to decide
 
-1. **The platforms, communities and events** (C2 to C4) are the lists the app already has, so nothing new is invented; confirm, or name others.
-2. **Their conditions** (online comfort, the ways of discovering ideas, the social environment) make the Profile ask less when the Segment says it is not needed; confirm that a tendency is enough to hide a question here, or ask all three always.
-3. **A5** needs a user part or a business buyer to be asked; a consumer Segment with no user never sees it.
-4. **The needs** stay text lists, as doc 28 says; say if they should also get a choice question.
-5. **The user's Profile skips Box D** (section 2.1): confirm, or let the user's Profile ask how they compare and what help they want.
-6. **Nothing here is built.** The reads are the design's, to be built when the Segment's are.
+**Decided (owner, 2026-11-01).**
+
+1. **C2 to C4** keep the lists the app already has (the social media, the communities, the events); no longer list is added. A specific name is written in the box's own note, as it is today.
+2. **Their conditions** (online comfort, the ways of discovering ideas, the social environment) hold: a tendency of the Segment is enough to leave a Profile question out, so a short Segment gives a shorter Profile.
+3. **The needs** stay open text lists.
+4. **The user's Profile skips Box D** (2.1); the payer's Profile holds how they compare and what help they want.
+
+**One list for the job levels.** A3 and the Segment's user question ("What job level do they have?") take the same six levels, written once (`JOB_LEVELS`, `SegmentQuestions.ts`), so the words never differ between the two cards or the exports.
+
+**The devices (C1) stay a starting value and a Review note, not a rule.** The Segment's "where they buy" starts C1 (a store: no device; the phone: Smartphone), and the Review notes a contradiction, but C1 is never unticked for the user: a shopper who buys in a store still finds the shop on a phone. A tendency never removes an option.
+
+**Still to decide.**
+
+1. **A5** (what part they play in the purchase) is asked only with a user part or a business buyer; a consumer Segment with no user never sees it. Confirm.
+2. **A user's Profile when the Segment stops being Proxy or Dual-Intent** (section 2.2). The user's Profile card is hidden and left out of the documents and the exports at once, so nothing of it leaks. Whether it is also **deleted** at once, or kept until the user removes it, is yours: it holds what the user wrote (a name, notes, needs), and the app's rule for a stage change is that nothing is deleted. Which?
+3. **Nothing here is built.** The reads are the design's, to be built when the Segment's are.

@@ -135,6 +135,16 @@ const USER_AGES = [
     { id: "dependent", stage: "age:senior", label: "Dependent seniors ~75+" }
 ] as const;
 
+/** The job levels (the ISCO-08 major groups in plain words): the Segment's user question and the Profile's "What kind of work do they do?" take this one list, so the words are written once. */
+export const JOB_LEVELS = [
+    { id: "owner", label: "Owner or senior executive" },
+    { id: "manager", label: "Manager" },
+    { id: "professional", label: "Professional or specialist" },
+    { id: "technician", label: "Technician or skilled trade" },
+    { id: "service", label: "Administrative, sales or service" },
+    { id: "operator", label: "Operator or labourer" }
+] as const;
+
 const AGE_NOTE = "The ages are approximate (~): each runs from the first number up to, but not including, the second.";
 
 const RAW_QUESTIONS: readonly SegmentQuestion[] = [
@@ -450,14 +460,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     },
     {
         id: "u-job", box: "user", label: "What job level do they have?", many: false,
-        options: [
-            { id: "owner", label: "Owner or senior executive" },
-            { id: "manager", label: "Manager" },
-            { id: "professional", label: "Professional or specialist" },
-            { id: "technician", label: "Technician or skilled trade" },
-            { id: "service", label: "Administrative, sales or service" },
-            { id: "operator", label: "Operator or labourer" }
-        ],
+        options: JOB_LEVELS,
         info: ["The ISCO-08 major groups, in plain words."]
     },
     {
