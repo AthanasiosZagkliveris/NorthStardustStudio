@@ -137,6 +137,7 @@ From official survey and style guidance (sources in `02-references.md`, QST). Mo
 | **Single choice when one answer is expected**; several only when several can genuinely apply, with "Select all that apply" and "None" last | QST-12 |
 | **"Other" last**, with a place to say what | QST-03 |
 | **Ask only what we will use**: every question says what it is for | QST-06 |
+| **An option names its alternatives with a slash, not the word "or"** ("Owner / senior executive", "Non-profit / charity / NGO"); a name that holds a comma ("Buy Now, Pay Later") keeps it | owner, 2026-11-02 |
 | **Reuse an established wording** (the statistics offices') where there is one | QST-10 |
 | **Test the wording** with a few real users before it is built | QST-10, QST-15 |
 

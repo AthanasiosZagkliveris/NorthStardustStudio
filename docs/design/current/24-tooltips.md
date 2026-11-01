@@ -7,7 +7,7 @@ A tooltip is a small dark label above a control, in the app's own style (`Toolti
 ## 1. The rules
 
 1. **Only a control that is pressed has a tooltip**: a button, a link, a tab, a menu item, a summary. Never a field (it has its label and shows its value), a dropdown cell (its value is on it), a tick (its words), a tile or a card (they are text), a label, a heading, a count.
-2. **An icon with no words of its own says its name**: the "i", the ×, the "+", the arrows, the funnel, the calendar button, the symbols. Its name is its accessible name (`aria-label`), so no place writes a `title` for it.
+2. **An icon with no words of its own says its name** (words hidden with `display: none`, as a Back's word in a narrow window, are not words it shows): the "i", the ×, the "+", the arrows, the funnel, the calendar button, the symbols. Its name is its accessible name (`aria-label`), so no place writes a `title` for it.
 3. **A control whose words are cut short says them whole**: a link or a value that runs past its place and is cut (an ellipsis, or a line that moves).
 4. **A control says what its words do not**: the key it answers to ("Previous card (←)"), where it goes, what it changes ("Reset Computers to 3 years"); three words or more that it does not already show.
 5. **Never what the control already shows**: its text, its name or its value. A `title` that only repeats the name is not written.
@@ -42,6 +42,7 @@ The app's own terms keep their capitals (Offering, Resource, Status, page names)
 | The fold arrow (`FoldArrow`), the label arrow | yes (rule 2) | "Minimize <what>" / "Maximize <what>" |
 | The navigation arrows (`NavArrow`) | yes where it says more | the key: "Previous card (←)"; a page arrow only where it goes somewhere that is not a page |
 | The funnel (`FunnelButton`) | yes (rule 2) | what it filters |
+| The Back button (`BackButton`) | yes, only while its word is hidden (rule 2: then it is an icon) | "Click to go back" |
 | A header tool (`header-tool`) | no, its word is on it | (an icon-only header, under 1100px, says its word) |
 | A labelled button (`AddButton` wide, the Export buttons, Refresh) | only by rule 4 | what it does that its word does not ("Reset every group to its default years") |
 | A text link (`TextLink`) | only by rule 3 or 4 | the whole text where it is cut |
