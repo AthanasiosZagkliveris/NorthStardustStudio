@@ -706,6 +706,30 @@
                   "business-data": ""
                 },
                 "questions": {
+                  "age": [
+                    "established"
+                  ],
+                  "education": [
+                    "bachelor"
+                  ],
+                  "work": [
+                    "working"
+                  ],
+                  "workenv": [
+                    "office"
+                  ],
+                  "workschedule": [
+                    "flexible"
+                  ],
+                  "workincome": [
+                    "variable"
+                  ],
+                  "income": [
+                    "upper-middle"
+                  ],
+                  "gender": [
+                    "balanced"
+                  ],
                   "reach": [
                     "country"
                   ],
@@ -730,6 +754,18 @@
                   "discover": [
                     "peers",
                     "media"
+                  ],
+                  "social": [
+                    "mixed"
+                  ],
+                  "share": [
+                    "verbal"
+                  ],
+                  "trigger": [
+                    "need"
+                  ],
+                  "path": [
+                    "researcher"
                   ],
                   "setting": [
                     "multi"
