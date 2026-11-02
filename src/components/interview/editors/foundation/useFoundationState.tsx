@@ -6,7 +6,7 @@ import TickField from "../../../controls/TickField.tsx";
 import { CSSProperties, Fragment, ReactNode, useEffect, useRef, useState } from "react";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
 import { BusinessCustomerProfileValue, BusinessCustomerSegmentValue, BusinessDescriptionValue, BusinessFoundationValue, asBusinessFoundationValue } from "../../../../framework/engine/AnswerUtils.ts";
-import { BusinessField, BusinessGroup, BusinessNote, BusinessText } from "../../cards/BusinessCardFields.tsx";
+import { BusinessField, BusinessGroup, BusinessNote, BusinessText, OptionalNote } from "../../cards/BusinessCardFields.tsx";
 import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
 import { FieldMark, FieldStatus } from "../../fields/fieldMarks.tsx";
 import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
@@ -323,11 +323,14 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
                         {asked && part.questions.map((question, at) => (
                             <div className={"legal-entity-org-section" + (at % 2 === 1 ? " legal-entity-org-band" : "")} key={at}>{question}</div>
                         ))}
+                        {/* The box ends with the shared Note (the tick and the word, as every card has), ticked where it holds words. */}
                         {part.note && (
                             <div className="legal-entity-org-section">
-                                <StrategyTextArea
-                                    className="interview-input business-foundation-note"
-                                    ariaLabel={kind + " description: " + part.title}
+                                <OptionalNote
+                                    label="Notes"
+                                    fieldId={part.title + " notes"}
+                                    ariaLabel={kind + " description: " + part.title + " notes"}
+                                    placeholder="Add a note"
                                     disabled={disabled}
                                     value={current[part.id] ?? ""}
                                     onChange={(next) => onNext({ ...current, [part.id]: next })}

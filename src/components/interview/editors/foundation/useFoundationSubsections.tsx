@@ -8,7 +8,7 @@ import { Fragment, ReactNode } from "react";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
 import { BUSINESS_COMPETITOR_TYPES, BUSINESS_OFFERING_CATEGORIES, BusinessCompetitorValue, BusinessCustomerProfileValue, BusinessCustomerSegmentValue, BusinessOfferingValue, businessSegmentNeeds, createBusinessCompetitor, createBusinessCustomerProfile, createBusinessOffering } from "../../../../framework/engine/AnswerUtils.ts";
 import FieldRow from "../../fields/FieldRow.tsx";
-import { BusinessAddButton, BusinessCard, BusinessRemove, BusinessTicks } from "../../cards/BusinessCardFields.tsx";
+import { BusinessAddButton, BusinessCard, BusinessRemove, BusinessTicks, OptionalNote } from "../../cards/BusinessCardFields.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
@@ -406,9 +406,11 @@ export function useFoundationSubsections(earlier: Earlier) {
                                         </div>
                                     ))}
                                     <div className="legal-entity-org-section">
-                                        <StrategyTextArea
-                                            className="interview-input business-foundation-note"
-                                            ariaLabel={segmentPath + ", Profile " + (profileIndex + 1) + " " + entry.title}
+                                        <OptionalNote
+                                            label="Notes"
+                                            fieldId={entry.title + " notes"}
+                                            ariaLabel={segmentPath + ", Profile " + (profileIndex + 1) + " " + entry.title + " notes"}
+                                            placeholder="Add a note"
                                             disabled={disabled}
                                             value={entry.text}
                                             onChange={(next) => updateProfile(segmentIndex, profileIndex, { [entry.field]: next })}
@@ -489,60 +491,39 @@ export function useFoundationSubsections(earlier: Earlier) {
                             NumberedListInput) -- and a numbered
                             line is what the Offerings subsection
                             picks from. */}
-                        {group("Needs", SUBSECTIONS.segments.needs.map(kind => (
-                            <div
-                                className="business-foundation-field"
-                                key={kind.id}
-                            >
-
-                                <span className="business-foundation-label-info">
-                                    <FieldLabel className="business-foundation-label">
-                                        <InfoText text={kind.title}>
-                                            <InfoNote
-                                                label={kind.title}
-                                                points={[kind.text]}
-                                                fullList
-                                            />
-                                        </InfoText>
-                                        <FieldMark label={kind.title} />
-                                    </FieldLabel>
-                                    <FieldStatus label={kind.title} />
-                                </span>
-
-                                <NumberedListInput
-                                    label={
-                                        kind.title +
-                                        " needs for " + segmentPath + ", Profile " + (profileIndex + 1)
-                                    }
-                                    items={profile.needs[kind.id as BusinessNeedKind]}
-                                    disabled={disabled}
-                                    /* What the OTHER Profiles in this
-                                       Segment have called this need,
-                                       offered as it is typed. They
-                                       share their needs, so the
-                                       second Profile to want the same
-                                       thing should be able to say so
-                                       in the same words -- typing it
-                                       afresh is how "Bill on time"
-                                       and "Billing on time" become
-                                       two needs that are one. */
-                                    suggestions={otherProfileNeeds(
-                                        segment,
-                                        profileIndex,
-                                        kind.id as BusinessNeedKind
-                                    )}
-                                    onChange={(items) => updateProfile(
-                                        segmentIndex, profileIndex, {
-                                            needs: {
-                                                ...profile.needs,
-                                                [kind.id]: items
-                                            }
-                                        }
-                                    )}
-                                />
-
+                        {/* NEEDS is the section: one title band over three labelled bands (Functional, Emotional, Social), each label with its numbered list. */}
+                        <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-single">
+                            <div className="legal-entity-field">
+                                <div className="business-segment-box">
+                                    <div className="legal-entity-org-section">
+                                        <span className="business-foundation-label-info legal-entity-label-info">
+                                            <FieldLabel className="business-foundation-label">
+                                                <InfoText text="Needs">
+                                                    <InfoNote label="Needs" points={["Each need is one numbered line. The Offerings choose from these needs."]} fullList />
+                                                </InfoText>
+                                                <FieldMark label="Needs" />
+                                            </FieldLabel>
+                                            <FieldStatus label="Needs" />
+                                        </span>
+                                    </div>
+                                    {SUBSECTIONS.segments.needs.map((kind, at) => (
+                                        <div className={"legal-entity-org-section" + (at % 2 === 1 ? " legal-entity-org-band" : "")} key={kind.id}>
+                                            <FieldRow pair fullList label={kind.title} info={[kind.text]}>
+                                                <NumberedListInput
+                                                    label={kind.title + " needs for " + segmentPath + ", Profile " + (profileIndex + 1)}
+                                                    items={profile.needs[kind.id as BusinessNeedKind]}
+                                                    disabled={disabled}
+                                                    /* What the OTHER Profiles of this Segment have called this need, offered as it is typed: they share
+                                                       their needs, so the second Profile to want the same thing says so in the same words. */
+                                                    suggestions={otherProfileNeeds(segment, profileIndex, kind.id as BusinessNeedKind)}
+                                                    onChange={(items) => updateProfile(segmentIndex, profileIndex, { needs: { ...profile.needs, [kind.id]: items } })}
+                                                />
+                                            </FieldRow>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                        )), undefined, groupFold(profile.id, "Needs", segmentPath + ", Profile " + (profileIndex + 1)))}
+                        </div>
 
                     </>
                 ))}

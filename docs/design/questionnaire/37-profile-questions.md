@@ -27,6 +27,8 @@ Related: doc 36 (the Segment's questions, built, in the same form), doc 28 (6.4 
 
 **What the notes are for (built).** The note under each box holds what the choice questions do not: a name and household in Personal, the values in Psychographics, the names of groups and places in Hubs, where and when they buy in Habits, the details that are theirs in Goals, Challenges and Objections. The "i" of each box says so (`PROFILE_NOTE_HINTS`). The box prompts are the owner's words and are not changed: the Personal one still asks for education and marital status, which the Segment asks or no list holds (for the owner to reword).
 
+**The Profile card's layout (built).** The card floats at the standard card width (492px, the width limit of every floating card); its sections are boxes in one column that reach both sides of the card (title band on the primary fill in capitals, each question a band, every other one tinted, a double rule between boxes): the four Description boxes, Goals, Challenges and Objections, and Needs. Needs is the one section, its title band NEEDS over three labelled bands (the labels Functional, Emotional and Social, each over its numbered list, every other band tinted). Every box except Needs ends with the shared Note component (the tick and the word "Notes", ticked where it holds words), not a bare text cell. The card's edge is in the Segment's hue, as every floating card's is. Content stands 12px in from the card's sides (the notes, the lists, the options), and the bands run to the sides.
+
 ## 2. What the Segment sets and the Profile chooses within
 
 | Segment answer (doc 36) | Profile question | What the Profile gets |

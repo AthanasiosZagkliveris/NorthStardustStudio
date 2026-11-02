@@ -368,8 +368,9 @@
 
 }
 
-/* The card: an opaque ground (the page card's own, in the hue of the card the tile stands in), and the drop shadow. */
-.floating-card-host .floating-card-body > * {
+/* The card: an opaque ground (the page card's own, in the hue of the card the tile stands in), its edge in that hue, and the drop shadow. A card that stands inside the tile's own wrapper (a Profile, a Competitor, an Offering) is the card too: its edge was the pale default, so it looked lighter than every other card. */
+.floating-card-host .floating-card-body > *,
+.floating-card-host .floating-card-body > .column-tile-content > .business-foundation-card {
 
     background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
