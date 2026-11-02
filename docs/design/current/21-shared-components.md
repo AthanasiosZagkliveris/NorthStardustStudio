@@ -53,7 +53,7 @@ A shared control loads its own stylesheet (it imports it), never only a page's s
 | `BusinessCard` | `interview/cards/BusinessCardFields.tsx` | The shared card; with `legal` it draws the Legal Entity page's requirement, expense and founder cards (the CSS of the two stays separate on purpose: merging it moved the number and the glass ground). |
 | `Tile`, `TileGrid`, `TileParts` | `interview/tiles/` | Every tile, every tile grid (the Inventory's is `bare`), and the shared parts: links layer, "+", hover origin. |
 | `FieldRow`, `FieldHead` | `interview/fields/FieldRow.tsx` | A label with its control as a cell of the Legal Entity grid; `FieldHead` draws the label with "i", mark and status line for the Business fields too. |
-| `DatePopup`, `ListStatic` | `interview/fields/` | The popup of the date cell and the month picker (`useDatePopup`); the read-only numbered or bulleted list. |
+| `DatePopup`, `CalendarIcon`, `ListStatic` | `interview/fields/` | The popup of the date cell and the month picker (`useDatePopup`); the calendar symbol that takes the place of the dropdown arrow in a date cell (`DateCellInput`, `MonthYearPicker`); the read-only numbered or bulleted list. |
 
 A card opened from another card that stays open stands below it as a pair (`StackUnderContext`, `DialogLevels.tsx`). The Inventory's card is alone.
 
