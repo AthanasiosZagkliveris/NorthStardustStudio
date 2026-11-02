@@ -1222,7 +1222,7 @@
 
 }
 
-/* A DOUBLE RULE SPLITS THE SECTIONS, from side to side of the card, flush with the bands above and under it (the card's row gap is taken back). The band under a section's heading, and the first band of the section, follow it without a gap. */
+/* THE DOUBLE RULE THAT SPLITS THE SECTIONS IS THE SAME COMPONENT AS THE ONE BETWEEN THE SEGMENT CARD’S BOXES (two 1px lines, 2px between), not a variant: it only stands from side to side of the card, flush with the bands above and under it (the card's row gap is taken back). The band under a section's heading, and the first band of the section, follow it without a gap. */
 .floating-card-body .column-tile-content > .business-foundation-card > .business-profile-section-rule{
 
     grid-column:1 / -1;
@@ -1234,11 +1234,6 @@
     width:auto;
 
     max-width:none;
-
-    /* A heavier double rule than the one between subsections: two 2px lines with 4px between them. */
-    height:8px;
-
-    border-width:2px;
 
 }
 
