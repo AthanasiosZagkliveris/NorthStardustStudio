@@ -1043,26 +1043,20 @@
 
 }
 
-/* A Profile card floats on its own (no dialog sets its width): its two columns of questions stand as wide as the Segment's card, or the window less its margins. */
-.floating-card-host .floating-card-body.floating-card-card:has(.business-segment-grid){
-
-    width:min(900px, calc(100vw - 16px));
-
-}
-
-.floating-card-host .floating-card-body.floating-card-card:has(.business-segment-grid) .card-box-open,
-.floating-card-host .floating-card-body.floating-card-card:has(.business-segment-grid) .column-tile-content,
-.floating-card-host .floating-card-body.floating-card-card:has(.business-segment-grid) .business-foundation-card{
-
-    width:100%;
-
-    max-width:none;
+/* A Profile card floats at the width every floating card has (the opened card's): its boxes of questions stand in one column, one under the other, each across the card. */
+.legal-entity-grid-organization.legal-entity-audience.business-segment-grid.business-segment-grid-single{
 
     grid-template-columns:minmax(0, 1fr);
 
 }
 
-.floating-card-host .floating-card-body.floating-card-card:has(.business-segment-grid) .business-foundation-card > *{
+.floating-card-body .business-foundation-card:has(.business-segment-grid-single){
+
+    grid-template-columns:minmax(0, 1fr);
+
+}
+
+.floating-card-body .business-foundation-card:has(.business-segment-grid-single) > *{
 
     grid-column:1;
 

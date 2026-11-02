@@ -402,7 +402,8 @@ export function useFoundationSubsections(earlier: Earlier) {
                             ),
                             true,
                             undefined,
-                            groupFold(profile.id, "Description", segmentPath + ", Profile " + (profileIndex + 1))
+                            groupFold(profile.id, "Description", segmentPath + ", Profile " + (profileIndex + 1)),
+                            true
                         )}
 
                         {/* What the Profile wants and what stands in

@@ -236,7 +236,9 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
         /** The card, for a Description that sits outside its card's section (the Segment's). */
         anchor?: string,
         /** Its fold, where the group folds (see groupFold). */
-        fold?: { open: boolean; label: string; onToggle: () => void }
+        fold?: { open: boolean; label: string; onToggle: () => void },
+        /** The boxes of questions in ONE column, in their order (the Profile's card, which floats at the width every floating card has). */
+        oneColumn = false
     ) {
 
         const box = (part: DescriptionPart) => {
@@ -399,7 +401,13 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
         const leftBoxes = parts.filter(part => leftSet.has(part.id));
         const rightBoxes = parts.filter(part => !leftSet.has(part.id));
 
-        const boxes = split && parts.some(part => part.questions)
+        const boxes = split && oneColumn && parts.some(part => part.questions)
+            ? (
+                <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-single">
+                    <div className="legal-entity-field">{column(parts)}</div>
+                </div>
+            )
+            : split && parts.some(part => part.questions)
             ? (
                 <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid">
                     <div className="legal-entity-field">{column(leftBoxes)}</div>
