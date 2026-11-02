@@ -12,7 +12,7 @@ import { BusinessAddButton, BusinessCard, BusinessRemove, BusinessTicks, Optiona
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
-import { type ProfileBox, type ProfileQuestion, PROFILE_NOTE_HINTS, profileChoose, profileQuestionsOf, profileSettle, profileShown } from "../../../../framework/engine/ProfileQuestions.ts";
+import { type ProfileBox, type ProfileQuestion, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileQuestionsOf, profileSettle, profileShown } from "../../../../framework/engine/ProfileQuestions.ts";
 import { type SegmentBox, type SegmentQuestion, segmentChoose, segmentOptions, segmentQuestionsOf, segmentRowChoice, segmentSettle, segmentSettledNotes } from "../../../../framework/engine/SegmentQuestions.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
 import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
@@ -339,6 +339,7 @@ export function useFoundationSubsections(earlier: Earlier) {
 
         /** One question of a Profile box: as the Segment's are drawn (a radio, ticks or the number of the age), against what the Segment answered. */
         const profileQuestionOf = (profile: BusinessCustomerProfileValue, profileIndex: number, shown: Record<string, string[]>, question: ProfileQuestion) => {
+            const ageRange = question.number ? profileAgeRange(segment.questions) : null;
             const chosen = shown[question.id] ?? [];
             const write = (next: Record<string, string[]>) => updateProfile(segmentIndex, profileIndex, { questions: profileSettle(next, segment.questions, asked) });
             const choose = (next: string[]) => write(profileChoose(question, shown, next));
@@ -350,7 +351,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                     fullList
                     label={question.label}
                     info={[...question.info]}
-                    labelNote={question.max !== undefined ? <span className="business-foundation-tick-note">{question.max + " max"}</span> : undefined}
+                    labelNote={question.max !== undefined ? <span className="business-foundation-tick-note">{question.max + " max"}</span> : question.number && ageRange ? <span className="business-foundation-tick-note">{ageRange[1] >= 130 ? ageRange[0] + " or older" : ageRange[0] + "–" + (ageRange[1] - 1)}</span> : undefined}
                 >
                     {question.number
                         // (A number stands beside its label, on the label's line, at the right end of the band: see .business-profile-age.)

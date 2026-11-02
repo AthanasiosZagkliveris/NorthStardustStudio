@@ -83,7 +83,8 @@ const QUESTIONS: readonly ProfileQuestion[] = [
     },
     {
         id: "d1", box: "habits", label: "How do they compare their options?", many: true,
-        options: list(["Your website", "Reviews and recommendations online", "A demo, trial or sample", "A quote or proposal", "What other people recommend", "Comparison sites", "A meeting or call"]),
+        // The ids stay those of the first wording (they are saved answers and the Segment reads them): only the words changed, so a review online and a recommendation by people are told apart.
+        options: list(["Your website", "Reviews and recommendations online", "A demo, trial or sample", "A quote or proposal", "What other people recommend", "Comparison sites", "A meeting or call"]).map(option => option.id === "reviews-and-recommendations-online" ? { ...option, label: "Online reviews / ratings" } : option.id === "what-other-people-recommend" ? { ...option, label: "Word of mouth / referrals" } : option),
         info: ["How they weigh options before choosing.", "How they pay and where they buy are the Segment's questions."]
     },
     {

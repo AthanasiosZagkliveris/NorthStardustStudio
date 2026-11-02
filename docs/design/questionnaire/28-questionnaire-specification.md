@@ -422,7 +422,7 @@ The stage names are the app's own. Official and university pages describe the jo
 | Stage | Proposed from | Rule |
 |---|---|---|
 | Discover | P11, G2 | The ticked categories and subchannels; for a local scope the In Person and Community categories come first |
-| Evaluate | P12 | Your website → Website; Reviews and recommendations online, Comparison sites → Marketplace or Website; A demo, trial or sample → Online / Live (digital) or In Person (physical); A quote or proposal → Email; What other people recommend → Referral & Affiliates; A meeting or call → Online / Live |
+| Evaluate | P12 | Your website → Website; Online reviews / ratings, Comparison sites → Marketplace or Website; A demo, trial or sample → Online / Live (digital) or In Person (physical); A quote or proposal → Email; What other people recommend → Referral & Affiliates; A meeting or call → Online / Live |
 | Purchase | P13 | Online checkout → Website (Online Store) or Marketplace; An invoice → Direct Payment (Invoice); In person → In Person; By phone or email → Email; A contract or tender → Direct Payment (Invoice); By booking → Website (Booking page) |
 | Purchase (payment) | P14 | Debit or credit card → Direct Payment (Card); Cash → Cash; Bank transfer → Bank Transfer; Mobile wallet or payment app → Payment Link (the nearest existing subchannel **[D]**); Invoice → Invoice; Buy now, pay later → no subchannel (a note) |
 | Deliver | O6 | Digital delivery → File Delivery; Online or live → Online / Live; In person → In Person; Shipped → Physical Delivery; They collect it → In Person (Pickup); Ongoing online access → Website |

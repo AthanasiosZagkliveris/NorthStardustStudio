@@ -20,17 +20,17 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
 - **Control:** one choice (a radio).
 - **Asked when:** The buyer is people. The terms offered follow the buyer's life stage chosen in Positioning: Students / Young Adults: Minors, semi-dependent and Young adults; Workers / Professionals: Established, Peak, Mature; Seniors: Active Retirees and Dependent seniors; none chosen: all seven. Choosing a term starts the work situation (below) where none is chosen.
 - **Options:**
-  - Minors, semi-dependent ~13–18
-  - Young adults ~18–25
-  - Established ~25–40
-  - Peak ~40–55
-  - Mature ~55–65
-  - Active Retirees ~65–75
-  - Dependent seniors ~75+
+  - Minors, semi-dependent 13–17
+  - Young adults 18–24
+  - Established 25–39
+  - Peak 40–54
+  - Mature 55–64
+  - Active Retirees 65–74
+  - Dependent seniors 75+
 - **The "i" says:**
   - Minors, semi-dependent: Mid and Late Adolescence. They have limited buying power and mostly use cash, wallets and gift cards; credit and long contracts are not open to them. Look up the country's online-consent age and its minimum working age.
   - Choose the group that pays, not the one that uses it.
-  - The ages are approximate (~): each runs from the first number up to, but not including, the second.
+  - Each age group holds the years from its first number to its last, both included, so no age is in two groups (25–39, then 40–54); the engine reads each as from the first up to, but not including, the next group's first.
 - **Connections:**
   - *Comes from:* Early Positioning: the buyer's life stage (the terms offered) and the seller and buyer relationship (people).
   - *Read by (built):* The Market document and the export.
@@ -80,7 +80,7 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
   - Homemaker / Full-time caregiver
   - Unemployed / Seeking work
   - Retired
-  - Unable to work / long-term illness / disability
+  - Unable to work (illness / disability)
 - **The "i" says:**
   - Choose their dominant daily role.
   - Unable to work: sidelined from the workforce by a chronic medical condition, long-term illness or disability. They typically live on fixed support incomes.
@@ -398,13 +398,13 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
 - **Control:** ticks, up to 2.
 - **Asked when:** The buyer is people.
 - **Options:**
-  - Boredom/Entertainment
+  - Boredom / Entertainment
   - Social proof
-  - Immediate necessity / resolving a specific problem
-  - Seasonal trends / sales events / planned gift-giving
+  - Immediate necessity / specific problem
+  - Seasonal trends / sales / planned gifts
 - **The "i" says:**
   - Choose up to two.
-  - Boredom/Entertainment: Browsing feeds, window shopping
+  - Boredom / Entertainment: Browsing feeds, window shopping
   - Social proof: Seeing a friend or creator use a product
 - **Connections:**
   - *Comes from:* Early Positioning: the relationship (people).
@@ -582,18 +582,18 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
 - **Control:** one choice (a radio).
 - **Asked when:** A buyer relationship chosen in Positioning has a Proxy or Dual-Intent buyer. The terms follow the user's life stage chosen in Positioning: Minors: Baby, Child, Teenager; Young Adults: Young adult; Adults: Established, Peak, Mature; Seniors: Active Retirees, Dependent seniors. Not shown when only one term is left.
 - **Options:**
-  - Baby ~0–3
-  - Child ~3–11
-  - Teenager ~11–18
-  - Young adult ~18–25
-  - Established ~25–40
-  - Peak ~40–55
-  - Mature ~55–65
-  - Active Retirees ~65–75
-  - Dependent seniors ~75+
+  - Baby 0–2
+  - Child 3–10
+  - Teenager 11–17
+  - Young adult 18–24
+  - Established 25–39
+  - Peak 40–54
+  - Mature 55–64
+  - Active Retirees 65–74
+  - Dependent seniors 75+
 - **The "i" says:**
   - Teenager covers Early Adolescence (11 to 13), Mid (13 to 16) and Late (16 to 18).
-  - The ages are approximate (~): each runs from the first number up to, but not including, the second.
+  - Each age group holds the years from its first number to its last, both included, so no age is in two groups (25–39, then 40–54); the engine reads each as from the first up to, but not including, the next group's first.
 - **Connections:**
   - *Comes from:* Early Positioning: the buyer's category (Proxy or Dual-Intent) and the user's life stage.
   - *Read by (built):* The Market document and the export.
@@ -639,7 +639,7 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
   - Homemaker / Full-time caregiver
   - Unemployed / Seeking work
   - Retired
-  - Unable to work / long-term illness / disability
+  - Unable to work (illness / disability)
 - **The "i" says:**
   - Choose their dominant daily role.
   - Unable to work: sidelined from the workforce by a chronic medical condition, long-term illness or disability. They typically live on fixed support incomes.

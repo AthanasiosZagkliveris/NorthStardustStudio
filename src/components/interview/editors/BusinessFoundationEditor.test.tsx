@@ -153,8 +153,8 @@ describe("BusinessFoundationEditor asks its questions", () => {
         }
         render(<Held />);
         const ages = screen.getByRole("radiogroup", { name: "What age group are the people who pay?" });
-        expect(Array.from(ages.querySelectorAll("label")).map(label => label.textContent)).toEqual(["Established ~25–40", "Peak ~40–55", "Mature ~55–65"]);
-        fireEvent.click(screen.getByRole("radio", { name: "Peak ~40–55" }));
+        expect(Array.from(ages.querySelectorAll("label")).map(label => label.textContent)).toEqual(["Established 25–39", "Peak 40–54", "Mature 55–64"]);
+        fireEvent.click(screen.getByRole("radio", { name: "Peak 40–54" }));
         expect(asBusinessFoundationValue(saved).segments[0].questions).toEqual({ age: ["peak"], work: ["working"] });
     });
 

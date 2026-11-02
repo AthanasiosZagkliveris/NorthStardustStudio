@@ -58,7 +58,7 @@ const NOT_WORKING = [
     { id: "homemaker", label: "Homemaker / Full-time caregiver" },
     { id: "seeking", label: "Unemployed / Seeking work" },
     { id: "retired", label: "Retired" },
-    { id: "unable", label: "Unable to work / long-term illness / disability" }
+    { id: "unable", label: "Unable to work (illness / disability)" }
 ] as const;
 
 const WORKING_INFO = ["Working includes full-time, part-time, contract and self-employed roles.", "Not currently working opens a second question about their main daily role."];
@@ -117,26 +117,26 @@ export const SEGMENT_INDUSTRIES: readonly (SegmentOption & { sector: string })[]
 
 /** The buyer's age terms (document 31, 10.1: the term leads, the age defines it), and the Positioning life stage each belongs to. */
 const BUYER_AGES = [
-    { id: "minor", stage: "young", label: "Minors, semi-dependent ~13–18" },
-    { id: "young", stage: "young", label: "Young adults ~18–25" },
-    { id: "established", stage: "adult", label: "Established ~25–40" },
-    { id: "peak", stage: "adult", label: "Peak ~40–55" },
-    { id: "mature", stage: "adult", label: "Mature ~55–65" },
-    { id: "active", stage: "senior", label: "Active Retirees ~65–75" },
-    { id: "dependent", stage: "senior", label: "Dependent seniors ~75+" }
+    { id: "minor", stage: "young", label: "Minors, semi-dependent 13–17" },
+    { id: "young", stage: "young", label: "Young adults 18–24" },
+    { id: "established", stage: "adult", label: "Established 25–39" },
+    { id: "peak", stage: "adult", label: "Peak 40–54" },
+    { id: "mature", stage: "adult", label: "Mature 55–64" },
+    { id: "active", stage: "senior", label: "Active Retirees 65–74" },
+    { id: "dependent", stage: "senior", label: "Dependent seniors 75+" }
 ] as const;
 
 /** The user's age terms, and the Positioning user stage each belongs to. */
 const USER_AGES = [
-    { id: "baby", stage: "age:minor", label: "Baby ~0–3" },
-    { id: "child", stage: "age:minor", label: "Child ~3–11" },
-    { id: "teen", stage: "age:minor", label: "Teenager ~11–18" },
-    { id: "young", stage: "age:young", label: "Young adult ~18–25" },
-    { id: "established", stage: "age:adult", label: "Established ~25–40" },
-    { id: "peak", stage: "age:adult", label: "Peak ~40–55" },
-    { id: "mature", stage: "age:adult", label: "Mature ~55–65" },
-    { id: "active", stage: "age:senior", label: "Active Retirees ~65–75" },
-    { id: "dependent", stage: "age:senior", label: "Dependent seniors ~75+" }
+    { id: "baby", stage: "age:minor", label: "Baby 0–2" },
+    { id: "child", stage: "age:minor", label: "Child 3–10" },
+    { id: "teen", stage: "age:minor", label: "Teenager 11–17" },
+    { id: "young", stage: "age:young", label: "Young adult 18–24" },
+    { id: "established", stage: "age:adult", label: "Established 25–39" },
+    { id: "peak", stage: "age:adult", label: "Peak 40–54" },
+    { id: "mature", stage: "age:adult", label: "Mature 55–64" },
+    { id: "active", stage: "age:senior", label: "Active Retirees 65–74" },
+    { id: "dependent", stage: "age:senior", label: "Dependent seniors 75+" }
 ] as const;
 
 /** The job levels (the ISCO-08 major groups in plain words): the Segment's user question and the Profile's "What kind of work do they do?" take this one list, so the words are written once. */
@@ -341,10 +341,10 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     {
         id: "trigger", box: "purchasing", label: "What triggers a typical shopping session?", many: true, max: 2,
         options: [
-            { id: "boredom", label: "Boredom/Entertainment (Browsing feeds, window shopping)" },
+            { id: "boredom", label: "Boredom / Entertainment (Browsing feeds, window shopping)" },
             { id: "proof", label: "Social proof (Seeing a friend or creator use a product)" },
-            { id: "need", label: "Immediate necessity / resolving a specific problem" },
-            { id: "seasonal", label: "Seasonal trends / sales events / planned gift-giving" }
+            { id: "need", label: "Immediate necessity / specific problem" },
+            { id: "seasonal", label: "Seasonal trends / sales / planned gifts" }
         ],
         info: ["Choose up to two."]
     },

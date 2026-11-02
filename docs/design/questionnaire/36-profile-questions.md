@@ -56,7 +56,7 @@ The app also **proposes Profiles** (up to three): one for each age term of the g
 
 The Segment's rule holds here: **a question that is no longer asked, or an option no longer offered, has its answer removed on the next choice**, and the documents read the answers settled against what is asked now.
 
-**The exact age (A1), decided by the owner (2026-11-01).** When the Segment's age group changes, A1 is **cleared if its number falls outside the new group, and kept if it is still inside it**. A Profile of 21 stays when the Segment goes from Young adults (~18–25) to a group that still holds 21 (or to none chosen), and is cleared when it goes to Peak (~40–55). The cleared cell says why, in its placeholder: *"Age reset to match the Segment's age group. Enter a typical age from 40 to 54."* (the range of the new group: from its first age up to, but not including, its second; for the last group, "75 or older"). Nothing else on the Profile is touched. **A user's Profile (owner, 2026-11-01).** When the Segment stops being Proxy or Dual-Intent (a change of the buyer's category in Positioning, or of the relationship), the user's Profile is **deleted completely at once**, not hidden: what it holds (its name, notes, needs and answers) is removed from the Segment's saved answer, so nothing of it reaches the documents, the exports or the wire, and a later change back to Proxy starts a new, empty user's Profile. The payer's Profile is untouched.
+**The exact age (A1), decided by the owner (2026-11-01).** When the Segment's age group changes, A1 is **cleared if its number falls outside the new group, and kept if it is still inside it**. A Profile of 21 stays when the Segment goes from Young adults (18–24) to a group that still holds 21 (or to none chosen), and is cleared when it goes to Peak (40–54). The cleared cell says why, in its placeholder: *"Age reset to match the Segment's age group. Enter a typical age from 40 to 54."* (the range of the new group: from its first age up to, but not including, its second; for the last group, "75 or older"). Nothing else on the Profile is touched. **A user's Profile (owner, 2026-11-01).** When the Segment stops being Proxy or Dual-Intent (a change of the buyer's category in Positioning, or of the relationship), the user's Profile is **deleted completely at once**, not hidden: what it holds (its name, notes, needs and answers) is removed from the Segment's saved answer, so nothing of it reaches the documents, the exports or the wire, and a later change back to Proxy starts a new, empty user's Profile. The payer's Profile is untouched.
 
 ### 2.3 The card's layout
 
@@ -222,10 +222,10 @@ What the Segment cannot say: which devices, which social media, which communitie
 - **Asked when:** always.
 - **Options:**
   - Your website
-  - Reviews and recommendations online
+  - Online reviews / ratings
   - A demo / trial / sample
   - A quote / proposal
-  - What other people recommend
+  - Word of mouth / referrals
   - Comparison sites
   - A meeting / call
 - **The "i" would say:** How they weigh options before choosing. How they pay and where they buy are the Segment's questions.
