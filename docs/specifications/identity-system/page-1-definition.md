@@ -2,7 +2,7 @@
 
 Status: **current design**, written 2026-10-30, updated 2026-11-02. The master tile "1. Definition" of the page "1. Definition and Ethics" of the Identity System: its layout, its four tiles, how each opens and reacts, and what reads what it holds.
 
-Related: doc 38 (the Organization tile's fields), doc 39 (the Positioning tile's questions), doc 26 (card structure), doc 28 (the design, 8.1 to 8.6), doc 31 (the tables behind the Positioning lists, 10.7), doc 33 (the first version), doc 34 (future features), `docs/ai/tile-and-card-pattern.md` (the tile and card pattern), `docs/ai/layout-rules.md` (the measured rules).
+Related: doc 37 (the Organization tile's fields), doc 38 (the Positioning tile's questions), doc 26 (card structure), doc 28 (the design, 8.1 to 8.6), doc 31 (the tables behind the Positioning lists, 10.7), doc 33 (the first version), doc 33 (future features), `docs/ai/tile-and-card-pattern.md` (the tile and card pattern), `docs/ai/layout-rules.md` (the measured rules).
 
 > **Keep this document true (rule of this file):** it describes the app as it is. Whoever changes a tile, a field, a list, a limit or a reaction of the Definition changes this document in the same commit, and writes the change in the log (`design/core/04-log.md`). Where the code and this document disagree, the code is right and this document is the one to fix. What is described elsewhere but not in the app and not a future feature is collected in section 12, **Extra Information**, and nowhere else in this document.
 
@@ -64,7 +64,7 @@ Only one dialog is open at a time; which one is open is view state and is never 
 
 ## 4. The Organization tile
 
-**Dialog:** two columns with a 1px divider (12px clear on each side), the **Notes** across the whole width below a divider line. The left column is where the organization is (name, country, address); the right is what it is and does (legal form, Registration Date, Opening Date, activities). **Every field, its control, its options, its "i" and what it connects to are in doc 38** (`design/questionnaire/38-organization-fields.md`); this section keeps what the tile does as a whole.
+**Dialog:** two columns with a 1px divider (12px clear on each side), the **Notes** across the whole width below a divider line. The left column is where the organization is (name, country, address); the right is what it is and does (legal form, Registration Date, Opening Date, activities). **Every field, its control, its options, its "i" and what it connects to are in doc 37** (`design/questionnaire/37-organization-fields.md`); this section keeps what the tile does as a whole.
 
 - **Frozen until a country is chosen:** Address, Legal Form, State and the activities show the hint "Choose a country first." and keep what they hold.
 - **Country:** the six of the first version and **Other**; it drives the legal forms, the activity scheme and its code name, the registration numbers, the currency and the date format. For Other, the legal forms are the four generic ones (Sole Proprietorship, General Partnership, Private Limited Company, Limited Liability Partnership; `GENERIC_LEGAL_FORMS`) and the activity and its code are typed. Public company, nonprofit and cooperative forms are not offered (doc 33, section 3).
@@ -88,13 +88,13 @@ Only one dialog is open at a time; which one is open is view state and is never 
 
 The tile's name follows the stage: **Early Positioning** (Planning, Launching), **Core Market Positioning** (Managing), **Corporate & Portfolio Positioning** (Growing; `positioningName`).
 
-**Dialog:** two columns, each with two groups, told apart by a **double divider line** (two 1px lines 2px apart) and not by subtitles (the page's tile shows the same four groups, told apart by hairlines): Business then User on the left, Offering then Outcome on the right. The User group (and its divider) appears only for a Proxy or Dual-Intent buyer; the right group is titled "Outcomes" where the user has an outcome of their own. **The left column is as wide as its longest option and the right takes the rest, with a 1px divider between them, so every option stands on one line from a window about 1440px wide** (below it a long option wraps; under 901px the columns are one). **Every question, its control, its options, its "i" and what it connects to are in doc 39** (`design/questionnaire/39-positioning-questions.md`), which also says how many choices the stage allows; this section keeps what the tile does as a whole.
+**Dialog:** two columns, each with two groups, told apart by a **double divider line** (two 1px lines 2px apart) and not by subtitles (the page's tile shows the same four groups, told apart by hairlines): Business then User on the left, Offering then Outcome on the right. The User group (and its divider) appears only for a Proxy or Dual-Intent buyer; the right group is titled "Outcomes" where the user has an outcome of their own. **The left column is as wide as its longest option and the right takes the rest, with a 1px divider between them, so every option stands on one line from a window about 1440px wide** (below it a long option wraps; under 901px the columns are one). **Every question, its control, its options, its "i" and what it connects to are in doc 38** (`design/questionnaire/38-positioning-questions.md`), which also says how many choices the stage allows; this section keeps what the tile does as a whole.
 
 The audience scale is **the app user's audience** (the customers of the business described), not the app's audience (the people who use the app).
 
-**Limits by stage not stated in doc 39:** the Buyer's category is one choice in every stage; the audience question of each relationship follows the relationship's limit (one in Planning and Launching, two in Managing, free in Growing).
+**Limits by stage not stated in doc 38:** the Buyer's category is one choice in every stage; the audience question of each relationship follows the relationship's limit (one in Planning and Launching, two in Managing, free in Growing).
 
-**How the lists are shaped** (the owner's tables, doc 31, 10.7; the tile never chooses for the user, and an answer already given always stays visible). The order of the options of each question is in doc 39; two rules cross questions:
+**How the lists are shaped** (the owner's tables, doc 31, 10.7; the tile never chooses for the user, and an answer already given always stays visible). The order of the options of each question is in doc 38; two rules cross questions:
 
 - **The life stages come first** (consumer buyer, once the buyer's and the user's life stages are both answered): they re-sort the Differentiation (a Student: Cost-driven and Convenience-driven; a Worker: Convenience-driven and Compliance, Risk & Security; a Senior: Compliance, Risk & Security and Status & Premium) and the two Outcome lists (by the purposes the life stages make primary), before the purposes chosen (doc 31, 10.7).
 - **Outcome for the buyer and Outcome for the user:** the outcomes the purposes chosen drive come first (the buyer's by the buyer's category; a Direct Buyer has no user outcome); nothing is hidden or ticked.
@@ -160,11 +160,11 @@ The business stage (Planning, Launching, Managing, Growing) is **not asked**: it
 
 ## 12. Extra Information
 
-What other documents describe for this master tile that **is not in the app and is not listed as a future feature** (doc 34). The owner decides for each whether it becomes a future feature, is built, or is dropped.
+What other documents describe for this master tile that **is not in the app and is not listed as a future feature** (doc 33). The owner decides for each whether it becomes a future feature, is built, or is dropped.
 
-1. **The shortlist with "Show all" in the activity dropdowns** (doc 28, 8.5; doc 35, 5.9): every dropdown lists all its entries.
+1. **The shortlist with "Show all" in the activity dropdowns** (doc 28, 8.5; doc 34, 5.9): every dropdown lists all its entries.
 2. **The completeness rule for the primary activity** (doc 28, 8.5): the Review does not flag a missing primary activity.
-3. **The industry pack** (doc 35, 5.6): suggestions for the Segment's name and the kinds of business of the Profiles from the activities; nothing reads the activities but the exports.
+3. **The industry pack** (doc 34, 5.6): suggestions for the Segment's name and the kinds of business of the Profiles from the activities; nothing reads the activities but the exports.
 4. **The audit of the lists under rule 14**, tile by tile (doc 28, section 3; doc 32): the legal forms of the six countries are not re-checked as complete and sourced.
 5. **The Business Plan's "Activities" row label** is marked to confirm by the owner (doc 28, 8.6, **[D]**).
 6. **The Value Proposition and the Competitors reading the Positioning** (doc 28, 8.2; doc 29, I7c): the differentiation, the outcomes, the purpose and the buyer's category shape no later question.

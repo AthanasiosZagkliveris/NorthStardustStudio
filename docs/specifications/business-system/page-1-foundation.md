@@ -22,8 +22,8 @@ The tile order in the frame is Segment Description, Value Proposition, Competito
 
 **What the page asks.**
 
-- The Segment card keeps the five Description parameters below as five boxes, each with its title, its text (the owner's wording), its choice questions and its Notes. Business Data is never optional: a Segment is one group, of people or of businesses. Where Identity chooses both B2C and B2B, the page makes two Segments, the first of people and the second of businesses; a Segment added after them asks "Who is this Segment's customer?". Every question, option and "i" of the Segment card is in doc 36 (`design/questionnaire/36-segment-questions.md`).
-- The Profile card keeps its Name and the owner's boxes and asks choice questions in them. Every question, option and "i" of the Profile card is in doc 37 (`design/questionnaire/37-profile-questions.md`), which also says which questions are not built yet.
+- The Segment card keeps the five Description parameters below as five boxes, each with its title, its text (the owner's wording), its choice questions and its Notes. Business Data is never optional: a Segment is one group, of people or of businesses. Where Identity chooses both B2C and B2B, the page makes two Segments, the first of people and the second of businesses; a Segment added after them asks "Who is this Segment's customer?". Every question, option and "i" of the Segment card is in doc 35 (`design/questionnaire/35-segment-questions.md`).
+- The Profile card keeps its Name and the owner's boxes and asks choice questions in them. Every question, option and "i" of the Profile card is in doc 36 (`design/questionnaire/36-profile-questions.md`), which also says which questions are not built yet.
 - The design behind the questions, and the Competitor, Value Proposition and Offering cards, are in doc 28, 6.3 to 6.8 (`design/questionnaire/28-questionnaire-specification.md`).
 - The floating cards share one pattern (`ai/tile-and-card-pattern.md`).
 

@@ -423,7 +423,7 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
                 .filter((entry): entry is LegalEntityActivityValue => entry !== null && (entry.code.length > 0 || (entry.name ?? "").length > 0))
                 .slice(0, MAX_ACTIVITIES),
             businessStage: asText(organisationSource.businessStage),
-            // (The first version: B2C and B2B, a single-sided market; an older answer's B2G, G2B and multi-sided market are read without them: document 34.)
+            // (The first version: B2C and B2B, a single-sided market; an older answer's B2G, G2B and multi-sided market are read without them: document 33.)
             customerType: [...new Set(asChoices(organisationSource.customerType).flatMap(id => id === "both" ? ["b2b", "b2c"] : [id]))].filter(id => (MODEL_IDS as readonly string[]).includes(id)),
             marketType: "single",
             audience: asChoices(organisationSource.audience).filter(id => (AUDIENCE_IDS as readonly string[]).includes(id)),

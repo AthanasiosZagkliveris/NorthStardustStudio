@@ -1,6 +1,6 @@
 # 8. The library system: tables, library, inventory and logs
 
-Status: **specification**, written 2026-10-15, updated 2026-11-02. Approved by the owner on 2026-10-15; steps 1 to 6 (section 7) are built, step 7 (the sync) is not. It records the owner's requirements as stated in chat, and how they are met, step by step. The starting data is the catalogue (the card scan, the probes and document 01 Part F), printed in documents 06 and 07.
+Status: **specification**, written 2026-10-15, updated 2026-11-02. Approved by the owner on 2026-10-15; steps 1 to 6 (section 7) are built, step 7 (the sync) is not. It records the owner's requirements as stated in chat, and how they are met, step by step. The starting data is the catalogue (the card scan, the probes and document 1 Part F), printed in documents 6 and 7.
 
 ## 1. What a variable is
 
@@ -12,9 +12,9 @@ Variables of this app, by kind (the first set, to be confirmed by the owner): ki
 
 | Thing | What it holds | Source of the data |
 |---|---|---|
-| **Foundation Capability table** | Per system, page, chapter, master tile, master card, sub tile, sub card, nested tile, nested card and floating card: its fields and components, characteristics, functions, types, categories, groups, links, reactions and effects (the four systems: 1. Identity, 2. Brand, 3. Business, 4. Strategy) | Document 07 (structure tables) |
-| **App table** | The app header (and its tags), the calendar, the landing page, the system selection page | Document 07 (H, L, CA) |
-| **Assets library** | Every asset once, with its variables and variants, and what it requires | Documents 06 and 07; the contracts in src/library |
+| **Foundation Capability table** | Per system, page, chapter, master tile, master card, sub tile, sub card, nested tile, nested card and floating card: its fields and components, characteristics, functions, types, categories, groups, links, reactions and effects (the four systems: 1. Identity, 2. Brand, 3. Business, 4. Strategy) | Document 7 (structure tables) |
+| **App table** | The app header (and its tags), the calendar, the landing page, the system selection page | Document 7 (H, L, CA) |
+| **Assets library** | Every asset once, with its variables and variants, and what it requires | Documents 6 and 7; the contracts in src/library |
 | **Assets inventory** | The assets built from the library: every component, then every field from components, then every card and tile from fields and components | The library |
 | **Library log** | One entry per change of the library | Kept by the checker |
 | **App structure log** | One entry per change of the Foundation Capability table or the App table (where an asset is placed in the app) | Kept by the checker |
@@ -29,7 +29,7 @@ Variables of this app, by kind (the first set, to be confirmed by the owner): ki
 
 **Letters of the kinds (approved by the owner; the list is `KINDS` in `src/library/model/types.ts`):** BTN button, DRP dropdown, TIK tick box, TXT text input (box and area), LST list, DIV divider, TXS text, SYM card symbol, PCK picker, IMG image holder, ICN icon, DAT date cell, ARW arrow, BUL bullet (all components); FLD field; TIL tile; CRD card; FRM frame (chapter, page, dialog view). There is no rail kind: the rail is the page tag, a field. A new kind of asset gets a new three-letter code, written in the library first.
 
-Every variable has an id, a name and a description (VAR followed by a three-digit number until the owner decides otherwise). The ids in document 07 (CO, F, K...) are working ids of the catalogue; the library assigns the codes above.
+Every variable has an id, a name and a description (VAR followed by a three-digit number until the owner decides otherwise). The ids in document 7 (CO, F, K...) are working ids of the catalogue; the library assigns the codes above.
 
 Categories of asset: **component**, **field** (a label with its components), **card type** (made of fields and components), **tile** (master tile, tile, open tile, add tile), **frame** (chapter, page, dialog view).
 
@@ -83,7 +83,7 @@ To change a size: change the look in the library (section 4), run `npm run libra
 
 1. This specification, approved by the owner. Built.
 2. Built: the data model in code: Variable, Asset, Placement, with their checks (unique key, every placement points to an asset, every asset has its variables described).
-3. Built: the Foundation Capability table and the App table as data, generated from documents 06 and 07 (ids kept).
+3. Built: the Foundation Capability table and the App table as data, generated from documents 6 and 7 (ids kept).
 4. Built: the library, every asset once, with variables (id, name, description) and variants, and what each requires. The owner decides the defaults where there are several looks.
 5. Built: the two logs and the checker (snapshot, the three cases, the drift list).
 6. Built: the inventory, the components built from the library, then the fields, then the cards and tiles, shown on a gallery page.

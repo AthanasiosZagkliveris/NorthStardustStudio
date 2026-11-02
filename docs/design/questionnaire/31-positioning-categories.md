@@ -1,10 +1,10 @@
 # 31. Positioning categories: collected data (owner, 2026-10-27)
 
-Status: **collection**, written 2026-10-27, updated 2026-11-02. The owner's categories for the buyer, the user and the purpose of an offering, written down as given: sections 1 to 8 are the collection (its wording, numbers and order are the owner's; the only edits are the layout of the lists and the spelling of "Seniors"). **This document owns the age terms and the buyer and user relationships.** The first version builds from it the buyer's category, the relationships and the purposes (doc 39) and the age terms of the Segment (doc 36). Section 9 is the register of the decisions taken on the collection.
+Status: **collection**, written 2026-10-27, updated 2026-11-02. The owner's categories for the buyer, the user and the purpose of an offering, written down as given: sections 1 to 8 are the collection (its wording, numbers and order are the owner's; the only edits are the layout of the lists and the spelling of "Seniors"). **This document owns the age terms and the buyer and user relationships.** The first version builds from it the buyer's category, the relationships and the purposes (doc 38) and the age terms of the Segment (doc 35). Section 9 is the register of the decisions taken on the collection.
 
-> **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Doc 33 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, age limits, accessibility, caregiving and the rest) is a future feature: doc 34. Contents of the documents: `docs/README.md`; index: `docs/index.md`; glossary: `docs/app/glossary.md`.
+> **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Doc 33 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, age limits, accessibility, caregiving and the rest) is a future feature: doc 33. Contents of the documents: `docs/README.md`; index: `docs/index.md`; glossary: `docs/app/glossary.md`.
 
-> **Where the decisions stand (2026-10-29).** Sections 1 to 8 are the owner's collection as given. Section 9 is the register of every decision taken on it; section 10 holds the reference tables. The first version uses only what doc 33 names; the rest is future (doc 34).
+> **Where the decisions stand (2026-10-29).** Sections 1 to 8 are the owner's collection as given. Section 9 is the register of every decision taken on it; section 10 holds the reference tables. The first version uses only what doc 33 names; the rest is future (doc 33).
 
 Related: doc 28, 8.2 (the Positioning questions), doc 29 (the question guide), doc 30 (age limits by activity and country).
 
@@ -89,7 +89,7 @@ Not buyer stages (nothing stated): Minors under 16 (Baby, Child, and Early and M
 
 ## 6. Buyer and user relationships, with examples
 
-Practical examples for each buyer and user relationship, using real-world organisational scenarios across B2C and B2B (B2G and G2B: doc 34, section 5).
+Practical examples for each buyer and user relationship, using real-world organisational scenarios across B2C and B2B (B2G and G2B: doc 33, section 14).
 
 ### 6.1 Personal relationships
 
@@ -113,7 +113,7 @@ Practical examples for each buyer and user relationship, using real-world organi
 | Sponsor or funder | A company funds access to a coding programme for selected participants. |
 | Other business relationship | A franchise owner purchases training materials for franchise operators. |
 
-*(The government and public-sector relationships (B2G) and the government-to-business relationships (G2B) are a future feature: their examples are in doc 34, section 5.)*
+*(The government and public-sector relationships (B2G) and the government-to-business relationships (G2B) are a future feature: their examples are in doc 33, section 14.)*
 
 ## 7. Proposed offering purpose taxonomy
 
@@ -152,7 +152,7 @@ This is a practical starting model, not a fixed classification. For example, a p
 
 ## 9. Decisions register (2026-10-29)
 
-The decisions of 2026-10-27 to 2026-10-29, one row each, by topic. The rounds of questions and answers that led to them were merged into this table and the reference tables of section 10 on 2026-10-29; the earlier text is in the git history (commit 2e833a6). Doc 33 governs the first version; "future" means a feature of doc 34.
+The decisions of 2026-10-27 to 2026-10-29, one row each, by topic. The rounds of questions and answers that led to them were merged into this table and the reference tables of section 10 on 2026-10-29; the earlier text is in the git history (commit 2e833a6). Doc 33 governs the first version; "future" means a feature of doc 33.
 
 | # | Decision | Status |
 |---|---|---|
@@ -270,9 +270,9 @@ Each of these edges falls inside or between the owner's stages: 13 and 14 inside
 
 **I7e (the Buyer's relationship with the End User):** the text says it fills a "Relationship Type" field on the new Profile and is cross-checked against the 22 rows.
 
-### 10.4 The relationships and the purposes (12 in the first version; the ten public-sector and government rows are in doc 34, section 5)
+### 10.4 The relationships and the purposes (12 in the first version; the ten public-sector and government rows are in doc 33, section 14)
 
-The purpose table for the 12 relationships of the first version (the ten public-sector and government rows, 13 to 22, are in doc 34, section 5)
+The purpose table for the 12 relationships of the first version (the ten public-sector and government rows, 13 to 22, are in doc 33, section 14)
 
 ● primary · ○ possible · blank = low direct relevance. Information and ordering only (section 9 item 3, section 9). This **replaces the 15-row table of section 8** for use; section 8 stays as the first collection.
 
@@ -291,7 +291,7 @@ The purpose table for the 12 relationships of the first version (the ten public-
 | 11 | Sponsor or funder | ● | ● | ○ | ○ | ○ | ○ | ○ | ○ | ○ |  |  | ● |
 | 12 | Other business relationship (new row) | ○ |  | ○ |  | ○ | ● | ● | ○ | ● | ○ | ● |  |
 
-**(The public-sector and government rows named below are in doc 34, section 5.)** **Checked against section 8:** differences from the 15 rows: Government serving business owners or operators: was o....BB.oBBB now .....BB.oBBB. The **seven new rows** are marked (new row): the text does not say who drew them or on what basis; they have **no source** and stay the owner's wording. Row 18 replaces the single row "Government to businesses" of section 8, which is now split into rows 18 to 22 by the sub-types of 6.4.
+**(The public-sector and government rows named below are in doc 33, section 14.)** **Checked against section 8:** differences from the 15 rows: Government serving business owners or operators: was o....BB.oBBB now .....BB.oBBB. The **seven new rows** are marked (new row): the text does not say who drew them or on what basis; they have **no source** and stay the owner's wording. Row 18 replaces the single row "Government to businesses" of section 8, which is now split into rows 18 to 22 by the sub-types of 6.4.
 
 ### 10.5 Proxy Buyer and Dual-Intent Buyer, and the I7f wording
 
@@ -340,7 +340,7 @@ The owner pasted a text on how the six business relationships (6.2) position, gr
 2. **The relationship only suggests the intent** (decision 8). This text gives each B2B relationship a **default** intent; the buyer's own answer (does the buyer use it too?) governs. For example a sponsor who also uses the programme is Dual-Intent.
 3. **The Dual-Intent label of "Business partner" fits the examples poorly:** the example says one partner buys for the other to use, which is the Proxy test of section 10.5 (the payer does not consume). The text justifies it as "active user or operational partner"; it stays as the owner's reading, flagged.
 4. **"B2B2Network"** is the text's own label for the franchise case; it is not a term of the questionnaire and is not used.
-5. **Not in the first version:** the positioning columns (value positioning, pain points, messaging focus). Doc 33 uses only the six relationships and the Proxy or Dual-Intent grouping; the columns are a future feature (doc 34).
+5. **Not in the first version:** the positioning columns (value positioning, pain points, messaging focus). Doc 33 uses only the six relationships and the Proxy or Dual-Intent grouping; the columns are a future feature (doc 33).
 
 ### 10.7 How relevant each purpose is: the owner's tables of 2026-10-30
 
@@ -605,7 +605,7 @@ Example paths from the seller and buyer relationship to the differentiation: B2C
 | Compliance and Obligations |  |  | ● |  |  | ● |
 | Access and Social Support | ● | ● | ○ |  |  |  |
 
-**Clusters (the owner's notes):** Protection and Compliance are about exposure, so they shape Compliance, Risk & Security; Business Growth and Entertainment are about expansion and prestige, so they shape Status & Premium or Convenience; Productivity and Everyday Needs are about time and friction, so they shape Convenience or Cost. The order inside a level stays as the audience scale and the buyer's category set it. Decided 2026-10-30: the matching boxes are **not pre-selected**; they are ranked first (the app never chooses for the user, doc 33). A "Recommended" tag or a highlight on them was suggested and is not built (it needs a new element; doc 05).
+**Clusters (the owner's notes):** Protection and Compliance are about exposure, so they shape Compliance, Risk & Security; Business Growth and Entertainment are about expansion and prestige, so they shape Status & Premium or Convenience; Productivity and Everyday Needs are about time and friction, so they shape Convenience or Cost. The order inside a level stays as the audience scale and the buyer's category set it. Decided 2026-10-30: the matching boxes are **not pre-selected**; they are ranked first (the app never chooses for the user, doc 33). A "Recommended" tag or a highlight on them was suggested and is not built (it needs a new element; doc 5).
 
 **The differentiation by the business buyer and user relationship (the owner's table, 2026-10-30, six pillars; ranks the Differentiation list, nothing is hidden by it)**
 

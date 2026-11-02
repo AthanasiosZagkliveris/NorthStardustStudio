@@ -9,8 +9,8 @@ Status: **rules**, written 2026-10-29. How a document in `docs/` is named, numbe
 | `docs/app/` | The app: contents, index of its places, glossary | plain names |
 | `docs/design/core/` | The current design of the Foundation, the sources, the research, the log, the open list, the generated catalogue (documents 1 to 7) | `NN-name.md` |
 | `docs/design/library/` | The assets library, its generated lists and logs (8 to 15) | `NN-name.md` |
-| `docs/design/current/` | What the app is today in detail: texts, reactions, components, pop-ups, tooltips, folders, card structure (16 to 26) | `NN-name.md` |
-| `docs/design/questionnaire/` | The first version, its future features, the questions, the lists, the research (27 to 41) | `NN-name.md` |
+| `docs/design/current/` | What the app is today in detail: texts, reactions, components, pop-ups, tooltips, folders, card structure (16 to 26, and 41) | `NN-name.md` |
+| `docs/design/questionnaire/` | The first version, its future features, the questions, the lists, the research (27 to 40) | `NN-name.md` |
 | `docs/ai/` | Rules, references and playbooks for an AI assistant | plain names |
 | `docs/specifications/business-system/` | The pages of the Business System | `page-N-name.md` |
 | `docs/specifications/identity-system/` | The pages of the Identity System that have a document of their own | `page-N-name.md` |
@@ -52,11 +52,11 @@ Every document opens with these lines, in this order (checked):
 
 - **Present tense.** A document says what is true now. **A change is written in the log** (`design/core/04-log.md`) and nowhere else: no "since", "was changed on" or round-by-round history in a describing document.
 - **One owner for each fact.** A fact is written once, in the document that owns it, and the others point to it ("see doc 21, section 3"). The owner of a topic is named in `index.md`.
-- **Sections** of a long document are numbered `## 1.`, `### 1.1`; the numbers do not change once other documents cite them (a section that moves to a new document keeps its numbers, as 5.x did in document 35).
+- **Sections** of a long document are numbered `## 1.`, `### 1.1`; the numbers do not change once other documents cite them (a section that moves to a new document keeps its numbers, as 5.x did in document 34).
 - **Where the code and a document disagree, the code is right** and the document is the one to fix. Names of files, classes, properties and functions in backticks must exist (the document-reference test checks the documents it lists).
 - **Plain English**, sentence case headings, ISO dates, "doc N" for a design document and "document N" in running prose; a file is named in backticks with its path from `docs/`.
 - **Relative links** between documents are written as Markdown links and must resolve (checked).
-- **Decisions** the owner has not made are marked **[D]**; a rule of the first version is marked in place and the rest is a future feature (doc 34).
+- **Decisions** the owner has not made are marked **[D]**; a rule of the first version is marked in place and the rest is a future feature (doc 33).
 - **Generated documents** are never edited by hand; the generator and its source are named in the document.
 
 ## 4. Each chapter has a README

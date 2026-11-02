@@ -48,26 +48,26 @@ One-line definitions, so that terminology is the same in every document and Skil
 
 **Global Settings** — the per-organization settings in the header (Financial plan, Business stages, Pay and tax, Assets, Rates, Reserve, Channel Fee Table). *Owner: doc 1, Part D 6.*
 
-**Opening Date** — the date the organization opens, a field of the Organization tile (doc 38); the budget before it is the cash to raise. **Business stage** — Planning, Launching, Managing or Growing, worked out from the Opening Date and the four durations in the Global Settings, never chosen; it sets the limits and locks of the Positioning questions. Defaults: Planning 3 months, counted back from the Opening Date; Launching 12 months from it; Managing the next 12 (to month 24); Growing the next 3 years (to month 60). **Key dates** — the milestones of the organization (plan start, registration, opening, the end of each stage's window), shown on the Review and the Calendar. *Owner: doc 28, 8.2a.*
+**Opening Date** — the date the organization opens, a field of the Organization tile (doc 37); the budget before it is the cash to raise. **Business stage** — Planning, Launching, Managing or Growing, worked out from the Opening Date and the four durations in the Global Settings, never chosen; it sets the limits and locks of the Positioning questions. Defaults: Planning 3 months, counted back from the Opening Date; Launching 12 months from it; Managing the next 12 (to month 24); Growing the next 3 years (to month 60). **Key dates** — the milestones of the organization (plan start, registration, opening, the end of each stage's window), shown on the Review and the Calendar. *Owner: doc 28, 8.2a.*
 
 **Review / Calendar / Notes** — the header's Review (the open items of the organization, with the key dates), the Calendar (every card date, in the left rail of System Selection) and Notes (the user's own notes, and every card's Notes text by page). *Owner: doc 1, C.2.*
 
 ## 3. The questionnaire and the first version
 
-Doc 28 is the questionnaire specification, doc 33 the first version, doc 34 what it leaves for later, doc 31 the positioning collection.
+Doc 28 is the questionnaire specification, doc 33 the first version, doc 33 what it leaves for later, doc 31 the positioning collection.
 
 ### Positioning and the market
 
 | Term | Meaning | See |
 |---|---|---|
-| Early Positioning | The Positioning tile while Planning and Launching: a temporary, targeted statement for the first market (seller and buyer relationship, audience, buyer's category, the End User, purpose, outcome) | Doc 39; doc 28, 8.2 |
+| Early Positioning | The Positioning tile while Planning and Launching: a temporary, targeted statement for the first market (seller and buyer relationship, audience, buyer's category, the End User, purpose, outcome) | Doc 38; doc 28, 8.2 |
 | Core Market Positioning | The tile's name while Managing | Doc 28, 8.2 |
 | Corporate & Portfolio Positioning | The tile's name while Growing | Doc 28, 8.2 |
-| Organization tile | Holds the legal entity, the activity and its code, and when the business opens | Doc 38; doc 28, 8.5 |
+| Organization tile | Holds the legal entity, the activity and its code, and when the business opens | Doc 37; doc 28, 8.5 |
 | Country profile | A country's own legal forms and settings in the code; the six named countries have one, every other country uses a neutral profile | Doc 33, section 3 |
 | Legal form | The kind of legal entity (sole proprietorship, company and so on), from the country's own list | Doc 33, section 3 |
-| Activity and code | What the business does, chosen through the levels of the country's classification, ending on its code | Doc 35, 5.7 and 5.8 |
-| Classification, crosswalk | A country's scheme of industry codes; a crosswalk maps one scheme to another (ISIC is the general one, a future feature) | Doc 35, 5.3 |
+| Activity and code | What the business does, chosen through the levels of the country's classification, ending on its code | Doc 34, 5.7 and 5.8 |
+| Classification, crosswalk | A country's scheme of industry codes; a crosswalk maps one scheme to another (ISIC is the general one, a future feature) | Doc 34, 5.3 |
 | Other (country) | Any country outside the six named; the legal form comes from four generic options, the activity and code are typed by hand | Doc 33, section 3 |
 | Market Structure (I11) | Single-sided or multi-sided; the first version has single-sided only | Doc 33, section 4 |
 | Single-sided market | One audience of buyers pays; the product does not need another group to be worth buying | Doc 28, 8.2 |
@@ -75,14 +75,14 @@ Doc 28 is the questionnaire specification, doc 33 the first version, doc 34 what
 | Anchor side | The side of a platform that is critical to the start; the only side answered for while Planning and Launching (future) | Doc 28, 8.2 |
 | Seller and Buyer Relationship (I3) | Who pays: B2C or B2B in the first version | Doc 33, section 4 |
 | B2C, B2B | Business to consumer; business to business | Doc 28, 8.2 |
-| B2G, G2B | Business to government; government to business (future) | Doc 34, items 6 and 7 |
+| B2G, G2B | Business to government; government to business (future) | Doc 33, items 6 and 7 |
 | Audience (I7b) | The buyer's life stage (B2C) or scale (B2B), one question for each relationship chosen; for B2G the Administrative Level (Local Government to Institutional / Public Organizations), for G2B the Regulatory Intensity of the target industry (General Commerce to Heavily Regulated Markets) | Doc 28, 8.2 |
 | Locked audience | An audience option that is greyed while Planning and Launching (Central Government & Ministries, Heavily Regulated Markets) | Doc 28, 8.2 |
 | Differentiation (I7c), Outcome (I7j), Outcome for the user (I7k) | What the offering does differently (six options), the buyer's measurable result, and what matters most to a Proxy or Dual-Intent buyer's user; asked with the Purpose as separate items | Doc 28, 8.2 |
-| Segment | A group of customers described by ranges; the card on Business 1. Its five boxes (Demographics, Geographics, Business Data, Purchasing Power & Behaviour, Market Size & Industry Outlook) ask choice questions, and a Proxy or Dual-Intent buyer adds a User part | Doc 36; doc 28, 6.3 |
-| Business Data | The Segment box about a business buyer. Its kind is kept under the key `business-data`; it is not a tick: where Positioning chose both B2C and B2B, two Segment cards are made automatically (people, then businesses), and a Segment added after them asks "Who is this Segment's customer?" | Doc 36 |
-| Settled answer | A Segment answer read against Identity as it stands now: an answer to a question no longer asked is left out of the documents and the export, and is removed on the next choice (`settledSegmentAnswers`, `SegmentContext.ts`) | Doc 36 |
-| Profile | A typical person inside a Segment, described by specifics; its choice questions are in five boxes A to E: personal information, psychographics, social and interest hubs, information and shopping habits, motivations | Doc 37; doc 28, 6.4 |
+| Segment | A group of customers described by ranges; the card on Business 1. Its five boxes (Demographics, Geographics, Business Data, Purchasing Power & Behaviour, Market Size & Industry Outlook) ask choice questions, and a Proxy or Dual-Intent buyer adds a User part | Doc 35; doc 28, 6.3 |
+| Business Data | The Segment box about a business buyer. Its kind is kept under the key `business-data`; it is not a tick: where Positioning chose both B2C and B2B, two Segment cards are made automatically (people, then businesses), and a Segment added after them asks "Who is this Segment's customer?" | Doc 35 |
+| Settled answer | A Segment answer read against Identity as it stands now: an answer to a question no longer asked is left out of the documents and the export, and is removed on the next choice (`settledSegmentAnswers`, `SegmentContext.ts`) | Doc 35 |
+| Profile | A typical person inside a Segment, described by specifics; its choice questions are in five boxes A to E: personal information, psychographics, social and interest hubs, information and shopping habits, motivations | Doc 36; doc 28, 6.4 |
 | Cascade | The Segment sets the range; the Profile chooses within it | Doc 28, 6.5 |
 
 ### Buyer and user
@@ -101,14 +101,14 @@ Doc 28 is the questionnaire specification, doc 33 the first version, doc 34 what
 | Dual-Intent Buyer | Buys one offering for themselves and their dependents | Doc 33, section 5 |
 | Buyer's life stage | Students / Young Adults; Workers / Professionals; Seniors | Doc 33, section 5 |
 | User's life stage | Minors; Young Adults; Adults; Seniors (B2C only) | Doc 33, section 5 |
-| Detailed life stages, Dependent seniors | The fine stages (Infancy through Late Adolescence; Young, Established, Peak, Mature, Active Retirees); Dependent seniors are 74 and over; a future feature | Doc 31, 1 and 2; doc 34, item 8 |
+| Detailed life stages, Dependent seniors | The fine stages (Infancy through Late Adolescence; Young, Established, Peak, Mature, Active Retirees); Dependent seniors are 74 and over; a future feature | Doc 31, 1 and 2; doc 33, item 8 |
 | Stage edge rule | "From X up to but not including Y": an age belongs to one stage only | Doc 31, 10.1 |
 | Micro-Buyer | A buyer aged 16 to 18 with restricted payment methods; a sub-category of Direct Buyers (future). The Segment card calls the buyer of 13 to 18 "Minors, semi-dependent" | Doc 31, 2; decision 5; doc 28, 6.3a |
 | Buyer and User relationship | One of seven consumer (B2C: the six personal ones and Commercial & Professional) or six business (B2B) relationships in the first version (22 in the collection); shown only for Proxy and Dual-Intent buyers | Doc 31, 6; doc 33, section 5 |
 | Proxy archetype, Dual-Intent archetype | The default intent of a B2B relationship; the relationship only suggests the buyer's category, the buyer's own answer governs | Doc 31, 10.6 |
 | Purpose | Why the offering is bought; 12 in the collection; a question in the first version | Doc 31, 7; doc 33, section 5 |
-| Household plan | An offering priced for a household, checked against a single-user option (a future Review check) | Doc 34, item 19 |
-| Accessibility and caregiving tags | Questions saved as Profile tags (permanent, temporary or situational need; who is cared for and in what role); future | Doc 31, 3 and 4; doc 34, items 15 and 16 |
+| Household plan | An offering priced for a household, checked against a single-user option (a future Review check) | Doc 33, item 19 |
+| Accessibility and caregiving tags | Questions saved as Profile tags (permanent, temporary or situational need; who is cared for and in what role); future | Doc 31, 3 and 4; doc 33, items 15 and 16 |
 
 ### Question ids and rules
 
@@ -116,11 +116,11 @@ Doc 28 is the questionnaire specification, doc 33 the first version, doc 34 what
 |---|---|---|
 | I | Identity question; I3 Seller and Buyer Relationship, I7b Audience, I7c Differentiation, I7d and I7e the End User questions (life stage, relationship), I7h Buyer's category, I7i Purpose, I7j and I7k the Outcomes, I11 Market Structure | Doc 28, 1 and 8.2 |
 | G | The customer Group (the Segment card); G6 is its age range | Doc 28, 1 |
-| A to E | The boxes and questions of the Profile in doc 37: A1 the exact age, A2 gender, A3 the kind of work, A5 the part in the purchase; B1 what they care about; C1 to C4 devices, social media, communities, events; D1 and D2 how they compare options and how much help they want; E1 to E3 goals, frustrations, objections. A4 (kind of business) and A6 (specialized needs) are proposed, not built | Doc 37 |
+| A to E | The boxes and questions of the Profile in doc 36: A1 the exact age, A2 gender, A3 the kind of work, A5 the part in the purchase; B1 what they care about; C1 to C4 devices, social media, communities, events; D1 and D2 how they compare options and how much help they want; E1 to E3 goals, frustrations, objections. A4 (kind of business) and A6 (specialized needs) are proposed, not built | Doc 36 |
 | P | The Person (the Profile card, the earlier ids of doc 28): P1 an age, P9 what they care about, P13 how they buy, P14 how they pay, P17 goals, P21 "What part do they play in the purchase" (use, influence, order, decide, control access), P22 how it is decided, P25 "Buyer's Relationship to this User" (proposed) | Doc 28, 1 and 6.4; doc 31, decision 18 |
 | K | The Competitor | Doc 28, 1 |
 | O | The Offering; O3 how it is bought, O12 minimum ages to buy | Doc 28, 1 and 10.3 |
-| L1 to L16 | The shared Lists | Doc 35, 5.2 |
+| L1 to L16 | The shared Lists | Doc 34, 5.2 |
 | W | The Work of the Delivery card | Doc 28, 1 |
 | C, R, J, D | Capability and founders; Revenue stream; customer Journey; Demand card | Doc 28, 1 |
 | F | Ids of the earlier question files (Appendix A only) | Doc 28, 1 |
@@ -139,7 +139,7 @@ Doc 28 is the questionnaire specification, doc 33 the first version, doc 34 what
 | Term | Meaning | See |
 |---|---|---|
 | First version | The first published version of the app | Doc 33 |
-| Future feature | Collected, designed or built, but not in the first version; built ones stay in the code, hidden | Doc 34 |
+| Future feature | Collected, designed or built, but not in the first version; built ones stay in the code, hidden | Doc 33 |
 | Collection | A document that records the owner's data as given, before any design | Doc 31 |
 | Decisions register | The numbered decisions on the positioning data, with their state | Doc 31, 9 |
 | Age limits | The legal ages by activity and country, and for a buyer; shown on the Segment in the first version | Doc 30; doc 33, section 6 |

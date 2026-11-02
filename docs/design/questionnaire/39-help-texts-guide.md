@@ -1,8 +1,8 @@
-# 40. The help texts: what an "i" says, by place and by field
+# 39. The help texts: what an "i" says, by place and by field
 
 Status: **proposal**, written 2026-11-01, updated 2026-11-02. What the help texts of the app are (doc 22 counts them), what is written about them (little), and the structure for the "i" of each kind of place and field, with the standard phrases, the size budget and a way to check them. **Built:** the 160-character budget and the warnings in doc 22 (`tools/scripts/catalogue/help-texts-doc.mjs`); the rest applies when a field is next changed.
 
-Related: doc 22 (the generated list of every help text, from the running app), doc 28 (section 4, the plain wording, and 4.1, the rules for writing questions), docs 36, 38 and 39 (what the "i" of the Segment, the Organization and Positioning say today), doc 21 (the `InfoNote` component), `docs/ai/layout-rules.md` (how the "i" looks and where it opens), `docs/specifications/business-system/page-1-foundation.md` (the owner's texts, which stay).
+Related: doc 22 (the generated list of every help text, from the running app), doc 28 (section 4, the plain wording, and 4.1, the rules for writing questions), docs 35, 37 and 38 (what the "i" of the Segment, the Organization and Positioning say today), doc 21 (the `InfoNote` component), `docs/ai/layout-rules.md` (how the "i" looks and where it opens), `docs/specifications/business-system/page-1-foundation.md` (the owner's texts, which stay).
 
 ## 1. What is written today
 
@@ -52,9 +52,9 @@ By place, the median is 245 characters in a tile dialog, 74 on a floating card (
 ### 3.1 Principles
 
 1. **An "i" answers one question: "what do I do here?"** It is read by someone about to answer, once, in a few seconds.
-2. **It says what is true now.** No feature that is not built, no "will". What a later part will do with the answer is not help for answering; it goes in the design documents (the *Connections* of docs 36 to 39), with one exception: one short line that says *what the answer changes now*, where it changes something the user can see.
+2. **It says what is true now.** No feature that is not built, no "will". What a later part will do with the answer is not help for answering; it goes in the design documents (the *Connections* of docs 35 to 38), with one exception: one short line that says *what the answer changes now*, where it changes something the user can see.
 3. **It never repeats its label or its options.** If the label says "How comfortable are they with online tools?", the "i" does not say "Choose how comfortable they are".
-4. **Details go in the "i", not in the label or the option.** An option says its few words; what is added in brackets, after a colon or as an example stands in the question's "i", under the option's name (rule of 2026-11-01, doc 36).
+4. **Details go in the "i", not in the label or the option.** An option says its few words; what is added in brackets, after a colon or as an example stands in the question's "i", under the option's name (rule of 2026-11-01, doc 35).
 5. **The owner's texts stay, and come first.** A prompt or an instruction written by the owner is the first point, word for word; anything added is a separate point after it.
 6. **One idea per point; a point is a sentence or two.**
 
@@ -68,7 +68,7 @@ In this order; a point that has nothing to say is left out.
 | 2 | **How to answer** | The rule of the control and what to do when it does not fit | "Choose up to three." / "If they are in more than one place, make another Segment." |
 | 3 | **What it changes now** | One line, only where the answer changes what the user sees | "The age groups offered follow the life stage chosen in Positioning." |
 | 4 | **Option notes** | One line per option that needs one, "Option: meaning", at most six; the ranges, examples and brackets taken out of the options | "Direct Buyers: purchasing exclusively for their own personal use." |
-| 5 | **Source** | Last, only where the idea or a figure rests on evidence: "Based on: …" (the reference id, doc 02) | "Based on: the buying-centre roles of Webster and Wind (1972)." |
+| 5 | **Source** | Last, only where the idea or a figure rests on evidence: "Based on: …" (the reference id, doc 2) | "Based on: the buying-centre roles of Webster and Wind (1972)." |
 
 ### 3.3 The "i" of each kind of place
 

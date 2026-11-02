@@ -1,14 +1,14 @@
-# 39. The Positioning tile: every question and option, as built
+# 38. The Positioning tile: every question and option, as built
 
 Status: **specification**, written 2026-11-01, updated 2026-11-01. Every question of the Positioning tile (Identity System, page 1) in the order it is asked, with its control, when it is asked, its options, what its "i" says and what it connects to.
 
-Related: doc 38 (the Organization tile, whose Opening Date sets the stage), doc 36 (the Segment's questions, which read these answers), doc 33 (the first version: single-sided, B2C and B2B), doc 31 (the age terms, the relationships and the relevance tables), doc 28 (8.2, the design), `src/components/interview/editors/legal/` and `src/framework/engine/PositioningIds.ts`.
+Related: doc 37 (the Organization tile, whose Opening Date sets the stage), doc 35 (the Segment's questions, which read these answers), doc 33 (the first version: single-sided, B2C and B2B), doc 31 (the age terms, the relationships and the relevance tables), doc 28 (8.2, the design), `src/components/interview/editors/legal/` and `src/framework/engine/PositioningIds.ts`.
 
 **The tile** is named by the business stage: **Early Positioning** (Planning and Launching), **Core Market Positioning** (Managing), **Corporate & Portfolio Positioning** (Growing); the saved key stays `positioning`. It has two columns with a divider: on the left, who the customers are (the relationship, the audience, the buyer's category, the user); on the right, what is offered (the purpose, the differentiation, the outcomes); the Notes, the positioning statement, stand under both. The questions are bands, as on the Segment card. A question with a limit shows it beside its label ("2 max") and locks the other options at the limit, with no warning.
 
 **The stage sets how many choices a question allows** (the owner's matrix, doc 28, 8.2): Planning: one in every question. Launching: one, except two in the purpose, the differentiation and the outcomes. Managing: two in each. Growing: free. A question of one choice is a radio; a question of several is ticks. When a new Opening Date moves the business into another stage, an answer that no longer fits goes back to empty, and a question that fits keeps its answers.
 
-**Connections** are named as in doc 36: *Comes from* is what a question takes from another answer; *Read by* is what reads it, built and not built yet. Built for all of them: the exports and the Business Plan's positioning statement list the answers in words.
+**Connections** are named as in doc 35: *Comes from* is what a question takes from another answer; *Read by* is what reads it, built and not built yet. Built for all of them: the exports and the Business Plan's positioning statement list the answers in words.
 
 ## 1. The left column: the customers
 
@@ -22,8 +22,8 @@ Related: doc 38 (the Organization tile, whose Opening Date sets the stage), doc 
 - **The "i" says:** Who pays: focuses on the Economic Buyer who approves the budget, separating them from the end user. The positioning statement is written for the target market, and each distinct segment may need its own. B2C: individuals or consumers who pay for personal or family use. B2B: businesses, companies or freelancers. Based on the positioning statement of the strategy literature.
 - **Connections:**
   - *Comes from:* the stage (the limit).
-  - *Read by (built):* the Segment card, which asks people's questions for B2C and the business's for B2B (doc 36); every question below; the exports.
-  - *Not built yet:* B2G and G2B and the multi-sided market are built and hidden (doc 34); an older answer that holds them is read without them.
+  - *Read by (built):* the Segment card, which asks people's questions for B2C and the business's for B2B (doc 35); every question below; the exports.
+  - *Not built yet:* B2G and G2B and the multi-sided market are built and hidden (doc 33); an older answer that holds them is read without them.
 
 ### 2. Audience Specialization & Scale (a business buyer)
 
@@ -128,7 +128,7 @@ Related: doc 38 (the Organization tile, whose Opening Date sets the stage), doc 
 - **Options:** Enjoyment & fun; Comfort & ease; Safety & care; Learning & growth; Looks & belonging; Practical use, ordered by the purposes and the life stages.
 - **The "i" says:** What matters most to the user, apart from the buyer's own reasons for paying: the result the user gets. It starts the user's Profile.
 - **Connections:**
-  - *Read by (built):* the exports. *Not built yet:* the user's Profile (doc 37).
+  - *Read by (built):* the exports. *Not built yet:* the user's Profile (doc 36).
 
 ## 3. Under both columns
 

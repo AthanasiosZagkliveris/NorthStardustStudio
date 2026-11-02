@@ -1,10 +1,10 @@
-# 38. The Organization tile: every field and option, as built
+# 37. The Organization tile: every field and option, as built
 
 Status: **specification**, written 2026-11-01, updated 2026-11-02. Every field of the Organization tile (Identity System, page 1, the tile before Early Positioning) in the order it is asked, with its control, when it is asked, its options, what its "i" says and what it connects to.
 
-Related: doc 39 (Early Positioning, the next tile, in the same form), doc 36 (the Segment's questions), doc 28 (8.5 the tile as designed; 8.2a the stage, the Opening Date and the key dates), doc 35 (the countries, the activity cascade and the codes), doc 33 (the first version: six countries and Other), `src/components/interview/editors/legal/`.
+Related: doc 38 (Early Positioning, the next tile, in the same form), doc 35 (the Segment's questions), doc 28 (8.5 the tile as designed; 8.2a the stage, the Opening Date and the key dates), doc 34 (the countries, the activity cascade and the codes), doc 33 (the first version: six countries and Other), `src/components/interview/editors/legal/`.
 
-**The tile** is one dialog of two columns with a divider: the left one is where the organization is (name, country, address), the right one is what it is and does (legal form, dates, activities); the Notes stand under both. Controls are the existing ones (text cell, `OptionPicker`, date cell, `ActivitiesField`, the shared optional note). A field that depends on the country waits for it: it is frozen, with a hint saying what to choose first, until the country is chosen. **Connections** are named as in doc 36: *Comes from* is what the field takes from another answer; *Read by* is what reads it (built, and not built yet).
+**The tile** is one dialog of two columns with a divider: the left one is where the organization is (name, country, address), the right one is what it is and does (legal form, dates, activities); the Notes stand under both. Controls are the existing ones (text cell, `OptionPicker`, date cell, `ActivitiesField`, the shared optional note). A field that depends on the country waits for it: it is frozen, with a hint saying what to choose first, until the country is chosen. **Connections** are named as in doc 35: *Comes from* is what the field takes from another answer; *Read by* is what reads it (built, and not built yet).
 
 ## 1. The left column: where the organization is
 
@@ -61,7 +61,7 @@ Related: doc 39 (Early Positioning, the next tile, in the same form), doc 36 (th
 
 - **Control:** one choice (the picker), the country's own forms; where a country has no list of its own, the four generic forms (doc 33). The list has no Other entry; a legal form saved earlier as Other still shows, with its typed name (field 7).
 - **Asked when:** a country is chosen (frozen until then).
-- **Options:** the country's legal forms (doc 35), or the four generic forms.
+- **Options:** the country's legal forms (doc 34), or the four generic forms.
 - **The "i" says:** Decides who is liable for the organization's debts: the organization, or you personally. Decides how it is taxed, and whether it must hold share capital.
 - **Connections:**
   - *Comes from:* the country.
@@ -89,7 +89,7 @@ Related: doc 39 (Early Positioning, the next tile, in the same form), doc 36 (th
 - **The "i" says:** The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it. The stage also sets the name of the Positioning tile and how many choices each of its questions allows. When a new date moves the business into another stage, an answer that no longer fits goes back to empty. The days from the plan's start to the day before it are the pre-operational period: every cost is split around it by its own dates. You can change it at any time.
 - **Connections:**
   - *Comes from:* nothing (it is saved with the Global Settings).
-  - *Read by (built):* the business stage (Planning, Launching, Managing, Growing) and so the name and the limits of Early Positioning (doc 39), the number of Segments, the questions the Segment holds back; the financial plan's pre-operational period; the key dates on the Review and the Calendar.
+  - *Read by (built):* the business stage (Planning, Launching, Managing, Growing) and so the name and the limits of Early Positioning (doc 38), the number of Segments, the questions the Segment holds back; the financial plan's pre-operational period; the key dates on the Review and the Calendar.
 
 ### 10. Activities
 
@@ -99,7 +99,7 @@ Related: doc 39 (Early Positioning, the next tile, in the same form), doc 36 (th
 - **Connections:**
   - *Comes from:* the country (the classification scheme and its edition).
   - *Read by (built):* the exports and the documents (the activities line).
-  - *Read by (not built yet):* the industry pack's examples and the Segment's name suggestions (doc 35, 5.6); it never fills the Segment's industry, which is the customers', not the seller's.
+  - *Read by (not built yet):* the industry pack's examples and the Segment's name suggestions (doc 34, 5.6); it never fills the Segment's industry, which is the customers', not the seller's.
 
 ## 3. Under both columns
 

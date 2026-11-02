@@ -116,7 +116,7 @@ export const REGULATORY_INTENSITIES = [
 
 /**
  * THE FIRST VERSION (design document 33, section 4): a single-sided market, and the seller and buyer relationships B2C and B2B. B2G and G2B, and the multi-sided market, are built and hidden:
- * they are a future feature (document 34), and an older answer that holds them is read without them (AnswerLegal.ts).
+ * they are a future feature (document 33), and an older answer that holds them is read without them (AnswerLegal.ts).
  */
 export const FIRST_VERSION_CUSTOMER_TYPES = CUSTOMER_TYPES.filter(type => type.id === "b2c" || type.id === "b2b");
 

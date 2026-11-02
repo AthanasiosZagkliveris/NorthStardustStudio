@@ -201,7 +201,7 @@ In the source of the app, but not reached by the walk (a deeper card, or built f
 
 ## The field names
 
-One row per field asset (FLD), from the library and document 01 Part F: its name, what it contains in the words of Part F, the components it is built from, and how many card kinds hold it. A flag marks a name that needs a look.
+One row per field asset (FLD), from the library and document 1 Part F: its name, what it contains in the words of Part F, the components it is built from, and how many card kinds hold it. A flag marks a name that needs a look.
 
 | Code | Name | What it contains (Part F) | Built from | In card kinds | Made from the names | Flag |
 |---|---|---|---|---|---|---|

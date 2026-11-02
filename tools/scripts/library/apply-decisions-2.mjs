@@ -6,7 +6,7 @@
  *       is an error of the app: it takes the standard name cell look.
  *   C13 the text box with padding 38 (the theme name in Strategy) is moved to the name cell.
  *   D14 the i (22px) and the tick box (18px) are enlarged to 24px, the WCAG 2.5.8 minimum, without the exception.
- *   D15 the reference sources are accepted. D16 the letters LST are confirmed (document 08).
+ *   D15 the reference sources are accepted. D16 the letters LST are confirmed (document 8).
  *
  *   node tools/scripts/library/apply-decisions-2.mjs
  */

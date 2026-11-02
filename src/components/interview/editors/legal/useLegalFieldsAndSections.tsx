@@ -152,7 +152,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
     // (for a proxy or dual-intent buyer: the buyer and user relationship and, for a consumer, the user's life stage), then, once, the purpose and the differentiation and outcome. How many choices a
     // question takes follows the business stage (one while planning, up to two while managing, free while growing): a question of one choice is a radio, a question of several is a tick group that LOCKS its
     // other options once the limit is reached (no warning), with its limit beside the label ("2 max"). Saved with the organisation, as its other answers are.
-    // (B2G, G2B and the multi-sided market are built and hidden: a future feature, document 34.)
+    // (B2G, G2B and the multi-sided market are built and hidden: a future feature, document 33.)
     const stage = businessStage;
     // The country the browser suggests (a soft hint in the empty picker, never chosen), and whether the legal form is registered as a company: a sole trader or sole proprietorship is not, so no Registration Date is asked.
     const hintCode = currentBrowserCountryHint(FIRST_VERSION_COUNTRIES);

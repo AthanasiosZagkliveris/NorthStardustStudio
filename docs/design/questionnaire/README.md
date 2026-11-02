@@ -1,4 +1,4 @@
-# The first version and the questionnaire (documents 27 to 41)
+# The first version and the questionnaire (documents 27 to 40)
 
 Status: **index**, updated 2026-11-02. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
 
@@ -14,12 +14,11 @@ The standard for these documents is [the standard of the documents](../../standa
 | [30-age-limits-by-activity.md](30-age-limits-by-activity.md) | research | Age limits by activity and country: which kinds of business are connected with a minimum age (direct or possible) in the six countries, with sources and status. | 2026-10-29 |
 | [31-positioning-categories.md](31-positioning-categories.md) | collection | The owner's positioning data as given (age stages, buyer categories, relationships, purposes), the register of decisions on it and the reference tables. | 2026-11-02 |
 | [32-positioning-sources.md](32-positioning-sources.md) | research | The sources behind each positioning list of doc 31, what has none, and the pages checked. | 2026-10-29 |
-| [33-specs-and-limitations.md](33-specs-and-limitations.md) | specification | The first published version: language, countries, legal forms, market structure, relationships, buyer and user, ages. It governs the other questionnaire documents. | 2026-11-02 |
-| [34-future-features.md](34-future-features.md) | living list | Everything that is not in the first published version: other languages and countries, multi-sided, B2G, G2B, the detailed positioning data, age rules, research to do. | 2026-11-02 |
-| [36-segment-questions.md](36-segment-questions.md) | specification | The Segment card's questions as built: every question and option in order, when it is asked, what its help says and what it comes from and is read by. | 2026-11-02 |
-| [37-profile-questions.md](37-profile-questions.md) | specification | The Profile card's questions, built in part: every question and option in order (the specialized needs and the kind of business are not built yet), when it is asked, the starting values, the help, and the layout of the card. | 2026-11-02 |
-| [38-organization-fields.md](38-organization-fields.md) | specification | The Organization tile's fields as built: control, when asked, options, the help and the connections. | 2026-11-02 |
-| [39-positioning-questions.md](39-positioning-questions.md) | specification | The Positioning tile's questions as built, by stage: control, limits, options, the help and the connections. | 2026-11-01 |
-| [40-help-texts-guide.md](40-help-texts-guide.md) | proposal | What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check. | 2026-11-02 |
-| [41-tile-documents.md](41-tile-documents.md) | proposal | The form every tile document takes (one for each tile or card), and where each tile stands: which has a document and which does not yet. | 2026-11-02 |
-| [35-lists-and-classifications.md](35-lists-and-classifications.md) | proposal | The countries, the shared lists, the national crosswalks, the industry lists, the activity cascade, the codes and the classification data (section 5 of the former questionnaire specification). | 2026-11-02 |
+| [33-specs-and-limitations.md](33-specs-and-limitations.md) | specification | The first published version (language, countries, legal forms, market structure, relationships, buyer and user, ages; it governs the other questionnaire documents, sections 1 to 9) and everything left for later (sections 10 to 15: other languages and countries, multi-sided, B2G, G2B, the detailed positioning data, age rules, research to do). | 2026-11-02 |
+| [35-segment-questions.md](35-segment-questions.md) | specification | The Segment card's questions as built: every question and option in order, when it is asked, what its help says and what it comes from and is read by. | 2026-11-02 |
+| [36-profile-questions.md](36-profile-questions.md) | specification | The Profile card's questions, built in part: every question and option in order (the specialized needs and the kind of business are not built yet), when it is asked, the starting values, the help, and the layout of the card. | 2026-11-02 |
+| [37-organization-fields.md](37-organization-fields.md) | specification | The Organization tile's fields as built: control, when asked, options, the help and the connections. | 2026-11-02 |
+| [38-positioning-questions.md](38-positioning-questions.md) | specification | The Positioning tile's questions as built, by stage: control, limits, options, the help and the connections. | 2026-11-02 |
+| [39-help-texts-guide.md](39-help-texts-guide.md) | proposal | What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check. | 2026-11-02 |
+| [40-tile-documents.md](40-tile-documents.md) | proposal | The form every tile document takes (one for each tile or card), and where each tile stands: which has a document and which does not yet. | 2026-11-02 |
+| [34-lists-and-classifications.md](34-lists-and-classifications.md) | proposal | The countries, the shared lists, the national crosswalks, the industry lists, the activity cascade, the codes and the classification data (section 5 of the former questionnaire specification). | 2026-11-02 |

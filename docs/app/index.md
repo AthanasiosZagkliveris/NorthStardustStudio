@@ -9,7 +9,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Item | Where in the app | Described in |
 |---|---|---|
 | Activities (Business) | Business › 3 Infrastructure & Capability › Infrastructure and Offering's Capability › Activities | Page 3; doc 26 |
-| Activities (Organization) | Identity › 1 Definition and Ethics › Organization (the activity and its code) | Doc 38; doc 35, 5.7 |
+| Activities (Organization) | Identity › 1 Definition and Ethics › Organization (the activity and its code) | Doc 37; doc 34, 5.7 |
 | Ambassador | Brand › Brand System, the first frame: Aesthetics, Body Language, Communication & Voice, Imprint | Doc 1, B.1 |
 | Assets library | Not in the app's build: a gallery of the components, reached only by `npm run dev` (`/library`, `/library/inventory`, `/library/looks`) | Docs 8, 9 |
 
@@ -22,7 +22,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Break Even | Business › 5 Sustainability › Break Even | Page 5 |
 | Business | System 3: Foundation, Customer Engagement, Infrastructure & Capability, Financial Foundation, Sustainability | `specifications/business-system/README.md` |
 | Business Documents | System Selection › Foundation › the Business Documents button (`/documents`): Business Plan, Business Model Canvas, Financial Forecast | Doc 1, C.2 and C.11 |
-| Business stages | Global Settings › Business stages (the four durations); worked out from the Opening Date | Doc 28, 8.2a; doc 38 |
+| Business stages | Global Settings › Business stages (the four durations); worked out from the Opening Date | Doc 28, 8.2a; doc 37 |
 
 ## C
 
@@ -55,7 +55,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Early Positioning (tile) | Identity › 1 Definition and Ethics; named by the business stage (Early, Core Market, Corporate & Portfolio Positioning) | Doc 39; doc 28, 8.2; doc 33 |
+| Early Positioning (tile) | Identity › 1 Definition and Ethics; named by the business stage (Early, Core Market, Corporate & Portfolio Positioning) | Doc 38; doc 28, 8.2; doc 33 |
 | Ethics | Identity › 1 Definition and Ethics, the second frame: Philosophy, Values, Principles, Manifesto | Doc 1, B.1 |
 | Examples | Organizations (home): Lumen & Loom Studio, Quillfield Automation | Doc 25 |
 | Expenses (Legal Entity) | Identity › 2 Legal Entity › Expenses | Doc 26 |
@@ -117,8 +117,8 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 |---|---|---|
 | Offering's Capability | Business › 3 Infrastructure & Capability, the second card: Resources, Activities, Partners & Suppliers, Delivery | Page 3 |
 | Offerings | Business › 1 Foundation › Offerings | Doc 28, 6.8; page 1 |
-| Opening Date | Identity › 1 Definition and Ethics › Organization; it decides the business stage and the plan start | Doc 38; doc 28, 8.2a |
-| Organization (tile) | Identity › 1 Definition and Ethics › Organization | Doc 38; doc 28, 8.5 |
+| Opening Date | Identity › 1 Definition and Ethics › Organization; it decides the business stage and the plan start | Doc 37; doc 28, 8.2a |
+| Organization (tile) | Identity › 1 Definition and Ethics › Organization | Doc 37; doc 28, 8.5 |
 | Organizations (home) | The first screen: create, import, export or delete an Organization; Reload; System Selection; Capability Generator | `contents.md` |
 
 ## P
@@ -127,9 +127,9 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 |---|---|---|
 | Partners & Suppliers | Business › 3 Infrastructure & Capability (both cards) | Page 3 |
 | Philosophy | Identity › 1 Definition and Ethics › Ethics | Doc 1, B.1 |
-| Positioning (tile) | Identity › 1 Definition and Ethics; its name follows the business stage (see Early Positioning) | Doc 39 |
+| Positioning (tile) | Identity › 1 Definition and Ethics; its name follows the business stage (see Early Positioning) | Doc 38 |
 | Principles | Identity › 1 Definition and Ethics › Ethics | Doc 1, B.1 |
-| Profile | Business › 1 Foundation › Segment Description, the Profiles section under the Segment's boxes (a card that opens floating) | Doc 37; doc 28, 6.4 |
+| Profile | Business › 1 Foundation › Segment Description, the Profiles section under the Segment's boxes (a card that opens floating) | Doc 36; doc 28, 6.4 |
 
 ## R
 
@@ -147,7 +147,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Item | Where in the app | Described in |
 |---|---|---|
 | Search | Header (Ctrl+K) | Doc 1, C.2 |
-| Segment Description (the Segment) | Business › 1 Foundation › Segment Description (five boxes of choice questions, a User part for a Proxy or Dual-Intent buyer, then the Profiles) | Doc 36; doc 28, 6.3; page 1 |
+| Segment Description (the Segment) | Business › 1 Foundation › Segment Description (five boxes of choice questions, a User part for a Proxy or Dual-Intent buyer, then the Profiles) | Doc 35; doc 28, 6.3; page 1 |
 | Strategic Compass | Strategy › Situation & Direction | Doc 1, B.1 |
 | Strategic Period | Strategy › Situation & Direction (its dates, the Roadmap, the Themes with their Goals, Objectives and Metrics) | Doc 1, B.1 |
 | Strategy | System 4: one page, Situation & Direction | Doc 1, B.1 |

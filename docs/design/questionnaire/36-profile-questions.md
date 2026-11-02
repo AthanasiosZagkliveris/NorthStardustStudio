@@ -1,16 +1,16 @@
-# 37. The Profile's questions: every question and option, as built in part
+# 36. The Profile's questions: every question and option, as built in part
 
 Status: **specification**, written 2026-11-01, updated 2026-11-02; built in part. The questions of the Profile card in the order they are asked, with their control, when they are asked, their options, what their "i" says and what they connect to. **Built:** A1 (the exact age, held to the Segment's group), A2, A3, A5, B1, C1 to C4, D1, D2 and E1 to E3, with their conditions, starting values and settling (`ProfileQuestions.ts`, answers kept as `questions` on the Profile), in one column at the width every floating card has (492px), the boxes in their order, each with the Segment card's title band. **Not built yet:** A4 (the kind of business), A6 (the specialized needs), the proposed Profiles, the user's own Profile (and so its Box D rule), the reads marked "not built yet" below.
 
-Related: doc 36 (the Segment's questions, built, in the same form), doc 28 (6.4 and 6.5, the Profile design this refines, and the shared lists), doc 35 (the lists L1 to L16), doc 34 (thoughts, section 6), doc 31 (the age terms), `src/components/interview/editors/foundation/` (the Profile card today).
+Related: doc 35 (the Segment's questions, built, in the same form), doc 28 (6.4 and 6.5, the Profile design this refines, and the shared lists), doc 34 (the lists L1 to L16), doc 33 (thoughts, section 6), doc 31 (the age terms), `src/components/interview/editors/foundation/` (the Profile card today).
 
-> **What the Profile does not ask again (owner, 2026-11-01).** The Segment (doc 36) asks the group: the age group, education, work status, household income, gender mix, where they are, how comfortable they are online, how they discover ideas, how they buy and pay, how the decision is authorized, the market. The Profile asks a **typical person** of that group, and only what the Segment cannot: an exact age, a job level, which devices and which social media, communities and events, how they compare options, what they want, what frustrates them and what stops them. It never repeats a Segment question, and it can only choose within what the Segment allowed (section 2).
+> **What the Profile does not ask again (owner, 2026-11-01).** The Segment (doc 35) asks the group: the age group, education, work status, household income, gender mix, where they are, how comfortable they are online, how they discover ideas, how they buy and pay, how the decision is authorized, the market. The Profile asks a **typical person** of that group, and only what the Segment cannot: an exact age, a job level, which devices and which social media, communities and events, how they compare options, what they want, what frustrates them and what stops them. It never repeats a Segment question, and it can only choose within what the Segment allowed (section 2).
 
 ## 1. What a Profile holds, and the rules
 
 **What a Profile holds.** A Name; seven boxes of two parts each (the questions below, then the box's note): *Specific Personal Information*, *Psychographics*, *Social & Interest Hubs* and *Information & Shopping Habits* (the section Description), *Goals & Desires*, *Challenges & Problems* and *Objections* (Motivations); and three numbered text lists of *Needs* (Functional, Emotional, Social). The answers are kept as `questions` on the Profile and are listed in the documents and the exports (`profileAnswerLines`, `ExportRenderers.ts`). The Offering reads the needs. The words of each question's "i" are in `info` in `ProfileQuestions.ts`; the "i would say" texts below are the fuller design, and the shorter texts in the code are the ones shown.
 
-**The rules are the Segment's** (doc 36): a radio is one choice, ticks are several, with a limit where stated, built from the existing controls (`RadioChoice`, `BusinessTicks`, `NumberCell`, `OptionPicker`, `FieldRow`); an option says its few words and what is added in brackets or after a colon stands in the question's "i"; a question with one option left is not shown (none of the Profile's has yet); an answer to a question no longer asked is removed on the next choice; no "Not sure" option; each box keeps its title, its prompt (the "i") and **its note**, which stays for what the questions cannot say (a Profile is a person, and a person is described in words too); the layout is the Positioning card's (bands, divider lines, a double rule between boxes). The needs stay text lists: a need is a precise statement ("send an invoice in under a minute"), not a category.
+**The rules are the Segment's** (doc 35): a radio is one choice, ticks are several, with a limit where stated, built from the existing controls (`RadioChoice`, `BusinessTicks`, `NumberCell`, `OptionPicker`, `FieldRow`); an option says its few words and what is added in brackets or after a colon stands in the question's "i"; a question with one option left is not shown (none of the Profile's has yet); an answer to a question no longer asked is removed on the next choice; no "Not sure" option; each box keeps its title, its prompt (the "i") and **its note**, which stays for what the questions cannot say (a Profile is a person, and a person is described in words too); the layout is the Positioning card's (bands, divider lines, a double rule between boxes). The needs stay text lists: a need is a precise statement ("send an invoice in under a minute"), not a category.
 
 **How the boxes map.**
 
@@ -31,16 +31,16 @@ Related: doc 36 (the Segment's questions, built, in the same form), doc 28 (6.4 
 
 ## 2. What the Segment sets and the Profile chooses within
 
-| Segment answer (doc 36) | Profile question | What the Profile gets |
+| Segment answer (doc 35) | Profile question | What the Profile gets |
 |---|---|---|
 | Age group | A1 an exact age | a number within the group (when the group changes and the number is outside the new one, it is cleared: 2.2); a group that includes Minors also asks A5 |
 | Work status (Working) | A3 job level | the job levels, for someone who is working |
 | Gender mix (not Balanced) | A2 gender | shown when the mix is not Balanced mix; a Profile's gender should fit the mix (Review) |
-| Industry | A4 kind of business | the finer list (doc 35, 5.4) of the Segment's industry, each with its example |
+| Industry | A4 kind of business | the finer list (doc 34, 5.4) of the Segment's industry, each with its example |
 | How they discover ideas (ticks) | C2, C3, C4 | the platforms, communities and events related to the ticked ways come first |
 | Where they spend time (social environment) | C4 events | asked when the environment is not Mostly digital or Low-frequency |
 
-The app also **proposes Profiles** (up to three): one for each age term of the group; for a business Segment, the kinds of business of its industry; for a Proxy or Dual-Intent buyer, a second Profile for the user (doc 36, the user part). The user presses Add on the ones they want.
+The app also **proposes Profiles** (up to three): one for each age term of the group; for a business Segment, the kinds of business of its industry; for a Proxy or Dual-Intent buyer, a second Profile for the user (doc 35, the user part). The user presses Add on the ones they want.
 
 ### 2.1 How the Profile follows the Segment's kind (proposed)
 
@@ -121,10 +121,10 @@ A typical person of the Segment, asked specifically.
 
 - **Control:** one choice (a radio, or the existing picker where the list is long).
 - **Asked when:** the Segment's buyer is a business and its industry is answered.
-- **Options:** the level-2 list (doc 35, 5.4) of the Segment's industry, each with its example.
+- **Options:** the level-2 list (doc 34, 5.4) of the Segment's industry, each with its example.
 - **The "i" would say:** The finer kind of business within the Segment's industry. If the customer fits another kind, that is another Profile.
 - **Connections:**
-  - *Comes from:* the Segment's sector and industry; the country's crosswalk (doc 35, 5.3).
+  - *Comes from:* the Segment's sector and industry; the country's crosswalk (doc 34, 5.3).
   - *Read by (not built yet):* the industry pack's examples for this customer; competitor industry overlap.
 
 ### A5. What part do they play in the purchase?
@@ -156,7 +156,7 @@ A typical person of the Segment, asked specifically.
 
 - **Connections (A6):**
   - *Comes from:* the tick; each question the answer above it.
-  - *Read by (not built yet):* flags the owner's text asks for, kept as a thought (doc 34, section 6, row 6): a solo or single-parent household raises a time-poverty and churn-risk note in a customer journey; sensory or physical needs raise a "compliance validation required" badge on an Offering. They would only highlight, never decide.
+  - *Read by (not built yet):* flags the owner's text asks for, kept as a thought (doc 33, section 15, row 6): a solo or single-parent household raises a time-poverty and churn-risk note in a customer journey; sensory or physical needs raise a "compliance validation required" badge on an Offering. They would only highlight, never decide.
 
 ## 4. Box B. Psychographics
 
@@ -164,7 +164,7 @@ A typical person of the Segment, asked specifically.
 
 - **Control:** ticks, up to 3.
 - **Asked when:** always.
-- **Options:** the list L1 (doc 35, 5.2): Lower price; Speed; Ease and convenience; Quality and results; Trust and reputation; Expert knowledge; A service made for them; Good support; Safety and low risk; Shared values / identity.
+- **Options:** the list L1 (doc 34, 5.2): Lower price; Speed; Ease and convenience; Quality and results; Trust and reputation; Expert knowledge; A service made for them; Good support; Safety and low risk; Shared values / identity.
 - **The "i" would say:** What matters most to a typical person of the Segment when choosing. Interests, lifestyle and aspirations stay in the note.
 - **Connections:**
   - *Comes from:* nothing.
@@ -178,7 +178,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 - **Control:** ticks, as many as apply.
 - **Asked when:** always.
-- **Options:** the list L15 (doc 35, 5.2): Smartphone; Laptop / desktop; Tablet; A shared / public device; Other, which the user writes in (ticking it opens a text box under the options; its words are kept as the answer).
+- **Options:** the list L15 (doc 34, 5.2): Smartphone; Laptop / desktop; Tablet; A shared / public device; Other, which the user writes in (ticking it opens a text box under the options; its words are kept as the answer).
 - **The "i" would say:** The devices they use to find and buy, not those they own.
 - **Connections:**
   - *Comes from:* the Segment's online comfort and where they buy: the setting starts it (Mobile app: Smartphone; Desktop / Laptop computer: Laptop / desktop; Physical storefront: none; Multi-channel: Smartphone and Laptop / desktop), as a starting value the user can change.
@@ -252,19 +252,19 @@ What the Segment cannot say: which devices, which social media, which communitie
 ### E1. What are they trying to achieve?
 
 - **Control:** ticks, up to 3.
-- **Options:** the list L4 (doc 35, 5.2): Save time; Save money; Lower their risk; Get better results; Get easier access; Learn something new; Express who they are; Meet a requirement; Win customers / earn more; Stay within the rules.
+- **Options:** the list L4 (doc 34, 5.2): Save time; Save money; Lower their risk; Get better results; Get easier access; Learn something new; Express who they are; Meet a requirement; Win customers / earn more; Stay within the rules.
 - **Asked when:** always. *Read by (not built yet):* the Value Proposition draft. *Comes from:* nothing.
 
 ### E2. What frustrates them today?
 
 - **Control:** ticks, up to 3.
-- **Options:** the list L3 (doc 35, 5.2): ten frustrations, from "It costs too much" to "They have no time" (the list holds the exact words).
+- **Options:** the list L3 (doc 34, 5.2): ten frustrations, from "It costs too much" to "They have no time" (the list holds the exact words).
 - **Asked when:** always. *Read by (not built yet):* the Value Proposition draft; the Review. *Comes from:* nothing.
 
 ### E3. What might stop them buying?
 
 - **Control:** ticks, up to 3.
-- **Options:** the list L2 (doc 35, 5.2): eight worries, from "The price or their budget" to "The effort of switching" (the list holds the exact words).
+- **Options:** the list L2 (doc 34, 5.2): eight worries, from "The price or their budget" to "The effort of switching" (the list holds the exact words).
 - **Asked when:** always. *Read by (not built yet):* the Offering ticks the worries it answers; the Evaluate actions suggested on page 2. *Comes from:* nothing.
 
 ## 8. Dropped, merged or left to the note
@@ -287,7 +287,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 3. **The needs** stay open text lists.
 4. **The user's Profile skips Box D** (2.1); the payer's Profile holds how they compare and what help they want.
 
-**Answered for the user and not shown (owner, 2026-11-01).** The same rule as the Segment's (doc 36): where the answers above leave one answer, it is set and the question is not drawn.
+**Answered for the user and not shown (owner, 2026-11-01).** The same rule as the Segment's (doc 35): where the answers above leave one answer, it is set and the question is not drawn.
 
 | Question | Set when | To |
 |---|---|---|

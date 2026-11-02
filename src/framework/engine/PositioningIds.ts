@@ -1,7 +1,7 @@
 /**
  * THE IDS OF EARLY POSITIONING in the first published version (design document 33, sections 4 and 5): what a saved answer may hold. The words and the order the user sees are in
  * `components/interview/editors/legal/shared.tsx`, which a test holds to these ids. What the first version leaves out (a multi-sided market, B2G, G2B, "who chooses", "what
- * matters most") is a future feature (document 34): an older answer that holds it is read without it.
+ * matters most") is a future feature (document 33): an older answer that holds it is read without it.
  */
 
 /** The seller and buyer relationships of the first version. */

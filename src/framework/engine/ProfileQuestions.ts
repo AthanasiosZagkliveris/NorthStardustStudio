@@ -1,7 +1,7 @@
 import { JOB_LEVELS, type SegmentAnswers, type SegmentContext, type SegmentOption } from "./SegmentQuestions.ts";
 
 /**
- * THE PROFILE'S QUESTIONS (document 37): a typical person of the Segment, asked only what the Segment cannot. A Profile keeps its answers as `questions` (question id -> the option ids chosen; the
+ * THE PROFILE'S QUESTIONS (document 36): a typical person of the Segment, asked only what the Segment cannot. A Profile keeps its answers as `questions` (question id -> the option ids chosen; the
  * exact age, A1, is the number as text). Which are asked follows the Segment's own answers; an answer to a question no longer asked is removed; starting values come from the Segment and
  * can be changed. Not built yet: A4 (the kind of business) and A6 (the specialized needs).
  */

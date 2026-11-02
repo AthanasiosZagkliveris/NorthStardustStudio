@@ -1,4 +1,4 @@
-# 42. Card links: which groups could link to which
+# 41. Card links: which groups could link to which
 
 Status: **proposal**, written 2026-10-14, updated 2026-11-02 (moved here from document 26). Two tables of proposals: which partner and supplier groups each resource group could link to (Task 1), and which partners, suppliers and resources could link to each activity group (Task 2). Nothing here is built; the cards as built are in document 26.
 

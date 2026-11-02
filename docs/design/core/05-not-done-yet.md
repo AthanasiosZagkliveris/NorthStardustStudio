@@ -4,7 +4,7 @@ Status: **living list**, written 2026-10-14, updated 2026-11-02. Remove an item 
 
 ## Open now
 
-**The questionnaire build**: built are the Segment card's questions (doc 36), the Profile card's questions A1 to A3, A5, B1, C1 to C4, D1, D2 and E1 to E3 (doc 37), and the Organization and Positioning tiles (docs 38 and 39). Not built: the Profile's A4 (kind of business) and A6 (specialized needs), the proposed Profiles and the user's own Profile (the second Profile of a Proxy or Dual-Intent Segment), and every read of the Segment's and Profile's answers listed as "Read by (not built yet)" in docs 36 and 37. What else is left of the first version is doc 34; where each tile stands is doc 41. The help texts follow doc 40 (a proposal: only its size budget is built).
+**The questionnaire build**: built are the Segment card's questions (doc 35), the Profile card's questions A1 to A3, A5, B1, C1 to C4, D1, D2 and E1 to E3 (doc 36), and the Organization and Positioning tiles (docs 37 and 38). Not built: the Profile's A4 (kind of business) and A6 (specialized needs), the proposed Profiles and the user's own Profile (the second Profile of a Proxy or Dual-Intent Segment), and every read of the Segment's and Profile's answers listed as "Read by (not built yet)" in docs 35 and 36. What else is left of the first version is doc 33; where each tile stands is doc 40. The help texts follow doc 39 (a proposal: only its size budget is built).
 
 **The release**: `chore/light-cleanup` is merged into `main` (log, 2026-10-22). Next: the Tile System (5.3), then Batches D and E (5.4), then the extraction (5.7).
 
@@ -119,7 +119,7 @@ Ordering of work (decided): the **Tile System** is finished first (T1–T2), the
 |---|---|---|---|
 | F1 | A profile's **needs** have stable ids. Offerings and the value proposition refer to a need by id. | M | Fix |
 | F2 | **Pain points** are defined once: a need that is unmet or costly today, in the profile's words. The profile's challenges feed them; they are a choice list from the profile, not a new free text. | S | Gap |
-| F3 | Segment and profile fields that are used as **filters** elsewhere (channel fit, relationship type, offering) are choices, not free text. A table lists which field filters which (section 5). | S | New; partly built: the Segment and Profile ask choice questions (docs 36, 37), nothing yet filters by them |
+| F3 | Segment and profile fields that are used as **filters** elsewhere (channel fit, relationship type, offering) are choices, not free text. A table lists which field filters which (section 5). | S | New; partly built: the Segment and Profile ask choice questions (docs 35, 36), nothing yet filters by them |
 | F4 | A segment can mark its **touch preference** (self-serve, assisted, personal). It proposes the relationship type on page 2; the user can override. | C | New |
 
 #### 5.5.3.2 Competitor
@@ -321,22 +321,22 @@ For the owner to decide, or work not done. Each item leaves this list when done 
 - The character limits (60, 200, 600, 1000) and one component for each free-text category are not built.
 - The tile text is decided at 8 rows by default; doc 16 shows 6 today.
 
-**Library (doc 08, 10, 11, 12)**
+**Library (doc 8, 10, 11, 12)**
 - Step 7 of the library plan (the sync of the app to the tables, with a watch mode) is not built.
 - The hand-written rows of doc 10 (L0653 to L0659) and doc 11 (A0029 to A0034) hold facts the log does not (tipWords, aria-pressed, label-arrow.css, MultiPicker).
 - The older library log rows (L0001 to L0502) are kept in `docs/archive/library/library-log-archive.md`.
 
-**The design record (doc 01, 02, 03)**
-- Part F of doc 01 is doc 26; its repeated template for each card could be reduced, but the catalogue tool reads its table shapes.
-- Doc 02, 2.7 (the source register, about 100 KB) could become its own document; other documents cite its ids.
-- The Part G "Key flag" idea and the Part E "Both" place are in no code and no longer in doc 01: formally dropped? (They stay in doc 03 R2.)
+**The design record (doc 1, 2, 3)**
+- Part F of doc 1 is doc 26; its repeated template for each card could be reduced, but the catalogue tool reads its table shapes.
+- Doc 2, 2.7 (the source register, about 100 KB) could become its own document; other documents cite its ids.
+- The Part G "Key flag" idea and the Part E "Both" place are in no code and no longer in doc 1: formally dropped? (They stay in doc 3 R2.)
 - The comment in `PartnerGroupHelp.test.ts` still says "part H"; it is Part D, section 3.
 
 **The questionnaire (doc 27, 28, 29)**
 - 25 ids are listed as withdrawn or merged, but 91 minus 67 is 24: the 91 or one id is wrong (doc 28, Appendix B).
 - I6 is counted as a check while 8.2 withdraws it, and I7 is counted as a driver while described as merged into I7c. Without I6 the count is 20 checks and 66 questions.
 - The customers' industry list (G15, P24): 5.7 says the 18 plain industries are retired, but 6.3, 27 section 5 and 29 still use them. Marked [D] in doc 28.
-- Doc 28 is about 180 KB (sections 6 to 15 remain after section 5 became doc 35); docs 36 to 39 are the tile documents taken out of it (doc 41).
+- Doc 28 is about 180 KB (sections 6 to 15 remain after section 5 became doc 34); docs 35 to 38 are the tile documents taken out of it (doc 40).
 
 **Added by the review of the docs folder (2026-10-29)**
 - The Shared Workspace proposal (`docs/archive/proposals/shared-workspace.md`) has no item in this list; its place is to be decided.
@@ -347,9 +347,9 @@ For the owner to decide, or work not done. Each item leaves this list when done 
 - `src/library/assets/floatingCard.ts` line 86 still cites "docs/design/05, 5.8"; the generated section 19 of the rulebook repeats it.
 
 **Left by the first-version build of the Organization and Positioning tiles (2026-10-29)**
-- The Review's checks of the legal ages (doc 33, section 6; the age terms themselves are asked by the Segment, doc 36) and anything in Business 1 that reads the buyer's category, the relationship or the purpose (the user's own Profile, doc 37) are not built.
+- The Review's checks of the legal ages (doc 33, section 6; the age terms themselves are asked by the Segment, doc 35) and anything in Business 1 that reads the buyer's category, the relationship or the purpose (the user's own Profile, doc 36) are not built.
 - The Country question lists the six and Other: a saved organisation of another country opens as Other with its country chosen. The legal-form wording and documents that follow the country's form (capital, the "limited company" phrase) still follow the profile of that country where the app has one.
-- The four coarse user life stages have no age edges (doc 33, section 5); the Segment's age options show approximate ages (doc 36).
-- The routing of the outcome for the user into the second Profile (P9, P17) is not built (doc 34, item 13).
-- The Canadian classification file (`src/data/classifications/ca-naics-2022.json`) has 694 industries and 923 Canadian industries; Statistics Canada publishes 695 and 922. Check it against the official structure file (doc 35, 5.7).
+- The four coarse user life stages have no age edges (doc 33, section 5); the Segment's age options show approximate ages (doc 35).
+- The routing of the outcome for the user into the second Profile (P9, P17) is not built (doc 33, item 13).
+- The Canadian classification file (`src/data/classifications/ca-naics-2022.json`) has 694 industries and 923 Canadian industries; Statistics Canada publishes 695 and 922. Check it against the official structure file (doc 34, 5.7).
 - The card scan `tools/catalogue/scans/quillfield-1920-light.json` is not written by any script of the repository; it still names page 2 "2. Organization" (two rows of document 7, twelve of document 13). A script for it is not built.

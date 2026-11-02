@@ -1,8 +1,8 @@
-# 41. The tile documents: the form, and where each tile stands
+# 40. The tile documents: the form, and where each tile stands
 
 Status: **proposal**, written 2026-11-01, updated 2026-11-02. The form every document about a tile or a card takes (so that one can be read like the others), the list of the tiles and the document each one has, and what is still missing.
 
-Related: doc 36 (the Segment), doc 37 (the Profile), doc 38 (the Organization), doc 39 (Positioning), doc 40 (what an "i" says), doc 28 (the design these documents refine), doc 21 (the shared components).
+Related: doc 35 (the Segment), doc 36 (the Profile), doc 37 (the Organization), doc 38 (Positioning), doc 39 (what an "i" says), doc 28 (the design these documents refine), doc 21 (the shared components).
 
 ## 1. The form
 
@@ -15,7 +15,7 @@ A tile document is **one document for one tile or card**, in this order:
    - **Control:** one choice (a radio), ticks (with the limit), a number, a date, a picker, a text box;
    - **Asked when:** the conditions, from Identity and from the tile's own earlier answers;
    - **Options:** the words of each option (what is in brackets or after a colon is in the "i");
-   - **The "i" says:** the help text, in the structure of doc 40;
+   - **The "i" says:** the help text, in the structure of doc 39;
    - **Connections:** *Comes from* (what it takes), *Read by (built)* and *Read by (not built yet)*.
 4. **What changes when an answer above changes:** what is removed and what is kept (the rule of every tile: an answer to a question no longer asked, or to an option no longer offered, is removed on the next choice).
 5. **Decided, and still to decide:** the owner's decisions with their dates, and what is open.

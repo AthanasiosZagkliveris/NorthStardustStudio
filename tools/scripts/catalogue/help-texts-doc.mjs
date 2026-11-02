@@ -31,7 +31,7 @@ for (const row of list) {
 }
 
 /*
-    THE WARNINGS (doc 40, 3.6; the owner, 2026-11-01): listed, never failed. A point of more than 160 characters; the same text under more than one label; a raw industry code, or a jargon acronym, in the text.
+    THE WARNINGS (doc 39, 3.6; the owner, 2026-11-01): listed, never failed. A point of more than 160 characters; the same text under more than one label; a raw industry code, or a jargon acronym, in the text.
     A word of the avoid list is a warning, not a block: the texts are the owner's, and are rewritten when their field is next changed.
 */
 const POINT_BUDGET = 160;
@@ -79,7 +79,7 @@ const md = [
     "",
     "## Warnings",
     "",
-    "Listed, never failed (doc 40, 3.6). The budget is " + POINT_BUDGET + " characters a point; the avoid list is an industry code or a jargon acronym in the text, and the internal words tile, card, locked, frozen and driver.",
+    "Listed, never failed (doc 39, 3.6). The budget is " + POINT_BUDGET + " characters a point; the avoid list is an industry code or a jargon acronym in the text, and the internal words tile, card, locked, frozen and driver.",
     "",
     "| Kind | Count |",
     "|---|---|",

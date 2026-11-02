@@ -32,7 +32,7 @@ What was covered: every page of the four systems, every master tile opened, the 
 
 ## Warnings
 
-Listed, never failed (doc 40, 3.6). The budget is 160 characters a point; the avoid list is an industry code or a jargon acronym in the text, and the internal words tile, card, locked, frozen and driver.
+Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the avoid list is an industry code or a jargon acronym in the text, and the internal words tile, card, locked, frozen and driver.
 
 | Kind | Count |
 |---|---|
