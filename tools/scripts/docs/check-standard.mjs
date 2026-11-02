@@ -2,6 +2,7 @@
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import { brokenAnchors } from "./check-anchors.mjs";
 const R = fileURLToPath(new URL("../../../", import.meta.url));
 const KINDS = ["rules", "reference", "research", "collection", "current design", "specification", "proposal", "living list", "log", "playbook", "index", "contents", "archive", "generated"];
 
@@ -51,5 +52,7 @@ for (const f of files) {
         if (!existsSync(path.resolve(path.dirname(R + f), decodeURI(m[1])))) problems.push(f + ": broken link " + m[1]);
     }
 }
+// 5. anchors find their headings (or an explicit <a id>)
+problems.push(...brokenAnchors(R));
 if (problems.length) { console.error("The documents do not meet docs/standard.md:\n" + problems.map(p => "  " + p).join("\n")); process.exit(1); }
 console.log("The " + files.length + " documents meet docs/standard.md (" + numbers.length + " numbered design documents, 1 to " + numbers[numbers.length - 1] + ").");
