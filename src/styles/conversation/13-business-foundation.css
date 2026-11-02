@@ -1140,6 +1140,13 @@
 
 }
 
+/* The section stands flush under the boxes above it: the dialog's row gap is taken back, so the double rule follows the last band without a gap. */
+.business-foundation-description + .business-segment-grid-full{
+
+    margin-top:calc(-1 * var(--space-card));
+
+}
+
 .legal-entity-grid-organization.legal-entity-audience.business-segment-grid-full > .legal-entity-field:first-child{
 
     padding-right:0;
