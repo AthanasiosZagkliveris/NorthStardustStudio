@@ -2,6 +2,7 @@
  * THE BUSINESS SYSTEM, FOUNDATION (page 1): segments, profiles, offerings, channels, relationships and engagement.
  * Split out of AnswerUtils.ts (still importable from there).
  */
+import { asProfileAnswers } from "./ProfileQuestions.ts";
 import { asObject, asText, randomId } from "./Readers.ts";
 import { type DemandValue, asDemandMap } from "./DemandCapacity.ts";
 import { pickHue } from "./AnswerStrategy.ts";
@@ -122,6 +123,8 @@ export interface BusinessCustomerProfileValue {
     id: string;
     name: string;
     description: BusinessDescriptionValue;
+    /** The Profile's choice questions (ProfileQuestions.ts): question id -> the option ids chosen. */
+    questions?: Record<string, string[]>;
     goals: string;
     challenges: string;
     objections: string;
@@ -465,6 +468,7 @@ export function asBusinessFoundationValue(value: unknown): BusinessFoundationVal
                             profile.description,
                             BUSINESS_FIRST_DESCRIPTION_PART.profile
                         ),
+                        ...(Object.keys(asProfileAnswers(profile.questions)).length > 0 ? { questions: asProfileAnswers(profile.questions) } : {}),
                         goals: asText(profile.goals),
                         challenges: asText(profile.challenges),
                         objections: asText(profile.objections),

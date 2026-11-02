@@ -1043,6 +1043,31 @@
 
 }
 
+/* A Profile card floats on its own (no dialog sets its width): its two columns of questions stand as wide as the Segment's card, or the window less its margins. */
+.floating-card-host .floating-card-body.floating-card-card:has(.business-segment-grid){
+
+    width:min(900px, calc(100vw - 16px));
+
+}
+
+.floating-card-host .floating-card-body.floating-card-card:has(.business-segment-grid) .card-box-open,
+.floating-card-host .floating-card-body.floating-card-card:has(.business-segment-grid) .column-tile-content,
+.floating-card-host .floating-card-body.floating-card-card:has(.business-segment-grid) .business-foundation-card{
+
+    width:100%;
+
+    max-width:none;
+
+    grid-template-columns:minmax(0, 1fr);
+
+}
+
+.floating-card-host .floating-card-body.floating-card-card:has(.business-segment-grid) .business-foundation-card > *{
+
+    grid-column:1;
+
+}
+
 /* A radio of short options stands in ONE row where the whole row fits the column, else in ONE column (FittingRadioChoice): the row never wraps onto a second line. */
 .radio-choice.business-segment-row{
 

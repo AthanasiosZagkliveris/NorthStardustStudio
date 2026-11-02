@@ -234,6 +234,17 @@
 
 }
 
+/* UNDER 1100px THE FRAMES STACK, one to a row, as a page of one frame (the Business System's) already stands: two frames side by side would leave each too narrow for its tiles. */
+@media (max-width: 1099px) {
+
+    .page-group {
+
+        grid-template-columns: minmax(0, 1fr);
+
+    }
+
+}
+
 .page-group .answer-columns.business-foundation.business-engagement.business-capability.column-tiles-page > .business-foundation-card {
 
     width: 100%;

@@ -1,4 +1,5 @@
 import { segmentAnswerLines } from "./SegmentQuestions.ts";
+import { profileAnswerLines } from "./ProfileQuestions.ts";
 import { settledSegmentAnswers } from "./SegmentContext.ts";
 import { workspacesOf, WORKSPACE_GROUP_ID } from "./AnswerUtils.ts";
 import { AUDIENCE_WORDS, BUYER_CATEGORY_WORDS, END_USER_WORDS, CUSTOMER_TYPE_WORDS, MARKET_TYPE_WORDS, DIFFERENTIATION_WORDS, OUTCOME_USER_WORDS, OUTCOME_WORDS, PURPOSE_WORDS, activitiesLine } from "./ActivityClassification.ts";
@@ -490,6 +491,7 @@ function segmentBlocks(segment: BusinessCustomerSegmentValue, index: number, org
 
         ...segment.profiles.flatMap((profile, position) => [
             heading("Profile " + (index + 1) + "." + (position + 1) + ": " + (profile.name.trim() || "Unnamed profile"), 2),
+            ...details(profileAnswerLines(profile.questions ?? {}).map((line): [string, string] => [line.label, line.value])),
             ...describe(profile.description, PROFILE_FIELDS),
             ...paragraph(profile.goals, "Goals & Desires"),
             ...paragraph(profile.challenges, "Challenges & Problems"),

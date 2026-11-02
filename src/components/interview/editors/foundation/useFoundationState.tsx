@@ -321,6 +321,17 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
                         {asked && part.questions.map((question, at) => (
                             <div className={"legal-entity-org-section" + (at % 2 === 1 ? " legal-entity-org-band" : "")} key={at}>{question}</div>
                         ))}
+                        {part.note && (
+                            <div className="legal-entity-org-section">
+                                <StrategyTextArea
+                                    className="interview-input business-foundation-note"
+                                    ariaLabel={kind + " description: " + part.title}
+                                    disabled={disabled}
+                                    value={current[part.id] ?? ""}
+                                    onChange={(next) => onNext({ ...current, [part.id]: next })}
+                                />
+                            </div>
+                        )}
                     </div>
                 );
             }

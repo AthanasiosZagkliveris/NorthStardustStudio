@@ -161,6 +161,8 @@ export interface DescriptionPart {
     questions?: ReactNode[];
     /** How tall the box stands (its title and each question with its options, in lines), so the two columns can be of one height. */
     weight?: number;
+    /** Under its questions the box also keeps its own text note (the Profile's boxes). */
+    note?: boolean;
 
 }
 

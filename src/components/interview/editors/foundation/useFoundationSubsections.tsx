@@ -6,11 +6,13 @@ import ListStatic from "../../fields/ListStatic.tsx";
 import TickField from "../../../controls/TickField.tsx";
 import { ReactNode } from "react";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
-import { BUSINESS_COMPETITOR_TYPES, BUSINESS_OFFERING_CATEGORIES, BusinessCompetitorValue, BusinessCustomerSegmentValue, BusinessOfferingValue, businessSegmentNeeds, createBusinessCompetitor, createBusinessCustomerProfile, createBusinessOffering } from "../../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_COMPETITOR_TYPES, BUSINESS_OFFERING_CATEGORIES, BusinessCompetitorValue, BusinessCustomerProfileValue, BusinessCustomerSegmentValue, BusinessOfferingValue, businessSegmentNeeds, createBusinessCompetitor, createBusinessCustomerProfile, createBusinessOffering } from "../../../../framework/engine/AnswerUtils.ts";
 import FieldRow from "../../fields/FieldRow.tsx";
 import { BusinessAddButton, BusinessCard, BusinessRemove, BusinessTicks } from "../../cards/BusinessCardFields.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
+import NumberCell from "../../../controls/NumberCell.tsx";
+import { type ProfileBox, type ProfileQuestion, profileChoose, profileQuestionsOf, profileSettle, profileShown } from "../../../../framework/engine/ProfileQuestions.ts";
 import { type SegmentBox, type SegmentQuestion, segmentChoose, segmentOptions, segmentQuestionsOf, segmentRowChoice, segmentSettle, segmentSettledNotes } from "../../../../framework/engine/SegmentQuestions.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
 import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
@@ -310,6 +312,59 @@ export function useFoundationSubsections(earlier: Earlier) {
 
         /* ---- 1. Its Profiles ---- */
 
+        /** One question of a Profile box: as the Segment's are drawn (a radio, ticks or the number of the age), against what the Segment answered. */
+        const profileQuestionOf = (profile: BusinessCustomerProfileValue, profileIndex: number, shown: Record<string, string[]>, question: ProfileQuestion) => {
+            const chosen = shown[question.id] ?? [];
+            const write = (next: Record<string, string[]>) => updateProfile(segmentIndex, profileIndex, { questions: profileSettle(next, segment.questions, asked) });
+            const choose = (next: string[]) => write(profileChoose(question, shown, next));
+            const options = question.options.map(option => ({ ...option }));
+            return (
+                <FieldRow
+                    key={question.id}
+                    pair
+                    fullList
+                    label={question.label}
+                    info={[...question.info]}
+                    labelNote={question.max !== undefined ? <span className="business-foundation-tick-note">{question.max + " max"}</span> : undefined}
+                >
+                    {question.number
+                        ? (
+                            <NumberCell
+                                kind="int"
+                                aria-label={question.label}
+                                disabled={disabled}
+                                value={chosen[0] ?? ""}
+                                onChange={(event) => write({ ...shown, [question.id]: [event.target.value.replace(/\D/g, "").slice(0, 3)] })}
+                            />
+                        )
+                        : question.many
+                            ? (
+                                <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={question.label}>
+                                    <BusinessTicks name={question.label} disabled={disabled} options={options} chosen={chosen} max={question.max} onChange={choose} />
+                                </div>
+                            )
+                            : segmentRowChoice({ ...question, box: "demographics" } as unknown as SegmentQuestion, options)
+                                ? <FittingRadioChoice label={question.label} group={profile.id + "-" + question.id} disabled={disabled} value={chosen[0] ?? ""} onChange={(next) => choose([next])} options={options} />
+                                : <RadioChoice label={question.label} group={profile.id + "-" + question.id} className="legal-entity-radio-stack" disabled={disabled} value={chosen[0] ?? ""} onChange={(next) => choose([next])} options={options} />}
+                </FieldRow>
+            );
+        };
+        /** The boxes of a Profile's Description, each with its questions and its note, and the ones the Segment leaves no question in are plain notes. */
+        const profileParts = (profile: BusinessCustomerProfileValue, profileIndex: number): DescriptionPart[] => {
+            const shown = profileShown(profile.questions ?? {}, segment.questions, asked);
+            return SUBSECTIONS.segments.profileDescription.map(part => ({
+                ...part,
+                note: true,
+                questions: profileQuestionsOf(part.id as ProfileBox, segment.questions, asked).map(question => profileQuestionOf(profile, profileIndex, shown, question)),
+                weight: 2 + profileQuestionsOf(part.id as ProfileBox, segment.questions, asked).length * 4
+            }));
+        };
+        /** The questions of one of the Motivations' boxes (goals, challenges, objections). */
+        const motivation = (profile: BusinessCustomerProfileValue, profileIndex: number, box: ProfileBox) => {
+            const shown = profileShown(profile.questions ?? {}, segment.questions, asked);
+            return profileQuestionsOf(box, segment.questions, asked).map(question => profileQuestionOf(profile, profileIndex, shown, question));
+        };
+
         const profiles = (
             <>
 
@@ -340,12 +395,12 @@ export function useFoundationSubsections(earlier: Earlier) {
 
                         {description(
                             segmentPath + ", Profile " + (profileIndex + 1),
-                            SUBSECTIONS.segments.profileDescription,
+                            profileParts(profile, profileIndex),
                             profile.description,
                             (next) => updateProfile(
                                 segmentIndex, profileIndex, { description: next }
                             ),
-                            false,
+                            true,
                             undefined,
                             groupFold(profile.id, "Description", segmentPath + ", Profile " + (profileIndex + 1))
                         )}
@@ -363,6 +418,8 @@ export function useFoundationSubsections(earlier: Earlier) {
                             says it twice. */}
                         {group("Motivations", <>
 
+                        {motivation(profile, profileIndex, "goals")}
+
                         {note(
                             "Goals & Desires",
                             profile.goals,
@@ -373,6 +430,8 @@ export function useFoundationSubsections(earlier: Earlier) {
                             segmentPath + ", Profile " + (profileIndex + 1)
                         )}
 
+                        {motivation(profile, profileIndex, "challenges")}
+
                         {note(
                             "Challenges & Problems",
                             profile.challenges,
@@ -382,6 +441,8 @@ export function useFoundationSubsections(earlier: Earlier) {
                             SUBSECTIONS.segments.motivations.challenges,
                             segmentPath + ", Profile " + (profileIndex + 1)
                         )}
+
+                        {motivation(profile, profileIndex, "objections")}
 
                         {note(
                             "Objections",
