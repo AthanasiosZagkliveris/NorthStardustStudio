@@ -4,7 +4,7 @@
  */
 import ListStatic from "../../fields/ListStatic.tsx";
 import TickField from "../../../controls/TickField.tsx";
-import { ReactNode } from "react";
+import { Fragment, ReactNode } from "react";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
 import { BUSINESS_COMPETITOR_TYPES, BUSINESS_OFFERING_CATEGORIES, BusinessCompetitorValue, BusinessCustomerProfileValue, BusinessCustomerSegmentValue, BusinessOfferingValue, businessSegmentNeeds, createBusinessCompetitor, createBusinessCustomerProfile, createBusinessOffering } from "../../../../framework/engine/AnswerUtils.ts";
 import FieldRow from "../../fields/FieldRow.tsx";
@@ -371,10 +371,53 @@ export function useFoundationSubsections(earlier: Earlier) {
                 weight: 2 + profileQuestionsOf(part.id as ProfileBox, segment.questions, asked).length * 4
             }));
         };
-        /** The questions of one of the Motivations' boxes (goals, challenges, objections). */
-        const motivation = (profile: BusinessCustomerProfileValue, profileIndex: number, box: ProfileBox) => {
+        /**
+         * The Motivations as boxes built as the Description's are: a title band with its "i", then the box's question as a band, then its own note. They stand in the one grid the Description's
+         * boxes stand in (one column), which is also what keeps them in the card's content column.
+         */
+        const motivations = (profile: BusinessCustomerProfileValue, profileIndex: number) => {
+            const boxes: { box: ProfileBox; title: string; info: InfoPoint[]; text: string; field: "goals" | "challenges" | "objections" }[] = [
+                { box: "goals", title: "Goals & Desires", info: SUBSECTIONS.segments.motivations.goals, text: profile.goals, field: "goals" },
+                { box: "challenges", title: "Challenges & Problems", info: SUBSECTIONS.segments.motivations.challenges, text: profile.challenges, field: "challenges" },
+                { box: "objections", title: "Objections", info: SUBSECTIONS.segments.motivations.objections, text: profile.objections, field: "objections" }
+            ];
             const shown = profileShown(profile.questions ?? {}, segment.questions, asked);
-            return profileQuestionsOf(box, segment.questions, asked).map(question => profileQuestionOf(profile, profileIndex, shown, question));
+            return (
+                <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-single">
+                    <div className="legal-entity-field">
+                        {boxes.map((entry, at) => (
+                            <Fragment key={entry.box}>
+                                {at > 0 && <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double" role="separator" />}
+                                <div className="business-segment-box">
+                                    <div className="legal-entity-org-section">
+                                        <span className="business-foundation-label-info legal-entity-label-info">
+                                            <FieldLabel className="business-foundation-label">
+                                                <InfoText text={entry.title}>
+                                                    <InfoNote label={entry.title} points={entry.info} fullList />
+                                                </InfoText>
+                                            </FieldLabel>
+                                        </span>
+                                    </div>
+                                    {profileQuestionsOf(entry.box, segment.questions, asked).map((question, position) => (
+                                        <div className={"legal-entity-org-section" + (position % 2 === 1 ? " legal-entity-org-band" : "")} key={question.id}>
+                                            {profileQuestionOf(profile, profileIndex, shown, question)}
+                                        </div>
+                                    ))}
+                                    <div className="legal-entity-org-section">
+                                        <StrategyTextArea
+                                            className="interview-input business-foundation-note"
+                                            ariaLabel={segmentPath + ", Profile " + (profileIndex + 1) + " " + entry.title}
+                                            disabled={disabled}
+                                            value={entry.text}
+                                            onChange={(next) => updateProfile(segmentIndex, profileIndex, { [entry.field]: next })}
+                                        />
+                                    </div>
+                                </div>
+                            </Fragment>
+                        ))}
+                    </div>
+                </div>
+            );
         };
 
         const profiles = (
@@ -431,41 +474,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                             says it twice. */}
                         {group("Motivations", <>
 
-                        {motivation(profile, profileIndex, "goals")}
-
-                        {note(
-                            "Goals & Desires",
-                            profile.goals,
-                            (next) => updateProfile(
-                                segmentIndex, profileIndex, { goals: next }
-                            ),
-                            SUBSECTIONS.segments.motivations.goals,
-                            segmentPath + ", Profile " + (profileIndex + 1)
-                        )}
-
-                        {motivation(profile, profileIndex, "challenges")}
-
-                        {note(
-                            "Challenges & Problems",
-                            profile.challenges,
-                            (next) => updateProfile(
-                                segmentIndex, profileIndex, { challenges: next }
-                            ),
-                            SUBSECTIONS.segments.motivations.challenges,
-                            segmentPath + ", Profile " + (profileIndex + 1)
-                        )}
-
-                        {motivation(profile, profileIndex, "objections")}
-
-                        {note(
-                            "Objections",
-                            profile.objections,
-                            (next) => updateProfile(
-                                segmentIndex, profileIndex, { objections: next }
-                            ),
-                            SUBSECTIONS.segments.motivations.objections,
-                            segmentPath + ", Profile " + (profileIndex + 1)
-                        )}
+                        {motivations(profile, profileIndex)}
 
                         </>, undefined, groupFold(profile.id, "Motivations", segmentPath + ", Profile " + (profileIndex + 1)))}
 

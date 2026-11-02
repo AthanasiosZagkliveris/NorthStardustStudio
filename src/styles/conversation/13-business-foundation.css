@@ -1050,18 +1050,6 @@
 
 }
 
-.floating-card-body .business-foundation-card:has(.business-segment-grid-single){
-
-    grid-template-columns:minmax(0, 1fr);
-
-}
-
-.floating-card-body .business-foundation-card:has(.business-segment-grid-single) > *{
-
-    grid-column:1;
-
-}
-
 /* The age of a Profile is a square number cell (the one a performer's head count uses, as high as it is wide), not a box across the card. */
 .floating-card-body .column-tile-content > .business-foundation-card .interview-input.business-capability-people{
 
