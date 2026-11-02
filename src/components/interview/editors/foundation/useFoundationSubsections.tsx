@@ -4,7 +4,7 @@
  */
 import ListStatic from "../../fields/ListStatic.tsx";
 import TickField from "../../../controls/TickField.tsx";
-import { Fragment, ReactNode } from "react";
+import { Fragment, ReactNode, useState } from "react";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
 import { BUSINESS_COMPETITOR_TYPES, BUSINESS_OFFERING_CATEGORIES, BusinessCompetitorValue, BusinessCustomerProfileValue, BusinessCustomerSegmentValue, BusinessOfferingValue, businessSegmentNeeds, createBusinessCompetitor, createBusinessCustomerProfile, createBusinessOffering } from "../../../../framework/engine/AnswerUtils.ts";
 import FieldRow from "../../fields/FieldRow.tsx";
@@ -24,6 +24,32 @@ import { BUSINESS_AUDIENCE, PEOPLE_AUDIENCE, audienceLine, segmentContextFor, se
 import type { useFoundationState } from "./useFoundationState.tsx";
 
 type Earlier = ReturnType<typeof useFoundationState>;
+
+/**
+ * The exact age of a Profile (A1). What is typed stays in the cell while it is typed: the age is settled against the Segment's age group (an age outside it is cleared), and a first digit
+ * such as the 4 of 45 is outside a group of 40 to 54, so settling at every key made the number impossible to write. The cell holds a draft while it has the focus; leaving it settles.
+ */
+function ProfileAgeCell({ value, label, disabled, onType, onDone }: { value: string; label: string; disabled?: boolean; onType: (typed: string) => void; onDone: () => void }) {
+    const [draft, setDraft] = useState<string | null>(null);
+    return (
+        <NumberCell
+            kind="int"
+            className="business-capability-people business-profile-age"
+            aria-label={label}
+            disabled={disabled}
+            value={draft ?? value}
+            onChange={(event) => {
+                const typed = event.target.value.replace(/D/g, "").slice(0, 3);
+                setDraft(typed);
+                onType(typed);
+            }}
+            onBlur={() => {
+                setDraft(null);
+                onDone();
+            }}
+        />
+    );
+}
 
 export function useFoundationSubsections(earlier: Earlier) {
 
@@ -329,13 +355,12 @@ export function useFoundationSubsections(earlier: Earlier) {
                     {question.number
                         // (A number stands beside its label, on the label's line, at the right end of the band: see .business-profile-age.)
                         ? (
-                            <NumberCell
-                                kind="int"
-                                className="business-capability-people business-profile-age"
-                                aria-label={question.label}
+                            <ProfileAgeCell
+                                                                label={question.label}
                                 disabled={disabled}
                                 value={chosen[0] ?? ""}
-                                onChange={(event) => write({ ...shown, [question.id]: [event.target.value.replace(/\D/g, "").slice(0, 3)] })}
+                                onType={(typed) => updateProfile(segmentIndex, profileIndex, { questions: typed ? { ...profileSettle({ ...shown, [question.id]: [typed] }, segment.questions, asked), [question.id]: [typed] } : profileSettle({ ...shown, [question.id]: [] }, segment.questions, asked) })}
+                                onDone={() => write(shown)}
                             />
                         )
                         : question.many
