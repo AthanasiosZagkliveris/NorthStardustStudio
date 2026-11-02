@@ -55,6 +55,14 @@
 
 }
 
+/* An EMPTY status (nothing waits, nothing to say) takes no room: with its 12px margin it was a box that wrapped onto a line of its own when the label and its "i" filled the row, leaving a blank line under the label. */
+.legal-entity-label .field-status:empty,
+.legal-entity-label .field-status-line:empty{
+
+    display:none;
+
+}
+
 /* ONE GAP FOR EVERY "i": 8px from the word it explains, whatever
    holds it -- a label, a subhead, a sentence, a tile, a result pill.
    On the note itself, so no container's own gap or spacing decides

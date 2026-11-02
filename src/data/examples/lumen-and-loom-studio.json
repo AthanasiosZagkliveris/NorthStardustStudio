@@ -514,6 +514,7 @@
                     "savvy"
                   ],
                   "discover": [
+                    "communities",
                     "creators",
                     "media"
                   ],
@@ -588,6 +589,13 @@
                       "c2-other": [
                         "Substack newsletters on home and craft"
                       ],
+                      "c3": [
+                        "facebook-group",
+                        "other"
+                      ],
+                      "c3-other": [
+                        "Local neighbourhood WhatsApp groups"
+                      ],
                       "c4": [
                         "market",
                         "workshop"
@@ -660,6 +668,9 @@
                         "instagram",
                         "tiktok",
                         "youtube"
+                      ],
+                      "c3": [
+                        "facebook-group"
                       ],
                       "c4": [
                         "workshop",

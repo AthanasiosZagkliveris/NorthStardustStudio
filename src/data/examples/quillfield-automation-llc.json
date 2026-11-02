@@ -371,7 +371,8 @@
                     "moderate"
                   ],
                   "discover": [
-                    "peers"
+                    "peers",
+                    "communities"
                   ],
                   "setting": [
                     "desktop"
@@ -428,6 +429,9 @@
                       ],
                       "c2": [
                         "linkedin"
+                      ],
+                      "c3": [
+                        "slack"
                       ],
                       "d1": [
                         "a-demo-trial-or-sample",
@@ -502,6 +506,13 @@
                       "c2": [
                         "linkedin",
                         "x-twitter"
+                      ],
+                      "c3": [
+                        "slack",
+                        "other"
+                      ],
+                      "c3-other": [
+                        "Agency founder communities"
                       ],
                       "d1": [
                         "reviews-and-recommendations-online",
