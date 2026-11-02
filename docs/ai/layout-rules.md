@@ -616,7 +616,7 @@ Today: the chapter titles of 3. Infrastructure & Capability (right of the title 
 ### Body order
 
 Fields follow the order a founder answers them: what it is, then where,
-then the details. On the Legal Entity page every section box is half the
+then the details. A label and its cell standing side by side (the Profile's age) have no divider line under the label: the line is for a label over its options. On the Legal Entity page every section box is half the
 page, in pairs: 1. Organization | 2. Founders & Ownership, 3 | 4, 5 | 6,
 each as tall as its own content, stacked under 1100px. The Organization
 section is two columns `--space-cell` apart: "what it is" reads Organization

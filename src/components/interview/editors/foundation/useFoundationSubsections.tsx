@@ -326,8 +326,9 @@ export function useFoundationSubsections(earlier: Earlier) {
                     label={question.label}
                     info={[...question.info]}
                     labelNote={question.max !== undefined ? <span className="business-foundation-tick-note">{question.max + " max"}</span> : undefined}
-                    // (A number stands on the label's own line, next to the words, not under them.)
-                    labelExtra={question.number
+                >
+                    {question.number
+                        // (A number stands beside its label, on the label's line, at the right end of the band: see .business-profile-age.)
                         ? (
                             <NumberCell
                                 kind="int"
@@ -338,10 +339,6 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 onChange={(event) => write({ ...shown, [question.id]: [event.target.value.replace(/\D/g, "").slice(0, 3)] })}
                             />
                         )
-                        : undefined}
-                >
-                    {question.number
-                        ? null
                         : question.many
                             ? (
                                 <>

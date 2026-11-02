@@ -1097,15 +1097,41 @@
 
 }
 
-/* The age stands on its label's line, 8px after the words. */
-.business-foundation .business-profile-age,
-.floating-card-body .business-profile-age{
+/* The age stands beside its label: the question's label on the left (it wraps inside its own column), the square cell at the right end of the band, centred on the label's lines. */
+.legal-entity-pair:has(> .business-profile-age){
 
-    display:inline-block;
+    display:grid;
 
-    margin-left:8px;
+    grid-template-columns:minmax(0, 1fr) auto;
 
-    vertical-align:middle;
+    align-items:center;
+
+    column-gap:var(--gap-8);
+
+}
+
+/* A label and its cell standing side by side need no divider line under the label: the line is for a label over its options. */
+.legal-entity-pair:has(> .business-profile-age) > .legal-entity-label-info{
+
+    width:auto;
+
+    margin-inline:0;
+
+    padding-inline:0;
+
+    padding-bottom:0;
+
+    border-bottom:0;
+
+    min-height:0;
+
+}
+
+.legal-entity-pair > .business-profile-age{
+
+    justify-self:end;
+
+    margin:0;
 
 }
 

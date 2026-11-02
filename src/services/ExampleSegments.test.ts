@@ -45,10 +45,14 @@ describe.each([["Lumen & Loom Studio", lumen], ["Quillfield Automation LLC", qui
         expect(profileSettle(answers, segment.questions, context)).toEqual(answers);
     });
 
-    it.each(segments.flatMap(segment => segment.profiles.map(profile => [profile.name, profile] as const)))("tells the same age in the note of %s as in its answer", (_profileName, profile) => {
-        const answered = asProfileAnswers(profile.questions).a1?.[0];
-        const written = (profile.description.personal ?? "").match(/\b(\d{2})\b/)?.[1];
-        expect(written).toBe(answered);
+    // The notes hold what the choices do not: the age is asked (A1), and a platform that is ticked is not named again in the note of the hubs.
+    it.each(segments.flatMap(segment => segment.profiles.map(profile => [profile.name, profile] as const)))("keeps the notes of %s to what its choices do not say", (_profileName, profile) => {
+        const answers = asProfileAnswers(profile.questions);
+        expect(answers.a1?.[0]).toMatch(/^\d{2}$/);
+        expect(profile.description.personal ?? "").not.toMatch(/\b\d{2}\b(?!-)/);
+        const ticked = (answers.c2 ?? []).filter(id => id !== "other").map(id => id.replace(/-/g, " "));
+        const hubs = (profile.description.hubs ?? "").toLowerCase();
+        expect(ticked.filter(name => hubs.includes(name.replace("x twitter", "twitter")))).toEqual([]);
     });
 
 });

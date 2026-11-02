@@ -402,10 +402,10 @@
                     "id": "profile-h5t9w2rk",
                     "name": "The Stretched Operations Manager",
                     "description": {
-                      "personal": "Dana Morales, 38, operations manager at a 22-person accounting firm in Downtown Brooklyn; the person everyone asks when a system breaks.",
+                      "personal": "Dana Morales, operations manager at a 22-person accounting firm in Downtown Brooklyn; the person everyone asks when a system breaks.",
                       "psychographics": "Practical, organized and overloaded; wants fewer manual steps and fewer mistakes; wary of hype and of tools that create more work than they save.",
-                      "hubs": "LinkedIn, the firm's software vendor webinars, NYSSCPA events, local chamber of commerce meetups, operations and practice-management Slack groups.",
-                      "habits": "Researches on LinkedIn and vendor sites, asks peers for recommendations, needs a written proposal to take to the partners, and prefers a short paid pilot to a big commitment."
+                      "hubs": "The firm’s software vendor webinars, NYSSCPA events, local chamber of commerce meetups, operations and practice-management groups.",
+                      "habits": "Needs a written proposal to take to the partners, and prefers a short paid pilot to a big commitment."
                     },
                     "questions": {
                       "a1": [
@@ -476,10 +476,10 @@
                     "id": "profile-m8c4v6zp",
                     "name": "The Agency Founder",
                     "description": {
-                      "personal": "Sam Okafor, 34, founder and creative director of a 9-person marketing agency in Williamsburg.",
+                      "personal": "Sam Okafor, founder and creative director of a 9-person marketing agency in Williamsburg.",
                       "psychographics": "Ambitious, curious about AI and quick to try new tools, but short on time to set them up properly; values speed and a professional client experience.",
-                      "hubs": "LinkedIn, X, agency founder communities, Brooklyn tech and marketing meetups, podcasts on agency growth.",
-                      "habits": "Discovers through LinkedIn posts and founder peers; books a call straight from a website; decides quickly when a case study matches the agency's own problem."
+                      "hubs": "Brooklyn tech and marketing meetups, podcasts on agency growth, the founders’ groups he belongs to.",
+                      "habits": "Books a call straight from a website; decides quickly when a case study matches the agency’s own problem."
                     },
                     "questions": {
                       "a1": [
