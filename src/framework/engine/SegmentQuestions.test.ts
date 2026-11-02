@@ -10,7 +10,8 @@ import {
     segmentChoose,
     segmentOptions,
     segmentQuestionsOf,
-    segmentSettle
+    segmentSettle,
+    segmentWho
 } from "./SegmentQuestions.ts";
 
 const OPEN: SegmentContext = { frame: "open", stage: "manage", lifeStages: [], endsUser: false, userStages: [], relations: [], scales: [] };
@@ -142,8 +143,8 @@ describe("the Segment's questions", () => {
         expect(asSegmentAnswers({ age: ["minor", "young"], gender: ["nope"], bogus: ["x"], discover: ["peers", "peers", 3] })).toEqual({ age: ["minor"], discover: ["peers"] });
         expect(asSegmentAnswers(null)).toEqual({});
         expect(segmentAnswerLines({ share: ["public", "verbal"], pay: ["card"] })).toEqual([
-            { label: "How do they share what they like?", value: "They post it publicly on social media; They tell people in person" },
-            { label: "How do they prefer to pay?", value: "Credit / debit card" }
+            { label: "How do your customers share what they like?", value: "They post it publicly on social media; They tell people in person" },
+            { label: "How do your customers pay?", value: "Credit / debit card" }
         ]);
     });
 
@@ -194,4 +195,14 @@ describe("the Segment's questions", () => {
 
     });
 
+});
+
+describe("who the questions are about", () => {
+    const direct = { frame: "people", stage: "", lifeStages: [], endsUser: false, userStages: [], relations: [], scales: [] } as const;
+    const proxy = { ...direct, endsUser: true };
+    it("a direct buyer's customers are customers; a proxy buyer's boxes say buyers, the user's box says users", () => {
+        expect(segmentWho("How old are your customers?", "demographics", direct)).toBe("How old are your customers?");
+        expect(segmentWho("How old are your customers?", "demographics", proxy)).toBe("How old are your buyers?");
+        expect(segmentWho("How old are your customers?", "user", proxy)).toBe("How old are your users?");
+    });
 });

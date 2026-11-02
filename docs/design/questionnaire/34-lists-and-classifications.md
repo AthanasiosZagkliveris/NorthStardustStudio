@@ -28,9 +28,9 @@ Each list is one definition used wherever its id appears; counts include "Not su
 | Id | Name | Plain options | Used by |
 |---|---|---|---|
 | L1 | **What customers care about** (10) | Lower price; Speed; Ease and convenience; Quality and results; Trust and reputation; Expert knowledge; A service made for them; Good support; Safety and low risk; Shared values or identity | I7, P9, K2, K3, O4, the Value Proposition draft |
-| L2 | **Worries that stop a purchase** (8) | The price or their budget; Whether they can trust you; How long it takes to start; How hard it is to use; Risk or security; Whether it fits their needs; Support after they buy; The effort of switching from what they use now | P19, O8 |
-| L3 | **Frustrations** (10) | It costs too much; It takes too long; It is too complicated; The quality is inconsistent; It is hard to find someone they trust; They lack the know-how; Support is poor; They worry about mistakes or rules; They have no time or capacity; Prices are unclear | P18 |
-| L4 | **Goals** (10) | Save time; Save money; Lower their risk; Get better results; Get easier access; Learn something new; Express who they are; Meet a requirement; Win customers or earn more; Stay within the rules | P17 |
+| L2 | **Worries that stop a purchase** (8) | The price / budget; Whether you can be trusted; How long it takes to start; How hard it is to use; Risk or security; Whether it fits the need; Support after they buy; The effort of switching from the current option | P19, O8 |
+| L3 | **Frustrations** (10) | It costs too much; It takes too long; It is too complicated; The quality is inconsistent; It is hard to find someone trustworthy; They lack the know-how; Support is poor; They worry about mistakes or rules; They have no time or capacity; Prices are unclear | P18 |
+| L4 | **Goals** (10) | Save time; Save money; Lower risk; Get better results; Get easier access; Learn something new; Self-expression; Meet a requirement; Win customers or earn more; Stay within the rules | P17 |
 | L5 | **Skill areas** (6) | Delivering your product or service; Marketing; Sales and customer care; Running the business (operations, admin, technology); Money and legal (finance, accounting, legal); Leadership and people (management, hiring) | C1, L2, C4 |
 | L6 | **Channels** | the 13 channel categories and their subchannels, as in the app | P11, K4, the journey |
 | L7 | **Industries, level 1** (18, then Not sure, or more than one; level 2 in 5.4) | Farming, forestry and fishing; Mining, oil, gas and quarrying; Manufacturing; Energy, water and waste; Construction; Wholesale and retail trade; Transport, postal and logistics; Hospitality (accommodation, food, drink); Software, IT, media and telecoms; Finance and insurance; Real estate and property; Professional, scientific and technical services (law, accounting, consulting, engineering, design); Administrative and support services (staffing, cleaning, security, travel); Government and public administration; Education and training; Health and social care; Arts, sport and recreation; Other services (repair, personal, membership, charity) | I1, I2, G15, P24 |
@@ -262,12 +262,12 @@ Every option has a one-line example shown under it, so the user understands the 
 
 | Option | Example |
 |---|---|
-| The price or their budget | "Can we afford it?" |
-| Whether they can trust you | "Have you done this before?" |
+| The price / budget | "Can we afford it?" |
+| Whether you can be trusted | "Have you done this before?" |
 | How long it takes to start | "How soon can we begin?" |
 | How hard it is to use | "Will our team cope?" |
 | Risk or security | "Is our data safe?" |
-| Whether it fits their needs | "Will it work for us?" |
+| Whether it fits the need | "Will it work for us?" |
 | Support after they buy | "Who helps when it breaks?" |
 | The effort of switching | "We already use something else" |
 
@@ -279,7 +279,7 @@ Every option has a one-line example shown under it, so the user understands the 
 | It takes too long | Waiting weeks for an answer |
 | It is too complicated | Forms, steps and jargon |
 | The quality is inconsistent | Good one time, poor the next |
-| It is hard to find someone they trust | Many providers, no way to tell |
+| It is hard to find someone trustworthy | Many providers, no way to tell |
 | They lack the know-how | No one in the team can do it |
 | Support is poor | Calls and emails go unanswered |
 | They worry about mistakes or rules | Fines, errors, compliance |
@@ -292,11 +292,11 @@ Every option has a one-line example shown under it, so the user understands the 
 |---|---|
 | Save time | Do in an hour what took a day |
 | Save money | Lower running costs |
-| Lower their risk | Fewer surprises |
+| Lower risk | Fewer surprises |
 | Get better results | Higher sales, better health, better grades |
 | Get easier access | Reach a service from home |
 | Learn something new | A skill or a qualification |
-| Express who they are | Look and feel like themselves |
+| Self-expression | Look and feel like themselves |
 | Meet a requirement | A rule, a contract, a deadline |
 | Win customers or earn more | Grow the business |
 | Stay within the rules | Tax, safety, data protection |

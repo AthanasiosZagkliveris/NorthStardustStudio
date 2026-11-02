@@ -28,76 +28,97 @@ const OTHER = { id: "other", label: "Other" } as const;
 const CARES = ["Lower price", "Speed", "Ease and convenience", "Quality and results", "Trust and reputation", "Expert knowledge", "A service made for them", "Good support", "Safety and low risk", "Shared values or identity"];
 const GOALS = ["Save time", "Save money", "Lower their risk", "Get better results", "Get easier access", "Learn something new", "Express who they are", "Meet a requirement", "Win customers or earn more", "Stay within the rules"];
 const FRUSTRATIONS = ["It costs too much", "It takes too long", "It is too complicated", "The quality is inconsistent", "It is hard to find someone they trust", "They lack the know-how", "Support is poor", "They worry about mistakes or rules", "They have no time or capacity", "Prices are unclear"];
+/** The words of an option said of one person and in no pronoun (the ids stay those of the first wording: they are saved answers). */
+const WORDS: Record<string, string> = {
+    "lower-their-risk": "Lower risk", "express-who-they-are": "Self-expression", "a-service-made-for-them": "A tailored service", "your-website": "On your website",
+    "it-costs-too-much": "Cost too high", "it-takes-too-long": "Takes too long", "it-is-too-complicated": "Too complicated", "the-quality-is-inconsistent": "Inconsistent quality",
+    "it-is-hard-to-find-someone-they-trust": "Hard to find someone trustworthy", "they-lack-the-know-how": "Lack of know-how", "support-is-poor": "Poor support",
+    "they-worry-about-mistakes-or-rules": "Fear of mistakes / breaking rules", "they-have-no-time-or-capacity": "No time / capacity", "prices-are-unclear": "Unclear prices",
+    "the-price-or-their-budget": "The price / budget", "whether-they-can-trust-you": "Whether you can be trusted", "whether-it-fits-their-needs": "Whether it fits the need",
+    "support-after-they-buy": "Support after the sale", "the-effort-of-switching-from-what-they-use-now": "The effort of switching from the current option"
+};
 const WORRIES = ["The price or their budget", "Whether they can trust you", "How long it takes to start", "How hard it is to use", "Risk or security", "Whether it fits their needs", "Support after they buy", "The effort of switching from what they use now"];
 
 const slug = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 /** What an option says: alternatives are named with a slash, not the word "or" (owner, 2026-11-02); its id stays the slug of the words it was written with. */
 const said = (text: string) => /(^|[ ,])or /.test(text) ? text.replace(/, or /g, " / ").replace(/ or /g, " / ").replace(/, /g, " / ") : text;
-const list = (labels: readonly string[]): SegmentOption[] => labels.map(label => ({ id: slug(label), label: said(label) }));
+const list = (labels: readonly string[]): SegmentOption[] => labels.map(label => ({ id: slug(label), label: WORDS[slug(label)] ?? said(label) }));
 
 const QUESTIONS: readonly ProfileQuestion[] = [
     {
-        id: "a1", box: "personal", label: "How old is this typical customer?", many: false, number: true, options: [],
-        info: ["An exact age within the Segment's age group, for a typical person of the group, not the average.", "If the Segment's age group changes and this age is no longer inside it, the age is cleared."]
-    },
-    {
-        id: "a2", box: "personal", label: "What is their gender?", many: false,
+        id: "a2", box: "personal", label: "What is this person's gender?", many: false,
         options: [{ id: "woman", label: "Woman" }, { id: "man", label: "Man" }, { id: "non-binary", label: "Non-binary" }, { id: "other", label: "Another gender" }],
         info: ["Asked only when the Segment's mix leans one way, and it starts from the mix.", "Nothing reads it but the note."]
     },
     {
-        id: "a3", box: "personal", label: "What kind of work do they do?", many: false, options: JOB_LEVELS,
+        id: "a1", box: "personal", label: "How old is {s}?", many: false, number: true, options: [],
+        info: ["An exact age within the Segment's age group, for a typical person of the group, not the average.", "If the Segment's age group changes and this age is no longer inside it, the age is cleared."]
+    },
+    {
+        id: "a3", box: "personal", label: "What kind of work does {s} do?", many: false, options: JOB_LEVELS,
         info: ["The ISCO-08 major groups in plain words: choose the group that fits the role.", "Armed forces: choose the group that fits the role; clergy count as professionals."]
     },
     {
-        id: "a5", box: "personal", label: "What part do they play in the purchase?", many: true,
+        id: "a5", box: "personal", label: "What is {p} role in buying?", many: true,
         options: [
-            { id: "use", label: "They will use it" }, { id: "influence", label: "They influence the decision" }, { id: "order", label: "They place the order" },
-            { id: "decide", label: "They make the final decision" }, { id: "gate", label: "They control who gets to the decision-maker" }
+            { id: "use", label: "Uses it" }, { id: "influence", label: "Influences the decision" }, { id: "order", label: "Places the order" },
+            { id: "decide", label: "Makes the final decision" }, { id: "gate", label: "Controls who reaches the decision-maker" }
         ],
-        info: ["The five buying-centre roles credited to Webster and Wind (1972).", "\"They will use it\" is the person who uses the offering day to day, who may be neither the one who pays nor the one who decides."]
+        info: ["The five buying-centre roles credited to Webster and Wind (1972).", "\"Will use it\" is the person who uses the offering day to day, who may be neither the one who pays nor the one who decides."]
     },
     {
-        id: "b1", box: "psychographics", label: "What do they care about most?", many: true, max: 3, options: list(CARES),
+        id: "b1", box: "psychographics", label: "What matters most to {o}?", many: true, max: 3, options: list(CARES),
         info: ["What matters most to a typical person of the Segment when choosing.", "Interests, lifestyle and aspirations stay in the note."]
     },
     {
-        id: "c1", box: "hubs", label: "Which devices do they use?", many: true,
+        id: "c1", box: "hubs", label: "Which devices does {s} use?", many: true,
         options: [{ id: "phone", label: "Smartphone" }, { id: "computer", label: "Laptop / desktop" }, { id: "tablet", label: "Tablet" }, { id: "shared", label: "A shared / public device" }, OTHER], other: true,
         info: ["The devices they use to find and buy, not those they own.", "The Segment's choice of where they buy starts this; change it freely."]
     },
     {
-        id: "c2", box: "hubs", label: "Which social media do they use?", many: true,
+        id: "c2", box: "hubs", label: "Which social media does {s} use?", many: true,
         options: [...["Instagram", "Facebook", "LinkedIn", "YouTube", "TikTok", "Pinterest", "X (Twitter)"].map(label => ({ id: slug(label), label })), OTHER], other: true,
         info: ["The platforms they actually use, if any.", "Tick Other to write one that is not listed."]
     },
     {
-        id: "c3", box: "hubs", label: "Which communities do they belong to?", many: true,
+        id: "c3", box: "hubs", label: "Which communities does {s} belong to?", many: true,
         options: [...["Facebook Group", "Discord", "Reddit", "Slack", "Meetup"].map(label => ({ id: slug(label), label })), OTHER], other: true,
         info: ["Where they ask, read and recommend.", "The names of the groups stay in the note."]
     },
     {
-        id: "c4", box: "hubs", label: "Which events do they go to?", many: true,
-        options: [{ id: "market", label: "Market / Pop-up" }, { id: "fair", label: "Trade Fair / Exhibition" }, { id: "workshop", label: "Workshop / Class" }, { id: "talk", label: "Event / Talk" }, OTHER], other: true,
+        id: "c4", box: "hubs", label: "Which events does {s} attend?", many: true,
+        options: [{ id: "market", label: "Market / Pop-up" }, { id: "fair", label: "Trade Fair / Exhibition" }, { id: "workshop", label: "Workshop / Class" }, { id: "talk", label: "Talk / Conference" }, OTHER], other: true,
         info: ["The kinds of events a typical person of the Segment attends.", "The names of the events stay in the note."]
     },
     {
-        id: "d1", box: "habits", label: "How do they compare their options?", many: true,
+        id: "d1", box: "habits", label: "How does {s} compare options?", many: true,
         // The ids stay those of the first wording (they are saved answers and the Segment reads them): only the words changed, so a review online and a recommendation by people are told apart.
         options: list(["Your website", "Reviews and recommendations online", "A demo, trial or sample", "A quote or proposal", "What other people recommend", "Comparison sites", "A meeting or call"]).map(option => option.id === "reviews-and-recommendations-online" ? { ...option, label: "Online reviews / ratings" } : option.id === "what-other-people-recommend" ? { ...option, label: "Word of mouth / referrals" } : option),
         info: ["How they weigh options before choosing.", "How they pay and where they buy are the Segment's questions."]
     },
     {
-        id: "d2", box: "habits", label: "How much help do they want before they buy?", many: false,
-        options: [{ id: "alone", label: "They work it out themselves" }, { id: "little", label: "They like a little guidance" }, { id: "person", label: "They want to talk to a person" }, { id: "formal", label: "They need a formal demonstration / proposal" }],
+        id: "d2", box: "habits", label: "How much help does {s} want before buying?", many: false,
+        options: [{ id: "alone", label: "Works it out alone" }, { id: "little", label: "Likes a little guidance" }, { id: "person", label: "Wants to talk to a person" }, { id: "formal", label: "Needs a formal demonstration / proposal" }],
         info: ["The help a typical person wants before buying; it can differ from how comfortable the Segment is online."]
     },
-    { id: "e1", box: "goals", label: "What are they trying to achieve?", many: true, max: 3, options: list(GOALS), info: ["Choose up to three."] },
-    { id: "e2", box: "challenges", label: "What frustrates them today?", many: true, max: 3, options: list(FRUSTRATIONS), info: ["Choose up to three."] },
-    { id: "e3", box: "objections", label: "What might stop them buying?", many: true, max: 3, options: list(WORRIES), info: ["Choose up to three.", "Starts with the price where the Segment's household income is Low; change it freely."] }
+    { id: "e1", box: "goals", label: "What are {p} main goals?", many: true, max: 3, options: list(GOALS), info: ["Choose up to three."] },
+    { id: "e2", box: "challenges", label: "What frustrates {o}?", many: true, max: 3, options: list(FRUSTRATIONS), info: ["Choose up to three."] },
+    { id: "e3", box: "objections", label: "What might stop {o} buying?", many: true, max: 3, options: list(WORRIES), info: ["Choose up to three.", "Starts with the price where the Segment's household income is Low; change it freely."] }
 ];
 
 export const PROFILE_QUESTIONS = QUESTIONS;
+
+/**
+ * A Profile is one person, so its questions are written of one: she, he, her, him, his once the gender is answered (the first question), "this person" until then
+ * and for any other answer. The questions are stored with {s} (subject: she, he), {o} (object: her, him) and {p} (possessive: her, his); the documents list them as "this person".
+ */
+export function profileWho(label: string, gender?: string): string {
+    const woman = gender === "woman", man = gender === "man";
+    return label
+        .replace(/{s}/g, woman ? "she" : man ? "he" : "this person")
+        .replace(/{o}/g, woman ? "her" : man ? "him" : "this person")
+        .replace(/{p}/g, woman ? "her" : man ? "his" : "this person's");
+}
 
 /** What the note under each box is for: what the questions above it do not ask (the questions already hold the rest). A point is at most 160 characters. */
 export const PROFILE_NOTE_HINTS: Record<ProfileBox, string> = {
@@ -240,7 +261,7 @@ export function profileAnswerLines(answers: SegmentAnswers): { label: string; va
         }
         const other = (answers[question.id + "-other"]?.[0] ?? "").trim();
         const words = question.number ? chosen[0] + " years" : chosen.map(id => id === "other" && other ? "Other: " + other : question.options.find(option => option.id === id)?.label ?? id).join("; ");
-        return [{ label: question.label, value: words }];
+        return [{ label: profileWho(question.label, answers.a2?.[0]), value: words }];
     });
 }
 

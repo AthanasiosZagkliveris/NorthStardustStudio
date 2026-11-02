@@ -518,7 +518,7 @@
    ]
   },
   {
-   "label": "What type of organisation are they?",
+   "label": "What kind of organisation are your customers?",
    "place": "tile dialog",
    "text": "Private business includes co-operatives. A social enterprise belongs here or under non-profit, by how it is owned.\nNon-profit includes membership and professional bodies and religious organisations.\nA public body is for example a government department, council, school or hospital.\nSelf-employed skips the question about size.\nPrivate business: For-profit",
    "lines": 18,
@@ -532,13 +532,13 @@
    ]
   },
   {
-   "label": "How big are these organisations?",
+   "label": "How big are your customers' organisations?",
    "place": "tile dialog",
-   "text": "The EU's definition of small and medium-sized enterprises: micro under 10 employees, small under 50, medium-sized under 250.\nCountries define them a little differently; the United States and Canada use other limits.\nThe sizes follow the scale chosen in Positioning.\nMicro business: 1 to 9 employees\nSmall business: 10 to 49 employees\nMedium-sized business: 50 to 249 employees\nLarge enterprise: 250+ employees",
-   "lines": 20,
-   "points": 7,
+   "text": "The EU's definition of small and medium-sized enterprises: micro under 10 employees, small under 50, medium-sized under 250.\nCountries define them a little differently; the United States and Canada use other limits.\nThe sizes follow the scale chosen in Positioning.",
+   "lines": 12,
+   "points": 3,
    "w": 360,
-   "chars": 409,
+   "chars": 265,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -546,7 +546,7 @@
    ]
   },
   {
-   "label": "Which sector are they in?",
+   "label": "Which sector are your customers in?",
    "place": "tile dialog",
    "text": "Six classes over the industries below. If they work in more than one industry, make another Segment.",
    "lines": 5,
@@ -560,7 +560,7 @@
    ]
   },
   {
-   "label": "Which industry are they in?",
+   "label": "Which industry are your customers in?",
    "place": "tile dialog",
    "text": "The industries of the sector chosen, as the official schemes (SIC and NACE, NAICS, ANZSIC) name their sections.\nGovernment and public administration includes embassies and international bodies. Other services includes households that employ staff, such as cleaners and nannies.",
    "lines": 13,
@@ -588,7 +588,7 @@
    ]
   },
   {
-   "label": "Where is their industry or niche heading?",
+   "label": "Is your market growing or shrinking?",
    "place": "tile dialog",
    "text": "Where the market is heading, apart from its size: a market can be large and declining, or small and expanding fast.\nGrowing fast: Emerging market, high year-on-year growth\nGrowing steadily: Mature market, predictable upward trend\nFlat / stable: Saturated market, consistent volume but low growth\nShrinking / disrupted: Shrinking market or undergoing severe structural changes",
    "lines": 18,
@@ -602,13 +602,13 @@
    ]
   },
   {
-   "label": "How many potential customers are there in all (your Total Addressable Market, TAM)?",
+   "label": "How many potential customers are there (TAM)?",
    "place": "tile dialog",
-   "text": "The total number of potential buyers if you had 100% of the market, in the area you serve.\nVery small niche: Fewer than 1,000 potential customers\nSpecialist: 1,000 to 50,000 potential customers\nMid-market: 50,000 to 500,000 potential customers\nMass market: 500,000+ potential customers",
-   "lines": 15,
-   "points": 5,
+   "text": "The total number of potential buyers if you had 100% of the market, in the area you serve.",
+   "lines": 5,
+   "points": 1,
    "w": 360,
-   "chars": 285,
+   "chars": 90,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -616,13 +616,13 @@
    ]
   },
   {
-   "label": "Which trends affect your buyers most right now?",
+   "label": "What is changing most for your customers?",
    "place": "tile dialog",
-   "text": "Choose up to two.\nTechnology: Automation, AI, old systems being replaced\nRules and law: New compliance, tax changes, environmental mandates\nMoney: Inflation, budget cuts, shifts in spending power\nSociety and lifestyle: Remote work, sustainability, changing habits\nSupply and delivery: Material shortages, logistics costs, local sourcing",
+   "text": "Choose up to two.\nTechnology: Automation, AI, old systems being replaced\nRules and law: New compliance, tax changes, environmental mandates\nThe economy: Inflation, budget cuts, shifts in spending power\nSociety and lifestyle: Remote work, sustainability, changing habits\nSupply and delivery: Material shortages, logistics costs, local sourcing",
    "lines": 17,
    "points": 6,
    "w": 360,
-   "chars": 336,
+   "chars": 342,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -630,7 +630,7 @@
    ]
   },
   {
-   "label": "How crowded is their market?",
+   "label": "How crowded is your market?",
    "place": "tile dialog",
    "text": "Red Ocean and Blue Ocean are the strategy terms of Kim and Mauborgne: a crowded market against an uncontested one.\nCrowded: Red Ocean. Dominated by big established players; price wars are common.\nFragmented: Many small and medium players; none controls the market.\nOpen: Blue Ocean. Very few direct competitors; the niche is new.",
    "lines": 16,
@@ -686,7 +686,7 @@
    ]
   },
   {
-   "label": "How comfortable are they with online tools?",
+   "label": "How comfortable are your customers online?",
    "place": "tile dialog",
    "text": "How easily they use websites, apps and online payment, not whether they own a device.",
    "lines": 5,
@@ -700,7 +700,7 @@
    ]
   },
   {
-   "label": "Where do they find and check new products?",
+   "label": "Where do your customers discover new products?",
    "place": "tile dialog",
    "text": "Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn.\nWhat you tick here is offered on the Profile as related platforms to choose from.\nChoose up to three.",
    "lines": 11,
@@ -714,13 +714,13 @@
    ]
   },
   {
-   "label": "Where do they usually buy?",
+   "label": "Where do your customers usually shop?",
    "place": "tile dialog",
-   "text": "Where most of their purchases start and finish. Choose Online and in shops when they mix the two about equally.",
+   "text": "Where most of their purchases start and finish. Choose Both online and in shops when they mix the two about equally.",
    "lines": 6,
    "points": 1,
    "w": 360,
-   "chars": 111,
+   "chars": 116,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -728,7 +728,7 @@
    ]
   },
   {
-   "label": "How do they prefer to pay?",
+   "label": "How do your customers pay?",
    "place": "tile dialog",
    "text": "Digital wallets are for example Apple Pay, Google Pay and PayPal. Buy Now, Pay Later is for example Klarna and Afterpay.\nInvoicing is asked for business customers only. Credit and Buy Now, Pay Later are not open to minors.\nChoosing a phone as where they buy starts Digital wallets here; change it freely.\nSelect all that apply.",
    "lines": 16,
@@ -742,7 +742,7 @@
    ]
   },
   {
-   "label": "How is the decision to buy made?",
+   "label": "Who decides to buy?",
    "place": "tile dialog",
    "text": "Asked for business customers only. A formal procurement loop reveals the tender row on the Customer Engagement page.\nSelect all that apply.\nOne person decides: The user has the budget and the final say.\nThe team agrees: Users try it and push it upward.\nA manager signs off: Needs formal approval from a manager or executive.\nSeveral departments check: IT or security, legal and finance.\nFormal procurement: A tender or a request for proposals (RFP), with strict compliance.",
    "lines": 23,
@@ -782,7 +782,7 @@
    ]
   },
   {
-   "label": "How old is this typical customer?",
+   "label": "How old is this person?",
    "place": "floating card",
    "text": "An exact age within the Segment's age group, for a typical person of the group, not the average.\nIf the Segment's age group changes and this age is no longer inside it, the age is cleared.",
    "lines": 8,
@@ -795,7 +795,7 @@
    ]
   },
   {
-   "label": "What kind of work do they do?",
+   "label": "What kind of work does this person do?",
    "place": "floating card",
    "text": "The ISCO-08 major groups in plain words: choose the group that fits the role.\nArmed forces: choose the group that fits the role; clergy count as professionals.",
    "lines": 8,
@@ -808,13 +808,13 @@
    ]
   },
   {
-   "label": "What part do they play in the purchase?",
+   "label": "What is this person's role in buying?",
    "place": "floating card",
-   "text": "The five buying-centre roles credited to Webster and Wind (1972).\n\"They will use it\" is the person who uses the offering day to day, who may be neither the one who pays nor the one who decides.",
+   "text": "The five buying-centre roles credited to Webster and Wind (1972).\n\"Will use it\" is the person who uses the offering day to day, who may be neither the one who pays nor the one who decides.",
    "lines": 10,
    "points": 2,
    "w": 360,
-   "chars": 193,
+   "chars": 188,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -834,7 +834,7 @@
    ]
   },
   {
-   "label": "What do they care about most?",
+   "label": "What matters most to this person?",
    "place": "floating card",
    "text": "What matters most to a typical person of the Segment when choosing.\nInterests, lifestyle and aspirations stay in the note.",
    "lines": 7,
@@ -860,7 +860,7 @@
    ]
   },
   {
-   "label": "Which devices do they use?",
+   "label": "Which devices does this person use?",
    "place": "floating card",
    "text": "The devices they use to find and buy, not those they own.\nThe Segment's choice of where they buy starts this; change it freely.",
    "lines": 6,
@@ -873,7 +873,7 @@
    ]
   },
   {
-   "label": "Which social media do they use?",
+   "label": "Which social media does this person use?",
    "place": "floating card",
    "text": "The platforms they actually use, if any.\nTick Other to write one that is not listed.",
    "lines": 6,
@@ -886,7 +886,7 @@
    ]
   },
   {
-   "label": "Which communities do they belong to?",
+   "label": "Which communities does this person belong to?",
    "place": "floating card",
    "text": "Where they ask, read and recommend.\nThe names of the groups stay in the note.",
    "lines": 6,
@@ -912,7 +912,7 @@
    ]
   },
   {
-   "label": "How do they compare their options?",
+   "label": "How does this person compare options?",
    "place": "floating card",
    "text": "How they weigh options before choosing.\nHow they pay and where they buy are the Segment's questions.",
    "lines": 6,
@@ -925,7 +925,7 @@
    ]
   },
   {
-   "label": "How much help do they want before they buy?",
+   "label": "How much help does this person want before buying?",
    "place": "floating card",
    "text": "The help a typical person wants before buying; it can differ from how comfortable the Segment is online.",
    "lines": 5,
@@ -951,7 +951,7 @@
    ]
   },
   {
-   "label": "What are they trying to achieve?",
+   "label": "What are this person's main goals?",
    "place": "floating card",
    "text": "Choose up to three.",
    "lines": 2,
@@ -977,7 +977,7 @@
    ]
   },
   {
-   "label": "What frustrates them today?",
+   "label": "What frustrates this person?",
    "place": "floating card",
    "text": "Choose up to three.",
    "lines": 2,
@@ -1003,7 +1003,7 @@
    ]
   },
   {
-   "label": "What might stop them buying?",
+   "label": "What might stop this person buying?",
    "place": "floating card",
    "text": "Choose up to three.\nStarts with the price where the Segment's household income is Low; change it freely.",
    "lines": 6,
@@ -5768,6 +5768,282 @@
    ]
   },
   {
+   "label": "Global Settings",
+   "place": "settings page",
+   "text": "The rates and limits the calculated lines use. Change one here and every line that uses it follows.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 99,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Plan Start",
+   "place": "settings page",
+   "text": "Month 1 of the financial plan. Every timeline on the Financial Foundation and on Sustainability runs from it.\nWorked out: the earlier of the Opening Date's month (set on the Organization tile) and the month of your earliest cost, a costed card or a legal expense, whichever was recorded first.",
+   "lines": 12,
+   "points": 2,
+   "w": 360,
+   "chars": 293,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Plan Length",
+   "place": "settings page",
+   "text": "How far ahead the plan looks. Lenders usually ask for the first year month by month and a profit and loss forecast for three years.",
+   "lines": 6,
+   "points": 1,
+   "w": 360,
+   "chars": 131,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Amounts",
+   "place": "settings page",
+   "text": "Excluding Sales Tax: Registered to collect Sales Tax: amounts exclude it. The tax collected is paid to the state and is not revenue.\nIncluding Sales Tax: Amounts are gross, as paid and charged.\nNot registered for Sales Tax: No Sales Tax is charged; Sales Tax paid on purchases is part of their cost.",
+   "lines": 12,
+   "points": 3,
+   "w": 360,
+   "chars": 299,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Income Tax",
+   "place": "settings page",
+   "text": "Income tax on profit. Pass-through businesses (e.g. most sole traders and single-member LLCs) pay it personally, not at business level. For a company, enter the corporate rate; ask your accountant.",
+   "lines": 8,
+   "points": 1,
+   "w": 360,
+   "chars": 197,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Business stages",
+   "place": "settings page",
+   "text": "Today: Planning. Planning: 2 months to the Opening Date (1 Feb 2027). Planning is meant to take 3 months.\nSet by the Opening Date and the durations below: planning before the opening, then launching, managing and growing, each for the time set here. Change the Opening Date, or a duration, to change the stage.\nThe four stages are those of the US Small Business Administration's business guide.\nPlanning: How long the planning is meant to take, counted back from the Opening Date (the Review says when it has run longer). A business with no Opening Date yet is planning.\nLaunching: From the Opening Date: the first customers, the MVP, the proof that the market accepts it. The Early Positioning Statement is proved or changed within it.\nManaging: After Launching: stabilising, keeping customers, product-market fit. The Core Market Positioning stands for it.\nGrowing: After Managing: scaling and expanding into new markets. The Corporate & Portfolio Positioning looks as far ahead.",
+   "lines": 40,
+   "points": 7,
+   "w": 360,
+   "chars": 981,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Opening Date",
+   "place": "settings page",
+   "text": "The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it.\nThe stage also sets the name of the Positioning tile and how many choices each of its questions allows. When a new date moves the business into another stage, an answer that no longer fits goes back to empty.\nThe days from the plan's start to the day before it are the pre-operational period: every cost is split around it by its own dates.",
+   "lines": 19,
+   "points": 3,
+   "w": 360,
+   "chars": 455,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Planning duration",
+   "place": "settings page",
+   "text": "How long the planning is meant to take, counted back from the Opening Date (the Review says when it has run longer). A business with no Opening Date yet is planning.",
+   "lines": 7,
+   "points": 1,
+   "w": 360,
+   "chars": 165,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Launching duration",
+   "place": "settings page",
+   "text": "From the Opening Date: the first customers, the MVP, the proof that the market accepts it. The Early Positioning Statement is proved or changed within it.",
+   "lines": 7,
+   "points": 1,
+   "w": 360,
+   "chars": 154,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Managing duration",
+   "place": "settings page",
+   "text": "After Launching: stabilising, keeping customers, product-market fit. The Core Market Positioning stands for it.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 111,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Growing duration",
+   "place": "settings page",
+   "text": "After Managing: scaling and expanding into new markets. The Corporate & Portfolio Positioning looks as far ahead.",
+   "lines": 6,
+   "points": 1,
+   "w": 360,
+   "chars": 113,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Employer on-cost coefficient",
+   "place": "settings page",
+   "text": "Added to the gross salaries, for the country. It differs by country.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 68,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Insurance per employee",
+   "place": "settings page",
+   "text": "An amount a month, for key-person and health cover.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 51,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Corporate income tax rate",
+   "place": "settings page",
+   "text": "A rate on net profit.",
+   "lines": 2,
+   "points": 1,
+   "w": 360,
+   "chars": 21,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Capitalisation limit",
+   "place": "settings page",
+   "text": "A purchase of one unit at or above it is CapEx; below it, OpEx.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 63,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Useful Life",
+   "place": "settings page",
+   "text": "What it is: The years an asset serves the business before it is worn out, outdated or replaced.\nWhat it does: The cost (CapEx) is spread over those years instead of being counted in the year of purchase.\nA group has one useful life in years; an asset of the group can have its own under it, and an empty one takes the group's.\nSource: Texas DFPS, “State Property Class Codes”",
+   "lines": 17,
+   "points": 4,
+   "w": 360,
+   "chars": 375,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Royalty on sales",
+   "place": "settings page",
+   "text": "The default rate; a card may set its own for its contract.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 58,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Affiliate network or influencer commission",
+   "place": "settings page",
+   "text": "The default rate.",
+   "lines": 2,
+   "points": 1,
+   "w": 360,
+   "chars": 17,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Sales agent or B2B broker commission",
+   "place": "settings page",
+   "text": "The default rate.",
+   "lines": 2,
+   "points": 1,
+   "w": 360,
+   "chars": 17,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Startup Contingency Fund",
+   "place": "settings page",
+   "text": "A share of the Total Pre-operational Budget, 10 to 15%. It is held when operations start.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 89,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Operational Contingency Fund",
+   "place": "settings page",
+   "text": "A share of a month's OpEx, 3 to 5%, set aside each month after the launch until the target is reached. A cash set-aside, not an expense.",
+   "lines": 6,
+   "points": 1,
+   "w": 360,
+   "chars": 136,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Target operating reserve",
+   "place": "settings page",
+   "text": "Months of OpEx the Operational Contingency Fund builds up to. 3 by default; an investor may ask for 6.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 102,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
+   "label": "Channel Fee Table",
+   "place": "settings page",
+   "text": "What each channel takes of its sales: revenue x (commission + chargeback allowance) + the fixed fee x orders. The rates are examples; edit them once here.",
+   "lines": 7,
+   "points": 1,
+   "w": 360,
+   "chars": 154,
+   "scenes": [
+    "Global Settings"
+   ]
+  },
+  {
    "label": "Early Positioning",
    "place": "tile dialog",
    "text": "Who is your target audience?\nWhich market or category do you belong to?\nHow are you different from competitors?",
@@ -6162,6 +6438,142 @@
    "chars": 452,
    "scenes": [
     "Identity System / 2. Legal Entity / tile Registrations / card 1"
+   ]
+  },
+  {
+   "label": "Current Situation",
+   "place": "tile dialog",
+   "text": "What do you sell, and who uses it? (3. Business System → 1. Foundation: Offerings and Customer Segments)\nHow do people discover and reach you? (3. Business System → 2. Customer Engagement: Customer Channels)\nHow are you supported financially today? (3. Business System → 4. Financial Foundation: Costs and funding; 5. Sustainability: Revenue and break even)",
+   "lines": 16,
+   "points": 3,
+   "w": 360,
+   "chars": 357,
+   "scenes": [
+    "Strategy System / main / tile Current Situation"
+   ]
+  },
+  {
+   "label": "Refresh",
+   "place": "tile dialog",
+   "text": "Filled in from the Business System. Edit it freely.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 51,
+   "scenes": [
+    "Strategy System / main / tile Current Situation"
+   ]
+  },
+  {
+   "label": "Strategic Compass",
+   "place": "tile dialog",
+   "text": "Where do you want your organization to be heading, and what do you want it to build, become, or achieve over the long term?\nChoose a time horizon far enough ahead to give your strategy direction, yet close enough for your organization to make meaningful decisions about.\nThe Vision is the goal; the Compass is the route.: A future in which every small professional firm can use automation and AI as safely and confidently as a large one. Ten years from now, Quillfield is a trusted name for practical automation among small firms across the north-east United States: a small team of automation specialists, a library of proven and well-documented workflows, and hundreds of client firms whose staff spend their days on skilled work rather than admin. Success means clients who stay for years, recommend us to their peers and never feel locked in.",
+   "lines": 34,
+   "points": 3,
+   "w": 360,
+   "chars": 846,
+   "scenes": [
+    "Strategy System / main / tile Strategic Compass"
+   ]
+  },
+  {
+   "label": "Strategic Period",
+   "place": "tile dialog",
+   "text": "Choose a start and an end: three to five years.\nName 3 to 5 Strategic Themes: broad areas the organisation intends to develop during the strategic period.\nSay briefly why each Theme matters.",
+   "lines": 11,
+   "points": 3,
+   "w": 360,
+   "chars": 190,
+   "scenes": [
+    "Strategy System / main / tile Strategic Period",
+    "Strategy System / main / tile Strategic Period / card 1",
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "label": "Adding Themes",
+   "place": "tile dialog",
+   "text": "Growth & Market: Focus on expanding the organisation's customer base, market presence, reach, or overall scale.\nCustomers & Experience: Focus on acquiring, retaining, understanding, and creating greater value for customers, including improving their overall experience.\nProducts & Innovation: Focus on developing, improving, expanding, or innovating the organisation's products, services, offerings, or intellectual property.\nRevenue & Financial Sustainability: Focus on building sustainable revenue, improving profitability, managing costs, strengthening cash flow, and achieving financial stability.\nBrand & Positioning: Focus on strengthening brand recognition, differentiation, reputation, market positioning, and the organisation's relationship with its audience.\nOperations & Capability: Focus on improving operational efficiency and developing the people, systems, technology, resources, and capabilities required to execute the strategy.\nPartnerships & Expansion: Focus on developing strategic partnerships, entering new markets or locations, and creating new opportunities through external relationships.",
+   "lines": 35,
+   "points": 7,
+   "w": 480,
+   "chars": 1113,
+   "scenes": [
+    "Strategy System / main / tile Strategic Period",
+    "Strategy System / main / tile Strategic Period / card 1",
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "label": "Theme",
+   "place": "tile dialog",
+   "text": "A broad area the organisation intends to develop during the Strategic Period (for example Financial Stability, or a Recurring Client Base). A Theme holds Goals; a Goal holds Objectives, and an Objective its Initiatives and Metrics.",
+   "lines": 8,
+   "points": 1,
+   "w": 360,
+   "chars": 231,
+   "scenes": [
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "label": "Goal",
+   "place": "tile dialog",
+   "text": "What do you want to accomplish within each Strategic Theme, and why does it matter?",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 83,
+   "scenes": [
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "label": "Objective",
+   "place": "tile dialog",
+   "text": "Specific, measurable, and time-bound milestones that support a Goal.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 68,
+   "scenes": [
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "label": "Initiatives",
+   "place": "tile dialog",
+   "text": "Actions focused on major areas of work to achieve the Objectives.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 65,
+   "scenes": [
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "label": "Metric",
+   "place": "tile dialog",
+   "text": "Measures that provide evidence of progress toward the Objective.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 64,
+   "scenes": [
+    "Strategy System / main / tile Strategic Period / card 2"
+   ]
+  },
+  {
+   "label": "SWOT Analysis",
+   "place": "tile dialog",
+   "text": "Strengths and Weaknesses: inside your organization.\nOpportunities and Threats: outside, in your market.\nThink of resources, skills, customers, competition and technology.",
+   "lines": 10,
+   "points": 3,
+   "w": 360,
+   "chars": 170,
+   "scenes": [
+    "Strategy System / main / tile SWOT Analysis"
    ]
   }
  ]

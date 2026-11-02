@@ -284,21 +284,21 @@ The ids of the earlier design are kept here because other documents cite them. W
 
 | Id | Question | Now |
 |---|---|---|
-| P1 | How old is this typical customer? | doc 36, A1 |
-| P5 | What is their gender? | A2 |
-| P6 | What kind of work do they do? | A3 |
-| P9 | What do they care about most? (up to 3, list L1) | B1 |
+| P1 | How old is this person? | doc 36, A1 |
+| P5 | What is this person's gender? | A2 |
+| P6 | What is this person's job role? | A3 |
+| P9 | What matters most to this person? (up to 3, list L1) | B1 |
 | P11 | Where do they look when they need something like this? (list L6; proposes the **Discover** channels, 7.4) | split into C2 (social media), C3 (communities) and C4 (events) |
-| P12 | How do they compare their options? (proposes **Evaluate** channels, 7.4) | D1 |
+| P12 | How does this person compare options? (proposes **Evaluate** channels, 7.4) | D1 |
 | P13 | How do they usually buy? (proposes **Purchase** channels; reveals the "Contracts or tenders" demand row) | not asked: the Segment asks where they buy (doc 35) |
 | P14 | How do they like to pay? (list L13; proposes the Direct Payment subchannels, 7.4) | not asked: the Segment asks how they pay |
-| P15 | Which devices do they use? (list L15) | C1 |
-| P16 | How comfortable are they with online tools? | not asked: the Segment asks it; the app never infers it from age |
-| P17 | What are they trying to achieve? (list L4) | E1 |
-| P18 | What frustrates them today? (list L3) | E2 |
-| P19 | What might stop them buying? (list L2; the Offering ticks the worries it answers, O8) | E3 |
-| P20 | How much help do they want before they buy? | D2 |
-| P21 | What part do they play in the purchase? (the five buying-centre roles of Webster and Wind, 1972 [CHN-02]) | A5 |
+| P15 | Which devices does this person use? (list L15) | C1 |
+| P16 | How comfortable are your customers online? | not asked: the Segment asks it; the app never infers it from age |
+| P17 | What are this person's main goals? (list L4) | E1 |
+| P18 | What frustrates this person? (list L3) | E2 |
+| P19 | What might stop this person buying? (list L2; the Offering ticks the worries it answers, O8) | E3 |
+| P20 | How much help does this person want before buying? | D2 |
+| P21 | What is this person's role in buying? (the five buying-centre roles of Webster and Wind, 1972 [CHN-02]) | A5 |
 | P22 | How is the decision made? | not asked: the Segment asks how the decision is authorized; A5 says what part this person plays |
 | P24 | Which kind of business is it? (the level-2 list of the industry, doc 34, 5.4) | A4 (not built) |
 

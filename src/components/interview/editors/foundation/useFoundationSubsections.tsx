@@ -12,7 +12,7 @@ import { BusinessAddButton, BusinessCard, BusinessRemove, BusinessTicks, Optiona
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
-import { type ProfileBox, type ProfileQuestion, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileQuestionsOf, profileSettle, profileShown } from "../../../../framework/engine/ProfileQuestions.ts";
+import { type ProfileBox, type ProfileQuestion, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileWho, profileQuestionsOf, profileSettle, profileShown } from "../../../../framework/engine/ProfileQuestions.ts";
 import { type SegmentBox, type SegmentQuestion, segmentChoose, segmentOptions, segmentQuestionsOf, segmentRowChoice, segmentSettle, segmentSettledNotes } from "../../../../framework/engine/SegmentQuestions.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
 import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
@@ -339,6 +339,7 @@ export function useFoundationSubsections(earlier: Earlier) {
 
         /** One question of a Profile box: as the Segment's are drawn (a radio, ticks or the number of the age), against what the Segment answered. */
         const profileQuestionOf = (profile: BusinessCustomerProfileValue, profileIndex: number, shown: Record<string, string[]>, question: ProfileQuestion) => {
+            const label = profileWho(question.label, shown.a2?.[0]);
             const ageRange = question.number ? profileAgeRange(segment.questions) : null;
             const chosen = shown[question.id] ?? [];
             const write = (next: Record<string, string[]>) => updateProfile(segmentIndex, profileIndex, { questions: profileSettle(next, segment.questions, asked) });
@@ -349,7 +350,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                     key={question.id}
                     pair
                     fullList
-                    label={question.label}
+                    label={label}
                     info={[...question.info]}
                     labelNote={question.max !== undefined ? <span className="business-foundation-tick-note">{question.max + " max"}</span> : question.number && ageRange ? <span className="business-foundation-tick-note">{ageRange[1] >= 130 ? ageRange[0] + " or older" : ageRange[0] + "–" + (ageRange[1] - 1)}</span> : undefined}
                 >
@@ -357,7 +358,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                         // (A number stands beside its label, on the label's line, at the right end of the band: see .business-profile-age.)
                         ? (
                             <ProfileAgeCell
-                                                                label={question.label}
+                                                                label={label}
                                 disabled={disabled}
                                 value={chosen[0] ?? ""}
                                 onType={(typed) => updateProfile(segmentIndex, profileIndex, { questions: typed ? { ...profileSettle({ ...shown, [question.id]: [typed] }, segment.questions, asked), [question.id]: [typed] } : profileSettle({ ...shown, [question.id]: [] }, segment.questions, asked) })}
@@ -367,13 +368,13 @@ export function useFoundationSubsections(earlier: Earlier) {
                         : question.many
                             ? (
                                 <>
-                                    <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={question.label}>
-                                        <BusinessTicks name={question.label} disabled={disabled} options={options} chosen={chosen} max={question.max} onChange={choose} />
+                                    <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={label}>
+                                        <BusinessTicks name={label} disabled={disabled} options={options} chosen={chosen} max={question.max} onChange={choose} />
                                     </div>
                                     {question.other && chosen.includes("other") && (
                                         <StrategyTextArea
                                             className="interview-input business-foundation-note"
-                                            ariaLabel={question.label + " Other"}
+                                            ariaLabel={label + " Other"}
                                             disabled={disabled}
                                             value={shown[question.id + "-other"]?.[0] ?? ""}
                                             onChange={(next) => write({ ...shown, [question.id + "-other"]: [next] })}
@@ -382,8 +383,8 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 </>
                             )
                             : segmentRowChoice({ ...question, box: "demographics" } as unknown as SegmentQuestion, options)
-                                ? <FittingRadioChoice label={question.label} group={profile.id + "-" + question.id} disabled={disabled} value={chosen[0] ?? ""} onChange={(next) => choose([next])} options={options} />
-                                : <RadioChoice label={question.label} group={profile.id + "-" + question.id} className="legal-entity-radio-stack" disabled={disabled} value={chosen[0] ?? ""} onChange={(next) => choose([next])} options={options} />}
+                                ? <FittingRadioChoice label={label} group={profile.id + "-" + question.id} disabled={disabled} value={chosen[0] ?? ""} onChange={(next) => choose([next])} options={options} />
+                                : <RadioChoice label={label} group={profile.id + "-" + question.id} className="legal-entity-radio-stack" disabled={disabled} value={chosen[0] ?? ""} onChange={(next) => choose([next])} options={options} />}
                 </FieldRow>
             );
         };

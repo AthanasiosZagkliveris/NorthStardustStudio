@@ -49,8 +49,8 @@ export type SegmentAnswers = Record<string, string[]>;
 
 /** The work situation is asked in two steps: working or not, then what the non-working situation is. */
 const WORKING = [
-    { id: "working", label: "Working" },
-    { id: "notworking", label: "Not currently working" }
+    { id: "working", label: "Yes" },
+    { id: "notworking", label: "No" }
 ] as const;
 
 const NOT_WORKING = [
@@ -61,13 +61,13 @@ const NOT_WORKING = [
     { id: "unable", label: "Unable to work (illness / disability)" }
 ] as const;
 
-const WORKING_INFO = ["Working includes full-time, part-time, contract and self-employed roles.", "Not currently working opens a second question about their main daily role."];
-const NOT_WORKING_INFO = ["Choose their dominant daily role.", "Unable to work: sidelined from the workforce by a chronic medical condition, long-term illness or disability. They typically live on fixed support incomes."];
+const WORKING_INFO = ["Yes includes working full-time, part-time, on contract or self-employed.", "No opens a second question about why they are not working."];
+const NOT_WORKING_INFO = ["Choose the main reason.", "Unable to work: sidelined from the workforce by a chronic medical condition, long-term illness or disability. They typically live on fixed support incomes."];
 
 const COMFORT = [
-    { id: "averse", label: "Not comfortable / Traditional" },
-    { id: "moderate", label: "Comfortable" },
-    { id: "savvy", label: "Very comfortable / Digital native" }
+    { id: "averse", label: "Not very comfortable" },
+    { id: "moderate", label: "Fairly comfortable" },
+    { id: "savvy", label: "Very comfortable" }
 ] as const;
 
 const ORG_TYPES = [
@@ -78,10 +78,10 @@ const ORG_TYPES = [
 ] as const;
 
 const ORG_SIZES = [
-    { id: "micro", label: "Micro business (1 to 9 employees)" },
-    { id: "small", label: "Small business (10 to 49 employees)" },
-    { id: "medium", label: "Medium-sized business (50 to 249 employees)" },
-    { id: "large", label: "Large enterprise (250+ employees)" }
+    { id: "micro", label: "Micro, 1–9 employees" },
+    { id: "small", label: "Small, 10–49 employees" },
+    { id: "medium", label: "Medium-sized, 50–249 employees" },
+    { id: "large", label: "Large, 250+ employees" }
 ] as const;
 
 /** The six classes of industries, each over the industries of document 28 (G15) that sit in it. */
@@ -110,7 +110,7 @@ export const SEGMENT_INDUSTRIES: readonly (SegmentOption & { sector: string })[]
     { id: "professional", sector: "tech", label: "Professional, scientific and technical services" },
     { id: "admin", sector: "tech", label: "Administrative and support services" },
     { id: "government", sector: "human", label: "Government and public administration" },
-    { id: "education", sector: "human", label: "Education and training" },
+    { id: "education", sector: "human", label: "What is your customers' highest level of education?" },
     { id: "health", sector: "human", label: "Health and social care" },
     { id: "other", sector: "human", label: "Other services" }
 ];
@@ -139,7 +139,7 @@ const USER_AGES = [
     { id: "dependent", stage: "age:senior", label: "Dependent seniors 75+" }
 ] as const;
 
-/** The job levels (the ISCO-08 major groups in plain words): the Segment's user question and the Profile's "What kind of work do they do?" take this one list, so the words are written once. */
+/** The job levels (the ISCO-08 major groups in plain words): the Segment's user question and the Profile's "What is their job role?" take this one list, so the words are written once. */
 export const JOB_LEVELS = [
     { id: "owner", label: "Owner / senior executive" },
     { id: "manager", label: "Manager" },
@@ -149,14 +149,14 @@ export const JOB_LEVELS = [
     { id: "operator", label: "Operator / labourer" }
 ] as const;
 
-const AGE_NOTE = "The ages are approximate (~): each runs from the first number up to, but not including, the second.";
+const AGE_NOTE = "Each age group holds the years from its first number to its last, both included, so no age is in two groups (25–39, then 40–54).";
 
 const RAW_QUESTIONS: readonly SegmentQuestion[] = [
 
     /* ---- Box 1, Demographics ---- */
 
     {
-        id: "age", box: "demographics", label: "What age group are the people who pay?", many: false,
+        id: "age", box: "demographics", label: "How old are your customers?", many: false,
         options: BUYER_AGES.map(({ id, label }) => ({ id, label })),
         info: [
             "Minors, semi-dependent: Mid and Late Adolescence, with limited buying power; mostly cash, wallets and gift cards.",
@@ -166,7 +166,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         ]
     },
     {
-        id: "education", box: "demographics", label: "What is the highest level of education most of them have reached?", many: false,
+        id: "education", box: "demographics", label: "What is their highest level of education?", many: false,
         options: [
             { id: "school", label: "Did not finish high school" },
             { id: "highschool", label: "High school" },
@@ -182,17 +182,17 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         ]
     },
     {
-        id: "work", name: "Work status", box: "demographics", label: "Are they working?", many: false,
+        id: "work", name: "Work status", box: "demographics", label: "Are your customers working?", many: false,
         options: WORKING,
         info: [...WORKING_INFO, "Choosing an age group starts this with the one that goes with it; change it freely."]
     },
     {
-        id: "work2", name: "Non-working situation", box: "demographics", label: "What best describes their situation?", many: false,
+        id: "work2", name: "Non-working situation", box: "demographics", label: "Why are your customers not working?", many: false,
         options: NOT_WORKING,
         info: NOT_WORKING_INFO
     },
     {
-        id: "workenv", box: "demographics", label: "Where do they mainly work?", many: false,
+        id: "workenv", box: "demographics", label: "Where do your customers mainly work?", many: false,
         options: [
             { id: "remote", label: "At home (Desk-based, remote)" },
             { id: "office", label: "In an office" },
@@ -202,7 +202,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         info: ["Where they spend most of their working hours.", "Remote workers are online through the day; frontline and field workers are mobile, with little screen time on shift."]
     },
     {
-        id: "workschedule", box: "demographics", label: "When do they work?", many: false,
+        id: "workschedule", box: "demographics", label: "What is your customers' work schedule?", many: false,
         options: [
             { id: "standard", label: "Standard daytime hours (Traditional 9-to-5, fixed weekdays)" },
             { id: "shift", label: "Shifts / varying hours (Nights, weekends, rotating rosters)" },
@@ -211,16 +211,16 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         info: ["When they are free to shop and to be reached. Standard daytime workers shop at lunch and in the evening; shift workers have a very different daily routine."]
     },
     {
-        id: "workincome", box: "demographics", label: "How is their income paid?", many: false,
+        id: "workincome", box: "demographics", label: "How are your customers paid?", many: false,
         options: [
             { id: "salary", label: "Fixed salary (Predictable monthly/bi-weekly paycheck)" },
             { id: "hourly", label: "Hourly wage (Fluctuating based on scheduled shifts)" },
-            { id: "variable", label: "Variable (Freelance invoices, commission, seasonal contracts)" }
+            { id: "variable", label: "Variable pay (Freelance invoices, commission, seasonal contracts)" }
         ],
         info: ["How steady their pay is, not how much it is (that is the household income below).", "A fixed salary suits regular subscriptions; variable or hourly earners feel sudden cash-flow dips."]
     },
     {
-        id: "income", box: "demographics", label: "How would you describe their household income?", many: false,
+        id: "income", box: "demographics", label: "How high is your customers' household income?", many: false,
         options: [
             { id: "low", label: "Low" },
             { id: "lower-middle", label: "Lower-middle" },
@@ -231,7 +231,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         info: ["Compare with the typical household income in their country: Middle is around the median, Low and High are the ends.", "Household income is what the home earns together, not one person's pay."]
     },
     {
-        id: "gender", box: "demographics", label: "What is the usual gender mix of your customers?", many: false,
+        id: "gender", box: "demographics", label: "What is the gender mix of your customers?", many: false,
         options: [
             { id: "men", label: "Mostly men (80%+)" },
             { id: "leans-men", label: "Leans men (60–80%)" },
@@ -256,7 +256,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         info: ["The widest area most of your customers are spread over, now or as you plan it. If it is more than one, make another Segment."]
     },
     {
-        id: "area", box: "geographics", label: "Where do they live or work?", many: false,
+        id: "area", box: "geographics", label: "Where do your customers live or work?", many: false,
         options: [
             { id: "urban", label: "Urban (High-density city center)" },
             { id: "suburban", label: "Suburban (Residential towns surrounding a city)" },
@@ -268,7 +268,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     /* ---- Box 3, Business Data ---- */
 
     {
-        id: "orgtype", name: "Type of organisation", box: "business-data", label: "What type of organisation are they?", many: false,
+        id: "orgtype", name: "Type of organisation", box: "business-data", label: "What kind of organisation are your customers?", many: false,
         options: ORG_TYPES,
         info: [
             "Private business includes co-operatives. A social enterprise belongs here or under non-profit, by how it is owned.",
@@ -278,17 +278,17 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         ]
     },
     {
-        id: "size", name: "Size", box: "business-data", label: "How big are these organisations?", many: false,
+        id: "size", name: "Size", box: "business-data", label: "How big are your customers' organisations?", many: false,
         options: ORG_SIZES,
         info: ["The EU's definition of small and medium-sized enterprises: micro under 10 employees, small under 50, medium-sized under 250.", "Countries define them a little differently; the United States and Canada use other limits.", "The sizes follow the scale chosen in Positioning."]
     },
     {
-        id: "sector", box: "business-data", label: "Which sector are they in?", many: false,
+        id: "sector", box: "business-data", label: "Which sector are your customers in?", many: false,
         options: SEGMENT_SECTORS,
         info: ["Six classes over the industries below. If they work in more than one industry, make another Segment."]
     },
     {
-        id: "industry", box: "business-data", label: "Which industry are they in?", many: false,
+        id: "industry", box: "business-data", label: "Which industry are your customers in?", many: false,
         options: SEGMENT_INDUSTRIES,
         info: [
             "The industries of the sector chosen, as the official schemes (SIC and NACE, NAICS, ANZSIC) name their sections.",
@@ -299,12 +299,12 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     /* ---- Box 4, Purchasing Power & Behaviour ---- */
 
     {
-        id: "comfort", box: "purchasing", label: "How comfortable are they with online tools?", many: false,
+        id: "comfort", box: "purchasing", label: "How comfortable are your customers online?", many: false,
         options: COMFORT,
         info: ["How easily they use websites, apps and online payment, not whether they own a device."]
     },
     {
-        id: "discover", box: "purchasing", label: "Where do they find and check new products?", many: true, max: 3,
+        id: "discover", box: "purchasing", label: "Where do your customers discover new products?", many: true, max: 3,
         options: [
             { id: "peers", label: "Friends, family and colleagues" },
             { id: "communities", label: "Online communities / forums" },
@@ -319,7 +319,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         ]
     },
     {
-        id: "social", box: "purchasing", label: "How do they spend their social time?", many: false,
+        id: "social", box: "purchasing", label: "How do your customers like to socialise?", many: false,
         options: [
             { id: "digital", label: "Mostly online (Gaming, community servers, chat apps)" },
             { id: "mixed", label: "Online and in person" },
@@ -329,7 +329,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         info: ["Where they spend their free time. It decides how they meet brands and products."]
     },
     {
-        id: "share", box: "purchasing", label: "How do they share what they like?", many: true,
+        id: "share", box: "purchasing", label: "How do your customers share what they like?", many: true,
         options: [
             { id: "public", label: "They post it publicly on social media" },
             { id: "private", label: "They send it to friends in private chats" },
@@ -339,36 +339,36 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         info: ["Private chat apps are for example WhatsApp and iMessage. \"They rarely share what they buy\" excludes the other three."]
     },
     {
-        id: "trigger", box: "purchasing", label: "What usually starts them shopping?", many: true, max: 2,
+        id: "trigger", box: "purchasing", label: "What makes your customers go shopping?", many: true, max: 2,
         options: [
-            { id: "boredom", label: "Boredom / Entertainment (Browsing feeds, window shopping)" },
+            { id: "boredom", label: "Boredom / entertainment (Browsing feeds, window shopping)" },
             { id: "proof", label: "Seeing a friend or creator use it" },
-            { id: "need", label: "Immediate necessity / specific problem" },
-            { id: "seasonal", label: "Seasonal trends / sales / planned gifts" }
+            { id: "need", label: "A need / problem to solve" },
+            { id: "seasonal", label: "Sales / seasons / planned gifts" }
         ],
         info: ["Choose up to two."]
     },
     {
-        id: "path", box: "purchasing", label: "How do they usually decide to buy?", many: false,
+        id: "path", box: "purchasing", label: "How do your customers usually decide to buy?", many: false,
         options: [
-            { id: "impulse", label: "Impulse buyer: Sees it, likes it, buys it at once" },
-            { id: "researcher", label: "Researcher: Compares at length before buying" },
-            { id: "validator", label: "Validator: Asks a friend or checks reviews before paying" }
+            { id: "impulse", label: "On impulse: They see it, like it and buy it at once" },
+            { id: "researcher", label: "After research: They compare at length before buying" },
+            { id: "validator", label: "After asking others: They ask a friend or check reviews first" }
         ],
         info: ["Their usual way of buying, the one that fits most of them."]
     },
     {
-        id: "setting", box: "purchasing", label: "Where do they usually buy?", many: false,
+        id: "setting", box: "purchasing", label: "Where do your customers usually shop?", many: false,
         options: [
-            { id: "mobile", label: "On a phone" },
-            { id: "desktop", label: "On a computer" },
+            { id: "mobile", label: "Online, on a phone" },
+            { id: "desktop", label: "Online, on a computer" },
             { id: "store", label: "In a shop" },
-            { id: "multi", label: "Online and in shops" }
+            { id: "multi", label: "Both online and in shops" }
         ],
-        info: ["Where most of their purchases start and finish. Choose Online and in shops when they mix the two about equally."]
+        info: ["Where most of their purchases start and finish. Choose Both online and in shops when they mix the two about equally."]
     },
     {
-        id: "pay", box: "purchasing", label: "How do they prefer to pay?", many: true,
+        id: "pay", box: "purchasing", label: "How do your customers pay?", many: true,
         options: [
             { id: "card", label: "Credit / debit card" },
             { id: "wallet", label: "Digital wallets" },
@@ -383,7 +383,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         ]
     },
     {
-        id: "authorise", name: "Decision", box: "purchasing", label: "How is the decision to buy made?", many: true,
+        id: "authorise", name: "Decision", box: "purchasing", label: "Who decides to buy?", many: true,
         options: [
             { id: "solo", label: "One person decides: The user has the budget and the final say." },
             { id: "champions", label: "The team agrees: Users try it and push it upward." },
@@ -397,7 +397,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     /* ---- Box 5, Market Size & Industry Outlook ---- */
 
     {
-        id: "trajectory", box: "market-size", label: "Where is their industry or niche heading?", many: false,
+        id: "trajectory", box: "market-size", label: "Is your market growing or shrinking?", many: false,
         options: [
             { id: "expanding", label: "Growing fast (Emerging market, high year-on-year growth)" },
             { id: "growing", label: "Growing steadily (Mature market, predictable upward trend)" },
@@ -407,28 +407,28 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         info: ["Where the market is heading, apart from its size: a market can be large and declining, or small and expanding fast."]
     },
     {
-        id: "tam", box: "market-size", label: "How many potential customers are there in all (your Total Addressable Market, TAM)?", many: false,
+        id: "tam", box: "market-size", label: "How many potential customers are there (TAM)?", many: false,
         options: [
-            { id: "micro", label: "Very small niche (Fewer than 1,000 potential customers)" },
-            { id: "boutique", label: "Specialist (1,000 to 50,000 potential customers)" },
-            { id: "mid", label: "Mid-market (50,000 to 500,000 potential customers)" },
-            { id: "mass", label: "Mass market (500,000+ potential customers)" }
+            { id: "micro", label: "Very small niche, under 1,000" },
+            { id: "boutique", label: "Specialist, 1,000–49,999" },
+            { id: "mid", label: "Mid-market, 50,000–499,999" },
+            { id: "mass", label: "Mass market, 500,000 or more" }
         ],
         info: ["The total number of potential buyers if you had 100% of the market, in the area you serve."]
     },
     {
-        id: "trends", box: "market-size", label: "Which trends affect your buyers most right now?", many: true, max: 2,
+        id: "trends", box: "market-size", label: "What is changing most for your customers?", many: true, max: 2,
         options: [
             { id: "technology", label: "Technology: Automation, AI, old systems being replaced" },
             { id: "regulation", label: "Rules and law: New compliance, tax changes, environmental mandates" },
-            { id: "economy", label: "Money: Inflation, budget cuts, shifts in spending power" },
+            { id: "economy", label: "The economy: Inflation, budget cuts, shifts in spending power" },
             { id: "society", label: "Society and lifestyle: Remote work, sustainability, changing habits" },
             { id: "supply", label: "Supply and delivery: Material shortages, logistics costs, local sourcing" }
         ],
         info: ["Choose up to two."]
     },
     {
-        id: "competition", box: "market-size", label: "How crowded is their market?", many: false,
+        id: "competition", box: "market-size", label: "How crowded is your market?", many: false,
         options: [
             { id: "red", label: "Crowded (Red Ocean): Dominated by big established players; price wars are common." },
             { id: "fragmented", label: "Fragmented: Many small and medium players; none controls the market." },
@@ -440,7 +440,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     /* ---- The user (a Proxy or Dual-Intent buyer) ---- */
 
     {
-        id: "u-age", name: "User's life stage", box: "user", label: "What life stage is the user in?", many: false,
+        id: "u-age", name: "User's life stage", box: "user", label: "How old are your customers?", many: false,
         options: USER_AGES.map(({ id, label }) => ({ id, label })),
         info: [
             "Teenager covers Early Adolescence (11 to 13), Mid (13 to 16) and Late (16 to 18).",
@@ -448,7 +448,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         ]
     },
     {
-        id: "u-school", name: "School stage", box: "user", label: "What school stage are they at?", many: false,
+        id: "u-school", name: "School stage", box: "user", label: "Which school stage are your customers in?", many: false,
         options: [
             { id: "early", label: "Early years" },
             { id: "primary", label: "Primary school" },
@@ -457,32 +457,32 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         info: ["Asked of a parent or guardian, and of a caregiver, who buy for a child. Secondary school is not offered for a Baby or a Child."]
     },
     {
-        id: "u-work", box: "user", label: "Are they working?", many: false,
+        id: "u-work", box: "user", label: "Are your customers working?", many: false,
         options: WORKING,
         info: ["The same question as for the buyer, asked of the user: an adult the buyer is related to, or sponsors.", ...WORKING_INFO]
     },
     {
-        id: "u-work2", box: "user", label: "What best describes their situation?", many: false,
+        id: "u-work2", box: "user", label: "Why are your customers not working?", many: false,
         options: NOT_WORKING,
         info: NOT_WORKING_INFO
     },
     {
-        id: "u-job", box: "user", label: "What kind of work do they do?", many: false,
+        id: "u-job", box: "user", label: "What kind of work do your customers do?", many: false,
         options: JOB_LEVELS,
         info: ["The ISCO-08 major groups, in plain words."]
     },
     {
-        id: "u-orgtype", box: "user", label: "What type of organisation are their clients?", many: false,
+        id: "u-orgtype", box: "user", label: "What kind of organisation are their clients?", many: false,
         options: ORG_TYPES,
         info: ["Asked of a business serving clients and of a professional intermediary."]
     },
     {
-        id: "u-size", box: "user", label: "How big are the clients' organisations?", many: false,
+        id: "u-size", box: "user", label: "How big are their clients' organisations?", many: false,
         options: ORG_SIZES,
         info: ["Skipped for self-employed clients."]
     },
     {
-        id: "u-comfort", box: "user", label: "How comfortable are they with online tools?", many: false,
+        id: "u-comfort", box: "user", label: "How comfortable are your customers online?", many: false,
         options: COMFORT,
         info: ["How easily they use websites, apps and online payment, not whether they own a device."]
     }
@@ -692,7 +692,16 @@ export function segmentSettledNotes(box: SegmentBox, answers: SegmentAnswers, co
 /** The questions of one box a Segment is asked and shows, in order: a question with only one option left is not shown (there is nothing to choose); its answer is that option (see segmentSettle). */
 export function segmentQuestionsOf(box: SegmentBox, answers: SegmentAnswers, context: SegmentContext): SegmentQuestion[] {
     return QUESTIONS.filter(question => question.box === box && segmentQuestionAsked(question, answers, context)
-        && segmentOptions(question, answers, context, false).length !== 1);
+        && segmentOptions(question, answers, context, false).length !== 1)
+        .map(question => ({ ...question, label: segmentWho(question.label, question.box, context) }));
+}
+
+/**
+ * Who the questions are about: "your customers" for a direct buyer; for a Proxy or Dual-Intent buyer the buyer is told from the user, so the boxes of the buyer say "your buyers" and the box of the
+ * user says "your users". The questions are written for customers; the documents and the answers' lines keep that word.
+ */
+export function segmentWho(label: string, box: SegmentBox, context: SegmentContext): string {
+    return context.endsUser ? label.replace(/your customers/g, box === "user" ? "your users" : "your buyers") : label;
 }
 
 /** The answers after one question's choice changed: "They don't typically share" and the other ways exclude each other; ticks stay within their limit. */

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { profileChoose, profileQuestionsOf, profileSettle, profileShown, PROFILE_QUESTIONS } from "./ProfileQuestions";
+import { profileChoose, profileQuestionsOf, profileSettle, profileShown, profileWho, PROFILE_QUESTIONS } from "./ProfileQuestions";
 import type { SegmentContext } from "./SegmentQuestions";
 
 const people = { frame: "people", endsUser: false } as unknown as SegmentContext;
@@ -48,4 +48,15 @@ describe("the Profile's questions follow the Segment", () => {
         expect(profileShown({}, { path: ["impulse"] }, people).d1).toBeUndefined();
     });
 
+});
+
+describe("a Profile is one person", () => {
+    it("writes the questions of a woman, of a man, or of a person", () => {
+        expect(profileWho("How old is {s}?", "woman")).toBe("How old is she?");
+        expect(profileWho("What matters most to {o}?", "man")).toBe("What matters most to him?");
+        expect(profileWho("What is {p} job role?", "man")).toBe("What is his job role?");
+        expect(profileWho("Which devices does {s} use?", "woman")).toBe("Which devices does she use?");
+        expect(profileWho("Which devices does {s} use?", "non-binary")).toBe("Which devices does this person use?");
+        expect(profileWho("What is {p} job role?")).toBe("What is this person's job role?");
+    });
 });

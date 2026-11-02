@@ -259,11 +259,11 @@ Each of these edges falls inside or between the owner's stages: 13 and 14 inside
 
 | I7g, what matters most to the End User | Profile P9 tick (list L1) | Profile P17 tick (list L4) |
 |---|---|---|
-| Enjoyment and fun | (none) | Express who they are |
+| Enjoyment and fun | (none) | Self-expression |
 | Comfort and ease | Ease and convenience | Save time |
-| Safety and care | Safety and low risk | Lower their risk |
+| Safety and care | Safety and low risk | Lower risk |
 | Learning and growth | Expert knowledge | Learn something new |
-| Looks and belonging | Shared values or identity | Express who they are |
+| Looks and belonging | Shared values or identity | Self-expression |
 | Practical use | Ease and convenience | Save time |
 
 **Routing of I7f (who chooses) into the Profile's P21, "What part do they play in the purchase":** the Buyer chooses alone gives only "They will use it" (the decision flags stay with the buyer's own Profile); the End User asks and the Buyer approves gives "They will use it" and "They influence the decision"; the End User chooses and the Buyer pays gives "They will use it" and "They make the final decision".

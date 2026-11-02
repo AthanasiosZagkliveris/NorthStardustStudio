@@ -68,8 +68,8 @@ describe("BusinessFoundationEditor industry outlook", () => {
 
         render(<Harness initial={twoProfiles()} />);
 
-        expect(screen.getByRole("radiogroup", { name: "Where is their industry or niche heading?" })).toBeTruthy();
-        expect(screen.getByRole("group", { name: "Which trends affect your buyers most right now?" })).toBeTruthy();
+        expect(screen.getByRole("radiogroup", { name: "Is your market growing or shrinking?" })).toBeTruthy();
+        expect(screen.getByRole("group", { name: "What is changing most for your customers?" })).toBeTruthy();
         expect(screen.queryByLabelText(/Segment 1 description:/)).toBeNull();
         expect(screen.getByRole("button", { name: "Market Size & Industry Outlook: what this means" })).toBeTruthy();
 
@@ -117,14 +117,14 @@ describe("BusinessFoundationEditor follows the Identity answers", () => {
 
     it("asks people's Demographics and not Business Data for a B2C seller", () => {
         render(<Identified identity={identity(["b2c"])} />);
-        expect(screen.queryByRole("radiogroup", { name: "What age group are the people who pay?" })).not.toBeNull();
+        expect(screen.queryByRole("radiogroup", { name: "How old are your customers?" })).not.toBeNull();
         expect(screen.queryByText("Business Data")).toBeNull();
     });
 
     it("asks Business Data without its tick, and not Demographics, for a B2B seller", () => {
         render(<Identified identity={identity(["b2b"])} />);
-        expect(screen.queryByRole("radiogroup", { name: "What age group are the people who pay?" })).toBeNull();
-        expect(screen.queryByRole("radiogroup", { name: "What type of organisation are they?" })).not.toBeNull();
+        expect(screen.queryByRole("radiogroup", { name: "How old are your customers?" })).toBeNull();
+        expect(screen.queryByRole("radiogroup", { name: "What kind of organisation are your customers?" })).not.toBeNull();
         expect(screen.queryByRole("checkbox", { name: /Business Data/ })).toBeNull();
     });
 
@@ -136,8 +136,8 @@ describe("BusinessFoundationEditor follows the Identity answers", () => {
         render(<Held />);
         expect(screen.queryByRole("checkbox", { name: /Business Data/ })).toBeNull();
         expect(screen.queryByRole("radiogroup", { name: "Who is this Segment's customer?" })).toBeNull();
-        expect(screen.queryAllByRole("radiogroup", { name: "What age group are the people who pay?" }).length).toBe(1);
-        expect(screen.queryAllByRole("radiogroup", { name: "How big are these organisations?" }).length).toBe(1);
+        expect(screen.queryAllByRole("radiogroup", { name: "How old are your customers?" }).length).toBe(1);
+        expect(screen.queryAllByRole("radiogroup", { name: "How big are your customers' organisations?" }).length).toBe(1);
     });
 
 });
@@ -152,7 +152,7 @@ describe("BusinessFoundationEditor asks its questions", () => {
             return <BusinessFoundationEditor value={value} onChange={setValue} identity={{ relationships: ["b2c"], marketType: "single", audience: ["adult"] }} />;
         }
         render(<Held />);
-        const ages = screen.getByRole("radiogroup", { name: "What age group are the people who pay?" });
+        const ages = screen.getByRole("radiogroup", { name: "How old are your customers?" });
         expect(Array.from(ages.querySelectorAll("label")).map(label => label.textContent)).toEqual(["Established 25–39", "Peak 40–54", "Mature 55–64"]);
         fireEvent.click(screen.getByRole("radio", { name: "Peak 40–54" }));
         expect(asBusinessFoundationValue(saved).segments[0].questions).toEqual({ age: ["peak"], work: ["working"] });
