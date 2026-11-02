@@ -1133,6 +1133,25 @@
 
 }
 
+/* A SECTION OF THE SEGMENT CARD THAT STANDS ALONE UNDER ITS BOXES (the Profiles' tiles): one column the width of the card, its title band the same as the boxes' (the primary fill, light capitals), a band of its own for what it holds. */
+.legal-entity-grid-organization.legal-entity-audience.business-segment-grid.business-segment-grid-full{
+
+    grid-template-columns:minmax(0, 1fr);
+
+}
+
+.legal-entity-grid-organization.legal-entity-audience.business-segment-grid-full > .legal-entity-field:first-child{
+
+    padding-right:0;
+
+}
+
+.business-segment-grid .business-profiles-band{
+
+    padding-top:var(--space-field);
+
+}
+
 /* THE PROFILE CARD HAS THREE LEVELS, ONE DESIGN FOR EACH. The SECTIONS (Description, Motivations, Needs) are bands on the primary fill with light letters in capitals, in the Segment card's title style (18px, regular). The QUESTIONS are the labels over their options, as in the Segment card. BETWEEN them, the SUBSECTIONS (the boxes: Specific Personal Information, Psychographics, Goals & Desires ...) are lighter: a band on a tint of the primary fill with a 4px primary bar at its left and the title a size under the section's, in bold capitals spaced wide, in the title ink. */
 .floating-card-body .column-tile-content > .business-foundation-card > .business-group-fold-head{
 

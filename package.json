@@ -32,6 +32,7 @@
     "export:app": "node tools/scripts/export/app.mjs",
     "check:console": "node tools/scripts/layout-check/console-walk.mjs",
     "check:layout": "node tools/scripts/layout-check/run.mjs --quick",
+    "check:card": "node tools/scripts/layout-check/floating-card-audit.mjs",
     "check:layout:baseline": "node tools/scripts/layout-check/run.mjs --quick --write-baseline",
     "check:layout:wide": "node tools/scripts/layout-check/run.mjs --wide",
     "check:layout:wide:baseline": "node tools/scripts/layout-check/run.mjs --wide --write-baseline",
