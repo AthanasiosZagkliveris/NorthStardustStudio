@@ -42,8 +42,8 @@ const QUESTIONS: readonly ProfileQuestion[] = [
     },
     {
         id: "a2", box: "personal", label: "What is their gender?", many: false,
-        options: [{ id: "woman", label: "Woman" }, { id: "man", label: "Man" }, { id: "non-binary", label: "Non-binary" }, { id: "other", label: "I would describe it differently" }, { id: "none", label: "Prefer not to say" }],
-        info: ["Asked only when the Segment's mix leans one way, and it starts from the mix.", "Optional: nothing reads it but the note."]
+        options: [{ id: "woman", label: "Woman" }, { id: "man", label: "Man" }, { id: "non-binary", label: "Non-binary" }, { id: "other", label: "Another gender" }],
+        info: ["Asked only when the Segment's mix leans one way, and it starts from the mix.", "Nothing reads it but the note."]
     },
     {
         id: "a3", box: "personal", label: "What kind of work do they do?", many: false, options: JOB_LEVELS,

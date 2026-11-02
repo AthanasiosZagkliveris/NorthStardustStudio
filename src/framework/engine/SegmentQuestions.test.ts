@@ -142,8 +142,8 @@ describe("the Segment's questions", () => {
         expect(asSegmentAnswers({ age: ["minor", "young"], gender: ["nope"], bogus: ["x"], discover: ["peers", "peers", 3] })).toEqual({ age: ["minor"], discover: ["peers"] });
         expect(asSegmentAnswers(null)).toEqual({});
         expect(segmentAnswerLines({ share: ["public", "verbal"], pay: ["card"] })).toEqual([
-            { label: "How do they share their favorite finds or experiences?", value: "Posting publicly on personal social media feeds; Verbally during face-to-face conversations" },
-            { label: "How do they prefer to pay?", value: "Traditional credit / debit card" }
+            { label: "How do they share what they like?", value: "They post it publicly on social media; They tell people in person" },
+            { label: "How do they prefer to pay?", value: "Credit / debit card" }
         ]);
     });
 

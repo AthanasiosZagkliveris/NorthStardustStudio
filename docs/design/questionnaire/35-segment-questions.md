@@ -4,7 +4,7 @@ Status: **specification**, written 2026-11-01, updated 2026-11-02. Every questio
 
 Related: doc 36 (the Profile's questions, in the same form), doc 28 (6.3a, the Segment card in the specification), doc 31 (the age terms), doc 33 (the first version), doc 33 (thoughts, section 6), `src/framework/engine/SegmentQuestions.ts` (where these words are kept; where the two differ, the code is right).
 
-The rules that hold for all of them: a radio is one choice, ticks are several (with a limit where stated); an option says its few words, and what is added in brackets or after a colon (an example, a range, an explanation, a platform or brand) is in the "i" of the question; a box has no free-text note; where they buy on a phone ("Mobile app / Smartphone website") and no way of paying is chosen yet, "Digital wallets" starts ticked, a starting value the user can change; a question that the answers above settle is **answered for the user and not shown** (owner, 2026-11-01): the Positioning scale of a business buyer sets the organisation's type and size; a self-employed customer decides alone; a retiree is not working and retired; a user's age sets the school stage and removes the work and tool questions that do not apply. A question with only one option left is likewise not shown (there is nothing to choose) and its answer is that option; an answer to a question that is no longer asked, or to an option no longer offered, is removed when the next choice is made. Where Identity chose both relationships (or none), there is no Business Data tick (owner, 2026-11-02): a Segment of people has no Business Data and a Segment of businesses has it and no Demographics. Where Positioning chose both B2C and B2B, the first two Segment cards are made for the user, with no question: the first of people (B2C), the second of businesses (B2B); one "+ Segment" button adds more, and a Segment added after them has one question that opens its first box, "Who is this Segment's customer?" (People (B2C), Businesses (B2B)). The kind is kept as the presence of the Business Data key in the Segment's Description and is asked the business's questions only (a Segment is one group, never both). What Positioning or the answers above have set in a box is said in one small line under its title ("Set for you from Positioning and your answers above: Size: no employees."), so an answer that is not asked is never silent. A radio whose options are short (each of 24 characters or fewer, 90 in all) stands in one row where the whole row fits its column and in one column where it does not, never in a row that wraps; the others stand in one column. The starting values (the work situation from the age group, a wallet from a phone) are said in the "i". Where Identity chose no relationship, the buyer is read from the buyer's category, then from the audience (a business scale is a business buyer, a life stage a person). Choosing an age term starts the work situation with the one that goes with it (a minor or a young adult: Student; an established, peak or mature adult: Employed; a retiree: Retired) where none is chosen; the user changes it freely. The two columns are of nearly one height: the boxes are shared between them by their length, each column keeping the order of the boxes. The card is laid out as the Positioning card is (two columns with a divider, each question a band, a double rule between boxes). The box titles are in capitals.
+The rules that hold for all of them: a radio is one choice, ticks are several (with a limit where stated); an option says its few words, and what is added in brackets or after a colon (an example, a range, an explanation, a platform or brand) is in the "i" of the question; a box has no free-text note; where they buy on a phone ("On a phone") and no way of paying is chosen yet, "Digital wallets" starts ticked, a starting value the user can change; a question that the answers above settle is **answered for the user and not shown** (owner, 2026-11-01): the Positioning scale of a business buyer sets the organisation's type and size; a self-employed customer decides alone; a retiree is not working and retired; a user's age sets the school stage and removes the work and tool questions that do not apply. A question with only one option left is likewise not shown (there is nothing to choose) and its answer is that option; an answer to a question that is no longer asked, or to an option no longer offered, is removed when the next choice is made. Where Identity chose both relationships (or none), there is no Business Data tick (owner, 2026-11-02): a Segment of people has no Business Data and a Segment of businesses has it and no Demographics. Where Positioning chose both B2C and B2B, the first two Segment cards are made for the user, with no question: the first of people (B2C), the second of businesses (B2B); one "+ Segment" button adds more, and a Segment added after them has one question that opens its first box, "Who is this Segment's customer?" (People (B2C), Businesses (B2B)). The kind is kept as the presence of the Business Data key in the Segment's Description and is asked the business's questions only (a Segment is one group, never both). What Positioning or the answers above have set in a box is said in one small line under its title ("Set for you from Positioning and your answers above: Size: no employees."), so an answer that is not asked is never silent. A radio whose options are short (each of 24 characters or fewer, 90 in all) stands in one row where the whole row fits its column and in one column where it does not, never in a row that wraps; the others stand in one column. The starting values (the work situation from the age group, a wallet from a phone) are said in the "i". Where Identity chose no relationship, the buyer is read from the buyer's category, then from the audience (a business scale is a business buyer, a life stage a person). Choosing an age term starts the work situation with the one that goes with it (a minor or a young adult: Student; an established, peak or mature adult: Employed; a retiree: Retired) where none is chosen; the user changes it freely. The two columns are of nearly one height: the boxes are shared between them by their length, each column keeping the order of the boxes. The card is laid out as the Positioning card is (two columns with a divider, each question a band, a double rule between boxes). The box titles are in capitals.
 
 
 
@@ -36,32 +36,32 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* The Profile's typical age is chosen within this group, and the Profiles proposed follow it; the Review checks the online-consent ages.
 
-### 2. What is the highest level of education they have reached?
+### 2. What is the highest level of education most of them have reached?
 
 - **Control:** one choice (a radio).
 - **Asked when:** The buyer is people, and the age is not Minors.
 - **Options:**
-  - Less than high school
+  - Did not finish high school
   - High school
   - Vocational / technical diploma
-  - Bachelor
-  - Postgraduate
+  - Bachelor's degree
+  - Master's degree
   - Doctorate
 - **The "i" says:**
-  - Each level includes the ones below it: someone with a Master has a Bachelor.
+  - Each level includes the ones below it: someone with a Master has a Bachelor's degree.
   - Examples: High school is A-levels or the Leaving Certificate (UK, Ireland), a high school diploma (USA, Canada) and Year 12 (Australia, New Zealand). A vocational or technical diploma is a post-school qualification such as a BTEC, a trade certificate or an associate degree.
-  - Postgraduate: Master
+  - Master's degree: Master
 - **Connections:**
   - *Comes from:* This Segment's age (not asked of Minors).
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* The order of the Profile's job levels.
 
-### 3. What is their primary work status?
+### 3. Are they working?
 
 - **Control:** one choice (a radio).
 - **Asked when:** The buyer is people. For Active Retirees and Dependent seniors it is set to "Not currently working" and not shown.
 - **Options:**
-  - Working / Employed
+  - Working
   - Not currently working
 - **The "i" says:**
   - Working includes full-time, part-time, contract and self-employed roles.
@@ -71,14 +71,14 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* The Profile's job level (for someone working).
 
-### 4. Which best describes their non-working situation?
+### 4. What best describes their situation?
 
 - **Control:** one choice (a radio).
-- **Asked when:** The primary work status is "Not currently working". "Retired" is not offered to Minors. For Active Retirees and Dependent seniors it is set to "Retired" and not shown.
+- **Asked when:** The work status is "Not currently working". "Retired" is not offered to Minors. For Active Retirees and Dependent seniors it is set to "Retired" and not shown.
 - **Options:**
   - Student
-  - Homemaker / Full-time caregiver
-  - Unemployed / Seeking work
+  - Homemaker / carer
+  - Looking for work
   - Retired
   - Unable to work (illness / disability)
 - **The "i" says:**
@@ -89,62 +89,62 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* Nothing yet.
 
-### 5. What is their primary working environment?
+### 5. Where do they mainly work?
 
 - **Control:** one choice (a radio).
-- **Asked when:** The primary work status is "Working / Employed".
+- **Asked when:** The work status is "Working".
 - **Options:**
-  - Desk-based / Remote
-  - Desk-based / Corporate office
-  - On-site / Frontline
-  - Field-based / On-the-road
+  - At home
+  - In an office
+  - On site
+  - On the road
 - **The "i" says:**
   - Where they spend most of their working hours. Remote workers are online through the day; frontline and field workers are highly mobile but have little screen time during shifts.
-  - Desk-based / Remote: Work from home
-  - On-site / Frontline: Retail, hospitality, healthcare, construction
-  - Field-based / On-the-road: Logistics, sales, field engineering
+  - At home: Desk-based, remote
+  - On site: Retail, hospitality, healthcare, construction
+  - On the road: Logistics, sales, field engineering
 - **Connections:**
   - *Comes from:* This Segment's work status.
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* Channel order (desktop and daytime channels for remote workers) and the customer journey (a thought, doc 33, row 7).
 
-### 6. How is their working schedule structured?
+### 6. When do they work?
 
 - **Control:** one choice (a radio).
-- **Asked when:** The primary work status is "Working / Employed".
+- **Asked when:** The work status is "Working".
 - **Options:**
   - Standard daytime hours
-  - Shift work / Variable hours
-  - Flexible / Self-directed hours
+  - Shifts / varying hours
+  - Flexible / their own hours
 - **The "i" says:**
   - When they are free to shop and to be reached. Standard daytime workers shop at lunch and in the evening; shift workers have a very different daily routine.
   - Standard daytime hours: Traditional 9-to-5, fixed weekdays
-  - Shift work / Variable hours: Nights, weekends, rotating rosters
-  - Flexible / Self-directed hours: Freelancers, business owners, autonomous professionals
+  - Shifts / varying hours: Nights, weekends, rotating rosters
+  - Flexible / their own hours: Freelancers, business owners, autonomous professionals
 - **Connections:**
   - *Comes from:* This Segment's work status.
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* The times to reach them in the customer journey (a thought, doc 33, row 7).
 
-### 7. What is the stability or structure of their income?
+### 7. How is their income paid?
 
 - **Control:** one choice (a radio).
-- **Asked when:** The primary work status is "Working / Employed".
+- **Asked when:** The work status is "Working".
 - **Options:**
   - Fixed salary
   - Hourly wage
-  - Variable / Performance-based
+  - Variable
 - **The "i" says:**
   - How steady their pay is, not how much it is (that is the household income below). A fixed salary suits regular subscriptions; variable or hourly earners are sensitive to sudden cash-flow dips.
   - Fixed salary: Predictable monthly/bi-weekly paycheck
   - Hourly wage: Fluctuating based on scheduled shifts
-  - Variable / Performance-based: Freelance invoices, commission, seasonal contracts
+  - Variable: Freelance invoices, commission, seasonal contracts
 - **Connections:**
   - *Comes from:* This Segment's work status.
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* Payment terms the Offering suggests (a thought, doc 33, row 7).
 
-### 8. What is their household income?
+### 8. How would you describe their household income?
 
 - **Control:** one choice (a radio).
 - **Asked when:** The buyer is people, and the age is not Minors.
@@ -206,7 +206,7 @@ Both.
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* Channel suggestions by country; the Review (distant customers and delivery).
 
-### 2. What environment best describes where they physically spend most of their time?
+### 2. Where do they live or work?
 
 - **Control:** one choice (a radio).
 - **Asked when:** Managing and Growing only (held back while Planning and Launching), and only when the answer above is the city or town, the state or region, or the country.
@@ -249,7 +249,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* The tender row for a public body on the Customer Engagement page; the Profile's kind of business.
 
-### 2. What is the size of the target organization?
+### 2. How big are these organisations?
 
 - **Control:** one choice (a radio).
 - **Asked when:** As above, and the type is not self-employed. When the type is changed to self-employed, an answer already given here is removed at once. The sizes follow the scale chosen in Positioning: Startups & SMBs: Micro and Small; Mid-Market: Medium-sized only (set, not shown); Enterprise / Public Sector: Large only (set, not shown); Solopreneurs & Freelancers: not asked.
@@ -328,9 +328,9 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
 - **Control:** one choice (a radio).
 - **Asked when:** Always.
 - **Options:**
-  - Tech-averse / Traditional
-  - Moderately comfortable
-  - Tech-savvy / Digital native
+  - Not comfortable / Traditional
+  - Comfortable
+  - Very comfortable / Digital native
 - **The "i" says:**
   - How easily they use websites, apps and online payment, not whether they own a device.
 - **Connections:**
@@ -338,54 +338,54 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* Channel order (digital-only channels lower, personal help higher).
 
-### 2. Where do they discover and validate new ideas?
+### 2. Where do they find and check new products?
 
 - **Control:** ticks, up to 3.
 - **Asked when:** Always.
 - **Options:**
-  - Direct recommendations from close peers
-  - Niche online communities / forums
-  - Social media creators / influencers / industry experts
-  - Traditional media, reviews, and independent comparison sites
-  - Algorithmic discovery
+  - Friends, family and colleagues
+  - Online communities / forums
+  - Creators / influencers / experts
+  - Media, reviews and comparison sites
+  - Feeds, ads and marketplace suggestions
 - **The "i" says:**
   - Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn. What you tick here is offered on the Profile as related platforms to choose from.
   - Choose up to three.
-  - Direct recommendations from close peers: friends, family, colleagues
-  - Algorithmic discovery: Feeds, targeted ads, marketplace recommendations
+  - Friends, family and colleagues: friends, family, colleagues
+  - Feeds, ads and marketplace suggestions: Feeds, targeted ads, marketplace recommendations
 - **Connections:**
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* The Profile's related platforms; the order of the channels where customers discover you.
 
-### 3. What does their primary social environment look like?
+### 3. How do they spend their social time?
 
 - **Control:** one choice (a radio).
 - **Asked when:** The buyer is people.
 - **Options:**
-  - Mostly digital/virtual
-  - Mix of online messaging and weekend in-person meetups
-  - High-frequency in-person socializing
-  - Low-frequency socializer/highly independent
+  - Mostly online
+  - Online and in person
+  - Mostly in person
+  - Not very social / independent
 - **The "i" says:**
   - Where they spend their free time. It decides how they meet brands and products.
-  - Mostly digital/virtual: online gaming, community servers, chat apps
-  - High-frequency in-person socializing: events, hospitality, clubs, sports
+  - Mostly online: Gaming, community servers, chat apps
+  - Mostly in person: Events, hospitality, clubs, sports
 - **Connections:**
   - *Comes from:* Early Positioning: the relationship (people).
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* The Profile's social and interest hubs.
 
-### 4. How do they share their favorite finds or experiences?
+### 4. How do they share what they like?
 
 - **Control:** ticks, as many as apply.
 - **Asked when:** The buyer is people.
-- **Exclusion:** choosing "They don't typically share / discuss purchases" clears every other choice, and choosing any other way clears it.
+- **Exclusion:** choosing "They rarely share what they buy" clears every other choice, and choosing any other way clears it.
 - **Options:**
-  - Posting publicly on personal social media feeds
-  - Sending direct links to close friends via private chat apps
-  - Verbally during face-to-face conversations
-  - They don't typically share / discuss purchases
+  - They post it publicly on social media
+  - They send it to friends in private chats
+  - They tell people in person
+  - They rarely share what they buy
 - **The "i" says:**
   - Private chat apps are for example WhatsApp and iMessage. "They don't typically share" excludes the other three.
 - **Connections:**
@@ -393,25 +393,25 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* The Profile's habits.
 
-### 5. What triggers a typical shopping session?
+### 5. What usually starts them shopping?
 
 - **Control:** ticks, up to 2.
 - **Asked when:** The buyer is people.
 - **Options:**
   - Boredom / Entertainment
-  - Social proof
+  - Seeing a friend or creator use it
   - Immediate necessity / specific problem
   - Seasonal trends / sales / planned gifts
 - **The "i" says:**
   - Choose up to two.
   - Boredom / Entertainment: Browsing feeds, window shopping
-  - Social proof: Seeing a friend or creator use a product
+  - Seeing a friend or creator use it: Seeing a friend or creator use a product
 - **Connections:**
   - *Comes from:* Early Positioning: the relationship (people).
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* The customer journey.
 
-### 6. What is their typical path to purchase?
+### 6. How do they usually decide to buy?
 
 - **Control:** one choice (a radio).
 - **Asked when:** The buyer is people.
@@ -421,26 +421,26 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
   - Social validator
 - **The "i" says:**
   - Their usual way of buying, the one that fits most of them.
-  - Impulse buyer: See it, like it, buy it immediately
-  - The Researcher: Extensive comparison window before finalizing
-  - Social validator: Needs to ask a friend or check reviews before paying
+  - Impulse buyer: Sees it, likes it, buys it at once
+  - Researcher: Compares at length before buying
+  - Validator: Asks a friend or checks reviews before paying
 - **Connections:**
   - *Comes from:* Early Positioning: the relationship (people).
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* The Profile's habits; the customer journey (consideration).
 
-### 7. What platform or setting do they usually buy on?
+### 7. Where do they usually buy?
 
 - **Control:** one choice (a radio).
 - **Asked when:** Always.
 - **Options:**
-  - Mobile app / Smartphone website
-  - Desktop / Laptop computer
-  - In-person / Physical storefront
-  - Multi-channel
+  - On a phone
+  - On a computer
+  - In a shop
+  - Online and in shops
 - **The "i" says:**
   - Where most of their purchases start and finish. Choose Multi-channel when they mix online and in-person about equally.
-  - Multi-channel: Mix of online and offline retail
+  - Online and in shops: Mix of online and offline retail
 - **Connections:**
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export.
@@ -449,12 +449,12 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
 ### 8. How do they prefer to pay?
 
 - **Control:** ticks, as many as apply.
-- **Asked when:** Always. "Buy Now, Pay Later / financing" is not offered to Minors; "Invoicing / bank transfers / corporate purchase orders" is not offered when the buyer is people only.
+- **Asked when:** Always. "Buy Now, Pay Later / financing" is not offered to Minors; "Invoice / bank transfer / purchase order" is not offered when the buyer is people only.
 - **Options:**
-  - Traditional credit / debit card
+  - Credit / debit card
   - Digital wallets
   - Buy Now, Pay Later / financing
-  - Invoicing / bank transfers / corporate purchase orders
+  - Invoice / bank transfer / purchase order
 - **The "i" says:**
   - Digital wallets are for example Apple Pay, Google Pay and PayPal. Buy Now, Pay Later is for example Klarna and Afterpay.
   - Invoicing is asked for business customers only. Credit and Buy Now, Pay Later are not open to minors.
@@ -464,7 +464,7 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* The Offering's payment plan (instalments, invoicing) and the Direct Payment channels.
 
-### 9. How is the purchase decision authorized?
+### 9. How is the decision to buy made?
 
 - **Control:** ticks, as many as apply.
 - **Asked when:** The buyer is a business. For a self-employed customer (chosen, or because only freelancers were chosen in Positioning) it is set to "Sole practitioner decision" and not shown.
@@ -477,11 +477,11 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
 - **The "i" says:**
   - Asked for business customers only. A formal procurement loop reveals the tender row on the Customer Engagement page.
   - Select all that apply.
-  - Sole practitioner decision: The end-user has full purchasing autonomy and budget.
-  - End-user champions / Department consensus: Teams test the solution and push it upward.
-  - Executive / Budget-holder sign-off: Requires formal approval from a manager or C-level executive.
-  - Multi-department evaluation: Involves separate checks from IT/Security, Legal, and Finance.
-  - Formal procurement loop: Strict compliance pathway via requests for proposals (RFPs) or tenders.
+  - One person decides: The user has the budget and the final say.
+  - The team agrees: Users try it and push it upward.
+  - A manager signs off: Needs formal approval from a manager or executive.
+  - Several departments check: IT or security, legal and finance.
+  - Formal procurement: A tender or a request for proposals (RFP), with strict compliance.
 - **Connections:**
   - *Comes from:* Early Positioning: the relationship (business).
   - *Read by (built):* The Market document and the export.
@@ -492,47 +492,47 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
 
 Both.
 
-### 1. How would you describe the current trajectory of the target industry/niche?
+### 1. Where is their industry or niche heading?
 
 - **Control:** one choice (a radio).
 - **Asked when:** Always.
 - **Options:**
-  - Rapidly expanding
-  - Steady growth
-  - Flat / Stable
-  - Declining / Disrupting
+  - Growing fast
+  - Growing steadily
+  - Flat / stable
+  - Shrinking / disrupted
 - **The "i" says:**
   - Where the market is heading, apart from its size: a market can be large and declining, or small and expanding fast.
-  - Rapidly expanding: Emerging market, high year-on-year growth
-  - Steady growth: Mature market, predictable upward trend
-  - Flat / Stable: Saturated market, consistent volume but low growth
-  - Declining / Disrupting: Shrinking market or undergoing severe structural changes
+  - Growing fast: Emerging market, high year-on-year growth
+  - Growing steadily: Mature market, predictable upward trend
+  - Flat / stable: Saturated market, consistent volume but low growth
+  - Shrinking / disrupted: Shrinking market or undergoing severe structural changes
 - **Connections:**
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export; the Business Plan's Market Analysis is covered once a market question is answered.
   - *Read by (not built yet):* Competitor emphasis (a thought, doc 33, row 2).
 
-### 2. What is the approximate size of your Total Addressable Market (TAM)?
+### 2. How many potential customers are there in all (your Total Addressable Market, TAM)?
 
 - **Control:** one choice (a radio).
 - **Asked when:** Always.
 - **Options:**
-  - Micro / Hyper-niche
-  - Boutique / Specialized
-  - Mid-Market
-  - Mass Market
+  - Very small niche
+  - Specialist
+  - Mid-market
+  - Mass market
 - **The "i" says:**
   - The total number of potential buyers if you had 100% of the market, in the area you serve.
-  - Micro / Hyper-niche: Fewer than 1,000 potential customers globally/locally
-  - Boutique / Specialized: 1,000 to 50,000 potential customers
-  - Mid-Market: 50,000 to 500,000 potential customers
-  - Mass Market: 500,000+ potential customers
+  - Very small niche: Fewer than 1,000 potential customers
+  - Specialist: 1,000 to 50,000 potential customers
+  - Mid-market: 50,000 to 500,000 potential customers
+  - Mass market: 500,000+ potential customers
 - **Connections:**
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export; the Business Plan's Market Analysis is covered once a market question is answered.
   - *Read by (not built yet):* The Review.
 
-### 3. What is the biggest macro trend impacting your buyers right now?
+### 3. Which trends affect your buyers most right now?
 
 - **Control:** ticks, up to 2.
 - **Asked when:** Always.
@@ -544,29 +544,29 @@ Both.
   - Supply chain & infrastructure
 - **The "i" says:**
   - Choose up to two.
-  - Technological changes: Automation, AI integration, legacy systems updating
-  - Regulatory/Legal shifts: New compliance, tax changes, environmental mandates
-  - Economic pressures: Inflation, budget cuts, shifts in consumer spending power
-  - Socio-cultural changes: Remote work preferences, sustainability demands, lifestyle shifts
-  - Supply chain & infrastructure: Material shortages, logistics costs, local sourcing needs
+  - Technology: Automation, AI, old systems being replaced
+  - Rules and law: New compliance, tax changes, environmental mandates
+  - Money: Inflation, budget cuts, shifts in spending power
+  - Society and lifestyle: Remote work, sustainability, changing habits
+  - Supply and delivery: Material shortages, logistics costs, local sourcing
 - **Connections:**
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export; the Business Plan's Market Analysis is covered once a market question is answered.
   - *Read by (not built yet):* The Review.
 
-### 4. How competitive is this market environment?
+### 4. How crowded is their market?
 
 - **Control:** one choice (a radio).
 - **Asked when:** Always.
 - **Options:**
-  - Red Ocean
+  - Crowded
   - Fragmented
-  - Blue Ocean
+  - Open
 - **The "i" says:**
   - Red Ocean and Blue Ocean are the strategy terms of Kim and Mauborgne: a crowded market against an uncontested one.
-  - Red Ocean: Highly saturated. Dominated by massive legacy players; price wars are common.
-  - Fragmented: Many small-to-medium players; no single company controls the market.
-  - Blue Ocean: Underserved. Very few direct competitors; the solution or niche is highly novel.
+  - Crowded: Red Ocean. Dominated by big established players; price wars are common.
+  - Fragmented: Many small and medium players; none controls the market.
+  - Open: Blue Ocean. Very few direct competitors; the niche is new.
 - **Connections:**
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export; the Business Plan's Market Analysis is covered once a market question is answered.
@@ -614,12 +614,12 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* The Profile for the user.
 
-### 3. What is their primary work status?
+### 3. Are they working?
 
 - **Control:** one choice (a radio).
 - **Asked when:** As the user's life stage, and the relationship is Family member, Spouse or partner, Friend, Commercial & Professional, Other (personal) or Sponsor or funder. Not asked of a Baby or a Child.
 - **Options:**
-  - Working / Employed
+  - Working
   - Not currently working
 - **The "i" says:**
   - The same question as for the buyer, asked of the user: an adult the buyer is related to, or sponsors.
@@ -630,14 +630,14 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* The Profile for the user.
 
-### 4. Which best describes their non-working situation?
+### 4. What best describes their situation?
 
 - **Control:** one choice (a radio).
 - **Asked when:** As above, and the primary work status is "Not currently working". "Retired" is not offered to a Baby, a Child or a Teenager.
 - **Options:**
   - Student
-  - Homemaker / Full-time caregiver
-  - Unemployed / Seeking work
+  - Homemaker / carer
+  - Looking for work
   - Retired
   - Unable to work (illness / disability)
 - **The "i" says:**
@@ -648,7 +648,7 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* Nothing yet.
 
-### 5. What job level do they have?
+### 5. What kind of work do they do?
 
 - **Control:** one choice (a radio).
 - **Asked when:** As the user's life stage, and the relationship is Employer, Business partner or Other (business).
@@ -666,7 +666,7 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* The Profile for the user.
 
-### 6. What type of organisation are the clients?
+### 6. What type of organisation are their clients?
 
 - **Control:** one choice (a radio).
 - **Asked when:** As the user's life stage, and the relationship is Business serving clients or Professional intermediary.
@@ -683,7 +683,7 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* The Profile for the user.
 
-### 7. What is the size of the clients' organization?
+### 7. How big are the clients' organisations?
 
 - **Control:** one choice (a radio).
 - **Asked when:** As the clients' type, and the type is not self-employed.
@@ -708,9 +708,9 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
 - **Control:** one choice (a radio).
 - **Asked when:** As the user's life stage. Not asked of a Baby.
 - **Options:**
-  - Tech-averse / Traditional
-  - Moderately comfortable
-  - Tech-savvy / Digital native
+  - Not comfortable / Traditional
+  - Comfortable
+  - Very comfortable / Digital native
 - **The "i" says:**
   - How easily they use websites, apps and online payment, not whether they own a device.
 - **Connections:**

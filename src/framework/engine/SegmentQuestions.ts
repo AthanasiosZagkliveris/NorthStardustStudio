@@ -49,14 +49,14 @@ export type SegmentAnswers = Record<string, string[]>;
 
 /** The work situation is asked in two steps: working or not, then what the non-working situation is. */
 const WORKING = [
-    { id: "working", label: "Working / Employed" },
+    { id: "working", label: "Working" },
     { id: "notworking", label: "Not currently working" }
 ] as const;
 
 const NOT_WORKING = [
     { id: "student", label: "Student" },
-    { id: "homemaker", label: "Homemaker / Full-time caregiver" },
-    { id: "seeking", label: "Unemployed / Seeking work" },
+    { id: "homemaker", label: "Homemaker / carer" },
+    { id: "seeking", label: "Looking for work" },
     { id: "retired", label: "Retired" },
     { id: "unable", label: "Unable to work (illness / disability)" }
 ] as const;
@@ -65,9 +65,9 @@ const WORKING_INFO = ["Working includes full-time, part-time, contract and self-
 const NOT_WORKING_INFO = ["Choose their dominant daily role.", "Unable to work: sidelined from the workforce by a chronic medical condition, long-term illness or disability. They typically live on fixed support incomes."];
 
 const COMFORT = [
-    { id: "averse", label: "Tech-averse / Traditional" },
-    { id: "moderate", label: "Moderately comfortable" },
-    { id: "savvy", label: "Tech-savvy / Digital native" }
+    { id: "averse", label: "Not comfortable / Traditional" },
+    { id: "moderate", label: "Comfortable" },
+    { id: "savvy", label: "Very comfortable / Digital native" }
 ] as const;
 
 const ORG_TYPES = [
@@ -166,13 +166,13 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         ]
     },
     {
-        id: "education", box: "demographics", label: "What is the highest level of education they have reached?", many: false,
+        id: "education", box: "demographics", label: "What is the highest level of education most of them have reached?", many: false,
         options: [
-            { id: "school", label: "Less than high school" },
+            { id: "school", label: "Did not finish high school" },
             { id: "highschool", label: "High school" },
             { id: "vocational", label: "Vocational / technical diploma" },
-            { id: "bachelor", label: "Bachelor" },
-            { id: "master", label: "Postgraduate (Master)" },
+            { id: "bachelor", label: "Bachelor's degree" },
+            { id: "master", label: "Master's degree" },
             { id: "doctorate", label: "Doctorate" }
         ],
         info: [
@@ -182,45 +182,45 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         ]
     },
     {
-        id: "work", name: "Work status", box: "demographics", label: "What is their primary work status?", many: false,
+        id: "work", name: "Work status", box: "demographics", label: "Are they working?", many: false,
         options: WORKING,
         info: [...WORKING_INFO, "Choosing an age group starts this with the one that goes with it; change it freely."]
     },
     {
-        id: "work2", name: "Non-working situation", box: "demographics", label: "Which best describes their non-working situation?", many: false,
+        id: "work2", name: "Non-working situation", box: "demographics", label: "What best describes their situation?", many: false,
         options: NOT_WORKING,
         info: NOT_WORKING_INFO
     },
     {
-        id: "workenv", box: "demographics", label: "What is their primary working environment?", many: false,
+        id: "workenv", box: "demographics", label: "Where do they mainly work?", many: false,
         options: [
-            { id: "remote", label: "Desk-based / Remote (Work from home)" },
-            { id: "office", label: "Desk-based / Corporate office" },
-            { id: "onsite", label: "On-site / Frontline (Retail, hospitality, healthcare, construction)" },
-            { id: "field", label: "Field-based / On-the-road (Logistics, sales, field engineering)" }
+            { id: "remote", label: "At home (Desk-based, remote)" },
+            { id: "office", label: "In an office" },
+            { id: "onsite", label: "On site (Retail, hospitality, healthcare, construction)" },
+            { id: "field", label: "On the road (Logistics, sales, field engineering)" }
         ],
         info: ["Where they spend most of their working hours.", "Remote workers are online through the day; frontline and field workers are mobile, with little screen time on shift."]
     },
     {
-        id: "workschedule", box: "demographics", label: "How is their working schedule structured?", many: false,
+        id: "workschedule", box: "demographics", label: "When do they work?", many: false,
         options: [
             { id: "standard", label: "Standard daytime hours (Traditional 9-to-5, fixed weekdays)" },
-            { id: "shift", label: "Shift work / Variable hours (Nights, weekends, rotating rosters)" },
-            { id: "flexible", label: "Flexible / Self-directed hours (Freelancers, business owners, autonomous professionals)" }
+            { id: "shift", label: "Shifts / varying hours (Nights, weekends, rotating rosters)" },
+            { id: "flexible", label: "Flexible / their own hours (Freelancers, business owners, autonomous professionals)" }
         ],
         info: ["When they are free to shop and to be reached. Standard daytime workers shop at lunch and in the evening; shift workers have a very different daily routine."]
     },
     {
-        id: "workincome", box: "demographics", label: "What is the stability or structure of their income?", many: false,
+        id: "workincome", box: "demographics", label: "How is their income paid?", many: false,
         options: [
             { id: "salary", label: "Fixed salary (Predictable monthly/bi-weekly paycheck)" },
             { id: "hourly", label: "Hourly wage (Fluctuating based on scheduled shifts)" },
-            { id: "variable", label: "Variable / Performance-based (Freelance invoices, commission, seasonal contracts)" }
+            { id: "variable", label: "Variable (Freelance invoices, commission, seasonal contracts)" }
         ],
         info: ["How steady their pay is, not how much it is (that is the household income below).", "A fixed salary suits regular subscriptions; variable or hourly earners feel sudden cash-flow dips."]
     },
     {
-        id: "income", box: "demographics", label: "What is their household income?", many: false,
+        id: "income", box: "demographics", label: "How would you describe their household income?", many: false,
         options: [
             { id: "low", label: "Low" },
             { id: "lower-middle", label: "Lower-middle" },
@@ -256,7 +256,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         info: ["The widest area most of your customers are spread over, now or as you plan it. If it is more than one, make another Segment."]
     },
     {
-        id: "area", box: "geographics", label: "What environment best describes where they physically spend most of their time?", many: false,
+        id: "area", box: "geographics", label: "Where do they live or work?", many: false,
         options: [
             { id: "urban", label: "Urban (High-density city center)" },
             { id: "suburban", label: "Suburban (Residential towns surrounding a city)" },
@@ -278,7 +278,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         ]
     },
     {
-        id: "size", name: "Size", box: "business-data", label: "What is the size of the target organization?", many: false,
+        id: "size", name: "Size", box: "business-data", label: "How big are these organisations?", many: false,
         options: ORG_SIZES,
         info: ["The EU's definition of small and medium-sized enterprises: micro under 10 employees, small under 50, medium-sized under 250.", "Countries define them a little differently; the United States and Canada use other limits.", "The sizes follow the scale chosen in Positioning."]
     },
@@ -304,13 +304,13 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         info: ["How easily they use websites, apps and online payment, not whether they own a device."]
     },
     {
-        id: "discover", box: "purchasing", label: "Where do they discover and validate new ideas?", many: true, max: 3,
+        id: "discover", box: "purchasing", label: "Where do they find and check new products?", many: true, max: 3,
         options: [
-            { id: "peers", label: "Direct recommendations from close peers (friends, family, colleagues)" },
-            { id: "communities", label: "Niche online communities / forums" },
-            { id: "creators", label: "Social media creators / influencers / industry experts" },
-            { id: "media", label: "Traditional media, reviews, and independent comparison sites" },
-            { id: "algorithmic", label: "Algorithmic discovery (Feeds, targeted ads, marketplace recommendations)" }
+            { id: "peers", label: "Friends, family and colleagues" },
+            { id: "communities", label: "Online communities / forums" },
+            { id: "creators", label: "Creators / influencers / experts" },
+            { id: "media", label: "Media, reviews and comparison sites" },
+            { id: "algorithmic", label: "Feeds, ads and marketplace suggestions" }
         ],
         info: [
             "Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn.",
@@ -319,61 +319,61 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         ]
     },
     {
-        id: "social", box: "purchasing", label: "What does their primary social environment look like?", many: false,
+        id: "social", box: "purchasing", label: "How do they spend their social time?", many: false,
         options: [
-            { id: "digital", label: "Mostly digital/virtual (online gaming, community servers, chat apps)" },
-            { id: "mixed", label: "Mix of online messaging and weekend in-person meetups" },
-            { id: "inperson", label: "High-frequency in-person socializing (events, hospitality, clubs, sports)" },
-            { id: "independent", label: "Low-frequency socializer/highly independent" }
+            { id: "digital", label: "Mostly online (Gaming, community servers, chat apps)" },
+            { id: "mixed", label: "Online and in person" },
+            { id: "inperson", label: "Mostly in person (Events, hospitality, clubs, sports)" },
+            { id: "independent", label: "Not very social / independent" }
         ],
         info: ["Where they spend their free time. It decides how they meet brands and products."]
     },
     {
-        id: "share", box: "purchasing", label: "How do they share their favorite finds or experiences?", many: true,
+        id: "share", box: "purchasing", label: "How do they share what they like?", many: true,
         options: [
-            { id: "public", label: "Posting publicly on personal social media feeds" },
-            { id: "private", label: "Sending direct links to close friends via private chat apps" },
-            { id: "verbal", label: "Verbally during face-to-face conversations" },
-            { id: "none", label: "They don't typically share / discuss purchases" }
+            { id: "public", label: "They post it publicly on social media" },
+            { id: "private", label: "They send it to friends in private chats" },
+            { id: "verbal", label: "They tell people in person" },
+            { id: "none", label: "They rarely share what they buy" }
         ],
-        info: ["Private chat apps are for example WhatsApp and iMessage. \"They don't typically share\" excludes the other three."]
+        info: ["Private chat apps are for example WhatsApp and iMessage. \"They rarely share what they buy\" excludes the other three."]
     },
     {
-        id: "trigger", box: "purchasing", label: "What triggers a typical shopping session?", many: true, max: 2,
+        id: "trigger", box: "purchasing", label: "What usually starts them shopping?", many: true, max: 2,
         options: [
             { id: "boredom", label: "Boredom / Entertainment (Browsing feeds, window shopping)" },
-            { id: "proof", label: "Social proof (Seeing a friend or creator use a product)" },
+            { id: "proof", label: "Seeing a friend or creator use it" },
             { id: "need", label: "Immediate necessity / specific problem" },
             { id: "seasonal", label: "Seasonal trends / sales / planned gifts" }
         ],
         info: ["Choose up to two."]
     },
     {
-        id: "path", box: "purchasing", label: "What is their typical path to purchase?", many: false,
+        id: "path", box: "purchasing", label: "How do they usually decide to buy?", many: false,
         options: [
-            { id: "impulse", label: "Impulse buyer: See it, like it, buy it immediately" },
-            { id: "researcher", label: "The Researcher: Extensive comparison window before finalizing" },
-            { id: "validator", label: "Social validator: Needs to ask a friend or check reviews before paying" }
+            { id: "impulse", label: "Impulse buyer: Sees it, likes it, buys it at once" },
+            { id: "researcher", label: "Researcher: Compares at length before buying" },
+            { id: "validator", label: "Validator: Asks a friend or checks reviews before paying" }
         ],
         info: ["Their usual way of buying, the one that fits most of them."]
     },
     {
-        id: "setting", box: "purchasing", label: "What platform or setting do they usually buy on?", many: false,
+        id: "setting", box: "purchasing", label: "Where do they usually buy?", many: false,
         options: [
-            { id: "mobile", label: "Mobile app / Smartphone website" },
-            { id: "desktop", label: "Desktop / Laptop computer" },
-            { id: "store", label: "In-person / Physical storefront" },
-            { id: "multi", label: "Multi-channel (Mix of online and offline retail)" }
+            { id: "mobile", label: "On a phone" },
+            { id: "desktop", label: "On a computer" },
+            { id: "store", label: "In a shop" },
+            { id: "multi", label: "Online and in shops" }
         ],
-        info: ["Where most of their purchases start and finish. Choose Multi-channel when they mix online and in-person about equally."]
+        info: ["Where most of their purchases start and finish. Choose Online and in shops when they mix the two about equally."]
     },
     {
         id: "pay", box: "purchasing", label: "How do they prefer to pay?", many: true,
         options: [
-            { id: "card", label: "Traditional credit / debit card" },
+            { id: "card", label: "Credit / debit card" },
             { id: "wallet", label: "Digital wallets" },
             { id: "bnpl", label: "Buy Now, Pay Later / financing" },
-            { id: "invoice", label: "Invoicing / bank transfers / corporate purchase orders" }
+            { id: "invoice", label: "Invoice / bank transfer / purchase order" }
         ],
         info: [
             "Digital wallets are for example Apple Pay, Google Pay and PayPal. Buy Now, Pay Later is for example Klarna and Afterpay.",
@@ -383,13 +383,13 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         ]
     },
     {
-        id: "authorise", name: "Decision", box: "purchasing", label: "How is the purchase decision authorized?", many: true,
+        id: "authorise", name: "Decision", box: "purchasing", label: "How is the decision to buy made?", many: true,
         options: [
-            { id: "solo", label: "Sole practitioner decision: The end-user has full purchasing autonomy and budget." },
-            { id: "champions", label: "End-user champions / Department consensus: Teams test the solution and push it upward." },
-            { id: "executive", label: "Executive / Budget-holder sign-off: Requires formal approval from a manager or C-level executive." },
-            { id: "multi", label: "Multi-department evaluation: Involves separate checks from IT/Security, Legal, and Finance." },
-            { id: "procurement", label: "Formal procurement loop: Strict compliance pathway via requests for proposals (RFPs) or tenders." }
+            { id: "solo", label: "One person decides: The user has the budget and the final say." },
+            { id: "champions", label: "The team agrees: Users try it and push it upward." },
+            { id: "executive", label: "A manager signs off: Needs formal approval from a manager or executive." },
+            { id: "multi", label: "Several departments check: IT or security, legal and finance." },
+            { id: "procurement", label: "Formal procurement: A tender or a request for proposals (RFP), with strict compliance." }
         ],
         info: ["Asked for business customers only. A formal procurement loop reveals the tender row on the Customer Engagement page.", "Select all that apply."]
     },
@@ -397,42 +397,42 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     /* ---- Box 5, Market Size & Industry Outlook ---- */
 
     {
-        id: "trajectory", box: "market-size", label: "How would you describe the current trajectory of the target industry/niche?", many: false,
+        id: "trajectory", box: "market-size", label: "Where is their industry or niche heading?", many: false,
         options: [
-            { id: "expanding", label: "Rapidly expanding (Emerging market, high year-on-year growth)" },
-            { id: "growing", label: "Steady growth (Mature market, predictable upward trend)" },
-            { id: "flat", label: "Flat / Stable (Saturated market, consistent volume but low growth)" },
-            { id: "declining", label: "Declining / Disrupting (Shrinking market or undergoing severe structural changes)" }
+            { id: "expanding", label: "Growing fast (Emerging market, high year-on-year growth)" },
+            { id: "growing", label: "Growing steadily (Mature market, predictable upward trend)" },
+            { id: "flat", label: "Flat / stable (Saturated market, consistent volume but low growth)" },
+            { id: "declining", label: "Shrinking / disrupted (Shrinking market or undergoing severe structural changes)" }
         ],
         info: ["Where the market is heading, apart from its size: a market can be large and declining, or small and expanding fast."]
     },
     {
-        id: "tam", box: "market-size", label: "What is the approximate size of your Total Addressable Market (TAM)?", many: false,
+        id: "tam", box: "market-size", label: "How many potential customers are there in all (your Total Addressable Market, TAM)?", many: false,
         options: [
-            { id: "micro", label: "Micro / Hyper-niche (Fewer than 1,000 potential customers globally/locally)" },
-            { id: "boutique", label: "Boutique / Specialized (1,000 to 50,000 potential customers)" },
-            { id: "mid", label: "Mid-Market (50,000 to 500,000 potential customers)" },
-            { id: "mass", label: "Mass Market (500,000+ potential customers)" }
+            { id: "micro", label: "Very small niche (Fewer than 1,000 potential customers)" },
+            { id: "boutique", label: "Specialist (1,000 to 50,000 potential customers)" },
+            { id: "mid", label: "Mid-market (50,000 to 500,000 potential customers)" },
+            { id: "mass", label: "Mass market (500,000+ potential customers)" }
         ],
         info: ["The total number of potential buyers if you had 100% of the market, in the area you serve."]
     },
     {
-        id: "trends", box: "market-size", label: "What is the biggest macro trend impacting your buyers right now?", many: true, max: 2,
+        id: "trends", box: "market-size", label: "Which trends affect your buyers most right now?", many: true, max: 2,
         options: [
-            { id: "technology", label: "Technological changes: Automation, AI integration, legacy systems updating" },
-            { id: "regulation", label: "Regulatory/Legal shifts: New compliance, tax changes, environmental mandates" },
-            { id: "economy", label: "Economic pressures: Inflation, budget cuts, shifts in consumer spending power" },
-            { id: "society", label: "Socio-cultural changes: Remote work preferences, sustainability demands, lifestyle shifts" },
-            { id: "supply", label: "Supply chain & infrastructure: Material shortages, logistics costs, local sourcing needs" }
+            { id: "technology", label: "Technology: Automation, AI, old systems being replaced" },
+            { id: "regulation", label: "Rules and law: New compliance, tax changes, environmental mandates" },
+            { id: "economy", label: "Money: Inflation, budget cuts, shifts in spending power" },
+            { id: "society", label: "Society and lifestyle: Remote work, sustainability, changing habits" },
+            { id: "supply", label: "Supply and delivery: Material shortages, logistics costs, local sourcing" }
         ],
         info: ["Choose up to two."]
     },
     {
-        id: "competition", box: "market-size", label: "How competitive is this market environment?", many: false,
+        id: "competition", box: "market-size", label: "How crowded is their market?", many: false,
         options: [
-            { id: "red", label: "Red Ocean (Highly saturated): Dominated by massive legacy players; price wars are common." },
-            { id: "fragmented", label: "Fragmented: Many small-to-medium players; no single company controls the market." },
-            { id: "blue", label: "Blue Ocean (Underserved): Very few direct competitors; the solution or niche is highly novel." }
+            { id: "red", label: "Crowded (Red Ocean): Dominated by big established players; price wars are common." },
+            { id: "fragmented", label: "Fragmented: Many small and medium players; none controls the market." },
+            { id: "blue", label: "Open (Blue Ocean): Very few direct competitors; the niche is new." }
         ],
         info: ["Red Ocean and Blue Ocean are the strategy terms of Kim and Mauborgne: a crowded market against an uncontested one."]
     },
@@ -457,27 +457,27 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         info: ["Asked of a parent or guardian, and of a caregiver, who buy for a child. Secondary school is not offered for a Baby or a Child."]
     },
     {
-        id: "u-work", box: "user", label: "What is their primary work status?", many: false,
+        id: "u-work", box: "user", label: "Are they working?", many: false,
         options: WORKING,
         info: ["The same question as for the buyer, asked of the user: an adult the buyer is related to, or sponsors.", ...WORKING_INFO]
     },
     {
-        id: "u-work2", box: "user", label: "Which best describes their non-working situation?", many: false,
+        id: "u-work2", box: "user", label: "What best describes their situation?", many: false,
         options: NOT_WORKING,
         info: NOT_WORKING_INFO
     },
     {
-        id: "u-job", box: "user", label: "What job level do they have?", many: false,
+        id: "u-job", box: "user", label: "What kind of work do they do?", many: false,
         options: JOB_LEVELS,
         info: ["The ISCO-08 major groups, in plain words."]
     },
     {
-        id: "u-orgtype", box: "user", label: "What type of organisation are the clients?", many: false,
+        id: "u-orgtype", box: "user", label: "What type of organisation are their clients?", many: false,
         options: ORG_TYPES,
         info: ["Asked of a business serving clients and of a professional intermediary."]
     },
     {
-        id: "u-size", box: "user", label: "What is the size of the clients' organization?", many: false,
+        id: "u-size", box: "user", label: "How big are the clients' organisations?", many: false,
         options: ORG_SIZES,
         info: ["Skipped for self-employed clients."]
     },

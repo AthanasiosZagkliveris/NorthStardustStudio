@@ -133,7 +133,7 @@ From official survey and style guidance (sources in `02-references.md`, QST). Mo
 | **Answer options that do not overlap and cover everything**; test that a boundary value (for example 25) fits one band only | QST-01, QST-10, QST-14 |
 | **Simple words**; spell out abbreviations | QST-01, QST-03 |
 | **A logical order**: an inherent order where there is one (education, age, size); otherwise the most common option first; keep a list to about ten short options | QST-03 |
-| **"Not sure" and "Not relevant" where they are valid**, looking different from the real options. "Prefer not to say" is for people answering about themselves; our founder describes a group, so we use "Not sure yet" and "Not relevant" | QST-03, QST-06 |
+| **No "Prefer not to say", "Not sure" or "Not relevant" option** (owner, 2026-11-02): the questions help the app user define their own customer and set the questions that follow, they are not a survey of people about themselves; a question is left unanswered, or is not asked, instead | QST-03, QST-06 |
 | **Single choice when one answer is expected**; several only when several can genuinely apply, with "Select all that apply" and "None" last | QST-12 |
 | **"Other" last**, with a place to say what | QST-03 |
 | **Ask only what we will use**: every question says what it is for | QST-06 |
@@ -1014,9 +1014,9 @@ Questions that change no number and feed only a note, a draft or the Review page
 
 **What the app does.**
 
-- Collects only what a segment needs, with "Not relevant" and "Prefer not to say" defaults (the Australian standard, Stats NZ and the UK ICO all point this way) [SEX-01, CUL-03].
+- Collects only what a segment needs; a question the user does not want to answer is left empty, with no "Prefer not to say" option (owner, 2026-11-02; the Australian standard, Stats NZ and the UK ICO ask people about themselves, which these questions do not) [SEX-01, CUL-03].
 - Asks **country, language and need**, not race or ethnicity. There is **no ethnicity or race list**; any ethnicity item would be an optional note for research or equity analysis, and only with each country's own categories (the US race and ethnicity standard is not used for other markets) [CUL-01, CUL-02]. **[D]**
-- Asks gender only when G10 is yes, with a self-describe and "Prefer not to say" option [SEX-01].
+- Asks gender only when G10 is yes, with an "Another gender" option [SEX-01].
 - Never infers a language skill from a country of birth (the ABS says collect it directly) [LNG-03], never infers race, ethnic origin or sexual orientation (the UK ICO treats the inference as special category data) [CUL-03], and never uses any of them to filter, price or exclude.
 - Shows on the Segment card, when G10 is not "not relevant", or when G3 names a country with such a law, the notice: **"A segment must not be used to refuse, exclude or price people differently because of a protected characteristic."** with the law of each customer country and "seek legal advice" for finance, housing, insurance and health, where the exceptions differ. Age concessions and targeted offers are lawful in some places and not in others; the app does not say they are lawful everywhere.
 

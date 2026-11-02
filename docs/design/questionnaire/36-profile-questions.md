@@ -93,9 +93,8 @@ A typical person of the Segment, asked specifically.
   - Woman
   - Man
   - Non-binary
-  - I would describe it differently
-  - Prefer not to say
-- **The "i" would say:** Asked only when the Segment's mix leans one way. The categories follow the Australian standard for sex and gender [SEX-01]. Optional: nothing reads it but the note and the equality notice.
+  - Another gender
+- **The "i" would say:** Asked only when the Segment's mix leans one way. The categories follow the Australian standard for sex and gender [SEX-01]. Nothing reads it but the note and the equality notice.
 - **Connections:**
   - *Comes from:* the Segment's gender mix. When it leans one way (60 to 80%) or is mostly one way (80%+), A2 **starts** as Woman or Man, a starting value the user can change; the question stays visible, because a Segment holds up to three Profiles and one of them can be the minority. When the mix is Balanced the question is not asked: gender does not matter for what is sold.
   - *Read by (not built yet):* the Review (a gender that does not fit the mix is noted, never cleared); the equality notice.
@@ -104,7 +103,7 @@ A typical person of the Segment, asked specifically.
 ### A3. What kind of work do they do?
 
 - **Control:** one choice (a radio).
-- **Asked when:** the Segment's primary work status is Working / Employed; for a business Segment always, except where its customers are self-employed (the answer is then Owner / senior executive and is not shown: section 9).
+- **Asked when:** the Segment's work status is Working; for a business Segment always, except where its customers are self-employed (the answer is then Owner / senior executive and is not shown: section 9).
 - **Options:**
   - Owner / senior executive
   - Manager
@@ -181,13 +180,13 @@ What the Segment cannot say: which devices, which social media, which communitie
 - **Options:** the list L15 (doc 34, 5.2): Smartphone; Laptop / desktop; Tablet; A shared / public device; Other, which the user writes in (ticking it opens a text box under the options; its words are kept as the answer).
 - **The "i" would say:** The devices they use to find and buy, not those they own.
 - **Connections:**
-  - *Comes from:* the Segment's online comfort and where they buy: the setting starts it (Mobile app: Smartphone; Desktop / Laptop computer: Laptop / desktop; Physical storefront: none; Multi-channel: Smartphone and Laptop / desktop), as a starting value the user can change.
+  - *Comes from:* the Segment's online comfort and where they buy: the setting starts it (Mobile app: Smartphone; On a computer: Laptop / desktop; Physical storefront: none; Multi-channel: Smartphone and Laptop / desktop), as a starting value the user can change.
   - *Read by (not built yet):* the Review (make the order and the forms work on a phone; a note where the devices ticked leave out the one the Segment buys on).
 
 ### C2. Which social media do they use?
 
 - **Control:** ticks, as many as apply.
-- **Asked when:** the Segment's online comfort is not Tech-averse / Traditional (or is not answered).
+- **Asked when:** the Segment's online comfort is not Not comfortable / Traditional (or is not answered).
 - **Options:** the social media channels the app already lists: Instagram; Facebook; LinkedIn; YouTube; TikTok; Pinterest; X (Twitter); Other, which the user writes in (ticking it opens a text box under the options; its words are kept as the answer). (Not built: the ones related to the Segment's ways of discovering ideas, creators, communities and algorithmic discovery, would come first.)
 - **The "i" would say:** The platforms they actually use, if any. "They may not have social media at all": leave every one unticked.
 - **Connections:**
@@ -296,7 +295,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 **Starting values the user can change (owner, 2026-11-01).** D1 and D2 start from the Segment's path to purchase and online comfort (a Researcher: reviews; a Social validator: what other people recommend; Tech-savvy: they work it out themselves; Tech-averse: they want to talk to a person); D2 starts at a formal proposal where the Segment's decision includes a formal procurement loop; A2 starts from the Segment's gender mix when it leans (60 to 80%) or is mostly (80%+) one way, and stays visible; C1 as in 5. Impulse buyers skip D1. **E3** starts with "The price or their budget" ticked where the Segment's household income is Low, a starting value the user can change without any validation in the way (owner, 2026-11-01).
 
-**One list for the job levels.** A3 and the Segment's user question ("What job level do they have?") take the same six levels, written once (`JOB_LEVELS`, `SegmentQuestions.ts`), so the words never differ between the two cards or the exports.
+**One list for the job levels.** A3 and the Segment's user question ("What kind of work do they do?") take the same six levels, written once (`JOB_LEVELS`, `SegmentQuestions.ts`), so the words never differ between the two cards or the exports.
 
 **The devices (C1) stay a starting value and a Review note, not a rule.** The Segment's "where they buy" starts C1 (a store: no device; the phone: Smartphone), and the Review notes a contradiction, but C1 is never unticked for the user: a shopper who buys in a store still finds the shop on a phone. A tendency never removes an option.
 

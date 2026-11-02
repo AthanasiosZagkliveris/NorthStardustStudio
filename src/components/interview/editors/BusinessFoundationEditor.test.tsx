@@ -68,8 +68,8 @@ describe("BusinessFoundationEditor industry outlook", () => {
 
         render(<Harness initial={twoProfiles()} />);
 
-        expect(screen.getByRole("radiogroup", { name: "How would you describe the current trajectory of the target industry/niche?" })).toBeTruthy();
-        expect(screen.getByRole("group", { name: "What is the biggest macro trend impacting your buyers right now?" })).toBeTruthy();
+        expect(screen.getByRole("radiogroup", { name: "Where is their industry or niche heading?" })).toBeTruthy();
+        expect(screen.getByRole("group", { name: "Which trends affect your buyers most right now?" })).toBeTruthy();
         expect(screen.queryByLabelText(/Segment 1 description:/)).toBeNull();
         expect(screen.getByRole("button", { name: "Market Size & Industry Outlook: what this means" })).toBeTruthy();
 
@@ -137,7 +137,7 @@ describe("BusinessFoundationEditor follows the Identity answers", () => {
         expect(screen.queryByRole("checkbox", { name: /Business Data/ })).toBeNull();
         expect(screen.queryByRole("radiogroup", { name: "Who is this Segment's customer?" })).toBeNull();
         expect(screen.queryAllByRole("radiogroup", { name: "What age group are the people who pay?" }).length).toBe(1);
-        expect(screen.queryAllByRole("radiogroup", { name: "What is the size of the target organization?" }).length).toBe(1);
+        expect(screen.queryAllByRole("radiogroup", { name: "How big are these organisations?" }).length).toBe(1);
     });
 
 });

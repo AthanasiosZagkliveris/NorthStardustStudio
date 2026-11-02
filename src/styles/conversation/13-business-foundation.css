@@ -1043,6 +1043,13 @@
 
 }
 
+/* The tick box stands in the middle of the option's first line: the box is 24px and carries -3px (global.css) to sit beside an 18px line; the first line here is 23.4px, 2.7px taller, so the box gives that back (the Notes tick, whose label is 18px, keeps the -3px). */
+.business-segment-grid label.business-foundation-tick:has(> .business-foundation-tick-label) > .brand-tick-box{
+
+    margin-top:-0.3px;
+
+}
+
 /* THE BOUNDARY OF EVERY CONTROL OF THE SEGMENT AND PROFILE CARDS holds 3:1 on the card's ground (WCAG 1.4.11): an unticked box, an unchosen round, a box you write in or a number cell is drawn with a 1px line in --text-faint (3.7:1 on the light ground, 4.4:1 on sepia, 5:1 and more on dark). The ticked and chosen ones are the app's blue, which holds it already. */
 .business-segment-grid input[type="checkbox"]:not(:checked){
 
