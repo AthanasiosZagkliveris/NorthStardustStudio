@@ -45,4 +45,10 @@ describe.each([["Lumen & Loom Studio", lumen], ["Quillfield Automation LLC", qui
         expect(profileSettle(answers, segment.questions, context)).toEqual(answers);
     });
 
+    it.each(segments.flatMap(segment => segment.profiles.map(profile => [profile.name, profile] as const)))("tells the same age in the note of %s as in its answer", (_profileName, profile) => {
+        const answered = asProfileAnswers(profile.questions).a1?.[0];
+        const written = (profile.description.personal ?? "").match(/\b(\d{2})\b/)?.[1];
+        expect(written).toBe(answered);
+    });
+
 });

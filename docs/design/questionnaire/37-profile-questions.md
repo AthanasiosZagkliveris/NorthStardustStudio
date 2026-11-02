@@ -25,6 +25,8 @@ Related: doc 36 (the Segment's questions, built, in the same form), doc 28 (6.4 
 | Objections | E3 |
 | Needs | stay text lists |
 
+**What the notes are for (built).** The note under each box holds what the choice questions do not: a name and household in Personal, the values in Psychographics, the names of groups and places in Hubs, where and when they buy in Habits, the details that are theirs in Goals, Challenges and Objections. The "i" of each box says so (`PROFILE_NOTE_HINTS`). The box prompts are the owner's words and are not changed: the Personal one still asks for education and marital status, which the Segment asks or no list holds (for the owner to reword).
+
 ## 2. What the Segment sets and the Profile chooses within
 
 | Segment answer (doc 36) | Profile question | What the Profile gets |

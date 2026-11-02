@@ -96,6 +96,17 @@ const QUESTIONS: readonly ProfileQuestion[] = [
 
 export const PROFILE_QUESTIONS = QUESTIONS;
 
+/** What the note under each box is for: what the questions above it do not ask (the questions already hold the rest). A point is at most 160 characters. */
+export const PROFILE_NOTE_HINTS: Record<ProfileBox, string> = {
+    personal: "The note is for what is not asked above: a name, who they live with, where they live. Their age and the kind of work are asked above.",
+    psychographics: "The note is for what they value, believe in and enjoy, in your words. What matters most when choosing is asked above.",
+    hubs: "The note is for names: the groups, accounts, events and places. Which kinds of platform and event they use is asked above.",
+    habits: "The note is for what the choices above do not hold: where and when they buy, the terms, the steps.",
+    goals: "The note is for what the list above does not say: the details that are theirs.",
+    challenges: "The note is for what the list above does not say: the details that are theirs.",
+    objections: "The note is for what the list above does not say: the details that are theirs."
+};
+
 /** The ages each of the Segment's age terms holds (first number up to, not including, the second). */
 const AGE_RANGES: Record<string, [number, number]> = {
     minor: [13, 18], young: [18, 25], established: [25, 40], peak: [40, 55], mature: [55, 65], active: [65, 75], dependent: [75, 130]

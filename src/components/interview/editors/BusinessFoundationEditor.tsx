@@ -137,7 +137,8 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                 return {
                     id: segment.id + ":" + kind,
                     title,
-                    group: title,
+                    // (A floating card is ONE Competitor or Offering: its name above it is singular.)
+                    group: NOUN[kind],
                     large: true,
                     view: true,
                     rail: rail(section),
@@ -157,7 +158,8 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                 {
                     id: segment.id + ":customers",
                     title: "Segment Description",
-                    group: "Profiles",
+                    // (A floating card is ONE Profile: its name above it is singular.)
+                    group: "Profile",
                     large: true,
                     view: true,
                     rail: rail(0),

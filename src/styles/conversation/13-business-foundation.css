@@ -1043,6 +1043,35 @@
 
 }
 
+/* THE BOUNDARY OF EVERY CONTROL OF THE SEGMENT AND PROFILE CARDS holds 3:1 on the card's ground (WCAG 1.4.11): an unticked box, an unchosen round, a box you write in or a number cell is drawn with a 1px line in --text-faint (3.7:1 on the light ground, 4.4:1 on sepia, 5:1 and more on dark). The ticked and chosen ones are the app's blue, which holds it already. */
+.business-segment-grid input[type="checkbox"]:not(:checked){
+
+    border-color:var(--text-faint);
+
+}
+
+/* (The boxes you write in take their edge from --cell-edge, which the cards' own rules read.) */
+.business-segment-grid,
+.floating-card-body .column-tile-content > .business-foundation-card{
+
+    --cell-edge:var(--text-faint);
+
+}
+
+/* (A round is drawn thin and anti-aliased: its line is the darker --text-muted, so it holds 3:1 where it is thinnest.) */
+.business-segment-grid input[type="radio"]:not(:checked){
+
+    border-color:var(--text-muted);
+
+}
+
+/* A tick option is a target of 24px at least (WCAG 2.5.8): its one line of 23.4px stands in 24. */
+.business-segment-grid .business-foundation-tick{
+
+    min-height:24px;
+
+}
+
 /* A Profile card floats at the width every floating card has (the opened card's): its boxes of questions stand in one column, one under the other, each across the card. */
 .legal-entity-grid-organization.legal-entity-audience.business-segment-grid.business-segment-grid-single{
 

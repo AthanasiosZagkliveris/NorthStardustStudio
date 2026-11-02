@@ -12,7 +12,7 @@ import { BusinessAddButton, BusinessCard, BusinessRemove, BusinessTicks } from "
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
-import { type ProfileBox, type ProfileQuestion, profileChoose, profileQuestionsOf, profileSettle, profileShown } from "../../../../framework/engine/ProfileQuestions.ts";
+import { type ProfileBox, type ProfileQuestion, PROFILE_NOTE_HINTS, profileChoose, profileQuestionsOf, profileSettle, profileShown } from "../../../../framework/engine/ProfileQuestions.ts";
 import { type SegmentBox, type SegmentQuestion, segmentChoose, segmentOptions, segmentQuestionsOf, segmentRowChoice, segmentSettle, segmentSettledNotes } from "../../../../framework/engine/SegmentQuestions.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
 import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
@@ -371,6 +371,7 @@ export function useFoundationSubsections(earlier: Earlier) {
             return SUBSECTIONS.segments.profileDescription.map(part => ({
                 ...part,
                 note: true,
+                extra: [PROFILE_NOTE_HINTS[part.id as ProfileBox]],
                 questions: profileQuestionsOf(part.id as ProfileBox, segment.questions, asked).map(question => profileQuestionOf(profile, profileIndex, shown, question)),
                 weight: 2 + profileQuestionsOf(part.id as ProfileBox, segment.questions, asked).length * 4
             }));
@@ -381,9 +382,9 @@ export function useFoundationSubsections(earlier: Earlier) {
          */
         const motivations = (profile: BusinessCustomerProfileValue, profileIndex: number) => {
             const boxes: { box: ProfileBox; title: string; info: InfoPoint[]; text: string; field: "goals" | "challenges" | "objections" }[] = [
-                { box: "goals", title: "Goals & Desires", info: SUBSECTIONS.segments.motivations.goals, text: profile.goals, field: "goals" },
-                { box: "challenges", title: "Challenges & Problems", info: SUBSECTIONS.segments.motivations.challenges, text: profile.challenges, field: "challenges" },
-                { box: "objections", title: "Objections", info: SUBSECTIONS.segments.motivations.objections, text: profile.objections, field: "objections" }
+                { box: "goals", title: "Goals & Desires", info: [...SUBSECTIONS.segments.motivations.goals, PROFILE_NOTE_HINTS.goals], text: profile.goals, field: "goals" },
+                { box: "challenges", title: "Challenges & Problems", info: [...SUBSECTIONS.segments.motivations.challenges, PROFILE_NOTE_HINTS.challenges], text: profile.challenges, field: "challenges" },
+                { box: "objections", title: "Objections", info: [...SUBSECTIONS.segments.motivations.objections, PROFILE_NOTE_HINTS.objections], text: profile.objections, field: "objections" }
             ];
             const shown = profileShown(profile.questions ?? {}, segment.questions, asked);
             return (
