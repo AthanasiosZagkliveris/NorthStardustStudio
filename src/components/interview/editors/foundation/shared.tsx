@@ -163,6 +163,8 @@ export interface DescriptionPart {
     weight?: number;
     /** Under its questions the box also keeps its own text note (the Profile's boxes). */
     note?: boolean;
+    /** The heading level of its title (3 where it is a section of its card, 4 where it stands under a section: the Profile's boxes). */
+    level?: number;
 
 }
 

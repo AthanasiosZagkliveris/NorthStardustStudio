@@ -1225,6 +1225,11 @@
 
     max-width:none;
 
+    /* A heavier double rule than the one between subsections: two 2px lines with 4px between them. */
+    height:8px;
+
+    border-width:2px;
+
 }
 
 .floating-card-body .column-tile-content > .business-foundation-card > .business-segment-grid-single:has(+ .business-profile-section-rule){
@@ -1242,6 +1247,13 @@
 .floating-card-body .column-tile-content > .business-foundation-card > .business-group-fold-head + .business-segment-grid-single{
 
     margin-top:calc(-1 * var(--space-field));
+
+}
+
+/* THE NOTE OF A BOX is a band of its own, the next in the run of tints (every other band) and with room above it: a field gap before its tick row. */
+.business-segment-grid .business-note-band{
+
+    padding-top:var(--space-field);
 
 }
 

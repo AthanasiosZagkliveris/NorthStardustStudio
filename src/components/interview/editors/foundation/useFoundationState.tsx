@@ -288,7 +288,7 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
                         ) : (
                             /* Glued to the name's last word, as every
                                label's "i" is (see InfoText). */
-                            <FieldLabel className="business-foundation-label">
+                            <FieldLabel className="business-foundation-label" role="heading" aria-level={part.level ?? 3}>
                                 <InfoText text={part.title}>
                                     <InfoNote
                                         label={part.title}
@@ -325,7 +325,7 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
                         ))}
                         {/* The box ends with the shared Note (the tick and the word, as every card has), ticked where it holds words. */}
                         {part.note && (
-                            <div className="legal-entity-org-section">
+                            <div className={"legal-entity-org-section business-note-band" + (part.questions.length % 2 === 1 ? " legal-entity-org-band" : "")}>
                                 <OptionalNote
                                     label="Notes"
                                     fieldId={part.title + " notes"}

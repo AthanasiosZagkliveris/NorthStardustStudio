@@ -367,6 +367,7 @@ export function useFoundationSubsections(earlier: Earlier) {
             return SUBSECTIONS.segments.profileDescription.map(part => ({
                 ...part,
                 note: true,
+                level: 4,
                 extra: [PROFILE_NOTE_HINTS[part.id as ProfileBox]],
                 questions: profileQuestionsOf(part.id as ProfileBox, segment.questions, asked).map(question => profileQuestionOf(profile, profileIndex, shown, question)),
                 weight: 2 + profileQuestionsOf(part.id as ProfileBox, segment.questions, asked).length * 4
@@ -392,7 +393,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 <div className="business-segment-box">
                                     <div className="legal-entity-org-section">
                                         <span className="business-foundation-label-info legal-entity-label-info">
-                                            <FieldLabel className="business-foundation-label">
+                                            <FieldLabel className="business-foundation-label" role="heading" aria-level={4}>
                                                 <InfoText text={entry.title}>
                                                     <InfoNote label={entry.title} points={entry.info} fullList />
                                                 </InfoText>
@@ -404,7 +405,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                                             {profileQuestionOf(profile, profileIndex, shown, question)}
                                         </div>
                                     ))}
-                                    <div className="legal-entity-org-section">
+                                    <div className={"legal-entity-org-section business-note-band" + (profileQuestionsOf(entry.box, segment.questions, asked).length % 2 === 1 ? " legal-entity-org-band" : "")}>
                                         <OptionalNote
                                             label="Notes"
                                             fieldId={entry.title + " notes"}
