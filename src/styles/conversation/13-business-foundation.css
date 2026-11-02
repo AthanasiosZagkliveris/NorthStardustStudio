@@ -1058,6 +1058,12 @@
 
 }
 
+.floating-card-body .column-tile-content > .business-foundation-card .numbered-list{
+
+    border-color:var(--text-faint);
+
+}
+
 /* (A round is drawn thin and anti-aliased: its line is the darker --text-muted, so it holds 3:1 where it is thinnest.) */
 .business-segment-grid input[type="radio"]:not(:checked){
 
@@ -1105,6 +1111,8 @@
 
     margin-left:calc(-1 * var(--space-cell));
 
+    padding-right:calc(var(--card-x-column) + var(--space-field));
+
     flex:none;
 
     max-width:none;
@@ -1114,6 +1122,8 @@
 .floating-card-body .column-tile-content > .business-foundation-card > .business-segment-grid-single .legal-entity-pair > .legal-entity-label-info{
 
     width:calc(100% + 2 * var(--space-cell) + var(--card-x-column));
+
+    padding-right:calc(var(--card-x-column) + var(--space-field));
 
 }
 

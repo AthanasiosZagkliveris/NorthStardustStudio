@@ -241,6 +241,8 @@ Not verified: the ANZSIC group codes of Division K groups 62 and 63 and Division
 
 Every option has a one-line example shown under it, so the user understands the choice without leaving the card. The examples are the author's and need the owner's approval **[D]**. The first five lists are written here; the others follow the same pattern.
 
+*(The Profile shows L1 to L4 with a slash in place of the word "or": "Shared values / identity", "Win customers / earn more"; the ids stay the words written here.)*
+
 **L1, what customers care about**
 
 | Option | Example |

@@ -171,7 +171,7 @@ A typical person of the Segment, asked specifically.
 
 - **Control:** ticks, up to 3.
 - **Asked when:** always.
-- **Options:** the list L1 (doc 35, 5.2): Lower price; Speed; Ease and convenience; Quality and results; Trust and reputation; Expert knowledge; A service made for them; Good support; Safety and low risk; Shared values or identity.
+- **Options:** the list L1 (doc 35, 5.2): Lower price; Speed; Ease and convenience; Quality and results; Trust and reputation; Expert knowledge; A service made for them; Good support; Safety and low risk; Shared values / identity.
 - **The "i" would say:** What matters most to a typical person of the Segment when choosing. Interests, lifestyle and aspirations stay in the note.
 - **Connections:**
   - *Comes from:* nothing.
@@ -185,10 +185,10 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 - **Control:** ticks, as many as apply.
 - **Asked when:** always.
-- **Options:** the list L15 (doc 35, 5.2): Smartphone; Laptop or desktop; Tablet; A shared or public device; Other, which the user writes in (ticking it opens a text box under the options; its words are kept as the answer).
+- **Options:** the list L15 (doc 35, 5.2): Smartphone; Laptop / desktop; Tablet; A shared / public device; Other, which the user writes in (ticking it opens a text box under the options; its words are kept as the answer).
 - **The "i" would say:** The devices they use to find and buy, not those they own.
 - **Connections:**
-  - *Comes from:* the Segment's online comfort and where they buy: the setting starts it (Mobile app: Smartphone; Desktop / Laptop computer: Laptop or desktop; Physical storefront: none; Multi-channel: Smartphone and Laptop or desktop), as a starting value the user can change.
+  - *Comes from:* the Segment's online comfort and where they buy: the setting starts it (Mobile app: Smartphone; Desktop / Laptop computer: Laptop / desktop; Physical storefront: none; Multi-channel: Smartphone and Laptop / desktop), as a starting value the user can change.
   - *Read by (not built yet):* the Review (make the order and the forms work on a phone; a note where the devices ticked leave out the one the Segment buys on).
 
 ### C2. Which social media do they use?
@@ -230,11 +230,11 @@ What the Segment cannot say: which devices, which social media, which communitie
 - **Options:**
   - Your website
   - Reviews and recommendations online
-  - A demo, trial or sample
-  - A quote or proposal
+  - A demo / trial / sample
+  - A quote / proposal
   - What other people recommend
   - Comparison sites
-  - A meeting or call
+  - A meeting / call
 - **The "i" would say:** How they weigh options before choosing. How they pay and where they buy are the Segment's questions.
 - **Connections:**
   - *Comes from:* the Segment's path to purchase.
@@ -259,7 +259,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 ### E1. What are they trying to achieve?
 
 - **Control:** ticks, up to 3.
-- **Options:** the list L4 (doc 35, 5.2): Save time; Save money; Lower their risk; Get better results; Get easier access; Learn something new; Express who they are; Meet a requirement; Win customers or earn more; Stay within the rules.
+- **Options:** the list L4 (doc 35, 5.2): Save time; Save money; Lower their risk; Get better results; Get easier access; Learn something new; Express who they are; Meet a requirement; Win customers / earn more; Stay within the rules.
 - **Asked when:** always. *Read by (not built yet):* the Value Proposition draft. *Comes from:* nothing.
 
 ### E2. What frustrates them today?

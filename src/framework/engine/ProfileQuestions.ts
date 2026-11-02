@@ -31,7 +31,9 @@ const FRUSTRATIONS = ["It costs too much", "It takes too long", "It is too compl
 const WORRIES = ["The price or their budget", "Whether they can trust you", "How long it takes to start", "How hard it is to use", "Risk or security", "Whether it fits their needs", "Support after they buy", "The effort of switching from what they use now"];
 
 const slug = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-const list = (labels: readonly string[]): SegmentOption[] => labels.map(label => ({ id: slug(label), label }));
+/** What an option says: alternatives are named with a slash, not the word "or" (owner, 2026-11-02); its id stays the slug of the words it was written with. */
+const said = (text: string) => /(^|[ ,])or /.test(text) ? text.replace(/, or /g, " / ").replace(/ or /g, " / ").replace(/, /g, " / ") : text;
+const list = (labels: readonly string[]): SegmentOption[] => labels.map(label => ({ id: slug(label), label: said(label) }));
 
 const QUESTIONS: readonly ProfileQuestion[] = [
     {
@@ -61,7 +63,7 @@ const QUESTIONS: readonly ProfileQuestion[] = [
     },
     {
         id: "c1", box: "hubs", label: "Which devices do they use?", many: true,
-        options: [{ id: "phone", label: "Smartphone" }, { id: "computer", label: "Laptop / desktop" }, { id: "tablet", label: "Tablet" }, { id: "shared", label: "A shared or public device" }, OTHER], other: true,
+        options: [{ id: "phone", label: "Smartphone" }, { id: "computer", label: "Laptop / desktop" }, { id: "tablet", label: "Tablet" }, { id: "shared", label: "A shared / public device" }, OTHER], other: true,
         info: ["The devices they use to find and buy, not those they own.", "The Segment's choice of where they buy starts this; change it freely."]
     },
     {
