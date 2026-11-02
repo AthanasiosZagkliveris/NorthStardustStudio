@@ -1267,6 +1267,22 @@
 
 }
 
+/* ONLY THE SECTIONS ARE SPLIT BY A DOUBLE RULE: between two subsections of a section stands one line, the width of the card. */
+.floating-card-body .column-tile-content > .business-foundation-card > .business-segment-grid-single .business-capability-card-rule-double{
+
+    height:0;
+
+    border-bottom-width:0;
+
+}
+
+/* A band that holds a cell taller than a line (the age) has the same room above it and under it. */
+.business-segment-grid .legal-entity-org-section:has(> .legal-entity-pair > .business-profile-age){
+
+    padding-block:var(--space-field);
+
+}
+
 /* A label over a text holder (a list of lines, a text box) has no line under it: the line is for a label over options. */
 .legal-entity-pair:has(> .numbered-list) > .legal-entity-label-info,
 .legal-entity-pair:has(> .business-numbered-list) > .legal-entity-label-info,
