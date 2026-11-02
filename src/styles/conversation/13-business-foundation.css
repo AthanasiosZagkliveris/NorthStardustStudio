@@ -1121,7 +1121,7 @@
 
 }
 
-/* THE SECTIONS OF THE PROFILE CARD (Description, Motivations, Needs) are the first level: a band across the card in larger capitals, on a tint of the primary fill with a 2px primary line over it. Under it the boxes (their title bands on the primary fill, the second level) and under those the labels of the questions (the third). */
+/* THE PROFILE CARD HAS THREE LEVELS, ONE DESIGN FOR EACH. The SECTIONS (Description, Motivations, Needs) are bands on the primary fill with light letters in capitals, as the title bands of the Segment card are. The QUESTIONS are the labels over their options, as in the Segment card. BETWEEN them, the SUBSECTIONS (the boxes: Specific Personal Information, Psychographics, Goals & Desires ...) are lighter: a band on a tint of the primary fill with a 4px primary bar at its left and the title in bold capitals in the title ink. */
 .floating-card-body .column-tile-content > .business-foundation-card > .business-group-fold-head{
 
     grid-column:1 / -1;
@@ -1132,23 +1132,77 @@
 
     padding:var(--space-label) var(--card-padding);
 
-    border-top:2px solid var(--bg-primary);
+    background:var(--bg-primary);
 
-    background:color-mix(in srgb, var(--bg-primary) 14%, transparent);
+    --info-fill:var(--bg-primary);
 
 }
 
 .floating-card-body .column-tile-content > .business-foundation-card > .business-group-fold-head .business-foundation-subhead{
 
-    font-size:var(--font-h3);
+    font-size:var(--font-body);
 
-    font-weight:700;
+    font-weight:400;
 
-    letter-spacing:0.06em;
+    letter-spacing:normal;
 
     text-transform:uppercase;
 
+    color:var(--text-on-fill);
+
+}
+
+.floating-card-body .column-tile-content > .business-foundation-card > .business-group-fold-head .info-note-button{
+
+    border-color:var(--text-on-fill);
+
+    color:var(--text-on-fill);
+
+}
+
+.floating-card-body .column-tile-content > .business-foundation-card > .business-group-fold-head .info-note-button:hover,
+.floating-card-body .column-tile-content > .business-foundation-card > .business-group-fold-head .info-note-button[aria-expanded="true"]{
+
+    background:var(--text-on-fill);
+
+    color:var(--bg-primary);
+
+}
+
+.business-segment-grid.business-segment-grid-single .business-segment-box > .legal-entity-org-section:first-child{
+
+    background:color-mix(in srgb, var(--bg-primary) 14%, transparent);
+
+    box-shadow:inset 4px 0 0 var(--bg-primary);
+
+    --info-fill:transparent;
+
+}
+
+.business-segment-grid.business-segment-grid-single .business-segment-box > .legal-entity-org-section:first-child .business-foundation-label{
+
     color:var(--title-ink);
+
+    font-weight:700;
+
+    text-transform:uppercase;
+
+}
+
+.business-segment-grid.business-segment-grid-single .business-segment-box > .legal-entity-org-section:first-child .info-note-button{
+
+    border-color:var(--title-ink);
+
+    color:var(--title-ink);
+
+}
+
+.business-segment-grid.business-segment-grid-single .business-segment-box > .legal-entity-org-section:first-child .info-note-button:hover,
+.business-segment-grid.business-segment-grid-single .business-segment-box > .legal-entity-org-section:first-child .info-note-button[aria-expanded="true"]{
+
+    background:var(--title-ink);
+
+    color:var(--bg-surface);
 
 }
 
