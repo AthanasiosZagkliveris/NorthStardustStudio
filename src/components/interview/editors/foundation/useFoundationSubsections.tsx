@@ -475,6 +475,8 @@ export function useFoundationSubsections(earlier: Earlier) {
                             below, and a section called "... and
                             Needs" containing a section called "Needs"
                             says it twice. */}
+                        <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double business-profile-section-rule" role="separator" />
+
                         {group("Motivations", <>
 
                         {motivations(profile, profileIndex)}
@@ -491,6 +493,8 @@ export function useFoundationSubsections(earlier: Earlier) {
                             line is what the Offerings subsection
                             picks from. */}
                         {/* NEEDS is a section as Description and Motivations are: its heading, then its labelled bands (Functional, Emotional, Social), each label over its numbered list. */}
+                        <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double business-profile-section-rule" role="separator" />
+
                         {group("Needs", (
                             <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-single">
                                 <div className="legal-entity-field">

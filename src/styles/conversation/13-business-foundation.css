@@ -1101,7 +1101,9 @@
 /* (The title band's inner line and the line under a label are drawn by the label row: they run on across the room the section keeps, to the card's side.) */
 .floating-card-body .column-tile-content > .business-foundation-card > .business-segment-grid-single .legal-entity-org-section > .legal-entity-label-info.business-foundation-label-info{
 
-    width:calc(100% + var(--card-x-column) + var(--space-field));
+    width:calc(100% + var(--space-cell) + var(--card-x-column) + var(--space-field));
+
+    margin-left:calc(-1 * var(--space-cell));
 
     flex:none;
 
@@ -1121,7 +1123,7 @@
 
 }
 
-/* THE PROFILE CARD HAS THREE LEVELS, ONE DESIGN FOR EACH. The SECTIONS (Description, Motivations, Needs) are bands on the primary fill with light letters in capitals, as the title bands of the Segment card are. The QUESTIONS are the labels over their options, as in the Segment card. BETWEEN them, the SUBSECTIONS (the boxes: Specific Personal Information, Psychographics, Goals & Desires ...) are lighter: a band on a tint of the primary fill with a 4px primary bar at its left and the title in bold capitals in the title ink. */
+/* THE PROFILE CARD HAS THREE LEVELS, ONE DESIGN FOR EACH. The SECTIONS (Description, Motivations, Needs) are bands on the primary fill with light letters in capitals, in the Segment card's title style (18px, regular). The QUESTIONS are the labels over their options, as in the Segment card. BETWEEN them, the SUBSECTIONS (the boxes: Specific Personal Information, Psychographics, Goals & Desires ...) are lighter: a band on a tint of the primary fill with a 4px primary bar at its left and the title a size under the section's, in bold capitals spaced wide, in the title ink. */
 .floating-card-body .column-tile-content > .business-foundation-card > .business-group-fold-head{
 
     grid-column:1 / -1;
@@ -1130,7 +1132,7 @@
 
     max-width:none;
 
-    padding:var(--space-label) var(--card-padding);
+    padding:8px var(--card-padding);
 
     background:var(--bg-primary);
 
@@ -1183,7 +1185,11 @@
 
     color:var(--title-ink);
 
+    font-size:var(--font-small);
+
     font-weight:700;
+
+    letter-spacing:0.1em;
 
     text-transform:uppercase;
 
@@ -1203,6 +1209,52 @@
     background:var(--title-ink);
 
     color:var(--bg-surface);
+
+}
+
+/* A DOUBLE RULE SPLITS THE SECTIONS, from side to side of the card, flush with the bands above and under it (the card's row gap is taken back). The band under a section's heading, and the first band of the section, follow it without a gap. */
+.floating-card-body .column-tile-content > .business-foundation-card > .business-profile-section-rule{
+
+    grid-column:1 / -1;
+
+    margin-block:0;
+
+    margin-inline:calc(-1 * var(--card-padding));
+
+    width:auto;
+
+    max-width:none;
+
+}
+
+.floating-card-body .column-tile-content > .business-foundation-card > .business-segment-grid-single:has(+ .business-profile-section-rule){
+
+    margin-bottom:calc(-1 * var(--space-field));
+
+}
+
+.floating-card-body .column-tile-content > .business-foundation-card > .business-profile-section-rule + .business-group-fold-head{
+
+    margin-top:calc(-1 * var(--space-field));
+
+}
+
+.floating-card-body .column-tile-content > .business-foundation-card > .business-group-fold-head + .business-segment-grid-single{
+
+    margin-top:calc(-1 * var(--space-field));
+
+}
+
+/* A label over a text holder (a list of lines, a text box) has no line under it: the line is for a label over options. */
+.legal-entity-pair:has(> .numbered-list) > .legal-entity-label-info,
+.legal-entity-pair:has(> .business-numbered-list) > .legal-entity-label-info,
+.legal-entity-pair:has(> textarea) > .legal-entity-label-info{
+
+    border-bottom:0;
+
+    padding-bottom:0;
+
+    min-height:0;
 
 }
 
