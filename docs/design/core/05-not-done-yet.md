@@ -1,14 +1,16 @@
 # 5. What has not been done yet
 
-Status: **living list**, written 2026-10-14, updated 2026-10-29. Remove an item when it is done and record it in the log (`04-log.md`). Everything here is a plan or a proposal unless it says "decided". Nothing in sections 5.3 and 5.5 is built.
+Status: **living list**, written 2026-10-14, updated 2026-11-02. Remove an item when it is done and record it in the log (`04-log.md`). Everything here is a plan or a proposal unless it says "decided". Nothing in section 5.3 is built, and of section 5.5 only what a row says is built.
 
 ## Open now
+
+**The questionnaire build**: built are the Segment card's questions (doc 36), the Profile card's questions A1 to A3, A5, B1, C1 to C4, D1, D2 and E1 to E3 (doc 37), and the Organization and Positioning tiles (docs 38 and 39). Not built: the Profile's A4 (kind of business) and A6 (specialized needs), the proposed Profiles and the user's own Profile (the second Profile of a Proxy or Dual-Intent Segment), and every read of the Segment's and Profile's answers listed as "Read by (not built yet)" in docs 36 and 37. What else is left of the first version is doc 34; where each tile stands is doc 41. The help texts follow doc 40 (a proposal: only its size budget is built).
 
 **The release**: `chore/light-cleanup` is merged into `main` (log, 2026-10-22). Next: the Tile System (5.3), then Batches D and E (5.4), then the extraction (5.7).
 
 **Waiting for the owner**: the proposals in `17-frequency-options.md` (frequency groups); the generated cards' inputs beyond "adding, not removing"; the open decisions of 5.8; the sizes and gaps that are not on a step (5.6).
 
-**To unify**: the Legal Entity cards' own CSS (`legal-entity-*`) stays: the merge was tried on 2026-10-20 and put back because the shared card's classes move the number, the name gap and the ground. The Inventory grid's columns come from the stylesheet and stay. The other places once thought to be copies are not (`21-shared-components.md`, "What is hand-made, read one by one").
+**To unify**: the Legal Entity cards' own CSS (`legal-entity-*`) stays: a merge into the shared card was tried and put back, because the shared card's classes move the number, the name gap and the ground. The Inventory grid's columns come from the stylesheet and stay. The other places once thought to be copies are not (`21-shared-components.md`, "What is hand-made, read one by one").
 
 **Not looked at in a browser**: the Process library and Operational log pages (not reachable in this version of the app); the tooltips of the Roadmap bars, the action symbols and the noted fields. The tests cover them.
 
@@ -16,9 +18,9 @@ Status: **living list**, written 2026-10-14, updated 2026-10-29. Remove an item 
 
 **The checks**: the wide layout check (`npm run check:layout:wide`) has no baseline yet; the standard baseline is rewritten only by the owner's decision.
 
-**The library and the documents**: see 5.6 for the library (`npm run library:check` says whether it has drifted from the app). The content of the documents written on 2026-10-14 (`01`, `02`, `03`, and 5.1 to 5.5, 5.7 and 5.8 below) is not re-checked line by line: where the log says an item is done, it is done. The clean-up and library plans of 2026-10-14 (old 5.6, 5.11 to 5.14) are in `../archive/plans/2026-10-14-cleanup-and-library-plans.md`.
+**The library and the documents**: see 5.6 for the library (`npm run library:check` says whether it has drifted from the app). The names of files, symbols and scripts in documents 1 to 3 are checked (the document-reference test for document 1); their statements, and 5.1 to 5.5, 5.7 and 5.8 below, are not re-checked line by line: where the log says an item is done, it is done. The clean-up and library plans of 2026-10-14 (old 5.6, 5.11 to 5.14) are in `../archive/plans/2026-10-14-cleanup-and-library-plans.md`.
 
-## 5.1 The road (decided 2026-10-14)
+## 5.1 The road (decided)
 
 | Phase | Content | State |
 |---|---|---|
@@ -30,7 +32,7 @@ Status: **living list**, written 2026-10-14, updated 2026-10-29. Remove an item 
 
 ## 5.2 The task plan F to K: what is not done
 
-The plan of 33 tasks is locked (log, 4.5). F, G and H were committed on 2026-10-09 and I and J by 2026-10-13; the engine files of I (Global Settings, cost nature, calculated lines, funds) were not individually re-verified in the audit of 2026-10-14, and the owner's one visual pass of J is not recorded. **Not done (a later batch):** K1, VAT as a pass-through, import VAT included, rates in Global Settings; K2, actuals: the Repair Record draws on the Contingency Fund, plan against actual.
+The plan of 33 tasks is locked (log, 4.5). F, G, H, I and J are committed; the engine files of I (Global Settings, cost nature, calculated lines, funds) are not individually re-verified, and the owner's one visual pass of J is not recorded. **Not done (a later batch):** K1, VAT as a pass-through, import VAT included, rates in Global Settings; K2, actuals: the Repair Record draws on the Contingency Fund, plan against actual.
 
 
 ## 5.3 Finish the Tile System
@@ -45,9 +47,9 @@ Eleven of thirteen chapters are drawn as tiles. The rest:
 | Four editors | Old non-tile layout kept below an early return | Unreachable code (`asTiles` is always true) | Remove after confirming the tests do not use it |
 | Help tile | Not a real kind in the code | Inventory and Completed are normal tiles recognised by id | Add a real "help tile" kind |
 
-## 5.4 Workspace batches D and E: checked against the code on 2026-10-14
+## 5.4 Workspace batches D and E
 
-The briefs (written 2026-09-29, in `docs/archive/plans/`; they are not finished work, only kept there) say D and E wait until the structure is stable; it now is, and the order is decided (after the Tile System).
+The briefs (in `docs/archive/plans/`; they are not finished work, only kept there) say D and E wait until the structure is stable; it is, and the order is decided (after the Tile System). What they ask for is checked below against the code.
 
 **Already built** (the briefs asked to reuse them): `FieldKey`, `openField`, the field status line (with the unused "Changed in … · Reset" parts), the Review page, the Notepad, the undo toast, search, and `Sources.ts`. **Absent:** `planOutcomes`, scenarios, duplicate organization and card, the Compare route, the lender check, the One-Pager, the glossary.
 
@@ -56,7 +58,7 @@ The briefs (written 2026-09-29, in `docs/archive/plans/`; they are not finished 
 | `planOutcomes` (one function for all outcome figures) | Absent | Must be extracted from `planCase`, `stressTest` and the forecast | M |
 | D1 Duplicate organization | Absent | "Annotations are copied": annotations no longer exist; notes live in the Notepad, per person, outside the organization | S |
 | D2 Duplicate a card | Absent | The card kinds are now the cost-model cards; generated cards must not be duplicated; offering links and shares kept or cleared by rule | L |
-| D3 Scenarios | Absent | The scenario-able inputs table no longer matches; Global Settings are per device; `withWhatIf` only scales revenue, so a layer that applies overrides to the whole document is needed | L (largest) |
+| D3 Scenarios | Absent | The scenario-able inputs table no longer matches; Global Settings are saved with each organization; `withWhatIf` only scales revenue, so a layer that applies overrides to the whole document is needed | L (largest) |
 | D4 Compare | Absent | Needs `planOutcomes` and a route; runway, funding gap, yearly profit and repayments must be added | M |
 | E1 What would it take? | Partly exists ("What It Would Take" on Sustainability: percent levers for a cash shortfall) | The brief asks for "break even by month X", amounts per offering and "Try this" (needs D3) | M |
 | E2 Lender-ready check | Absent | The Review page has changed; the ten rules must be re-checked against the new data; each needs a Source | M |
@@ -117,7 +119,7 @@ Ordering of work (decided): the **Tile System** is finished first (T1–T2), the
 |---|---|---|---|
 | F1 | A profile's **needs** have stable ids. Offerings and the value proposition refer to a need by id. | M | Fix |
 | F2 | **Pain points** are defined once: a need that is unmet or costly today, in the profile's words. The profile's challenges feed them; they are a choice list from the profile, not a new free text. | S | Gap |
-| F3 | Segment and profile fields that are used as **filters** elsewhere (channel fit, relationship type, offering) are choices, not free text. A table lists which field filters which (section 5). | S | New |
+| F3 | Segment and profile fields that are used as **filters** elsewhere (channel fit, relationship type, offering) are choices, not free text. A table lists which field filters which (section 5). | S | New; partly built: the Segment and Profile ask choice questions (docs 36, 37), nothing yet filters by them |
 | F4 | A segment can mark its **touch preference** (self-serve, assisted, personal). It proposes the relationship type on page 2; the user can override. | C | New |
 
 #### 5.5.3.2 Competitor
@@ -225,7 +227,7 @@ The Delivery card as built is described in the page 3 specification (specificati
 | Income tax rate (global) | **Remove** (it silently overrides the Financial Foundation rate; the examples show the clash) | M |
 | Income tax basis and rate | Identity > Organization > Legal Entity > Tax | M |
 | VAT/GST basis | Same card as "registered?" | M |
-| Opening Date, Plan Start, Plan Length | Opening Date on the Organization tile, Plan Start worked out, Plan Length in the Global Settings; Strategic Period shows them read-only | S–M |
+| Opening Date, Plan Start, Plan Length | Built: the Opening Date is on the Organization tile and the Plan Start is worked out; the Plan Length stays in the Global Settings (Financial plan); the Strategic Period does not show them | S–M |
 | Contingency rates, reserve months | Financial Foundation > Funding Need | S–M |
 | Employer on-cost rate | Financial Foundation > Costs, people costs | M |
 | Insurance per employee | The key-person health card, which already overrides it | S |
@@ -254,22 +256,31 @@ The user accepts or discards every suggestion; nothing is created silently.
 
 The plans of 2026-10-14 for the clean-up round, the library automation and its sizes are in `../archive/plans/2026-10-14-cleanup-and-library-plans.md` (sections 5.6, 5.11, 5.12, 5.13 and 5.14 there; code comments and scripts cite them by those numbers). Built: the rulebook reconciled; the layout check's probe corrected and its baseline rewritten; the CSS clean-up (dead rules, tokens gathered, the big sheets split into folders); the token source and generator (`npm run tokens`); the style lint with a baseline (`npm run lint:styles`) and the CSS lints (`npm run lint:css`); the library with its contracts, gallery and runner (`npm run library`); the generated documents; the shared components. **Left:**
 
+- **The sync between the app and the tables (step 7 of `docs/design/library/08-library-system.md`, not built; moved here from section 6 of that document):**
+
+  **How a change in the app reaches the table (step 7; not built).** A sync reads the app, compares what it finds with the table, and for every difference updates the table and writes the app structure log entry. It runs on demand for the whole app, and in watch mode during development: when a file in src changes and the dev server reloads, the sync re-reads the pages that file affects and updates the table within seconds. That is the "real time".
+
+  **How the three cases are told apart (the same step).** For every asset the sync finds in the app, it looks the asset up in the library. Found: case 1 or 2 (the library log has, or gets, its entry with where it is placed). Not found: case 3 (app structure log only, marked not in the library, and listed as a drift).
+
+  **What the sync reads (recommendation for step 7; the owner may change it).** The running app: what the user sees, exact, and it needs the dev server running. A check of the source finds a component or class name that is in the app and not in the library. Reading only the source is faster, but the cards are separate builders today, so it cannot yet tell fields from components.
+
+  **Later.** Once an asset has replaced the old one (phase 3), the app is built from the library for that asset, and the sync then finds the asset where the library put it.
+
 - The unused-code pass (a list of exports no file imports; to be chosen: `knip` or `ts-prune`).
 - The values of old 5.14 that are not on a step (gaps of 10, 14, 18, 20px and others; corners of 1, 2, 3, 7, 10, 12px; three window and container boundaries drawn twice) wait for the owner: each joins a step, becomes a step, or stays a literal in the lint's baseline. The decided breakpoint set (768, 1200, heights 900 and 1250) is not yet used by any query.
 - The 768px floor against WCAG 1.4.10 Reflow (320px at 400% zoom): a declared exception until the owner rules (rulebook, section 20).
 - The library: asset by asset, each with its contract, gallery entry and page code changed to use it (step 5), the style-reading tests converted as each asset gets its contract, then the page check last (step 6) with its baseline rewritten; the sync (`08-library-system.md`, step 7).
-- Optimisation, measured before and after: load (`Conversation`, `Landing` and the registry chunks; the two examples are bundled into `Landing` and could load on demand; every editor is in one chunk), run (the biggest editors re-render on every key: profile first, memoise only where the profile shows it), code (files over 2,000 lines such as `AnswerUtils.ts`; duplicated helpers; the dead non-tile paths under `asTiles` in four editors; the Operations and social-media branches in `Conversation`). The old figures (a bundle of 662 KB, 1.07 MB of CSS, 1,355 tests) are of 2026-10-14 and must be measured again. Bundle-size limits have no official value: the limit is a choice to make after the first measurement. Target for interaction: "good" Interaction to Next Paint is 200 ms or less (web.dev).
-- The page tab's width, the unlit rail bullets and the tracking rule were settled on 2026-10-14 and 2026-10-15 (the unlit bullets' low contrast at rest is by design).
+- Optimisation, measured before and after: load (`Conversation`, `Landing` and the registry chunks; the two examples are bundled into `Landing` and could load on demand; every editor is in one chunk), run (the biggest editors re-render on every key: profile first, memoise only where the profile shows it), code (files over 2,000 lines such as `FinancialModel.ts`, `AnswerBusinessCapability.ts` and `Conversation.tsx`; duplicated helpers; the dead non-tile paths under `asTiles` in four editors; the Operations and social-media branches in `Conversation`). The old figures (a bundle of 662 KB, 1.07 MB of CSS, 1,355 tests) are of 2026-10-14 and must be measured again. Bundle-size limits have no official value: the limit is a choice to make after the first measurement. Target for interaction: "good" Interaction to Next Paint is 200 ms or less (web.dev).
 
 
 ## 5.7 Extraction into the new app: what the audit found
 
-- **No Foundation folder exists.** Systems 01–24 are rows in `src/data/systems.ts`; the interview code is shared and the business editors are wired in as answer types. The cut is by feature, not by folder. Foundation-only Markdown content is about 9 KB of 153 KB.
+- **No Foundation folder exists.** Systems 01–24 are rows in `src/data/systems.ts`; the interview code is shared and the business editors are wired in as answer types. The cut is by feature, not by folder. Foundation-only Markdown content (Systems 01 to 04: Answer, Questions and Help files) is about 10 KB of 131 KB.
 - **To keep** (shared parts): reading mode (`ThemeService`, colours), focus mode, notes (Notepad), calendar, search, review, undo, help notes, export and documents, preferences, storage behind its interface.
 - **To leave behind:** Systems 05–24 content and menu rows, `CapabilityGenerator`, the operations and social-media branches in `Conversation`, and any editor only they use (Process Library, Operational Log, Roles & Responsibilities).
 - **Not to leave behind:** Financial Foundation, Sustainability and the financial model. They are Business pages 4 and 5. (The raw audit listed them as "likely other systems"; that is wrong.)
 - **Desktop-only code:** one import (`@tauri-apps/plugin-opener` in `InfoNote`, with a web fallback already in place), plus the Tauri folder and two port settings in the build file. A web build is straightforward.
-- **Storage:** all data is in the browser's local storage (about 5 MB), behind one store interface. A server or IndexedDB store fits behind the same interface. The two example organizations alone are 580 KB.
+- **Storage:** all data is in the browser's local storage (about 5 MB), behind one store interface. A server or IndexedDB store fits behind the same interface. The two example organizations alone are about 600 KB.
 - **Calendar: decided, it exists in the new app.** The earlier Foundation App Plan listed it as staying behind. It reads card dates, so it depends on the card engine and travels with it; its sources (card dates, Operational Log, schedules) are kept.
 - **Decision:** the form of the new app is open (5.8, item 8).
 
@@ -295,7 +306,7 @@ The confirmed problems that no turn has fixed are kept in one place: `docs/ai/ou
 
 ## 5.10 What stayed in the project, and why
 
-- `src/data/examples/`: the one copy of the two examples (the app reads it; `docs/examples/` was removed 2026-10-22). `UPDATE_EXAMPLES=1 npx vitest run src/services/ExampleDrift.test.ts` writes both from the app's own readers; the drift and review tests fail when an example is behind the interface.
+- `src/data/examples/`: the one copy of the two examples (the app reads it). `UPDATE_EXAMPLES=1 npx vitest run src/services/ExampleDrift.test.ts` writes both from the app's own readers; the drift and review tests fail when an example is behind the interface.
 
 ## 5.11 Open from the documents review (2026-10-29)
 
@@ -312,11 +323,11 @@ For the owner to decide, or work not done. Each item leaves this list when done 
 
 **Library (doc 08, 10, 11, 12)**
 - Step 7 of the library plan (the sync of the app to the tables, with a watch mode) is not built.
-- Doc 11 (the library log archive) was moved to `docs/archive/library/` on 2026-10-29; its rows are only older entries of the library log.
-- The hand-written rows of doc 10 (L0653 to L0659) and doc 11 (A0029 to A0034) hold facts the log does not (tipWords, aria-pressed, label-arrow.css, MultiPicker); doc 11 mentions `SegmentedToggle`, which is not in `src`.
+- The hand-written rows of doc 10 (L0653 to L0659) and doc 11 (A0029 to A0034) hold facts the log does not (tipWords, aria-pressed, label-arrow.css, MultiPicker).
+- The older library log rows (L0001 to L0502) are kept in `docs/archive/library/library-log-archive.md`.
 
 **The design record (doc 01, 02, 03)**
-- Part F of doc 01 is now doc 26 (2026-10-29); the repeated template for each card could still be reduced, but the catalogue tool reads its table shapes.
+- Part F of doc 01 is doc 26; its repeated template for each card could be reduced, but the catalogue tool reads its table shapes.
 - Doc 02, 2.7 (the source register, about 100 KB) could become its own document; other documents cite its ids.
 - The Part G "Key flag" idea and the Part E "Both" place are in no code and no longer in doc 01: formally dropped? (They stay in doc 03 R2.)
 - The comment in `PartnerGroupHelp.test.ts` still says "part H"; it is Part D, section 3.
@@ -325,21 +336,20 @@ For the owner to decide, or work not done. Each item leaves this list when done 
 - 25 ids are listed as withdrawn or merged, but 91 minus 67 is 24: the 91 or one id is wrong (doc 28, Appendix B).
 - I6 is counted as a check while 8.2 withdraws it, and I7 is counted as a driver while described as merged into I7c. Without I6 the count is 20 checks and 66 questions.
 - The customers' industry list (G15, P24): 5.7 says the 18 plain industries are retired, but 6.3, 27 section 5 and 29 still use them. Marked [D] in doc 28.
-- Doc 28 is 207 KB since section 5 became doc 35 (2026-10-29); sections 6 to 15 remain.
+- Doc 28 is about 180 KB (sections 6 to 15 remain after section 5 became doc 35); docs 36 to 39 are the tile documents taken out of it (doc 41).
 
 **Added by the review of the docs folder (2026-10-29)**
 - The Shared Workspace proposal (`docs/archive/proposals/shared-workspace.md`) has no item in this list; its place is to be decided.
-- Doc 1, B.1 and the app index differ on whether the Organization tile is on Identity page 1 (Definition & Ethics) or page 2 (Legal Entity); check the code and fix the wrong one.
-- `docs/ai/customer-engagement-layout.md` says every Journey Stage band starts folded; the code (`useItemFolds(true)`) starts them open and a test expects no fold arrow: the sentence is probably stale.
+- `docs/ai/customer-engagement-layout.md` says every Journey Stage band starts folded; the code (`useItemFolds(true)` in `useEngagementState.tsx`) starts them open (the comment there says closed) and a test expects no fold arrow: the sentence and the comment are stale.
 - `docs/ai/layout-rules.md`: section 8 says a dropdown list is exactly the width of its cell, section 10 says it is as wide as its longest option; the tile title in section 8 (a multi-line title) disagrees with `.section-tile-title` (nowrap, ellipsis). `tools/scripts/layout-check/run.mjs` cites a rulebook heading "Run the check" that does not exist.
 - The Finance dynamic field points at the retired Revenue Model page (recorded in the specifications README only).
 - Section 6 of `layout-rules.md` (Interactions) holds rows that doc 18 lacks (a parent's status line, a child's name, the Add button, a text holder): move them into doc 18, then keep one text.
 - `src/library/assets/floatingCard.ts` line 86 still cites "docs/design/05, 5.8"; the generated section 19 of the rulebook repeats it.
 
 **Left by the first-version build of the Organization and Positioning tiles (2026-10-29)**
-- The ages in the Segment (doc 33, section 6) and anything in Business 1 that reads the buyer's category, the relationship or the purpose (the second Profile for the user, P25) are not built.
+- The Review's checks of the legal ages (doc 33, section 6; the age terms themselves are asked by the Segment, doc 36) and anything in Business 1 that reads the buyer's category, the relationship or the purpose (the user's own Profile, doc 37) are not built.
 - The Country question lists the six and Other: a saved organisation of another country opens as Other with its country chosen. The legal-form wording and documents that follow the country's form (capital, the "limited company" phrase) still follow the profile of that country where the app has one.
-- The four coarse user life stages have no age edges (doc 33, section 5).
+- The four coarse user life stages have no age edges (doc 33, section 5); the Segment's age options show approximate ages (doc 36).
 - The routing of the outcome for the user into the second Profile (P9, P17) is not built (doc 34, item 13).
 - The Canadian classification file (`src/data/classifications/ca-naics-2022.json`) has 694 industries and 923 Canadian industries; Statistics Canada publishes 695 and 922. Check it against the official structure file (doc 35, 5.7).
 - The card scan `tools/catalogue/scans/quillfield-1920-light.json` is not written by any script of the repository; it still names page 2 "2. Organization" (two rows of document 7, twelve of document 13). A script for it is not built.

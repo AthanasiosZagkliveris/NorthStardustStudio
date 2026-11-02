@@ -1,6 +1,6 @@
 # 33. Specs and limitations: the first published version (owner, 2026-10-29)
 
-Status: **specification**, written 2026-10-29, updated 2026-10-29, as given by the owner. What the first published version of the app contains and what it does not. The owner's items are written as given; the assistant's checks against the app, doc 28 and doc 31 are marked **Check** and are for the owner to confirm. Nothing here is built. What the first version leaves out is in doc 34.
+Status: **specification**, written 2026-10-29, updated 2026-11-02, as given by the owner. What the first published version of the app contains and what it does not. The owner's items are written as given; the assistant's checks against the app, doc 28 and doc 31 are marked **Check** and are for the owner to confirm. The Organization tile, Early Positioning and the Segment card follow it (section 8); the Profile card is built in part (doc 37). What the first version leaves out is in doc 34.
 
 Related: doc 28 (questionnaire specification), doc 31 (positioning categories), doc 32 (sources), doc 34 (future features), `docs/README.md` (contents), `docs/index.md` (index) and `docs/app/glossary.md` (glossary).
 
@@ -10,7 +10,7 @@ Related: doc 28 (questionnaire specification), doc 31 (positioning categories), 
 |---|---|
 | Language | **English only** |
 | Countries | The **six named countries** (UK, Ireland, USA, Canada, Australia, New Zealand) and **Other**, which is any country outside those six |
-| Legal form | The six countries: each country's **own complete list**. Other: **five generic forms** |
+| Legal form | The six countries: each country's **own complete list**. Other: **four generic forms** |
 | Activities and codes | The six countries: each country's **complete list with its codes**. Other: the user **types the activity and the code** |
 | Market structure | **Single-sided only** |
 | Seller and buyer relationship | **B2C and/or B2B** only |
@@ -33,7 +33,7 @@ English only. Every label, tooltip, document and export is in English; there is 
      4. Limited Liability Partnership (LLP)
 
 **Check, for the owner:**
-- **The built app differs.** Today every country in the world can be chosen from a list; some carry a profile with their own legal forms (for example a GmbH entry exists for one of them) and the rest use a neutral profile with free text. In the first version, the six countries keep their profiles; every other country is "Other" with the five forms. Whether the country picker lists the six and Other only, or all countries mapped to Other, is not stated; the first is read here.
+- **Settled while building (section 8):** the country picker lists the six countries and Other; Other opens a second list of every other country, and the legal form is one of the four generic forms.
 - **Do the six countries' built legal-form lists count as "complete"?** The lists in the code are the ones the owner's rule 14 allows only from official documents; whether each is complete and sourced for the six countries has not been re-checked here.
 - **The four generic forms are the owner's own list** (not from an official document), allowed because Other has no official source. Option 3 names several countries' forms in one option; the documents that follow the legal form (the "limited company" phrase, capital, registration authority) would follow the option for Other.
 - **General Partnership** is new on the list in this form; the built lists name partnership forms per country.
@@ -87,7 +87,7 @@ The B2B list is the six business relationships of doc 31 section 6.2, each with 
 
 **Check, for the owner:**
 1. **This replaces the I7b design of doc 31 decision 19.** There the life-stage list had five options, with Proxy and Dual-Intent among them. Now **I7b keeps three life-stage options** and **the category is a separate question**. The End User block is shown by the category.
-2. **The built app still has "Proxy Buyers / Gifters" inside the life-stage list** (saved value `proxy`). It stays until the new structure is built (doc 31 decision 23); the saved value needs converting then.
+2. **The life-stage list no longer holds "Proxy Buyers / Gifters"** (section 8): an older saved answer is read in the new form and the buyer's category is asked again.
 3. **The user's life stage has four coarse groups** with no age edges given. Minors is read as under 18 and Seniors as 65 and over (which includes the Dependent seniors of 74 and over). Do the four replace the detailed stages of doc 31 section 1 or group them? Not stated.
 4. **B2B users have no life stage.** The user's life stage is read as B2C only; for B2B the relationship is the only End User item.
 5. **The buyer's category for B2B:** the archetypes of section 10.6 suggest a category for each relationship (Proxy or Dual-Intent); as decided in doc 31 decisions 8 to 10, the relationship only **suggests** it and the buyer's own answer governs.
@@ -112,7 +112,7 @@ The Organization tile and the Early Positioning tile of the app follow this docu
 
 **Organization tile**
 - **Country:** the picker lists the six countries and "Other". "Other" opens a second list, "Other country", of every other country (so the currency and the tax wording still follow the country). The six keep their legal forms, their classification and their registration data.
-- **Legal form:** the six countries keep their own lists; every other country has the five generic forms, then "Other" (the way out to a form the list does not carry, kept as in every list).
+- **Legal form:** the six countries keep their own lists; every other country has the four generic forms (`GENERIC_LEGAL_FORMS`, `src/framework/engine/LegalEntityJurisdictions.ts`); the list has no "Other" entry.
 - **Activities:** for the six countries the official classification (up to four activities); for Other each activity is typed with its code (an "Activity" box and a "Code" box in each row, up to four rows).
 
 **Early Positioning tile**
@@ -126,7 +126,7 @@ The Organization tile and the Early Positioning tile of the app follow this docu
 
 **Arranged on 2026-10-30:** the Early Positioning tile has two columns. Left, every question before the Purpose: the Seller and Buyer Relationship and, for each relationship, its audience (Buyer's Life-Stage or Audience Specialization & Scale), its Buyer's category and the End User (the buyer and user relationship, the user's life stage). Right, the Purpose, the Differentiation and the Outcome. The **Purpose** options are ordered by relevance to the answers so far (the owner's tables, doc 31, 10.7: the buyer and user relationship, else the buyer's category, else the seller and buyer relationship); the purposes the tables call generally less directly relevant are not offered (2026-10-30; one already chosen stays).
 
-**Built (2026-11-01):** the Segment card asks its choice questions (doc 28, 6.3a), the age as a stage term, and describes the user of a Proxy or Dual-Intent buyer in a part of its own card. **Not built:** anything in Business 1 that reads the category, the relationship or the purpose (the reads of doc 28, 6.3a), and the Profile questions that the Segment leaves to the Profile.
+**The Segment card (doc 36)** asks its choice questions, the age as a stage term, and describes the user of a Proxy or Dual-Intent buyer in a part of its own card. **The Profile card (doc 37)** asks the questions it can in part. **Not built:** anything that reads the category, the relationship or the purpose beyond the Segment (the reads in doc 36), and the Profile questions marked not built in doc 37.
 
 **Saved answers:** an older answer is read in the new form: B2G, G2B and multi-sided answers drop; Proxy Buyers / Gifters in the life stage drops (the buyer's category is empty and is asked again); the End User ages fold into the four life stages (three under 18 are Minors, the older adults are Seniors), the relationships rel:parent, rel:family and rel:friend keep their ids, and who-chooses and what-matters-most go. The two example organizations carry a buyer's category and a purpose.
 

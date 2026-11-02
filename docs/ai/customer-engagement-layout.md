@@ -1,6 +1,6 @@
 # Customer Engagement: the tables and the action markers
 
-Status: **rules**, updated 2026-10-29.
+Status: **rules**, written 2026-10-17, updated 2026-10-29. The layout of the Customer Engagement page: its tables, the Channel resources table and the action markers.
 
 The layout of the Customer Engagement page: its tables, the Segment card, the action markers and Demand & Conversion. This is the page's specification. The rules of the rulebook (sizes, gaps, the one x, the reactions) apply to everything here.
 

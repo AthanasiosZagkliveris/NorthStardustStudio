@@ -1,6 +1,6 @@
 # 10. The library log
 
-Status: **log**, started 2026-10-15, updated 2026-10-29. Written by `npm run library:log`; rows are added on top.
+Status: **log**, started 2026-10-15, updated 2026-10-30. Written by `npm run library:log`; rows are added on top.
 
 Every change to an asset of the library: added, edited, placed (and where), moved (from where to where), removed. Written by `npm run library:log` from the difference between the library and its last logged state; do not edit by hand.
 

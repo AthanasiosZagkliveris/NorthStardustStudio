@@ -1,10 +1,10 @@
 # 28. Questionnaire specification: lists, questions, connections and evidence
 
-Status: **proposal**, written 2026-10-22, updated 2026-11-01; parts are built. Revised 2026-10-23 (it replaces the earlier drafts `27-questionnaire-plan.md` and `28-business-pages-structure.md` of 2026-10-22, merged here, and is now the specification that goes with `27-questionnaire-plan.md`). **Built** (marked "as built" or "built" where described): the Organization tile with its activity cascade (doc 35, 5.7 to 5.10, 8.5), the business stage and key dates (8.2a), the Early Positioning questions with the End User questions (8.2), the Legal Entity page (8.5), and the Segment's reading of I3 and I7b (8.2, "What the Segment will read"). **Not built:** everything else (the shared lists as fields, the industry pack, the Segment, Profile, Competitor and Offering questions, the journey, the price questions). The **plan** (the goal, the order, what is built when, what was cut and why) is document 27, and **the flow of the questions as trees** (which answer leads to which question, the key branches, both, mixed, not sure and other, the order) is document 29. This document holds the detail the plan points to: the shared lists with examples, the industry list in two levels, every question with its wording and options, how every characteristic connects to the rest of the app and on what evidence, and the moves and decisions. Decisions for the owner are marked **[D]** and collected in section 13 (which also holds the decisions of documents 27 and 29). The counts of questions, drivers, checks and notes are held only in Appendix B. Where the code and this document disagree, the code is right. The sources are in `02-references.md`, section 2.7, and are cited here by id (for example `DIG-14`).
+Status: **proposal**, written 2026-10-22, updated 2026-11-02; parts are built. It is the specification that goes with doc 27 (the plan). **Built** (marked "as built" or "built" where described): the Organization tile with its activity cascade (doc 35, 5.7 to 5.10, 8.5), the business stage and key dates (8.2a), the Early Positioning questions with the End User questions (8.2), the Legal Entity page (8.5), the Segment card's questions (6.3a, doc 36) and the Profile card's questions in part (6.4, doc 37). **Not built:** everything else (the shared lists as fields, the industry pack, the rest of the Profile, the Competitor and Offering questions, the journey, the price questions). The **plan** (the goal, the order, what is built when, what was cut and why) is document 27, and **the flow of the questions as trees** (which answer leads to which question, the key branches, both, mixed, not sure and other, the order) is document 29. This document holds the detail the plan points to: the shared lists with examples, the industry list in two levels, every question with its wording and options, how every characteristic connects to the rest of the app and on what evidence, and the moves and decisions. Decisions for the owner are marked **[D]** and collected in section 13 (which also holds the decisions of documents 27 and 29). The counts of questions, drivers, checks and notes are held only in Appendix B. Where the code and this document disagree, the code is right. The sources are in `02-references.md`, section 2.7, and are cited here by id (for example `DIG-14`).
 
 > **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Doc 33 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, age limits, accessibility, caregiving and the rest) is a future feature: doc 34. Contents of the documents: `docs/README.md`; index: `docs/index.md`; glossary: `docs/app/glossary.md`.
 
-> **Where each part stands (2026-11-01).** Current: 1 to 5 (the summary, the rules and the wording), 11 (the connection map and the evidence), 12 to 15. Built and governing: 6.3a with **document 36** (the Segment), 8.2 with **document 39** (Positioning), 8.5 with **document 38** (the Organization). Replaced and archived: 6.3 (the Segment's G-list). Refined by a proposal: 6.4 and 6.5 (the Profile) by **document 37**. Not yet specified in the form of documents 36 to 39: 6.6 to 6.8 (the Competitor, Value Proposition and Offering), 7 (Customer Engagement), 9 and 10. What an "i" says: **document 40**. The form every tile document takes, and where each tile stands: **document 41**.
+> **Where each part stands (2026-11-02).** Current: 1 to 5 (the summary, the rules and the wording), 11 (the connection map and the evidence), 12 to 15. Built and governing: 6.3a with **document 36** (the Segment), 8.2 with **document 39** (Positioning), 8.5 with **document 38** (the Organization). Replaced and archived: 6.3 (the Segment's G-list). Built in part and governed by **document 37**: 6.4 and 6.5 (the Profile; A1 to A3, A5, B1, C1 to C4, D1, D2 and E1 to E3 are built). Not yet specified in the form of documents 36 to 39: 6.6 to 6.8 (the Competitor, Value Proposition and Offering), 7 (Customer Engagement), 9 and 10. What an "i" says: **document 40**. The form every tile document takes, and where each tile stands: **document 41**.
 
 **Contents**
 
@@ -80,7 +80,7 @@ Status: **proposal**, written 2026-10-22, updated 2026-11-01; parts are built. R
 2. **Target countries: the UK, USA, Canada, Australia, Ireland and New Zealand** (owner, 2026-10-23). Lists that depend on a country (industry, organisation size, education, urban or rural, tax, quoting prices) were checked against official sources of those six countries (section 5). **The UK and the EU have a new industry classification** (UK SIC 2026 and NACE Rev. 2.1, which move the section letters), so the industry list is keyed on divisions, not on letters (doc 35, 5.3).
 
 **The letters of the ids** are labels, never shown to the user: **I** Identity; **G** the customer Group (the Segment card); **P** the Person (the Profile card); **K** the Competitor (C was taken by Capability); **O** the Offering; **L1 to L16** the shared **Lists** of doc 35, 5.2; **W** the Work of the Delivery card (it was L1 to L3, which clashed with the Lists, renamed 2026-10-25); **C** Capability and the founders; **R** the Revenue stream; **J** the customer Journey (the stage card); **D** the Demand card; **F** (FS, FC, FV, FO, FI, FD, FQ, FR) the ids of the earlier question files, Appendix A only.
-3. **Identity is the entry point.** The Organization tile (what kind of work you do, in the levels of the country's classification; when it opens) and the Early Positioning tile (the market structure, who pays, the audience, what you compete on, each a choice beside its free text; 8.2) hold the answers meant to narrow every later list and to suggest examples (segments, offerings, skills, resources, channels). Business 1 reads them only in part so far (8.1, 8.2). Giving the Brand system starting points is parked by the owner (2026-10-23, section 8.3).
+3. **Identity is the entry point.** The Organization tile (what kind of work you do, in the levels of the country's classification; when it opens) and the Early Positioning tile (the market structure, who pays, the audience, what you compete on, each a choice beside its free text; 8.2) hold the answers meant to narrow every later list and to suggest examples (segments, offerings, skills, resources, channels). The Segment card reads them in part so far (8.1, 8.2, doc 36). Giving the Brand system starting points is parked by the owner (2026-10-23, section 8.3).
 4. **The customer is a model, not a form** (the owner's customer-segment text, 6.1): six categories; a **Segment** takes ranges and a **Profile** takes specifics, **and the Profile can only choose within what the Segment allowed** (the cascade, 6.5); answers filter, reveal and suggest; an answer that changes an earlier one flags what depends on it instead of deleting it.
 5. **Every characteristic is connected to the other parts, with evidence** (section 11). The result is 28 **rules the evidence supports**, a longer list of **rules it does not support** (so they are not built), and an **evidence line** the user can read beside each connection. Demographics connect to competitors only through what customers care about and where they look.
 6. **A suggestion, a Review check or a help line, never a hidden option.** Tendencies from official statistics are shown as tendencies, with their source; no conversion rate, sales cycle or price limit is proposed, because no source supports one.
@@ -258,112 +258,57 @@ The text describes the Customer Segment as a **connected information model** rat
 | G24, G25 | who uses it | withdrawn; the user is a part of the same card for a Proxy or Dual-Intent buyer (doc 36) |
 | Proposals, worked cases, what the card gives the next parts | | the archived text; the reads that are planned are in each question's connections (doc 36) |
 
-### 6.3a The Segment card's questions as built (owner, 2026-11-01)
+### 6.3a The Segment card's questions as built
 
-Every question is a radio (one answer) or ticks (several; a limit where stated), built from the existing controls. Words are the owner's. An option says its few words: what the owner wrote in brackets or after a colon (an example, a range, an explanation, a platform or brand) stands in the question's "i", under the option's name, never in the option; the lists below give the options as they are drawn. A box has no free-text note: its questions are all it asks. The business stage (Planning, Launching, Managing, Growing) decides only the one thing marked below; the number of Segments is as 8.2 says. An answer to a question that is no longer asked, or to an option no longer offered, is removed when the next choice is made (`segmentSettle`); a question with only one option left is not shown, and its answer is that option. The code is `framework/engine/SegmentQuestions.ts`; the card reads Identity through `segmentContext` (`identityLink.ts`).
+**Document 36 owns the questions of the Segment card**: every question, its control, when it is asked, its options, its "i", what it comes from and what reads it, in the order of the card. This section keeps only what is not there.
 
-**Box 1, Demographics** (asked when the buyer is people, or not yet known)
+The five boxes and what they ask:
 
-| # | Question | Options | Asked when |
-|---|---|---|---|
-| 1 | What age group are the people who pay? | Minors, semi-dependent ~13–18; Young adults ~18–25; Established ~25–40; Peak ~40–55; Mature ~55–65; Active Retirees ~65–75; Dependent seniors ~75+ (the approximate ages, with the "~", are in the option) | The terms of the buyer's life stage chosen in Positioning (Students / Young Adults: the first two; Workers / Professionals: the next three; Seniors: the last two; none chosen: all). The "i" gives the ages (doc 31, 10.1; a term runs from its first age up to but not including the second; Dependent seniors from 75, the owner's figure) |
-| 2 | What is the highest level of education they have reached? | Less than high school; High school; Vocational or technical diploma; Bachelor; Postgraduate (Master); Doctorate | Not for Minors. Each level includes the ones below |
-| 3 | What is their primary work status? | Working / Employed; Not currently working | Always. Choosing an age term starts it (established, peak, mature: Working; a minor or young adult: Not currently working and Student; a retiree: Not currently working and Retired) |
-| 3b | What is their primary working environment? | Desk-based / Remote; Desk-based / Corporate office; On-site / Frontline; Field-based / On-the-road | The primary work status is Working / Employed |
-| 3c | How is their working schedule structured? | Standard daytime hours; Shift work / Variable hours; Flexible / Self-directed hours | As 3b |
-| 3d | What is the stability or structure of their income? | Fixed salary; Hourly wage; Variable / Performance-based | As 3b |
-| 3a | Which best describes their non-working situation? | Student; Homemaker / Full-time caregiver; Unemployed / Seeking work; Retired; Unable to work / long-term illness / disability | "Not currently working" is chosen; "Retired" is not offered to Minors |
-| 4 | What is their household income? | Low; Lower-middle; Middle; Upper-middle; High | Not for Minors. Relative to the typical household income of the country |
-| 5 | What is the usual gender mix of your customers? | Mostly men; Leans men; Balanced mix; Leans women; Mostly women (the shares, 80%+, 60–80%, 40–60%, 60–80% and 80%+, in the "i") | Always |
+| Box | Asks | Asked of |
+|---|---|---|
+| 1 Demographics | the age group (a term of the buyer's life stage chosen in Positioning), education, work status and what follows from it, household income, gender mix | a buyer that is people |
+| 2 Geographics | where the customers are; the kind of area (Managing and Growing only) | both |
+| 3 Business Data | the type and size of the organisation, the sector, the industry | a buyer that is a business; it comes before Geographics |
+| 4 Purchasing Power & Behaviour | comfort with online tools; where they discover ideas; the social environment, sharing, shopping triggers and path to purchase (people only); where they buy; how they pay; how the decision is authorized (business only) | both, by part |
+| 5 Market Size & Industry Outlook | the trajectory, the size of the market, the macro trend, how competitive | both |
 
-**Box 3, Business Data** (asked when the buyer is a business, or not yet known and the box is ticked; for a business buyer it comes before Geographics)
+A **user** part (a life stage, then the questions that follow from the Positioning relationship) is asked when a relationship chosen in Positioning has a Proxy or Dual-Intent buyer. The kind of a Segment (people or businesses) and the two Segments made where Positioning chose both are in doc 36. The code is `src/framework/engine/SegmentQuestions.ts`; the card reads Identity through `segmentContext` (`src/framework/engine/SegmentContext.ts`).
 
-| # | Question | Options | Asked when |
-|---|---|---|---|
-| 1 | What type of organisation are they? | Private business; Public body / Government agency; Non-profit, charity, or NGO; Self-employed, freelancer, or sole trader | Always |
-| 2 | What is the size of the target organization? | Micro business; Small business; Medium-sized business; Large enterprise (the headcounts, 1 to 9, 10 to 49, 50 to 249 and 250+, in the "i") | Not for self-employed. The EU definition of small and medium-sized enterprises, in the "i" |
-| 3 | Which sector are they in? | Resource extraction & energy; Manufacturing & construction; Consumer goods & retail; Infrastructure & finance; Tech, data & media, and business services; Human services & public sector, and other services | Always |
-| 4 | Which industry are they in? | The industries of the sector, from the 18 of G15 below: resources (Farming, forestry and fishing; Mining, oil, gas and quarrying; Energy, water and waste); making (Manufacturing; Construction); consumer (Wholesale and retail trade; Hospitality; Arts, sport and recreation); infrastructure (Transport, postal and logistics; Finance and insurance; Real estate and property); tech (Software, IT, media and telecoms; Professional, scientific and technical services; Administrative and support services); human (Government and public administration; Education and training; Health and social care; Other services) | After the sector is chosen |
-
-**Box 2, Geographics** (both)
-
-| # | Question | Options | Asked when |
-|---|---|---|---|
-| 1 | Where are your customers? | In my city or town; In my state or region; Across my country; In several countries; Anywhere online | Always. The places are named in the note |
-| 2 | What environment best describes where they physically spend most of their time? | Urban; Suburban; Rural / Remote (what each is, in the "i") | Managing and Growing only (a check, held back while Planning and Launching), and only for the first three answers of question 1 |
-
-**Box 4, Purchasing Power & Behaviour**
-
-| Part | # | Question | Options | Asked when |
-|---|---|---|---|---|
-| A | 1 | How comfortable are they with online tools? | Tech-averse / Traditional; Moderately comfortable; Tech-savvy / Digital native | Always |
-| A | 2 | Where do they discover and validate new ideas? (up to 3) | Direct recommendations from close peers; Niche online communities or forums; Social media creators, influencers, or industry experts; Traditional media, reviews, and independent comparison sites; Algorithmic discovery | Always. Platforms (Reddit, Discord, Facebook Groups, TikTok, Instagram, YouTube, LinkedIn) are in the "i"; what is ticked is meant to appear on the Profile as related platforms |
-| B | 3 | What does their primary social environment look like? | Mostly digital/virtual; Mix of online messaging and weekend in-person meetups; High-frequency in-person socializing; Low-frequency socializer/highly independent | The buyer is people |
-| B | 4 | How do they share their favorite finds or experiences? | Posting publicly on personal social media feeds; Sending direct links to close friends via private chat apps; Verbally during face-to-face conversations; They don't typically share or discuss purchases | The buyer is people. The last option excludes the other three |
-| B | 5 | What triggers a typical shopping session? (up to 2) | Boredom/Entertainment; Social proof; Immediate necessity or resolving a specific problem; Seasonal trends, sales events, or planned gift-giving | The buyer is people |
-| B | 6 | What is their typical path to purchase? | Impulse buyer; The Researcher; Social validator | The buyer is people |
-| C | 7 | What platform or setting do they usually buy on? | Mobile app / Smartphone website; Desktop / Laptop computer; In-person / Physical storefront; Multi-channel | Always |
-| C | 8 | How do they prefer to pay? (the "i" says: select all that apply) | Traditional credit / debit card; Digital wallets; Buy Now, Pay Later or financing; Invoicing, bank transfers, or corporate purchase orders | "Buy Now, Pay Later" not for Minors; "Invoicing" not when the buyer is people only |
-| D | 9 | How is the purchase decision authorized? (the "i" says: select all that apply) | Sole practitioner decision; End-user champions / Department consensus; Executive / Budget-holder sign-off; Multi-department evaluation; Formal procurement loop | The buyer is a business |
-
-When the buyer is not yet known (both relationships, or none chosen), a Segment that has not ticked Business Data is asked the people's parts (A, B and C) and one that has ticked it is asked all four, the people's questions first.
-
-**Box 5, Market Size & Industry Outlook** (both): 1 How would you describe the current trajectory of the target industry/niche? (Rapidly expanding; Steady growth; Flat / Stable; Declining / Disrupting). 2 What is the approximate size of your Total Addressable Market (TAM)? (Micro / Hyper-niche under 1,000; Boutique / Specialized 1,000 to 50,000; Mid-Market 50,000 to 500,000; Mass Market 500,000+; the owner's bands). 3 What is the biggest macro trend impacting your buyers right now? (up to 2: Technological; Regulatory/Legal; Economic; Socio-cultural; Supply chain & infrastructure). 4 How competitive is this market environment? (Red Ocean; Fragmented; Blue Ocean).
-
-**The user** (a part *User* in the same card, asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent buyer; questions only, no note): 1 What life stage is the user in? (the terms of the user's life stage chosen in Positioning: Minors: Baby, Child, Teenager; Young Adults: Young adult; Adults: Established, Peak, Mature; Seniors: Active Retirees, Dependent seniors). 2 By the relationship chosen in Positioning: Parent or guardian, Caregiver: *What school stage are they at?* (Early years; Primary school; Secondary school, not offered to a Baby or a Child); Family member, Spouse or partner, Friend, Commercial & Professional, Other, Sponsor: *What is their primary work status?* and, when not working, *Which best describes their non-working situation?* (as Box 1, questions 3 and 3a); Employer, Business partner, Other (business): *What job level do they have?* (Owner or senior executive; Manager; Professional or specialist; Technician or skilled trade; Administrative, sales or service; Operator or labourer); Business serving clients, Professional intermediary: *What type of organisation are the clients?* and, unless self-employed, *What is the size of the clients' organization?* (as Box 3, questions 1 and 2). 3 How comfortable are they with online tools? (as Box 4, question 1).
-
-**Not built yet (the reads).** The answers are saved and shown in the Segment's documents (the Market document and the export); nothing else reads them. The reads are: Box 4 questions 2 and 7 order the channel suggestions on page 2; question 2's ticks give the Profile its related platforms; questions 6 and 9 give the Profile starting hints; question 8 suggests instalment terms in the Offering's payment plan; question 9's formal procurement loop reveals the tender row. The Profile's own questions (the devices, which social media, communities and events) are specified separately. Defaults that start a question from an age term, a Positioning answer or the Organization's country are not built.
+**Not built yet (the reads).** The answers are saved and shown in the Segment's documents (the Market document and the export); little else reads them. The reads that are planned are listed under each question in doc 36 and in doc 34, section 6.
 
 ### 6.4 Profile card (cards nested in the same tile): a typical person, asked specifically
 
-| Today | Target |
-|---|---|
-| **Specific Personal Information** (exact age, gender, marital status, education, job title) | **P1, P5, P6**; education, household income, language, household and relationship status, and job title **stay in the note** |
-| **Psychographics** | **P9**, plus the note (interests, lifestyle and aspirations stay text) |
-| **Social & Interest Hubs** | **P11**, plus the note |
-| **Information & Shopping Habits** | **P12 to P16**, plus the note |
-| **Goals & Desires** | **P17**, plus the note |
-| **Challenges & Problems** | **P18**, plus the note |
-| **Objections** | **P19**, plus the note |
-| **Needs** (Functional, Emotional, Social) | **stay text lists**, each line gets an id: a need is a precise statement ("send an invoice in under a minute"), not a category |
+**Document 37 owns the Profile's questions**: each question with its control, options, conditions, starting values and connections; what is built (`src/framework/engine/ProfileQuestions.ts`) and what is not (the kind of business A4, the specialized needs A6, the proposed Profiles, the user's own Profile). A Profile asks a typical person only what the Segment cannot; the personal facts the Segment already asks (education, household income, the shares of gender) are not asked again, and language, household and relationship status and job title stay in the note. The Needs (Functional, Emotional, Social) stay text lists: a need is a precise statement ("send an invoice in under a minute"), not a category.
 
-| Id | Question (plain) | Component | Options | Tier | Reads it |
-|---|---|---|---|---|---|
-| P1 | How old is this typical customer? | Number (years) | | Optional | Profile check against G6 |
-| P5 | What is their gender? | Dropdown | Woman; Man; Non-binary; I would describe it differently; Prefer not to say | Adaptive (G10 is not "not relevant") | Note; equality notice |
-| P6 | What kind of work do they do? (i: armed forces, choose the group that fits the role; clergy count as professionals) | Dropdown | Owner or senior executive; Manager; Professional or specialist; Technician, skilled trade or associate professional; Administrative, sales or service; Operator, labourer or elementary | Adaptive (when G13 is employed or self-employed, and always for a business customer's contact) | Review |
-| P9 | What do they care about most? (up to 3) | Ticks | L1 | Core | Value Proposition draft; check against the offering's benefit (O4) and positioning (I7) |
-| P11 | Where do they look when they need something like this? | Ticks: the channel categories, then the subchannels of the ticked ones | L6 | Core | Proposes **Discover** channels (7.4) |
-| P12 | How do they compare their options? | Ticks | Your website; Reviews and recommendations online; A demo, trial or sample; A quote or proposal; What other people recommend; Comparison sites; A meeting or call | Core | Proposes **Evaluate** channels (7.4) |
-| P13 | How do they usually buy? | Ticks | Online checkout; An invoice; In person; By phone or email; A contract or tender; On a marketplace; By booking | Core | Proposes **Purchase** channels (7.4); reveals the "Contracts or tenders" demand row |
-| P14 | How do they like to pay? | Ticks | L13 | Optional | Proposes the Direct Payment subchannels (7.4); evidence line (11.4) |
-| P15 | Which devices do they use? | Ticks | L15 | Optional | Review: make the order and forms work on a phone (11.5) |
-| P16 | How comfortable are they with online tools? | Dropdown | Very comfortable; Comfortable with the basics; They need some help; Mostly offline; Not sure yet | Core | Moves digital-only channels down and suggests personal help (11.3); the app never infers it from age |
-| P17 | What are they trying to achieve? (up to 3) | Ticks | L4 | Core | Value Proposition draft |
-| P18 | What frustrates them today? | Ticks | L3 | Core | Value Proposition draft; Review |
-| P19 | What might stop them buying? | Ticks | L2 | Core | The Offering ticks the worries it answers (O8); suggests Evaluate actions (11.5) |
-| P20 | How much help do they want before they buy? | Dropdown | They work it out themselves; They like a little guidance; They want to talk to a person; They need a formal demonstration or proposal; Not sure yet | Core | Suggests the relationship type (7.4); Review against the help the offering gives (O7) |
-| P21 | What part do they play in the purchase? (tick all that apply) | Ticks | They will use it; They influence the decision; They place the order; They make the final decision; They control who gets to the decision-maker | Adaptive (businesses or both; any age band below 18; or the audience is Proxy Buyers / Gifters, I7b) | Context on page 2; Review: nobody makes the final decision |
-| P22 | How is the decision made? | Dropdown | They decide alone; They decide with family or colleagues; A manager or budget-holder approves; It goes through a formal tender or procurement; Not sure yet | Adaptive (businesses or both) | Reveals P21 and the tender row (11.5) |
-| P24 | Which kind of business is it? | Dropdown | the level-2 list (doc 35, 5.4) of the industry chosen in G15, each with its example | Adaptive (businesses or both) | The pack's examples for this customer; competitor industry overlap |
+The ids of the earlier design are kept here because other documents cite them. Where each went:
 
-**P21 explained.** The five roles are the buying-centre roles credited to Webster and Wind (1972): the user, the influencer, the buyer, the decider and the gatekeeper [CHN-02]. "They will use it" is the person who uses the offering day to day, who may be neither the one who pays nor the one who decides. It matters because the user needs support and proof it works, the buyer needs price and terms, and the decision-maker needs the business case. One person often holds several roles, so the question is ticks; for people buying for themselves they are all one person, so it is asked only of business customers.
+| Id | Question | Now |
+|---|---|---|
+| P1 | How old is this typical customer? | doc 37, A1 |
+| P5 | What is their gender? | A2 |
+| P6 | What kind of work do they do? | A3 |
+| P9 | What do they care about most? (up to 3, list L1) | B1 |
+| P11 | Where do they look when they need something like this? (list L6; proposes the **Discover** channels, 7.4) | split into C2 (social media), C3 (communities) and C4 (events) |
+| P12 | How do they compare their options? (proposes **Evaluate** channels, 7.4) | D1 |
+| P13 | How do they usually buy? (proposes **Purchase** channels; reveals the "Contracts or tenders" demand row) | not asked: the Segment asks where they buy (doc 36) |
+| P14 | How do they like to pay? (list L13; proposes the Direct Payment subchannels, 7.4) | not asked: the Segment asks how they pay |
+| P15 | Which devices do they use? (list L15) | C1 |
+| P16 | How comfortable are they with online tools? | not asked: the Segment asks it; the app never infers it from age |
+| P17 | What are they trying to achieve? (list L4) | E1 |
+| P18 | What frustrates them today? (list L3) | E2 |
+| P19 | What might stop them buying? (list L2; the Offering ticks the worries it answers, O8) | E3 |
+| P20 | How much help do they want before they buy? | D2 |
+| P21 | What part do they play in the purchase? (the five buying-centre roles of Webster and Wind, 1972 [CHN-02]) | A5 |
+| P22 | How is the decision made? | not asked: the Segment asks how the decision is authorized; A5 says what part this person plays |
+| P24 | Which kind of business is it? (the level-2 list of the industry, doc 35, 5.4) | A4 (not built) |
 
-**P5.** Gender follows the Australian standard's gender categories (man or male, woman or female, non-binary, a different term, prefer not to answer) [SEX-01] and is asked only when G10 is yes. It is optional and nothing reads it except the note and the equality notice, so the owner may drop it **[D]**. Household type and relationship status (the old P3 and P4, following the six statistics offices' categories [DEM-12]) are not asked: they stay in the note.
+What each answer should read (the Value Proposition draft, the Evaluate channels on page 2, the Review) is in the connections of each question in doc 37.
 
 ### 6.5 The cascade: the Segment sets the range, the Profile chooses within it
 
-The Segment holds a range or one value and each Profile a specific answer, and **the Profile can only choose what the Segment allowed**. This saves the user from re-reading a whole list on every Profile and keeps the two levels consistent.
+The Segment holds a range or one value and each Profile a specific answer, and **the Profile can only choose what the Segment allowed**. This saves the user from re-reading a whole list on every Profile and keeps the two levels consistent. **Document 37, section 2, owns the table of what the Segment sets and the Profile chooses within it** (the age group and the exact age, the work status and the job level, the gender mix, the industry and the kind of business, the ways of discovering ideas and the social environment), the Profiles the app proposes, and what happens when a Segment answer changes. The old ids map as G6 to A1, G13 to A3, G10 to A2, G15 to A4; G3 (the main country) is not asked.
 
-| Segment answer | Profile question | What the Profile gets |
-|---|---|---|
-| G3 main country | every list with a national scheme (P24) | the country's crosswalk |
-| G6 age range of the customer (From, To) | P1 an age | a number within the range; when the range changes and the number is outside the new one, it is cleared (doc 37, 2.2). **A range that includes a band below 18 also asks P21** (who uses it, who pays, who decides) |
-| G13 work situation (one) | P6 what kind of work | the job-level list, for the employed and self-employed |
-| G15 industry (one) | P24 which kind of business | the finer list of that industry, each with its example |
-| G10 gender mix | P5 gender | shown when the mix is not "not relevant"; a Profile's gender should fit the mix (Review) |
-
-The app also proposes **Profiles** (up to three): one for each band of the age range; for business customers, the kinds of business of the industry pack; for the audience Proxy Buyers / Gifters, a second Profile for the one who uses it. Questions asked only at the Profile (no Segment range): P9 to P22 (what they care about, where they look, how they compare, buy and pay, devices, digital comfort, goals, frustrations, worries, help wanted, part in the purchase, how decided). If a Segment answer changes, the compatible Profile answers stay and the others are flagged (rule 3.4). The same Review checks list a Profile outside its Segment and a Segment range no Profile covers.
+Questions asked only at the Profile, with no Segment range: P9 to P22 (doc 37, boxes B to E). If a Segment answer changes, the answers that still fit stay and the others are removed (doc 37, 2.2). The same Review checks list a Profile outside its Segment and a Segment range no Profile covers.
 
 ### 6.6 Competitor card (tile "Competitors")
 
@@ -521,7 +466,7 @@ Rows are no longer typed from a source list: **one row is proposed for each Disc
 | Opening Date, with the durations of the Global Settings | The business stage; the plan start; the Review's messages and key dates; the Calendar's key dates; the Positioning tile's name, limits and locks; the exported title |
 | Registration Date, legal expenses | Key dates; the plan start |
 | Activities | The exports only (as codes with the scheme's initials). **The industry pack of doc 35, 5.6 is not built.** |
-| Market Structure, Seller and Buyer Relationship, Audience, Differentiation and Outcome | **The exports, and one step in Business 1:** the Segment card reads the Seller and Buyer Relationship and the audience only to choose and annotate its boxes. No question of any later part reads them yet (8.2, "What the Segment will read") |
+| Market Structure, Seller and Buyer Relationship, Audience, Differentiation and Outcome | **The exports, and one step in Business 1:** the Segment card reads the Seller and Buyer Relationship (its kind), the buyer's life stage and category (its age terms and its user part) and the audience's scale (the organisation's type and size): doc 36. No other part reads them yet (8.2, "What the Segment will read") |
 | Positioning Notes (the free text) | The Segment shows it behind an "i" note ("Your Positioning (Identity)") on its first two instructions. It shapes no question. |
 
 **So Early Positioning must not ask again what the Organization tile already holds** (the activities, the stage), and the Segment must not ask again what Early Positioning holds (who pays, the kind of market).
@@ -619,11 +564,11 @@ What does not react, on purpose: the market structure does not limit the relatio
 
 Each question's "i" lists every option (the words that were taken out of the labels are there), says what the question decides and what the **current stage** allows ("At this stage (Launching): choose up to 2", with the options not yet open and when they open), and shows only what holds now (the multi-sided point of the other stage, and the sentences about locks and the beachhead where they do not apply, are left out). Every "i" lists all its points (`fullList`), because the three-point cap would cut the options. References, all opened on 2026-10-25 [FUN-45]: HBS Institute for Strategy & Competitiveness, *Strategic Positioning* (premium price or lower costs; "stuck in the middle"), for Differentiation & Outcome; eCornell, *How to Write Market Positioning Statements* (target market, differentiation, frame of reference, reason to believe), for the relationship; Stanford E145 (Moore's two-sentence template), for the relationship and the outcome; the SBA's *Market research and competitive analysis* (customers by age, wealth, family status and interests; a business "won't be for everybody"), for the audience; HBS Online, *Crafting the Perfect Brand Positioning Statement* (age and life stage), for the life stage. **No accepted source was found for the multi-sided definition, the administrative levels and the regulatory intensity** (the OECD note could not be opened), so those "i" notes cite none and stand on the owner's wording. Every positioning template read has the same parts (target, need, category, benefit, competitor, difference, reason to believe) [FUN-24, FUN-29, FUN-40]; the four bases of segmentation (geographic, demographic, psychographic, behavioural) belong to the **Segment** of Business 1, not here [FUN-41].
 
-#### What the Segment will read (designed 2026-10-25; first step built)
+#### What the Segment will read
 
-**Built (2026-10-25, first step; no new question; the questions themselves are built since 2026-11-01, 6.3a):** the Seller and Buyer Relationship decides which of Demographics and Business Data the Segment asks (a box with text is never hidden; several relationships or none keep both; for businesses only, Business Data has no tick); the audience chosen in Identity is shown in the "i" of the box it belongs to. **No question was added**: a "Who uses it?" picker (G24) was built first and **removed the same day**, because the owner has no such question (6.3). Everything else in the table below, and the questions G2 to G8, G10, G13 to G16 and G23, is **not built**. Which questions exist, where, and what they should be called or where they should sit is in doc 29, section 10.
+**Built:** the Segment card asks its questions (6.3a, doc 36) and reads Identity: the Seller and Buyer Relationship decides the kind of a Segment (people or businesses; where both are chosen, two Segment cards are made, the first of people and the second of businesses), the buyer's life stage decides the age terms offered, the audience's scale sets the organisation's type and size, and the audience chosen in Identity is shown in the "i" of the box it belongs to. There is no question "Who uses it?" (6.3): the user is a part of the Segment for a Proxy or Dual-Intent buyer. The questions G2 to G8, G10, G13 to G16 and G23 are the earlier ids (6.3 maps them to doc 36). Which questions exist, where, and what they should be called or where they should sit is in doc 29, section 10.
 
-Otherwise nothing of the above is read by Business 1 (8.1). The design, for the owner to approve **[D]** (the B2G, G2B and multi-sided rows are future features in the first version, doc 34); each rule only suggests a default, and warns where something looks wrong, as 6.3 already does:
+The rows of the table below that doc 36 does not describe are the design and are not built; they are for the owner to approve **[D]** (the B2G, G2B and multi-sided rows are future features in the first version, doc 34); each rule only suggests a default, and warns where something looks wrong, as 6.3 already does:
 
 | Identity answer | What it does to the Segment (a starting value the user confirms; never a hidden option) |
 |---|---|

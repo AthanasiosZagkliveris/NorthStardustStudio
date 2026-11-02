@@ -1,6 +1,6 @@
 # The review checklist: what to check when reviewing a table, tile, card, page or control
 
-Status: **rules**, updated 2026-10-29.
+Status: **rules**, written 2026-10-20, updated 2026-11-02. What to check when reviewing a table, tile, card, page or control, and the proof before saying done.
 
 The standard behind each line, with the numbers and how to measure them, is `review-criteria.md`.
 
@@ -15,7 +15,7 @@ Read this before reviewing or changing anything on screen, and tick every line t
 ## 1. Every control: replace, never adjust
 
 1. **Name what kind of control it is** (remove ×, add +, labelled button, text link, dropdown, tick, text box, number, date, segmented choice, fold arrow, navigation arrow, funnel, "i", tab).
-2. **Use the existing component of that kind** (`RemoveButton`, `AddButton` with its shape or `look`, `TextLink`, `OptionPicker` / `ValuePicker` / `MultiPicker`, `TickField`, `TextBox` / `NumberCell` / `TextField`, `DateCellInput`, `RadioChoice`, `FoldArrow`, `NavArrow`, `FunnelButton`, `InfoNote`). If none fits, stop and ask; do not write a look of its own, do not restyle a copy.
+2. **Use the existing component of that kind** (`RemoveButton`, `AddButton` with its shape or `look`, `TextLink`, `OptionPicker` / `ValuePicker` / `MultiPicker`, `TickField`, `TextBox` / `NumberCell` / `TextField`, `DateCellInput`, `RadioChoice` / `FittingRadioChoice`, `FoldArrow`, `NavArrow`, `FunnelButton`, `InfoNote`). If none fits, stop and ask; do not write a look of its own, do not restyle a copy.
 3. **No `<button>`, `<input>`, `<select>` or `<textarea>` of its own** outside the components themselves.
 4. **No second class that adds a look** to a shared control (a hover, a ring, a size). A place's class says only where it stands.
 5. **Delete what the replacement makes dead** (the old CSS, the old test's expectation) and run the dead-rule lint.
@@ -58,7 +58,7 @@ Read this before reviewing or changing anything on screen, and tick every line t
 
 ## 7. Proof before "done"
 
-1. The steps of `toolchain-and-verification-playbook.md`, in its order: typecheck, the whole test suite, the checks (`tokens:check`, `lint:styles`, `lint:css`, `docs:check`, `tables:check`, `library:check`), the build, the layout check (0 new findings).
+1. The steps of `toolchain-and-verification-playbook.md`, in its order: typecheck, the whole test suite, the checks (`tokens:check`, `lint:styles`, `lint:controls`, `lint:css`, `docs:check`, `tables:check`, `library:check`), the build, the layout check (0 new findings), and `npm run check:card` for a floating card of questions.
 2. **The pictures after**, next to the pictures before, in the browser: say what was looked at and what was not (dark and sepia, the widths, the other pages that use the same component).
 3. **Documents**: step 7 of the playbook (the log row, the rule, the examples, `npm run docs:index`) and the component's state in doc 21.
 4. **Report per request**, one line each: what was done, how it was checked, what is left. Never "done" for what was not looked at.

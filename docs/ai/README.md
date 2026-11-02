@@ -1,13 +1,13 @@
 # AI Knowledge Base: docs/ai/
 
-Status: **index**, updated 2026-10-29.
+Status: **index**, written 2026-08-02, updated 2026-11-02. The map of the knowledge base for AI assistants: which file to read for which task, and what each file owns.
 
 This folder is NorthStardustStudio's shared knowledge for AI assistants (Claude, ChatGPT, or any other coding assistant working on this project). It exists so an assistant does not have to re-derive facts about the code every session. This file is the map. It does not explain any concept itself; every concept below is owned by exactly one other file.
 
 Elsewhere in `docs/`:
 - `../README.md`: the contents of every document of the project (design, specifications, archive), with its kind and date; `../index.md`: the alphabetical index of the subjects. Both are written by `npm run docs:index`.
 - `../app/contents.md`: the contents of the app (how it is entered, the Systems and pages, the places in the code); `../app/index.md`: an alphabetical list of its places; `../app/glossary.md`: one line per term (framework, app, questionnaire, documents), with a pointer to the document that explains it. Start there to find your way into the product.
-- `../design/core/04-log.md`: the history of every change, newest on top, and the only place a change is written; `../design/core/05-not-done-yet.md`: what is still open.
+- `../design/core/04-log.md`: every change, newest on top, and the only place a change is written; `../design/core/05-not-done-yet.md`: what is still open.
 - `../archive/`: proposals that were written and not built, and finished plans; nothing there is a rule.
 
 Documents cite one another by number ("doc 21" is `../design/current/21-shared-components.md`); the number is in the file name, whatever the folder.
@@ -34,7 +34,7 @@ Documents cite one another by number ("doc 21" is `../design/current/21-shared-c
 
 **Changing the screens (rules; a check enforces most of them)**
 - `layout-rules.md`: the measured rulebook of the Foundation pages (tokens, the closed set of sizes, alignment, the reactions per kind, the Inventory) and the automatic layout check that must pass.
-- `tile-and-card-pattern.md`: the short, visual brief of how tiles, frames, cards, rails (the page tab) and dialogs are built, and the rules that are global.
+- `tile-and-card-pattern.md`: the short, visual brief of how tiles, frames, cards, rails (the page tab) and dialogs are built, the pattern of a floating card of questions (checked by `npm run check:card`), and the rules that are global.
 - `customer-engagement-layout.md`: the layout of the Customer Engagement tables, the Channel resources table and the action markers.
 - `card-kinds.md`: the kinds of card, where each one's code is and how its head is built.
 - `review-criteria.md`: the standard a screen is judged by (type, spacing, controls, colour, tiles, cards, tables, pop-up windows, pages, data), how each criterion is measured, and the form of the report.

@@ -1,6 +1,6 @@
 # 38. The Organization tile: every field and option, as built
 
-Status: **specification**, written 2026-11-01, updated 2026-11-01. Every field of the Organization tile (Identity System, page 1, the tile before Early Positioning) in the order it is asked, with its control, when it is asked, its options, what its "i" says and what it connects to.
+Status: **specification**, written 2026-11-01, updated 2026-11-02. Every field of the Organization tile (Identity System, page 1, the tile before Early Positioning) in the order it is asked, with its control, when it is asked, its options, what its "i" says and what it connects to.
 
 Related: doc 39 (Early Positioning, the next tile, in the same form), doc 36 (the Segment's questions), doc 28 (8.5 the tile as designed; 8.2a the stage, the Opening Date and the key dates), doc 35 (the countries, the activity cascade and the codes), doc 33 (the first version: six countries and Other), `src/components/interview/editors/legal/`.
 
@@ -34,7 +34,7 @@ Related: doc 39 (Early Positioning, the next tile, in the same form), doc 36 (th
 - **Asked when:** Country is Other.
 - **Options:** every country but the six.
 - **The "i":** none.
-- **Connections:** as Country; for these countries the legal form is one of the five generic forms and the activity and its code are typed.
+- **Connections:** as Country; for these countries the legal form is one of the four generic forms and the activity and its code are typed.
 
 ### 4. State or Region
 
@@ -59,10 +59,10 @@ Related: doc 39 (Early Positioning, the next tile, in the same form), doc 36 (th
 
 ### 6. Legal Form
 
-- **Control:** one choice (the picker), the country's forms and Other; where a country has no list of its own, the five generic forms.
+- **Control:** one choice (the picker), the country's own forms; where a country has no list of its own, the four generic forms (doc 33). The list has no Other entry; a legal form saved earlier as Other still shows, with its typed name (field 7).
 - **Asked when:** a country is chosen (frozen until then).
-- **Options:** the country's legal forms (doc 35); Other.
-- **The "i" says:** Decides who is liable for the organization's debts: the organization, or you personally. Decides how it is taxed, and whether it must hold share capital. Choose Other to name a form the list does not carry.
+- **Options:** the country's legal forms (doc 35), or the four generic forms.
+- **The "i" says:** Decides who is liable for the organization's debts: the organization, or you personally. Decides how it is taxed, and whether it must hold share capital.
 - **Connections:**
   - *Comes from:* the country.
   - *Read by (built):* the Name the legal form field; the tax, the Founders' capital question and the Legal Entity page; the documents and the exports.
@@ -70,7 +70,7 @@ Related: doc 39 (Early Positioning, the next tile, in the same form), doc 36 (th
 ### 7. Name the legal form
 
 - **Control:** a text cell.
-- **Asked when:** the legal form is Other.
+- **Asked when:** the saved legal form is Other (an answer from before the list lost its Other entry); not asked of a new answer.
 - **The "i":** none.
 
 ### 8. Registration Date

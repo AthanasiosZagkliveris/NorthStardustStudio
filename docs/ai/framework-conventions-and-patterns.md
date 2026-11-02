@@ -1,6 +1,6 @@
 # Framework Conventions & Patterns Reference
 
-Status: **reference**, updated 2026-10-29.
+Status: **reference**, written 2026-08-02, updated 2026-11-02. The non-obvious architectural patterns of the framework (how content and structure interact) and its data model.
 
 Non-obvious architectural patterns that govern how content and structure interact — not covered by the DSL grammar itself, and not discoverable from any single file. Each entry exists because it was actually rediscovered the hard way at least once; add a new entry the same session a new pattern like this gets established, while the reasoning is still fresh.
 
@@ -8,7 +8,7 @@ Non-obvious architectural patterns that govern how content and structure interac
 
 `Capability` (static, 6 top-level groupings) → `System` (static, 24, each `{number, id, title, capability}`) → `FrameworkDocument` (`Metadata + Introduction + Section[]`, built from the three-file content triad) → `Section` (`{number, title, AnswerDefinition}`) → `AnswerDefinition` (typed by `AnswerType`; a Table's columns are `TableColumnDefinition[]`, each optionally carrying a `fieldId` for shared Fields or a `dynamicSource` for cross-Section sharing).
 
-The rendering layer never hardcodes a System's fields — roughly ten generic renderer components serve all 24 Systems by interpreting `AnswerType`. Adding a System means writing content, not code. Adding a genuinely new *shape* of answer (an eleventh `AnswerType`) means touching parser, model, renderer, and CSS together — treat that as a deliberate, reviewed decision, not a casual one, and check first whether an existing `AnswerType` (especially Multi-Part with `Tab Group: Yes`) already covers the need.
+The rendering layer never hardcodes a System's fields — a small set of generic renderer components serves all 24 Systems by interpreting `AnswerType` (`src/framework/enums/AnswerType.ts`: the generic shapes, from `FreeText` to `SharedAnswer`, and the hand-built page editors of the Foundation Systems, from `BrandStyle` on). Adding a System means writing content, not code. Adding a genuinely new *shape* of answer (one more `AnswerType`) means touching parser, model, renderer, and CSS together — treat that as a deliberate, reviewed decision, not a casual one, and check first whether an existing `AnswerType` (especially Multi-Part with `Tab Group: Yes`) already covers the need.
 
 ## `dynamicSource` sharing pattern
 

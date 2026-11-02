@@ -1,6 +1,6 @@
 # 8. The library system: tables, library, inventory and logs
 
-Status: **specification**, written 2026-10-15, updated 2026-10-29. Approved by the owner on 2026-10-15; steps 1 to 6 (section 7) are built, step 7 (the sync) is not. It records the owner's requirements as stated in chat, and how they are met, step by step. The starting data is the catalogue (the card scan, the probes and document 01 Part F), printed in documents 06 and 07.
+Status: **specification**, written 2026-10-15, updated 2026-11-02. Approved by the owner on 2026-10-15; steps 1 to 6 (section 7) are built, step 7 (the sync) is not. It records the owner's requirements as stated in chat, and how they are met, step by step. The starting data is the catalogue (the card scan, the probes and document 01 Part F), printed in documents 06 and 07.
 
 ## 1. What a variable is
 
@@ -33,7 +33,7 @@ Every variable has an id, a name and a description (VAR followed by a three-digi
 
 Categories of asset: **component**, **field** (a label with its components), **card type** (made of fields and components), **tile** (master tile, tile, open tile, add tile), **frame** (chapter, page, dialog view).
 
-**Every asset is unique.** An asset's key is its code. If the same asset appears more than once in the scan it is one asset, and the places it appears are recorded as placements, not as copies. Where one asset has more than one look today (in the first scan the text area had 22 looks, the label 8, the text box 6) those looks are listed with their counts and the owner decides which is the default; the others become variants or are retired.
+**Every asset is unique.** An asset's key is its code. If the same asset appears more than once in the scan it is one asset, and the places it appears are recorded as placements, not as copies. Where one asset has more than one look, those looks are listed with their counts and the owner decides which is the default; the others become variants or are retired (the defaults are in doc 12).
 
 ## 4. Adding or changing something: the order
 
@@ -63,23 +63,19 @@ The owner's decision: **the app changes the table.** The table follows the app i
 
 **The two logs.** The **library log** states every change to the assets of the library (section 5). The **app structure log** records every change of the tables, that is, of the structure of the app (what stands where).
 
-**How a change in the app reaches the table (step 7; not built).** A sync reads the app, compares what it finds with the table, and for every difference updates the table and writes the app structure log entry. It runs on demand for the whole app, and in watch mode during development: when a file in src changes and the dev server reloads, the sync re-reads the pages that file affects and updates the table within seconds. That is the "real time".
-
-**How the three cases are told apart (the same step).** For every asset the sync finds in the app, it looks the asset up in the library. Found: case 1 or 2 (the library log has, or gets, its entry with where it is placed). Not found: case 3 (app structure log only, marked not in the library, and listed as a drift).
+**The sync between the app and the tables is not built** (step 7 of section 7): what it would do, how it would tell the three cases apart and what it would read are proposals, kept in `docs/design/core/05-not-done-yet.md`, section 5.6.
 
 **Checker (built).** `npm run library:check` holds a snapshot of the last logged state of the library and the tables, lists every difference, classifies it, and fails when a change has no log entry. `npm run library:log` writes the entries (docs 10 and 11) and stores the state.
 
-**What the sync reads (recommendation for step 7; the owner may change it).** The running app: what the user sees, exact, and it needs the dev server running. A check of the source finds a component or class name that is in the app and not in the library. Reading only the source is faster, but the cards are separate builders today, so it cannot yet tell fields from components.
-
-**Later.** Once an asset has replaced the old one (phase 3), the app is built from the library for that asset, and the sync then finds the asset where the library put it.
-
-## 6a. From the library to the app: one source for a size (2026-10-16)
+## 6a. From the library to the app: one source for a size
 
 The size of a component is written once, in the library (the look of the asset or of its variant). Three things follow from it, and the app is not allowed to say otherwise:
 
 1. **The tokens.** `src/library/componentTokens.ts` reads the looks and gives the custom properties the stylesheets read with var(): the height of a cell (--card-cell-height, from TXT.001), of a box button (--size-box-button, BTN.001), of a mark (--size-mark, BTN.002, which TIK.001 and BTN.007 must equal), the square number (--control-square), the corners of a cell (--box-radius), the wide add button (--add-button-height), the tool button, the fold arrow (--fold-arrow-size) and the card symbol. `npm run library:tokens` writes them into `src/styles/components.generated.css`; no other stylesheet defines them. Two components that share a size and disagree in the library stop the generator.
 2. **The contracts.** The older asset contracts of `src/library/assets` (plus box, info note, remove x, fold arrow, dropdown, floating card) take their sizes from the same place, so a size is not written twice there either.
 3. **The comparison.** `npm run library:compare` (`tools/scripts/library/app-compare.mjs`) puts the library's look of every component beside what the walk of the running app measured, and writes `docs/design/library/15-library-vs-app.md`; with the flag check it fails when the app differs from the library and the difference is not a known one. The walk is `tools/scripts/catalogue/app-crawl.mjs`.
+
+The library holds the looks (sizes, corners, type); the React components that draw them, and which of them are shared, are in doc 21 (`docs/design/current/21-shared-components.md`). A shared component that has no asset of its own (for example `FittingRadioChoice` or `OptionalNote`) is not in the library and not in the logs. The floating card's contract is in `src/library/assets/floatingCard.ts`; its pattern and `npm run check:card` are in `docs/ai/tile-and-card-pattern.md`.
 
 To change a size: change the look in the library (section 4), run `npm run library:tokens`, walk the app and run the comparison. A component that differs is fixed in the stylesheet at the root (the one rule that draws it), not by a rule on top of it.
 

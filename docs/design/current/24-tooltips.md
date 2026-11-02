@@ -1,17 +1,17 @@
 # 24. The tooltips: what has one, and what it says
 
-Status: **current design**, updated 2026-10-29. This document owns the tip (its place, words and look); `23-popups.md` (category P4) points here.
+Status: **current design**, written 2026-10-20, updated 2026-11-02. This document owns the tip (its place, words and look); `23-popups.md` (category P4) points here.
 
 A tooltip is a small dark label above a control, in the app's own style (`TooltipBox`, `src/components/controls/Tooltip.tsx`), never the browser's own (a white rectangle with a black frame and letters, in the system's mode). One host draws every one (`TitleTooltips`, `src/components/controls/TitleTooltips.tsx`, mounted once in `App.tsx`): it takes the `title` of an element away and shows its words only by the rules below.
 
 ## 1. The rules
 
-1. **Only a control that is pressed has a tooltip**: a button, a link, a tab, a menu item, a summary. Never a field (it has its label and shows its value), a dropdown cell (its value is on it), a tick (its words), a tile or a card (they are text), a label, a heading, a count.
+1. **Only a control that is pressed has a tooltip**: a button, a link, a tab, a menu item, a summary. Never a field (it has its label and shows its value), a dropdown cell (its value is on it), a tick (its words), a tile or a card (they are text; a tile's own title is the one exception, rule 3), a label, a heading, a count.
 2. **An icon with no words of its own says its name** (words hidden with `display: none`, as a Back's word in a narrow window, are not words it shows): the "i", the ×, the "+", the arrows, the funnel, the calendar button, the symbols. Its name is its accessible name (`aria-label`), so no place writes a `title` for it.
-3. **A control whose words are cut short says them whole**: a link or a value that runs past its place and is cut (an ellipsis, or a line that moves).
+3. **A control whose words are cut short says them whole**: a link or a value that runs past its place and is cut (an ellipsis, or a line that moves), and a tile whose title is cut by an ellipsis (the tile says the title whole; a title that fits has no tip).
 4. **A control says what its words do not**: the key it answers to ("Previous card (←)"), where it goes, what it changes ("Reset Computers to 3 years"); three words or more that it does not already show.
 5. **Never what the control already shows**: its text, its name or its value. A `title` that only repeats the name is not written.
-6. **A control whose pop-up window is open has none (owner, 2026-10-25)**: the calendar button, the "i", a menu. The window is the answer, so the tip goes the moment the control says `aria-expanded="true"` (with `aria-haspopup`), whatever opened it, and does not come back while the window stays open. One rule in `TitleTooltips`, not one per control.
+6. **A control whose pop-up window is open has none**: the calendar button, the "i", a menu. The window is the answer, so the tip goes the moment the control says `aria-expanded="true"` (with `aria-haspopup`), whatever opened it, and does not come back while the window stays open. One rule in `TitleTooltips`, not one per control.
 
 A tooltip is one line, at most 360px wide, **in one place for every control**: its bottom 6px over the control's top and its left edge on the control's left edge, where every pop-up cell starts (its right edge on the control's right edge where the control says so); under the control (6px) only where there is no room above; kept 8px inside the window. It **never follows the pointer**. It opens under the pointer and on the keyboard focus, closes on Escape, on a press and when the pointer leaves. (This is the same place for the keyboard and the pointer: `aboveTipPosition`, `Tooltip.tsx`.)
 

@@ -1,8 +1,8 @@
 # 1. Identity System — 1. Definition
 
-Status: **current design**, written 2026-10-30, updated 2026-10-30. The master tile "1. Definition" of the page "1. Definition and Ethics" of the Identity System: its layout, its four tiles, how each opens and reacts, and what reads what it holds.
+Status: **current design**, written 2026-10-30, updated 2026-11-02. The master tile "1. Definition" of the page "1. Definition and Ethics" of the Identity System: its layout, its four tiles, how each opens and reacts, and what reads what it holds.
 
-Related: doc 26 (card structure), doc 28 (the questions, 8.1 to 8.6), doc 31 (the tables behind the Positioning lists, 10.7), doc 33 (the first version), doc 34 (future features), `docs/ai/tile-and-card-pattern.md` (the tile and card pattern), `docs/ai/layout-rules.md` (the measured rules).
+Related: doc 38 (the Organization tile's fields), doc 39 (the Positioning tile's questions), doc 26 (card structure), doc 28 (the design, 8.1 to 8.6), doc 31 (the tables behind the Positioning lists, 10.7), doc 33 (the first version), doc 34 (future features), `docs/ai/tile-and-card-pattern.md` (the tile and card pattern), `docs/ai/layout-rules.md` (the measured rules).
 
 > **Keep this document true (rule of this file):** it describes the app as it is. Whoever changes a tile, a field, a list, a limit or a reaction of the Definition changes this document in the same commit, and writes the change in the log (`design/core/04-log.md`). Where the code and this document disagree, the code is right and this document is the one to fix. What is described elsewhere but not in the app and not a future feature is collected in section 12, **Extra Information**, and nowhere else in this document.
 
@@ -64,26 +64,14 @@ Only one dialog is open at a time; which one is open is view state and is never 
 
 ## 4. The Organization tile
 
-**Dialog:** two columns with a 1px divider (12px clear on each side), the **Notes** across the whole width below a divider line.
+**Dialog:** two columns with a 1px divider (12px clear on each side), the **Notes** across the whole width below a divider line. The left column is where the organization is (name, country, address); the right is what it is and does (legal form, Registration Date, Opening Date, activities). **Every field, its control, its options, its "i" and what it connects to are in doc 38** (`design/questionnaire/38-organization-fields.md`); this section keeps what the tile does as a whole.
 
-| Left: where it is | Right: what it is and does |
-|---|---|
-| **Organization Name** (text) | **Legal Form** (dropdown, with an "i") |
-| **Country** (dropdown: the six countries, then "Other"), and **Other country** (a second dropdown with every other country) when "Other" is chosen | **Registration Date** (date cell, with an "i") |
-| **State, province or region** (dropdown, only for a country that has them) | **Opening Date** (date cell, with an "i") |
-| **Address** (one text box of as many lines as it needs) | **Activities** (with an "i"): Primary, then up to three more |
-| | |
-| **Notes** (optional note: a tick and the word; the box opens on ticking; bullets and numbered lists; grows with its text; the page's Description, printed by the Business Plan) | |
-
-**Fields and their rules**
-
-- **Country:** the six of the first version (United Kingdom, Ireland, United States, Canada, Australia, New Zealand) and **Other** (any other country: the legal forms are the four generic ones, the activity and its code are typed). The country drives the legal forms, the activity scheme and its code name, the registration numbers, the currency and the date format.
-- **Legal Form:** the country's official list in the official order; for Other, Sole Proprietorship, General Partnership, Private Limited Company (LLC / Ltd / GmbH) and Limited Liability Partnership (LLP). There is no "Other" entry. A one-owner form removes the ownership questions of the Legal Entity page. Public company, nonprofit and cooperative forms are not offered (doc 33, section 3).
-- **Address:** free text, one box. The label of its last line (postcode, ZIP and so on) follows the country.
-- **Registration Date:** independent of the registration number; not later than today and not later than the Opening Date; a warning stands under it for a date that has not come or a company formed after the Opening Date.
-- **Opening Date:** saved in the Global Settings; it decides the business stage (section 8); it can be changed at any time.
-- **Activities:** only the primary is required; Secondary, Tertiary and Quaternary are optional, added by "+" (it gives way at four) and removed by "×". Each is a cascade of dropdowns with the country's own level names, ending in one official code (SIC for the UK, NACE, NAICS and so on; the scheme's initials and the code in bold). A finished activity is folded to one line (fold arrow, "Primary", code, path); an open one shows its dropdowns. Changing a level empties the levels below it and the code. Every dropdown lists all its entries in the official order (doc 35, 5.8 to 5.10).
-- **Frozen until a country is chosen:** Address, Legal Form and State show the hint "Choose a country first." and keep what they hold.
+- **Frozen until a country is chosen:** Address, Legal Form, State and the activities show the hint "Choose a country first." and keep what they hold.
+- **Country:** the six of the first version and **Other**; it drives the legal forms, the activity scheme and its code name, the registration numbers, the currency and the date format. For Other, the legal forms are the four generic ones (Sole Proprietorship, General Partnership, Private Limited Company, Limited Liability Partnership; `GENERIC_LEGAL_FORMS`) and the activity and its code are typed. Public company, nonprofit and cooperative forms are not offered (doc 33, section 3).
+- **Legal Form:** a one-owner form removes the ownership questions of the Legal Entity page.
+- **Registration Date:** not asked where the legal form is a sole trader or a sole proprietorship in the six countries (`registrationDateApplies`). A warning stands under it for a date that has not come or a company formed after the Opening Date.
+- **Opening Date:** saved in the Global Settings; it decides the business stage (section 8).
+- **Activities:** a finished activity is folded to one line (fold arrow, "Primary", code, path); an open one shows its dropdowns. Changing a level empties the levels below it and the code.
 
 **How it reacts**
 
@@ -100,37 +88,16 @@ Only one dialog is open at a time; which one is open is view state and is never 
 
 The tile's name follows the stage: **Early Positioning** (Planning, Launching), **Core Market Positioning** (Managing), **Corporate & Portfolio Positioning** (Growing; `positioningName`).
 
-**Dialog:** two columns, each with two groups, told apart by a **double divider line** (two 1px lines 2px apart) and not by subtitles (the page's tile shows the same four groups, told apart by hairlines): Business then User on the left, Offering then Outcome on the right. The User group (and its divider) appears only for a Proxy or Dual-Intent buyer; the right group is titled "Outcomes" where the user has an outcome of their own. **The left column is as wide as its longest option and the right takes the rest, with a 1px divider between them, so every option stands on one line from a window about 1440px wide** (below it a long option wraps; under 901px the columns are one). **Under the title of each question there is a hairline** from the card's side to the middle divider (the whole width of its column), and **the questions are bands as the channel card's parts are**: every other question of a column stands on a tint (the card's own label colour at 12%), the others on the card's ground, each as wide as its column, from the card's side to the middle divider (the dialog's scrolling body reaches the card's sides for this card, so nothing clips a band short), with no gap between them; the double rule between two groups runs the same way, with one gap of 12px above it and one of 12px below it (between the rule and the words of the question). **The titles of the questions are rows of one height, so the first lines of the two columns stand at one height; the first option is 12px under its title's line; the rule above the Notes closes the last questions 12px from their words, and the Notes stand 12px under it.** The columns keep every option on one line from a window about 1366px wide.
-
-| Left | Right |
-|---|---|
-| **Seller & Buyer Relationship** (B2C, B2B) | **Purpose** (twelve) |
-| for each relationship chosen, its audience: **B2C Buyer's Life-Stage** (Students / Young Adults; Workers / Professionals; Seniors) or **B2B Audience Specialization & Scale** (Solopreneurs & Freelancers; Startups & SMBs; Mid-Market; Enterprise / Public Sector) | **Differentiation** (six: Cost-driven; Convenience-driven; Compliance, Risk & Security; Status & Premium; Performance & Innovation; Ecosystem & Integration) |
-| **Buyer's category** (Direct Buyers; Proxy Buyers; Dual-Intent Buyers), one for each relationship | **Outcome** (the buyer's: Lower costs; Time saved; Legal & data-protection cover; Higher quality & prestige), named "Outcome for the buyer" where the user has one of their own |
-| *double divider line* | *double divider line* |
-| for a Proxy or Dual-Intent category: **Buyer & User relationship** (B2C: seven, with Commercial & Professional; B2B: six) and, for B2C, **User's Life-Stage** (Minors; Young Adults; Adults; Seniors) | **Outcome for the user** (Enjoyment & fun; Comfort & ease; Safety & care; Learning & growth; Looks & belonging; Practical use), only where some buyer is a Proxy or Dual-Intent Buyer |
-| | **Notes** (optional note across the width) |
+**Dialog:** two columns, each with two groups, told apart by a **double divider line** (two 1px lines 2px apart) and not by subtitles (the page's tile shows the same four groups, told apart by hairlines): Business then User on the left, Offering then Outcome on the right. The User group (and its divider) appears only for a Proxy or Dual-Intent buyer; the right group is titled "Outcomes" where the user has an outcome of their own. **The left column is as wide as its longest option and the right takes the rest, with a 1px divider between them, so every option stands on one line from a window about 1440px wide** (below it a long option wraps; under 901px the columns are one). **Every question, its control, its options, its "i" and what it connects to are in doc 39** (`design/questionnaire/39-positioning-questions.md`), which also says how many choices the stage allows; this section keeps what the tile does as a whole.
 
 The audience scale is **the app user's audience** (the customers of the business described), not the app's audience (the people who use the app).
 
-**The limits by stage** (one choice is a radio; several are ticks with "N max", the others locked grey when the limit is reached; a ticked option can always be unticked):
+**Limits by stage not stated in doc 39:** the Buyer's category is one choice in every stage; the audience question of each relationship follows the relationship's limit (one in Planning and Launching, two in Managing, free in Growing).
 
-| Question | Planning | Launching | Managing | Growing |
-|---|---|---|---|---|
-| Seller & Buyer Relationship | 1 | 1 | 2 | any |
-| Each audience question | 1 | 1 | 2 | any |
-| Differentiation, Outcome (both) | 1 | 2 | 2 | any |
-| Buyer's category | 1 | 1 | 1 | 1 |
-| Purpose | 1 | 2 | 2 | any |
+**How the lists are shaped** (the owner's tables, doc 31, 10.7; the tile never chooses for the user, and an answer already given always stays visible). The order of the options of each question is in doc 39; two rules cross questions:
 
-**How the lists are shaped** (the owner's tables, doc 31, 10.7; never chooses for the user, and an answer already given always stays visible):
-
-- **Buyer & User relationship:** only the relationships that can be the buyer's category; a Students / Young Adults buyer is not offered Commercial & Professional; Parent or guardian is not offered when the user life stages chosen are only ones the matrix leaves blank for it.
-- **User's Life-Stage:** only the stages the matrix allows for the buyer's life stage and the relationship chosen.
-- **Purpose:** ordered by relevance and without the ones the tables call generally less directly relevant; for each purpose the first table that covers it decides (buyer and user life stage; business relationship; audience scale and category; consumer relationship; buyer's category; seller and buyer relationship).
-- **Outcome for the buyer and Outcome for the user:** the outcomes the purposes chosen drive come first (the buyer's by the buyer's category; a Direct Buyer has no user outcome); nothing is hidden or ticked.
 - **The life stages come first** (consumer buyer, once the buyer's and the user's life stages are both answered): they re-sort the Differentiation (a Student: Cost-driven and Convenience-driven; a Worker: Convenience-driven and Compliance, Risk & Security; a Senior: Compliance, Risk & Security and Status & Premium) and the two Outcome lists (by the purposes the life stages make primary), before the purposes chosen (doc 31, 10.7).
-- **Differentiation:** ordered by the purposes chosen, then the business relationship, then the audience scale and category (or the buyer's category); a business buyer is not offered the ones the scale table leaves blank.
+- **Outcome for the buyer and Outcome for the user:** the outcomes the purposes chosen drive come first (the buyer's by the buyer's category; a Direct Buyer has no user outcome); nothing is hidden or ticked.
 
 **How it reacts**
 

@@ -47,7 +47,7 @@ export const SUBSECTIONS = {
             ],
             "business-data": [
                 "Asked when the customers are businesses; for a business buyer this box comes before Geographics.",
-                "Where Positioning has not said whether the buyer is a person or a business, tick the box to describe a business."
+                "Where Positioning chose both, the first Segment is of people and the second of businesses; one added later asks which it is."
             ],
             purchasing: [
                 "Some questions are for every customer (online comfort, where they discover ideas, where they buy, how they pay), some for people (their habits and how they decide to buy) and one for businesses (how the purchase is authorized).",

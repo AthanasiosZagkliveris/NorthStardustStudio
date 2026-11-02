@@ -1,9 +1,56 @@
 # Business System — Page 4: Financial Foundation
 
-Status: **specification**, updated 2026-10-29. The requirement as written (sections 1 to 29) is preceded by "As built", which wins where they differ; section 30 gives the rules of the cost nature, the funds and the scheduling.
+Status: **specification**, written 2026-09-27, updated 2026-11-02. The requirement as written (sections 1 to 29) is preceded by "As built", which wins where they differ; section 30 gives the rules of the cost nature, the funds and the scheduling.
 
 > **3. Business System — Page 4 of 5.**
 > The first of the two Financial pages; **Page 5 — Financial Sustainability** follows it.
+
+## Contents
+
+- [As built](#as-built)
+- [1. Purpose](#1-purpose)
+- [2. Core Design Principles](#2-core-design-principles)
+- [3. Page Structure](#3-page-structure)
+- [4. Section 1 — Costs](#4-section-1--costs)
+- [4.1 Cost Groups](#41-cost-groups)
+- [5. Cost Analysis](#5-cost-analysis)
+- [5.1 Cost Group](#51-cost-group)
+- [5.2 Cost Behaviour](#52-cost-behaviour)
+- [5.3 Payment Frequency / Timing](#53-payment-frequency--timing)
+- [6. Cost Record](#6-cost-record)
+- [7. Section 2 — Funding Need](#7-section-2--funding-need)
+- [7.1 Funding Need Categories](#71-funding-need-categories)
+- [7.2 Funding Need Record](#72-funding-need-record)
+- [8. Section 3 — Capital & Funding](#8-section-3--capital--funding)
+- [9. Internal](#9-internal)
+- [10. External](#10-external)
+- [11. Other](#11-other)
+- [12. Funding Record](#12-funding-record)
+- [13. Funding Status](#13-funding-status)
+- [14. Funding Schedules](#14-funding-schedules)
+- [15. Investment](#15-investment)
+- [16. Loans](#16-loans)
+- [17. Loan Repayment Schedule](#17-loan-repayment-schedule)
+- [18. Loan → Costs / Expenses](#18-loan--costs--expenses)
+- [19. Section 4 — Financial Position](#19-section-4--financial-position)
+- [20. Financial Overview](#20-financial-overview)
+- [21. Funding Gap](#21-funding-gap)
+- [22. When There Is No Funding Gap](#22-when-there-is-no-funding-gap)
+- [23. Financial Timeline](#23-financial-timeline)
+- [24. Funding Mix](#24-funding-mix)
+- [25. Upcoming Obligations](#25-upcoming-obligations)
+- [26. Decision Support](#26-decision-support)
+- [27. Important Financial Distinctions](#27-important-financial-distinctions)
+- [28. Page layout](#28-page-layout)
+- [29. Scope Boundary](#29-scope-boundary)
+- [30. Cost nature, funds and scheduling (as built)](#30-cost-nature-funds-and-scheduling-as-built)
+- [30.1 Opening Date and Global Settings](#301-opening-date-and-global-settings)
+- [30.2 Cost nature (rules C1 to C16)](#302-cost-nature-rules-c1-to-c16)
+- [30.3 Funds (rules F1 to F6)](#303-funds-rules-f1-to-f6)
+- [30.4 Calculated lines](#304-calculated-lines)
+- [30.5 Scheduling a per-project card](#305-scheduling-a-per-project-card)
+- [30.6 Dates, rates and floors](#306-dates-rates-and-floors)
+- [30.7 Not built](#307-not-built)
 
 ## As built
 

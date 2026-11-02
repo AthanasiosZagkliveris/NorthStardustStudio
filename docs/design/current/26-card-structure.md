@@ -1,8 +1,21 @@
 # 26. Card structure: what the user can reach in each card, and why
 
-Status: **current design**, written 2026-10-14 as Part F of document 1 and split off on 2026-10-29 (the headings keep their names; document 1 points here). It is read by the catalogue tool (`tools/scripts/catalogue/load.mjs`): the variants and rows below become the structure tables (document 7) and the catalogue record (document 6), so the table and heading shapes must not change without changing the tool.
+Status: **current design**, written 2026-10-14, updated 2026-11-02. One entry for each card layout of the Foundation: its path, the row-by-row table of what the user can reach, and what happens behind the scenes. The part from "Channel cards" and the two Tasks describes how channel-made cards would look and which groups could link; the text says where a part is a proposal. The headings are the Part F of document 1, which points here, and keep their names. The catalogue tool (`tools/scripts/catalogue/load.mjs`) reads this document: the variants and rows below become the structure tables (document 7) and the catalogue record (document 6), so the table and heading shapes must not change without changing the tool.
 
 Related: document 1 (the rest of the current design; Part G is the access by type), document 6 and 7 (generated from this), document 21 (the shared components).
+
+**Cards of questions.** The Segment card and the Profile card ask choice questions in sections, subsections and questions instead of a table of rows by group; they are not in the tables below. The questions are in docs 36 (the Segment) and 37 (the Profile); the pattern a card of questions follows (width, content line, three levels, the Note that ends each part, the audit `npm run check:card`) is in `docs/ai/tile-and-card-pattern.md`; the parts they are drawn with are in doc 21.
+
+## Contents
+
+- [Display rules](#display-rules) and [The order of rows, the same on every card](#the-order-of-rows-the-same-on-every-card)
+- [Infrastructure](#infrastructure): Resources by category (Workspace, Utilities, Workstation, Equipment, Vehicles, Digital Infrastructure, Materials & Inventory, Documents & Rights, Human Resources), Activities, Partners, Suppliers
+- [Offering](#offering): the same four parts for the Offering place
+- [Channel cards](#channel-cards)
+- [Legal Entity expense card](#legal-entity-expense-card)
+- [Task 1: resources linked to partners and suppliers of the same place](#task-1-resources-linked-to-partners-and-suppliers-of-the-same-place)
+- [Task 2: activities, and the partners, suppliers and resources that could link to them](#task-2-activities-and-the-partners-suppliers-and-resources-that-could-link-to-them)
+- [Points to decide](#points-to-decide)
 
 ## Part F. Card structure: what the user can reach in each card, and why
 

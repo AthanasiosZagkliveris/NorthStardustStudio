@@ -1,6 +1,6 @@
 # AI Collaboration Rules
 
-Status: **rules**, updated 2026-10-29.
+Status: **rules**, written 2026-08-02, updated 2026-10-29. The standing rules for any AI assistant working on this project, and how its work flows.
 
 Standing rules for any AI assistant working on this project. They come from explicit instruction by the owner, not from inference: treat them as binding, not as defaults to weigh against convenience.
 

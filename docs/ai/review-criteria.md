@@ -1,6 +1,6 @@
 # Review criteria: how a screen is judged
 
-Status: **rules**, updated 2026-10-29.
+Status: **rules**, written 2026-10-20, updated 2026-11-02. The standard a screen is judged by, how each criterion is measured, and the form of a review report.
 
 This document is the standard a table, a tile, a card, a floating card, a dialog, a pop-up window, a page or a control is judged by. `review-checklist.md` is the short list to tick; this is the reference behind it: for each criterion, the standard, where the standard comes from, how to measure it and what counts as a failure. A review that does not name its criteria, measure them and report them is not a review.
 
@@ -118,7 +118,7 @@ Reactions (doc 18, `layout-rules.md` section 6): every control that can has **ho
 3. **Old data**: a removed option or a renamed field leaves old answers cleared and said, never lost or shown wrong.
 4. **Names**: every control has an accessible name; an icon-only control has an `aria-label`; no `title` repeats it.
 5. **Keyboard**: every control reachable by Tab and answering Enter and Space; a list by the arrows; Escape closes the last layer; the focus is visible and returns where it came from.
-6. **WCAG 2.2 AA**: contrast, target size (24px at least), focus visible, no information by colour alone.
+6. **WCAG 2.2 AA**: text contrast 4.5:1, the boundary of a control 3:1 on its ground (`--cell-edge`, a list's border), target size (24px at least), focus visible, no information by colour alone.
 
 ## 11. The report
 
@@ -132,7 +132,7 @@ Then: **what was fixed** (with the component or the token used), **what was meas
 
 ## 12. The measuring tools
 
-- **The automatic check**: `npm run check:layout` (0 new findings; it measures widths, gaps, alignment, the reactions of each kind and the ×); `npm run check:layout:wide` adds the three reading modes and the screen classes. How to run each: `toolchain-and-verification-playbook.md`.
+- **The automatic check**: `npm run check:layout` (0 new findings; it measures widths, gaps, alignment, the reactions of each kind and the ×); `npm run check:layout:wide` adds the three reading modes and the screen classes; `npm run check:card` audits one floating card of questions (the pattern: `tile-and-card-pattern.md`). How to run each: `toolchain-and-verification-playbook.md`.
 - **The lints**: `npm run lint:css` (dead and shadowed rules), `npm run lint:styles` (colours, sizes and values written in rules), `npm run lint:controls` (a second look set on a shared control), `npm run tokens:check` (contrast), `npm run docs:check`, `npm run tables:check`, `npm run library:check`.
 - **The tests**: the whole suite; a test that reads a stylesheet is a guard on a criterion above.
 - **The browser**: a script that opens the page, drives the state, and prints the computed style and the box of each element under review; the pictures before and after.

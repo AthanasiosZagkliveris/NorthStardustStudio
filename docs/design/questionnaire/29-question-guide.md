@@ -1,6 +1,6 @@
 # 29. Question guide: the flow, the branches and how a question earns its place
 
-Status: **proposal**, written 2026-10-23, **updated 2026-10-26 for the Identity questions as built (Early Positioning and the End User questions, doc 28 section 8.2)**. The Segment card reads only I3 and I7b so far (to choose and annotate its boxes); the flow below is otherwise the design. This is the guide to the questions as a **flow**: which answer leads to which question, which questions are the key branches, what happens when the answer is "both" or "other", in what order to ask so that the user answers as little as possible, and why each question matters to the user. It answers the owner's review of 2026-10-23. Document 27 is the plan, document 28 holds the lists, wording, connection map, evidence, decisions and the counts of questions (Appendix B); this document holds the logic between them.
+Status: **proposal**, written 2026-10-23, updated 2026-11-02. The Identity questions, the Segment card (doc 36) and the Profile card in part (doc 37) are built; the trees below are the design they came from, and the banners say where the built questions differ. This is the guide to the questions as a **flow**: which answer leads to which question, which questions are the key branches, what happens when the answer is "both" or "other", in what order to ask so that the user answers as little as possible, and why each question matters to the user. It answers the owner's review of 2026-10-23. Document 27 is the plan, document 28 holds the lists, wording, connection map, evidence, decisions and the counts of questions (Appendix B); this document holds the logic between them.
 
 > **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Doc 33 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, age limits, accessibility, caregiving and the rest) is a future feature: doc 34. Contents of the documents: `docs/README.md`; index: `docs/index.md`; glossary: `docs/app/glossary.md`.
 
@@ -86,6 +86,8 @@ AFTER THE FIRST DRAFT (checks, asked later): G4, G5, G16   (G17, G18, G19 merged
 ```
 
 ### 2.3 Profile (up to three per Segment)
+
+> **Built in part (doc 37):** the Profile card asks A1 to A3, A5, B1, C1 to C4, D1, D2 and E1 to E3. What differs from the tree: P11 is split into C2 (social media), C3 (communities) and C4 (events); P13, P14, P16 and P22 are not asked (the Segment asks where they buy, how they pay, online comfort and how the decision is authorized); the questions follow the Segment's answers (doc 37, 2.1 and 2.2). Not built: the kind of business (P24), the specialized needs, the proposed Profiles, "Copy a Profile".
 
 ```
 A Profile starts from
@@ -313,7 +315,7 @@ The decision list is in one place: document 28, section 13. The twelve decisions
 | I1 | What does the business do? | **Exists** | Organization tile, the activity cascade (up to four) | Add "Show all" after a shortlist (not built); the industry pack is not built |
 | I8 | Business stage | **Exists, not asked** | Worked out from the Opening Date; the Positioning tile's name and limits follow it | None |
 | I11 | Market Structure | **Exists** | Early Positioning, left column, first, a radio (Single-sided; Multi-sided / Platform) | None: the owner's words. Its "i" says it is not the buyer-and-user split |
-| I3 | Seller and Buyer Relationship (who pays) | **Exists** | Early Positioning, left column, first; radio or ticks by stage | None: the owner's words. Read by the Segment since 2026-10-25: it decides whether Demographics or Business Data is asked |
+| I3 | Seller and Buyer Relationship (who pays) | **Exists** | Early Positioning, left column, first; radio or ticks by stage | None: the owner's words. Read by the Segment: it decides the kind of Segment, people or businesses (doc 36) |
 | I7b | Audience: scale (B2B), **Buyer's Life-Stage and relationship with the User** (B2C), administrative level (B2G), regulatory intensity (G2B) | **Exists** | Early Positioning, left column, one question for each relationship chosen | None: the owner's words. **This is where the buyer's relationship with the user is already asked** (Proxy Buyers / Gifters). Read by the Segment since 2026-10-25 only to show the choice in the "i" of Demographics or Business Data |
 | I7h | Buyer's category (Direct, Proxy, Dual-Intent) | **Exists** (built 2026-10-29) | Early Positioning, left column, under the audience | None: the owner's words |
 | I7e, I7d | Buyer and User relationship; User's Life-Stage | **Exists** (rebuilt 2026-10-29; moved to the left column 2026-10-30) | Early Positioning, left column, under the buyer's category; asked only for Proxy or Dual-Intent buyers | The lists are the owner's; only those that fit the category and the matrix are offered (doc 31, 10.7) |
@@ -324,17 +326,17 @@ The decision list is in one place: document 28, section 13. The twelve decisions
 | (Notes) | The Positioning free text | **Exists** | Early Positioning, under the questions | Optional: an empty one is no Review item; the Review checks the choice questions instead (28, 8.6a). Shorten its prompt (28, 8.2, open decisions) |
 | I5, I6, I7, I9, I10 | Brand personality; price position; (merged); ambition; values | I5 parked; I6 withdrawn as a question (counted as a check in 28, Appendix B); the old I7 is merged into I7c; I10 **merged into the Values tile**; I9 **proposal** | Not on a tile | None until the owner decides |
 | I2, I4, G1, G9, G11 | | Merged or withdrawn | | None |
-| G2 to G5 | Where; main country; kind of area; languages | **Text box** (Geographics) | Segment card | G2 and G3 first, G4 and G5 after the draft; G3 starts from the Legal Entity's country |
-| G6, G7, G8, G10, G13 | Age range; education; income step; gender mix; work situation | **Text box** (Demographics); asked only when the buyer is a person | Segment card | Order: G6, G7, G8, G13, G10 last. G6 reads "the customer, the person who pays" |
-| G14, G15, G23 | Size; industry; type of organisation | **Text box** (Business Data); asked only when the buyer is a business or public body | Segment card | Order: G23, G14, G15; G14 skipped for a freelancer |
-| G16 | Usual price | **Text box** (Purchasing Power & Behaviour) | Segment card | A check, asked after the draft |
+| G2 to G5 | Where; main country; kind of area; languages | **Built** (doc 36, Geographics) | Segment card | G2 and G3 first, G4 and G5 after the draft; G3 starts from the Legal Entity's country |
+| G6, G7, G8, G10, G13 | Age range; education; income step; gender mix; work situation | **Built** (doc 36, Demographics); asked only when the buyer is a person | Segment card | Order: G6, G7, G8, G13, G10 last. G6 reads "the customer, the person who pays" |
+| G14, G15, G23 | Size; industry; type of organisation | **Built** (doc 36, Business Data); asked only when the buyer is a business or public body | Segment card | Order: G23, G14, G15; G14 skipped for a freelancer |
+| G16 | Usual price | **Built** (doc 36, Purchasing Power & Behaviour: not a usual price) | Segment card | A check, asked after the draft |
 | G20 to G22 | | Notes | Market Size box | None (G12 is no longer numbered) |
 | G17, G18, G19 | Feeling about price; main spending; how often | **Withdrawn (merged, 2026-10-25)** | | G17 is I7c (Cost-driven or Status & Premium); G18 is O11; G19 is O3 |
-| P1, P5, P6 | Age; gender; kind of work | **Text box** (Specific Personal Information) | Profile card | Behaviour first, these after the draft. P2, P7, P8 are merged into the box's note; P3, P4 are not asked |
-| P9 | Cares about | **Text box** (Psychographics) | Profile card | None (P10 risk deleted: no source) |
-| P11 to P16 | Where they look, compare, buy, pay; devices; comfort | **Text box** (Social & Interest Hubs; Information & Shopping Habits) | Profile card | P11 to P14 first (they drive the journey) |
-| P17, P18, P19 | Goals; frustrations; worries | **Text** (Goals & Desires, Challenges & Problems, Objections, under Motivations) | Profile card | None |
-| P20 to P24 | Help wanted; part in the purchase; how the decision is made; size; kind of business | **Proposal** (no box today) | Profile card | P21 is asked only for businesses, any band below 18, or the audience Proxy Buyers / Gifters; "They will use it" marks the user's Profile |
+| P1, P5, P6 | Age; gender; kind of work | **Built** (doc 37, A1 to A3) | Profile card | Behaviour first, these after the draft. P2, P7, P8 are merged into the box's note; P3, P4 are not asked |
+| P9 | Cares about | **Built** (doc 37, B1) | Profile card | None (P10 risk deleted: no source) |
+| P11 to P16 | Where they look, compare, buy, pay; devices; comfort | **Built in part** (doc 37: C1 to C4, D1, D2; P13, P14, P16 are the Segment's questions) | Profile card | P11 to P14 first (they drive the journey) |
+| P17, P18, P19 | Goals; frustrations; worries | **Built** (doc 37, E1 to E3) | Profile card | None |
+| P20 to P24 | Help wanted; part in the purchase; how the decision is made; size; kind of business | **Built in part** (doc 37: D2 and A5; P22 is the Segment's question; P24 not built) | Profile card | P21 is asked only for businesses, any band below 18, or the audience Proxy Buyers / Gifters; "They will use it" marks the user's Profile |
 | Needs | Functional, Emotional, Social lists | **Exists** | Profile card | Each line gets an id |
 | Competitor Name, Type | | **Exists** | Competitor card | None |
 | K1 to K4, K6 | Price against yours; what they are chosen for; shortfalls; reach; confidence (K5, K7, K8 are no longer numbered) | **Text box** or **proposal** | Competitor card (What they sell, Which areas, How they reach, What customers say, SWOT, Insights) | K2 and K3 first |

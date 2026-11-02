@@ -1,16 +1,16 @@
-# 37. The Profile's questions: every question and option, as proposed
+# 37. The Profile's questions: every question and option, as built in part
 
-Status: **specification**, written 2026-11-01, updated 2026-11-02; built in part. The questions of the Profile card in the order they are asked, with their control, when they are asked, their options, what their "i" says and what they connect to. **Built:** A1 (the exact age, held to the Segment's group), A2, A3, A5, B1, C1 to C4, D1, D2 and E1 to E3, with their conditions, starting values and settling (`ProfileQuestions.ts`, answers kept as `questions` on the Profile), in one column at the width every floating card has (492px), the boxes in their order, each with the Segment card’s title band. **Not built yet:** A4 (the kind of business), A6 (the specialized needs), the proposed Profiles, the user's own Profile (and so its Box D rule), the reads marked "not built yet" below.
+Status: **specification**, written 2026-11-01, updated 2026-11-02; built in part. The questions of the Profile card in the order they are asked, with their control, when they are asked, their options, what their "i" says and what they connect to. **Built:** A1 (the exact age, held to the Segment's group), A2, A3, A5, B1, C1 to C4, D1, D2 and E1 to E3, with their conditions, starting values and settling (`ProfileQuestions.ts`, answers kept as `questions` on the Profile), in one column at the width every floating card has (492px), the boxes in their order, each with the Segment card's title band. **Not built yet:** A4 (the kind of business), A6 (the specialized needs), the proposed Profiles, the user's own Profile (and so its Box D rule), the reads marked "not built yet" below.
 
 Related: doc 36 (the Segment's questions, built, in the same form), doc 28 (6.4 and 6.5, the Profile design this refines, and the shared lists), doc 35 (the lists L1 to L16), doc 34 (thoughts, section 6), doc 31 (the age terms), `src/components/interview/editors/foundation/` (the Profile card today).
 
 > **What the Profile does not ask again (owner, 2026-11-01).** The Segment (doc 36) asks the group: the age group, education, work status, household income, gender mix, where they are, how comfortable they are online, how they discover ideas, how they buy and pay, how the decision is authorized, the market. The Profile asks a **typical person** of that group, and only what the Segment cannot: an exact age, a job level, which devices and which social media, communities and events, how they compare options, what they want, what frustrates them and what stops them. It never repeats a Segment question, and it can only choose within what the Segment allowed (section 2).
 
-## 1. Today and the rules
+## 1. What a Profile holds, and the rules
 
-**Today** a Profile is a Name, four boxes of free text (*Specific Personal Information*, *Psychographics*, *Social & Interest Hubs*, *Information & Shopping Habits*), three of *Motivations* (*Goals & Desires*, *Challenges & Problems*, *Objections*) and three lists of *Needs* (Functional, Emotional, Social). Nothing reads them but the Offering (the needs) and the documents.
+**What a Profile holds.** A Name; seven boxes of two parts each (the questions below, then the box's note): *Specific Personal Information*, *Psychographics*, *Social & Interest Hubs* and *Information & Shopping Habits* (the section Description), *Goals & Desires*, *Challenges & Problems* and *Objections* (Motivations); and three numbered text lists of *Needs* (Functional, Emotional, Social). The answers are kept as `questions` on the Profile and are listed in the documents and the exports (`profileAnswerLines`, `ExportRenderers.ts`). The Offering reads the needs. The words of each question's "i" are in `info` in `ProfileQuestions.ts`; the "i would say" texts below are the fuller design, and the shorter texts in the code are the ones shown.
 
-**The rules are the Segment's** (doc 36): a radio is one choice, ticks are several, with a limit where stated, built from the existing controls (`RadioChoice`, `BusinessTicks`, `NumberCell`, `OptionPicker`, `FieldRow`); an option says its few words and what is added in brackets or after a colon stands in the question's "i"; a question with one option left is not shown; an answer to a question no longer asked is removed on the next choice; no "Not sure" option; each box keeps its title, its prompt (the "i") and **its note**, which stays for what the questions cannot say (a Profile is a person, and a person is described in words too); the layout is the Positioning card's (bands, divider lines, a double rule between boxes). The needs stay text lists: a need is a precise statement ("send an invoice in under a minute"), not a category.
+**The rules are the Segment's** (doc 36): a radio is one choice, ticks are several, with a limit where stated, built from the existing controls (`RadioChoice`, `BusinessTicks`, `NumberCell`, `OptionPicker`, `FieldRow`); an option says its few words and what is added in brackets or after a colon stands in the question's "i"; a question with one option left is not shown (none of the Profile's has yet); an answer to a question no longer asked is removed on the next choice; no "Not sure" option; each box keeps its title, its prompt (the "i") and **its note**, which stays for what the questions cannot say (a Profile is a person, and a person is described in words too); the layout is the Positioning card's (bands, divider lines, a double rule between boxes). The needs stay text lists: a need is a precise statement ("send an invoice in under a minute"), not a category.
 
 **How the boxes map.**
 
@@ -58,26 +58,19 @@ The Segment's rule holds here: **a question that is no longer asked, or an optio
 
 **The exact age (A1), decided by the owner (2026-11-01).** When the Segment's age group changes, A1 is **cleared if its number falls outside the new group, and kept if it is still inside it**. A Profile of 21 stays when the Segment goes from Young adults (~18–25) to a group that still holds 21 (or to none chosen), and is cleared when it goes to Peak (~40–55). The cleared cell says why, in its placeholder: *"Age reset to match the Segment's age group. Enter a typical age from 40 to 54."* (the range of the new group: from its first age up to, but not including, its second; for the last group, "75 or older"). Nothing else on the Profile is touched. **A user's Profile (owner, 2026-11-01).** When the Segment stops being Proxy or Dual-Intent (a change of the buyer's category in Positioning, or of the relationship), the user's Profile is **deleted completely at once**, not hidden: what it holds (its name, notes, needs and answers) is removed from the Segment's saved answer, so nothing of it reaches the documents, the exports or the wire, and a later change back to Proxy starts a new, empty user's Profile. The payer's Profile is untouched.
 
-### 2.3 The card's layout (proposed)
+### 2.3 The card's layout
 
-The Profile is a card inside the Segment's Profiles list, opened as a floating card. It is built from the existing parts only, laid out as the Segment card and the Positioning card are (doc 36, 39): questions are bands (every other one tinted), each box has a title band on the primary fill with light letters and its "i", a divider line under each title and each question's label, a double rule between one box and the next, and a 1px divider down the middle of two columns. A card has no inner light and shade, only its drop shadow. Its colour is its tile's.
-
-**How it is built.**
+The card is built and its layout is in section 1 ("The Profile card's layout"): one column, three sections, the subsections and questions between them, the Notes of each box. It is made from the existing parts only:
 
 | Part | Existing component or rule |
 |---|---|
 | Head | the card's head: the number, the name cell (`CardNameInput`), the remove button (the one x) |
-| Groups (Description, Motivations, Needs) | the card's fold group (`BusinessGroup`), open or folded, remembered while the page is open |
-| Box title band | the Segment card's band (`business-segment-box` first section: the primary fill, light letters, the "i") |
-| Questions | `FieldRow` with `RadioChoice` (one choice), `BusinessTicks` (several, with `max`), the number cell (A1); long lists in the picker |
-| Columns of the Description | the two columns with the divider, the boxes shared between them by their length so the columns stand at nearly one height (as the Segment's); one column below 900px |
-| Motivations and Needs | three columns (one below 900px); the Needs are the existing numbered text lists |
-| A box's note | the box's own text note, under its questions, as the Description has today |
+| Sections (Description, Motivations, Needs) | the card's fold group (`BusinessGroup`), open or folded, remembered while the page is open |
+| Questions | `FieldRow` with `FittingRadioChoice` or `RadioChoice` (one choice), `BusinessTicks` (several, with `max`), the number cell (A1) |
+| A box's note | the shared Note component (`OptionalNote`), under the questions |
 | What is not asked | a question that is not asked leaves no gap: its band is not drawn |
 
-**What changes with the Segment's kind (2.1).** A B2C Direct Profile shows boxes A (without A4 and A5), B, C, D, E; a Proxy Segment adds the user's Profile card beside it, with box D left out; a B2B Profile shows A1, A3, A4, A5, hides A2 and the specialized needs, and C asks the professional hubs only.
-
-**At narrow widths** (below 900px, never below 768px) the two columns become one, in the order A, B, C, D; the three columns of Motivations and Needs stack in the order Goals, Challenges, Objections; Functional, Emotional, Social.
+**What changes with the Segment's kind (2.1, proposed):** a B2C Direct Profile shows boxes A (without A4 and A5), B, C, D, E; a Proxy Segment adds the user's Profile card beside it, with box D left out; a B2B Profile shows A1, A3, A4, A5, hides A2 and the specialized needs, and C asks the professional hubs only. Built so far: the questions follow the Segment's answers as the tables in 2.1 and 9 say, where the card exists.
 
 ## 3. Box A. Specific Personal Information
 
@@ -95,7 +88,7 @@ A typical person of the Segment, asked specifically.
 ### A2. What is their gender?
 
 - **Control:** one choice (a radio).
-- **Asked when:** the Segment's gender mix is not Balanced mix.
+- **Asked when:** the Segment is of people and its gender mix is answered and is not Balanced mix.
 - **Options:**
   - Woman
   - Man
@@ -111,7 +104,7 @@ A typical person of the Segment, asked specifically.
 ### A3. What kind of work do they do?
 
 - **Control:** one choice (a radio).
-- **Asked when:** the Segment's primary work status is Working / Employed (for a business Segment, the decision-maker's job level).
+- **Asked when:** the Segment's primary work status is Working / Employed; for a business Segment always, except where its customers are self-employed (the answer is then Owner / senior executive and is not shown: section 9).
 - **Options:**
   - Owner / senior executive
   - Manager
@@ -119,7 +112,7 @@ A typical person of the Segment, asked specifically.
   - Technician / skilled trade
   - Administrative / sales / service
   - Operator / labourer
-- **The "i" would say:** The ISCO-08 major groups in plain words: choose the group that fits the role; armed forces: choose the group that fits the role; clergy count as professionals. The Segment's education orders the list, most likely first, as a tendency and never as a filter.
+- **The "i" would say:** The ISCO-08 major groups in plain words: choose the group that fits the role; armed forces: choose the group that fits the role; clergy count as professionals. (Not built: the Segment's education would order the list, most likely first, as a tendency and never as a filter.)
 - **Connections:**
   - *Comes from:* the Segment's work status and education.
   - *Read by (not built yet):* the Profile's note; the Review.
@@ -194,9 +187,9 @@ What the Segment cannot say: which devices, which social media, which communitie
 ### C2. Which social media do they use?
 
 - **Control:** ticks, as many as apply.
-- **Asked when:** the Segment's online comfort is not Tech-averse / Traditional.
-- **Options:** the social media channels the app already lists: Instagram; Facebook; LinkedIn; YouTube; TikTok; Pinterest; X (Twitter); Other, which the user writes in (ticking it opens a text box under the options; its words are kept as the answer). The ones related to the Segment's ways of discovering ideas (creators, communities, algorithmic discovery) come first.
-- **The "i" would say:** The platforms they actually use, if any. "They may not have social media at all": choose None of these.
+- **Asked when:** the Segment's online comfort is not Tech-averse / Traditional (or is not answered).
+- **Options:** the social media channels the app already lists: Instagram; Facebook; LinkedIn; YouTube; TikTok; Pinterest; X (Twitter); Other, which the user writes in (ticking it opens a text box under the options; its words are kept as the answer). (Not built: the ones related to the Segment's ways of discovering ideas, creators, communities and algorithmic discovery, would come first.)
+- **The "i" would say:** The platforms they actually use, if any. "They may not have social media at all": leave every one unticked.
 - **Connections:**
   - *Comes from:* the Segment's discovery ways and online comfort.
   - *Read by (not built yet):* the order of the Discover channels (page 2); the Profile's hubs.
@@ -309,4 +302,4 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 **Also decided (owner, 2026-11-01).** A5 is asked only for a business buyer, a Segment with a user part, or a group that includes Minors (2.1); a user's Profile is deleted completely when its Segment loses its user (2.2).
 
-**Still to decide.** Nothing but that none of it is built: the reads are the design's, to be built when the Segment's are.
+**Not built.** A4, A6, the proposed Profiles, the user's own Profile and the reads marked "not built yet", which are built when the Segment's are.

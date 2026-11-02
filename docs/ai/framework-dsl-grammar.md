@@ -1,6 +1,6 @@
 # Framework Content DSL — Grammar Reference
 
-Status: **reference**, updated 2026-10-29.
+Status: **reference**, written 2026-08-02, updated 2026-10-29. The syntax of a System's content files, as `framework/parser/AnswerParser.ts` reads them.
 
 This is the complete syntax for authoring a System's content in plain Markdown. Every rule below was confirmed directly against `framework/parser/AnswerParser.ts` — if this file and the parser ever disagree, the parser wins and this file is out of date and needs fixing.
 

@@ -66,7 +66,7 @@ export function useEngagementDemand(earlier: Earlier) {
 
         /* Folded with the same arrow as the page's sections; folded,
            its head still says what it gives. Unlike the structural
-           sections, this starts CLOSED -- see useItemFolds. */
+           sections, this starts OPEN (`useItemFolds(true)`). */
         const foldKey = "demand-" + offeringId;
         const open = folds.isOpen(foldKey);
 

@@ -1,8 +1,8 @@
 # 20. Free texts: four categories
 
-Status: **current design**, updated 2026-10-29. The four categories and the owner's decisions are current; the character limits are a proposal and the one component per category is not built.
+Status: **current design**, written 2026-10-17, updated 2026-11-02. The four categories and the owner's decisions are current; the character limits are a proposal and the one component per category is not built.
 
-The four kinds of free text and what decides the kind. The holders themselves, with their counts, styles, rows and widths as the walk of the running app found them (Quillfield example, 1920px, light theme), are in `docs/design/current/16-text-holders.md` (generated; its counts are the current ones). No text holder has a character limit today (no `maxLength` anywhere in `src/`), so the "Proposed limit" column is a proposal, set from the longest text the example held when the categories were drawn up and rounded up.
+The four kinds of free text and what decides the kind. The holders themselves, with their counts, styles, rows and widths as the walk of the running app found them (Quillfield example, 1920px, light theme), are in `docs/design/current/16-text-holders.md` (generated; its counts are the current ones). No text holder has a character limit today (no `maxLength` anywhere in `src/`), so the "Proposed limit" column is a proposal, set from the longest text the example holds and rounded up.
 
 Name cells, numbers, dates, colours and search boxes are not free texts (they have their own components); the Text Hierarchy's px boxes are numbers.
 
@@ -12,7 +12,7 @@ Name cells, numbers, dates, colours and search boxes are not free texts (they ha
 |---|---|---|---|---|---|---|---|
 | 1 | **Short text** | One value that is a word or a few: a setting, a code, a title, a trade-mark number | 18px | 1 | Never (one row, a longer text scrolls sideways and shows whole under the pointer) | One of the control widths (128, 160, 220, 300) | 60 characters |
 | 2 | **List line** | One entry of a numbered list: a Value, a Principle, an Offering, a Responsibility, an Assumption | 18px | 1 (decided; one rule everywhere) | 5 rows | The list's column (345 to 637px) | 200 characters per line |
-| 3 | **Note** | An optional description or usage note behind a tick (Description / Relevant Information, Usage, Notes, Address, Activity) | 18px | 2 | 12 rows, then scrolls | The card's width (328 to 668px) | 600 characters |
+| 3 | **Note** | An optional description or usage note behind a tick (Description / Relevant Information, Usage, Notes, Address, Activity) | 18px | 2 | 12 rows, then scrolls | The card's content width (466px in a floating card, `--open-card-width` less its padding) | 600 characters |
 | 4 | **Long text** | A paragraph that is the answer itself: a tile's text (Aesthetics, Body Language, Imprint), the Value Proposition, a strategy statement | 18px | 8 (decided); today 6 in a tile's dialog, 8 for a strategy statement; the Value Proposition keeps the height its column needs | 12 rows, then scrolls | The dialog's width (668px) | 1,000 characters |
 
 ## What decides the category
@@ -28,7 +28,7 @@ Name cells, numbers, dates, colours and search boxes are not free texts (they ha
 - A holder grows with its text from its opening rows to its maximum, and never changes the layout beside it.
 - A character count under the holder only when it is within 20% of its limit.
 
-## Decided by the owner (2026-10-17)
+## Decided by the owner
 
 - **List line**: one row by default, everywhere (the channel card's action lines too); a longer text grows it.
 - **Note**: every optional text (Description / Relevant Information, Usage, Notes) is labelled **Notes**; the keys under it do not change.
@@ -38,13 +38,13 @@ Name cells, numbers, dates, colours and search boxes are not free texts (they ha
 
 ## What is still to make
 
-By rule there are **four** categories. In the styles there are still more classes than that (the classes and counts are in `16-text-holders.md`):
+By rule there are **four** categories; the styles hold more classes than that (the classes and their counts are in `16-text-holders.md`, the owner of that list). The difference to remove:
 
 | Category | Style classes now | Difference to remove |
 |---|---|---|
 | 1 Short text | `interview-input` (text field) | none |
 | 2 List line | `numbered-list-input` | none: one row by default (decided) |
-| 3 Note | `business-foundation-note`, `legal-entity-note` (+2 variants), `strategy-note`, `brand-mark-note`, `notepad-note-text` | five classes for one thing: one component |
+| 3 Note | `business-foundation-note` (the shared Note, `OptionalNote`; the address field adds `legal-entity-address`), `strategy-note`, `notepad-note-text`, `business-demand-basis` | several classes for one thing: one component |
 | 4 Long text | `interview-input` (6 rows), `strategy-prose`, `business-foundation-proposition-input` | different opening rows (6 in a tile's dialog, 8 for a strategy statement, the proposition's own): one rule per kind of tile |
 
-One component per category is still to be made. A list you write in (a numbered list), an image's holder and the holder of an image's name and note are drawn as a text box now (recessed, no stroke at rest).
+One component per category is still to be made (for the Note, `OptionalNote` in `BusinessCardFields.tsx` is the nearest: doc 21). A list you write in (a numbered list), an image's holder and the holder of an image's name and note are drawn as a text box (recessed, no stroke at rest).

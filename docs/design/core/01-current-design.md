@@ -1,8 +1,8 @@
 # 1. Current design of the Foundation capability
 
-Status: **current design**, written 2026-10-14, updated 2026-10-29 (overlaps between the parts removed, stale statements corrected against the code). It is the single description of what the Foundation capability (Identity, Brand, Business and Strategy Systems) is and what has been decided for it. Where the code and this document disagree, the code is right.
+Status: **current design**, written 2026-10-14, updated 2026-11-02. It is the single description of what the Foundation capability (Identity, Brand, Business and Strategy Systems) is and what has been decided for it. Where the code and this document disagree, the code is right.
 
-Part F is read by the catalogue tool (`tools/scripts/catalogue/load.mjs`: it takes the headings with " > " and the numbered table rows between the headings of Part F and Part G) and so by the structure tables (document 7): keep its headings and row format as they are.
+Part F is document 26 (card structure). The catalogue tool (`tools/scripts/catalogue/load.mjs`) reads it from there, taking the headings with " > " and the numbered table rows between the headings of Part F and Part G, and the structure tables (document 7) and the catalogue record (document 6) are generated from it: its headings and row format stay as they are.
 
 The other documents of the project, with what each holds, are listed in `docs/README.md`; the map of the app is `docs/app/contents.md`. Every change is written in the log (document 4) and nowhere else.
 
@@ -22,7 +22,7 @@ Other current Markdown documents in the project that this one points to and does
 
 ## Part A. What the app does
 
-The app does six things (the owner's description, 2026-10-14):
+The app does six things (the owner's description):
 
 | # | Function | In the app |
 |---|---|---|
@@ -41,10 +41,10 @@ A page of a System can be a **compound page**: several sections drawn as chapter
 
 | System | Page | Chapters (frames) and their Master Tiles |
 |---|---|---|
-| 1. Identity | 1. Definition and Ethics | Chapter 1 Definition: Organization, Early Positioning, Mission, Vision. Chapter 2 Ethics: Philosophy, Values, Principles, Manifesto. |
-| 1. Identity | 2. Organization | Chapter 1 Legal Entity: Organization, Founders & Ownership, Registration Numbers (Formation & Registration and Tax & Business Registration, one tile), Additional Legal Requirements, Legal Entity Expenses. Chapter 2 Founders & Capability: Founders; Capability (Gaps and Cover). |
-| 2. Brand | Brand System (one page) | Chapter 1 Ambassador: Aesthetics, Body Language, Communication & Voice, Imprint. Chapter 2 Style: Colours, Typography, Text Hierarchy, Icon & Logo, Brand Images (the former Inventory page is folded in). |
-| 3. Business | 1. Foundation | One chapter per Segment: Customer Segment and Profile, Competitor and Alternative, Value Proposition, Offering. |
+| 1. Identity | 1. Definition and Ethics | Chapter 1 Definition: Organization, Positioning (named by the business stage: Early Positioning, Core Market Positioning, Corporate & Portfolio Positioning), Mission, Vision. Chapter 2 Ethics: Philosophy, Values, Principles, Manifesto. |
+| 1. Identity | 2. Legal Entity | Founders & Ownership; Capability (Gaps and Cover); Registrations (a dialog of sub tiles: Registration Numbers, Additional Legal Requirements); Expenses (the Legal Entity's expenses). |
+| 2. Brand | Brand System (one page) | Chapter 1 Ambassador: Aesthetics, Body Language, Communication & Voice, Imprint. Chapter 2 Style: Colours, Typography, Text Hierarchy, Icon & Logo, Brand Images (the brand inventory is part of this page). |
+| 3. Business | 1. Foundation | One chapter per Segment: Segment Description (the Segment's questions and its Profiles), Competitors, Value Proposition, Offerings. A Profile, a Competitor and an Offering are cards that open floating. |
 | 3. Business | 2. Customer Engagement | Customer Channel (tiles per Segment); Customer Relationship; Demand & Conversion (these two still folding sections, see document 5). |
 | 3. Business | 3. Infrastructure & Capability | Chapter Infrastructure: Founders, Resources, Activities, Partners & Suppliers. Chapter Offering's Capability: Resources, Activities, Partners & Suppliers, Delivery. Chapter Inventory: the Inventory help tile and the Completed help tile. |
 | 3. Business | 4. Financial Foundation | Costs, Funding Need, Capital & Funding, Financial Position (folding cards, not tiles yet; see document 5). |
@@ -56,8 +56,8 @@ Eleven of the thirteen chapters of the Foundation are drawn as Master Tiles. The
 ### B.2 Reading modes, screens and accessibility
 
 - **Reading modes:** light, sepia, dark and auto, chosen from one picker in the header (`data-theme`; colours are tokens in `src/styles/colors.css`).
-- **Minimum supported width: 768 px** (decided 2026-10-14). Screen classes follow the website (`NorthStardustStudioWebsite`): Tablet 768–1199 px; Laptop 1200 px and wider with height under 1250 px; Desktop 1200 px and wider with height of 1250 px or more. Height 900 is the second reference line (shared with Material's expanded height class).
-- **Accessibility target: WCAG 2.2 level AA** (decided 2026-10-14). Focus Appearance (2.4.13) is level AAA and out of scope.
+- **Minimum supported width: 768 px** (decided). Screen classes follow the website (`NorthStardustStudioWebsite`): Tablet 768–1199 px; Laptop 1200 px and wider with height under 1250 px; Desktop 1200 px and wider with height of 1250 px or more. Height 900 is the second reference line (shared with Material's expanded height class).
+- **Accessibility target: WCAG 2.2 level AA** (decided). Focus Appearance (2.4.13) is level AAA and out of scope.
 - **Audience:** early-stage entrepreneurs, one person to a small team, often freelancers working from home. English only.
 
 ### B.3 Where the rules are kept
@@ -73,9 +73,9 @@ Eleven of the thirteen chapters of the Foundation are drawn as Master Tiles. The
 
 ## Part C. The interface elements
 
-This part records every kind of element the Foundation capability is built from, by layer, so that nothing is missing when the asset library is written (document 5). It comes from a read of the code on 2026-10-14, with later notes; it was verified for structure and exports, and CSS classes and runtime behaviour were not each checked (a test checks that every file, class and custom property named here exists). Paths: `I/` is `src/components/interview/`, `C/` is `src/components/`. Since 2026-10-20 the files of `I/` are in its folders `cards/`, `tiles/`, `fields/`, `editors/` and `tests/`, and the shared controls in `C/controls/`: a file is found by its name (see `code-map.md`).
+This part records every kind of element the Foundation capability is built from, by layer, so that nothing is missing when the asset library is written (document 5). It is checked for structure and exports; runtime behaviour is not checked line by line, and the document-reference test checks that every file, class and custom property named here exists. Paths: `I/` is `src/components/interview/`, `C/` is `src/components/`. The files of `I/` are in its folders `cards/`, `tiles/`, `fields/`, `editors/` and `tests/`, and the shared controls in `C/controls/`: a file is found by its name (see `docs/ai/code-map.md`).
 
-Global rules that apply to every element (2026-10-14; the sizes and states are in the rulebook `docs/ai/layout-rules.md` and in the contracts under `src/library`): an "i" stands 6px after its label's last word (`--info-gap`); text that goes bold under the pointer, or is bold by default, is 0.05em wider (`--bold-tracking`); a wired button (the "i", the "+" box, the remove x, an "Add ..." button) has no fill at rest.
+Global rules that apply to every element (the sizes and states are in the rulebook `docs/ai/layout-rules.md` and in the contracts under `src/library`): an "i" stands 6px after its label's last word (`--info-gap`); text that goes bold under the pointer, or is bold by default, is 0.05em wider (`--bold-tracking`); a wired button (the "i", the "+" box, the remove x, an "Add ..." button) has no fill at rest.
 
 ### C.0 The owner's vocabulary
 
@@ -85,7 +85,7 @@ Global rules that apply to every element (2026-10-14; the sizes and states are i
 | **Chapter** | A frame that contains Master Tiles |
 | **Master Tile** | A large tile on the main page (the `SectionTile` square drawn by `SectionTiles`, through `TileSlot` and `TileFace`) |
 | **Help tile** | A tile that holds no direct information and only filters and presents records (a cost table, linked Tiles and so on). **The Inventory tile and the Completed tile are help tiles, not Master Tiles.** |
-| **Diagram tile** | A category of Master Tile of its own (2026-10-14): a tile that stands for a drawing opening in its dialog, not for a list. Today the Roadmap (a Gantt diagram): a wide banner with a large title and no list. |
+| **Diagram tile** | A category of Master Tile of its own: a tile that stands for a drawing opening in its dialog, not for a list. Today the Roadmap (a Gantt diagram): a wide banner with a large title and no list. |
 | **Card** | An opened tile (an opened Activity tile is an Activity Card) |
 | **Floating Card** | A Card placed over the page; a placement, not a type |
 | **Nested Cards** | A Theme Card with Goal, Objective and Metric Cards and an Initiative list |
@@ -128,7 +128,7 @@ Pages come from `src/assets/SystemAnswers/01..04_*.md`. Each page's `Structure` 
 | Search dialog | Results open a System, page, field (card unfolded) or answer | `C/SearchDialog.tsx`, `services/SearchService.ts` | Header |
 | Undo toast | One toast for the app, after a removal | `C/UndoToast.tsx`, `services/UndoService.ts` | Header |
 | Review page | Four groups (Still open, Worth a second look, Missing from the documents, Key dates), each item with "Go there"; it shows the open organization only, or every organization (each in its own section) when opened from the Landing page | `pages/Review.tsx` | `/review` |
-| Global Settings page | Financial plan, pay and tax, assets (useful life, amortisation), Channel Fee table | `pages/GlobalSettings.tsx`, `FinancialPlanSettings.tsx` | `/settings` |
+| Global Settings page | Financial plan, Business stages, Pay and tax, Assets (useful life, amortisation), Rates, Reserve, Channel Fee Table | `pages/GlobalSettings.tsx`, `FinancialPlanSettings.tsx` | `/settings` |
 | Business Documents page | Tabs (Business Plan, Business Model Canvas, Financial Forecast), period picker, downloads | `pages/BusinessDocuments.tsx` | `/documents` |
 | Confirmation dialog | Overlay, title, message, action buttons | Markup repeated in `Conversation.tsx`, `Landing.tsx` and others (6 uses; no shared component) | Delete, strategy prompt, export steps |
 | Export dialogs | Two steps: options, then Markdown or PDF | `Conversation.tsx` | Last page |
@@ -172,7 +172,7 @@ A "Chapter" has no named type in the code. Frames are classes:
 | Large column tile | Identity Definition, Ethics, Brand Ambassador; Legal Entity Organization, Founders & Ownership, Registrations, Expenses | `large: true`; `view: true` gives a dialog of sub tiles |
 | Brand picture tiles | Colours, Typography & Text Hierarchy, Icon & Logo, Brand Images | `picture` property |
 | Founders Profile tile | Capability and the founder card tiles | `FoundersProfileEditor` |
-| Business Foundation tiles | Segment Description, Value Proposition and card boxes (Profile, Competitor, Offering) | `BusinessFoundationEditor` |
+| Business Foundation tiles | Segment Description (the Segment card: its five boxes ask choice questions, `SegmentQuestions.ts`, read through `SegmentContext.ts`; a Profiles section with the Profile cards, which ask `ProfileQuestions.ts`), Value Proposition and card boxes (Profile, Competitor, Offering) | `BusinessFoundationEditor`; doc 36 and doc 37 |
 | Engagement tiles | One per channel and subchannel (teal hue); `inactive` for an unused channel | `SectionTiles` |
 | Infrastructure group tiles | Founders; Resources, Activities, Partners & Suppliers (per chapter); Delivery; Workspace (`direct`) | `BusinessCapabilityEditor` |
 | **Diagram tile** | The Roadmap: a wide banner (442 × 102 px) with a 36 px title and no list; its dialog covers the page | `SectionTile.diagram`, `StrategicPeriodEditor` |
@@ -252,7 +252,7 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 | Element | File | Notes |
 |---|---|---|
 | Info note ("i"): up to 3 points (text, title and text, or a cited source); `fullList` lifts the cap. It stands 6px (`--info-gap`) after its label's last word, on that line's centre; a wired button (no fill at rest) | `I/fields/InfoNote.tsx`, `InfoText`; contract `src/library/assets/infoNote.ts` | About 100 uses |
-| Tooltip | `C/controls/Tooltip.tsx` (`useAboveTip`, `TooltipBox`; since 2026-10-19 every tooltip box is `TooltipBox`: the icons, the action symbols, the Roadmap bars, the noted fields) | Also native `title` tooltips and the rail labels |
+| Tooltip | `C/controls/Tooltip.tsx` (`useAboveTip`, `TooltipBox`; every tooltip box is `TooltipBox`: the icons, the action symbols, the Roadmap bars, the noted fields) | Also native `title` tooltips and the rail labels |
 | Floating panel hook | `hooks/useFloatingPanel.ts` | Used by funnel menus |
 | Option picker list | `OptionPicker.tsx` (`hug`, `tight`, `sizeFor`) | |
 | Funnel menu | `CapabilityOverview`, `CalendarFunnel` | Two separate funnels |
@@ -291,7 +291,7 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 - **In code, not named in `tile-and-card-pattern.md` or `card-kinds.md`:** `SubTiles`, `PictureBoxes`, `CardBoxes`, `SectionView`, `SubcategoryBoxes`, `AddTile`, `CardNav`, `BoxActions`, `FoldAllToggle`, `FigureTiles`, `SignalList`, `CashTimelineChart`, the Introduction page, the status line, Focus mode, the undo toast, the Notepad, the search dialog, the Inventory funnel, "Completed".
 - **Named in documents, not in code:** "Master Tile", "Chapter" and "help tile" are the owner's words and have no code counterpart. "Marker column" is gone, as `card-kinds.md` says.
 - **Unused:** `I/cards/CardColumns.tsx` is imported only by its own test; `InterviewProgress` is switched off.
-- **Near-duplicates seen on 2026-10-14 (the shared components built since are in document 21):** the two funnels (`CapabilityOverview`, `CalendarFunnel`); the confirmation-dialog markup repeated in six places; `business-channel-table` and `business-relationship-table`; the three rails (`BulletRail`, `CardNav`, the dialog rail); several "empty note" classes.
+- **Near-duplicates (the shared components are in document 21):** the two funnels (`CapabilityOverview`, `CalendarFunnel`); the confirmation-dialog markup repeated in six places; `business-channel-table` and `business-relationship-table`; the three rails (`BulletRail`, `CardNav`, the dialog rail); several "empty note" classes.
 
 
 ## Part D. Cost model
@@ -835,11 +835,11 @@ The three tests (identifiability, control, future economic benefit), the rule th
 
 ## Part F. Card structure: what the user can reach in each card, and why
 
-**Moved to document 26 (card structure) on 2026-10-29.** It holds one entry for each card layout of the Foundation (the path, the help text, the row-by-row table of what the user can reach, and what happens behind the scenes). The structure tables (document 7) and the catalogue record (document 6) are generated from it. Part G below is the access by card type and stays here.
+Part F is document 26 (card structure). It holds one entry for each card layout of the Foundation (the path, the help text, the row-by-row table of what the user can reach, and what happens behind the scenes). The structure tables (document 7) and the catalogue record (document 6) are generated from it. Part G below is the access by card type and stays here.
 
 ## Part G. Card access by type: principles and access of each field
 
-*Written from version 25 of the specification on 2026-10-08 and corrected on 2026-10-29 against Parts D and F and the code. Part F prevails where they differ.*
+*Part F (document 26) prevails where they differ.*
 
 The four principles and, for each kind of card, why a field is shown, required or hidden. The fields themselves, row by row, are in Part F. Colours: red = required, green = automatic, blue-grey = shown, orange = optional, grey = hidden.
 

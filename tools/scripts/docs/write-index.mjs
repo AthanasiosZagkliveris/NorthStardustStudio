@@ -67,7 +67,7 @@ const DESIGN = [
   ["docs/design/questionnaire/34-future-features.md", "living list", "Everything that is not in the first published version: other languages and countries, multi-sided, B2G, G2B, the detailed positioning data, age rules, research to do.", true],
   ["docs/design/current/26-card-structure.md", "current design", "Card structure: what the user can reach in each card, row by row, and why. The structure tables and the catalogue record are generated from it.", true],
   ["docs/design/questionnaire/36-segment-questions.md", "specification", "The Segment card's questions as built: every question and option in order, when it is asked, what its help says and what it comes from and is read by.", true],
-  ["docs/design/questionnaire/37-profile-questions.md", "proposal", "The Profile card's questions as proposed, in the form of document 36: nothing repeated from the Segment; the specialized needs, devices, social media, communities and events are there.", true],
+  ["docs/design/questionnaire/37-profile-questions.md", "specification", "The Profile card's questions, built in part: every question and option in order (the specialized needs and the kind of business are not built yet), when it is asked, the starting values, the help, and the layout of the card.", true],
   ["docs/design/questionnaire/38-organization-fields.md", "specification", "The Organization tile's fields as built: control, when asked, options, the help and the connections.", true],
   ["docs/design/questionnaire/39-positioning-questions.md", "specification", "The Positioning tile's questions as built, by stage: control, limits, options, the help and the connections.", true],
   ["docs/design/questionnaire/40-help-texts-guide.md", "proposal", "What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check.", true],
@@ -83,8 +83,7 @@ const SPEC = [
   ["docs/specifications/business-system/README.md", "specification", "The Business System: index of the pages and the editor mapping.", true],
   ["docs/specifications/business-system/page-1-foundation.md", "specification", "Page 1: Foundation.", true],
   ["docs/specifications/business-system/page-2-section-1-channels.md", "specification", "Page 2, section 1: the channels.", true],
-  ["docs/specifications/business-system/page-2-section-2-customer-relationships.md", "specification", "Page 2, section 2: customer relationships.", true],
-  ["docs/specifications/business-system/page-2-section-2-customer-relationships-worked-example.md", "specification", "A worked example of the customer relationships section.", true],
+  ["docs/specifications/business-system/page-2-section-2-customer-relationships.md", "specification", "Page 2, section 2: customer relationships (section 18 holds a worked example and the column rules).", true],
   ["docs/specifications/business-system/page-3-infrastructure-and-capability.md", "specification", "Page 3: Infrastructure and Capability.", true],
   ["docs/specifications/business-system/page-4-financial-foundation.md", "specification", "Page 4: Financial Foundation.", true],
   ["docs/specifications/business-system/page-5-financial-sustainability.md", "specification", "Page 5: Financial Sustainability.", true]

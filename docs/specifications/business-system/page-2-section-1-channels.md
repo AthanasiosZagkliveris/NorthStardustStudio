@@ -1,11 +1,36 @@
 # Business System — Page 2, Section 1: Channels
 
-Status: **specification**, updated 2026-10-29. The requirement as written, with what the app does where it differs marked "as built". The page is called Customer Engagement in the app; the order of the page's sections and how they are built are in `README.md` (page 2).
+Status: **specification**, written 2026-09-27, updated 2026-11-02. The requirement as written, with what the app does where it differs marked "as built". The page is called Customer Engagement in the app; the order of the page's sections and how they are built are in `README.md` (page 2).
 
 > **3. Business System — Page 2 of 5, Section 1 of 2.**
 > Page 2 holds **Channels** (this section), then
 > **Customer Relationships**, which references the Channels
 > defined here.
+
+## Contents
+
+- [As built](#as-built)
+- [1. Purpose](#1-purpose)
+- [2. Relationship to the Foundation](#2-relationship-to-the-foundation)
+- [3. Channel Card Structure](#3-channel-card-structure)
+- [4. Information / References](#4-information--references)
+- [5. Channel Structure](#5-channel-structure)
+- [6. Available Channel Categories](#6-available-channel-categories)
+- [7. Adding a Channel](#7-adding-a-channel)
+- [8. Channel Table](#8-channel-table)
+- [9. Channel](#9-channel)
+- [10. Links](#10-links)
+- [11. Offerings](#11-offerings)
+- [12. Journey Stage](#12-journey-stage)
+- [13. Action](#13-action)
+- [14. Journey Stage → Action Relationship](#14-journey-stage--action-relationship)
+- [15. Multiple Actions](#15-multiple-actions)
+- [16. Examples](#16-examples)
+- [17. Design Principles](#17-design-principles)
+- [18. Final UI Structure](#18-final-ui-structure)
+- [19. Core Data Relationship](#19-core-data-relationship)
+- [Channel resources table](#channel-resources-table)
+- [Channel expenses (as built)](#channel-expenses-as-built)
 
 ## As built
 
@@ -615,12 +640,13 @@ The interface should make these relationships easy to manage without exposing un
 
 Under the Customer Channel table, a collapsible "Channel resources" subsection (open by default, hidden while the Segment has no channel resource) lists every resource of the Segment in one read-only, auto-generated table. Its columns are Resource (a button to its card on 3. Infrastructure & Capability, in its colour), Cost (price x quantity and how often), Behaviour (Fixed for one-time, monthly and annual costs, Variable for per-unit, per-order and per-project ones, as the Financial Foundation reads them), Channel (the channel it was made on, first, then each other channel it shows in through an action), Offerings (the names of the Offerings the resource's card links, and "—" when it links none or is an Infrastructure or Workspace card, which has no Offerings field; never "All Offerings"), Journey stages and Actions (by total order number, each a button to that action's line). A cell of Channel, Offerings or Journey stages with two or more values lists them one under the other as bullets, all styled alike; a single value is plain text indented to where the bullets' text starts, so the text of a column begins at one x. The Actions cell has no bullets: its buttons sit side by side and wrap between buttons, never inside one. A footer line adds up the rows shown (Fixed per month, Variable by what it varies with, One-time); it is a summary of those rows, not a forecast, and nothing is stored or counted from it: each resource is still counted once, from its card.
 
-## Channel expenses (as built, batches G and H)
+## Channel expenses (as built)
 
-Each channel cell offers two ways to record what the channel costs. Both write Resource cards on Page 3 (the card is the only place the price lives), so nothing is entered twice.
+Each channel cell has one button, **+ Add expense**, that opens a list of the ways to record what the channel costs. Every way writes a Resource card on Page 3 (the card is the only place the price lives), so nothing is entered twice.
 
-- **+ Add expenses** creates one blank Resource card, linked to the channel. Blank cards stay in the Channel tile on Page 3.
-- **Typical costs for this channel** creates, with one press, the set of template cards for that kind of channel (templates T1 to T10 and T12 of the card-structure document), each with its price left blank. A template the company already has is offered as **Link existing: <name>** or **Add new**; a linked card is flagged `existing` and is kept when the channel or the link is removed. Template-made cards live in their own group tile on Page 3, in teal, with the card's name as the link back to the channel and no link symbol.
+- **Blank expense** creates one blank Resource card, linked to the channel. Blank cards stay in the Channel tile on Page 3.
+- **A typical cost of the channel's kind** (one option for each template that fits the channel's category and that the channel does not hold yet; templates T1 to T10 and T12 of the card-structure document) creates that template's card with its price left blank. A template-made card lives in its own group tile on Page 3, in teal, with the card's name as the link back to the channel and no link symbol.
+- **Existing Links** lists the cards the company already has; choosing one links it (`Link existing <name>`). A linked card is flagged `existing` and is kept when the channel or the link is removed.
 
 Removing a channel removes the template cards it made that nothing else uses, and keeps any card the user linked as existing.
 

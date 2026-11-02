@@ -1,6 +1,6 @@
 # The library log: older rows
 
-Status: **archive**, rows L0001 to L0502 (2026-10-15 and 2026-10-16), newest first. The record of every change of every library asset up to that point; it is held only here. The rows after L0502 are in `design/library/10-library-log.md`, which keeps the newest rows and is written by `npm run library:log`.
+Status: **archive**, written 2026-10-15, updated 2026-11-02; rows L0001 to L0502 (2026-10-15 and 2026-10-16), newest first. The record of every change of every library asset up to that point; it is held only here. The rows after L0502 are in `design/library/10-library-log.md`, which keeps the newest rows and is written by `npm run library:log`.
 
 | Id | Date | Asset | Change | What | Where | Note |
 |---|---|---|---|---|---|---|

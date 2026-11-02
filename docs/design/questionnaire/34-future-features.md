@@ -1,6 +1,6 @@
 # 34. Future features: everything that is not in the first published version (owner, 2026-10-29)
 
-Status: **living list**, written 2026-10-29, updated 2026-10-29; not a plan. The owner's rule: **all other existing information is a future feature.** The first version is exactly what doc 33 says; every other collected, designed or built item below is deferred. Nothing here is scheduled. Items that are already built in the app stay in the code and are hidden or left unused in the first version; they are not deleted.
+Status: **living list**, written 2026-10-29, updated 2026-11-02; not a plan. The owner's rule: **all other existing information is a future feature.** The first version is exactly what doc 33 says; every other collected, designed or built item below is deferred. Nothing here is scheduled. Items that are already built in the app stay in the code and are hidden or left unused in the first version; they are not deleted.
 
 Related: doc 33 (the first version), docs 27 to 32 (where each item is described).
 
@@ -11,25 +11,25 @@ Related: doc 33 (the first version), docs 27 to 32 (where each item is described
 | 1 | Other languages | English only | doc 28 4.1 (wording rules) | English |
 | 2 | Complete lists (legal forms, activities, codes) for more countries | Six countries; Other (any other country) with typed activity and code | doc 28 5 | Any country can be chosen; some have a profile, the rest a neutral one |
 | 3 | Official legal forms, with sources, for countries beyond the six, in place of the four generic forms | Four generic forms for Other | doc 28 rule 14 | Per-country lists in `LegalEntityJurisdictions.ts` |
-| 4a | Heavy, public or late-stage institutional legal forms: the public company forms; the Nonprofit Corporation (US) and Cooperative (Canada) forms | Left out on 2026-10-30 | section 5 below | Removed from the app |
+| 4a | Heavy, public or late-stage institutional legal forms: the public company forms; the Nonprofit Corporation (US) and Cooperative (Canada) forms | Left out | section 5 below | Removed from the app |
 | 4 | Other classification schemes and a general crosswalk (ISIC) | The six countries' own schemes; Other typed by hand | doc 35 5.3, 5.8 | Built for the six countries |
-| 5 | Multi-sided markets and platforms: sides, one Segment per side, Differentiation and Outcome per side, the anchor-side rule | Single-sided | doc 28 8.2 | Built and hidden since 2026-10-29 (the Market Structure question is not asked) |
-| 6 | B2G: public-sector buyers, Administrative Level audience, the institutional relationships | B2C and/or B2B | doc 28 8.2; doc 34 5.1 | Built and hidden since 2026-10-29 |
-| 7 | G2B: government-to-business, Regulatory Intensity audience, locked audiences, procurement and tender rows, payment-delay notices | B2C and/or B2B | doc 28 8.2; doc 34 5.2 | Built and hidden since 2026-10-29 |
+| 5 | Multi-sided markets and platforms: sides, one Segment per side, Differentiation and Outcome per side, the anchor-side rule | Single-sided | doc 28 8.2 | Built and hidden (the Market Structure question is not asked) |
+| 6 | B2G: public-sector buyers, Administrative Level audience, the institutional relationships | B2C and/or B2B | doc 28 8.2; doc 34 5.1 | Built and hidden |
+| 7 | G2B: government-to-business, Regulatory Intensity audience, locked audiences, procurement and tender rows, payment-delay notices | B2C and/or B2B | doc 28 8.2; doc 34 5.2 | Built and hidden |
 
 ## 2. Buyer and user (positioning)
 
 | # | Future feature | Described in |
 |---|---|---|
-| 8 | The detailed life stages (Infancy through Late Adolescence; Young, Established, Peak, Mature, Active Retirees; Dependent seniors) with the edge rule "from X up to but not including Y", in place of the coarse groups | doc 31 1, 2, section 10.1 |
+| 8 | The finest life stages (Infancy through Late Adolescence) beyond the seven age terms the Segment asks, which follow the edge rule "from X up to but not including Y" | doc 31 1, 2, section 10.1; doc 36 |
 | 9 | The Micro-Buyers (16 to 18) as a restricted sub-category of Direct Buyers | doc 31 2, decision 5 |
 | 10 | The public-sector and government-to-business buyer and user relationships (the other ten of the 22) | doc 34 section 5; doc 31 decision 18 |
 | 11 | The positioning guidance of each B2B relationship (value positioning, buyer and user pain points, messaging focus) as tooltips or text | doc 31 section 10.6 |
-| 12 | "Who chooses" (I7f) with its household wording (removed from the app on 2026-10-29); "what matters most to the User" (I7g) is now the Outcome for the user (2026-10-30) | doc 31 section 10.3, decisions 20 to 22 |
+| 12 | "Who chooses" (I7f) with its household wording (removed from the app); "what matters most to the User" (I7g) is now the Outcome for the user (2026-10-30) | doc 31 section 10.3, decisions 20 to 22 |
 | 13 | The routing of the End User answers into the second Profile: age, P25 relationship, P21 role, P9 and P17 ticks | doc 31 section 10.3, decision 18, decisions 20 to 22 |
 | 14 | The relationship-to-purpose table (22 rows, 12 purposes) as tooltips and ordering of the purpose list | doc 31 section 10.4 |
-| 15 | Accessibility questions (permanent, temporary, situational; functional categories) saved as Profile tags | doc 31 3, decision 12, decision 12 |
-| 16 | Caregiving questions (who is cared for, the role, the household) saved as Profile tags | doc 31 4, decision 12 |
+| 15 | Accessibility questions (permanent, temporary, situational; functional categories) saved as Profile tags (the Profile's A6, not built) | doc 31 3, decision 12; doc 37 |
+| 16 | Caregiving questions (who is cared for, the role, the household) saved as Profile tags (the Profile's A6, not built) | doc 31 4, decision 12; doc 37 |
 | 17 | The buyer-category rules beyond age: data separation, contract and liability flags, payment routing | doc 31 decision 27 |
 | 18 | The caregiver override of privacy walls, decided by each country's law | doc 31 decision 9 |
 | 19 | Review checks: a household plan's unit price against a single-user purchase option (O3); the exact syntax of the P25 field | doc 31 decisions 20 to 22 |

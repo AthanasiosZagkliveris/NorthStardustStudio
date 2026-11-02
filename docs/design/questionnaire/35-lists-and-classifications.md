@@ -1,8 +1,8 @@
 # 35. Lists and classifications: the countries, the shared lists, the industries and the codes
 
-Status: **proposal**, updated 2026-10-29; parts are built (as document 28, from which this is section 5, split off on 2026-10-29; the sub-section numbers are unchanged, so "5.7" is still 5.7). Where the first published version differs, doc 33 governs: the six countries and Other, with the five generic legal forms for Other; everything for more countries is a future feature (doc 34).
+Status: **proposal**, updated 2026-11-02; parts are built (as document 28, from which this is section 5, split off on 2026-10-29; the sub-section numbers are unchanged, so "5.7" is still 5.7). Where the first published version differs, doc 33 governs: the six countries and Other, with the five generic legal forms for Other; everything for more countries is a future feature (doc 34).
 
-> **Built on 2026-10-29:** the Country question lists the six countries and Other; Other opens a second list of every other country. For Other the legal form is one of the five generic forms and the activity and its code are typed (they are not chosen from the ISIC cascade described below, which stays in the code and the data files as a future feature, doc 34, item 4).
+> **Built on 2026-10-29:** the Country question lists the six countries and Other; Other opens a second list of every other country. For Other the legal form is one of the four generic forms and the activity and its code are typed (they are not chosen from the ISIC cascade described below, which stays in the code and the data files as a future feature, doc 34, item 4).
 
 Related: doc 28 (the questions and the cards that use these lists), doc 02 (the sources), `src/data/classifications/` (the official classification files), doc 33 and doc 34.
 
@@ -41,7 +41,7 @@ Each list is one definition used wherever its id appears; counts include "Not su
 | L12 | **What they spend on** (10) | Housing and home running costs; Food and groceries; Getting around; Phone, internet and communication; Health and wellbeing; Education and learning; Eating out, travel and accommodation; Leisure, hobbies, sport and entertainment; Clothing, home goods and personal care; Insurance, saving and financial services | G18, O11 |
 | L13 | **How they pay** (6) | Debit or credit card; Cash; Bank transfer; Mobile wallet or payment app; Invoice; Buy now, pay later | P14 |
 | L14 | **Kind of area** (5) | City centre or large city; Large town; Small town; Rural area; Remote area | G4 |
-| L15 | **Devices** (5) | Smartphone; Laptop or desktop; Tablet; A shared or public device; None of these | P15 |
+| L15 | **Devices** (5) | Smartphone; Laptop or desktop; Tablet; A shared or public device; Other (the user writes it in) | P15 (doc 37, C1) |
 | L16 | **What a figure is based on** (9) | Sales or payments I have had; Website or social-media data; Talking to customers; A signed commitment; A pilot test; A benchmark or a comparison with the market; My costs plus a margin (a price only); My own estimate; Nothing yet | R2, D1 |
 
 L12 follows the UN household-consumption divisions [SPN-01] as customer-friendly labels with the division behind each (housing 04, food 01, transport 07, information and communication 08, health 06, education 10, restaurants and accommodation 11, recreation 09, clothing and furnishings and personal care 03, 05 and 13, insurance and financial services 12). Offices label them differently and the new 2018 split is not yet used everywhere, so each option is a customer label with a code behind it, not a survey category.
@@ -241,7 +241,7 @@ Not verified: the ANZSIC group codes of Division K groups 62 and 63 and Division
 
 Every option has a one-line example shown under it, so the user understands the choice without leaving the card. The examples are the author's and need the owner's approval **[D]**. The first five lists are written here; the others follow the same pattern.
 
-*(The Profile shows L1 to L4 with a slash in place of the word "or": "Shared values / identity", "Win customers / earn more"; the ids stay the words written here.)*
+*(The Profile shows L1 to L4 and L15 with a slash in place of the word "or": "Shared values / identity", "Win customers / earn more", "Laptop / desktop"; the ids stay the words written here.)*
 
 **L1, what customers care about**
 

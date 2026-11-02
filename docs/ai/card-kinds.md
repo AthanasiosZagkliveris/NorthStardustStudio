@@ -1,8 +1,8 @@
 # The kinds of card (internal list)
 
-Status: **reference**, updated 2026-10-29.
+Status: **reference**, written 2026-10-13, updated 2026-11-02. The kinds of card that open from a tile: where each one's code is and how its head is built.
 
-Every card that opens from a tile (floating, or in a tile's dialog), by kind: where its code is (paths in the Code column are under `src/components/interview/editors/`) and how its head is built. **The order number stands inside the name cell** on every card that has a name cell (drawn over the name's left, 10px in; the name's text starts at 38px); the marker column is gone, so the name cell and everything under it start at the card's own 12px padding, and the x has its own 32px column (+8px) at the right.
+Every card that opens from a tile (floating, or in a tile's dialog), by kind. Paths in the Code column are under `src/components/interview/editors/`. **The order number stands inside the name cell** on every card that has a name cell (drawn over the name's left, 10px in; the name's text starts at 38px); the name cell and everything under it start at the card's own 12px padding, and the x has its own 32px column (+8px) at the right.
 
 | # | Card | Opens from | Code | Head | Number inside the name cell |
 |---|---|---|---|---|---|
@@ -12,7 +12,7 @@ Every card that opens from a tile (floating, or in a tile's dialog), by kind: wh
 | 4 | Offering delivery | Offering's Capability: Delivery | `capability/useCapabilityActivityAndDelivery.tsx` `deliveryCard` | as 1 (name is plain text, no x) | yes |
 | 5 | Founder (Infrastructure) | Founders | `capability/useCapabilityPeopleCards.tsx` `founderCard` | `.business-founder-open` (its own left edge: the marker column holds the bullets and numbers of its lists) | no: no name cell; its number and name are one line, content keeps the marker edge |
 | 6 | Channel / subchannel (LinkedIn, Instagram ...) | Customer Engagement: a channel's tile | `engagement/useEngagementChannelBoxes.tsx` `subchannelHead` | `.business-subchannel-head` | yes |
-| 7 | Segment: Profile, Competitor, Offering | Business Foundation tiles | `foundation/useFoundationSubsections.tsx` (via `BusinessCard`) | `.floating-card-body .column-tile-content > .business-foundation-card` | yes |
+| 7 | Segment: Profile, Competitor, Offering (a Profile is a card of choice questions: `ProfileQuestions.ts` in `src/framework/engine/`; its pattern is in `tile-and-card-pattern.md`) | Business Foundation tiles | `foundation/useFoundationSubsections.tsx` (via `BusinessCard`) | `.floating-card-body .column-tile-content > .business-foundation-card` | yes |
 | 8 | Segment: Description, Value Proposition | Business Foundation tiles | same file | no head (the card is a section) | no head |
 | 9 | Legal requirement | Legal Entity: Registrations | `legal/useLegalCardsAndSections.tsx` `requirementCard` -> `BusinessCard` (`legal`) | `.legal-entity-card-head` | yes |
 | 10 | Legal expense | Legal Entity: Expenses | `legal/useLegalCardsAndSections.tsx` (expense card) -> `BusinessCard` (`legal`) | as 9 | yes |

@@ -447,8 +447,7 @@ export const INFO = {
 
     legalForm: [
         "Decides who is liable for the organization's debts: the organization, or you personally.",
-        "Decides how it is taxed, and whether it must hold share capital.",
-        "Choose Other to name a form the list does not carry."
+        "Decides how it is taxed, and whether it must hold share capital."
     ],
 
     capital: [

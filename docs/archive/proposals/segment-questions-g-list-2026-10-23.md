@@ -1,6 +1,6 @@
 # The Segment card's earlier design: the G-list of 2026-10-23
 
-Status: **proposal**, written 2026-10-23, updated 2026-11-01. The Segment card's questions as first designed (the ids G1 to G25, the worked cases, the reads), kept for what it records; replaced by the questions built on 2026-11-01 (documents 36 and 28, 6.3a).
+Status: **archive**, written 2026-10-23, updated 2026-11-02. The Segment card's questions as first designed (the ids G1 to G25, the worked cases, the reads), kept for what it records. Where its information now lives: the questions as built are doc 36 (`design/questionnaire/36-segment-questions.md`), the design and the map from each old id to the question that replaced it are doc 28, 6.3 and 6.3a (`design/questionnaire/28-questionnaire-specification.md`).
 
 Moved here from document 28, section 6.3, on 2026-11-01. Document 28, 6.3, now holds only the map from each old id to the question that replaced it.
 

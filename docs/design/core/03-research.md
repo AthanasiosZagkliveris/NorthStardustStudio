@@ -1,6 +1,6 @@
 # 3. Research
 
-Status: **research**, written 2026-10-14, updated 2026-10-29. This document keeps the research behind the design decisions: the question, the recommendation, the reason and the source. Parts R1 to R9 are the research notes written 2026-10-04 to 2026-10-08; Part R10 is the analysis of 2026-10-14. The notes say "Recommend" where they propose; the decided design is in document 1. Where a note and document 1 differ, document 1 prevails. The proposal tables of the notes (the categories, groups, places and behaviours, in their names of the time) are not kept here where document 1, part D, section 3 now holds the decided version; each place says so. The "Decisions for you" and "Questions for you" lists are the questions put to the owner at the time; the answers are the design built, in document 1.
+Status: **research**, written 2026-10-14, updated 2026-11-02. This document keeps the research behind the design decisions: the question, the recommendation, the reason and the source. Parts R1 to R9 are the research notes written 2026-10-04 to 2026-10-08; Part R10 is the analysis of 2026-10-14. The notes say "Recommend" where they propose; the decided design is in document 1. Where a note and document 1 differ, document 1 prevails. The proposal tables of the notes (the categories, groups, places and behaviours, in their names of the time) are not kept here where document 1, part D, section 3 now holds the decided version; each place says so. The "Decisions for you" and "Questions for you" lists are the questions put to the owner at the time; the answers are the design built, in document 1.
 
 How much each note can be trusted is in document 2, sections 2.3b and 2.4. In short: the notes of October rest mostly on vendor and blog pages and on general knowledge, so they explain *why* a decision was made but do not *prove* it.
 
@@ -8,20 +8,20 @@ How much each note can be trusted is in document 2, sections 2.3b and 2.4. In sh
 
 | Part | Note | Written | Subject | Related decision in document 1 (matched by subject) |
 |---|---|---|---|---|
-| R1 | Resources, activities, partners and costs | 2026-10-05 | Page 3 frame (Business Model Canvas, Porter's value chain), resource types and groups, partners, channels, cost behaviour | The 9 categories and 47 groups (document 1, part D) |
-| R2 | Part 2: groups, frequency, key definition, cost behaviour | 2026-10-05 | Groups by place, the frequency options, what a "key" cost is, default behaviours | The 7 drivers |
-| R3 | Part 3: allocation, simplification, payments, channels, suppliers | 2026-10-05 | A card serving several offerings, payment structures, supplier terms | The linked-offering shares and the payment plan |
-| R4 | Part 4: channel review, groups, Equipment and Digital, payment plan | 2026-10-05 | What the channel table generates, groups for Equipment and Digital, the payment plan | The channel templates |
-| R5 | Industry costs compared with the app, and graded insurances | 2026-10-07 | 98 industry costs checked against the groups; insurance grades | 83 of 98 had a home, 11 none, 4 are not costs |
-| R6 | Event card: three examples | 2026-10-06 | How an event or project card links to others | A recommendation; the activity model (R7) is the rule |
-| R7 | Activity model | 2026-10-06 | How an event or project connects the cards; total cost is calculated, the card holds the price | Recommendation |
-| R8 | Cards priced per project | 2026-10-06 | Superseded: a pointer to where the Per project groups and prices are now | The payment plan |
-| R9 | Extra costs table | 2026-10-06 | The extras (service charge, rates, fit-out, insurance...) by group | Early data; the decided extras are in document 1, part D, section 8 |
-| R10 | Business System analysis | 2026-10-14 | How the pages connect today; relationship types; goals; channel expenses; Delivery; Global Settings; screens; accessibility | Input to the requirements in document 5 |
+| [R1](#r1-resources-activities-partners-and-costs) | Resources, activities, partners and costs | 2026-10-05 | Page 3 frame (Business Model Canvas, Porter's value chain), resource types and groups, partners, channels, cost behaviour | The 9 categories and 47 groups (document 1, part D) |
+| [R2](#r2-part-2-groups-by-place-frequency-options-key-definition-cost-behaviour) | Part 2: groups, frequency, key definition, cost behaviour | 2026-10-05 | Groups by place, the frequency options, what a "key" cost is, default behaviours | The 7 drivers |
+| [R3](#r3-part-3-allocation-simplification-payments-channels-suppliers) | Part 3: allocation, simplification, payments, channels, suppliers | 2026-10-05 | A card serving several offerings, payment structures, supplier terms | The linked-offering shares and the payment plan |
+| [R4](#r4-part-4-channel-review-groups-equipment-and-digital-payment-plan) | Part 4: channel review, groups, Equipment and Digital, payment plan | 2026-10-05 | What the channel table generates, groups for Equipment and Digital, the payment plan | The channel templates |
+| [R5](#r5-industry-costs-compared-with-the-app-and-graded-insurances) | Industry costs compared with the app, and graded insurances | 2026-10-07 | 98 industry costs checked against the groups; insurance grades | 83 of 98 had a home, 11 none, 4 are not costs |
+| [R6](#r6-event-card-three-examples) | Event card: three examples | 2026-10-06 | How an event or project card links to others | A recommendation; the activity model (R7) is the rule |
+| [R7](#r7-activity-model-how-an-event-or-project-connects-the-cards) | Activity model | 2026-10-06 | How an event or project connects the cards; total cost is calculated, the card holds the price | Recommendation |
+| [R8](#r8-cards-priced-per-project) | Cards priced per project | 2026-10-06 | Superseded: a pointer to where the Per project groups and prices are now | The payment plan |
+| [R9](#r9-extra-costs-table) | Extra costs table | 2026-10-06 | The extras (service charge, rates, fit-out, insurance...) by group | Early data; the decided extras are in document 1, part D, section 8 |
+| [R10](#r10-business-system-analysis-2026-10-14) | Business System analysis | 2026-10-14 | How the pages connect today; relationship types; goals; channel expenses; Delivery; Global Settings; screens; accessibility | Input to the requirements in document 5 |
 
 ## R1. Resources, activities, partners and costs
 
-Research and recommendations for page 3 (Infrastructure & Capability). Facts come from the sources listed at the end. Recommendations are marked **Recommend**; they are proposals, nothing is changed in the app.
+Research and recommendations for page 3 (Infrastructure & Capability). Facts come from the sources listed at the end. Recommendations are marked **Recommend**; these are proposals of the note; the decided design is in document 1.
 
 ### 1. The frame used
 
@@ -102,7 +102,7 @@ The channel resources, partner candidates and behaviour of each channel category
 - **Data methods:** high-low method or regression on past bills against volume (units, orders, projects) separates a mixed cost into its fixed part and a rate per unit.
 - **Context:** it depends on the volume measure (the driver) and the time horizon; over the long run almost everything varies.
 
-#### How the app treats them today
+#### How the app treated them when the note was written
 
 The Financial model already has Fixed, Variable and Semi-variable (a fixed part per period plus a variable amount per unit of the offering). The behaviour is derived from the payment frequency: one-time, monthly and annual are fixed; per unit, per order and per project are variable.
 
@@ -136,7 +136,7 @@ The place and the typical behaviour of each cost source are the decided ones in 
 
 ## R2. Part 2: groups by place, frequency options, key definition, cost behaviour
 
-Colours: pink = Infrastructure, brown = Offering, green = Both. Behaviours are **defaults the user can override**: F = fixed, V = variable, S = semi-variable, St = step. Recommendations only; nothing is changed in the app.
+Colours: pink = Infrastructure, brown = Offering, green = Both. Behaviours are **defaults the user can override**: F = fixed, V = variable, S = semi-variable, St = step. Recommendations of the note; the decided design is in document 1.
 
 ### 1. Groups per category: Infrastructure, Offering or Both, with the default cost behaviour
 
@@ -146,7 +146,7 @@ The groups of the note, with their place and default behaviour, were a proposal.
 
 ### 2. The frequency list: what could be added
 
-**Today.** Resource, partner and provider cards offered: One-time, Monthly, Annually, Per unit, Per order, Per project, Other. The Financial model also knew Quarterly, which the cards did not show. Salaries use their own period list. **The issue.** One list mixes two questions: *when it is paid* (a period) and *what it follows* (a driver). **Recommend:** one dropdown organised into two groups, with the missing options added. The extra options proposed in this note (weekly, daily, fortnightly, half-yearly, every 2 or 3 years, on milestone; per hour, day, participant, use, event, kilometre, seat, kg; percentages of revenue, of order value, of profit and of pay) are folded into the existing ones in R3, section 2, which is the version decided (document 1, part D, section 1: seven drivers).
+**At the time of the note.** Resource, partner and provider cards offered: One-time, Monthly, Annually, Per unit, Per order, Per project, Other. The Financial model also knew Quarterly, which the cards did not show. Salaries use their own period list. **The issue.** One list mixes two questions: *when it is paid* (a period) and *what it follows* (a driver). **Recommend:** one dropdown organised into two groups, with the missing options added. The extra options proposed in this note (weekly, daily, fortnightly, half-yearly, every 2 or 3 years, on milestone; per hour, day, participant, use, event, kilometre, seat, kg; percentages of revenue, of order value, of profit and of pay) are folded into the existing ones in R3, section 2, which is the version decided (document 1, part D, section 1: seven drivers).
 
 **Salaries and pay.** Period: hourly, daily, weekly, fortnightly, monthly, annual. Variable pay options: commission (% of sales or per sale), bonus (one-off or annual), profit share (% of profit), revenue-linked payment (% of revenue), piece rate (per unit), overtime (per hour). Dividends belong to Funding and Capital. A salary or commission is then two fields: a period or driver, plus a rate or amount.
 
@@ -191,7 +191,7 @@ Note: one search summary described the leverage and bottleneck quadrants the wro
 
 ## R3. Part 3: allocation, simplification, payments, channels, suppliers
 
-Pink = Infrastructure, brown = Offering, green = Both. F = fixed, V = variable, S = semi-variable, St = step. Recommendations only; nothing is changed in the app.
+Pink = Infrastructure, brown = Offering, green = Both. F = fixed, V = variable, S = semi-variable, St = step. Recommendations of the note; the decided design is in document 1.
 
 ### 1. A card that serves more than one Offering
 
@@ -338,7 +338,7 @@ The updated list proposed Partners (Strategic Alliances & Joint Ventures; Resell
 
 ## R4. Part 4: channel review, groups, Equipment and Digital, payment plan
 
-Pink = Infrastructure, brown = Offering, green = Both, teal = Channel. F = fixed, V = variable, S = semi-variable, St = step. Recommendations only; nothing is changed in the app.
+Pink = Infrastructure, brown = Offering, green = Both, teal = Channel. F = fixed, V = variable, S = semi-variable, St = step. Recommendations of the note; the decided design is in document 1.
 
 ### 1. The Customer Channel table and the channel resources it generates
 
@@ -401,7 +401,7 @@ Separate sets: Infrastructure (Workspace, Utilities, Workstation, Equipment, Dig
 
 ### 5. Digital Services, and Vehicles under Equipment
 
-**Cloud, Data & Security and Platforms & APIs under Digital Services: yes.** Digital Infrastructure then keeps the three groups it has today: **Software; Digital Services** (storage, cloud, back-up, security, platforms and APIs); **Online Presence & Communication**. This removes two groups I proposed and changes nothing in the app. The cost behaviour inside Digital Services is mixed (a storage plan is fixed, an API is per call), so the card's driver decides it, not the group.
+**Cloud, Data & Security and Platforms & APIs under Digital Services: yes.** The groups Digital Infrastructure has in the end are in document 1, part D, section 3. The cost behaviour inside Digital Services is mixed (a storage plan is fixed, an API is per call), so the card's driver decides it, not the group.
 
 **Vehicles & Transport under Equipment: yes.** A vehicle is an asset you own or lease, like equipment. Equipment gets a group **Vehicles & Transport** (vehicles, vans, bikes). Running costs (fuel, charging, maintenance, insurance) are separate cards in the same group, semi-variable or variable by distance. This removes the Vehicles category. Place: Both (a company car is Infrastructure; a delivery van for one offering is Offering).
 
@@ -453,7 +453,7 @@ payments timeline
 
 ## R5. Industry costs compared with the app, and graded insurances
 
-Written from general knowledge, not from a single source. Names and rules change by country, so check local rules. Nothing is changed in the app.
+Written from general knowledge, not from a single source. Names and rules change by country, so check local rules.
 
 ### 1. Costs particular to an industry, and where the app holds each
 
@@ -606,7 +606,7 @@ Mandatory means the law, a licence or a lease requires it. Recommended means mos
 
 ## R6. Event card: three examples
 
-Recommendation only; nothing is changed in the app.
+Recommendation of the note.
 
 > **How the event card works.** It belongs to an activity and sits among its event cards. It **records** the dates and the links, and it **presents** the cost of each linked card and their total. It holds no price. Each linked card keeps its own price, and the event counts it by that card's driver: a per project price in full, a monthly or annual price for the days of the event, a per unit price by the units used, an hourly price by the hours worked, and a percentage by the revenue. The revenue belongs to the offering and is unknown when the event is planned, so a line that depends on revenue stays open and shows its rate.
 
@@ -678,7 +678,7 @@ An online course is an offering: its sessions repeat, and its booking app is the
 
 ## R7. Activity model: how an event or project connects the cards
 
-Recommendation only; nothing is changed in the app. Arrows show a link from a card to the activity.
+Recommendation of the note. Arrows show a link from a card to the activity.
 
 *Diagram, labels in order:* ACTIVITY CARD  (an event or a project) · Name: Craft-fair weekend · Dates: 12 to 14 June · Channel: Market stall · Expected revenue: 4,000 · TOTAL COST: sum of the linked cards · Margin: revenue minus total cost · Status: complete only with a price · SITE (Offering Resource) · Event & Project Sites · e.g. Market pitch fee, Marquee frame · Per project: counted once · TRAVEL (Offering Resource) · Customer Travel, Delivery Running Costs · e.g. Coach ticket, Overnight stay, Fuel · Per trip or per project · KIT AND VEHICLES (Resources) · Project Kit, Delivery Vehicles · e.g. Stall display kit, Transit van · Shared: only the share used counts · PEOPLE (Human Resources) · Delivery Team · e.g. Stall assistant, Installer · Per project, or hours worked · PARTNERS AND SUPPLIERS · Venues & Organisers, Contractors, · Revenue Partners, Accreditation Bodies · e.g. Fair organiser, Electrician · CHANNEL EXPENSES (teal) · T5 Stall, pitch, stand or event fee · T7 Travel and van hire, T8 Packaging · T12 Event or transit insurance · Cards created from the channel · PERMITS, CERTIFICATES, LEGAL · Approvals and event permits, linked · Company insurance and registrations · stay in Legal Entity (not counted · per activity) · TOTAL COST (calculated) · = every linked card's price for this · activity, added up; never typed. · One card can be linked to many · activities; its price is split or counted once.
 
@@ -772,11 +772,11 @@ Superseded; kept as a pointer. The note listed the ten groups whose main driver 
 
 ## R10. Business System analysis (2026-10-14)
 
-Method: read-only audits of the code and the specifications, plus web research graded as in document 2. Nothing was changed in the app. Findings are facts from the code; "suggestion" marks a proposal. The requirements that follow from them are in document 5.
+Method: read-only audits of the code and the specifications, plus web research graded as in document 2. The findings are facts from the code on the date of the heading; where the code has moved since, the code is right, and the state of each requirement is kept in document 5, section 5.5. Findings are facts from the code; "suggestion" marks a proposal. The requirements that follow from them are in document 5.
 
-### R10.1 How the business pages connect today
+### R10.1 How the business pages connected when this was written
 
-| Link | Today | Consequence |
+| Link | Found | Consequence |
 |---|---|---|
 | Needs to Offering | `needsAddressed` stores the need's **text**, not an id | Renaming a need breaks the link silently |
 | Value Proposition | One text per segment, not derived from needs and offerings | Nothing checks it against the offering |
@@ -836,7 +836,7 @@ The twelve settings found, with the proposed home and the effort of each, are in
 
 - Website profiles (`NorthStardustStudioWebsite/README.md`, mirrored in `main.js`): Desktop ≥1200 wide and ≥1250 high; Laptop ≥1200 wide and <1250 high; Tablet 768–1199; Mobile ≤767; reference cases 1440×1024 and 1440×864.
 - Android window size classes (cross-check): width 600 / 840 / 1200 / 1600; height 480 / 900.
-- Today: about 55 media and container rules with inconsistent values; the layout check runs at 1920 px, light mode only; sepia is not checked.
+- Found: about 55 media and container rules with inconsistent values; the layout check runs at 1920 px, light mode only; sepia is not checked.
 - WCAG 2.2 AA: new criteria 2.4.11, 2.5.7, 2.5.8, 3.3.8. The 768 px floor may conflict with 1.4.10 Reflow (320 CSS px); not verified.
 
 ### R10.8 Evidence from small-business research

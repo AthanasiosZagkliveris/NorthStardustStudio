@@ -1,6 +1,17 @@
 # 2. References
 
-Status: **reference**, written 2026-10-14, updated 2026-10-29 (checked against `Sources.ts`). Every decision in the app and in these documents should rest on a reference. This document holds the rule for what counts as a reference, the references the app itself shows, the references used in the research and analysis, and (section 2.7) the sources for the questionnaire. The sources for the positioning lists of document 31 are in document 32 (`32-positioning-sources.md`) and are not repeated here.
+Status: **reference**, written 2026-10-14, updated 2026-11-02 (checked against `src/framework/engine/Sources.ts`). Every decision in the app and in these documents should rest on a reference. This document holds the rule for what counts as a reference, the references the app itself shows, the references used in the research and analysis, and (section 2.7) the sources for the questionnaire. The sources for the positioning lists of document 31 are in document 32 (`32-positioning-sources.md`) and are not repeated here.
+
+## Contents
+
+- [2.1 The source rule](#21-the-source-rule)
+- [2.2 References the app shows today](#22-references-the-app-shows-today)
+- [2.3 Design bases named in the project](#23-design-bases-named-in-the-project)
+- [2.3b Sources named in the research notes of 2026-10-05 to 2026-10-07](#23b-sources-named-in-the-research-notes-of-2026-10-05-to-2026-10-07)
+- [2.4 References used in the research and analysis of 2026-10-14](#24-references-used-in-the-research-and-analysis-of-2026-10-14)
+- [2.5 Found, but not used](#25-found-but-not-used)
+- [2.6 To do](#26-to-do)
+- [2.7 Sources for the questionnaire](#27-sources-for-the-questionnaire-the-english-speaking-target-countries-research-of-2026-10-23): [2.7.1 coverage](#271-coverage-what-exists-for-each-country), [2.7.2 the sources by topic](#272-the-sources-by-topic), [2.7.3 not found, not verified, not used](#273-not-found-not-verified-not-used)
 
 ## 2.1 The source rule
 

@@ -1,9 +1,37 @@
 # Business System — Page 5: Financial Sustainability
 
-Status: **specification**, updated 2026-10-29. The requirement as written (sections 1 to 23) is preceded by "As built", which wins where they differ.
+Status: **specification**, written 2026-09-27, updated 2026-11-02. The requirement as written (sections 1 to 23) is preceded by "As built", which wins where they differ.
 
 > **3. Business System — Page 5 of 5.**
 > The second of the two Financial pages; it follows **Page 4 — Financial Foundation**.
+
+## Contents
+
+- [As built](#as-built)
+- [1. Page Purpose](#1-page-purpose)
+- [2. Relationship with Financial Foundation](#2-relationship-with-financial-foundation)
+- [3. Page Structure](#3-page-structure)
+- [4. Section 1 — Revenue](#4-section-1--revenue)
+- [4.1 Revenue Stream](#41-revenue-stream)
+- [5. Revenue Development Over Time](#5-revenue-development-over-time)
+- [6. Revenue Timing](#6-revenue-timing)
+- [7. Revenue Summary](#7-revenue-summary)
+- [8. Section 2 — Break Even](#8-section-2--break-even)
+- [9. Break-Even Cost Inputs](#9-break-even-cost-inputs)
+- [10. Break-Even Point](#10-break-even-point)
+- [11. Break-Even Revenue](#11-break-even-revenue)
+- [12. Multiple Offerings](#12-multiple-offerings)
+- [13. Break-Even Time](#13-break-even-time)
+- [14. Financial Exhaustion](#14-financial-exhaustion)
+- [15. Sustainability Comparison](#15-sustainability-comparison)
+- [16. Sustainability Buffer](#16-sustainability-buffer)
+- [17. Revenue and Financial Runway Must Work Together](#17-revenue-and-financial-runway-must-work-together)
+- [18. Early-Stage Organisations and Zero Revenue](#18-early-stage-organisations-and-zero-revenue)
+- [19. Decision-Support Summary](#19-decision-support-summary)
+- [20. Decision Signals](#20-decision-signals)
+- [21. Important Financial Rules](#21-important-financial-rules)
+- [22. Scope Boundaries](#22-scope-boundaries)
+- [23. Final Concept](#23-final-concept)
 
 ## As built
 

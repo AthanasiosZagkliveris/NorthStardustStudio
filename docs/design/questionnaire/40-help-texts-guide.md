@@ -1,6 +1,6 @@
 # 40. The help texts: what an "i" says, by place and by field
 
-Status: **proposal**, written 2026-11-01, updated 2026-11-01. What the 159 help texts of the app are today, what is written about them (little), and a proposed structure for the "i" of each kind of place and field, with the standard phrases, the size budgets and a way to check them.
+Status: **proposal**, written 2026-11-01, updated 2026-11-02. What the help texts of the app are (doc 22 counts them), what is written about them (little), and the structure for the "i" of each kind of place and field, with the standard phrases, the size budget and a way to check them. **Built:** the 160-character budget and the warnings in doc 22 (`tools/scripts/catalogue/help-texts-doc.mjs`); the rest applies when a field is next changed.
 
 Related: doc 22 (the generated list of every help text, from the running app), doc 28 (section 4, the plain wording, and 4.1, the rules for writing questions), docs 36, 38 and 39 (what the "i" of the Segment, the Organization and Positioning say today), doc 21 (the `InfoNote` component), `docs/ai/layout-rules.md` (how the "i" looks and where it opens), `docs/specifications/business-system/page-1-foundation.md` (the owner's texts, which stay).
 
@@ -15,7 +15,7 @@ Related: doc 22 (the generated list of every help text, from the running app), d
 
 So the content of an "i" has been decided field by field, by whoever wrote the field.
 
-## 2. What the 159 help texts are (doc 22, the Quillfield example, 1920px)
+## 2. What the help texts are (doc 22, the Quillfield example, 1920px; the numbers are those of doc 22 when this was written, 159 texts)
 
 | | |
 |---|---|
@@ -117,8 +117,8 @@ Words to avoid in an "i": *tile, card, locked, frozen, driver, check, Segment fr
 ### 3.6 How to keep them right
 
 1. **When a field changes, its "i" changes in the same commit.** A pull request that changes a label, an option or a condition lists the "i" it touched (add to `docs/ai/review-checklist.md`).
-2. **The walk of doc 22 is the check.** It already measures each text. Flag, in the generated list: a text over its budget, a text with more points than its place allows, two labels with identical text, a text with a word of the avoid list. Today's flags would be the 31 over 500 characters, the 14 over 8 points and the 10 identical texts.
-3. **A stale prompt is a defect.** The owner's texts are changed only with the owner; the review lists the ones that no longer match what is asked (found on 2026-11-01: Demographics and Purchasing Power & Behaviour, and the Segment's first instruction against the stage limits; all three were reworded with the owner's word).
+2. **The walk of doc 22 is the check.** It already measures each text. Flag, in the generated list: a text over its budget, a text with more points than its place allows, two labels with identical text, a text with a word of the avoid list. The list of warnings is in doc 22.
+3. **A stale prompt is a defect.** The owner's texts are changed only with the owner; the review lists the ones that no longer match what is asked.
 
 ## 4. Decided (owner, 2026-11-01), and what was built
 
@@ -130,10 +130,3 @@ Words to avoid in an "i": *tile, card, locked, frozen, driver, check, Segment fr
 
 Nothing in this document is open except the first rewrite of each text, which waits for its field.
 
-**The questions as they were put (for the record):**
-
-1. **The budgets** (about 300 characters and 3 points for a field, 350 for a group): confirm, or set others.
-2. **"What it changes now"** as a point of its own, and the rule that future reads do not belong in an "i" (they stay in the documents).
-3. **The 31 long texts** (Typography, Colours, Social Media and others): should they be rewritten to the structure now, or only when the field is next changed?
-4. **The avoid list** and **the standard phrases**: confirm, or change.
-5. **The lint** of doc 22 (the flags of 3.6): should the walk fail on them, or only list them?

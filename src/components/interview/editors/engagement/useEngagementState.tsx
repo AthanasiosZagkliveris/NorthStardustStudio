@@ -220,9 +220,8 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
      * Which reference headers, Offering reference entries, Channel
      * Categories, per-Offering relationship blocks, Demand &
      * Conversion blocks and Engagement Strategy Journey Stage bands are
-     * open. These start CLOSED -- see useItemFolds -- unlike the
-     * structural sections and per-type folds around them, which are on
-     * `collapsed` and start OPEN (the page's work is in them: a closed Segment left the page empty).
+     * open. These start OPEN (`useItemFolds(true)`: what they hold is the page's work), as the
+     * structural sections and per-type folds around them do, which are on `collapsed`.
      */
     const folds = useItemFolds(true);
     /* A CATEGORY FOLDS ITS CHANNELS AWAY. Keyed by the group's first
