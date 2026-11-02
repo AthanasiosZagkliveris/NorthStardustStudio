@@ -101,7 +101,10 @@ export function tipOf(element: HTMLElement): string | null {
         return said ? tipWords(said) : null;
     }
     if (!given) {
-        return null;
+        // 3, for a part inside the control that carries the words (a tile's title: cut short by an ellipsis, it says them whole).
+        const part = Array.from(element.querySelectorAll<HTMLElement>("[data-tip], [title]")).find(node => isCut(node));
+        const whole = part?.getAttribute("data-tip") ?? part?.getAttribute("title");
+        return whole ? tipWords(whole) : null;
     }
     // 5. Never what it already shows.
     const own = new Set(plain([words, name ?? ""].join(" ")).split(" "));

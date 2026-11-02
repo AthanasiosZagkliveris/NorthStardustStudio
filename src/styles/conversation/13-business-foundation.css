@@ -1043,10 +1043,10 @@
 
 }
 
-/* A radio of short options stands in a row, wrapping onto the next line where the column is narrow (the options keep their one-line words); the others stand one under the other. */
+/* A radio of short options stands in ONE row where the whole row fits the column, else in ONE column (FittingRadioChoice): the row never wraps onto a second line. */
 .radio-choice.business-segment-row{
 
-    flex-wrap:wrap;
+    flex-wrap:nowrap;
 
     gap:var(--gap-8) var(--gap-16);
 

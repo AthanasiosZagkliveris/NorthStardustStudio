@@ -10,6 +10,7 @@ import { BUSINESS_COMPETITOR_TYPES, BUSINESS_OFFERING_CATEGORIES, BusinessCompet
 import FieldRow from "../../fields/FieldRow.tsx";
 import { BusinessAddButton, BusinessCard, BusinessRemove, BusinessTicks } from "../../cards/BusinessCardFields.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
+import FittingRadioChoice from "./FittingRadioChoice.tsx";
 import { type SegmentBox, type SegmentQuestion, segmentChoose, segmentOptions, segmentQuestionsOf, segmentRowChoice, segmentSettle, segmentSettledNotes } from "../../../../framework/engine/SegmentQuestions.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
 import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
@@ -201,15 +202,28 @@ export function useFoundationSubsections(earlier: Earlier) {
                             </div>
                         )
                         : (
-                            <RadioChoice
-                                label={question.label}
-                                group={segment.id + "-" + question.id}
-                                className={segmentRowChoice(question, options) ? "business-segment-row" : "legal-entity-radio-stack"}
-                                disabled={disabled}
-                                value={chosen[0] ?? ""}
-                                onChange={(next) => choose([next])}
-                                options={options}
-                            />
+                            segmentRowChoice(question, options)
+                                ? (
+                                    <FittingRadioChoice
+                                        label={question.label}
+                                        group={segment.id + "-" + question.id}
+                                        disabled={disabled}
+                                        value={chosen[0] ?? ""}
+                                        onChange={(next) => choose([next])}
+                                        options={options}
+                                    />
+                                )
+                                : (
+                                    <RadioChoice
+                                        label={question.label}
+                                        group={segment.id + "-" + question.id}
+                                        className="legal-entity-radio-stack"
+                                        disabled={disabled}
+                                        value={chosen[0] ?? ""}
+                                        onChange={(next) => choose([next])}
+                                        options={options}
+                                    />
+                                )
                         )}
                 </FieldRow>
             );
@@ -252,10 +266,9 @@ export function useFoundationSubsections(earlier: Earlier) {
                     label="Who is this Segment's customer?"
                     info={["The Segment is one group: people, or businesses.", "Choosing one changes the questions asked; answers that no longer apply are removed."]}
                 >
-                    <RadioChoice
+                    <FittingRadioChoice
                         label="Who is this Segment's customer?"
                         group={segment.id + "-kind"}
-                        className="business-segment-row"
                         disabled={disabled}
                         value={isBusiness ? "business" : "people"}
                         onChange={(next) => {
