@@ -18,12 +18,12 @@ export interface ProfileQuestion {
     /** A number of years, not a choice (A1). */
     number?: boolean;
     options: readonly SegmentOption[];
-    /** The option that excludes the others ("None of these"). */
-    none?: string;
+    /** The list ends with an Other that the user writes in: its words are kept as the answer `<id>-other`. */
+    other?: boolean;
     info: readonly string[];
 }
 
-const NONE = { id: "none", label: "None of these" } as const;
+const OTHER = { id: "other", label: "Other" } as const;
 
 const CARES = ["Lower price", "Speed", "Ease and convenience", "Quality and results", "Trust and reputation", "Expert knowledge", "A service made for them", "Good support", "Safety and low risk", "Shared values or identity"];
 const GOALS = ["Save time", "Save money", "Lower their risk", "Get better results", "Get easier access", "Learn something new", "Express who they are", "Meet a requirement", "Win customers or earn more", "Stay within the rules"];
@@ -61,22 +61,22 @@ const QUESTIONS: readonly ProfileQuestion[] = [
     },
     {
         id: "c1", box: "hubs", label: "Which devices do they use?", many: true,
-        options: [{ id: "phone", label: "Smartphone" }, { id: "computer", label: "Laptop / desktop" }, { id: "tablet", label: "Tablet" }, { id: "shared", label: "A shared or public device" }, NONE], none: "none",
+        options: [{ id: "phone", label: "Smartphone" }, { id: "computer", label: "Laptop / desktop" }, { id: "tablet", label: "Tablet" }, { id: "shared", label: "A shared or public device" }, OTHER], other: true,
         info: ["The devices they use to find and buy, not those they own.", "The Segment's choice of where they buy starts this; change it freely."]
     },
     {
         id: "c2", box: "hubs", label: "Which social media do they use?", many: true,
-        options: [...["Instagram", "Facebook", "LinkedIn", "YouTube", "TikTok", "Pinterest", "X (Twitter)"].map(label => ({ id: slug(label), label })), NONE], none: "none",
-        info: ["The platforms they actually use, if any.", "They may not have social media at all: choose None of these."]
+        options: [...["Instagram", "Facebook", "LinkedIn", "YouTube", "TikTok", "Pinterest", "X (Twitter)"].map(label => ({ id: slug(label), label })), OTHER], other: true,
+        info: ["The platforms they actually use, if any.", "Tick Other to write one that is not listed."]
     },
     {
         id: "c3", box: "hubs", label: "Which communities do they belong to?", many: true,
-        options: [...["Facebook Group", "Discord", "Reddit", "Slack", "Meetup"].map(label => ({ id: slug(label), label })), NONE], none: "none",
+        options: [...["Facebook Group", "Discord", "Reddit", "Slack", "Meetup"].map(label => ({ id: slug(label), label })), OTHER], other: true,
         info: ["Where they ask, read and recommend.", "The names of the groups stay in the note."]
     },
     {
         id: "c4", box: "hubs", label: "Which events do they go to?", many: true,
-        options: [{ id: "market", label: "Market / Pop-up" }, { id: "fair", label: "Trade Fair / Exhibition" }, { id: "workshop", label: "Workshop / Class" }, { id: "talk", label: "Event / Talk" }, NONE], none: "none",
+        options: [{ id: "market", label: "Market / Pop-up" }, { id: "fair", label: "Trade Fair / Exhibition" }, { id: "workshop", label: "Workshop / Class" }, { id: "talk", label: "Event / Talk" }, OTHER], other: true,
         info: ["The kinds of events a typical person of the Segment attends.", "The names of the events stay in the note."]
     },
     {
@@ -181,13 +181,9 @@ export function profileShown(answers: SegmentAnswers, segment: SegmentAnswers, c
     return profileSettle(shown, segment, context);
 }
 
-/** A choice made on a question: a "None of these" excludes the rest, a limit is held. */
+/** A choice made on a question: a limit is held. */
 export function profileChoose(question: ProfileQuestion, answers: SegmentAnswers, next: string[]): SegmentAnswers {
     let chosen = next;
-    if (question.none && chosen.includes(question.none)) {
-        const wasNone = (answers[question.id] ?? []).includes(question.none);
-        chosen = wasNone ? chosen.filter(id => id !== question.none) : [question.none];
-    }
     if (question.max !== undefined) {
         chosen = chosen.slice(0, question.max);
     }
@@ -213,6 +209,10 @@ export function profileSettle(answers: SegmentAnswers, segment: SegmentAnswers, 
         const offered = chosen.filter(id => question.options.some(option => option.id === id));
         const held = question.max !== undefined ? offered.slice(0, question.max) : offered;
         settled[question.id] = question.many ? held : held.slice(0, 1);
+        const written = answers[question.id + "-other"];
+        if (question.other && held.includes("other") && written) {
+            settled[question.id + "-other"] = written;
+        }
     }
     return settled;
 }
@@ -224,7 +224,8 @@ export function profileAnswerLines(answers: SegmentAnswers): { label: string; va
         if (chosen.length === 0) {
             return [];
         }
-        const words = question.number ? chosen[0] + " years" : chosen.map(id => question.options.find(option => option.id === id)?.label ?? id).join("; ");
+        const other = (answers[question.id + "-other"]?.[0] ?? "").trim();
+        const words = question.number ? chosen[0] + " years" : chosen.map(id => id === "other" && other ? "Other: " + other : question.options.find(option => option.id === id)?.label ?? id).join("; ");
         return [{ label: question.label, value: words }];
     });
 }

@@ -561,6 +561,57 @@
                       "hubs": "Instagram (interiors and makers), Pinterest, Broadway Market, Columbia Road, Crafts Council events, The Modern House journal, Apartamento.",
                       "habits": "Discovers on Instagram and at markets; researches makers’ websites; buys online and at pop-ups; reads reviews; subscribes to a few newsletters."
                     },
+                    "questions": {
+                      "a1": [
+                        "36"
+                      ],
+                      "a2": [
+                        "woman"
+                      ],
+                      "a3": [
+                        "professional"
+                      ],
+                      "b1": [
+                        "quality-and-results",
+                        "trust-and-reputation",
+                        "shared-values-or-identity"
+                      ],
+                      "c1": [
+                        "phone",
+                        "computer"
+                      ],
+                      "c2": [
+                        "instagram",
+                        "pinterest",
+                        "other"
+                      ],
+                      "c2-other": [
+                        "Substack newsletters on home and craft"
+                      ],
+                      "c4": [
+                        "market",
+                        "workshop"
+                      ],
+                      "d1": [
+                        "reviews-and-recommendations-online",
+                        "what-other-people-recommend"
+                      ],
+                      "d2": [
+                        "little"
+                      ],
+                      "e1": [
+                        "get-better-results",
+                        "express-who-they-are"
+                      ],
+                      "e2": [
+                        "the-quality-is-inconsistent",
+                        "it-is-hard-to-find-someone-they-trust"
+                      ],
+                      "e3": [
+                        "the-price-or-their-budget",
+                        "whether-it-fits-their-needs"
+                      ]
+                    },
                     "goals": "A home that feels warm, unique and made to last; owning things with a story; supporting local makers.",
                     "challenges": "Mass-market textiles look generic and pill quickly; “sustainable” claims are hard to trust; handmade pieces are hard to find in person.",
                     "objections": "Price compared with high-street cushions; delivery times for made-to-order; worries about care and washing.",
@@ -587,6 +638,51 @@
                       "psychographics": "Hands-on, curious, would rather do something than buy something; values experiences, learning and local community.",
                       "hubs": "Time Out, Eventbrite, Instagram, local Facebook groups, Hackney Wick open studios, Walthamstow Garden Party.",
                       "habits": "Books experiences online a few weeks ahead; buys gift vouchers; responds to “last places” emails; shops locally at Christmas."
+                    },
+                    "questions": {
+                      "a1": [
+                        "29"
+                      ],
+                      "a2": [
+                        "woman"
+                      ],
+                      "a3": [
+                        "service"
+                      ],
+                      "b1": [
+                        "a-service-made-for-them",
+                        "ease-and-convenience"
+                      ],
+                      "c1": [
+                        "phone"
+                      ],
+                      "c2": [
+                        "instagram",
+                        "tiktok",
+                        "youtube"
+                      ],
+                      "c4": [
+                        "workshop",
+                        "market"
+                      ],
+                      "d1": [
+                        "a-demo-trial-or-sample",
+                        "what-other-people-recommend"
+                      ],
+                      "d2": [
+                        "alone"
+                      ],
+                      "e1": [
+                        "express-who-they-are",
+                        "learn-something-new"
+                      ],
+                      "e2": [
+                        "they-have-no-time-or-capacity"
+                      ],
+                      "e3": [
+                        "how-long-it-takes-to-start",
+                        "the-price-or-their-budget"
+                      ]
                     },
                     "goals": "Give gifts that mean something; learn a real craft; spend screen-free time with people he cares about.",
                     "challenges": "Generic gift ideas; craft classes that feel rushed or crowded; not knowing whether he will be any good at it.",
@@ -764,6 +860,52 @@
                       "psychographics": "Wants every project to tell a local, sustainable story; proud of working with makers; detail-obsessed and deadline-driven.",
                       "hubs": "LinkedIn, Instagram, Clerkenwell Design Week, London Design Festival, Decorex, BIID membership, Dezeen.",
                       "habits": "Sources through trade fairs, maker directories and recommendations; requests samples and spec sheets; orders via purchase order with 30-day terms."
+                    },
+                    "questions": {
+                      "a1": [
+                        "41"
+                      ],
+                      "a3": [
+                        "owner"
+                      ],
+                      "a5": [
+                        "influence",
+                        "decide"
+                      ],
+                      "b1": [
+                        "expert-knowledge",
+                        "trust-and-reputation",
+                        "quality-and-results"
+                      ],
+                      "c1": [
+                        "computer",
+                        "phone"
+                      ],
+                      "c2": [
+                        "instagram",
+                        "linkedin",
+                        "pinterest"
+                      ],
+                      "d1": [
+                        "a-quote-or-proposal",
+                        "what-other-people-recommend",
+                        "your-website"
+                      ],
+                      "d2": [
+                        "little"
+                      ],
+                      "e1": [
+                        "win-customers-or-earn-more",
+                        "get-better-results"
+                      ],
+                      "e2": [
+                        "it-is-hard-to-find-someone-they-trust",
+                        "prices-are-unclear"
+                      ],
+                      "e3": [
+                        "whether-it-fits-their-needs",
+                        "support-after-they-buy"
+                      ]
                     },
                     "goals": "Distinctive, sustainable interiors that win clients and awards; reliable makers she can return to.",
                     "challenges": "Small makers miss deadlines or cannot scale; poor documentation for fire regulations and sustainability reporting.",

@@ -181,7 +181,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 - **Control:** ticks, as many as apply.
 - **Asked when:** always.
-- **Options:** the list L15 (doc 35, 5.2): Smartphone; Laptop or desktop; Tablet; A shared or public device; None of these (excludes the others).
+- **Options:** the list L15 (doc 35, 5.2): Smartphone; Laptop or desktop; Tablet; A shared or public device; Other, which the user writes in (ticking it opens a text box under the options; its words are kept as the answer).
 - **The "i" would say:** The devices they use to find and buy, not those they own.
 - **Connections:**
   - *Comes from:* the Segment's online comfort and where they buy: the setting starts it (Mobile app: Smartphone; Desktop / Laptop computer: Laptop or desktop; Physical storefront: none; Multi-channel: Smartphone and Laptop or desktop), as a starting value the user can change.
@@ -191,7 +191,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 - **Control:** ticks, as many as apply.
 - **Asked when:** the Segment's online comfort is not Tech-averse / Traditional.
-- **Options:** the social media channels the app already lists: Instagram; Facebook; LinkedIn; YouTube; TikTok; Pinterest; X (Twitter); None of these (excludes the others). The ones related to the Segment's ways of discovering ideas (creators, communities, algorithmic discovery) come first.
+- **Options:** the social media channels the app already lists: Instagram; Facebook; LinkedIn; YouTube; TikTok; Pinterest; X (Twitter); Other, which the user writes in (ticking it opens a text box under the options; its words are kept as the answer). The ones related to the Segment's ways of discovering ideas (creators, communities, algorithmic discovery) come first.
 - **The "i" would say:** The platforms they actually use, if any. "They may not have social media at all": choose None of these.
 - **Connections:**
   - *Comes from:* the Segment's discovery ways and online comfort.
@@ -201,7 +201,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 - **Control:** ticks, as many as apply.
 - **Asked when:** the Segment's ways of discovering ideas include niche online communities or forums.
-- **Options:** the community channels the app already lists: Facebook Group; Discord; Reddit; Slack; Meetup; None of these (excludes the others).
+- **Options:** the community channels the app already lists: Facebook Group; Discord; Reddit; Slack; Meetup; Other, which the user writes in (ticking it opens a text box under the options; its words are kept as the answer).
 - **The "i" would say:** Where they ask, read and recommend. The names of the groups stay in the note.
 - **Connections:**
   - *Comes from:* the Segment's discovery ways.
@@ -211,7 +211,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 - **Control:** ticks, as many as apply.
 - **Asked when:** the Segment's social environment is a mix of online and in person, or mostly in person.
-- **Options:** the in-person channels the app already lists as events: Market / Pop-up; Trade Fair / Exhibition; Workshop / Class; Event / Talk; None of these (excludes the others).
+- **Options:** the in-person channels the app already lists as events: Market / Pop-up; Trade Fair / Exhibition; Workshop / Class; Event / Talk; Other, which the user writes in (ticking it opens a text box under the options; its words are kept as the answer).
 - **The "i" would say:** The kinds of events a typical person of the Segment attends. The names of the events stay in the note.
 - **Connections:**
   - *Comes from:* the Segment's social environment.

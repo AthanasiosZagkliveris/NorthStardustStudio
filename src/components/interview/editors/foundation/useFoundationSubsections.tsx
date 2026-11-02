@@ -331,6 +331,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                         ? (
                             <NumberCell
                                 kind="int"
+                                className="business-capability-people"
                                 aria-label={question.label}
                                 disabled={disabled}
                                 value={chosen[0] ?? ""}
@@ -339,9 +340,20 @@ export function useFoundationSubsections(earlier: Earlier) {
                         )
                         : question.many
                             ? (
-                                <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={question.label}>
-                                    <BusinessTicks name={question.label} disabled={disabled} options={options} chosen={chosen} max={question.max} onChange={choose} />
-                                </div>
+                                <>
+                                    <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={question.label}>
+                                        <BusinessTicks name={question.label} disabled={disabled} options={options} chosen={chosen} max={question.max} onChange={choose} />
+                                    </div>
+                                    {question.other && chosen.includes("other") && (
+                                        <StrategyTextArea
+                                            className="interview-input business-foundation-note"
+                                            ariaLabel={question.label + " Other"}
+                                            disabled={disabled}
+                                            value={shown[question.id + "-other"]?.[0] ?? ""}
+                                            onChange={(next) => write({ ...shown, [question.id + "-other"]: [next] })}
+                                        />
+                                    )}
+                                </>
                             )
                             : segmentRowChoice({ ...question, box: "demographics" } as unknown as SegmentQuestion, options)
                                 ? <FittingRadioChoice label={question.label} group={profile.id + "-" + question.id} disabled={disabled} value={chosen[0] ?? ""} onChange={(next) => choose([next])} options={options} />

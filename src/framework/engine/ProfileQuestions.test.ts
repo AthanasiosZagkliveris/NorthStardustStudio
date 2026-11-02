@@ -35,10 +35,11 @@ describe("the Profile's questions follow the Segment", () => {
         expect(profileSettle(answers, { discover: ["communities"], social: ["mixed"] }, people)).toEqual(answers);
     });
 
-    it("holds a limit, and None of these excludes the rest", () => {
+    it("holds a limit, and keeps what is written under Other only while Other is ticked", () => {
         expect(profileChoose(question("b1"), {}, ["lower-price", "speed", "ease-and-convenience", "quality-and-results"]).b1).toHaveLength(3);
-        expect(profileChoose(question("c1"), { c1: ["phone"] }, ["phone", "none"]).c1).toEqual(["none"]);
-        expect(profileChoose(question("c1"), { c1: ["none"] }, ["none", "phone"]).c1).toEqual(["phone"]);
+        expect(profileChoose(question("c1"), { c1: ["phone"] }, ["phone", "other"]).c1).toEqual(["phone", "other"]);
+        expect(profileSettle({ c2: ["other"], "c2-other": ["Substack"] }, {}, people)).toEqual({ c2: ["other"], "c2-other": ["Substack"] });
+        expect(profileSettle({ c2: ["instagram"], "c2-other": ["Substack"] }, {}, people)).toEqual({ c2: ["instagram"] });
     });
 
     it("starts the worry about price where the household income is Low, and the help from the comfort", () => {

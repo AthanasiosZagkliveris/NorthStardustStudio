@@ -7,6 +7,7 @@ import { SEGMENT_QUESTIONS, segmentQuestionAsked, segmentSettle } from "../frame
 import { stageOf } from "../framework/engine/BusinessStage";
 import { fitPositioningToStage } from "../components/interview/editors/legal/shared";
 import { segmentContextFor } from "../components/interview/editors/foundation/identityLink";
+import { asProfileAnswers, profileSettle } from "../framework/engine/ProfileQuestions";
 
 /**
  * THE EXAMPLES ANSWER THE SEGMENT'S QUESTIONS: for each Segment of each example, read with the example's own Positioning answers, every question the Segment is asked has an answer
@@ -35,6 +36,13 @@ describe.each([["Lumen & Loom Studio", lumen], ["Quillfield Automation LLC", qui
         const asked = SEGMENT_QUESTIONS.filter(question => segmentQuestionAsked(question, segment.questions, context)).map(question => question.id);
         expect(asked.filter(id => !(segment.questions[id]?.length))).toEqual([]);
         expect(Object.keys(segment.questions).filter(id => !asked.includes(id))).toEqual([]);
+    });
+
+    it.each(segments.flatMap(segment => segment.profiles.map(profile => [profile.name, segment, profile] as const)))("answers the Profile %s with answers that stand against its Segment", (_profileName, segment, profile) => {
+        const context = segmentContextFor(identity, segment.description["business-data"] !== undefined);
+        const answers = asProfileAnswers(profile.questions);
+        expect(Object.keys(answers).length).toBeGreaterThan(5);
+        expect(profileSettle(answers, segment.questions, context)).toEqual(answers);
     });
 
 });
