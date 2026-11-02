@@ -1121,6 +1121,37 @@
 
 }
 
+/* THE SECTIONS OF THE PROFILE CARD (Description, Motivations, Needs) are the first level: a band across the card in larger capitals, on a tint of the primary fill with a 2px primary line over it. Under it the boxes (their title bands on the primary fill, the second level) and under those the labels of the questions (the third). */
+.floating-card-body .column-tile-content > .business-foundation-card > .business-group-fold-head{
+
+    grid-column:1 / -1;
+
+    margin-inline:calc(-1 * var(--card-padding));
+
+    max-width:none;
+
+    padding:var(--space-label) var(--card-padding);
+
+    border-top:2px solid var(--bg-primary);
+
+    background:color-mix(in srgb, var(--bg-primary) 14%, transparent);
+
+}
+
+.floating-card-body .column-tile-content > .business-foundation-card > .business-group-fold-head .business-foundation-subhead{
+
+    font-size:var(--font-h3);
+
+    font-weight:700;
+
+    letter-spacing:0.06em;
+
+    text-transform:uppercase;
+
+    color:var(--title-ink);
+
+}
+
 /* The age stands beside its label: the question's label on the left (it wraps inside its own column), the square cell at the right end of the band, centred on the label's lines. */
 .legal-entity-pair:has(> .business-profile-age){
 

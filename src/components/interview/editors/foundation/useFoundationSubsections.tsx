@@ -18,7 +18,6 @@ import { summaryText } from "../../cards/cardSummary.ts";
 import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
 import NumberedListInput from "../../fields/NumberedListInput.tsx";
 import OptionPicker from "../../fields/OptionPicker.tsx";
-import { FieldMark, FieldStatus } from "../../fields/fieldMarks.tsx";
 import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import { BusinessNeedKind, CATEGORY_OTHER, COMPETITOR_TYPE_QUESTIONS, DescriptionPart, OPTIONAL_DESCRIPTION_PART, SUBSECTIONS, competitorParts, otherProfileNeeds } from "./shared.tsx";
 import { BUSINESS_AUDIENCE, PEOPLE_AUDIENCE, audienceLine, segmentContextFor, segmentFrame } from "./identityLink.ts";
@@ -491,21 +490,10 @@ export function useFoundationSubsections(earlier: Earlier) {
                             NumberedListInput) -- and a numbered
                             line is what the Offerings subsection
                             picks from. */}
-                        {/* NEEDS is the section: one title band over three labelled bands (Functional, Emotional, Social), each label with its numbered list. */}
-                        <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-single">
-                            <div className="legal-entity-field">
-                                <div className="business-segment-box">
-                                    <div className="legal-entity-org-section">
-                                        <span className="business-foundation-label-info legal-entity-label-info">
-                                            <FieldLabel className="business-foundation-label">
-                                                <InfoText text="Needs">
-                                                    <InfoNote label="Needs" points={["Each need is one numbered line. The Offerings choose from these needs."]} fullList />
-                                                </InfoText>
-                                                <FieldMark label="Needs" />
-                                            </FieldLabel>
-                                            <FieldStatus label="Needs" />
-                                        </span>
-                                    </div>
+                        {/* NEEDS is a section as Description and Motivations are: its heading, then its labelled bands (Functional, Emotional, Social), each label over its numbered list. */}
+                        {group("Needs", (
+                            <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-single">
+                                <div className="legal-entity-field">
                                     {SUBSECTIONS.segments.needs.map((kind, at) => (
                                         <div className={"legal-entity-org-section" + (at % 2 === 1 ? " legal-entity-org-band" : "")} key={kind.id}>
                                             <FieldRow pair fullList label={kind.title} info={[kind.text]}>
@@ -523,7 +511,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                                     ))}
                                 </div>
                             </div>
-                        </div>
+                        ), ["Each need is one numbered line. The Offerings choose from these needs."], groupFold(profile.id, "Needs", segmentPath + ", Profile " + (profileIndex + 1)))}
 
                     </>
                 ))}
