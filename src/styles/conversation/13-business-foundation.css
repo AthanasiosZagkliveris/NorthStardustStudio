@@ -1091,6 +1091,30 @@
 }
 
 /* (Under 901px a column loses its right padding; this card keeps it, so the bands end at the card's edge at every width.) */
+/* THE CONTENT STOPS WHERE EVERY FLOATING CARD'S CONTENT STOPS -- at the right edge of the name cell, before the column of the x -- while the bands, their tints and the rules run on to the card's side: the sections keep that room as padding (the x column and the gap beside it; the grid's own 12px and the card's padding make up the rest). */
+.floating-card-body .column-tile-content > .business-foundation-card > .business-segment-grid-single .legal-entity-org-section{
+
+    padding-right:calc(var(--card-x-column) + var(--space-field));
+
+}
+
+/* (The title band's inner line and the line under a label are drawn by the label row: they run on across the room the section keeps, to the card's side.) */
+.floating-card-body .column-tile-content > .business-foundation-card > .business-segment-grid-single .legal-entity-org-section > .legal-entity-label-info.business-foundation-label-info{
+
+    width:calc(100% + var(--card-x-column) + var(--space-field));
+
+    flex:none;
+
+    max-width:none;
+
+}
+
+.floating-card-body .column-tile-content > .business-foundation-card > .business-segment-grid-single .legal-entity-pair > .legal-entity-label-info{
+
+    width:calc(100% + 2 * var(--space-cell) + var(--card-x-column));
+
+}
+
 .floating-card-body .column-tile-content > .business-foundation-card > .business-segment-grid-single > .legal-entity-field{
 
     padding-right:var(--space-cell);
