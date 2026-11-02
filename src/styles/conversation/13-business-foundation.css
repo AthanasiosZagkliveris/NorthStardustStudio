@@ -1050,6 +1050,36 @@
 
 }
 
+/* THE BANDS AND THE RULES RUN FROM SIDE TO SIDE OF THE CARD, as the channel card's rows do: the boxes stand across the card's content column and the column of its x, and out to its right edge (the left they already reach). */
+.floating-card-body .column-tile-content > .business-foundation-card > .business-segment-grid-single{
+
+    grid-column:2 / -1;
+
+    margin-right:calc(-1 * var(--card-padding));
+
+    max-width:none;
+
+}
+
+/* (Under 901px a column loses its right padding; this card keeps it, so the bands end at the card's edge at every width.) */
+.floating-card-body .column-tile-content > .business-foundation-card > .business-segment-grid-single > .legal-entity-field{
+
+    padding-right:var(--space-cell);
+
+}
+
+/* The age stands on its label's line, 8px after the words. */
+.business-foundation .business-profile-age,
+.floating-card-body .business-profile-age{
+
+    display:inline-block;
+
+    margin-left:8px;
+
+    vertical-align:middle;
+
+}
+
 /* The age of a Profile is a square number cell (the one a performer's head count uses, as high as it is wide), not a box across the card. */
 .floating-card-body .column-tile-content > .business-foundation-card .interview-input.business-capability-people{
 
