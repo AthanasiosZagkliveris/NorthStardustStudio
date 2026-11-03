@@ -1401,3 +1401,41 @@
     }
 
 }
+
+/* A TITLE BAND OF THE SEGMENT AND PROFILE CARDS STANDS A FIELD GAP (12px) FROM THE FIRST QUESTION UNDER IT, as one label stands from the next (layout-rules, row gap). The Positioning card's title row (38px: the label centred in it, the line under it) gives 13.5px under a two-line question and 16px under a one-line one, because it centres a one-line label; here the band is the title's own line (28px) and its own 5px, and the first question's label stands at the top of its row. */
+.business-segment-grid .legal-entity-org-section:has(> .business-foundation-label-info) > .business-foundation-label-info{
+
+    min-height:0;
+
+    padding-bottom:5px;
+
+    align-items:flex-start;
+
+}
+
+.business-segment-grid .legal-entity-org-section:has(> .business-foundation-label-info) + .legal-entity-org-section > .legal-entity-pair:first-child > .legal-entity-label-info{
+
+    align-items:flex-start;
+
+}
+
+/* The section above a title band ends 6px from it, the band's own 6px under it making the field gap (12px) between the last words above and the title's. */
+.business-segment-grid .legal-entity-org-section:has(+ .legal-entity-org-section > .business-foundation-label-info){
+
+    padding-bottom:6px;
+
+}
+
+/* The box a question's "Other" is written in is the last thing of its section, and the Notes under it stand a field gap (12px) from it: the section's own bottom padding is that gap. */
+.business-segment-grid .legal-entity-org-section:has(> .legal-entity-pair .business-foundation-note):has(+ .business-note-band){
+
+    padding-bottom:0;
+
+}
+
+/* The title band under a double rule stands a field gap (12px) from it, as the rule stands from the box above (the band's own 6px are the label's room). */
+.business-segment-grid .business-capability-card-rule-double + .business-segment-box > .legal-entity-org-section:first-child{
+
+    padding-top:var(--space-field);
+
+}

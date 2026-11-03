@@ -195,7 +195,9 @@
     function bodyLeft(head) {
         for (let next = head.nextElementSibling; next; next = next.nextElementSibling) {
             if (visible(next)) {
-                return rect(next).left;
+                // A band (a section that runs on to the card's side, a negative margin) keeps its words where the body's are: its padding edge, not its tint's.
+                const style = getComputedStyle(next);
+                return rect(next).left + (parseFloat(style.marginLeft) < 0 ? parseFloat(style.paddingLeft) : 0);
             }
         }
         return null;
@@ -377,7 +379,8 @@
             const cells = [...grid.children].filter(visible);
             const controls = [];
             for (const cell of cells) {
-                const control = cell.matches(CONTROL) ? cell : cell.querySelector(CONTROL);
+                // (DECLARED: the Profile's age cell stands at the right end of its label's line, not at its column's left edge: the next control of the cell is the one measured.)
+                const control = cell.matches(CONTROL) ? cell : [...cell.querySelectorAll(CONTROL)].find(found => !found.closest(".business-profile-age")) ?? null;
                 // A cell that is a row of its own (the VAT tick and its number, a list of numbers) is checked as one.
                 if (!control || !visible(control) || cell.classList.contains("business-field-inline") || cell.classList.contains("business-field-side") || cell.classList.contains("legal-entity-field-side") || cell.matches(".business-capability-cost-after:has(> .business-field-side), .legal-entity-tax-row, .legal-entity-registrations, .legal-entity-field-wide:has(.legal-entity-number-row), .legal-entity-field:has(> .numbered-list), .legal-entity-side-row, .founders-profile-row")) {
                     continue;

@@ -1248,6 +1248,7 @@ New fields follow the rules above and reuse their neighbours' shapes; nothing he
 
 ## 17. Declared exceptions
 
+- **Segment and Profile cards: bands and the age cell.** A band (a section that runs on to the card's side, a negative margin) keeps its words where the body's are, so "name cell left = body-left" is measured at its padding edge, not its tint's. The Profile's age cell stands at the right end of its question's line, so "control at its column's left edge" measures the next control of the cell. A title band stands a field gap (12px) from the first question under it, and from the Notes above it or the double rule above it (12px either side of the rule).
 - **Text Hierarchy box**: every row is one height, the room H1 needs at
   its largest size (lines at 1.25), 12px apart, so the px squares stand at
   one equal pitch and the box never changes size. Each square stands at its
