@@ -110,7 +110,7 @@ export const SEGMENT_INDUSTRIES: readonly (SegmentOption & { sector: string })[]
     { id: "professional", sector: "tech", label: "Professional, scientific and technical services" },
     { id: "admin", sector: "tech", label: "Administrative and support services" },
     { id: "government", sector: "human", label: "Government and public administration" },
-    { id: "education", sector: "human", label: "What is your customers' highest level of education?" },
+    { id: "education", sector: "human", label: "Education" },
     { id: "health", sector: "human", label: "Health and social care" },
     { id: "other", sector: "human", label: "Other services" }
 ];

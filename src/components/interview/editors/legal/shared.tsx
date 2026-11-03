@@ -411,7 +411,7 @@ export const INFO = {
 
     userLifeStage: [
         "The life stage of the person who will use it. A broad group is enough to give the user's Profile its first shape; the exact age comes later, on the Profile.",
-        "Minors: under 18 (online services and some goods have extra rules that differ by country: see the minimum ages in the documentation). Young Adults: 18 to 25. Adults: 25 to 65. Seniors: 65 and over. The Segment's Description then asks the user's stage within it (Baby, Child, Teenager, Established, Peak and so on)."
+        "Minors: under 18 (online services and some goods have extra rules that differ by country: see the minimum ages in the documentation). Young Adults: 18 to 24. Adults: 25 to 64. Seniors: 65 and over. The Segment's Description then asks the user's stage within it (Baby, Child, Teenager, Established, Peak and so on)."
     ],
 
     purpose: [

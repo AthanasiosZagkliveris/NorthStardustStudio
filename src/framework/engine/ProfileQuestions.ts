@@ -64,7 +64,7 @@ const QUESTIONS: readonly ProfileQuestion[] = [
             { id: "use", label: "Uses it" }, { id: "influence", label: "Influences the decision" }, { id: "order", label: "Places the order" },
             { id: "decide", label: "Makes the final decision" }, { id: "gate", label: "Controls who reaches the decision-maker" }
         ],
-        info: ["The five buying-centre roles credited to Webster and Wind (1972).", "\"Will use it\" is the person who uses the offering day to day, who may be neither the one who pays nor the one who decides."]
+        info: ["The five buying-centre roles credited to Webster and Wind (1972).", "\"Uses it\" is the person who uses the offering day to day, who may be neither the one who pays nor the one who decides."]
     },
     {
         id: "b1", box: "psychographics", label: "What matters most to {o}?", many: true, max: 3, options: list(CARES),

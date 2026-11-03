@@ -46,11 +46,11 @@ The app also **proposes Profiles** (up to three): one for each age term of the g
 
 | The Segment is | The Profiles | Asked | Not asked |
 |---|---|---|---|
-| **B2C, Direct Buyers** | one typical person, who pays and uses | A1 to A3, A6; B1; C; D; E | A5 (the person plays every part) |
-| **B2C, Proxy or Dual-Intent** | the payer's Profile, and a second Profile for the user (proposed beside it, doc 28, 6.5) | the payer: all but A5's "will use it"; the user: A1, A2, A5 (who uses it, who influences), A6, B1, C, E | the user's Box D: the user does not run the purchase (the payer's Profile holds how they compare and what help they want) |
+| **B2C, Direct Buyers** | one typical person, who pays and uses | A1 to A3, A6; B1; C; D; E (and A5 where the age group includes Minors) | A5 (the person plays every part), unless the age group includes Minors |
+| **B2C, Proxy or Dual-Intent** | the payer's Profile, and a second Profile for the user (proposed beside it, doc 28, 6.5) | the payer: all but A5's "Uses it"; the user: A1, A2, A5 (who uses it, who influences), A6, B1, C, E | the user's Box D: the user does not run the purchase (the payer's Profile holds how they compare and what help they want) |
 | **B2B** | the person who decides (or the one asked to use it) | A1, A3, A4, A5, B1, C, D, E | A2 and A6 (they are asked only where the owner turns them on) |
 
-**A5 (owner, 2026-11-01).** A pure B2C Direct Segment: A5 is not asked and leaves no gap (the one person plays every part). A B2C Proxy or Dual-Intent Segment: A5 is asked on both Profiles, starting with "Places the order" and "Makes the final decision" ticked on the payer's and "Will use it" ticked on the user's, as starting values the user can change; nothing is locked. A B2B Segment: A5 is always asked.
+**A5 (owner, 2026-11-01).** A pure B2C Direct Segment whose age group does not include Minors: A5 is not asked and leaves no gap (the one person plays every part). A B2C Proxy or Dual-Intent Segment: A5 is asked on both Profiles, starting with "Places the order" and "Makes the final decision" ticked on the payer's and "Uses it" ticked on the user's, as starting values the user can change; nothing is locked. A B2B Segment: A5 is always asked.
 
 ### 2.2 When an answer above changes
 
@@ -87,7 +87,7 @@ A typical person of the Segment, asked specifically.
   - Man
   - Non-binary
   - Another gender
-- **The "i" would say:** Asked only when the Segment's mix leans one way. The categories follow the Australian standard for sex and gender [SEX-01]. Nothing reads it but the note and the equality notice.
+- **The "i" would say:** Asked only when the Segment's mix leans one way. The categories follow the Australian standard for sex and gender [SEX-01]. Nothing reads it today but the note (the equality notice and the Review check are not built).
 - **Connections:**
   - *Comes from:* the Segment's gender mix. When it leans one way (60 to 80%) or is mostly one way (80%+), A2 **starts** as Woman or Man, a starting value the user can change; the question stays visible, because a Segment holds up to three Profiles and one of them can be the minority. When the mix is Balanced the question is not asked: gender does not matter for what is sold.
   - *Read by (not built yet):* the Review (a gender that does not fit the mix is noted, never cleared); the equality notice.
@@ -165,7 +165,7 @@ A typical person of the Segment, asked specifically.
 
 - **Control:** ticks, up to 3.
 - **Asked when:** always.
-- **Options:** the list L1 (doc 34, 5.2): Lower price; Speed; Ease and convenience; Quality and results; Trust and reputation; Expert knowledge; A service made for them; Good support; Safety and low risk; Shared values / identity.
+- **Options:** the list L1 (doc 34, 5.2): Lower price; Speed; Ease and convenience; Quality and results; Trust and reputation; Expert knowledge; A tailored service; Good support; Safety and low risk; Shared values / identity.
   - Lower price
   - Speed
   - Ease and convenience
@@ -197,13 +197,13 @@ What the Segment cannot say: which devices, which social media, which communitie
   - Other
 - **The "i" would say:** The devices they use to find and buy, not those they own.
 - **Connections:**
-  - *Comes from:* the Segment's online comfort and where they buy: the setting starts it (Mobile app: Smartphone; On a computer: Laptop / desktop; Physical storefront: none; Multi-channel: Smartphone and Laptop / desktop), as a starting value the user can change.
+  - *Comes from:* the Segment's online comfort and where they buy: the setting starts it (Online, on a phone: Smartphone; Online, on a computer: Laptop / desktop; In a shop: none; Both online and in shops: Smartphone and Laptop / desktop), as a starting value the user can change.
   - *Read by (not built yet):* the Review (make the order and the forms work on a phone; a note where the devices ticked leave out the one the Segment buys on).
 
 ### C2. Which social media does this person use?
 
 - **Control:** ticks, as many as apply.
-- **Asked when:** the Segment's online comfort is not Not comfortable / Traditional (or is not answered).
+- **Asked when:** the Segment's customers are not Not very comfortable online (or the comfort is not answered).
 - **Options:** the social media channels the app already lists: Instagram; Facebook; LinkedIn; YouTube; TikTok; Pinterest; X (Twitter); Other, which the user writes in (ticking it opens a text box under the options; its words are kept as the answer). (Not built: the ones related to the Segment's ways of discovering ideas, creators, communities and algorithmic discovery, would come first.)
   - Instagram
   - Facebook
@@ -238,7 +238,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 - **Control:** ticks, as many as apply.
 - **Asked when:** the Segment's social environment is a mix of online and in person, or mostly in person.
-- **Options:** the in-person channels the app already lists as events: Market / Pop-up; Trade Fair / Exhibition; Workshop / Class; Event / Talk; Other, which the user writes in (ticking it opens a text box under the options; its words are kept as the answer).
+- **Options:** the in-person channels the app already lists as events: Market / Pop-up; Trade Fair / Exhibition; Workshop / Class; Talk / Conference; Other, which the user writes in (ticking it opens a text box under the options; its words are kept as the answer).
   - Market / Pop-up
   - Trade Fair / Exhibition
   - Workshop / Class
@@ -354,12 +354,11 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 | Question | Set when | To |
 |---|---|---|
-| A3 job level | the Segment's customers are self-employed | Owner / senior executive |
-| A5 part in the purchase | the Segment's decision is "Sole practitioner decision" | all five roles ticked |
+| A3 job level | the Segment's customers are self-employed | Owner / senior executive (built: the question is not asked; no answer is set yet, so the documents leave it out) |
 
-**Starting values the user can change (owner, 2026-11-01).** D1 and D2 start from the Segment's path to purchase and online comfort (a Researcher: reviews; a Social validator: what other people recommend; Tech-savvy: they work it out themselves; Tech-averse: they want to talk to a person); D2 starts at a formal proposal where the Segment's decision includes a formal procurement loop; A2 starts from the Segment's gender mix when it leans (60 to 80%) or is mostly (80%+) one way, and stays visible; C1 as in 5. Impulse buyers skip D1. **E3** starts with "The price / budget" ticked where the Segment's household income is Low, a starting value the user can change without any validation in the way (owner, 2026-11-01).
+**Starting values the user can change (owner, 2026-11-01).** D1 and D2 start from the Segment's path to purchase and online comfort (a Researcher: reviews; a Social validator: what other people recommend; Tech-savvy: they work it out themselves; Tech-averse: they want to talk to a person); D2 starts at a formal proposal where the Segment's decision includes a formal procurement loop; A2 starts from the Segment's gender mix when it leans (60 to 80%) or is mostly (80%+) one way, and stays visible; C1 as in 5. Impulse buyers skip D1. A5 starts with all five roles ticked where the Segment's "Who decides to buy?" includes "One person decides" (which is all it offers for a self-employed customer). **E3** starts with "The price / budget" ticked where the Segment's household income is Low, a starting value the user can change without any validation in the way (owner, 2026-11-01).
 
-**One list for the job levels.** A3 and the Segment's user question ("What is this person's job role?") take the same six levels, written once (`JOB_LEVELS`, `SegmentQuestions.ts`), so the words never differ between the two cards or the exports.
+**One list for the job levels.** A3 and the Segment's user question ("What kind of work do your customers do?") take the same six levels, written once (`JOB_LEVELS`, `SegmentQuestions.ts`), so the words never differ between the two cards or the exports.
 
 **The devices (C1) stay a starting value and a Review note, not a rule.** The Segment's "where they buy" starts C1 (a store: no device; the phone: Smartphone), and the Review notes a contradiction, but C1 is never unticked for the user: a shopper who buys in a store still finds the shop on a phone. A tendency never removes an option.
 

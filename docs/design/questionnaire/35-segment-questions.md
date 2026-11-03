@@ -310,7 +310,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - Professional, scientific and technical services
   - Administrative and support services
   - Government and public administration
-  - What is your customers' highest level of education?
+  - Education
   - Health and social care
   - Other services
 - **The "i" says:**
@@ -468,7 +468,7 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
 ### 9. Who decides to buy?
 
 - **Control:** ticks, as many as apply.
-- **Asked when:** The buyer is a business. For a self-employed customer (chosen, or because only freelancers were chosen in Positioning) it is set to "Sole practitioner decision" and not shown.
+- **Asked when:** The buyer is a business. For a self-employed customer (chosen, or because only freelancers were chosen in Positioning) only "One person decides" is offered, so it is answered and not shown.
 - **Options:**
   - One person decides
   - The team agrees
@@ -614,7 +614,7 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
 ### 3. Are your customers working?
 
 - **Control:** one choice (a radio).
-- **Asked when:** As the user's life stage, and the relationship is Family member, Spouse or partner, Friend, Commercial & Professional, Other (personal) or Sponsor or funder. Not asked of a Baby or a Child.
+- **Asked when:** As the user's life stage, and the relationship is Family member, Spouse or partner, Friend or acquaintance, Commercial & Professional, Other (personal) or Sponsor or funder. Not asked of a Baby or a Child.
 - **Options:**
   - Yes
   - No
