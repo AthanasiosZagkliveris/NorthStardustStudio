@@ -110,9 +110,9 @@ What the first published version contains and what it leaves for later (33, whic
 | [design/questionnaire/38-positioning-questions.md](design/questionnaire/38-positioning-questions.md) | specification | The Positioning tile's questions as built, by stage: control, limits, options, the help and the connections. | 2026-11-03 |
 | [design/questionnaire/39-help-texts-guide.md](design/questionnaire/39-help-texts-guide.md) | proposal | What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check. | 2026-11-03 |
 | [design/questionnaire/40-tile-documents.md](design/questionnaire/40-tile-documents.md) | rules | The form every tile document takes (one for each tile or card), and where each tile stands: which has a document and which does not yet. | 2026-11-03 |
-| [design/questionnaire/41-competitor-questions.md](design/questionnaire/41-competitor-questions.md) | proposal | The Competitor card: every question and option, as proposed (K1 to K5, by the competitor's type). | 2026-11-03 |
+| [design/questionnaire/41-competitor-questions.md](design/questionnaire/41-competitor-questions.md) | proposal | The Competitor card: every question and option, as proposed (K1 to K6, by the competitor's type). | 2026-11-03 |
 | [design/questionnaire/42-value-proposition-questions.md](design/questionnaire/42-value-proposition-questions.md) | proposal | The Value Proposition tile: the draft sentence and the open items, as proposed. | 2026-11-03 |
-| [design/questionnaire/43-offering-questions.md](design/questionnaire/43-offering-questions.md) | proposal | The Offering card: every question and option, as proposed (O1 to O12). | 2026-11-03 |
+| [design/questionnaire/43-offering-questions.md](design/questionnaire/43-offering-questions.md) | proposal | The Offering card: every question and option, as proposed (O1 to O13). | 2026-11-03 |
 
 ## 7. Rules for the assistant (`ai/`)
 

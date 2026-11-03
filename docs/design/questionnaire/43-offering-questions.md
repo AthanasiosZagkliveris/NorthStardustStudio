@@ -8,7 +8,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **The head:** the number, the name cell and the one x (built).
 - **The Type** (built): Product, Service, Hybrid, or Other with its name.
 - **Functional Needs Addressed** (built): ticks of the Segment's Profiles' functional needs.
-- **One box of questions** (proposed): O1 to O12 below, one band each, with the Segment card's layout.
+- **One box of questions** (proposed): O1 to O13 below, one band each, with the Segment card's layout.
 - **The text boxes** (built), each kept as the note for what the questions cannot say: Function; Customer Benefit (O4); Content & Scope; Purchase & Delivery (O3, O6); Support & Communication (O7); Requirements & Conditions (O10).
 
 **The rules of the card** are the Segment's (doc 35):
@@ -144,16 +144,36 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - *Comes from:* the Profiles' E3.
   - *Read by (not built yet):* the Value Proposition's open items (doc 42); the actions proposed at the Evaluation stage on page 2 (doc 28, 11.5, rule 8: price → a quote; trust → proof; fit → a demo).
 
-### Emotional and social needs addressed (if the Needs become choices)
+### Emotional and social needs addressed
 
 - **Control:** ticks, as many as apply.
-- **Asked when:** the Segment's Profiles' emotional or social needs are choices (doc 36, section 10, proposed) and at least one is ticked.
+- **Asked when:** at least one emotional or social need is ticked on the Segment's Profiles (ticks decided by the owner, 2026-11-03, doc 36 section 10).
 - **Options:** the emotional and social needs ticked in the Segment's Profiles.
 - **The "i" says:**
   - How it makes your customers feel, and how it helps them be seen. The Value Proposition shows any of their needs that nothing addresses.
 - **Connections:**
   - *Comes from:* the Profiles' emotional and social needs.
   - *Read by (not built yet):* the Value Proposition's open items (doc 42).
+
+### O13. What job does it do for them?
+
+- **Control:** ticks, up to 3.
+- **Asked when:** always.
+- **Options:** the list L17 (doc 34, 5.2):
+  - Helps them earn money
+  - Keeps things organised
+  - Works with what they already use
+  - Connects them with people
+  - Teaches / informs them
+  - Gives more choice
+  - Appeals to the senses
+- **The "i" says:**
+  - The kind of job it does, beyond what it does best (O4). The same list as on your Competitors, so you can see who does the same job.
+  - Appeals to the senses: how it tastes, looks, sounds or feels.
+  - Based on: Bain's Elements of Value (HBR).
+- **Connections:**
+  - *Comes from:* nothing. The Profiles' functional needs stay their own words (doc 36, section 10); this list compares the Offering with the Competitors, as the owner proposed (2026-11-03).
+  - *Read by (not built yet):* the Value Proposition's open item "Job left to a competitor" (doc 42); the Review: a Competitor that does the same job (K6) and is chosen for the same thing (K2 against O4) is a close rival, to be answered in its Insights & Differentiation.
 
 ### O10. What does the customer need to give you?
 
@@ -210,6 +230,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 
 **Still to decide:**
 - The option words written new here are proposals until you approve them (doc 28, rule 3.6): O1, O2, O3 ("Pay as they go"), O6 and O7.
+- O13 and L17 (owner's idea, 2026-11-03): the list words, and whether up to 3 is right.
 - O11, what they spend on (doc 28, 6.8): it is not asked here, because nothing would read it yet. Keep it as a thought, or drop it.
 - **Not asked:**
   - O5 (merged into O4, 2026-10-26).

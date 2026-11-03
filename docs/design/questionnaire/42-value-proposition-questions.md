@@ -2,7 +2,7 @@
 
 Status: **proposal**, written 2026-11-03, updated 2026-11-03. The Value Proposition tile (Business System, page 1): what it asks, the draft sentence it offers, and the open items it lists, with what each reads. The text is built; the draft and the open items are not.
 
-Related: doc 35 (the Segment), doc 36 (the Profile: the needs, goals, frustrations and worries), doc 38 (Positioning: purpose, differentiation, outcomes), doc 41 (the Competitor: K3), doc 43 (the Offering: O1, O4, O8 and the needs addressed), doc 34 (the value crosswalk, 5.2a), doc 28 (6.7 and 8.2, the design this refines).
+Related: doc 35 (the Segment), doc 36 (the Profile: the needs, goals, frustrations and worries), doc 38 (Positioning: purpose, differentiation, outcomes), doc 41 (the Competitor: K3 and K6), doc 43 (the Offering: O1, O4, O8 and the needs addressed), doc 34 (the value crosswalk, 5.2a), doc 28 (6.7 and 8.2, the design this refines).
 
 **What the tile is.** There is one Value Proposition per Segment (built). It is a string on the Segment, `valueProposition`. The tile opens one text, with the instructions as built:
 - "Define a clear, concise Value Proposition for each Customer Segment."
@@ -49,6 +49,7 @@ Each item names the Profile, Offering or Competitor it is about, and opens it. T
 | **Unused offering** | An Offering that answers no need of the Segment |
 | **Unwanted benefit** | A benefit an Offering claims (O4) that no Profile cares about (B1) |
 | **Worry left open** | A worry a Profile ticked (E3) that no Offering answers (O8) |
+| **Job left to a competitor** | A job a Competitor does (K6, doc 41) that none of the Segment's Offerings does (O13, doc 43) |
 | **Emotional and social needs** | A Profile's emotional or social need that no Offering addresses. This puts into effect the tile's built note, "Identify how the Value Proposition addresses each Customer Profile's emotional and social needs." |
 
 - **The "i" says:** Gaps between what your customers want and what your Offerings give. They are reminders, not errors.
@@ -65,7 +66,7 @@ Nothing in the text changes: a draft once added is the App User's. The open item
 **Decided (owner, 2026-11-03):**
 - The positioning statement is drafted per Segment in this tile.
 - No new Positioning cells are added for the pain point, the category or the status quo (doc 28, 8.2).
+- Emotional and Social needs are ticks (doc 36, section 10), so the "Emotional and social needs" item compares ticks; "Unanswered need" still compares the functional texts by entry.
 
 **Still to decide:**
 - With several Offerings: one draft per Offering, or one draft that names the main Offering (proposed: one per Offering, each added by its own button).
-- If the Needs become choices (doc 36, section 10): the "Unanswered need" and "Emotional and social needs" items compare choices, not texts.
