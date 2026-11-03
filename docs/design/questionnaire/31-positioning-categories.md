@@ -217,7 +217,7 @@ The decisions of 2026-10-27 to 2026-10-29, one row each, by topic. The rounds of
 | 37 | Every question before the Purpose (including the buyer and user relationship and the user's life stage) is in the left column of the Early Positioning tile | built 2026-10-30 |
 | 38 | Decided 2026-10-30 (the owner: close the open points): (a) a purpose a table does not list is read from the next table (the inheritance rule), so the life-stage table's three missing purposes and the business relationship tables' missing ones are closed as they are; (b) the Outcome lists (buyer, user) are approved as written; (c) the relationships offered for each category are approved as in the table above (a Parent or a Caregiver is offered to both categories); (d) the ● and ○ of the user life stage matrix only hide the blanks, the stages keep their natural order; (e) the master matrix is a reference: its umbrella relationships (Landlord, Personal professional, Employer) and its B2B names are not built, doc 28 keeps its lists; (f) no "Recommended" tag is added: ranking first is the highlight, and no new element is made | decided |
 
-**Still open** (doc 33, section 8): the four coarse user life stages and their edges; which ages go in the Segment and where; the country picker. (Purpose, Differentiation and Outcome as three questions: settled 2026-10-30, decision 31.)
+**Still open** (doc 33, section 9): the four coarse user life stages and their edges; which ages go in the Segment and where; the country picker. (Purpose, Differentiation and Outcome as three questions: settled 2026-10-30, decision 31.)
 
 ## 10. Reference tables
 

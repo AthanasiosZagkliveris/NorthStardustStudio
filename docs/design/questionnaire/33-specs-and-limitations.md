@@ -1,6 +1,6 @@
 # 33. Specs and limitations: the first published version, and what is left for later (owner, 2026-10-29)
 
-Status: **specification**, written 2026-10-29, updated 2026-11-02, as given by the owner. What the first published version of the app contains and what it does not. The owner's items are written as given; the assistant's checks against the app, doc 28 and doc 31 are marked **Check** and are for the owner to confirm. The Organization tile, Early Positioning and the Segment card follow it (section 8); the Profile card is built in part (doc 36). What the first version leaves out is in sections 10 to 15 (the future features: **all other existing information is a future feature**; nothing there is scheduled; items already built stay in the code, hidden or unused, and are not deleted; they were document 33 until 2026-11-02, a living list).
+Status: **specification**, written 2026-10-29, updated 2026-11-03, as given by the owner. What the first published version of the app contains and what it does not. The owner's items are written as given; the assistant's checks against the app, doc 28 and doc 31 are marked **Check** and are for the owner to confirm. The Organization tile, Early Positioning and the Segment card follow it (section 8); the Profile card is built in part (doc 36). What the first version leaves out is in sections 10 to 15 (the future features: **all other existing information is a future feature**; nothing there is scheduled; items already built stay in the code, hidden or unused, and are not deleted; they were document 33 until 2026-11-02, a living list).
 
 Related: doc 28 (questionnaire specification), doc 31 (positioning categories), doc 32 (sources), `docs/README.md` (contents), `docs/index.md` (index) and `docs/app/glossary.md` (glossary).
 
@@ -13,7 +13,7 @@ Related: doc 28 (questionnaire specification), doc 31 (positioning categories), 
 - [5. The buyer: category and life stage are two separate things](#5-the-buyer-category-and-life-stage-are-two-separate-things)
 - [6. Ages](#6-ages)
 - [7. Limits that already stand (from earlier owner decisions)](#7-limits-that-already-stand-from-earlier-owner-decisions)
-- [8. Built on 2026-10-29](#8-built-on-2026-10-29)
+- [8. What is built](#8-what-is-built)
 - [9. Open points of the first version](#9-open-points-of-the-first-version)
 - [10. Product scope](#10-product-scope)
 - [11. Buyer and user (positioning)](#11-buyer-and-user-positioning)
@@ -126,29 +126,9 @@ The B2B list is the six business relationships of doc 31 section 6.2, each with 
 - Smallest supported width is 768 px; the app aims at WCAG 2.2 AA.
 - Sources follow rule 14 (doc 28): classifications from official bodies, plain lists from business-school or university documents.
 
-## 8. Built on 2026-10-29
+## 8. What is built
 
-The Organization tile and the Early Positioning tile of the app follow this document. What was built, and how the open readings of section 3 to 5 were settled while building (each can be changed):
-
-**Organization tile**
-- **Country:** the picker lists the six countries and "Other". "Other" opens a second list, "Other country", of every other country (so the currency and the tax wording still follow the country). The six keep their legal forms, their classification and their registration data.
-- **Legal form:** the six countries keep their own lists; every other country has the four generic forms (`GENERIC_LEGAL_FORMS`, `src/framework/engine/LegalEntityJurisdictions.ts`); the list has no "Other" entry.
-- **Activities:** for the six countries the official classification (up to four activities); for Other each activity is typed with its code (an "Activity" box and a "Code" box in each row, up to four rows).
-
-**Early Positioning tile**
-- **Market Structure** is not asked (single-sided). **Seller and Buyer Relationship** offers B2C and B2B only. The built B2G, G2B and multi-sided features stay in the code and are hidden; an older answer that holds them is read without them.
-- **Buyer's Life-Stage** (B2C) has three options; **Audience Specialisation & Scale** (B2B) is unchanged. **Buyer's category** (Direct, Proxy, Dual-Intent) is asked for each relationship chosen, one choice.
-- For a Proxy or Dual-Intent Buyer: **Buyer & End User relationship** (the six personal ones and the Commercial & Professional one for B2C, the six business ones for B2B) and, for B2C only, **End User's Life-Stage** (Minors, Young Adults, Adults, Seniors).
-- **Purpose** (the twelve purposes) is asked once, with the same limit as the outcome. **Differentiation** (Cost-driven; Convenience-driven; Compliance, Risk & Security; Status & Premium; and, added 2026-10-30, Performance & Innovation; Ecosystem & Integration) is about the offering. **Outcome** (Lower costs; Time saved; Legal & data-protection cover; Higher quality & prestige) is the buyer's result, and where some buyer is a Proxy or Dual-Intent Buyer it is asked as "Outcome for the buyer" beside an **Outcome for the user** (Enjoyment & fun; Comfort & ease; Safety & care; Learning & growth; Looks & belonging; Practical use). The lists of the outcomes are made from the words of the former question (the results it named) and of the former "what matters most"; confirm or send your own.
-- **Only the relationships that fit the category are offered** (2026-10-30): a Proxy Buyer is not offered the Spouse or partner; a Dual-Intent Buyer is not offered the Friend or acquaintance or the Commercial & Professional; for a business buyer the proxy ones and the dual ones are told apart in the same way (doc 31, 10.7).
-- **A radio reacts under the pointer as a tick box does** (its words underlined, the round's glow ring): doc 18 and the rulebook.
-- "Who chooses" and "what matters most to the End User" are no longer asked (future features).
-
-**Arranged on 2026-10-30:** the Early Positioning tile has two columns. Left, every question before the Purpose: the Seller and Buyer Relationship and, for each relationship, its audience (Buyer's Life-Stage or Audience Specialisation & Scale), its Buyer's category and the End User (the buyer and user relationship, the user's life stage). Right, the Purpose, the Differentiation and the Outcome. The **Purpose** options are ordered by relevance to the answers so far (the owner's tables, doc 31, 10.7: the buyer and user relationship, else the buyer's category, else the seller and buyer relationship); the purposes the tables call generally less directly relevant are not offered (2026-10-30; one already chosen stays).
-
-**The Segment card (doc 35)** asks its choice questions, the age as a stage term, and describes the user of a Proxy or Dual-Intent buyer in a part of its own card. **The Profile card (doc 36)** asks the questions it can in part. **Not built:** anything that reads the category, the relationship or the purpose beyond the Segment (the reads in doc 35), and the Profile questions marked not built in doc 36.
-
-**Saved answers:** an older answer is read in the new form: B2G, G2B and multi-sided answers drop; Proxy Buyers / Gifters in the life stage drops (the buyer's category is empty and is asked again); the End User ages fold into the four life stages (three under 18 are Minors, the older adults are Seniors), the relationships rel:parent, rel:family and rel:friend keep their ids, and who-chooses and what-matters-most go. The two example organizations carry a buyer's category and a purpose.
+The tiles that follow this document are described as built in their own documents: doc 37 (the Organization tile), doc 38 (the Early Positioning tile), doc 35 (the Segment card) and doc 36 (the Profile card, in part). The record of what was built on 2026-10-29 and 2026-10-30, and how the open readings of sections 3 to 5 were settled, is in the log (doc 4, section 4.1, row of 2026-10-29 to 2026-10-30).
 
 ## 9. Open points of the first version
 

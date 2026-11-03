@@ -18,4 +18,4 @@ The standard for these documents is [the standard of the documents](../../standa
 | [23-popups.md](23-popups.md) | current design | Pop-ups in six categories, with their placement rules and the order of fallbacks. | 2026-11-02 |
 | [24-tooltips.md](24-tooltips.md) | current design | Which controls have a tooltip, what it says, its look and its rules. This document owns the tip. | 2026-11-02 |
 | [25-folder-plan.md](25-folder-plan.md) | current design | The folders of the repository: the app files, the examples, the working files and the exports, and the documents folder. | 2026-11-02 |
-| [26-card-structure.md](26-card-structure.md) | current design | Card structure: what the user can reach in each card, row by row, and why. The structure tables and the catalogue record are generated from it. | 2026-11-02 |
+| [26-card-structure.md](26-card-structure.md) | current design | Card structure: what the user can reach in each card, row by row, and why. The structure tables and the catalogue record are generated from it. | 2026-11-03 |

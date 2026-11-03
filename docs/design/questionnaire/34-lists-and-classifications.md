@@ -2,9 +2,9 @@
 
 Status: **proposal**, written 2026-10-29, updated 2026-11-03; parts are built (as document 28, from which this is section 5, split off on 2026-10-29; the sub-section numbers are unchanged, so "5.7" is still 5.7). Where the first published version differs, doc 33 governs: the six countries and Other, with the five generic legal forms for Other; everything for more countries is a future feature (doc 33).
 
-> **Built on 2026-10-29:** the Country question lists the six countries and Other; Other opens a second list of every other country. For Other the legal form is one of the four generic forms and the activity and its code are typed (they are not chosen from the ISIC cascade described below, which stays in the code and the data files as a future feature, doc 33, item 4).
+> **First published version:** for a country other than the six, the legal form is one of the four generic forms and the activity and its code are typed; the ISIC cascade described below stays in the code and the data files as a future feature (doc 33, item 4). The Organization tile as built is doc 37.
 
-Related: doc 28 (the questions and the cards that use these lists), doc 2 (the sources), `src/data/classifications/` (the official classification files), doc 33 and doc 33.
+Related: doc 28 (the questions and the cards that use these lists), doc 2 (the sources), `src/data/classifications/` (the official classification files), doc 33 (the first version and what it leaves for later).
 
 **Contents**
 

@@ -31,7 +31,7 @@ How the documents are numbered, headed and written.
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [standard.md](standard.md) | rules | The standard of the documents: where a document goes, how it is numbered, the head every document has, the kinds, how a document is written, and how to add one. | 2026-11-02 |
+| [standard.md](standard.md) | rules | The standard of the documents: where a document goes, how it is numbered, the head every document has, the kinds, how a document is written, and how to add one. | 2026-11-03 |
 
 ## 2. The app (`app/`)
 
@@ -88,7 +88,7 @@ What the app is today in detail: the texts, the reactions, the shared components
 | [design/current/23-popups.md](design/current/23-popups.md) | current design | Pop-ups in six categories, with their placement rules and the order of fallbacks. | 2026-11-02 |
 | [design/current/24-tooltips.md](design/current/24-tooltips.md) | current design | Which controls have a tooltip, what it says, its look and its rules. This document owns the tip. | 2026-11-02 |
 | [design/current/25-folder-plan.md](design/current/25-folder-plan.md) | current design | The folders of the repository: the app files, the examples, the working files and the exports, and the documents folder. | 2026-11-02 |
-| [design/current/26-card-structure.md](design/current/26-card-structure.md) | current design | Card structure: what the user can reach in each card, row by row, and why. The structure tables and the catalogue record are generated from it. | 2026-11-02 |
+| [design/current/26-card-structure.md](design/current/26-card-structure.md) | current design | Card structure: what the user can reach in each card, row by row, and why. The structure tables and the catalogue record are generated from it. | 2026-11-03 |
 
 ## 6. The first version and the questionnaire (`design/questionnaire/`, documents 27 to 40)
 
