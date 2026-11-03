@@ -139,14 +139,31 @@ const USER_AGES = [
     { id: "dependent", stage: "age:senior", label: "Dependent seniors 75+" }
 ] as const;
 
-/** The job levels (based on the ISCO-08 major groups, merged into six): the Segment's end-user question and the Profile's A3 "What kind of work does this person do?" take this one list, so the words are written once. */
+/**
+ * The kinds of work: the nine ISCO-08 major groups (ILO) in plain words, in their order (owner, 2026-11-03). The Segment's end-user question and the Profile's A3 (a B2C Profile)
+ * take this one list, so the words are written once. Ids kept from the six groups before, where the meaning is closest; "owner" (an employment status, not an occupation) now
+ * reads as Manager / director (JOB_RENAMED).
+ */
 export const JOB_LEVELS = [
-    { id: "owner", label: "Owner or senior executive" },
-    { id: "manager", label: "Manager" },
-    { id: "professional", label: "Professional / specialist" },
-    { id: "technician", label: "Technician or skilled trade" },
-    { id: "service", label: "Administrative, sales or service" },
-    { id: "operator", label: "Operator or labourer" }
+    { id: "manager", label: "Manager / director" },
+    { id: "professional", label: "Professional" },
+    { id: "technician", label: "Technician / associate professional" },
+    { id: "office", label: "Office / administrative work" },
+    { id: "service", label: "Service, care or sales work" },
+    { id: "farming", label: "Farming, forestry or fishing" },
+    { id: "trade", label: "Skilled trade" },
+    { id: "operator", label: "Machine operator / driver" },
+    { id: "routine", label: "Routine / manual work" }
+] as const;
+
+/** A kind of work saved under an id since retired, and the id it reads as now. */
+export const JOB_RENAMED: Record<string, string> = { owner: "manager" };
+
+/** What the kinds of work say in the "i" (one owner for the Segment's and the Profile's question). */
+export const JOB_INFO = [
+    "Based on: the ISCO-08 major groups (ILO).",
+    "Professional: for example a teacher, nurse, engineer or lawyer. Skilled trade: for example an electrician, plumber or chef.",
+    "Someone who owns and runs a business: Manager / director. Armed forces: choose the group that fits the role."
 ] as const;
 
 const AGE_NOTE = "Each age group holds the years from its first number to its last, both included, so no age is in two groups (25–39, then 40–54).";
@@ -471,7 +488,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     {
         id: "u-job", box: "user", label: "What kind of work do your customers do?", many: false,
         options: JOB_LEVELS,
-        info: ["The ISCO-08 major groups, in plain words."]
+        info: JOB_INFO
     },
     {
         id: "u-orgtype", box: "user", label: "What kind of organisation are their clients?", many: false,
@@ -780,7 +797,7 @@ export function segmentSettle(answers: SegmentAnswers, context: SegmentContext):
                 continue;
             }
 
-            const kept = chosen.filter(id => offered.includes(id));
+            const kept = chosen.map(id => question.id === "u-job" ? JOB_RENAMED[id] ?? id : id).filter(id => offered.includes(id));
 
             if (kept.length > 0) {
                 next[question.id] = kept;

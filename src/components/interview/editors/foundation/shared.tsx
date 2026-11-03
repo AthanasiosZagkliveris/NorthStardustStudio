@@ -61,7 +61,7 @@ export const SUBSECTIONS = {
             ]
         } as Record<string, string[]>,
         profileDescription: [
-            { id: "personal", title: "Specific Personal Information", text: "What are their exact age, gender, marital status, education and job title?" },
+            { id: "personal", title: "Specific Personal Information", text: "What are their age, gender, household and work?", textBusiness: "What are their age, job level and role in buying?" },
             { id: "psychographics", title: "Psychographics", text: "What do they value, believe in, enjoy and consider important?" },
             { id: "hubs", title: "Social & Interest Hubs", text: "Which communities, professional networks, events and other places do they regularly visit or take part in?" },
             { id: "habits", title: "Information & Shopping Habits", text: "How do they find, learn about, compare and buy products or services?" }

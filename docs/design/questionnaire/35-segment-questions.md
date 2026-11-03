@@ -650,15 +650,21 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
 
 - **Control:** one choice (a radio).
 - **Asked when:** As the user's life stage, and the relationship is Employer, Business partner or Other (business).
-- **Options:**
-  - Owner or senior executive
-  - Manager
-  - Professional / specialist
-  - Technician or skilled trade
-  - Administrative, sales or service
-  - Operator or labourer
+- **Options** (the nine ISCO-08 major groups, the list of the Profile's A3, doc 36; owner, 2026-11-03) [DEM-13]:
+  - Manager / director
+  - Professional
+  - Technician / associate professional
+  - Office / administrative work
+  - Service, care or sales work
+  - Farming, forestry or fishing
+  - Skilled trade
+  - Machine operator / driver
+  - Routine / manual work
 - **The "i" says:**
-  - The ISCO-08 major groups, in plain words.
+  - Based on: the ISCO-08 major groups (ILO).
+  - Professional: for example a teacher, nurse, engineer or lawyer. Skilled trade: for example an electrician, plumber or chef.
+  - Someone who owns and runs a business: Manager / director. Armed forces: choose the group that fits the role.
+- **Saved answers:** "Owner or senior executive" (id `owner`) reads as Manager / director.
 - **Connections:**
   - *Comes from:* Early Positioning: the buyer and user relationship.
   - *Read by (built):* The Market document and the export.
