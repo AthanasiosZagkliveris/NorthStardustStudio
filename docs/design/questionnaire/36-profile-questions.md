@@ -31,6 +31,8 @@ Related: doc 35 (the Segment's questions, built, in the same form), doc 28 (6.4 
 
 ## 2. What the Segment sets and the Profile chooses within
 
+**A Profile belongs to its Segment (owner, 2026-11-03).** It sits inside its Segment's card, and its answers stay within the Segment's answers: a Profile is one typical person of the Segment, never another kind of customer. A person who differs in what the Segment fixes (another age group, buyer's category, kind of work or way of buying) belongs in another Segment.
+
 | Segment answer (doc 35) | Profile question | What the Profile gets |
 |---|---|---|
 | Age group | A1 an exact age | a number within the group (when the group changes and the number is outside the new one, it is cleared: 2.2); a group that includes Minors also asks A5 |
