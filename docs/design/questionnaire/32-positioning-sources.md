@@ -6,6 +6,18 @@ The sources of the app's other decisions are in doc 2, 2.7 (the source register)
 
 > **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Doc 33 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, age limits, accessibility, caregiving and the rest) is a future feature: doc 33. Contents of the documents: `docs/README.md`; index: `docs/index.md`; glossary: `docs/app/glossary.md`.
 
+**Contents**
+
+- [1. The result for each list](#1-the-result-for-each-list)
+- [2. What follows (for the owner; nothing is changed)](#2-what-follows-for-the-owner-nothing-is-changed)
+- [3. The five result files, as returned (every row has its URL, domain class, what it supports, whether it was opened and the date)](#3-the-five-result-files-as-returned-every-row-has-its-url-domain-class-what-it-supports-whether-it-was-opened-and-the-date)
+  - [A. Buyer categories and buyer–user relationships (lists B and C of doc 31)](#a-buyer-categories-and-buyeruser-relationships-lists-b-and-c-of-doc-31)
+  - [B. Offering purposes and what matters to the End User (lists D and E)](#b-offering-purposes-and-what-matters-to-the-end-user-lists-d-and-e)
+  - [C. Accessibility and user needs, and the accessibility laws of the six countries (list F)](#c-accessibility-and-user-needs-and-the-accessibility-laws-of-the-six-countries-list-f)
+  - [D. Caregiving and family roles (list G)](#d-caregiving-and-family-roles-list-g)
+  - [E. Life-stage names, age bands, retirement ages and "dependency" (list A)](#e-life-stage-names-age-bands-retirement-ages-and-dependency-list-a)
+- [4. Verification pass of 2026-10-27](#4-verification-pass-of-2026-10-27)
+
 ## 1. The result for each list
 
 | List (doc 31) | Supported by | Weak or partly supported | No acceptable source found |

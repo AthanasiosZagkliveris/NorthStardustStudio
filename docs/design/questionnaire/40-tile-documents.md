@@ -1,6 +1,6 @@
 # 40. The tile documents: the form, and where each tile stands
 
-Status: **proposal**, written 2026-11-01, updated 2026-11-02. The form every document about a tile or a card takes (so that one can be read like the others), the list of the tiles and the document each one has, and what is still missing.
+Status: **rules**, written 2026-11-01, updated 2026-11-03. The form every document about a tile or a card takes (so that one can be read like the others), the list of the tiles and the document each one has, and what is still missing.
 
 Related: doc 35 (the Segment), doc 36 (the Profile), doc 37 (the Organisation), doc 38 (Positioning), doc 39 (what an "i" says), doc 28 (the design these documents refine), doc 21 (the shared components).
 

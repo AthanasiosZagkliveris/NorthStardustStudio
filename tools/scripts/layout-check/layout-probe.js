@@ -193,7 +193,12 @@
 
     /** Where a card's body starts: the left edge of the first visible block after its head. */
     function bodyLeft(head) {
+        const card = head.parentElement ? rect(head.parentElement) : null;
         for (let next = head.nextElementSibling; next; next = next.nextElementSibling) {
+            // (A group's band in a floating card runs from side to side of the card, 1px in (layout-rules, "A floating card has the one width"): it is not where the body's content starts.)
+            if (visible(next) && next.matches(".fold-group-head") && card && rect(next).left <= card.left + 2) {
+                continue;
+            }
             if (visible(next)) {
                 return rect(next).left;
             }
@@ -380,6 +385,11 @@
                 const control = cell.matches(CONTROL) ? cell : cell.querySelector(CONTROL);
                 // A cell that is a row of its own (the VAT tick and its number, a list of numbers) is checked as one.
                 if (!control || !visible(control) || cell.classList.contains("business-field-inline") || cell.classList.contains("business-field-side") || cell.classList.contains("legal-entity-field-side") || cell.matches(".business-capability-cost-after:has(> .business-field-side), .legal-entity-tax-row, .legal-entity-registrations, .legal-entity-field-wide:has(.legal-entity-number-row), .legal-entity-field:has(> .numbered-list), .legal-entity-side-row, .founders-profile-row")) {
+                    continue;
+                }
+                // DECLARED (docs/ai/tile-and-card-pattern.md, "Text holders and side cells"): in a box of bands (the Segment and Profile cards) a label with its cell beside it has the cell at the right end of the band, level with the label; `npm run check:card` measures it.
+                const pairLabel = control.closest(".business-segment-box .legal-entity-pair")?.querySelector(".field-label");
+                if (pairLabel && visible(pairLabel) && rect(pairLabel).top < rect(control).bottom && rect(pairLabel).bottom > rect(control).top && rect(pairLabel).right <= rect(control).left) {
                     continue;
                 }
                 if (!rules.near(rect(control).left, rect(cell).left, tolerance)) {
@@ -776,6 +786,10 @@
                 const stack = items.filter(item => !beside(item));
                 for (const item of stack) {
                     if (item.unchecked) {
+                        continue;
+                    }
+                    // DECLARED (docs/ai/tile-and-card-pattern.md, "Three levels" and "Flush"): a box of bands (the Segment and Profile cards) stacks its questions as bands that follow each other with no gap, each with its own padding, not as fields a row gap apart; `npm run check:card` measures those bands.
+                    if (item.element.closest(".business-segment-box")) {
                         continue;
                     }
                     // What stands directly above it, in its column, in the same card.
@@ -3004,6 +3018,15 @@
                 const layersBefore = document.querySelectorAll(".section-tile-overlay").length;
                 plus.click();
                 await pause(settle);
+                // (A busy machine can draw the new card, and put the focus in its name, later than one settle: it is waited for, two seconds at most, so a slow frame is not a finding.)
+                for (let waited = 0; waited < 2000; waited += 50) {
+                    const drawn = document.querySelector(".floating-card-host") || document.querySelectorAll(".section-tile-overlay").length > layersBefore;
+                    const named = document.querySelector(".floating-card-host textarea.card-name-input");
+                    if (drawn && (!named || document.activeElement === named)) {
+                        break;
+                    }
+                    await pause(50);
+                }
                 stats.floating = (stats.floating || 0) + 1;
                 // (On the Strategy page the new card opens as a dialog of its own, over the one it was made in: a card shown at once all the same.)
                 const shownAsDialog = !document.querySelector(".floating-card-host") && document.querySelectorAll(".section-tile-overlay").length > layersBefore;

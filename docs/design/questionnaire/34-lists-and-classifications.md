@@ -2,9 +2,23 @@
 
 Status: **proposal**, written 2026-10-29, updated 2026-11-03; parts are built (as document 28, from which this is section 5, split off on 2026-10-29; the sub-section numbers are unchanged, so "5.7" is still 5.7). Where the first published version differs, doc 33 governs: the six countries and Other, with the five generic legal forms for Other; everything for more countries is a future feature (doc 33).
 
-> **Built on 2026-10-29:** the Country question lists the six countries and Other; Other opens a second list of every other country. For Other the legal form is one of the four generic forms and the activity and its code are typed (they are not chosen from the ISIC cascade described below, which stays in the code and the data files as a future feature, doc 33, item 4).
+> **First published version:** for a country other than the six, the legal form is one of the four generic forms and the activity and its code are typed; the ISIC cascade described below stays in the code and the data files as a future feature (doc 33, item 4). The Organisation tile as built is doc 37.
 
-Related: doc 28 (the questions and the cards that use these lists), doc 2 (the sources), `src/data/classifications/` (the official classification files), doc 33 and doc 33.
+Related: doc 28 (the questions and the cards that use these lists), doc 2 (the sources), `src/data/classifications/` (the official classification files), doc 33 (the first version and what it leaves for later).
+
+**Contents**
+
+- [5. The countries and the shared lists](#5-the-countries-and-the-shared-lists)
+  - [5.1 What differs by country](#51-what-differs-by-country)
+  - [5.2 The shared lists](#52-the-shared-lists)
+  - [5.3 The crosswalks (national schemes behind the plain lists)](#53-the-crosswalks-national-schemes-behind-the-plain-lists)
+  - [5.4 Industries, level 2: the "more exactly?" list](#54-industries-level-2-the-more-exactly-list)
+  - [5.5 Examples under the options](#55-examples-under-the-options)
+  - [5.6 The industry pack: what a sub-industry gives the user](#56-the-industry-pack-what-a-sub-industry-gives-the-user)
+  - [5.7 The activity cascade: levels, how many to pick, and what the data shows](#57-the-activity-cascade-levels-how-many-to-pick-and-what-the-data-shows)
+  - [5.8 The code and the words: what the cascade ends on, and how each country names it](#58-the-code-and-the-words-what-the-cascade-ends-on-and-how-each-country-names-it)
+  - [5.9 How many choices at each level (the sufficient numbers)](#59-how-many-choices-at-each-level-the-sufficient-numbers)
+  - [5.10 The classification data](#510-the-classification-data)
 
 ## 5. The countries and the shared lists
 

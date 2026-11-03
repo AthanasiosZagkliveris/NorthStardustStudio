@@ -2,7 +2,7 @@
  * THE AUDIT OF A FLOATING CARD OF QUESTIONS (docs/ai/tile-and-card-pattern.md, "A floating card of questions"): the Profile card is the model, and a new card of this kind is run
  * through this before it is called done. It opens the card in the running app (a Vite server on BASE_URL, 1420 by default), in light, sepia and dark and at two widths, and checks:
  *   width and reflow; the one content line; bands, lines and rules from side to side; bands flush; rules (the shared double rule between sections, one line between subsections);
- *   heading levels that never skip; no "or" and no "None of these" in an option; text 4.5:1 and a control's boundary 3:1 (measured on the pixels); targets of 24px; names; console errors.
+ *   heading levels that never skip; no "None of these" in an option; text 4.5:1 and a control's boundary 3:1 (measured on the pixels); targets of 24px; names; console errors.
  *
  *   node tools/scripts/layout-check/floating-card-audit.mjs
  *   CARD_PAGE="1. Foundation" CARD_SYSTEM="Business System" CARD_OPEN="The Considered Nester" EXAMPLE=lumen-and-loom-studio node tools/scripts/layout-check/floating-card-audit.mjs
@@ -66,8 +66,8 @@ const structure = () => {
     for (const cell of card.querySelectorAll(".business-profile-age")) { const a = cell.getBoundingClientRect(), b = cell.closest(".legal-entity-org-section").getBoundingClientRect(); if (Math.round(a.top - b.top) !== Math.round(b.bottom - a.bottom)) fail("cell room", Math.round(a.top - b.top) + " above, " + Math.round(b.bottom - a.bottom) + " below"); if (Math.abs(a.width - a.height) > 1) fail("cell square", Math.round(a.width) + "x" + Math.round(a.height)); }
     // notes: a band of its own, the next tint, a field gap above
     for (const n of card.querySelectorAll(".business-note-band")) { if (n.classList.contains("legal-entity-org-band") === n.previousElementSibling.classList.contains("legal-entity-org-band")) fail("notes tint", "same tint as the band above"); if (getComputedStyle(n).paddingTop !== "12px") fail("notes gap", getComputedStyle(n).paddingTop); }
-    // words
-    const words = [...card.querySelectorAll(".radio-choice-option span, .business-foundation-tick-label")].map(e => e.textContent.trim()).filter(w => /\bor\b/.test(w) || /None of these/.test(w));
+    // words: no "None of these" (an Other the user writes in). (The word "or" is right between two different things, a slash between similar ones: owner, 2026-11-03, docs/ai/tile-and-card-pattern.md, "Options".)
+    const words = [...card.querySelectorAll(".radio-choice-option span, .business-foundation-tick-label")].map(e => e.textContent.trim()).filter(w => /None of these/.test(w));
     if (words.length) fail("option words", words.slice(0, 4).join(" | "));
     const cap = document.querySelector(".floating-card-caption")?.textContent.trim().replace(/i$/, "").trim();
     if (!cap || /s$/.test(cap)) fail("caption", "'" + cap + "' is not singular");

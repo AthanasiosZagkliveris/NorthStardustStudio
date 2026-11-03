@@ -1,4 +1,4 @@
-# Toolchain and Verification Playbook
+# Toolchain and verification playbook
 
 Status: **playbook**, written 2026-10-21, updated 2026-11-02. The procedure for working on the frontend, and the record of which test failures are expected.
 

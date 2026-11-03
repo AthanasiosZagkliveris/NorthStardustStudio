@@ -8,6 +8,28 @@ Status: **collection**, written 2026-10-27, updated 2026-11-02. The owner's cate
 
 Related: doc 28, 8.2 (the Positioning questions), doc 29 (the question guide), doc 30 (age limits by activity and country).
 
+**Contents**
+
+- [1. User age stages](#1-user-age-stages)
+- [2. Buyer's age stages](#2-buyers-age-stages)
+- [3. Accessibility and user needs (dynamic cross-sections)](#3-accessibility-and-user-needs-dynamic-cross-sections)
+- [4. Caregiving and family life roles (universal cross-sections)](#4-caregiving-and-family-life-roles-universal-cross-sections)
+- [5. Buyer categories](#5-buyer-categories)
+- [6. Buyer and user relationships, with examples](#6-buyer-and-user-relationships-with-examples)
+  - [6.1 Personal relationships](#61-personal-relationships)
+  - [6.2 Business and professional relationships](#62-business-and-professional-relationships)
+- [7. Proposed offering purpose taxonomy](#7-proposed-offering-purpose-taxonomy)
+- [8. Relationship-to-purpose mapping](#8-relationship-to-purpose-mapping)
+- [9. Decisions register (2026-10-29)](#9-decisions-register-2026-10-29)
+- [10. Reference tables](#10-reference-tables)
+  - [10.1 Age stages and the edge rule](#101-age-stages-and-the-edge-rule)
+  - [10.2 Legal anchors by country](#102-legal-anchors-by-country)
+  - [10.3 Routing of the End User answers into the second Profile](#103-routing-of-the-end-user-answers-into-the-second-profile)
+  - [10.4 The relationships and the purposes (12 in the first version; the ten public-sector and government rows are in doc 33, section 14)](#104-the-relationships-and-the-purposes-12-in-the-first-version-the-ten-public-sector-and-government-rows-are-in-doc-33-section-14)
+  - [10.5 Proxy Buyer and Dual-Intent Buyer, and the I7f wording](#105-proxy-buyer-and-dual-intent-buyer-and-the-i7f-wording)
+  - [10.6 The B2B relationships as Proxy and Dual-Intent archetypes](#106-the-b2b-relationships-as-proxy-and-dual-intent-archetypes)
+  - [10.7 How relevant each purpose is: the owner's tables of 2026-10-30](#107-how-relevant-each-purpose-is-the-owners-tables-of-2026-10-30)
+
 ## 1. User age stages
 
 - **Up to 18: Minors**
@@ -195,7 +217,7 @@ The decisions of 2026-10-27 to 2026-10-29, one row each, by topic. The rounds of
 | 37 | Every question before the Purpose (including the buyer and user relationship and the user's life stage) is in the left column of the Early Positioning tile | built 2026-10-30 |
 | 38 | Decided 2026-10-30 (the owner: close the open points): (a) a purpose a table does not list is read from the next table (the inheritance rule), so the life-stage table's three missing purposes and the business relationship tables' missing ones are closed as they are; (b) the Outcome lists (buyer, user) are approved as written; (c) the relationships offered for each category are approved as in the table above (a Parent or a Caregiver is offered to both categories); (d) the ● and ○ of the user life stage matrix only hide the blanks, the stages keep their natural order; (e) the master matrix is a reference: its umbrella relationships (Landlord, Personal professional, Employer) and its B2B names are not built, doc 28 keeps its lists; (f) no "Recommended" tag is added: ranking first is the highlight, and no new element is made | decided |
 
-**Still open** (doc 33, section 8): the four coarse user life stages and their edges; which ages go in the Segment and where; the country picker. (Purpose, Differentiation and Outcome as three questions: settled 2026-10-30, decision 31.)
+**Still open** (doc 33, section 9): the four coarse user life stages and their edges; which ages go in the Segment and where; the country picker. (Purpose, Differentiation and Outcome as three questions: settled 2026-10-30, decision 31.)
 
 ## 10. Reference tables
 

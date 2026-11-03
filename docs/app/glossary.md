@@ -1,6 +1,6 @@
 # Glossary
 
-Status: **reference**, updated 2026-11-02 (every term checked against its owner document and the code). Covers the framework, the app, the questionnaire and the first version, and the documents.
+Status: **reference**, written 2026-08-02, updated 2026-11-02 (every term checked against its owner document and the code). Covers the framework, the app, the questionnaire and the first version, and the documents.
 
 One-line definitions, so that terminology is the same in every document and Skill; each term has one owner document, where the full explanation is. A name without a folder is a file in `docs/ai/`; "doc 28" is the document numbered 28 in `docs/README.md`.
 
@@ -54,7 +54,7 @@ One-line definitions, so that terminology is the same in every document and Skil
 
 ## 3. The questionnaire and the first version
 
-Doc 28 is the questionnaire specification, doc 33 the first version, doc 33 what it leaves for later, doc 31 the positioning collection.
+Doc 28 is the questionnaire specification, doc 33 the first version and what it leaves for later (sections 10 to 15), doc 31 the positioning collection.
 
 ### Positioning and the market
 

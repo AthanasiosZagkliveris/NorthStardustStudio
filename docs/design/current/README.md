@@ -1,4 +1,4 @@
-# The current design (documents 16 to 41)
+# The current design (documents 16 to 26)
 
 Status: **index**, updated 2026-11-03. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
 
@@ -19,4 +19,3 @@ The standard for these documents is [the standard of the documents](../../standa
 | [24-tooltips.md](24-tooltips.md) | current design | Which controls have a tooltip, what it says, its look and its rules. This document owns the tip. | 2026-11-03 |
 | [25-folder-plan.md](25-folder-plan.md) | current design | The folders of the repository: the app files, the examples, the working files and the exports, and the documents folder. | 2026-11-03 |
 | [26-card-structure.md](26-card-structure.md) | current design | Card structure: what the user can reach in each card, row by row, and why. The structure tables and the catalogue record are generated from it. | 2026-11-03 |
-| [41-card-links.md](41-card-links.md) | proposal | Which partner and supplier groups each resource group could link to, and which partners, suppliers and resources could link to each activity group (moved from document 26). | 2026-11-03 |

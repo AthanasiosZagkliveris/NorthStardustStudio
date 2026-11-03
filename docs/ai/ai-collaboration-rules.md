@@ -1,4 +1,4 @@
-# AI Collaboration Rules
+# AI collaboration rules
 
 Status: **rules**, written 2026-08-02, updated 2026-10-29. The standing rules for any AI assistant working on this project, and how its work flows.
 

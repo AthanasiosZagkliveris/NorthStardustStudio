@@ -17,7 +17,7 @@ Status: **index**, updated 2026-11-03. One line per document: where it is, what 
 2. [The app](#2-the-app-app)
 3. [The design and its records (`design/core/`, documents 1 to 7)](#3-the-design-and-its-records-designcore-documents-1-to-7)
 4. [The library (`design/library/`, documents 8 to 15)](#4-the-library-designlibrary-documents-8-to-15)
-5. [The current design (`design/current/`, documents 16 to 26 and 41)](#5-the-current-design-designcurrent-documents-16-to-26-and-41)
+5. [The current design (`design/current/`, documents 16 to 26)](#5-the-current-design-designcurrent-documents-16-to-26)
 6. [The first version and the questionnaire (`design/questionnaire/`, documents 27 to 40)](#6-the-first-version-and-the-questionnaire-designquestionnaire-documents-27-to-40)
 7. [Rules for the assistant](#7-rules-for-the-assistant-ai)
 8. [The specifications](#8-the-specifications-specifications)
@@ -72,7 +72,7 @@ The assets library, its generated lists, its logs, and the library measured agai
 | [design/library/14-fields-list.md](design/library/14-fields-list.md) | generated | The fields, the add buttons and the field names. | 2026-11-03 |
 | [design/library/15-library-vs-app.md](design/library/15-library-vs-app.md) | generated | The library measured against the running app. | 2026-11-03 |
 
-## 5. The current design (`design/current/`, documents 16 to 26 and 41)
+## 5. The current design (`design/current/`, documents 16 to 26)
 
 What the app is today in detail: the texts, the reactions, the shared components, the pop-ups, the tooltips, the folders and the card structure.
 
@@ -89,11 +89,10 @@ What the app is today in detail: the texts, the reactions, the shared components
 | [design/current/24-tooltips.md](design/current/24-tooltips.md) | current design | Which controls have a tooltip, what it says, its look and its rules. This document owns the tip. | 2026-11-03 |
 | [design/current/25-folder-plan.md](design/current/25-folder-plan.md) | current design | The folders of the repository: the app files, the examples, the working files and the exports, and the documents folder. | 2026-11-03 |
 | [design/current/26-card-structure.md](design/current/26-card-structure.md) | current design | Card structure: what the user can reach in each card, row by row, and why. The structure tables and the catalogue record are generated from it. | 2026-11-03 |
-| [design/current/41-card-links.md](design/current/41-card-links.md) | proposal | Which partner and supplier groups each resource group could link to, and which partners, suppliers and resources could link to each activity group (moved from document 26). | 2026-11-03 |
 
 ## 6. The first version and the questionnaire (`design/questionnaire/`, documents 27 to 40)
 
-What the first published version contains (read 33 first; it governs), what it leaves for later (34), and the questions, the lists and the research behind them. Read in this order. **What governs:** 33 (the first version), 34 (what is left for later). **The tiles, one document each (41 gives the form and the list):** 38 (the Organisation), 39 (Positioning), 36 (the Segment), 37 (the Profile, proposed). **How to word them:** 40 (what an "i" says) and, in 28, sections 3 and 4 (the rules and the plain wording). **The design behind them:** 28 (every question, the connections and the evidence), 29 (the flow), 27 (the plan). **The lists and the data:** 35 (the lists and classifications), 31 and 32 (the positioning decisions and their sources), 30 (age limits).
+What the first published version contains and what it leaves for later (33, which governs the other documents of this chapter), the questions of each tile as built, and the plan, the lists and the research behind them. Read in this order. **What governs:** 33 (the first version, sections 1 to 9; what is left for later, sections 10 to 15). **The tiles as built, one document each (40 gives the form and the list):** 37 (the Organisation), 38 (Positioning), 35 (the Segment), 36 (the Profile, built in part). **How to word them:** 39 (what an "i" says) and, in 28, sections 3 and 4 (the rules and the plain wording). **The design behind them:** 27 (the plan), 28 (every question, the connections and the evidence), 29 (the flow). **The lists and the data:** 34 (the lists and classifications), 31 and 32 (the positioning decisions and their sources), 30 (age limits).
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
@@ -104,13 +103,13 @@ What the first published version contains (read 33 first; it governs), what it l
 | [design/questionnaire/31-positioning-categories.md](design/questionnaire/31-positioning-categories.md) | collection | The owner's positioning data as given (age stages, buyer categories, relationships, purposes), the register of decisions on it and the reference tables. | 2026-11-03 |
 | [design/questionnaire/32-positioning-sources.md](design/questionnaire/32-positioning-sources.md) | research | The sources behind each positioning list of doc 31, what has none, and the pages checked. | 2026-11-03 |
 | [design/questionnaire/33-specs-and-limitations.md](design/questionnaire/33-specs-and-limitations.md) | specification | The first published version (language, countries, legal forms, market structure, relationships, buyer and user, ages; it governs the other questionnaire documents, sections 1 to 9) and everything left for later (sections 10 to 15: other languages and countries, multi-sided, B2G, G2B, the detailed positioning data, age rules, research to do). | 2026-11-03 |
+| [design/questionnaire/34-lists-and-classifications.md](design/questionnaire/34-lists-and-classifications.md) | proposal | The countries, the shared lists, the national crosswalks, the industry lists, the activity cascade, the codes and the classification data (section 5 of the former questionnaire specification). | 2026-11-03 |
 | [design/questionnaire/35-segment-questions.md](design/questionnaire/35-segment-questions.md) | specification | The Segment card's questions as built: every question and option in order, when it is asked, what its help says and what it comes from and is read by. | 2026-11-03 |
 | [design/questionnaire/36-profile-questions.md](design/questionnaire/36-profile-questions.md) | specification | The Profile card's questions, built in part: every question and option in order (the specialised needs and the kind of business are not built yet), when it is asked, the starting values, the help, and the layout of the card. | 2026-11-03 |
 | [design/questionnaire/37-organization-fields.md](design/questionnaire/37-organization-fields.md) | specification | The Organisation tile's fields as built: control, when asked, options, the help and the connections. | 2026-11-03 |
 | [design/questionnaire/38-positioning-questions.md](design/questionnaire/38-positioning-questions.md) | specification | The Positioning tile's questions as built, by stage: control, limits, options, the help and the connections. | 2026-11-03 |
 | [design/questionnaire/39-help-texts-guide.md](design/questionnaire/39-help-texts-guide.md) | proposal | What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check. | 2026-11-03 |
-| [design/questionnaire/40-tile-documents.md](design/questionnaire/40-tile-documents.md) | proposal | The form every tile document takes (one for each tile or card), and where each tile stands: which has a document and which does not yet. | 2026-11-03 |
-| [design/questionnaire/34-lists-and-classifications.md](design/questionnaire/34-lists-and-classifications.md) | proposal | The countries, the shared lists, the national crosswalks, the industry lists, the activity cascade, the codes and the classification data (section 5 of the former questionnaire specification). | 2026-11-03 |
+| [design/questionnaire/40-tile-documents.md](design/questionnaire/40-tile-documents.md) | rules | The form every tile document takes (one for each tile or card), and where each tile stands: which has a document and which does not yet. | 2026-11-03 |
 
 ## 7. Rules for the assistant (`ai/`)
 
@@ -159,7 +158,10 @@ Documents that are finished or replaced; each is kept for its information.
 | [archive/plans/2026-09-29-workspace-D-duplicate-scenarios-compare.md](archive/plans/2026-09-29-workspace-D-duplicate-scenarios-compare.md) | archive | Brief: workspace features D, duplicate, scenarios, compare (not started). | 2026-11-03 |
 | [archive/plans/2026-09-29-workspace-E-founder-helpers.md](archive/plans/2026-09-29-workspace-E-founder-helpers.md) | archive | Brief: workspace features E, helpers for founders (not started). | 2026-11-03 |
 | [archive/plans/2026-10-14-cleanup-and-library-plans.md](archive/plans/2026-10-14-cleanup-and-library-plans.md) | archive | The clean-up and library plans of 2026-10-14 (old sections 5.6, 5.11 to 5.14 of document 5); what is left is in document 5. | 2026-11-03 |
+| [archive/log/log-archive-2026-07-to-10.md](archive/log/log-archive-2026-07-to-10.md) | archive | Older rows of the log (document 4): sections 4.1 and 4.4 before 2026-10-22. | 2026-11-03 |
+| [archive/proposals/card-links.md](archive/proposals/card-links.md) | archive | Proposal: which partner and supplier groups each resource group could link to, and which partners, suppliers and resources could link to each activity group (formerly document 41; not built). | 2026-11-03 |
 | [archive/proposals/cost-section-proposal.md](archive/proposals/cost-section-proposal.md) | archive | Proposal: what the Cost section should record (the page was built afterwards). | 2026-11-03 |
+| [archive/proposals/segment-questions-g-list-2026-10-23.md](archive/proposals/segment-questions-g-list-2026-10-23.md) | archive | The Segment card's earlier design (the G-list of 2026-10-23, ids G1 to G25); the questions as built are doc 35. | 2026-11-03 |
 | [archive/proposals/segment-by-selection-proposal.md](archive/proposals/segment-by-selection-proposal.md) | archive | Proposal: building a Customer Segment by selection (not built). | 2026-11-03 |
 | [archive/proposals/shared-workspace.md](archive/proposals/shared-workspace.md) | archive | Proposal: Shared Workspace, working together without a server (not built). | 2026-11-03 |
 
