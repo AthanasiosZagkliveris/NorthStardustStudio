@@ -1,6 +1,6 @@
 # The Segment card's earlier design: the G-list of 2026-10-23
 
-Status: **archive**, written 2026-10-23, updated 2026-11-02. The Segment card's questions as first designed (the ids G1 to G25, the worked cases, the reads), kept for what it records. Where its information now lives: the questions as built are doc 36 (`design/questionnaire/36-segment-questions.md`), the design and the map from each old id to the question that replaced it are doc 28, 6.3 and 6.3a (`design/questionnaire/28-questionnaire-specification.md`).
+Status: **archive**, written 2026-10-23, updated 2026-11-02. The Segment card's questions as first designed (the ids G1 to G25, the worked cases, the reads), kept for what it records. Where its information now lives: the questions as built are doc 35 (`design/questionnaire/35-segment-questions.md`), the design and the map from each old id to the question that replaced it are doc 28, 6.3 and 6.3a (`design/questionnaire/28-questionnaire-specification.md`).
 
 Moved here from document 28, section 6.3, on 2026-11-01. Document 28, 6.3, now holds only the map from each old id to the question that replaced it.
 
@@ -263,7 +263,7 @@ Drives: channel suggestions by size (P23 merged into it). Evidence line: website
 - Other services, for example repair, personal services, membership organisations *i: Includes households that employ staff, such as cleaners and nannies.*
 - Not sure, or more than one *i: A label that spans industries (creative industries, agri-tech) is not one industry: choose the closest, and make another Segment for a second. Non-profits are not an industry either: the next question asks the type of organisation.*
 
-Drives: the Profile's "which kind of business" (P24) shows the finer list of that sector, each with its example (doc 35, 5.4); competitor industry overlap. Evidence line: adoption depends on industry as much as size [B2B-01, B2B-03, B2B-05, B2B-07].
+Drives: the Profile's "which kind of business" (P24) shows the finer list of that sector, each with its example (doc 34, 5.4); competitor industry overlap. Evidence line: adoption depends on industry as much as size [B2B-01, B2B-03, B2B-05, B2B-07].
 
 #### Box 4: Purchasing Power & Behaviour
 

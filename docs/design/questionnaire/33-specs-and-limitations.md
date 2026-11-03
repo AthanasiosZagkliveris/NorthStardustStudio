@@ -4,6 +4,26 @@ Status: **specification**, written 2026-10-29, updated 2026-11-02, as given by t
 
 Related: doc 28 (questionnaire specification), doc 31 (positioning categories), doc 32 (sources), `docs/README.md` (contents), `docs/index.md` (index) and `docs/app/glossary.md` (glossary).
 
+**Contents**
+
+- [1. The scope at a glance](#1-the-scope-at-a-glance)
+- [2. Language](#2-language)
+- [3. Countries, legal forms, activities and codes](#3-countries-legal-forms-activities-and-codes)
+- [4. Market structure and relationships](#4-market-structure-and-relationships)
+- [5. The buyer: category and life stage are two separate things](#5-the-buyer-category-and-life-stage-are-two-separate-things)
+- [6. Ages](#6-ages)
+- [7. Limits that already stand (from earlier owner decisions)](#7-limits-that-already-stand-from-earlier-owner-decisions)
+- [8. Built on 2026-10-29](#8-built-on-2026-10-29)
+- [9. Open points of the first version](#9-open-points-of-the-first-version)
+- [10. Product scope](#10-product-scope)
+- [11. Buyer and user (positioning)](#11-buyer-and-user-positioning)
+- [12. Research still to do](#12-research-still-to-do)
+- [13. Rule for this list](#13-rule-for-this-list)
+- [14. Heavy, public and institutional options (moved from doc 31 and the app, 2026-10-30)](#14-heavy-public-and-institutional-options-moved-from-doc-31-and-the-app-2026-10-30)
+  - [14.1 Government and public-sector relationships](#141-government-and-public-sector-relationships)
+  - [14.2 Government-to-business relationships](#142-government-to-business-relationships)
+- [15. Thoughts (evaluated, not decided, not scheduled; owner's review of the Segment, 2026-11-01)](#15-thoughts-evaluated-not-decided-not-scheduled-owners-review-of-the-segment-2026-11-01)
+
 ## 1. The scope at a glance
 
 | Area | First published version |
@@ -252,7 +272,7 @@ These came from a review of how the Segment's Box 4 and Box 5 answers could be r
 | 3 | **Demand and capacity warning**: Box 5 size and trend against the capacity to deliver (a solo team with manual fulfilment) | A scaling bottleneck is seen early | The Capability page and the Review checks, which are held back while Planning and Launching |
 | 4 | **"Why this is suggested" notice** on a page whose suggestions follow the Segment, with a way to see everything | The user knows why a list is ordered as it is | The owner's word on a new element (the notice and its switch) |
 | 5 | **Journey auto-layout**: Awareness from Box 4 question 2, Consideration from question 6, Decision from questions 7 and 8 | The data already maps onto the three stages | A customer journey part; none is in the documents today |
-| 6 | **Flags from the specialized needs of the Profile** (the accessibility needs and the caregiving roles moved there from the Segment, 2026-11-01): a solo or single-parent household raises a time-poverty and churn-risk note in a customer journey; sensory or physical needs raise a "compliance validation required" badge on an Offering | The needs of a Segment reach the parts that serve it | A customer journey part (none today) and a place on the Offering for the badge; they would highlight, never decide |
+| 6 | **Flags from the specialised needs of the Profile** (the accessibility needs and the caregiving roles moved there from the Segment, 2026-11-01): a solo or single-parent household raises a time-poverty and churn-risk note in a customer journey; sensory or physical needs raise a "compliance validation required" badge on an Offering | The needs of a Segment reach the parts that serve it | A customer journey part (none today) and a place on the Offering for the badge; they would highlight, never decide |
 | 7 | **Reads of the working questions of Box 1 (3b to 3d)**: a frontline worker on shifts moves the journey's communication to asynchronous (SMS) and flags the drop-off of live calls; variable or performance-based income suggests pay-as-you-go or pause-and-resume terms in the Offering; a remote desk worker raises desktop and daytime channels | When they are free, how they are paid and where they are met decide how to reach and sell to them | A customer journey part, a recommendation place on the Offering and the channel order; each would only suggest, never hide or price (rule 5) |
 | 8 | **Channel pins from the Profile's help wanted (D2)**: "They want to talk to a person" lifts live chat and phone support to the top of the channels; "They work it out themselves" lifts self-service | The channels the Profile needs come first | The Profile's questions and the channel order on page 2; it orders and highlights, never removes a channel |
 | 9 | **A "baseline" helper on a new Profile**: a short bar saying the Segment's answers can start the Profile (the likely options ticked, for the user to keep or clear) | Saves the user typing what the Segment already says | The owner's word on a new element; the same starting values the design already plans (A1 within the group, C1 from the setting) without a bar |

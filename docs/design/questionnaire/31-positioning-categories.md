@@ -8,6 +8,28 @@ Status: **collection**, written 2026-10-27, updated 2026-11-02. The owner's cate
 
 Related: doc 28, 8.2 (the Positioning questions), doc 29 (the question guide), doc 30 (age limits by activity and country).
 
+**Contents**
+
+- [1. User age stages](#1-user-age-stages)
+- [2. Buyer's age stages](#2-buyers-age-stages)
+- [3. Accessibility and user needs (dynamic cross-sections)](#3-accessibility-and-user-needs-dynamic-cross-sections)
+- [4. Caregiving and family life roles (universal cross-sections)](#4-caregiving-and-family-life-roles-universal-cross-sections)
+- [5. Buyer categories](#5-buyer-categories)
+- [6. Buyer and user relationships, with examples](#6-buyer-and-user-relationships-with-examples)
+  - [6.1 Personal relationships](#61-personal-relationships)
+  - [6.2 Business and professional relationships](#62-business-and-professional-relationships)
+- [7. Proposed offering purpose taxonomy](#7-proposed-offering-purpose-taxonomy)
+- [8. Relationship-to-purpose mapping](#8-relationship-to-purpose-mapping)
+- [9. Decisions register (2026-10-29)](#9-decisions-register-2026-10-29)
+- [10. Reference tables](#10-reference-tables)
+  - [10.1 Age stages and the edge rule](#101-age-stages-and-the-edge-rule)
+  - [10.2 Legal anchors by country](#102-legal-anchors-by-country)
+  - [10.3 Routing of the End User answers into the second Profile](#103-routing-of-the-end-user-answers-into-the-second-profile)
+  - [10.4 The relationships and the purposes (12 in the first version; the ten public-sector and government rows are in doc 33, section 14)](#104-the-relationships-and-the-purposes-12-in-the-first-version-the-ten-public-sector-and-government-rows-are-in-doc-33-section-14)
+  - [10.5 Proxy Buyer and Dual-Intent Buyer, and the I7f wording](#105-proxy-buyer-and-dual-intent-buyer-and-the-i7f-wording)
+  - [10.6 The B2B relationships as Proxy and Dual-Intent archetypes](#106-the-b2b-relationships-as-proxy-and-dual-intent-archetypes)
+  - [10.7 How relevant each purpose is: the owner's tables of 2026-10-30](#107-how-relevant-each-purpose-is-the-owners-tables-of-2026-10-30)
+
 ## 1. User age stages
 
 - **Up to 18: Minors**

@@ -1,6 +1,6 @@
 # Glossary
 
-Status: **reference**, updated 2026-11-02 (every term checked against its owner document and the code). Covers the framework, the app, the questionnaire and the first version, and the documents.
+Status: **reference**, written 2026-08-02, updated 2026-11-02 (every term checked against its owner document and the code). Covers the framework, the app, the questionnaire and the first version, and the documents.
 
 One-line definitions, so that terminology is the same in every document and Skill; each term has one owner document, where the full explanation is. A name without a folder is a file in `docs/ai/`; "doc 28" is the document numbered 28 in `docs/README.md`.
 
@@ -54,7 +54,7 @@ One-line definitions, so that terminology is the same in every document and Skil
 
 ## 3. The questionnaire and the first version
 
-Doc 28 is the questionnaire specification, doc 33 the first version, doc 33 what it leaves for later, doc 31 the positioning collection.
+Doc 28 is the questionnaire specification, doc 33 the first version and what it leaves for later (sections 10 to 15), doc 31 the positioning collection.
 
 ### Positioning and the market
 
@@ -116,7 +116,7 @@ Doc 28 is the questionnaire specification, doc 33 the first version, doc 33 what
 |---|---|---|
 | I | Identity question; I3 Seller and Buyer Relationship, I7b Audience, I7c Differentiation, I7d and I7e the End User questions (life stage, relationship), I7h Buyer's category, I7i Purpose, I7j and I7k the Outcomes, I11 Market Structure | Doc 28, 1 and 8.2 |
 | G | The customer Group (the Segment card); G6 is its age range | Doc 28, 1 |
-| A to E | The boxes and questions of the Profile in doc 36: A1 the exact age, A2 gender, A3 the kind of work, A5 the part in the purchase; B1 what they care about; C1 to C4 devices, social media, communities, events; D1 and D2 how they compare options and how much help they want; E1 to E3 goals, frustrations, objections. A4 (kind of business) and A6 (specialized needs) are proposed, not built | Doc 36 |
+| A to E | The boxes and questions of the Profile in doc 36: A1 the exact age, A2 gender, A3 the kind of work, A5 the part in the purchase; B1 what they care about; C1 to C4 devices, social media, communities, events; D1 and D2 how they compare options and how much help they want; E1 to E3 goals, frustrations, objections. A4 (kind of business) and A6 (specialised needs) are proposed, not built | Doc 36 |
 | P | The Person (the Profile card, the earlier ids of doc 28): P1 an age, P9 what they care about, P13 how they buy, P14 how they pay, P17 goals, P21 "What part do they play in the purchase" (use, influence, order, decide, control access), P22 how it is decided, P25 "Buyer's Relationship to this User" (proposed) | Doc 28, 1 and 6.4; doc 31, decision 18 |
 | K | The Competitor | Doc 28, 1 |
 | O | The Offering; O3 how it is bought, O12 minimum ages to buy | Doc 28, 1 and 10.3 |

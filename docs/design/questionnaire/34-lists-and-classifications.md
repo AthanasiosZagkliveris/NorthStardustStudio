@@ -6,6 +6,20 @@ Status: **proposal**, updated 2026-11-02; parts are built (as document 28, from 
 
 Related: doc 28 (the questions and the cards that use these lists), doc 2 (the sources), `src/data/classifications/` (the official classification files), doc 33 and doc 33.
 
+**Contents**
+
+- [5. The countries and the shared lists](#5-the-countries-and-the-shared-lists)
+  - [5.1 What differs by country](#51-what-differs-by-country)
+  - [5.2 The shared lists](#52-the-shared-lists)
+  - [5.3 The crosswalks (national schemes behind the plain lists)](#53-the-crosswalks-national-schemes-behind-the-plain-lists)
+  - [5.4 Industries, level 2: the "more exactly?" list](#54-industries-level-2-the-more-exactly-list)
+  - [5.5 Examples under the options](#55-examples-under-the-options)
+  - [5.6 The industry pack: what a sub-industry gives the user](#56-the-industry-pack-what-a-sub-industry-gives-the-user)
+  - [5.7 The activity cascade: levels, how many to pick, and what the data shows](#57-the-activity-cascade-levels-how-many-to-pick-and-what-the-data-shows)
+  - [5.8 The code and the words: what the cascade ends on, and how each country names it](#58-the-code-and-the-words-what-the-cascade-ends-on-and-how-each-country-names-it)
+  - [5.9 How many choices at each level (the sufficient numbers)](#59-how-many-choices-at-each-level-the-sufficient-numbers)
+  - [5.10 The classification data](#510-the-classification-data)
+
 ## 5. The countries and the shared lists
 
 ### 5.1 What differs by country

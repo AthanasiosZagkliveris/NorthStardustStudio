@@ -1,4 +1,4 @@
-# Engineering Phase Completion Report
+# Engineering phase completion report
 
 Status: **archive**, written 2026-08-02, updated 2026-11-02. A finished milestone report, kept for the record. Where its information now lives: the summary is the log row of 2026-08-02 (`design/core/04-log.md`); the toolchain and the expected failures are `ai/toolchain-and-verification-playbook.md`; the open findings are `ai/outstanding-findings.md`. **Held only here:** that the interpreter joins a System's three files by normalised section title (not by number) and falls back silently to a Free Text answer when a title does not match (Work Completed, 1; still true in `FrameworkInterpreter.ts`), the finding that no Playwright suite ever existed in this repository, and the lessons and the future considerations at the end.
 

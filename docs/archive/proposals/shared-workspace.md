@@ -1,4 +1,4 @@
-# Shared Workspace: Working Together Without a Server
+# Shared Workspace: working together without a server
 
 Status: **archive**, written 2026-09-26, updated 2026-11-02 (moved here from `specifications/shared-workspace/` on 2026-10-21). A proposal, not started; nothing in the app has been changed for it. The app is still a single-user app with its data in the browser. **Held only here:** the whole proposal; the only other document that names it is `design/core/05-not-done-yet.md`, which has no item for it (its place is to be decided).
 **Date:** 26 September 2026
