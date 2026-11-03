@@ -194,9 +194,15 @@ function MultiPartAnswerRenderer({
         const wordsOf = (ids: readonly string[], words: Record<string, string>) => ids.map(id => words[id]).filter((line): line is string => typeof line === "string" && line.length > 0);
         // (The user's words are the card's own, shortened to their first part so that a group takes one line or two: "Friend" for "Friend or acquaintance", "Other relationship" for "Other"; the life stages as they are.)
         const userWords: Record<string, string> = Object.fromEntries([...BUYER_USER_RELATIONS.b2c, ...BUYER_USER_RELATIONS.b2b, ...USER_LIFE_STAGES].map(option => [option.id, option.label === "Other" ? "Other relationship" : option.id.startsWith("rel:") ? option.label.split(" or ")[0] : option.label]));
+        // (A buyer's category in the card's words, "Proxy"; where categories of more than one model are chosen, each says its model, "B2C: Direct" and "B2B: Direct", so that two alike are not one word twice.)
+        const categoryWord = (id: string): string => {
+            const [model, kind] = id.split(":");
+            const word = BUYER_CATEGORIES.find(option => option.id === kind)?.label.replace(/ Buyers$/, "") ?? "";
+            return word && organisation.buyerCategory.length > 1 ? (CUSTOMER_TYPE_WORDS[model]?.split(" ")[0] ?? model.toUpperCase()) + ": " + word : word;
+        };
         const positioningGroups: string[][] = [
             // (The business: its audience, then the buyer's category in the card's words, "Proxy Buyers"; the relationship has its own words only where it has no category yet.)
-            [...wordsOf(organisation.customerType.filter(model => !organisation.buyerCategory.some(id => id.startsWith(model + ":"))), CUSTOMER_TYPE_WORDS), ...wordsOf(organisation.audience, AUDIENCE_WORDS), ...organisation.buyerCategory.map(id => BUYER_CATEGORIES.find(option => option.id === id.split(":")[1])?.label.replace(/ Buyers$/, "") ?? "").filter(word => word.length > 0)],
+            [...wordsOf(organisation.customerType.filter(model => !organisation.buyerCategory.some(id => id.startsWith(model + ":"))), CUSTOMER_TYPE_WORDS), ...wordsOf(organisation.audience, AUDIENCE_WORDS), ...organisation.buyerCategory.map(categoryWord).filter(word => word.length > 0)],
             wordsOf(organisation.endUser, userWords),
             [...wordsOf(organisation.purpose, PURPOSE_WORDS), ...wordsOf(organisation.differentiation, DIFFERENTIATION_WORDS)],
             [...wordsOf(organisation.outcome, OUTCOME_WORDS), ...wordsOf(organisation.outcomeUser, OUTCOME_USER_WORDS)]

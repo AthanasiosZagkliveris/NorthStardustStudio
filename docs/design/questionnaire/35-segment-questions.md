@@ -42,15 +42,15 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
 - **Control:** one choice (a radio).
 - **Asked when:** The buyer is people, and the age is not Minors.
 - **Options:**
-  - Did not finish high school
-  - High school
+  - Did not finish secondary school
+  - Secondary school
   - Vocational / technical diploma
   - Bachelor's degree
   - Master's degree
   - Doctorate
 - **The "i" says:**
   - Each level includes the ones below it: someone with a Master has a Bachelor.
-  - High school: A-levels or the Leaving Certificate (UK, Ireland), a diploma (USA, Canada), Year 12 (Australia, New Zealand).
+  - Secondary school: A-levels or the Leaving Certificate (UK, Ireland), a diploma (USA, Canada), Year 12 (Australia, New Zealand).
   - Vocational or technical diploma: a post-school qualification such as a BTEC, a trade certificate or an associate degree.
 - **Connections:**
   - *Comes from:* This Segment's age (not asked of Minors).

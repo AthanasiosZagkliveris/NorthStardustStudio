@@ -185,8 +185,8 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     {
         id: "education", box: "demographics", label: "What is their highest level of education?", many: false,
         options: [
-            { id: "school", label: "Did not finish high school" },
-            { id: "highschool", label: "High school" },
+            { id: "school", label: "Did not finish secondary school" },
+            { id: "highschool", label: "Secondary school" },
             { id: "vocational", label: "Vocational / technical diploma" },
             { id: "bachelor", label: "Bachelor's degree" },
             { id: "master", label: "Master's degree" },
@@ -194,7 +194,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         ],
         info: [
             "Each level includes the ones below it: someone with a Master has a Bachelor.",
-            "High school: A-levels or the Leaving Certificate (UK, Ireland), a diploma (USA, Canada), Year 12 (Australia, New Zealand).",
+            "Secondary school: A-levels or the Leaving Certificate (UK, Ireland), a diploma (USA, Canada), Year 12 (Australia, New Zealand).",
             "Vocational or technical diploma: a post-school qualification such as a BTEC, a trade certificate or an associate degree."
         ]
     },
