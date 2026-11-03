@@ -1224,15 +1224,16 @@
 
 }
 
+/* A subtitle is a heading of the type scale: 18px (--font-body), weight 700, capitals at the 5% every bold run takes (layout-rules, "Title sizes"). */
 .business-segment-grid.business-segment-grid-single .business-segment-box > .legal-entity-org-section:first-child .business-foundation-label{
 
     color:var(--title-ink);
 
-    font-size:var(--font-small);
+    font-size:var(--font-body);
 
     font-weight:700;
 
-    letter-spacing:0.1em;
+    letter-spacing:var(--bold-tracking);
 
     text-transform:uppercase;
 
