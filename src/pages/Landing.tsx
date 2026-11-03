@@ -73,7 +73,7 @@ export default function Landing() {
         let list = OrganizationService.list();
 
         if (list.length === 0) {
-            const seeded = OrganizationService.create("Organization 1");
+            const seeded = OrganizationService.create("Organisation 1");
             list = [seeded];
         }
 
@@ -126,7 +126,7 @@ export default function Landing() {
     function addOrganization() {
 
         const created = OrganizationService.create(
-            `Organization ${organizations.length + 1}`
+            `Organisation ${organizations.length + 1}`
         );
 
         setOrganizations(previous => [...previous, created]);
@@ -155,7 +155,7 @@ export default function Landing() {
             const imported = OrganizationService.importDocument(JSON.parse(await file.text()));
 
             if (!imported) {
-                setImportError("That file is not a North Stardust organization.");
+                setImportError("That file is not a North Stardust organisation.");
                 return;
             }
 
@@ -170,7 +170,7 @@ export default function Landing() {
             setImportError(
                 error instanceof UnsupportedFormatVersionError
                     ? "That file was saved by a newer version of North Stardust. Update the app, then import it again."
-                    : "That file could not be read as an organization."
+                    : "That file could not be read as an organisation."
             );
         }
 
@@ -253,7 +253,7 @@ export default function Landing() {
         // things back to exactly the same default state a brand-new
         // install starts from, rather than an empty screen.
         if (next.length === 0) {
-            const seeded = OrganizationService.create("Organization 1");
+            const seeded = OrganizationService.create("Organisation 1");
             next = [seeded];
         }
 
@@ -368,8 +368,8 @@ export default function Landing() {
 
                             <TextBox
                                 className="organization-name-input"
-                                aria-label={`Organization ${index + 1} name`}
-                                placeholder="Organization name"
+                                aria-label={`Organisation ${index + 1} name`}
+                                placeholder="Organisation name"
                                 value={organization.name}
                                 onChange={(event) =>
                                     renameOrganization(organization.id, event.target.value)
@@ -394,19 +394,19 @@ export default function Landing() {
 
             <AddButton
                 onClick={addOrganization}>
-                + Add Organization
+                + Add Organisation
             </AddButton>
 
             <AddButton
                 onClick={() => importInputRef.current?.click()}>
-                Import Organization
+                Import Organisation
             </AddButton>
 
             <AddButton
                 disabled={!selectedId}
-                title={selectedId ? undefined : "Select an Organization to export"}
+                title={selectedId ? undefined : "Select an Organisation to export"}
                 onClick={exportOrganization}>
-                Export Organization
+                Export Organisation
             </AddButton>
 
         </div>
@@ -416,7 +416,7 @@ export default function Landing() {
             type="file"
             accept="application/json,.json"
             hidden
-            aria-label="Organization file to import"
+            aria-label="Organisation file to import"
             onChange={(event) => {
                 const file = event.target.files?.[0];
                 event.target.value = "";
@@ -432,13 +432,13 @@ export default function Landing() {
 
         {organizations.length === 0 && (
             <p className="organization-hint">
-                Create an Organization to continue.
+                Create an Organisation to continue.
             </p>
         )}
 
         {organizations.length > 1 && !selectedId && (
             <p className="organization-hint">
-                Select an Organization to continue.
+                Select an Organisation to continue.
             </p>
         )}
 
@@ -471,11 +471,11 @@ export default function Landing() {
             <div className="confirmation-dialog" onClick={(event) => event.stopPropagation()}>
 
                 <h2 className="confirmation-title">
-                    Remove Organization?
+                    Remove Organisation?
                 </h2>
 
                 <p className="confirmation-question">
-                    {(organizations.find(organization => organization.id === pendingRemoveId)?.name || "This organization").trim() || "This organization"}
+                    {(organizations.find(organization => organization.id === pendingRemoveId)?.name || "This organisation").trim() || "This organisation"}
                     {" "}and everything saved under it will be permanently deleted.
                 </p>
 

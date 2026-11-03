@@ -460,12 +460,12 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
 
                 <div className="legal-entity-org-section legal-entity-org-name">
                 {labelled(
-                    "Organization Name",
+                    "Organisation Name",
                     textControl(
-                        "Organization Name",
+                        "Organisation Name",
                         entity.organisation.name,
                         (next) => updateOrganisation({ name: next }),
-                        "The legal name of the organization"
+                        "The legal name of the organisation"
                     )
                 )}
                 </div>
@@ -751,7 +751,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                             capitalApplies: event.target.checked
                         })}>
                     <span className="legal-entity-switch-label">
-                        Founders contribute capital to this organization
+                        Founders contribute capital to this organisation
                     </span>
                 </TickField>
 

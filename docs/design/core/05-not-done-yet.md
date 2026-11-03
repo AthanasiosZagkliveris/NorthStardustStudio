@@ -4,7 +4,7 @@ Status: **living list**, written 2026-10-14, updated 2026-11-02. Remove an item 
 
 ## Open now
 
-**The questionnaire build**: built are the Segment card's questions (doc 35), the Profile card's questions A1 to A3, A5, B1, C1 to C4, D1, D2 and E1 to E3 (doc 36), and the Organization and Positioning tiles (docs 37 and 38). Not built: the Profile's A4 (kind of business) and A6 (specialised needs), the proposed Profiles and the user's own Profile (the second Profile of a Proxy or Dual-Intent Segment), and every read of the Segment's and Profile's answers listed as "Read by (not built yet)" in docs 35 and 36. What else is left of the first version is doc 33; where each tile stands is doc 40. The help texts follow doc 39 (a proposal: only its size budget is built).
+**The questionnaire build**: built are the Segment card's questions (doc 35), the Profile card's questions A1 to A3, A5, B1, C1 to C4, D1, D2 and E1 to E3 (doc 36), and the Organisation and Positioning tiles (docs 37 and 38). Not built: the Profile's A4 (kind of business) and A6 (specialised needs), the proposed Profiles and the user's own Profile (the second Profile of a Proxy or Dual-Intent Segment), and every read of the Segment's and Profile's answers listed as "Read by (not built yet)" in docs 35 and 36. What else is left of the first version is doc 33; where each tile stands is doc 40. The help texts follow doc 39 (a proposal: only its size budget is built).
 
 **The release**: `chore/light-cleanup` is merged into `main` (log, 2026-10-22). Next: the Tile System (5.3), then Batches D and E (5.4), then the extraction (5.7).
 
@@ -51,14 +51,14 @@ Eleven of thirteen chapters are drawn as tiles. The rest:
 
 The briefs (in `docs/archive/plans/`; they are not finished work, only kept there) say D and E wait until the structure is stable; it is, and the order is decided (after the Tile System). What they ask for is checked below against the code.
 
-**Already built** (the briefs asked to reuse them): `FieldKey`, `openField`, the field status line (with the unused "Changed in … · Reset" parts), the Review page, the Notepad, the undo toast, search, and `Sources.ts`. **Absent:** `planOutcomes`, scenarios, duplicate organization and card, the Compare route, the lender check, the One-Pager, the glossary.
+**Already built** (the briefs asked to reuse them): `FieldKey`, `openField`, the field status line (with the unused "Changed in … · Reset" parts), the Review page, the Notepad, the undo toast, search, and `Sources.ts`. **Absent:** `planOutcomes`, scenarios, duplicate organisation and card, the Compare route, the lender check, the One-Pager, the glossary.
 
 | Item | State | Outdated in the brief | Effort |
 |---|---|---|---|
 | `planOutcomes` (one function for all outcome figures) | Absent | Must be extracted from `planCase`, `stressTest` and the forecast | M |
-| D1 Duplicate organization | Absent | "Annotations are copied": annotations no longer exist; notes live in the Notepad, per person, outside the organization | S |
+| D1 Duplicate organisation | Absent | "Annotations are copied": annotations no longer exist; notes live in the Notepad, per person, outside the organisation | S |
 | D2 Duplicate a card | Absent | The card kinds are now the cost-model cards; generated cards must not be duplicated; offering links and shares kept or cleared by rule | L |
-| D3 Scenarios | Absent | The scenario-able inputs table no longer matches; Global Settings are saved with each organization; `withWhatIf` only scales revenue, so a layer that applies overrides to the whole document is needed | L (largest) |
+| D3 Scenarios | Absent | The scenario-able inputs table no longer matches; Global Settings are saved with each organisation; `withWhatIf` only scales revenue, so a layer that applies overrides to the whole document is needed | L (largest) |
 | D4 Compare | Absent | Needs `planOutcomes` and a route; runway, funding gap, yearly profit and repayments must be added | M |
 | E1 What would it take? | Partly exists ("What It Would Take" on Sustainability: percent levers for a cash shortfall) | The brief asks for "break even by month X", amounts per offering and "Try this" (needs D3) | M |
 | E2 Lender-ready check | Absent | The Review page has changed; the ten rules must be re-checked against the new data; each needs a Source | M |
@@ -84,7 +84,7 @@ From the analysis in document 3, R10. Each requirement has an id, a priority (**
 | App function | What exists today | Where this proposal adds |
 |---|---|---|
 | **1. Requests information** by text, choice, field, number, with help | Field types on all pages; help notes; limits on numbers | F1–F4, C1, C4, I4–I5 (more choices instead of free text) |
-| **2. Stores and connects it** and creates further requests from it | Answers saved per organization; cards link by id (resources, activities, offerings); generated cards (channel expenses, insurance) | F1, F6, C2, C11, C16 (links by id), I1 (Delivery Team shown on Delivery) |
+| **2. Stores and connects it** and creates further requests from it | Answers saved per organisation; cards link by id (resources, activities, offerings); generated cards (channel expenses, insurance) | F1, F6, C2, C11, C16 (links by id), I1 (Delivery Team shown on Delivery) |
 | **3. Calculates, records, presents** (tables, diagrams, by time and category) | Demand, capacity, costs by nature, Funding Need, Break Even, forecast, Calendar, Inventory | C14 (spend by channel), I7–I9, A6, T1–T2 (tiles for the Financial pages), D4 Compare |
 | **4. Proves and validates** | Completeness rules, open items, Review page, capacity check, date checks, Stress Test, "What It Would Take" | A5, F7, C9, E2 (Lender check), planOutcomes |
 | **5. Helps** (instructions, resources, pre-filled data; Note and Calendar; messages, errors, reminders, limits; smart navigation) | InfoNote, Notepad, Calendar, Search, rails, arrows, Undo | A6, E4 (Glossary), C5 (proposals) |
@@ -103,7 +103,7 @@ Ordering of work (decided): the **Tile System** is finished first (T1–T2), the
 | A5 | Completeness: each page names which answers are required, in one place, and the page status uses that list. Goals and targets are optional but nudged. | S | Gap |
 | A6 | Calendar also reads: Strategic Period start/end, the plan start, and delivery calendar time of an offering when it is turned into dates. | C | Gap |
 | A7 | Currency: an organization-level override beside the country default; cards of another currency are converted by a stated rate or flagged, not silently skipped. | S | Gap |
-| A8 | Example organizations and their tests are updated with every interface or requirement change. | M | Rule |
+| A8 | Example organisations and their tests are updated with every interface or requirement change. | M | Rule |
 | A9 | Documents in the project are Markdown; PDFs are exports only. | M | Rule |
 | T1 | **Tile System complete:** Financial Foundation (4 sections) and Sustainability (2 sections) are drawn as tiles that open their existing sections in dialogs. | M | Gap |
 | T2 | **Customer Engagement:** Customer Relationship, Demand & Conversion and the channel resource table become tiles in each segment's frame. | M | Gap |
@@ -158,7 +158,7 @@ Ordering of work (decided): the **Tile System** is finished first (T1–T2), the
 
 | Field | Meaning |
 |---|---|
-| Purpose | Why the organization keeps this relationship (acquisition, retention, upselling). |
+| Purpose | Why the organisation keeps this relationship (acquisition, retention, upselling). |
 | Touch level | Self-serve, assisted, personal. |
 | Who delivers | Founder, partner, nobody (automated). |
 | Typical channels | Channel categories where it usually happens. |
@@ -205,7 +205,7 @@ The Delivery card as built is described in the page 3 specification (specificati
 | I6 | Legal form carries a **kind** (sole trader, company, partnership) used by the drawings and registry rules, instead of reading the label text. | M | Fix |
 | I7 | Inventory gets an **Offering** column and filter; missing prices are counted on the tile. | S | Gap |
 | I8 | Activities: no cost and no effort. The Calendar shows start and end; the card shows the **duration in days** computed from them. | C | New |
-| I9 | Where a card is in another currency than the organization's, the Inventory totals show each currency separately. | S | Fix |
+| I9 | Where a card is in another currency than the organisation's, the Inventory totals show each currency separately. | S | Fix |
 
 ### 5.5.5 Which information can link or filter (proposal)
 
@@ -225,9 +225,9 @@ The Delivery card as built is described in the page 3 specification (specificati
 | Setting | Proposed home | Effort |
 |---|---|---|
 | Income tax rate (global) | **Remove** (it silently overrides the Financial Foundation rate; the examples show the clash) | M |
-| Income tax basis and rate | Identity > Organization > Legal Entity > Tax | M |
+| Income tax basis and rate | Identity > Organisation > Legal Entity > Tax | M |
 | VAT/GST basis | Same card as "registered?" | M |
-| Opening Date, Plan Start, Plan Length | Built: the Opening Date is on the Organization tile and the Plan Start is worked out; the Plan Length stays in the Global Settings (Financial plan); the Strategic Period does not show them | S–M |
+| Opening Date, Plan Start, Plan Length | Built: the Opening Date is on the Organisation tile and the Plan Start is worked out; the Plan Length stays in the Global Settings (Financial plan); the Strategic Period does not show them | S–M |
 | Contingency rates, reserve months | Financial Foundation > Funding Need | S–M |
 | Employer on-cost rate | Financial Foundation > Costs, people costs | M |
 | Insurance per employee | The key-person health card, which already overrides it | S |
@@ -280,7 +280,7 @@ The plans of 2026-10-14 for the clean-up round, the library automation and its s
 - **To leave behind:** Systems 05–24 content and menu rows, `CapabilityGenerator`, the operations and social-media branches in `Conversation`, and any editor only they use (Process Library, Operational Log, Roles & Responsibilities).
 - **Not to leave behind:** Financial Foundation, Sustainability and the financial model. They are Business pages 4 and 5. (The raw audit listed them as "likely other systems"; that is wrong.)
 - **Desktop-only code:** one import (`@tauri-apps/plugin-opener` in `InfoNote`, with a web fallback already in place), plus the Tauri folder and two port settings in the build file. A web build is straightforward.
-- **Storage:** all data is in the browser's local storage (about 5 MB), behind one store interface. A server or IndexedDB store fits behind the same interface. The two example organizations alone are about 600 KB.
+- **Storage:** all data is in the browser's local storage (about 5 MB), behind one store interface. A server or IndexedDB store fits behind the same interface. The two example organisations alone are about 600 KB.
 - **Calendar: decided, it exists in the new app.** The earlier Foundation App Plan listed it as staying behind. It reads card dates, so it depends on the card engine and travels with it; its sources (card dates, Operational Log, schedules) are kept.
 - **Decision:** the form of the new app is open (5.8, item 8).
 
@@ -346,9 +346,9 @@ For the owner to decide, or work not done. Each item leaves this list when done 
 - Section 6 of `layout-rules.md` (Interactions) holds rows that doc 18 lacks (a parent's status line, a child's name, the Add button, a text holder): move them into doc 18, then keep one text.
 - `src/library/assets/floatingCard.ts` line 86 still cites "docs/design/05, 5.8"; the generated section 19 of the rulebook repeats it.
 
-**Left by the first-version build of the Organization and Positioning tiles (2026-10-29)**
+**Left by the first-version build of the Organisation and Positioning tiles (2026-10-29)**
 - The Review's checks of the legal ages (doc 33, section 6; the age terms themselves are asked by the Segment, doc 35) and anything in Business 1 that reads the buyer's category, the relationship or the purpose (the user's own Profile, doc 36) are not built.
 - The Country question lists the six and Other: a saved organisation of another country opens as Other with its country chosen. The legal-form wording and documents that follow the country's form (capital, the "limited company" phrase) still follow the profile of that country where the app has one.
 - The routing of the outcome for the user into the second Profile (P9, P17) is not built (doc 33, item 13).
 - The Canadian classification file (`src/data/classifications/ca-naics-2022.json`) has 694 industries and 923 Canadian industries; Statistics Canada publishes 695 and 922. Check it against the official structure file (doc 34, 5.7).
-- The card scan `tools/catalogue/scans/quillfield-1920-light.json` is not written by any script of the repository; it still names page 2 "2. Organization" (two rows of document 7, twelve of document 13). A script for it is not built.
+- The card scan `tools/catalogue/scans/quillfield-1920-light.json` is not written by any script of the repository; it still names page 2 "2. Organisation" (two rows of document 7, twelve of document 13). A script for it is not built.

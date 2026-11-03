@@ -79,7 +79,7 @@ describe("FoundersProfileEditor founders", () => {
 
         render(<Harness founders={[ann, bo]} initial={{ founders: [{ id: "a", roles: ["Director", "Designer"] }] }} />);
 
-        toggles(/^Maximize Founder \d$/).forEach(toggle => expect(toggle.getAttribute("aria-expanded")).toBe("false"));
+        toggles(/^Maximise Founder \d$/).forEach(toggle => expect(toggle.getAttribute("aria-expanded")).toBe("false"));
         expect(screen.getByText("Director, Designer").classList.contains("business-card-summary")).toBe(true);
 
         const all = screen.getByRole("button", { name: "Expand all founders" });

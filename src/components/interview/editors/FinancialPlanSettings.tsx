@@ -60,7 +60,7 @@ export default function FinancialPlanSettings({
                 "Plan Start",
                 [
                     "Month 1 of the financial plan. Every timeline on the Financial Foundation and on Sustainability runs from it.",
-                    "Worked out: the earlier of the Opening Date's month (set on the Organization tile) and the month of your earliest cost, a costed card or a legal expense, whichever was recorded first."
+                    "Worked out: the earlier of the Opening Date's month (set on the Organisation tile) and the month of your earliest cost, a costed card or a legal expense, whichever was recorded first."
                 ],
                 <span>{planMonthLabel(planStart, 1)}</span>
             )}

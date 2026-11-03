@@ -298,7 +298,7 @@ export function readFoundation(sessions: FoundationSessions, options?: { wholeOn
     const position = financialPosition(financial, lines, legalEntity, currency, format, revenuePage, launched?.launch);
     const outlook = sustainability(revenuePage, financial, lines, legalEntity, format);
 
-    const name = text(legalEntity.organisation.name) || text(sessions.organisationName) || "The organization";
+    const name = text(legalEntity.organisation.name) || text(sessions.organisationName) || "The organisation";
 
     return {
         stage: stageOf(settings?.openingDate ?? "", new Date(), settings ? stageDurationsOf(settings) : undefined),
@@ -368,7 +368,7 @@ function monthName(value: StrategyMonthValue): string {
 function coverLines(f: Foundation): string[] {
     const website = websiteOf(f);
     return [
-        "Organization: " + f.name,
+        "Organisation: " + f.name,
         "Prepared: " + preparedMonth(),
         ...(website ? ["Website: " + website] : [])
     ];
@@ -1441,7 +1441,7 @@ export function businessPlan(sessions: FoundationSessions): ExportContent {
         ["Products and Services", offeringBlocks(f)],
         ["Marketing and Sales", marketingBlocks(f)],
         ["Operations", operationsBlocks(f)],
-        ["Management and Organization", teamBlocks(f)],
+        ["Management and Organisation", teamBlocks(f)],
         ["Strategy and Milestones", strategyBlocks(f)],
         ["Risks", riskBlocks(f)],
         // The request, then the financials that support it, then the

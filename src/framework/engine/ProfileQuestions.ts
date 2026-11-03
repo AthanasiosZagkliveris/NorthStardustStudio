@@ -123,7 +123,7 @@ export function profileWho(label: string, gender?: string): string {
 
 /** What the note under each box is for: what the questions above it do not ask (the questions already hold the rest). A point is at most 160 characters. */
 export const PROFILE_NOTE_HINTS: Record<ProfileBox, string> = {
-    personal: "The note is for what is not asked above: a name, who they live with, where they live. Their age and the kind of work are asked above.",
+    personal: "The note is for what is not asked above: a name, their job title, who they live with, where they live. Their age and the kind of work are asked above.",
     psychographics: "The note is for what they value, believe in and enjoy, in your words. What matters most when choosing is asked above.",
     hubs: "The note is for names: the groups, accounts, events and places. Which kinds of platform and event they use is asked above.",
     habits: "The note is for what the choices above do not hold: where and when they buy, the terms, the steps.",
@@ -149,7 +149,7 @@ export function profileQuestionAsked(question: ProfileQuestion, segment: Segment
         case "a2":
             return !business && !!segment.gender?.length && !segment.gender.includes("balanced");
         case "a3":
-            // Self-employed customers: the job level is Owner / senior executive and is not asked.
+            // Self-employed customers: the job level is not asked. No answer is set yet (doc 36, section 9), so the documents leave it out.
             return business ? !(segment.orgtype ?? []).includes("self") : (segment.work ?? []).includes("working");
         case "a5":
             return business || context.endsUser || (segment.age ?? []).includes("minor");

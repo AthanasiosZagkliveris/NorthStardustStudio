@@ -91,7 +91,7 @@ export const DEMAND_SOURCES: DemandSourceType[] = [
         label: "Sales funnel",
         explanation: "Customers found through outreach: prospects, some of them qualified, some of those buying.",
         fields: [
-            { key: "prospects", label: "Prospects / Month", kind: "number", placeholder: "e.g. 40", help: "People or organizations reached each month who could buy: messages, enquiries, meetings." },
+            { key: "prospects", label: "Prospects / Month", kind: "number", placeholder: "e.g. 40", help: "People or organisations reached each month who could buy: messages, enquiries, meetings." },
             { key: "qualified", label: "Qualified (%)", kind: "percent", placeholder: "e.g. 15", help: "The share that become a real opportunity: a call, a meeting, a request for a proposal." },
             { key: "buy", label: "Buy (%)", kind: "percent", placeholder: "e.g. 25", help: "The share of those opportunities that become a sale." }
         ]

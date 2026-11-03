@@ -68,7 +68,7 @@ Status: **index**, updated 2026-11-03, written by `npm run docs:index` (the subj
 - **Not done yet**: [5](design/core/05-not-done-yet.md)
 ## O
 
-- **Organization tile**: [37 (as built)](design/questionnaire/37-organization-fields.md); [28 section 8.5](design/questionnaire/28-questionnaire-specification.md)
+- **Organisation tile**: [37 (as built)](design/questionnaire/37-organization-fields.md); [28 section 8.5](design/questionnaire/28-questionnaire-specification.md)
 ## P
 
 - **Pop-ups**: [23](design/current/23-popups.md)

@@ -27,7 +27,7 @@ function Harness({ onValue }: { onValue?: (value: BrandStyleAnswerValue) => void
 
 /** Opens every folded card. */
 function openAll() {
-    for (const arrow of screen.queryAllByRole("button", { name: /^Maximize/ })) {
+    for (const arrow of screen.queryAllByRole("button", { name: /^Maximise/ })) {
         fireEvent.click(arrow);
     }
 }

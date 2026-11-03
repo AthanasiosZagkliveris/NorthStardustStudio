@@ -20,7 +20,7 @@ beforeEach(() => {
     localStorage.clear();
 });
 
-describe("Organization format version", () => {
+describe("Organisation format version", () => {
 
     it("reads a document without a version as version 1, and a stamped one as its own", () => {
 
@@ -95,7 +95,7 @@ describe("Organization format version", () => {
 
 describe("The last place worked", () => {
 
-    it("is stored with the organization, and saved only when it changes", () => {
+    it("is stored with the organisation, and saved only when it changes", () => {
 
         const created = OrganizationService.create("Quillfield");
 

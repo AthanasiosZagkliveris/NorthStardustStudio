@@ -21,7 +21,7 @@ describe("the Opening Date field", () => {
         return <LegalEntityEditor value={asLegalEntityValue(undefined)} organizationOnly openingDate={date} onChangeOpeningDate={(next) => { setDate(next); onDate(next); }} onChange={() => undefined} />;
     }
 
-    it("stands on the Organization tile, in the right column before the Activities, and hands the date on", () => {
+    it("stands on the Organisation tile, in the right column before the Activities, and hands the date on", () => {
         let latest = "";
         const { container } = render(<Harness onDate={(iso) => { latest = iso; }} />);
         expect(container.textContent).toMatch(/Opening Date.*Activities/);

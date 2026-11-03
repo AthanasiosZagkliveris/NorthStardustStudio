@@ -107,14 +107,14 @@ const explain = (list: readonly { label: string; explanation: string }[]): InfoP
 
 /** The distinctions the specification asks the "i" controls to make. */
 const DEFINITIONS = {
-    cost: { title: "Cost", text: "Money the organization needs to spend." },
-    need: { title: "Funding Need", text: "Money the organization needs to obtain to support its financial requirements." },
-    capital: { title: "Capital", text: "Money contributed to the organization, particularly by founders or investors." },
-    funding: { title: "Funding", text: "Financial resources provided by another source to support the organization." },
+    cost: { title: "Cost", text: "Money the organisation needs to spend." },
+    need: { title: "Funding Need", text: "Money the organisation needs to obtain to support its financial requirements." },
+    capital: { title: "Capital", text: "Money contributed to the organisation, particularly by founders or investors." },
+    funding: { title: "Funding", text: "Financial resources provided by another source to support the organisation." },
     loan: { title: "Loan", text: "Borrowed money that creates a repayment obligation." },
-    revenue: { title: "Revenue", text: "Money generated through the organization's Offerings. Capital and funding are not revenue." },
+    revenue: { title: "Revenue", text: "Money generated through the organisation's Offerings. Capital and funding are not revenue." },
     gap: { title: "Funding Gap", text: "The amount of identified financial requirement not covered by available or confirmed financing." },
-    runway: { title: "Financial Runway", text: "The estimated period for which available financial resources can support the organization under current assumptions." }
+    runway: { title: "Financial Runway", text: "The estimated period for which available financial resources can support the organisation under current assumptions." }
 };
 
 /** The loan payment formula, the "i" beside the repayment figure. */
@@ -180,13 +180,13 @@ const SECTIONS = {
             DEFINITIONS.funding,
             DEFINITIONS.loan,
             DEFINITIONS.revenue,
-            "Expected, confirmed and available money are different: only money that has arrived counts as money the organization has."
+            "Expected, confirmed and available money are different: only money that has arrived counts as money the organisation has."
         ] as InfoPoint[]
     },
     position: {
         title: "Financial Position",
         instructions: [
-            "Read the financial picture calculated from Costs, Funding Need and Capital & Funding: is your organization covered, and for how long?"
+            "Read the financial picture calculated from Costs, Funding Need and Capital & Funding: is your organisation covered, and for how long?"
         ],
         info: [
             DEFINITIONS.gap,
@@ -211,7 +211,7 @@ const SECTION_HUES: Record<string, number> = {
 };
 
 const CATEGORY_INFO: Record<FundingCategory, InfoPoint[]> = {
-    internal: ["Money from inside your organization: its founders' capital, reinvested revenue or funds it already holds."],
+    internal: ["Money from inside your organisation: its founders' capital, reinvested revenue or funds it already holds."],
     external: [
         { title: "Non-repayable", text: "Grants, subsidies and awards: nothing to repay, though often with conditions." },
         { title: "Equity", text: "Investment in exchange for a share of ownership." },
@@ -1483,7 +1483,7 @@ export default function FinancialFoundationEditor({
 
                 <FinancialBlock
                     title="Funding Timeline"
-                    info={["Money in and out of your organization month by month, and the balance it leaves. A dip below zero is a cash-pressure period, even when the totals are sufficient."]}
+                    info={["Money in and out of your organisation month by month, and the balance it leaves. A dip below zero is a cash-pressure period, even when the totals are sufficient."]}
                 >
                     {position.timeline.some(month => month.inflow > 0 || month.outflow > 0 || month.balance !== 0)
                         ? (

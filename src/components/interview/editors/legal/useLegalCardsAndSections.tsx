@@ -39,7 +39,7 @@ export function useLegalCardsAndSections(earlier: Earlier) {
             {entity.formation.status === "planned" && (
                 <p className="legal-entity-note-line legal-entity-field-wide">
                     Not registered yet: choose the legal form you intend to use above. The registry for your
-                    country is filled in. Enter the registration number the registry gives you: the organization is then
+                    country is filled in. Enter the registration number the registry gives you: the organisation is then
                     registered, and its date can be given.
                 </p>
             )}

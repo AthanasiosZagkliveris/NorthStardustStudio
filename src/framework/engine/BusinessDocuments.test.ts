@@ -45,7 +45,7 @@ describe("business documents", () => {
     test("the plan has every section, answered", () => {
         const md = markdown(businessPlan(sessions));
         for (const title of ["Executive Summary", "Company Description", "Market Analysis", "Products and Services",
-            "Marketing and Sales", "Operations", "Management and Organization", "Financial Plan", "Funding Request",
+            "Marketing and Sales", "Operations", "Management and Organisation", "Financial Plan", "Funding Request",
             "Financial Projections", "Strategy and Milestones", "Risks", "Appendix"]) {
             expect(md).toContain(title);
         }
@@ -356,7 +356,7 @@ describe("Quillfield: the documents tie together", () => {
     test("the plan runs in the standard order: the request, then the financials, then the Appendix", () => {
         const titles = [...planMd.matchAll(/^## [0-9]+\. (.+)$/gm)].map(match => match[1]);
         expect(titles).toEqual(["Executive Summary", "Company Description", "Market Analysis", "Products and Services",
-            "Marketing and Sales", "Operations", "Management and Organization", "Strategy and Milestones", "Risks",
+            "Marketing and Sales", "Operations", "Management and Organisation", "Strategy and Milestones", "Risks",
             "Funding Request", "Financial Plan", "Financial Projections", "Appendix"]);
         const part = (title: string) => {
             const from = planMd.indexOf(title);
@@ -364,15 +364,15 @@ describe("Quillfield: the documents tie together", () => {
             return planMd.slice(from, next < 0 ? undefined : from + 1 + next);
         };
         // The legal structure under Management, the licences under Operations.
-        expect(part("## 7. Management and Organization")).toContain("### Legal Structure");
-        expect(part("## 7. Management and Organization")).toContain("Legal form: Sole Proprietorship");
+        expect(part("## 7. Management and Organisation")).toContain("### Legal Structure");
+        expect(part("## 7. Management and Organisation")).toContain("Legal form: Sole Proprietorship");
         expect(part("## 6. Operations")).toContain("### Licences and Registrations");
         expect(part("## 2. Company Description")).not.toContain("Legal Structure");
         // What the answers do not collect is said, not made up.
         expect(part("## 4. Products and Services")).toContain("### Intellectual Property and Product Lifecycle\n\nNot covered by the Foundation answers.");
         // Each founder's profile is, from the Founders Profile.
-        expect(part("## 7. Management and Organization")).toContain("### Founder Profiles");
-        expect(part("## 7. Management and Organization")).not.toContain("Experience and CVs");
+        expect(part("## 7. Management and Organisation")).toContain("### Founder Profiles");
+        expect(part("## 7. Management and Organisation")).not.toContain("Experience and CVs");
     });
 
     test("the funding request states its terms, debt and equity, period and repayment", () => {
@@ -857,12 +857,12 @@ describe("the optional answers in the documents", () => {
     };
 
     test("the founders' profiles replace the \"not covered\" lines under Management", () => {
-        const plain = partOf(planOf({ ...base(), identity: withoutProfile() }), "## 7. Management and Organization");
+        const plain = partOf(planOf({ ...base(), identity: withoutProfile() }), "## 7. Management and Organisation");
         expect(plain).toContain("### Experience and CVs\n\nNot covered by the Foundation answers.");
         expect(plain).toContain("### Capability Gaps and Cover\n\nNot covered by the Foundation answers.");
         expect(plain).not.toContain("### Founder Profiles");
 
-        const given = partOf(planOf(base()), "## 7. Management and Organization");
+        const given = partOf(planOf(base()), "## 7. Management and Organisation");
         expect(given).not.toContain("Not covered by the Foundation answers.");
         expect(given).toContain("| Founder | Ownership | Roles | Commitment | Pay |");
         expect(given).toContain("| Founder & Automation Consultant, Solutions Architect | Full-time (about 37 hours a week) |");
@@ -893,14 +893,14 @@ describe("the optional answers in the documents", () => {
                 skills: ["Saved before types", { type: "licence", text: "NY notary" }, { type: "skill", text: "Negotiation" }]
             }))
         }));
-        const team = partOf(planOf({ ...base(), identity }), "## 7. Management and Organization");
+        const team = partOf(planOf({ ...base(), identity }), "## 7. Management and Organisation");
         expect(team).toContain("**Key achievements:** \n\n- One\n- Two\n- Three\n- Four\n- Five");
         expect(team).toContain("**Skills, expertise and qualifications:** \n\n- Skill: Negotiation\n- Licence: NY notary\n- Saved before types");
     });
 
     test("a Legal Entity's roles and experience saved before the Founders Profile reach the plan unopened", () => {
         const md = planOf({ ...base(), identity: legacyIdentity() });
-        const team = partOf(md, "## 7. Management and Organization");
+        const team = partOf(md, "## 7. Management and Organisation");
         expect(team).toContain("Principal Consultant");
         expect(team).toContain("**Relevant industry experience:** Eight years building workflow automation for accounting firms.");
         // And under the canvas's Key Resources.

@@ -243,7 +243,7 @@ export default function Conversation() {
     useEffect(() => {
 
         if (!organizationId) {
-            setLoadingError("No Organization selected.");
+            setLoadingError("No Organisation selected.");
             return;
         }
 

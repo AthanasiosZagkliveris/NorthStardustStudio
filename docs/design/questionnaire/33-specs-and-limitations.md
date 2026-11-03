@@ -1,6 +1,6 @@
 # 33. Specs and limitations: the first published version, and what is left for later (owner, 2026-10-29)
 
-Status: **specification**, written 2026-10-29, updated 2026-11-03, as given by the owner. What the first published version of the app contains and what it does not. The owner's items are written as given; the assistant's checks against the app, doc 28 and doc 31 are marked **Check** and are for the owner to confirm. The Organization tile, Early Positioning and the Segment card follow it (section 8); the Profile card is built in part (doc 36). What the first version leaves out is in sections 10 to 15 (the future features: **all other existing information is a future feature**; nothing there is scheduled; items already built stay in the code, hidden or unused, and are not deleted; they were document 33 until 2026-11-02, a living list).
+Status: **specification**, written 2026-10-29, updated 2026-11-03, as given by the owner. What the first published version of the app contains and what it does not. The owner's items are written as given; the assistant's checks against the app, doc 28 and doc 31 are marked **Check** and are for the owner to confirm. The Organisation tile, Early Positioning and the Segment card follow it (section 8); the Profile card is built in part (doc 36). What the first version leaves out is in sections 10 to 15 (the future features: **all other existing information is a future feature**; nothing there is scheduled; items already built stay in the code, hidden or unused, and are not deleted; they were document 33 until 2026-11-02, a living list).
 
 Related: doc 28 (questionnaire specification), doc 31 (positioning categories), doc 32 (sources), `docs/README.md` (contents), `docs/index.md` (index) and `docs/app/glossary.md` (glossary).
 
@@ -118,7 +118,7 @@ The B2B list is the six business relationships of doc 31 section 6.2, each with 
 **Ages are placed in the Segment, and maybe as an "i"** (owner). Read as the age information collected in docs 30 and 31, shown on the Segment card (Business 1) and possibly in an "i" beside the relevant answer.
 
 **Check, for the owner:**
-- **Which ages?** Three kinds exist: the **legal ages by activity and country** (doc 30: alcohol, tobacco, gambling and so on), the **legal ages for a buyer** (majority, consent, credit; doc 31 section 10.2), and the **life-stage age ranges** (doc 31 section 1; the Segment's age range G6 already exists). The first two were requirements R-1 (Organization card) and R-2 (Positioning card) of doc 31 section 9; they now move to the Segment. Read here as **all three, shown on the Segment**, with the legal ones applied from the customers' country automatically.
+- **Which ages?** Three kinds exist: the **legal ages by activity and country** (doc 30: alcohol, tobacco, gambling and so on), the **legal ages for a buyer** (majority, consent, credit; doc 31 section 10.2), and the **life-stage age ranges** (doc 31 section 1; the Segment's age range G6 already exists). The first two were requirements R-1 (Organisation card) and R-2 (Positioning card) of doc 31 section 9; they now move to the Segment. Read here as **all three, shown on the Segment**, with the legal ones applied from the customers' country automatically.
 - **Where, exactly:** a line in the Segment card, an "i", or both is not decided.
 
 ## 7. Limits that already stand (from earlier owner decisions)
@@ -128,7 +128,7 @@ The B2B list is the six business relationships of doc 31 section 6.2, each with 
 
 ## 8. What is built
 
-The tiles that follow this document are described as built in their own documents: doc 37 (the Organization tile), doc 38 (the Early Positioning tile), doc 35 (the Segment card) and doc 36 (the Profile card, in part). The record of what was built on 2026-10-29 and 2026-10-30, and how the open readings of sections 3 to 5 were settled, is in the log (doc 4, section 4.1, row of 2026-10-29 to 2026-10-30).
+The tiles that follow this document are described as built in their own documents: doc 37 (the Organisation tile), doc 38 (the Early Positioning tile), doc 35 (the Segment card) and doc 36 (the Profile card, in part). The record of what was built on 2026-10-29 and 2026-10-30, and how the open readings of sections 3 to 5 were settled, is in the log (doc 4, section 4.1, row of 2026-10-29 to 2026-10-30).
 
 ## 9. Open points of the first version
 

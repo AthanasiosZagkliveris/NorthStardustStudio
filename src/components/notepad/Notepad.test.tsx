@@ -36,7 +36,7 @@ const place = (organizationId: string) => ({
 
 describe("the notepad", () => {
 
-    it("belongs to the person, not to an Organization: kept under its own key, newest first", () => {
+    it("belongs to the person, not to an Organisation: kept under its own key, newest first", () => {
         const organization = OrganizationService.create("Lumen");
         const first = NotepadService.addNote();
         NotepadService.setText(first, "Ask the accountant");
@@ -268,9 +268,9 @@ describe("a dated note", () => {
 
 });
 
-describe("notes by Organization", () => {
+describe("notes by Organisation", () => {
 
-    it("belong to the Organization they were written in; the open one first and open, the others folded with their counts, General last", () => {
+    it("belong to the Organisation they were written in; the open one first and open, the others folded with their counts, General last", () => {
         const lumen = OrganizationService.create("Lumen");
         const quill = OrganizationService.create("Quillfield");
         OrganizationService.setSelected(lumen.id);
@@ -281,7 +281,7 @@ describe("notes by Organization", () => {
         render(<MemoryRouter><NotepadPanel /></MemoryRouter>);
         act(() => { NotepadService.open(); });
 
-        const heads = screen.getAllByRole("button", { name: /(Minimize|Maximize) (Lumen|Quillfield|General)/ });
+        const heads = screen.getAllByRole("button", { name: /(Minimise|Maximise) (Lumen|Quillfield|General)/ });
         expect(heads.map(head => head.closest(".fold-head")?.querySelector(".fold-head-name")?.textContent! + head.closest(".fold-head")?.querySelector(".fold-head-count")?.textContent)).toEqual(["Lumen1", "Quillfield1", "General1"]);
         expect(heads.map(head => head.getAttribute("aria-expanded"))).toEqual(["true", "false", "false"]);
         expect((screen.getAllByRole("textbox", { name: "Note" }) as HTMLTextAreaElement[]).map(box => box.value)).toEqual(["About Lumen"]);
@@ -291,7 +291,7 @@ describe("notes by Organization", () => {
         expect(screen.getAllByRole("button", { name: "Link a field" })).toHaveLength(1);
     });
 
-    it("reads an older note as belonging to its first link's Organization", () => {
+    it("reads an older note as belonging to its first link's Organisation", () => {
         localStorage.setItem(notepadStorageKey(DEFAULT_PROFILE), JSON.stringify({ version: 1, notes: [
             { id: "n1", text: "Old", createdAt: 1, links: [{ id: "l1", organizationId: "org-9", kind: "system", systemNumber: 1, label: "Identity System", place: "" }] },
             { id: "n2", text: "Older", createdAt: 0, links: [] }

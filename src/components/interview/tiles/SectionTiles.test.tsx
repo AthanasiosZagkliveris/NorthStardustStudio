@@ -414,7 +414,7 @@ describe("a section tile's dialog", () => {
         const dialog = screen.getByRole("dialog", { name: "Founders" });
         expect(dialog.getAttribute("aria-modal")).toBe("true");
         // (One founder: the tile opens that founder's card floating at once, as a tile of one card does; no fold arrow on it.)
-        expect(within(dialog).queryByRole("button", { name: /Maximize|Minimize/ })).toBeNull();
+        expect(within(dialog).queryByRole("button", { name: /Maximise|Minimise/ })).toBeNull();
         // Only one dialog at a time, and everything else on the page is inert.
         expect(screen.getAllByRole("dialog")).toHaveLength(1);
         const inert = [...document.body.children].filter(child => child.hasAttribute("inert"));
@@ -893,7 +893,7 @@ describe("the Founders tile: the founders are tiles, and a card opens floating, 
         expect(card).toBeTruthy();
         expect(card.querySelector(".business-founder-open")).toBeTruthy();
         expect(within(card).getAllByText("Salary")).toHaveLength(1);
-        expect(within(card).queryByRole("button", { name: /Maximize|Minimize/ })).toBeNull();
+        expect(within(card).queryByRole("button", { name: /Maximise|Minimise/ })).toBeNull();
         // (The card is the width of any card, not a founder's own 297px.)
         expect(card.getAttribute("data-card-kind") ?? "card").toBe("card");
     });
@@ -1467,12 +1467,12 @@ describe("the Inventory funnel menu", () => {
 describe("the Inventory table", () => {
 
     const row = (fields: Record<string, unknown>) => ({
-        id: "r", tone: "infrastructure", kind: "resource", name: "Loom", path: ["Infrastructure", "Equipment", "Specialized"],
+        id: "r", tone: "infrastructure", kind: "resource", name: "Loom", path: ["Infrastructure", "Equipment", "Specialised"],
         status: "costs", statusLabel: "Costs", frequency: "one-time", frequencyLabel: "One-time", amount: 7200, links: [], ...fields
     }) as never;
 
     it("maps a card to Section, Category, Group, Cost and Frequency, one line for one cost", () => {
-        expect(tableRows(row({}))).toEqual([{ type: "Resource", section: "Infrastructure", category: "Equipment", group: "Specialized", status: "Costs", cost: "7200", frequency: "One-time", nature: "", behaviour: "" }]);
+        expect(tableRows(row({}))).toEqual([{ type: "Resource", section: "Infrastructure", category: "Equipment", group: "Specialised", status: "Costs", cost: "7200", frequency: "One-time", nature: "", behaviour: "" }]);
         expect(tableRows(row({ path: ["Offering's Capability", "Resources"] }))[0]).toMatchObject({ section: "Offering", category: "Resources", group: "" });
     });
 

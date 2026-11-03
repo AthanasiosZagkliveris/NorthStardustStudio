@@ -247,13 +247,13 @@ export default function StrategyFoundationEditor({
             { title: "How are you supported financially today?", text: "(3. Business System → 4. Financial Foundation: Costs and funding; 5. Sustainability: Revenue and break even)", onOpen: pageLink(AnswerType.FinancialFoundation) }
         ],
         [
-            "Strengths and Weaknesses: inside your organization.",
+            "Strengths and Weaknesses: inside your organisation.",
             "Opportunities and Threats: outside, in your market.",
             "Think of resources, skills, customers, competition and technology."
         ],
         [
-            "Where do you want your organization to be heading, and what do you want it to build, become, or achieve over the long term?",
-            "Choose a time horizon far enough ahead to give your strategy direction, yet close enough for your organization to make meaningful decisions about.",
+            "Where do you want your organisation to be heading, and what do you want it to build, become, or achieve over the long term?",
+            "Choose a time horizon far enough ahead to give your strategy direction, yet close enough for your organisation to make meaningful decisions about.",
             { title: "The Vision is the goal; the Compass is the route.", text: vision.trim() ? vision.trim() : "Your Vision is not written yet. Write it under 1. Identity System → 1. Definition → 4. Vision." }
         ],
         [
@@ -296,7 +296,7 @@ export default function StrategyFoundationEditor({
                 <StrategyTextArea
                     className="interview-input strategy-prose"
                     ariaLabel="Current situation analysis"
-                    placeholder="Describe your organization as it is today"
+                    placeholder="Describe your organisation as it is today"
                     disabled={disabled}
                     value={foundation.situation}
                     onChange={(next) => update({ situation: next, situationSource: "edited" })}

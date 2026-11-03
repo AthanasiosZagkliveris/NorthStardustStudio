@@ -5,7 +5,7 @@ import { act, fireEvent } from "@testing-library/react";
  * sections (a Segment, a channel, a numbered section, Costs, Funding Need, Revenue...) first. Folds a test is about (a category, an Offering's block) are left
  * as the page draws them.
  */
-const STRUCTURAL = /^Maximize (Segment \d+|\d+\. .*|Costs|Funding Need|Capital & Funding|Financial Position|Revenue|Break Even|channel expenses|Customer Channel.*)$/i;
+const STRUCTURAL = /^Maximise (Segment \d+|\d+\. .*|Costs|Funding Need|Capital & Funding|Financial Position|Revenue|Break Even|channel expenses|Customer Channel.*)$/i;
 
 export function openFolds(container: HTMLElement): void {
     for (let pass = 0; pass < 6; pass++) {

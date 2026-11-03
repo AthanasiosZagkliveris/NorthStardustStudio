@@ -21,7 +21,7 @@ import {
     createBusinessSegmentEngagement
 } from "../../../framework/engine/AnswerUtils";
 
-/** Opens a fold that is closed (its button says Maximize); the items of this page start OPEN, and then there is nothing to do. */
+/** Opens a fold that is closed (its button says Maximise); the items of this page start OPEN, and then there is nothing to do. */
 function maximize(name: string | RegExp) {
     const button = screen.queryAllByRole("button", { name })[0];
     if (button) {
@@ -128,7 +128,7 @@ describe("BusinessEngagementEditor folding", () => {
 
         render(<Harness />);
 
-        const categories = screen.getAllByRole("button", { name: /^(Maximize|Minimize) (Website|Email)$/ });
+        const categories = screen.getAllByRole("button", { name: /^(Maximise|Minimise) (Website|Email)$/ });
 
         expect(categories).toHaveLength(2);
         categories.forEach(b => {
@@ -147,7 +147,7 @@ describe("BusinessEngagementEditor folding", () => {
 
         expandAll("Expand all channel categories");
 
-        screen.getAllByRole("button", { name: /^(Maximize|Minimize) (Website|Email)$/ })
+        screen.getAllByRole("button", { name: /^(Maximise|Minimise) (Website|Email)$/ })
             .forEach(b => expect(b.getAttribute("aria-expanded")).toBe("true"));
 
         expect(screen.queryByText("2 subchannels")).toBeNull();
@@ -171,7 +171,7 @@ describe("BusinessEngagementEditor folding", () => {
 
         // The card's own arrow stands in the Segment column's heading.
         const heading = container.querySelector(".business-engagement-reference-column > .business-foundation-label-info")!;
-        const arrow = screen.getByRole("button", { name: "Minimize Segment 1" });
+        const arrow = screen.getByRole("button", { name: "Minimise Segment 1" });
         expect(heading.contains(arrow)).toBe(true);
 
         // The Segment's details start folded.
@@ -183,7 +183,7 @@ describe("BusinessEngagementEditor folding", () => {
         expect(container.querySelector(".business-engagement-reference-columns")).toBeNull();
         const folded = container.querySelector(".business-engagement-segment-folded")!;
         expect(folded.textContent).toMatch(/1\.\s*Segment/);
-        expect(screen.getByRole("button", { name: "Maximize Segment 1" })).toBeTruthy();
+        expect(screen.getByRole("button", { name: "Maximise Segment 1" })).toBeTruthy();
 
     });
 
@@ -202,7 +202,7 @@ describe("BusinessEngagementEditor folding", () => {
 
         fireEvent.change(added!, { target: { value: "Podcast" } });
 
-        expect(screen.getByRole("button", { name: "Minimize Podcast" }).getAttribute("aria-expanded")).toBe("true");
+        expect(screen.getByRole("button", { name: "Minimise Podcast" }).getAttribute("aria-expanded")).toBe("true");
 
     });
 
@@ -328,7 +328,7 @@ describe("BusinessEngagementEditor offering picker", () => {
 
         render(<PickHarness />);
 
-        maximize("Maximize Website");
+        maximize("Maximise Website");
         fireEvent.click(screen.getByRole("button", { name: /^Offering 1 for Subchannel \d+:/ }));
 
         const options = screen.getAllByRole("option").map(option => option.textContent);
@@ -348,7 +348,7 @@ describe("BusinessEngagementEditor offering picker", () => {
 
         render(<Harness />);
 
-        maximize("Maximize Website");
+        maximize("Maximise Website");
 
         // Two carried: each can go.
         expect(screen.getAllByRole("button", { name: "Remove this Offering" })).toHaveLength(2);
@@ -365,7 +365,7 @@ describe("BusinessEngagementEditor offering picker", () => {
 
         render(<Harness />);
 
-        maximize("Maximize Email");
+        maximize("Maximise Email");
 
         expect(screen.getAllByRole("button", { name: /^Offering 1 for Subchannel \d+: All Offerings$/ }).length).toBeGreaterThan(0);
 
@@ -395,7 +395,7 @@ describe("BusinessEngagementEditor Engagement Strategy (2. Customer Relationship
     function openAudit() {
         const view = render(<StrategyHarness />);
         // (The Offering blocks start open.)
-        const closed = screen.queryAllByRole("button", { name: /^Maximize (?!Demand).*Audit/ })[0];
+        const closed = screen.queryAllByRole("button", { name: /^Maximise (?!Demand).*Audit/ })[0];
         if (closed) {
             fireEvent.click(closed);
         }
@@ -404,7 +404,7 @@ describe("BusinessEngagementEditor Engagement Strategy (2. Customer Relationship
 
     it("shows the Engagement Strategy as a table: a column for each stage (no fold arrow, its channels in an \"i\"), a row for the Goal and one for the Approach", () => {
         const { container } = openAudit();
-        expect(screen.queryByRole("button", { name: /^Maximize Discover/ })).toBeNull();
+        expect(screen.queryByRole("button", { name: /^Maximise Discover/ })).toBeNull();
         const table = container.querySelector("table.business-relationship-strategy-table")!;
         expect(table).toBeTruthy();
         expect(table.querySelectorAll("thead th").length).toBeGreaterThan(0);

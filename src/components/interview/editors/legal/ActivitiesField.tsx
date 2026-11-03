@@ -87,7 +87,7 @@ function TypedActivities({ activities, onChange, disabled = false }: Omit<Activi
                                 <TextBox
                                     className="interview-input"
                                     aria-label={"Activity of the " + name.toLowerCase() + " activity"}
-                                    placeholder="What the organization does"
+                                    placeholder="What the organisation does"
                                     disabled={disabled}
                                     value={row.name}
                                     onChange={(event) => commit(rows.map((entry, at) => at === index ? { ...entry, name: event.target.value } : entry))}

@@ -22,8 +22,8 @@ A tooltip says what a click does, in one sentence that begins "Click to ...": "C
 | The name or title | The tooltip says |
 |---|---|
 | X: what this means (the "i") | Click to learn about X |
-| Minimize X, Fold X | Click to hide X |
-| Maximize X, Unfold X | Click to show X |
+| Minimise X, Fold X | Click to hide X |
+| Maximise X, Unfold X | Click to show X |
 | Remove X, Delete X, Add X, Open X, Close X, Move X up, Show X, Hide X, Reset X, Exit X ... | Click to remove X, delete, add, open, close, move, show, hide, reset, exit ... |
 | Previous X, Next X | Click to go to the previous X, Click to go to the next X |
 | Sort X (the funnel) | Click to filter and sort X |
@@ -39,7 +39,7 @@ The app's own terms keep their capitals (Offering, Resource, Status, page names)
 | The "i" (`InfoNote`) | yes (rule 2) | "<label>: what this means" |
 | The × (`RemoveButton`) | yes (rule 2) | "Remove <what>" |
 | The "+" box (`AddButton` box) | yes (rule 2) | "Add <what>" |
-| The fold arrow (`FoldArrow`), the label arrow | yes (rule 2) | "Minimize <what>" / "Maximize <what>" |
+| The fold arrow (`FoldArrow`), the label arrow | yes (rule 2) | "Minimise <what>" / "Maximise <what>" |
 | The navigation arrows (`NavArrow`) | yes where it says more | the key: "Previous card (←)"; a page arrow only where it goes somewhere that is not a page |
 | The funnel (`FunnelButton`) | yes (rule 2) | what it filters |
 | The Back button (`BackButton`) | yes, only while its word is hidden (rule 2: then it is an icon) | "Click to go back" |

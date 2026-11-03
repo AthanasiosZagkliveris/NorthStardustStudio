@@ -43,6 +43,12 @@ export interface FieldAddress {
 
 }
 
+/**
+ * UK spellings in a label keep the key it was saved under (owner, 2026-11-03: UK English only, saved keys unchanged): "Organisation" -> "organization".
+ */
+const US_STEM: Record<string, string> = { organis: "organiz", specialis: "specializ", authoris: "authoriz" };
+const UK_SPELLING = /(organis|specialis|authoris)(?=a|e|i)/g;
+
 /** A label as a path segment: "Legal Form" -> "legal-form". */
 export function slug(label: string): string {
     return label
@@ -51,7 +57,8 @@ export function slug(label: string): string {
         .replace(/[̀-ͯ]/g, "")
         .replace(/&/g, " and ")
         .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-+|-+$/g, "");
+        .replace(/^-+|-+$/g, "")
+        .replace(UK_SPELLING, (_, stem) => US_STEM[stem]);
 }
 
 /**
@@ -291,5 +298,5 @@ export function clearFieldRegistry(): void {
  * section's key and its place on the page can never drift apart.
  */
 export function sectionSegment(title: string): string {
-    return title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    return title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").replace(UK_SPELLING, (_, stem) => US_STEM[stem]);
 }

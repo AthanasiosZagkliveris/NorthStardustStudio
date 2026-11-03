@@ -264,7 +264,7 @@ export default function GlobalSettings() {
                             label="Business stages"
                             fullList
                             points={[
-                                "Today: " + (STAGES.find(entry => entry.id === todayStage)?.label ?? "") + ". " + (settings.openingDate === "" ? "No Opening Date yet: set it on the Organization tile." : stageMessages(settings.openingDate, "", new Date(), stageDurations)[0]),
+                                "Today: " + (STAGES.find(entry => entry.id === todayStage)?.label ?? "") + ". " + (settings.openingDate === "" ? "No Opening Date yet: set it on the Organisation tile." : stageMessages(settings.openingDate, "", new Date(), stageDurations)[0]),
                                 ...LEGAL_INFO.businessStage,
                                 ...STAGE_ROWS.map(row => row.label + ": " + row.meaning)
                             ]}
@@ -276,7 +276,7 @@ export default function GlobalSettings() {
                             <InfoNote label="Opening Date" points={LEGAL_INFO.openingDate} />
                         </FieldLabel>
                         <span className="settings-control"><span>{settings.openingDate === "" ? "Not set" : dayWords(settings.openingDate)}</span></span>
-                        <span className="settings-hint">{settings.openingDate === "" ? "Set on the Organization tile." : ""}</span>
+                        <span className="settings-hint">{settings.openingDate === "" ? "Set on the Organisation tile." : ""}</span>
                     </div>
                     <div className="settings-table-wrap">
                         <table className="settings-table settings-assets-table settings-stages-table" aria-label="Business stages">

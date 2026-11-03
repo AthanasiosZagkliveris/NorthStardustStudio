@@ -390,7 +390,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
      * control already learned.
      *
      * `path` is what the arrow announces: the title with everything
-     * above it, since "Minimize 1. Founders" alone does not say it
+     * above it, since "Minimise 1. Founders" alone does not say it
      * sits under Organisational Resources, and the arrows on this
      * page should not have to be told apart by position.
      *

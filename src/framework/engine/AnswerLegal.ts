@@ -21,7 +21,7 @@ import { AUDIENCE_IDS, BUYER_CATEGORY_KEYS, DIFFERENTIATION_IDS, MODEL_IDS, OUTC
 
 /** The six subsections, in the order the page asks them. */
 export const LEGAL_ENTITY_SECTIONS = [
-    "Organization",
+    "Organisation",
     "Founders & Ownership",
     "Formation & Registration",
     "Tax & Business Registration",

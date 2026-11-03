@@ -14,7 +14,7 @@ export const CALENDAR_INCLUDES: readonly { id: string; label: string; nouns: rea
     { id: "activities", label: "Activities", nouns: ["Activity"] },
     { id: "partners", label: "Partners & Suppliers", nouns: ["Partner", "Supplier"] },
     { id: "founders", label: "Founders", nouns: ["Founder"] },
-    { id: "legal", label: "Legal & Organization", nouns: ["Expense", "Organization"] }
+    { id: "legal", label: "Legal & Organisation", nouns: ["Expense", "Organisation"] }
 ];
 
 /**

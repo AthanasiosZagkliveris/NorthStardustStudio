@@ -34,7 +34,7 @@ Name cells, numbers, dates, colours and search boxes are not free texts (they ha
 - **Note**: every optional text (Description / Relevant Information, Usage, Notes) is labelled **Notes**; the keys under it do not change.
 - **Long text**: eight rows by default (a tile's text, the strategy statements); the Value Proposition keeps the height its column needs.
 - **Card notes**: the Notes panel lists every card's Notes (name, page, text) under a funnel that chooses the pages; a press opens the card (`CardNotesService.ts`).
-- **Record time**: each floating card shows "Recorded <date> <time>" under it, as a note does (kept per organization in the browser, set the first time the card is made or opened).
+- **Record time**: each floating card shows "Recorded <date> <time>" under it, as a note does (kept per organisation in the browser, set the first time the card is made or opened).
 
 ## What is still to make
 

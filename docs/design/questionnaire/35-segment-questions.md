@@ -224,7 +224,7 @@ Both.
   - Suburban: Residential towns surrounding a city
   - Rural / remote: Low-density countryside or isolated areas
 - **Connections:**
-  - *Comes from:* This Segment's reach, and the business stage (Organization: the Opening Date).
+  - *Comes from:* This Segment's reach, and the business stage (Organisation: the Opening Date).
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* The Review (remote customers and delivery in person).
 

@@ -51,11 +51,11 @@ The current design of the Foundation, the sources, the research, the log of ever
 |---|---|---|---|
 | [design/core/01-current-design.md](design/core/01-current-design.md) | current design | The single description of what the Foundation capability is: what the app does, how it is organised, the interface elements, the cost model, the automatic rules, the help texts and the colour map. | 2026-11-03 |
 | [design/core/02-references.md](design/core/02-references.md) | reference | The source register: the rule for what counts as a reference, and every decision in the app and in these documents with the source behind it. | 2026-11-03 |
-| [design/core/03-research.md](design/core/03-research.md) | research | The research behind the design decisions: the question, the recommendation, the reason and the source. Document 1 prevails where they differ. | 2026-11-02 |
+| [design/core/03-research.md](design/core/03-research.md) | research | The research behind the design decisions: the question, the recommendation, the reason and the source. Document 1 prevails where they differ. | 2026-11-03 |
 | [design/core/04-log.md](design/core/04-log.md) | log | Every change to the app, the design, the documents or the plan, newest on top. The only place a change is written. | 2026-11-03 |
 | [design/core/05-not-done-yet.md](design/core/05-not-done-yet.md) | living list | What has not been done: the road, the plans, the requirements still open, the open decisions and the open points of the reviews. | 2026-11-03 |
-| [design/core/06-catalogue-record.md](design/core/06-catalogue-record.md) | generated | The catalogue record of the app's pages, tiles, cards and controls, from the card scan and the probes. | 2026-11-02 |
-| [design/core/07-structure-tables.md](design/core/07-structure-tables.md) | generated | The structure tables of the app (pages, chapters, tiles, views, components, fields, card kinds), from the catalogue. | 2026-10-30 |
+| [design/core/06-catalogue-record.md](design/core/06-catalogue-record.md) | generated | The catalogue record of the app's pages, tiles, cards and controls, from the card scan and the probes. | 2026-11-03 |
+| [design/core/07-structure-tables.md](design/core/07-structure-tables.md) | generated | The structure tables of the app (pages, chapters, tiles, views, components, fields, card kinds), from the catalogue. | 2026-11-03 |
 
 ## 4. The library (`design/library/`, documents 8 to 15)
 
@@ -63,14 +63,14 @@ The assets library, its generated lists, its logs, and the library measured agai
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [design/library/08-library-system.md](design/library/08-library-system.md) | specification | The library system: the tables, the library, the inventory and the two logs, with the procedure to change an asset and the steps built. | 2026-11-02 |
-| [design/library/09-assets-library.md](design/library/09-assets-library.md) | generated | The assets library: every asset, its variants and its contract. | 2026-11-02 |
-| [design/library/10-library-log.md](design/library/10-library-log.md) | log | The library log: every change to an asset of the library, newest on top. | 2026-11-02 |
-| [design/library/11-app-structure-log.md](design/library/11-app-structure-log.md) | log | The app structure log: every change of the tables, that is of the structure of the app, newest on top. | 2026-11-02 |
-| [design/library/12-component-defaults.md](design/library/12-component-defaults.md) | generated | The default of each component: the reference sizes and the criteria. | 2026-11-02 |
-| [design/library/13-components-list.md](design/library/13-components-list.md) | generated | The components, and which fields and cards use each. | 2026-11-02 |
-| [design/library/14-fields-list.md](design/library/14-fields-list.md) | generated | The fields, the add buttons and the field names. | 2026-11-02 |
-| [design/library/15-library-vs-app.md](design/library/15-library-vs-app.md) | generated | The library measured against the running app. | 2026-10-29 |
+| [design/library/08-library-system.md](design/library/08-library-system.md) | specification | The library system: the tables, the library, the inventory and the two logs, with the procedure to change an asset and the steps built. | 2026-11-03 |
+| [design/library/09-assets-library.md](design/library/09-assets-library.md) | generated | The assets library: every asset, its variants and its contract. | 2026-11-03 |
+| [design/library/10-library-log.md](design/library/10-library-log.md) | log | The library log: every change to an asset of the library, newest on top. | 2026-11-03 |
+| [design/library/11-app-structure-log.md](design/library/11-app-structure-log.md) | log | The app structure log: every change of the tables, that is of the structure of the app, newest on top. | 2026-11-03 |
+| [design/library/12-component-defaults.md](design/library/12-component-defaults.md) | generated | The default of each component: the reference sizes and the criteria. | 2026-11-03 |
+| [design/library/13-components-list.md](design/library/13-components-list.md) | generated | The components, and which fields and cards use each. | 2026-11-03 |
+| [design/library/14-fields-list.md](design/library/14-fields-list.md) | generated | The fields, the add buttons and the field names. | 2026-11-03 |
+| [design/library/15-library-vs-app.md](design/library/15-library-vs-app.md) | generated | The library measured against the running app. | 2026-11-03 |
 
 ## 5. The current design (`design/current/`, documents 16 to 26)
 
@@ -78,21 +78,21 @@ What the app is today in detail: the texts, the reactions, the shared components
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [design/current/16-text-holders.md](design/current/16-text-holders.md) | generated | The text holders: sizes, style classes and rules. | 2026-11-02 |
-| [design/current/17-frequency-options.md](design/current/17-frequency-options.md) | generated | The Frequency options by group, compared with the code. | 2026-11-02 |
-| [design/current/18-reactions.md](design/current/18-reactions.md) | current design | How elements react to the pointer and the keyboard: the reactions by component. The check is in the layout rules; this is the lookup. | 2026-11-02 |
-| [design/current/19-text-links.md](design/current/19-text-links.md) | generated | The text link: look and behaviour, from the code and the walk of the app. | 2026-10-30 |
-| [design/current/20-free-text-categories.md](design/current/20-free-text-categories.md) | current design | Free texts in four categories: the categories, the owner's decisions, the proposed limits and what is still to build. | 2026-11-02 |
-| [design/current/21-shared-components.md](design/current/21-shared-components.md) | current design | Which components are shared, with their props, and what is still hand-made. | 2026-11-02 |
+| [design/current/16-text-holders.md](design/current/16-text-holders.md) | generated | The text holders: sizes, style classes and rules. | 2026-11-03 |
+| [design/current/17-frequency-options.md](design/current/17-frequency-options.md) | generated | The Frequency options by group, compared with the code. | 2026-11-03 |
+| [design/current/18-reactions.md](design/current/18-reactions.md) | current design | How elements react to the pointer and the keyboard: the reactions by component. The check is in the layout rules; this is the lookup. | 2026-11-03 |
+| [design/current/19-text-links.md](design/current/19-text-links.md) | generated | The text link: look and behaviour, from the code and the walk of the app. | 2026-11-03 |
+| [design/current/20-free-text-categories.md](design/current/20-free-text-categories.md) | current design | Free texts in four categories: the categories, the owner's decisions, the proposed limits and what is still to build. | 2026-11-03 |
+| [design/current/21-shared-components.md](design/current/21-shared-components.md) | current design | Which components are shared, with their props, and what is still hand-made. | 2026-11-03 |
 | [design/current/22-help-texts.md](design/current/22-help-texts.md) | generated | The help texts of the app, from the walk of the running app. | 2026-11-03 |
-| [design/current/23-popups.md](design/current/23-popups.md) | current design | Pop-ups in six categories, with their placement rules and the order of fallbacks. | 2026-11-02 |
-| [design/current/24-tooltips.md](design/current/24-tooltips.md) | current design | Which controls have a tooltip, what it says, its look and its rules. This document owns the tip. | 2026-11-02 |
-| [design/current/25-folder-plan.md](design/current/25-folder-plan.md) | current design | The folders of the repository: the app files, the examples, the working files and the exports, and the documents folder. | 2026-11-02 |
+| [design/current/23-popups.md](design/current/23-popups.md) | current design | Pop-ups in six categories, with their placement rules and the order of fallbacks. | 2026-11-03 |
+| [design/current/24-tooltips.md](design/current/24-tooltips.md) | current design | Which controls have a tooltip, what it says, its look and its rules. This document owns the tip. | 2026-11-03 |
+| [design/current/25-folder-plan.md](design/current/25-folder-plan.md) | current design | The folders of the repository: the app files, the examples, the working files and the exports, and the documents folder. | 2026-11-03 |
 | [design/current/26-card-structure.md](design/current/26-card-structure.md) | current design | Card structure: what the user can reach in each card, row by row, and why. The structure tables and the catalogue record are generated from it. | 2026-11-03 |
 
 ## 6. The first version and the questionnaire (`design/questionnaire/`, documents 27 to 40)
 
-What the first published version contains and what it leaves for later (33, which governs the other documents of this chapter), the questions of each tile as built, and the plan, the lists and the research behind them. Read in this order. **What governs:** 33 (the first version, sections 1 to 9; what is left for later, sections 10 to 15). **The tiles as built, one document each (40 gives the form and the list):** 37 (the Organization), 38 (Positioning), 35 (the Segment), 36 (the Profile, built in part). **How to word them:** 39 (what an "i" says) and, in 28, sections 3 and 4 (the rules and the plain wording). **The design behind them:** 27 (the plan), 28 (every question, the connections and the evidence), 29 (the flow). **The lists and the data:** 34 (the lists and classifications), 31 and 32 (the positioning decisions and their sources), 30 (age limits).
+What the first published version contains and what it leaves for later (33, which governs the other documents of this chapter), the questions of each tile as built, and the plan, the lists and the research behind them. Read in this order. **What governs:** 33 (the first version, sections 1 to 9; what is left for later, sections 10 to 15). **The tiles as built, one document each (40 gives the form and the list):** 37 (the Organisation), 38 (Positioning), 35 (the Segment), 36 (the Profile, built in part). **How to word them:** 39 (what an "i" says) and, in 28, sections 3 and 4 (the rules and the plain wording). **The design behind them:** 27 (the plan), 28 (every question, the connections and the evidence), 29 (the flow). **The lists and the data:** 34 (the lists and classifications), 31 and 32 (the positioning decisions and their sources), 30 (age limits).
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
@@ -106,9 +106,9 @@ What the first published version contains and what it leaves for later (33, whic
 | [design/questionnaire/34-lists-and-classifications.md](design/questionnaire/34-lists-and-classifications.md) | proposal | The countries, the shared lists, the national crosswalks, the industry lists, the activity cascade, the codes and the classification data (section 5 of the former questionnaire specification). | 2026-11-03 |
 | [design/questionnaire/35-segment-questions.md](design/questionnaire/35-segment-questions.md) | specification | The Segment card's questions as built: every question and option in order, when it is asked, what its help says and what it comes from and is read by. | 2026-11-03 |
 | [design/questionnaire/36-profile-questions.md](design/questionnaire/36-profile-questions.md) | specification | The Profile card's questions, built in part: every question and option in order (the specialised needs and the kind of business are not built yet), when it is asked, the starting values, the help, and the layout of the card. | 2026-11-03 |
-| [design/questionnaire/37-organization-fields.md](design/questionnaire/37-organization-fields.md) | specification | The Organization tile's fields as built: control, when asked, options, the help and the connections. | 2026-11-02 |
+| [design/questionnaire/37-organization-fields.md](design/questionnaire/37-organization-fields.md) | specification | The Organisation tile's fields as built: control, when asked, options, the help and the connections. | 2026-11-03 |
 | [design/questionnaire/38-positioning-questions.md](design/questionnaire/38-positioning-questions.md) | specification | The Positioning tile's questions as built, by stage: control, limits, options, the help and the connections. | 2026-11-03 |
-| [design/questionnaire/39-help-texts-guide.md](design/questionnaire/39-help-texts-guide.md) | proposal | What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check. | 2026-11-02 |
+| [design/questionnaire/39-help-texts-guide.md](design/questionnaire/39-help-texts-guide.md) | proposal | What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check. | 2026-11-03 |
 | [design/questionnaire/40-tile-documents.md](design/questionnaire/40-tile-documents.md) | rules | The form every tile document takes (one for each tile or card), and where each tile stands: which has a document and which does not yet. | 2026-11-03 |
 
 ## 7. Rules for the assistant (`ai/`)
@@ -122,13 +122,13 @@ Standing rules, references and playbooks for an AI assistant working on the proj
 | [ai/toolchain-and-verification-playbook.md](ai/toolchain-and-verification-playbook.md) | playbook | What to run after a change (typecheck, tests, the lints and document checks, build, layout check) and the list of expected test failures. | 2026-11-03 |
 | [ai/framework-dsl-grammar.md](ai/framework-dsl-grammar.md) | reference | Grammar of the Markdown that defines a System's content. | 2026-11-03 |
 | [ai/framework-conventions-and-patterns.md](ai/framework-conventions-and-patterns.md) | reference | The architectural patterns and the data model of the framework. | 2026-11-03 |
-| [ai/review-criteria.md](ai/review-criteria.md) | rules | The standard a screen is judged by: criteria by kind (type, spacing, controls, colour, tiles, cards, tables, windows, pages, data), how each is measured, the report. | 2026-11-02 |
-| [ai/review-checklist.md](ai/review-checklist.md) | rules | What to check when reviewing a table, tile, card, page or control, and the proof before saying done. | 2026-11-02 |
-| [ai/code-map.md](ai/code-map.md) | reference | Where things are in src: the folders and what is in each; the rules for a new file. | 2026-11-02 |
-| [ai/layout-rules.md](ai/layout-rules.md) | rules | The measured rulebook of the Foundation pages (tokens, sizes, alignment, interactions) and the layout check. | 2026-11-02 |
+| [ai/review-criteria.md](ai/review-criteria.md) | rules | The standard a screen is judged by: criteria by kind (type, spacing, controls, colour, tiles, cards, tables, windows, pages, data), how each is measured, the report. | 2026-11-03 |
+| [ai/review-checklist.md](ai/review-checklist.md) | rules | What to check when reviewing a table, tile, card, page or control, and the proof before saying done. | 2026-11-03 |
+| [ai/code-map.md](ai/code-map.md) | reference | Where things are in src: the folders and what is in each; the rules for a new file. | 2026-11-03 |
+| [ai/layout-rules.md](ai/layout-rules.md) | rules | The measured rulebook of the Foundation pages (tokens, sizes, alignment, interactions) and the layout check. | 2026-11-03 |
 | [ai/tile-and-card-pattern.md](ai/tile-and-card-pattern.md) | rules | How tiles, frames, cards, rails and dialogs are built; the global rules. | 2026-11-03 |
-| [ai/card-kinds.md](ai/card-kinds.md) | reference | The kinds of card, where each one's code is, how its head is built. | 2026-11-02 |
-| [ai/customer-engagement-layout.md](ai/customer-engagement-layout.md) | rules | Layout of the Customer Engagement tables, the channel resources and the action markers. | 2026-11-02 |
+| [ai/card-kinds.md](ai/card-kinds.md) | reference | The kinds of card, where each one's code is, how its head is built. | 2026-11-03 |
+| [ai/customer-engagement-layout.md](ai/customer-engagement-layout.md) | rules | Layout of the Customer Engagement tables, the channel resources and the action markers. | 2026-11-03 |
 | [ai/outstanding-findings.md](ai/outstanding-findings.md) | living list | Confirmed problems found by diagnostic skills and not yet fixed. | 2026-11-03 |
 
 ## 8. The specifications (`specifications/`)
@@ -137,15 +137,15 @@ The pages of the Business System and of the Identity System.
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [specifications/identity-system/README.md](specifications/identity-system/README.md) | specification | The Identity System: index of the pages that have a document of their own. | 2026-11-02 |
-| [specifications/identity-system/page-1-definition.md](specifications/identity-system/page-1-definition.md) | current design | 1. Identity System, 1. Definition: the master tile with its four tiles (Organization, Early Positioning, Mission, Vision), its layout, reactions and readers, and the extra information that is neither built nor a future feature. | 2026-11-03 |
-| [specifications/business-system/README.md](specifications/business-system/README.md) | specification | The Business System: index of the pages and the editor mapping. | 2026-11-02 |
-| [specifications/business-system/page-1-foundation.md](specifications/business-system/page-1-foundation.md) | specification | Page 1: Foundation. | 2026-11-02 |
-| [specifications/business-system/page-2-section-1-channels.md](specifications/business-system/page-2-section-1-channels.md) | specification | Page 2, section 1: the channels. | 2026-11-02 |
-| [specifications/business-system/page-2-section-2-customer-relationships.md](specifications/business-system/page-2-section-2-customer-relationships.md) | specification | Page 2, section 2: customer relationships (section 18 holds a worked example and the column rules). | 2026-11-02 |
-| [specifications/business-system/page-3-infrastructure-and-capability.md](specifications/business-system/page-3-infrastructure-and-capability.md) | specification | Page 3: Infrastructure and Capability. | 2026-11-02 |
-| [specifications/business-system/page-4-financial-foundation.md](specifications/business-system/page-4-financial-foundation.md) | specification | Page 4: Financial Foundation. | 2026-11-02 |
-| [specifications/business-system/page-5-financial-sustainability.md](specifications/business-system/page-5-financial-sustainability.md) | specification | Page 5: Financial Sustainability. | 2026-11-02 |
+| [specifications/identity-system/README.md](specifications/identity-system/README.md) | specification | The Identity System: index of the pages that have a document of their own. | 2026-11-03 |
+| [specifications/identity-system/page-1-definition.md](specifications/identity-system/page-1-definition.md) | current design | 1. Identity System, 1. Definition: the master tile with its four tiles (Organisation, Early Positioning, Mission, Vision), its layout, reactions and readers, and the extra information that is neither built nor a future feature. | 2026-11-03 |
+| [specifications/business-system/README.md](specifications/business-system/README.md) | specification | The Business System: index of the pages and the editor mapping. | 2026-11-03 |
+| [specifications/business-system/page-1-foundation.md](specifications/business-system/page-1-foundation.md) | specification | Page 1: Foundation. | 2026-11-03 |
+| [specifications/business-system/page-2-section-1-channels.md](specifications/business-system/page-2-section-1-channels.md) | specification | Page 2, section 1: the channels. | 2026-11-03 |
+| [specifications/business-system/page-2-section-2-customer-relationships.md](specifications/business-system/page-2-section-2-customer-relationships.md) | specification | Page 2, section 2: customer relationships (section 18 holds a worked example and the column rules). | 2026-11-03 |
+| [specifications/business-system/page-3-infrastructure-and-capability.md](specifications/business-system/page-3-infrastructure-and-capability.md) | specification | Page 3: Infrastructure and Capability. | 2026-11-03 |
+| [specifications/business-system/page-4-financial-foundation.md](specifications/business-system/page-4-financial-foundation.md) | specification | Page 4: Financial Foundation. | 2026-11-03 |
+| [specifications/business-system/page-5-financial-sustainability.md](specifications/business-system/page-5-financial-sustainability.md) | specification | Page 5: Financial Sustainability. | 2026-11-03 |
 
 ## 9. The archive (`archive/`)
 
@@ -153,14 +153,14 @@ Documents that are finished or replaced; each is kept for its information.
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [archive/library/library-log-archive.md](archive/library/library-log-archive.md) | archive | Older rows of the library log. | 2026-11-02 |
+| [archive/library/library-log-archive.md](archive/library/library-log-archive.md) | archive | Older rows of the library log. | 2026-11-03 |
 | [archive/engineering-phase-completion.md](archive/engineering-phase-completion.md) | archive | The engineering phase completion report. | 2026-11-03 |
-| [archive/plans/2026-09-29-workspace-D-duplicate-scenarios-compare.md](archive/plans/2026-09-29-workspace-D-duplicate-scenarios-compare.md) | archive | Brief: workspace features D, duplicate, scenarios, compare (not started). | 2026-11-02 |
-| [archive/plans/2026-09-29-workspace-E-founder-helpers.md](archive/plans/2026-09-29-workspace-E-founder-helpers.md) | archive | Brief: workspace features E, helpers for founders (not started). | 2026-11-02 |
-| [archive/plans/2026-10-14-cleanup-and-library-plans.md](archive/plans/2026-10-14-cleanup-and-library-plans.md) | archive | The clean-up and library plans of 2026-10-14 (old sections 5.6, 5.11 to 5.14 of document 5); what is left is in document 5. | 2026-11-02 |
+| [archive/plans/2026-09-29-workspace-D-duplicate-scenarios-compare.md](archive/plans/2026-09-29-workspace-D-duplicate-scenarios-compare.md) | archive | Brief: workspace features D, duplicate, scenarios, compare (not started). | 2026-11-03 |
+| [archive/plans/2026-09-29-workspace-E-founder-helpers.md](archive/plans/2026-09-29-workspace-E-founder-helpers.md) | archive | Brief: workspace features E, helpers for founders (not started). | 2026-11-03 |
+| [archive/plans/2026-10-14-cleanup-and-library-plans.md](archive/plans/2026-10-14-cleanup-and-library-plans.md) | archive | The clean-up and library plans of 2026-10-14 (old sections 5.6, 5.11 to 5.14 of document 5); what is left is in document 5. | 2026-11-03 |
 | [archive/log/log-archive-2026-07-to-10.md](archive/log/log-archive-2026-07-to-10.md) | archive | Older rows of the log (document 4): sections 4.1 and 4.4 before 2026-10-22. | 2026-11-03 |
 | [archive/proposals/card-links.md](archive/proposals/card-links.md) | archive | Proposal: which partner and supplier groups each resource group could link to, and which partners, suppliers and resources could link to each activity group (formerly document 41; not built). | 2026-11-03 |
-| [archive/proposals/cost-section-proposal.md](archive/proposals/cost-section-proposal.md) | archive | Proposal: what the Cost section should record (the page was built afterwards). | 2026-11-02 |
+| [archive/proposals/cost-section-proposal.md](archive/proposals/cost-section-proposal.md) | archive | Proposal: what the Cost section should record (the page was built afterwards). | 2026-11-03 |
 | [archive/proposals/segment-questions-g-list-2026-10-23.md](archive/proposals/segment-questions-g-list-2026-10-23.md) | archive | The Segment card's earlier design (the G-list of 2026-10-23, ids G1 to G25); the questions as built are doc 35. | 2026-11-03 |
 | [archive/proposals/segment-by-selection-proposal.md](archive/proposals/segment-by-selection-proposal.md) | archive | Proposal: building a Customer Segment by selection (not built). | 2026-11-03 |
 | [archive/proposals/shared-workspace.md](archive/proposals/shared-workspace.md) | archive | Proposal: Shared Workspace, working together without a server (not built). | 2026-11-03 |

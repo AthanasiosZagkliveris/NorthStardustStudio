@@ -21,15 +21,15 @@ export const SECTIONS = {
 
     infrastructure: {
         instructions: [
-            "Record the resources, activities, partners and suppliers the organization needs to establish, operate and deliver.",
+            "Record the resources, activities, partners and suppliers the organisation needs to establish, operate and deliver.",
             "Mark what each resource needs: it already exists, it is rented or bought, it comes from a partner or a supplier, it needs work, it needs looking into, or it costs money.",
             "Give every activity one person who is responsible for it."
         ],
         note: [
-            "Existing or planned resources, activities, partners and suppliers the organization needs to establish, operate, and deliver."
+            "Existing or planned resources, activities, partners and suppliers the organisation needs to establish, operate, and deliver."
         ],
-        resources: ["Physical and digital resources the organization needs to operate."],
-        workspace: ["Where the organization's work is carried out."],
+        resources: ["Physical and digital resources the organisation needs to operate."],
+        workspace: ["Where the organisation's work is carried out."],
         responsibilities: ["This list is developed automatically."],
         activities: [
             "Add activities directly or create them from resources marked Activity.",
@@ -43,7 +43,7 @@ export const SECTIONS = {
             "People or firms engaged for work the founders cannot or should not do."
         ],
         providers: [
-            "Businesses or services that supply the organization with resources."
+            "Businesses or services that supply the organisation with resources."
         ],
         responsibility: [
             "Who is responsible for making contact and coordinating, and for ensuring the required work or process is completed."
@@ -52,12 +52,12 @@ export const SECTIONS = {
 
     offering: {
         instructions: [
-            "Record what each Offering needs on top of the organization's own infrastructure, and link it to that Offering.",
+            "Record what each Offering needs on top of the organisation's own infrastructure, and link it to that Offering.",
             "Identify opportunities to eliminate, share, obtain for free, or source them at the best value.",
             "Use the results to compare offering options and make better decisions."
         ],
         note: [
-            "What each Offering needs on top of the organization's own infrastructure: its resources, activities, partners and suppliers, and how it is delivered."
+            "What each Offering needs on top of the organisation's own infrastructure: its resources, activities, partners and suppliers, and how it is delivered."
         ]
     }
 };

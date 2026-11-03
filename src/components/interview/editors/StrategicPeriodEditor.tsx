@@ -853,7 +853,7 @@ function ObjectiveList({
                                             <span className="strategy-box-number">
                                                 <FoldArrow variant="label"
                                                     open={!foldedInitiatives.includes(objective.id)}
-                                                    name={`${!foldedInitiatives.includes(objective.id) ? "Minimize" : "Maximize"} Objective ${objectiveIndex + 1} initiatives`}
+                                                    name={`${!foldedInitiatives.includes(objective.id) ? "Minimise" : "Maximise"} Objective ${objectiveIndex + 1} initiatives`}
                                                     onToggle={() => setFoldedInitiatives(current => current.includes(objective.id) ? current.filter(id => id !== objective.id) : [...current, objective.id])}
                                                 />
                                                 Initiatives

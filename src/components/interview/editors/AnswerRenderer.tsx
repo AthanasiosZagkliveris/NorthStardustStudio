@@ -166,7 +166,7 @@ function MultiPartAnswerRenderer({
         const addressLines = written.length >= 3 ? [...written.slice(0, written.length - 2), written.slice(-2).join(" ")] : written;
         const organizationTile = (part: (typeof parts)[number]): SectionTile => ({
             id: "organization",
-            title: "Organization",
+            title: "Organisation",
             rail: part.id,
             large: true,
             // The name (in bold), its legal form, then the address.

@@ -50,7 +50,7 @@ export default function CapabilityGenerator() {
 
                 onBack={handleBack}
 
-                primaryText="Analyze Capability"
+                primaryText="Analyse Capability"
 
                 onPrimary={handleAnalyze}
 

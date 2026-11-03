@@ -20,7 +20,7 @@ const theme = arg("theme", "light");
 const systemFilter = arg("systems", "").split(",").filter(Boolean);
 const pageFilter = arg("pages", "").split(",").filter(Boolean);
 const PAGES = [
-    ["Identity System", ["^1\\. Definition", "^2\\. Organization"]],
+    ["Identity System", ["^1\\. Definition", "^2\\. Organi[sz]ation"]],
     ["Brand System", ["Brand System"]],
     ["Business System", ["^1\\. Foundation", "Customer Engagement", "Infrastructure", "Financial Foundation", "Sustainability"]],
     ["Strategy System", ["Strategy System"]]

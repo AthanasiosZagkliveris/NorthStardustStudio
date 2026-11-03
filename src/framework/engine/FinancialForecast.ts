@@ -995,7 +995,7 @@ export function forecastCsv(
     const row = (cells: (string | number)[]) => lines.push(cells.map(csvCell).join(","));
 
     row([heading.organization + ": Financial Forecast"]);
-    row(["Amounts in " + (heading.currency || "the organization's currency")]);
+    row(["Amounts in " + (heading.currency || "the organisation's currency")]);
     lines.push("");
 
     view.tables.forEach(table => {

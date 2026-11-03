@@ -11,7 +11,7 @@ afterEach(() => {
 
 function importFile(contents: unknown) {
 
-    const input = screen.getByLabelText("Organization file to import");
+    const input = screen.getByLabelText("Organisation file to import");
 
     fireEvent.change(input, {
         target: { files: [new File([JSON.stringify(contents)], "organization.json", { type: "application/json" })] }
@@ -19,7 +19,7 @@ function importFile(contents: unknown) {
 
 }
 
-describe("Landing import of an Organization file", () => {
+describe("Landing import of an Organisation file", () => {
 
     it("says plainly that a file from a newer version cannot be imported", async () => {
 
@@ -67,7 +67,7 @@ describe("Landing reload", () => {
     });
 
 
-    it("refreshes the saved examples from the current example files, and no other Organization", async () => {
+    it("refreshes the saved examples from the current example files, and no other Organisation", async () => {
 
         const reload = vi.fn();
         const original = window.location;
@@ -97,7 +97,7 @@ describe("Landing reload", () => {
 
 describe("Landing header Review", () => {
 
-    it("opens the Review of every Organization", () => {
+    it("opens the Review of every Organisation", () => {
 
         function Where() {
             const location = useLocation();

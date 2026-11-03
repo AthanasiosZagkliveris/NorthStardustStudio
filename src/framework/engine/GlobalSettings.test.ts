@@ -28,7 +28,7 @@ describe("the starting values", () => {
         expect(capitalisationLimitOf(settings)).toBeNull();
     });
 
-    it("an Organization that never saved any has them", () => {
+    it("an Organisation that never saved any has them", () => {
         expect(asGlobalSettings(undefined)).toMatchObject({ targetReserveMonths: "3" });
         expect(asGlobalSettings(undefined).channelFees).toHaveLength(3);
     });
