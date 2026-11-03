@@ -4,7 +4,7 @@ Status: **specification**, written 2026-11-01, updated 2026-11-03. Every questio
 
 Related: doc 36 (the Profile's questions, in the same form), doc 28 (6.3a, the Segment card in the specification), doc 31 (the age terms), doc 33 (the first version; its section 15 holds the thoughts), `src/framework/engine/SegmentQuestions.ts` (where these words are kept; where the two differ, the code is right).
 
-The rules that hold for all of them: a radio is one choice, ticks are several (with a limit where stated); an option says its few words, and what is added in brackets or after a colon (an example, a range, an explanation, a platform or brand) is in the "i" of the question; a box has no free-text note; where they buy on a phone ("On a phone") and no way of paying is chosen yet, "Digital wallets" starts ticked, a starting value the user can change; a question that the answers above settle is **answered for the user and not shown** (owner, 2026-11-01): the Positioning scale of a business buyer sets the organisation's type and size; a self-employed customer decides alone; a retiree is not working and retired; a user's age sets the school stage and removes the work and tool questions that do not apply. A question with only one option left is likewise not shown (there is nothing to choose) and its answer is that option; an answer to a question that is no longer asked, or to an option no longer offered, is removed when the next choice is made. Where Identity chose both relationships (or none), there is no Business Data tick (owner, 2026-11-02): a Segment of people has no Business Data and a Segment of businesses has it and no Demographics. Where Positioning chose both B2C and B2B, the first two Segment cards are made for the user, with no question: the first of people (B2C), the second of businesses (B2B); one "+ Segment" button adds more, and a Segment added after them has one question that opens its first box, "Who is this Segment's customer?" (People (B2C), Businesses (B2B)). The kind is kept as the presence of the Business Data key in the Segment's Description and is asked the business's questions only (a Segment is one group, never both). What Positioning or the answers above have set in a box is said in one small line under its title ("Set for you from Positioning and your answers above: Size: no employees."), so an answer that is not asked is never silent. A radio whose options are short (each of 24 characters or fewer, 90 in all) stands in one row where the whole row fits its column and in one column where it does not, never in a row that wraps; the others stand in one column. The starting values (the work situation from the age group, a wallet from a phone) are said in the "i". Where Identity chose no relationship, the buyer is read from the buyer's category, then from the audience (a business scale is a business buyer, a life stage a person). Choosing an age term starts the work situation with the one that goes with it (a minor or a young adult: Student; an established, peak or mature adult: Employed; a retiree: Retired) where none is chosen; the user changes it freely. The two columns are of nearly one height: the boxes are shared between them by their length, each column keeping the order of the boxes. The card is laid out as the Positioning card is (two columns with a divider, each question a band, a double rule between boxes). The box titles are in capitals.
+The rules that hold for all of them: a radio is one choice, ticks are several (with a limit where stated); an option says its few words, and what is added in brackets or after a colon (an example, a range, an explanation, a platform or brand) is in the "i" of the question; a box has no free-text note; where they buy on a phone ("On a phone") and no way of paying is chosen yet, "Digital wallets" starts ticked, a starting value the App User can change; a question that the answers above settle is **answered for the App User and not shown** (owner, 2026-11-01): the Positioning scale of a business buyer sets the organisation's type and size; a self-employed customer decides alone; a retiree is not working and retired; an end user's age sets the school stage and removes the work and tool questions that do not apply. A question with only one option left is likewise not shown (there is nothing to choose) and its answer is that option; an answer to a question that is no longer asked, or to an option no longer offered, is removed when the next choice is made. Where Identity chose both relationships (or none), there is no Business Data tick (owner, 2026-11-02): a Segment of people has no Business Data and a Segment of businesses has it and no Demographics. Where Positioning chose both B2C and B2B, the first two Segment cards are made for the App User, with no question: the first of people (B2C), the second of businesses (B2B); one "+ Segment" button adds more, and a Segment added after them has one question that opens its first box, "Who is this Segment's customer?" (People (B2C), Businesses (B2B)). The kind is kept as the presence of the Business Data key in the Segment's Description and is asked the business's questions only (a Segment is one group, never both). What Positioning or the answers above have set in a box is said in one small line under its title ("Set for you from Positioning and your answers above: Size: no employees."), so an answer that is not asked is never silent. A radio whose options are short (each of 24 characters or fewer, 90 in all) stands in one row where the whole row fits its column and in one column where it does not, never in a row that wraps; the others stand in one column. The starting values (the work situation from the age group, a wallet from a phone) are said in the "i". Where Identity chose no relationship, the buyer is read from the buyer's category, then from the audience (a business scale is a business buyer, a life stage a person). Choosing an age term starts the work situation with the one that goes with it (a minor or a young adult: Student; an established, peak or mature adult: Employed; a retiree: Retired) where none is chosen; the App User changes it freely. The two columns are of nearly one height: the boxes are shared between them by their length, each column keeping the order of the boxes. The card is laid out as the Positioning card is (two columns with a divider, each question a band, a double rule between boxes). The box titles are in capitals.
 
 
 
@@ -578,7 +578,7 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
 ### 1. How old are your customers?
 
 - **Control:** one choice (a radio).
-- **Asked when:** A buyer relationship chosen in Positioning has a Proxy or Dual-Intent buyer. The terms follow the user's life stage chosen in Positioning: Minors: Baby, Child, Teenager; Young Adults: Young adult; Adults: Established, Peak, Mature; Seniors: Active Retirees, Dependent seniors. Not shown when only one term is left.
+- **Asked when:** A buyer relationship chosen in Positioning has a Proxy or Dual-Intent buyer. The terms follow the end user's life stage chosen in Positioning: Minors: Baby, Child, Teenager; Young Adults: Young adult; Adults: Established, Peak, Mature; Seniors: Active Retirees, Dependent seniors. Not shown when only one term is left.
 - **Options:**
   - Baby 0–2
   - Child 3–10
@@ -593,14 +593,14 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
   - Teenager covers Early Adolescence (11 to 13), Mid (13 to 16) and Late (16 to 18).
   - Each age group holds the years from its first number to its last, both included, so no age is in two groups (25–39, then 40–54).
 - **Connections:**
-  - *Comes from:* Early Positioning: the buyer's category (Proxy or Dual-Intent) and the user's life stage.
+  - *Comes from:* Early Positioning: the buyer's category (Proxy or Dual-Intent) and the end user's life stage.
   - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* The Profile for the user (proposed beside the buyer's).
+  - *Read by (not built yet):* The Profile for the end user (proposed beside the buyer's).
 
 ### 2. Which school stage are your customers in?
 
 - **Control:** one choice (a radio).
-- **Asked when:** As the user's life stage, and the relationship is Parent or guardian, or Caregiver. "Secondary school" is not offered when the user is a Baby or a Child; one already chosen goes when the life stage changes. Not asked of a user of 18 or more. A Baby: Early years only (set, not shown); a Child: Early years or Primary school; a Teenager: Secondary school only (set, not shown).
+- **Asked when:** As the end user's life stage, and the relationship is Parent or guardian, or Caregiver. "Secondary school" is not offered when the end user is a Baby or a Child; one already chosen goes when the life stage changes. Not asked of an end user of 18 or more. A Baby: Early years only (set, not shown); a Child: Early years or Primary school; a Teenager: Secondary school only (set, not shown).
 - **Options:**
   - Early years
   - Primary school
@@ -608,25 +608,25 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
 - **The "i" says:**
   - Asked of a parent or guardian, and of a caregiver, who buy for a child. Secondary school is not offered for a Baby or a Child.
 - **Connections:**
-  - *Comes from:* Early Positioning: the buyer and user relationship; this part's life stage.
+  - *Comes from:* Early Positioning: the buyer and end user relationship; this part's life stage.
   - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* The Profile for the user.
+  - *Read by (not built yet):* The Profile for the end user.
 
 ### 3. Are your customers working?
 
 - **Control:** one choice (a radio).
-- **Asked when:** As the user's life stage, and the relationship is Family member, Spouse or partner, Friend or acquaintance, Commercial & Professional, Other (personal) or Sponsor or funder. Not asked of a Baby or a Child.
+- **Asked when:** As the end user's life stage, and the relationship is Family member, Spouse or partner, Friend or acquaintance, Commercial & Professional, Other (personal) or Sponsor or funder. Not asked of a Baby or a Child.
 - **Options:**
   - Yes
   - No
 - **The "i" says:**
-  - The same question as for the buyer, asked of the user: an adult the buyer is related to, or sponsors.
+  - The same question as for the buyer, asked of the end user: an adult the buyer is related to, or sponsors.
   - Yes includes working full-time, part-time, on contract or self-employed.
   - No opens a second question about why they are not working.
 - **Connections:**
-  - *Comes from:* Early Positioning: the buyer and user relationship.
+  - *Comes from:* Early Positioning: the buyer and end user relationship.
   - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* The Profile for the user.
+  - *Read by (not built yet):* The Profile for the end user.
 
 ### 4. Why are your customers not working?
 
@@ -649,7 +649,7 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
 ### 5. What kind of work do your customers do?
 
 - **Control:** one choice (a radio).
-- **Asked when:** As the user's life stage, and the relationship is Employer, Business partner or Other (business).
+- **Asked when:** As the end user's life stage, and the relationship is Employer, Business partner or Other (business).
 - **Options** (the nine ISCO-08 major groups, the list of the Profile's A3, doc 36; owner, 2026-11-03) [DEM-13]:
   - Manager / director
   - Professional
@@ -666,14 +666,14 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
   - Someone who owns and runs a business: Manager / director. Armed forces: choose the group that fits the role.
 - **Saved answers:** "Owner or senior executive" (id `owner`) reads as Manager / director.
 - **Connections:**
-  - *Comes from:* Early Positioning: the buyer and user relationship.
+  - *Comes from:* Early Positioning: the buyer and end user relationship.
   - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* The Profile for the user.
+  - *Read by (not built yet):* The Profile for the end user.
 
 ### 6. What kind of organisation are their clients?
 
 - **Control:** one choice (a radio).
-- **Asked when:** As the user's life stage, and the relationship is Business serving clients or Professional intermediary.
+- **Asked when:** As the end user's life stage, and the relationship is Business serving clients or Professional intermediary.
 - **Options:**
   - Private business
   - Public body / Government agency
@@ -683,9 +683,9 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
   - Asked of a business serving clients and of a professional intermediary.
   - Private business: For-profit
 - **Connections:**
-  - *Comes from:* Early Positioning: the buyer and user relationship.
+  - *Comes from:* Early Positioning: the buyer and end user relationship.
   - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* The Profile for the user.
+  - *Read by (not built yet):* The Profile for the end user.
 
 ### 7. How big are their clients' organisations?
 
@@ -706,7 +706,7 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
 ### 8. How comfortable are your customers online?
 
 - **Control:** one choice (a radio).
-- **Asked when:** As the user's life stage. Not asked of a Baby.
+- **Asked when:** As the end user's life stage. Not asked of a Baby.
 - **Options:**
   - Not very comfortable
   - Fairly comfortable
@@ -716,4 +716,4 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
 - **Connections:**
   - *Comes from:* Early Positioning: the buyer's category.
   - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* Channel order for the user's side.
+  - *Read by (not built yet):* Channel order for the end user's side.

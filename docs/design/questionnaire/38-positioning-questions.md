@@ -4,7 +4,7 @@ Status: **specification**, written 2026-11-01, updated 2026-11-03. Every questio
 
 Related: doc 37 (the Organisation tile, whose Opening Date sets the stage), doc 35 (the Segment's questions, which read these answers), doc 33 (the first version: single-sided, B2C and B2B), doc 31 (the age terms, the relationships and the relevance tables), doc 28 (8.2, the design), `src/components/interview/editors/legal/` and `src/framework/engine/PositioningIds.ts`.
 
-**The tile** is named by the business stage: **Early Positioning** (Planning and Launching), **Core Market Positioning** (Managing), **Corporate & Portfolio Positioning** (Growing); the saved key stays `positioning`. It has two columns with a divider: on the left, who the customers are (the relationship, the audience, the buyer's category, the user); on the right, what is offered (the purpose, the differentiation, the outcomes); the Notes, the positioning statement, stand under both. The questions are bands, as on the Segment card. A question with a limit shows it beside its label ("2 max") and locks the other options at the limit, with no warning.
+**The tile** is named by the business stage: **Early Positioning** (Planning and Launching), **Core Market Positioning** (Managing), **Corporate & Portfolio Positioning** (Growing); the saved key stays `positioning`. It has two columns with a divider: on the left, who the customers are (the relationship, the audience, the buyer's category, the end user); on the right, what is offered (the purpose, the differentiation, the outcomes); the Notes, the positioning statement, stand under both. The questions are bands, as on the Segment card. A question with a limit shows it beside its label ("2 max") and locks the other options at the limit, with no warning.
 
 **The stage sets how many choices a question allows** (the owner's matrix, doc 28, 8.2): Planning: one in every question. Launching: one, except two in the purpose, the differentiation and the outcomes. Managing: two in each. Growing: free. A question of one choice is a radio; a question of several is ticks. When a new Opening Date moves the business into another stage, an answer that no longer fits goes back to empty, and a question that fits keeps its answers.
 
@@ -60,20 +60,20 @@ Related: doc 37 (the Organisation tile, whose Opening Date sets the stage), doc 
   - Direct Buyers
   - Proxy Buyers
   - Dual-Intent Buyers
-- **The "i" says:** What the buyer buys for. It tells the buyer who pays from the person who uses it, whatever the buyer's life stage or scale. Direct Buyers: purchasing exclusively for their own personal use. Proxy Buyers: purchasing exclusively on behalf of someone else; the payer is not the user (a gift, a parent buying for a child, an employer buying for its staff). Dual-Intent Buyers: purchasing a single offering to be used by themselves and their dependents (a family plan, a shared tier). For Proxy and Dual-Intent Buyers the questions about the user follow. Based on the buying roles of the marketing literature.
+- **The "i" says:** What the buyer buys for. It tells the buyer who pays from the person who uses it, whatever the buyer's life stage or scale. Direct Buyers: purchasing exclusively for their own personal use. Proxy Buyers: purchasing exclusively on behalf of someone else; the payer is not the end user (a gift, a parent buying for a child, an employer buying for its staff). Dual-Intent Buyers: purchasing a single offering to be used by themselves and their dependents (a family plan, a shared tier). For Proxy and Dual-Intent Buyers the questions about the end user follow. Based on the buying roles of the marketing literature.
 - **Connections:**
   - *Comes from:* the relationship.
-  - *Read by (built):* the user questions below (asked for Proxy and Dual-Intent only); the Segment card's User part; the order of the purposes and outcomes.
+  - *Read by (built):* the end-user questions below (asked for Proxy and Dual-Intent only); the Segment card's End user part; the order of the purposes and outcomes.
 
 ### 5. Buyer & End User relationship
 
 - **Control:** as question 1 (the audience limit).
-- **Asked when:** the buyer's category is Proxy or Dual-Intent, for that relationship (a double rule stands above the user's questions).
+- **Asked when:** the buyer's category is Proxy or Dual-Intent, for that relationship (a double rule stands above the end user's questions).
 - **Options:** a consumer buyer: Parent or guardian; Caregiver; Family member; Spouse or partner; Friend or acquaintance; Commercial & Professional; Other. A business buyer: Employer; Business partner; Business serving clients; Professional intermediary; Sponsor or funder; Other. Only the relationships that can be the chosen category are offered (a friend can only be a Proxy, a spouse or partner only Dual-Intent), and one already chosen stays.
 - **The "i" says:** How is the buyer related to the person who will use it? It shapes the message: a parent is reached by safety and trust, an employer by compliance and duty of care. The relationship suggests the category above; the buyer's own answer decides it.
 - **Connections:**
   - *Comes from:* the buyer's category and the buyer's life stage (a Student or Young Adult buyer is not a Commercial & Professional buyer).
-  - *Read by (built):* the user's life stages offered (the owner's matrix); which relationship questions the Segment's User part asks (school stage, work status, job level, or the clients' type and size); the order of the purposes and differentiations.
+  - *Read by (built):* the end user's life stages offered (the owner's matrix); which relationship questions the Segment's End user part asks (school stage, work status, job level, or the clients' type and size); the order of the purposes and differentiations.
 
 ### 6. End User's Life-Stage (a consumer buyer)
 
@@ -84,10 +84,10 @@ Related: doc 37 (the Organisation tile, whose Opening Date sets the stage), doc 
   - Young Adults
   - Adults
   - Seniors
-- **The "i" says:** The life stage of the person who will use it. A broad group is enough to give the user's Profile its first shape; the exact age comes later, on the Profile. Minors: under 18 (online services and some goods have extra rules that differ by country: see the minimum ages in the documentation). Young Adults: 18 to 24. Adults: 25 to 64. Seniors: 65 and over. The Segment's Description then asks the user's stage within it (Baby, Child, Teenager, Established, Peak and so on).
+- **The "i" says:** The life stage of the person who will use it. A broad group is enough to give the end user's Profile its first shape; the exact age comes later, on the Profile. Minors: under 18 (online services and some goods have extra rules that differ by country: see the minimum ages in the documentation). Young Adults: 18 to 24. Adults: 25 to 64. Seniors: 65 and over. The Segment's Description then asks the end user's stage within it (Baby, Child, Teenager, Established, Peak and so on).
 - **Connections:**
   - *Comes from:* the relationship and the buyer's life stage (a stage the combination leaves blank is not offered).
-  - *Read by (built):* the Segment's User part (the terms offered); the order of the differentiations and outcomes.
+  - *Read by (built):* the Segment's End user part (the terms offered); the order of the differentiations and outcomes.
 
 ## 2. The right column: what is offered
 
@@ -98,7 +98,7 @@ Related: doc 37 (the Organisation tile, whose Opening Date sets the stage), doc 
 - **Options:** the twelve purposes, ordered by relevance to the answers so far (the owner's tables, doc 31, 10.7): Learning & Development; Health, Care & Wellbeing; Gifting & Appreciation; Entertainment & Enjoyment; Social Connection & Relationships; Productivity & Efficiency; Business Growth & Performance; Creation & Expression; Everyday Needs & Convenience; Protection & Risk Reduction; Compliance & Obligations; Access & Social Support. The ones the tables call generally less directly relevant to the buyer are not offered; one already chosen stays.
 - **The "i" says:** Why the offering is bought: the purpose it serves for the person who gets it. Choose the ones that fit best. Only the purposes that fit your answers above are offered: the primary ones first, then the possible ones.
 - **Connections:**
-  - *Comes from:* the relationship, the buyer's category, the buyer and user relationship, the life stages and the audience scale (the order and the options).
+  - *Comes from:* the relationship, the buyer's category, the buyer and end user relationship, the life stages and the audience scale (the order and the options).
   - *Read by (built):* the order of the differentiations and outcomes; the exports.
   - *Read by (not built yet):* the Value Proposition draft (doc 28, 6.7). No Offering question asks a purpose.
 
@@ -114,10 +114,10 @@ Related: doc 37 (the Organisation tile, whose Opening Date sets the stage), doc 
 
 ### 9. Outcome (for the buyer)
 
-- **Control:** ticks, as the purpose. The label is "Outcome" until a user's outcome is asked.
+- **Control:** ticks, as the purpose. The label is "Outcome" until an end user's outcome is asked.
 - **Asked when:** always.
 - **Options:** Lower costs; Time saved; Legal & data-protection cover; Higher quality & prestige, ordered by the purposes and the life stages.
-- **The "i" says:** The measurable result the buyer gets from the offering (outcome or return): what the buyer is paying for. For a Proxy or Dual-Intent Buyer the user has an outcome of their own, asked next.
+- **The "i" says:** The measurable result the buyer gets from the offering (outcome or return): what the buyer is paying for. For a Proxy or Dual-Intent Buyer the end user has an outcome of their own, asked next.
 - **Connections:**
   - *Read by (built):* the exports and the positioning statement. *Not built yet:* the Value Proposition.
 
@@ -126,15 +126,15 @@ Related: doc 37 (the Organisation tile, whose Opening Date sets the stage), doc 
 - **Control:** ticks, as the purpose.
 - **Asked when:** some buyer is a Proxy or Dual-Intent Buyer.
 - **Options:** Enjoyment & fun; Comfort & ease; Safety & care; Learning & growth; Looks & belonging; Practical use, ordered by the purposes and the life stages.
-- **The "i" says:** What matters most to the user, apart from the buyer's own reasons for paying: the result the user gets. It starts the user's Profile.
+- **The "i" says:** What matters most to the end user, apart from the buyer's own reasons for paying: the result the end user gets. It starts the end user's Profile.
 - **Connections:**
-  - *Read by (built):* the exports. *Not built yet:* the user's Profile (doc 36).
+  - *Read by (built):* the exports. *Not built yet:* the end user's Profile (doc 36).
 
 ## 3. Under both columns
 
 ### 11. Notes
 
-- **Control:** the shared optional note (a tick and the word), the positioning statement in the user's own words.
+- **Control:** the shared optional note (a tick and the word), the positioning statement in the App User's own words.
 - **Asked when:** always (optional).
 - **The "i":** the tile's guidance on the positioning statement (for whom, what, unlike whom, why).
 - **Connections:**
