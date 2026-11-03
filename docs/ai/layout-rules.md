@@ -1280,6 +1280,8 @@ New fields follow the rules above and reuse their neighbours' shapes; nothing he
 - **Pickers whose list is wider than their cell** (opened cards): the rule that a picker is as wide as its longest option, and shows its whole text, has these named exceptions besides the Status picker. A supplier or partner cascade's Group and Name pickers (a group name such as "Landlords, Leasing & Warehouses" is 322px with its padding; a name the user gave is any length), an activity's Performer pickers (a person's name and role, or a partner's), and the Group picker of a Resource, Partner or Provider card. Each is as wide as its 212px cell and ends in an ellipsis there; the whole text is in its list, its tooltip and its accessible name. The check skips them by their accessible name ("... supplier group: ...", "... supplier: ...", "... performer N: ...", "... group: ...").
 - **The cost row's Frequency column** (a card with no group yet offers all seven frequencies, "% of Rev" the longest, 148px): the column gives way to the room left (`minmax(0, max-content)`), so the Frequency ends at the name cell's right edge, up to 16px narrower. A Per unit price with a Unit picker puts the Frequency and the Unit together under the row (`:has(.business-capability-frequency-unit)`), the currency keeping its place.
 - **An activity's Responsible stack**, which has no Performer list and so no x, has two columns and ends at the name cell's right edge (the Performer's stack keeps its third, the x's).
+- **A box of bands** (`.business-segment-box`: the Segment Description and the Profile card): its questions are bands that follow each other flush, each with its own padding (`tile-and-card-pattern.md`, "Three levels" and "Flush"), not fields a row gap apart, and a label with its cell beside it (the Profile's age) has the cell at the right end of the band. The row-gap rule and the "control at its column's left edge" rule skip them; `npm run check:card` measures the bands.
+- **A group band in a floating card** (`.fold-group-head`, such as a Competitor's Description) runs from side to side of the card: the "name cell left = body-left" rule measures the body from the first part after the band.
 
 ---
 
@@ -1297,7 +1299,7 @@ The runs:
 - `npm run check:layout`: the quick run, the one setting the baseline is made at (the Quillfield example, 1920 wide, the light page).
 - `node tools/scripts/layout-check/run.mjs`: the full run, at **1920, 1366 and 768px** in **light and dark**, both examples (about 25 minutes).
 - `npm run check:layout:wide`: the three reading modes and the screen classes; its baseline is not written yet.
-- `CHECK_PAGES="Customer Engagement" npm run check:layout` runs one page; a sub-pixel finding (a gap of 12.95 for 12) can come and go between runs.
+- `CHECK_PAGES="Customer Engagement" npm run check:layout` runs one page; a sub-pixel finding (a gap of 12.95 for 12) can come and go between runs. A card added with a "+" box is waited for (two seconds at most) until it is drawn and its name has the focus, so a slow frame on a busy machine is not a finding.
 - `npm run check:layout:baseline` rewrites the baseline: only by the owner's decision.
 
 Rules checked: number-left = body-left; number to name gap (8); control at
