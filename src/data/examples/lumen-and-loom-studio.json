@@ -64,7 +64,6 @@
                 "b2b:direct"
               ],
               "purpose": [
-                "gifting",
                 "creation"
               ],
               "endUser": [],
@@ -557,10 +556,10 @@
                     "id": "profile-bzpp2z2j",
                     "name": "The Considered Nester",
                     "description": {
-                      "personal": "Hannah, UX designer, in a renovated Victorian flat in Stoke Newington.",
-                      "psychographics": "Values craft, provenance and calm; anti-fast-fashion; enjoys slow weekends, markets and galleries; wants her home to feel personal, not catalogue-bought.",
-                      "hubs": "Broadway Market, Columbia Road, Crafts Council events, The Modern House journal, Apartamento; the interiors and makers accounts she follows.",
-                      "habits": "Researches makers’ websites before buying; buys online and at pop-ups; subscribes to a few newsletters."
+                      "personal": "Hannah, UX designer; owns a flat in Stoke Newington and is furnishing it room by room.",
+                      "psychographics": "Values craft, provenance and calm; avoids fast fashion and throwaway homeware; wants her home to feel personal, not catalogue-bought.",
+                      "hubs": "Broadway Market and Columbia Road at weekends, Crafts Council events, The Modern House journal, Apartamento magazine.",
+                      "habits": "Reads the maker’s website on materials and care first; buys larger pieces online and small ones at pop-ups; changes cushions and throws with the seasons."
                     },
                     "questions": {
                       "a1": [
@@ -642,28 +641,29 @@
                   },
                   {
                     "id": "profile-91sisdyq",
-                    "name": "The Maker-Curious Gifter",
+                    "name": "The Hands-On Hobby Learner",
                     "description": {
-                      "personal": "Tom, secondary-school teacher in Walthamstow; buys thoughtful gifts and looks for weekend activities with friends or his partner.",
-                      "psychographics": "Hands-on, curious, would rather do something than buy something; values experiences, learning and local community.",
-                      "hubs": "Time Out, Eventbrite, Hackney Wick open studios, Walthamstow Garden Party; the neighbourhood groups he belongs to.",
-                      "habits": "Books experiences online a few weeks ahead; buys gift vouchers; responds to “last places” emails; shops locally at Christmas."
+                      "personal": "Leila, marketing executive at a design agency in Shoreditch; lives in Hackney, a short bus ride from the studio.",
+                      "psychographics": "Wants a hobby that gets her off her phone; enjoys making things with her hands; likes learning from a real maker in a small group.",
+                      "hubs": "Hackney Wick open studios, Broadway Market, a Hackney craft Meetup group, a few weaving creators she follows.",
+                      "habits": "Books a week or two ahead; tries a two-hour taster before paying for a full day; prefers evening sessions after work."
                     },
                     "questions": {
                       "a1": [
-                        "38"
+                        "29"
                       ],
                       "a2": [
-                        "man"
+                        "woman"
+                      ],
+                      "a7": [
+                        "sharing"
                       ],
                       "a3": [
                         "professional"
                       ],
-                      "a7": [
-                        "family"
-                      ],
                       "b1": [
-                        "a-service-made-for-them",
+                        "expert-knowledge",
+                        "quality-and-results",
                         "ease-and-convenience"
                       ],
                       "c1": [
@@ -675,46 +675,47 @@
                         "youtube"
                       ],
                       "c3": [
-                        "facebook-group"
+                        "meetup"
                       ],
                       "c4": [
                         "workshop",
                         "market"
                       ],
                       "d1": [
-                        "a-demo-trial-or-sample",
-                        "what-other-people-recommend"
+                        "reviews-and-recommendations-online",
+                        "a-demo-trial-or-sample"
                       ],
                       "d2": [
-                        "alone"
+                        "little"
                       ],
                       "e1": [
-                        "express-who-they-are",
-                        "learn-something-new"
+                        "learn-something-new",
+                        "express-who-they-are"
                       ],
                       "e2": [
-                        "they-have-no-time-or-capacity"
+                        "it-costs-too-much",
+                        "they-lack-the-know-how"
                       ],
                       "e3": [
-                        "how-long-it-takes-to-start",
-                        "the-price-or-their-budget"
+                        "the-price-or-their-budget",
+                        "how-long-it-takes-to-start"
                       ]
                     },
-                    "goals": "Give gifts that mean something; learn a real craft; spend screen-free time with people he cares about.",
-                    "challenges": "Generic gift ideas; craft classes that feel rushed or crowded; not knowing whether he will be any good at it.",
-                    "objections": "Class price per head; scheduling around children; travelling across London.",
+                    "goals": "Learn a real craft; make something for her own room; switch off after work.",
+                    "challenges": "Classes that cost too much for one evening; not knowing where to start; finding a date that fits her week.",
+                    "objections": "Price per class; whether a beginner can keep up; fitting a full-day class into her weekend.",
                     "needs": {
                       "functional": [
                         "Beginner-friendly workshop with all materials",
                         "Something finished to take home",
-                        "Flexible gift vouchers"
+                        "Evening and weekend dates"
                       ],
                       "emotional": [
                         "Sense of achievement",
                         "Relaxation away from screens"
                       ],
                       "social": [
-                        "A shared experience with friends or partner"
+                        "Meeting people who like making things"
                       ]
                     }
                   }
@@ -795,7 +796,7 @@
                     "needsAddressed": [
                       "Beginner-friendly workshop with all materials",
                       "Something finished to take home",
-                      "Flexible gift vouchers"
+                      "Evening and weekend dates"
                     ],
                     "category": "Service",
                     "categoryOther": "",
@@ -875,7 +876,7 @@
                       "personal": "Amelia, founder of a 6-person interior studio in Clerkenwell working on boutique hotels and high-end residential projects.",
                       "psychographics": "Wants every project to tell a local, sustainable story; proud of working with makers; detail-obsessed and deadline-driven.",
                       "hubs": "Clerkenwell Design Week, London Design Festival, Decorex, BIID membership, Dezeen.",
-                      "habits": "Sources through trade fairs, maker directories and recommendations; requests samples and spec sheets; orders via purchase order with 30-day terms."
+                      "habits": "Sources at trade fairs and through maker directories; asks for samples and spec sheets before specifying; orders by purchase order on 30-day terms."
                     },
                     "questions": {
                       "a1": [
