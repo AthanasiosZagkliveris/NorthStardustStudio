@@ -338,9 +338,9 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     {
         id: "social", box: "purchasing", label: "How do your customers like to socialise?", many: false,
         options: [
-            { id: "digital", label: "Mostly online (Gaming, community servers, chat apps)" },
+            { id: "digital", label: "Mostly online (gaming, community servers, chat apps)" },
             { id: "mixed", label: "Online and in person" },
-            { id: "inperson", label: "Mostly in person (Events, hospitality, clubs, sports)" },
+            { id: "inperson", label: "Mostly in person (events, hospitality, clubs, sports)" },
             { id: "independent", label: "Mostly on their own" }
         ],
         info: ["Where they spend their free time. It decides how they meet brands and products."]
@@ -358,7 +358,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     {
         id: "trigger", box: "purchasing", label: "What makes your customers go shopping?", many: true, max: 2,
         options: [
-            { id: "boredom", label: "Boredom or entertainment (Browsing feeds, window shopping)" },
+            { id: "boredom", label: "Boredom or entertainment (browsing feeds, window shopping)" },
             { id: "proof", label: "Seeing a friend or creator use it" },
             { id: "need", label: "A need / problem to solve" },
             { id: "seasonal", label: "Sales, seasons or planned gifts" }

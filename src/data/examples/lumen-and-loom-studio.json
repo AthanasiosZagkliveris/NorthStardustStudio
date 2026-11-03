@@ -557,7 +557,7 @@
                     "id": "profile-bzpp2z2j",
                     "name": "The Considered Nester",
                     "description": {
-                      "personal": "Hannah, UX designer. Lives with her partner in a renovated Victorian flat in Stoke Newington; no children yet.",
+                      "personal": "Hannah, UX designer, in a renovated Victorian flat in Stoke Newington.",
                       "psychographics": "Values craft, provenance and calm; anti-fast-fashion; enjoys slow weekends, markets and galleries; wants her home to feel personal, not catalogue-bought.",
                       "hubs": "Broadway Market, Columbia Road, Crafts Council events, The Modern House journal, Apartamento; the interiors and makers accounts she follows.",
                       "habits": "Researches makers’ websites before buying; buys online and at pop-ups; subscribes to a few newsletters."
@@ -571,6 +571,9 @@
                       ],
                       "a3": [
                         "professional"
+                      ],
+                      "a7": [
+                        "partner"
                       ],
                       "b1": [
                         "quality-and-results",
@@ -641,7 +644,7 @@
                     "id": "profile-91sisdyq",
                     "name": "The Maker-Curious Gifter",
                     "description": {
-                      "personal": "Tom, secondary-school teacher in Walthamstow, two children; buys thoughtful gifts and looks for weekend activities with friends or his partner.",
+                      "personal": "Tom, secondary-school teacher in Walthamstow; buys thoughtful gifts and looks for weekend activities with friends or his partner.",
                       "psychographics": "Hands-on, curious, would rather do something than buy something; values experiences, learning and local community.",
                       "hubs": "Time Out, Eventbrite, Hackney Wick open studios, Walthamstow Garden Party; the neighbourhood groups he belongs to.",
                       "habits": "Books experiences online a few weeks ahead; buys gift vouchers; responds to “last places” emails; shops locally at Christmas."
@@ -654,7 +657,10 @@
                         "man"
                       ],
                       "a3": [
-                        "service"
+                        "professional"
+                      ],
+                      "a7": [
+                        "family"
                       ],
                       "b1": [
                         "a-service-made-for-them",
@@ -842,7 +848,7 @@
                   ],
                   "pay": [
                     "card",
-                    "wallet"
+                    "invoice"
                   ],
                   "authorise": [
                     "solo"
