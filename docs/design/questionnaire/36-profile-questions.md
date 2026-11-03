@@ -401,7 +401,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 1. **C2 to C4** keep the lists the app already has (the social media, the communities, the events); no longer list is added. A specific name is written in the box's own note, as it is today.
 2. **Their conditions** (online comfort, the ways of discovering ideas, the social environment) hold: a tendency of the Segment is enough to leave a Profile question out, so a short Segment gives a shorter Profile.
-3. **The needs** stay open text lists.
+3. **The needs** stay open text lists. (Emotional and Social as ticks is proposed in section 10, 2026-11-03.)
 4. **The end user's Profile skips Box D** (2.1); the payer's Profile holds how they compare and what help they want.
 
 **Answered for the App User and not shown (owner, 2026-11-01).** The same rule as the Segment's (doc 35): where the answers above leave one answer, it is set and the question is not drawn.
@@ -419,3 +419,27 @@ What the Segment cannot say: which devices, which social media, which communitie
 **Also decided (owner, 2026-11-01).** A5 is asked only for a business buyer, a Segment with an end-user part, or a group that includes Minors (2.1); an end user's Profile is deleted completely when its Segment loses its end user (2.2).
 
 **Not built.** A4, A6, the proposed Profiles other than the B2B ones by buying role (2), the end user's own Profile and the reads marked "not built yet", which are built when the Segment's are.
+
+## 10. The Needs as choices (proposed, 2026-11-03)
+
+The owner asked (2026-11-03) whether the three Needs lists could be choices instead of texts. The proposal: **Functional stays text; Emotional and Social become ticks**, each with the list's own text kept as the note. Until the owner decides, 9.3 stands (the needs stay open text lists).
+
+**Why Functional stays text.** A functional need is the task itself ("send an invoice in under a minute"), different for every business, so no list fits it. A general list (saves time, simplifies, reduces cost, reduces risk) would ask again what B1 and E1 already ask: L1 is those functional values in the app's words (doc 34). The Offering keeps ticking the functional needs it addresses, by entry, as built.
+
+**Why Emotional and Social can be ticks.** How people want to feel, and how they want to be seen, falls into a short set that holds across businesses. Bain's *Elements of Value* names it from surveys of 10,000 consumers [FUN-48] and of business buyers [FUN-49]. The lists below are those elements in plain UK words, cut to what a small business can deliver.
+
+**Emotional: "How do they want to feel?"** Ticks, up to 3. The options follow the Segment's kind (doc 35, the buyer type).
+- People (B2C): Calm and worry-free; Rewarded / treated; Relaxed / looked after; Entertained; Attractive; Healthy and well; Delighted by how it looks; Reminded of good times; Motivated; Hopeful; Fulfilled, as they grow.
+- Business (B2B): Sure they made the right choice; Glad to work with you; Growing in their work; Hopeful about their business; Inspired about what comes next.
+
+**Social: "How do they want others to see them?"** Ticks, up to 3.
+- People (B2C): As having good taste / style; As part of a group they value; As one of the few with access; As caring for others or the planet; As leaving something for their family.
+- Business (B2B): As someone others trust; As well connected; As more valued in their field; As a responsible business.
+
+**The "i" says:** Choose up to three: the feelings that make them buy, not every feeling they have. Write the details in the note. Based on: Bain's Elements of Value (HBR, 2016 and 2018).
+
+**Asked when:** always. **Connections:** *Comes from:* the Segment's kind (the list). *Read by (not built yet):* the Offering's "Emotional and social needs addressed" (doc 43); the Value Proposition's open items (doc 42, "Unanswered need" and "Emotional and social needs").
+
+**What changes for saved work.** Nothing is lost: a Profile's emotional and social texts become the notes of the two questions, and the ticks start empty. The Offering's ticks of functional needs are untouched.
+
+**Still to decide:** Emotional and Social as ticks (proposed), or kept as text (9.3); the option words above.

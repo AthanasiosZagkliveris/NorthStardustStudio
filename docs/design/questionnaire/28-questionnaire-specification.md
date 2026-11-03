@@ -4,7 +4,7 @@ Status: **proposal**, written 2026-10-22, updated 2026-11-03 (later); parts are 
 
 > **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Doc 33 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, age limits, accessibility, caregiving and the rest) is a future feature: doc 33. Contents of the documents: `docs/README.md`; index: `docs/index.md`; glossary: `docs/app/glossary.md`.
 
-> **Where each part stands (2026-11-02).** Current: 1 to 5 (the summary, the rules and the wording), 11 (the connection map and the evidence), 12 to 15. Built and governing: 6.3a with **document 35** (the Segment), 8.2 with **document 38** (Positioning), 8.5 with **document 37** (the Organisation). Replaced and archived: 6.3 (the Segment's G-list). Built in part and governed by **document 36**: 6.4 and 6.5 (the Profile; A1 to A3, A5, B1, C1 to C4, D1, D2 and E1 to E3 are built). Not yet specified in the form of documents 35 to 38: 6.6 to 6.8 (the Competitor, Value Proposition and Offering), 7 (Customer Engagement), 9 and 10. What an "i" says: **document 39**. The form every tile document takes, and where each tile stands: **document 40**.
+> **Where each part stands (2026-11-02).** Current: 1 to 5 (the summary, the rules and the wording), 11 (the connection map and the evidence), 12 to 15. Built and governing: 6.3a with **document 35** (the Segment), 8.2 with **document 38** (Positioning), 8.5 with **document 37** (the Organisation). Replaced and archived: 6.3 (the Segment's G-list). Built in part and governed by **document 36**: 6.4 and 6.5 (the Profile; A1 to A3, A5, B1, C1 to C4, D1, D2 and E1 to E3 are built). Proposed in the form of documents 35 to 38 (2026-11-03): 6.6 by **document 41** (the Competitor), 6.7 by **document 42** (the Value Proposition), 6.8 by **document 43** (the Offering); where they differ, those documents hold the latest proposal. Not yet specified in that form: 7 (Customer Engagement), 9 and 10. What an "i" says: **document 39**. The form every tile document takes, and where each tile stands: **document 40**.
 
 **Contents**
 
@@ -312,6 +312,8 @@ Questions asked only at the Profile, with no Segment range: P9 to P22 (doc 36, b
 
 ### 6.6 Competitor card (tile "Competitors")
 
+> Every question and option, as proposed on 2026-11-03: **document 41**, which refines this section.
+
 | Today | Target |
 |---|---|
 | Name, **Type** (Direct competitor; Indirect competitor; Substitute; Internal solution; Status quo) | keep |
@@ -333,9 +335,13 @@ Questions asked only at the Profile, with no Segment range: P9 to P22 (doc 36, b
 
 ### 6.7 Tile "Value Proposition"
 
+> Every question and option, as proposed on 2026-11-03: **document 42**, which refines this section.
+
 The text stays (one per Segment). A **draft sentence** is proposed from what the Profiles care about (B1), want and are frustrated by (E1, the gains; E2, the pains: the Value Proposition Canvas [FUN-46]), the needs addressed, the Offering's benefit (O4), the positioning's purpose, differentiation and outcomes (doc 38, questions 7 to 10) and the weak points of a competitor (K3), in the template of 8.2 ("For [Segment] who [E2], [Offering] is a [O1] that [O4]. Unlike [competitor], it [K3]."); the user adds it with a button, and nothing is overwritten. The tile also lists, as read-only open items: *something customers care about that no offering delivers*, *an offering that answers no need*, and *a benefit you claim that nobody cares about*.
 
 ### 6.8 Offering card (tile "Offerings")
+
+> Every question and option, as proposed on 2026-11-03: **document 43**, which refines this section.
 
 | Today | Target |
 |---|---|

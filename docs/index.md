@@ -27,6 +27,7 @@ Status: **index**, updated 2026-11-03, written by `npm run docs:index` (the subj
 - **Catalogue record**: [6](design/core/06-catalogue-record.md)
 - **Change history (log)**: [4](design/core/04-log.md); [archive (before 2026-10-22)](archive/log/log-archive-2026-07-to-10.md)
 - **Colour map of the pages**: [1 Part I](design/core/01-current-design.md)
+- **Competitor card**: [41 (proposal)](design/questionnaire/41-competitor-questions.md); [28 section 6.6](design/questionnaire/28-questionnaire-specification.md)
 - **Components, defaults**: [12](design/library/12-component-defaults.md)
 - **Components, list**: [13](design/library/13-components-list.md)
 - **Components, shared**: [21](design/current/21-shared-components.md)
@@ -68,6 +69,7 @@ Status: **index**, updated 2026-11-03, written by `npm run docs:index` (the subj
 - **Not done yet**: [5](design/core/05-not-done-yet.md)
 ## O
 
+- **Offering card**: [43 (proposal)](design/questionnaire/43-offering-questions.md); [28 section 6.8](design/questionnaire/28-questionnaire-specification.md)
 - **Organisation tile**: [37 (as built)](design/questionnaire/37-organization-fields.md); [28 section 8.5](design/questionnaire/28-questionnaire-specification.md)
 ## P
 
@@ -100,4 +102,5 @@ Status: **index**, updated 2026-11-03, written by `npm run docs:index` (the subj
 - **Tooltips**: [24](design/current/24-tooltips.md)
 ## V
 
+- **Value Proposition**: [42 (proposal)](design/questionnaire/42-value-proposition-questions.md); [28 section 6.7](design/questionnaire/28-questionnaire-specification.md)
 - **Verification (what to run after a change)**: [toolchain playbook](ai/toolchain-and-verification-playbook.md)
