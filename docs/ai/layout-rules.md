@@ -1299,7 +1299,7 @@ The runs:
 - `npm run check:layout`: the quick run, the one setting the baseline is made at (the Quillfield example, 1920 wide, the light page).
 - `node tools/scripts/layout-check/run.mjs`: the full run, at **1920, 1366 and 768px** in **light and dark**, both examples (about 25 minutes).
 - `npm run check:layout:wide`: the three reading modes and the screen classes; its baseline is not written yet.
-- `CHECK_PAGES="Customer Engagement" npm run check:layout` runs one page; a sub-pixel finding (a gap of 12.95 for 12) can come and go between runs. A card added with a "+" box is waited for (two seconds at most) until it is drawn and its name has the focus, so a slow frame on a busy machine is not a finding.
+- `CHECK_PAGES="Customer Engagement" npm run check:layout` runs one page; a sub-pixel finding (a gap of 12.95 for 12) can come and go between runs. A card added with a "+" box is waited for (two seconds at most) until it is drawn and has taken the focus (in its name, or on the card where the app writes the name), so a slow frame on a busy machine is not a finding.
 - `npm run check:layout:baseline` rewrites the baseline: only by the owner's decision.
 
 Rules checked: number-left = body-left; number to name gap (8); control at
