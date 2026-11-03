@@ -364,14 +364,12 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
 - **Control:** one choice (a radio).
 - **Asked when:** The buyer is people.
 - **Options:**
-  - Mostly online
+  - Mostly online (gaming, community servers, chat apps)
   - Online and in person
-  - Mostly in person
+  - Mostly in person (events, hospitality, clubs, sports)
   - Mostly on their own
 - **The "i" says:**
   - Where they spend their free time. It decides how they meet brands and products.
-  - Mostly online: Gaming, community servers, chat apps
-  - Mostly in person: Events, hospitality, clubs, sports
 - **Connections:**
   - *Comes from:* Early Positioning: the relationship (people).
   - *Read by (built):* The Market document and the export.
@@ -399,13 +397,12 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
 - **Control:** ticks, up to 2.
 - **Asked when:** The buyer is people.
 - **Options:**
-  - Boredom or entertainment
+  - Boredom or entertainment (browsing feeds, window shopping)
   - Seeing a friend or creator use it
   - A need / problem to solve
   - Sales, seasons or planned gifts
 - **The "i" says:**
   - Choose up to two.
-  - Boredom or entertainment: Browsing feeds, window shopping
 - **Connections:**
   - *Comes from:* Early Positioning: the relationship (people).
   - *Read by (built):* The Market document and the export.
@@ -416,14 +413,11 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
 - **Control:** one choice (a radio).
 - **Asked when:** The buyer is people.
 - **Options:**
-  - On impulse
-  - After research
-  - After asking others
-- **The "i" says:**
-  - Their usual way of buying, the one that fits most of them.
   - On impulse: They see it, like it and buy it at once
   - After research: They compare at length before buying
   - After asking others: They ask a friend or check reviews first
+- **The "i" says:**
+  - Their usual way of buying, the one that fits most of them.
 - **Connections:**
   - *Comes from:* Early Positioning: the relationship (people).
   - *Read by (built):* The Market document and the export.
@@ -471,23 +465,18 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
 - **Control:** ticks, as many as apply.
 - **Asked when:** The buyer is a business. For a self-employed customer (chosen, or because only freelancers were chosen in Positioning) only "One person decides" is offered, so it is answered and not shown.
 - **Options:**
-  - One person decides
-  - The team agrees
-  - A manager signs off
-  - Several departments check
-  - Formal procurement
-- **The "i" says:**
-  - Asked for business customers only. A formal procurement loop reveals the tender row on the Customer Engagement page.
-  - Select all that apply.
   - One person decides: The person who uses it has the budget and the final say.
   - The team agrees: The people who use it try it and push it upward.
   - A manager signs off: Needs formal approval from a manager or executive.
   - Several departments check: IT or security, legal and finance.
   - Formal procurement: A tender or a request for proposals (RFP), with strict compliance.
+- **The "i" says:**
+  - Asked for business customers only. A formal procurement loop reveals the tender row on the Customer Engagement page.
+  - Select all that apply.
 - **Connections:**
   - *Comes from:* Early Positioning: the relationship (business).
-  - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* The Profile's part in the purchase and hints; the tender row (a formal procurement loop).
+  - *Read by (built):* The Market document and the export; the Profile's role in buying (A5 starts with every role where one person decides) and the proposed B2B Profiles by buying role (doc 36, 2).
+  - *Read by (not built yet):* the tender row (a formal procurement loop).
 
 
 ## Box 5. Market Size & Industry Outlook
