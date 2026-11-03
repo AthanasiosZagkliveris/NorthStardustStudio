@@ -1,6 +1,6 @@
 # 36. The Profile's questions: every question and option, as built in part
 
-Status: **specification**, written 2026-11-01, updated 2026-11-03; built in part. The questions of the Profile card in the order they are asked, with their control, when they are asked, their options, what their "i" says and what they connect to. **Built:** A1 (the exact age, held to the Segment's group), A2, A7, A3 (B2C) and A3b (B2B), A5, B1, C1 to C4, D1, D2 and E1 to E3, with their conditions, starting values and settling (`ProfileQuestions.ts`, answers kept as `questions` on the Profile), in one column at the width every floating card has (492px), the boxes in their order, each with the Segment card's title band. The proposed B2B Profiles by buying role (2). **Not built yet:** A4 (the kind of business), A6 (the specialised needs), the other proposed Profiles (by age term; the user's beside a Proxy or Dual-Intent payer), the user's own Profile (and so its Box D rule), the reads marked "not built yet" below.
+Status: **specification**, written 2026-11-01, updated 2026-11-03; built in part. The questions of the Profile card in the order they are asked, with their control, when they are asked, their options, what their "i" says and what they connect to. **Built:** A1 (the exact age, held to the Segment's group), A2, A7, A3 (B2C) and A3b (B2B), A5, B1, C1 to C4, D1, D2 and E1 to E3, with their conditions, starting values and settling (`ProfileQuestions.ts`, answers kept as `questions` on the Profile), in one column at the width every floating card has (492px), the boxes in their order, each with the Segment card's title band. The proposed B2B Profiles by buying role (2). **Not built yet:** A4 (the kind of business), A6 (the specialised needs), the other proposed Profiles (by age term; the end user's beside a Proxy or Dual-Intent payer), the end user's own Profile (and so its Box D rule), the reads marked "not built yet" below.
 
 Related: doc 35 (the Segment's questions, built, in the same form), doc 28 (6.4 and 6.5, the Profile design this refines, and the shared lists), doc 34 (the lists L1 to L16), doc 33 (its section 15 holds the thoughts), doc 31 (the age terms), `src/components/interview/editors/foundation/` (the Profile card today).
 
@@ -40,9 +40,9 @@ Related: doc 35 (the Segment's questions, built, in the same form), doc 28 (6.4 
 | How they discover ideas (ticks) | C2, C3, C4 | the platforms, communities and events related to the ticked ways come first |
 | Where they spend time (social environment) | C4 events | asked when the environment is not Mostly digital or Low-frequency |
 
-The app also **proposes Profiles** (up to three): one for each age term of the group; for a Proxy or Dual-Intent buyer, a second Profile for the user (doc 35, the user part). The user presses Add on the ones they want.
+The app also **proposes Profiles** (up to three): one for each age term of the group; for a Proxy or Dual-Intent buyer, a second Profile for the end user (doc 35, the end-user part). The App User presses Add on the ones they want.
 
-**For a business Segment, by buying role (built, owner 2026-11-03: "go on with your proposed changes", review section 6.1).** Read from the Segment's "Who decides to buy?" (doc 35, 9), after the buying-centre roles of Webster and Wind (1972). Each proposal is an add button above "+ Add Profile" ("+ Add User Profile"); it adds a Profile with that name and its A5 roles ticked, which the user can change, and it is not offered again while a Profile of the Segment has its name (`proposedBusinessProfiles`, `ProfileQuestions.ts`):
+**For a business Segment, by buying role (built, owner 2026-11-03: "go on with your proposed changes", review section 6.1).** Read from the Segment's "Who decides to buy?" (doc 35, 9), after the buying-centre roles of Webster and Wind (1972). Each proposal is an add button above "+ Add Profile" ("+ Add User Profile"); it adds a Profile with that name and its A5 roles ticked, which the App User can change, and it is not offered again while a Profile of the Segment has its name (`proposedBusinessProfiles`, `ProfileQuestions.ts`):
 
 | Who decides to buy? | Proposed Profiles (A5 ticked) |
 |---|---|
@@ -59,16 +59,16 @@ Nothing is proposed before the question is answered, or for people. The kinds of
 | The Segment is | The Profiles | Asked | Not asked |
 |---|---|---|---|
 | **B2C, Direct Buyers** | one typical person, who pays and uses | A1, A2, A7, A3, A6; B1; C; D; E (and A5 where the age group includes Minors) | A5 (the person plays every part), unless the age group includes Minors |
-| **B2C, Proxy or Dual-Intent** | the payer's Profile, and a second Profile for the user (proposed beside it, doc 28, 6.5) | the payer: all but A5's "Uses it"; the user: A1, A2, A5 (who uses it, who influences), A6, B1, C, E | the user's Box D: the user does not run the purchase (the payer's Profile holds how they compare and what help they want) |
+| **B2C, Proxy or Dual-Intent** | the payer's Profile, and a second Profile for the end user (proposed beside it, doc 28, 6.5) | the payer: all but A5's "Uses it"; the end user: A1, A2, A5 (who uses it, who influences), A6, B1, C, E | the end user's Box D: the end user does not run the purchase (the payer's Profile holds how they compare and what help they want) |
 | **B2B** | the person who decides (or the one asked to use it) | A1, A3b, A4, A5, B1, C, D, E | A2 and A6 (they are asked only where the owner turns them on) |
 
-**A5 (owner, 2026-11-01).** A pure B2C Direct Segment whose age group does not include Minors: A5 is not asked and leaves no gap (the one person plays every part). A B2C Proxy or Dual-Intent Segment: A5 is asked on both Profiles, starting with "Places the order" and "Makes the final decision" ticked on the payer's and "Uses it" ticked on the user's, as starting values the user can change; nothing is locked. A B2B Segment: A5 is always asked.
+**A5 (owner, 2026-11-01).** A pure B2C Direct Segment whose age group does not include Minors: A5 is not asked and leaves no gap (the one person plays every part). A B2C Proxy or Dual-Intent Segment: A5 is asked on both Profiles, starting with "Places the order" and "Makes the final decision" ticked on the payer's and "Uses it" ticked on the end user's, as starting values the App User can change; nothing is locked. A B2B Segment: A5 is always asked.
 
 ### 2.2 When an answer above changes
 
 The Segment's rule holds here: **a question that is no longer asked, or an option no longer offered, has its answer removed on the next choice**, and the documents read the answers settled against what is asked now.
 
-**The exact age (A1), decided by the owner (2026-11-01).** When the Segment's age group changes, A1 is **cleared if its number falls outside the new group, and kept if it is still inside it**. A Profile of 21 stays when the Segment goes from Young adults (18–24) to a group that still holds 21 (or to none chosen), and is cleared when it goes to Peak (40–54). The cleared cell says why, in its placeholder: *"Age reset to match the Segment's age group. Enter a typical age from 40 to 54."* (the range of the new group: from its first age up to, but not including, its second; for the last group, "75 or older"). Nothing else on the Profile is touched. **A user's Profile (owner, 2026-11-01).** When the Segment stops being Proxy or Dual-Intent (a change of the buyer's category in Positioning, or of the relationship), the user's Profile is **deleted completely at once**, not hidden: what it holds (its name, notes, needs and answers) is removed from the Segment's saved answer, so nothing of it reaches the documents, the exports or the wire, and a later change back to Proxy starts a new, empty user's Profile. The payer's Profile is untouched.
+**The exact age (A1), decided by the owner (2026-11-01).** When the Segment's age group changes, A1 is **cleared if its number falls outside the new group, and kept if it is still inside it**. A Profile of 21 stays when the Segment goes from Young adults (18–24) to a group that still holds 21 (or to none chosen), and is cleared when it goes to Peak (40–54). The cleared cell says why, in its placeholder: *"Age reset to match the Segment's age group. Enter a typical age from 40 to 54."* (the range of the new group: from its first age up to, but not including, its second; for the last group, "75 or older"). Nothing else on the Profile is touched. **An end user's Profile (owner, 2026-11-01).** When the Segment stops being Proxy or Dual-Intent (a change of the buyer's category in Positioning, or of the relationship), the end user's Profile is **deleted completely at once**, not hidden: what it holds (its name, notes, needs and answers) is removed from the Segment's saved answer, so nothing of it reaches the documents, the exports or the wire, and a later change back to Proxy starts a new, empty end user's Profile. The payer's Profile is untouched.
 
 ### 2.3 The card's layout
 
@@ -82,7 +82,7 @@ The card is built and its layout is in section 1 ("The Profile card's layout"): 
 | A box's note | the shared Note component (`OptionalNote`), under the questions |
 | What is not asked | a question that is not asked leaves no gap: its band is not drawn |
 
-**What changes with the Segment's kind (2.1, proposed):** a B2C Direct Profile shows boxes A (without A4 and A5), B, C, D, E; a Proxy Segment adds the user's Profile card beside it, with box D left out; a B2B Profile shows A1, A3, A4, A5, hides A2 and the specialised needs, and C asks the professional hubs only. Built so far: the questions follow the Segment's answers as the tables in 2.1 and 9 say, where the card exists.
+**What changes with the Segment's kind (2.1, proposed):** a B2C Direct Profile shows boxes A (without A4 and A5), B, C, D, E; a Proxy Segment adds the end user's Profile card beside it, with box D left out; a B2B Profile shows A1, A3, A4, A5, hides A2 and the specialised needs, and C asks the professional hubs only. Built so far: the questions follow the Segment's answers as the tables in 2.1 and 9 say, where the card exists.
 
 ## 3. Box A. Specific Personal Information
 
@@ -101,7 +101,7 @@ A typical person of the Segment, asked specifically.
   - Another gender
 - **The "i" would say:** Asked only when the Segment's mix leans one way. The categories follow the Australian standard for sex and gender [SEX-01]. Nothing reads it today but the note (the equality notice and the Review check are not built).
 - **Connections:**
-  - *Comes from:* the Segment's gender mix. When it leans one way (60 to 80%) or is mostly one way (80%+), A2 **starts** as Woman or Man, a starting value the user can change; the question stays visible, because a Segment holds up to three Profiles and one of them can be the minority. When the mix is Balanced the question is not asked: gender does not matter for what is sold.
+  - *Comes from:* the Segment's gender mix. When it leans one way (60 to 80%) or is mostly one way (80%+), A2 **starts** as Woman or Man, a starting value the App User can change; the question stays visible, because a Segment holds up to three Profiles and one of them can be the minority. When the mix is Balanced the question is not asked: gender does not matter for what is sold.
   - *Read by (not built yet):* the Review (a gender that does not fit the mix is noted, never cleared); the equality notice.
   - *When the Segment's mix changes (owner, 2026-11-01):* a gender chosen on a Profile is **never cleared** because the mix flips (a man in a Segment that leans women is a real case); the Review notes it. Only when the mix becomes Balanced is the question no longer asked, and its answer is then removed on the next choice, as for any question no longer asked.
 
@@ -184,7 +184,7 @@ A typical person of the Segment, asked specifically.
 ### A5. What is this person's role in buying?
 
 - **Control:** ticks, as many as apply.
-- **Asked when:** the Segment's buyer is a business, or it has a user part (a Proxy or Dual-Intent buyer), or its age group includes Minors.
+- **Asked when:** the Segment's buyer is a business, or it has an end-user part (a Proxy or Dual-Intent buyer), or its age group includes Minors.
 - **Options:**
   - Uses it
   - Influences the decision
@@ -193,7 +193,7 @@ A typical person of the Segment, asked specifically.
   - Controls who reaches the decision-maker
 - **The "i" would say:** The five buying-centre roles credited to Webster and Wind (1972) [CHN-02]. "Uses it" is the person who uses the offering day to day, who may be neither the one who pays nor the one who decides. The Segment's question on how the decision is authorised says how the whole buying group decides; this one says which part this person plays.
 - **Connections:**
-  - *Comes from:* the Segment's decision authorisation and user part.
+  - *Comes from:* the Segment's decision authorisation and end-user part.
   - *Read by (not built yet):* the Review (nobody makes the final decision); context on the Customer Engagement page.
 
 ### A6. Specialised needs
@@ -218,7 +218,7 @@ A typical person of the Segment, asked specifically.
 
 - **Control:** ticks, up to 3.
 - **Asked when:** always.
-- **Options:** the list L1 (doc 34, 5.2): Lower price; Speed; Ease and convenience; Quality and results; Trust and reputation; Expert knowledge; A tailored service; Good support; Safety and low risk; Shared values / identity.
+- **Options:** the list L1 (doc 34, 5.2):
   - Lower price
   - Speed
   - Ease and convenience
@@ -242,7 +242,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 - **Control:** ticks, as many as apply.
 - **Asked when:** always.
-- **Options:** the list L15 (doc 34, 5.2): Smartphone; Laptop / desktop; Tablet; A shared / public device; Other, which the user writes in (ticking it opens a text box under the options; its words are kept as the answer).
+- **Options:** the list L15 (doc 34, 5.2); Other opens a text box under the options, where the App User writes their own, and its words are kept as the answer:
   - Smartphone
   - Laptop / desktop
   - Tablet
@@ -250,14 +250,14 @@ What the Segment cannot say: which devices, which social media, which communitie
   - Other
 - **The "i" would say:** The devices they use to find and buy, not those they own.
 - **Connections:**
-  - *Comes from:* the Segment's online comfort and where they buy: the setting starts it (Online, on a phone: Smartphone; Online, on a computer: Laptop / desktop; In a shop: none; Both online and in shops: Smartphone and Laptop / desktop), as a starting value the user can change.
+  - *Comes from:* the Segment's online comfort and where they buy: the setting starts it (Online, on a phone: Smartphone; Online, on a computer: Laptop / desktop; In a shop: none; Both online and in shops: Smartphone and Laptop / desktop), as a starting value the App User can change.
   - *Read by (not built yet):* the Review (make the order and the forms work on a phone; a note where the devices ticked leave out the one the Segment buys on).
 
 ### C2. Which social media does this person use?
 
 - **Control:** ticks, as many as apply.
 - **Asked when:** the Segment's customers are not Not very comfortable online (or the comfort is not answered).
-- **Options:** the social media channels the app already lists: Instagram; Facebook; LinkedIn; YouTube; TikTok; Pinterest; X (Twitter); Other, which the user writes in (ticking it opens a text box under the options; its words are kept as the answer). (Not built: the ones related to the Segment's ways of discovering ideas, creators, communities and algorithmic discovery, would come first.)
+- **Options:** the social media channels the app already lists; Other opens a text box under the options, where the App User writes their own, and its words are kept as the answer. (Not built: the ones related to the Segment's ways of discovering ideas, creators, communities and algorithmic discovery, would come first.)
   - Instagram
   - Facebook
   - LinkedIn
@@ -275,7 +275,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 - **Control:** ticks, as many as apply.
 - **Asked when:** the Segment's ways of discovering ideas include niche online communities or forums.
-- **Options:** the community channels the app already lists: Facebook Group; Discord; Reddit; Slack; Meetup; Other, which the user writes in (ticking it opens a text box under the options; its words are kept as the answer).
+- **Options:** the community channels the app already lists; Other opens a text box under the options, where the App User writes their own, and its words are kept as the answer:
   - Facebook Group
   - Discord
   - Reddit
@@ -291,7 +291,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 - **Control:** ticks, as many as apply.
 - **Asked when:** the Segment's social environment is a mix of online and in person, or mostly in person.
-- **Options:** the in-person channels the app already lists as events: Market / Pop-up; Trade Fair / Exhibition; Workshop / Class; Talk / Conference; Other, which the user writes in (ticking it opens a text box under the options; its words are kept as the answer).
+- **Options:** the in-person channels the app already lists as events; Other opens a text box under the options, where the App User writes their own, and its words are kept as the answer:
   - Market / Pop-up
   - Trade Fair / Exhibition
   - Workshop / Class
@@ -400,20 +400,20 @@ What the Segment cannot say: which devices, which social media, which communitie
 1. **C2 to C4** keep the lists the app already has (the social media, the communities, the events); no longer list is added. A specific name is written in the box's own note, as it is today.
 2. **Their conditions** (online comfort, the ways of discovering ideas, the social environment) hold: a tendency of the Segment is enough to leave a Profile question out, so a short Segment gives a shorter Profile.
 3. **The needs** stay open text lists.
-4. **The user's Profile skips Box D** (2.1); the payer's Profile holds how they compare and what help they want.
+4. **The end user's Profile skips Box D** (2.1); the payer's Profile holds how they compare and what help they want.
 
-**Answered for the user and not shown (owner, 2026-11-01).** The same rule as the Segment's (doc 35): where the answers above leave one answer, it is set and the question is not drawn.
+**Answered for the App User and not shown (owner, 2026-11-01).** The same rule as the Segment's (doc 35): where the answers above leave one answer, it is set and the question is not drawn.
 
 | Question | Set when | To |
 |---|---|---|
 | A3b job level | the Segment's customers are self-employed | Owner / partner (built: not asked; set, so the documents show it) |
 
-**Starting values the user can change (owner, 2026-11-01).** D1 and D2 start from the Segment's path to purchase and online comfort (a Researcher: reviews; a Social validator: what other people recommend; Tech-savvy: they work it out themselves; Tech-averse: they want to talk to a person); D2 starts at a formal proposal where the Segment's decision includes a formal procurement loop; A2 starts from the Segment's gender mix when it leans (60 to 80%) or is mostly (80%+) one way, and stays visible; C1 as in 5. Impulse buyers skip D1. A5 starts with all five roles ticked where the Segment's "Who decides to buy?" includes "One person decides" (which is all it offers for a self-employed customer). **E3** starts with "The price / budget" ticked where the Segment's household income is Low, a starting value the user can change without any validation in the way (owner, 2026-11-01).
+**Starting values the App User can change (owner, 2026-11-01).** D1 and D2 start from the Segment's path to purchase and online comfort (a Researcher: reviews; a Social validator: what other people recommend; Tech-savvy: they work it out themselves; Tech-averse: they want to talk to a person); D2 starts at a formal proposal where the Segment's decision includes a formal procurement loop; A2 starts from the Segment's gender mix when it leans (60 to 80%) or is mostly (80%+) one way, and stays visible; C1 as in 5. Impulse buyers skip D1. A5 starts with all five roles ticked where the Segment's "Who decides to buy?" includes "One person decides" (which is all it offers for a self-employed customer). **E3** starts with "The price / budget" ticked where the Segment's household income is Low, a starting value the App User can change without any validation in the way (owner, 2026-11-01).
 
 **One list for the kinds of work.** A3 and the Segment's end-user question ("What kind of work do your end users do?") take the same nine groups, written once (`JOB_LEVELS`, `SegmentQuestions.ts`), so the words never differ between the two cards or the exports.
 
-**The devices (C1) stay a starting value and a Review note, not a rule.** The Segment's "where they buy" starts C1 (a store: no device; the phone: Smartphone), and the Review notes a contradiction, but C1 is never unticked for the user: a shopper who buys in a store still finds the shop on a phone. A tendency never removes an option.
+**The devices (C1) stay a starting value and a Review note, not a rule.** The Segment's "where they buy" starts C1 (a store: no device; the phone: Smartphone), and the Review notes a contradiction, but C1 is never unticked for the App User: a shopper who buys in a store still finds the shop on a phone. A tendency never removes an option.
 
-**Also decided (owner, 2026-11-01).** A5 is asked only for a business buyer, a Segment with a user part, or a group that includes Minors (2.1); a user's Profile is deleted completely when its Segment loses its user (2.2).
+**Also decided (owner, 2026-11-01).** A5 is asked only for a business buyer, a Segment with an end-user part, or a group that includes Minors (2.1); an end user's Profile is deleted completely when its Segment loses its end user (2.2).
 
-**Not built.** A4, A6, the proposed Profiles other than the B2B ones by buying role (2), the user's own Profile and the reads marked "not built yet", which are built when the Segment's are.
+**Not built.** A4, A6, the proposed Profiles other than the B2B ones by buying role (2), the end user's own Profile and the reads marked "not built yet", which are built when the Segment's are.

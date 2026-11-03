@@ -16,7 +16,7 @@ Related: doc 28 (questionnaire specification), doc 31 (positioning categories), 
 - [8. What is built](#8-what-is-built)
 - [9. Open points of the first version](#9-open-points-of-the-first-version)
 - [10. Product scope](#10-product-scope)
-- [11. Buyer and user (positioning)](#11-buyer-and-user-positioning)
+- [11. Buyer and end user (positioning)](#11-buyer-and-end-user-positioning)
 - [12. Research still to do](#12-research-still-to-do)
 - [13. Rule for this list](#13-rule-for-this-list)
 - [14. Heavy, public and institutional options (moved from doc 31 and the app, 2026-10-30)](#14-heavy-public-and-institutional-options-moved-from-doc-31-and-the-app-2026-10-30)
@@ -31,7 +31,7 @@ Related: doc 28 (questionnaire specification), doc 31 (positioning categories), 
 | Language | **English only** |
 | Countries | The **six named countries** (UK, Ireland, USA, Canada, Australia, New Zealand) and **Other**, which is any country outside those six |
 | Legal form | The six countries: each country's **own complete list**. Other: **four generic forms** |
-| Activities and codes | The six countries: each country's **complete list with its codes**. Other: the user **types the activity and the code** |
+| Activities and codes | The six countries: each country's **complete list with its codes**. Other: the App User **types the activity and the code** |
 | Market structure | **Single-sided only** |
 | Seller and buyer relationship | **B2C and/or B2B** only |
 | Buyer | The **buyer's category** is separate from the **buyer's life stage** |
@@ -45,7 +45,7 @@ English only, and **UK English** (owner, 2026-11-03: organisation, centre, speci
 
 1. **Six countries:** United Kingdom, Ireland, United States, Canada, Australia, New Zealand. Each has a **complete list of legal forms** and a **complete list of activities with their related codes**, from the country's own scheme (doc 34, 5.3 and 5.8: the classification, its levels and the label of the code; rule 14 of doc 28 for the legal forms).
 2. **Other** means **any country outside those six**. For Other:
-   - the app user **types the activity and the related code manually**;
+   - the App User **types the activity and the related code manually**;
    - the **legal form** has four options (public company, nonprofit and cooperative forms are left out: doc 33, section 14):
      1. Sole Proprietorship
      2. General Partnership
@@ -95,7 +95,7 @@ The buyer's category no longer sits inside the life-stage list.
 
 The B2B list is the six business relationships of doc 31 section 6.2, each with the owner's description of how it positions (doc 31 section 10.6). They split into **Proxy archetypes** (Employer; Professional intermediary; Sponsor or funder; Other, for example a franchise owner buying for franchise operators) and **Dual-Intent archetypes** (Business partner; Business serving clients).
 
-**2. User's life stage (B2C):**
+**2. End user's life stage (B2C):**
 1. Minors
 2. Young Adults
 3. Adults
@@ -103,15 +103,15 @@ The B2B list is the six business relationships of doc 31 section 6.2, each with 
 
 **Then:** Purpose, Differentiation, Outcome. (The owner's list was sent unfinished; see the checks.)
 
-**What the End User block holds in the first version:** the relationship and, for B2C, the user's life stage. The questions "who chooses" (I7f) and "what matters most to the User" (I7g), the routing into the second Profile's ticks, and everything else collected about the End User are **future features** (doc 33).
+**What the End User block holds in the first version:** the relationship and, for B2C, the end user's life stage. The questions "who chooses" (I7f) and "what matters most to the User" (I7g), the routing into the second Profile's ticks, and everything else collected about the End User are **future features** (doc 33).
 
 **Check, for the owner:**
 1. **This replaces the I7b design of doc 31 decision 19.** There the life-stage list had five options, with Proxy and Dual-Intent among them. Now **I7b keeps three life-stage options** and **the category is a separate question**. The End User block is shown by the category.
 2. **The life-stage list no longer holds "Proxy Buyers / Gifters"** (section 8): an older saved answer is read in the new form and the buyer's category is asked again.
-3. **The user's life stage has four coarse groups** with no age edges given. Minors is read as under 18 and Seniors as 65 and over (which includes the Dependent seniors of 75 and over). Do the four replace the detailed stages of doc 31 section 1 or group them? Not stated.
-4. **B2B users have no life stage.** The user's life stage is read as B2C only; for B2B the relationship is the only End User item.
+3. **The end user's life stage has four coarse groups** with no age edges given. Minors is read as under 18 and Seniors as 65 and over (which includes the Dependent seniors of 75 and over). Do the four replace the detailed stages of doc 31 section 1 or group them? Not stated.
+4. **B2B end users have no life stage.** The end user's life stage is read as B2C only; for B2B the relationship is the only End User item.
 5. **The buyer's category for B2B:** the archetypes of section 10.6 suggest a category for each relationship (Proxy or Dual-Intent); as decided in doc 31 decisions 8 to 10, the relationship only **suggests** it and the buyer's own answer governs.
-6. **Purpose, Differentiation and Outcome are three items** (settled 2026-10-30: the owner asked for the Differentiation to be separate from the Outcome, the Differentiation focused on the offering, and for a different outcome for the buyer and the user where the buyer is a Proxy or Dual-Intent Buyer). Purpose uses the 12 purposes of doc 31 section 7; Differentiation keeps the owner's four words, with two more added the same day (section 8: six in all); the Outcome for the buyer is the four results those words name; the Outcome for the user is the six answers of the former "what matters most to the End User".
+6. **Purpose, Differentiation and Outcome are three items** (settled 2026-10-30: the owner asked for the Differentiation to be separate from the Outcome, the Differentiation focused on the offering, and for a different outcome for the buyer and the end user where the buyer is a Proxy or Dual-Intent Buyer). Purpose uses the 12 purposes of doc 31 section 7; Differentiation keeps the owner's four words, with two more added the same day (section 8: six in all); the Outcome for the buyer is the four results those words name; the Outcome for the end user is the six answers of the former "what matters most to the End User".
 
 ## 6. Ages
 
@@ -133,15 +133,15 @@ The tiles that follow this document are described as built in their own document
 ## 9. Open points of the first version
 
 1. The owner's list was sent **unfinished** more than once. Anything after it is to be added here.
-2. The checks of sections 3 to 6, in particular: the country picker; the four coarse life stages; whether B2B users have a life stage; Purpose, Differentiation and Outcome as three questions; which ages go in the Segment and where.
+2. The checks of sections 3 to 6, in particular: the country picker; the four coarse life stages; whether B2B end users have a life stage; Purpose, Differentiation and Outcome as three questions; which ages go in the Segment and where.
 
-**Closed on 2026-10-30 (the owner: close the open points of the Positioning tile):** the Outcome lists (buyer and user) and the relationships offered for each category are approved as written; a purpose a table does not list is read from the next table; the master matrix stays a reference; no "Recommended" tag is added (doc 31, decision 38). Still future: the routing of the outcome for the user into the second Profile (doc 33, item 13).
+**Closed on 2026-10-30 (the owner: close the open points of the Positioning tile):** the Outcome lists (buyer and end user) and the relationships offered for each category are approved as written; a purpose a table does not list is read from the next table; the master matrix stays a reference; no "Recommended" tag is added (doc 31, decision 38). Still future: the routing of the outcome for the end user into the second Profile (doc 33, item 13).
 
-**Left out on 2026-10-30 as heavy, public or late-stage institutional (the owner):** the **public company** legal forms (Public Limited Company, PLC, Public Company, Corp, AG) in every country list and in the generic forms; the **Nonprofit Corporation** (United States) and **Cooperative** (Canada) forms. They are listed in doc 33, section 14. A legal form already saved stays as the user's text. **The audience scale is not touched:** Audience Specialisation & Scale is the app user's audience (the customers of the business described, from Solopreneurs & Freelancers to Enterprise or Public Sector), a different thing from the app's own audience; the owner corrected the first reading on 2026-10-30.
+**Left out on 2026-10-30 as heavy, public or late-stage institutional (the owner):** the **public company** legal forms (Public Limited Company, PLC, Public Company, Corp, AG) in every country list and in the generic forms; the **Nonprofit Corporation** (United States) and **Cooperative** (Canada) forms. They are listed in doc 33, section 14. A legal form already saved stays as the App User's text. **The audience scale is not touched:** Audience Specialisation & Scale is the App User's audience (the customers of the business described, from Solopreneurs & Freelancers to Enterprise or Public Sector), a different thing from the app's own audience; the owner corrected the first reading on 2026-10-30.
 
 **A change of country empties the dependent answers (2026-10-30):** the instant the Country changes to another value, the State (the subdivision) and the Address are emptied with the legal form, the activities and the registration numbers, so no address stays under another country's state or postcode. Choosing the same country again changes nothing.
 
-**No "Other" in the Legal Form list (2026-10-30, the owner):** the Legal Form is one of the country's own forms, or one of the four generic forms for Other; the list has no "Other" entry and no free-text name beside it. A legal form saved earlier as "Other" shows with its typed name until the user chooses another.
+**No "Other" in the Legal Form list (2026-10-30, the owner):** the Legal Form is one of the country's own forms, or one of the four generic forms for Other; the list has no "Other" entry and no free-text name beside it. A legal form saved earlier as "Other" shows with its typed name until the App User chooses another.
 
 ## 10. Product scope
 
@@ -156,15 +156,15 @@ The tiles that follow this document are described as built in their own document
 | 6 | B2G: public-sector buyers, Administrative Level audience, the institutional relationships | B2C and/or B2B | doc 28 8.2; section 14.1 | Built and hidden |
 | 7 | G2B: government-to-business, Regulatory Intensity audience, locked audiences, procurement and tender rows, payment-delay notices | B2C and/or B2B | doc 28 8.2; section 14.2 | Built and hidden |
 
-## 11. Buyer and user (positioning)
+## 11. Buyer and end user (positioning)
 
 | # | Future feature | Described in |
 |---|---|---|
 | 8 | The finest life stages (Infancy through Late Adolescence) beyond the seven age terms the Segment asks, which follow the edge rule "from X up to but not including Y" | doc 31 1, 2, section 10.1; doc 35 |
 | 9 | The Micro-Buyers (16 to 18) as a restricted sub-category of Direct Buyers | doc 31 2, decision 5 |
-| 10 | The public-sector and government-to-business buyer and user relationships (the other ten of the 22) | section 14; doc 31 decision 18 |
-| 11 | The positioning guidance of each B2B relationship (value positioning, buyer and user pain points, messaging focus) as tooltips or text | doc 31 section 10.6 |
-| 12 | "Who chooses" (I7f) with its household wording (removed from the app); "what matters most to the User" (I7g) is now the Outcome for the user (2026-10-30) | doc 31 section 10.3, decisions 20 to 22 |
+| 10 | The public-sector and government-to-business buyer and end user relationships (the other ten of the 22) | section 14; doc 31 decision 18 |
+| 11 | The positioning guidance of each B2B relationship (value positioning, buyer and end user pain points, messaging focus) as tooltips or text | doc 31 section 10.6 |
+| 12 | "Who chooses" (I7f) with its household wording (removed from the app); "what matters most to the User" (I7g) is now the Outcome for the end user (2026-10-30) | doc 31 section 10.3, decisions 20 to 22 |
 | 13 | The routing of the End User answers into the second Profile: age, P25 relationship, P21 role, P9 and P17 ticks | doc 31 section 10.3, decision 18, decisions 20 to 22 |
 | 14 | The relationship-to-purpose table (22 rows, 12 purposes) as tooltips and ordering of the purpose list | doc 31 section 10.4 |
 | 15 | Accessibility questions (permanent, temporary, situational; functional categories) saved as Profile tags (the Profile's A6, not built) | doc 31 3, decision 12; doc 36 |
@@ -189,7 +189,7 @@ An item moves into sections 1 to 9 only when the owner says so. If the owner nam
 
 ## 14. Heavy, public and institutional options (moved from doc 31 and the app, 2026-10-30)
 
-The audience scale (Enterprise or Public Sector included) is the app user's audience and **stays**; what is removed concerns the app user's own organisation.
+The audience scale (Enterprise or Public Sector included) is the App User's audience and **stays**; what is removed concerns the App User's own organisation.
 
 The owner removed these from the first version; they are kept here until a later version brings them back.
 
@@ -234,7 +234,7 @@ These examples are slightly different because G2B often involves a government se
 
 And, from the first collection (section 8 of doc 31), the four rows of the 15-row table:
 
-| Buyer–user relationship | Learn & develop | Health & care | Gift & appreciation | Entertainment | Social connection | Productivity | Business growth | Creation | Everyday needs | Protection | Compliance | Access & support |
+| Buyer–end user relationship | Learn & develop | Health & care | Gift & appreciation | Entertainment | Social connection | Productivity | Business growth | Creation | Everyday needs | Protection | Compliance | Access & support |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
 | Public authority → employees | ● | ○ |  |  | ○ | ● |  |  | ○ | ● | ○ | ○ |
 | Public authority → citizens | ● | ● |  | ● | ● | ○ |  | ○ | ● | ○ | ○ | ● |
@@ -248,13 +248,13 @@ These came from a review of how the Segment's Box 4 and Box 5 answers could be r
 | # | Thought | Why it is worth keeping | Waits for |
 |---|---|---|---|
 | 1 | **Persona archetype tags** on a Profile (for example "Trend-Driven Impulse Buyer"), compiled from Box 4 | A Profile can be summarised at a glance | A fixed list of archetypes in the owner's words; the app must not invent the names |
-| 2 | **Competitor emphasis from Box 5, question 4**: Red Ocean raises differentiation and price comparison, Blue Ocean raises market education | It points the user to the work that matters | A place in the Competitor card; it highlights and orders, it does not add or remove rows |
+| 2 | **Competitor emphasis from Box 5, question 4**: Red Ocean raises differentiation and price comparison, Blue Ocean raises market education | It points the App User to the work that matters | A place in the Competitor card; it highlights and orders, it does not add or remove rows |
 | 3 | **Demand and capacity warning**: Box 5 size and trend against the capacity to deliver (a solo team with manual fulfilment) | A scaling bottleneck is seen early | The Capability page and the Review checks, which are held back while Planning and Launching |
-| 4 | **"Why this is suggested" notice** on a page whose suggestions follow the Segment, with a way to see everything | The user knows why a list is ordered as it is | The owner's word on a new element (the notice and its switch) |
+| 4 | **"Why this is suggested" notice** on a page whose suggestions follow the Segment, with a way to see everything | The App User knows why a list is ordered as it is | The owner's word on a new element (the notice and its switch) |
 | 5 | **Journey auto-layout**: Awareness from Box 4 question 2, Consideration from question 6, Decision from questions 7 and 8 | The data already maps onto the three stages | A customer journey part; none is in the documents today |
 | 6 | **Flags from the specialised needs of the Profile** (the accessibility needs and the caregiving roles moved there from the Segment, 2026-11-01): a solo or single-parent household raises a time-poverty and churn-risk note in a customer journey; sensory or physical needs raise a "compliance validation required" badge on an Offering | The needs of a Segment reach the parts that serve it | A customer journey part (none today) and a place on the Offering for the badge; they would highlight, never decide |
 | 7 | **Reads of the working questions of Box 1 (3b to 3d)**: a frontline worker on shifts moves the journey's communication to asynchronous (SMS) and flags the drop-off of live calls; variable or performance-based income suggests pay-as-you-go or pause-and-resume terms in the Offering; a remote desk worker raises desktop and daytime channels | When they are free, how they are paid and where they are met decide how to reach and sell to them | A customer journey part, a recommendation place on the Offering and the channel order; each would only suggest, never hide or price (rule 5) |
 | 8 | **Channel pins from the Profile's help wanted (D2)**: "They want to talk to a person" lifts live chat and phone support to the top of the channels; "They work it out themselves" lifts self-service | The channels the Profile needs come first | The Profile's questions and the channel order on page 2; it orders and highlights, never removes a channel |
-| 9 | **A "baseline" helper on a new Profile**: a short bar saying the Segment's answers can start the Profile (the likely options ticked, for the user to keep or clear) | Saves the user typing what the Segment already says | The owner's word on a new element; the same starting values the design already plans (A1 within the group, C1 from the setting) without a bar |
+| 9 | **A "baseline" helper on a new Profile**: a short bar saying the Segment's answers can start the Profile (the likely options ticked, for the App User to keep or clear) | Saves the App User typing what the Segment already says | The owner's word on a new element; the same starting values the design already plans (A1 within the group, C1 from the setting) without a bar |
 
 **Dropped:** a pricing tip from "economic pressures" (it sets a price from a tendency, against rule 5) and examples such as named marketing sites in the channel list (the channel list the app already has is the only source).
