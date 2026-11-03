@@ -18,6 +18,7 @@
     "docs:values": "node tools/scripts/docs/sync-values.mjs",
     "docs:values:check": "node tools/scripts/docs/sync-values.mjs --check",
     "docs:index": "node tools/scripts/docs/write-index.mjs",
+    "project:kit": "node tools/scripts/docs/build-project-kit.mjs",
     "docs:assets": "node tools/scripts/docs/generate-assets.mjs",
     "docs:assets:check": "node tools/scripts/docs/generate-assets.mjs --check",
     "docs:standard": "node tools/scripts/docs/check-standard.mjs",

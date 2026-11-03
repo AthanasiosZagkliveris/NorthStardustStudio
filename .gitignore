@@ -52,3 +52,6 @@ exports/
 # Working folders of the assistant sessions
 .superpowers/
 .scratch/
+
+# The Claude project kit: a snapshot built by npm run project:kit
+claude-project/knowledge/
