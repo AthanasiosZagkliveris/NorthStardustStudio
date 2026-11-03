@@ -18,7 +18,7 @@ Status: **index**, updated 2026-11-03. One line per document: where it is, what 
 3. [The design and its records (`design/core/`, documents 1 to 7)](#3-the-design-and-its-records-designcore-documents-1-to-7)
 4. [The library (`design/library/`, documents 8 to 15)](#4-the-library-designlibrary-documents-8-to-15)
 5. [The current design (`design/current/`, documents 16 to 26)](#5-the-current-design-designcurrent-documents-16-to-26)
-6. [The first version and the questionnaire (`design/questionnaire/`, documents 27 to 40)](#6-the-first-version-and-the-questionnaire-designquestionnaire-documents-27-to-40)
+6. [The first version and the questionnaire (`design/questionnaire/`, documents 27 to 43)](#6-the-first-version-and-the-questionnaire-designquestionnaire-documents-27-to-43)
 7. [Rules for the assistant](#7-rules-for-the-assistant-ai)
 8. [The specifications](#8-the-specifications-specifications)
 9. [The archive](#9-the-archive-archive)
@@ -90,7 +90,7 @@ What the app is today in detail: the texts, the reactions, the shared components
 | [design/current/25-folder-plan.md](design/current/25-folder-plan.md) | current design | The folders of the repository: the app files, the examples, the working files and the exports, and the documents folder. | 2026-11-03 |
 | [design/current/26-card-structure.md](design/current/26-card-structure.md) | current design | Card structure: what the user can reach in each card, row by row, and why. The structure tables and the catalogue record are generated from it. | 2026-11-03 |
 
-## 6. The first version and the questionnaire (`design/questionnaire/`, documents 27 to 40)
+## 6. The first version and the questionnaire (`design/questionnaire/`, documents 27 to 43)
 
 What the first published version contains and what it leaves for later (33, which governs the other documents of this chapter), the questions of each tile as built, and the plan, the lists and the research behind them. Read in this order. **What governs:** 33 (the first version, sections 1 to 9; what is left for later, sections 10 to 15). **The tiles as built, one document each (40 gives the form and the list):** 37 (the Organisation), 38 (Positioning), 35 (the Segment), 36 (the Profile, built in part). **How to word them:** 39 (what an "i" says) and, in 28, sections 3 and 4 (the rules and the plain wording). **The design behind them:** 27 (the plan), 28 (every question, the connections and the evidence), 29 (the flow). **The lists and the data:** 34 (the lists and classifications), 31 and 32 (the positioning decisions and their sources), 30 (age limits).
 
@@ -110,6 +110,9 @@ What the first published version contains and what it leaves for later (33, whic
 | [design/questionnaire/38-positioning-questions.md](design/questionnaire/38-positioning-questions.md) | specification | The Positioning tile's questions as built, by stage: control, limits, options, the help and the connections. | 2026-11-03 |
 | [design/questionnaire/39-help-texts-guide.md](design/questionnaire/39-help-texts-guide.md) | proposal | What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check. | 2026-11-03 |
 | [design/questionnaire/40-tile-documents.md](design/questionnaire/40-tile-documents.md) | rules | The form every tile document takes (one for each tile or card), and where each tile stands: which has a document and which does not yet. | 2026-11-03 |
+| [design/questionnaire/41-competitor-questions.md](design/questionnaire/41-competitor-questions.md) | proposal | The Competitor card: every question and option, as proposed (K1 to K5, by the competitor's type). | 2026-11-03 |
+| [design/questionnaire/42-value-proposition-questions.md](design/questionnaire/42-value-proposition-questions.md) | proposal | The Value Proposition tile: the draft sentence and the open items, as proposed. | 2026-11-03 |
+| [design/questionnaire/43-offering-questions.md](design/questionnaire/43-offering-questions.md) | proposal | The Offering card: every question and option, as proposed (O1 to O12). | 2026-11-03 |
 
 ## 7. Rules for the assistant (`ai/`)
 
