@@ -128,6 +128,10 @@ type Example = { systems: Record<string, Parameters<typeof InterviewSession.from
     2026-11-03: the digests (and the weekly fixture's words) were written again when the options' words followed the owner's rule of
     2026-11-03 (a slash between similar things, "or" between different things: "Invoice, bank transfer or purchase order",
     "Owner or senior executive" and the others). No figure changed.
+
+    2026-11-03, later: the plan and export digests (and the weekly fixture's words) were written again when the Profile's questions
+    were reworded (frustrations "about the way it is done now", objections "buying from you", "Your website"), the goals that repeated
+    "What matters most" were dropped from the examples, and "Unable to work" lost its brackets. No figure changed.
 */
 const ENGAGEMENT = JSON.parse(engagementText) as Record<string, unknown>;
 

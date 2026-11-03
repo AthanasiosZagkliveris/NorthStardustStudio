@@ -1,6 +1,6 @@
 # 35. The Segment's questions: every question and option as built
 
-Status: **specification**, written 2026-11-01, updated 2026-11-02. Every question of the Segment card in the order it is asked, with its control, when it is asked, its options and what its "i" says. **Who the questions are about:** the questions are written for "your customers" (a direct buyer); when the buyer is a Proxy or Dual-Intent buyer, the buyer's boxes say "your buyers" and the end user's box says "your end users" (`segmentWho`).
+Status: **specification**, written 2026-11-01, updated 2026-11-03. Every question of the Segment card in the order it is asked, with its control, when it is asked, its options and what its "i" says. **Who the questions are about:** the questions are written for "your customers" (a direct buyer); when the buyer is a Proxy or Dual-Intent buyer, the buyer's boxes say "your buyers" and the end user's box says "your end users" (`segmentWho`).
 
 Related: doc 36 (the Profile's questions, in the same form), doc 28 (6.3a, the Segment card in the specification), doc 31 (the age terms), doc 33 (the first version; its section 15 holds the thoughts), `src/framework/engine/SegmentQuestions.ts` (where these words are kept; where the two differ, the code is right).
 
@@ -13,7 +13,7 @@ The rules that hold for all of them: a radio is one choice, ticks are several (w
 
 ## Box 1. Demographics
 
-The people who pay (the buyer is people: B2C alone, or the first of the two Segments made where both are chosen). Questions that have no answer for Minors are skipped for them. The specialized needs (accessibility and caregiving) are not asked here: they belong to the Profile, which is specified in doc 36.
+The people who pay (the buyer is people: B2C alone, or the first of the two Segments made where both are chosen). Questions that have no answer for Minors are skipped for them. The specialised needs (accessibility and caregiving) are not asked here: they belong to the Profile, which is specified in doc 36.
 
 ### 1. How old are your customers?
 
@@ -86,7 +86,6 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
 - **The "i" says:**
   - Choose the main reason.
   - Unable to work: sidelined from the workforce by a chronic medical condition, long-term illness or disability. They typically live on fixed support incomes.
-  - Unable to work: illness or disability
 - **Connections:**
   - *Comes from:* This Segment's work status and age ("Retired" not for Minors).
   - *Read by (built):* The Market document and the export.
@@ -218,12 +217,12 @@ Both.
 - **Options:**
   - Urban
   - Suburban
-  - Rural / Remote
+  - Rural / remote
 - **The "i" says:**
   - The kind of place they live or work in. Asked once the business is managing or growing, and only for customers in one place or one country.
   - Urban: High-density city centre
   - Suburban: Residential towns surrounding a city
-  - Rural / Remote: Low-density countryside or isolated areas
+  - Rural / remote: Low-density countryside or isolated areas
 - **Connections:**
   - *Comes from:* This Segment's reach, and the business stage (Organization: the Opening Date).
   - *Read by (built):* The Market document and the export.
@@ -368,7 +367,7 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
   - Mostly online
   - Online and in person
   - Mostly in person
-  - Not very social or independent
+  - Mostly on their own
 - **The "i" says:**
   - Where they spend their free time. It decides how they meet brands and products.
   - Mostly online: Gaming, community servers, chat apps
@@ -453,10 +452,12 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
 - **Options:**
   - Credit / debit card
   - Digital wallets
+  - Cash
   - Buy Now, Pay Later or financing
   - Invoice, bank transfer or purchase order
 - **The "i" says:**
   - Digital wallets are for example Apple Pay, Google Pay and PayPal. Buy Now, Pay Later is for example Klarna and Afterpay.
+  - Cash is still about one payment in ten in the UK (UK Finance, 2024) [PAY-06].
   - Invoicing is asked for business customers only. Credit and Buy Now, Pay Later are not open to minors.
   - Choosing a phone as where they buy starts Digital wallets here; change it freely.
   - Select all that apply.
@@ -513,7 +514,7 @@ Both.
   - *Read by (built):* The Market document and the export; the Business Plan's Market Analysis is covered once a market question is answered.
   - *Read by (not built yet):* Competitor emphasis (a thought, doc 33, row 2).
 
-### 2. How many potential customers are there (TAM)?
+### 2. How many potential customers are there?
 
 - **Control:** one choice (a radio).
 - **Asked when:** Always.
@@ -523,7 +524,7 @@ Both.
   - Mid-market, 50,000–499,999
   - Mass market, 500,000 or more
 - **The "i" says:**
-  - The total number of potential buyers if you had 100% of the market, in the area you serve.
+  - The total number of potential buyers if you had 100% of the market, in the area you serve: the total addressable market (TAM).
 - **Connections:**
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export; the Business Plan's Market Analysis is covered once a market question is answered.
@@ -640,7 +641,6 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
 - **The "i" says:**
   - Choose the main reason.
   - Unable to work: sidelined from the workforce by a chronic medical condition, long-term illness or disability. They typically live on fixed support incomes.
-  - Unable to work: illness or disability
 - **Connections:**
   - *Comes from:* This part's work status and life stage.
   - *Read by (built):* The Market document and the export.
