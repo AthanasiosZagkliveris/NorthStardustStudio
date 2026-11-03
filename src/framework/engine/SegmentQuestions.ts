@@ -55,10 +55,10 @@ const WORKING = [
 
 const NOT_WORKING = [
     { id: "student", label: "Student" },
-    { id: "homemaker", label: "Homemaker / carer" },
+    { id: "homemaker", label: "Homemaker or carer" },
     { id: "seeking", label: "Looking for work" },
     { id: "retired", label: "Retired" },
-    { id: "unable", label: "Unable to work (illness / disability)" }
+    { id: "unable", label: "Unable to work (illness or disability)" }
 ] as const;
 
 const WORKING_INFO = ["Yes includes working full-time, part-time, on contract or self-employed.", "No opens a second question about why they are not working."];
@@ -141,12 +141,12 @@ const USER_AGES = [
 
 /** The job levels (the ISCO-08 major groups in plain words): the Segment's user question and the Profile's "What is their job role?" take this one list, so the words are written once. */
 export const JOB_LEVELS = [
-    { id: "owner", label: "Owner / senior executive" },
+    { id: "owner", label: "Owner or senior executive" },
     { id: "manager", label: "Manager" },
     { id: "professional", label: "Professional / specialist" },
-    { id: "technician", label: "Technician / skilled trade" },
-    { id: "service", label: "Administrative / sales / service" },
-    { id: "operator", label: "Operator / labourer" }
+    { id: "technician", label: "Technician or skilled trade" },
+    { id: "service", label: "Administrative, sales or service" },
+    { id: "operator", label: "Operator or labourer" }
 ] as const;
 
 const AGE_NOTE = "Each age group holds the years from its first number to its last, both included, so no age is in two groups (25–39, then 40–54).";
@@ -258,7 +258,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     {
         id: "area", box: "geographics", label: "Where do your customers live or work?", many: false,
         options: [
-            { id: "urban", label: "Urban (High-density city center)" },
+            { id: "urban", label: "Urban (High-density city centre)" },
             { id: "suburban", label: "Suburban (Residential towns surrounding a city)" },
             { id: "rural", label: "Rural / Remote (Low-density countryside or isolated areas)" }
         ],
@@ -324,7 +324,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "digital", label: "Mostly online (Gaming, community servers, chat apps)" },
             { id: "mixed", label: "Online and in person" },
             { id: "inperson", label: "Mostly in person (Events, hospitality, clubs, sports)" },
-            { id: "independent", label: "Not very social / independent" }
+            { id: "independent", label: "Not very social or independent" }
         ],
         info: ["Where they spend their free time. It decides how they meet brands and products."]
     },
@@ -341,10 +341,10 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     {
         id: "trigger", box: "purchasing", label: "What makes your customers go shopping?", many: true, max: 2,
         options: [
-            { id: "boredom", label: "Boredom / entertainment (Browsing feeds, window shopping)" },
+            { id: "boredom", label: "Boredom or entertainment (Browsing feeds, window shopping)" },
             { id: "proof", label: "Seeing a friend or creator use it" },
             { id: "need", label: "A need / problem to solve" },
-            { id: "seasonal", label: "Sales / seasons / planned gifts" }
+            { id: "seasonal", label: "Sales, seasons or planned gifts" }
         ],
         info: ["Choose up to two."]
     },
@@ -372,8 +372,8 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         options: [
             { id: "card", label: "Credit / debit card" },
             { id: "wallet", label: "Digital wallets" },
-            { id: "bnpl", label: "Buy Now, Pay Later / financing" },
-            { id: "invoice", label: "Invoice / bank transfer / purchase order" }
+            { id: "bnpl", label: "Buy Now, Pay Later or financing" },
+            { id: "invoice", label: "Invoice, bank transfer or purchase order" }
         ],
         info: [
             "Digital wallets are for example Apple Pay, Google Pay and PayPal. Buy Now, Pay Later is for example Klarna and Afterpay.",
@@ -385,8 +385,8 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     {
         id: "authorise", name: "Decision", box: "purchasing", label: "Who decides to buy?", many: true,
         options: [
-            { id: "solo", label: "One person decides: The user has the budget and the final say." },
-            { id: "champions", label: "The team agrees: Users try it and push it upward." },
+            { id: "solo", label: "One person decides: The person who uses it has the budget and the final say." },
+            { id: "champions", label: "The team agrees: The people who use it try it and push it upward." },
             { id: "executive", label: "A manager signs off: Needs formal approval from a manager or executive." },
             { id: "multi", label: "Several departments check: IT or security, legal and finance." },
             { id: "procurement", label: "Formal procurement: A tender or a request for proposals (RFP), with strict compliance." }
@@ -402,7 +402,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "expanding", label: "Growing fast (Emerging market, high year-on-year growth)" },
             { id: "growing", label: "Growing steadily (Mature market, predictable upward trend)" },
             { id: "flat", label: "Flat / stable (Saturated market, consistent volume but low growth)" },
-            { id: "declining", label: "Shrinking / disrupted (Shrinking market or undergoing severe structural changes)" }
+            { id: "declining", label: "Shrinking or disrupted (Shrinking market or undergoing severe structural changes)" }
         ],
         info: ["Where the market is heading, apart from its size: a market can be large and declining, or small and expanding fast."]
     },
@@ -459,7 +459,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     {
         id: "u-work", box: "user", label: "Are your customers working?", many: false,
         options: WORKING,
-        info: ["The same question as for the buyer, asked of the user: an adult the buyer is related to, or sponsors.", ...WORKING_INFO]
+        info: ["The same question as for the buyer, asked of the end user: an adult the buyer is related to, or sponsors.", ...WORKING_INFO]
     },
     {
         id: "u-work2", box: "user", label: "Why are your customers not working?", many: false,
@@ -621,7 +621,7 @@ export function segmentOptions(question: SegmentQuestion, answers: SegmentAnswer
                 ? option.id === "retired"
                 : !(option.id === "retired" && has(answers, "age", "minor"))));
         case "orgtype": {
-            // The scales chosen in Positioning: Solopreneurs & Freelancers are self-employed; a public body goes with Enterprise / Public Sector.
+            // The scales chosen in Positioning: Solopreneurs & Freelancers are self-employed; a public body goes with Enterprise or Public Sector.
             const scales = context.scales;
             const solo = scales.includes("solo");
             const bigger = scales.some(id => id !== "solo");
@@ -698,10 +698,10 @@ export function segmentQuestionsOf(box: SegmentBox, answers: SegmentAnswers, con
 
 /**
  * Who the questions are about: "your customers" for a direct buyer; for a Proxy or Dual-Intent buyer the buyer is told from the user, so the boxes of the buyer say "your buyers" and the box of the
- * user says "your users". The questions are written for customers; the documents and the answers' lines keep that word.
+ * end user says "your end users". The questions are written for customers; the documents and the answers' lines keep that word.
  */
 export function segmentWho(label: string, box: SegmentBox, context: SegmentContext): string {
-    return context.endsUser ? label.replace(/your customers/g, box === "user" ? "your users" : "your buyers") : label;
+    return context.endsUser ? label.replace(/your customers/g, box === "user" ? "your end users" : "your buyers") : label;
 }
 
 /** The answers after one question's choice changed: "They don't typically share" and the other ways exclude each other; ticks stay within their limit. */

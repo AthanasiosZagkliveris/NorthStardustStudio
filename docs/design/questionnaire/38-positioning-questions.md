@@ -25,7 +25,7 @@ Related: doc 37 (the Organization tile, whose Opening Date sets the stage), doc 
   - *Read by (built):* the Segment card, which asks people's questions for B2C and the business's for B2B (doc 35); every question below; the exports.
   - *Not built yet:* B2G and G2B and the multi-sided market are built and hidden (doc 33); an older answer that holds them is read without them.
 
-### 2. Audience Specialization & Scale (a business buyer)
+### 2. Audience Specialisation & Scale (a business buyer)
 
 - **Control:** as question 1 (the audience limit follows the stage).
 - **Asked when:** B2B is chosen. Before any relationship is chosen it stands frozen, with the hint "Choose a seller and buyer relationship first."
@@ -33,8 +33,8 @@ Related: doc 37 (the Organization tile, whose Opening Date sets the stage), doc 
   - Solopreneurs & Freelancers
   - Startups & SMBs
   - Mid-Market
-  - Enterprise / Public Sector
-- **The "i" says:** Limits the target group to a specific niche, aligning the startup with the corresponding sales cycle and the buyer's daily life. Solopreneurs & Freelancers: individual professionals (immediate decision, need for low cost or self-service). Startups & SMBs: small and medium-sized or rapidly growing companies (need for speed, flexibility and an immediate solution). Mid-Market: medium-sized businesses with structured departments (need for workflows, roles and scale). Enterprise / Public Sector: multinationals or public bodies (multi-month sales or tender cycle, need for maximum security).
+  - Enterprise or Public Sector
+- **The "i" says:** Limits the target group to a specific niche, aligning the startup with the corresponding sales cycle and the buyer's daily life. Solopreneurs & Freelancers: individual professionals (immediate decision, need for low cost or self-service). Startups & SMBs: small and medium-sized or rapidly growing companies (need for speed, flexibility and an immediate solution). Mid-Market: medium-sized businesses with structured departments (need for workflows, roles and scale). Enterprise or Public Sector: multinationals or public bodies (multi-month sales or tender cycle, need for maximum security).
 - **Connections:**
   - *Comes from:* the relationship.
   - *Read by (built):* the Segment card (a business scale means a business buyer where no relationship is chosen); the order of the differentiations and of the purposes (the owner's tables).
@@ -65,7 +65,7 @@ Related: doc 37 (the Organization tile, whose Opening Date sets the stage), doc 
   - *Comes from:* the relationship.
   - *Read by (built):* the user questions below (asked for Proxy and Dual-Intent only); the Segment card's User part; the order of the purposes and outcomes.
 
-### 5. Buyer & User relationship
+### 5. Buyer & End User relationship
 
 - **Control:** as question 1 (the audience limit).
 - **Asked when:** the buyer's category is Proxy or Dual-Intent, for that relationship (a double rule stands above the user's questions).
@@ -75,7 +75,7 @@ Related: doc 37 (the Organization tile, whose Opening Date sets the stage), doc 
   - *Comes from:* the buyer's category and the buyer's life stage (a Student or Young Adult buyer is not a Commercial & Professional buyer).
   - *Read by (built):* the user's life stages offered (the owner's matrix); which relationship questions the Segment's User part asks (school stage, work status, job level, or the clients' type and size); the order of the purposes and differentiations.
 
-### 6. User's Life-Stage (a consumer buyer)
+### 6. End User's Life-Stage (a consumer buyer)
 
 - **Control:** as question 1.
 - **Asked when:** B2C and a Proxy or Dual-Intent buyer, and more than one life stage fits. Where only one fits (a Parent of a Students / Young Adults buyer's dependent: Minors) it is set and the question is not drawn (owner, 2026-11-01).
@@ -121,7 +121,7 @@ Related: doc 37 (the Organization tile, whose Opening Date sets the stage), doc 
 - **Connections:**
   - *Read by (built):* the exports and the positioning statement. *Not built yet:* the Value Proposition.
 
-### 10. Outcome for the user
+### 10. Outcome for the end user
 
 - **Control:** ticks, as the purpose.
 - **Asked when:** some buyer is a Proxy or Dual-Intent Buyer.

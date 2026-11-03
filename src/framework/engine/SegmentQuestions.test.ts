@@ -161,7 +161,7 @@ describe("the Segment's questions", () => {
             expect(segmentSettle({ ...{}, orgtype: ["private"], size: ["small"], authorise: ["executive"] }, solo)).toEqual({ orgtype: ["self"], authorise: ["solo"] });
         });
 
-        it("takes the sizes of the scale chosen, and offers a public body only for Enterprise / Public Sector", () => {
+        it("takes the sizes of the scale chosen, and offers a public body only for Enterprise or Public Sector", () => {
             expect(ids(segmentOptions(question("size"), {}, { ...business, scales: ["smb"] }))).toEqual(["micro", "small"]);
             expect(segmentSettle({}, { ...business, scales: ["mid"] }).size).toEqual(["medium"]);
             expect(segmentSettle({}, { ...business, scales: ["enterprise"] }).size).toEqual(["large"]);
@@ -203,6 +203,6 @@ describe("who the questions are about", () => {
     it("a direct buyer's customers are customers; a proxy buyer's boxes say buyers, the user's box says users", () => {
         expect(segmentWho("How old are your customers?", "demographics", direct)).toBe("How old are your customers?");
         expect(segmentWho("How old are your customers?", "demographics", proxy)).toBe("How old are your buyers?");
-        expect(segmentWho("How old are your customers?", "user", proxy)).toBe("How old are your users?");
+        expect(segmentWho("How old are your customers?", "user", proxy)).toBe("How old are your end users?");
     });
 });

@@ -83,12 +83,12 @@ export const MARKET_TYPES = [
     { id: "multi", label: "Multi-sided Market / Platform" }
 ] as const;
 
-/** Audience Specialization & Scale (a business or public buyer), one choice. */
+/** Audience Specialisation & Scale (a business or public buyer), one choice. */
 export const AUDIENCE_SCALES = [
     { id: "solo", label: "Solopreneurs & Freelancers" },
     { id: "smb", label: "Startups & SMBs" },
     { id: "mid", label: "Mid-Market" },
-    { id: "enterprise", label: "Enterprise / Public Sector" }
+    { id: "enterprise", label: "Enterprise or Public Sector" }
 ] as const;
 
 /** Buyer's Life-Stage (a consumer buyer), one choice. The buyer's category (direct, proxy, dual-intent) is a question of its own. */
@@ -364,7 +364,7 @@ export const INFO = {
         "Solopreneurs & Freelancers: individual professionals (immediate decision, need for low cost/self-service).",
         "Startups & SMBs: small and medium-sized or rapidly growing companies (need for speed, flexibility and immediate solution).",
         "Mid-Market: medium-sized businesses with structured departments (need for workflows, roles and scale).",
-        "Enterprise / Public Sector: multinationals or public bodies (multi-month sales/tender cycle, need for maximum security).",
+        "Enterprise or Public Sector: multinationals or public bodies (multi-month sales/tender cycle, need for maximum security).",
         { title: "Based on", source: SOURCES.marketResearch }
     ],
 
@@ -396,9 +396,9 @@ export const INFO = {
     buyerCategory: [
         "What the buyer buys for. It tells the buyer who pays from the person who uses it, whatever the buyer's life stage or scale.",
         "Direct Buyers: purchasing exclusively for their own personal use.",
-        "Proxy Buyers: purchasing exclusively on behalf of someone else. The payer is not the user (a gift, a parent buying for a child, an employer buying for its staff).",
+        "Proxy Buyers: purchasing exclusively on behalf of someone else. The payer is not the end user (a gift, a parent buying for a child, an employer buying for its staff).",
         "Dual-Intent Buyers: purchasing a single offering to be used by themselves and their dependents (a family plan, a shared tier).",
-        "For Proxy and Dual-Intent Buyers the questions about the user follow.",
+        "For Proxy and Dual-Intent Buyers the questions about the end user follow.",
         { title: "Based on", source: SOURCES.buyingRoles }
     ],
 
@@ -410,7 +410,7 @@ export const INFO = {
     ],
 
     userLifeStage: [
-        "The life stage of the person who will use it. A broad group is enough to give the user's Profile its first shape; the exact age comes later, on the Profile.",
+        "The life stage of the person who will use it. A broad group is enough to give the end user's Profile its first shape; the exact age comes later, on the Profile.",
         "Minors: under 18 (online services and some goods have extra rules that differ by country: see the minimum ages in the documentation). Young Adults: 18 to 24. Adults: 25 to 64. Seniors: 65 and over. The Segment's Description then asks the user's stage within it (Baby, Child, Teenager, Established, Peak and so on)."
     ],
 
@@ -435,13 +435,13 @@ export const INFO = {
     outcome: [
         "The measurable result the buyer gets from the offering (Outcome / ROI): what the buyer is paying for.",
         "Lower costs: an immediate reduction in operating costs. Time saved: the execution time of a process cut to almost nothing, or the workflow drastically simplified. Legal & data-protection cover: absolute legal coverage and no risk of fines. Higher quality & prestige: top quality, custom service and an upgrade of the buyer's prestige.",
-        "For a Proxy or Dual-Intent Buyer the user has an outcome of their own, asked next.",
+        "For a Proxy or Dual-Intent Buyer the end user has an outcome of their own, asked next.",
         { title: "Based on", source: SOURCES.strategicPositioning },
         { title: "Also", source: SOURCES.positioningTemplate }
     ],
 
     outcomeUser: [
-        "What matters most to the user, apart from the buyer's own reasons for paying: the result the user gets. It starts the user's Profile.",
+        "What matters most to the end user, apart from the buyer's own reasons for paying: the result the end user gets. It starts the end user's Profile.",
         "Enjoyment & fun. Comfort & ease. Safety & care. Learning & growth. Looks & belonging (fitting in with friends, a style). Practical use."
     ],
 

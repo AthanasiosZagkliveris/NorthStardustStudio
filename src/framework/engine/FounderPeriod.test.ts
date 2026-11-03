@@ -124,6 +124,10 @@ type Example = { systems: Record<string, Parameters<typeof InterviewSession.from
 
     K0: the digests (and the weekly fixture's words) were written again when "Partners and Providers" became "Partners and Suppliers" in the
     documents (the same length, other letters).
+
+    2026-11-03: the digests (and the weekly fixture's words) were written again when the options' words followed the owner's rule of
+    2026-11-03 (a slash between similar things, "or" between different things: "Invoice, bank transfer or purchase order",
+    "Owner or senior executive" and the others). No figure changed.
 */
 const ENGAGEMENT = JSON.parse(engagementText) as Record<string, unknown>;
 

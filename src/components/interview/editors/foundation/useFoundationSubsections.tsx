@@ -318,7 +318,7 @@ export function useFoundationSubsections(earlier: Earlier) {
         if (asked.endsUser) {
             segmentParts.push({
                 id: "user",
-                title: "User",
+                title: "End user",
                 text: "Who uses what the buyer buys?",
                 extra: SUBSECTIONS.segments.boxNotes.user,
                 questions: questionsOf("user"),

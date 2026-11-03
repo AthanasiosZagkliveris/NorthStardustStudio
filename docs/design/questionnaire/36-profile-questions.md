@@ -105,14 +105,14 @@ A typical person of the Segment, asked specifically.
 ### A3. What kind of work does this person do?
 
 - **Control:** one choice (a radio).
-- **Asked when:** the Segment's answer to "Are your customers working?" is Yes; for a business Segment always, except where its customers are self-employed (the answer is then Owner / senior executive and is not shown: section 9).
+- **Asked when:** the Segment's answer to "Are your customers working?" is Yes; for a business Segment always, except where its customers are self-employed (the answer is then Owner or senior executive and is not shown: section 9).
 - **Options:**
-  - Owner / senior executive
+  - Owner or senior executive
   - Manager
   - Professional / specialist
-  - Technician / skilled trade
-  - Administrative / sales / service
-  - Operator / labourer
+  - Technician or skilled trade
+  - Administrative, sales or service
+  - Operator or labourer
 - **The "i" would say:** The ISCO-08 major groups in plain words: choose the group that fits the role; armed forces: choose the group that fits the role; clergy count as professionals. (Not built: the Segment's education would order the list, most likely first, as a tendency and never as a filter.)
 - **Connections:**
   - *Comes from:* the Segment's work status and education.
@@ -276,7 +276,7 @@ What the Segment cannot say: which devices, which social media, which communitie
   - Works it out alone
   - Likes a little guidance
   - Wants to talk to a person
-  - Needs a formal demonstration / proposal
+  - Needs a formal demonstration or proposal
 - **The "i" would say:** The help a typical person wants before buying; it can differ from how comfortable the Segment is online.
 - **Connections:**
   - *Comes from:* the Segment's online comfort.
@@ -287,7 +287,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 ### E1. What are this person's main goals?
 
 - **Control:** ticks, up to 3.
-- **Options:** the list L4 (doc 34, 5.2): Save time; Save money; Lower risk; Get better results; Get easier access; Learn something new; Self-expression; Meet a requirement; Win customers / earn more; Stay within the rules.
+- **Options:** the list L4 (doc 34, 5.2): Save time; Save money; Lower risk; Get better results; Get easier access; Learn something new; Self-expression; Meet a requirement; Win customers or earn more; Stay within the rules.
   - Save time
   - Save money
   - Lower risk
@@ -296,7 +296,7 @@ What the Segment cannot say: which devices, which social media, which communitie
   - Learn something new
   - Self-expression
   - Meet a requirement
-  - Win customers / earn more
+  - Win customers or earn more
   - Stay within the rules
 - **Asked when:** always. *Read by (not built yet):* the Value Proposition draft. *Comes from:* nothing.
 
@@ -311,7 +311,7 @@ What the Segment cannot say: which devices, which social media, which communitie
   - Hard to find someone trustworthy
   - Lack of know-how
   - Poor support
-  - Fear of mistakes / breaking rules
+  - Fear of mistakes or breaking rules
   - No time / capacity
   - Unclear prices
 - **Asked when:** always. *Read by (not built yet):* the Value Proposition draft; the Review. *Comes from:* nothing.
@@ -354,7 +354,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 | Question | Set when | To |
 |---|---|---|
-| A3 job level | the Segment's customers are self-employed | Owner / senior executive (built: the question is not asked; no answer is set yet, so the documents leave it out) |
+| A3 job level | the Segment's customers are self-employed | Owner or senior executive (built: the question is not asked; no answer is set yet, so the documents leave it out) |
 
 **Starting values the user can change (owner, 2026-11-01).** D1 and D2 start from the Segment's path to purchase and online comfort (a Researcher: reviews; a Social validator: what other people recommend; Tech-savvy: they work it out themselves; Tech-averse: they want to talk to a person); D2 starts at a formal proposal where the Segment's decision includes a formal procurement loop; A2 starts from the Segment's gender mix when it leans (60 to 80%) or is mostly (80%+) one way, and stays visible; C1 as in 5. Impulse buyers skip D1. A5 starts with all five roles ticked where the Segment's "Who decides to buy?" includes "One person decides" (which is all it offers for a self-employed customer). **E3** starts with "The price / budget" ticked where the Segment's household income is Low, a starting value the user can change without any validation in the way (owner, 2026-11-01).
 

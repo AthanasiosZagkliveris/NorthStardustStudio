@@ -204,7 +204,7 @@ describe.each(["GB", "IE", "US", "CA", "AU", "NZ"])("ten scenarios for %s, three
             // (The groups are told apart by double divider lines, no subtitles: one between the Offering and the Outcome, and one between the Business and the User where there is a user.)
             const user = !value.organisation.buyerCategory[0].endsWith("direct");
             expect(container.querySelectorAll(".business-capability-card-rule-double").length, where).toBe(user ? 2 : 1);
-            expect(container.textContent?.includes("Buyer & User relationship"), where).toBe(user);
+            expect(container.textContent?.includes("Buyer & End User relationship"), where).toBe(user);
             unmount();
         }
     });
