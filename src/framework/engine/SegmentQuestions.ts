@@ -58,7 +58,7 @@ const NOT_WORKING = [
     { id: "homemaker", label: "Homemaker or carer" },
     { id: "seeking", label: "Looking for work" },
     { id: "retired", label: "Retired" },
-    { id: "unable", label: "Unable to work (illness or disability)" }
+    { id: "unable", label: "Unable to work" }
 ] as const;
 
 const WORKING_INFO = ["Yes includes working full-time, part-time, on contract or self-employed.", "No opens a second question about why they are not working."];
@@ -260,7 +260,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         options: [
             { id: "urban", label: "Urban (High-density city centre)" },
             { id: "suburban", label: "Suburban (Residential towns surrounding a city)" },
-            { id: "rural", label: "Rural / Remote (Low-density countryside or isolated areas)" }
+            { id: "rural", label: "Rural / remote (Low-density countryside or isolated areas)" }
         ],
         info: ["The kind of place they live or work in. Asked once the business is managing or growing, and only for customers in one place or one country."]
     },
@@ -324,7 +324,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "digital", label: "Mostly online (Gaming, community servers, chat apps)" },
             { id: "mixed", label: "Online and in person" },
             { id: "inperson", label: "Mostly in person (Events, hospitality, clubs, sports)" },
-            { id: "independent", label: "Not very social or independent" }
+            { id: "independent", label: "Mostly on their own" }
         ],
         info: ["Where they spend their free time. It decides how they meet brands and products."]
     },
@@ -372,11 +372,13 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         options: [
             { id: "card", label: "Credit / debit card" },
             { id: "wallet", label: "Digital wallets" },
+            { id: "cash", label: "Cash" },
             { id: "bnpl", label: "Buy Now, Pay Later or financing" },
             { id: "invoice", label: "Invoice, bank transfer or purchase order" }
         ],
         info: [
             "Digital wallets are for example Apple Pay, Google Pay and PayPal. Buy Now, Pay Later is for example Klarna and Afterpay.",
+            "Cash is still about one payment in ten in the UK (UK Finance, 2024).",
             "Invoicing is asked for business customers only. Credit and Buy Now, Pay Later are not open to minors.",
             "Choosing a phone as where they buy starts Digital wallets here; change it freely.",
             "Select all that apply."
@@ -407,14 +409,14 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         info: ["Where the market is heading, apart from its size: a market can be large and declining, or small and expanding fast."]
     },
     {
-        id: "tam", box: "market-size", label: "How many potential customers are there (TAM)?", many: false,
+        id: "tam", box: "market-size", label: "How many potential customers are there?", many: false,
         options: [
             { id: "micro", label: "Very small niche, under 1,000" },
             { id: "boutique", label: "Specialist, 1,000–49,999" },
             { id: "mid", label: "Mid-market, 50,000–499,999" },
             { id: "mass", label: "Mass market, 500,000 or more" }
         ],
-        info: ["The total number of potential buyers if you had 100% of the market, in the area you serve."]
+        info: ["The total number of potential buyers if you had 100% of the market, in the area you serve: the total addressable market (TAM)."]
     },
     {
         id: "trends", box: "market-size", label: "What is changing most for your customers?", many: true, max: 2,

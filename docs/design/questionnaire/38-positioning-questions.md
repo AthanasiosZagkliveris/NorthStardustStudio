@@ -1,6 +1,6 @@
 # 38. The Positioning tile: every question and option, as built
 
-Status: **specification**, written 2026-11-01, updated 2026-11-01. Every question of the Positioning tile (Identity System, page 1) in the order it is asked, with its control, when it is asked, its options, what its "i" says and what it connects to.
+Status: **specification**, written 2026-11-01, updated 2026-11-03. Every question of the Positioning tile (Identity System, page 1) in the order it is asked, with its control, when it is asked, its options, what its "i" says and what it connects to.
 
 Related: doc 37 (the Organization tile, whose Opening Date sets the stage), doc 35 (the Segment's questions, which read these answers), doc 33 (the first version: single-sided, B2C and B2B), doc 31 (the age terms, the relationships and the relevance tables), doc 28 (8.2, the design), `src/components/interview/editors/legal/` and `src/framework/engine/PositioningIds.ts`.
 
@@ -100,7 +100,7 @@ Related: doc 37 (the Organization tile, whose Opening Date sets the stage), doc 
 - **Connections:**
   - *Comes from:* the relationship, the buyer's category, the buyer and user relationship, the life stages and the audience scale (the order and the options).
   - *Read by (built):* the order of the differentiations and outcomes; the exports.
-  - *Read by (not built yet):* the Value Proposition and the Offering's purposes.
+  - *Read by (not built yet):* the Value Proposition draft (doc 28, 6.7). No Offering question asks a purpose.
 
 ### 8. Differentiation
 

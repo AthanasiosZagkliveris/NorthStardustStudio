@@ -3,7 +3,7 @@ import { JOB_LEVELS, type SegmentAnswers, type SegmentContext, type SegmentOptio
 /**
  * THE PROFILE'S QUESTIONS (document 36): a typical person of the Segment, asked only what the Segment cannot. A Profile keeps its answers as `questions` (question id -> the option ids chosen; the
  * exact age, A1, is the number as text). Which are asked follows the Segment's own answers; an answer to a question no longer asked is removed; starting values come from the Segment and
- * can be changed. Not built yet: A4 (the kind of business) and A6 (the specialized needs).
+ * can be changed. Not built yet: A4 (the kind of business) and A6 (the specialised needs).
  */
 
 export type ProfileBox = "personal" | "psychographics" | "hubs" | "habits" | "goals" | "challenges" | "objections";
@@ -26,11 +26,11 @@ export interface ProfileQuestion {
 const OTHER = { id: "other", label: "Other" } as const;
 
 const CARES = ["Lower price", "Speed", "Ease and convenience", "Quality and results", "Trust and reputation", "Expert knowledge", "A service made for them", "Good support", "Safety and low risk", "Shared values or identity"];
-const GOALS = ["Save time", "Save money", "Lower their risk", "Get better results", "Get easier access", "Learn something new", "Express who they are", "Meet a requirement", "Win customers or earn more", "Stay within the rules"];
+const GOALS = ["Get easier access", "Learn something new", "Express who they are", "Meet a requirement", "Win customers or earn more", "Stay within the rules"];
 const FRUSTRATIONS = ["It costs too much", "It takes too long", "It is too complicated", "The quality is inconsistent", "It is hard to find someone they trust", "They lack the know-how", "Support is poor", "They worry about mistakes or rules", "They have no time or capacity", "Prices are unclear"];
 /** The words of an option said of one person and in no pronoun (the ids stay those of the first wording: they are saved answers). */
 const WORDS: Record<string, string> = {
-    "lower-their-risk": "Lower risk", "express-who-they-are": "Self-expression", "a-service-made-for-them": "A tailored service", "your-website": "On your website",
+    "express-who-they-are": "Self-expression", "a-service-made-for-them": "A tailored service", "your-website": "Your website",
     "it-costs-too-much": "Cost too high", "it-takes-too-long": "Takes too long", "it-is-too-complicated": "Too complicated", "the-quality-is-inconsistent": "Inconsistent quality",
     "it-is-hard-to-find-someone-they-trust": "Hard to find someone trustworthy", "they-lack-the-know-how": "Lack of know-how", "support-is-poor": "Poor support",
     "they-worry-about-mistakes-or-rules": "Fear of mistakes or breaking rules", "they-have-no-time-or-capacity": "No time / capacity", "prices-are-unclear": "Unclear prices",
@@ -102,9 +102,9 @@ const QUESTIONS: readonly ProfileQuestion[] = [
         options: [{ id: "alone", label: "Works it out alone" }, { id: "little", label: "Likes a little guidance" }, { id: "person", label: "Wants to talk to a person" }, { id: "formal", label: "Needs a formal demonstration or proposal" }],
         info: ["The help a typical person wants before buying; it can differ from how comfortable the Segment is online."]
     },
-    { id: "e1", box: "goals", label: "What are {p} main goals?", many: true, max: 3, options: list(GOALS), info: ["Choose up to three."] },
-    { id: "e2", box: "challenges", label: "What frustrates {o}?", many: true, max: 3, options: list(FRUSTRATIONS), info: ["Choose up to three."] },
-    { id: "e3", box: "objections", label: "What might stop {o} buying?", many: true, max: 3, options: list(WORRIES), info: ["Choose up to three.", "Starts with the price where the Segment's household income is Low; change it freely."] }
+    { id: "e1", box: "goals", label: "What are {p} main goals?", many: true, max: 3, options: list(GOALS), info: ["Choose up to three.", "What they want to achieve. What matters to them when choosing is asked under Psychographics. Based on: gains (Value Proposition Canvas)."] },
+    { id: "e2", box: "challenges", label: "What frustrates {o} about the way it is done now?", many: true, max: 3, options: list(FRUSTRATIONS), info: ["Choose up to three.", "What goes wrong for them today, before they buy from you. Based on: pains (Value Proposition Canvas)."] },
+    { id: "e3", box: "objections", label: "What might stop {o} buying from you?", many: true, max: 3, options: list(WORRIES), info: ["Choose up to three.", "Their doubts about buying from you; what frustrates them today is asked above.", "Starts with the price where the Segment's household income is Low; change it freely."] }
 ];
 
 export const PROFILE_QUESTIONS = QUESTIONS;

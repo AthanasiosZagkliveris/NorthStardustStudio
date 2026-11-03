@@ -1,10 +1,10 @@
 # 36. The Profile's questions: every question and option, as built in part
 
-Status: **specification**, written 2026-11-01, updated 2026-11-02; built in part. The questions of the Profile card in the order they are asked, with their control, when they are asked, their options, what their "i" says and what they connect to. **Built:** A1 (the exact age, held to the Segment's group), A2, A3, A5, B1, C1 to C4, D1, D2 and E1 to E3, with their conditions, starting values and settling (`ProfileQuestions.ts`, answers kept as `questions` on the Profile), in one column at the width every floating card has (492px), the boxes in their order, each with the Segment card's title band. **Not built yet:** A4 (the kind of business), A6 (the specialized needs), the proposed Profiles, the user's own Profile (and so its Box D rule), the reads marked "not built yet" below.
+Status: **specification**, written 2026-11-01, updated 2026-11-03; built in part. The questions of the Profile card in the order they are asked, with their control, when they are asked, their options, what their "i" says and what they connect to. **Built:** A1 (the exact age, held to the Segment's group), A2, A3, A5, B1, C1 to C4, D1, D2 and E1 to E3, with their conditions, starting values and settling (`ProfileQuestions.ts`, answers kept as `questions` on the Profile), in one column at the width every floating card has (492px), the boxes in their order, each with the Segment card's title band. **Not built yet:** A4 (the kind of business), A6 (the specialised needs), the proposed Profiles, the user's own Profile (and so its Box D rule), the reads marked "not built yet" below.
 
 Related: doc 35 (the Segment's questions, built, in the same form), doc 28 (6.4 and 6.5, the Profile design this refines, and the shared lists), doc 34 (the lists L1 to L16), doc 33 (its section 15 holds the thoughts), doc 31 (the age terms), `src/components/interview/editors/foundation/` (the Profile card today).
 
-> **What the Profile does not ask again (owner, 2026-11-01).** The Segment (doc 35) asks the group: the age group, education, work status, household income, gender mix, where they are, how comfortable they are online, how they discover ideas, how they buy and pay, how the decision is authorized, the market. The Profile asks a **typical person** of that group, and only what the Segment cannot: an exact age, a job level, which devices and which social media, communities and events, how they compare options, what they want, what frustrates them and what stops them. It never repeats a Segment question, and it can only choose within what the Segment allowed (section 2).
+> **What the Profile does not ask again (owner, 2026-11-01).** The Segment (doc 35) asks the group: the age group, education, work status, household income, gender mix, where they are, how comfortable they are online, how they discover ideas, how they buy and pay, how the decision is authorised, the market. The Profile asks a **typical person** of that group, and only what the Segment cannot: an exact age, a job level, which devices and which social media, communities and events, how they compare options, what they want, what frustrates them and what stops them. It never repeats a Segment question, and it can only choose within what the Segment allowed (section 2).
 
 ## 1. What a Profile holds, and the rules
 
@@ -70,7 +70,7 @@ The card is built and its layout is in section 1 ("The Profile card's layout"): 
 | A box's note | the shared Note component (`OptionalNote`), under the questions |
 | What is not asked | a question that is not asked leaves no gap: its band is not drawn |
 
-**What changes with the Segment's kind (2.1, proposed):** a B2C Direct Profile shows boxes A (without A4 and A5), B, C, D, E; a Proxy Segment adds the user's Profile card beside it, with box D left out; a B2B Profile shows A1, A3, A4, A5, hides A2 and the specialized needs, and C asks the professional hubs only. Built so far: the questions follow the Segment's answers as the tables in 2.1 and 9 say, where the card exists.
+**What changes with the Segment's kind (2.1, proposed):** a B2C Direct Profile shows boxes A (without A4 and A5), B, C, D, E; a Proxy Segment adds the user's Profile card beside it, with box D left out; a B2B Profile shows A1, A3, A4, A5, hides A2 and the specialised needs, and C asks the professional hubs only. Built so far: the questions follow the Segment's answers as the tables in 2.1 and 9 say, where the card exists.
 
 ## 3. Box A. Specific Personal Information
 
@@ -138,12 +138,12 @@ A typical person of the Segment, asked specifically.
   - Places the order
   - Makes the final decision
   - Controls who reaches the decision-maker
-- **The "i" would say:** The five buying-centre roles credited to Webster and Wind (1972) [CHN-02]. "Uses it" is the person who uses the offering day to day, who may be neither the one who pays nor the one who decides. The Segment's question on how the decision is authorized says how the whole buying group decides; this one says which part this person plays.
+- **The "i" would say:** The five buying-centre roles credited to Webster and Wind (1972) [CHN-02]. "Uses it" is the person who uses the offering day to day, who may be neither the one who pays nor the one who decides. The Segment's question on how the decision is authorised says how the whole buying group decides; this one says which part this person plays.
 - **Connections:**
   - *Comes from:* the Segment's decision authorization and user part.
   - *Read by (not built yet):* the Review (nobody makes the final decision); context on the Customer Engagement page.
 
-### A6. Specialized needs
+### A6. Specialised needs
 
 *Moved from the Segment card (owner, 2026-11-01); the words are the owner's.* Behind one optional tick, **Add specialized accessibility or caregiving profiles**, a block of four questions.
 
@@ -256,7 +256,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 - **Control:** ticks, as many as apply.
 - **Asked when:** always.
 - **Options:**
-  - On your website
+  - Your website
   - Online reviews / ratings
   - A demo / trial / sample
   - A quote / proposal
@@ -287,23 +287,20 @@ What the Segment cannot say: which devices, which social media, which communitie
 ### E1. What are this person's main goals?
 
 - **Control:** ticks, up to 3.
-- **Options:** the list L4 (doc 34, 5.2): Save time; Save money; Lower risk; Get better results; Get easier access; Learn something new; Self-expression; Meet a requirement; Win customers or earn more; Stay within the rules.
-  - Save time
-  - Save money
-  - Lower risk
-  - Get better results
+- **Options:** the list L4 (doc 34, 5.2), without the four goals that repeat B1 (Save time, Save money, Lower risk, Get better results: B1's Speed, Lower price, Safety and low risk, Quality and results; owner, 2026-11-03):
   - Get easier access
   - Learn something new
   - Self-expression
   - Meet a requirement
   - Win customers or earn more
   - Stay within the rules
-- **Asked when:** always. *Read by (not built yet):* the Value Proposition draft. *Comes from:* nothing.
+- **The "i" says:** Choose up to three. What they want to achieve. What matters to them when choosing is asked under Psychographics. Based on: gains (Value Proposition Canvas) [FUN-46].
+- **Asked when:** always. *Read by (not built yet):* the Value Proposition draft (the gains). *Comes from:* nothing.
 
-### E2. What frustrates this person?
+### E2. What frustrates this person about the way it is done now?
 
 - **Control:** ticks, up to 3.
-- **Options:** the list L3 (doc 34, 5.2): ten frustrations, from "It costs too much" to "They have no time" (the list holds the exact words).
+- **Options:** the list L3 (doc 34, 5.2), ten frustrations:
   - Cost too high
   - Takes too long
   - Too complicated
@@ -314,12 +311,13 @@ What the Segment cannot say: which devices, which social media, which communitie
   - Fear of mistakes or breaking rules
   - No time / capacity
   - Unclear prices
-- **Asked when:** always. *Read by (not built yet):* the Value Proposition draft; the Review. *Comes from:* nothing.
+- **The "i" says:** Choose up to three. What goes wrong for them today, before they buy from you. Based on: pains (Value Proposition Canvas) [FUN-46].
+- **Asked when:** always. *Read by (not built yet):* the Value Proposition draft (the pains); the Review. *Comes from:* nothing.
 
-### E3. What might stop this person buying?
+### E3. What might stop this person buying from you?
 
 - **Control:** ticks, up to 3.
-- **Options:** the list L2 (doc 34, 5.2): eight worries, from "The price / budget" to "The effort of switching" (the list holds the exact words).
+- **Options:** the list L2 (doc 34, 5.2), eight worries:
   - The price / budget
   - Whether you can be trusted
   - How long it takes to start
@@ -328,7 +326,8 @@ What the Segment cannot say: which devices, which social media, which communitie
   - Whether it fits the need
   - Support after the sale
   - The effort of switching from the current option
-- **Asked when:** always. *Read by (not built yet):* the Offering ticks the worries it answers; the Evaluate actions suggested on page 2. *Comes from:* nothing.
+- **The "i" says:** Choose up to three. Their doubts about buying from you; what frustrates them today is asked above (E2). Starts with the price where the Segment's household income is Low; change it freely.
+- **Asked when:** always. *Read by (not built yet):* the Offering ticks the worries it answers (O8); the Evaluation actions suggested on page 2. *Comes from:* the Segment's household income (the starting value).
 
 ## 8. Dropped, merged or left to the note
 
@@ -338,7 +337,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 | P13 how do they usually buy, P14 how do they like to pay | the Segment asks them (where they buy, how they pay); not asked again |
 | P16 how comfortable are they online | the Segment asks it; not asked again |
 | P15 devices | C1 |
-| P22 how is the decision made | the Segment asks how the decision is authorized; A5 says what part this person plays |
+| P22 how is the decision made | the Segment asks how the decision is authorised; A5 says what part this person plays |
 | Education, household income, language, household and relationship status, job title | the Segment asks education and income; the rest stay in the note |
 
 ## 9. Decided, and still to decide

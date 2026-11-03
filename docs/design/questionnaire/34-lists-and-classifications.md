@@ -1,6 +1,6 @@
 # 34. Lists and classifications: the countries, the shared lists, the industries and the codes
 
-Status: **proposal**, updated 2026-11-02; parts are built (as document 28, from which this is section 5, split off on 2026-10-29; the sub-section numbers are unchanged, so "5.7" is still 5.7). Where the first published version differs, doc 33 governs: the six countries and Other, with the five generic legal forms for Other; everything for more countries is a future feature (doc 33).
+Status: **proposal**, written 2026-10-29, updated 2026-11-03; parts are built (as document 28, from which this is section 5, split off on 2026-10-29; the sub-section numbers are unchanged, so "5.7" is still 5.7). Where the first published version differs, doc 33 governs: the six countries and Other, with the five generic legal forms for Other; everything for more countries is a future feature (doc 33).
 
 > **Built on 2026-10-29:** the Country question lists the six countries and Other; Other opens a second list of every other country. For Other the legal form is one of the four generic forms and the activity and its code are typed (they are not chosen from the ISIC cascade described below, which stays in the code and the data files as a future feature, doc 33, item 4).
 
@@ -30,7 +30,7 @@ Each list is one definition used wherever its id appears; counts include "Not su
 | L1 | **What customers care about** (10) | Lower price; Speed; Ease and convenience; Quality and results; Trust and reputation; Expert knowledge; A service made for them; Good support; Safety and low risk; Shared values or identity | I7, P9, K2, K3, O4, the Value Proposition draft |
 | L2 | **Worries that stop a purchase** (8) | The price / budget; Whether you can be trusted; How long it takes to start; How hard it is to use; Risk or security; Whether it fits the need; Support after they buy; The effort of switching from the current option | P19, O8 |
 | L3 | **Frustrations** (10) | It costs too much; It takes too long; It is too complicated; The quality is inconsistent; It is hard to find someone trustworthy; They lack the know-how; Support is poor; They worry about mistakes or rules; They have no time or capacity; Prices are unclear | P18 |
-| L4 | **Goals** (10) | Save time; Save money; Lower risk; Get better results; Get easier access; Learn something new; Self-expression; Meet a requirement; Win customers or earn more; Stay within the rules | P17 |
+| L4 | **Goals** (6) | Get easier access; Learn something new; Self-expression; Meet a requirement; Win customers or earn more; Stay within the rules (Save time, Save money, Lower risk and Get better results were dropped on 2026-11-03: they repeat L1's Speed, Lower price, Safety and low risk, Quality and results) | doc 36, E1 (was P17) |
 | L5 | **Skill areas** (6) | Delivering your product or service; Marketing; Sales and customer care; Running the business (operations, admin, technology); Money and legal (finance, accounting, legal); Leadership and people (management, hiring) | C1, L2, C4 |
 | L6 | **Channels** | the 13 channel categories and their subchannels, as in the app | P11, K4, the journey |
 | L7 | **Industries, level 1** (18, then Not sure, or more than one; level 2 in 5.4) | Farming, forestry and fishing; Mining, oil, gas and quarrying; Manufacturing; Energy, water and waste; Construction; Wholesale and retail trade; Transport, postal and logistics; Hospitality (accommodation, food, drink); Software, IT, media and telecoms; Finance and insurance; Real estate and property; Professional, scientific and technical services (law, accounting, consulting, engineering, design); Administrative and support services (staffing, cleaning, security, travel); Government and public administration; Education and training; Health and social care; Arts, sport and recreation; Other services (repair, personal, membership, charity) | I1, I2, G15, P24 |
@@ -45,6 +45,23 @@ Each list is one definition used wherever its id appears; counts include "Not su
 | L16 | **What a figure is based on** (9) | Sales or payments I have had; Website or social-media data; Talking to customers; A signed commitment; A pilot test; A benchmark or a comparison with the market; My costs plus a margin (a price only); My own estimate; Nothing yet | R2, D1 |
 
 L12 follows the UN household-consumption divisions [SPN-01] as customer-friendly labels with the division behind each (housing 04, food 01, transport 07, information and communication 08, health 06, education 10, restaurants and accommodation 11, recreation 09, clothing and furnishings and personal care 03, 05 and 13, insurance and financial services 12). Offices label them differently and the new 2018 split is not yet used everywhere, so each option is a customer label with a code behind it, not a survey category.
+
+**Where the lists are asked as built (2026-11-03).** L1 is the Profile's B1 (doc 36), L2 its E3, L3 its E2, L4 its E1, L15 its C1; L13 is built as the Segment's "How do your customers pay?" (doc 35, Box 4, question 8: card, digital wallets, cash, Buy Now, Pay Later, invoice); L6 is the page 2 channel categories. The P and G ids in the "Used by" column are the earlier design's (doc 28, 6.3 and 6.4 map them).
+
+#### 5.2a One vocabulary for value: the crosswalk
+
+The positioning (doc 38), the customer's priorities (L1) and the customer's goals (L4) describe value at three levels: what the business claims, what the customer chooses by, what the customer wants to achieve. This table is the one place that says which answers mean the same thing, so that the Value Proposition draft and the Review can compare them (doc 28, 11.5, rule 22). It suggests starting ticks and raises Review notes; it never hides an option.
+
+| Positioning: Differentiation (doc 38, Q8) | Positioning: Outcome (doc 38, Q9) | What customers care about (L1, doc 36 B1) |
+|---|---|---|
+| Cost-driven | Lower costs | Lower price |
+| Convenience-driven | Time saved | Speed; Ease and convenience |
+| Compliance, Risk & Security | Legal & data-protection cover | Safety and low risk; Trust and reputation |
+| Status & Premium | Higher quality & prestige | Quality and results; Shared values / identity |
+| Performance & Innovation | none | none (open: an L1 option needs the owner's words) |
+| Ecosystem & Integration | none | none (open: an L1 option needs the owner's words) |
+
+The goals (L4) are the customer's own outcomes and match none of these one for one; the Value Proposition reads them as the gains (doc 28, 6.7; FUN-46).
 
 ### 5.3 The crosswalks (national schemes behind the plain lists)
 
