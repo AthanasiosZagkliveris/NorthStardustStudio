@@ -403,8 +403,8 @@
                     "name": "The Stretched Operations Manager",
                     "description": {
                       "personal": "Dana Morales, operations manager at a 22-person accounting firm in Downtown Brooklyn; the person everyone asks when a system breaks.",
-                      "psychographics": "Practical, organized and overloaded; wants fewer manual steps and fewer mistakes; wary of hype and of tools that create more work than they save.",
-                      "hubs": "The firm’s software vendor webinars, NYSSCPA events, local chamber of commerce meetups, operations and practice-management groups.",
+                      "psychographics": "Practical, organised and overloaded; wants fewer manual steps and fewer mistakes; wary of hype and of tools that create more work than they save.",
+                      "hubs": "NYSSCPA events, Brooklyn Chamber of Commerce mixers, webinars from the firm’s practice-management software vendor.",
                       "habits": "Needs a written proposal to take to the partners, and prefers a short paid pilot to a big commitment."
                     },
                     "questions": {
@@ -465,7 +465,7 @@
                         "Confidence that client data is handled safely"
                       ],
                       "social": [
-                        "Be seen by the partners as the person who modernized the firm"
+                        "Be seen by the partners as the person who modernised the firm"
                       ]
                     }
                   },
@@ -475,7 +475,7 @@
                     "description": {
                       "personal": "Sam Okafor, founder and creative director of a 9-person marketing agency in Williamsburg.",
                       "psychographics": "Ambitious, curious about AI and quick to try new tools, but short on time to set them up properly; values speed and a professional client experience.",
-                      "hubs": "Brooklyn tech and marketing meetups, podcasts on agency growth, the founders’ groups he belongs to.",
+                      "hubs": "Brooklyn tech and marketing meetups, Advertising Week New York, podcasts on agency growth.",
                       "habits": "Books a call straight from a website; decides quickly when a case study matches the agency’s own problem."
                     },
                     "questions": {
@@ -627,7 +627,7 @@
                     "category": "Service",
                     "categoryOther": "",
                     "description": {
-                      "function": "A fixed-price discovery of how the firm works today, ending in a prioritized automation roadmap.",
+                      "function": "A fixed-price discovery of how the firm works today, ending in a prioritised automation roadmap.",
                       "benefit": "The firm learns where AI and automation will save the most hours, what it will cost, and what to leave alone.",
                       "scope": "Two interviews, a review of up to eight core workflows and the software stack, a privacy and risk check, and a written roadmap with estimated hours saved and costs. Two to three weeks.",
                       "delivery": "Booked through the website after a free 30-minute call; paid in full upfront by QuickBooks invoice (card or ACH); delivered in a recorded walkthrough and a written report.",
@@ -3814,7 +3814,7 @@
                   "objectives": [
                     {
                       "id": "theme-qf7capa3-objective-1",
-                      "name": "Standardize the build process",
+                      "name": "Standardise the build process",
                       "description": "Reusable templates and a standard handover for every Build.",
                       "period": {
                         "start": {
