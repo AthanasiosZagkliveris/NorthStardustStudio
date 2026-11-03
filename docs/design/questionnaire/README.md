@@ -8,9 +8,9 @@ The standard for these documents is [the standard of the documents](../../standa
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [27-questionnaire-plan.md](27-questionnaire-plan.md) | proposal | The questionnaire plan: the goal, the funnel, the one test (does an answer save the founder work?), the order of building and what was cut. | 2026-11-02 |
+| [27-questionnaire-plan.md](27-questionnaire-plan.md) | proposal | The questionnaire plan: the goal, the funnel, the one test (does an answer save the founder work?), the order of building and what was cut. | 2026-11-03 |
 | [28-questionnaire-specification.md](28-questionnaire-specification.md) | proposal | The questionnaire specification: every question, option and rule for the Identity, Segment, Profile, Competitor, Offering and Engagement cards, the connections and the evidence. | 2026-11-03 |
-| [29-question-guide.md](29-question-guide.md) | proposal | The question guide: the flow of the questions as trees, the key branches and how a question earns its place. | 2026-11-02 |
+| [29-question-guide.md](29-question-guide.md) | proposal | The question guide: the flow of the questions as trees, the key branches and how a question earns its place. | 2026-11-03 |
 | [30-age-limits-by-activity.md](30-age-limits-by-activity.md) | research | Age limits by activity and country: which kinds of business are connected with a minimum age (direct or possible) in the six countries, with sources and status. | 2026-11-03 |
 | [31-positioning-categories.md](31-positioning-categories.md) | collection | The owner's positioning data as given (age stages, buyer categories, relationships, purposes), the register of decisions on it and the reference tables. | 2026-11-03 |
 | [32-positioning-sources.md](32-positioning-sources.md) | research | The sources behind each positioning list of doc 31, what has none, and the pages checked. | 2026-11-03 |
@@ -21,4 +21,4 @@ The standard for these documents is [the standard of the documents](../../standa
 | [37-organization-fields.md](37-organization-fields.md) | specification | The Organization tile's fields as built: control, when asked, options, the help and the connections. | 2026-11-02 |
 | [38-positioning-questions.md](38-positioning-questions.md) | specification | The Positioning tile's questions as built, by stage: control, limits, options, the help and the connections. | 2026-11-03 |
 | [39-help-texts-guide.md](39-help-texts-guide.md) | proposal | What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check. | 2026-11-02 |
-| [40-tile-documents.md](40-tile-documents.md) | proposal | The form every tile document takes (one for each tile or card), and where each tile stands: which has a document and which does not yet. | 2026-11-03 |
+| [40-tile-documents.md](40-tile-documents.md) | rules | The form every tile document takes (one for each tile or card), and where each tile stands: which has a document and which does not yet. | 2026-11-03 |

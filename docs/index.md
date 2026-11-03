@@ -21,11 +21,11 @@ Status: **index**, updated 2026-11-03, written by `npm run docs:index` (the subj
 ## C
 
 - **Card kinds**: [card-kinds](ai/card-kinds.md)
-- **Card links (proposal)**: [41](design/current/41-card-links.md)
+- **Card links (proposal)**: [archive](archive/proposals/card-links.md)
 - **Card structure**: [26](design/current/26-card-structure.md); [tile and card pattern](ai/tile-and-card-pattern.md)
 - **Caregiving**: [31 section 4](design/questionnaire/31-positioning-categories.md)
 - **Catalogue record**: [6](design/core/06-catalogue-record.md)
-- **Change history (log)**: [4](design/core/04-log.md)
+- **Change history (log)**: [4](design/core/04-log.md); [archive (before 2026-10-22)](archive/log/log-archive-2026-07-to-10.md)
 - **Colour map of the pages**: [1 Part I](design/core/01-current-design.md)
 - **Components, defaults**: [12](design/library/12-component-defaults.md)
 - **Components, list**: [13](design/library/13-components-list.md)
