@@ -4,6 +4,22 @@ Status: **research**, written 2026-10-26, updated 2026-10-29 (owner's request: i
 
 > **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Doc 33 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, age limits, accessibility, caregiving and the rest) is a future feature: doc 33. Contents of the documents: `docs/README.md`; index: `docs/index.md`; glossary: `docs/app/glossary.md`.
 
+**Contents**
+
+- [1. How to read it](#1-how-to-read-it)
+- [2. The matrix](#2-the-matrix)
+- [3. What stands out](#3-what-stands-out)
+- [4. Corrections to doc 28, 10.3 and open conflicts](#4-corrections-to-doc-28-103-and-open-conflicts)
+- [5. How the app would use it (designed, not built) **D**](#5-how-the-app-would-use-it-designed-not-built-d)
+- [6. What this document does not cover](#6-what-this-document-does-not-cover)
+- [7. The country tables (as returned by the researchers; sources are in each row)](#7-the-country-tables-as-returned-by-the-researchers-sources-are-in-each-row)
+  - [7.1 United Kingdom](#71-united-kingdom)
+  - [7.2 Ireland](#72-ireland)
+  - [7.3 United States](#73-united-states)
+  - [7.4 Canada](#74-canada)
+  - [7.5 Australia](#75-australia)
+  - [7.6 New Zealand](#76-new-zealand)
+
 ## 1. How to read it
 
 - **D** (direct): a law sets a minimum age for the customer, participant or user, or forbids selling, supplying, serving or admitting under an age. **P** (possible): no flat age, but an age check, a parent's consent, a child-specific code or an age-related duty may apply depending on the product, platform, state or setting. **–**: none found.

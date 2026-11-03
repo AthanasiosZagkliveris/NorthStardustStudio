@@ -87,7 +87,7 @@ AFTER THE FIRST DRAFT (checks, asked later): G4, G5, G16   (G17, G18, G19 merged
 
 ### 2.3 Profile (up to three per Segment)
 
-> **Built in part (doc 36):** the Profile card asks A1 to A3, A5, B1, C1 to C4, D1, D2 and E1 to E3. What differs from the tree: P11 is split into C2 (social media), C3 (communities) and C4 (events); P13, P14, P16 and P22 are not asked (the Segment asks where they buy, how they pay, online comfort and how the decision is authorized); the questions follow the Segment's answers (doc 36, 2.1 and 2.2). Not built: the kind of business (P24), the specialized needs, the proposed Profiles, "Copy a Profile".
+> **Built in part (doc 36):** the Profile card asks A1 to A3, A5, B1, C1 to C4, D1, D2 and E1 to E3. What differs from the tree: P11 is split into C2 (social media), C3 (communities) and C4 (events); P13, P14, P16 and P22 are not asked (the Segment asks where they buy, how they pay, online comfort and how the decision is authorized); the questions follow the Segment's answers (doc 36, 2.1 and 2.2). Not built: the kind of business (P24), the specialised needs, the proposed Profiles, "Copy a Profile".
 
 ```
 A Profile starts from

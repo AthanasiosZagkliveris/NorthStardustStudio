@@ -1,4 +1,4 @@
-# Outstanding Findings
+# Outstanding findings
 
 Status: **living list**, written 2026-08-02, updated 2026-11-02. The confirmed problems that a diagnostic found and did not fix.
 

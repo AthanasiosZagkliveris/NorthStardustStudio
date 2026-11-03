@@ -21,10 +21,11 @@ Status: **index**, updated 2026-11-03, written by `npm run docs:index` (the subj
 ## C
 
 - **Card kinds**: [card-kinds](ai/card-kinds.md)
+- **Card links (proposal)**: [archive](archive/proposals/card-links.md)
 - **Card structure**: [26](design/current/26-card-structure.md); [tile and card pattern](ai/tile-and-card-pattern.md)
 - **Caregiving**: [31 section 4](design/questionnaire/31-positioning-categories.md)
 - **Catalogue record**: [6](design/core/06-catalogue-record.md)
-- **Change history (log)**: [4](design/core/04-log.md)
+- **Change history (log)**: [4](design/core/04-log.md); [archive (before 2026-10-22)](archive/log/log-archive-2026-07-to-10.md)
 - **Colour map of the pages**: [1 Part I](design/core/01-current-design.md)
 - **Components, defaults**: [12](design/library/12-component-defaults.md)
 - **Components, list**: [13](design/library/13-components-list.md)
@@ -52,23 +53,27 @@ Status: **index**, updated 2026-11-03, written by `npm run docs:index` (the subj
 - **Glossary**: [app/glossary](app/glossary.md)
 ## H
 
-- **Help texts**: [22](design/current/22-help-texts.md)
+- **Help texts**: [22 (as built)](design/current/22-help-texts.md); [39 (what an "i" says)](design/questionnaire/39-help-texts-guide.md)
 ## L
 
 - **Layout rules and the layout check**: [layout-rules](ai/layout-rules.md)
 - **Legal forms**: [33 section 3](design/questionnaire/33-specs-and-limitations.md)
 - **Library log**: [10](design/library/10-library-log.md); [archive](archive/library/library-log-archive.md); [11 (app structure)](design/library/11-app-structure-log.md)
+- **Lists and classifications**: [34](design/questionnaire/34-lists-and-classifications.md)
 ## M
 
 - **Market structure (single- and multi-sided)**: [28 section 8.2](design/questionnaire/28-questionnaire-specification.md); [33 (multi-sided is future)](design/questionnaire/33-specs-and-limitations.md)
 ## N
 
 - **Not done yet**: [5](design/core/05-not-done-yet.md)
+## O
+
+- **Organization tile**: [37 (as built)](design/questionnaire/37-organization-fields.md); [28 section 8.5](design/questionnaire/28-questionnaire-specification.md)
 ## P
 
 - **Pop-ups**: [23](design/current/23-popups.md)
-- **Positioning**: [28 section 8.2](design/questionnaire/28-questionnaire-specification.md); [31](design/questionnaire/31-positioning-categories.md)
-- **Profile card**: [28 section 6.4](design/questionnaire/28-questionnaire-specification.md)
+- **Positioning**: [38 (the tile as built)](design/questionnaire/38-positioning-questions.md); [28 section 8.2](design/questionnaire/28-questionnaire-specification.md); [31](design/questionnaire/31-positioning-categories.md)
+- **Profile card**: [36 (as built)](design/questionnaire/36-profile-questions.md); [28 section 6.4](design/questionnaire/28-questionnaire-specification.md)
 - **Purposes of an offering**: [31 sections 7 and 10.4](design/questionnaire/31-positioning-categories.md)
 ## Q
 
@@ -82,7 +87,7 @@ Status: **index**, updated 2026-11-03, written by `npm run docs:index` (the subj
 - **Rule 14 (lists come from documents)**: [28 section 3](design/questionnaire/28-questionnaire-specification.md)
 ## S
 
-- **Segment card**: [28 section 6.3](design/questionnaire/28-questionnaire-specification.md)
+- **Segment card**: [35 (as built)](design/questionnaire/35-segment-questions.md); [28 section 6.3](design/questionnaire/28-questionnaire-specification.md)
 - **Shared components**: [21](design/current/21-shared-components.md)
 - **Standard of the documents**: [standard](standard.md)
 - **Structure tables**: [7](design/core/07-structure-tables.md)
@@ -91,6 +96,7 @@ Status: **index**, updated 2026-11-03, written by `npm run docs:index` (the subj
 - **Text holders**: [16](design/current/16-text-holders.md)
 - **Text links**: [19](design/current/19-text-links.md)
 - **Tile and card pattern**: [tile-and-card-pattern](ai/tile-and-card-pattern.md)
+- **Tile documents (the form and the list)**: [40](design/questionnaire/40-tile-documents.md)
 - **Tooltips**: [24](design/current/24-tooltips.md)
 ## V
 

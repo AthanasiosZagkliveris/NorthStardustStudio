@@ -1,4 +1,4 @@
-# AI Knowledge Base: docs/ai/
+# AI knowledge base: `docs/ai/`
 
 Status: **index**, written 2026-08-02, updated 2026-11-02. The map of the knowledge base for AI assistants: which file to read for which task, and what each file owns.
 

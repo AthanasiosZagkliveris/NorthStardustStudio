@@ -1,4 +1,4 @@
-# Framework Conventions & Patterns Reference
+# Framework conventions and patterns
 
 Status: **reference**, written 2026-08-02, updated 2026-11-02. The non-obvious architectural patterns of the framework (how content and structure interact) and its data model.
 

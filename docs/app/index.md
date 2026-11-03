@@ -1,6 +1,6 @@
 # NorthStardust: index of the app
 
-Status: **index**, updated 2026-11-02 (every place checked against the code). An alphabetical list of the places and things in the app: where to find each in the app, and which document describes it. The order of the pages and how the app is entered are in `contents.md`; the meaning of the terms is in `glossary.md`; the alphabetical index of the documents is `docs/index.md`.
+Status: **index**, written 2026-10-29, updated 2026-11-02 (every place checked against the code). An alphabetical list of the places and things in the app: where to find each in the app, and which document describes it. The order of the pages and how the app is entered are in `contents.md`; the meaning of the terms is in `glossary.md`; the alphabetical index of the documents is `docs/index.md`.
 
 Paths are written "System › page › tile". "Doc 28" is the document numbered 28 in `docs/README.md` (`design/questionnaire/28-questionnaire-specification.md`); "01 C.2" is its section C.2. "Page 3" is `specifications/business-system/page-3-infrastructure-and-capability.md`, and so for the other pages (the folder is `specifications/business-system/`).
 

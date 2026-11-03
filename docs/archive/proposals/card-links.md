@@ -1,6 +1,6 @@
-# 41. Card links: which groups could link to which
+# Card links: which groups could link to which
 
-Status: **proposal**, written 2026-10-14, updated 2026-11-02 (moved here from document 26). Two tables of proposals: which partner and supplier groups each resource group could link to (Task 1), and which partners, suppliers and resources could link to each activity group (Task 2). Nothing here is built; the cards as built are in document 26.
+Status: **archive**, written 2026-10-14, updated 2026-11-03 (moved here from `design/current/` on 2026-11-03, where it was document 41; before that it was part of document 26). A proposal; nothing of it is built. Where its information now lives: it is held only here; the cards as built are document 26 (`design/current/26-card-structure.md`). Two tables of proposals: which partner and supplier groups each resource group could link to (Task 1), and which partners, suppliers and resources could link to each activity group (Task 2). 
 
 Related: document 26 (card structure, as built), document 21 (the shared components), `docs/design/core/05-not-done-yet.md` (what is not done yet).
 

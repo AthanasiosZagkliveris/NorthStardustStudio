@@ -61,7 +61,7 @@ We settle one tile at a time: its questions and their option lists (written as l
 | Step | Tile | Status |
 |---|---|---|
 | 1 | Business 1, the Segment card (tile "Segment Description") | Built: the card asks its questions and reads Identity (doc 35) |
-| 2 | Business 1, the Profile cards (same tile) | Built in part (doc 36): A1 to A3, A5, B1, C1 to C4, D1, D2, E1 to E3; not built: the kind of business, the specialized needs, the proposed Profiles, the user's own Profile |
+| 2 | Business 1, the Profile cards (same tile) | Built in part (doc 36): A1 to A3, A5, B1, C1 to C4, D1, D2, E1 to E3; not built: the kind of business, the specialised needs, the proposed Profiles, the user's own Profile |
 | 3 | Business 1, Competitors | |
 | 4 | Business 1, Offerings, with the Value Proposition draft | |
 | 5 | Identity: the Organization and Early Positioning tiles (Mission, Vision and the Ethics tiles stay prose) | Built in part: the Organization tile and the Early Positioning questions (28, 8.2, 8.5); not built: the industry pack, the Description and Positioning drafts |
