@@ -64,7 +64,7 @@ describe("the Segment's questions", () => {
     });
 
     it("keeps invoicing for business customers", () => {
-        expect(ids(segmentOptions(question("pay"), {}, { ...OPEN, frame: "people" }))).toEqual(["card", "wallet", "bnpl"]);
+        expect(ids(segmentOptions(question("pay"), {}, { ...OPEN, frame: "people" }))).toEqual(["card", "wallet", "cash", "bnpl"]);
         expect(ids(segmentOptions(question("pay"), {}, OPEN))).toContain("invoice");
     });
 
