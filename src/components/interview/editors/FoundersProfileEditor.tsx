@@ -44,7 +44,7 @@ import TextLink from "../fields/TextLink.tsx";
 const INFO = {
 
     roles: [
-        "What does this founder do in the organization?",
+        "What does this founder do in the organisation?",
         "One role a line: a founder is often several things at once.",
         "Lenders and investors look for every key job to have someone who owns it."
     ],
@@ -58,7 +58,7 @@ const INFO = {
     managementExperience: [
         "Experience leading people, projects, budgets, businesses, or operations.",
         "Say how big: how many people, how much money.",
-        "It shows they can run the organization as it grows."
+        "It shows they can run the organisation as it grows."
     ],
 
     achievements: [

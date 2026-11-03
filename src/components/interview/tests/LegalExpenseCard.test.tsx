@@ -52,7 +52,7 @@ describe("the Legal Entity expense card", () => {
             return <LegalEntityEditor value={value} onChange={setValue} />;
         }
         render(<Harness />);
-        for (const arrow of screen.queryAllByRole("button", { name: /^Maximize/ })) {
+        for (const arrow of screen.queryAllByRole("button", { name: /^Maximise/ })) {
             fireEvent.click(arrow);
         }
         return () => asLegalEntityValue(latest);

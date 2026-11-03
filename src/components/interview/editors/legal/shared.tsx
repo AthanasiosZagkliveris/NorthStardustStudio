@@ -103,13 +103,13 @@ export const JURISDICTIONS = [
     { id: "local", label: "Local Government" },
     { id: "regional", label: "Regional Administration" },
     { id: "central", label: "Central Government & Ministries" },
-    { id: "institutional", label: "Institutional / Public Organizations" }
+    { id: "institutional", label: "Institutional / Public Organisations" }
 ] as const;
 
 /** Regulatory Intensity of the target industry (G2B context). */
 export const REGULATORY_INTENSITIES = [
     { id: "lowreg", label: "General Commerce / Mass Market" },
-    { id: "specialized", label: "Specialized Sectors" },
+    { id: "specialized", label: "Specialised Sectors" },
     { id: "heavy", label: "Heavily Regulated Markets" },
     { id: "crossborder", label: "Cross-border Trade" }
 ] as const;
@@ -305,12 +305,12 @@ export function activitiesInfo(country: string): string {
 export const INFO = {
 
     activityCode: [
-        "The official code for the organization's main activity: it classifies what the organization does.",
-        "Asked for when the organization is registered, and on its annual filings where they apply."
+        "The official code for the organisation's main activity: it classifies what the organisation does.",
+        "Asked for when the organisation is registered, and on its annual filings where they apply."
     ],
 
     requirements: [
-        "What else the law asks of this organization, if anything applies: for example a licence, a professional registration, or a named officer.",
+        "What else the law asks of this organisation, if anything applies: for example a licence, a professional registration, or a named officer.",
         "Add one if it applies to your activity, your legal form, or where you are registered. If none does, add none."
     ],
 
@@ -327,7 +327,7 @@ export const INFO = {
     ],
 
     registrationDate: [
-        "The day the organization was registered with the registry of its country. It is its own date: it does not depend on the registration number, and the number does not depend on it.",
+        "The day the organisation was registered with the registry of its country. It is its own date: it does not depend on the registration number, and the number does not depend on it.",
         "It cannot be later than today, nor later than the Opening Date: the business cannot open before the company exists."
     ],
 
@@ -380,15 +380,15 @@ export const INFO = {
     jurisdiction: [
         "What is the jurisdiction scale of the target public entity?",
         "Local Government: municipalities, communities, local municipal enterprises. The ideal beachhead while planning and launching.",
-        "Regional Administration: regions and regional development organizations.",
+        "Regional Administration: regions and regional development organisations.",
         "Central Government & Ministries: ministry, national services, security forces. Locked while planning and launching.",
-        "Institutional / Public Organizations: public hospitals, universities, ports, public utilities."
+        "Institutional / Public Organisations: public hospitals, universities, ports, public utilities."
     ],
 
     regulatory: [
         "What is the regulatory intensity of the target industry?",
         "General Commerce / Mass Market (low regulation): e-commerce, retail, catering (basic obligations such as myDATA or a POS interface). The ideal beachhead.",
-        "Specialized Sectors (medium regulation): logistics, construction, real estate (environmental permits, special registers).",
+        "Specialised Sectors (medium regulation): logistics, construction, real estate (environmental permits, special registers).",
         "Heavily Regulated Markets (high regulation): FinTech, pharma, medical centers, banks. Locked while planning and launching.",
         "Cross-border Trade (customs and cross-border compliance): import/export companies (customs, international duties, cross-border compliance)."
     ],
@@ -446,27 +446,27 @@ export const INFO = {
     ],
 
     legalForm: [
-        "Decides who is liable for the organization's debts: the organization, or you personally.",
+        "Decides who is liable for the organisation's debts: the organisation, or you personally.",
         "Decides how it is taxed, and whether it must hold share capital."
     ],
 
     capital: [
-        "Capital is what the founders put into the organization to start it.",
+        "Capital is what the founders put into the organisation to start it.",
         "Some legal forms set a minimum amount; many set none.",
         "Tick it to record how much each founder put in."
     ],
 
     registrationStatus: [
-        "Registered: the organization exists in the public register, with a date and a number.",
+        "Registered: the organisation exists in the public register, with a date and a number.",
         "Not yet registered: you are planning it. Choose the legal form you intend to use; the date, the registration number and the tax numbers can wait until it is registered."
     ],
     registrationAuthority: [
-        "The body that keeps the public register your organization is listed on.",
+        "The body that keeps the public register your organisation is listed on.",
         "Filled in from the country you chose. Change it to match yours."
     ],
 
     taxNumber: [
-        "The number the tax office knows the organization by.",
+        "The number the tax office knows the organisation by.",
         "In some countries it is the registration number; in others it is issued separately when you register for tax."
     ],
 

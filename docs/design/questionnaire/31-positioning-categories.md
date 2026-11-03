@@ -71,7 +71,7 @@ Not buyer stages (nothing stated): Minors under 16 (Baby, Child, and Early and M
 - **By dependent category** (who are they caring for?)
   - Childcare provider (parent, legal guardian, or foster parent of minors)
   - Eldercare provider (caring for aging parents, grandparents, or senior relatives)
-  - Specialized care provider (caring for a spouse, sibling, or child with permanent or temporary medical or disability needs)
+  - Specialised care provider (caring for a spouse, sibling, or child with permanent or temporary medical or disability needs)
 - **By role intensity and structure**
   - Sole / primary caregiver (the main person responsible for daily survival and decisions)
   - Co-caregiver / secondary support (shares the load with a partner, family network, or professional aides)
@@ -180,7 +180,7 @@ The decisions of 2026-10-27 to 2026-10-29, one row each, by topic. The rounds of
 | 22 | Saved values rel:parent, rel:family, rel:friend convert once to rows 1, 3, 5 of the 22 | decided; at the final build |
 | 23 | The built End User questions I7d to I7g stay untouched until the new structure is built all at once | done on 2026-10-29: replaced by the first-version structure (the buyer's category I7h, the relationship I7e and the user's life stage I7d; I7f and I7g removed) |
 | 24 | The six B2B relationships have a default intent (Proxy or Dual-Intent) and positioning text (10.6) | collected; the positioning text is future |
-| 25 | Requirements R-1 and R-2 (age restrictions on the Organization and Positioning cards) | superseded: ages go in the Segment (decision 6) |
+| 25 | Requirements R-1 and R-2 (age restrictions on the Organisation and Positioning cards) | superseded: ages go in the Segment (decision 6) |
 | 26 | Lists with no acceptable source (doc 32) stay the owner's wording | decided |
 | 27 | Rules of the buyer categories beyond age: data separation (a Proxy Buyer does not see the user's behavioural data), contract and liability flags, payment routing | decided as rules applied by country; future |
 | 28 | A seventh consumer relationship, "Commercial & Professional", is a proxy buyer (the owner's instruction of 2026-10-30); the consumer list is the six personal ones plus it, "Other personal relationship" last | built 2026-10-30 |
@@ -226,12 +226,12 @@ The groups are the same intervals joined: Baby [0, 3), Child [3, 11), Teenager [
 
 **The term leads, the age defines it (owner's emphasis, 2026-10-27: "emphasis on the term than the age").** What the app shows, asks and stores is the **stage term** (Infancy, Early Childhood, Teenager, Established, Peak, Mature, Active Retirees and the others), **not a number of years**. The ages and the edge rule above are the **definition behind the term**: they decide which term a given age gets (and, for a date of birth, the app works the term out), and they are shown **as supporting detail** (for example in the "i" of the term), never as the thing the user has to choose or read first. A question about the user or the buyer therefore offers the terms as its options, in the owner's names and order. **Exception (owner, 2026-10-27): the laws of each country that state a specific limit.** Where a law names an age (a minimum age to buy alcohol, the age of online consent, the age of majority, the minimum working age and so on, section 10.2 and doc 30), the **number is the law's own and is shown and applied as the law states it**, for that country, even where it falls inside a stage or between two stages (for example 13 inside Mid Adolescence, 19 inside Young). The term still names the stage; the legal age is a separate, country-specific fact that the app looks up automatically (below) and states in years, with its source and status. *(This replaces the assistant's earlier reading of the emphasis, "age alone places a person in a stage", which stressed the age; the owner asked for the opposite emphasis.)*
 
-**The country's law is applied automatically.** The stages are the same in every country; **what the law does at an age is looked up by the app from the customers' country** (the Organization's country, or the Segment's main country, G3) and never typed by the user. This is the doc 28 principle "fill in what is known". What follows, as design requirements (not built):
+**The country's law is applied automatically.** The stages are the same in every country; **what the law does at an age is looked up by the app from the customers' country** (the Organisation's country, or the Segment's main country, G3) and never typed by the user. This is the doc 28 principle "fill in what is known". What follows, as design requirements (not built):
 
 - a **table of legal ages by country** inside the app, one row for each rule of section 10.2 (age of majority, online consent, alcohol, tobacco and vapes, credit, employment, and the activities of doc 30), each with its **status** (opened, excerpt, not found) and its source, kept up to date like the jurisdiction profiles and the classifications;
 - a rule is **shown or applied only from its status**: an opened or excerpt rule drives a note or a Review check, "not found" says "check the rule for your area" and drives nothing (doc 28, 10.3);
 - for a country outside the six, the stages and the plain lists stand and the legal ages say "check the law of that country";
-- where a country's law varies inside it (Canada by province, the USA and Australia by state), the app takes the **region of the Organization** where it is known, else the strictest age found and says so;
+- where a country's law varies inside it (Canada by province, the USA and Australia by state), the app takes the **region of the Organisation** where it is known, else the strictest age found and says so;
 - a rule can be **dated** (the UK's tobacco age for people born from 2009, Ireland's 21 from 2028, Australia's social media age from 10 Dec 2025): the app uses the date it applies from.
 
 

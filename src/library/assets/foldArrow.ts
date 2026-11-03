@@ -39,7 +39,7 @@ export const foldArrow: AssetContract = {
             { ink: "the triangle (the text colour) against the ground it stands on", ground: "card", min: 3 }
         ],
         focusRing: true,
-        accessibleName: "Minimize <what> / Maximize <what> (aria-label), with aria-expanded"
+        accessibleName: "Minimise <what> / Maximise <what> (aria-label), with aria-expanded"
     },
     uses: [
         "every folding card, group and section head",

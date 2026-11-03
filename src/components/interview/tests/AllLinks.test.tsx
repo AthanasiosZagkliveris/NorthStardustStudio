@@ -146,7 +146,7 @@ describe("every link of every tile's list", () => {
         expect(walkEveryLink()).toBeGreaterThanOrEqual(24);
     }, 90000);
 
-    it("walks the page of a fresh organization too: every tile without a link is plain, and nothing breaks", () => {
+    it("walks the page of a fresh organisation too: every tile without a link is plain, and nothing breaks", () => {
         render(<Harness initial={asBusinessCapabilityValue(undefined)} />);
         expect(walkEveryLink()).toBeGreaterThanOrEqual(6);
     }, 90000);

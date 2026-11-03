@@ -139,7 +139,7 @@ const USER_AGES = [
     { id: "dependent", stage: "age:senior", label: "Dependent seniors 75+" }
 ] as const;
 
-/** The job levels (the ISCO-08 major groups in plain words): the Segment's user question and the Profile's "What is their job role?" take this one list, so the words are written once. */
+/** The job levels (based on the ISCO-08 major groups, merged into six): the Segment's end-user question and the Profile's A3 "What kind of work does this person do?" take this one list, so the words are written once. */
 export const JOB_LEVELS = [
     { id: "owner", label: "Owner or senior executive" },
     { id: "manager", label: "Manager" },

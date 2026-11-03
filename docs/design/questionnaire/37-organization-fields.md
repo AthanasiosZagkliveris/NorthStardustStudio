@@ -1,21 +1,21 @@
-# 37. The Organization tile: every field and option, as built
+# 37. The Organisation tile: every field and option, as built
 
-Status: **specification**, written 2026-11-01, updated 2026-11-02. Every field of the Organization tile (Identity System, page 1, the tile before Early Positioning) in the order it is asked, with its control, when it is asked, its options, what its "i" says and what it connects to.
+Status: **specification**, written 2026-11-01, updated 2026-11-02. Every field of the Organisation tile (Identity System, page 1, the tile before Early Positioning) in the order it is asked, with its control, when it is asked, its options, what its "i" says and what it connects to.
 
 Related: doc 38 (Early Positioning, the next tile, in the same form), doc 35 (the Segment's questions), doc 28 (8.5 the tile as designed; 8.2a the stage, the Opening Date and the key dates), doc 34 (the countries, the activity cascade and the codes), doc 33 (the first version: six countries and Other), `src/components/interview/editors/legal/`.
 
-**The tile** is one dialog of two columns with a divider: the left one is where the organization is (name, country, address), the right one is what it is and does (legal form, dates, activities); the Notes stand under both. Controls are the existing ones (text cell, `OptionPicker`, date cell, `ActivitiesField`, the shared optional note). A field that depends on the country waits for it: it is frozen, with a hint saying what to choose first, until the country is chosen. **Connections** are named as in doc 35: *Comes from* is what the field takes from another answer; *Read by* is what reads it (built, and not built yet).
+**The tile** is one dialog of two columns with a divider: the left one is where the organisation is (name, country, address), the right one is what it is and does (legal form, dates, activities); the Notes stand under both. Controls are the existing ones (text cell, `OptionPicker`, date cell, `ActivitiesField`, the shared optional note). A field that depends on the country waits for it: it is frozen, with a hint saying what to choose first, until the country is chosen. **Connections** are named as in doc 35: *Comes from* is what the field takes from another answer; *Read by* is what reads it (built, and not built yet).
 
-## 1. The left column: where the organization is
+## 1. The left column: where the organisation is
 
-### 1. Organization Name
+### 1. Organisation Name
 
-- **Control:** a text cell. Placeholder: "The legal name of the organization".
+- **Control:** a text cell. Placeholder: "The legal name of the organisation".
 - **Asked when:** always.
 - **The "i":** none.
 - **Connections:**
   - *Comes from:* nothing.
-  - *Read by (built):* the page's titles and the organization's name across the app, the documents and the exports.
+  - *Read by (built):* the page's titles and the organisation's name across the app, the documents and the exports.
 
 ### 2. Country
 
@@ -62,7 +62,7 @@ Related: doc 38 (Early Positioning, the next tile, in the same form), doc 35 (th
 - **Control:** one choice (the picker), the country's own forms; where a country has no list of its own, the four generic forms (doc 33). The list has no Other entry; a legal form saved earlier as Other still shows, with its typed name (field 7).
 - **Asked when:** a country is chosen (frozen until then).
 - **Options:** the country's legal forms (doc 34), or the four generic forms.
-- **The "i" says:** Decides who is liable for the organization's debts: the organization, or you personally. Decides how it is taxed, and whether it must hold share capital.
+- **The "i" says:** Decides who is liable for the organisation's debts: the organisation, or you personally. Decides how it is taxed, and whether it must hold share capital.
 - **Connections:**
   - *Comes from:* the country.
   - *Read by (built):* the Name the legal form field; the tax, the Founders' capital question and the Legal Entity page; the documents and the exports.
@@ -77,7 +77,7 @@ Related: doc 38 (Early Positioning, the next tile, in the same form), doc 35 (th
 
 - **Control:** a date cell.
 - **Asked when:** always. It cannot be later than today (the cell's limit), nor later than the Opening Date (the Review says so).
-- **The "i" says:** The day the organization was registered with the registry of its country. It is its own date: it does not depend on the registration number, and the number does not depend on it. It cannot be later than today, nor later than the Opening Date: the business cannot open before the company exists.
+- **The "i" says:** The day the organisation was registered with the registry of its country. It is its own date: it does not depend on the registration number, and the number does not depend on it. It cannot be later than today, nor later than the Opening Date: the business cannot open before the company exists.
 - **Connections:**
   - *Comes from:* nothing; it is checked against the Opening Date. It is saved with the Legal Entity page's formation.
   - *Read by (built):* the plan's start (the legal expenses), the key dates on the Review and the Calendar.

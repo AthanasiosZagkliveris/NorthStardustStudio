@@ -6,7 +6,7 @@ describe("the record time of a card", () => {
 
     beforeEach(() => localStorage.clear());
 
-    it("is set the first time it is asked for, kept in the organization's document, and does not change", () => {
+    it("is set the first time it is asked for, kept in the organisation's document, and does not change", () => {
         const summary = OrganizationService.create("Test Studio");
         OrganizationService.setSelected(summary.id);
         const first = CardRecordService.recordedAt("card-1", 1000);

@@ -50,7 +50,7 @@ export const SUBSECTIONS = {
                 "Where Positioning chose both, the first Segment is of people and the second of businesses; one added later asks which it is."
             ],
             purchasing: [
-                "Some questions are for every customer (online comfort, where they discover ideas, where they buy, how they pay), some for people (their habits and how they decide to buy) and one for businesses (how the purchase is authorized).",
+                "Some questions are for every customer (online comfort, where they discover ideas, where they buy, how they pay), some for people (their habits and how they decide to buy) and one for businesses (how the purchase is authorised).",
                 "The ways of discovering ideas that you tick are offered on the Profile as related platforms."
             ],
             "market-size": [
@@ -227,7 +227,7 @@ export const COMPETITOR_TYPE_QUESTIONS: Record<string, CompetitorTypeQuestions> 
             },
             acquisition: null
         },
-        insights: "What have you learned from customers solving this themselves, and how could your organization make it easier, better, faster, or more valuable?"
+        insights: "What have you learned from customers solving this themselves, and how could your organisation make it easier, better, faster, or more valuable?"
     },
 
     /* Nothing is being bought at all, so there is no solution to

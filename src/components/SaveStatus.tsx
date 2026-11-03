@@ -6,7 +6,7 @@ import type { SaveState } from "../services/OrganizationStore";
 /** What a failed save asks the user to do, on hover or focus. */
 const ERROR_ADVICE =
     "Your latest changes are still on screen but could not be saved on this device. " +
-    "Go back to the start screen and use Export Organization to keep a copy, " +
+    "Go back to the start screen and use Export Organisation to keep a copy, " +
     "then free some space.";
 
 function describe(state: SaveState): { glyph: string; text: string } {

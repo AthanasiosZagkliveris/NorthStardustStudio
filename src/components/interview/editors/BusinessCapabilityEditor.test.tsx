@@ -184,7 +184,7 @@ describe("BusinessCapabilityEditor number limits", () => {
         openTile("Founders");
 
         // The founders' cards are open in the dialog and cannot fold (no arrow on them).
-        expect(screen.queryAllByRole("button", { name: /^(Maximize|Minimize) Founder 1$/ })).toHaveLength(0);
+        expect(screen.queryAllByRole("button", { name: /^(Maximise|Minimise) Founder 1$/ })).toHaveLength(0);
 
         const working = screen.getByLabelText(/^Ann working hours/) as HTMLInputElement;
         ["1", "16", "160", "1600"].forEach(value => fireEvent.change(working, { target: { value } }));
@@ -510,7 +510,7 @@ describe("BusinessCapabilityEditor founders' roles", () => {
         render(<ValueHarness />);
         openTile("Founders");
         // The founders' cards are open in the dialog and cannot fold (no arrow on them).
-        expect(screen.queryAllByRole("button", { name: /^(Maximize|Minimize) Founder 1$/ })).toHaveLength(0);
+        expect(screen.queryAllByRole("button", { name: /^(Maximise|Minimise) Founder 1$/ })).toHaveLength(0);
         return () => asBusinessCapabilityValue(saved);
     }
 
@@ -584,7 +584,7 @@ describe("BusinessCapabilityEditor founders' Responsibilities", () => {
         const view = render(<ValueHarness />);
         openTile("Founders");
         // The founders' cards are open in the dialog and cannot fold (no arrow on them).
-        expect(screen.queryAllByRole("button", { name: /^(Maximize|Minimize) Founder 1$/ })).toHaveLength(0);
+        expect(screen.queryAllByRole("button", { name: /^(Maximise|Minimise) Founder 1$/ })).toHaveLength(0);
         // The section is drawn in a dialog, outside the render's own container.
         return { ...view, container: document.body };
     }
@@ -606,11 +606,11 @@ describe("BusinessCapabilityEditor founders' Responsibilities", () => {
 
     it("starts a list of more than five folded, and unfolds it from its arrow", () => {
         const { container } = renderWith(["A", "B", "C", "D", "E", "F"], 1);
-        const arrow = screen.getByRole("button", { name: /^Maximize Responsibilities of (Ann|Founder 1)$/ });
+        const arrow = screen.getByRole("button", { name: /^Maximise Responsibilities of (Ann|Founder 1)$/ });
         expect(arrow.getAttribute("aria-expanded")).toBe("false");
         expect(lines(container)).toEqual([]);
         fireEvent.click(arrow);
-        const open = screen.getByRole("button", { name: /^Minimize Responsibilities of (Ann|Founder 1)$/ });
+        const open = screen.getByRole("button", { name: /^Minimise Responsibilities of (Ann|Founder 1)$/ });
         expect(open.getAttribute("aria-expanded")).toBe("true");
         // What is done waits in its own Completed fold, folded.
         expect(lines(container)).toEqual(["B", "C", "D", "E", "F"]);
@@ -621,10 +621,10 @@ describe("BusinessCapabilityEditor founders' Responsibilities", () => {
     it("keeps what is done out of the list, in a Completed fold under it that starts folded", () => {
         const { container } = renderWith(["A", "B", "C", "D"], 2);
         // (Every list starts folded; this one is opened by hand.)
-        fireEvent.click(screen.getByRole("button", { name: /^Maximize Responsibilities of (Ann|Founder 1)$/ }));
+        fireEvent.click(screen.getByRole("button", { name: /^Maximise Responsibilities of (Ann|Founder 1)$/ }));
         expect(lines(container)).toEqual(["C", "D"]);
         // (The same row as Responsibilities: the standard fold arrow, then the label.)
-        const completed = screen.getByRole("button", { name: /^Maximize completed responsibilities of (Ann|Founder 1)$/ });
+        const completed = screen.getByRole("button", { name: /^Maximise completed responsibilities of (Ann|Founder 1)$/ });
         expect(completed.getAttribute("aria-expanded")).toBe("false");
         fireEvent.click(completed);
         expect(lines(container)).toEqual(["C", "D", "A", "B"]);
@@ -637,14 +637,14 @@ describe("BusinessCapabilityEditor founders' Responsibilities", () => {
 
     it("starts a list of five or fewer folded as well: every list is collapsed by default", () => {
         const { container } = renderWith(["A", "B", "C", "D", "E"], 0);
-        expect(screen.getByRole("button", { name: /^Maximize Responsibilities of (Ann|Founder 1)$/ }).getAttribute("aria-expanded")).toBe("false");
+        expect(screen.getByRole("button", { name: /^Maximise Responsibilities of (Ann|Founder 1)$/ }).getAttribute("aria-expanded")).toBe("false");
         expect(lines(container)).toHaveLength(0);
         expect(container.querySelector(".business-capability-responsibilities-count")?.textContent).toBe("0/5");
     });
 
     it("stands the numbered list at the card's content edge, and its Completed row under the Responsibilities arrow", () => {
         const { container } = renderWith(["A", "B", "C", "D"], 2);
-        fireEvent.click(screen.getByRole("button", { name: /^Maximize Responsibilities of (Ann|Founder 1)$/ }));
+        fireEvent.click(screen.getByRole("button", { name: /^Maximise Responsibilities of (Ann|Founder 1)$/ }));
         for (const list of container.querySelectorAll(".business-capability-responsibilities-head ~ div .numbered-list-static")) {
             expect(list.classList.contains("numbered-list-static-flush")).toBe(true);
         }
@@ -657,11 +657,11 @@ describe("BusinessCapabilityEditor founders' Responsibilities", () => {
 
     it("collapses the list again every time the dialog opens; toggling inside an open dialog works", () => {
         const { container } = renderWith(["A", "B", "C"], 0);
-        fireEvent.click(screen.getByRole("button", { name: /^Maximize Responsibilities of (Ann|Founder 1)$/ }));
+        fireEvent.click(screen.getByRole("button", { name: /^Maximise Responsibilities of (Ann|Founder 1)$/ }));
         expect(lines(container)).toEqual(["A", "B", "C"]);
         closeTile();
         openTile("Founders");
-        expect(screen.getByRole("button", { name: /^Maximize Responsibilities of (Ann|Founder 1)$/ }).getAttribute("aria-expanded")).toBe("false");
+        expect(screen.getByRole("button", { name: /^Maximise Responsibilities of (Ann|Founder 1)$/ }).getAttribute("aria-expanded")).toBe("false");
         expect(lines(container)).toHaveLength(0);
     });
 
@@ -795,7 +795,7 @@ describe("a Partnership / Provider's Responsible", () => {
         expect(field.querySelector(".option-picker-trigger")?.getAttribute("aria-label")).toMatch(/^Printer responsible: /);
     });
 
-    it("is not shown at all in an organization with ONE founder: no label, no text, no empty row (he is still responsible)", () => {
+    it("is not shown at all in an organisation with ONE founder: no label, no text, no empty row (he is still responsible)", () => {
         const section = renderPartner([founder("f1", "Ann")]);
         expect(responsible(section)).toBeUndefined();
         expect(section.textContent).not.toMatch(/Responsib/);
@@ -842,7 +842,7 @@ describe("an Activity's Responsible", () => {
         return document.body;
     }
 
-    it("is not shown at all in an organization with ONE founder, and he is still the responsible one", () => {
+    it("is not shown at all in an organisation with ONE founder, and he is still the responsible one", () => {
         const page = renderActivity([founder("f1", "Ann")]);
         expect(page.querySelector('[aria-label="Activity 1 name"]')).toBeTruthy();
         expect(page.querySelector(".business-capability-activity")?.textContent).not.toMatch(/Responsib/);

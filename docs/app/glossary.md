@@ -6,7 +6,7 @@ One-line definitions, so that terminology is the same in every document and Skil
 
 ## 1. The framework
 
-**Capability** — one of the 6 top-level groupings (for example Foundation, Deliver Value) under which the 24 Systems are organized. *Owner: `framework-conventions-and-patterns.md`.*
+**Capability** — one of the 6 top-level groupings (for example Foundation, Deliver Value) under which the 24 Systems are organised. *Owner: `framework-conventions-and-patterns.md`.*
 
 **System** — one of the 24 units of the Framework (for example the Identity System), each delivered as a structured interview. *Owner: `framework-conventions-and-patterns.md`.*
 
@@ -48,9 +48,9 @@ One-line definitions, so that terminology is the same in every document and Skil
 
 **Global Settings** — the per-organization settings in the header (Financial plan, Business stages, Pay and tax, Assets, Rates, Reserve, Channel Fee Table). *Owner: doc 1, Part D 6.*
 
-**Opening Date** — the date the organization opens, a field of the Organization tile (doc 37); the budget before it is the cash to raise. **Business stage** — Planning, Launching, Managing or Growing, worked out from the Opening Date and the four durations in the Global Settings, never chosen; it sets the limits and locks of the Positioning questions. Defaults: Planning 3 months, counted back from the Opening Date; Launching 12 months from it; Managing the next 12 (to month 24); Growing the next 3 years (to month 60). **Key dates** — the milestones of the organization (plan start, registration, opening, the end of each stage's window), shown on the Review and the Calendar. *Owner: doc 28, 8.2a.*
+**Opening Date** — the date the organisation opens, a field of the Organisation tile (doc 37); the budget before it is the cash to raise. **Business stage** — Planning, Launching, Managing or Growing, worked out from the Opening Date and the four durations in the Global Settings, never chosen; it sets the limits and locks of the Positioning questions. Defaults: Planning 3 months, counted back from the Opening Date; Launching 12 months from it; Managing the next 12 (to month 24); Growing the next 3 years (to month 60). **Key dates** — the milestones of the organisation (plan start, registration, opening, the end of each stage's window), shown on the Review and the Calendar. *Owner: doc 28, 8.2a.*
 
-**Review / Calendar / Notes** — the header's Review (the open items of the organization, with the key dates), the Calendar (every card date, in the left rail of System Selection) and Notes (the user's own notes, and every card's Notes text by page). *Owner: doc 1, C.2.*
+**Review / Calendar / Notes** — the header's Review (the open items of the organisation, with the key dates), the Calendar (every card date, in the left rail of System Selection) and Notes (the user's own notes, and every card's Notes text by page). *Owner: doc 1, C.2.*
 
 ## 3. The questionnaire and the first version
 
@@ -63,7 +63,7 @@ Doc 28 is the questionnaire specification, doc 33 the first version, doc 33 what
 | Early Positioning | The Positioning tile while Planning and Launching: a temporary, targeted statement for the first market (seller and buyer relationship, audience, buyer's category, the End User, purpose, outcome) | Doc 38; doc 28, 8.2 |
 | Core Market Positioning | The tile's name while Managing | Doc 28, 8.2 |
 | Corporate & Portfolio Positioning | The tile's name while Growing | Doc 28, 8.2 |
-| Organization tile | Holds the legal entity, the activity and its code, and when the business opens | Doc 37; doc 28, 8.5 |
+| Organisation tile | Holds the legal entity, the activity and its code, and when the business opens | Doc 37; doc 28, 8.5 |
 | Country profile | A country's own legal forms and settings in the code; the six named countries have one, every other country uses a neutral profile | Doc 33, section 3 |
 | Legal form | The kind of legal entity (sole proprietorship, company and so on), from the country's own list | Doc 33, section 3 |
 | Activity and code | What the business does, chosen through the levels of the country's classification, ending on its code | Doc 34, 5.7 and 5.8 |
@@ -76,7 +76,7 @@ Doc 28 is the questionnaire specification, doc 33 the first version, doc 33 what
 | Seller and Buyer Relationship (I3) | Who pays: B2C or B2B in the first version | Doc 33, section 4 |
 | B2C, B2B | Business to consumer; business to business | Doc 28, 8.2 |
 | B2G, G2B | Business to government; government to business (future) | Doc 33, items 6 and 7 |
-| Audience (I7b) | The buyer's life stage (B2C) or scale (B2B), one question for each relationship chosen; for B2G the Administrative Level (Local Government to Institutional / Public Organizations), for G2B the Regulatory Intensity of the target industry (General Commerce to Heavily Regulated Markets) | Doc 28, 8.2 |
+| Audience (I7b) | The buyer's life stage (B2C) or scale (B2B), one question for each relationship chosen; for B2G the Administrative Level (Local Government to Institutional / Public Organisations), for G2B the Regulatory Intensity of the target industry (General Commerce to Heavily Regulated Markets) | Doc 28, 8.2 |
 | Locked audience | An audience option that is greyed while Planning and Launching (Central Government & Ministries, Heavily Regulated Markets) | Doc 28, 8.2 |
 | Differentiation (I7c), Outcome (I7j), Outcome for the user (I7k) | What the offering does differently (six options), the buyer's measurable result, and what matters most to a Proxy or Dual-Intent buyer's user; asked with the Purpose as separate items | Doc 28, 8.2 |
 | Segment | A group of customers described by ranges; the card on Business 1. Its five boxes (Demographics, Geographics, Business Data, Purchasing Power & Behaviour, Market Size & Industry Outlook) ask choice questions, and a Proxy or Dual-Intent buyer adds a User part | Doc 35; doc 28, 6.3 |
@@ -116,7 +116,7 @@ Doc 28 is the questionnaire specification, doc 33 the first version, doc 33 what
 |---|---|---|
 | I | Identity question; I3 Seller and Buyer Relationship, I7b Audience, I7c Differentiation, I7d and I7e the End User questions (life stage, relationship), I7h Buyer's category, I7i Purpose, I7j and I7k the Outcomes, I11 Market Structure | Doc 28, 1 and 8.2 |
 | G | The customer Group (the Segment card); G6 is its age range | Doc 28, 1 |
-| A to E | The boxes and questions of the Profile in doc 36: A1 the exact age, A2 gender, A3 the kind of work, A5 the part in the purchase; B1 what they care about; C1 to C4 devices, social media, communities, events; D1 and D2 how they compare options and how much help they want; E1 to E3 goals, frustrations, objections. A4 (kind of business) and A6 (specialized needs) are proposed, not built | Doc 36 |
+| A to E | The boxes and questions of the Profile in doc 36: A1 the exact age, A2 gender, A3 the kind of work, A5 the part in the purchase; B1 what they care about; C1 to C4 devices, social media, communities, events; D1 and D2 how they compare options and how much help they want; E1 to E3 goals, frustrations, objections. A4 (kind of business) and A6 (specialised needs) are proposed, not built | Doc 36 |
 | P | The Person (the Profile card, the earlier ids of doc 28): P1 an age, P9 what they care about, P13 how they buy, P14 how they pay, P17 goals, P21 "What part do they play in the purchase" (use, influence, order, decide, control access), P22 how it is decided, P25 "Buyer's Relationship to this User" (proposed) | Doc 28, 1 and 6.4; doc 31, decision 18 |
 | K | The Competitor | Doc 28, 1 |
 | O | The Offering; O3 how it is bought, O12 minimum ages to buy | Doc 28, 1 and 10.3 |
@@ -132,7 +132,7 @@ Doc 28 is the questionnaire specification, doc 33 the first version, doc 33 what
 | [D] | A decision the owner still has to make | Docs 28, 29 |
 | Check (for the owner) | In doc 33: the assistant's check of the owner's text against the app, for the owner to confirm | Doc 33 |
 | Rule 14 | Lists come only from documents: official bodies for classifications, business schools or universities for plain lists | Doc 28, 3 |
-| R-1, R-2 | Requirements for age-restricted activities and buyers on the Organization and Positioning cards; superseded: ages go in the Segment | Doc 31, decision 25 |
+| R-1, R-2 | Requirements for age-restricted activities and buyers on the Organisation and Positioning cards; superseded: ages go in the Segment | Doc 31, decision 25 |
 
 ### The first version
 

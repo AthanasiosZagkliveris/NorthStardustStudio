@@ -105,7 +105,7 @@ A typical person of the Segment, asked specifically.
 ### A3. What kind of work does this person do?
 
 - **Control:** one choice (a radio).
-- **Asked when:** the Segment's answer to "Are your customers working?" is Yes; for a business Segment always, except where its customers are self-employed (the answer is then Owner or senior executive and is not shown: section 9).
+- **Asked when:** the Segment's answer to "Are your customers working?" is Yes; for a business Segment always, except where its customers are self-employed (it is then not shown, and no answer is set yet: section 9).
 - **Options:**
   - Owner or senior executive
   - Manager
@@ -140,18 +140,18 @@ A typical person of the Segment, asked specifically.
   - Controls who reaches the decision-maker
 - **The "i" would say:** The five buying-centre roles credited to Webster and Wind (1972) [CHN-02]. "Uses it" is the person who uses the offering day to day, who may be neither the one who pays nor the one who decides. The Segment's question on how the decision is authorised says how the whole buying group decides; this one says which part this person plays.
 - **Connections:**
-  - *Comes from:* the Segment's decision authorization and user part.
+  - *Comes from:* the Segment's decision authorisation and user part.
   - *Read by (not built yet):* the Review (nobody makes the final decision); context on the Customer Engagement page.
 
 ### A6. Specialised needs
 
-*Moved from the Segment card (owner, 2026-11-01); the words are the owner's.* Behind one optional tick, **Add specialized accessibility or caregiving profiles**, a block of four questions.
+*Moved from the Segment card (owner, 2026-11-01); the words are the owner's.* Behind one optional tick, **Add specialised accessibility or caregiving profiles**, a block of four questions.
 
 **A6a. Do they have specific accessibility or user needs?** One choice: Standard needs; Temporary needs; Permanent needs. *"i":* Temporary: short-term limitations, for example healing from surgery or acute medical recovery. Permanent: long-term or progressive conditions that affect the tools they use every day. Choosing temporary or permanent opens the functional categories.
 
 **A6b. What is their primary functional limitation category?** Ticks. Asked when the needs are temporary or permanent. Options: Physical and mobility needs; Sensory needs; Cognitive and neurodivergent needs. *"i":* Motor coordination and fine motor limitations; visual impairments, hearing loss and sensory sensitivities; ADHD, autism and age-related slowing. Select all that apply, so that the later parts can adapt the accessibility of what you offer, digital and physical.
 
-**A6c. Do they balance high-intensity caregiving or family life roles?** One choice: No primary caregiving responsibilities; Yes, primary childcare provider; Yes, primary eldercare provider; Yes, specialized care provider; Yes, "Sandwich Generation" provider. *"i":* A parent or legal guardian of minors; aging parents or senior relatives; a spouse, sibling or child with permanent needs; balancing children and elders at once. The person mainly responsible for daily care and lifestyle choices; "Sandwich Generation" flags extreme time poverty across several generations of one household.
+**A6c. Do they balance high-intensity caregiving or family life roles?** One choice: No primary caregiving responsibilities; Yes, primary childcare provider; Yes, primary eldercare provider; Yes, specialised care provider; Yes, "Sandwich Generation" provider. *"i":* A parent or legal guardian of minors; aging parents or senior relatives; a spouse, sibling or child with permanent needs; balancing children and elders at once. The person mainly responsible for daily care and lifestyle choices; "Sandwich Generation" flags extreme time poverty across several generations of one household.
 
 **A6d. What is their household or caregiving structure?** Ticks, up to 2. Asked when A6c is any "Yes". Options: Single-parent / Solo-caregiver household; Multigenerational household; Co-caregiver / Shared support. *"i":* Choose up to two. A multigenerational household shares care with the extended family; co-caregivers share the load with a partner or professional aides.
 

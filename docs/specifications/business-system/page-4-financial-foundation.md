@@ -56,8 +56,8 @@ Status: **specification**, written 2026-09-27, updated 2026-11-02. The requireme
 
 **The page and the model it shares with Page 5.** Page 4 is a Structure of its own, `Financial Foundation` (editor `FinancialFoundationEditor`); Page 5 is `Financial Sustainability`. Every calculation on either page lives in one module of pure functions, `src/framework/engine/FinancialModel.ts`, tested in `FinancialModel.test.ts` against the specifications' own worked examples. The two editors share their month field, figure tiles, cash timeline chart and signal list (`FinancialParts.tsx`). The four sections are folding cards numbered 1 to 4 (`**Numbering:** Nested`); they are not tiles yet (document 5, section 5.3).
 
-- **Time.** The month the plan starts is never typed: it is worked out from the Opening Date (set on the Identity System's Organization tile) and the earliest cost, a card's or a legal expense's. That is Month 1; the plan length is set in the Global Settings, and every date on either page is a month picked within it.
-- **Currency.** Every total is in the organization's currency (the Legal Entity country's). A cost priced in another currency on Page 3 is listed, flagged "Other currency: not counted", and left out of every total: there are no exchange rates to convert it.
+- **Time.** The month the plan starts is never typed: it is worked out from the Opening Date (set on the Identity System's Organisation tile) and the earliest cost, a card's or a legal expense's. That is Month 1; the plan length is set in the Global Settings, and every date on either page is a month picked within it.
+- **Currency.** Every total is in the organisation's currency (the Legal Entity country's). A cost priced in another currency on Page 3 is listed, flagged "Other currency: not counted", and left out of every total: there are no exchange rates to convert it.
 
 | Section | What the specification asks | How it is built |
 |---|---|---|
@@ -819,7 +819,7 @@ to:
 
 ## 30.1 Opening Date and Global Settings
 
-- **Opening Date** is a field of the Identity System's Organization tile (it moved from this page on 2026-10-24); the Global Settings show it. **Plan Start is never typed**: it is the earlier of the Opening Date's month and the earliest cost, a costed card's or a legal expense's. Until the Opening Date is given, the funds block asks for it; with it, costs are split into what falls before and from the opening.
+- **Opening Date** is a field of the Identity System's Organisation tile (it moved from this page on 2026-10-24); the Global Settings show it. **Plan Start is never typed**: it is the earlier of the Opening Date's month and the earliest cost, a costed card's or a legal expense's. Until the Opening Date is given, the funds block asks for it; with it, costs are split into what falls before and from the opening.
 - **Global Settings** are kept per organisation on `/settings` (the header's Settings button), never on this page: the business stages' durations, channel fee table (Stripe 2% + 0.25 + 0.5, PayPal 3.5% + 0.35 + 1, Wolt/Amazon 25%), royalty 10%, affiliate 15%, agent 10%, capitalisation limit, useful life by six asset groups, target reserve months (3), Startup Contingency rate (10%), Operational Contingency rate (4%), insurance per employee, income tax rate.
 
 ## 30.2 Cost nature (rules C1 to C16)

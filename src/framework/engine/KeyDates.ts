@@ -49,7 +49,7 @@ export function keyDates(input: { planStart: string; registrationDate: string; o
         }
     };
     add("plan-start", input.planStart, "Plan starts", "month 1 of the financial plan");
-    add("registered", input.registrationDate, "Organization registered", "the registry's day");
+    add("registered", input.registrationDate, "Organisation registered", "the registry's day");
     add("opening", input.openingDate, "Opening Date", "the business opens: Launching begins");
     if (ISO.test(input.openingDate)) {
         add("launching-ends", addMonthsIso(input.openingDate, ends.launching), "Launching window ends", "prove the Early Positioning Statement or change it; Managing begins");

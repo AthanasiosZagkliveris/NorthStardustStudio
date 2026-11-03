@@ -354,7 +354,7 @@ function legalEntityBlocks(value: unknown, context: ExportContext): ExportBlock[
     };
 
     return [
-        ...titled("Organization", details([
+        ...titled("Organisation", details([
             ["Name", organisation.name],
             ["Activities", activitiesLine(organisation.country, organisation.activities) || (organisation.activityCodeOn ? organisation.activityCode : "")],
             ["Market Structure", MARKET_TYPE_WORDS[organisation.marketType] ?? ""],

@@ -10,7 +10,7 @@ import FoldArrow from "../interview/fields/FoldArrow.tsx";
  */
 export default function FoldHead({ open, label, name, count, className, onToggle, children }: {
     open: boolean;
-    /** What the arrow folds, read after "Minimize " / "Maximize ". */
+    /** What the arrow folds, read after "Minimise " / "Maximise ". */
     label: string;
     name: ReactNode;
     count?: ReactNode;

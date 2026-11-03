@@ -2,7 +2,7 @@
 
 Status: **proposal**, written 2026-11-01, updated 2026-11-02. The form every document about a tile or a card takes (so that one can be read like the others), the list of the tiles and the document each one has, and what is still missing.
 
-Related: doc 35 (the Segment), doc 36 (the Profile), doc 37 (the Organization), doc 38 (Positioning), doc 39 (what an "i" says), doc 28 (the design these documents refine), doc 21 (the shared components).
+Related: doc 35 (the Segment), doc 36 (the Profile), doc 37 (the Organisation), doc 38 (Positioning), doc 39 (what an "i" says), doc 28 (the design these documents refine), doc 21 (the shared components).
 
 ## 1. The form
 
@@ -26,7 +26,7 @@ A tile document is **one document for one tile or card**, in this order:
 
 | Page and tile | Document | Status |
 |---|---|---|
-| Identity 1: Organization | 37 | built (specification) |
+| Identity 1: Organisation | 37 | built (specification) |
 | Identity 1: Early Positioning (Core Market, Corporate and Portfolio by stage) | 38 | built (specification) |
 | Identity 1: Mission, Vision, Values and the others | none | not yet |
 | Identity 2: Legal Entity (Founders & Ownership, Capability, Registrations, Expenses) | none (doc 26) | not yet |

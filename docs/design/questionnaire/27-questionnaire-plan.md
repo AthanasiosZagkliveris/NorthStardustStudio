@@ -1,6 +1,6 @@
 # 27. Questionnaire plan: from a few answers to a ready-made first draft
 
-Status: **proposal**, written 2026-10-23, updated 2026-11-02. Built so far: the Organization tile with its activity cascade, the business stage, the Early Positioning questions with their End User questions (document 28, 8.2, 8.2a, 8.5), the Segment card's questions (doc 35) and the Profile card's questions in part (doc 36); the rest of this plan is not built. This is the plan: the goal, the order, what the user gets at each stage, what was cut and why, and what the owner must decide. The detail (every list with examples, the industry list in two levels, every question and option, the connection map and its evidence, the sources) is in document 28, `28-questionnaire-specification.md`, which has a contents block at its top; the flow of the questions is document 29; the sources are in `02-references.md`, section 2.7.
+Status: **proposal**, written 2026-10-23, updated 2026-11-02. Built so far: the Organisation tile with its activity cascade, the business stage, the Early Positioning questions with their End User questions (document 28, 8.2, 8.2a, 8.5), the Segment card's questions (doc 35) and the Profile card's questions in part (doc 36); the rest of this plan is not built. This is the plan: the goal, the order, what the user gets at each stage, what was cut and why, and what the owner must decide. The detail (every list with examples, the industry list in two levels, every question and option, the connection map and its evidence, the sources) is in document 28, `28-questionnaire-specification.md`, which has a contents block at its top; the flow of the questions is document 29; the sources are in `02-references.md`, section 2.7.
 
 > **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Doc 33 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, age limits, accessibility, caregiving and the rest) is a future feature: doc 33. Contents of the documents: `docs/README.md`; index: `docs/index.md`; glossary: `docs/app/glossary.md`.
 
@@ -20,7 +20,7 @@ Specific information (an age, an education, an income, a device) is asked **to c
 
 | Step | What the user answers | What the app proposes in return |
 |---|---|---|
-| **1. Identity** (the Organization and Early Positioning tiles; the free text stays) | What kind of work you do (two levels, with examples); where you are; what you compete on | The industry pack (example Segment, Offering, skill areas, resource groups, Discover channels); the country's activity code; a draft Description and Positioning sentence |
+| **1. Identity** (the Organisation and Early Positioning tiles; the free text stays) | What kind of work you do (two levels, with examples); where you are; what you compete on | The industry pack (example Segment, Offering, skill areas, resource groups, Discover channels); the country's activity code; a draft Description and Positioning sentence |
 | **2. Segment** (a narrow group: a range or one value, never "tick all") | Who you sell to and where; the age range (finer below 18); the education range; the household income on a five-step scale; one work situation; the gender mix; for businesses their type, size range and one industry | The Profile's options **narrow to what the Segment allowed**; the national lists of the customers' country; the equality notice |
 | **3. Profile** (a typical person, specifics and behaviour) | A specific age, education and income; what they care about; where they look, how they compare, how they buy and pay; how comfortable online; goals, frustrations, worries; the help they want | **The journey**: the channels at each of the five stages; the Direct Payment subchannels; the relationship type; the demand rows; the Value Proposition draft |
 | **4. Offering** | Form; ready or not; how it is bought; benefit; how it is received; what help is included | The presets (a service business hides stock and vehicles); one source for three "how it is bought" fields; the delivery roles and the capability **gap**; Support channels |
@@ -33,7 +33,7 @@ A three-person web studio in the UK.
 
 | The founder answers | The app proposes |
 |---|---|
-| Identity: Software, IT, media and telecoms › web design and development; compete on quality and ease; setting up, not earning yet | "We are a web design and development studio." The code 62.01 for the Organization tile. Example Offerings (a website build, a monthly care plan). Skill areas: delivering, marketing, sales and customer care, running the business. Workspace and software resources shown; stock and vehicles hidden |
+| Identity: Software, IT, media and telecoms › web design and development; compete on quality and ease; setting up, not earning yet | "We are a web design and development studio." The code 62.01 for the Organisation tile. Example Offerings (a website build, a monthly care plan). Skill areas: delivering, marketing, sales and customer care, running the business. Workspace and software resources shown; stock and vehicles hidden |
 | Segment 1: businesses, across the country, with 1 to 49 employees, in hospitality (retail would be a second Segment) | The Profile's size options are 1 to 9 and 10 to 49; its kind-of-business list is hospitality's, with examples (hotels, restaurants and cafés, bars, catering) |
 | Profile: restaurants and cafés; cares about ease and trust; finds suppliers through search, Instagram and Facebook; compares by website, reviews and a quote; buys by invoice and email; pays by bank transfer and card; comfortable with the basics; wants a little guidance | Discover: Website, Instagram, Facebook. Evaluate: Website, Email (quote), reviews. Purchase: Invoice, Bank Transfer, Card. Support: Email, Website. Relationship type: personal help. Demand rows: Website and social leads, Referrals. A Value Proposition draft built from ease and trust |
 
@@ -45,7 +45,7 @@ Candidate questions were tested against the one test of section 1. **67 remain n
 
 ## 5. The building blocks (five now, one parked)
 
-1. **The industry in two levels, with an example under each option.** Level 1 is 18 plain industries (every section of the UK, USA, Canada, Australia, Ireland and New Zealand schemes is covered; households and extraterritorial bodies are left out; non-profit and creative industries are not industries in any scheme). Level 2 is about 100 kinds of business, each mapped to the national codes by **division**, because the UK and the EU have a new edition that moves the section letters. The target audience's business types are fully covered. (28, 5.3, 5.4) Note: the seller's own activity (the Organization tile, built) already uses the country's official levels instead (28, 5.7); the two-level plain list is for the customers' industry (G15, P24), which is still to be settled.
+1. **The industry in two levels, with an example under each option.** Level 1 is 18 plain industries (every section of the UK, USA, Canada, Australia, Ireland and New Zealand schemes is covered; households and extraterritorial bodies are left out; non-profit and creative industries are not industries in any scheme). Level 2 is about 100 kinds of business, each mapped to the national codes by **division**, because the UK and the EU have a new edition that moves the section letters. The target audience's business types are fully covered. (28, 5.3, 5.4) Note: the seller's own activity (the Organisation tile, built) already uses the country's official levels instead (28, 5.7); the two-level plain list is for the customers' industry (G15, P24), which is still to be settled.
 2. **An example under every option** of every list ("Quality and results: fewer errors, a better finish"), so the user understands a choice without leaving the card. (28, 5.5)
 3. **The industry pack**: what a kind of business gives the user as one-click suggestions: example customers, offerings, skill areas, resource groups, Discover channels, the activity code, a typeface fit. Examples are labelled "for example", never "typical", because no source gives typical customers or channels by industry. The packs of the Tier 1 and Tier 2 types come first (about twelve). (28, 5.6)
 4. **The cascade**: the Segment is a narrow group (a range, or one value; more is another Segment); the Profile chooses within it and defines it further (a specific age within the age range, one sub-industry within the industry, one size within the range). (28, 6.3, 6.5)
@@ -61,10 +61,10 @@ We settle one tile at a time: its questions and their option lists (written as l
 | Step | Tile | Status |
 |---|---|---|
 | 1 | Business 1, the Segment card (tile "Segment Description") | Built: the card asks its questions and reads Identity (doc 35) |
-| 2 | Business 1, the Profile cards (same tile) | Built in part (doc 36): A1 to A3, A5, B1, C1 to C4, D1, D2, E1 to E3; not built: the kind of business, the specialized needs, the proposed Profiles, the user's own Profile |
+| 2 | Business 1, the Profile cards (same tile) | Built in part (doc 36): A1 to A3, A5, B1, C1 to C4, D1, D2, E1 to E3; not built: the kind of business, the specialised needs, the proposed Profiles, the user's own Profile |
 | 3 | Business 1, Competitors | |
 | 4 | Business 1, Offerings, with the Value Proposition draft | |
-| 5 | Identity: the Organization and Early Positioning tiles (Mission, Vision and the Ethics tiles stay prose) | Built in part: the Organization tile and the Early Positioning questions (28, 8.2, 8.5); not built: the industry pack, the Description and Positioning drafts |
+| 5 | Identity: the Organisation and Early Positioning tiles (Mission, Vision and the Ethics tiles stay prose) | Built in part: the Organisation tile and the Early Positioning questions (28, 8.2, 8.5); not built: the industry pack, the Description and Positioning drafts |
 | 6 | Business 2, the journey | |
 | 7 | Business 3, delivery and capability; the founders | |
 | 8 | Business 5, price and tax | |
@@ -76,7 +76,7 @@ Each stage is one branch from `main`, tried once by the owner, with a browser ch
 | Stage | What the user gets | Questions | Depends on | Done when | Size |
 |---|---|---|---|---|---|
 | **A. Data foundations** | Nothing visible; stops later rework | none | none | Need ids (with a migration), "how it is bought" held once, the Offering Type drives presets, the industry keyed on divisions, both examples migrated | M |
-| **B. Identity entry** | Choices beside the free text of the Organization and Early Positioning tiles (built in part); the industry pack; the activity code suggested (built); a draft Description and Positioning sentence | the 5 Identity drivers (I1, I3, I7, I8, I11) and the 2 checks later | A | The web-studio example above runs end to end | L |
+| **B. Identity entry** | Choices beside the free text of the Organisation and Early Positioning tiles (built in part); the industry pack; the activity code suggested (built); a draft Description and Positioning sentence | the 5 Identity drivers (I1, I3, I7, I8, I11) and the 2 checks later | A | The web-studio example above runs end to end | L |
 | **C. Segment and Profile** | The cascade; the national lists; the Value Proposition draft; the equality notice | 10 Segment, 12 Profile and 2 Competitor drivers | B | A Profile only offers what its Segment allowed; the draft appears; both examples updated | L |
 | **D. The journey** | Page 2 as stages and channel cards, proposed from page 1 | 2 Journey drivers and the proposals | C | The stage card passes the layout check first; the proposals fill every stage; demand rows appear | L |
 | **E. Offering, delivery, capability, founders** | The presets; the capability gap derived; the founder's profile inside Founders & Ownership; Capability as a Business 3 card | 6 Offering, 1 Delivery and 2 Capability drivers | C | A skill area an offering needs and no founder covers is listed with its cover options | M |
@@ -92,7 +92,7 @@ The decisions are kept in one list, in document 28, section 13 (R1 to R61; it al
 |---|---|---|
 | Rebuild page 2 as a journey (stage tiles, a card per channel) | R1 | Yes, stage-first; prototype the stage card first |
 | Two-level industry list with examples, keyed on divisions | R26 | Approve; start with the Tier 1 and Tier 2 sectors; check the UK activity-code hint, which cites SIC 2007 while the UK has moved to SIC 2026 |
-| Identity choices beside the free text of the Organization and Early Positioning tiles | R25 | Yes |
+| Identity choices beside the free text of the Organisation and Early Positioning tiles | R25 | Yes |
 | Industry packs: Tier 1 and Tier 2 first (about twelve), the rest generic | R27 | Yes; the owner approves each pack's examples |
 | Brand starting points | R28 | Parked by the owner; not now |
 | The cascade: the Profile chooses only within the Segment's ticks | R29 | Yes |

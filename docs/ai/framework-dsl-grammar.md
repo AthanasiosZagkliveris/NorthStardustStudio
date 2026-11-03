@@ -25,7 +25,7 @@ Each Section is a `## N. Title` heading. Inside it, structure is declared with a
 
 The Foundation Systems (01-04) also use a set of page-level keywords for hand-built editors, plus `Shared Answer` — see "Foundation page structures" below.
 
-A Section with no `Structure:` line, sitting before the first labeled sub-part of a Multi-Part Section, is dropped as unattributed leading content — this is how the `Tab Group: Yes` marker (below) can sit above a Multi-Part Section without needing a Structure of its own.
+A Section with no `Structure:` line, sitting before the first labelled sub-part of a Multi-Part Section, is dropped as unattributed leading content — this is how the `Tab Group: Yes` marker (below) can sit above a Multi-Part Section without needing a Structure of its own.
 
 ## Table columns
 
@@ -59,11 +59,11 @@ Any column whose suffix resolves to a shared Field id in `[scale, category, freq
 
 ## Multi-Part Sections
 
-A Section with more than one labeled sub-part (each its own `**Label**` followed by its own `**Structure:**` block) renders as a Multi-Part answer — each part can use a different Structure (a Table alongside several Free Text parts, for example).
+A Section with more than one labelled sub-part (each its own `**Label**` followed by its own `**Structure:**` block) renders as a Multi-Part answer — each part can use a different Structure (a Table alongside several Free Text parts, for example).
 
-**`**Tab Group:** Yes`** — placed on its own line anywhere before the first labeled part — switches rendering from the default stacked-with-headings layout to a single flat tab bar, one tab per part, each tab showing only its own part's editor. Use this when the parts are genuinely alternative facets of one thing (e.g. "Revenue Streams" as a Table alongside "Funding Sources"/"Objectives"/"Principles" as Free Text, all under one Financial Model) rather than a sequence meant to be read top to bottom.
+**`**Tab Group:** Yes`** — placed on its own line anywhere before the first labelled part — switches rendering from the default stacked-with-headings layout to a single flat tab bar, one tab per part, each tab showing only its own part's editor. Use this when the parts are genuinely alternative facets of one thing (e.g. "Revenue Streams" as a Table alongside "Funding Sources"/"Objectives"/"Principles" as Free Text, all under one Financial Model) rather than a sequence meant to be read top to bottom.
 
-**`**Layout:** Columns`** — placed on its own line before the first labeled part, the same way as `Tab Group: Yes` — lays the parts out side by side as equal-width columns, each under its own label, instead of stacked (see `AnswerDefinition.columns`). Deliberately not spelled `Columns:`, which is the Table structure's own keyword. If a Section declares both, `Tab Group` wins. Used by Identity's Definition and Ethics pages and Brand's Ambassador page.
+**`**Layout:** Columns`** — placed on its own line before the first labelled part, the same way as `Tab Group: Yes` — lays the parts out side by side as equal-width columns, each under its own label, instead of stacked (see `AnswerDefinition.columns`). Deliberately not spelled `Columns:`, which is the Table structure's own keyword. If a Section declares both, `Tab Group` wins. Used by Identity's Definition and Ethics pages and Brand's Ambassador page.
 
 **`**Numbering:** Nested`** — on its own line beside the Layout line (or under a page-level Structure) — numbers the Section's units on their own (1-4, 1-4, 1-6, under a page title carrying the Section's number) instead of one running count across the System (see `AnswerDefinition.nestedNumbering`). A System picks one convention and every Section in it declares the same thing; all four Foundation Systems use Nested.
 
@@ -94,4 +94,4 @@ Referenced by suffix (`- Status Field`, `- Frequency Field`, etc.), defined once
 
 ## What's NOT in this grammar
 
-The three hand-built editors — Process Library, Operational Log, Roles Responsibilities — use these same `Structure:` keywords to opt in, but their actual field-level behavior (the Process→SOP→Step hierarchy, auto-generated log rows, derived role collection) is real application code, not further Markdown DSL. See `framework-conventions-and-patterns.md` for what that code does — don't try to express their behavior by adding more columns/tags here.
+The three hand-built editors — Process Library, Operational Log, Roles Responsibilities — use these same `Structure:` keywords to opt in, but their actual field-level behaviour (the Process→SOP→Step hierarchy, auto-generated log rows, derived role collection) is real application code, not further Markdown DSL. See `framework-conventions-and-patterns.md` for what that code does — don't try to express their behaviour by adding more columns/tags here.

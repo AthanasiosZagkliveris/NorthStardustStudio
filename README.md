@@ -1,6 +1,6 @@
 # North Stardust Studio
 
-A desktop and web app (Tauri 2, React 19, TypeScript, Vite) that interviews the owner of a small organization, one System at a time, and keeps the answers on the user's own device. The Foundation (Identity, Brand, Business and Strategy Systems) is built as pages of tiles that open into cards; the other Systems are interviews drawn from Markdown content in `src/assets/`. Two example organizations are in `src/data/examples/`.
+A desktop and web app (Tauri 2, React 19, TypeScript, Vite) that interviews the owner of a small organisation, one System at a time, and keeps the answers on the user's own device. The Foundation (Identity, Brand, Business and Strategy Systems) is built as pages of tiles that open into cards; the other Systems are interviews drawn from Markdown content in `src/assets/`. Two example organisations are in `src/data/examples/`.
 
 ## Run it
 

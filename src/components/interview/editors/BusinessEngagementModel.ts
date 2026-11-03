@@ -277,7 +277,7 @@ export function segmentQuestions(
         description["business-data"] !== undefined
             ? {
                 label: "Business Data",
-                question: "What type and size of organization do they work in, if any?",
+                question: "What type and size of organisation do they work in, if any?",
                 parts: ["business-data"]
             }
             : {

@@ -852,7 +852,7 @@ export function useCapabilityCardFields(earlier: Earlier) {
                 {/* The same row as a founder's Responsibilities: the fold arrow, the label, how many. */}
                 <span className="business-foundation-label-info business-capability-responsibilities-head business-capability-links-head">
                     <FieldLabel className="business-foundation-label">
-                        <FoldArrow variant="label" open={open} name={(open ? "Minimize " : "Maximize ") + "Links of this card"} onToggle={() => setLinksOpen(current => toggledIn(current, id))} />
+                        <FoldArrow variant="label" open={open} name={(open ? "Minimise " : "Maximise ") + "Links of this card"} onToggle={() => setLinksOpen(current => toggledIn(current, id))} />
                         Links
                     </FieldLabel>
                     <FieldLabel className="field-label-muted business-capability-responsibilities-count">{links.length}</FieldLabel>

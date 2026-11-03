@@ -287,12 +287,12 @@ export const COST_GROUPS = [
     {
         id: "establishment",
         label: "Establishment",
-        explanation: "Costs required to establish or launch the organization."
+        explanation: "Costs required to establish or launch the organisation."
     },
     {
         id: "operating",
         label: "Operating",
-        explanation: "Ongoing costs that keep the organization functioning, independently of any one Offering."
+        explanation: "Ongoing costs that keep the organisation functioning, independently of any one Offering."
     },
     {
         id: "offering",
@@ -353,7 +353,7 @@ export const FUNDING_NEED_CATEGORIES = [
     {
         id: "establishment",
         label: "Establishment",
-        explanation: "Money required to establish and launch the organization."
+        explanation: "Money required to establish and launch the organisation."
     },
     {
         id: "initial-operating",
@@ -394,7 +394,7 @@ export const FUNDING_TYPES: readonly {
 }[] = [
     { id: "founder-capital", label: "Founder's Capital", category: "internal", nature: "capital" },
     { id: "reinvested-revenue", label: "Reinvested Revenue", category: "internal", nature: "capital" },
-    { id: "existing-funds", label: "Existing Organizational Funds", category: "internal", nature: "capital" },
+    { id: "existing-funds", label: "Existing Organisational Funds", category: "internal", nature: "capital" },
 
     { id: "grant", label: "Grant", category: "external", nature: "non-repayable", family: "Non-repayable" },
     { id: "subsidy", label: "Subsidy", category: "external", nature: "non-repayable", family: "Non-repayable" },
@@ -3102,7 +3102,7 @@ export function financialPosition(
         signals.push({
             tone: runwayMonths < 6 ? "risk" : "caution",
             title: "Runway",
-            text: "Based on current available funds, identified costs" + (withRevenue ? " and expected revenue" : "") + ", the organization can operate for approximately " +
+            text: "Based on current available funds, identified costs" + (withRevenue ? " and expected revenue" : "") + ", the organisation can operate for approximately " +
                 runwayMonths + " month" + (runwayMonths === 1 ? "" : "s") +
                 " before available funds are exhausted" +
                 (lowest ? " (lowest point " + format(lowest.balance) + " in " + lowest.label + ")" : "") + "."
@@ -3152,7 +3152,7 @@ export function financialPosition(
             tone: "caution",
             title: "Other Currencies",
             text: uncounted.currency.length + " cost" + (uncounted.currency.length === 1 ? " is" : "s are") +
-                " priced in a currency other than " + (currency || "the organization's") +
+                " priced in a currency other than " + (currency || "the organisation's") +
                 " and left out of every total."
         });
     }

@@ -27,7 +27,7 @@ The app does six things (the owner's description):
 | # | Function | In the app |
 |---|---|---|
 | 1 | **Requests specific information** by different methods (text, multiple choice, filling a field, numbers and so on), with the necessary help | Questions per System and page; field types; help notes ("i"); limits on numbers |
-| 2 | **Stores and connects** this information with the relevant parts, and creates further requests accordingly | Answers saved per organization; cards linked by choice; generated cards (channel expenses, insurance); frozen answers that wait for the one they depend on |
+| 2 | **Stores and connects** this information with the relevant parts, and creates further requests accordingly | Answers saved per organisation; cards linked by choice; generated cards (channel expenses, insurance); frozen answers that wait for the one they depend on |
 | 3 | **Calculates** the inputs, records and presents the results in different forms (tables, diagrams, per time schedule, per category) | Demand and capacity, costs by nature, Funding Need, Financial Position, Break Even, forecast statements, Calendar, the Inventory view |
 | 4 | **Proves and validates** the results | Completeness rules and open items, the Review page, capacity check, date checks, Stress Test, "What It Would Take" |
 | 5 | **Helps the user** with different methods | Help and instructions, resources, pre-filled information (from connected or existing data); Note and Calendar tools; messages, errors, reminders, confirmations, limits; smart navigation (rails of page, tile and card; arrows; clear requests) |
@@ -41,7 +41,7 @@ A page of a System can be a **compound page**: several sections drawn as chapter
 
 | System | Page | Chapters (frames) and their Master Tiles |
 |---|---|---|
-| 1. Identity | 1. Definition and Ethics | Chapter 1 Definition: Organization, Positioning (named by the business stage: Early Positioning, Core Market Positioning, Corporate & Portfolio Positioning), Mission, Vision. Chapter 2 Ethics: Philosophy, Values, Principles, Manifesto. |
+| 1. Identity | 1. Definition and Ethics | Chapter 1 Definition: Organisation, Positioning (named by the business stage: Early Positioning, Core Market Positioning, Corporate & Portfolio Positioning), Mission, Vision. Chapter 2 Ethics: Philosophy, Values, Principles, Manifesto. |
 | 1. Identity | 2. Legal Entity | Founders & Ownership; Capability (Gaps and Cover); Registrations (a dialog of sub tiles: Registration Numbers, Additional Legal Requirements); Expenses (the Legal Entity's expenses). |
 | 2. Brand | Brand System (one page) | Chapter 1 Ambassador: Aesthetics, Body Language, Communication & Voice, Imprint. Chapter 2 Style: Colours, Typography, Text Hierarchy, Icon & Logo, Brand Images (the brand inventory is part of this page). |
 | 3. Business | 1. Foundation | One chapter per Segment: Segment Description (the Segment's questions and its Profiles), Competitors, Value Proposition, Offerings. A Profile, a Competitor and an Offering are cards that open floating. |
@@ -116,18 +116,18 @@ Pages come from `src/assets/SystemAnswers/01..04_*.md`. Each page's `Structure` 
 
 | Element | Contains and does | File | Used on |
 |---|---|---|---|
-| App header | Logo, save status, reading-mode picker, Focus mode, Search, Notes, Review, Settings, undo toast, organization name | `C/AppHeader.tsx` | All pages |
-| Header tools | Icon plus word: Search (Ctrl+K), Notes, Review (with open-item count), Settings, Focus mode | `SearchButton`, `notepad/Notepad.tsx`, `ReviewButton`, `SettingsButton`, `FocusModeButton` | With an organization open; on the Landing page only Review is shown, with no count, and it opens the review of every organization |
+| App header | Logo, save status, reading-mode picker, Focus mode, Search, Notes, Review, Settings, undo toast, organisation name | `C/AppHeader.tsx` | All pages |
+| Header tools | Icon plus word: Search (Ctrl+K), Notes, Review (with open-item count), Settings, Focus mode | `SearchButton`, `notepad/Notepad.tsx`, `ReviewButton`, `SettingsButton`, `FocusModeButton` | With an organisation open; on the Landing page only Review is shown, with no count, and it opens the review of every organisation |
 | Save status | Saved or failed-save hint | `C/SaveStatus.tsx` | Header |
 | Theme switch | Reading mode | `C/ThemeSwitch.tsx` | Header |
 | Footer | Back button | `C/AppFooter.tsx` | Interview, Review, Documents, Settings |
-| Landing | Organization list, add button, cards, delete confirmation, first-run preferences | `pages/Landing.tsx`, `C/UserPreferencesDialog.tsx` | `/` |
+| Landing | Organisation list, add button, cards, delete confirmation, first-run preferences | `pages/Landing.tsx`, `C/UserPreferencesDialog.tsx` | `/` |
 | System selection | Capability list, System list, Continue, Documents button | `pages/SystemSelection.tsx`, `CapabilityList`, `SystemList`, `SystemItem` | `/assistant` |
 | Calendar panel | Slide-in rail with month view, task notes and times, periods, date-format toggle, funnel | `C/OrganizationCalendarPanel.tsx`, `CalendarFunnel.tsx`, `services/CalendarPeriods.ts` | System selection |
-| Notepad panel | Right slide-in; notes linked to fields or cards; "pick" banner; empty state; marks on linked fields | `C/notepad/Notepad.tsx`, `NotedHover.tsx` | All pages with an organization |
+| Notepad panel | Right slide-in; notes linked to fields or cards; "pick" banner; empty state; marks on linked fields | `C/notepad/Notepad.tsx`, `NotedHover.tsx` | All pages with an organisation |
 | Search dialog | Results open a System, page, field (card unfolded) or answer | `C/SearchDialog.tsx`, `services/SearchService.ts` | Header |
 | Undo toast | One toast for the app, after a removal | `C/UndoToast.tsx`, `services/UndoService.ts` | Header |
-| Review page | Four groups (Still open, Worth a second look, Missing from the documents, Key dates), each item with "Go there"; it shows the open organization only, or every organization (each in its own section) when opened from the Landing page | `pages/Review.tsx` | `/review` |
+| Review page | Four groups (Still open, Worth a second look, Missing from the documents, Key dates), each item with "Go there"; it shows the open organisation only, or every organisation (each in its own section) when opened from the Landing page | `pages/Review.tsx` | `/review` |
 | Global Settings page | Financial plan, Business stages, Pay and tax, Assets (useful life, amortisation), Rates, Reserve, Channel Fee Table | `pages/GlobalSettings.tsx`, `FinancialPlanSettings.tsx` | `/settings` |
 | Business Documents page | Tabs (Business Plan, Business Model Canvas, Financial Forecast), period picker, downloads | `pages/BusinessDocuments.tsx` | `/documents` |
 | Confirmation dialog | Overlay, title, message, action buttons | Markup repeated in `Conversation.tsx`, `Landing.tsx` and others (6 uses; no shared component) | Delete, strategy prompt, export steps |
@@ -169,7 +169,7 @@ A "Chapter" has no named type in the code. Frames are classes:
 
 | Tile | Holds | Notes |
 |---|---|---|
-| Large column tile | Identity Definition, Ethics, Brand Ambassador; Legal Entity Organization, Founders & Ownership, Registrations, Expenses | `large: true`; `view: true` gives a dialog of sub tiles |
+| Large column tile | Identity Definition, Ethics, Brand Ambassador; Legal Entity Organisation, Founders & Ownership, Registrations, Expenses | `large: true`; `view: true` gives a dialog of sub tiles |
 | Brand picture tiles | Colours, Typography & Text Hierarchy, Icon & Logo, Brand Images | `picture` property |
 | Founders Profile tile | Capability and the founder card tiles | `FoundersProfileEditor` |
 | Business Foundation tiles | Segment Description (the Segment card: its five boxes ask choice questions, `SegmentQuestions.ts`, read through `SegmentContext.ts`; a Profiles section with the Profile cards, which ask `ProfileQuestions.ts`), Value Proposition and card boxes (Profile, Competitor, Offering) | `BusinessFoundationEditor`; doc 35 and doc 36 |
@@ -510,7 +510,7 @@ Global Settings is its own central screen, reached from the main menu or from th
 | Royalty and commission rates | A default rate for each option | Royalties and Revenue Partners; a card may override it for its contract | 5 to 15% royalty; 10 to 20% affiliate |
 | Capitalisation limit | An amount | A one-time purchase: CapEx above it, OpEx below | For example 500 |
 | Default useful life per asset group | Years | The depreciation line, unless the card sets its own | Computers 3, Vehicles 5, Machinery 10 |
-| Opening Date | A date, entered on the Organization tile (Identity) and shown in the Global Settings | C1: the split of every card by period | 1 April |
+| Opening Date | A date, entered on the Organisation tile (Identity) and shown in the Global Settings | C1: the split of every card by period | 1 April |
 | Target operating reserve months | A number of months of OpEx | The Operational Contingency Fund | 3 by default; an investor may ask for 6 |
 | Insurance per employee | An amount | The calculated OpEx line for key-person and health cover | An amount a month |
 | Corporate income tax rate | A percentage | The income tax line, calculated on net profit | A rate on profit |
@@ -614,7 +614,7 @@ Channel categories include Retail & Wholesale, and Referral & Affiliates. A chan
 | Date | Meaning |
 |---|---|
 | Plan Start | The day the company is established and pre-operational expenses begin (for example 1 January). It is never typed: it is the earlier of the Opening Date's month and the earliest cost, a costed card's or a legal expense's. |
-| Opening Date | A field on the Organization tile: the day the business opens and issues its first receipt (for example 1 April). Its value is stored in the Global Settings store, so the engine can compare it with the start date of every card. The gap between the two defines the pre-operational period. |
+| Opening Date | A field on the Organisation tile: the day the business opens and issues its first receipt (for example 1 April). Its value is stored in the Global Settings store, so the engine can compare it with the start date of every card. The gap between the two defines the pre-operational period. |
 | Start date of a card | A Calendar straight after the card's name. Required on every card. C1 puts any cost dated before the Opening Date in the Total Pre-operational Budget. |
 | End date of a card | A Calendar. Always optional. A lease or subscription that ends in month 6 stops its OpEx from that month. With the start date it splits a card by period. |
 
@@ -1028,7 +1028,7 @@ Colour = what the user does in the section (work type). The code applies these w
 | Section | Work type | Colour |
 |---|---|---|
 | 1. Identity |  |  |
-| Definition (Organization, Early Positioning, Mission, Vision) | Create | Purple |
+| Definition (Organisation, Early Positioning, Mission, Vision) | Create | Purple |
 | Ethics (Philosophy, Values, Principles, Manifesto) | Decide | Orange |
 | Legal Entity | Define | Green |
 | Founders Profile | Define | Green |

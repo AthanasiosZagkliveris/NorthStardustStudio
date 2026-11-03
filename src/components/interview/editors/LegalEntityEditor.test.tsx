@@ -215,7 +215,7 @@ describe("LegalEntityEditor chained answers", () => {
         return <LegalEntityEditor value={value} onChange={setValue} />;
     }
 
-    it("freezes where the organization is, its legal form and its registration authority until a country is chosen, keeping what they hold", () => {
+    it("freezes where the organisation is, its legal form and its registration authority until a country is chosen, keeping what they hold", () => {
 
         const empty = asLegalEntityValue(undefined);
         render(<ChainHarness initial={{ ...empty, organisation: { ...empty.organisation, city: "Leeds" } }} />);
@@ -392,7 +392,7 @@ describe("LegalEntityEditor where it is", () => {
     it("names every level as the country's own scheme does, the first level too (Sector and Subsector in the United States)", async () => {
 
         render(<Where initial={asLegalEntityValue({ organisation: { country: "US", activities: [{ code: "541512", edition: "2022" }] } })} />);
-        fireEvent.click(screen.getByRole("button", { name: "Maximize primary activity" }));
+        fireEvent.click(screen.getByRole("button", { name: "Maximise primary activity" }));
         for (const level of ["Sector", "Subsector", "Industry group", "NAICS industry", "National industry"]) {
             // (The scheme's file is read the moment the card opens: under a loaded machine it can take longer than the default second.)
             expect(await screen.findByText(level, undefined, { timeout: 8000 })).toBeTruthy();
@@ -442,7 +442,7 @@ describe("LegalEntityEditor where it is", () => {
         expect(await screen.findByText("Business and domestic software development")).toBeTruthy();
         // Folded: no dropdown of the cascade; the arrow opens it.
         expect(screen.queryByText("Section")).toBeNull();
-        fireEvent.click(screen.getByRole("button", { name: "Maximize primary activity" }));
+        fireEvent.click(screen.getByRole("button", { name: "Maximise primary activity" }));
         expect(await screen.findByText("Section")).toBeTruthy();
 
     });
@@ -472,7 +472,7 @@ describe("LegalEntityEditor formation row", () => {
         return <LegalEntityEditor value={value} onChange={setValue} />;
     }
 
-    it("puts the Registration Date on the Organization tile, left of the Opening Date, whether or not a registration number is given", () => {
+    it("puts the Registration Date on the Organisation tile, left of the Opening Date, whether or not a registration number is given", () => {
 
         render(<Formation initial={asLegalEntityValue({ organisation: { country: "GB" }, formation: { date: "2026-03-02", registrationNumber: "16234587" } })} />);
 
@@ -525,9 +525,9 @@ describe("LegalEntityEditor tax list", () => {
 
 });
 
-describe("LegalEntityEditor organization columns", () => {
+describe("LegalEntityEditor organisation columns", () => {
 
-    it("keeps where the organization is on the left (name, country, address) and what it is and does on the right (Legal Form, Opening Date, Activities) with the Description below both, with no Customer or Market type", () => {
+    it("keeps where the organisation is on the left (name, country, address) and what it is and does on the right (Legal Form, Opening Date, Activities) with the Description below both, with no Customer or Market type", () => {
 
         function Org() {
             const [value, setValue] = useState<unknown>(asLegalEntityValue({ organisation: { country: "GB", mainActivity: "Weaving" } }));
@@ -539,7 +539,7 @@ describe("LegalEntityEditor organization columns", () => {
         const columns = [...grid.children].filter(child => child.classList.contains("legal-entity-field"));
         expect(columns).toHaveLength(2);
         const labels = (column: Element) => [...column.querySelectorAll(".field-label")].map(label => label.textContent?.replace(/\s+/g, " ").replace(/i$/, "").trim());
-        expect(labels(columns[0])).toEqual(["Organization Name", "Country", "Address"]);
+        expect(labels(columns[0])).toEqual(["Organisation Name", "Country", "Address"]);
         expect(columns[1].classList.contains("legal-entity-questions")).toBe(true);
         expect(labels(columns[1])).toEqual(["Legal Form", "Registration Date", "Opening Date", "Activities", "Primary"]);
         // The Description stands below both columns, after a divider line.
@@ -708,7 +708,7 @@ describe("LegalEntityEditor expense links", () => {
             return <LegalEntityEditor value={value} onChange={setValue} />;
         }
         render(<Links />);
-        for (const arrow of screen.queryAllByRole("button", { name: /^Maximize/ })) {
+        for (const arrow of screen.queryAllByRole("button", { name: /^Maximise/ })) {
             fireEvent.click(arrow);
         }
 
@@ -730,7 +730,7 @@ describe("LegalEntityEditor requirement type and free-text numbers", () => {
             return <LegalEntityEditor value={value} onChange={setValue} />;
         }
         render(<Requirement />);
-        for (const arrow of screen.queryAllByRole("button", { name: /^Maximize/ })) {
+        for (const arrow of screen.queryAllByRole("button", { name: /^Maximise/ })) {
             fireEvent.click(arrow);
         }
 
@@ -809,7 +809,7 @@ describe("LegalEntityEditor Add to Legal Entity Expenses", () => {
             return <LegalEntityEditor value={value} onChange={setValue} />;
         }
         render(<Offer />);
-        for (const arrow of screen.queryAllByRole("button", { name: /^Maximize/ })) {
+        for (const arrow of screen.queryAllByRole("button", { name: /^Maximise/ })) {
             fireEvent.click(arrow);
         }
         const tick = () => screen.getByRole("checkbox", { name: "Add to Legal Entity Expenses" }) as HTMLInputElement;
@@ -841,7 +841,7 @@ describe("LegalEntityEditor requirement note", () => {
             return <LegalEntityEditor value={value} onChange={setValue} />;
         }
         render(<Note />);
-        for (const arrow of screen.queryAllByRole("button", { name: /^Maximize/ })) {
+        for (const arrow of screen.queryAllByRole("button", { name: /^Maximise/ })) {
             fireEvent.click(arrow);
         }
         expect(screen.getAllByText("Notes").length).toBeGreaterThan(0);
@@ -858,7 +858,7 @@ describe("LegalEntityEditor as tiles", () => {
         return <LegalEntityEditor value={value} onChange={setValue} asTiles />;
     }
 
-    it("is three large tiles: Founders & Ownership, Registrations and Expenses (the Organization is a tile of page 1)", () => {
+    it("is three large tiles: Founders & Ownership, Registrations and Expenses (the Organisation is a tile of page 1)", () => {
         render(<Tiled />);
         expect([...document.querySelectorAll(".section-tile")].map(tile => tile.getAttribute("data-tile"))).toEqual([
             "legal-entity-founders", "legal-entity-registrations", "legal-entity-expenses"

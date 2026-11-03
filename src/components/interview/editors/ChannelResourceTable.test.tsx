@@ -131,11 +131,11 @@ describe("the Channel resources table (Customer Engagement, 1. Customer Channel)
 
     it("is a fold of its own, open until folded, and is not drawn while the Segment has no resources", () => {
         renderPage();
-        const fold = screen.getByRole("button", { name: "Minimize channel expenses" });
+        const fold = screen.getByRole("button", { name: "Minimise channel expenses" });
         expect(screen.getByText("Channel expenses")).toBeTruthy();
         fireEvent.click(fold);
         expect(screen.queryByRole("table", { name: /Channel expenses/ })).toBeNull();
-        fireEvent.click(screen.getByRole("button", { name: "Maximize channel expenses" }));
+        fireEvent.click(screen.getByRole("button", { name: "Maximise channel expenses" }));
         expect(screen.getByRole("table", { name: /Channel expenses/ })).toBeTruthy();
         cleanup();
         renderPage({ linked: false });

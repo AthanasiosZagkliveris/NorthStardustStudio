@@ -27,12 +27,12 @@ Research and recommendations for page 3 (Infrastructure & Capability). Facts com
 
 - **Business Model Canvas:** key resources are physical, intellectual, human and financial. Key activities are production, problem solving and platform/network. Key partners come in four relationship types (strategic alliance, coopetition, joint venture, buyer-supplier) and are formed to optimise and economise, reduce risk, or acquire resources and activities.
 - **Porter's value chain:** primary activities (inbound logistics, operations, outbound logistics, marketing and sales, service) create and deliver the product. Support activities (procurement, human resource management, technology development, firm infrastructure = finance, management, legal) serve the whole firm.
-- **Mapping to the app (Recommend):** **Infrastructure** = Porter's support activities and "firm infrastructure": what the organization needs to exist and operate whatever it sells. **Offering's Capability** = Porter's primary activities: what is needed to make, sell and deliver the offerings. **Both** = used by the whole organization and by offerings; it lives in Infrastructure and is shared to offerings by linking, or is split by an allocation.
+- **Mapping to the app (Recommend):** **Infrastructure** = Porter's support activities and "firm infrastructure": what the organisation needs to exist and operate whatever it sells. **Offering's Capability** = Porter's primary activities: what is needed to make, sell and deliver the offerings. **Both** = used by the whole organisation and by offerings; it lives in Infrastructure and is shared to offerings by linking, or is split by an allocation.
 - **Financial resources** (cash, loans, investors) belong to your Funding and Capital section, not to Resources.
 
 ### 2. Resources: types, categories, groups, and where they belong
 
-**Recommended in this note** (built in the end as nine resource categories and 47 groups, in the names of document 1, part D, sections 1 and 3): add Utilities groups for phone and mobile and for waste and cleaning; split production machinery and testing and safety from office equipment (instead of overloading "Specialized"); add Vehicles & Transport (vehicles, fuel and charging, maintenance) and Materials & Inventory (raw materials, components, packaging, consumables, stock); add Data & Security and Platforms & APIs to Digital Infrastructure; add intellectual property, licences, permits and certifications (built as Documents & Rights); change Founders to Human Resources (section 5). **The place of a category:** office equipment, company software, brand and trade marks, workspace for the whole organization: Infrastructure; production machinery, materials, a pop-up or project site, a tool bought for one offering or channel, a product certification or licence: Offering; vehicles, equipment and digital tools can be either, and a card sits in the place it serves. Workspace kinds in this note: Home, Coworking, Incubator, Dedicated, Other, with groups for fit-out and deposit.
+**Recommended in this note** (built in the end as nine resource categories and 47 groups, in the names of document 1, part D, sections 1 and 3): add Utilities groups for phone and mobile and for waste and cleaning; split production machinery and testing and safety from office equipment (instead of overloading "Specialised"); add Vehicles & Transport (vehicles, fuel and charging, maintenance) and Materials & Inventory (raw materials, components, packaging, consumables, stock); add Data & Security and Platforms & APIs to Digital Infrastructure; add intellectual property, licences, permits and certifications (built as Documents & Rights); change Founders to Human Resources (section 5). **The place of a category:** office equipment, company software, brand and trade marks, workspace for the whole organisation: Infrastructure; production machinery, materials, a pop-up or project site, a tool bought for one offering or channel, a product certification or licence: Offering; vehicles, equipment and digital tools can be either, and a card sits in the place it serves. Workspace kinds in this note: Home, Coworking, Incubator, Dedicated, Other, with groups for fit-out and deposit.
 
 Misfits seen in the example data:
 
@@ -84,7 +84,7 @@ The Canvas describes channels through five phases: awareness, evaluation, purcha
 
 The channel resources, partner candidates and behaviour of each channel category are in R3, section 4. The phase of each: Social Media, awareness; Website, evaluation and purchase; Marketplace, purchase; Events / Talks, awareness; Email, awareness and after sales; Direct Payment, purchase; Physical Delivery, delivery; after sales (helpdesk tool, warranty or repair, review platform: a fixed tool, variable repairs).
 
-**Where they fit (Recommend):** a channel resource lives where it is used. They stay **created by the channel** (not by a button) and shown under Offering with the teal Channel marker. Use the five phases as the Channel **groups**: Awareness & Promotion, Sales & Payment, Delivery & Fulfilment, After-sales. A tool that serves the whole organization (the main website, the email platform) can be linked up to Infrastructure → Digital Infrastructure instead of duplicated. Costs must be counted once.
+**Where they fit (Recommend):** a channel resource lives where it is used. They stay **created by the channel** (not by a button) and shown under Offering with the teal Channel marker. Use the five phases as the Channel **groups**: Awareness & Promotion, Sales & Payment, Delivery & Fulfilment, After-sales. A tool that serves the whole organisation (the main website, the email platform) can be linked up to Infrastructure → Digital Infrastructure instead of duplicated. Costs must be counted once.
 
 ### 7. Fixed, variable and hybrid costs
 
@@ -112,7 +112,7 @@ The Financial model already has Fixed, Variable and Semi-variable (a fixed part 
 
 The place and the typical behaviour of each cost source are the decided ones in document 1, part D, section 3 (and the behaviour is worked out by the rules of part E, section 6). The pattern in this note: Human Resources pay is Infrastructure (admin) or Offering (delivery), fixed, with on-costs semi-variable and commission or bonus variable; professional services are fixed on a retainer and variable per job; activities have no cost of their own, only an implied labour view.
 
-**Reading the result:** the place answers *what the cost is for* (overhead for the whole organization vs direct cost of an offering). The behaviour answers *how it moves with volume*. Together they give break-even (Infrastructure and other fixed costs) and the unit margin (Offering's variable costs per unit). The usual pattern is Infrastructure mostly fixed, Offering mostly variable, with exceptions on both sides.
+**Reading the result:** the place answers *what the cost is for* (overhead for the whole organisation vs direct cost of an offering). The behaviour answers *how it moves with volume*. Together they give break-even (Infrastructure and other fixed costs) and the unit margin (Offering's variable costs per unit). The usual pattern is Infrastructure mostly fixed, Offering mostly variable, with exceptions on both sides.
 
 ### 9. Decisions for you
 
@@ -381,7 +381,7 @@ I compared the Resource categories and groups of parts 2 and 3. The test: *does 
 | Workspace | none (kinds are the Workspace type) | Infrastructure | F | No groups needed |
 | Utilities | Electricity; Heating & Cooling; Water & Waste; Connectivity | Infrastructure | S for all four | **No** for place or behaviour; useful only as a prompt (a checklist of what to record) |
 | Workstation | Furniture & Accessories; Electrical | Infrastructure | F for both | **No**; prompt only |
-| Equipment | Computing & Peripherals; Specialized; Production Machinery & Tools; Vehicles & Transport | Mixed | Mixed | **Yes**: machinery is Offering and S; computers are Infrastructure and F |
+| Equipment | Computing & Peripherals; Specialised; Production Machinery & Tools; Vehicles & Transport | Mixed | Mixed | **Yes**: machinery is Offering and S; computers are Infrastructure and F |
 | Digital Infrastructure | Software; Digital Services; Online Presence & Communication | Both | Mixed (F, S, V) | **Weak**: behaviour varies inside Digital Services; the driver decides it |
 | Materials & Inventory | Materials & Components; Packaging & Consumables; Stock | Offering | V | **No**; prompt only |
 | Intellectual Property & Licences | Trade marks, Patents & Designs; Content & Know-how; Licences, Permits & Certifications | Both | F; royalties V | **Partly**: licences and certifications can be product-specific (Offering) |
@@ -393,7 +393,7 @@ I compared the Resource categories and groups of parts 2 and 3. The test: *does 
 
 ### 4. Separate sets for Infrastructure, Offering and Channel
 
-I agree with separate sets, because the questions differ: Infrastructure asks "what does the organization need to exist", Offering asks "what does each offering need", and channel resources are generated, not typed.
+I agree with separate sets, because the questions differ: Infrastructure asks "what does the organisation need to exist", Offering asks "what does each offering need", and channel resources are generated, not typed.
 
 Separate sets: Infrastructure (Workspace, Utilities, Workstation, Equipment, Digital Infrastructure, Intellectual Property & Licences, Human Resources), Offering's Capability (Materials & Inventory, Equipment, Digital Services, Licences & Certifications, Workspace for a pop-up or project site, Human Resources for the delivery team) and Channel (automatic). For a channel the group is **filled automatically from the channel's category** (Social Media, Community, Website, Marketplace, In Person, Email, Online / Live, Direct Payment, File Delivery, Physical Delivery, Other) and the Journey Stage (Discovery, Evaluation, Purchase, Delivery, Support) is shown as a tag, not a group. The sets as built are in document 1, part D, sections 1 and 3.
 
@@ -816,17 +816,17 @@ The channel cost templates T1 to T12 (T11 was removed) are in document 1, part D
 - Capacity is the founders' delivery hours. The capacity check compares expected sales times each person's hours with it, recurring work first. People listed on the Delivery card: every founder, and the partners linked to that offering. Suppliers (including Logistics & Fulfilment) and Delivery Team cards are not listed.
 - "By weight or zone" on Logistics & Fulfilment is a label with per-parcel pricing; it has no weight or zone fields.
 
-### R10.5 Identity Organization and Infrastructure: fields asked about
+### R10.5 Identity Organisation and Infrastructure: fields asked about
 
 | Item | Exists | Where and what |
 |---|---|---|
 | Working hours | Yes, per founder | Founder card: Working Hours, Delivery Hours, frequency; fixed 52/12 week-to-month rule |
-| Legal form | Yes (a legal form, not a business model) | Legal Entity, Organization tile; the drawings and registry rules read the label text with a pattern |
+| Legal form | Yes (a legal form, not a business model) | Legal Entity, Organisation tile; the drawings and registry rules read the label text with a pattern |
 | Delivery model | Partly | Per offering on the Delivery card (per unit or monthly) |
 | Team size | No (derived from founders; staff are cards with a quantity) | Delivery Team cards add cost but no hours to capacity |
 | Languages | No | Decided 2026-10-14: the app is English only |
 | Service area | No | Decided: Logistics & Fulfilment covers delivery pricing |
-| Currency override | Per cost card only | Organization currency derives from the country; mixed currencies are never summed or converted |
+| Currency override | Per cost card only | Organisation currency derives from the country; mixed currencies are never summed or converted |
 
 ### R10.6 Global Settings: what could move (suggestions)
 

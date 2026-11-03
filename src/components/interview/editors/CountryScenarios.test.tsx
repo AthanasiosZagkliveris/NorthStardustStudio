@@ -126,7 +126,7 @@ describe.each(["GB", "IE", "US", "CA", "AU", "NZ"])("ten scenarios for %s, three
         }
     });
 
-    it("keeps each organization's country, legal form, activity and positioning through the answer", async () => {
+    it("keeps each organisation's country, legal form, activity and positioning through the answer", async () => {
         const { scheme, scenarios } = await scenariosOf(country);
         expect(scenarios).toHaveLength(10);
         expect(scenarios.filter(scenario => scenario.target)).toHaveLength(3);

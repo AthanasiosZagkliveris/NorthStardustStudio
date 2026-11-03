@@ -205,7 +205,7 @@ export class UnsupportedFormatVersionError extends Error {
     readonly version: number;
 
     constructor(version: number) {
-        super(`This organization was saved in format version ${version}; this app reads up to version ${ORGANIZATION_FORMAT_VERSION}.`);
+        super(`This organisation was saved in format version ${version}; this app reads up to version ${ORGANIZATION_FORMAT_VERSION}.`);
         this.name = "UnsupportedFormatVersionError";
         this.version = version;
     }
@@ -250,7 +250,7 @@ export class OrganizationService {
 
         const organization: OrganizationSummary = {
             id: createOrganizationId(),
-            name: trimmed.length > 0 ? trimmed : "Untitled Organization",
+            name: trimmed.length > 0 ? trimmed : "Untitled Organisation",
             createdAt: Date.now()
         };
 
@@ -306,7 +306,7 @@ export class OrganizationService {
 
         const name = typeof imported.name === "string" && imported.name.trim().length > 0
             ? imported.name.trim()
-            : "Imported Organization";
+            : "Imported Organisation";
 
         const organization: OrganizationSummary = {
             id: createOrganizationId(),

@@ -95,7 +95,7 @@ const STREAM_HELP: Record<"price" | "volume" | "timing", InfoPoint[]> = {
         "Allow for discounts: launch offers and first-client prices are common."
     ],
     volume: [
-        "Few organizations sell at the normal level from the first month: a gradual build-up over 6 to 12 months is usual.",
+        "Few organisations sell at the normal level from the first month: a gradual build-up over 6 to 12 months is usual.",
         "For seasons (quieter summers, busy end-of-year gifts), set Build-up to Month by month and enter the months that differ.",
         "Allow for refunds and returns: a share of sales comes back."
     ],
@@ -167,19 +167,19 @@ const SECTIONS = {
             "Write down what each figure rests on under Assumptions: lenders read those first."
         ],
         info: [
-            { title: "Revenue", text: "Money generated through the organization's Offerings." },
+            { title: "Revenue", text: "Money generated through the organisation's Offerings." },
             "Funding, loans, founder capital, grants and investment are financing, not revenue, and are never counted here.",
-            "Revenue may be zero at first. That is a valid model for an organization under development."
+            "Revenue may be zero at first. That is a valid model for an organisation under development."
         ] as InfoPoint[]
     },
     breakEven: {
         title: "Break Even",
         instructions: [
-            "Read how much your organization must sell to cover its costs, when it is expected to get there, and whether that is before its money runs out."
+            "Read how much your organisation must sell to cover its costs, when it is expected to get there, and whether that is before its money runs out."
         ],
         info: [
             { title: "Break-Even Point", text: "The level of revenue or activity at which revenue covers costs." },
-            { title: "Break-Even Time", text: "When the organization is expected to reach that level." },
+            { title: "Break-Even Time", text: "When the organisation is expected to reach that level." },
             { title: "Financial Exhaustion", text: "When available resources are expected to run out, with expected revenue included." },
             "All results are estimates based on the assumptions entered, not guarantees."
         ] as InfoPoint[]
@@ -485,7 +485,7 @@ export default function FinancialSustainabilityEditor({
                 info={[
                     "An Offering's costs are those recorded for it on 3. Infrastructure & Capability → Offering's Capability.",
                     "Per sale: paid for every unit or project sold. Contribution is what is left of the price after them.",
-                    "Whatever is sold: paid monthly or once, however much is sold. After them, what the Offering adds towards the organization's shared costs."
+                    "Whatever is sold: paid monthly or once, however much is sold. After them, what the Offering adds towards the organisation's shared costs."
                 ]}
             >
                 <div className="financial-offering-costs">
@@ -977,7 +977,7 @@ export default function FinancialSustainabilityEditor({
         );
 
         const info = [
-            "Capacity is the founders' delivery hours a month: the time the organization controls.",
+            "Capacity is the founders' delivery hours a month: the time the organisation controls.",
             "Needed: each month's expected sales times each founder's Working Hours per Unit (4. Delivery, on Infrastructure & Capability).",
             "Recurring work (subscriptions, retainers) is served first; what remains is flexible capacity for the other Offerings.",
             "External professionals' hours are delivered outside this capacity; their cost is part of the Offering's costs.",
@@ -1486,7 +1486,7 @@ export default function FinancialSustainabilityEditor({
                     <FinancialBlock title="Break-Even Point" info={[
                         "Contribution per unit = price − variable cost per unit.",
                         "Offering break even: the units this Offering alone would need to sell to cover all fixed costs.",
-                        "Organization break even: the expected revenue mix, scaled until its contribution covers the fixed costs, not the Offerings' figures added together.",
+                        "Organisation break even: the expected revenue mix, scaled until its contribution covers the fixed costs, not the Offerings' figures added together.",
                         BREAK_EVEN_UNITS_FORMULA,
                         BREAK_EVEN_SOURCE
                     ]}>

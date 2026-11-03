@@ -53,7 +53,7 @@ export default function CapabilityInput({
 
                     value={value}
 
-                    placeholder="What organizational capability would you like to create?"
+                    placeholder="What organisational capability would you like to create?"
 
                     onChange={(e) => onChange(e.target.value)}
 

@@ -6,17 +6,17 @@ What each part of the app is for and what it holds is below. The rules of layout
 
 ## How the app is entered
 
-1. **Organizations** (home, `/`): create, import, export or delete an Organization; a **Reload** button after the reading-mode picker reloads the app and refreshes the saved examples. The two examples are in `src/data/examples/` (Lumen & Loom Studio, Quillfield Automation). Two buttons open the next screen: **System Selection** and **Capability Generator** (an unfinished page: one text box and a disabled "Analyze Capability"; nothing follows it yet).
-2. **System Selection** (`/assistant`): the Capabilities (Foundation, Deliver Value, Manage Information, Manage the Organization, Communicate, Measure & Improve) and their Systems; a line "back to the last place worked" when there is one. In the Foundation, **Business Documents** (`/documents`: Business Plan, Business Model Canvas and Financial Forecast, annual, quarterly or monthly, with CSV and PDF). The left rail (the Framework Navigator) holds the Calendar, the Capabilities and the Systems.
+1. **Organisations** (home, `/`): create, import, export or delete an Organisation; a **Reload** button after the reading-mode picker reloads the app and refreshes the saved examples. The two examples are in `src/data/examples/` (Lumen & Loom Studio, Quillfield Automation). Two buttons open the next screen: **System Selection** and **Capability Generator** (an unfinished page: one text box and a disabled "Analyse Capability"; nothing follows it yet).
+2. **System Selection** (`/assistant`): the Capabilities (Foundation, Deliver Value, Manage Information, Manage the Organisation, Communicate, Measure & Improve) and their Systems; a line "back to the last place worked" when there is one. In the Foundation, **Business Documents** (`/documents`: Business Plan, Business Model Canvas and Financial Forecast, annual, quarterly or monthly, with CSV and PDF). The left rail (the Framework Navigator) holds the Calendar, the Capabilities and the Systems.
 3. **A System's pages** (`/introduction`, then `/conversation`): an Introduction, then its pages. The left rail lists the pages (Pages), the right rail the sections of the page (Sections), the page arrows go previous / next, and the arrow keys do the same where nothing else uses them. A page drawn as tiles has no Sections rail.
-4. **Header** (with an Organization open): the Organization's name and the save status, the reading-mode picker, Focus (on a System's pages), Search (Ctrl+K), Notes (the user's own notes, and under them **Card notes**: every card's Notes text by page, with a funnel that chooses the pages; a press opens the card -- `CardNotesService.ts`), Review (what is incomplete, with the key dates), Settings (Global Settings). On the Organizations screen only Review is shown, and it reviews every organization.
+4. **Header** (with an Organisation open): the Organisation's name and the save status, the reading-mode picker, Focus (on a System's pages), Search (Ctrl+K), Notes (the user's own notes, and under them **Card notes**: every card's Notes text by page, with a funnel that chooses the pages; a press opens the card -- `CardNotesService.ts`), Review (what is incomplete, with the key dates), Settings (Global Settings). On the Organisations screen only Review is shown, and it reviews every organisation.
 5. **Other pages**: Review (`/review`: Still open, Worth a second look, Key dates, Missing from the documents; each item with "Go there") and Global Settings (`/settings`).
 
 ## The Foundation systems
 
 | System | Pages | What it records |
 |---|---|---|
-| 1. Identity | 1 Definition and Ethics (tiles: Organization, the Positioning tile named by the business stage, Mission, Vision; Philosophy, Values, Principles, Manifesto), 2 Legal Entity (tiles: Founders & Ownership, Capability, Registrations, Expenses) | Who the organization is in law and in purpose |
+| 1. Identity | 1 Definition and Ethics (tiles: Organisation, the Positioning tile named by the business stage, Mission, Vision; Philosophy, Values, Principles, Manifesto), 2 Legal Entity (tiles: Founders & Ownership, Capability, Registrations, Expenses) | Who the organisation is in law and in purpose |
 | 2. Brand | One page, Brand System: Ambassador (Aesthetics, Body Language, Communication & Voice, Imprint) and Style (Colours, Typography, Text Hierarchy, Icon & Logo, Brand Images) | How it looks |
 | 3. Business | 1 Foundation, 2 Customer Engagement, 3 Infrastructure & Capability, 4 Financial Foundation, 5 Sustainability | What it sells, to whom, with what, and whether the money works |
 | 4. Strategy | One page, Situation & Direction: Current Situation Analysis, SWOT Analysis, Strategic Compass, Strategic Period (its dates, the Roadmap tile, the Theme cards with their Goals, Objectives and Metrics) | Where it is heading |
@@ -31,11 +31,11 @@ What each part of the app is for and what it holds is below. The rules of layout
 - **5. Sustainability**: Revenue, Break Even. Two folding cards, not tiles yet.
 
 ## Where figures and dates come from
-- **The Opening Date** is set on the Identity System's Organization tile; it decides the business stage, the plan start and the key dates (design document 28, 8.2a).
+- **The Opening Date** is set on the Identity System's Organisation tile; it decides the business stage, the plan start and the key dates (design document 28, 8.2a).
 - **Global Settings** (header; sections Financial plan, Business stages, Pay and tax, Assets, Rates, Reserve, Channel Fee Table): the Plan Start (worked out) and plan length, tax, pay on-costs, capitalisation limit, Useful Life by group (and each asset's own years under its group), royalty and commission rates, reserves, the Channel Fee Table, and the Business stages (the Opening Date as a record, and the four durations: Planning, Launching, Managing, Growing).
 - **The cards** carry their own dates, costs and statuses; the date defines the order of a list, then the number.
 - **The Calendar** (left rail of System Selection) lists every card date (the key dates: plan start, registration, opening and the end of each stage's window; legal fees, starts, ends, warranty, payments, deadlines) with a funnel: the period, the kinds of date, the cards they come from; a note is made only on request.
-- **Currency**: every total is in the organization's currency (the registered country's); a card in another currency is listed and flagged, not counted.
+- **Currency**: every total is in the organisation's currency (the registered country's); a card in another currency is listed and flagged, not counted.
 
 ## The pattern
 Tiles open a dialog; a dialog lists card boxes; a card box opens a floating card; a card links to the cards it is connected to (R. Resource, A. Activity, P. Partner, S. Supplier). The arrows beside the last-opened card or section step through its list. A floating card of questions has one width, one content line and one double rule between its sections (`ai/tile-and-card-pattern.md`); `npm run check:card` audits one.

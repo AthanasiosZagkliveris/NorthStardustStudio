@@ -345,7 +345,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                             {responsibilities.length > 0 && (
                                 <FoldArrow variant="label"
                                     open={responsibilitiesOpen}
-                                    name={(responsibilitiesOpen ? "Minimize " : "Maximize ") + "Responsibilities of " + founderLabel}
+                                    name={(responsibilitiesOpen ? "Minimise " : "Maximise ") + "Responsibilities of " + founderLabel}
                                     onToggle={() => setResponsibilityFolds(current =>
                                         new Map(current).set(founder.id, !responsibilitiesOpen)
                                     )}
@@ -416,7 +416,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                                                 <FieldLabel className="business-foundation-label">
                                                     <FoldArrow variant="label"
                                                         open={doneOpen}
-                                                        name={(doneOpen ? "Minimize " : "Maximize ") + "completed responsibilities of " + founderLabel}
+                                                        name={(doneOpen ? "Minimise " : "Maximise ") + "completed responsibilities of " + founderLabel}
                                                         onToggle={() => setCompletedOpen(current => toggledIn(current, doneKey))}
                                                     />
                                                     {"Completed " + done.length}

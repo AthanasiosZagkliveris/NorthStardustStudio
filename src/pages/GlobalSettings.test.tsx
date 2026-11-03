@@ -104,7 +104,7 @@ describe("the Global Settings screen", () => {
         expect(within(screen.getByRole("table", { name: "Channel Fee Table" })).getAllByRole("row")).toHaveLength(4);
     });
 
-    it("is kept for the Organization it belongs to", () => {
+    it("is kept for the Organisation it belongs to", () => {
         const other = OrganizationService.create("Quillfield").id;
         OrganizationService.setSelected(organizationId);
         open();

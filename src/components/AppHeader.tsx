@@ -41,7 +41,7 @@ export default function AppHeader({ organizationName, focusable = false, reloada
 
             <img
                 src={logo}
-                alt="North Stardust Organization Framework"
+                alt="North Stardust Organisation Framework"
                 className="app-logo"
             />
 

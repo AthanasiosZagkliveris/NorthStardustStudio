@@ -178,12 +178,12 @@ describe("Conversation records the last place worked", () => {
 
         expect(screen.queryByRole("navigation", { name: "Sections" })).toBeNull();
 
-        fireEvent.click(screen.getByRole("button", { name: /^Organization/ }));
+        fireEvent.click(screen.getByRole("button", { name: /^Organisation/ }));
         fireEvent.change(document.querySelector<HTMLTextAreaElement>(".column-tile-content[data-rail] textarea")!, {
             target: { value: "We automate small offices." }
         });
 
-        expect(screen.getAllByRole("button", { name: /^Organization/ }).length).toBeGreaterThan(0);
+        expect(screen.getAllByRole("button", { name: /^Organisation/ }).length).toBeGreaterThan(0);
 
     });
 

@@ -31,7 +31,7 @@ export const FIELD_DEPENDENCIES: readonly FieldDependency[] = [
     {
         id: "legal-country",
         systemNumber: 1,
-        parent: "Legal Entity › Organization › Country",
+        parent: "Legal Entity › Organisation › Country",
         dependents: ["State / Region (where the country has them)", "Address", "Legal Form", "Formation & Registration › Registration Authority"],
         how: "frozen",
         hint: "Choose a country first."
@@ -39,14 +39,14 @@ export const FIELD_DEPENDENCIES: readonly FieldDependency[] = [
     {
         id: "legal-subdivision",
         systemNumber: 1,
-        parent: "Legal Entity › Organization › State / Region (where the country has them)",
+        parent: "Legal Entity › Organisation › State / Region (where the country has them)",
         dependents: ["Address", "Formation & Registration › Registration Authority"],
         how: "frozen"
     },
     {
         id: "legal-form",
         systemNumber: 1,
-        parent: "Legal Entity › Organization › Legal Form",
+        parent: "Legal Entity › Organisation › Legal Form",
         dependents: ["Name the legal form (Other)", "the founders' Capital (whether it applies follows the form)"],
         how: "conditional"
     },

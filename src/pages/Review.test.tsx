@@ -76,7 +76,7 @@ describe("opening Review", () => {
 
 });
 
-describe("Review across Organizations", () => {
+describe("Review across Organisations", () => {
 
     function renderReview(state?: unknown) {
         render(
@@ -89,7 +89,7 @@ describe("Review across Organizations", () => {
         );
     }
 
-    it("shows only the open Organization, open", () => {
+    it("shows only the open Organisation, open", () => {
         OrganizationService.create("Quillfield");
         renderReview();
 
@@ -100,7 +100,7 @@ describe("Review across Organizations", () => {
         expect(screen.getByRole("heading", { name: "Review" })).toBeTruthy();
     });
 
-    it("the total review has every Organization, each folded with its count; Go there selects the other one first", () => {
+    it("the total review has every Organisation, each folded with its count; Go there selects the other one first", () => {
         const other = OrganizationService.create("Quillfield");
         const current = OrganizationService.getSelected()!;
 

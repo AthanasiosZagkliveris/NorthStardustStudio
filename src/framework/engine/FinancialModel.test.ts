@@ -919,7 +919,7 @@ describe("the Legal Entity, read as the financial pages read it", () => {
         expect(legalEntityTotalCapital(entity)).toBeCloseTo(12500.5, 6);
     });
 
-    test("an organization not yet registered can be complete without a date or numbers", () => {
+    test("an organisation not yet registered can be complete without a date or numbers", () => {
         const base = {
             formation: { status: "planned", authority: "Companies House", date: "", registrationNumber: "" },
             tax: { identificationNumber: "" }

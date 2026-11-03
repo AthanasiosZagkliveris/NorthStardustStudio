@@ -1071,7 +1071,7 @@ export class StorageService {
             "/ Ethics structure. Mission, Vision, Positioning, " +
             "Philosophy, Values, Principles and Manifesto are " +
             "preserved; Brand Personality, Voice Guide and " +
-            "Organization Description have no column in that " +
+            "Organisation Description have no column in that " +
             "structure and are dropped. The Expression page has since " +
             "moved to the Brand System -- see " +
             "handOverAmbassadorPageToBrandSystem, which runs against " +

@@ -16,7 +16,7 @@ Every card that opens from a tile (floating, or in a tile's dialog), by kind. Pa
 | 8 | Segment: Description, Value Proposition | Business Foundation tiles | same file | no head (the card is a section) | no head |
 | 9 | Legal requirement | Legal Entity: Registrations | `legal/useLegalCardsAndSections.tsx` `requirementCard` -> `BusinessCard` (`legal`) | `.legal-entity-card-head` | yes |
 | 10 | Legal expense | Legal Entity: Expenses | `legal/useLegalCardsAndSections.tsx` (expense card) -> `BusinessCard` (`legal`) | as 9 | yes |
-| 11 | Founders' profile | Identity: Organization, a founder's tile | `FoundersProfileEditor.tsx` -> `BusinessCard` (`legal`) | as 9 (name is plain text, no x) | yes |
+| 11 | Founders' profile | Identity: Organisation, a founder's tile | `FoundersProfileEditor.tsx` -> `BusinessCard` (`legal`) | as 9 (name is plain text, no x) | yes |
 | 12 | Brand colour | Brand: Colours | `BrandStyleEditor.tsx` `colourCard` | `.brand-style-card` | yes |
 | 13 | Brand typeface | Brand: Typography | `BrandStyleEditor.tsx` `typefaceCard` | as 12 | yes |
 | 14 | Brand image | Brand: Brand Images | `BrandInventoryEditor.tsx` `imageCard` -> `BusinessCard` | as 12 (name cell with the number inside, the x at the right; under it the picture across the card, then its words) | yes |

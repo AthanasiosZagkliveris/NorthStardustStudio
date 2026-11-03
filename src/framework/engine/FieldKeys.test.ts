@@ -10,6 +10,7 @@ import {
     parseFieldKey,
     readField,
     registerField,
+    sectionSegment,
     registeredFields,
     slug,
     writeField
@@ -21,6 +22,12 @@ import { pageFields } from "../../components/interview/rails/railItems";
 afterEach(clearFieldRegistry);
 
 describe("field keys", () => {
+
+    it("keeps a key saved under the US spelling when its label is written in UK English", () => {
+        expect(slug("Organisation Name")).toBe(slug("Organization Name"));
+        expect(sectionSegment("Organisation")).toBe("organization");
+        expect(slug("Specialised Sectors")).toBe("specialized-sectors");
+    });
 
     it("names a field by System, page and path, and reads the name back", () => {
         const key = fieldKey({ systemNumber: 1, sectionNumber: 3, path: ["organization", "legal-form"] });
@@ -83,7 +90,7 @@ describe("the field registry", () => {
         const identity = frameworkRegistry.getFramework("identity");
         const legal = identity.sections.find(section => section.answer?.type === AnswerType.LegalEntity)!;
         const fields = pageFields(1, legal);
-        expect(fields[0]).toEqual({ key: "1." + legal.number + ":organization", label: "Organization", pageTitle: legal.number + ". Legal Entity" });
+        expect(fields[0]).toEqual({ key: "1." + legal.number + ":organization", label: "Organisation", pageTitle: legal.number + ". Legal Entity" });
         const definition = identity.sections[0];
         expect(pageFields(1, definition).map(field => field.key)).toContain("1.1:" + definition.answer!.parts![0].id);
     });

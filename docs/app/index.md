@@ -9,7 +9,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Item | Where in the app | Described in |
 |---|---|---|
 | Activities (Business) | Business › 3 Infrastructure & Capability › Infrastructure and Offering's Capability › Activities | Page 3; doc 26 |
-| Activities (Organization) | Identity › 1 Definition and Ethics › Organization (the activity and its code) | Doc 37; doc 34, 5.7 |
+| Activities (Organisation) | Identity › 1 Definition and Ethics › Organisation (the activity and its code) | Doc 37; doc 34, 5.7 |
 | Ambassador | Brand › Brand System, the first frame: Aesthetics, Body Language, Communication & Voice, Imprint | Doc 1, B.1 |
 | Assets library | Not in the app's build: a gallery of the components, reached only by `npm run dev` (`/library`, `/library/inventory`, `/library/looks`) | Docs 8, 9 |
 
@@ -29,9 +29,9 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Item | Where in the app | Described in |
 |---|---|---|
 | Calendar | System Selection › the left rail (the Framework Navigator) | Doc 1, C.2; `contents.md` |
-| Capabilities | System Selection › the left rail and the list: Foundation, Deliver Value, Manage Information, Manage the Organization, Communicate, Measure & Improve | `contents.md` |
+| Capabilities | System Selection › the left rail and the list: Foundation, Deliver Value, Manage Information, Manage the Organisation, Communicate, Measure & Improve | `contents.md` |
 | Capability (founders) | Identity › 2 Legal Entity › Capability | Doc 28, 9; doc 26 |
-| Capability Generator | Organizations (home) › the Capability Generator button; an unfinished page (a text box, and "Analyze Capability" does nothing yet) | `contents.md` |
+| Capability Generator | Organisations (home) › the Capability Generator button; an unfinished page (a text box, and "Analyse Capability" does nothing yet) | `contents.md` |
 | Capital & Funding | Business › 4 Financial Foundation › Capital & Funding | Page 4 |
 | Card notes | Header › Notes › Card notes | `contents.md` |
 | Channel Fee Table | Global Settings › Channel Fee Table | Doc 1, Part D 6 |
@@ -57,7 +57,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 |---|---|---|
 | Early Positioning (tile) | Identity › 1 Definition and Ethics; named by the business stage (Early, Core Market, Corporate & Portfolio Positioning) | Doc 38; doc 28, 8.2; doc 33 |
 | Ethics | Identity › 1 Definition and Ethics, the second frame: Philosophy, Values, Principles, Manifesto | Doc 1, B.1 |
-| Examples | Organizations (home): Lumen & Loom Studio, Quillfield Automation | Doc 25 |
+| Examples | Organisations (home): Lumen & Loom Studio, Quillfield Automation | Doc 25 |
 | Expenses (Legal Entity) | Identity › 2 Legal Entity › Expenses | Doc 26 |
 
 ## F
@@ -80,7 +80,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Header | Every page with an Organization open: save status, reading mode, Focus, Search, Notes, Review, Settings | `contents.md` |
+| Header | Every page with an Organisation open: save status, reading mode, Focus, Search, Notes, Review, Settings | `contents.md` |
 | Help tile | Business › 3 Infrastructure & Capability › the footer band: Inventory and Completed | Page 3; doc 1, C.5 |
 
 ## I
@@ -117,9 +117,9 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 |---|---|---|
 | Offering's Capability | Business › 3 Infrastructure & Capability, the second card: Resources, Activities, Partners & Suppliers, Delivery | Page 3 |
 | Offerings | Business › 1 Foundation › Offerings | Doc 28, 6.8; page 1 |
-| Opening Date | Identity › 1 Definition and Ethics › Organization; it decides the business stage and the plan start | Doc 37; doc 28, 8.2a |
-| Organization (tile) | Identity › 1 Definition and Ethics › Organization | Doc 37; doc 28, 8.5 |
-| Organizations (home) | The first screen: create, import, export or delete an Organization; Reload; System Selection; Capability Generator | `contents.md` |
+| Opening Date | Identity › 1 Definition and Ethics › Organisation; it decides the business stage and the plan start | Doc 37; doc 28, 8.2a |
+| Organisation (tile) | Identity › 1 Definition and Ethics › Organisation | Doc 37; doc 28, 8.5 |
+| Organisations (home) | The first screen: create, import, export or delete an Organisation; Reload; System Selection; Capability Generator | `contents.md` |
 
 ## P
 
@@ -139,7 +139,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Registrations | Identity › 2 Legal Entity › Registrations | Doc 26 |
 | Resources | Business › 3 Infrastructure & Capability (both cards) | Page 3 |
 | Revenue | Business › 5 Sustainability › Revenue | Page 5 |
-| Review | Header (`/review`): Still open, Worth a second look, Key dates, Missing from the documents; on the Organizations screen, every organization | Doc 1, C.2 |
+| Review | Header (`/review`): Still open, Worth a second look, Key dates, Missing from the documents; on the Organisations screen, every organisation | Doc 1, C.2 |
 | Roadmap | Strategy › Situation & Direction › Strategic Period (the Roadmap tile) | Doc 1, B.1 |
 
 ## S

@@ -57,7 +57,7 @@ export const BUSINESS_RESOURCE_STATUSES = [
     {
         id: "exists",
         label: "Exists / Free",
-        explanation: "It is already available to the organization at no additional cost."
+        explanation: "It is already available to the organisation at no additional cost."
     },
     {
         id: "rent",
@@ -1030,7 +1030,7 @@ export const BUSINESS_ACTIVITY_GROUPS = {
             id: "operational",
             label: "Operational",
             period: "from-opening",
-            note: "Activities required to operate the organization day to day."
+            note: "Activities required to operate the organisation day to day."
         }
     ],
     offering: [
@@ -1044,7 +1044,7 @@ export const BUSINESS_ACTIVITY_GROUPS = {
             id: "marketing",
             label: "Marketing",
             period: "from-plan-start",
-            note: "Activities required to promote the organization and its offerings."
+            note: "Activities required to promote the organisation and its offerings."
         },
         {
             id: "sales",

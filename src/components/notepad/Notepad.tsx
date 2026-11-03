@@ -216,7 +216,7 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
         .map(link => link.key as string);
     // Fields can be picked only in the note's own Organization, while it is open.
     const canPick = !!organizationId && organizationId === current;
-    const organizationName = (id: string) => OrganizationService.getSummary(id)?.name ?? "another organization";
+    const organizationName = (id: string) => OrganizationService.getSummary(id)?.name ?? "another organisation";
 
     return (
         <div
@@ -357,7 +357,7 @@ function noteGroups(notes: Note[]): NoteGroupValue[] {
     const rank = (id: string) => id === current ? -1 : id === "" ? known.length + 1 : Math.max(0, known.findIndex(entry => entry.id === id));
     return ids.sort((one, other) => rank(one) - rank(other)).map(id => ({
         id,
-        name: id === "" ? "General" : OrganizationService.getSummary(id)?.name ?? "An Organization no longer here",
+        name: id === "" ? "General" : OrganizationService.getSummary(id)?.name ?? "An Organisation no longer here",
         notes: notes.filter(note => note.organizationId === id),
         current: id === current && id !== ""
     }));

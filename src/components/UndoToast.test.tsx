@@ -121,7 +121,7 @@ describe("offering to undo a removal on a page", () => {
             return (
                 <div ref={root}>
                     <button type="button" aria-label="Remove this Offering">×</button>
-                    <button type="button" aria-label="Maximize Offering 1">+</button>
+                    <button type="button" aria-label="Maximise Offering 1">+</button>
                     <div tabIndex={0} role="group" aria-label="Goal 1. Use the arrow keys to move it, Delete to remove it." />
                 </div>
             );
@@ -129,7 +129,7 @@ describe("offering to undo a removal on a page", () => {
         render(<Page />);
         fireEvent.click(screen.getByRole("button", { name: "Remove this Offering" }));
         expect(UndoService.takeRemoval()).toBe("Offering");
-        fireEvent.click(screen.getByRole("button", { name: "Maximize Offering 1" }));
+        fireEvent.click(screen.getByRole("button", { name: "Maximise Offering 1" }));
         expect(UndoService.takeRemoval()).toBeNull();
         fireEvent.keyDown(screen.getByRole("group"), { key: "Delete" });
         expect(UndoService.takeRemoval()).toBe("Goal 1");

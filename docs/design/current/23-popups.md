@@ -38,7 +38,7 @@ Everything in the app that appears over the page when something is pressed, poin
 | A floating card, or a pair, with its rail and arrows | P5 | `FloatingCards` (`FloatingCards.tsx`) |
 | Search | P5 | `SearchDialog` (`SearchDialog.tsx`) |
 | Notes panel (and Card notes) | P5 | `NotepadPanel` (`Notepad.tsx`) |
-| The Organization's calendar | P5 | `OrganizationCalendarPanel` |
+| The Organisation's calendar | P5 | `OrganizationCalendarPanel` |
 | Generated card left without use: Continue / Cancel | P6 | `BusinessCapabilityEditor` (alertdialog) |
 | Removal, leave and delete confirmations | P6 | `.confirmation-dialog` (`system-confirmation.css`) |
 | Undo toast | P6 | `UndoToast` |

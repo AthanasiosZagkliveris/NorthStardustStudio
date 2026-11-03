@@ -4,11 +4,11 @@ Status: **specification**, written 2026-09-27, updated 2026-11-02. It says what 
 
 > **3. Business System — Page 3 of 5.** Page 2 is Customer Engagement; Page 4 reads this page's costs.
 
-The page records the resources, activities, partners and suppliers the organization needs to **establish, operate and deliver**. It has two cards of four tiles each.
+The page records the resources, activities, partners and suppliers the organisation needs to **establish, operate and deliver**. It has two cards of four tiles each.
 
 | Card | Tiles |
 |---|---|
-| **1. Infrastructure** — the resources, activities, partners and suppliers the organization needs to establish and operate | Founders, Resources, Activities, Partners & Suppliers |
+| **1. Infrastructure** — the resources, activities, partners and suppliers the organisation needs to establish and operate | Founders, Resources, Activities, Partners & Suppliers |
 | **2. Offering's Capability** — what each offering additionally needs, linked to the offering | Resources, Activities, Partners & Suppliers, Delivery |
 
 Offering's Capability exists to record the additional resources, activities, partners and suppliers each offering requires and link them to the Offering; to identify opportunities to eliminate, share, obtain for free or source their best value; and to use the results to compare offering options.
@@ -60,7 +60,7 @@ A resource card belongs to a **category** and a **group**; both lists are fixed 
 - **Groups by place**: Infrastructure has **Pre-Operational** (from the Plan Start to the Opening Date, with a Type: Capital Expenditure or Start-up Expenses) and **Operational** (from the Opening Date); Offering's Capability has **Production** and **Marketing** (from the Plan Start) and **Sales & Customer** (from the Opening Date). The group is the card's Category; each tile shows its period. A new activity made by a resource's status is filed by the resource's section (`DERIVED_ACTIVITY_CATEGORY`: Operational in Infrastructure, Production in Offering's Capability).
 - Every activity has a **Start date** (required) and an **End date** (optional; left empty it counts as one day), inside its group's period. A resource it uses cannot start after it (flagged "starting too late"), and the units it can produce are capped by its period.
 - **Performers** are the people who carry it out: the founders first, then the partners and suppliers of the place, with a link symbol beside a partner or supplier; **Responsible** is a founder. **Resources** is a list of dropdown rows (each with units where the resource has them and the link symbol), not a tick list; the cost of each linked card is shown under the list and the Total after it. An activity records no price of its own: any cost is recorded under the Resource, Partner or Supplier.
-- In an organization with exactly one founder the **Responsible** field is not shown on an Activity, a Partner or Supplier or a Strategy Objective: that founder is the responsible one automatically, wherever it is read, and never written over a choice. With two or more founders, or none, the user chooses. Beside the label a tick box, ticked by default: unticking removes the field for that card (the chosen founder cleared), and the card then has no responsible by choice, is not listed as missing one and has no founder assumed.
+- In an organisation with exactly one founder the **Responsible** field is not shown on an Activity, a Partner or Supplier or a Strategy Objective: that founder is the responsible one automatically, wherever it is read, and never written over a choice. With two or more founders, or none, the user chooses. Beside the label a tick box, ticked by default: unticking removes the field for that card (the chosen founder cleared), and the card then has no responsible by choice, is not listed as missing one and has no founder assumed.
 - A founder's **Responsibilities** list on the Founders tile is derived from the activities that name the founder; each line is a link that opens the activity.
 - **Completed**: ticking Completed on an activity freezes it (every field disabled and grey, but the tick, which can be unticked to unfreeze it) and files it under the grey Completed tile; the tile exists only while an activity is completed and holds the finished activities of both cards. The number of **active** (not completed) activities stands next to the dialog title of Activities. An activity can be dragged onto another to reorder.
 
@@ -89,7 +89,7 @@ The Founders tile lists the names alone. A founder is defined once, on the Legal
 
 A card needs an answer in every field that is not behind an optional tick box (`CardCompleteness.ts`). One that lacks one is **stored as it is, flagged, and counted nowhere** until it is fixed. A card left completely blank is removed instead. Required:
 - **Resource**: Name; **Start date**; Status; at Partners & Suppliers the partner or supplier, at Rent the supplier, at Activity the activity; at Costs or Buy the Price and the Payment Frequency (and the Cost option, the Amortisation period of a franchise fee and a complete Payment plan where they apply); a new card's Category and Group. In Offering's Capability also **Linked Offerings**. Qty and Description are optional.
-- **Activity**: Category; Name; Start date; at least one Performer; the Responsible, unless the tick is off, the rule names him (a one-founder organization; one founder among the Performers) or there is no founder; in Offering's Capability also Linked Offerings.
+- **Activity**: Category; Name; Start date; at least one Performer; the Responsible, unless the tick is off, the rule names him (a one-founder organisation; one founder among the Performers) or there is no founder; in Offering's Capability also Linked Offerings.
 - **Partner / Supplier**: Category; Name; Start date; Price and Payment Frequency (and the Cost option, Payment plan); the Responsible as for an Activity; in Offering's Capability also Linked Offerings.
 - **Founder**: Start date, Salary, Working Hours, Delivery Hours (or the percent). A founder with none of these filled is not an error.
 
@@ -97,7 +97,7 @@ A card needs an answer in every field that is not behind an optional tick box (`
 
 ## 10. What reads this page
 
-- **Page 4** reads every card with a price, grouped by cost nature, with the **Opening Date** (set on the Identity System's Organization tile) and the **Global Settings** (`/settings`: capitalisation limit, useful lives by asset group, fee tables, contingency rates, insurance per employee, income tax) that this page never asks for again. Its Costs section is a read-only summary: nothing is typed there.
+- **Page 4** reads every card with a price, grouped by cost nature, with the **Opening Date** (set on the Identity System's Organisation tile) and the **Global Settings** (`/settings`: capitalisation limit, useful lives by asset group, fee tables, contingency rates, insurance per employee, income tax) that this page never asks for again. Its Costs section is a read-only summary: nothing is typed there.
 - **Page 2** channel expenses create cards here (section 7).
 - **Currency**: every price carries a currency, defaulting to the currency of the registered country (Identity System, Legal Entity) and changeable per price; a price left on the default follows the registration. A cost in another currency is listed and flagged, not counted (Page 4).
 - **Page 5** reads the capacity (founders' delivery hours) against the expected sales.

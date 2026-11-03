@@ -27,7 +27,7 @@ Status: **proposal**, written 2026-10-23, updated 2026-11-02. The Identity quest
 
 ## 2. The trees
 
-### 2.1 Identity (the Organization and Early Positioning tiles)
+### 2.1 Identity (the Organisation and Early Positioning tiles)
 
 ```
 I1  What does your business do? (up to four activities, in order; the first is the primary)
@@ -87,7 +87,7 @@ AFTER THE FIRST DRAFT (checks, asked later): G4, G5, G16   (G17, G18, G19 merged
 
 ### 2.3 Profile (up to three per Segment)
 
-> **Built in part (doc 36):** the Profile card asks A1 to A3, A5, B1, C1 to C4, D1, D2 and E1 to E3. What differs from the tree: P11 is split into C2 (social media), C3 (communities) and C4 (events); P13, P14, P16 and P22 are not asked (the Segment asks where they buy, how they pay, online comfort and how the decision is authorized); the questions follow the Segment's answers (doc 36, 2.1 and 2.2). Not built: the kind of business (P24), the specialized needs, the proposed Profiles, "Copy a Profile".
+> **Built in part (doc 36):** the Profile card asks A1 to A3, A5, B1, C1 to C4, D1, D2 and E1 to E3. What differs from the tree: P11 is split into C2 (social media), C3 (communities) and C4 (events); P13, P14, P16 and P22 are not asked (the Segment asks where they buy, how they pay, online comfort and how the decision is authorised); the questions follow the Segment's answers (doc 36, 2.1 and 2.2). Not built: the kind of business (P24), the specialised needs, the proposed Profiles, "Copy a Profile".
 
 ```
 A Profile starts from
@@ -238,7 +238,7 @@ No question branches heavily here: the stage cards are **proposed** from P11, P1
 
 | Tile | Order of the questions asked first | Moved or held back |
 |---|---|---|
-| Organization, Positioning (Identity) | I1, I11, I3, I7b, I7c | I9 after the draft |
+| Organisation, Positioning (Identity) | I1, I11, I3, I7b, I7c | I9 after the draft |
 | Segment card, people | (I3, I7b and I11 are already answered), G2 (G3), G6, G7, G8, G13, G10 | G10 last (it only reveals the notice); G4, G5, G16 after the draft |
 | Segment card, businesses | (I3 and I7b are already answered), G2 (G3), G23, G14, G15 | G14 skipped for a freelancer; checks after the draft |
 | Profile | P24 (business), P9, P11, P12, P13, P14, P16, P17, P18, P19, P20, P22 | P1, P5, P6 after the draft |
@@ -312,7 +312,7 @@ The decision list is in one place: document 28, section 13. The twelve decisions
 
 | Id | Question | Status | Where it is | Change proposed to its wording or place |
 |---|---|---|---|---|
-| I1 | What does the business do? | **Exists** | Organization tile, the activity cascade (up to four) | Add "Show all" after a shortlist (not built); the industry pack is not built |
+| I1 | What does the business do? | **Exists** | Organisation tile, the activity cascade (up to four) | Add "Show all" after a shortlist (not built); the industry pack is not built |
 | I8 | Business stage | **Exists, not asked** | Worked out from the Opening Date; the Positioning tile's name and limits follow it | None |
 | I11 | Market Structure | **Exists** | Early Positioning, left column, first, a radio (Single-sided; Multi-sided / Platform) | None: the owner's words. Its "i" says it is not the buyer-and-user split |
 | I3 | Seller and Buyer Relationship (who pays) | **Exists** | Early Positioning, left column, first; radio or ticks by stage | None: the owner's words. Read by the Segment: it decides the kind of Segment, people or businesses (doc 35) |

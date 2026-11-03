@@ -43,7 +43,7 @@ afterEach(() => {
 
 describe("The header's saved signal", () => {
 
-    it("is shown only while an Organization is open", () => {
+    it("is shown only while an Organisation is open", () => {
 
         const { rerender } = render(<AppHeader />, { wrapper: MemoryRouter });
 
@@ -86,7 +86,7 @@ describe("The header's saved signal", () => {
 
         expect(screen.getByText("Not saved: storage is full")).toBeTruthy();
         expect(signal.classList.contains("save-status-error")).toBe(true);
-        expect(signal.getAttribute("title")).toMatch(/Export Organization/);
+        expect(signal.getAttribute("title")).toMatch(/Export Organisation/);
 
     });
 
