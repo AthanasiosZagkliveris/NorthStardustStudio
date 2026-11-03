@@ -9,6 +9,43 @@ const question = (id: string) => PROFILE_QUESTIONS.find(entry => entry.id === id
 
 describe("the Profile's questions follow the Segment", () => {
 
+    it("asks one job question: the kind of work of a working B2C customer, the job level of a B2B one", () => {
+        const ids = (segment: Record<string, string[]>, context: SegmentContext) => profileQuestionsOf("personal", segment, context).map(q => q.id);
+        expect(ids({ work: ["working"] }, people)).toContain("a3");
+        expect(ids({ work: ["working"] }, people)).not.toContain("a3b");
+        expect(ids({ work: ["not"] }, people)).not.toContain("a3");
+        expect(ids({ orgtype: ["private"] }, business)).toContain("a3b");
+        expect(ids({ orgtype: ["private"] }, business)).not.toContain("a3");
+        expect(question("a3").options).toHaveLength(9);
+        expect(question("a3b").options.map(option => option.label)).toEqual(["Owner / partner", "Senior executive", "Director / head of department", "Manager / team lead", "Specialist / team member"]);
+    });
+
+    it("sets a self-employed customer's job level to Owner / partner without asking it", () => {
+        expect(profileQuestionsOf("personal", { orgtype: ["self"] }, business).map(q => q.id)).not.toContain("a3b");
+        expect(profileSettle({}, { orgtype: ["self"] }, business).a3b).toEqual(["owner"]);
+    });
+
+    it("starts the role in buying from the job level, and keeps a role the user chose", () => {
+        expect(profileShown({ a3b: ["executive"] }, { orgtype: ["private"] }, business).a5).toEqual(["decide"]);
+        expect(profileShown({ a3b: ["specialist"] }, { orgtype: ["private"] }, business).a5).toEqual(["use"]);
+        expect(profileShown({ a3b: ["owner"], a5: ["influence"] }, { orgtype: ["private"] }, business).a5).toEqual(["influence"]);
+    });
+
+    it("reads a job saved before 2026-11-03: a B2B kind of work as a job level, Owner as Manager / director", () => {
+        expect(profileSettle({ a3: ["owner"] }, { orgtype: ["private"] }, business)).toMatchObject({ a3b: ["owner"] });
+        expect(profileSettle({ a3: ["professional"] }, { orgtype: ["private"] }, business).a3b).toEqual(["specialist"]);
+        expect(profileSettle({ a3: ["owner"] }, { work: ["working"] }, people).a3).toEqual(["manager"]);
+    });
+
+    it("asks who they live with of B2C adults only", () => {
+        const ids = (segment: Record<string, string[]>, context: SegmentContext) => profileQuestionsOf("personal", segment, context).map(q => q.id);
+        expect(ids({ age: ["established"] }, people)).toContain("a7");
+        expect(ids({ age: ["minor"] }, people)).not.toContain("a7");
+        expect(ids({ age: ["minor", "young"] }, people)).toContain("a7");
+        expect(ids({}, business)).not.toContain("a7");
+        expect(question("a7").options).toHaveLength(6);
+    });
+
     it("asks gender only where the Segment's mix leans, and starts it from the mix", () => {
         expect(profileQuestionsOf("personal", { gender: ["balanced"] }, people).map(q => q.id)).not.toContain("a2");
         expect(profileQuestionsOf("personal", { gender: ["leans-women"] }, people).map(q => q.id)).toContain("a2");

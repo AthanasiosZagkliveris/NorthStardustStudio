@@ -1,9 +1,10 @@
-import { JOB_LEVELS, type SegmentAnswers, type SegmentContext, type SegmentOption } from "./SegmentQuestions.ts";
+import { JOB_INFO, JOB_LEVELS, JOB_RENAMED, type SegmentAnswers, type SegmentContext, type SegmentOption } from "./SegmentQuestions.ts";
 
 /**
  * THE PROFILE'S QUESTIONS (document 36): a typical person of the Segment, asked only what the Segment cannot. A Profile keeps its answers as `questions` (question id -> the option ids chosen; the
  * exact age, A1, is the number as text). Which are asked follows the Segment's own answers; an answer to a question no longer asked is removed; starting values come from the Segment and
  * can be changed. Not built yet: A4 (the kind of business) and A6 (the specialised needs).
+ * The job (owner, 2026-11-03): one question per Profile, A3 the kind of work (B2C) or A3b the job level (B2B); A7 who they live with (B2C).
  */
 
 export type ProfileBox = "personal" | "psychographics" | "hubs" | "habits" | "goals" | "challenges" | "objections";
@@ -24,6 +25,21 @@ export interface ProfileQuestion {
 }
 
 const OTHER = { id: "other", label: "Other" } as const;
+
+/** A7: the ONS household types (Census 2021, household composition 8a), in plain words. */
+const HOUSEHOLDS = [
+    { id: "alone", label: "Alone" }, { id: "partner", label: "With a partner" }, { id: "family", label: "With a partner and children" },
+    { id: "single-parent", label: "Single parent with children" }, { id: "relatives", label: "With parents / relatives" }, { id: "sharing", label: "With friends / housemates" }
+] as const;
+
+/** A3b: a B2B Profile's job level (LinkedIn's ten seniority values merged into five). */
+const SENIORITY = [
+    { id: "owner", label: "Owner / partner" }, { id: "executive", label: "Senior executive" }, { id: "director", label: "Director / head of department" },
+    { id: "manager", label: "Manager / team lead" }, { id: "specialist", label: "Specialist / team member" }
+] as const;
+
+/** A B2B Profile's kind of work saved before A3b, read as a job level (owner, 2026-11-03). */
+const LEVEL_OF_WORK: Record<string, string> = { owner: "owner", manager: "manager", professional: "specialist", technician: "specialist", service: "specialist", operator: "specialist" };
 
 const CARES = ["Lower price", "Speed", "Ease and convenience", "Quality and results", "Trust and reputation", "Expert knowledge", "A service made for them", "Good support", "Safety and low risk", "Shared values or identity"];
 const GOALS = ["Get easier access", "Learn something new", "Express who they are", "Meet a requirement", "Win customers or earn more", "Stay within the rules"];
@@ -56,8 +72,20 @@ const QUESTIONS: readonly ProfileQuestion[] = [
         info: ["An exact age within the Segment's age group, for a typical person of the group, not the average.", "If the Segment's age group changes and this age is no longer inside it, the age is cleared."]
     },
     {
+        id: "a7", box: "personal", label: "Who does {s} live with?", many: false, options: HOUSEHOLDS,
+        info: ["Based on: household types (ONS, Census 2021).", "Children: children living at home. With parents / relatives includes several generations under one roof."]
+    },
+    {
         id: "a3", box: "personal", label: "What kind of work does {s} do?", many: false, options: JOB_LEVELS,
-        info: ["The ISCO-08 major groups in plain words: choose the group that fits the role.", "Armed forces: choose the group that fits the role; clergy count as professionals."]
+        info: JOB_INFO
+    },
+    {
+        id: "a3b", box: "personal", label: "What is {p} job level?", many: false, options: SENIORITY,
+        info: [
+            "Based on: the seniority levels B2B platforms use (LinkedIn), merged into five.",
+            "Senior executive: the chief executive, a C-level or a vice president. Trainees and interns: Specialist / team member.",
+            "It starts the role in buying: an owner or senior executive makes the final decision; a specialist uses it."
+        ]
     },
     {
         id: "a5", box: "personal", label: "What is {p} role in buying?", many: true,
@@ -123,7 +151,7 @@ export function profileWho(label: string, gender?: string): string {
 
 /** What the note under each box is for: what the questions above it do not ask (the questions already hold the rest). A point is at most 160 characters. */
 export const PROFILE_NOTE_HINTS: Record<ProfileBox, string> = {
-    personal: "The note is for what is not asked above: a name, their job title, who they live with, where they live. Their age and the kind of work are asked above.",
+    personal: "The note is for what is not asked above: a name, their job title, where they live. Their age, household and work are asked above.",
     psychographics: "The note is for what they value, believe in and enjoy, in your words. What matters most when choosing is asked above.",
     hubs: "The note is for names: the groups, accounts, events and places. Which kinds of platform and event they use is asked above.",
     habits: "The note is for what the choices above do not hold: where and when they buy, the terms, the steps.",
@@ -149,8 +177,14 @@ export function profileQuestionAsked(question: ProfileQuestion, segment: Segment
         case "a2":
             return !business && !!segment.gender?.length && !segment.gender.includes("balanced");
         case "a3":
-            // Self-employed customers: the job level is not asked. No answer is set yet (doc 36, section 9), so the documents leave it out.
-            return business ? !(segment.orgtype ?? []).includes("self") : (segment.work ?? []).includes("working");
+            return !business && (segment.work ?? []).includes("working");
+        case "a3b":
+            // Self-employed customers: the job level is Owner / partner, set and not asked (profileSettle).
+            return business && !(segment.orgtype ?? []).includes("self");
+        case "a7": {
+            const ages = segment.age ?? [];
+            return !business && !context.endsUser && !(ages.length > 0 && ages.every(id => id === "minor"));
+        }
         case "a5":
             return business || context.endsUser || (segment.age ?? []).includes("minor");
         case "c2":
@@ -172,15 +206,23 @@ export function profileQuestionsOf(box: ProfileBox, segment: SegmentAnswers, con
 }
 
 /** What the Segment sets for a question that is not shown, or starts for one that is (the user can change a start). */
-function startOf(question: ProfileQuestion, segment: SegmentAnswers, context: SegmentContext): string[] | undefined {
+function startOf(question: ProfileQuestion, segment: SegmentAnswers, context: SegmentContext, answers: SegmentAnswers = {}): string[] | undefined {
     const first = (ids: readonly string[] | undefined) => ids?.[0];
     switch (question.id) {
         case "a2": {
             const mix = first(segment.gender);
             return mix === "men" || mix === "leans-men" ? ["man"] : mix === "women" || mix === "leans-women" ? ["woman"] : undefined;
         }
-        case "a5":
-            return (segment.authorise ?? []).includes("solo") ? ["use", "influence", "order", "decide", "gate"] : context.endsUser ? ["order", "decide"] : undefined;
+        case "a5": {
+            if ((segment.authorise ?? []).includes("solo")) {
+                return ["use", "influence", "order", "decide", "gate"];
+            }
+            if (context.endsUser) {
+                return ["order", "decide"];
+            }
+            const level = answers.a3b?.[0];
+            return level === "owner" || level === "executive" ? ["decide"] : level === "specialist" ? ["use"] : undefined;
+        }
         case "c1": {
             const setting = first(segment.setting);
             return setting === "mobile" ? ["phone"] : setting === "desktop" ? ["computer"] : setting === "multi" ? ["phone", "computer"] : undefined;
@@ -208,7 +250,7 @@ export function profileShown(answers: SegmentAnswers, segment: SegmentAnswers, c
     const shown: SegmentAnswers = { ...answers };
     for (const question of QUESTIONS) {
         if (!(question.id in shown) && profileQuestionAsked(question, segment, context)) {
-            const start = startOf(question, segment, context);
+            const start = startOf(question, segment, context, shown);
             if (start) {
                 shown[question.id] = start;
             }
@@ -227,8 +269,23 @@ export function profileChoose(question: ProfileQuestion, answers: SegmentAnswers
 }
 
 /** The answers settled against what is asked now: a question no longer asked, an option not offered, an age outside the Segment's group, a limit passed, is removed. */
-export function profileSettle(answers: SegmentAnswers, segment: SegmentAnswers, context: SegmentContext): SegmentAnswers {
+export function profileSettle(saved: SegmentAnswers, segment: SegmentAnswers, context: SegmentContext): SegmentAnswers {
     const settled: SegmentAnswers = {};
+    const business = context.frame === "business";
+    const answers: SegmentAnswers = { ...saved };
+    // The job as saved before 2026-11-03: a B2B Profile's kind of work becomes its job level; a retired kind of work reads as the one it is now.
+    if (business && answers.a3 && !answers.a3b) {
+        const level = LEVEL_OF_WORK[answers.a3[0]];
+        if (level) {
+            answers.a3b = [level];
+        }
+    }
+    if (answers.a3) {
+        answers.a3 = answers.a3.map(id => JOB_RENAMED[id] ?? id);
+    }
+    if (business && (segment.orgtype ?? []).includes("self")) {
+        settled.a3b = ["owner"];
+    }
     for (const question of QUESTIONS) {
         const chosen = answers[question.id];
         if (!chosen || !profileQuestionAsked(question, segment, context)) {

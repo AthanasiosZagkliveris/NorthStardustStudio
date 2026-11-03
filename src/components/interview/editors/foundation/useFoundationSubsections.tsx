@@ -391,8 +391,10 @@ export function useFoundationSubsections(earlier: Earlier) {
         /** The boxes of a Profile's Description, each with its questions and its note, and the ones the Segment leaves no question in are plain notes. */
         const profileParts = (profile: BusinessCustomerProfileValue, profileIndex: number): DescriptionPart[] => {
             const shown = profileShown(profile.questions ?? {}, segment.questions, asked);
-            return SUBSECTIONS.segments.profileDescription.map(part => ({
+            return SUBSECTIONS.segments.profileDescription.map(({ textBusiness, ...part }: { id: string; title: string; text: string; textBusiness?: string }) => ({
                 ...part,
+                // The Personal box's prompt says what it asks (owner, 2026-11-03): a B2B Profile is asked its job level and role in buying, not its household.
+                text: asked.frame === "business" && textBusiness ? textBusiness : part.text,
                 note: true,
                 level: 4,
                 extra: [PROFILE_NOTE_HINTS[part.id as ProfileBox]],
