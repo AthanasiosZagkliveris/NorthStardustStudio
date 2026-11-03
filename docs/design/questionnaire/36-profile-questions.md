@@ -1,6 +1,6 @@
 # 36. The Profile's questions: every question and option, as built in part
 
-Status: **specification**, written 2026-11-01, updated 2026-11-03; built in part. The questions of the Profile card in the order they are asked, with their control, when they are asked, their options, what their "i" says and what they connect to. **Built:** A1 (the exact age, held to the Segment's group), A2, A7, A3 (B2C) and A3b (B2B), A5, B1, C1 to C4, D1, D2 and E1 to E3, with their conditions, starting values and settling (`ProfileQuestions.ts`, answers kept as `questions` on the Profile), in one column at the width every floating card has (492px), the boxes in their order, each with the Segment card's title band. **Not built yet:** A4 (the kind of business), A6 (the specialised needs), the proposed Profiles, the user's own Profile (and so its Box D rule), the reads marked "not built yet" below.
+Status: **specification**, written 2026-11-01, updated 2026-11-03; built in part. The questions of the Profile card in the order they are asked, with their control, when they are asked, their options, what their "i" says and what they connect to. **Built:** A1 (the exact age, held to the Segment's group), A2, A7, A3 (B2C) and A3b (B2B), A5, B1, C1 to C4, D1, D2 and E1 to E3, with their conditions, starting values and settling (`ProfileQuestions.ts`, answers kept as `questions` on the Profile), in one column at the width every floating card has (492px), the boxes in their order, each with the Segment card's title band. The proposed B2B Profiles by buying role (2). **Not built yet:** A4 (the kind of business), A6 (the specialised needs), the other proposed Profiles (by age term; the user's beside a Proxy or Dual-Intent payer), the user's own Profile (and so its Box D rule), the reads marked "not built yet" below.
 
 Related: doc 35 (the Segment's questions, built, in the same form), doc 28 (6.4 and 6.5, the Profile design this refines, and the shared lists), doc 34 (the lists L1 to L16), doc 33 (its section 15 holds the thoughts), doc 31 (the age terms), `src/components/interview/editors/foundation/` (the Profile card today).
 
@@ -40,7 +40,19 @@ Related: doc 35 (the Segment's questions, built, in the same form), doc 28 (6.4 
 | How they discover ideas (ticks) | C2, C3, C4 | the platforms, communities and events related to the ticked ways come first |
 | Where they spend time (social environment) | C4 events | asked when the environment is not Mostly digital or Low-frequency |
 
-The app also **proposes Profiles** (up to three): one for each age term of the group; for a business Segment, the kinds of business of its industry; for a Proxy or Dual-Intent buyer, a second Profile for the user (doc 35, the user part). The user presses Add on the ones they want.
+The app also **proposes Profiles** (up to three): one for each age term of the group; for a Proxy or Dual-Intent buyer, a second Profile for the user (doc 35, the user part). The user presses Add on the ones they want.
+
+**For a business Segment, by buying role (built, owner 2026-11-03: "go on with your proposed changes", review section 6.1).** Read from the Segment's "Who decides to buy?" (doc 35, 9), after the buying-centre roles of Webster and Wind (1972). Each proposal is an add button above "+ Add Profile" ("+ Add User Profile"); it adds a Profile with that name and its A5 roles ticked, which the user can change, and it is not offered again while a Profile of the Segment has its name (`proposedBusinessProfiles`, `ProfileQuestions.ts`):
+
+| Who decides to buy? | Proposed Profiles (A5 ticked) |
+|---|---|
+| One person decides (alone) | Decider (all five roles) |
+| The team agrees, or A manager signs off | User (Uses it, Influences the decision); Decider (Makes the final decision) |
+| Several departments check | adds Checker (Influences the decision) |
+| Formal procurement | adds Buyer (Places the order, Controls who reaches the decision-maker) |
+| Both of the last two | adds one Checker and buyer (Influences the decision, Places the order, Controls who reaches the decision-maker), so never more than three |
+
+Nothing is proposed before the question is answered, or for people. The kinds of business of the industry are not proposed: a different kind of business is a different Segment, not a different person.
 
 ### 2.1 How the Profile follows the Segment's kind (proposed)
 
@@ -157,7 +169,7 @@ A typical person of the Segment, asked specifically.
 - **Saved answers:** a B2B Profile's kind of work saved before reads as a level: Owner to Owner / partner, Manager to Manager / team lead, the others to Specialist / team member.
 - **Connections:**
   - *Read by (built):* A5's starting value (Owner / partner or Senior executive: Makes the final decision; Specialist / team member: Uses it); the documents and the exports.
-  - *Read by (not built yet):* the proposed B2B Profiles (by buying role); the Review ("nobody makes the final decision").
+  - *Read by (not built yet):* the Review ("nobody makes the final decision"). The proposed B2B Profiles (2) tick A5 directly and do not set the level.
 
 ### A4. Which kind of business is it?
 
@@ -404,4 +416,4 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 **Also decided (owner, 2026-11-01).** A5 is asked only for a business buyer, a Segment with a user part, or a group that includes Minors (2.1); a user's Profile is deleted completely when its Segment loses its user (2.2).
 
-**Not built.** A4, A6, the proposed Profiles, the user's own Profile and the reads marked "not built yet", which are built when the Segment's are.
+**Not built.** A4, A6, the proposed Profiles other than the B2B ones by buying role (2), the user's own Profile and the reads marked "not built yet", which are built when the Segment's are.

@@ -50,6 +50,27 @@ describe("BusinessFoundationEditor folding", () => {
 
     });
 
+    it("proposes Profiles by buying role for a business Segment, each added once with its name", () => {
+
+        const segment = createBusinessCustomerSegment([]);
+        render(<Harness initial={{
+            ...asBusinessFoundationValue(undefined),
+            segments: [{ ...segment, description: { ...segment.description, "business-data": "" }, questions: { authorise: ["procurement"] } }]
+        }} />);
+
+        expect(screen.getByRole("button", { name: "+ Add User Profile" })).toBeTruthy();
+        expect(screen.getByRole("button", { name: "+ Add Decider Profile" })).toBeTruthy();
+        const before = toggles(/Profile \d+$/).length;
+        fireEvent.click(screen.getByRole("button", { name: "+ Add Buyer Profile" }));
+
+        expect(screen.queryByRole("button", { name: "+ Add Buyer Profile" })).toBeNull();
+        const after = toggles(/Profile \d+$/);
+        expect(after).toHaveLength(before + 1);
+        expect(after[before].getAttribute("aria-expanded")).toBe("true");
+        expect(screen.getByDisplayValue("Buyer")).toBeTruthy();
+
+    });
+
     it("expands all Profiles in a Segment", () => {
 
         render(<Harness initial={twoProfiles()} />);
