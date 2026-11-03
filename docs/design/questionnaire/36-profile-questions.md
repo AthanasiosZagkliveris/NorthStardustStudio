@@ -10,7 +10,7 @@ Related: doc 35 (the Segment's questions, built, in the same form), doc 28 (6.4 
 
 **What a Profile holds.** A Name; seven boxes of two parts each (the questions below, then the box's note): *Specific Personal Information*, *Psychographics*, *Social & Interest Hubs* and *Information & Shopping Habits* (the section Description), *Goals & Desires*, *Challenges & Problems* and *Objections* (Motivations); and three numbered text lists of *Needs* (Functional, Emotional, Social). The answers are kept as `questions` on the Profile and are listed in the documents and the exports (`profileAnswerLines`, `ExportRenderers.ts`). The Offering reads the needs. The words of each question's "i" are in `info` in `ProfileQuestions.ts`; the "i would say" texts below are the fuller design, and the shorter texts in the code are the ones shown.
 
-**The rules are the Segment's** (doc 35): a radio is one choice, ticks are several, with a limit where stated, built from the existing controls (`RadioChoice`, `BusinessTicks`, `NumberCell`, `OptionPicker`, `FieldRow`); an option says its few words and what is added in brackets or after a colon stands in the question's "i"; a question with one option left is not shown (none of the Profile's has yet); an answer to a question no longer asked is removed on the next choice; no "Not sure" option; each box keeps its title, its prompt (the "i") and **its note**, which stays for what the questions cannot say (a Profile is a person, and a person is described in words too); the layout is the Positioning card's (bands, divider lines, a double rule between boxes). The needs stay text lists: a need is a precise statement ("send an invoice in under a minute"), not a category.
+**The rules are the Segment's** (doc 35): a radio is one choice, ticks are several, with a limit where stated, built from the existing controls (`RadioChoice`, `BusinessTicks`, `NumberCell`, `OptionPicker`, `FieldRow`); an option says its few words and what is added in brackets or after a colon stands in the question's "i"; a question with one option left is not shown (none of the Profile's has yet); an answer to a question no longer asked is removed on the next choice; no "Not sure" option; each box keeps its title, its prompt (the "i") and **its note**, which stays for what the questions cannot say (a Profile is a person, and a person is described in words too); the layout is the Positioning card's (bands, divider lines, a double rule between boxes). The Functional needs stay a text list (Emotional and Social become ticks, section 10): a functional need is a precise statement ("send an invoice in under a minute"), not a category.
 
 **How the boxes map.**
 
@@ -401,7 +401,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 1. **C2 to C4** keep the lists the app already has (the social media, the communities, the events); no longer list is added. A specific name is written in the box's own note, as it is today.
 2. **Their conditions** (online comfort, the ways of discovering ideas, the social environment) hold: a tendency of the Segment is enough to leave a Profile question out, so a short Segment gives a shorter Profile.
-3. **The needs** stay open text lists. (Emotional and Social as ticks is proposed in section 10, 2026-11-03.)
+3. **The needs** stay open text lists. *Replaced for Emotional and Social (owner, 2026-11-03): they become ticks, section 10; Functional stays text.*
 4. **The end user's Profile skips Box D** (2.1); the payer's Profile holds how they compare and what help they want.
 
 **Answered for the App User and not shown (owner, 2026-11-01).** The same rule as the Segment's (doc 35): where the answers above leave one answer, it is set and the question is not drawn.
@@ -420,11 +420,11 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 **Not built.** A4, A6, the proposed Profiles other than the B2B ones by buying role (2), the end user's own Profile and the reads marked "not built yet", which are built when the Segment's are.
 
-## 10. The Needs as choices (proposed, 2026-11-03)
+## 10. The Needs as choices (decided, 2026-11-03)
 
-The owner asked (2026-11-03) whether the three Needs lists could be choices instead of texts. The proposal: **Functional stays text; Emotional and Social become ticks**, each with the list's own text kept as the note. Until the owner decides, 9.3 stands (the needs stay open text lists).
+The owner asked (2026-11-03) whether the three Needs lists could be choices instead of texts. **Decided (owner, 2026-11-03): Functional stays text; Emotional and Social become ticks**, each with the list's own text kept as the note. This replaces 9.3 for Emotional and Social and is the one place the Needs are decided. Not built yet.
 
-**Why Functional stays text.** A functional need is the task itself ("send an invoice in under a minute"), different for every business, so no list fits it. A general list (saves time, simplifies, reduces cost, reduces risk) would ask again what B1 and E1 already ask: L1 is those functional values in the app's words (doc 34). The Offering keeps ticking the functional needs it addresses, by entry, as built.
+**Why Functional stays text.** A functional need is the task itself ("send an invoice in under a minute"), different for every business, so no list fits it. A general list (saves time, simplifies, reduces cost, reduces risk) would ask again what B1 and E1 already ask: L1 is those functional values in the app's words (doc 34). The Offering keeps ticking the functional needs it addresses, by entry, as built. The owner's idea (2026-11-03): a list of functional jobs serves instead to compare an Offering with a Competitor, so it is asked there, not here: L17 (doc 34), doc 43 O13 and doc 41 K6, proposed.
 
 **Why Emotional and Social can be ticks.** How people want to feel, and how they want to be seen, falls into a short set that holds across businesses. Bain's *Elements of Value* names it from surveys of 10,000 consumers [FUN-48] and of business buyers [FUN-49]. The lists below are those elements in plain UK words, cut to what a small business can deliver.
 
@@ -442,4 +442,4 @@ The owner asked (2026-11-03) whether the three Needs lists could be choices inst
 
 **What changes for saved work.** Nothing is lost: a Profile's emotional and social texts become the notes of the two questions, and the ticks start empty. The Offering's ticks of functional needs are untouched.
 
-**Still to decide:** Emotional and Social as ticks (proposed), or kept as text (9.3); the option words above.
+**Still to decide:** the option words above.
