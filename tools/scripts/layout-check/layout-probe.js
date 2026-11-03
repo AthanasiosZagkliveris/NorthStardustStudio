@@ -3018,11 +3018,14 @@
                 const layersBefore = document.querySelectorAll(".section-tile-overlay").length;
                 plus.click();
                 await pause(settle);
-                // (A busy machine can draw the new card, and put the focus in its name, later than one settle: it is waited for, two seconds at most, so a slow frame is not a finding.)
+                // (A busy machine can draw the new card, and put the focus in it, later than one settle: it is waited for, two seconds at most, so a slow frame is not a finding.)
                 for (let waited = 0; waited < 2000; waited += 50) {
-                    const drawn = document.querySelector(".floating-card-host") || document.querySelectorAll(".section-tile-overlay").length > layersBefore;
-                    const named = document.querySelector(".floating-card-host textarea.card-name-input");
-                    if (drawn && (!named || document.activeElement === named)) {
+                    const host = document.querySelector(".floating-card-host");
+                    const asDialog = !host && document.querySelectorAll(".section-tile-overlay").length > layersBefore;
+                    const named = host && host.querySelector("textarea.card-name-input");
+                    const active = document.activeElement;
+                    // (Drawn, and the focus taken: in its name where it has one to type, else on the card -- a channel's name is written by the app.)
+                    if ((named && active === named) || (host && !named && host.contains(active)) || (asDialog && active && active.closest(".section-tile-overlay"))) {
                         break;
                     }
                     await pause(50);
