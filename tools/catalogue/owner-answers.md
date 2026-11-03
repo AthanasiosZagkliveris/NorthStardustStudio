@@ -31,7 +31,7 @@ The owner's instruction: continue with the rest of the cards.
 | A nested card with more than one sibling has arrows, rail bullets and a shrink button | No | To be added |
 | Tiles in a nested card scale down equally to keep three in a row | No | To be added |
 | End date is optional, switched on only when the project ends | Yes | The End date tick rule (the End date is optional) |
-| Names inherited by Founder, Delivery, generated Channel and Expense cards | Partly | Document 01 describes the cards; no single rule says which cards inherit their name |
+| Names inherited by Founder, Delivery, generated Channel and Expense cards | Partly | Document 1 describes the cards; no single rule says which cards inherit their name |
 | One calendar; handles recorded only | Decision | Not a layout rule; kept in the owner's answers |
 
 ### The owner's third set of statements (2026-10-15, with screenshots of a Resources dialog and a Theme card)

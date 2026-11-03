@@ -4,24 +4,56 @@
  */
 import ListStatic from "../../fields/ListStatic.tsx";
 import TickField from "../../../controls/TickField.tsx";
-import { ReactNode } from "react";
+import { Fragment, ReactNode, useState } from "react";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
-import { BUSINESS_COMPETITOR_TYPES, BUSINESS_OFFERING_CATEGORIES, BusinessCompetitorValue, BusinessCustomerSegmentValue, BusinessOfferingValue, businessSegmentNeeds, createBusinessCompetitor, createBusinessCustomerProfile, createBusinessOffering } from "../../../../framework/engine/AnswerUtils.ts";
-import { BusinessAddButton, BusinessCard, BusinessRemove } from "../../cards/BusinessCardFields.tsx";
+import { BUSINESS_COMPETITOR_TYPES, BUSINESS_OFFERING_CATEGORIES, BusinessCompetitorValue, BusinessCustomerProfileValue, BusinessCustomerSegmentValue, BusinessOfferingValue, businessSegmentNeeds, createBusinessCompetitor, createBusinessCustomerProfile, createBusinessOffering } from "../../../../framework/engine/AnswerUtils.ts";
+import FieldRow from "../../fields/FieldRow.tsx";
+import { BusinessAddButton, BusinessCard, BusinessRemove, BusinessTicks, OptionalNote } from "../../cards/BusinessCardFields.tsx";
+import RadioChoice from "../../../controls/RadioChoice.tsx";
+import FittingRadioChoice from "./FittingRadioChoice.tsx";
+import NumberCell from "../../../controls/NumberCell.tsx";
+import { type ProfileBox, type ProfileQuestion, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileWho, profileQuestionsOf, profileSettle, profileShown } from "../../../../framework/engine/ProfileQuestions.ts";
+import { type SegmentBox, type SegmentQuestion, segmentChoose, segmentOptions, segmentQuestionsOf, segmentRowChoice, segmentSettle, segmentSettledNotes } from "../../../../framework/engine/SegmentQuestions.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
 import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
 import NumberedListInput from "../../fields/NumberedListInput.tsx";
 import OptionPicker from "../../fields/OptionPicker.tsx";
-import { FieldMark, FieldStatus } from "../../fields/fieldMarks.tsx";
 import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
-import { BusinessNeedKind, CATEGORY_OTHER, COMPETITOR_TYPE_QUESTIONS, SUBSECTIONS, competitorParts, otherProfileNeeds } from "./shared.tsx";
+import { BusinessNeedKind, CATEGORY_OTHER, COMPETITOR_TYPE_QUESTIONS, DescriptionPart, OPTIONAL_DESCRIPTION_PART, SUBSECTIONS, competitorParts, otherProfileNeeds } from "./shared.tsx";
+import { BUSINESS_AUDIENCE, PEOPLE_AUDIENCE, audienceLine, segmentContextFor, segmentFrame } from "./identityLink.ts";
 import type { useFoundationState } from "./useFoundationState.tsx";
 
 type Earlier = ReturnType<typeof useFoundationState>;
 
+/**
+ * The exact age of a Profile (A1). What is typed stays in the cell while it is typed: the age is settled against the Segment's age group (an age outside it is cleared), and a first digit
+ * such as the 4 of 45 is outside a group of 40 to 54, so settling at every key made the number impossible to write. The cell holds a draft while it has the focus; leaving it settles.
+ */
+function ProfileAgeCell({ value, label, disabled, onType, onDone }: { value: string; label: string; disabled?: boolean; onType: (typed: string) => void; onDone: () => void }) {
+    const [draft, setDraft] = useState<string | null>(null);
+    return (
+        <NumberCell
+            kind="int"
+            className="business-capability-people business-profile-age"
+            aria-label={label}
+            disabled={disabled}
+            value={draft ?? value}
+            onChange={(event) => {
+                const typed = event.target.value.replace(/D/g, "").slice(0, 3);
+                setDraft(typed);
+                onType(typed);
+            }}
+            onBlur={() => {
+                setDraft(null);
+                onDone();
+            }}
+        />
+    );
+}
+
 export function useFoundationSubsections(earlier: Earlier) {
 
-    const { built, description, disabled, folds, forceOpen, group, groupFold, labelled, note, targetAudience, text, updateProfile, updateSegment } = earlier;
+    const { built, description, disabled, folds, forceOpen, group, groupFold, labelled, note, targetAudience, identity, text, updateProfile, updateSegment } = earlier;
 
     /** The delete control every card on this page carries. */
     function remove(what: string, onRemove: () => void) {
@@ -169,9 +201,134 @@ export function useFoundationSubsections(earlier: Earlier) {
 
         const segmentPath = "Segment " + (segmentIndex + 1);
 
+        // The boxes follow the Seller and Buyer Relationship (Identity): people only asks Demographics (not Business Data); businesses only asks Business Data (not Demographics) and
+        // asks it without the tick; otherwise (nothing chosen, or several) every box stands, as before. The audience chosen in Identity is added to the "i" of the box it belongs to.
+        const frame = segmentFrame(identity);
+        const asked = segmentContextFor(identity, segment.description[OPTIONAL_DESCRIPTION_PART] !== undefined);
+
+        /** One question of a box, as the Positioning card asks one: its label with its "i" (and its limit) over the radio or the ticks, settled against what the other answers and Identity allow. */
+        const questionOf = (question: SegmentQuestion) => {
+            const options = segmentOptions(question, segment.questions, asked);
+            const chosen = segment.questions[question.id] ?? [];
+            const choose = (next: string[]) => updateSegment(segmentIndex, {
+                questions: segmentSettle(segmentChoose(question, segment.questions, next), asked)
+            });
+            return (
+                <FieldRow
+                    key={question.id}
+                    pair
+                    fullList
+                    label={question.label}
+                    info={[...question.info]}
+                    labelNote={question.max !== undefined ? <span className="business-foundation-tick-note">{question.max + " max"}</span> : undefined}
+                >
+                    {question.many
+                        ? (
+                            <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={question.label}>
+                                <BusinessTicks name={question.label} disabled={disabled} options={options} chosen={chosen} max={question.max} onChange={choose} />
+                            </div>
+                        )
+                        : (
+                            segmentRowChoice(question, options)
+                                ? (
+                                    <FittingRadioChoice
+                                        label={question.label}
+                                        group={segment.id + "-" + question.id}
+                                        disabled={disabled}
+                                        value={chosen[0] ?? ""}
+                                        onChange={(next) => choose([next])}
+                                        options={options}
+                                    />
+                                )
+                                : (
+                                    <RadioChoice
+                                        label={question.label}
+                                        group={segment.id + "-" + question.id}
+                                        className="legal-entity-radio-stack"
+                                        disabled={disabled}
+                                        value={chosen[0] ?? ""}
+                                        onChange={(next) => choose([next])}
+                                        options={options}
+                                    />
+                                )
+                        )}
+                </FieldRow>
+            );
+        };
+        const settledNotes = (box: SegmentBox) => segmentSettledNotes(box, segment.questions, asked);
+        const questionsOf = (box: SegmentBox) => {
+            const notes = settledNotes(box);
+            const list = segmentQuestionsOf(box, segment.questions, asked).map(questionOf);
+            // (What Positioning or the answers above have set is said in one line, in the small note style the cards already use, so a hidden answer is never a silent one.)
+            return notes.length > 0
+                ? [<span key="settled" className="business-foundation-tick-note business-segment-settled">{"Set for you from Positioning and your answers above: " + notes.join("; ") + "."}</span>, ...list]
+                : list;
+        };
+        /** A box's height in lines: its title, and each question's label and options. */
+        const weightOf = (box: SegmentBox) => 2 + segmentQuestionsOf(box, segment.questions, asked).reduce((sum, question) => sum + 2 + segmentOptions(question, segment.questions, asked).length, 0);
+
+        const segmentParts: DescriptionPart[] = SUBSECTIONS.segments.segmentDescription
+            // (A Segment is one group: a business Segment has no Demographics, a people Segment no Business Data.)
+            .filter(part => !((asked.frame === "people" && part.id === OPTIONAL_DESCRIPTION_PART) || (asked.frame === "business" && part.id === "demographics")))
+            .map(part => part.id === "demographics"
+                ? { ...part, extra: [...SUBSECTIONS.segments.boxNotes[part.id], ...audienceLine(identity, PEOPLE_AUDIENCE)], questions: questionsOf("demographics"), weight: weightOf("demographics") }
+                : part.id === OPTIONAL_DESCRIPTION_PART
+                    ? { ...part, extra: [...SUBSECTIONS.segments.boxNotes[part.id], ...audienceLine(identity, BUSINESS_AUDIENCE)], always: true, questions: questionsOf("business-data"), weight: weightOf("business-data") }
+                    : { ...part, extra: SUBSECTIONS.segments.boxNotes[part.id], questions: questionsOf(part.id as SegmentBox), weight: weightOf(part.id as SegmentBox) })
+            // A business buyer's Business Data comes before Geographics.
+            .sort((a, b) => asked.frame === "business"
+                ? Number(b.id === OPTIONAL_DESCRIPTION_PART) - Number(a.id === OPTIONAL_DESCRIPTION_PART)
+                : 0);
+
+        // Where Positioning chose both relationships the first two Segments are made for the user, the first of people (B2C) and the second of businesses (B2B), and are not asked; a Segment added after
+        // them asks who its customer is, as the one question that opens its first box. (The choice is kept as the presence of the Business Data key.)
+        if (frame === "open" && segmentIndex >= 2 && segmentParts.length > 0) {
+            const isBusiness = segment.description[OPTIONAL_DESCRIPTION_PART] !== undefined;
+            const kindOptions = [{ id: "people", label: "People (B2C)" }, { id: "business", label: "Businesses (B2B)" }];
+            const kindQuestion = (
+                <FieldRow
+                    key="kind"
+                    pair
+                    fullList
+                    label="Who is this Segment's customer?"
+                    info={["The Segment is one group: people, or businesses.", "Choosing one changes the questions asked; answers that no longer apply are removed."]}
+                >
+                    <FittingRadioChoice
+                        label="Who is this Segment's customer?"
+                        group={segment.id + "-kind"}
+                        disabled={disabled}
+                        value={isBusiness ? "business" : "people"}
+                        onChange={(next) => {
+                            const description = { ...segment.description };
+                            if (next === "business") {
+                                description[OPTIONAL_DESCRIPTION_PART] = description[OPTIONAL_DESCRIPTION_PART] ?? "";
+                            } else {
+                                delete description[OPTIONAL_DESCRIPTION_PART];
+                            }
+                            updateSegment(segmentIndex, { description, questions: segmentSettle(segment.questions, segmentContextFor(identity, next === "business")) });
+                        }}
+                        options={kindOptions}
+                    />
+                </FieldRow>
+            );
+            segmentParts[0] = { ...segmentParts[0], questions: [kindQuestion, ...(segmentParts[0].questions ?? [])], weight: (segmentParts[0].weight ?? 0) + 3 };
+        }
+
+        // The user of a Proxy or Dual-Intent buyer: described in the same card.
+        if (asked.endsUser) {
+            segmentParts.push({
+                id: "user",
+                title: "User",
+                text: "Who uses what the buyer buys?",
+                extra: SUBSECTIONS.segments.boxNotes.user,
+                questions: questionsOf("user"),
+                weight: weightOf("user")
+            });
+        }
+
         const segmentDescription = description(
             segmentPath,
-            SUBSECTIONS.segments.segmentDescription,
+            segmentParts,
             segment.description,
             (next) => updateSegment(segmentIndex, { description: next }),
             true,
@@ -179,6 +336,120 @@ export function useFoundationSubsections(earlier: Earlier) {
         );
 
         /* ---- 1. Its Profiles ---- */
+
+        /** One question of a Profile box: as the Segment's are drawn (a radio, ticks or the number of the age), against what the Segment answered. */
+        const profileQuestionOf = (profile: BusinessCustomerProfileValue, profileIndex: number, shown: Record<string, string[]>, question: ProfileQuestion) => {
+            const label = profileWho(question.label, shown.a2?.[0]);
+            const ageRange = question.number ? profileAgeRange(segment.questions) : null;
+            const chosen = shown[question.id] ?? [];
+            const write = (next: Record<string, string[]>) => updateProfile(segmentIndex, profileIndex, { questions: profileSettle(next, segment.questions, asked) });
+            const choose = (next: string[]) => write(profileChoose(question, shown, next));
+            const options = question.options.map(option => ({ ...option }));
+            return (
+                <FieldRow
+                    key={question.id}
+                    pair
+                    fullList
+                    label={label}
+                    info={[...question.info]}
+                    labelNote={question.max !== undefined ? <span className="business-foundation-tick-note">{question.max + " max"}</span> : question.number && ageRange ? <span className="business-foundation-tick-note">{ageRange[1] >= 130 ? ageRange[0] + " or older" : ageRange[0] + "–" + (ageRange[1] - 1)}</span> : undefined}
+                >
+                    {question.number
+                        // (A number stands beside its label, on the label's line, at the right end of the band: see .business-profile-age.)
+                        ? (
+                            <ProfileAgeCell
+                                                                label={label}
+                                disabled={disabled}
+                                value={chosen[0] ?? ""}
+                                onType={(typed) => updateProfile(segmentIndex, profileIndex, { questions: typed ? { ...profileSettle({ ...shown, [question.id]: [typed] }, segment.questions, asked), [question.id]: [typed] } : profileSettle({ ...shown, [question.id]: [] }, segment.questions, asked) })}
+                                onDone={() => write(shown)}
+                            />
+                        )
+                        : question.many
+                            ? (
+                                <>
+                                    <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={label}>
+                                        <BusinessTicks name={label} disabled={disabled} options={options} chosen={chosen} max={question.max} onChange={choose} />
+                                    </div>
+                                    {question.other && chosen.includes("other") && (
+                                        <StrategyTextArea
+                                            className="interview-input business-foundation-note"
+                                            ariaLabel={label + " Other"}
+                                            disabled={disabled}
+                                            value={shown[question.id + "-other"]?.[0] ?? ""}
+                                            onChange={(next) => write({ ...shown, [question.id + "-other"]: [next] })}
+                                        />
+                                    )}
+                                </>
+                            )
+                            : segmentRowChoice({ ...question, box: "demographics" } as unknown as SegmentQuestion, options)
+                                ? <FittingRadioChoice label={label} group={profile.id + "-" + question.id} disabled={disabled} value={chosen[0] ?? ""} onChange={(next) => choose([next])} options={options} />
+                                : <RadioChoice label={label} group={profile.id + "-" + question.id} className="legal-entity-radio-stack" disabled={disabled} value={chosen[0] ?? ""} onChange={(next) => choose([next])} options={options} />}
+                </FieldRow>
+            );
+        };
+        /** The boxes of a Profile's Description, each with its questions and its note, and the ones the Segment leaves no question in are plain notes. */
+        const profileParts = (profile: BusinessCustomerProfileValue, profileIndex: number): DescriptionPart[] => {
+            const shown = profileShown(profile.questions ?? {}, segment.questions, asked);
+            return SUBSECTIONS.segments.profileDescription.map(part => ({
+                ...part,
+                note: true,
+                level: 4,
+                extra: [PROFILE_NOTE_HINTS[part.id as ProfileBox]],
+                questions: profileQuestionsOf(part.id as ProfileBox, segment.questions, asked).map(question => profileQuestionOf(profile, profileIndex, shown, question)),
+                weight: 2 + profileQuestionsOf(part.id as ProfileBox, segment.questions, asked).length * 4
+            }));
+        };
+        /**
+         * The Motivations as boxes built as the Description's are: a title band with its "i", then the box's question as a band, then its own note. They stand in the one grid the Description's
+         * boxes stand in (one column), which is also what keeps them in the card's content column.
+         */
+        const motivations = (profile: BusinessCustomerProfileValue, profileIndex: number) => {
+            const boxes: { box: ProfileBox; title: string; info: InfoPoint[]; text: string; field: "goals" | "challenges" | "objections" }[] = [
+                { box: "goals", title: "Goals & Desires", info: [...SUBSECTIONS.segments.motivations.goals, PROFILE_NOTE_HINTS.goals], text: profile.goals, field: "goals" },
+                { box: "challenges", title: "Challenges & Problems", info: [...SUBSECTIONS.segments.motivations.challenges, PROFILE_NOTE_HINTS.challenges], text: profile.challenges, field: "challenges" },
+                { box: "objections", title: "Objections", info: [...SUBSECTIONS.segments.motivations.objections, PROFILE_NOTE_HINTS.objections], text: profile.objections, field: "objections" }
+            ];
+            const shown = profileShown(profile.questions ?? {}, segment.questions, asked);
+            return (
+                <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-single">
+                    <div className="legal-entity-field">
+                        {boxes.map((entry, at) => (
+                            <Fragment key={entry.box}>
+                                {at > 0 && <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double" role="separator" />}
+                                <div className="business-segment-box">
+                                    <div className="legal-entity-org-section">
+                                        <span className="business-foundation-label-info legal-entity-label-info">
+                                            <FieldLabel className="business-foundation-label" role="heading" aria-level={4}>
+                                                <InfoText text={entry.title}>
+                                                    <InfoNote label={entry.title} points={entry.info} fullList />
+                                                </InfoText>
+                                            </FieldLabel>
+                                        </span>
+                                    </div>
+                                    {profileQuestionsOf(entry.box, segment.questions, asked).map((question, position) => (
+                                        <div className={"legal-entity-org-section" + (position % 2 === 1 ? " legal-entity-org-band" : "")} key={question.id}>
+                                            {profileQuestionOf(profile, profileIndex, shown, question)}
+                                        </div>
+                                    ))}
+                                    <div className={"legal-entity-org-section business-note-band" + (profileQuestionsOf(entry.box, segment.questions, asked).length % 2 === 1 ? " legal-entity-org-band" : "")}>
+                                        <OptionalNote
+                                            label="Notes"
+                                            fieldId={entry.title + " notes"}
+                                            ariaLabel={segmentPath + ", Profile " + (profileIndex + 1) + " " + entry.title + " notes"}
+                                            placeholder="Add a note"
+                                            disabled={disabled}
+                                            value={entry.text}
+                                            onChange={(next) => updateProfile(segmentIndex, profileIndex, { [entry.field]: next })}
+                                        />
+                                    </div>
+                                </div>
+                            </Fragment>
+                        ))}
+                    </div>
+                </div>
+            );
+        };
 
         const profiles = (
             <>
@@ -210,14 +481,15 @@ export function useFoundationSubsections(earlier: Earlier) {
 
                         {description(
                             segmentPath + ", Profile " + (profileIndex + 1),
-                            SUBSECTIONS.segments.profileDescription,
+                            profileParts(profile, profileIndex),
                             profile.description,
                             (next) => updateProfile(
                                 segmentIndex, profileIndex, { description: next }
                             ),
-                            false,
+                            true,
                             undefined,
-                            groupFold(profile.id, "Description", segmentPath + ", Profile " + (profileIndex + 1))
+                            groupFold(profile.id, "Description", segmentPath + ", Profile " + (profileIndex + 1)),
+                            true
                         )}
 
                         {/* What the Profile wants and what stands in
@@ -231,37 +503,11 @@ export function useFoundationSubsections(earlier: Earlier) {
                             below, and a section called "... and
                             Needs" containing a section called "Needs"
                             says it twice. */}
+                        <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double business-profile-section-rule" role="separator" />
+
                         {group("Motivations", <>
 
-                        {note(
-                            "Goals & Desires",
-                            profile.goals,
-                            (next) => updateProfile(
-                                segmentIndex, profileIndex, { goals: next }
-                            ),
-                            SUBSECTIONS.segments.motivations.goals,
-                            segmentPath + ", Profile " + (profileIndex + 1)
-                        )}
-
-                        {note(
-                            "Challenges & Problems",
-                            profile.challenges,
-                            (next) => updateProfile(
-                                segmentIndex, profileIndex, { challenges: next }
-                            ),
-                            SUBSECTIONS.segments.motivations.challenges,
-                            segmentPath + ", Profile " + (profileIndex + 1)
-                        )}
-
-                        {note(
-                            "Objections",
-                            profile.objections,
-                            (next) => updateProfile(
-                                segmentIndex, profileIndex, { objections: next }
-                            ),
-                            SUBSECTIONS.segments.motivations.objections,
-                            segmentPath + ", Profile " + (profileIndex + 1)
-                        )}
+                        {motivations(profile, profileIndex)}
 
                         </>, undefined, groupFold(profile.id, "Motivations", segmentPath + ", Profile " + (profileIndex + 1)))}
 
@@ -274,60 +520,30 @@ export function useFoundationSubsections(earlier: Earlier) {
                             NumberedListInput) -- and a numbered
                             line is what the Offerings subsection
                             picks from. */}
-                        {group("Needs", SUBSECTIONS.segments.needs.map(kind => (
-                            <div
-                                className="business-foundation-field"
-                                key={kind.id}
-                            >
+                        {/* NEEDS is a section as Description and Motivations are: its heading, then its labelled bands (Functional, Emotional, Social), each label over its numbered list. */}
+                        <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double business-profile-section-rule" role="separator" />
 
-                                <span className="business-foundation-label-info">
-                                    <FieldLabel className="business-foundation-label">
-                                        <InfoText text={kind.title}>
-                                            <InfoNote
-                                                label={kind.title}
-                                                points={[kind.text]}
-                                                fullList
-                                            />
-                                        </InfoText>
-                                        <FieldMark label={kind.title} />
-                                    </FieldLabel>
-                                    <FieldStatus label={kind.title} />
-                                </span>
-
-                                <NumberedListInput
-                                    label={
-                                        kind.title +
-                                        " needs for " + segmentPath + ", Profile " + (profileIndex + 1)
-                                    }
-                                    items={profile.needs[kind.id as BusinessNeedKind]}
-                                    disabled={disabled}
-                                    /* What the OTHER Profiles in this
-                                       Segment have called this need,
-                                       offered as it is typed. They
-                                       share their needs, so the
-                                       second Profile to want the same
-                                       thing should be able to say so
-                                       in the same words -- typing it
-                                       afresh is how "Bill on time"
-                                       and "Billing on time" become
-                                       two needs that are one. */
-                                    suggestions={otherProfileNeeds(
-                                        segment,
-                                        profileIndex,
-                                        kind.id as BusinessNeedKind
-                                    )}
-                                    onChange={(items) => updateProfile(
-                                        segmentIndex, profileIndex, {
-                                            needs: {
-                                                ...profile.needs,
-                                                [kind.id]: items
-                                            }
-                                        }
-                                    )}
-                                />
-
+                        {group("Needs", (
+                            <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-single">
+                                <div className="legal-entity-field">
+                                    {SUBSECTIONS.segments.needs.map((kind, at) => (
+                                        <div className={"legal-entity-org-section" + (at % 2 === 1 ? " legal-entity-org-band" : "")} key={kind.id}>
+                                            <FieldRow pair fullList label={kind.title} info={[kind.text]}>
+                                                <NumberedListInput
+                                                    label={kind.title + " needs for " + segmentPath + ", Profile " + (profileIndex + 1)}
+                                                    items={profile.needs[kind.id as BusinessNeedKind]}
+                                                    disabled={disabled}
+                                                    /* What the OTHER Profiles of this Segment have called this need, offered as it is typed: they share
+                                                       their needs, so the second Profile to want the same thing says so in the same words. */
+                                                    suggestions={otherProfileNeeds(segment, profileIndex, kind.id as BusinessNeedKind)}
+                                                    onChange={(items) => updateProfile(segmentIndex, profileIndex, { needs: { ...profile.needs, [kind.id]: items } })}
+                                                />
+                                            </FieldRow>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                        )), undefined, groupFold(profile.id, "Needs", segmentPath + ", Profile " + (profileIndex + 1)))}
+                        ), ["Each need is one numbered line. The Offerings choose from these needs."], groupFold(profile.id, "Needs", segmentPath + ", Profile " + (profileIndex + 1)))}
 
                     </>
                 ))}

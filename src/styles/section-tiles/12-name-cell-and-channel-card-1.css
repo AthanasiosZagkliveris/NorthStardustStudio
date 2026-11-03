@@ -784,15 +784,25 @@ main.conversation-content[data-reserve],
 
 }
 
+/* A tab too narrow to name its options (under 160px beside the card) keeps only the back arrow: the word would be cut off at the window's edge. */
+.carousel-rail:not(.carousel-rail-named) .carousel-rail-back .back-button-word,
 .carousel-rail:not(.carousel-rail-named) .carousel-rail-back-word {
 
     display: none;
 
 }
 
-.section-tile-overlay:has(.carousel-rail-back) .section-tile-back {
+.section-tile-overlay:has(.carousel-rail-back) .section-tile-back,
+body:has(.floating-overlay) .section-tile-dialog .section-tile-back {
 
     display: none;
+
+}
+
+/* A tile grows 10% under the pointer: the dialog’s body leaves room under the last row of tiles, so the grown tile is not cut by the dialog’s edge. */
+.section-tile-dialog-body:has(.card-tile-slot) {
+
+    padding-bottom: 20px;
 
 }
 

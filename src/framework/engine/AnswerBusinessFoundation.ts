@@ -2,9 +2,11 @@
  * THE BUSINESS SYSTEM, FOUNDATION (page 1): segments, profiles, offerings, channels, relationships and engagement.
  * Split out of AnswerUtils.ts (still importable from there).
  */
+import { asProfileAnswers } from "./ProfileQuestions.ts";
 import { asObject, asText, randomId } from "./Readers.ts";
 import { type DemandValue, asDemandMap } from "./DemandCapacity.ts";
 import { pickHue } from "./AnswerStrategy.ts";
+import { type SegmentAnswers, asSegmentAnswers } from "./SegmentQuestions.ts";
 
 /* ==================================================================
    Business System -- Foundation (Page 1)
@@ -121,6 +123,8 @@ export interface BusinessCustomerProfileValue {
     id: string;
     name: string;
     description: BusinessDescriptionValue;
+    /** The Profile's choice questions (ProfileQuestions.ts): question id -> the option ids chosen. */
+    questions?: Record<string, string[]>;
     goals: string;
     challenges: string;
     objections: string;
@@ -149,6 +153,12 @@ export interface BusinessCustomerSegmentValue {
      */
     hue?: number;
     description: BusinessDescriptionValue;
+    /**
+     * The choices made in the questions of its Description's boxes
+     * and of its user block, by question (see SegmentQuestions.ts).
+     * The boxes' own text stays beside them, as notes.
+     */
+    questions: SegmentAnswers;
     profiles: BusinessCustomerProfileValue[];
     /**
      * This Segment's single Value Proposition -- the one thing the
@@ -225,6 +235,7 @@ export function createBusinessCustomerSegment(
         hue: pickHue(taken),
         name: "",
         description: {},
+        questions: {},
         // "By default, at least 1 Customer Profile card should
         // exist." The competitor and the Offering are there for
         // the same reason: a subsection showing nothing but an Add
@@ -457,6 +468,7 @@ export function asBusinessFoundationValue(value: unknown): BusinessFoundationVal
                             profile.description,
                             BUSINESS_FIRST_DESCRIPTION_PART.profile
                         ),
+                        ...(Object.keys(asProfileAnswers(profile.questions)).length > 0 ? { questions: asProfileAnswers(profile.questions) } : {}),
                         goals: asText(profile.goals),
                         challenges: asText(profile.challenges),
                         objections: asText(profile.objections),
@@ -495,6 +507,7 @@ export function asBusinessFoundationValue(value: unknown): BusinessFoundationVal
                     segment.description,
                     BUSINESS_FIRST_DESCRIPTION_PART.segment
                 )),
+                questions: asSegmentAnswers(segment.questions),
                 profiles: profiles.length > 0
                     ? profiles
                     : [createBusinessCustomerProfile()],

@@ -16,7 +16,8 @@
 
     border-color: var(--box-edge);
 
-    box-shadow: var(--box-inset), 0 24px 56px var(--shadow-18), 0 8px 20px var(--shadow-12);
+    /* A card has no inner light and shade (that edge is a tile's): its drop shadow alone. */
+    box-shadow: 0 24px 56px var(--shadow-18), 0 8px 20px var(--shadow-12);
 
 }
 

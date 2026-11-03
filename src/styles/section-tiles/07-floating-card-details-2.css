@@ -184,7 +184,8 @@
 
 .floating-card-body :is(.legal-entity-card, .brand-style-card, .strategy-theme-box) {
 
-    box-shadow: var(--box-inset), 0 24px 56px var(--shadow-18), 0 8px 20px var(--shadow-12);
+    /* A card has no inner light and shade (that edge is a tile's): its drop shadow alone. */
+    box-shadow: 0 24px 56px var(--shadow-18), 0 8px 20px var(--shadow-12);
 
 }
 
@@ -233,6 +234,17 @@
 
 }
 
+/* UNDER 1100px THE FRAMES STACK, one to a row, as a page of one frame (the Business System's) already stands: two frames side by side would leave each too narrow for its tiles. */
+@media (max-width: 1099px) {
+
+    .page-group {
+
+        grid-template-columns: minmax(0, 1fr);
+
+    }
+
+}
+
 .page-group .answer-columns.business-foundation.business-engagement.business-capability.column-tiles-page > .business-foundation-card {
 
     width: 100%;
@@ -245,9 +257,10 @@
 
 }
 
+/* THE LINES OF A TILE ARE ONE LINE: 1px, the title ink at 40%, as the title's own rule is (its border, 01-tiles-and-dialog.css), so a title's line and a line between two topics read alike. */
 .section-tile-list > li.section-tile-divider {
 
-    background: color-mix(in srgb, currentColor 55%, transparent);
+    background: color-mix(in srgb, var(--title-ink) 40%, transparent);
 
 }
 
@@ -1295,5 +1308,12 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     margin: 0 auto;
 
     font-size: var(--font-small);
+
+}
+
+/* THE BRAND IMAGES TILE GROWS AS ONE PICTURE: under the pointer its slot is scaled by the compositor from the picture drawn at rest (will-change keeps that raster, as the images' own layer was meant to), so a block under the pointer is the very picture it was, a tenth larger, and not the image drawn again with other pixels (a fine weave looked denser). */
+.section-tile-slot:has(.brand-mosaic-images) {
+
+    will-change: transform;
 
 }

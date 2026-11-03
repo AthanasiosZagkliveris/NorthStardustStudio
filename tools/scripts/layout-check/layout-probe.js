@@ -2750,7 +2750,7 @@
             // EVERY dialog has the one frame: the width of the page's card area (at most 92vw), from the
             // page heading's underline to the footer (the CSS fallback without those lines: the least of
             // 92vw and 1400px wide, 88vh high). Its Back button stands at its lower left inside it. Its
-            // ground is the shared glass: translucent and blurred, as is the ground of the cards in it.
+            // ground is solid (no transparency, no blur), as is the ground of the cards in it.
             {
                 const box = dialog.getBoundingClientRect();
                 const underline = document.querySelector(".interview-divider");
@@ -2815,13 +2815,13 @@
                     return found ? parseFloat(found[1]) : 1;
                 };
                 const blurred = (element) => /blur/.test(getComputedStyle(element).backdropFilter || getComputedStyle(element).webkitBackdropFilter || "");
-                if (alphaOf(dialog) < 0.99 && !blurred(dialog)) {
-                    failures.push({ rule: "a dialog's ground is translucent and blurred (the shared glass)", where: title, detail: { alpha: alphaOf(dialog), blur: getComputedStyle(dialog).backdropFilter } });
+                if (alphaOf(dialog) < 0.99 || blurred(dialog)) {
+                    failures.push({ rule: "a dialog's ground is solid (no transparency, no blur)", where: title, detail: { alpha: alphaOf(dialog), blur: getComputedStyle(dialog).backdropFilter } });
                 }
                 for (const inner of dialog.querySelectorAll(".business-foundation-card")) {
-                    if (!visible(inner) || inner.matches(".business-founder-unframed, .brand-hierarchy-card")) continue; // (the Text Hierarchy's box stands on its tile's own tint, like the Brand cards: 12-name-cell-and-channel-card-1.css) // (the one owner's founder card is the dialog's body, unframed)
-                    if (alphaOf(inner) >= 0.99 || !blurred(inner)) {
-                        failures.push({ rule: "a card in a dialog has the shared glass ground (translucent, blurred)", where: title, detail: { alpha: alphaOf(inner), blur: getComputedStyle(inner).backdropFilter } });
+                    if (!visible(inner) || inner.matches(".business-founder-unframed")) continue; // (the one owner's founder card is the dialog's body, unframed)
+                    if (alphaOf(inner) < 0.99 || blurred(inner)) {
+                        failures.push({ rule: "a card in a dialog has a solid ground (no transparency, no blur)", where: title, detail: { alpha: alphaOf(inner), blur: getComputedStyle(inner).backdropFilter } });
                         break;
                     }
                 }

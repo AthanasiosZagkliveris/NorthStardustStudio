@@ -2,6 +2,7 @@
  * THE EDITOR'S STATE: the entity, its writes, the country and the registration work out and what the other pages give.
  * One part of LegalEntityEditor (see LegalEntityEditor.tsx): what it needs of the parts before it comes in as `earlier`; what the parts after it need goes out.
  */
+import { withOnlyUserStage } from "../../../../framework/engine/RelationshipFit.ts";
 import { ReactNode, useEffect, useRef } from "react";
 import FieldRow from "../../fields/FieldRow.tsx";
 import TextBox from "../../../controls/TextBox.tsx";
@@ -179,7 +180,8 @@ export function useLegalState(props: LegalEntityEditorProps) {
 
     });
     function updateOrganisation(patch: Partial<LegalEntityValue["organisation"]>) {
-        update({ organisation: { ...entity.organisation, ...patch } });
+        // (The user's life stage is set where only one fits: RelationshipFit.ts.)
+        update({ organisation: withOnlyUserStage({ ...entity.organisation, ...patch }) });
     }
     function updateFormation(patch: Partial<LegalEntityValue["formation"]>) {
         update({ formation: { ...entity.formation, ...patch } });
@@ -243,7 +245,7 @@ export function useLegalState(props: LegalEntityEditorProps) {
     }
     /**
      * Changing country changes what a legal form even means, so the
-     * chosen one is cleared with it -- a "GmbH" left standing under
+     * chosen one is cleared with it, and so are the state and the address -- a "GmbH" left standing under
      * "France" would be worse than an empty field. Anything TYPED
      * survives: that was never drawn from the list.
      */
@@ -255,6 +257,8 @@ export function useLegalState(props: LegalEntityEditorProps) {
                 ...entity.organisation,
                 country,
                 subdivision: "",
+                // (The address was written for the country just left: a change of country empties it, with the state, so no address stays under another country's state or postcode. Choosing the same country again changes nothing.)
+                ...(country !== entity.organisation.country ? { addressLine1: "", addressLine2: "", city: "", postalCode: "" } : {}),
                 legalForm: "",
                 activityCode: "",
                 // Nothing carries over to another country: its classification is its own, even where the codes look alike.

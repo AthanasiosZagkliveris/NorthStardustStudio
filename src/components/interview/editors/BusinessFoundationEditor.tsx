@@ -1,4 +1,5 @@
 import TextBox from "../../controls/TextBox.tsx";
+import FieldLabel from "../../controls/FieldLabel.tsx";
 import { CSSProperties, ReactNode } from "react";
 import CardShell from "../cards/CardShell.tsx";
 import CardHead from "../cards/CardHead.tsx";
@@ -14,7 +15,7 @@ import { railId } from "../rails/railItems.ts";
 import { FieldMark } from "../fields/fieldMarks.tsx";
 import { toggledIn } from "../fields/toggledIn.ts";
 
-import { BusinessFoundationEditorProps } from "./foundation/shared.tsx";
+import { BusinessFoundationEditorProps, SUBSECTIONS } from "./foundation/shared.tsx";
 
 import { useFoundationState } from "./foundation/useFoundationState.tsx";
 import { useFoundationSubsections } from "./foundation/useFoundationSubsections.tsx";
@@ -107,7 +108,7 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
         );
         const DESCRIPTION = ":description";
         const PROPOSITION = ":proposition";
-        const info = (section: number): InfoPoint[] => [...heads[section].instructions];
+        const info = (section: number): InfoPoint[] => [...heads[section].instructions, ...(section === 0 ? [SUBSECTIONS.segments.questionsNote] : [])];
         const written = (names: readonly string[], count = 6) => names.map(name => name.trim()).filter(name => name.length > 0).slice(0, count);
         const boxesOf = (segment: BusinessCustomerSegmentValue, kind: Kind): CardBox[] => listOf(segment, kind).map((entry, at) => ({
             id: entry.id,
@@ -137,7 +138,8 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                 return {
                     id: segment.id + ":" + kind,
                     title,
-                    group: title,
+                    // (A floating card is ONE Competitor or Offering: its name above it is singular.)
+                    group: NOUN[kind],
                     large: true,
                     view: true,
                     rail: rail(section),
@@ -157,7 +159,8 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                 {
                     id: segment.id + ":customers",
                     title: "Segment Description",
-                    group: "Profiles",
+                    // (A floating card is ONE Profile: its name above it is singular.)
+                    group: "Profile",
                     large: true,
                     view: true,
                     rail: rail(0),
@@ -173,14 +176,28 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                     content: () => dialog(0, "Segment Description", (
                         <>
                             <div className="business-foundation-description" data-rail={rail(0)}>{subsectionsFor(segment, index).segmentDescription}</div>
-                            <span className="field-group-title business-foundation-subhead strategy-tiles-label">Profiles</span>
-                            <CardBoxes
-                                items={boxesOf(segment, "profiles")}
-                                label="Profiles"
-                                what="Profile"
-                                add={profileAdd}
-                                autoStart={false}
-                            />
+                            {/* PROFILES is a section of the Segment card as its boxes are: split from them by the shared double rule, its title a band on the primary fill, its tiles in a band under it. */}
+                            <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-full">
+                                <div className="legal-entity-field">
+                                    <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double" role="separator" />
+                                    <div className="business-segment-box">
+                                        <div className="legal-entity-org-section">
+                                            <span className="business-foundation-label-info legal-entity-label-info">
+                                                <FieldLabel className="business-foundation-label" role="heading" aria-level={3}>Profiles</FieldLabel>
+                                            </span>
+                                        </div>
+                                        <div className="legal-entity-org-section business-profiles-band">
+                                            <CardBoxes
+                                                items={boxesOf(segment, "profiles")}
+                                                label="Profiles"
+                                                what="Profile"
+                                                add={profileAdd}
+                                                autoStart={false}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </>
                     ))
                 },

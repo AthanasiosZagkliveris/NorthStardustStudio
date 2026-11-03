@@ -1,7 +1,7 @@
 /**
  * Writes src/styles/components.generated.css from the library (src/library/componentTokens.ts): the library is the one
  * place where the height of a cell, the size of a box button or of a mark is written, and the stylesheets read the
- * custom properties with var(). Change a look in the library (the procedure of docs/design/08-library-system.md), run
+ * custom properties with var(). Change a look in the library (the procedure of docs/design/library/08-library-system.md), run
  * `npm run library:tokens`, and the app follows.
  *
  *   node tools/scripts/library/component-tokens.mjs [--check]

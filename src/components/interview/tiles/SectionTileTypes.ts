@@ -99,7 +99,7 @@ export interface SectionTile {
     /** The card `{ card }` names, drawn in the floating card; null once it is gone (the floating card closes). */
     cardFor?: (id: string) => ReactNode;
 
-    /** What the tile's floating cards are called above them (their group: "Profiles", "Competitors"), where it is not the tile's own title. */
+    /** What the tile's floating cards are called above them (their group, one card each, so singular: "Profile", "Competitor"), where it is not the tile's own title. */
     group?: string;
 
     /** The same, by card, where a tile's cards are of several groups. */

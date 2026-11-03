@@ -58,4 +58,25 @@ describe("TitleTooltips", () => {
         expect(screen.queryByRole("tooltip")).toBeNull();
     });
 
+    it("gives a Back button that shows only its arrow (its word hidden in a narrow window) a tooltip", () => {
+        render(<><TitleTooltips /><button type="button" aria-label="Back" data-testid="back"><span aria-hidden="true" /><span style={{ display: "none" }}>Back</span></button></>);
+        const back = screen.getByTestId("back");
+        act(() => { fireEvent.pointerOver(back, { clientX: 10, clientY: 10 }); });
+        expect(screen.getByRole("tooltip").textContent).toBe("Click to go back");
+    });
+
+    it("says the whole title of a tile whose title is cut short by an ellipsis, and nothing for one that fits", () => {
+        render(<><TitleTooltips /><button type="button" data-testid="tile"><span title="Segment Description of the people" data-testid="part">Segment Desc...</span></button></>);
+        const part = screen.getByTestId("part");
+        Object.defineProperty(part, "scrollWidth", { configurable: true, value: 200 });
+        Object.defineProperty(part, "clientWidth", { configurable: true, value: 100 });
+        part.style.overflowX = "hidden";
+        act(() => { fireEvent.pointerOver(part, { clientX: 10, clientY: 10 }); });
+        expect(screen.getByRole("tooltip").textContent).toBe("Segment Description of the people");
+        act(() => { fireEvent.keyDown(document, { key: "Escape" }); });
+        Object.defineProperty(part, "scrollWidth", { configurable: true, value: 100 });
+        act(() => { fireEvent.pointerOver(part, { clientX: 11, clientY: 11 }); });
+        expect(screen.queryByRole("tooltip")).toBeNull();
+    });
+
 });

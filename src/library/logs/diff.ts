@@ -3,7 +3,7 @@ import type { TableData } from "../tables/types.ts";
 
 /**
  * The last logged state of the library, the placements and the tables, and the difference
- * between it and the state now (docs/design/08-library-system.md, sections 5 and 6). Every
+ * between it and the state now (docs/design/library/08-library-system.md, sections 5 and 6). Every
  * difference is a change that has to be in a log:
  *   the library log:  an asset added, edited or removed; an asset placed, moved or removed (and where)
  *   the app log:      a placement placed, moved or removed (and where; marked not in the library when

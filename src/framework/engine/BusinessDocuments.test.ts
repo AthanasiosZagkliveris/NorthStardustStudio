@@ -943,13 +943,14 @@ describe("the industry outlook in the documents", () => {
     const loadQuill = (number: number, id: string) =>
         InterviewSession.fromJSON(quill.systems[String(number)], frameworkRegistry.getFramework(id));
     const withOutlook = (outlook: string) => {
+        const marketIds = ["trajectory", "tam", "trends", "competition"];
         const session = loadQuill(3, "business");
         const section = session.getFramework().sections.find(candidate => candidate.answer?.type === AnswerType.BusinessFoundation)!;
-        const value = session.getResponse(section.number) as { segments: { description: Record<string, string> }[] };
+        const value = session.getResponse(section.number) as { segments: { questions: Record<string, string[]> }[] };
         session.saveResponse(section.number, {
             ...value,
             segments: value.segments.map((segment, index) => index === 0
-                ? { ...segment, description: { ...segment.description, "market-size": outlook } }
+                ? { ...segment, questions: { ...Object.fromEntries(Object.entries(segment.questions).filter(([id]) => !marketIds.includes(id))), ...(outlook ? { trajectory: ["growing"] } : {}) } }
                 : segment)
         });
         return session;
@@ -965,19 +966,19 @@ describe("the industry outlook in the documents", () => {
         const md = new MarkdownExporter().toMarkdown(business, "Foundation", businessPlan(all(business)));
         return md.slice(md.indexOf("## 3. Market Analysis"), md.indexOf("## 4. Products and Services"));
     };
-    const trend = "AI tools are moving into everyday office software, and firms now expect them.";
+    const trend = "growing";
 
     test("the plan's Market Analysis gives each segment's market size and outlook, or says it is not covered", () => {
         expect(market(withOutlook(""))).toContain("### Market Size and Industry Outlook\n\nNot covered by the Foundation answers.");
         const given = market(withOutlook(trend));
         expect(given).not.toContain("Not covered by the Foundation answers.");
-        expect(given).toContain("**Market size and outlook:** " + trend);
+        expect(given).toContain("Is your market growing or shrinking?: Growing steadily");
     });
 
     test("the Business System's export carries it", () => {
         const business = withOutlook(trend);
         const md = new MarkdownExporter().toMarkdown(business, "Foundation", buildExportContent(business, "Foundation"));
-        expect(md).toContain("Market Size & Industry Outlook: " + trend);
+        expect(md).toContain("Is your market growing or shrinking?: Growing steadily");
     });
 
 });

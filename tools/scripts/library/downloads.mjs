@@ -14,5 +14,5 @@ copyFileSync("tools/catalogue/exports/components.csv", "exports/The-components.c
 copyFileSync("tools/catalogue/exports/dropdowns.csv", "exports/The-dropdowns.csv");
 execFileSync(process.execPath, ["tools/scripts/library/components-pdf.mjs", "exports/The-components.pdf"], { stdio: "inherit" });
 execFileSync(process.execPath, ["tools/scripts/library/fields-list.mjs", "--export"], { stdio: "inherit" });
-execFileSync(process.execPath, ["tools/scripts/library/components-pdf.mjs", "exports/The-fields.pdf"], { stdio: "inherit", env: { ...process.env, DOC: "docs/design/15-fields-list.md", LANDSCAPE: "1", TITLE: "The fields" } });
+execFileSync(process.execPath, ["tools/scripts/library/components-pdf.mjs", "exports/The-fields.pdf"], { stdio: "inherit", env: { ...process.env, DOC: "docs/design/library/14-fields-list.md", LANDSCAPE: "1", TITLE: "The fields" } });
 console.log("downloadable versions in exports/: The-fields.pdf, The-fields.xlsx, The-fields.csv, The-add-buttons.xlsx, The-components.pdf, The-components.xlsx, The-dropdowns.xlsx, The-components.csv, The-dropdowns.csv");

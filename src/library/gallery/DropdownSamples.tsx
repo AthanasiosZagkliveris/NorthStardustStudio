@@ -9,7 +9,7 @@ import Sample, { GROUNDS } from "./Sample";
 const SPECS: Record<string, { options: string[]; hug?: boolean; disabled?: boolean }> = {
     "step-s": { options: ["Yes", "No", "Not sure"] },
     "step-m": { options: ["No tax at business level", "Corporate tax", "Pass-through"] },
-    "step-l": { options: ["Private Company Limited by Shares", "Public Limited Company", "Limited Liability Partnership"] },
+    "step-l": { options: ["Private Company Limited by Shares", "Limited Liability Partnership"] },
     "hug": { options: ["Annually", "Monthly", "Quarterly"], hug: true },
     "disabled": { options: ["Yes", "No"], disabled: true }
 };

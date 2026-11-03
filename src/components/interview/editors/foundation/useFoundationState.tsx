@@ -3,16 +3,19 @@
  * One part of BusinessFoundationEditor (see BusinessFoundationEditor.tsx): what it needs of the parts before it comes in as `earlier`; what the parts after it need goes out.
  */
 import TickField from "../../../controls/TickField.tsx";
-import { CSSProperties, ReactNode, useRef, useState } from "react";
+import { CSSProperties, Fragment, ReactNode, useEffect, useRef, useState } from "react";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
 import { BusinessCustomerProfileValue, BusinessCustomerSegmentValue, BusinessDescriptionValue, BusinessFoundationValue, asBusinessFoundationValue } from "../../../../framework/engine/AnswerUtils.ts";
-import { BusinessField, BusinessGroup, BusinessNote, BusinessText } from "../../cards/BusinessCardFields.tsx";
+import { BusinessField, BusinessGroup, BusinessNote, BusinessText, OptionalNote } from "../../cards/BusinessCardFields.tsx";
 import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
 import { FieldMark, FieldStatus } from "../../fields/fieldMarks.tsx";
 import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import { useItemFolds } from "../../fields/useItemFolds.ts";
 import { toggledIn } from "../../fields/toggledIn.ts";
 import { BusinessFoundationEditorProps, DescriptionPart, OPTIONAL_DESCRIPTION_PART } from "./shared.tsx";
+import { createBusinessCustomerSegment, segmentHue } from "../../../../framework/engine/AnswerUtils.ts";
+import { segmentSettle } from "../../../../framework/engine/SegmentQuestions.ts";
+import { segmentContextFor } from "../../../../framework/engine/SegmentContext.ts";
 
 export function useFoundationState(props: BusinessFoundationEditorProps) {
 
@@ -29,6 +32,8 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
     columnsDivider,
 
     targetAudience = "",
+
+    identity,
 
     asTiles = false
 
@@ -62,6 +67,32 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
     function update(patch: Partial<BusinessFoundationValue>) {
         onChange({ ...foundation, ...patch });
     }
+
+    /*
+        Where Positioning chose both B2C and B2B, the first two Segment cards are made for the user and are not asked: the first is of people, the second of businesses
+        (the kind is the presence of the Business Data key). A Segment added after them asks who its customer is.
+    */
+    const relationships = identity?.relationships ?? [];
+    const bothChosen = relationships.includes("b2c") && relationships.some(id => id === "b2b" || id === "b2g" || id === "g2b");
+    const [first, second] = foundation.segments;
+    const needsFix = bothChosen && !disabled && (!second || first.description[OPTIONAL_DESCRIPTION_PART] !== undefined || second.description[OPTIONAL_DESCRIPTION_PART] === undefined);
+    useEffect(() => {
+        if (!needsFix) {
+            return;
+        }
+        const current = latest.current.segments;
+        const made = [current[0], current[1] ?? createBusinessCustomerSegment(current.map(segmentHue))].map((segment, at) => {
+            const description = { ...segment.description };
+            if (at === 0) {
+                delete description[OPTIONAL_DESCRIPTION_PART];
+            } else {
+                description[OPTIONAL_DESCRIPTION_PART] = description[OPTIONAL_DESCRIPTION_PART] ?? "";
+            }
+            return { ...segment, description, questions: segmentSettle(segment.questions, segmentContextFor(identity, at === 1)) };
+        });
+        onChange({ ...latest.current, segments: [...made, ...current.slice(2)] });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [needsFix]);
     function updateSegment(index: number, patch: Partial<BusinessCustomerSegmentValue>) {
         update({
             segments: foundation.segments.map(
@@ -205,7 +236,9 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
         /** The card, for a Description that sits outside its card's section (the Segment's). */
         anchor?: string,
         /** Its fold, where the group folds (see groupFold). */
-        fold?: { open: boolean; label: string; onToggle: () => void }
+        fold?: { open: boolean; label: string; onToggle: () => void },
+        /** The boxes of questions in ONE column, in their order (the Profile's card, which floats at the width every floating card has). */
+        oneColumn = false
     ) {
 
         const box = (part: DescriptionPart) => {
@@ -222,14 +255,12 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
                 Nothing extra is stored to remember it, and an
                 answer that already has text reads as ticked.
             */
-            const optional = part.id === OPTIONAL_DESCRIPTION_PART;
+            const optional = part.id === OPTIONAL_DESCRIPTION_PART && !part.always;
 
             const asked = !optional || current[part.id] !== undefined;
 
-            return (
-                <div className="business-foundation-field" key={part.id}>
-
-                    <span className="business-foundation-label-info">
+            const labelRow = (
+                    <span className={"business-foundation-label-info" + (part.questions ? " legal-entity-label-info" : "")}>
 
                         {optional ? (
                             /*
@@ -257,11 +288,11 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
                         ) : (
                             /* Glued to the name's last word, as every
                                label's "i" is (see InfoText). */
-                            <FieldLabel className="business-foundation-label">
+                            <FieldLabel className="business-foundation-label" role="heading" aria-level={part.level ?? 3}>
                                 <InfoText text={part.title}>
                                     <InfoNote
                                         label={part.title}
-                                        points={[part.text]}
+                                        points={[part.text, ...(part.extra ?? [])]}
                                         fullList
                                     />
                                 </InfoText>
@@ -272,7 +303,7 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
                         {optional && (
                             <InfoNote
                                 label={part.title}
-                                points={[part.text]}
+                                points={[part.text, ...(part.extra ?? [])]}
                                 fullList
                             />
                         )}
@@ -282,6 +313,38 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
                         <FieldStatus label={part.title} anchor={anchor} />
 
                     </span>
+            );
+
+            // A box with questions (the Segment's) is laid out as the Positioning card is: its title over a divider line, then each question a band (see below).
+            if (part.questions) {
+                return (
+                    <div className="business-segment-box" key={part.id}>
+                        <div className="legal-entity-org-section">{labelRow}</div>
+                        {asked && part.questions.map((question, at) => (
+                            <div className={"legal-entity-org-section" + (at % 2 === 1 ? " legal-entity-org-band" : "")} key={at}>{question}</div>
+                        ))}
+                        {/* The box ends with the shared Note (the tick and the word, as every card has), ticked where it holds words. */}
+                        {part.note && (
+                            <div className={"legal-entity-org-section business-note-band" + (part.questions.length % 2 === 1 ? " legal-entity-org-band" : "")}>
+                                <OptionalNote
+                                    label="Notes"
+                                    fieldId={part.title + " notes"}
+                                    ariaLabel={kind + " description: " + part.title + " notes"}
+                                    placeholder="Add a note"
+                                    disabled={disabled}
+                                    value={current[part.id] ?? ""}
+                                    onChange={(next) => onNext({ ...current, [part.id]: next })}
+                                />
+                            </div>
+                        )}
+                    </div>
+                );
+            }
+
+            return (
+                <div className="business-foundation-field" key={part.id}>
+
+                    {labelRow}
 
                     {asked && (
                         <StrategyTextArea
@@ -301,6 +364,14 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
 
         };
 
+        /** The boxes of a column, a double rule between one box and the next (as between the Positioning card's groups). */
+        const column = (list: DescriptionPart[]) => list.map((part, at) => (
+            <Fragment key={part.id}>
+                {at > 0 && <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double" role="separator" />}
+                {box(part)}
+            </Fragment>
+        ));
+
         // Three then two, for the Segment's five: the first column
         // takes the larger half so the two read top-to-bottom,
         // left-to-right.
@@ -313,9 +384,40 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
             ? "repeat(" + (half - 1) + ", auto) 1fr"
             : "auto";
 
-        return group(
-            "Description",
-            split
+        // The columns of the questions' layout are of one height: the boxes are shared between them, each column keeping the order of the boxes, in the way that leaves the two nearest in height
+        // (the first box stays in the left column).
+        const weights = parts.map(part => part.weight ?? 1);
+        const total = weights.reduce((sum, weight) => sum + weight, 0);
+        let leftSet = new Set(parts.slice(0, Math.min(half, parts.length)).map(part => part.id));
+        let best = Infinity;
+        for (let mask = 1; mask < (1 << parts.length) - 1; mask++) {
+            if (!(mask & 1)) {
+                continue;
+            }
+            const left = weights.reduce((sum, weight, at) => sum + (mask & (1 << at) ? weight : 0), 0);
+            const gap = Math.abs(total - 2 * left);
+            if (gap < best) {
+                best = gap;
+                leftSet = new Set(parts.filter((_part, at) => mask & (1 << at)).map(part => part.id));
+            }
+        }
+        const leftBoxes = parts.filter(part => leftSet.has(part.id));
+        const rightBoxes = parts.filter(part => !leftSet.has(part.id));
+
+        const boxes = split && oneColumn && parts.some(part => part.questions)
+            ? (
+                <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-single">
+                    <div className="legal-entity-field">{column(parts)}</div>
+                </div>
+            )
+            : split && parts.some(part => part.questions)
+            ? (
+                <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid">
+                    <div className="legal-entity-field">{column(leftBoxes)}</div>
+                    <div className="legal-entity-field legal-entity-questions">{column(rightBoxes)}</div>
+                </div>
+            )
+            : split
                 ? (
                     <div
                         className="business-foundation-description-split"
@@ -332,13 +434,17 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
                         </div>
                     </div>
                 )
-                : parts.map(box),
+                : parts.map(box);
+
+        return group(
+            "Description",
+            boxes,
             undefined,
             fold
         );
 
     }
 
-    return { asTiles, built, collapsed, columnsDivider, description, disabled, folds, forceOpen, foundation, group, groupFold, labelled, latest, note, onChange, setCollapsed, showInstructions, targetAudience, text, update, updateProfile, updateSegment };
+    return { asTiles, built, collapsed, columnsDivider, description, disabled, folds, forceOpen, foundation, group, groupFold, labelled, latest, note, onChange, setCollapsed, showInstructions, targetAudience, identity, text, update, updateProfile, updateSegment };
 
 }

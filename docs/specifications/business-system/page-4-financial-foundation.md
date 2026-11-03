@@ -1,12 +1,72 @@
 # Business System — Page 4: Financial Foundation
 
-Status: **specification**, updated 2026-10-17.
-## Design & Development Prompt
+Status: **specification**, written 2026-09-27, updated 2026-11-02. The requirement as written (sections 1 to 29) is preceded by "As built", which wins where they differ; section 30 gives the rules of the cost nature, the funds and the scheduling.
 
 > **3. Business System — Page 4 of 5.**
-> Was labelled "Page 1", and its layout banner carried the
-> pre-swap System number 4. The first of the two Financial
-> pages; **Page 5 — Financial Sustainability** follows it.
+> The first of the two Financial pages; **Page 5 — Financial Sustainability** follows it.
+
+## Contents
+
+- [As built](#as-built)
+- [1. Purpose](#1-purpose)
+- [2. Core Design Principles](#2-core-design-principles)
+- [3. Page Structure](#3-page-structure)
+- [4. Section 1 — Costs](#4-section-1--costs)
+- [4.1 Cost Groups](#41-cost-groups)
+- [5. Cost Analysis](#5-cost-analysis)
+- [5.1 Cost Group](#51-cost-group)
+- [5.2 Cost Behaviour](#52-cost-behaviour)
+- [5.3 Payment Frequency / Timing](#53-payment-frequency--timing)
+- [6. Cost Record](#6-cost-record)
+- [7. Section 2 — Funding Need](#7-section-2--funding-need)
+- [7.1 Funding Need Categories](#71-funding-need-categories)
+- [7.2 Funding Need Record](#72-funding-need-record)
+- [8. Section 3 — Capital & Funding](#8-section-3--capital--funding)
+- [9. Internal](#9-internal)
+- [10. External](#10-external)
+- [11. Other](#11-other)
+- [12. Funding Record](#12-funding-record)
+- [13. Funding Status](#13-funding-status)
+- [14. Funding Schedules](#14-funding-schedules)
+- [15. Investment](#15-investment)
+- [16. Loans](#16-loans)
+- [17. Loan Repayment Schedule](#17-loan-repayment-schedule)
+- [18. Loan → Costs / Expenses](#18-loan--costs--expenses)
+- [19. Section 4 — Financial Position](#19-section-4--financial-position)
+- [20. Financial Overview](#20-financial-overview)
+- [21. Funding Gap](#21-funding-gap)
+- [22. When There Is No Funding Gap](#22-when-there-is-no-funding-gap)
+- [23. Financial Timeline](#23-financial-timeline)
+- [24. Funding Mix](#24-funding-mix)
+- [25. Upcoming Obligations](#25-upcoming-obligations)
+- [26. Decision Support](#26-decision-support)
+- [27. Important Financial Distinctions](#27-important-financial-distinctions)
+- [28. Page layout](#28-page-layout)
+- [29. Scope Boundary](#29-scope-boundary)
+- [30. Cost nature, funds and scheduling (as built)](#30-cost-nature-funds-and-scheduling-as-built)
+- [30.1 Opening Date and Global Settings](#301-opening-date-and-global-settings)
+- [30.2 Cost nature (rules C1 to C16)](#302-cost-nature-rules-c1-to-c16)
+- [30.3 Funds (rules F1 to F6)](#303-funds-rules-f1-to-f6)
+- [30.4 Calculated lines](#304-calculated-lines)
+- [30.5 Scheduling a per-project card](#305-scheduling-a-per-project-card)
+- [30.6 Dates, rates and floors](#306-dates-rates-and-floors)
+- [30.7 Not built](#307-not-built)
+
+## As built
+
+**The page and the model it shares with Page 5.** Page 4 is a Structure of its own, `Financial Foundation` (editor `FinancialFoundationEditor`); Page 5 is `Financial Sustainability`. Every calculation on either page lives in one module of pure functions, `src/framework/engine/FinancialModel.ts`, tested in `FinancialModel.test.ts` against the specifications' own worked examples. The two editors share their month field, figure tiles, cash timeline chart and signal list (`FinancialParts.tsx`). The four sections are folding cards numbered 1 to 4 (`**Numbering:** Nested`); they are not tiles yet (document 5, section 5.3).
+
+- **Time.** The month the plan starts is never typed: it is worked out from the Opening Date (set on the Identity System's Organization tile) and the earliest cost, a card's or a legal expense's. That is Month 1; the plan length is set in the Global Settings, and every date on either page is a month picked within it.
+- **Currency.** Every total is in the organization's currency (the Legal Entity country's). A cost priced in another currency on Page 3 is listed, flagged "Other currency: not counted", and left out of every total: there are no exchange rates to convert it.
+
+| Section | What the specification asks | How it is built |
+|---|---|---|
+| 1. Costs | A consolidated view of costs that originate elsewhere, each with its source and a link back; per cost a group, an amount, a frequency, a behaviour and an Offering | **Generated only: nothing is typed here, there is no "+ Add Cost".** Read from the Legal Entity's Expenses, the founders' salaries, and every priced card of Page 3 (Infrastructure and Offering's Capability, partners and suppliers). The page opens with three figures (Launch budget, Running costs a month, Cost of each sale), the Total Pre-operational Budget line, filters (Group, Offering, Nature, Order) and one table: Cost (with its source, a link back), Group, When (for costs with a place in the calendar), Amount, Nature, Offering, under four headings: *Launch: before the opening*, *Running costs: every month*, *Cost of each sale*, *One-time costs after the opening*; a cost with no price, in another currency or on a card that lacks a detail is listed under *Not counted yet*. A read cost's amount and frequency stay where they were recorded; only its classification (group, behaviour, Offering, and from the opening its cost nature) is stored here, under its source id (`classified`). Starting classification: an Offering's cost as Offering, a one-time cost as Establishment, anything else Operating; Fixed. There are three cost groups (Establishment, Operating, Offering); semi-variable costs take a fixed part and a variable part per unit |
+| 2. Funding Need | Name or purpose, amount, required date or period, linked costs, description; four categories | **Calculated, not typed.** Three needs: Establishment (with an Opening Date, the cash to raise before the opening; the funds block stands under it), Operating (the running costs, only until revenue covers them; lenders call it working capital) and Offering (to develop or launch an Offering). The budget lines the Establishment need counts are not counted again as running costs |
+| 3. Capital & Funding | Internal, External, Other; fields revealed by funding type; schedules (one-time, periodic, milestone); a calculated loan repayment schedule | Three columns. Founder's Capital is read from the Legal Entity's founders (only its status and month are asked here). Each source: Type (External grouped Non-repayable, Equity, Debt), Provider, Amount, Status (Planned, Preparing, Requested / Applied, Approved / Agreed, Received / Available, Completed / Closed), Received so far; a schedule for anything but debt; Ownership % for equity; for debt the loan terms and a calculated schedule (payment, principal and interest, total interest, and every repayment on request) |
+| 4. Financial Position | Calculated: Funding Need, Available Now, Confirmed Future, Pending, Funding Gap, Financial Runway, funding mix, timeline, upcoming obligations, decision signals | A headline (the gap, or Funding Requirement Covered with the runway), six figure tiles, Funding Need Coverage, Funding Mix, the month-by-month cash timeline, the next six months' obligations and Decision Signals. **Pending money is never counted**; confirmed money counts when it is scheduled to arrive; loan repayments are outflows from their first month |
+
+Money is entered once, where it belongs (Page 3, the Legal Entity, the founders); this page reads it. A Workspace Deposit is entered on Page 3 only.
 
 ## 1. Purpose
 
@@ -40,9 +100,9 @@ Do not ask the user to re-enter costs that already exist in other systems.
 
 Costs should be consolidated from relevant existing records, including:
 
-- Legal Entity — 1. Identity System, Page 3
+- Legal Entity — 1. Identity System, page 2 (Legal Entity)
 - Infrastructure — Page 3, Infrastructure
-- Founders — Page 3, Infrastructure → 1. Resources → A. Founders
+- Founders — Page 3, Infrastructure › Founders
 - Offering's Capability — Page 3, Offering's Capability
 
 Where a cost originates elsewhere, show its **source** and provide a link/reference back to the originating record.
@@ -197,9 +257,9 @@ A cost record should contain, where applicable:
 | Offering | Relevant Offering, if applicable |
 | Description | Optional additional information |
 
-**As built, there is no "+ Add Cost".** The Costs section is generated only: every cost is read from the record that owns it (a Page 3 card, a Legal Entity expense, a founder's salary), shows its source with a link back, and is edited there. A cost with no home is added as a card on Page 3 (or an expense on the Legal Entity), never typed on this page. Only the classification of a read cost (group, behaviour, offering, and from the opening on its cost nature) is stored here.
+**There is no "+ Add Cost".** The Costs section is generated only: every cost is read from the record that owns it (a Page 3 card, a Legal Entity expense, a founder's salary), shows its source with a link back, and is edited there. A cost with no home is added as a card on Page 3 (or an expense on the Legal Entity), never typed on this page. Only the classification of a read cost (group, behaviour, offering, and from the opening on its cost nature) is stored here.
 
-A Workspace Deposit recorded on Page 3 (Infrastructure → Workspace, status Costs) is gathered here as a **Workspace deposit** line: one-time, Establishment, Treat As Deposit (an asset, never a cost, returned later), paid in the plan's first month. It is entered once, on Page 3, and is not added again here.
+A Workspace Deposit recorded on Page 3 (a Resource card of the Workspace category, status Buy or Costs) is gathered here as a **Workspace deposit** line: one-time, Establishment, Treat As Deposit (an asset, never a cost, returned later), paid in the plan's first month. It is entered once, on Page 3, and is not added again here.
 
 A **possible duplicate** is warned of ("Also recorded as ... Counted twice?") only when ALL hold: the names are similar (equal, one the other plus whole words, or at least 60% of their significant words shared); the amount (after quantity), currency and frequency are the same; and the two lines come from the same source (the same record, the same page and section, or, across pages, equal names). The same name with a different price is never a duplicate.
 
@@ -241,7 +301,7 @@ Support:
 
 Funding needs may be one-time or distributed across periods.
 
-**As built, Funding Needs are calculated, not typed** (there is no "+ Add Funding Need"): Establishment, Initial Operating Requirement, Offering Development / Launch and Other are derived from the costs and their timing. With an Opening Date, the **Establishment** need is the **cash to raise before the opening** (see "Cost nature, funds and scheduling" below), and the budget lines it counts are not counted again as running costs.
+**Funding Needs are calculated, not typed** (there is no "+ Add Funding Need"): Establishment, Operating and Offering are derived from the costs and their timing. With an Opening Date, the **Establishment** need is the **cash to raise before the opening** (see "Cost nature, funds and scheduling" below), and the budget lines it counts are not counted again as running costs.
 
 Example:
 
@@ -437,7 +497,7 @@ For equity investment, capture only the information needed by the Business Syste
 
 Do not build a full shareholder-management system here.
 
-The Legal Entity (1. Identity System, Page 3) remains the authoritative location for legal ownership information.
+The Legal Entity (1. Identity System, page 2) remains the authoritative location for legal ownership information.
 
 ---
 
@@ -718,77 +778,9 @@ Capital and funding are **not revenue** and should not be used to artificially i
 
 ---
 
-# 28. Recommended Page Layout
+# 28. Page layout
 
-Use the existing North Stardust visual language and progressive structure.
-
-```text
-┌─────────────────────────────────────────────────────────────┐
-│ 3. BUSINESS SYSTEM                                          │
-│ Financial Foundation                                        │
-│                                                             │
-│ Establish the financial requirements and financing          │
-│ capacity of the organisation.                               │
-└─────────────────────────────────────────────────────────────┘
-
-
-┌─────────────────────────────────────────────────────────────┐
-│ 1. COSTS                                                  i │
-│                                                             │
-│ [ Establishment ] [ Operating ] [ Offering ] [ Other ]      │
-│                                                             │
-│ Cost | Source | Group | Amount (CUR) | Frequency | When |      │
-│ Cost nature | Behaviour | Offering   (generated, no Add)     │
-└─────────────────────────────────────────────────────────────┘
-
-                              ↓
-
-┌─────────────────────────────────────────────────────────────┐
-│ 2. FUNDING NEED                                           i │
-│                                                             │
-│ Purpose | Amount | Timing | Linked Costs   (calculated)      │
-│ Funds: budget, contingency, cash to raise                    │
-│                                                             │
-│ Total Funding Need                                         │
-└─────────────────────────────────────────────────────────────┘
-
-                              ↓
-
-┌─────────────────────────────────────────────────────────────┐
-│ 3. CAPITAL & FUNDING                                      i │
-│                                                             │
-│ INTERNAL          EXTERNAL             OTHER                │
-│                                                             │
-│ Founder's         Grant                Crowdfunding         │
-│ Capital           Investment           In-kind              │
-│ Reinvestment     Loan                 Other                 │
-│ Existing Funds    Subsidy                                     │
-│                                                             │
-│ [+ ADD FUNDING SOURCE]                                      │
-│                                                             │
-│ Funding Schedule / Status / Conditions / Obligations        │
-└─────────────────────────────────────────────────────────────┘
-
-                              ↓
-
-┌─────────────────────────────────────────────────────────────┐
-│ 4. FINANCIAL POSITION                                     i │
-│                                                             │
-│ NEED          AVAILABLE       GAP          RUNWAY            │
-│ €30,000       €24,000         €6,000       —                 │
-│                                                             │
-│ Funding Mix                                                 │
-│ Funding Timeline                                            │
-│ Upcoming Obligations                                        │
-│ Decision Signals                                            │
-│                                                             │
-│ If Funding Gap = 0:                                        │
-│ "Funding Requirement Covered"                              │
-│ "Estimated Financial Runway: X months"                     │
-└─────────────────────────────────────────────────────────────┘
-```
-
----
+Use the existing North Stardust visual language and progressive structure. The page is headed "3. Business System" and "Financial Foundation"; the four sections follow one under another in the order of the logic (1. Costs, 2. Funding Need, 3. Capital & Funding, 4. Financial Position), each a folding card with its "i". What each holds, as built, is the "As built" table at the top; the funds that stand under the Funding Need are section 30.3.
 
 # 29. Scope Boundary
 
@@ -823,7 +815,7 @@ to:
 
 ---
 
-# 30. Cost nature, funds and scheduling (as built, batches F to I)
+# 30. Cost nature, funds and scheduling (as built)
 
 ## 30.1 Opening Date and Global Settings
 
@@ -852,13 +844,13 @@ Lines the page computes and the forecast uses, with no record behind them: emplo
 
 A Per project card with a Start date or a ticked payment plan is a dated payment: the cost (price x Qty) is counted in full in the month of the Start date; the cash leaves by the plan (Deposit & Balance, Instalments, Milestones). The difference is held as prepaid (paid ahead) or as a payment due (paid after). Payments dated before the plan start come off opening cash. A per-project card with neither remains a cost of each project sold. The cost row's When says "Paid in full, May 2027" or "N payments, A to B". A Per unit cost follows the units sold.
 
-## 30.6 Not yet built
-
-Minimum-order floor, customs and other duty lines, percentage commission/bonus extras on people cards, VAT, the Repair Record (use of the contingency fund), and enforcing a Start date on every cost card.
-
-## 30.7 Batch J additions
+## 30.6 Dates, rates and floors
 
 - **Dates place the cost.** A card's Start date puts a one-time cost in its month, starts a recurring one (monthly, quarterly, annually) in that month, and its End date stops it; a Per project card with a Start date or a plan is one dated payment.
 - **A rate is shown as a rate**: a Percentage cost (a payment fee, a royalty, a commission) reads "4%" under "Amount" and "% of Rev" under Frequency, never as money.
 - **Rate and floor extras**: Customs duty and Other duties add a line of the goods' own kind (price times the rate); a person's Commission is a calculated line of the revenue it follows; a Minimum order makes a month's purchases at least that many units, the excess carried as stock.
 - **The examples** (Lumen & Loom, Quillfield) are in the current structure: every card in its category and group, dated, linked to its Offerings, with their suppliers, activities, Opening Date and Global Settings.
+
+## 30.7 Not built
+
+The Repair Record (the use of the contingency fund against actuals), and the plan against actual; VAT as a pass-through and import VAT included, and the rates in the Global Settings (document 5, section 5.2, K1 and K2).

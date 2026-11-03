@@ -1,5 +1,5 @@
 /**
- * The model of the assets library (docs/design/08-library-system.md).
+ * The model of the assets library (docs/design/library/08-library-system.md).
  *
  * An asset has a code: three capital letters for its kind, a dot and a three-digit
  * number in the order it was created (BTN.001: the first button). A variant is an
@@ -124,11 +124,11 @@ export interface Asset {
     belongs?: string;
     /** The measured contracts of src/library/assets that describe this asset (by their names), if there are any. */
     contracts?: readonly string[];
-    /** The ids of the catalogue it was made from (docs/design/07-structure-tables.md). */
+    /** The ids of the catalogue it was made from (docs/design/core/07-structure-tables.md). */
     catalogue: readonly string[];
 }
 
-/** The marker of a component placed in the app that is not in the library: Placement.asset is NEW: and the component's name (case 3 of docs/design/08-library-system.md). */
+/** The marker of a component placed in the app that is not in the library: Placement.asset is NEW: and the component's name (case 3 of docs/design/library/08-library-system.md). */
 export const NOT_IN_LIBRARY = "NEW:";
 
 /** Where an asset stands in the app: a card, under a chapter, a page, a system. */
@@ -190,7 +190,7 @@ export interface AppLogEntry {
     change: "placed" | "moved" | "removed" | "edited";
     where: string;
     asset?: string;
-    /** True when the asset is not in the library (case 3 of docs/design/08-library-system.md). */
+    /** True when the asset is not in the library (case 3 of docs/design/library/08-library-system.md). */
     notInLibrary: boolean;
     what: string;
 }

@@ -36,10 +36,6 @@
               "mainActivity": "Design and build of AI-assisted workflow automations for small professional-services firms (law, accounting, architecture and marketing firms of 5 to 50 staff), with automation audits and monthly care retainers (NAICS 541512: Computer Systems Design Services).",
               "activityCode": "541512",
               "activityCodeOn": true,
-              "addressLine1": "120 Clinton Street, Suite 3R\nBrooklyn\n11201",
-              "addressLine2": "",
-              "city": "",
-              "postalCode": "",
               "activities": [
                 {
                   "code": "541512",
@@ -47,10 +43,31 @@
                 }
               ],
               "businessStage": "",
-              "customerType": ["b2b"],
+              "customerType": [
+                "b2b"
+              ],
               "marketType": "single",
-              "audience": ["smb"],
-              "outcome": ["convenience"]
+              "audience": [
+                "smb"
+              ],
+              "differentiation": [
+                "convenience"
+              ],
+              "outcome": [
+                "time"
+              ],
+              "outcomeUser": [],
+              "buyerCategory": [
+                "b2b:direct"
+              ],
+              "purpose": [
+                "productivity"
+              ],
+              "endUser": [],
+              "addressLine1": "120 Clinton Street, Suite 3R\nBrooklyn\n11201",
+              "addressLine2": "",
+              "city": "",
+              "postalCode": ""
             },
             "capitalApplies": false,
             "founders": [
@@ -333,22 +350,109 @@
                 "id": "segment-qf3n8d2w",
                 "hue": 204,
                 "name": "Small professional-services firms in New York City",
-                "description": {
-                  "business-data": "Independent law, accounting, architecture and marketing firms with 5 to 50 staff; partner-owned; no in-house IT or operations engineer; run on Google Workspace or Microsoft 365 plus a practice-management tool.",
-                  "demographics": "Decision-makers aged 30 to 60: managing partners, firm founders and operations or office managers, usually college-educated, with annual firm revenue of about $1 million to $10 million.",
-                  "geographics": "New York City first, especially Brooklyn and Manhattan, then the wider tri-state area, served remotely with occasional on-site workshops.",
-                  "purchasing": "Buy on trust and referrals; spend $5,000 to $30,000 a year on software and outside help; need a clear return in saved hours before committing; prefer a small fixed-price first step and monthly billing for ongoing work.",
-                  "market-size": "Rough estimate: around 12,000 to 15,000 firms of this size in these four professions across the five boroughs. A reachable niche of perhaps 1,000 firms that already use cloud tools and are curious about AI; 20 to 30 clients a year is enough for a solo practice.\n\nOutlook: AI features are moving into the everyday office software these firms already use, and small firms now expect automation to come with it; client-data and AI-use rules are tightening (New York SHIELD Act, bar and CPA guidance), so firms want help that is documented and privacy-reviewed."
+                "description": {},
+                "questions": {
+                  "reach": [
+                    "region"
+                  ],
+                  "orgtype": [
+                    "private"
+                  ],
+                  "size": [
+                    "small"
+                  ],
+                  "sector": [
+                    "tech"
+                  ],
+                  "industry": [
+                    "professional"
+                  ],
+                  "comfort": [
+                    "moderate"
+                  ],
+                  "discover": [
+                    "peers",
+                    "communities"
+                  ],
+                  "setting": [
+                    "desktop"
+                  ],
+                  "pay": [
+                    "invoice"
+                  ],
+                  "authorise": [
+                    "executive"
+                  ],
+                  "trajectory": [
+                    "growing"
+                  ],
+                  "tam": [
+                    "boutique"
+                  ],
+                  "trends": [
+                    "technology",
+                    "regulation"
+                  ],
+                  "competition": [
+                    "fragmented"
+                  ]
                 },
                 "profiles": [
                   {
                     "id": "profile-h5t9w2rk",
                     "name": "The Stretched Operations Manager",
                     "description": {
-                      "personal": "Dana Morales, 38, operations manager at a 22-person accounting firm in Downtown Brooklyn; the person everyone asks when a system breaks.",
+                      "personal": "Dana Morales, operations manager at a 22-person accounting firm in Downtown Brooklyn; the person everyone asks when a system breaks.",
                       "psychographics": "Practical, organized and overloaded; wants fewer manual steps and fewer mistakes; wary of hype and of tools that create more work than they save.",
-                      "hubs": "LinkedIn, the firm's software vendor webinars, NYSSCPA events, local chamber of commerce meetups, operations and practice-management Slack groups.",
-                      "habits": "Researches on LinkedIn and vendor sites, asks peers for recommendations, needs a written proposal to take to the partners, and prefers a short paid pilot to a big commitment."
+                      "hubs": "The firm’s software vendor webinars, NYSSCPA events, local chamber of commerce meetups, operations and practice-management groups.",
+                      "habits": "Needs a written proposal to take to the partners, and prefers a short paid pilot to a big commitment."
+                    },
+                    "questions": {
+                      "a1": [
+                        "38"
+                      ],
+                      "a3": [
+                        "manager"
+                      ],
+                      "a5": [
+                        "use",
+                        "influence"
+                      ],
+                      "b1": [
+                        "speed",
+                        "ease-and-convenience",
+                        "good-support"
+                      ],
+                      "c1": [
+                        "computer",
+                        "phone"
+                      ],
+                      "c2": [
+                        "linkedin"
+                      ],
+                      "c3": [
+                        "slack"
+                      ],
+                      "d1": [
+                        "a-demo-trial-or-sample",
+                        "reviews-and-recommendations-online",
+                        "a-meeting-or-call"
+                      ],
+                      "d2": [
+                        "person"
+                      ],
+                      "e1": [
+                        "save-time",
+                        "lower-their-risk"
+                      ],
+                      "e2": [
+                        "it-takes-too-long",
+                        "they-have-no-time-or-capacity"
+                      ],
+                      "e3": [
+                        "the-effort-of-switching-from-what-they-use-now",
+                        "risk-or-security"
+                      ]
                     },
                     "goals": "Get hours back each week for the team; make intake, reminders and reporting run on their own; look good to the partners by fixing problems that have lingered for years.",
                     "challenges": "Copying data between the practice-management system, email and spreadsheets; chasing clients for documents; no budget for a full-time developer; past tools abandoned after setup.",
@@ -372,10 +476,64 @@
                     "id": "profile-m8c4v6zp",
                     "name": "The Agency Founder",
                     "description": {
-                      "personal": "Sam Okafor, 34, founder and creative director of a 9-person marketing agency in Williamsburg.",
+                      "personal": "Sam Okafor, founder and creative director of a 9-person marketing agency in Williamsburg.",
                       "psychographics": "Ambitious, curious about AI and quick to try new tools, but short on time to set them up properly; values speed and a professional client experience.",
-                      "hubs": "LinkedIn, X, agency founder communities, Brooklyn tech and marketing meetups, podcasts on agency growth.",
-                      "habits": "Discovers through LinkedIn posts and founder peers; books a call straight from a website; decides quickly when a case study matches the agency's own problem."
+                      "hubs": "Brooklyn tech and marketing meetups, podcasts on agency growth, the founders’ groups he belongs to.",
+                      "habits": "Books a call straight from a website; decides quickly when a case study matches the agency’s own problem."
+                    },
+                    "questions": {
+                      "a1": [
+                        "34"
+                      ],
+                      "a3": [
+                        "owner"
+                      ],
+                      "a5": [
+                        "use",
+                        "influence",
+                        "order",
+                        "decide"
+                      ],
+                      "b1": [
+                        "speed",
+                        "quality-and-results",
+                        "trust-and-reputation"
+                      ],
+                      "c1": [
+                        "computer",
+                        "phone"
+                      ],
+                      "c2": [
+                        "linkedin",
+                        "x-twitter"
+                      ],
+                      "c3": [
+                        "slack",
+                        "other"
+                      ],
+                      "c3-other": [
+                        "Agency founder communities"
+                      ],
+                      "d1": [
+                        "reviews-and-recommendations-online",
+                        "comparison-sites",
+                        "a-demo-trial-or-sample"
+                      ],
+                      "d2": [
+                        "alone"
+                      ],
+                      "e1": [
+                        "win-customers-or-earn-more",
+                        "save-time"
+                      ],
+                      "e2": [
+                        "it-is-too-complicated",
+                        "it-costs-too-much"
+                      ],
+                      "e3": [
+                        "the-price-or-their-budget",
+                        "how-hard-it-is-to-use"
+                      ]
                     },
                     "goals": "Grow revenue without growing headcount; deliver client reports and onboarding faster; use AI in a way that holds up in front of clients.",
                     "challenges": "Team time lost to reporting, briefs and status updates; a pile of half-connected tools; freelancers who build automations and then disappear.",

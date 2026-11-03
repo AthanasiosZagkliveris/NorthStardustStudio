@@ -179,7 +179,7 @@ async function railsAt(width, theme, withReactions) {
         ["Business > Infrastructure > Resources (dialog)", async () => { await openPage("Business System", "Infrastructure", theme); await pressTile("page", "Resources"); await wait(700); }],
         ["Business > Infrastructure > new Resource card (floating)", async () => { await openPage("Business System", "Infrastructure", theme); await page.locator("[aria-label='Add Resource to Resources']").filter({ visible: true }).first().evaluate(n => n.click()); await wait(700); }],
         ["Strategy > Strategic Period > Theme (dialog with nested cards)", async () => { await openPage("Strategy System", "Strategy System", theme); await page.locator(".section-tile-slot", { hasText: "Strategic Period" }).locator("button.section-tile-link").first().evaluate(n => n.click()); await wait(900); }],
-        ["Identity > Organization > Registrations (dialog)", async () => { await openPage("Identity System", "2. Organization", theme); await pressTile("page", "Registrations"); await wait(700); }],
+        ["Identity > Organization > Registrations (dialog)", async () => { await openPage("Identity System", "2. Legal Entity", theme); await pressTile("page", "Registrations"); await wait(700); }],
         ["Brand > Brand System (page)", async () => { await openPage("Brand System", "Brand System", theme); }]
     ];
     for (const [place, setup] of places) {
@@ -352,7 +352,7 @@ function readMissing() {
 
 if (probe === "missing") {
     const kinds = [["Business > Infrastructure", "Infrastructure", "Add Resource to Resources"], ["Business > Infrastructure", "Infrastructure", "Add Activity to Activities"], ["Business > Infrastructure", "Infrastructure", "Add Partner to Partners & Suppliers"],
-        ["Business > Foundation", "1. Foundation", "Add Competitor to Competitors"], ["Business > Foundation", "1. Foundation", "Add Offering to Offerings"], ["Identity > Organization", "2. Organization", "Add Expense to Expenses"], ["Brand", "Brand System", "Add Colour to Colours"]];
+        ["Business > Foundation", "1. Foundation", "Add Competitor to Competitors"], ["Business > Foundation", "1. Foundation", "Add Offering to Offerings"], ["Identity > Organization", "2. Legal Entity", "Add Expense to Expenses"], ["Brand", "Brand System", "Add Colour to Colours"]];
     for (const [where, name, plus] of kinds) {
         try {
             const system = where.startsWith("Brand") ? "Brand System" : where.startsWith("Identity") ? "Identity System" : "Business System";

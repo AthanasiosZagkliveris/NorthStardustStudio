@@ -1,5 +1,5 @@
 /* ==========================================================
-   THE RING OF A CELL (docs/design/19-reactions.md, R2): one reaction for every cell you write or choose in, wherever it stands and in every reading mode.
+   THE RING OF A CELL (docs/design/current/18-reactions.md, R2): one reaction for every cell you write or choose in, wherever it stands and in every reading mode.
    Focused, or pressed and held: the primary edge (1px) and a ring 3px wide at 35% of the card's glow colour -- nothing else (no white outline, no second ring).
    Where a box holds the field (a date cell: its text and its calendar button; a numbered list's lines) the BOX draws the ring and what is inside draws none.
    Loaded after every other stylesheet (main.tsx), so no page's older rule for its own focus outranks it.
@@ -248,7 +248,7 @@ label:has(> .brand-tick-box) :is(span, strong, em) {
     visibility: hidden;
 }
 
-/* EVERY CONTROL ANSWERS A PRESS (R5, docs/design/19-reactions.md): under the pointer it has its hover reaction (each kind's own: the glow, the filled ground, the thickened letters); while it is pressed it darkens a little more, whatever kind it is. A field has its focus ring for the same. */
+/* EVERY CONTROL ANSWERS A PRESS (R5, docs/design/current/18-reactions.md): under the pointer it has its hover reaction (each kind's own: the glow, the filled ground, the thickened letters); while it is pressed it darkens a little more, whatever kind it is. A field has its focus ring for the same. */
 :is(button, [role="button"], [role="tab"], [role="menuitem"], summary, a[href]):not(:disabled, [aria-disabled="true"]):active {
     filter: brightness(0.93);
 }

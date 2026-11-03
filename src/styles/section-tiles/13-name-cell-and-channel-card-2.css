@@ -521,7 +521,8 @@ label:has(> input[type="checkbox"]) > :not(input) {
 /* A tick box that cannot be ticked here (an Offering another card of the subchannel already serves): grey, with its reason beside it. */
 .business-foundation-tick-blocked {
 
-    opacity: 0.6;
+    /* (0.75: the word keeps 3:1 or more on the card in light, sepia and dark; see the locked radio.) */
+    opacity: 0.75;
 
     cursor: not-allowed;
 
@@ -537,7 +538,8 @@ label:has(> input[type="checkbox"]) > :not(input) {
 
     font-style: italic;
 
-    color: var(--text-subtle);
+    /* (--text-muted: the note holds 4.5:1 on a tinted question band in light, sepia and dark.) */
+    color: var(--text-muted);
 
 }
 

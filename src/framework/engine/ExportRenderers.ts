@@ -1,5 +1,8 @@
+import { segmentAnswerLines } from "./SegmentQuestions.ts";
+import { profileAnswerLines } from "./ProfileQuestions.ts";
+import { settledSegmentAnswers } from "./SegmentContext.ts";
 import { workspacesOf, WORKSPACE_GROUP_ID } from "./AnswerUtils.ts";
-import { AUDIENCE_WORDS, CUSTOMER_TYPE_WORDS, MARKET_TYPE_WORDS, activitiesLine, outcomeWord } from "./ActivityClassification.ts";
+import { AUDIENCE_WORDS, BUYER_CATEGORY_WORDS, END_USER_WORDS, CUSTOMER_TYPE_WORDS, MARKET_TYPE_WORDS, DIFFERENTIATION_WORDS, OUTCOME_USER_WORDS, OUTCOME_WORDS, PURPOSE_WORDS, activitiesLine } from "./ActivityClassification.ts";
 /*
     Export blocks for the Answer Structures that have an editor of
     their own -- the pages buildAnswerBlocks has no generic shape for.
@@ -357,7 +360,12 @@ function legalEntityBlocks(value: unknown, context: ExportContext): ExportBlock[
             ["Market Structure", MARKET_TYPE_WORDS[organisation.marketType] ?? ""],
             ["Seller and Buyer Relationship", organisation.customerType.map(id => CUSTOMER_TYPE_WORDS[id] ?? "").filter(Boolean).join("; ")],
             ["Audience", organisation.audience.map(id => AUDIENCE_WORDS[id] ?? "").filter(Boolean).join("; ")],
-            ["Differentiation & Outcome", organisation.outcome.map(outcomeWord).filter(Boolean).join("; ")],
+            ["Buyer's category", organisation.buyerCategory.map(id => BUYER_CATEGORY_WORDS[id] ?? "").filter(Boolean).join("; ")],
+            ["End User", organisation.endUser.map(id => END_USER_WORDS[id] ?? "").filter(Boolean).join("; ")],
+            ["Purpose", organisation.purpose.map(id => PURPOSE_WORDS[id] ?? "").filter(Boolean).join("; ")],
+            ["Differentiation", organisation.differentiation.map(id => DIFFERENTIATION_WORDS[id] ?? "").filter(Boolean).join("; ")],
+            ["Outcome for the buyer", organisation.outcome.map(id => OUTCOME_WORDS[id] ?? "").filter(Boolean).join("; ")],
+            ["Outcome for the user", organisation.outcomeUser.map(id => OUTCOME_USER_WORDS[id] ?? "").filter(Boolean).join("; ")],
             ["Legal Form", organisation.legalForm === "Other (not listed)" ? organisation.legalFormOther : organisation.legalForm],
             ["Country", COUNTRIES.find(country => country.code === organisation.country)?.name ?? organisation.country],
             ["Region", organisation.subdivision],
@@ -460,10 +468,6 @@ export function brandInventoryBlocks(value: unknown): ExportBlock[] {
    3. Business -- Foundation
 ========================================================== */
 
-const SEGMENT_FIELDS: [string, string][] = [
-    ["demographics", "Demographics"], ["geographics", "Geographics"], ["business-data", "Business Data"],
-    ["purchasing", "Purchasing Power & Behaviour"], ["market-size", "Market Size & Industry Outlook"]
-];
 const PROFILE_FIELDS: [string, string][] = [
     ["personal", "Specific Personal Information"], ["psychographics", "Psychographics"],
     ["hubs", "Social & Interest Hubs"], ["habits", "Information & Shopping Habits"]
@@ -480,13 +484,14 @@ function describe(description: Record<string, string>, fields: [string, string][
     return fields.flatMap(([id, label]) => paragraph(description[id] ?? "", label));
 }
 
-function segmentBlocks(segment: BusinessCustomerSegmentValue, index: number): ExportBlock[] {
+function segmentBlocks(segment: BusinessCustomerSegmentValue, index: number, organisation: Parameters<typeof settledSegmentAnswers>[1]): ExportBlock[] {
     return [
         heading("Segment " + (index + 1) + ": " + (segment.name.trim() || "Unnamed segment")),
-        ...describe(segment.description, SEGMENT_FIELDS),
+        ...details(segmentAnswerLines(settledSegmentAnswers(segment, organisation)).map((line): [string, string] => [line.label, line.value])),
 
         ...segment.profiles.flatMap((profile, position) => [
             heading("Profile " + (index + 1) + "." + (position + 1) + ": " + (profile.name.trim() || "Unnamed profile"), 2),
+            ...details(profileAnswerLines(profile.questions ?? {}).map((line): [string, string] => [line.label, line.value])),
             ...describe(profile.description, PROFILE_FIELDS),
             ...paragraph(profile.goals, "Goals & Desires"),
             ...paragraph(profile.challenges, "Challenges & Problems"),
@@ -522,8 +527,9 @@ function segmentBlocks(segment: BusinessCustomerSegmentValue, index: number): Ex
     ];
 }
 
-function businessFoundationBlocks(value: unknown): ExportBlock[] {
-    return asBusinessFoundationValue(value).segments.flatMap(segmentBlocks);
+function businessFoundationBlocks(value: unknown, context: ExportContext): ExportBlock[] {
+    const organisation = asLegalEntityValue(context.responseOf?.(AnswerType.LegalEntity) ?? context.legalEntity).organisation;
+    return asBusinessFoundationValue(value).segments.flatMap((segment, index) => segmentBlocks(segment, index, organisation));
 }
 
 /* ==========================================================
@@ -1134,7 +1140,7 @@ export function bespokeAnswerBlocks(
         case AnswerType.FoundersProfile: return foundersProfileBlocks(value, context);
         case AnswerType.BrandStyle: return brandStyleBlocks(value);
         case AnswerType.BrandInventory: return brandInventoryBlocks(value);
-        case AnswerType.BusinessFoundation: return businessFoundationBlocks(value);
+        case AnswerType.BusinessFoundation: return businessFoundationBlocks(value, context);
         case AnswerType.BusinessEngagement: return businessEngagementBlocks(value, context);
         case AnswerType.BusinessCapability: return businessCapabilityBlocks(value, context);
         case AnswerType.FinancialFoundation: return financialFoundationBlocks(value, context);

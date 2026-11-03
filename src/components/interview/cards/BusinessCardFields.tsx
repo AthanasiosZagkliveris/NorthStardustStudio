@@ -237,14 +237,14 @@ export function BusinessGroup({
     const heading = info
         ? (
             <span className="business-foundation-label-info">
-                <span className="field-group-title business-foundation-subhead">
+                <span className="field-group-title business-foundation-subhead" role="heading" aria-level={3}>
                     <InfoText text={drawnTitle(title)}>
                         <InfoNote label={title} points={info} fullList />
                     </InfoText>
                 </span>
             </span>
         )
-        : <span className="field-group-title business-foundation-subhead">{drawnTitle(title)}</span>;
+        : <span className="field-group-title business-foundation-subhead" role="heading" aria-level={3}>{drawnTitle(title)}</span>;
 
     if (fold) {
         return (

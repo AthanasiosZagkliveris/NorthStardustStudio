@@ -1,7 +1,7 @@
 /**
  * The field names of the library with a description of each, as one part of the fields document
- * (docs/design/15-fields-list.md, written by tools/scripts/library/fields-list.mjs): the code, the name, the names it was
- * made from, what it contains (the words of document 01 Part F), the components it is built from, how many card
+ * (docs/design/library/14-fields-list.md, written by tools/scripts/library/fields-list.mjs): the code, the name, the names it was
+ * made from, what it contains (the words of document 1 Part F), the components it is built from, how many card
  * kinds hold it, and a flag where the name needs the owner's look. This module only returns the lines; it writes no file.
  */
 import { library } from "../../../src/library/data/library.ts";
@@ -29,7 +29,7 @@ export function fieldNamesSection(db) {
     const byCode = new Map(library.assets.map(a => [a.code, a]));
     const out = [];
     out.push("## The field names", "",
-        "One row per field asset (FLD), from the library and document 01 Part F: its name, what it contains in the words of Part F, the components it is built from, and how many card kinds hold it. A flag marks a name that needs a look.", "");
+        "One row per field asset (FLD), from the library and document 1 Part F: its name, what it contains in the words of Part F, the components it is built from, and how many card kinds hold it. A flag marks a name that needs a look.", "");
     const fields = library.assets.filter(a => a.category === "field");
     const flagged = [];
     out.push("| Code | Name | What it contains (Part F) | Built from | In card kinds | Made from the names | Flag |", "|---|---|---|---|---|---|---|");

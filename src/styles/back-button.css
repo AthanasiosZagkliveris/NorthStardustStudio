@@ -59,3 +59,10 @@
 .workspace-footer .back-button.back-button:is(:hover, :focus-visible):not(:disabled) {
     color: var(--text-primary);
 }
+
+/* ONE RULE FOR EVERY NARROW WINDOW: at 1100px and narrower the page footer's Back keeps only its arrow, as the rails' Back does where there is no room beside the card (the word would stand over the page). The button keeps its name (aria-label). */
+@media (max-width: 1100px) {
+    .workspace-footer .back-button .back-button-word {
+        display: none;
+    }
+}

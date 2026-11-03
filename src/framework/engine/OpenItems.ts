@@ -70,6 +70,21 @@ export interface OpenItem {
 
 const validator = new InterviewValidator();
 
+/** What the Positioning tile still lacks: each of its questions with no choice (the audience and the buyer's category are asked for each relationship chosen). */
+export function positioningLacks(organisation: { customerType: string[]; audience: string[]; buyerCategory: string[]; purpose: string[]; differentiation: string[]; outcome: string[] }): string[] {
+    const scales = ["solo", "smb", "mid", "enterprise"];
+    const stages = ["young", "adult", "senior"];
+    const models = organisation.customerType;
+    return [
+        models.length === 0 && "the seller and buyer relationship",
+        models.some(model => !organisation.audience.some(id => (model === "b2b" ? scales : stages).includes(id))) && "the audience",
+        models.some(model => !organisation.buyerCategory.some(id => id.startsWith(model + ":"))) && "the buyer's category",
+        organisation.purpose.length === 0 && "the purpose",
+        organisation.differentiation.length === 0 && "the differentiation",
+        organisation.outcome.length === 0 && "the outcome"
+    ].filter((word): word is string => !!word);
+}
+
 /** "a, b and c". */
 function list(words: string[]): string {
     return words.length <= 1 ? words.join("") : words.slice(0, -1).join(", ") + " and " + words[words.length - 1];
@@ -87,7 +102,9 @@ export function openItemsOf(
     systemNumber: number,
     session: InterviewSession,
     where: (section: Section) => string,
-    resolveSharedValue?: (answer: AnswerDefinition) => unknown
+    resolveSharedValue?: (answer: AnswerDefinition) => unknown,
+    /** The name of the Positioning tile at the business stage ("Early Positioning"), for the item that says what it still lacks. */
+    positioningTile = "Early Positioning"
 ): OpenItem[] {
 
     const items: OpenItem[] = [];
@@ -115,7 +132,21 @@ export function openItemsOf(
                 continue;
             }
             const values = shown && typeof shown === "object" && !Array.isArray(shown) ? shown as Record<string, unknown> : {};
+            // (On the Identity System's Definition the Organization's and the Positioning's free texts are their optional Notes: an empty one is no open item. What each tile still lacks is said from the Legal Entity answer, below.)
+            const noted = systemNumber === 1 && columns.parts.some(part => part.id === "description") && columns.parts.some(part => part.id === "positioning");
             for (const part of columns.parts) {
+                if (noted && (part.id === "description" || part.id === "positioning")) {
+                    if (part.id === "positioning") {
+                        const legal = session.getSections().find(candidate => candidate.answer?.type === AnswerType.LegalEntity);
+                        if (legal) {
+                            const missing = positioningLacks(asLegalEntityValue(session.getResponse(legal.number)).organisation);
+                            if (missing.length > 0) {
+                                add(positioningTile + ": " + list(missing) + " not chosen yet.", { key: key(part.id) });
+                            }
+                        }
+                    }
+                    continue;
+                }
                 if (isAnswerEmpty(part.answer, values[part.id])) {
                     add(part.label + ": not answered yet.", { key: key(part.id) });
                 }

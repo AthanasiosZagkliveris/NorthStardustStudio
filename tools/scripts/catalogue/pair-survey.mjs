@@ -83,7 +83,7 @@ function collect() {
 async function record(where) { try { scenes.push({ where, ...(await page.evaluate(collect)) }); console.log("scene " + scenes.length + " " + where); writeFileSync(out, JSON.stringify({ scenes })); } catch (error) { scenes.push({ where, error: String(error).slice(0, 80) }); } }
 const attempt = async (name, fn) => { try { await fn(); } catch (error) { console.log("skipped " + name + ": " + String(error).slice(0, 90)); } };
 
-const PAGES = { "Identity System": ["1. Definition", "2. Organization"], "Brand System": [null], "Business System": ["1. Foundation", "Customer Engagement", "Infrastructure", "Financial Foundation", "Sustainability"], "Strategy System": [null] };
+const PAGES = { "Identity System": ["1. Definition", "2. Legal Entity"], "Brand System": [null], "Business System": ["1. Foundation", "Customer Engagement", "Infrastructure", "Financial Foundation", "Sustainability"], "Strategy System": [null] };
 const MAX_DEPTH = 2;
 const SEL = "button.section-tile";
 

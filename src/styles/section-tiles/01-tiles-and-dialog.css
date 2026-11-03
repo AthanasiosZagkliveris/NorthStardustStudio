@@ -354,9 +354,8 @@
    Partnerships, the Capability sections, the channel tiles): as wide as the page's
    card area (--section-dialog-width), from the page heading's underline to the
    footer (--section-dialog-height); unmeasured the least of 92vw and 1400px wide,
-   88vh high. The ground is the card's own, TRANSLUCENT (--dialog-ground-alpha) and
-   BLURRED (--dialog-blur, global.css), so the dimmed page shows softly through;
-   only the hue differs (the card's, the channel teal). What is taller scrolls
+   88vh high. The ground is the card's own, SOLID (no transparency, no blur: nothing of
+   the page shows through); only the hue differs (the card's, the channel teal). What is taller scrolls
    inside its body only; its Back button is always in view at the lower left. */
 .section-tile-overlay.business-foundation > .section-tile-dialog.business-foundation-card {
 
@@ -381,9 +380,6 @@
 
     padding: var(--card-padding);
 
-    /* The card's ground at --dialog-ground-alpha (20%: the background colour is 80% transparent). The page behind it shows through
-       blurred (--dialog-blur) and lifted (--dialog-backdrop-brightness: it undoes the dimming of the page, light and sepia), so
-       every text keeps 4.5:1 over the worst smear of the page (layout-rules 5a, "The dialog ground"). */
     /* (A frame that has text on it is never transparent: the ground is solid, nothing of the page shows through.) */
     background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
 
@@ -414,10 +410,8 @@
 }
 
 /* THE CARDS INSIDE ANY DIALOG (a founder's, a resource's, an activity's, a partner's):
-   one card ground, the same glass as the dialog's step further on -- the card's inner
-   tint at --card-glass-alpha, blurred by --card-glass-blur, so the dialog's ground
-   shows softly through. Text colours stay at 4.5:1 on the worst ground (layout-rules
-   5a). */
+   one card ground, SOLID like the dialog's: the card's inner tint, no transparency and
+   no blur. */
 .section-tile-overlay .section-tile-dialog .business-foundation-card {
 
     background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));

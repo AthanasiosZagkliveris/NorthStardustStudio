@@ -3,7 +3,7 @@ import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { aboveTipPosition, hueOf, TooltipBox } from "./Tooltip.tsx";
 
 /**
- * THE APP'S TOOLTIP (the rules are in docs/design/25-tooltips.md). The browser draws a `title` as a plain white rectangle with a black frame and letters, in whatever
+ * THE APP'S TOOLTIP (the rules are in docs/design/current/24-tooltips.md). The browser draws a `title` as a plain white rectangle with a black frame and letters, in whatever
  * mode the system is in; this host, mounted once, takes the `title` of an element away and shows words in the app's own tooltip (`TooltipBox`) -- but only where a
  * tooltip is of use:
  *  1. only a CONTROL that is pressed (a button, a link, a tab, a menu item, a summary) has one -- never a field (it has its label and its value), a tick (its words), a tile or a card
@@ -21,8 +21,18 @@ const plain = (text: string) => text.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "
 /** What is pressed: rule 1. (A field, a tick, a tile, a card, a label is not here.) */
 const PRESSED = "button, a[href], summary, [role=button], [role=tab], [role=menuitem], [role=link]";
 
-/** The words an element shows. */
-const shown = (element: HTMLElement) => (element.textContent ?? "").trim();
+/** The words an element shows (a part hidden with display: none, as the word of a Back button is in a narrow window, is not shown: the control is then an icon, rule 2). */
+const shown = (element: HTMLElement): string => {
+    let text = "";
+    element.childNodes.forEach(node => {
+        if (node.nodeType === Node.TEXT_NODE) {
+            text += node.textContent ?? "";
+        } else if (node instanceof HTMLElement && getComputedStyle(node).display !== "none") {
+            text += shown(node);
+        }
+    });
+    return text.trim();
+};
 
 /** Rule 3: the words of the element, or of a part of it, run past its edge and are cut (side to side only; a part drawn only to measure is hidden). */
 const isCut = (element: HTMLElement) => [element, ...element.querySelectorAll<HTMLElement>("*")].some(node => {
@@ -91,7 +101,10 @@ export function tipOf(element: HTMLElement): string | null {
         return said ? tipWords(said) : null;
     }
     if (!given) {
-        return null;
+        // 3, for a part inside the control that carries the words (a tile's title: cut short by an ellipsis, it says them whole).
+        const part = Array.from(element.querySelectorAll<HTMLElement>("[data-tip], [title]")).find(node => isCut(node));
+        const whole = part?.getAttribute("data-tip") ?? part?.getAttribute("title");
+        return whole ? tipWords(whole) : null;
     }
     // 5. Never what it already shows.
     const own = new Set(plain([words, name ?? ""].join(" ")).split(" "));

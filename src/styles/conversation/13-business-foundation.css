@@ -975,3 +975,428 @@
 
 }
 
+
+/* THE SEGMENT'S DESCRIPTION is laid out as the Positioning card is (11-legal-entity.css, .legal-entity-audience): two columns with the 1px divider between, each box a title over a
+   divider line, each question a band (every other one on the tint), a double rule between one box and the next. Only the columns differ: two equal halves, not the left one as wide as its
+   longest option. A box's title is the card's primary label colour; a question's label is body ink. */
+.legal-entity-grid-organization.legal-entity-audience.business-segment-grid{
+
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+
+}
+
+/* A box's title is a band on the primary fill with light letters (the inverse of the tinted question bands under it), in capitals as the other subtitles of the cards are (.dialog-heading-sub). */
+.business-segment-grid .business-segment-box > .legal-entity-org-section:first-child{
+
+    background:var(--bg-primary);
+
+    /* The band ends at the title's own line: no strip of the card's ground under it. */
+    padding-bottom:0;
+
+}
+
+.business-segment-grid .business-segment-box > .legal-entity-org-section:first-child .business-foundation-label{
+
+    color:var(--text-on-fill);
+
+    text-transform:uppercase;
+
+}
+
+/* On the dark band the "i" is a ring and a letter in the light ink on the band's own fill (its disc, ring and letter are for the light card), and turns to a light disc with a dark letter under the pointer; the tick box takes the light ink. */
+.business-segment-grid .business-segment-box > .legal-entity-org-section:first-child{
+
+    --info-fill:var(--bg-primary);
+
+}
+
+.business-segment-grid .business-segment-box > .legal-entity-org-section:first-child .info-note-button{
+
+    border-color:var(--text-on-fill);
+
+    color:var(--text-on-fill);
+
+}
+
+.business-segment-grid .business-segment-box > .legal-entity-org-section:first-child .info-note-button:hover,
+.business-segment-grid .business-segment-box > .legal-entity-org-section:first-child .info-note-button[aria-expanded="true"]{
+
+    background:var(--text-on-fill);
+
+    color:var(--bg-primary);
+
+}
+
+.business-segment-grid .business-segment-box > .legal-entity-org-section:first-child .business-foundation-tick-inline{
+
+    color:var(--text-on-fill);
+
+}
+
+/* The lines of an option that wraps stand 1.3 lines apart (23.4px at 18px: the tick label's own line is 18px, which let the underline under the pointer cut the letters of the line below), and the underline stands 3px from the letters. */
+.business-segment-grid .business-foundation-tick-label,
+.business-segment-grid .radio-choice-option > span{
+
+    line-height:1.3;
+
+    text-underline-offset:3px;
+
+}
+
+/* The tick box stands in the middle of the option's first line: the box is 24px and carries -3px (global.css) to sit beside an 18px line; the first line here is 23.4px, 2.7px taller, so the box gives that back (the Notes tick, whose label is 18px, keeps the -3px). */
+.business-segment-grid label.business-foundation-tick:has(> .business-foundation-tick-label) > .brand-tick-box{
+
+    margin-top:-0.3px;
+
+}
+
+/* THE BOUNDARY OF EVERY CONTROL OF THE SEGMENT AND PROFILE CARDS holds 3:1 on the card's ground (WCAG 1.4.11): an unticked box, an unchosen round, a box you write in or a number cell is drawn with a 1px line in --text-faint (3.7:1 on the light ground, 4.4:1 on sepia, 5:1 and more on dark). The ticked and chosen ones are the app's blue, which holds it already. */
+.business-segment-grid input[type="checkbox"]:not(:checked){
+
+    border-color:var(--text-faint);
+
+}
+
+/* (The boxes you write in take their edge from --cell-edge, which the cards' own rules read.) */
+.business-segment-grid,
+.floating-card-body .column-tile-content > .business-foundation-card{
+
+    --cell-edge:var(--text-faint);
+
+}
+
+.floating-card-body .column-tile-content > .business-foundation-card .numbered-list{
+
+    border-color:var(--text-faint);
+
+}
+
+/* (A round is drawn thin and anti-aliased: its line is the darker --text-muted, so it holds 3:1 where it is thinnest.) */
+.business-segment-grid input[type="radio"]:not(:checked){
+
+    border-color:var(--text-muted);
+
+}
+
+/* A tick option is a target of 24px at least (WCAG 2.5.8): its one line of 23.4px stands in 24. */
+.business-segment-grid .business-foundation-tick{
+
+    min-height:24px;
+
+}
+
+/* A Profile card floats at the width every floating card has (the opened card's): its boxes of questions stand in one column, one under the other, each across the card. */
+.legal-entity-grid-organization.legal-entity-audience.business-segment-grid.business-segment-grid-single{
+
+    grid-template-columns:minmax(0, 1fr);
+
+}
+
+/* THE BANDS AND THE RULES RUN FROM SIDE TO SIDE OF THE CARD, as the channel card's rows do: the boxes stand across the card's content column and the column of its x, and out to its right edge (the left they already reach). */
+.floating-card-body .column-tile-content > .business-foundation-card > .business-segment-grid-single{
+
+    grid-column:2 / -1;
+
+    margin-right:calc(-1 * var(--card-padding));
+
+    max-width:none;
+
+}
+
+/* (Under 901px a column loses its right padding; this card keeps it, so the bands end at the card's edge at every width.) */
+/* THE CONTENT STOPS WHERE EVERY FLOATING CARD'S CONTENT STOPS -- at the right edge of the name cell, before the column of the x -- while the bands, their tints and the rules run on to the card's side: the sections keep that room as padding (the x column and the gap beside it; the grid's own 12px and the card's padding make up the rest). */
+.floating-card-body .column-tile-content > .business-foundation-card > .business-segment-grid-single .legal-entity-org-section{
+
+    padding-right:calc(var(--card-x-column) + var(--space-field));
+
+}
+
+/* (The title band's inner line and the line under a label are drawn by the label row: they run on across the room the section keeps, to the card's side.) */
+.floating-card-body .column-tile-content > .business-foundation-card > .business-segment-grid-single .legal-entity-org-section > .legal-entity-label-info.business-foundation-label-info{
+
+    width:calc(100% + var(--space-cell) + var(--card-x-column) + var(--space-field));
+
+    margin-left:calc(-1 * var(--space-cell));
+
+    padding-right:calc(var(--card-x-column) + var(--space-field));
+
+    flex:none;
+
+    max-width:none;
+
+}
+
+.floating-card-body .column-tile-content > .business-foundation-card > .business-segment-grid-single .legal-entity-pair > .legal-entity-label-info{
+
+    width:calc(100% + 2 * var(--space-cell) + var(--card-x-column));
+
+    padding-right:calc(var(--card-x-column) + var(--space-field));
+
+}
+
+.floating-card-body .column-tile-content > .business-foundation-card > .business-segment-grid-single > .legal-entity-field{
+
+    padding-right:var(--space-cell);
+
+}
+
+/* A SECTION OF THE SEGMENT CARD THAT STANDS ALONE UNDER ITS BOXES (the Profiles' tiles): one column the width of the card, its title band the same as the boxes' (the primary fill, light capitals), a band of its own for what it holds. */
+.legal-entity-grid-organization.legal-entity-audience.business-segment-grid.business-segment-grid-full{
+
+    grid-template-columns:minmax(0, 1fr);
+
+}
+
+/* The section stands flush under the boxes above it: the dialog's row gap is taken back, so the double rule follows the last band without a gap. */
+.business-foundation-description + .business-segment-grid-full{
+
+    margin-top:calc(-1 * var(--space-card));
+
+}
+
+.legal-entity-grid-organization.legal-entity-audience.business-segment-grid-full > .legal-entity-field:first-child{
+
+    padding-right:0;
+
+}
+
+.business-segment-grid .business-profiles-band{
+
+    padding-top:var(--space-field);
+
+}
+
+/* THE PROFILE CARD HAS THREE LEVELS, ONE DESIGN FOR EACH. The SECTIONS (Description, Motivations, Needs) are bands on the primary fill with light letters in capitals, in the Segment card's title style (18px, regular). The QUESTIONS are the labels over their options, as in the Segment card. BETWEEN them, the SUBSECTIONS (the boxes: Specific Personal Information, Psychographics, Goals & Desires ...) are lighter: a band on a tint of the primary fill with a 4px primary bar at its left and the title a size under the section's, in bold capitals spaced wide, in the title ink. */
+.floating-card-body .column-tile-content > .business-foundation-card > .business-group-fold-head{
+
+    grid-column:1 / -1;
+
+    margin-inline:calc(-1 * var(--card-padding));
+
+    max-width:none;
+
+    padding:8px var(--card-padding);
+
+    background:var(--bg-primary);
+
+    --info-fill:var(--bg-primary);
+
+}
+
+.floating-card-body .column-tile-content > .business-foundation-card > .business-group-fold-head .business-foundation-subhead{
+
+    font-size:var(--font-body);
+
+    font-weight:400;
+
+    letter-spacing:normal;
+
+    text-transform:uppercase;
+
+    color:var(--text-on-fill);
+
+}
+
+.floating-card-body .column-tile-content > .business-foundation-card > .business-group-fold-head .info-note-button{
+
+    border-color:var(--text-on-fill);
+
+    color:var(--text-on-fill);
+
+}
+
+.floating-card-body .column-tile-content > .business-foundation-card > .business-group-fold-head .info-note-button:hover,
+.floating-card-body .column-tile-content > .business-foundation-card > .business-group-fold-head .info-note-button[aria-expanded="true"]{
+
+    background:var(--text-on-fill);
+
+    color:var(--bg-primary);
+
+}
+
+.business-segment-grid.business-segment-grid-single .business-segment-box > .legal-entity-org-section:first-child{
+
+    background:color-mix(in srgb, var(--bg-primary) 14%, transparent);
+
+    box-shadow:inset 4px 0 0 var(--bg-primary);
+
+    --info-fill:transparent;
+
+}
+
+.business-segment-grid.business-segment-grid-single .business-segment-box > .legal-entity-org-section:first-child .business-foundation-label{
+
+    color:var(--title-ink);
+
+    font-size:var(--font-small);
+
+    font-weight:700;
+
+    letter-spacing:0.1em;
+
+    text-transform:uppercase;
+
+}
+
+.business-segment-grid.business-segment-grid-single .business-segment-box > .legal-entity-org-section:first-child .info-note-button{
+
+    border-color:var(--title-ink);
+
+    color:var(--title-ink);
+
+}
+
+.business-segment-grid.business-segment-grid-single .business-segment-box > .legal-entity-org-section:first-child .info-note-button:hover,
+.business-segment-grid.business-segment-grid-single .business-segment-box > .legal-entity-org-section:first-child .info-note-button[aria-expanded="true"]{
+
+    background:var(--title-ink);
+
+    color:var(--bg-surface);
+
+}
+
+/* THE DOUBLE RULE THAT SPLITS THE SECTIONS IS THE SAME COMPONENT AS THE ONE BETWEEN THE SEGMENT CARD’S BOXES (two 1px lines, 2px between), not a variant: it only stands from side to side of the card, flush with the bands above and under it (the card's row gap is taken back). The band under a section's heading, and the first band of the section, follow it without a gap. */
+.floating-card-body .column-tile-content > .business-foundation-card > .business-profile-section-rule{
+
+    grid-column:1 / -1;
+
+    margin-block:0;
+
+    margin-inline:calc(-1 * var(--card-padding));
+
+    width:auto;
+
+    max-width:none;
+
+}
+
+.floating-card-body .column-tile-content > .business-foundation-card > .business-segment-grid-single:has(+ .business-profile-section-rule){
+
+    margin-bottom:calc(-1 * var(--space-field));
+
+}
+
+.floating-card-body .column-tile-content > .business-foundation-card > .business-profile-section-rule + .business-group-fold-head{
+
+    margin-top:calc(-1 * var(--space-field));
+
+}
+
+.floating-card-body .column-tile-content > .business-foundation-card > .business-group-fold-head + .business-segment-grid-single{
+
+    margin-top:calc(-1 * var(--space-field));
+
+}
+
+/* THE NOTE OF A BOX is a band of its own, the next in the run of tints (every other band) and with room above it: a field gap before its tick row. */
+.business-segment-grid .business-note-band{
+
+    padding-top:var(--space-field);
+
+}
+
+/* ONLY THE SECTIONS ARE SPLIT BY A DOUBLE RULE: between two subsections of a section stands one line, the width of the card. */
+.floating-card-body .column-tile-content > .business-foundation-card > .business-segment-grid-single .business-capability-card-rule-double{
+
+    height:0;
+
+    border-bottom-width:0;
+
+}
+
+/* A band that holds a cell taller than a line (the age) has the same room above it and under it. */
+.business-segment-grid .legal-entity-org-section:has(> .legal-entity-pair > .business-profile-age){
+
+    padding-block:var(--space-field);
+
+}
+
+/* A label over a text holder (a list of lines, a text box) has no line under it: the line is for a label over options. */
+.legal-entity-pair:has(> .numbered-list) > .legal-entity-label-info,
+.legal-entity-pair:has(> .business-numbered-list) > .legal-entity-label-info,
+.legal-entity-pair:has(> textarea) > .legal-entity-label-info{
+
+    border-bottom:0;
+
+    padding-bottom:0;
+
+    min-height:0;
+
+}
+
+/* The age stands beside its label: the question's label on the left (it wraps inside its own column), the square cell at the right end of the band, centred on the label's lines. */
+.legal-entity-pair:has(> .business-profile-age){
+
+    display:grid;
+
+    grid-template-columns:minmax(0, 1fr) auto;
+
+    align-items:center;
+
+    column-gap:var(--gap-8);
+
+}
+
+/* A label and its cell standing side by side need no divider line under the label: the line is for a label over its options. */
+.legal-entity-pair:has(> .business-profile-age) > .legal-entity-label-info{
+
+    width:auto;
+
+    margin-inline:0;
+
+    padding-inline:0;
+
+    padding-bottom:0;
+
+    border-bottom:0;
+
+    min-height:0;
+
+}
+
+.legal-entity-pair > .business-profile-age{
+
+    justify-self:end;
+
+    margin:0;
+
+}
+
+/* The age of a Profile is a square number cell (the one a performer's head count uses, as high as it is wide), not a box across the card. */
+.floating-card-body .column-tile-content > .business-foundation-card .interview-input.business-capability-people{
+
+    width:44px;
+
+    padding-inline:6px;
+
+    text-align:center;
+
+}
+
+/* A radio of short options stands in ONE row where the whole row fits the column, else in ONE column (FittingRadioChoice): the row never wraps onto a second line. */
+.radio-choice.business-segment-row{
+
+    flex-wrap:nowrap;
+
+    gap:var(--gap-8) var(--gap-16);
+
+    padding-top:var(--space-label);
+
+}
+
+/* The line saying what Positioning set stands as the first band of its box, over the questions: small, and in the ink of the card's notes. */
+.business-segment-settled{
+
+    display:block;
+
+}
+
+@media (max-width: 900px){
+
+    .legal-entity-grid-organization.legal-entity-audience.business-segment-grid{
+
+        grid-template-columns:minmax(0, 1fr);
+
+    }
+
+}
