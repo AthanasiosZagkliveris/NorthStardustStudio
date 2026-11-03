@@ -12,7 +12,7 @@ import { BusinessAddButton, BusinessCard, BusinessRemove, BusinessTicks, Optiona
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
-import { type ProfileBox, type ProfileQuestion, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileWho, profileQuestionsOf, profileSettle, profileShown } from "../../../../framework/engine/ProfileQuestions.ts";
+import { type ProfileBox, type ProfileQuestion, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileWho, profileQuestionsOf, profileSettle, profileShown, proposedBusinessProfiles } from "../../../../framework/engine/ProfileQuestions.ts";
 import { type SegmentBox, type SegmentQuestion, segmentChoose, segmentOptions, segmentQuestionsOf, segmentRowChoice, segmentSettle, segmentSettledNotes } from "../../../../framework/engine/SegmentQuestions.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
 import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
@@ -555,6 +555,25 @@ export function useFoundationSubsections(earlier: Earlier) {
                     above the line -- a founder with a fourth Profile
                     to describe is not served by the button quietly
                     going away. */}
+                {/* The Profiles proposed by buying role (doc 36, 2), read from the Segment's "Who decides to buy?": each is added
+                    with its name and its roles in buying ticked, and is not offered again once a Profile has its name. */}
+                {(() => {
+                    const proposals = proposedBusinessProfiles(segment.questions, asked, segment.profiles.map(profile => profile.name));
+                    return proposals.length > 0 && (
+                        <div className="profile-proposals" aria-label={"Proposed Profiles for " + segmentPath}>
+                            {proposals.map(proposal => (
+                                <Fragment key={proposal.id}>
+                                    {addButton(proposal.name + " Profile", () => {
+                                        const profile = { ...createBusinessCustomerProfile(), name: proposal.name, questions: { a5: proposal.roles } };
+                                        updateSegment(segmentIndex, { profiles: [...segment.profiles, profile] });
+                                        folds.expand(profile.id);
+                                    })}
+                                </Fragment>
+                            ))}
+                        </div>
+                    );
+                })()}
+
                 {addButton("Profile", () => {
                     const profile = createBusinessCustomerProfile();
                     updateSegment(segmentIndex, {

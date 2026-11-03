@@ -335,3 +335,43 @@ export function asProfileAnswers(source: unknown): SegmentAnswers {
     }
     return result;
 }
+
+/** A Profile the app proposes for a business Segment: its name and its roles in buying (A5), set when it is added. */
+export interface ProposedProfile {
+    id: "decider" | "user" | "checker" | "buyer" | "checker-buyer";
+    name: string;
+    roles: string[];
+}
+
+const ALL_ROLES = ["use", "influence", "order", "decide", "gate"];
+
+/**
+ * The Profiles proposed for a business Segment, by buying role (Webster and Wind, 1972), read from its "Who decides to buy?":
+ * one person decides, one Profile with every role; a team or a manager, a user and a decider; several departments, a checker;
+ * formal procurement, a buyer; both of the last two, one checker and buyer, so never more than three. A proposal whose name a
+ * Profile of the Segment already has is not offered again. Nothing is proposed for people, or before the question is answered.
+ */
+export function proposedBusinessProfiles(segment: SegmentAnswers, context: SegmentContext, names: string[] = []): ProposedProfile[] {
+    if (context.frame !== "business") {
+        return [];
+    }
+    const decides = segment.authorise ?? [];
+    const has = (id: string) => decides.includes(id);
+    const team = has("champions") || has("executive") || has("multi") || has("procurement");
+    const proposed: ProposedProfile[] = [];
+    if (team) {
+        proposed.push({ id: "user", name: "User", roles: ["use", "influence"] });
+        proposed.push({ id: "decider", name: "Decider", roles: ["decide"] });
+        if (has("multi") && has("procurement")) {
+            proposed.push({ id: "checker-buyer", name: "Checker and buyer", roles: ["influence", "order", "gate"] });
+        } else if (has("multi")) {
+            proposed.push({ id: "checker", name: "Checker", roles: ["influence"] });
+        } else if (has("procurement")) {
+            proposed.push({ id: "buyer", name: "Buyer", roles: ["order", "gate"] });
+        }
+    } else if (has("solo")) {
+        proposed.push({ id: "decider", name: "Decider", roles: ALL_ROLES });
+    }
+    const taken = new Set(names.map(name => name.trim().toLowerCase()));
+    return proposed.filter(profile => !taken.has(profile.name.toLowerCase()));
+}

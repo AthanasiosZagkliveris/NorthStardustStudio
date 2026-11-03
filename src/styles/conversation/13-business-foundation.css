@@ -1400,3 +1400,12 @@
     }
 
 }
+
+/* The Profiles proposed for a business Segment by buying role (useFoundationSubsections.tsx): their add buttons, each as wide as its label, in one wrapping row above "+ Add Profile". */
+.profile-proposals{
+
+    display:flex;
+    flex-wrap:wrap;
+    gap:var(--gap-8);
+
+}

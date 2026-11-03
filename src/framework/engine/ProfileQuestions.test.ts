@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { profileChoose, profileQuestionsOf, profileSettle, profileShown, profileWho, PROFILE_QUESTIONS } from "./ProfileQuestions";
+import { profileChoose, profileQuestionsOf, profileSettle, profileShown, profileWho, proposedBusinessProfiles, PROFILE_QUESTIONS } from "./ProfileQuestions";
 import type { SegmentContext } from "./SegmentQuestions";
 
 const people = { frame: "people", endsUser: false } as unknown as SegmentContext;
@@ -96,4 +96,30 @@ describe("a Profile is one person", () => {
         expect(profileWho("Which devices does {s} use?", "non-binary")).toBe("Which devices does this person use?");
         expect(profileWho("What is {p} job role?")).toBe("What is this person's job role?");
     });
+});
+
+describe("the Profiles proposed for a business Segment, by buying role", () => {
+
+    const ids = (authorise: string[], names: string[] = []) => proposedBusinessProfiles({ authorise }, business, names).map(profile => profile.id);
+
+    it("proposes one Profile with every role where one person decides", () => {
+        expect(ids(["solo"])).toEqual(["decider"]);
+        expect(proposedBusinessProfiles({ authorise: ["solo"] }, business)[0].roles).toEqual(["use", "influence", "order", "decide", "gate"]);
+    });
+
+    it("proposes a user and a decider for a team or a manager, and adds a checker or a buyer, never more than three", () => {
+        expect(ids(["champions"])).toEqual(["user", "decider"]);
+        expect(ids(["executive"])).toEqual(["user", "decider"]);
+        expect(ids(["multi"])).toEqual(["user", "decider", "checker"]);
+        expect(ids(["procurement"])).toEqual(["user", "decider", "buyer"]);
+        expect(ids(["solo", "champions", "executive", "multi", "procurement"])).toEqual(["user", "decider", "checker-buyer"]);
+        expect(proposedBusinessProfiles({ authorise: ["procurement"] }, business)[2].roles).toEqual(["order", "gate"]);
+    });
+
+    it("proposes nothing for people or before the question is answered, and not a Profile already added", () => {
+        expect(ids([])).toEqual([]);
+        expect(proposedBusinessProfiles({ authorise: ["solo"] }, people)).toEqual([]);
+        expect(ids(["executive"], [" decider "])).toEqual(["user"]);
+    });
+
 });
