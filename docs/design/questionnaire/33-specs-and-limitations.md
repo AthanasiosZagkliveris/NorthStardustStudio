@@ -19,7 +19,7 @@ Related: doc 28 (questionnaire specification), doc 31 (positioning categories), 
 
 ## 2. Language
 
-English only. Every label, tooltip, document and export is in English; there is no language switch. (Earlier owner constraint, kept: the audience is early-stage, solo or small teams.)
+English only, and **UK English** (owner, 2026-11-03: organisation, centre, specialised, behaviour), whatever the country; there is no language or spelling switch. Every label, tooltip, document and export is in English. The saved keys keep their spelling (`organization`). (Earlier owner constraint, kept: the audience is early-stage, solo or small teams.)
 
 ## 3. Countries, legal forms, activities and codes
 
@@ -61,7 +61,7 @@ The buyer's category no longer sits inside the life-stage list.
 
 **Shown only for Proxy Buyers or Dual-Intent Buyers (a filter):**
 
-**1. Buyer & User relationships**, by the relationship model chosen:
+**1. Buyer & End User relationships**, by the relationship model chosen:
 
 | B2C (personal) | B2B (business) |
 |---|---|
@@ -88,10 +88,10 @@ The B2B list is the six business relationships of doc 31 section 6.2, each with 
 **Check, for the owner:**
 1. **This replaces the I7b design of doc 31 decision 19.** There the life-stage list had five options, with Proxy and Dual-Intent among them. Now **I7b keeps three life-stage options** and **the category is a separate question**. The End User block is shown by the category.
 2. **The life-stage list no longer holds "Proxy Buyers / Gifters"** (section 8): an older saved answer is read in the new form and the buyer's category is asked again.
-3. **The user's life stage has four coarse groups** with no age edges given. Minors is read as under 18 and Seniors as 65 and over (which includes the Dependent seniors of 74 and over). Do the four replace the detailed stages of doc 31 section 1 or group them? Not stated.
+3. **The user's life stage has four coarse groups** with no age edges given. Minors is read as under 18 and Seniors as 65 and over (which includes the Dependent seniors of 75 and over). Do the four replace the detailed stages of doc 31 section 1 or group them? Not stated.
 4. **B2B users have no life stage.** The user's life stage is read as B2C only; for B2B the relationship is the only End User item.
 5. **The buyer's category for B2B:** the archetypes of section 10.6 suggest a category for each relationship (Proxy or Dual-Intent); as decided in doc 31 decisions 8 to 10, the relationship only **suggests** it and the buyer's own answer governs.
-6. **Purpose, Differentiation and Outcome are three items** (settled 2026-10-30: the owner asked for the Differentiation to be separate from the Outcome, the Differentiation focused on the offering, and for a different outcome for the buyer and the user where the buyer is a Proxy or Dual-Intent Buyer). Purpose uses the 12 purposes of doc 31 section 7; Differentiation keeps the owner's four words; the Outcome for the buyer is the four results those words name; the Outcome for the user is the six answers of the former "what matters most to the End User".
+6. **Purpose, Differentiation and Outcome are three items** (settled 2026-10-30: the owner asked for the Differentiation to be separate from the Outcome, the Differentiation focused on the offering, and for a different outcome for the buyer and the user where the buyer is a Proxy or Dual-Intent Buyer). Purpose uses the 12 purposes of doc 31 section 7; Differentiation keeps the owner's four words, with two more added the same day (section 8: six in all); the Outcome for the buyer is the four results those words name; the Outcome for the user is the six answers of the former "what matters most to the End User".
 
 ## 6. Ages
 
@@ -117,14 +117,14 @@ The Organization tile and the Early Positioning tile of the app follow this docu
 
 **Early Positioning tile**
 - **Market Structure** is not asked (single-sided). **Seller and Buyer Relationship** offers B2C and B2B only. The built B2G, G2B and multi-sided features stay in the code and are hidden; an older answer that holds them is read without them.
-- **Buyer's Life-Stage** (B2C) has three options; **Audience Specialization & Scale** (B2B) is unchanged. **Buyer's category** (Direct, Proxy, Dual-Intent) is asked for each relationship chosen, one choice.
-- For a Proxy or Dual-Intent Buyer: **Buyer & User relationship** (the six personal ones and the Commercial & Professional one for B2C, the six business ones for B2B) and, for B2C only, **User's Life-Stage** (Minors, Young Adults, Adults, Seniors).
+- **Buyer's Life-Stage** (B2C) has three options; **Audience Specialisation & Scale** (B2B) is unchanged. **Buyer's category** (Direct, Proxy, Dual-Intent) is asked for each relationship chosen, one choice.
+- For a Proxy or Dual-Intent Buyer: **Buyer & End User relationship** (the six personal ones and the Commercial & Professional one for B2C, the six business ones for B2B) and, for B2C only, **End User's Life-Stage** (Minors, Young Adults, Adults, Seniors).
 - **Purpose** (the twelve purposes) is asked once, with the same limit as the outcome. **Differentiation** (Cost-driven; Convenience-driven; Compliance, Risk & Security; Status & Premium; and, added 2026-10-30, Performance & Innovation; Ecosystem & Integration) is about the offering. **Outcome** (Lower costs; Time saved; Legal & data-protection cover; Higher quality & prestige) is the buyer's result, and where some buyer is a Proxy or Dual-Intent Buyer it is asked as "Outcome for the buyer" beside an **Outcome for the user** (Enjoyment & fun; Comfort & ease; Safety & care; Learning & growth; Looks & belonging; Practical use). The lists of the outcomes are made from the words of the former question (the results it named) and of the former "what matters most"; confirm or send your own.
 - **Only the relationships that fit the category are offered** (2026-10-30): a Proxy Buyer is not offered the Spouse or partner; a Dual-Intent Buyer is not offered the Friend or acquaintance or the Commercial & Professional; for a business buyer the proxy ones and the dual ones are told apart in the same way (doc 31, 10.7).
 - **A radio reacts under the pointer as a tick box does** (its words underlined, the round's glow ring): doc 18 and the rulebook.
 - "Who chooses" and "what matters most to the End User" are no longer asked (future features).
 
-**Arranged on 2026-10-30:** the Early Positioning tile has two columns. Left, every question before the Purpose: the Seller and Buyer Relationship and, for each relationship, its audience (Buyer's Life-Stage or Audience Specialization & Scale), its Buyer's category and the End User (the buyer and user relationship, the user's life stage). Right, the Purpose, the Differentiation and the Outcome. The **Purpose** options are ordered by relevance to the answers so far (the owner's tables, doc 31, 10.7: the buyer and user relationship, else the buyer's category, else the seller and buyer relationship); the purposes the tables call generally less directly relevant are not offered (2026-10-30; one already chosen stays).
+**Arranged on 2026-10-30:** the Early Positioning tile has two columns. Left, every question before the Purpose: the Seller and Buyer Relationship and, for each relationship, its audience (Buyer's Life-Stage or Audience Specialisation & Scale), its Buyer's category and the End User (the buyer and user relationship, the user's life stage). Right, the Purpose, the Differentiation and the Outcome. The **Purpose** options are ordered by relevance to the answers so far (the owner's tables, doc 31, 10.7: the buyer and user relationship, else the buyer's category, else the seller and buyer relationship); the purposes the tables call generally less directly relevant are not offered (2026-10-30; one already chosen stays).
 
 **The Segment card (doc 35)** asks its choice questions, the age as a stage term, and describes the user of a Proxy or Dual-Intent buyer in a part of its own card. **The Profile card (doc 36)** asks the questions it can in part. **Not built:** anything that reads the category, the relationship or the purpose beyond the Segment (the reads in doc 35), and the Profile questions marked not built in doc 36.
 
@@ -137,7 +137,7 @@ The Organization tile and the Early Positioning tile of the app follow this docu
 
 **Closed on 2026-10-30 (the owner: close the open points of the Positioning tile):** the Outcome lists (buyer and user) and the relationships offered for each category are approved as written; a purpose a table does not list is read from the next table; the master matrix stays a reference; no "Recommended" tag is added (doc 31, decision 38). Still future: the routing of the outcome for the user into the second Profile (doc 33, item 13).
 
-**Left out on 2026-10-30 as heavy, public or late-stage institutional (the owner):** the **public company** legal forms (Public Limited Company, PLC, Public Company, Corp, AG) in every country list and in the generic forms; the **Nonprofit Corporation** (United States) and **Cooperative** (Canada) forms. They are listed in doc 33, section 14. A legal form already saved stays as the user's text. **The audience scale is not touched:** Audience Specialization & Scale is the app user's audience (the customers of the business described, from Solopreneurs & Freelancers to Enterprise / Public Sector), a different thing from the app's own audience; the owner corrected the first reading on 2026-10-30.
+**Left out on 2026-10-30 as heavy, public or late-stage institutional (the owner):** the **public company** legal forms (Public Limited Company, PLC, Public Company, Corp, AG) in every country list and in the generic forms; the **Nonprofit Corporation** (United States) and **Cooperative** (Canada) forms. They are listed in doc 33, section 14. A legal form already saved stays as the user's text. **The audience scale is not touched:** Audience Specialisation & Scale is the app user's audience (the customers of the business described, from Solopreneurs & Freelancers to Enterprise or Public Sector), a different thing from the app's own audience; the owner corrected the first reading on 2026-10-30.
 
 **A change of country empties the dependent answers (2026-10-30):** the instant the Country changes to another value, the State (the subdivision) and the Address are emptied with the legal form, the activities and the registration numbers, so no address stays under another country's state or postcode. Choosing the same country again changes nothing.
 
@@ -189,7 +189,7 @@ An item moves into sections 1 to 9 only when the owner says so. If the owner nam
 
 ## 14. Heavy, public and institutional options (moved from doc 31 and the app, 2026-10-30)
 
-The audience scale (Enterprise / Public Sector included) is the app user's audience and **stays**; what is removed concerns the app user's own organisation.
+The audience scale (Enterprise or Public Sector included) is the app user's audience and **stays**; what is removed concerns the app user's own organisation.
 
 The owner removed these from the first version; they are kept here until a later version brings them back.
 

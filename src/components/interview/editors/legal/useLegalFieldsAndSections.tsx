@@ -167,7 +167,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
     const modelChosen = models.length > 0;
     // Each relationship asks its own audience question (a scale for businesses, a life stage for consumers).
     const audienceSets = [
-        { model: "b2b", label: "Audience Specialization & Scale", group: "legal-entity-audience-scale", options: AUDIENCE_SCALES, info: INFO.audienceScale },
+        { model: "b2b", label: "Audience Specialisation & Scale", group: "legal-entity-audience-scale", options: AUDIENCE_SCALES, info: INFO.audienceScale },
         { model: "b2c", label: "Buyer's Life-Stage", group: "legal-entity-audience-life", options: LIFE_STAGES, info: INFO.lifeStage }
     ] as const;
     const SIDE_NAMES: Record<string, string> = { b2c: "B2C", b2b: "B2B" };
@@ -349,7 +349,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                     <div key={set.group} className="legal-entity-org-set">
                     <div className={"legal-entity-org-section legal-entity-org-audience legal-entity-org-enduser" + band("left")}>
                     {choice(
-                        "Buyer & User relationship" + suffix(set.model),
+                        "Buyer & End User relationship" + suffix(set.model),
                         "legal-entity-enduser-relation-" + set.model,
                         relationOptions(set.model),
                         chosenOf(entity.organisation.endUser, BUYER_USER_RELATIONS[set.model]),
@@ -367,7 +367,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                     {set.model === "b2c" && USER_LIFE_STAGES.filter(option => userStageFits(entity.organisation.endUser, option.id, entity.organisation.audience)).length !== 1 && (
                         <div className={"legal-entity-org-section legal-entity-org-audience legal-entity-org-enduser" + band("left")}>
                         {choice(
-                            "User's Life-Stage",
+                            "End User's Life-Stage",
                             "legal-entity-enduser-life",
                             USER_LIFE_STAGES.filter(option => userStageFits(entity.organisation.endUser, option.id, entity.organisation.audience)),
                             chosenOf(entity.organisation.endUser, USER_LIFE_STAGES),
@@ -427,7 +427,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                 {userHasOutcome && (
                     <div className={"legal-entity-org-section legal-entity-org-outcome" + band("right")}>
                     {choice(
-                        "Outcome for the user",
+                        "Outcome for the end user",
                         "legal-entity-outcome-user",
                         userOutcomeShown,
                         chosenOf(entity.organisation.outcomeUser, USER_OUTCOMES),

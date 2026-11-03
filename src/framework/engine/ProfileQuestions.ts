@@ -33,16 +33,17 @@ const WORDS: Record<string, string> = {
     "lower-their-risk": "Lower risk", "express-who-they-are": "Self-expression", "a-service-made-for-them": "A tailored service", "your-website": "On your website",
     "it-costs-too-much": "Cost too high", "it-takes-too-long": "Takes too long", "it-is-too-complicated": "Too complicated", "the-quality-is-inconsistent": "Inconsistent quality",
     "it-is-hard-to-find-someone-they-trust": "Hard to find someone trustworthy", "they-lack-the-know-how": "Lack of know-how", "support-is-poor": "Poor support",
-    "they-worry-about-mistakes-or-rules": "Fear of mistakes / breaking rules", "they-have-no-time-or-capacity": "No time / capacity", "prices-are-unclear": "Unclear prices",
+    "they-worry-about-mistakes-or-rules": "Fear of mistakes or breaking rules", "they-have-no-time-or-capacity": "No time / capacity", "prices-are-unclear": "Unclear prices",
     "the-price-or-their-budget": "The price / budget", "whether-they-can-trust-you": "Whether you can be trusted", "whether-it-fits-their-needs": "Whether it fits the need",
-    "support-after-they-buy": "Support after the sale", "the-effort-of-switching-from-what-they-use-now": "The effort of switching from the current option"
+    "support-after-they-buy": "Support after the sale", "the-effort-of-switching-from-what-they-use-now": "The effort of switching from the current option",
+    "shared-values-or-identity": "Shared values / identity", "risk-or-security": "Risk / security",
+    "a-demo-trial-or-sample": "A demo / trial / sample", "a-quote-or-proposal": "A quote / proposal", "a-meeting-or-call": "A meeting / call"
 };
 const WORRIES = ["The price or their budget", "Whether they can trust you", "How long it takes to start", "How hard it is to use", "Risk or security", "Whether it fits their needs", "Support after they buy", "The effort of switching from what they use now"];
 
 const slug = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-/** What an option says: alternatives are named with a slash, not the word "or" (owner, 2026-11-02); its id stays the slug of the words it was written with. */
-const said = (text: string) => /(^|[ ,])or /.test(text) ? text.replace(/, or /g, " / ").replace(/ or /g, " / ").replace(/, /g, " / ") : text;
-const list = (labels: readonly string[]): SegmentOption[] => labels.map(label => ({ id: slug(label), label: WORDS[slug(label)] ?? said(label) }));
+/** What an option says (owner, 2026-11-03): similar things are joined with a slash ("Laptop / desktop"), different things with the word "or" ("Win customers or earn more"). The words shown are the ones written, or their entry in WORDS; the id stays the slug of the words it was first written with. */
+const list = (labels: readonly string[]): SegmentOption[] => labels.map(label => ({ id: slug(label), label: WORDS[slug(label)] ?? label }));
 
 const QUESTIONS: readonly ProfileQuestion[] = [
     {
@@ -64,7 +65,7 @@ const QUESTIONS: readonly ProfileQuestion[] = [
             { id: "use", label: "Uses it" }, { id: "influence", label: "Influences the decision" }, { id: "order", label: "Places the order" },
             { id: "decide", label: "Makes the final decision" }, { id: "gate", label: "Controls who reaches the decision-maker" }
         ],
-        info: ["The five buying-centre roles credited to Webster and Wind (1972).", "\"Will use it\" is the person who uses the offering day to day, who may be neither the one who pays nor the one who decides."]
+        info: ["The five buying-centre roles credited to Webster and Wind (1972).", "\"Uses it\" is the person who uses the offering day to day, who may be neither the one who pays nor the one who decides."]
     },
     {
         id: "b1", box: "psychographics", label: "What matters most to {o}?", many: true, max: 3, options: list(CARES),
@@ -98,7 +99,7 @@ const QUESTIONS: readonly ProfileQuestion[] = [
     },
     {
         id: "d2", box: "habits", label: "How much help does {s} want before buying?", many: false,
-        options: [{ id: "alone", label: "Works it out alone" }, { id: "little", label: "Likes a little guidance" }, { id: "person", label: "Wants to talk to a person" }, { id: "formal", label: "Needs a formal demonstration / proposal" }],
+        options: [{ id: "alone", label: "Works it out alone" }, { id: "little", label: "Likes a little guidance" }, { id: "person", label: "Wants to talk to a person" }, { id: "formal", label: "Needs a formal demonstration or proposal" }],
         info: ["The help a typical person wants before buying; it can differ from how comfortable the Segment is online."]
     },
     { id: "e1", box: "goals", label: "What are {p} main goals?", many: true, max: 3, options: list(GOALS), info: ["Choose up to three."] },

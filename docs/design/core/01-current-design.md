@@ -55,7 +55,7 @@ Eleven of the thirteen chapters of the Foundation are drawn as Master Tiles. The
 
 ### B.2 Reading modes, screens and accessibility
 
-- **Reading modes:** light, sepia, dark and auto, chosen from one picker in the header (`data-theme`; colours are tokens in `src/styles/colors.css`).
+- **Reading modes:** light, sepia, dark and auto, chosen from one picker in the header (`data-theme`; colours are tokens in `src/styles/tokens/tokens.ts`, generated into `colors.generated.css` by `npm run tokens`; `src/styles/colors.css` holds the colour rules that are not tokens).
 - **Minimum supported width: 768 px** (decided). Screen classes follow the website (`NorthStardustStudioWebsite`): Tablet 768–1199 px; Laptop 1200 px and wider with height under 1250 px; Desktop 1200 px and wider with height of 1250 px or more. Height 900 is the second reference line (shared with Material's expanded height class).
 - **Accessibility target: WCAG 2.2 level AA** (decided). Focus Appearance (2.4.13) is level AAA and out of scope.
 - **Audience:** early-stage entrepreneurs, one person to a small team, often freelancers working from home. English only.
@@ -1033,7 +1033,7 @@ Colour = what the user does in the section (work type). The code applies these w
 | Legal Entity | Define | Green |
 | Founders Profile | Define | Green |
 | 2. Brand |  |  |
-| Ambassador (Aesthetics, Attitude, Voice, Imprint) | Create | Purple |
+| Ambassador (Aesthetics, Body Language, Communication & Voice, Imprint) | Create | Purple |
 | Style | Create | Purple |
 | Inventory | Define | Green |
 | 3. Business |  |  |
@@ -1046,7 +1046,7 @@ Colour = what the user does in the section (work type). The code applies these w
 | 2. Customer Engagement: Customer Relationships | Create | Purple |
 | 3. Infrastructure & Capability: Resources | Define | Green |
 | 3. Infrastructure & Capability: Activities | Decide | Orange |
-| 3. Infrastructure & Capability: Partners & Providers | Discover | Blue |
+| 3. Infrastructure & Capability: Partners & Suppliers | Discover | Blue |
 | 3. Infrastructure & Capability: Delivery | Build | Yellow |
 | 3. Infrastructure & Capability: Completed | Review | Lavender |
 | 4. Financial Foundation: Costs (auto-generated table) | Build | Yellow |

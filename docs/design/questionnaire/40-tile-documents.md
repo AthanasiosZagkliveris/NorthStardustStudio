@@ -26,15 +26,18 @@ A tile document is **one document for one tile or card**, in this order:
 
 | Page and tile | Document | Status |
 |---|---|---|
-| Identity 1: Organization | 38 | built (specification) |
-| Identity 1: Early Positioning (Core Market, Corporate and Portfolio by stage) | 39 | built (specification) |
+| Identity 1: Organization | 37 | built (specification) |
+| Identity 1: Early Positioning (Core Market, Corporate and Portfolio by stage) | 38 | built (specification) |
 | Identity 1: Mission, Vision, Values and the others | none | not yet |
-| Business 1: Segment Description | 36 | built (specification) |
-| Business 1: Profile | 37 | built in part (specification) |
+| Identity 2: Legal Entity (Founders & Ownership, Capability, Registrations, Expenses) | none (doc 26) | not yet |
+| Brand: Ambassador and Style (the nine tiles) | none | not yet |
+| Business 1: Segment Description | 35 | built (specification) |
+| Business 1: Profile | 36 | built in part (specification) |
 | Business 1: Competitors | none (doc 28, 6.6) | not yet |
 | Business 1: Value Proposition | none (doc 28, 6.7) | not yet |
 | Business 1: Offerings | none (doc 28, 6.8) | not yet |
 | Business 2: Customer Engagement | none (doc 28, section 7) | not yet |
 | Business 3 to 5 | none (doc 28, sections 9 and 10) | not yet |
+| Strategy: Situation & Direction (Current Situation Analysis, SWOT Analysis, Strategic Compass, Strategic Period) | none | not yet |
 
 A tile gets its document when it is built or about to be; the tile's design in doc 28 is then marked as governed by it, as 6.3a, 8.2 and 8.5 are.

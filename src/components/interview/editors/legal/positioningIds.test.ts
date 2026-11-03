@@ -40,7 +40,7 @@ describe("the ids of Early Positioning (design document 33): the lists the user 
         expect(userOutcomeFrom(["wants:safety", "wants:belong", "decides:buyer", "rel:parent", "wants:unknown", "wants:safety"])).toEqual(["safety", "belong"]);
     });
 
-    it("keeps the audience Enterprise / Public Sector: the scale is the app user's audience", () => {
+    it("keeps the audience Enterprise or Public Sector: the scale is the app user's audience", () => {
         const value = asLegalEntityValue({ organisation: { customerType: ["b2b"], audience: ["solo", "enterprise", "mid"] } });
         expect(value.organisation.audience).toEqual(["solo", "enterprise", "mid"]);
     });

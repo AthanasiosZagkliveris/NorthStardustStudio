@@ -92,7 +92,7 @@ Doc 28 is the questionnaire specification, doc 33 the first version, doc 33 what
 | Buyer | The one who pays | Doc 31, 5 |
 | User | The one who uses the offering | Doc 31, 5 |
 | End User | The user when the buyer is a Proxy or Dual-Intent buyer; asked in the first version: the relationship (I7e), the user's life stage (I7d) and the outcome for the user (I7k, the former "what matters most"); "who chooses" (I7f) is a future feature | Doc 28, 8.2; doc 33, section 5 |
-| Audience scale (B2B) | The **app user's audience**: the customers of the business the app user describes (Solopreneurs & Freelancers, Startups & SMBs, Mid-Market, Enterprise / Public Sector). It is not the **app's audience**, the people who use the app (the app users themselves) | Doc 31, 10.7 |
+| Audience scale (B2B) | The **app user's audience**: the customers of the business the app user describes (Solopreneurs & Freelancers, Startups & SMBs, Mid-Market, Enterprise or Public Sector). It is not the **app's audience**, the people who use the app (the app users themselves) | Doc 31, 10.7 |
 | Differentiation | What the offering does differently from the competitors: Cost-driven, Convenience-driven, Compliance, Risk & Security, Status & Premium, Performance & Innovation, Ecosystem & Integration | Doc 28, 8.2 |
 | Outcome (for the buyer, for the user) | The measurable result the buyer gets; where the buyer is a Proxy or Dual-Intent Buyer the user has an outcome of their own (what matters most to them) | Doc 28, 8.2 |
 | Buyer's category | Direct, Proxy or Dual-Intent; separate from the life stage | Doc 33, section 5 |
@@ -101,10 +101,10 @@ Doc 28 is the questionnaire specification, doc 33 the first version, doc 33 what
 | Dual-Intent Buyer | Buys one offering for themselves and their dependents | Doc 33, section 5 |
 | Buyer's life stage | Students / Young Adults; Workers / Professionals; Seniors | Doc 33, section 5 |
 | User's life stage | Minors; Young Adults; Adults; Seniors (B2C only) | Doc 33, section 5 |
-| Detailed life stages, Dependent seniors | The fine stages (Infancy through Late Adolescence; Young, Established, Peak, Mature, Active Retirees); Dependent seniors are 74 and over; a future feature | Doc 31, 1 and 2; doc 33, item 8 |
+| Detailed life stages, Dependent seniors | The fine stages (Infancy through Late Adolescence; Young, Established, Peak, Mature, Active Retirees); Dependent seniors are 75 and over; a future feature | Doc 31, 1 and 2; doc 33, item 8 |
 | Stage edge rule | "From X up to but not including Y": an age belongs to one stage only | Doc 31, 10.1 |
 | Micro-Buyer | A buyer aged 16 to 18 with restricted payment methods; a sub-category of Direct Buyers (future). The Segment card calls the buyer of 13 to 18 "Minors, semi-dependent" | Doc 31, 2; decision 5; doc 28, 6.3a |
-| Buyer and User relationship | One of seven consumer (B2C: the six personal ones and Commercial & Professional) or six business (B2B) relationships in the first version (22 in the collection); shown only for Proxy and Dual-Intent buyers | Doc 31, 6; doc 33, section 5 |
+| Buyer and User relationship | One of seven consumer (B2C: five personal ones, Commercial & Professional, and Other) or six business (B2B) relationships in the first version (22 in the collection); shown only for Proxy and Dual-Intent buyers | Doc 31, 6; doc 33, section 5 |
 | Proxy archetype, Dual-Intent archetype | The default intent of a B2B relationship; the relationship only suggests the buyer's category, the buyer's own answer governs | Doc 31, 10.6 |
 | Purpose | Why the offering is bought; 12 in the collection; a question in the first version | Doc 31, 7; doc 33, section 5 |
 | Household plan | An offering priced for a household, checked against a single-user option (a future Review check) | Doc 33, item 19 |

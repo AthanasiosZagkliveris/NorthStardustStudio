@@ -1,6 +1,6 @@
 # 35. The Segment's questions: every question and option as built
 
-Status: **specification**, written 2026-11-01, updated 2026-11-02. Every question of the Segment card in the order it is asked, with its control, when it is asked, its options and what its "i" says. **Who the questions are about:** the questions are written for "your customers" (a direct buyer); when the buyer is a Proxy or Dual-Intent buyer, the buyer's boxes say "your buyers" and the user's box says "your users" (`segmentWho`).
+Status: **specification**, written 2026-11-01, updated 2026-11-02. Every question of the Segment card in the order it is asked, with its control, when it is asked, its options and what its "i" says. **Who the questions are about:** the questions are written for "your customers" (a direct buyer); when the buyer is a Proxy or Dual-Intent buyer, the buyer's boxes say "your buyers" and the end user's box says "your end users" (`segmentWho`).
 
 Related: doc 36 (the Profile's questions, in the same form), doc 28 (6.3a, the Segment card in the specification), doc 31 (the age terms), doc 33 (the first version; its section 15 holds the thoughts), `src/framework/engine/SegmentQuestions.ts` (where these words are kept; where the two differ, the code is right).
 
@@ -79,14 +79,14 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
 - **Asked when:** The answer to "Are your customers working?" is No. "Retired" is not offered to Minors. For Active Retirees and Dependent seniors it is set to "Retired" and not shown.
 - **Options:**
   - Student
-  - Homemaker / carer
+  - Homemaker or carer
   - Looking for work
   - Retired
   - Unable to work
 - **The "i" says:**
   - Choose the main reason.
   - Unable to work: sidelined from the workforce by a chronic medical condition, long-term illness or disability. They typically live on fixed support incomes.
-  - Unable to work: illness / disability
+  - Unable to work: illness or disability
 - **Connections:**
   - *Comes from:* This Segment's work status and age ("Retired" not for Minors).
   - *Read by (built):* The Market document and the export.
@@ -221,7 +221,7 @@ Both.
   - Rural / Remote
 - **The "i" says:**
   - The kind of place they live or work in. Asked once the business is managing or growing, and only for customers in one place or one country.
-  - Urban: High-density city center
+  - Urban: High-density city centre
   - Suburban: Residential towns surrounding a city
   - Rural / Remote: Low-density countryside or isolated areas
 - **Connections:**
@@ -237,7 +237,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
 ### 1. What kind of organisation are your customers?
 
 - **Control:** one choice (a radio).
-- **Asked when:** The buyer is a business. The types follow the scale chosen in Positioning: Solopreneurs & Freelancers: Self-employed only, so it is set and not shown; Startups & SMBs or Mid-Market: Private business and Non-profit; Enterprise / Public Sector adds Public body.
+- **Asked when:** The buyer is a business. The types follow the scale chosen in Positioning: Solopreneurs & Freelancers: Self-employed only, so it is set and not shown; Startups & SMBs or Mid-Market: Private business and Non-profit; Enterprise or Public Sector adds Public body.
 - **Options:**
   - Private business
   - Public body / Government agency
@@ -257,7 +257,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
 ### 2. How big are your customers' organisations?
 
 - **Control:** one choice (a radio).
-- **Asked when:** As above, and the type is not self-employed. When the type is changed to self-employed, an answer already given here is removed at once. The sizes follow the scale chosen in Positioning: Startups & SMBs: Micro and Small; Mid-Market: Medium-sized only (set, not shown); Enterprise / Public Sector: Large only (set, not shown); Solopreneurs & Freelancers: not asked.
+- **Asked when:** As above, and the type is not self-employed. When the type is changed to self-employed, an answer already given here is removed at once. The sizes follow the scale chosen in Positioning: Startups & SMBs: Micro and Small; Mid-Market: Medium-sized only (set, not shown); Enterprise or Public Sector: Large only (set, not shown); Solopreneurs & Freelancers: not asked.
 - **Options:**
   - Micro, 1–9 employees
   - Small, 10–49 employees
@@ -310,7 +310,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - Professional, scientific and technical services
   - Administrative and support services
   - Government and public administration
-  - What is your customers' highest level of education?
+  - Education
   - Health and social care
   - Other services
 - **The "i" says:**
@@ -368,7 +368,7 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
   - Mostly online
   - Online and in person
   - Mostly in person
-  - Not very social / independent
+  - Not very social or independent
 - **The "i" says:**
   - Where they spend their free time. It decides how they meet brands and products.
   - Mostly online: Gaming, community servers, chat apps
@@ -400,13 +400,13 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
 - **Control:** ticks, up to 2.
 - **Asked when:** The buyer is people.
 - **Options:**
-  - Boredom / entertainment
+  - Boredom or entertainment
   - Seeing a friend or creator use it
   - A need / problem to solve
-  - Sales / seasons / planned gifts
+  - Sales, seasons or planned gifts
 - **The "i" says:**
   - Choose up to two.
-  - Boredom / entertainment: Browsing feeds, window shopping
+  - Boredom or entertainment: Browsing feeds, window shopping
 - **Connections:**
   - *Comes from:* Early Positioning: the relationship (people).
   - *Read by (built):* The Market document and the export.
@@ -449,12 +449,12 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
 ### 8. How do your customers pay?
 
 - **Control:** ticks, as many as apply.
-- **Asked when:** Always. "Buy Now, Pay Later / financing" is not offered to Minors; "Invoice / bank transfer / purchase order" is not offered when the buyer is people only.
+- **Asked when:** Always. "Buy Now, Pay Later or financing" is not offered to Minors; "Invoice, bank transfer or purchase order" is not offered when the buyer is people only.
 - **Options:**
   - Credit / debit card
   - Digital wallets
-  - Buy Now, Pay Later / financing
-  - Invoice / bank transfer / purchase order
+  - Buy Now, Pay Later or financing
+  - Invoice, bank transfer or purchase order
 - **The "i" says:**
   - Digital wallets are for example Apple Pay, Google Pay and PayPal. Buy Now, Pay Later is for example Klarna and Afterpay.
   - Invoicing is asked for business customers only. Credit and Buy Now, Pay Later are not open to minors.
@@ -468,7 +468,7 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
 ### 9. Who decides to buy?
 
 - **Control:** ticks, as many as apply.
-- **Asked when:** The buyer is a business. For a self-employed customer (chosen, or because only freelancers were chosen in Positioning) it is set to "Sole practitioner decision" and not shown.
+- **Asked when:** The buyer is a business. For a self-employed customer (chosen, or because only freelancers were chosen in Positioning) only "One person decides" is offered, so it is answered and not shown.
 - **Options:**
   - One person decides
   - The team agrees
@@ -478,8 +478,8 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
 - **The "i" says:**
   - Asked for business customers only. A formal procurement loop reveals the tender row on the Customer Engagement page.
   - Select all that apply.
-  - One person decides: The user has the budget and the final say.
-  - The team agrees: Users try it and push it upward.
+  - One person decides: The person who uses it has the budget and the final say.
+  - The team agrees: The people who use it try it and push it upward.
   - A manager signs off: Needs formal approval from a manager or executive.
   - Several departments check: IT or security, legal and finance.
   - Formal procurement: A tender or a request for proposals (RFP), with strict compliance.
@@ -501,13 +501,13 @@ Both.
   - Growing fast
   - Growing steadily
   - Flat / stable
-  - Shrinking / disrupted
+  - Shrinking or disrupted
 - **The "i" says:**
   - Where the market is heading, apart from its size: a market can be large and declining, or small and expanding fast.
   - Growing fast: Emerging market, high year-on-year growth
   - Growing steadily: Mature market, predictable upward trend
   - Flat / stable: Saturated market, consistent volume but low growth
-  - Shrinking / disrupted: Shrinking market or undergoing severe structural changes
+  - Shrinking or disrupted: Shrinking market or undergoing severe structural changes
 - **Connections:**
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export; the Business Plan's Market Analysis is covered once a market question is answered.
@@ -570,7 +570,7 @@ Both.
   - *Read by (not built yet):* Competitor emphasis (a thought, doc 33, row 2).
 
 
-## The user (a part of the same card)
+## The end user (a part of the same card)
 
 Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent buyer. Questions only.
 
@@ -614,7 +614,7 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
 ### 3. Are your customers working?
 
 - **Control:** one choice (a radio).
-- **Asked when:** As the user's life stage, and the relationship is Family member, Spouse or partner, Friend, Commercial & Professional, Other (personal) or Sponsor or funder. Not asked of a Baby or a Child.
+- **Asked when:** As the user's life stage, and the relationship is Family member, Spouse or partner, Friend or acquaintance, Commercial & Professional, Other (personal) or Sponsor or funder. Not asked of a Baby or a Child.
 - **Options:**
   - Yes
   - No
@@ -633,14 +633,14 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
 - **Asked when:** As above, and the primary answer to "Are your customers working?" is No. "Retired" is not offered to a Baby, a Child or a Teenager.
 - **Options:**
   - Student
-  - Homemaker / carer
+  - Homemaker or carer
   - Looking for work
   - Retired
   - Unable to work
 - **The "i" says:**
   - Choose the main reason.
   - Unable to work: sidelined from the workforce by a chronic medical condition, long-term illness or disability. They typically live on fixed support incomes.
-  - Unable to work: illness / disability
+  - Unable to work: illness or disability
 - **Connections:**
   - *Comes from:* This part's work status and life stage.
   - *Read by (built):* The Market document and the export.
@@ -651,12 +651,12 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
 - **Control:** one choice (a radio).
 - **Asked when:** As the user's life stage, and the relationship is Employer, Business partner or Other (business).
 - **Options:**
-  - Owner / senior executive
+  - Owner or senior executive
   - Manager
   - Professional / specialist
-  - Technician / skilled trade
-  - Administrative / sales / service
-  - Operator / labourer
+  - Technician or skilled trade
+  - Administrative, sales or service
+  - Operator or labourer
 - **The "i" says:**
   - The ISCO-08 major groups, in plain words.
 - **Connections:**

@@ -576,10 +576,10 @@ describe("LegalEntityEditor Early Positioning questions", () => {
         expect(screen.getByRole("radiogroup", { name: "Seller & Buyer Relationship" }).querySelectorAll("input").length).toBe(2);
         expect(screen.getByRole("radiogroup", { name: "Buyer's category" })).toBeTruthy();
         expect(screen.getByRole("radiogroup", { name: "Purpose" })).toBeTruthy();
-        expect(screen.getByRole("radiogroup", { name: "Audience Specialization & Scale" })).toBeTruthy();
+        expect(screen.getByRole("radiogroup", { name: "Audience Specialisation & Scale" })).toBeTruthy();
         expect(screen.getByRole("radiogroup", { name: "Differentiation" })).toBeTruthy();
         expect(screen.getByRole("radiogroup", { name: "Outcome" })).toBeTruthy();
-        expect(screen.queryByRole("radiogroup", { name: "Outcome for the user" })).toBeNull();
+        expect(screen.queryByRole("radiogroup", { name: "Outcome for the end user" })).toBeNull();
         expect((screen.getByRole("radio", { name: "Startups & SMBs" }) as HTMLInputElement).checked).toBe(true);
 
         // A consumer market has life stages, not scales, and the old audience goes.
@@ -639,7 +639,7 @@ describe("LegalEntityEditor Early Positioning limits by business stage", () => {
         fireEvent.click(screen.getByRole("checkbox", { name: /B2C/ }));
         expect([...relationships.querySelectorAll("input[type=checkbox]")].map(tick => (tick as HTMLInputElement).disabled)).toEqual([false, false]);
         // Both a business and a consumer buyer: both audience questions.
-        expect(screen.getByRole("group", { name: "Audience Specialization & Scale" })).toBeTruthy();
+        expect(screen.getByRole("group", { name: "Audience Specialisation & Scale" })).toBeTruthy();
         expect(screen.getByRole("group", { name: "Buyer's Life-Stage" })).toBeTruthy();
         cleanup();
 
@@ -923,11 +923,11 @@ describe("LegalEntityEditor Early Positioning: the buyer's category and the End 
 
         const saved: { current: ReturnType<typeof asLegalEntityValue> | null } = { current: null };
         render(<Model model="b2c" stage="manage" saved={saved} />);
-        expect(screen.queryByRole("group", { name: "Buyer & User relationship" })).toBeNull();
+        expect(screen.queryByRole("group", { name: "Buyer & End User relationship" })).toBeNull();
 
         fireEvent.click(screen.getByRole("radio", { name: "Proxy Buyers" }));
-        expect(screen.getByRole("group", { name: "Buyer & User relationship" })).toBeTruthy();
-        expect(screen.getByRole("group", { name: "User's Life-Stage" })).toBeTruthy();
+        expect(screen.getByRole("group", { name: "Buyer & End User relationship" })).toBeTruthy();
+        expect(screen.getByRole("group", { name: "End User's Life-Stage" })).toBeTruthy();
         // The first version has no "who chooses" and no "what matters most": a future feature.
         expect(screen.queryByRole("radiogroup", { name: "Who chooses: the Buyer or the End User" })).toBeNull();
         expect(screen.queryByRole("group", { name: "What matters most to the End User" })).toBeNull();
@@ -941,18 +941,18 @@ describe("LegalEntityEditor Early Positioning: the buyer's category and the End 
         expect(saved.current!.organisation.endUser).toEqual(["rel:parent", "age:minor"]);
         fireEvent.click(screen.getByRole("radio", { name: "Direct Buyers" }));
         expect(saved.current!.organisation).toMatchObject({ buyerCategory: ["b2c:direct"], endUser: [] });
-        expect(screen.queryByRole("group", { name: "Buyer & User relationship" })).toBeNull();
+        expect(screen.queryByRole("group", { name: "Buyer & End User relationship" })).toBeNull();
 
     });
 
     it("offers only the buyer and user relationships that can be the buyer's category, the user's life stage to a consumer buyer only", () => {
 
-        const relations = () => [...screen.getByRole("radiogroup", { name: "Buyer & User relationship" }).querySelectorAll("label")].map(label => label.textContent);
+        const relations = () => [...screen.getByRole("radiogroup", { name: "Buyer & End User relationship" }).querySelectorAll("label")].map(label => label.textContent);
         render(<Model model="b2c" />);
         // A Proxy Buyer buys for the other: not a spouse or partner (a shared purchase).
         fireEvent.click(screen.getByRole("radio", { name: "Proxy Buyers" }));
         expect(relations()).toEqual(["Parent or guardian", "Caregiver", "Family member", "Friend or acquaintance", "Commercial & Professional", "Other"]);
-        expect(screen.getByRole("radiogroup", { name: "User's Life-Stage" }).querySelectorAll("input").length).toBe(4);
+        expect(screen.getByRole("radiogroup", { name: "End User's Life-Stage" }).querySelectorAll("input").length).toBe(4);
         // A Dual-Intent Buyer shares the purchase: not a friend or a commercial and professional buyer.
         fireEvent.click(screen.getByRole("radio", { name: "Dual-Intent Buyers" }));
         expect(relations()).toEqual(["Parent or guardian", "Caregiver", "Family member", "Spouse or partner", "Other"]);
@@ -961,7 +961,7 @@ describe("LegalEntityEditor Early Positioning: the buyer's category and the End 
         render(<Model model="b2b" />);
         fireEvent.click(screen.getByRole("radio", { name: "Proxy Buyers" }));
         expect(relations()).toEqual(["Employer", "Professional intermediary", "Sponsor or funder", "Other"]);
-        expect(screen.queryByRole("radiogroup", { name: "User's Life-Stage" })).toBeNull();
+        expect(screen.queryByRole("radiogroup", { name: "End User's Life-Stage" })).toBeNull();
         fireEvent.click(screen.getByRole("radio", { name: "Dual-Intent Buyers" }));
         expect(relations()).toEqual(["Business partner", "Business serving clients"]);
 
@@ -985,7 +985,7 @@ describe("LegalEntityEditor Early Positioning: the buyer's category and the End 
 
         const saved: { current: ReturnType<typeof asLegalEntityValue> | null } = { current: null };
         render(<Model model="b2c" stage="manage" saved={saved} />);
-        expect(screen.queryByRole("group", { name: "Outcome for the user" })).toBeNull();
+        expect(screen.queryByRole("group", { name: "Outcome for the end user" })).toBeNull();
         expect(screen.getByRole("group", { name: "Outcome" })).toBeTruthy();
         fireEvent.click(screen.getByRole("radio", { name: "Proxy Buyers" }));
         expect(screen.getByRole("group", { name: "Outcome for the buyer" })).toBeTruthy();
@@ -993,7 +993,7 @@ describe("LegalEntityEditor Early Positioning: the buyer's category and the End 
         expect(saved.current!.organisation.outcomeUser).toEqual(["safety"]);
         fireEvent.click(screen.getByRole("radio", { name: "Direct Buyers" }));
         expect(saved.current!.organisation.outcomeUser).toEqual([]);
-        expect(screen.queryByRole("group", { name: "Outcome for the user" })).toBeNull();
+        expect(screen.queryByRole("group", { name: "Outcome for the end user" })).toBeNull();
 
     });
 
@@ -1002,8 +1002,8 @@ describe("LegalEntityEditor Early Positioning: the buyer's category and the End 
         render(<Model model="b2c" stage="plan" />);
         fireEvent.click(screen.getByRole("radio", { name: "Proxy Buyers" }));
         // While planning each question is one choice: a radio.
-        expect(screen.getByRole("radiogroup", { name: "Buyer & User relationship" })).toBeTruthy();
-        expect(screen.getByRole("radiogroup", { name: "User's Life-Stage" })).toBeTruthy();
+        expect(screen.getByRole("radiogroup", { name: "Buyer & End User relationship" })).toBeTruthy();
+        expect(screen.getByRole("radiogroup", { name: "End User's Life-Stage" })).toBeTruthy();
 
     });
 
@@ -1071,8 +1071,8 @@ describe("LegalEntityEditor Early Positioning: the two columns and the order of 
         fireEvent.click(screen.getByRole("radio", { name: "Proxy Buyers" }));
         const [left, right] = [...container.querySelectorAll(".legal-entity-audience > .legal-entity-field")];
         const names = (column: Element) => [...column.querySelectorAll("[role=radiogroup], [role=group]")].map(group => group.getAttribute("aria-label"));
-        expect(names(left)).toEqual(["Seller & Buyer Relationship", "Buyer's Life-Stage", "Buyer's category", "Buyer & User relationship", "User's Life-Stage"]);
-        expect(names(right)).toEqual(["Purpose", "Differentiation", "Outcome for the buyer", "Outcome for the user"]);
+        expect(names(left)).toEqual(["Seller & Buyer Relationship", "Buyer's Life-Stage", "Buyer's category", "Buyer & End User relationship", "End User's Life-Stage"]);
+        expect(names(right)).toEqual(["Purpose", "Differentiation", "Outcome for the buyer", "Outcome for the end user"]);
 
     });
 
@@ -1084,9 +1084,9 @@ describe("LegalEntityEditor Early Positioning: the two columns and the order of 
         expect(labelsOfGroup("Outcome for the buyer")[0]).toBe("Lower costs");
         fireEvent.click(within(screen.getByRole("group", { name: "Purpose" })).getByRole("checkbox", { name: /Protection & Risk Reduction/ }));
         expect(labelsOfGroup("Outcome for the buyer")[0]).toBe("Legal & data-protection cover");
-        expect(labelsOfGroup("Outcome for the user")[0]).toBe("Safety & care");
+        expect(labelsOfGroup("Outcome for the end user")[0]).toBe("Safety & care");
         // (Nothing is hidden and nothing is ticked for the user.)
-        expect(labelsOfGroup("Outcome for the user")).toHaveLength(6);
+        expect(labelsOfGroup("Outcome for the end user")).toHaveLength(6);
 
     });
 
@@ -1136,12 +1136,12 @@ describe("LegalEntityEditor Early Positioning: the user of a parent, and the lif
         const saved: { current: ReturnType<typeof asLegalEntityValue> | null } = { current: null };
         render(<Model model="b2c" saved={saved} />);
         fireEvent.click(screen.getByRole("radio", { name: "Proxy Buyers" }));
-        expect(labelsOf("User's Life-Stage")).toEqual(["Minors", "Young Adults", "Adults", "Seniors"]);
+        expect(labelsOf("End User's Life-Stage")).toEqual(["Minors", "Young Adults", "Adults", "Seniors"]);
         fireEvent.click(screen.getByRole("radio", { name: "Parent or guardian" }));
-        expect(labelsOf("User's Life-Stage")).toEqual(["Minors", "Young Adults"]);
+        expect(labelsOf("End User's Life-Stage")).toEqual(["Minors", "Young Adults"]);
         // Another relationship brings them back.
         fireEvent.click(screen.getByRole("radio", { name: "Caregiver" }));
-        expect(labelsOf("User's Life-Stage")).toEqual(["Minors", "Young Adults", "Adults", "Seniors"]);
+        expect(labelsOf("End User's Life-Stage")).toEqual(["Minors", "Young Adults", "Adults", "Seniors"]);
 
     });
 
@@ -1150,7 +1150,7 @@ describe("LegalEntityEditor Early Positioning: the user of a parent, and the lif
         const saved: { current: ReturnType<typeof asLegalEntityValue> | null } = { current: null };
         render(<Model model="b2c" stage="manage" saved={saved} />);
         fireEvent.click(screen.getByRole("radio", { name: "Proxy Buyers" }));
-        fireEvent.click(within(screen.getByRole("group", { name: "User's Life-Stage" })).getByRole("checkbox", { name: /Seniors/ }));
+        fireEvent.click(within(screen.getByRole("group", { name: "End User's Life-Stage" })).getByRole("checkbox", { name: /Seniors/ }));
         fireEvent.click(screen.getByRole("checkbox", { name: /Parent or guardian/ }));
         expect(saved.current!.organisation.endUser).not.toContain("age:senior");
 

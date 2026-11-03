@@ -349,7 +349,6 @@ For the owner to decide, or work not done. Each item leaves this list when done 
 **Left by the first-version build of the Organization and Positioning tiles (2026-10-29)**
 - The Review's checks of the legal ages (doc 33, section 6; the age terms themselves are asked by the Segment, doc 35) and anything in Business 1 that reads the buyer's category, the relationship or the purpose (the user's own Profile, doc 36) are not built.
 - The Country question lists the six and Other: a saved organisation of another country opens as Other with its country chosen. The legal-form wording and documents that follow the country's form (capital, the "limited company" phrase) still follow the profile of that country where the app has one.
-- The four coarse user life stages have no age edges (doc 33, section 5); the Segment's age options show approximate ages (doc 35).
 - The routing of the outcome for the user into the second Profile (P9, P17) is not built (doc 33, item 13).
 - The Canadian classification file (`src/data/classifications/ca-naics-2022.json`) has 694 industries and 923 Canadian industries; Statistics Canada publishes 695 and 922. Check it against the official structure file (doc 34, 5.7).
 - The card scan `tools/catalogue/scans/quillfield-1920-light.json` is not written by any script of the repository; it still names page 2 "2. Organization" (two rows of document 7, twelve of document 13). A script for it is not built.
