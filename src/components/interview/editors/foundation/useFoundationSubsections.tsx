@@ -13,7 +13,8 @@ import RadioChoice from "../../../controls/RadioChoice.tsx";
 import RatingField, { type Rating } from "../../../controls/RatingField.tsx";
 import RatingGroup from "../../../controls/RatingGroup.tsx";
 import TextLink from "../../fields/TextLink.tsx";
-import { COMPETITOR_CHANGES, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_LOYALTY_OPTIONS, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, COMPETITOR_VALUES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorAsksLoyalty, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, hardToBeat, insightsDraft, reviewPlatformOrder, valueOfProfiles } from "../../../../framework/engine/CompetitorQuestions.ts";
+import TextBox from "../../../controls/TextBox.tsx";
+import { COMPETITOR_ATTRACT_OPTIONS, type OtherQuestion, competitorOtherAdd, competitorOtherName, competitorOtherRemove, competitorOtherSettle, competitorOtherTick, competitorOthers, COMPETITOR_CHANGES, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_LOYALTY_OPTIONS, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, COMPETITOR_VALUES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorAsksLoyalty, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, hardToBeat, insightsDraft, reviewPlatformOrder, valueOfProfiles } from "../../../../framework/engine/CompetitorQuestions.ts";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import { type ProfileBox, type ProfileQuestion, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileRate, profileRatings, profileWho, profileQuestionsOf, profileSettle, profileShown, proposedBusinessProfiles } from "../../../../framework/engine/ProfileQuestions.ts";
@@ -58,10 +59,6 @@ function ProfileAgeCell({ value, label, disabled, onType, onDone }: { value: str
 export function useFoundationSubsections(earlier: Earlier) {
 
     const { built, description, disabled, folds, forceOpen, group, groupFold, labelled, note, targetAudience, identity, text, updateProfile, updateSegment } = earlier;
-
-    /** The lists of a Competitor card opened to every row ("Show all"), by card and question: the review platforms (K6) and the values (K8). */
-    const [shownAll, setShownAll] = useState<ReadonlySet<string>>(new Set());
-    const showAll = (key: string) => setShownAll(current => new Set(current).add(key));
 
     /** The delete control every card on this page carries. */
     function remove(what: string, onRemove: () => void) {
@@ -636,8 +633,8 @@ export function useFoundationSubsections(earlier: Earlier) {
 
         /* ---- 2. The competitors facing this Segment ---- */
 
-        /** Which of the card's questions each box of its Description asks (doc 41): K1 in Offerings, K2 to K4 in Market, K5 in Customer Acquisition, K6 and K7 in Customer Experience. */
-        const PART_QUESTIONS: Record<string, CompetitorQuestionId[]> = { offerings: ["k1"], market: ["k2", "k3", "k4"], acquisition: ["k5"], experience: ["k6", "k7"] };
+        /** Which of the card's questions each box of its Description asks (doc 41): K1 in Offerings, K2 to K4 in Market, K5 and K6 in Customer Acquisition, K7 and K8 in Customer Experience. */
+        const PART_QUESTIONS: Record<string, CompetitorQuestionId[]> = { offerings: ["k1"], market: ["k2", "k3", "k4"], acquisition: ["k5", "k6"], experience: ["k7", "k8"] };
 
         const competitors = (
             <>
@@ -662,7 +659,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                     // if anything.
                     const asked = COMPETITOR_TYPE_QUESTIONS[competitor.type] ?? {};
 
-                    /* ---- The card's questions (doc 41): K1 to K10, each in its box or band ---- */
+                    /* ---- The card's questions (doc 41): K1 to K11, each in its box or band ---- */
                     const whose = segmentPath + ", Competitor " + (index + 1);
                     const answers: CompetitorAnswers = competitor.questions ?? {};
                     // A change of answers is settled against the type: a question it does not ask, an option or a row not offered, loses its answer.
@@ -676,7 +673,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                     const radio = (id: CompetitorQuestionId, options: readonly { id: string; label: string }[]) => (
                         <RadioChoice label={words(id)} group={competitor.id + "-" + id} className="legal-entity-radio-stack" disabled={disabled} value={answers[id]?.[0] ?? ""} onChange={(next) => write({ ...answers, [id]: [next] })} options={options} />
                     );
-                    const rated = (id: "k6" | "k7" | "k8" | "k9", rows: readonly { id: string; label: string; below?: ReactNode }[], extra: Partial<Parameters<typeof RatingGroup>[0]> = {}) => (
+                    const rated = (id: "k5" | "k7" | "k8" | "k9" | "k10", rows: readonly { id: string; label: ReactNode; name?: string; below?: ReactNode; fixed?: boolean }[], extra: Partial<Parameters<typeof RatingGroup>[0]> = {}) => (
                         <RatingGroup
                             label={words(id)}
                             name={competitor.id + "-" + id}
@@ -689,25 +686,54 @@ export function useFoundationSubsections(earlier: Earlier) {
                             {...extra}
                         />
                     );
-                    const more = (key: string, hidden: number) => hidden > 0 && !shownAll.has(competitor.id + key) && (
-                        <TextLink className="business-competitor-show-all" onClick={() => showAll(competitor.id + key)}>Show all</TextLink>
+                    // Other (K7, K9; owner 2026-11-04, in place of "Show all"): ticked, a row to write in, rated as the listed ones; a name that means a listed item becomes it.
+                    const otherRows = (id: OtherQuestion) => competitorOthers(answers, id).map((name, at) => ({
+                        id: "other-" + at,
+                        name: name.trim() || "Other " + (at + 1),
+                        fixed: true,
+                        label: (
+                            <TextBox
+                                className="interview-input business-competitor-other"
+                                aria-label={words(id) + ", other " + (at + 1)}
+                                placeholder={id === "k7" ? "Where else are they reviewed?" : "What else do customers value?"}
+                                disabled={disabled}
+                                value={name}
+                                onChange={(event) => write(competitorOtherName(answers, id, at, event.target.value))}
+                                onBlur={() => {
+                                    const done = competitorOtherSettle(answers, id, at);
+                                    if (done !== answers) {
+                                        write(done);
+                                    } else if (!name.trim() && competitorOthers(answers, id).length > 1) {
+                                        write(competitorOtherRemove(answers, id, at));
+                                    }
+                                }}
+                            />
+                        )
+                    }));
+                    const otherTick = (id: OtherQuestion) => (
+                        <div className="business-competitor-other-row">
+                            <TickField className="business-foundation-tick business-foundation-tick-inline" disabled={disabled} checked={competitorOthers(answers, id).length > 0} onChange={(event) => write(competitorOtherTick(answers, id, event.currentTarget.checked))}>
+                                Other
+                            </TickField>
+                            {competitorOthers(answers, id).length > 0 && (
+                                <TextLink className="business-competitor-add-other" disabled={disabled} onClick={() => write(competitorOtherAdd(answers, id))}>Add another</TextLink>
+                            )}
+                        </div>
                     );
-                    // K6: the platforms in the order of the App User's industry and country (L18); "Show all" the rest, a ticked one always shown.
+                    // K7: the platforms in the order of the App User's industry and country (L18); a platform ticked before stays shown.
                     const platforms = reviewPlatformOrder(identity?.country ?? "", identity?.activityCode ?? "");
-                    const platformRows = shownAll.has(competitor.id + "k6") ? [...platforms.first, ...platforms.rest] : [...platforms.first, ...platforms.rest.filter(platform => (answers.k6 ?? []).includes(platform.id))];
-                    // K8: the values the Segment's Profiles tick in B1 first; the rest behind "Show all" (all of them where no Profile ticks one); a rated one always shown.
+                    const platformRows = [...platforms.first, ...platforms.rest.filter(platform => (answers.k7 ?? []).includes(platform.id))];
+                    // K9: all ten values of L1 (a short list), the Segment's Profiles' B1 values first.
                     const context = { profiles: segment.profiles.map(profile => profile.questions ?? {}), others: segment.competitors.filter(other => other.id !== competitor.id).map(other => other.questions ?? {}) };
                     const firstValues = COMPETITOR_VALUES.filter(value => valueOfProfiles(value.id, context));
-                    const valueRows = firstValues.length === 0 || shownAll.has(competitor.id + "k8")
-                        ? [...firstValues, ...COMPETITOR_VALUES.filter(value => !firstValues.includes(value))]
-                        : [...firstValues, ...COMPETITOR_VALUES.filter(value => !firstValues.includes(value) && competitorRatings(answers, "k8")[value.id] !== undefined)];
-                    // K9: the Segment's changes, those it ticks first.
+                    const valueRows = [...firstValues, ...COMPETITOR_VALUES.filter(value => !firstValues.includes(value))];
+                    // K10: the Segment's changes, those it ticks first.
                     const ticked = segment.questions.trends ?? [];
                     const changeRows = [...COMPETITOR_CHANGES.filter(entry => ticked.includes(entry.id)), ...COMPETITOR_CHANGES.filter(entry => !ticked.includes(entry.id))];
-                    // K10: the openings, from the answers above; a tick no longer offered goes.
+                    // K11: the openings, from the answers above; a tick no longer offered goes.
                     const openings = competitorOpenings(answers, competitor.type, context);
-                    const openingTicks = (answers.k10 ?? []).filter(id => openings.some(opening => opening.id === id));
-                    const draft = insightsDraft(competitor.name, { ...answers, k10: openingTicks }, { ...context, names: segment.competitors.map(other => ({ name: other.name, answers: other.questions ?? {} })) }, openings);
+                    const openingTicks = (answers.k11 ?? []).filter(id => openings.some(opening => opening.id === id));
+                    const draft = insightsDraft(competitor.name, { ...answers, k11: openingTicks }, { ...context, names: segment.competitors.map(other => ({ name: other.name, answers: other.questions ?? {} })) }, openings);
                     const controls: Record<CompetitorQuestionId, () => ReactNode> = {
                         k1: () => <FittingRadioChoice label={words("k1")} group={competitor.id + "-k1"} disabled={disabled} value={answers.k1?.[0] ?? ""} onChange={(next) => write({ ...answers, k1: [next] })} options={COMPETITOR_OFFER_OPTIONS} />,
                         k2: () => radio("k2", COMPETITOR_REACH_OPTIONS),
@@ -723,36 +749,42 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 highLabel={COMPETITOR_RATINGS.k4.high}
                             />
                         ),
-                        k5: () => ticks("k5", COMPETITOR_CHANNEL_OPTIONS),
-                        k6: () => (
+                        // K5: each channel ticked, then how active they are there (owner, 2026-11-04).
+                        k5: () => rated("k5", COMPETITOR_CHANNEL_OPTIONS, {
+                            selectable: true,
+                            selected: answers.k5 ?? [],
+                            onSelect: (row, on) => write({ ...answers, k5: on ? [...(answers.k5 ?? []), row] : (answers.k5 ?? []).filter(entry => entry !== row) })
+                        }),
+                        k6: () => ticks("k6", COMPETITOR_ATTRACT_OPTIONS),
+                        k7: () => (
                             <>
-                                {rated("k6", platformRows, {
+                                {rated("k7", [...platformRows, ...otherRows("k7")], {
                                     selectable: true,
-                                    selected: answers.k6 ?? [],
-                                    onSelect: (row, on) => write({ ...answers, k6: on ? [...(answers.k6 ?? []), row] : (answers.k6 ?? []).filter(entry => entry !== row) })
+                                    selected: answers.k7 ?? [],
+                                    onSelect: (row, on) => write({ ...answers, k7: on ? [...(answers.k7 ?? []), row] : (answers.k7 ?? []).filter(entry => entry !== row) })
                                 })}
-                                {more("k6", platforms.rest.length)}
+                                {otherTick("k7")}
                             </>
                         ),
-                        k7: () => rated("k7", COMPETITOR_STAGES.map(stage => stage.id === "support" && competitorAsksLoyalty(competitor.type)
-                            ? { ...stage, below: ticks("k7", COMPETITOR_LOYALTY_OPTIONS) }
+                        k8: () => rated("k8", COMPETITOR_STAGES.map(stage => stage.id === "support" && competitorAsksLoyalty(competitor.type)
+                            ? { ...stage, below: ticks("k8", COMPETITOR_LOYALTY_OPTIONS) }
                             : stage)),
-                        k8: () => (
+                        k9: () => (
                             <>
-                                {rated("k8", valueRows)}
-                                {more("k8", firstValues.length === 0 ? 0 : COMPETITOR_VALUES.length - valueRows.length)}
+                                {rated("k9", [...valueRows, ...otherRows("k9")])}
+                                {otherTick("k9")}
                             </>
                         ),
-                        k9: () => rated("k9", changeRows),
-                        k10: () => (
-                            <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={words("k10")}>
-                                <BusinessTicks name={words("k10")} disabled={disabled} options={openings} chosen={openingTicks} max={3} onChange={(next) => write({ ...answers, k10: next })} />
+                        k10: () => rated("k10", changeRows),
+                        k11: () => (
+                            <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={words("k11")}>
+                                <BusinessTicks name={words("k11")} disabled={disabled} options={openings} chosen={openingTicks} max={3} onChange={(next) => write({ ...answers, k11: next })} />
                             </div>
                         )
                     };
                     const INFO: Partial<Record<CompetitorQuestionId, readonly string[]>> = {
-                        k6: [...COMPETITOR_INFO.k6, ...REVIEW_PLATFORM_EXAMPLES],
-                        k10: [...COMPETITOR_INFO.k10, ...hardToBeat(competitor.name, answers)]
+                        k7: [...COMPETITOR_INFO.k7, ...REVIEW_PLATFORM_EXAMPLES],
+                        k11: [...COMPETITOR_INFO.k11, ...hardToBeat(competitor.name, answers)]
                     };
                     /** One question: its words (by type) with its "i" (and its limit) over its control. */
                     const question = (id: CompetitorQuestionId) => (
@@ -762,12 +794,12 @@ export function useFoundationSubsections(earlier: Earlier) {
                             fullList
                             label={words(id)}
                             info={[...(INFO[id] ?? COMPETITOR_INFO[id])]}
-                            labelNote={id === "k10" ? <span className="business-foundation-tick-note">3 max</span> : undefined}
+                            labelNote={id === "k11" ? <span className="business-foundation-tick-note">3 max</span> : undefined}
                         >
                             {controls[id]()}
                         </FieldRow>
                     );
-                    /** A question standing alone in a group (K8 to K10): a band as the boxes' questions are. */
+                    /** A question standing alone in a group (K9 to K11): a band as the boxes' questions are. */
                     const band = (content: ReactNode) => (
                         <div className="business-segment-box">
                             <div className="legal-entity-org-section">{content}</div>
@@ -817,7 +849,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                         },
                         <>
 
-                            {/* What this TYPE of competitor is asked (doc 41, K1 to K7, COMPETITOR_TYPE_QUESTIONS for the boxes): each box asks its questions as bands and keeps its built text as the note. */}
+                            {/* What this TYPE of competitor is asked (doc 41, K1 to K8, COMPETITOR_TYPE_QUESTIONS for the boxes): each box asks its questions as bands and keeps its built text as the note. */}
                             {description(
                                 whose,
                                 competitorParts(competitor.type).map(part => {
@@ -841,8 +873,8 @@ export function useFoundationSubsections(earlier: Earlier) {
 
                             {group("Competitors SWOT Analysis", <>
 
-                            {/* K8, one band over Strengths and Weaknesses; K9, one over Opportunities and Threats (doc 41): the built boxes stay as the notes. */}
-                            {band(question("k8"))}
+                            {/* K9, one band over Strengths and Weaknesses; K10, one over Opportunities and Threats (doc 41): the built boxes stay as the notes. */}
+                            {band(question("k9"))}
 
                             {note(
                                 "Strengths",
@@ -860,7 +892,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 whose
                             )}
 
-                            {band(question("k9"))}
+                            {band(question("k10"))}
 
                             {note(
                                 "Opportunities",
@@ -883,11 +915,11 @@ export function useFoundationSubsections(earlier: Earlier) {
                             {/* What the SWOT above it was for, so
                                 it is titled like the SWOT rather
                                 than labelled like one more field
-                                inside it. K10 above the text: openings drawn from the answers above (doc 41). */}
+                                inside it. K11 above the text: openings drawn from the answers above (doc 41). */}
                             {group(
                                 "Insights & Differentiation",
                                 <>
-                                    {openings.length > 0 && band(question("k10"))}
+                                    {openings.length > 0 && band(question("k11"))}
                                     {draft && (
                                         <TextLink
                                             className="business-competitor-draft"

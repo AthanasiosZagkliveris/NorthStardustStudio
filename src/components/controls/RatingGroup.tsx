@@ -12,7 +12,8 @@ import "../../styles/rating-field.css";
  * is unanswered.
  *
  * `selectable`: each row starts with a tick (the shared TickField), and its rounds show only once it is ticked (where they are reviewed, then how they are
- * rated); unticking a row clears its rating. `below`: what a row carries under it, across the group (the loyalty ticks under Support & Follow Up).
+ * rated); unticking a row clears its rating. `below`: what a row carries under it, across the group (the loyalty ticks under Support & Follow Up). `fixed`: a row
+ * with no tick of its own, its rounds always shown, in a selectable group too (a row written under Other, whose words are a text cell).
  */
 export default function RatingGroup({ label, name, rows, values, onChange, lowLabel, highLabel, selectable = false, selected = [], onSelect, disabled, className }: {
     /** What the group rates, for a screen reader. */
@@ -20,7 +21,7 @@ export default function RatingGroup({ label, name, rows, values, onChange, lowLa
     /** The group's name: each row's rounds are named from it and the row's id. */
     name: string;
     /** The rows, in order: what is rated (its words, and its words for a screen reader where the shown words are not plain text), and what stands under it. */
-    rows: readonly { id: string; label: ReactNode; name?: string; below?: ReactNode }[];
+    rows: readonly { id: string; label: ReactNode; name?: string; below?: ReactNode; fixed?: boolean }[];
     /** Each row's rating, by id; a row missing here is unrated. */
     values: Readonly<Partial<Record<string, Rating>>>;
     onChange: (id: string, next: Rating | undefined) => void;
@@ -41,10 +42,10 @@ export default function RatingGroup({ label, name, rows, values, onChange, lowLa
             <RatingEnds low={lowLabel} high={highLabel} />
             {rows.map(row => {
                 const words = row.name ?? (typeof row.label === "string" ? row.label : row.id);
-                const on = !selectable || selected.includes(row.id);
+                const on = !selectable || row.fixed || selected.includes(row.id);
                 return (
                     <Fragment key={row.id}>
-                        {selectable
+                        {selectable && !row.fixed
                             ? (
                                 <TickField
                                     className="rating-group-label"

@@ -1402,3 +1402,22 @@
     gap:var(--gap-8);
 
 }
+
+/* A Competitor's Other (K7, K9): its tick and "Add another" on one line under the list; a row written under Other is a text cell as wide as the row's words' column. */
+.business-competitor-other-row{
+
+    display:flex;
+    align-items:center;
+
+    gap:var(--space-cell);
+
+    margin-top:var(--space-row);
+
+}
+
+.business-competitor-other{
+
+    width:100%;
+    min-width:0;
+
+}
