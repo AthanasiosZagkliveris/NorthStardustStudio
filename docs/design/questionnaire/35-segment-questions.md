@@ -11,13 +11,13 @@ The rules that hold for all of them: a radio is one choice, ticks are several (w
 
 **Connections.** Under each question: *Comes from* is what it takes from Identity or from the Segment's own earlier answers (built); *Read by* is what reads it. Built: the Market document and the export list every answer as it stands once settled against Identity as it is now (an answer to a question Identity no longer asks, or to an option it no longer offers, is left out of them at once, and is removed from the Segment on its next choice), the Business Plan's Market Analysis counts as covered when a market question is answered, and the Segment's own questions follow one another as stated. *Not built yet* is what the design plans to read it (doc 28, 6.3a and 6.5; doc 33, section 15): until it is built, nothing else reads the answer.
 
-**Built (2026-11-04; owner, 2026-11-04): degree and comfort questions use the 1 to 5 rating unless named ranges exist.** A question that asks how comfortable people are with something, or a level or degree (how high, how fast, how crowded), becomes a rating from 1 to 5 (`RatingField`, doc 21): the end words over its five rounds, a middle word where it helps, the "i" keeping what each end means. A question whose options name ranges or kinds keeps its options. Each changed question says how answers saved before it was a rating are read (`asSegmentAnswers`, `SegmentQuestions.ts`); the documents print a rating as "3 of 5 (Fairly comfortable)", the words only at an end or the middle.
+**Built (2026-11-04; owner, 2026-11-04): degree and comfort questions use the 1 to 5 rating unless named ranges exist.** A question that asks how comfortable people are with something, or a level or degree (how high, how fast, how crowded), becomes a rating from 1 to 5 (`RatingField`, doc 21): one word at each end of its five rounds, none in between (owner, 2026-11-04), the "i" keeping what each end means. A question whose options name ranges or kinds keeps its options. Each changed question says how answers saved before it was a rating are read (`asSegmentAnswers`, `SegmentQuestions.ts`); the documents print a rating as "3 of 5 (Fairly comfortable)", the words only at an end or the middle.
 
 | Question | Becomes | Kept as is, and why |
 |---|---|---|
-| Box 4, 1. and the end user's 8. Online comfort | rating: 1 Not comfortable, 3 Fairly comfortable, 5 Very comfortable | |
-| Box 5, 1. Growing or shrinking | rating: 1 Shrinking, 3 Flat, 5 Growing fast | |
-| Box 5, 4. How crowded | rating: 1 Open, 3 Fragmented, 5 Crowded | |
+| Box 4, 1. and the end user's 8. Online comfort | rating: Uneasy to Confident | |
+| Box 5, 1. Growing or shrinking | rating: Shrinking to Booming | |
+| Box 5, 4. How crowded | rating: Open to Crowded | |
 | Household income | | named bands (Low, Lower-middle, Middle, Upper-middle, High), each placed against the country's median |
 | Age, education, school stage | | named stages and ranges (doc 31) |
 | Gender mix | | named ranges (80%+, 60–80%, 40–60%) |
@@ -221,6 +221,7 @@ Both.
 - **The "i" says:**
   - The widest area most of your customers are spread over, now or as you plan it. If it is more than one, make another Segment.
 - **Connections:**
+  - *Read by (built, 2026-11-04):* the Competitor's K2 takes this list as its options, this Segment's answer first (doc 41).
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* Channel suggestions by country; the Review (distant customers and delivery).
@@ -282,6 +283,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - Countries define them a little differently; the United States and Canada use other limits.
   - The sizes follow the scale chosen in Positioning.
 - **Connections:**
+  - *Read by (built, 2026-11-04):* the Competitor's K3 takes this list as its options (doc 41).
   - *Comes from:* This Segment's type of organisation.
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* Channel suggestions by size.
@@ -342,12 +344,13 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
 
 ### 1. How comfortable are your customers online?
 
-- **Control:** a rating, 1 to 5 (`RatingField`): 1 "Not comfortable", 3 "Fairly comfortable", 5 "Very comfortable". Answers saved before 2026-11-04 are read as: Not very comfortable 1, Fairly comfortable 3, Very comfortable 5.
+- **Control:** a rating, 1 to 5 (`RatingField`), from "Uneasy" to "Confident". Answers saved before 2026-11-04 are read as: Not very comfortable 1, Fairly comfortable 3, Very comfortable 5.
 - **Asked when:** Always.
 - **Options:** the points 1 to 5.
 - **The "i" says:**
   - How easily they use websites, apps and online payment, not whether they own a device.
 - **Connections:**
+  - *Read by (built, 2026-11-04):* the Profile's C2, not asked when this is rated 1, and D2's start: 4 or 5 starts "Works it out alone", 1 or 2 "Wants to talk to a person" (doc 36).
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* Channel order (digital-only channels lower, personal help higher).
@@ -497,15 +500,13 @@ Both.
 
 ### 1. Is your market growing or shrinking?
 
-- **Control:** a rating, 1 to 5 (`RatingField`): 1 "Shrinking", 3 "Flat", 5 "Growing fast". Answers saved before 2026-11-04 are read as: Shrinking or disrupted 1, Flat / stable 3, Growing steadily 4, Growing fast 5.
+- **Control:** a rating, 1 to 5 (`RatingField`), from "Shrinking" to "Booming". Answers saved before 2026-11-04 are read as: Shrinking or disrupted 1, Flat / stable 3, Growing steadily 4, Growing fast 5.
 - **Asked when:** Always.
 - **Options:** the points 1 to 5.
 - **The "i" says:**
   - Where the market is heading, apart from its size: a market can be large and declining, or small and expanding fast.
-  - 1 Shrinking: a shrinking market, or one undergoing severe structural changes.
-  - 3 Flat: a saturated market, consistent volume but low growth.
-  - 4: a mature market with a predictable upward trend.
-  - 5 Growing fast: an emerging market, high year-on-year growth.
+  - 1, Shrinking: falling demand, or severe structural change. 3: flat, a saturated market. 5, Booming: an emerging market, fast year-on-year growth.
+- **What it is for.** A growing market leaves room for a new business without taking customers from anyone; a shrinking one means winning them from the competitors already there. **As built, it is read only by the Market document and the export** (the Business Plan's Market Analysis). **Proposed (2026-11-04), not built:** the Competitor's K11 (doc 41) offers "Win new customers the market brings" when this is rated 4 or 5, and "Win customers from [competitor]" for a rival rated Strong on few values when it is rated 1 or 2; Strategy's Situation analysis reads it beside the crowding (Box 5, question 4).
 - **Connections:**
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export; the Business Plan's Market Analysis is covered once a market question is answered.
@@ -545,20 +546,19 @@ Both.
   - Society and lifestyle: Remote work, sustainability, changing habits
   - Supply and delivery: Material shortages, logistics costs, local sourcing
 - **Connections:**
+  - *Read by (built, 2026-11-04):* the Competitor's K10 rates each of these changes, the ones ticked here first (doc 41).
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export; the Business Plan's Market Analysis is covered once a market question is answered.
   - *Read by (not built yet):* The Review.
 
 ### 4. How crowded is your market?
 
-- **Control:** a rating, 1 to 5 (`RatingField`): 1 "Open", 3 "Fragmented", 5 "Crowded". Answers saved before 2026-11-04 are read as: Open 1, Fragmented 3, Crowded 5.
+- **Control:** a rating, 1 to 5 (`RatingField`), from "Open" to "Crowded". Answers saved before 2026-11-04 are read as: Open 1, Fragmented 3, Crowded 5.
 - **Asked when:** Always.
 - **Options:** the points 1 to 5.
 - **The "i" says:**
   - Red Ocean and Blue Ocean are the strategy terms of Kim and Mauborgne: a crowded market against an uncontested one.
-  - 1 Open: Blue Ocean. Very few direct competitors; the niche is new.
-  - 3 Fragmented: many small and medium players; none controls the market.
-  - 5 Crowded: Red Ocean. Dominated by big established players; price wars are common.
+  - 1, Open: very few direct competitors; the niche is new. 3: many small players, none in control. 5, Crowded: big established players and price wars.
 - **Connections:**
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export; the Business Plan's Market Analysis is covered once a market question is answered.

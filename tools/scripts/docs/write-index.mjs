@@ -72,7 +72,7 @@ const DESIGN = [
   ["docs/design/questionnaire/38-positioning-questions.md", "specification", "The Positioning tile's questions as built, by stage: control, limits, options, the help and the connections.", true],
   ["docs/design/questionnaire/39-help-texts-guide.md", "proposal", "What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check.", true],
   ["docs/design/questionnaire/40-tile-documents.md", "rules", "The form every tile document takes (one for each tile or card), and where each tile stands: which has a document and which does not yet.", true],
-  ["docs/design/questionnaire/41-competitor-questions.md", "specification", "The Competitor card: every question and option, as built (K1 to K10, in the card's order, by the competitor's type).", true],
+  ["docs/design/questionnaire/41-competitor-questions.md", "specification", "The Competitor card: every question and option, as built (K1 to K11, in the card's order, by the competitor's type).", true],
   ["docs/design/questionnaire/42-value-proposition-questions.md", "proposal", "The Value Proposition tile: the draft sentence and the open items, as proposed.", true],
   ["docs/design/questionnaire/43-offering-questions.md", "proposal", "The Offering card: every question and option, as proposed (O1 to O13).", true],
 ];

@@ -218,7 +218,7 @@ A typical person of the Segment, asked specifically.
 
 ### B1. What matters most to this person?
 
-- **Control:** ticks, up to 5, then a rating of each ticked value from 1 "Nice to have" to 5 "Must have" (`RatingGroup`, `selectable`; section 11, built 2026-11-04).
+- **Control:** ticks, up to 5, then a rating of each ticked value from "Optional" to "Essential" (`RatingGroup`, `selectable`; section 11, built 2026-11-04).
 - **Asked when:** always.
 - **Options:** the list L1 (doc 34, 5.2):
   - Lower price
@@ -233,6 +233,7 @@ A typical person of the Segment, asked specifically.
   - Shared values / identity
 - **The "i" would say:** What matters most to a typical person of the Segment when choosing. Interests, lifestyle and aspirations stay in the note.
 - **Connections:**
+  - *Read by (built, 2026-11-04):* the Competitor's K9 lists the values ticked here first, and its K11 weighs each value by its rating here (doc 41).
   - *Comes from:* nothing.
   - *Read by (not built yet):* the Value Proposition draft; the Review (against the Offering's benefit and the positioning).
 
@@ -341,7 +342,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 ### E1. What are this person's main goals?
 
-- **Control:** ticks, up to 3, then a rating of each ticked goal from 1 "Minor" to 5 "Main goal" (section 11, built 2026-11-04).
+- **Control:** ticks, up to 3, then a rating of each ticked goal from "Minor" to "Main" (section 11, built 2026-11-04).
 - **Options:** the list L4 (doc 34, 5.2), without the four goals that repeat B1 (Save time, Save money, Lower risk, Get better results: B1's Speed, Lower price, Safety and low risk, Quality and results; owner, 2026-11-03):
   - Get easier access
   - Learn something new
@@ -354,7 +355,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 ### E2. What frustrates this person about the way it is done now?
 
-- **Control:** ticks, up to 3, then a rating of each ticked frustration from 1 "Mild" to 5 "Severe" (section 11, built 2026-11-04).
+- **Control:** ticks, up to 3, then a rating of each ticked frustration from "Mild" to "Severe" (section 11, built 2026-11-04).
 - **Options:** the list L3 (doc 34, 5.2), ten frustrations:
   - Cost too high
   - Takes too long
@@ -371,7 +372,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 ### E3. What might stop this person buying from you?
 
-- **Control:** ticks, up to 3, then a rating of each ticked worry from 1 "Small doubt" to 5 "Deal-breaker" (section 11, built 2026-11-04).
+- **Control:** ticks, up to 3, then a rating of each ticked worry from "Minor" to "Blocking" (section 11, built 2026-11-04).
 - **Options:** the list L2 (doc 34, 5.2), eight worries:
   - The price / budget
   - Whether you can be trusted
@@ -422,7 +423,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 ## 10. The Needs as choices (decided, 2026-11-03)
 
-The owner asked (2026-11-03) whether the three Needs lists could be choices instead of texts. **Decided (owner, 2026-11-03): Functional stays text; Emotional and Social become ticks**, each with the list's own text kept as the note. This replaces 9.3 for Emotional and Social and is the one place the Needs are decided. Not built yet.
+The owner asked (2026-11-03) whether the three Needs lists could be choices instead of texts. **Decided (owner, 2026-11-03): Functional stays text; Emotional and Social become ticks**, each with the list's own text kept as the note. This replaces 9.3 for Emotional and Social and is the one place the Needs are decided. **Built (2026-11-04):** each kind's list is a question (`emotional` and `social` for people, `emotional-b2b` and `social-b2b` for a business buyer, `ProfileQuestions.ts`), ticked up to 3 and each tick rated from "Mild" to "Strong" (as the Motivations are, section 11: up to 3 keeps the Value Proposition's first needs few); the numbered lists stay as the notes, so the Offering and the Value Proposition read what they read before.
 
 **Why Functional stays text.** A functional need is the task itself ("send an invoice in under a minute"), different for every business, so no list fits it. A general list (saves time, simplifies, reduces cost, reduces risk) would ask again what B1 and E1 already ask: L1 is those functional values in the app's words (doc 34). The Offering keeps ticking the functional needs it addresses, by entry, as built. The owner's idea (2026-11-03): a list of functional jobs serves instead to compare an Offering with a Competitor, so it is asked there, not here: L17 (doc 34), doc 43 O13, proposed. (Doc 41's job question was withdrawn on 2026-11-04 as an Offering question.)
 
@@ -450,10 +451,10 @@ The owner asked that B1 (Psychographics) and E1 to E3 (Motivations) use both tic
 
 | Question | Ticks | Rating of each ticked item | Why these words |
 |---|---|---|---|
-| B1. What matters most to this person? | up to 5 (was 3) | 1 "Nice to have" to 5 "Must have" | What matters when choosing is a requirement more or less firm; "must have" is the buyer's own phrase for a deal-maker |
-| E1. Main goals | up to 3 | 1 "Minor" to 5 "Main goal" | A goal is pursued more or less; the top end names the goal that drives the purchase |
-| E2. Frustrations | up to 3 | 1 "Mild" to 5 "Severe" | A frustration is felt more or less strongly: the plain words of how much it hurts |
-| E3. Worries that stop a purchase | up to 3 | 1 "Small doubt" to 5 "Deal-breaker" | A worry either slows a purchase or stops it: the top end is the worry that ends it |
+| B1. What matters most to this person? | up to 5 (was 3) | "Optional" to "Essential" | What matters when choosing is a requirement more or less firm: optional at one end, essential at the other |
+| E1. Main goals | up to 3 | "Minor" to "Main" | A goal is pursued more or less; the top end names the goal that drives the purchase |
+| E2. Frustrations | up to 3 | "Mild" to "Severe" | A frustration is felt more or less strongly: the plain words of how much it hurts |
+| E3. Worries that stop a purchase | up to 3 | "Minor" to "Blocking" | A worry either slows a purchase or stops it: the top end is the worry that blocks it |
 
 D2 ("How much help does this person want before buying?") stays one choice: its options name kinds of help, each read by page 2's relationship types, not a degree.
 
@@ -477,4 +478,4 @@ D2 ("How much help does this person want before buying?") stays one choice: its 
 - B1 → the Value Proposition draft (doc 42): the value rated highest comes first.
 - E1 → the Value Proposition draft's gains, the goal rated highest first.
 - E2 → the Value Proposition draft's pains, the frustration rated highest first; the Review.
-- E3 → the Offering's O8 (doc 43): the worries rated highest first; a "Deal-breaker" no Offering answers is a Review item.
+- E3 → the Offering's O8 (doc 43): the worries rated highest first; a "Blocking" worry no Offering answers is a Review item.
