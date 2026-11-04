@@ -53,10 +53,11 @@ export default function RatingGroup({ label, name, rows, values, onChange, lowLa
                                     disabled={disabled}
                                     onChange={event => {
                                         const ticked = event.currentTarget.checked;
-                                        onSelect?.(row.id, ticked);
+                                        // The rating is cleared first, then the tick: a place that writes both from one snapshot keeps the untick, the last write.
                                         if (!ticked && values[row.id] !== undefined) {
                                             onChange(row.id, undefined);
                                         }
+                                        onSelect?.(row.id, ticked);
                                     }}
                                 >
                                     {row.label}

@@ -21,6 +21,8 @@ export interface ProfileQuestion {
     options: readonly SegmentOption[];
     /** The list ends with an Other that the user writes in: its words are kept as the answer `<id>-other`. */
     other?: boolean;
+    /** Each tick is rated from 1 to 5 (doc 36, section 11): the words over its ends. The ratings are kept as the answer `<id>-rating`, one "option:point" each. */
+    rating?: { low: string; high: string };
     info: readonly string[];
 }
 
@@ -96,8 +98,8 @@ const QUESTIONS: readonly ProfileQuestion[] = [
         info: ["The five buying-centre roles credited to Webster and Wind (1972).", "\"Uses it\" is the person who uses the offering day to day, who may be neither the one who pays nor the one who decides."]
     },
     {
-        id: "b1", box: "psychographics", label: "What matters most to {o}?", many: true, max: 3, options: list(CARES),
-        info: ["What matters most to a typical person of the Segment when choosing.", "Interests, lifestyle and aspirations stay in the note."]
+        id: "b1", box: "psychographics", label: "What matters most to {o}?", many: true, max: 5, options: list(CARES), rating: { low: "Nice to have", high: "Must have" },
+        info: ["What matters most to a typical person of the Segment when choosing. Tick up to five, then rate how much each matters.", "Interests, lifestyle and aspirations stay in the note."]
     },
     {
         id: "c1", box: "hubs", label: "Which devices does {s} use?", many: true,
@@ -130,9 +132,9 @@ const QUESTIONS: readonly ProfileQuestion[] = [
         options: [{ id: "alone", label: "Works it out alone" }, { id: "little", label: "Likes a little guidance" }, { id: "person", label: "Wants to talk to a person" }, { id: "formal", label: "Needs a formal demonstration or proposal" }],
         info: ["The help a typical person wants before buying; it can differ from how comfortable the Segment is online."]
     },
-    { id: "e1", box: "goals", label: "What are {p} main goals?", many: true, max: 3, options: list(GOALS), info: ["Choose up to three.", "What they want to achieve. What matters to them when choosing is asked under Psychographics. Based on: gains (Value Proposition Canvas)."] },
-    { id: "e2", box: "challenges", label: "What frustrates {o} about the way it is done now?", many: true, max: 3, options: list(FRUSTRATIONS), info: ["Choose up to three.", "What goes wrong for them today, before they buy from you. Based on: pains (Value Proposition Canvas)."] },
-    { id: "e3", box: "objections", label: "What might stop {o} buying from you?", many: true, max: 3, options: list(WORRIES), info: ["Choose up to three.", "Their doubts about buying from you; what frustrates them today is asked above.", "Starts with the price where the Segment's household income is Low; change it freely."] }
+    { id: "e1", box: "goals", label: "What are {p} main goals?", many: true, max: 3, options: list(GOALS), rating: { low: "Minor", high: "Main goal" }, info: ["Choose up to three, then rate each.", "What they want to achieve. What matters to them when choosing is asked under Psychographics. Based on: gains (Value Proposition Canvas)."] },
+    { id: "e2", box: "challenges", label: "What frustrates {o} about the way it is done now?", many: true, max: 3, options: list(FRUSTRATIONS), rating: { low: "Mild", high: "Severe" }, info: ["Choose up to three, then rate each.", "What goes wrong for them today, before they buy from you. Based on: pains (Value Proposition Canvas)."] },
+    { id: "e3", box: "objections", label: "What might stop {o} buying from you?", many: true, max: 3, options: list(WORRIES), rating: { low: "Small doubt", high: "Deal-breaker" }, info: ["Choose up to three, then rate each.", "Their doubts about buying from you; what frustrates them today is asked above.", "Starts with the price where the Segment's household income is Low; change it freely."] }
 ];
 
 export const PROFILE_QUESTIONS = QUESTIONS;
@@ -261,6 +263,32 @@ export function profileShown(answers: SegmentAnswers, segment: SegmentAnswers, c
     return profileSettle(shown, segment, context);
 }
 
+/** The ratings of a question's ticks, by option id (1 to 5); a tick not rated has none. */
+export function profileRatings(answers: SegmentAnswers, question: ProfileQuestion): Partial<Record<string, 1 | 2 | 3 | 4 | 5>> {
+    const ratings: Partial<Record<string, 1 | 2 | 3 | 4 | 5>> = {};
+    for (const entry of answers[question.id + "-rating"] ?? []) {
+        const [id, point] = entry.split(":");
+        const value = Number(point);
+        if (value >= 1 && value <= 5) {
+            ratings[id] = value as 1 | 2 | 3 | 4 | 5;
+        }
+    }
+    return ratings;
+}
+
+/** A tick rated, or its rating cleared (`undefined`). */
+export function profileRate(question: ProfileQuestion, answers: SegmentAnswers, id: string, point: number | undefined): SegmentAnswers {
+    const others = (answers[question.id + "-rating"] ?? []).filter(entry => entry.split(":")[0] !== id);
+    const next = point === undefined ? others : [...others, id + ":" + point];
+    const result = { ...answers };
+    if (next.length > 0) {
+        result[question.id + "-rating"] = next;
+    } else {
+        delete result[question.id + "-rating"];
+    }
+    return result;
+}
+
 /** A choice made on a question: a limit is held. */
 export function profileChoose(question: ProfileQuestion, answers: SegmentAnswers, next: string[]): SegmentAnswers {
     let chosen = next;
@@ -308,6 +336,16 @@ export function profileSettle(saved: SegmentAnswers, segment: SegmentAnswers, co
         if (question.other && held.includes("other") && written) {
             settled[question.id + "-other"] = written;
         }
+        // A tick's rating stays while it is ticked; an untick takes its rating with it.
+        if (question.rating) {
+            const rated = (answers[question.id + "-rating"] ?? []).filter(entry => {
+                const [id, point] = entry.split(":");
+                return held.includes(id) && ["1", "2", "3", "4", "5"].includes(point);
+            });
+            if (rated.length > 0) {
+                settled[question.id + "-rating"] = rated;
+            }
+        }
     }
     return settled;
 }
@@ -320,7 +358,13 @@ export function profileAnswerLines(answers: SegmentAnswers): { label: string; va
             return [];
         }
         const other = (answers[question.id + "-other"]?.[0] ?? "").trim();
-        const words = question.number ? chosen[0] + " years" : chosen.map(id => id === "other" && other ? "Other: " + other : question.options.find(option => option.id === id)?.label ?? id).join("; ");
+        const ratings = question.rating ? profileRatings(answers, question) : {};
+        // A rated list prints each tick with its rating, the highest first; a tick not rated follows, in the order ticked (doc 36, section 11).
+        const order = question.rating ? [...chosen].sort((a, b) => (ratings[b] ?? 0) - (ratings[a] ?? 0)) : chosen;
+        const words = question.number ? chosen[0] + " years" : order.map(id => {
+            const label = id === "other" && other ? "Other: " + other : question.options.find(option => option.id === id)?.label ?? id;
+            return ratings[id] ? label + " (" + ratings[id] + "/5)" : label;
+        }).join("; ");
         return [{ label: profileWho(question.label, answers.a2?.[0]), value: words }];
     });
 }

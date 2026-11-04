@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { profileChoose, profileQuestionAsked, profileQuestionsOf, profileSettle, profileShown, profileWho, proposedBusinessProfiles, PROFILE_QUESTIONS } from "./ProfileQuestions";
+import { profileAnswerLines, profileChoose, profileQuestionAsked, profileQuestionsOf, profileRate, profileRatings, profileSettle, profileShown, profileWho, proposedBusinessProfiles, PROFILE_QUESTIONS } from "./ProfileQuestions";
 import type { SegmentContext } from "./SegmentQuestions";
 
 const people = { frame: "people", endsUser: false } as unknown as SegmentContext;
@@ -73,7 +73,8 @@ describe("the Profile's questions follow the Segment", () => {
     });
 
     it("holds a limit, and keeps what is written under Other only while Other is ticked", () => {
-        expect(profileChoose(question("b1"), {}, ["lower-price", "speed", "ease-and-convenience", "quality-and-results"]).b1).toHaveLength(3);
+        // What matters most holds five since 2026-11-04 (doc 36, section 11).
+        expect(profileChoose(question("b1"), {}, ["lower-price", "speed", "ease-and-convenience", "quality-and-results", "trust-and-reputation", "expert-knowledge"]).b1).toHaveLength(5);
         expect(profileChoose(question("c1"), { c1: ["phone"] }, ["phone", "other"]).c1).toEqual(["phone", "other"]);
         expect(profileSettle({ c2: ["other"], "c2-other": ["Substack"] }, {}, people)).toEqual({ c2: ["other"], "c2-other": ["Substack"] });
         expect(profileSettle({ c2: ["instagram"], "c2-other": ["Substack"] }, {}, people)).toEqual({ c2: ["instagram"] });
@@ -131,6 +132,38 @@ describe("the Profiles proposed for a business Segment, by buying role", () => {
         expect(ids([])).toEqual([]);
         expect(proposedBusinessProfiles({ authorise: ["solo"] }, people)).toEqual([]);
         expect(ids(["executive"], [" decider "])).toEqual(["user"]);
+    });
+
+});
+
+describe("Psychographics and Motivations ticked and rated (doc 36, section 11)", () => {
+
+    it("holds the limits: what matters most up to five, goals, frustrations and worries up to three", () => {
+        expect(question("b1").max).toBe(5);
+        expect(["e1", "e2", "e3"].map(id => question(id).max)).toEqual([3, 3, 3]);
+        expect(question("b1").rating).toEqual({ low: "Nice to have", high: "Must have" });
+        expect(question("e3").rating).toEqual({ low: "Small doubt", high: "Deal-breaker" });
+    });
+
+    it("keeps a tick's rating while it is ticked, and an existing tick starts unrated", () => {
+        const b1 = question("b1");
+        const ticked = profileChoose(b1, {}, ["speed", "lower-price"]);
+        expect(profileRatings(ticked, b1)).toEqual({});
+        const rated = profileRate(b1, ticked, "speed", 5);
+        expect(profileRatings(rated, b1)).toEqual({ speed: 5 });
+        expect(profileRatings(profileRate(b1, rated, "speed", 3), b1)).toEqual({ speed: 3 });
+        expect(profileRate(b1, rated, "speed", undefined)["b1-rating"]).toBeUndefined();
+        // Unticked, the rating goes with it.
+        const unticked = profileSettle(profileChoose(b1, rated, ["lower-price"]), {}, people);
+        expect(unticked["b1-rating"]).toBeUndefined();
+        expect(profileSettle(rated, {}, people)["b1-rating"]).toEqual(["speed:5"]);
+        // A point outside 1 to 5 is not kept.
+        expect(profileSettle({ b1: ["speed"], "b1-rating": ["speed:9"] }, {}, people)["b1-rating"]).toBeUndefined();
+    });
+
+    it("prints each tick with its rating, the highest first, and an unrated tick after", () => {
+        const lines = profileAnswerLines({ b1: ["lower-price", "speed", "good-support"], "b1-rating": ["speed:5", "lower-price:3"] });
+        expect(lines.find(line => line.value.includes("Speed"))?.value).toBe("Speed (5/5); Lower price (3/5); Good support");
     });
 
 });

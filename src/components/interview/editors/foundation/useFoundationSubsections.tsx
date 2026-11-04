@@ -11,9 +11,10 @@ import FieldRow from "../../fields/FieldRow.tsx";
 import { BusinessAddButton, BusinessCard, BusinessRemove, BusinessTicks, OptionalNote } from "../../cards/BusinessCardFields.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import RatingField, { type Rating } from "../../../controls/RatingField.tsx";
+import RatingGroup from "../../../controls/RatingGroup.tsx";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
-import { type ProfileBox, type ProfileQuestion, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileWho, profileQuestionsOf, profileSettle, profileShown, proposedBusinessProfiles } from "../../../../framework/engine/ProfileQuestions.ts";
+import { type ProfileBox, type ProfileQuestion, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileRate, profileRatings, profileWho, profileQuestionsOf, profileSettle, profileShown, proposedBusinessProfiles } from "../../../../framework/engine/ProfileQuestions.ts";
 import { type SegmentBox, type SegmentQuestion, segmentChoose, segmentOptions, segmentQuestionsOf, segmentRowChoice, segmentSettle, segmentSettledNotes } from "../../../../framework/engine/SegmentQuestions.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
 import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
@@ -380,6 +381,28 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 onDone={() => write(shown)}
                             />
                         )
+                        : question.rating
+                            // Ticked, then each tick rated from 1 to 5 (doc 36, section 11): the limit holds the ticks; an untick takes its rating with it (profileSettle).
+                            ? (
+                                <RatingGroup
+                                    label={label}
+                                    name={profile.id + "-" + question.id}
+                                    rows={options.map(option => ({ id: option.id, label: option.label }))}
+                                    values={profileRatings(shown, question)}
+                                    selectable
+                                    selected={chosen}
+                                    onSelect={(id, on) => {
+                                        if (on && question.max !== undefined && chosen.length >= question.max) {
+                                            return;
+                                        }
+                                        write(profileChoose(question, shown, on ? [...chosen, id] : chosen.filter(entry => entry !== id)));
+                                    }}
+                                    onChange={(id, next) => write(profileRate(question, shown, id, next))}
+                                    lowLabel={question.rating.low}
+                                    highLabel={question.rating.high}
+                                    disabled={disabled}
+                                />
+                            )
                         : question.many
                             ? (
                                 <>
