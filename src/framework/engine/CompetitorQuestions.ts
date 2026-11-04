@@ -72,11 +72,11 @@ export function competitorWording(type: string, id: CompetitorQuestionId): strin
 
 /** The words over a rating's ends, and its middle where one helps (doc 41). */
 export const COMPETITOR_RATINGS = {
-    k4: { low: "Declining", mid: "Steady", high: "Growing" },
-    k6: { low: "1 star", high: "5 stars" },
-    k7: { low: "Customers struggle", high: "Smooth" },
-    k8: { low: "Clear weakness", mid: "Average", high: "Clear strength" },
-    k9: { low: "Clear threat", mid: "No effect", high: "Clear opportunity" }
+    k4: { low: "Declining", high: "Growing" },
+    k6: { low: "Poor", high: "Excellent" },
+    k7: { low: "Hard", high: "Easy" },
+    k8: { low: "Weak", high: "Strong" },
+    k9: { low: "Threat", high: "Opportunity" }
 } as const;
 
 /** What each question's "i" says (doc 41). */

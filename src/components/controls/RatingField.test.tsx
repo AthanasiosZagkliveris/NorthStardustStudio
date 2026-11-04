@@ -14,9 +14,8 @@ function Kept({ onChange }: { onChange?: (next: Rating | undefined) => void }) {
             name="support"
             value={value}
             onChange={next => { setValue(next); onChange?.(next); }}
-            lowLabel="Clear weakness"
-            midLabel="Average"
-            highLabel="Clear strength"
+            lowLabel="Weak"
+            highLabel="Strong"
         />
     );
 }
@@ -30,13 +29,15 @@ describe("RatingField", () => {
         const group = screen.getByRole("radiogroup", { name: "Good support" });
         const rounds = within(group).getAllByRole("radio");
         expect(rounds.map(round => round.getAttribute("aria-label"))).toEqual([
-            "1 of 5, Clear weakness", "2 of 5", "3 of 5, Average", "4 of 5", "5 of 5, Clear strength"
+            "1 of 5, Weak", "2 of 5", "3 of 5", "4 of 5", "5 of 5, Strong"
         ]);
         // One name for the row, so the arrows move along it.
         expect(new Set(rounds.map(round => (round as HTMLInputElement).name))).toEqual(new Set(["support"]));
         // The end words are shown once, over the rounds.
-        expect(screen.getAllByText("Clear weakness")).toHaveLength(1);
-        expect(screen.getAllByText("Clear strength")).toHaveLength(1);
+        expect(screen.getAllByText("Weak")).toHaveLength(1);
+        expect(screen.getAllByText("Strong")).toHaveLength(1);
+        // No word in between (owner, 2026-11-04).
+        expect(document.querySelectorAll(".rating-ends > span")).toHaveLength(2);
     });
 
     it("chooses a round, moves to another, and clears when the chosen round is pressed again", () => {
@@ -88,12 +89,12 @@ describe("RatingGroup", () => {
                 rows={[{ id: "price", label: "Lower price" }, { id: "speed", label: "Speed" }]}
                 values={{ speed: 5 }}
                 onChange={onChange}
-                lowLabel="Clear weakness"
-                highLabel="Clear strength"
+                lowLabel="Weak"
+                highLabel="Strong"
             />
         );
-        expect(screen.getAllByText("Clear weakness")).toHaveLength(1);
-        expect(screen.getAllByText("Clear strength")).toHaveLength(1);
+        expect(screen.getAllByText("Weak")).toHaveLength(1);
+        expect(screen.getAllByText("Strong")).toHaveLength(1);
         const price = screen.getByRole("radiogroup", { name: "Lower price" });
         const speed = screen.getByRole("radiogroup", { name: "Speed" });
         expect((within(speed).getByRole("radio", { name: /^5 of 5/ }) as HTMLInputElement).checked).toBe(true);
@@ -116,8 +117,8 @@ describe("RatingGroup", () => {
                     rows={[{ id: "google", label: "Google" }, { id: "trustpilot", label: "Trustpilot" }]}
                     values={values}
                     onChange={(id, next) => setValues(previous => ({ ...previous, [id]: next }))}
-                    lowLabel="1 star"
-                    highLabel="5 stars"
+                    lowLabel="Poor"
+                    highLabel="Excellent"
                     selectable
                     selected={selected}
                     onSelect={(id, on) => setSelected(previous => on ? [...previous, id] : previous.filter(entry => entry !== id))}
@@ -139,7 +140,7 @@ describe("RatingGroup", () => {
         fireEvent.click(google);
         expect(within(screen.getByRole("radiogroup", { name: "Google" })).getAllByRole("radio").some(r => (r as HTMLInputElement).checked)).toBe(false);
         // The end words are still said once.
-        expect(screen.getAllByText("1 star")).toHaveLength(1);
+        expect(screen.getAllByText("Poor")).toHaveLength(1);
         expect(screen.queryByRole("radiogroup", { name: "Trustpilot" })).toBeNull();
     });
 
@@ -151,8 +152,8 @@ describe("RatingGroup", () => {
                 rows={[{ id: "support", label: "Support & Follow Up", below: <span>Loyalty scheme / rewards</span> }]}
                 values={{}}
                 onChange={() => {}}
-                lowLabel="Customers struggle"
-                highLabel="Smooth"
+                lowLabel="Hard"
+                highLabel="Easy"
             />
         );
         expect(screen.getByText("Loyalty scheme / rewards")).toBeTruthy();

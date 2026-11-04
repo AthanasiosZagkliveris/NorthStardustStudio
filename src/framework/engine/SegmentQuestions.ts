@@ -25,7 +25,7 @@ export interface SegmentQuestion {
     /** A short name for the notes that say what Positioning or the answers above set ("Size: Medium-sized business"). */
     name?: string;
     /** A degree, asked as a rating from 1 to 5 (RatingField): the words over its ends and, where one helps, its middle (doc 35, owner 2026-11-04). The answer is the point, "1" to "5". */
-    rating?: { low: string; mid?: string; high: string };
+    rating?: { low: string; high: string };
 }
 
 /** What a Segment's questions follow: Identity's answers and the business stage. */
@@ -70,17 +70,17 @@ const NOT_WORKING_INFO = ["Choose the main reason.", "Unable to work: sidelined 
  * A RATING'S POINTS as options, so a rating is saved and settled as every choice is: the ids "1" to "5" ("3 of 5"). Its end and middle words are added where it is printed (ratingWords).
  * Degree and comfort questions are ratings unless named ranges exist (doc 35, owner 2026-11-04).
  */
-export function ratingOptions(_rating: { low: string; mid?: string; high: string }): SegmentOption[] {
+export function ratingOptions(_rating: { low: string; high: string }): SegmentOption[] {
     return ["1", "2", "3", "4", "5"].map(point => ({ id: point, label: point + " of 5" }));
 }
 
-/** A rating as a document prints it: "3 of 5 (Fairly comfortable)", the words only at an end or the middle. */
-export function ratingWords(point: string, rating: { low: string; mid?: string; high: string }): string {
-    const word = point === "1" ? rating.low : point === "3" ? rating.mid : point === "5" ? rating.high : undefined;
+/** A rating as a document prints it: "1 of 5 (Uneasy)", the word only at an end. */
+export function ratingWords(point: string, rating: { low: string; high: string }): string {
+    const word = point === "1" ? rating.low : point === "5" ? rating.high : undefined;
     return point + " of 5" + (word ? " (" + word + ")" : "");
 }
 
-const COMFORT_RATING = { low: "Not comfortable", mid: "Fairly comfortable", high: "Very comfortable" };
+const COMFORT_RATING = { low: "Uneasy", high: "Confident" };
 
 /** The answers saved before a question became a rating, and the point each now is (doc 35). */
 const RATED_BEFORE: Record<string, Record<string, string>> = {
@@ -437,14 +437,11 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
 
     {
         id: "trajectory", box: "market-size", label: "Is your market growing or shrinking?", many: false,
-        rating: { low: "Shrinking", mid: "Flat", high: "Growing fast" },
-        options: ratingOptions({ low: "Shrinking", mid: "Flat", high: "Growing fast" }),
+        rating: { low: "Shrinking", high: "Booming" },
+        options: ratingOptions({ low: "Shrinking", high: "Booming" }),
         info: [
             "Where the market is heading, apart from its size: a market can be large and declining, or small and expanding fast.",
-            "1 Shrinking: a shrinking market, or one undergoing severe structural changes.",
-            "3 Flat: a saturated market, consistent volume but low growth.",
-            "4: a mature market with a predictable upward trend.",
-            "5 Growing fast: an emerging market, high year-on-year growth."
+            "1, Shrinking: falling demand, or severe structural change. 3: flat, a saturated market. 5, Booming: an emerging market, fast year-on-year growth."
         ]
     },
     {
@@ -470,13 +467,11 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     },
     {
         id: "competition", box: "market-size", label: "How crowded is your market?", many: false,
-        rating: { low: "Open", mid: "Fragmented", high: "Crowded" },
-        options: ratingOptions({ low: "Open", mid: "Fragmented", high: "Crowded" }),
+        rating: { low: "Open", high: "Crowded" },
+        options: ratingOptions({ low: "Open", high: "Crowded" }),
         info: [
             "Red Ocean and Blue Ocean are the strategy terms of Kim and Mauborgne: a crowded market against an uncontested one.",
-            "1 Open: Blue Ocean. Very few direct competitors; the niche is new.",
-            "3 Fragmented: many small and medium players; none controls the market.",
-            "5 Crowded: Red Ocean. Dominated by big established players; price wars are common."
+            "1, Open: very few direct competitors; the niche is new. 3: many small players, none in control. 5, Crowded: big established players and price wars."
         ]
     },
 

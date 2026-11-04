@@ -98,7 +98,7 @@ const QUESTIONS: readonly ProfileQuestion[] = [
         info: ["The five buying-centre roles credited to Webster and Wind (1972).", "\"Uses it\" is the person who uses the offering day to day, who may be neither the one who pays nor the one who decides."]
     },
     {
-        id: "b1", box: "psychographics", label: "What matters most to {o}?", many: true, max: 5, options: list(CARES), rating: { low: "Nice to have", high: "Must have" },
+        id: "b1", box: "psychographics", label: "What matters most to {o}?", many: true, max: 5, options: list(CARES), rating: { low: "Optional", high: "Essential" },
         info: ["What matters most to a typical person of the Segment when choosing. Tick up to five, then rate how much each matters.", "Interests, lifestyle and aspirations stay in the note."]
     },
     {
@@ -132,9 +132,9 @@ const QUESTIONS: readonly ProfileQuestion[] = [
         options: [{ id: "alone", label: "Works it out alone" }, { id: "little", label: "Likes a little guidance" }, { id: "person", label: "Wants to talk to a person" }, { id: "formal", label: "Needs a formal demonstration or proposal" }],
         info: ["The help a typical person wants before buying; it can differ from how comfortable the Segment is online."]
     },
-    { id: "e1", box: "goals", label: "What are {p} main goals?", many: true, max: 3, options: list(GOALS), rating: { low: "Minor", high: "Main goal" }, info: ["Choose up to three, then rate each.", "What they want to achieve. What matters to them when choosing is asked under Psychographics. Based on: gains (Value Proposition Canvas)."] },
+    { id: "e1", box: "goals", label: "What are {p} main goals?", many: true, max: 3, options: list(GOALS), rating: { low: "Minor", high: "Main" }, info: ["Choose up to three, then rate each.", "What they want to achieve. What matters to them when choosing is asked under Psychographics. Based on: gains (Value Proposition Canvas)."] },
     { id: "e2", box: "challenges", label: "What frustrates {o} about the way it is done now?", many: true, max: 3, options: list(FRUSTRATIONS), rating: { low: "Mild", high: "Severe" }, info: ["Choose up to three, then rate each.", "What goes wrong for them today, before they buy from you. Based on: pains (Value Proposition Canvas)."] },
-    { id: "e3", box: "objections", label: "What might stop {o} buying from you?", many: true, max: 3, options: list(WORRIES), rating: { low: "Small doubt", high: "Deal-breaker" }, info: ["Choose up to three, then rate each.", "Their doubts about buying from you; what frustrates them today is asked above.", "Starts with the price where the Segment's household income is Low; change it freely."] }
+    { id: "e3", box: "objections", label: "What might stop {o} buying from you?", many: true, max: 3, options: list(WORRIES), rating: { low: "Minor", high: "Blocking" }, info: ["Choose up to three, then rate each.", "Their doubts about buying from you; what frustrates them today is asked above.", "Starts with the price where the Segment's household income is Low; change it freely."] }
 ];
 
 export const PROFILE_QUESTIONS = QUESTIONS;

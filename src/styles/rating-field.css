@@ -1,5 +1,5 @@
 /* THE RATING FIELD (RatingField, RatingGroup, RatingEnds): five rounds of the radio choice in a row, low on the left and high on the right. The rounds keep the look of
-   radio-choice.css (this sheet says only where they stand); the end words stand once, over the first and the last round (and the middle word over the centre). */
+   radio-choice.css (this sheet says only where they stand); the end words stand once, over the first and the last round (no word in between). */
 
 /* One rating: its end words over its rounds, 6px apart (a label to its control), the rounds spread across the words' width. */
 .rating-field {
@@ -20,11 +20,12 @@
 
 }
 
-/* The end words: the low one starts over the first round, the high one ends over the last, the middle one is centred. */
+/* The end words, one each: the low one starts over the first round, the high one ends over the last. */
 .rating-ends {
 
     display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: auto auto;
+    justify-content: space-between;
 
     column-gap: var(--space-cell);
 
@@ -35,12 +36,6 @@
 .rating-ends-low {
 
     justify-self: start;
-
-}
-
-.rating-ends-mid {
-
-    justify-self: center;
 
 }
 

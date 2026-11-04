@@ -141,8 +141,8 @@ describe("Psychographics and Motivations ticked and rated (doc 36, section 11)",
     it("holds the limits: what matters most up to five, goals, frustrations and worries up to three", () => {
         expect(question("b1").max).toBe(5);
         expect(["e1", "e2", "e3"].map(id => question(id).max)).toEqual([3, 3, 3]);
-        expect(question("b1").rating).toEqual({ low: "Nice to have", high: "Must have" });
-        expect(question("e3").rating).toEqual({ low: "Small doubt", high: "Deal-breaker" });
+        expect(question("b1").rating).toEqual({ low: "Optional", high: "Essential" });
+        expect(question("e3").rating).toEqual({ low: "Minor", high: "Blocking" });
     });
 
     it("keeps a tick's rating while it is ticked, and an existing tick starts unrated", () => {

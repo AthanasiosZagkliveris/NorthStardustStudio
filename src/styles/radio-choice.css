@@ -43,8 +43,8 @@
 
 }
 
-/* THE ROUND, DRAWN (not the browser's, whose glow is the shape of its box): 16px (--size-radio), in a text input's own look as a tick box is (no stroke, the recessed inset, the ring when active); chosen, it is filled with the
-   app's blue and a white bullet stands in its centre. */
+/* THE ROUND, DRAWN (not the browser's, whose glow is the shape of its box): 16px (--size-radio), in a text input's own look as a tick box is (the recessed inset, the ring when active); chosen, it is filled with the
+   app's blue and a white bullet stands in its centre. Its edge is drawn in every state (owner, 2026-11-04): the darker --text-muted, so the round holds 3:1 (WCAG 1.4.11) on every band it stands on, where it is thinnest. */
 .radio-choice-option > input[type="radio"] {
 
     appearance: none;
@@ -58,7 +58,7 @@
 
     margin: 0;
 
-    border: 1px solid transparent;
+    border: 1px solid var(--text-muted);
     border-radius: 50%;
 
     background: var(--bg-surface);
@@ -72,6 +72,8 @@
 }
 
 .radio-choice-option > input[type="radio"]:checked {
+
+    border-color: var(--bg-primary);
 
     box-shadow: none;
 

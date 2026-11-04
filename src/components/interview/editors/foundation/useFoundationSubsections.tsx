@@ -240,7 +240,6 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 value={chosen[0] ? Number(chosen[0]) as Rating : undefined}
                                 onChange={(next) => choose(next ? [String(next)] : [])}
                                 lowLabel={question.rating.low}
-                                midLabel={question.rating.mid}
                                 highLabel={question.rating.high}
                             />
                         )
@@ -679,7 +678,6 @@ export function useFoundationSubsections(earlier: Earlier) {
                             values={competitorRatings(answers, id)}
                             onChange={(row, next) => write(competitorRate(answers, id, row, next))}
                             lowLabel={COMPETITOR_RATINGS[id].low}
-                            midLabel={"mid" in COMPETITOR_RATINGS[id] ? (COMPETITOR_RATINGS[id] as { mid: string }).mid : undefined}
                             highLabel={COMPETITOR_RATINGS[id].high}
                             disabled={disabled}
                             {...extra}
@@ -716,7 +714,6 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 value={answers.k4?.[0] ? Number(answers.k4[0]) as Rating : undefined}
                                 onChange={(next) => write(next ? { ...answers, k4: [String(next)] } : Object.fromEntries(Object.entries(answers).filter(([key]) => key !== "k4")))}
                                 lowLabel={COMPETITOR_RATINGS.k4.low}
-                                midLabel={COMPETITOR_RATINGS.k4.mid}
                                 highLabel={COMPETITOR_RATINGS.k4.high}
                             />
                         ),

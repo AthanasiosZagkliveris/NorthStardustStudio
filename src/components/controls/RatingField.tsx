@@ -9,9 +9,9 @@ export type Rating = 1 | 2 | 3 | 4 | 5;
 /** The five points, low to high, left to right. */
 export const RATING_POINTS: readonly Rating[] = [1, 2, 3, 4, 5];
 
-/** What a screen reader says for one round: "1 of 5", and the end's word where the round is an end ("1 of 5, Clear weakness"). */
-export function ratingPointName(point: Rating, ends: { low?: string; mid?: string; high?: string }): string {
-    const word = point === 1 ? ends.low : point === 3 ? ends.mid : point === 5 ? ends.high : undefined;
+/** What a screen reader says for one round: "1 of 5", and the end's word where the round is an end ("1 of 5, Weak"). */
+export function ratingPointName(point: Rating, ends: { low?: string; high?: string }): string {
+    const word = point === 1 ? ends.low : point === 5 ? ends.high : undefined;
     return point + " of 5" + (word ? ", " + word : "");
 }
 
@@ -21,9 +21,9 @@ export function ratingPointName(point: Rating, ends: { low?: string; mid?: strin
  * named by `label`; its rounds share `name`, so the arrows move along the row and Space chooses. Pressing the chosen round again clears it: the row is then
  * unrated, which is how a rating says "I cannot judge this" (there is no "Not sure").
  *
- * Alone, it draws its end words over its rounds (`lowLabel`, `midLabel`, `highLabel`); in a RatingGroup the group draws them once for all its rows.
+ * Alone, it draws its end words over its rounds (`lowLabel`, `highLabel`: one word each, at the sides only); in a RatingGroup the group draws them once for all its rows.
  */
-export default function RatingField({ label, name, value, onChange, lowLabel, midLabel, highLabel, disabled, className }: {
+export default function RatingField({ label, name, value, onChange, lowLabel, highLabel, disabled, className }: {
     /** What is rated, for a screen reader (in a group, the row's words). */
     label: string;
     /** The rounds' shared name: one per row on the page. */
@@ -31,21 +31,19 @@ export default function RatingField({ label, name, value, onChange, lowLabel, mi
     value?: Rating;
     /** The new rating, or `undefined` when the chosen round is pressed again. */
     onChange: (next: Rating | undefined) => void;
-    /** The low end's words (under 1), e.g. "Clear weakness". */
+    /** The low end's word (over 1), e.g. "Weak". */
     lowLabel?: string;
-    /** The middle's words (under 3), e.g. "Average"; optional. */
-    midLabel?: string;
-    /** The high end's words (under 5), e.g. "Clear strength". */
+    /** The high end's word (over 5), e.g. "Strong". */
     highLabel?: string;
     disabled?: boolean;
     /** Where it stands (a place's class says only that). */
     className?: string;
 }) {
-    const ends = { low: lowLabel, mid: midLabel, high: highLabel };
-    const drawsEnds = lowLabel !== undefined || midLabel !== undefined || highLabel !== undefined;
+    const ends = { low: lowLabel, high: highLabel };
+    const drawsEnds = lowLabel !== undefined || highLabel !== undefined;
     return (
         <div className={"rating-field" + (className ? " " + className : "")}>
-            {drawsEnds && <RatingEnds low={lowLabel} mid={midLabel} high={highLabel} />}
+            {drawsEnds && <RatingEnds low={lowLabel} high={highLabel} />}
             <div className="radio-choice rating-field-points" role="radiogroup" aria-label={label}>
                 {RATING_POINTS.map(point => (
                     <label key={point} className="radio-choice-option">

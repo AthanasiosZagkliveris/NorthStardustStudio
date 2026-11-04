@@ -14,7 +14,7 @@ import "../../styles/rating-field.css";
  * `selectable`: each row starts with a tick (the shared TickField), and its rounds show only once it is ticked (where they are reviewed, then how they are
  * rated); unticking a row clears its rating. `below`: what a row carries under it, across the group (the loyalty ticks under Support & Follow Up).
  */
-export default function RatingGroup({ label, name, rows, values, onChange, lowLabel, midLabel, highLabel, selectable = false, selected = [], onSelect, disabled, className }: {
+export default function RatingGroup({ label, name, rows, values, onChange, lowLabel, highLabel, selectable = false, selected = [], onSelect, disabled, className }: {
     /** What the group rates, for a screen reader. */
     label: string;
     /** The group's name: each row's rounds are named from it and the row's id. */
@@ -25,7 +25,6 @@ export default function RatingGroup({ label, name, rows, values, onChange, lowLa
     values: Readonly<Partial<Record<string, Rating>>>;
     onChange: (id: string, next: Rating | undefined) => void;
     lowLabel: string;
-    midLabel?: string;
     highLabel: string;
     /** Each row starts with a tick; its rating shows once ticked. */
     selectable?: boolean;
@@ -39,7 +38,7 @@ export default function RatingGroup({ label, name, rows, values, onChange, lowLa
 }) {
     return (
         <div className={"rating-group" + (className ? " " + className : "")} role="group" aria-label={label}>
-            <RatingEnds low={lowLabel} mid={midLabel} high={highLabel} />
+            <RatingEnds low={lowLabel} high={highLabel} />
             {rows.map(row => {
                 const words = row.name ?? (typeof row.label === "string" ? row.label : row.id);
                 const on = !selectable || selected.includes(row.id);

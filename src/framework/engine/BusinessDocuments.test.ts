@@ -973,13 +973,13 @@ describe("the industry outlook in the documents", () => {
         expect(market(withOutlook(""))).toContain("### Market Size and Industry Outlook\n\nNot covered by the Foundation answers.");
         const given = market(withOutlook(trend));
         expect(given).not.toContain("Not covered by the Foundation answers.");
-        expect(given).toContain("Is your market growing or shrinking?: 5 of 5 (Growing fast)");
+        expect(given).toContain("Is your market growing or shrinking?: 5 of 5 (Booming)");
     });
 
     test("the Business System's export carries it", () => {
         const business = withOutlook(trend);
         const md = new MarkdownExporter().toMarkdown(business, "Foundation", buildExportContent(business, "Foundation"));
-        expect(md).toContain("Is your market growing or shrinking?: 5 of 5 (Growing fast)");
+        expect(md).toContain("Is your market growing or shrinking?: 5 of 5 (Booming)");
     });
 
 });
