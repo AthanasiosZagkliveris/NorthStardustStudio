@@ -1,6 +1,6 @@
 # 35. The Segment's questions: every question and option as built
 
-Status: **specification**, written 2026-11-01, updated 2026-11-03. Every question of the Segment card in the order it is asked, with its control, when it is asked, its options and what its "i" says. **Who the questions are about:** the questions are written for "your customers" (a direct buyer); when the buyer is a Proxy or Dual-Intent buyer, the buyer's boxes say "your buyers" and the end user's box says "your end users" (`segmentWho`).
+Status: **specification**, written 2026-11-01, updated 2026-11-04. Every question of the Segment card in the order it is asked, with its control, when it is asked, its options and what its "i" says. **Who the questions are about:** the questions are written for "your customers" (a direct buyer); when the buyer is a Proxy or Dual-Intent buyer, the buyer's boxes say "your buyers" and the end user's box says "your end users" (`segmentWho`).
 
 Related: doc 36 (the Profile's questions, in the same form), doc 28 (6.3a, the Segment card in the specification), doc 31 (the age terms), doc 33 (the first version; its section 15 holds the thoughts), `src/framework/engine/SegmentQuestions.ts` (where these words are kept; where the two differ, the code is right).
 
@@ -10,6 +10,21 @@ The rules that hold for all of them: a radio is one choice, ticks are several (w
 
 
 **Connections.** Under each question: *Comes from* is what it takes from Identity or from the Segment's own earlier answers (built); *Read by* is what reads it. Built: the Market document and the export list every answer as it stands once settled against Identity as it is now (an answer to a question Identity no longer asks, or to an option it no longer offers, is left out of them at once, and is removed from the Segment on its next choice), the Business Plan's Market Analysis counts as covered when a market question is answered, and the Segment's own questions follow one another as stated. *Not built yet* is what the design plans to read it (doc 28, 6.3a and 6.5; doc 33, section 15): until it is built, nothing else reads the answer.
+
+**Proposed, to build (owner, 2026-11-04): degree and comfort questions use the 1 to 5 rating unless named ranges exist.** A question that asks how comfortable people are with something, or a level or degree (how high, how fast, how crowded), becomes a rating from 1 to 5 (`RatingField`, doc 21): the end words over its five rounds, a middle word where it helps, the "i" keeping what each end means. A question whose options name ranges or kinds keeps its options. The built control and options below stay as they are until it is built; each changed question says how its saved answers map.
+
+| Question | Becomes | Kept as is, and why |
+|---|---|---|
+| Box 1, 8. Household income | rating: 1 Low, 3 Middle, 5 High | |
+| Box 4, 1. and the end user's 8. Online comfort | rating: 1 Not comfortable, 3 Fairly comfortable, 5 Very comfortable | |
+| Box 5, 1. Growing or shrinking | rating: 1 Shrinking, 3 Flat, 5 Growing fast | |
+| Box 5, 4. How crowded | rating: 1 Open, 3 Fragmented, 5 Crowded | |
+| Age, education, school stage | | named stages and ranges (doc 31) |
+| Gender mix | | named ranges (80%+, 60–80%, 40–60%) |
+| Where they are, the kind of area | | named places and kinds |
+| Size of their organisations | | named employee ranges (the EU's) |
+| How many potential customers | | named ranges (under 1,000 to 500,000 or more) |
+| Work, schedule, pay, socialising, deciding, where they shop | | kinds, not degrees |
 
 ## Box 1. Demographics
 
@@ -150,7 +165,7 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
 
 ### 8. How high is your customers' household income?
 
-- **Control:** one choice (a radio).
+- **Control:** one choice (a radio). **Proposed, to build:** a rating, 1 to 5 (`RatingField`): 1 "Low", 3 "Middle", 5 "High". Saved answers map one to one: Low 1, Lower-middle 2, Middle 3, Upper-middle 4, High 5.
 - **Asked when:** The buyer is people, and the age is not Minors.
 - **Options:**
   - Low
@@ -327,7 +342,7 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
 
 ### 1. How comfortable are your customers online?
 
-- **Control:** one choice (a radio).
+- **Control:** one choice (a radio). **Proposed, to build:** a rating, 1 to 5 (`RatingField`): 1 "Not comfortable", 3 "Fairly comfortable", 5 "Very comfortable". Saved answers map: Not very comfortable 1, Fairly comfortable 3, Very comfortable 5.
 - **Asked when:** Always.
 - **Options:**
   - Not very comfortable
@@ -485,7 +500,7 @@ Both.
 
 ### 1. Is your market growing or shrinking?
 
-- **Control:** one choice (a radio).
+- **Control:** one choice (a radio). **Proposed, to build:** a rating, 1 to 5 (`RatingField`): 1 "Shrinking", 3 "Flat", 5 "Growing fast"; the "i" keeps what each means, and says that a market undergoing severe structural changes is a 1. Saved answers map: Shrinking or disrupted 1, Flat / stable 3, Growing steadily 4, Growing fast 5.
 - **Asked when:** Always.
 - **Options:**
   - Growing fast
@@ -543,7 +558,7 @@ Both.
 
 ### 4. How crowded is your market?
 
-- **Control:** one choice (a radio).
+- **Control:** one choice (a radio). **Proposed, to build:** a rating, 1 to 5 (`RatingField`): 1 "Open", 3 "Fragmented", 5 "Crowded"; the "i" keeps Blue Ocean and Red Ocean for the ends. Saved answers map: Open 1, Fragmented 3, Crowded 5.
 - **Asked when:** Always.
 - **Options:**
   - Crowded
@@ -694,7 +709,7 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
 
 ### 8. How comfortable are your customers online?
 
-- **Control:** one choice (a radio).
+- **Control:** one choice (a radio). **Proposed, to build:** the rating of Box 4, question 1, with the same words and the same mapping.
 - **Asked when:** As the end user's life stage. Not asked of a Baby.
 - **Options:**
   - Not very comfortable

@@ -41,12 +41,12 @@ Each list is one definition used wherever its id appears; counts include "Not su
 
 | Id | Name | Plain options | Used by |
 |---|---|---|---|
-| L1 | **What customers care about** (10) | Lower price; Speed; Ease and convenience; Quality and results; Trust and reputation; Expert knowledge; A service made for them; Good support; Safety and low risk; Shared values or identity | I7, P9, K2, K3, O4, the Value Proposition draft |
+| L1 | **What customers care about** (10) | Lower price; Speed; Ease and convenience; Quality and results; Trust and reputation; Expert knowledge; A service made for them; Good support; Safety and low risk; Shared values or identity | I7, P9, doc 41 K8 (was K2 and K3), O4, the Value Proposition draft |
 | L2 | **Worries that stop a purchase** (8) | The price / budget; Whether you can be trusted; How long it takes to start; How hard it is to use; Risk or security; Whether it fits the need; Support after they buy; The effort of switching from the current option | P19, O8 |
 | L3 | **Frustrations** (10) | It costs too much; It takes too long; It is too complicated; The quality is inconsistent; It is hard to find someone trustworthy; They lack the know-how; Support is poor; They worry about mistakes or rules; They have no time or capacity; Prices are unclear | P18 |
 | L4 | **Goals** (6) | Get easier access; Learn something new; Self-expression; Meet a requirement; Win customers or earn more; Stay within the rules (Save time, Save money, Lower risk and Get better results were dropped on 2026-11-03: they repeat L1's Speed, Lower price, Safety and low risk, Quality and results) | doc 36, E1 (was P17) |
 | L5 | **Skill areas** (6) | Delivering your product or service; Marketing; Sales and customer care; Running the business (operations, admin, technology); Money and legal (finance, accounting, legal); Leadership and people (management, hiring) | C1, L2, C4 |
-| L6 | **Channels** | the 13 channel categories and their subchannels, as in the app | P11, K4, the journey |
+| L6 | **Channels** | the 13 channel categories and their subchannels, as in the app | P11, doc 41 K5 (was K4), the journey |
 | L7 | **Industries, level 1** (18, then Not sure, or more than one; level 2 in 5.4) | Farming, forestry and fishing; Mining, oil, gas and quarrying; Manufacturing; Energy, water and waste; Construction; Wholesale and retail trade; Transport, postal and logistics; Hospitality (accommodation, food, drink); Software, IT, media and telecoms; Finance and insurance; Real estate and property; Professional, scientific and technical services (law, accounting, consulting, engineering, design); Administrative and support services (staffing, cleaning, security, travel); Government and public administration; Education and training; Health and social care; Arts, sport and recreation; Other services (repair, personal, membership, charity) | I1, I2, G15, P24 |
 | L8 | **Organisation size** (6) | Just one person (self-employed, no employees); 1 to 9 employees; 10 to 49; 50 to 249; 250 to 499; 500 or more | G14 |
 | L9 | **Age bands** (13) | 0 to 2; 3 to 5; 6 to 9; 10 to 12; 13 to 15; 16 to 17; 18 to 24; 25 to 34; 35 to 44; 45 to 54; 55 to 64; 65 to 74; 75 or older (with an "i" under each, doc 28, 6.3) | G6 |
@@ -306,7 +306,7 @@ Not verified: the ANZSIC group codes of Division K groups 62 and 63 and Division
 
 Every option has a one-line example shown under it, so the user understands the choice without leaving the card. The examples are the author's and need the owner's approval **[D]**. The first five lists are written here; the others follow the same pattern.
 
-*(The Profile shows L1 to L4 and L15 with a slash in place of the word "or": "Shared values / identity", "Win customers or earn more", "Laptop / desktop"; the ids stay the words written here.)*
+*(The Profile shows L1 to L4 and L15 in its own short words (`WORDS` in `ProfileQuestions.ts`), with a slash between similar things and "or" between different things: "A tailored service", "Shared values / identity", "Cost too high", "The price / budget", "Win customers or earn more", "Laptop / desktop"; the ids stay the words written here.)*
 
 **L1, what customers care about**
 

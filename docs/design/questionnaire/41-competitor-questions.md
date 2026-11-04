@@ -35,7 +35,7 @@ Each question is asked inside the band of its box, above the box's text, and the
 - An answer to a question no longer asked, or to an option no longer offered, is removed on the next choice.
 - A slash joins similar things and "or" joins different things. Spelling is UK English.
 
-**Controls.** K6 to K9 use the rating field (K6 with a tick per row), a shared control (`RatingField` and `RatingGroup` in `src/components/controls/`, doc 21): five radio rounds in a row from low to high, the end words said once over the rounds, the chosen round pressed again to clear it.
+**Controls.** K4 and K6 to K9 use the rating field (K6 with a tick per row), a shared control (`RatingField` and `RatingGroup` in `src/components/controls/`, doc 21): five radio rounds in a row from low to high, the end words said once over the rounds, the chosen round pressed again to clear it.
 
 **What the type asks.** The questions are written for a rival business, and three of the five types are not one. The wording follows the type as `COMPETITOR_TYPE_QUESTIONS` does for the text boxes; the stored answer and the options stay the same.
 
@@ -108,13 +108,9 @@ This follows the type rules already built for the text boxes: a substitute has n
 
 ### K4. Is their business growing?
 
-- **Control:** one choice (a radio), inside the Market band, after K3.
+- **Control:** a rating, 1 to 5 (`RatingField`), inside the Market band, after K3: 1 "Declining", 3 "Steady", 5 "Growing" (the degree rule, owner 2026-11-04).
 - **Asked when:** the type is Direct competitor, Indirect competitor or Substitute.
 - **Wording by type:** Direct competitor, Indirect competitor: "Is their business growing?" Substitute: "Is this alternative growing?"
-- **Options:**
-  - Growing
-  - Steady
-  - Declining
 - **The "i" says:**
   - From what you can see: more branches, staff, products or reviews, or fewer.
 - **Connections:**
@@ -252,7 +248,7 @@ A section of its own after the SWOT, as built: a title band, an "i" and one text
 - **Asked when:** at least one of its options exists. With no options, only the text shows.
 - **Wording by type:** the same for every type; the options follow the type (below).
 - **Options:** built by the app from this card's answers, each by its rule, and shown only once its source question is answered:
-  - From K8's ratings, the whole scale. Each rated value has an opening score, (5 − rating) × weight, where the weight is 2 if a Profile of the Segment ticked the value in "What matters most" (doc 36, B1) and 1 otherwise. The options come in score order; ties are broken by how many of the Segment's competitors rated the value low.
+  - From K8's ratings, the whole scale. Each rated value has an opening score, (5 − rating) × weight, where the weight is 2 if a Profile of the Segment ticked the value in "What matters most" (doc 36, B1) and 1 otherwise; once B1 is rated (doc 36, section 11, proposed), the weight is the Profiles' highest rating of the value (1 to 5). The options come in score order; ties are broken by how many of the Segment's competitors rated the value low.
     - Rating 1 or 2: "Offer better: [value]", for example "Offer better: Good support".
     - Rating 3: "Stand out on: [value]" (they are average, so there is room).
     - Rating 4: "Match them on: [value]", shown only for a B1 value (customers expect it).
@@ -260,7 +256,7 @@ A section of its own after the SWOT, as built: a title band, an "i" and one text
   - For each stage K7 rates 1 or 2: "Make [stage] easier", with the stage in plain words: Discover "finding out", Evaluation "choosing", Purchase "buying", Delivery "getting it", Support & Follow Up "getting help afterwards".
   - If a platform is rated below 4 stars in K6: "Win over their unhappy customers".
   - If none of K7's loyalty ticks is ticked: "Give customers a reason to come back".
-  - If K4 is "Declining": "Win customers they are losing".
+  - If K4 is rated 1 or 2: "Win customers they are losing".
   - For each change K9 rates 4 or 5: "Use [change] too". For each change K9 rates 1 or 2: "Be ready where [change] hurts them".
   - By type: a Substitute's options say "this alternative" ("Win over this alternative's unhappy customers"). Internal solution: "Make it easier than doing it themselves". Status quo: from the values K8 rates 1 or 2, "Show what doing nothing costs: [value]"; from the changes K9 rates 1 or 2, "Use [change] as a reason to act".
 - **The "i" says:**
@@ -279,7 +275,7 @@ Each row keeps the current question and proposes another way to answer it, with 
 | K1 What do they offer? | Product / Service / Hybrid | Withdrawn: "Which of your Offerings do they compete with?", ticks of the App User's own Offerings (doc 43) | Nwes business plan guidance: a grid of your products and services against each competitor, showing which each offers [FUN-56] | Keep Now: the App User may have no Offerings yet |
 | K2 Where do they sell? | The Segment's area list | Withdrawn: "Compared with you, where do they sell?" Smaller area / The same area / Larger area | Cornell: the more one firm's strategy resembles another's, the more the two compete [FUN-53] | Keep Now: the App User may have no Offerings yet |
 | K3 How big is their organisation? | Micro to Large | a. Withdrawn: "Compared with you, how big are they?" Smaller / About the same / Larger. b. "What role do they play in your market?" Market leader / Challenger / Follower / Specialist, with the meaning of each in the "i" | Kotler's market roles: leader, challenger, follower, nicher (Kotler, 1997, as cited in Cuellar-Healey and Gomez, 2013) [FUN-53, FUN-54] | Keep Now, plus b as an extra question; a withdrawn: the App User may have no Offerings or staff yet |
-| K4 Is their business growing? | Growing / Steady / Declining | "What signs have you seen?" Ticks: More locations / New products / Hiring / More reviews / Price cuts / Closures; the app draws growing, steady or declining from them | SBA: growing, steady or declining [FUN-50]; Kotler: sales, capacity and new investment as signs of performance (as cited in Cuellar-Healey and Gomez, 2013) [FUN-53] | Keep Now: it is quicker |
+| K4 Is their business growing? | A rating, Declining to Growing | "What signs have you seen?" Ticks: More locations / New products / Hiring / More reviews / Price cuts / Closures; the app draws growing, steady or declining from them | SBA: growing, steady or declining [FUN-50]; Kotler: sales, capacity and new investment as signs of performance (as cited in Cuellar-Healey and Gomez, 2013) [FUN-53] | Keep Now: it is quicker |
 | K5 How do they reach customers? | Ticks of channels | Withdrawn: the App User's own page 2 channels listed, each marked "They use it too" / "Only you", then their other channels | Cornell: compare products, prices, channels and promotion with close competitors [FUN-53] | Keep Now: the App User may have no Offerings or channels yet |
 | K7 (the loyalty ticks under Support & Follow Up) | Ticks of loyalty devices (they replace "Do their customers keep coming back?", which cannot be seen from outside) | Kotler's share of mind and share of heart, as two radios: "Do customers name them first?" Often / Sometimes / Rarely; "Do customers prefer them?" Often / Sometimes / Rarely | Kotler, as cited in Cuellar-Healey and Gomez, 2013 [FUN-53]; Bangladesh Open University, MBA 3313, Unit 4 [FUN-55]. The loyalty ticks as they stand: Invest Northern Ireland [FUN-51]; Business Tasmania, "Do they have a loyal following?" [FUN-58] | Add "Do customers name them first?" beside K7's loyalty ticks |
 | K8 (strengths and weaknesses) | Was two tick lists of L1, "chosen for" and "falls short" | One grid: each value the Segment's Profiles ticked in B1 rated Well / Partly / Poorly | Kotler's customer value analysis [FUN-55]; the Competitive Profile Matrix [FUN-57] | Decided: replaced by K8's 1 to 5 rating (owner, 2026-11-04) |
@@ -308,6 +304,7 @@ Each row keeps the current question and proposes another way to answer it, with 
 - The loyalty question within the journey: the loyalty ticks under K7's Support & Follow Up (2026-11-04).
 - The ratings use one shared control, the rating field (`RatingField`, `RatingGroup`: five radio rounds from low to high, doc 21) (2026-11-04).
 - The Type shown on each competitor's small tile (2026-11-04).
+- Degree and comfort questions use the 1 to 5 rating unless named ranges exist: K4 (2026-11-04).
 - No "Not sure" options (2026-11-02); no "Other" unless another answer can exist (2026-11-04).
 - Competitors belong to their Segment.
 

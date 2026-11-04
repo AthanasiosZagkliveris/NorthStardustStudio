@@ -1,6 +1,6 @@
 # 43. The Offering card: every question and option, as proposed
 
-Status: **proposal**, written 2026-11-03, updated 2026-11-03. Every question of the Offering card (Business System, page 1, tile "Offerings"), in the order it is asked. For each: its control, when it is asked, its options, what its "i" says and what it connects to. The Type, the needs addressed and the text boxes are built; the questions are not.
+Status: **proposal**, written 2026-11-03, updated 2026-11-04. Every question of the Offering card (Business System, page 1, tile "Offerings"), in the order it is asked. For each: its control, when it is asked, its options, what its "i" says and what it connects to. The Type, the needs addressed and the text boxes are built; the questions are not.
 
 Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the Profile: the needs, B1, D2, E3), doc 38 (Positioning: Differentiation), doc 41 (the Competitor: K8), doc 42 (the Value Proposition, which reads O1, O4 and O8), doc 34 (the lists L1 and L11, the value crosswalk 5.2a), doc 28 (6.8, 7.4, 10.1 to 10.3 and 11.7, the design this refines), `src/framework/engine/AnswerBusinessFoundation.ts` (the card today).
 
@@ -168,11 +168,11 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Gives more choice
   - Appeals to the senses
 - **The "i" says:**
-  - The kind of job it does, beyond what it does best (O4). The same list as on your Competitors, so you can see who does the same job.
+  - The kind of job it does, beyond what it does best (O4).
   - Appeals to the senses: how it tastes, looks, sounds or feels.
   - Based on: Bain's Elements of Value (HBR).
 - **Connections:**
-  - *Comes from:* nothing. The Profiles' functional needs stay their own words (doc 36, section 10); this list compares the Offering with the Competitors, as the owner proposed (2026-11-03).
+  - *Comes from:* nothing. The Profiles' functional needs stay their own words (doc 36, section 10); the owner proposed this list (2026-11-03) to compare the Offering with the Competitors; the Competitor's job question was withdrawn on 2026-11-04, so the comparison is gone and whether O13 stays is open.
   - *Read by (not built yet):* the Review. Doc 41's job question was withdrawn on 2026-11-04 as an Offering question, and with it the Value Proposition's open item "Job left to a competitor" (doc 42); a Competitor chosen for the same thing (rated 4 or 5 in K8, doc 41, against O4) is still a close rival, to be answered in its Insights & Differentiation.
 
 ### O10. What does the customer need to give you?
