@@ -218,7 +218,7 @@ A typical person of the Segment, asked specifically.
 
 ### B1. What matters most to this person?
 
-- **Control:** ticks, up to 5, then a rating of each ticked value from "Optional" to "Essential" (`RatingGroup`, `selectable`; section 11, built 2026-11-04).
+- **Control:** ticks, up to 5, then a rating of each ticked value from "Optional" to "Essential" (`RatingScaleGroup`, `selectable`; section 11, built 2026-11-04).
 - **Asked when:** always.
 - **Options:** the list L1 (doc 34, 5.2):
   - Lower price
@@ -233,7 +233,7 @@ A typical person of the Segment, asked specifically.
   - Shared values / identity
 - **The "i" would say:** What matters most to a typical person of the Segment when choosing. Interests, lifestyle and aspirations stay in the note.
 - **Connections:**
-  - *Read by (built, 2026-11-04):* the Competitor's K9 lists the values ticked here first, and its K11 weighs each value by its rating here (doc 41).
+  - *Read by (built, 2026-11-04):* the Competitor's K8 lists the values ticked here first, and its K10 weighs each value by its rating here (doc 41).
   - *Comes from:* nothing.
   - *Read by (not built yet):* the Value Proposition draft; the Review (against the Offering's benefit and the positioning).
 
@@ -447,7 +447,7 @@ The owner asked (2026-11-03) whether the three Needs lists could be choices inst
 
 ## 11. Psychographics and Motivations ticked and rated (owner 2026-11-04; built 2026-11-04)
 
-The owner asked that B1 (Psychographics) and E1 to E3 (Motivations) use both ticks and the five rounds: the App User ticks what applies, then rates each ticked item (`RatingGroup` with `selectable`, doc 21). The ids, the lists and the saved ticks stay; an existing tick starts unrated. **As built:** the ratings are kept as `<id>-rating`, one "option:point" each (`ProfileQuestions.ts`); an untick takes its rating with it; the documents and the exports print each tick with its rating, the highest first ("Speed (5/5); Lower price (3/5); Good support").
+The owner asked that B1 (Psychographics) and E1 to E3 (Motivations) use both ticks and the five rounds: the App User ticks what applies, then rates each ticked item (`RatingScaleGroup` with `selectable`, doc 21). The ids, the lists and the saved ticks stay; an existing tick starts unrated. **As built:** the ratings are kept as `<id>-rating`, one "option:point" each (`ProfileQuestions.ts`); an untick takes its rating with it; the documents and the exports print each tick with its rating, the highest first ("Speed (5/5); Lower price (3/5); Good support").
 
 | Question | Ticks | Rating of each ticked item | Why these words |
 |---|---|---|---|

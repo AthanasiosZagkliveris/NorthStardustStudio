@@ -22,6 +22,6 @@ The standard for these documents is [the standard of the documents](../../standa
 | [38-positioning-questions.md](38-positioning-questions.md) | specification | The Positioning tile's questions as built, by stage: control, limits, options, the help and the connections. | 2026-11-03 |
 | [39-help-texts-guide.md](39-help-texts-guide.md) | proposal | What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check. | 2026-11-03 |
 | [40-tile-documents.md](40-tile-documents.md) | rules | The form every tile document takes (one for each tile or card), and where each tile stands: which has a document and which does not yet. | 2026-11-04 |
-| [41-competitor-questions.md](41-competitor-questions.md) | specification | The Competitor card: every question and option, as built (K1 to K11, in the card's order, by the competitor's type). | 2026-11-04 |
+| [41-competitor-questions.md](41-competitor-questions.md) | specification | The Competitor card: every question and option, as built (K1 to K10, in the card's order, by the competitor's type). | 2026-11-04 |
 | [42-value-proposition-questions.md](42-value-proposition-questions.md) | proposal | The Value Proposition tile: the draft sentence and the open items, as proposed. | 2026-11-04 |
 | [43-offering-questions.md](43-offering-questions.md) | proposal | The Offering card: every question and option, as proposed (O1 to O13). | 2026-11-04 |
