@@ -405,7 +405,7 @@
                       "personal": "Dana Morales, operations manager at a 22-person accounting firm in Downtown Brooklyn; the person everyone asks when a system breaks.",
                       "psychographics": "Practical, organised and overloaded; wants fewer manual steps and fewer mistakes; wary of hype and of tools that create more work than they save.",
                       "hubs": "NYSSCPA events, Brooklyn Chamber of Commerce mixers, webinars from the firm’s practice-management software vendor.",
-                      "habits": "Needs a written proposal to take to the partners, and prefers a short paid pilot to a big commitment."
+                      "habits": "Takes the proposal to the partners before anything is agreed."
                     },
                     "questions": {
                       "a1": [
@@ -436,7 +436,8 @@
                       "d1": [
                         "a-demo-trial-or-sample",
                         "reviews-and-recommendations-online",
-                        "a-meeting-or-call"
+                        "a-meeting-or-call",
+                        "a-quote-or-proposal"
                       ],
                       "d2": [
                         "person"
@@ -478,7 +479,7 @@
                     },
                     "goals": "Get hours back each week for the team; make intake, reminders and reporting run on their own; look good to the partners by fixing problems that have lingered for years.",
                     "challenges": "Copying data between the practice-management system, email and spreadsheets; chasing clients for documents; no budget for a full-time developer; past tools abandoned after setup.",
-                    "objections": "Worried about client data privacy and AI mistakes; unsure the savings justify the cost; afraid of being left with automations nobody can fix.",
+                    "objections": "Unsure the savings justify the cost; afraid of being left with automations nobody can fix.",
                     "needs": {
                       "functional": [
                         "Hand repetitive admin work to reliable automations",
@@ -499,7 +500,7 @@
                     "name": "The Agency Founder",
                     "description": {
                       "personal": "Sam Okafor, founder and creative director of a 9-person marketing agency in Williamsburg.",
-                      "psychographics": "Ambitious, curious about AI and quick to try new tools, but short on time to set them up properly; values speed and a professional client experience.",
+                      "psychographics": "Ambitious, curious about AI and quick to try new tools, but short on time to set them up properly.",
                       "hubs": "Brooklyn tech and marketing meetups, Advertising Week New York, podcasts on agency growth.",
                       "habits": "Books a call straight from a website; decides quickly when a case study matches the agency’s own problem."
                     },
@@ -586,7 +587,7 @@
                         "as-more-valued-in-their-field:4"
                       ]
                     },
-                    "goals": "Grow revenue without growing headcount; deliver client reports and onboarding faster; use AI in a way that holds up in front of clients.",
+                    "goals": "Keep headcount flat; deliver client reports and onboarding faster; use AI in a way that holds up in front of clients.",
                     "challenges": "Team time lost to reporting, briefs and status updates; a pile of half-connected tools; freelancers who build automations and then disappear.",
                     "objections": "Has tried no-code tools alone and hit limits; unsure about paying a consultant for something that might be done in-house; concerned about lock-in.",
                     "needs": {
@@ -612,12 +613,12 @@
                     "type": "direct",
                     "description": {
                       "offerings": "Zapier, Make and AI chatbot builds, priced by the task or the hour.",
-                      "market": "Small businesses across the US and worldwide; any industry.",
-                      "acquisition": "Marketplace search, reviews and low hourly rates.",
-                      "experience": "Fast and cheap for simple tasks, but quality varies and support often ends when the job does."
+                      "market": "Small businesses in any industry.",
+                      "acquisition": "",
+                      "experience": "Suited to simple tasks."
                     },
-                    "strengths": "Low prices; large pool of talent; quick to start.",
-                    "weaknesses": "Little understanding of professional-services workflows or confidentiality; no ongoing accountability; documentation is rare.",
+                    "strengths": "Large pool of talent; quick to start.",
+                    "weaknesses": "Little understanding of professional-services workflows or confidentiality; documentation is rare.",
                     "opportunities": "Rising demand for AI automation is pulling more freelancers into the market.",
                     "threats": "Marketplace fees and price competition; clients burned by poor builds become wary of all outside help.",
                     "insights": "Compete on industry focus, a documented audit, privacy review and a care retainer that keeps automations working, not on hourly rate.",
@@ -637,21 +638,21 @@
                       "k5": [
                         "marketplace"
                       ],
-                      "k7": [
+                      "k6": [
                         "marketplace"
                       ],
-                      "k7-rating": [
+                      "k6-rating": [
                         "marketplace:4",
                         "other-0:3"
                       ],
-                      "k8-rating": [
+                      "k7-rating": [
                         "discovery:4",
                         "evaluation:3",
                         "purchase:4",
                         "delivery:3",
                         "support:2"
                       ],
-                      "k9-rating": [
+                      "k8-rating": [
                         "lower-price:5",
                         "speed:3",
                         "ease-and-convenience:3",
@@ -659,21 +660,18 @@
                         "quality-and-results:3",
                         "trust-and-reputation:2"
                       ],
-                      "k10-rating": [
+                      "k9-rating": [
                         "technology:5",
                         "economy:3"
                       ],
-                      "k11": [
+                      "k10": [
                         "better:good-support",
                         "better:trust-and-reputation"
                       ],
                       "k5-rating": [
                         "marketplace:5"
                       ],
-                      "k6": [
-                        "discounts"
-                      ],
-                      "k7-other": [
+                      "k6-other": [
                         "Reddit forums"
                       ]
                     }
@@ -685,11 +683,11 @@
                     "description": {
                       "offerings": "AI strategy, custom model work and enterprise integrations.",
                       "market": "Mid-size and enterprise firms, often in finance and healthcare.",
-                      "acquisition": "Enterprise sales teams, conferences and partnerships with software vendors.",
-                      "experience": "Polished and thorough, but slow and expensive for a small firm."
+                      "acquisition": "",
+                      "experience": "Polished and thorough."
                     },
-                    "strengths": "Credibility, depth of expertise and large teams.",
-                    "weaknesses": "Minimum engagements far above a small firm's budget; not interested in 10-person clients.",
+                    "strengths": "",
+                    "weaknesses": "Minimum engagements; not interested in 10-person clients.",
                     "opportunities": "Could launch packaged small-business offers.",
                     "threats": "Their thought leadership raises expectations of what AI can do.",
                     "insights": "Borrow their rigor (audit, roadmap, governance) and package it at a small-firm price with a single accountable person.",
@@ -711,32 +709,33 @@
                         "referral-affiliates",
                         "in-person"
                       ],
-                      "k7": [
+                      "k6": [
                         "google",
                         "clutch"
                       ],
-                      "k7-rating": [
+                      "k6-rating": [
                         "google:4",
                         "clutch:5"
                       ],
-                      "k8-rating": [
+                      "k7-rating": [
                         "evaluation:4",
                         "purchase:2",
                         "delivery:4",
                         "support:4"
                       ],
-                      "k9-rating": [
+                      "k8-rating": [
                         "speed:2",
                         "lower-price:1",
                         "quality-and-results:5",
                         "trust-and-reputation:5",
-                        "ease-and-convenience:2"
+                        "ease-and-convenience:2",
+                        "expert-knowledge:5"
                       ],
-                      "k10-rating": [
+                      "k9-rating": [
                         "technology:4",
                         "economy:2"
                       ],
-                      "k11": [
+                      "k10": [
                         "better:speed",
                         "stage:purchase"
                       ],
@@ -744,11 +743,6 @@
                         "website:4",
                         "referral-affiliates:5",
                         "in-person:3"
-                      ],
-                      "k6": [
-                        "content",
-                        "events",
-                        "partnerships"
                       ]
                     }
                   },
@@ -762,8 +756,8 @@
                       "acquisition": "Free trials, in-app prompts and vendor marketing.",
                       "experience": "Easy to start, but setups stay half-finished and break when nobody owns them."
                     },
-                    "strengths": "Cheap or already paid for; no outside party involved.",
-                    "weaknesses": "Needs time and skills the firm does not have; no one to maintain it.",
+                    "strengths": "Already paid for; no outside party involved.",
+                    "weaknesses": "Needs time and skills the firm does not have.",
                     "opportunities": "Vendors keep adding AI features, making DIY more tempting.",
                     "threats": "Could shrink the market for simple builds.",
                     "insights": "Position Quillfield as the partner that makes these tools work together, and offer to maintain what the firm has already started.",
@@ -777,33 +771,33 @@
                       "k4": [
                         "5"
                       ],
-                      "k7": [
+                      "k6": [
                         "g2",
                         "capterra",
                         "app-store"
                       ],
-                      "k7-rating": [
+                      "k6-rating": [
                         "g2:4",
                         "capterra:4",
                         "app-store:4"
                       ],
-                      "k8-rating": [
+                      "k7-rating": [
                         "discovery:5",
                         "evaluation:4",
                         "purchase:5",
                         "delivery:3",
                         "support:2"
                       ],
-                      "k9-rating": [
+                      "k8-rating": [
                         "lower-price:4",
                         "speed:3",
                         "ease-and-convenience:2",
                         "good-support:1"
                       ],
-                      "k10-rating": [
+                      "k9-rating": [
                         "technology:5"
                       ],
-                      "k11": [
+                      "k10": [
                         "better:good-support",
                         "stage:support"
                       ]
@@ -817,25 +811,26 @@
                       "offerings": "Staff keep copying data and chasing documents by hand, or the firm hires another administrator.",
                       "market": "Most small firms today.",
                       "acquisition": "No acquisition: it is the default.",
-                      "experience": "Familiar and low-risk, but slow, error-prone and costly as the firm grows."
+                      "experience": "Familiar, but error-prone and costly as the firm grows."
                     },
-                    "strengths": "No change needed; no new risk; a new hire can also do other tasks.",
+                    "strengths": "No change needed; a new hire can also do other tasks.",
                     "weaknesses": "An administrator in New York costs $50,000 to $60,000 a year before benefits; manual work does not scale.",
                     "opportunities": "A tight hiring market makes the manual route harder.",
                     "threats": "Inertia: the pain is spread thinly, so it never feels urgent.",
                     "insights": "Show the cost of the status quo in hours and dollars during the audit, and compare the Build and Retainer to the cost of a hire.",
                     "questions": {
-                      "k9-rating": [
+                      "k8-rating": [
                         "speed:1",
                         "ease-and-convenience:2",
                         "trust-and-reputation:4",
-                        "lower-price:3"
+                        "lower-price:3",
+                        "safety-and-low-risk:4"
                       ],
-                      "k10-rating": [
+                      "k9-rating": [
                         "economy:2",
                         "technology:2"
                       ],
-                      "k11": [
+                      "k10": [
                         "cost:speed",
                         "act:economy"
                       ]
