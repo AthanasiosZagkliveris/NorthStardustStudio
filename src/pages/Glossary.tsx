@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import AppFooter from "../components/AppFooter";
 import AppHeader from "../components/AppHeader";
 import TabList from "../components/controls/TabList";
+import InfoNote from "../components/interview/fields/InfoNote";
 import TextLink from "../components/interview/fields/TextLink";
 import ResponsibilityFilter from "../components/interview/fields/ResponsibilityFilter";
 import { openCard } from "../components/notepad/notepadPlaces";
@@ -36,6 +37,23 @@ export interface GlossaryState {
 
 /** Your terms are drawn in this palette hue, the app's in the app's own blue: one colour for each kind (glossary.css). */
 const YOUR_TERMS_HUE = PALETTE.find(colour => colour.name === "terracotta")?.hue ?? 14;
+
+/**
+ * What each title's "i" says (doc 39, 3.3: a page title's note, at most three points of at most 160 characters; an option's meaning as
+ * "Name: meaning"). What the page is, how to use it, and what its two colours or its style mean: nothing of it repeats the title.
+ */
+export const GLOSSARY_INFO: Record<GlossaryTab, string[]> = {
+    glossary: [
+        "Every word the app uses and every name you gave, from A to Z. The funnel shows either kind, or both.",
+        "App terms: the app's own words, with what each means here and the source it rests on. Press a source to read it in full.",
+        "Your terms: the names you gave your Segments, Profiles, Competitors, Offerings and the rest. Press \"Open the …\" to go to it."
+    ],
+    references: [
+        "Every source the app cites, from A to Z.",
+        "Written in the Harvard style: the author and year where a source is cited, and the full reference here.",
+        "Each address opens in your browser."
+    ]
+};
 
 /** One row of the list: an app term or one of yours. */
 interface Entry {
@@ -145,7 +163,10 @@ export default function Glossary() {
 
             <main className="glossary-page">
 
-                <h1 className="workspace-title glossary-title">{tab === "glossary" ? "Glossary" : "References"}</h1>
+                <h1 className="workspace-title glossary-title">
+                    {tab === "glossary" ? "Glossary" : "References"}
+                    <InfoNote key={tab} label={tab === "glossary" ? "Glossary" : "References"} points={GLOSSARY_INFO[tab]} />
+                </h1>
 
                 <TabList label="Glossary or references" tabs={TABS} value={tab} onChange={setTab} className="glossary-tabs" />
 
@@ -155,9 +176,7 @@ export default function Glossary() {
                         <div className="glossary-bar">
                             <p className="glossary-legend">
                                 <span className="glossary-key glossary-key-app">App terms</span>
-                                <span className="glossary-legend-text">the app's own words</span>
                                 <span className="glossary-key glossary-key-yours">Your terms</span>
-                                <span className="glossary-legend-text">the names you gave</span>
                             </p>
                             <ResponsibilityFilter
                                 off={off}
@@ -231,9 +250,6 @@ export default function Glossary() {
 
                 {tab === "references" && (
                     <section className="glossary-section" aria-label="References">
-                        <p className="glossary-intro">
-                            Every source the app cites, in the Harvard style: the author and year are cited in the text, and the full reference is here. Each address opens in your browser.
-                        </p>
                         <ol className="references-list">
                             {referenceList().map(({ id, source }) => (
                                 <li key={id} id={"reference-" + id} className={"references-entry" + (target === id ? " glossary-entry-target" : "")}>

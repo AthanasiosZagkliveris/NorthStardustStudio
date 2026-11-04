@@ -15,7 +15,7 @@ vi.mock("../services/GlossaryService", async (importOriginal) => {
     };
 });
 
-import Glossary from "./Glossary";
+import Glossary, { GLOSSARY_INFO } from "./Glossary";
 import GlossaryButton from "../components/GlossaryButton";
 import { OrganizationService } from "../services/OrganizationService";
 import { harvardReference, SOURCES } from "../framework/engine/Sources";
@@ -50,7 +50,7 @@ describe("the Glossary", () => {
 
     it("lists the app's terms and yours, each kind in its own colour, A to Z", () => {
         open();
-        expect(screen.getByRole("heading", { name: "Glossary" })).toBeTruthy();
+        expect(screen.getByRole("heading", { name: /^Glossary/ })).toBeTruthy();
         const app = document.querySelector(".glossary-entry-app");
         const yours = document.querySelector(".glossary-entry-yours");
         expect(app).toBeTruthy();
@@ -75,7 +75,7 @@ describe("the Glossary", () => {
         open();
         const citation = screen.getAllByRole("button", { name: "(Franklin, Graybeal and Cooper, 2019)" })[0];
         fireEvent.click(citation);
-        expect(screen.getByRole("heading", { name: "References" })).toBeTruthy();
+        expect(screen.getByRole("heading", { name: /^References/ })).toBeTruthy();
         const entry = document.getElementById("reference-breakEvenInDollars");
         expect(entry?.textContent).toBe(harvardReference(SOURCES.breakEvenInDollars));
         expect(entry?.className).toContain("glossary-entry-target");
@@ -87,6 +87,25 @@ describe("the Glossary", () => {
         open();
         act(() => { fireEvent.keyDown(window, { key: "Escape" }); });
         expect(screen.getByText("System Selection at /assistant")).toBeTruthy();
+    });
+
+});
+
+describe("the Glossary's titles", () => {
+
+    it("carry an i with what the page is and how to read it, at most three points of 160 characters", () => {
+        open();
+        fireEvent.click(screen.getByRole("button", { name: "Glossary: what this means" }));
+        expect(screen.getByText(/^App terms: the app's own words/)).toBeTruthy();
+        fireEvent.click(screen.getByRole("tab", { name: "References" }));
+        fireEvent.click(screen.getByRole("button", { name: "References: what this means" }));
+        expect(screen.getByText(/^Written in the Harvard style/)).toBeTruthy();
+        for (const points of Object.values(GLOSSARY_INFO)) {
+            expect(points.length).toBeLessThanOrEqual(3);
+            for (const point of points) {
+                expect(point.length).toBeLessThanOrEqual(160);
+            }
+        }
     });
 
 });

@@ -77,19 +77,13 @@
     display:flex;
     flex-wrap:wrap;
     align-items:baseline;
-    gap:var(--gap-6) var(--gap-8);
+    gap:var(--gap-6) var(--gap-16);
 
     margin:0;
 
     font-size:var(--font-body);
 
     color:var(--text-muted);
-
-}
-
-.glossary-legend-text + .glossary-key{
-
-    margin-left:var(--gap-16);
 
 }
 
@@ -232,7 +226,6 @@
 
 }
 
-.glossary-intro,
 .glossary-empty{
 
     margin:0;
