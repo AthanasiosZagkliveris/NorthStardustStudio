@@ -39,9 +39,9 @@ How the app is entered, its Systems and pages, the places in it, and the terms.
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [app/contents.md](app/contents.md) | contents | The contents of the app: how it is entered, the Systems and pages, where the figures and dates come from, where things are in the code. | 2026-11-03 |
-| [app/index.md](app/index.md) | index | An alphabetical index of the places in the app (pages, tiles, cards, the header): where each is, and which document describes it. | 2026-11-03 |
-| [app/glossary.md](app/glossary.md) | reference | One line per term: the framework, the app, the business stage, positioning, buyer and user, the question ids, the documents. | 2026-11-03 |
+| [app/contents.md](app/contents.md) | contents | The contents of the app: how it is entered, the Systems and pages, where the figures and dates come from, where things are in the code. | 2026-11-04 |
+| [app/index.md](app/index.md) | index | An alphabetical index of the places in the app (pages, tiles, cards, the header): where each is, and which document describes it. | 2026-11-04 |
+| [app/glossary.md](app/glossary.md) | reference | One line per term: the framework, the app, the business stage, positioning, buyer and user, the question ids, the documents. | 2026-11-04 |
 
 ## 3. The design and its records (`design/core/`, documents 1 to 7)
 
@@ -49,10 +49,10 @@ The current design of the Foundation, the sources, the research, the log of ever
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [design/core/01-current-design.md](design/core/01-current-design.md) | current design | The single description of what the Foundation capability is: what the app does, how it is organised, the interface elements, the cost model, the automatic rules, the help texts and the colour map. | 2026-11-03 |
-| [design/core/02-references.md](design/core/02-references.md) | reference | The source register: the rule for what counts as a reference, and every decision in the app and in these documents with the source behind it. | 2026-11-03 |
+| [design/core/01-current-design.md](design/core/01-current-design.md) | current design | The single description of what the Foundation capability is: what the app does, how it is organised, the interface elements, the cost model, the automatic rules, the help texts and the colour map. | 2026-11-04 |
+| [design/core/02-references.md](design/core/02-references.md) | reference | The source register: the rule for what counts as a reference, and every decision in the app and in these documents with the source behind it. | 2026-11-04 |
 | [design/core/03-research.md](design/core/03-research.md) | research | The research behind the design decisions: the question, the recommendation, the reason and the source. Document 1 prevails where they differ. | 2026-11-03 |
-| [design/core/04-log.md](design/core/04-log.md) | log | Every change to the app, the design, the documents or the plan, newest on top. The only place a change is written. | 2026-11-03 |
+| [design/core/04-log.md](design/core/04-log.md) | log | Every change to the app, the design, the documents or the plan, newest on top. The only place a change is written. | 2026-11-04 |
 | [design/core/05-not-done-yet.md](design/core/05-not-done-yet.md) | living list | What has not been done: the road, the plans, the requirements still open, the open decisions and the open points of the reviews. | 2026-11-03 |
 | [design/core/06-catalogue-record.md](design/core/06-catalogue-record.md) | generated | The catalogue record of the app's pages, tiles, cards and controls, from the card scan and the probes. | 2026-11-02 |
 | [design/core/07-structure-tables.md](design/core/07-structure-tables.md) | generated | The structure tables of the app (pages, chapters, tiles, views, components, fields, card kinds), from the catalogue. | 2026-10-30 |
@@ -110,7 +110,7 @@ What the first published version contains and what it leaves for later (33, whic
 | [design/questionnaire/38-positioning-questions.md](design/questionnaire/38-positioning-questions.md) | specification | The Positioning tile's questions as built, by stage: control, limits, options, the help and the connections. | 2026-11-03 |
 | [design/questionnaire/39-help-texts-guide.md](design/questionnaire/39-help-texts-guide.md) | proposal | What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check. | 2026-11-03 |
 | [design/questionnaire/40-tile-documents.md](design/questionnaire/40-tile-documents.md) | rules | The form every tile document takes (one for each tile or card), and where each tile stands: which has a document and which does not yet. | 2026-11-03 |
-| [design/questionnaire/41-competitor-questions.md](design/questionnaire/41-competitor-questions.md) | proposal | The Competitor card: every question and option, as proposed (K1 to K6, by the competitor's type). | 2026-11-03 |
+| [design/questionnaire/41-competitor-questions.md](design/questionnaire/41-competitor-questions.md) | proposal | The Competitor card: every question and option, as proposed (K1 to K13, in the card's order, by the competitor's type). | 2026-11-03 |
 | [design/questionnaire/42-value-proposition-questions.md](design/questionnaire/42-value-proposition-questions.md) | proposal | The Value Proposition tile: the draft sentence and the open items, as proposed. | 2026-11-03 |
 | [design/questionnaire/43-offering-questions.md](design/questionnaire/43-offering-questions.md) | proposal | The Offering card: every question and option, as proposed (O1 to O13). | 2026-11-03 |
 
@@ -127,7 +127,7 @@ Standing rules, references and playbooks for an AI assistant working on the proj
 | [ai/framework-conventions-and-patterns.md](ai/framework-conventions-and-patterns.md) | reference | The architectural patterns and the data model of the framework. | 2026-11-03 |
 | [ai/review-criteria.md](ai/review-criteria.md) | rules | The standard a screen is judged by: criteria by kind (type, spacing, controls, colour, tiles, cards, tables, windows, pages, data), how each is measured, the report. | 2026-11-02 |
 | [ai/review-checklist.md](ai/review-checklist.md) | rules | What to check when reviewing a table, tile, card, page or control, and the proof before saying done. | 2026-11-02 |
-| [ai/code-map.md](ai/code-map.md) | reference | Where things are in src: the folders and what is in each; the rules for a new file. | 2026-11-03 |
+| [ai/code-map.md](ai/code-map.md) | reference | Where things are in src: the folders and what is in each; the rules for a new file. | 2026-11-04 |
 | [ai/layout-rules.md](ai/layout-rules.md) | rules | The measured rulebook of the Foundation pages (tokens, sizes, alignment, interactions) and the layout check. | 2026-11-03 |
 | [ai/tile-and-card-pattern.md](ai/tile-and-card-pattern.md) | rules | How tiles, frames, cards, rails and dialogs are built; the global rules. | 2026-11-03 |
 | [ai/card-kinds.md](ai/card-kinds.md) | reference | The kinds of card, where each one's code is, how its head is built. | 2026-11-03 |

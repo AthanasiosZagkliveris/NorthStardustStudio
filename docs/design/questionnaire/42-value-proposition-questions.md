@@ -2,7 +2,7 @@
 
 Status: **proposal**, written 2026-11-03, updated 2026-11-03. The Value Proposition tile (Business System, page 1): what it asks, the draft sentence it offers, and the open items it lists, with what each reads. The text is built; the draft and the open items are not.
 
-Related: doc 35 (the Segment), doc 36 (the Profile: the needs, goals, frustrations and worries), doc 38 (Positioning: purpose, differentiation, outcomes), doc 41 (the Competitor: K3 and K6), doc 43 (the Offering: O1, O4, O8 and the needs addressed), doc 34 (the value crosswalk, 5.2a), doc 28 (6.7 and 8.2, the design this refines).
+Related: doc 35 (the Segment), doc 36 (the Profile: the needs, goals, frustrations and worries), doc 38 (Positioning: purpose, differentiation, outcomes), doc 41 (the Competitor: K10 and K13), doc 43 (the Offering: O1, O4, O8 and the needs addressed), doc 34 (the value crosswalk, 5.2a), doc 28 (6.7 and 8.2, the design this refines).
 
 **What the tile is.** There is one Value Proposition per Segment (built). It is a string on the Segment, `valueProposition`. The tile opens one text, with the instructions as built:
 - "Define a clear, concise Value Proposition for each Customer Segment."
@@ -35,7 +35,7 @@ The sentence follows Moore's positioning template, as taught at Stanford [FUN-28
   - A starting sentence made from your answers on this page. It is yours once added: change it freely.
   - Based on: Moore's positioning template, and the pains and gains of the Value Proposition Canvas.
 - **Connections:**
-  - *Comes from:* the Segment's name; its Profiles' E1 and E2; its Offerings' O1 and O4 (doc 43); its Competitors' type and K3 (doc 41). Where the words of an answer do not read in the sentence, its crosswalk words are used (doc 34, 5.2a). Positioning's purpose, differentiation and outcomes (doc 38, questions 7 to 10) also come in through the crosswalk.
+  - *Comes from:* the Segment's name; its Profiles' E1 and E2; its Offerings' O1 and O4 (doc 43); its Competitors' type and K10 (doc 41). Where the words of an answer do not read in the sentence, its crosswalk words are used (doc 34, 5.2a). Positioning's purpose, differentiation and outcomes (doc 38, questions 7 to 10) also come in through the crosswalk.
   - *Read by:* nothing. The text is the user's, and the Business Plan reads the text as built.
 
 ## 2. The open items (read-only, under the text)
@@ -49,7 +49,7 @@ Each item names the Profile, Offering or Competitor it is about, and opens it. T
 | **Unused offering** | An Offering that answers no need of the Segment |
 | **Unwanted benefit** | A benefit an Offering claims (O4) that no Profile cares about (B1) |
 | **Worry left open** | A worry a Profile ticked (E3) that no Offering answers (O8) |
-| **Job left to a competitor** | A job a Competitor does (K6, doc 41) that none of the Segment's Offerings does (O13, doc 43) |
+| **Job left to a competitor** | Withdrawn (2026-11-04): doc 41's job question was withdrawn as an Offering question, so there is no Competitor's job to compare with O13 (doc 43) |
 | **Emotional and social needs** | A Profile's emotional or social need that no Offering addresses. This puts into effect the tile's built note, "Identify how the Value Proposition addresses each Customer Profile's emotional and social needs." |
 
 - **The "i" says:** Gaps between what your customers want and what your Offerings give. They are reminders, not errors.
