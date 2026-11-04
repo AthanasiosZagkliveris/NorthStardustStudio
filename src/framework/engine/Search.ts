@@ -2,18 +2,19 @@
     SEARCH (Ctrl+K), without the page around it: an index of the open
     Organization -- its Systems' and pages' titles, the field and label
     names on those pages, and its own answers -- and what a query finds
-    in it, in three groups.
+    in it, in four groups (the Glossary's terms among them).
 
     Case and accents never matter ("resume" finds "Résumé"); every word
     of the query has to be found; nothing else is syntax. Within a
     group, what matches exactly comes first, then what starts with the
     query, then what has a word starting with each word, then the rest;
     then the Foundation Systems first, in their order. The groups are
-    shown in this order too -- pages, then fields, then answers -- so an
-    exact title comes before a label, and a label before an answer.
+    shown in this order too -- pages, then fields, then the Glossary's
+    terms, then answers -- so an exact title comes before a label, a
+    label before a term, and a term before an answer.
 */
 
-export type SearchGroup = "page" | "field" | "answer";
+export type SearchGroup = "page" | "field" | "term" | "answer";
 
 /** Where a result opens (see SearchDialog). */
 export interface SearchTarget {
@@ -27,6 +28,8 @@ export interface SearchTarget {
     /** An answer: the text to find, and the ids of the cards it is in, innermost first. */
     text?: string;
     ids?: string[];
+    /** A term of the Glossary: its id (an app term's, or the card id of one of yours) and its kind; it opens the Glossary there. */
+    term?: { key: string; kind: "app" | "yours" };
 }
 
 export interface SearchEntry {
@@ -55,8 +58,8 @@ export function queryWords(query: string): string[] {
 }
 
 /** An entry, its label folded once, as the index is built. */
-export function entry(group: SearchGroup, label: string, place: string, target: SearchTarget, rank: number): SearchEntry {
-    const folded = normalize(label);
+export function entry(group: SearchGroup, label: string, place: string, target: SearchTarget, rank: number, also: readonly string[] = []): SearchEntry {
+    const folded = normalize([label, ...also].join(" · "));
     return { group, label, place, target, rank, folded, spaced: " " + folded.replace(/[^\p{L}\p{N}]+/gu, " ") };
 }
 
@@ -120,6 +123,7 @@ export interface SearchHit {
 export interface SearchResults {
     pages: SearchHit[];
     fields: SearchHit[];
+    terms: SearchHit[];
     answers: SearchHit[];
 }
 
@@ -140,20 +144,20 @@ function score(item: SearchEntry, words: readonly string[], phrase: string): num
 }
 
 /** How many of each group are shown: enough to choose from, short enough to take in. */
-export const GROUP_LIMITS: Record<SearchGroup, number> = { page: 5, field: 6, answer: 8 };
+export const GROUP_LIMITS: Record<SearchGroup, number> = { page: 5, field: 6, term: 5, answer: 8 };
 
 /** What `query` finds in `index`, best first in each group. */
 export function search(index: readonly SearchEntry[], query: string): SearchResults {
 
     const words = queryWords(query);
-    const results: SearchResults = { pages: [], fields: [], answers: [] };
+    const results: SearchResults = { pages: [], fields: [], terms: [], answers: [] };
 
     if (words.length === 0) {
         return results;
     }
 
     const phrase = words.join(" ");
-    const found: Record<SearchGroup, SearchHit[]> = { page: [], field: [], answer: [] };
+    const found: Record<SearchGroup, SearchHit[]> = { page: [], field: [], term: [], answer: [] };
 
     for (const item of index) {
         const matched = score(item, words, phrase);
@@ -168,6 +172,7 @@ export function search(index: readonly SearchEntry[], query: string): SearchResu
 
     results.pages = best(found.page, GROUP_LIMITS.page);
     results.fields = best(found.field, GROUP_LIMITS.field);
+    results.terms = best(found.term, GROUP_LIMITS.term);
     results.answers = best(found.answer, GROUP_LIMITS.answer);
 
     return results;

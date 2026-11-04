@@ -602,3 +602,10 @@
     vertical-align:middle;
 
 }
+
+/* A Harvard reference (HarvardReference.tsx) in a note or the reference list: its address breaks anywhere, so a long one never widens the panel. */
+.harvard-reference-url{
+
+    overflow-wrap:anywhere;
+
+}

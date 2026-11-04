@@ -154,6 +154,20 @@ export function openLink(navigate: Navigate, link: NoteLink): void {
 
 }
 
+/**
+ * Opens a saved card: its page, then the card itself, asked of the
+ * page's tiles once they have drawn (the tiles' open event,
+ * SectionTiles.tsx, OPEN_EVENT: the same string, so this file need not
+ * import the tiles). The Card notes and the Glossary's own terms open
+ * their cards this way.
+ */
+export function openCard(navigate: Navigate, organizationId: string, systemNumber: number, sectionNumber: number, cardId: string): void {
+    openLink(navigate, { id: cardId, organizationId, kind: "page", systemNumber, sectionNumber, label: "", place: "" });
+    if (cardId) {
+        window.setTimeout(() => document.dispatchEvent(new CustomEvent("section-tiles:open", { detail: { card: cardId } })), 900);
+    }
+}
+
 /** "registration-number" as words: "Registration Number". */
 function words(segment: string): string {
     return segment.split("-").filter(Boolean).map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");

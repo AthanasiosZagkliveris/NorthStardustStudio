@@ -1,25 +1,11 @@
 import { Children, ReactNode, useRef, useState } from "react";
 
-import { openUrl } from "@tauri-apps/plugin-opener";
-
 import PopupPanel from "../../controls/PopupPanel.tsx";
 
-import { isAcceptedUrl, Source, sourceLabel } from "../../../framework/engine/Sources.ts";
+import type { Source } from "../../../framework/engine/Sources.ts";
+import HarvardReference from "../../references/HarvardReference.tsx";
 
 import TextLink from "./TextLink.tsx";
-
-/**
- * Opens a source link in the reader's own browser, never inside the
- * app window: a citation is somewhere to leave to, not a page to
- * navigate the app away from. `openUrl` is the Tauri opener plugin,
- * already a dependency; outside Tauri (a plain browser tab in
- * development, or a test) its `invoke` call rejects, and the
- * `window.open` in the `.catch` stands in. The anchor's own default
- * navigation is always prevented.
- */
-function openExternal(href: string) {
-    openUrl(href).catch(() => window.open(href, "_blank", "noreferrer"));
-}
 
 /**
  * One point of a note: a sentence, or a title and its text
@@ -30,9 +16,9 @@ function openExternal(href: string) {
  *
  * With `onOpen`, the title is a link that opens the page it names.
  * With `source` instead, the point is a citation: the title names
- * what it is ("Source" / "Based on") and the publisher and page title
- * are the link, opened in the reader's own browser rather than inside
- * the app (see openExternal). A citation is always a `Source` from
+ * what it is ("Source" / "Based on") and the full Harvard reference
+ * follows, its address the link, opened in the reader's own browser
+ * rather than inside the app (HarvardReference). A citation is always a `Source` from
  * Sources.ts, so every reference passes the accepted-sources rule;
  * one whose URL fails it is shown as plain text, never as a link.
  */
@@ -227,31 +213,16 @@ export default function InfoNote({
                                         ? (
                                             /* A citation: the title names
                                                what it is ("Source",
-                                               "Based on"), the publisher
-                                               and page are the link,
-                                               opened in the reader's own
-                                               browser, never the app's. */
+                                               "Based on"), then the full
+                                               Harvard reference, its
+                                               address the link, opened in
+                                               the reader's own browser. */
                                             <li key={point.title}>
                                                 <strong className="info-note-point-title">
                                                     {point.title + ":"}
                                                 </strong>
                                                 {" "}
-                                                {isAcceptedUrl(point.source.url)
-                                                    ? (
-                                                        <TextLink as="a"
-                                                            className="business-engagement-link info-note-link"
-                                                            href={point.source.url}
-                                                            target="_blank"
-                                                            rel="noreferrer"
-                                                            onClick={(event) => {
-                                                                event.preventDefault();
-                                                                openExternal(point.source.url);
-                                                            }}
-                                                        >
-                                                            {sourceLabel(point.source)}
-                                                        </TextLink>
-                                                    )
-                                                    : sourceLabel(point.source)}
+                                                <HarvardReference source={point.source} />
                                             </li>
                                         )
                                         : asReference

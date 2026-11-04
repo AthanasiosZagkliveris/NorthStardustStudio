@@ -18,6 +18,7 @@ const CapabilityGenerator = lazy(() => import("./pages/CapabilityGenerator"));
 const BusinessDocuments = lazy(() => import("./pages/BusinessDocuments"));
 const Review = lazy(() => import("./pages/Review"));
 const GlobalSettings = lazy(() => import("./pages/GlobalSettings"));
+const Glossary = lazy(() => import("./pages/Glossary"));
 
 // The asset library's gallery: development only (`npm run dev`), absent from the built app.
 // dev-only:start (`npm run export:app` leaves everything between the two markers out of the exported app)
@@ -69,6 +70,11 @@ export default function App() {
                 <Route
                     path="/settings"
                     element={<GlobalSettings />}
+                />
+
+                <Route
+                    path="/glossary"
+                    element={<Glossary />}
                 />
 
                 <Route

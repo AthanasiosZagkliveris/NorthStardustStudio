@@ -4,7 +4,7 @@ import { readdirSync, readFileSync } from "node:fs";
 
 import { describe, expect, it } from "vitest";
 
-import { hostOf, isAcceptedHost, isAcceptedUrl, SOURCES, sourceLabel } from "./Sources";
+import { harvardCitation, harvardDate, harvardParts, harvardReference, hostOf, isAcceptedHost, isAcceptedUrl, referenceList, SOURCES, sourceLabel } from "./Sources";
 
 /**
  * URLs that are NOT references, and so are exempt from the
@@ -66,9 +66,38 @@ describe("accepted sources", () => {
         expect(isAcceptedUrl("not a url")).toBe(false);
     });
 
-    it("names a source by its publisher and title", () => {
-        expect(sourceLabel(SOURCES.breakEvenPoint))
-            .toBe("U.S. Small Business Administration, “Calculate your startup costs: break-even point”");
+    it("writes a source as a Harvard reference, and cites it by author and year", () => {
+        expect(harvardReference(SOURCES.ukSicCodes)).toBe(
+            "Companies House (2025) Standard industrial classification of economic activities (SIC). Available at: " +
+            SOURCES.ukSicCodes.url + " (Accessed: 1 October 2026).");
+        expect(sourceLabel(SOURCES.ukSicCodes)).toBe(harvardReference(SOURCES.ukSicCodes));
+        // A part of a book: the part in quotation marks, the book in italics, then place and publisher.
+        const chapter = harvardParts(SOURCES.breakEvenInDollars);
+        expect(chapter.map(part => part.text).join("")).toBe(
+            "Franklin, M., Graybeal, P. and Cooper, D. (2019) ‘3.2 Calculate a Break-Even Point in Units and Dollars’, in Principles of Accounting, Volume 2: Managerial Accounting. " +
+            "Houston, TX: OpenStax, Rice University. Available at: " + SOURCES.breakEvenInDollars.url + " (Accessed: 29 September 2026).");
+        expect(chapter.filter(part => part.italic).map(part => part.text)).toEqual(["Principles of Accounting, Volume 2: Managerial Accounting"]);
+        expect(chapter.filter(part => part.link).map(part => part.text)).toEqual([SOURCES.breakEvenInDollars.url]);
+        // An article: the journal in italics, then volume, issue and pages; four or more authors as "et al.".
+        expect(harvardReference(SOURCES.customerLifetime)).toContain("Gupta, S. et al. (2006) ‘Modeling Customer Lifetime Value’, Journal of Service Research, 9(2), pp. 139–155. Available at:");
+        // Editors.
+        expect(harvardReference(SOURCES.contrastRatio)).toMatch(/^Kirkpatrick, A\. et al\. \(eds\) \(2025\) /);
+        // A title that ends in a question mark takes no full stop.
+        expect(harvardReference(SOURCES.frs102Intangibles)).toContain("what's changed? Available at:");
+        // In the text: surnames and year.
+        expect(harvardCitation(SOURCES.breakEvenInDollars)).toBe("(Franklin, Graybeal and Cooper, 2019)");
+        expect(harvardCitation(SOURCES.loanRepayment)).toBe("(Gutierrez and Dalsted, 2012)");
+        expect(harvardCitation(SOURCES.customerLifetime)).toBe("(Gupta et al., 2006)");
+        expect(harvardCitation(SOURCES.breakEvenPoint)).toBe("(U.S. Small Business Administration, n.d.)");
+        expect(harvardDate("2026-10-01")).toBe("1 October 2026");
+    });
+
+    it("lists every source once, in alphabetical order, as a reference list does", () => {
+        const list = referenceList();
+        expect(list).toHaveLength(Object.keys(SOURCES).length);
+        const lines = list.map(({ source }) => harvardReference(source));
+        expect([...lines].sort((one, other) => one.localeCompare(other, "en-GB", { sensitivity: "base" }))).toEqual(lines);
+        expect(list[0].id).toBe("frs102Intangibles");
     });
 
     it("keeps every registered source accepted and dated", () => {
@@ -76,6 +105,8 @@ describe("accepted sources", () => {
             expect(isAcceptedUrl(source.url), name).toBe(true);
             expect(source.checked, name).toMatch(/^\d{4}-\d{2}-\d{2}$/);
             expect(source.publisher.length, name).toBeGreaterThan(0);
+            expect(source.authors.length, name).toBeGreaterThan(0);
+            expect(source.year, name).toMatch(/^(?:\d{4}|n\.d\.)$/);
         }
     });
 

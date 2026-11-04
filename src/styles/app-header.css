@@ -214,8 +214,12 @@
 }
 
 /* A narrow header: the icon (and the count) alone; the word stays
-   in the button's name. */
-@media (max-width: 1099px) {
+   in the button's name. With Glossary beside Search, the seven tools
+   and their words need about 1500px (an interview page, with Focus)
+   and the Organisation's name about 200px more: below 1700px the
+   words go, so nothing is pushed past the window's edge and the
+   name keeps its room. */
+@media not all and (min-width: 1700px) {
 
     .header-tool-word {
 

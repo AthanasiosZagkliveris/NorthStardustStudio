@@ -5,6 +5,7 @@ import { pageRailItems } from "../components/interview/rails/railItems";
 import { allPlaces } from "../components/notepad/notepadPlaces";
 import { OrganizationService } from "./OrganizationService";
 import { StorageService } from "./StorageService";
+import { GlossaryService } from "./GlossaryService";
 
 /** The Foundation Systems first, then the rest in the app's order (by Capability, then number). */
 const ORDER = [...systems].sort((one, other) =>
@@ -23,8 +24,9 @@ function systemTitle(systemNumber: number): string {
  * opens: for the Foundation Systems and every other System it has
  * worked on -- their titles and their pages' (Pages); their pages'
  * sections and every field and label seen on a page (Fields, through
- * the field registry, FieldKeys.ts); and what it has written in them
- * (Your answers).
+ * the field registry, FieldKeys.ts); the Glossary's terms, the app's
+ * own and the names it gave (GlossaryService); and what it has written
+ * in them (Your answers).
  */
 export function organizationSearchIndex(organizationId: string): SearchEntry[] {
 
@@ -55,6 +57,14 @@ export function organizationSearchIndex(organizationId: string): SearchEntry[] {
                 ...(place.anchors ? { anchors: place.anchors } : {})
             }, rank(place.systemNumber)));
         }
+    }
+
+    // The Glossary: the app's terms (found by their other words too), then the names this Organization gave.
+    for (const term of GlossaryService.appTerms()) {
+        index.push(entry("term", term.term, "App term", { systemNumber: 0, term: { key: term.id, kind: "app" } }, counter++, term.also ?? []));
+    }
+    for (const term of GlossaryService.userTerms(organizationId)) {
+        index.push(entry("term", term.name, "Your term · " + term.kind, { systemNumber: term.systemNumber, term: { key: term.cardId || "organisation", kind: "yours" } }, counter++));
     }
 
     // What the Organization has written, page by page.
