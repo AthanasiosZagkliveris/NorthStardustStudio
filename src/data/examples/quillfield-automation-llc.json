@@ -449,6 +449,19 @@
                       "e3": [
                         "the-effort-of-switching-from-what-they-use-now",
                         "risk-or-security"
+                      ],
+                      "b1-rating": [
+                        "speed:5",
+                        "ease-and-convenience:4",
+                        "good-support:4"
+                      ],
+                      "e2-rating": [
+                        "it-takes-too-long:5",
+                        "they-have-no-time-or-capacity:4"
+                      ],
+                      "e3-rating": [
+                        "the-effort-of-switching-from-what-they-use-now:5",
+                        "risk-or-security:4"
                       ]
                     },
                     "goals": "Get hours back each week for the team; make intake, reminders and reporting run on their own; look good to the partners by fixing problems that have lingered for years.",
@@ -529,6 +542,22 @@
                       "e3": [
                         "the-price-or-their-budget",
                         "how-hard-it-is-to-use"
+                      ],
+                      "b1-rating": [
+                        "speed:5",
+                        "quality-and-results:4",
+                        "trust-and-reputation:4"
+                      ],
+                      "e1-rating": [
+                        "win-customers-or-earn-more:5"
+                      ],
+                      "e2-rating": [
+                        "it-is-too-complicated:5",
+                        "it-costs-too-much:4"
+                      ],
+                      "e3-rating": [
+                        "the-price-or-their-budget:5",
+                        "how-hard-it-is-to-use:4"
                       ]
                     },
                     "goals": "Grow revenue without growing headcount; deliver client reports and onboarding faster; use AI in a way that holds up in front of clients.",
@@ -565,7 +594,53 @@
                     "weaknesses": "Little understanding of professional-services workflows or confidentiality; no ongoing accountability; documentation is rare.",
                     "opportunities": "Rising demand for AI automation is pulling more freelancers into the market.",
                     "threats": "Marketplace fees and price competition; clients burned by poor builds become wary of all outside help.",
-                    "insights": "Compete on industry focus, a documented audit, privacy review and a care retainer that keeps automations working, not on hourly rate."
+                    "insights": "Compete on industry focus, a documented audit, privacy review and a care retainer that keeps automations working, not on hourly rate.",
+                    "questions": {
+                      "k1": [
+                        "Service"
+                      ],
+                      "k2": [
+                        "online"
+                      ],
+                      "k3": [
+                        "micro"
+                      ],
+                      "k4": [
+                        "4"
+                      ],
+                      "k5": [
+                        "marketplace"
+                      ],
+                      "k6": [
+                        "marketplace"
+                      ],
+                      "k6-rating": [
+                        "marketplace:4"
+                      ],
+                      "k7-rating": [
+                        "discovery:4",
+                        "evaluation:3",
+                        "purchase:4",
+                        "delivery:3",
+                        "support:2"
+                      ],
+                      "k8-rating": [
+                        "lower-price:5",
+                        "speed:3",
+                        "ease-and-convenience:3",
+                        "good-support:2",
+                        "quality-and-results:3",
+                        "trust-and-reputation:2"
+                      ],
+                      "k9-rating": [
+                        "technology:5",
+                        "economy:3"
+                      ],
+                      "k10": [
+                        "better:good-support",
+                        "better:trust-and-reputation"
+                      ]
+                    }
                   },
                   {
                     "id": "competitor-c9n2s5ul",
@@ -581,7 +656,58 @@
                     "weaknesses": "Minimum engagements far above a small firm's budget; not interested in 10-person clients.",
                     "opportunities": "Could launch packaged small-business offers.",
                     "threats": "Their thought leadership raises expectations of what AI can do.",
-                    "insights": "Borrow their rigor (audit, roadmap, governance) and package it at a small-firm price with a single accountable person."
+                    "insights": "Borrow their rigor (audit, roadmap, governance) and package it at a small-firm price with a single accountable person.",
+                    "questions": {
+                      "k1": [
+                        "Service"
+                      ],
+                      "k2": [
+                        "countries"
+                      ],
+                      "k3": [
+                        "large"
+                      ],
+                      "k4": [
+                        "4"
+                      ],
+                      "k5": [
+                        "website",
+                        "referral-affiliates",
+                        "in-person"
+                      ],
+                      "k6": [
+                        "google",
+                        "clutch"
+                      ],
+                      "k6-rating": [
+                        "google:4",
+                        "clutch:5"
+                      ],
+                      "k7-rating": [
+                        "evaluation:4",
+                        "purchase:2",
+                        "delivery:4",
+                        "support:4"
+                      ],
+                      "k7": [
+                        "aftercare"
+                      ],
+                      "k8-rating": [
+                        "speed:2",
+                        "lower-price:1",
+                        "quality-and-results:5",
+                        "trust-and-reputation:5",
+                        "ease-and-convenience:2"
+                      ],
+                      "k9-rating": [
+                        "technology:4",
+                        "economy:2"
+                      ],
+                      "k10": [
+                        "better:speed",
+                        "stage:purchase"
+                      ]
+                    }
                   },
                   {
                     "id": "competitor-s4d6i7ty",
@@ -597,7 +723,48 @@
                     "weaknesses": "Needs time and skills the firm does not have; no one to maintain it.",
                     "opportunities": "Vendors keep adding AI features, making DIY more tempting.",
                     "threats": "Could shrink the market for simple builds.",
-                    "insights": "Position Quillfield as the partner that makes these tools work together, and offer to maintain what the firm has already started."
+                    "insights": "Position Quillfield as the partner that makes these tools work together, and offer to maintain what the firm has already started.",
+                    "questions": {
+                      "k1": [
+                        "Product"
+                      ],
+                      "k2": [
+                        "online"
+                      ],
+                      "k4": [
+                        "5"
+                      ],
+                      "k6": [
+                        "g2",
+                        "capterra",
+                        "app-store"
+                      ],
+                      "k6-rating": [
+                        "g2:4",
+                        "capterra:4",
+                        "app-store:4"
+                      ],
+                      "k7-rating": [
+                        "discovery:5",
+                        "evaluation:4",
+                        "purchase:5",
+                        "delivery:3",
+                        "support:2"
+                      ],
+                      "k8-rating": [
+                        "lower-price:4",
+                        "speed:3",
+                        "ease-and-convenience:2",
+                        "good-support:1"
+                      ],
+                      "k9-rating": [
+                        "technology:5"
+                      ],
+                      "k10": [
+                        "better:good-support",
+                        "stage:support"
+                      ]
+                    }
                   },
                   {
                     "id": "competitor-m3q5o8dx",
@@ -613,7 +780,23 @@
                     "weaknesses": "An administrator in New York costs $50,000 to $60,000 a year before benefits; manual work does not scale.",
                     "opportunities": "A tight hiring market makes the manual route harder.",
                     "threats": "Inertia: the pain is spread thinly, so it never feels urgent.",
-                    "insights": "Show the cost of the status quo in hours and dollars during the audit, and compare the Build and Retainer to the cost of a hire."
+                    "insights": "Show the cost of the status quo in hours and dollars during the audit, and compare the Build and Retainer to the cost of a hire.",
+                    "questions": {
+                      "k8-rating": [
+                        "speed:1",
+                        "ease-and-convenience:2",
+                        "trust-and-reputation:4",
+                        "lower-price:3"
+                      ],
+                      "k9-rating": [
+                        "economy:2",
+                        "technology:2"
+                      ],
+                      "k10": [
+                        "cost:speed",
+                        "act:economy"
+                      ]
+                    }
                   }
                 ],
                 "offerings": [

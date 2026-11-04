@@ -619,6 +619,22 @@
                       "e3": [
                         "the-price-or-their-budget",
                         "whether-it-fits-their-needs"
+                      ],
+                      "b1-rating": [
+                        "quality-and-results:5",
+                        "trust-and-reputation:4",
+                        "shared-values-or-identity:4"
+                      ],
+                      "e1-rating": [
+                        "express-who-they-are:5"
+                      ],
+                      "e2-rating": [
+                        "the-quality-is-inconsistent:5",
+                        "it-is-hard-to-find-someone-they-trust:4"
+                      ],
+                      "e3-rating": [
+                        "the-price-or-their-budget:5",
+                        "whether-it-fits-their-needs:4"
                       ]
                     },
                     "goals": "A home that feels warm, unique and made to last; owning things with a story; supporting local makers.",
@@ -699,6 +715,23 @@
                       "e3": [
                         "the-price-or-their-budget",
                         "how-long-it-takes-to-start"
+                      ],
+                      "b1-rating": [
+                        "expert-knowledge:5",
+                        "quality-and-results:4",
+                        "ease-and-convenience:4"
+                      ],
+                      "e1-rating": [
+                        "learn-something-new:5",
+                        "express-who-they-are:4"
+                      ],
+                      "e2-rating": [
+                        "it-costs-too-much:5",
+                        "they-lack-the-know-how:4"
+                      ],
+                      "e3-rating": [
+                        "the-price-or-their-budget:5",
+                        "how-long-it-takes-to-start:4"
                       ]
                     },
                     "goals": "Learn a real craft; make something for her own room; switch off after work.",
@@ -736,7 +769,61 @@
                     "weaknesses": "No brand consistency; few offer repair or traceability; tiny capacity.",
                     "opportunities": "Most do not run workshops or sell to trade.",
                     "threats": "Price undercutting; Etsy algorithm favours volume sellers.",
-                    "insights": "We compete on consistency, traceable materials, lifetime repair and the studio experience rather than on price."
+                    "insights": "We compete on consistency, traceable materials, lifetime repair and the studio experience rather than on price.",
+                    "questions": {
+                      "k1": [
+                        "Product"
+                      ],
+                      "k2": [
+                        "online"
+                      ],
+                      "k3": [
+                        "micro"
+                      ],
+                      "k4": [
+                        "3"
+                      ],
+                      "k5": [
+                        "marketplace",
+                        "social-media",
+                        "in-person"
+                      ],
+                      "k6": [
+                        "google",
+                        "facebook",
+                        "marketplace"
+                      ],
+                      "k6-rating": [
+                        "google:4",
+                        "facebook:4",
+                        "marketplace:5"
+                      ],
+                      "k7-rating": [
+                        "discovery:4",
+                        "evaluation:3",
+                        "purchase:4",
+                        "delivery:3",
+                        "support:2"
+                      ],
+                      "k8-rating": [
+                        "lower-price:4",
+                        "quality-and-results:3",
+                        "trust-and-reputation:3",
+                        "shared-values-or-identity:5",
+                        "expert-knowledge:3",
+                        "ease-and-convenience:3"
+                      ],
+                      "k9-rating": [
+                        "technology:3",
+                        "economy:2",
+                        "society:4",
+                        "supply:3"
+                      ],
+                      "k10": [
+                        "standout:quality-and-results",
+                        "stage:support"
+                      ]
+                    }
                   },
                   {
                     "id": "competitor-90fq81ag",
@@ -752,7 +839,61 @@
                     "weaknesses": "Not handmade; vague provenance; little personality.",
                     "opportunities": "Growing customer scepticism of greenwashing.",
                     "threats": "Frequent sales anchor customers to lower prices.",
-                    "insights": "Show the maker, the farm and the hours behind each piece; offer made-to-order colours they cannot."
+                    "insights": "Show the maker, the farm and the hours behind each piece; offer made-to-order colours they cannot.",
+                    "questions": {
+                      "k1": [
+                        "Product"
+                      ],
+                      "k2": [
+                        "countries"
+                      ],
+                      "k3": [
+                        "medium"
+                      ],
+                      "k4": [
+                        "4"
+                      ],
+                      "k5": [
+                        "website",
+                        "social-media",
+                        "retail-wholesale"
+                      ],
+                      "k6": [
+                        "google",
+                        "trustpilot"
+                      ],
+                      "k6-rating": [
+                        "google:4",
+                        "trustpilot:4"
+                      ],
+                      "k7-rating": [
+                        "discovery:5",
+                        "evaluation:4",
+                        "purchase:5",
+                        "delivery:4",
+                        "support:3"
+                      ],
+                      "k7": [
+                        "emails",
+                        "loyalty"
+                      ],
+                      "k8-rating": [
+                        "lower-price:1",
+                        "quality-and-results:4",
+                        "trust-and-reputation:4",
+                        "shared-values-or-identity:2",
+                        "expert-knowledge:3",
+                        "ease-and-convenience:5"
+                      ],
+                      "k9-rating": [
+                        "economy:2",
+                        "society:3",
+                        "supply:2"
+                      ],
+                      "k10": [
+                        "better:shared-values-or-identity"
+                      ]
+                    }
                   },
                   {
                     "id": "competitor-nmtnvlut",
@@ -767,7 +908,47 @@
                     "weaknesses": "Short lifespan; environmental cost; no story.",
                     "opportunities": "Customers upgrading from their first flat look for “grown-up” pieces.",
                     "threats": "Trend cycles make handmade look expensive by comparison.",
-                    "insights": "Frame our pieces as a one-off investment with cost-per-year and repair for life."
+                    "insights": "Frame our pieces as a one-off investment with cost-per-year and repair for life.",
+                    "questions": {
+                      "k1": [
+                        "Product"
+                      ],
+                      "k2": [
+                        "country"
+                      ],
+                      "k4": [
+                        "4"
+                      ],
+                      "k6": [
+                        "google",
+                        "trustpilot"
+                      ],
+                      "k6-rating": [
+                        "google:4",
+                        "trustpilot:2"
+                      ],
+                      "k7-rating": [
+                        "discovery:5",
+                        "evaluation:4",
+                        "purchase:5",
+                        "delivery:4",
+                        "support:3"
+                      ],
+                      "k8-rating": [
+                        "lower-price:5",
+                        "ease-and-convenience:5",
+                        "quality-and-results:2",
+                        "shared-values-or-identity:1",
+                        "trust-and-reputation:3"
+                      ],
+                      "k9-rating": [
+                        "society:2",
+                        "economy:4"
+                      ],
+                      "k10": [
+                        "better:quality-and-results"
+                      ]
+                    }
                   }
                 ],
                 "offerings": [
@@ -921,6 +1102,22 @@
                       "e3": [
                         "whether-it-fits-their-needs",
                         "support-after-they-buy"
+                      ],
+                      "b1-rating": [
+                        "expert-knowledge:5",
+                        "trust-and-reputation:4",
+                        "quality-and-results:4"
+                      ],
+                      "e1-rating": [
+                        "win-customers-or-earn-more:5"
+                      ],
+                      "e2-rating": [
+                        "it-is-hard-to-find-someone-they-trust:5",
+                        "prices-are-unclear:4"
+                      ],
+                      "e3-rating": [
+                        "whether-it-fits-their-needs:5",
+                        "support-after-they-buy:4"
                       ]
                     },
                     "goals": "Distinctive, sustainable interiors that win clients and awards; reliable makers she can return to.",
@@ -957,7 +1154,56 @@
                     "weaknesses": "Minimum orders; little story; limited bespoke work for small projects.",
                     "opportunities": "Designers seeking a local, handmade signature piece alongside mill fabrics.",
                     "threats": "Mills launching “artisan” lines.",
-                    "insights": "Position as the handmade signature layer (cushions, throws, headboards and art textiles), not as a replacement for contract fabrics."
+                    "insights": "Position as the handmade signature layer (cushions, throws, headboards and art textiles), not as a replacement for contract fabrics.",
+                    "questions": {
+                      "k1": [
+                        "Product"
+                      ],
+                      "k2": [
+                        "countries"
+                      ],
+                      "k3": [
+                        "large"
+                      ],
+                      "k4": [
+                        "3"
+                      ],
+                      "k5": [
+                        "in-person",
+                        "website",
+                        "referral-affiliates"
+                      ],
+                      "k6": [
+                        "google"
+                      ],
+                      "k6-rating": [
+                        "google:4"
+                      ],
+                      "k7-rating": [
+                        "discovery:4",
+                        "evaluation:4",
+                        "purchase:3",
+                        "delivery:2",
+                        "support:4"
+                      ],
+                      "k7": [
+                        "aftercare"
+                      ],
+                      "k8-rating": [
+                        "expert-knowledge:5",
+                        "trust-and-reputation:5",
+                        "quality-and-results:4",
+                        "a-service-made-for-them:2"
+                      ],
+                      "k9-rating": [
+                        "regulation:4",
+                        "supply:2"
+                      ],
+                      "k10": [
+                        "better:a-service-made-for-them",
+                        "stage:delivery"
+                      ]
+                    }
                   },
                   {
                     "id": "competitor-bhg38l6r",
@@ -973,7 +1219,52 @@
                     "weaknesses": "One-person studios; unreliable lead times; little documentation.",
                     "opportunities": "Our three-founder team can promise capacity and paperwork.",
                     "threats": "Price competition on small commissions.",
-                    "insights": "Win on reliability: fixed lead times, sampling within a week, sustainability and fire-compliance pack with every quote."
+                    "insights": "Win on reliability: fixed lead times, sampling within a week, sustainability and fire-compliance pack with every quote.",
+                    "questions": {
+                      "k1": [
+                        "Product"
+                      ],
+                      "k2": [
+                        "country"
+                      ],
+                      "k3": [
+                        "micro"
+                      ],
+                      "k4": [
+                        "3"
+                      ],
+                      "k5": [
+                        "social-media",
+                        "website",
+                        "in-person"
+                      ],
+                      "k6": [
+                        "google",
+                        "facebook"
+                      ],
+                      "k6-rating": [
+                        "google:4",
+                        "facebook:5"
+                      ],
+                      "k7-rating": [
+                        "evaluation:3",
+                        "delivery:2",
+                        "support:3"
+                      ],
+                      "k8-rating": [
+                        "expert-knowledge:4",
+                        "trust-and-reputation:3",
+                        "quality-and-results:4",
+                        "ease-and-convenience:2"
+                      ],
+                      "k9-rating": [
+                        "supply:2",
+                        "society:4"
+                      ],
+                      "k10": [
+                        "stage:delivery"
+                      ]
+                    }
                   }
                 ],
                 "offerings": [
