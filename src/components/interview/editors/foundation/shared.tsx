@@ -18,7 +18,7 @@ export const SUBSECTIONS = {
 
     segments: {
         instructions: [
-            "Divide your Target Audience into segments, as many as your business stage allows (one while planning and launching, up to two while managing, any number while growing), focusing on the highest-value or easiest-to-reach groups.",
+            "Divide your Target Audience into segments, starting with the groups worth most or easiest to reach.", "How many follows your stage: one while planning or launching, up to two while managing, any number while growing.",
             "Define up to 3 customer profiles, including their problems, needs, and the best approach for reaching them."
         ],
         segmentDescription: [
@@ -31,18 +31,18 @@ export const SUBSECTIONS = {
             // added at the product owner's request for the Business
             // Plan's Market Analysis. Optional, like every Description
             // parameter.
-            { id: "market-size", title: "Market Size & Industry Outlook", text: "How large is this group? Where is this market heading: growth, key trends, changes in technology or regulation, competition, and what they mean for your customers?" }
+            { id: "market-size", title: "Market Size & Industry Outlook", text: "How large is this group, and where is its market heading: growth, the changes that matter, how crowded it is?" }
         ],
         // What the "i" of the Segment Description adds to the two instructions (which stand above the line on the page): how the questions of its boxes come and go.
-        questionsNote: "Each box asks choice questions. Which ones appear follows your Positioning (Identity): who the buyer is (people or businesses), their life stage, the buyer's category and the business stage. A question that no longer applies is not asked, and its answer is removed.",
+        questionsNote: "Which choices each box asks follows your Positioning (who buys, their life stage and category) and your stage. An answer no longer asked is removed.",
         // What the "i" of each box adds to its prompt: what it asks and what its questions follow.
         boxNotes: {
             demographics: [
-                "Asked when the customers are people. The age groups offered follow the life stage chosen in Positioning, and the questions that do not apply to minors are not asked of them.",
+                "Asked when the customers are people. The age groups follow the life stage chosen in Positioning.", "Questions that do not apply to minors are not asked of them.",
                 "Choosing an age group starts the work situation with the one that goes with it, which you can change."
             ],
             geographics: [
-                "Where most of your customers are, and, for customers in one place or one country, the kind of area they live or work in (asked once the business is managing or growing).",
+                "Where most of your customers are.", "Once you are managing or growing, and for customers in one place or one country: the kind of area they live or work in.",
                 "If your customers are in more than one place, make another Segment."
             ],
             "business-data": [
@@ -50,14 +50,14 @@ export const SUBSECTIONS = {
                 "Where Positioning chose both, the first Segment is of people and the second of businesses; one added later asks which it is."
             ],
             purchasing: [
-                "Some questions are for every customer (online comfort, where they discover ideas, where they buy, how they pay), some for people (their habits and how they decide to buy) and one for businesses (how the purchase is authorised).",
+                "For every customer: online comfort, where they discover ideas, where they buy, how they pay.", "For people: their habits and how they decide. For businesses: how a purchase is authorised.",
                 "The ways of discovering ideas that you tick are offered on the Profile as related platforms."
             ],
             "market-size": [
                 "These answers describe the market the customers belong to, not your own business."
             ],
             user: [
-                "Shown when Positioning says the buyer buys for someone else (a Proxy or Dual-Intent buyer). It describes the person who uses what the buyer buys: their life stage, how they relate to the buyer, and how comfortable they are with online tools."
+                "Shown when the buyer buys for someone else (a Proxy or Dual-Intent buyer in Positioning).", "It describes who uses what is bought: their life stage, how they relate to the buyer, how comfortable they are online."
             ]
         } as Record<string, string[]>,
         profileDescription: [
@@ -149,6 +149,21 @@ export const SUBSECTIONS = {
  * shown as the box's label, and the question it asks -- which its
  * "i" carries.
  */
+/** What each note of a Profile or a Competitor says before anything is written (owner, 2026-11-04): what belongs there and is not asked above. */
+export const NOTE_PLACEHOLDERS: Record<string, string> = {
+    personal: "A name, a job title, where they live",
+    psychographics: "What they value, believe and enjoy",
+    hubs: "The names of their groups, accounts and events",
+    habits: "Where and when they buy, and the steps",
+    goals: "What they want, in their own words",
+    challenges: "What goes wrong for them, in their words",
+    objections: "Their doubts, in their own words",
+    offerings: "What they sell, by name",
+    market: "The industries and places they serve",
+    acquisition: "Their account and shop names, their partners",
+    experience: "What their customers say, in their words"
+};
+
 export interface DescriptionPart {
     id: string;
     title: string;
@@ -165,6 +180,8 @@ export interface DescriptionPart {
     note?: boolean;
     /** The heading level of its title (3 where it is a section of its card, 4 where it stands under a section: the Profile's boxes). */
     level?: number;
+    /** What its note says before anything is written: what belongs there that the questions do not ask. */
+    placeholder?: string;
 
 }
 

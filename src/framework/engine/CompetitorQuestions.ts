@@ -98,7 +98,8 @@ export const COMPETITOR_INFO: Record<CompetitorQuestionId, readonly string[]> = 
     ],
     k8: [
         "Where their customers are let down along the way, and where it goes smoothly. The values below say what falls short; this says where.",
-        "Under Support & Follow Up, what they do to bring customers back. Look at their website and social media, sign up to their newsletter, or buy from them once. Reviews that mention coming back again also show it."
+        "Under Support & Follow Up, tick what they do to bring customers back.",
+        "To find out, look at their website and social media, sign up to their newsletter or buy from them once."
     ],
     k9: ["Rate each from what their customers say and what you have seen: 1 is a clear weakness, 5 a clear strength.", "Something customers value that is not listed? Tick Other and write it."],
     k10: ["How each change could help or hurt them. The examples of each change, as on your Segment."],

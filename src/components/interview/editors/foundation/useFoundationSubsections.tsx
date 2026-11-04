@@ -24,7 +24,7 @@ import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
 import NumberedListInput from "../../fields/NumberedListInput.tsx";
 import OptionPicker from "../../fields/OptionPicker.tsx";
 import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
-import { BusinessNeedKind, CATEGORY_OTHER, COMPETITOR_TYPE_QUESTIONS, DescriptionPart, OPTIONAL_DESCRIPTION_PART, SUBSECTIONS, competitorParts, otherProfileNeeds } from "./shared.tsx";
+import { BusinessNeedKind, CATEGORY_OTHER, COMPETITOR_TYPE_QUESTIONS, DescriptionPart, NOTE_PLACEHOLDERS, OPTIONAL_DESCRIPTION_PART, SUBSECTIONS, competitorParts, otherProfileNeeds } from "./shared.tsx";
 import { BUSINESS_AUDIENCE, PEOPLE_AUDIENCE, audienceLine, segmentContextFor, segmentFrame } from "./identityLink.ts";
 import type { useFoundationState } from "./useFoundationState.tsx";
 
@@ -436,6 +436,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                 // The Personal box's prompt says what it asks (owner, 2026-11-03): a B2B Profile is asked its job level and role in buying, not its household.
                 text: asked.frame === "business" && textBusiness ? textBusiness : part.text,
                 note: true,
+                placeholder: NOTE_PLACEHOLDERS[part.id],
                 level: 4,
                 extra: [PROFILE_NOTE_HINTS[part.id as ProfileBox]],
                 questions: profileQuestionsOf(part.id as ProfileBox, segment.questions, asked).map(question => profileQuestionOf(profile, profileIndex, shown, question)),
@@ -479,7 +480,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                                             label="Notes"
                                             fieldId={entry.title + " notes"}
                                             ariaLabel={segmentPath + ", Profile " + (profileIndex + 1) + " " + entry.title + " notes"}
-                                            placeholder="Add a note"
+                                            placeholder={NOTE_PLACEHOLDERS[entry.box] ?? "Add a note"}
                                             disabled={disabled}
                                             value={entry.text}
                                             onChange={(next) => updateProfile(segmentIndex, profileIndex, { [entry.field]: next })}
@@ -859,6 +860,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                                         extra: part.id === "experience" ? [COMPETITOR_EXPERIENCE_HOW] : part.extra,
                                         questions,
                                         note: true,
+                                        placeholder: NOTE_PLACEHOLDERS[part.id],
                                         level: 4,
                                         weight: 2 + questions.length * 4
                                     };

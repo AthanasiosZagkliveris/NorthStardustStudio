@@ -329,7 +329,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         options: SEGMENT_INDUSTRIES,
         info: [
             "The industries of the sector chosen, as the official schemes (SIC and NACE, NAICS, ANZSIC) name their sections.",
-            "Government and public administration includes embassies and international bodies. Other services includes households that employ staff, such as cleaners and nannies."
+            "Government and public administration includes embassies and international bodies.", "Other services includes households that employ staff, such as cleaners and nannies."
         ]
     },
 
