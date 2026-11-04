@@ -1,20 +1,32 @@
-import { KeyboardEvent, useEffect, useId, useMemo, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { CSSProperties, KeyboardEvent, useEffect, useId, useMemo, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { systems } from "../data/systems";
 import { search, snippet, type SearchHit, type SearchTarget } from "../framework/engine/Search";
 import { organizationSearchIndex } from "../services/SearchService";
 import { fieldLocation } from "./interview/tiles/openField";
 import { consumeKey } from "./interview/fields/consumeKey";
+import { PALETTE } from "../framework/engine/Palette";
+import type { GlossaryState } from "../pages/Glossary";
 
 type Navigate = ReturnType<typeof useNavigate>;
 
+/** Your terms are drawn in this hue, as on the Glossary page. */
+const YOUR_TERMS_HUE = PALETTE.find(colour => colour.name === "terracotta")?.hue ?? 14;
+
 /**
  * Opens a result: a System at its introduction; a page; a field (its
- * card unfolded, the field focused, openField); an answer (its cards
+ * card unfolded, the field focused, openField); a term (the Glossary,
+ * at that term; Back returns to `from`); an answer (its cards
  * unfolded, the box holding it focused, focusText).
  */
-export function openTarget(navigate: Navigate, target: SearchTarget): void {
+export function openTarget(navigate: Navigate, target: SearchTarget, from?: GlossaryState["from"]): void {
+
+    if (target.term) {
+        const state: GlossaryState = { tab: "glossary", term: target.term.key, from };
+        navigate("/glossary", { state });
+        return;
+    }
 
     const system = systems.find(candidate => candidate.number === target.systemNumber);
 
@@ -45,16 +57,19 @@ export function openTarget(navigate: Navigate, target: SearchTarget): void {
 
 }
 
-const GROUPS: { id: "pages" | "fields" | "answers"; title: string }[] = [
+const GROUPS: { id: "pages" | "fields" | "terms" | "answers"; title: string }[] = [
     { id: "pages", title: "Pages" },
     { id: "fields", title: "Fields" },
+    { id: "terms", title: "Glossary" },
     { id: "answers", title: "Your answers" }
 ];
 
 /**
  * THE SEARCH DIALOG (Ctrl+K): one box, and as you type, what it finds
- * in the open Organization in up to three groups -- Pages, Fields, Your
- * answers (the words found marked, in a short piece of the answer).
+ * in the open Organization in up to four groups -- Pages, Fields,
+ * Glossary (the app's terms in the app's blue, yours in terracotta, as
+ * on the Glossary page), Your answers (the words found marked, in a
+ * short piece of the answer).
  * The box is a combobox over one listbox: Up and Down move through
  * every result, Enter opens the one chosen (the first, until then),
  * Escape closes. The index is built as it opens (SearchService).
@@ -74,6 +89,7 @@ export default function SearchDialog({
 }) {
 
     const navigate = useNavigate();
+    const location = useLocation();
     const listId = useId();
     const input = useRef<HTMLInputElement | null>(null);
 
@@ -83,7 +99,7 @@ export default function SearchDialog({
     const [active, setActive] = useState(0);
 
     const results = useMemo(() => search(index, query), [index, query]);
-    const flat: SearchHit[] = [...results.pages, ...results.fields, ...results.answers];
+    const flat: SearchHit[] = [...results.pages, ...results.fields, ...results.terms, ...results.answers];
 
     useEffect(() => {
         input.current?.focus();
@@ -99,7 +115,9 @@ export default function SearchDialog({
             return;
         }
         onClose(true);
-        openTarget(navigate, hit.entry.target);
+        openTarget(navigate, hit.entry.target, location.pathname === "/glossary"
+            ? (location.state as GlossaryState | null)?.from
+            : { pathname: location.pathname, state: location.state });
     }
 
     function onKeyDown(event: KeyboardEvent<HTMLInputElement>) {
@@ -148,12 +166,12 @@ export default function SearchDialog({
                     type="text"
                     className="interview-input search-input"
                     role="combobox"
-                    aria-label="Search pages, fields and your answers"
+                    aria-label="Search pages, fields, the glossary and your answers"
                     aria-expanded={flat.length > 0}
                     aria-controls={listId}
                     aria-autocomplete="list"
                     aria-activedescendant={flat.length > 0 ? listId + "-" + active : undefined}
-                    placeholder="Search pages, fields and your answers"
+                    placeholder="Search pages, fields, the glossary and your answers"
                     autoComplete="off"
                     spellCheck={false}
                     value={query}
@@ -180,7 +198,9 @@ export default function SearchDialog({
                                         <div
                                             key={at}
                                             id={listId + "-" + at}
-                                            className={"search-option" + (at === active ? " search-option-active" : "")}
+                                            className={"search-option" + (at === active ? " search-option-active" : "") +
+                                                (hit.entry.target.term ? " search-option-term-" + hit.entry.target.term.kind : "")}
+                                            style={hit.entry.target.term?.kind === "yours" ? { "--glossary-yours-hue": YOUR_TERMS_HUE } as CSSProperties : undefined}
                                             role="option"
                                             aria-selected={at === active}
                                             onMouseMove={() => setActive(at)}

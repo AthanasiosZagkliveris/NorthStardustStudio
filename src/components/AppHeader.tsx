@@ -4,6 +4,7 @@ import AddButton from "./controls/AddButton.tsx";
 import SaveStatus from "./SaveStatus";
 import { NotepadButton, NotepadPanel, NotepadPicker } from "./notepad/Notepad";
 import FocusModeButton from "./FocusModeButton";
+import GlossaryButton from "./GlossaryButton";
 import ReviewButton from "./ReviewButton";
 import SearchButton from "./SearchButton";
 import SettingsButton from "./SettingsButton";
@@ -65,8 +66,9 @@ export default function AppHeader({ organizationName, focusable = false, reloada
             {/* Focus mode: on an interview page. */}
             {organizationName && focusable && <FocusModeButton />}
 
-            {/* Search (Ctrl+K), and the person's own notes: wherever an Organization is open. */}
+            {/* Search (Ctrl+K), the Glossary and its References, and the person's own notes: wherever an Organization is open. */}
             {organizationName && <SearchButton />}
+            {organizationName && <GlossaryButton />}
             {organizationName && <NotepadButton />}
             {organizationName && <ReviewButton />}
             {!organizationName && totalReview && <ReviewButton total />}

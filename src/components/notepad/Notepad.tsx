@@ -575,9 +575,6 @@ export function NotepadPicker() {
 
 }
 
-/** The event a card is asked for by (SectionTiles.tsx, OPEN_EVENT): the same string, so this file need not import the tiles. */
-const OPEN_CARD_EVENT = "section-tiles:open";
-
 /**
  * THE CARD NOTES: the Notes text of every card of the organization, one row each (the card's name, the page it stands on, the text), under a funnel that chooses
  * which pages to show. A press opens the card on its page.
@@ -617,10 +614,7 @@ function CardNotes() {
                             type="button"
                             className="notepad-card-note"
                             title={"Open " + note.name}
-                            onClick={() => places().then(module => {
-                                module.openLink(navigate, { organizationId, kind: "page", systemNumber: note.systemNumber, sectionNumber: note.sectionNumber, label: note.page, place: "", id: note.cardId });
-                                window.setTimeout(() => document.dispatchEvent(new CustomEvent(OPEN_CARD_EVENT, { detail: { card: note.cardId } })), 900);
-                            })}
+                            onClick={() => places().then(module => module.openCard(navigate, organizationId, note.systemNumber, note.sectionNumber, note.cardId))}
                         >
                             <span className="notepad-card-note-name">{note.name}</span>
                             <span className="notepad-card-note-page">{note.page}</span>

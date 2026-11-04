@@ -116,8 +116,8 @@ Pages come from `src/assets/SystemAnswers/01..04_*.md`. Each page's `Structure` 
 
 | Element | Contains and does | File | Used on |
 |---|---|---|---|
-| App header | Logo, save status, reading-mode picker, Focus mode, Search, Notes, Review, Settings, undo toast, organisation name | `C/AppHeader.tsx` | All pages |
-| Header tools | Icon plus word: Search (Ctrl+K), Notes, Review (with open-item count), Settings, Focus mode | `SearchButton`, `notepad/Notepad.tsx`, `ReviewButton`, `SettingsButton`, `FocusModeButton` | With an organisation open; on the Landing page only Review is shown, with no count, and it opens the review of every organisation |
+| App header | Logo, save status, reading-mode picker, Focus mode, Search, Glossary, Notes, Review, Settings, undo toast, organisation name | `C/AppHeader.tsx` | All pages |
+| Header tools | Icon plus word (the icon alone below 1700px): Search (Ctrl+K), Glossary, Notes, Review (with open-item count), Settings, Focus mode | `SearchButton`, `GlossaryButton`, `notepad/Notepad.tsx`, `ReviewButton`, `SettingsButton`, `FocusModeButton` | With an organisation open; on the Landing page only Review is shown, with no count, and it opens the review of every organisation |
 | Save status | Saved or failed-save hint | `C/SaveStatus.tsx` | Header |
 | Theme switch | Reading mode | `C/ThemeSwitch.tsx` | Header |
 | Footer | Back button | `C/AppFooter.tsx` | Interview, Review, Documents, Settings |
@@ -125,9 +125,10 @@ Pages come from `src/assets/SystemAnswers/01..04_*.md`. Each page's `Structure` 
 | System selection | Capability list, System list, Continue, Documents button | `pages/SystemSelection.tsx`, `CapabilityList`, `SystemList`, `SystemItem` | `/assistant` |
 | Calendar panel | Slide-in rail with month view, task notes and times, periods, date-format toggle, funnel | `C/OrganizationCalendarPanel.tsx`, `CalendarFunnel.tsx`, `services/CalendarPeriods.ts` | System selection |
 | Notepad panel | Right slide-in; notes linked to fields or cards; "pick" banner; empty state; marks on linked fields | `C/notepad/Notepad.tsx`, `NotedHover.tsx` | All pages with an organisation |
-| Search dialog | Results open a System, page, field (card unfolded) or answer | `C/SearchDialog.tsx`, `services/SearchService.ts` | Header |
+| Search dialog | Results in four groups (Pages, Fields, Glossary, Your answers) open a System, page, field (card unfolded), a term on the Glossary page, or an answer | `C/SearchDialog.tsx`, `services/SearchService.ts` | Header |
 | Undo toast | One toast for the app, after a removal | `C/UndoToast.tsx`, `services/UndoService.ts` | Header |
 | Review page | Four groups (Still open, Worth a second look, Missing from the documents, Key dates), each item with "Go there"; it shows the open organisation only, or every organisation (each in its own section) when opened from the Landing page | `pages/Review.tsx` | `/review` |
+| Glossary page | Two tabs. Glossary: every term A to Z, the app's own terms (`data/glossary.ts`) in the app's blue and the user's own (the names of their Segments, Profiles, Competitors, Offerings, Founders, Partners and suppliers, Themes, Objectives and the Organisation, `services/GlossaryService.ts`) in terracotta, a funnel that shows either kind, an app term's Harvard citations (each opens its reference), "Open the ..." on the user's terms. References: every source of `Sources.ts` as a Harvard reference list | `pages/Glossary.tsx`, `C/references/HarvardReference.tsx` | `/glossary` |
 | Global Settings page | Financial plan, Business stages, Pay and tax, Assets (useful life, amortisation), Rates, Reserve, Channel Fee Table | `pages/GlobalSettings.tsx`, `FinancialPlanSettings.tsx` | `/settings` |
 | Business Documents page | Tabs (Business Plan, Business Model Canvas, Financial Forecast), period picker, downloads | `pages/BusinessDocuments.tsx` | `/documents` |
 | Confirmation dialog | Overlay, title, message, action buttons | Markup repeated in `Conversation.tsx`, `Landing.tsx` and others (6 uses; no shared component) | Delete, strategy prompt, export steps |

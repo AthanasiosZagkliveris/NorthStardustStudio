@@ -150,3 +150,16 @@
     color: var(--text-subtle);
 
 }
+
+/* A Glossary result: the term in its kind's colour, as on the Glossary page (glossary.css): the app's in the app's blue, yours in its palette hue. */
+.search-option-term-app .search-option-label {
+
+    color: var(--text-primary);
+
+}
+
+.search-option-term-yours .search-option-label {
+
+    color: hsl(var(--glossary-yours-hue, 0) var(--theme-text-ink));
+
+}

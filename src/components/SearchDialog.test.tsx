@@ -7,7 +7,8 @@ const navigate = vi.fn();
 
 vi.mock("react-router-dom", async (importOriginal) => ({
     ...(await importOriginal<typeof import("react-router-dom")>()),
-    useNavigate: () => navigate
+    useNavigate: () => navigate,
+    useLocation: () => ({ pathname: "/conversation", state: { page: 1 }, key: "here" })
 }));
 
 vi.mock("../services/SearchService", () => ({
@@ -15,6 +16,7 @@ vi.mock("../services/SearchService", () => ({
         entry("page", "1. Identity System", "System", { systemNumber: 1 }, 0),
         entry("page", "3. Legal Entity", "1. Identity System", { systemNumber: 1, sectionNumber: 3 }, 1),
         entry("field", "Legal Form", "1. Identity System → 3. Legal Entity", { systemNumber: 1, sectionNumber: 3, key: "1.3:legal-structure/legal-form", anchors: [] }, 2),
+        entry("term", "Legal form", "App term", { systemNumber: 0, term: { key: "legal-form", kind: "app" } }, 3, ["kind of legal entity"]),
         entry("answer", "Registered as a legal entity in Lyon", "1. Identity System → 3. Legal Entity", { systemNumber: 1, sectionNumber: 3, text: "Registered as a legal entity in Lyon", ids: ["req-1"] }, 3)
     ]
 }));
@@ -29,7 +31,7 @@ afterEach(() => {
 });
 
 function box() {
-    return screen.getByRole("combobox", { name: "Search pages, fields and your answers" });
+    return screen.getByRole("combobox", { name: "Search pages, fields, the glossary and your answers" });
 }
 
 describe("the search dialog", () => {
@@ -42,8 +44,10 @@ describe("the search dialog", () => {
 
         fireEvent.change(box(), { target: { value: "legal" } });
         expect(box().getAttribute("aria-expanded")).toBe("true");
-        expect(screen.getAllByRole("group").map(group => group.textContent?.split(/(?=\d\.|Legal|Registered)/)[0])).toEqual(["Pages", "Fields", "Your answers"]);
-        expect(screen.getAllByRole("option")).toHaveLength(3);
+        expect(screen.getAllByRole("group").map(group => group.textContent?.split(/(?=\d\.|Legal|Registered)/)[0])).toEqual(["Pages", "Fields", "Glossary", "Your answers"]);
+        expect(screen.getAllByRole("option")).toHaveLength(4);
+        // A Glossary term is drawn in its kind's colour.
+        expect(document.querySelector(".search-option-term-app")?.textContent).toContain("Legal form");
         // The answer's words found are marked.
         expect(document.querySelector(".search-mark")?.textContent).toBe("legal");
     });
@@ -76,6 +80,15 @@ describe("the search dialog", () => {
         fireEvent.click(screen.getByRole("option"));
         expect(navigate).toHaveBeenLastCalledWith("/introduction", {
             state: expect.objectContaining({ targetSectionNumber: 3, focusField: { key: "", text: "Registered as a legal entity in Lyon", ids: ["req-1"] } })
+        });
+    });
+
+    it("opens a Glossary term on the Glossary page, found by its other words too, and Back returns here", () => {
+        render(<SearchDialog organizationId="org-1" onClose={() => undefined} />);
+        fireEvent.change(box(), { target: { value: "kind of legal entity" } });
+        fireEvent.click(screen.getByRole("option"));
+        expect(navigate).toHaveBeenLastCalledWith("/glossary", {
+            state: { tab: "glossary", term: "legal-form", from: { pathname: "/conversation", state: { page: 1 } } }
         });
     });
 

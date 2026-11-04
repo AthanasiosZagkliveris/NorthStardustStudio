@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
-import { SOURCES } from "../../../framework/engine/Sources";
+import { harvardReference, SOURCES } from "../../../framework/engine/Sources";
 
 import InfoNote, { InfoText } from "./InfoNote";
 
@@ -27,10 +27,10 @@ describe("InfoNote", () => {
         expect(screen.getByText("Formula:")).toBeTruthy();
         expect(screen.getByText("Sales / month = Prospects × Qualified% × Buy%")).toBeTruthy();
 
-        // Named by its publisher and page title.
-        const link = screen.getByRole("link", {
-            name: "U.S. Small Business Administration, “Calculate your startup costs: break-even point”"
-        });
+        // The full Harvard reference, its address the link.
+        expect(document.querySelector(".harvard-reference")?.textContent).toBe(harvardReference(SOURCES.breakEvenPoint));
+        expect(document.querySelector(".harvard-reference em")?.textContent).toBe("Calculate your startup costs: break-even point");
+        const link = screen.getByRole("link", { name: SOURCES.breakEvenPoint.url });
         expect(link.getAttribute("href")).toBe(SOURCES.breakEvenPoint.url);
         expect(link.getAttribute("target")).toBe("_blank");
         expect(link.getAttribute("rel")).toBe("noreferrer");
@@ -48,6 +48,8 @@ describe("InfoNote", () => {
                     {
                         title: "Source",
                         source: {
+                            authors: ["Some Blog"],
+                            year: "2026",
                             title: "Rate",
                             publisher: "Some Blog",
                             url: "https://example.com/rate",
@@ -61,7 +63,7 @@ describe("InfoNote", () => {
         fireEvent.click(screen.getByRole("button", { name: "Rate: what this means" }));
 
         expect(screen.queryByRole("link")).toBeNull();
-        expect(screen.getByText("Some Blog, “Rate”")).toBeTruthy();
+        expect(document.querySelector(".harvard-reference")?.textContent).toBe("Some Blog (2026) Rate. Available at: https://example.com/rate (Accessed: 29 September 2026).");
 
     });
 

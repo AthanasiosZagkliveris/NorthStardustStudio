@@ -74,6 +74,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 
 | Item | Where in the app | Described in |
 |---|---|---|
+| Glossary | Header › Glossary (`/glossary`): the app's terms and yours, in two colours, with a funnel; the second tab is References | Doc 1, C.2; doc 2, 2.1 |
 | Global Settings | Header › Settings (`/settings`) | Doc 28, 8.2a; doc 1, Part D 6; `contents.md` |
 
 ## H
@@ -136,6 +137,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Item | Where in the app | Described in |
 |---|---|---|
 | Reading mode | Header: light, sepia, dark, auto | Doc 1, B.2 |
+| References | Header › Glossary › References: every source the app cites, as a Harvard reference list; the "i" notes cite the same references | Doc 2, 2.1 and 2.2 |
 | Registrations | Identity › 2 Legal Entity › Registrations | Doc 26 |
 | Resources | Business › 3 Infrastructure & Capability (both cards) | Page 3 |
 | Revenue | Business › 5 Sustainability › Revenue | Page 5 |
@@ -146,7 +148,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Search | Header (Ctrl+K) | Doc 1, C.2 |
+| Search | Header (Ctrl+K): Pages, Fields, Glossary, Your answers | Doc 1, C.2 |
 | Segment Description (the Segment) | Business › 1 Foundation › Segment Description (five boxes of choice questions, a User part for a Proxy or Dual-Intent buyer, then the Profiles) | Doc 35; doc 28, 6.3; page 1 |
 | Strategic Compass | Strategy › Situation & Direction | Doc 1, B.1 |
 | Strategic Period | Strategy › Situation & Direction (its dates, the Roadmap, the Themes with their Goals, Objectives and Metrics) | Doc 1, B.1 |

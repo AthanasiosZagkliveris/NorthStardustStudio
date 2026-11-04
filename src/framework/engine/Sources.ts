@@ -37,18 +37,54 @@
  * dev server) are listed there, each with its reason.
  */
 
-/** One reference, as the reader sees it and as it was verified. */
+/**
+ * One reference, as the reader sees it and as it was verified.
+ *
+ * Every reference is written in the HARVARD style (Cite Them Right, the
+ * style most UK universities teach): in the text, the author and year
+ * ("(Gupta et al., 2006)", `harvardCitation`); in the reference list and
+ * in an "i" note, the full reference (`harvardReference`):
+ *
+ *   Author (Year) Title. Available at: URL (Accessed: 1 October 2026).
+ *   Author (Year) 'Part', in Book. Place: Publisher. Available at: ...
+ *   Author (Year) 'Article', Journal, 9(2), pp. 139-155. Available at: ...
+ *
+ * The title of the work that stands on its own is in italics: the page
+ * or book itself, or the book or journal a part is in.
+ */
 export interface Source {
 
-    /** The page's own title, as the publisher gives it. */
+    /**
+     * Who wrote it, as Harvard lists them: people as "Surname, I." in the
+     * order the work gives ("Franklin, M.", "Graybeal, P."), or one
+     * organisation that is the author ("Companies House").
+     */
+    authors: readonly string[];
+
+    /** The authors edited the work rather than wrote it: "(eds)". */
+    editors?: boolean;
+
+    /** The year it was published or last updated, as the page shows it; "n.d." when it shows none. */
+    year: string;
+
+    /** The page's own title, as the publisher gives it (a part, when `in` names the work it is part of). */
     title: string;
+
+    /** The work the title is part of: a book (with `inBook`), a journal, a series or a website. */
+    in?: string;
+
+    /** `in` is a book: "in Book" (a chapter of it), not "Journal" (an article in it). */
+    inBook?: boolean;
+
+    /** What follows the title: place and publisher of a book, or volume, issue and pages of an article. */
+    details?: string;
 
     /** Who publishes it, spelled out ("U.S. Small Business Administration"). */
     publisher: string;
 
     url: string;
 
-    /** The date the page was last opened and found to support the note (YYYY-MM-DD). */
+    /** The date the page was last opened and found to support the note (YYYY-MM-DD): the reference's "Accessed" date. */
     checked: string;
 
 }
@@ -118,9 +154,81 @@ export function isAcceptedUrl(url: string): boolean {
     return url.startsWith("https://") && isAcceptedHost(hostOf(url));
 }
 
-/** How a source is named where it is cited: "Publisher, “Title”". */
+/** How a source is named in one line of plain text: its full Harvard reference. */
 export function sourceLabel(source: Source): string {
-    return source.publisher + ", “" + source.title + "”";
+    return harvardReference(source);
+}
+
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+/** "2026-10-01" as Harvard writes an accessed date: "1 October 2026". */
+export function harvardDate(iso: string): string {
+    const [year, month, day] = iso.split("-").map(Number);
+    return day + " " + MONTHS[month - 1] + " " + year;
+}
+
+/** A person ("Franklin, M.") rather than an organisation: a surname, a comma and initials. */
+const isPerson = (author: string) => /^[^,]+, (?:[A-Z]\.\s?)+$/.test(author);
+
+/** The authors as the reference list writes them: "Franklin, M., Graybeal, P. and Cooper, D.", four or more as "Gupta, S. et al.". */
+function authorList(source: Source): string {
+    const names = source.authors;
+    const listed = names.length >= 4
+        ? names[0] + " et al."
+        : names.length <= 1
+            ? names[0] ?? ""
+            : names.slice(0, -1).join(", ") + " and " + names[names.length - 1];
+    return listed + (source.editors ? (names.length > 1 ? " (eds)" : " (ed.)") : "");
+}
+
+/** The in-text citation: "(Franklin, Graybeal and Cooper, 2019)", "(Gupta et al., 2006)", "(Companies House, 2025)". */
+export function harvardCitation(source: Source): string {
+    const surnames = source.authors.map(author => isPerson(author) ? author.split(",")[0] : author);
+    const who = surnames.length >= 4
+        ? surnames[0] + " et al."
+        : surnames.length <= 1
+            ? surnames[0] ?? ""
+            : surnames.slice(0, -1).join(", ") + " and " + surnames[surnames.length - 1];
+    return "(" + who + ", " + source.year + ")";
+}
+
+/** One piece of a reference as it is drawn: plain, in italics (the title of a work), or the address (a link). */
+export interface ReferencePart {
+    text: string;
+    italic?: boolean;
+    link?: boolean;
+}
+
+/** The full Harvard reference in its pieces, for the reference list and the "i" notes (HarvardReference.tsx draws them). */
+export function harvardParts(source: Source): ReferencePart[] {
+    const parts: ReferencePart[] = [{ text: authorList(source) + " (" + source.year + ") " }];
+    if (source.in) {
+        parts.push({ text: "‘" + source.title + "’, " + (source.inBook ? "in " : "") });
+        parts.push({ text: source.in, italic: true });
+        parts.push({ text: source.details ? (source.inBook ? ". " : ", ") + source.details + ". " : ". " });
+    } else {
+        // A title that ends in its own mark ("What's changed?") takes no full stop after it.
+        const stop = /[?!]$/.test(source.title) ? " " : ". ";
+        parts.push({ text: source.title, italic: true });
+        parts.push({ text: source.details ? stop + source.details + ". " : stop });
+    }
+    parts.push({ text: "Available at: " });
+    parts.push({ text: source.url, link: true });
+    parts.push({ text: " (Accessed: " + harvardDate(source.checked) + ")." });
+    return parts;
+}
+
+/** The full Harvard reference as one line of text. */
+export function harvardReference(source: Source): string {
+    return harvardParts(source).map(part => part.text).join("");
+}
+
+/** Every source once, in the order of a Harvard reference list: by the first author, then the year, then the title. */
+export function referenceList(): { id: SourceId; source: Source }[] {
+    return (Object.entries(SOURCES) as [SourceId, Source][])
+        .map(([id, source]) => ({ id, source }))
+        .sort((one, other) =>
+            harvardReference(one.source).localeCompare(harvardReference(other.source), "en-GB", { sensitivity: "base" }));
 }
 
 /**
@@ -130,6 +238,8 @@ export function sourceLabel(source: Source): string {
 export const SOURCES = {
 
     ukVatRegistration: {
+        authors: ["GOV.UK"],
+        year: "2024",
         title: "Register for VAT: When to register for VAT",
         publisher: "GOV.UK",
         url: "https://www.gov.uk/vat-registration/when-to-register",
@@ -137,6 +247,8 @@ export const SOURCES = {
     },
 
     ukSicCodes: {
+        authors: ["Companies House"],
+        year: "2025",
         title: "Standard industrial classification of economic activities (SIC)",
         publisher: "Companies House",
         url: "https://www.gov.uk/government/publications/standard-industrial-classification-of-economic-activities-sic",
@@ -144,6 +256,8 @@ export const SOURCES = {
     },
 
     breakEvenPoint: {
+        authors: ["U.S. Small Business Administration"],
+        year: "n.d.",
         title: "Calculate your startup costs: break-even point",
         publisher: "U.S. Small Business Administration",
         url: "https://www.sba.gov/business-guide/plan-your-business/calculate-your-startup-costs/break-even-point",
@@ -151,20 +265,32 @@ export const SOURCES = {
     },
 
     breakEvenInDollars: {
-        title: "Calculate a Break-Even Point in Units and Dollars (Franklin, Graybeal, Cooper)",
+        authors: ["Franklin, M.", "Graybeal, P.", "Cooper, D."],
+        year: "2019",
+        title: "3.2 Calculate a Break-Even Point in Units and Dollars",
+        in: "Principles of Accounting, Volume 2: Managerial Accounting",
+        inBook: true,
+        details: "Houston, TX: OpenStax, Rice University",
         publisher: "OpenStax, Rice University",
         url: "https://openstax.org/books/principles-managerial-accounting/pages/3-2-calculate-a-break-even-point-in-units-and-dollars",
         checked: "2026-09-29"
     },
 
     contributionMargin: {
-        title: "Explain Contribution Margin (Franklin, Graybeal, Cooper)",
+        authors: ["Franklin, M.", "Graybeal, P.", "Cooper, D."],
+        year: "2019",
+        title: "3.1 Explain Contribution Margin and Calculate Contribution Margin per Unit, Contribution Margin Ratio, and Total Contribution Margin",
+        in: "Principles of Accounting, Volume 2: Managerial Accounting",
+        inBook: true,
+        details: "Houston, TX: OpenStax, Rice University",
         publisher: "OpenStax, Rice University",
         url: "https://openstax.org/books/principles-managerial-accounting/pages/3-1-explain-contribution-margin-and-calculate-contribution-margin-per-unit-contribution-margin-ratio-and-total-contribution-margin",
         checked: "2026-09-29"
     },
 
     capacityUtilisation: {
+        authors: ["Board of Governors of the Federal Reserve System"],
+        year: "2026",
         title: "Industrial Production and Capacity Utilization (G.17): About",
         publisher: "Board of Governors of the Federal Reserve System",
         url: "https://www.federalreserve.gov/releases/g17/About.htm",
@@ -172,48 +298,72 @@ export const SOURCES = {
     },
 
     loanRepayment: {
-        title: "Long Term Loan Repayment Methods (Gutierrez, Dalsted)",
+        authors: ["Gutierrez, P.H.", "Dalsted, N.L."],
+        year: "2012",
+        title: "Long Term Loan Repayment Methods",
+        details: "Fort Collins, CO: Colorado State University Extension",
         publisher: "Colorado State University Extension",
         url: "https://extension.colostate.edu/resource/long-term-loan-repayment-methods/",
         checked: "2026-09-29"
     },
 
     simpleInterest: {
-        title: "Simple Interest (Kirk, Contemporary Mathematics)",
+        authors: ["Kirk, D."],
+        year: "2023",
+        title: "6.3 Simple Interest",
+        in: "Contemporary Mathematics",
+        inBook: true,
+        details: "Houston, TX: OpenStax, Rice University",
         publisher: "OpenStax, Rice University",
         url: "https://openstax.org/books/contemporary-mathematics/pages/6-3-simple-interest",
         checked: "2026-09-29"
     },
 
     cashRunway: {
-        title: "The Bonfire of VC: Cash Burn, the Good, the Bad & the Ugly (Damodaran)",
+        authors: ["Damodaran, A."],
+        year: "2016",
+        title: "The Bonfire of VC: Cash Burn, the Good, the Bad & the Ugly",
+        details: "New York: NYU Stern School of Business",
         publisher: "NYU Stern School of Business",
         url: "https://pages.stern.nyu.edu/~adamodar/pdfiles/blog/CashBurn.pdf",
         checked: "2026-09-29"
     },
 
     weeksToMonths: {
-        title: "29 CFR § 778.113",
+        authors: ["Legal Information Institute"],
+        year: "2011",
+        title: "29 CFR § 778.113: Salaried employees, general",
+        details: "Ithaca, NY: Cornell Law School",
         publisher: "Cornell Law School, Legal Information Institute",
         url: "https://www.law.cornell.edu/cfr/text/29/778.113",
         checked: "2026-09-29"
     },
 
     contrastRatio: {
-        title: "WCAG 2.1: contrast ratio",
+        authors: ["Kirkpatrick, A.", "O Connor, J.", "Campbell, A.", "Cooper, M."],
+        editors: true,
+        year: "2025",
+        title: "Web Content Accessibility Guidelines (WCAG) 2.1: contrast ratio",
+        details: "W3C Recommendation",
         publisher: "W3C",
         url: "https://www.w3.org/TR/WCAG21/#dfn-contrast-ratio",
         checked: "2026-09-29"
     },
 
     referrals: {
+        authors: ["Van den Bulte, C.", "Bayer, E.", "Skiera, B.", "Schmitt, P."],
+        year: "2019",
         title: "Maximizing the Benefits of Customer Referrals",
+        in: "Keller Center Research Report",
+        details: "Baylor University, 1 December",
         publisher: "Baylor University, Keller Center for Research",
         url: "https://kellercenter.hankamer.baylor.edu/news/story/2019/maximizing-benefits-customer-referrals",
         checked: "2026-09-29"
     },
 
     websiteConversion: {
+        authors: ["International Trade Administration"],
+        year: "2024",
         title: "eCommerce Key Performance Indicators",
         publisher: "U.S. International Trade Administration",
         url: "https://www.trade.gov/ecommerce-key-performance-indicators",
@@ -221,34 +371,53 @@ export const SOURCES = {
     },
 
     repeatCustomers: {
+        authors: ["Berntsen, M.", "Manzo, H."],
+        year: "2025",
         title: "Customer Acquisition: What You Need To Know",
+        details: "University Park, PA: Penn State Extension",
         publisher: "Penn State Extension",
         url: "https://extension.psu.edu/customer-acquisition-what-you-need-to-know",
         checked: "2026-09-29"
     },
 
     customerLifetime: {
-        title: "Modeling Customer Lifetime Value (Gupta et al., Journal of Service Research)",
+        authors: ["Gupta, S.", "Hanssens, D.", "Hardie, B.", "Kahn, W.", "Kumar, V.", "Lin, N.", "Ravishanker, N.", "Sriram, S."],
+        year: "2006",
+        title: "Modeling Customer Lifetime Value",
+        in: "Journal of Service Research",
+        details: "9(2), pp. 139–155",
         publisher: "UCLA Anderson School of Management",
         url: "https://www.anderson.ucla.edu/sites/default/files/documents/areas/fac/marketing/JSR2006(0).pdf",
         checked: "2026-09-29"
     },
 
     geometricSeries: {
-        title: "Infinite Series (Strang, Herman, Calculus Volume 2)",
+        authors: ["Strang, G.", "Herman, E."],
+        year: "2016",
+        title: "5.2 Infinite Series",
+        in: "Calculus Volume 2",
+        inBook: true,
+        details: "Houston, TX: OpenStax, Rice University",
         publisher: "OpenStax, Rice University",
         url: "https://openstax.org/books/calculus-volume-2/pages/5-2-infinite-series",
         checked: "2026-09-29"
     },
 
     texasAssetClasses: {
-        title: "State Property Class Codes",
+        authors: ["Texas Department of Family and Protective Services"],
+        year: "2011",
+        title: "Appendix B: State Property Class Codes",
+        in: "Asset Management Handbook",
+        inBook: true,
+        details: "Austin, TX: Texas DFPS",
         publisher: "Texas DFPS",
         url: "https://dfps.texas.gov/handbooks/Asset_Management/Files/ASM_px_2.asp",
         checked: "2026-10-10"
     },
 
     frs102Intangibles: {
+        authors: ["ACCA"],
+        year: "2018",
         title: "FRS 102 intangible assets: what's changed?",
         publisher: "ACCA",
         url: "https://www.accaglobal.com/gb/en/technical-activities/technical-resources-search/2018/april/FRS102-intangible-assets-whats-changed.html",
@@ -256,48 +425,71 @@ export const SOURCES = {
     },
 
     ias38Examples: {
+        authors: ["IFRS Foundation"],
+        year: "2024",
         title: "IAS 38 Intangible Assets: Illustrative Examples",
+        details: "London: IFRS Foundation",
         publisher: "IFRS Foundation",
         url: "https://www.ifrs.org/content/dam/ifrs/publications/html-standards/english/2024/issued/ias38-ie.html",
         checked: "2026-10-12"
     },
 
     section197Amortisation: {
-        title: "T.D. 8865: Amortization of Intangibles",
+        authors: ["Internal Revenue Service"],
+        year: "2000",
+        title: "T.D. 8865: Amortization of Intangible Property",
+        details: "Washington, DC: Department of the Treasury",
         publisher: "IRS",
         url: "https://www.eitc.irs.gov/pub/irs-regs/td8865.pdf",
         checked: "2026-10-12"
     },
 
     strategicPositioning: {
+        authors: ["Institute for Strategy and Competitiveness"],
+        year: "n.d.",
         title: "Strategic Positioning",
+        details: "Boston, MA: Harvard Business School",
         publisher: "Harvard Business School, Institute for Strategy & Competitiveness",
         url: "https://www.isc.hbs.edu/strategy/business-strategy/Pages/strategic-positioning.aspx",
         checked: "2026-10-25"
     },
 
     positioningStatement: {
+        authors: ["Stayman, D."],
+        year: "2015",
         title: "How to Write Market Positioning Statements",
+        in: "eCornell #IMPACT",
+        details: "Cornell University, 20 March",
         publisher: "eCornell, Cornell University",
         url: "https://ecornell-impact.cornell.edu/how-to-write-market-positioning-statements/",
         checked: "2026-10-25"
     },
 
     positioningTemplate: {
-        title: "E145 Technology Entrepreneurship, Session 6",
+        authors: ["Loy, T."],
+        year: "2007",
+        title: "E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketing",
+        details: "Stanford, CA: Stanford University",
         publisher: "Stanford University",
         url: "https://web.stanford.edu/class/e145/2007_fall/startup_mktg_details.shtml",
         checked: "2026-10-25"
     },
 
     buyingRoles: {
-        title: "Understanding your customers, 3.4",
+        authors: ["The Open University"],
+        year: "n.d.",
+        title: "3.4 Business decision makers",
+        in: "Understanding your customers",
+        inBook: true,
+        details: "Milton Keynes: The Open University (OpenLearn)",
         publisher: "The Open University",
         url: "https://www.open.edu/openlearn/money-business/understanding-your-customers/content-section-3.4",
         checked: "2026-10-26"
     },
 
     marketResearch: {
+        authors: ["U.S. Small Business Administration"],
+        year: "n.d.",
         title: "Market research and competitive analysis",
         publisher: "U.S. Small Business Administration",
         url: "https://www.sba.gov/business-guide/plan-your-business/market-research-competitive-analysis",
@@ -305,17 +497,27 @@ export const SOURCES = {
     },
 
     brandPositioningStatement: {
+        authors: ["Allen, S."],
+        year: "2024",
         title: "Crafting the Perfect Brand Positioning Statement",
+        in: "Business Insights",
+        details: "Harvard Business School Online, 29 October",
         publisher: "Harvard Business School Online",
         url: "https://online.hbs.edu/blog/post/brand-positioning-statement",
         checked: "2026-10-25"
     },
 
     smallCompanyIntangibleLives: {
-        title: "A small company's intangible assets note",
+        authors: ["U.S. Securities and Exchange Commission"],
+        year: "2025",
+        title: "Intangible Assets: note to the financial statements for the year ended 30 June 2025 (CIK 1520118)",
+        details: "Company filing, EDGAR",
         publisher: "SEC (company filing)",
         url: "https://www.sec.gov/Archives/edgar/data/1520118/000147793225007253/R15.htm",
         checked: "2026-10-12"
     }
 
 } satisfies Record<string, Source>;
+
+/** The name of one registered source. */
+export type SourceId = keyof typeof SOURCES;
