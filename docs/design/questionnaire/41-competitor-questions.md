@@ -2,7 +2,7 @@
 
 Status: **proposal**, written 2026-11-03, updated 2026-11-04. Every question of the Competitor card (Business System, page 1, tile "Competitors"), in the order it is asked. For each: its control, when it is asked, its options, what its "i" says and what it connects to. The Type and the text boxes are built; the questions are not.
 
-Related: doc 35 (the Segment, whose answers give K2, K3, K11 and K12 their options), doc 36 (the Profile, whose priorities K9 and K10 share), doc 38 (Positioning, whose Differentiation starts K10), doc 42 (the Value Proposition, which reads K10), doc 43 (the Offering, whose Type list K1 shares; a Review check against the Offerings waits until one exists), doc 34 (the list L1 and the value crosswalk, 5.2a), doc 28 (6.6, the design this refines), doc 02 (FUN-47, FUN-50 to FUN-58, the sources of the 2026-11-04 research), `src/framework/engine/AnswerBusinessFoundation.ts` and `src/components/interview/editors/foundation/shared.tsx` (the card today).
+Related: doc 35 (the Segment, whose answers give K2, K3, K10 and K11 their options), doc 36 (the Profile, whose priorities order K9's rows), doc 38 (Positioning, which reads K12), doc 42 (the Value Proposition, which reads K9 and K12), doc 43 (the Offering, whose Type list K1 shares; a Review check against the Offerings waits until one exists), doc 34 (the list L1 and the value crosswalk, 5.2a), doc 28 (6.6, the design this refines), doc 02 (FUN-47, FUN-50 to FUN-58, the sources of the 2026-11-04 research), `src/framework/engine/AnswerBusinessFoundation.ts` and `src/components/interview/editors/foundation/shared.tsx` (the card today).
 
 **What the card is.** A Competitor belongs to its Segment, as a Profile does. The tile "Competitors" in the Segment's frame lists that Segment's competitors as small tiles, and each opens as a floating card.
 - **The small tile:** the number and the name and, under them, the Type ("Direct competitor"). A tile with no Type chosen shows only the number and the name.
@@ -11,8 +11,8 @@ The card has these parts, in order:
 - **The head:** the number, the name cell and the one x (built).
 - **The Type** (built): Direct competitor, Indirect competitor, Substitute, Internal solution, Status quo. Each type has its explanation in the "i".
 - **Description** (built): the boxes Offerings, Market, Customer Acquisition and Customer Experience. K1 to K8 are asked inside them (proposed).
-- **Competitors SWOT Analysis** (built): the bands Strengths, Weaknesses, Opportunities and Threats. K9 to K12 are asked inside them (proposed).
-- **Insights & Differentiation** (built): a section of its own after the SWOT. K13 is asked above its text (proposed); the text stays the App User's own conclusion.
+- **Competitors SWOT Analysis** (built): the bands Strengths, Weaknesses, Opportunities and Threats. K9 to K11 are asked inside them (proposed); K9 is one band across Strengths and Weaknesses.
+- **Insights & Differentiation** (built): a section of its own after the SWOT. K12 is asked above its text (proposed); the text stays the App User's own conclusion.
 
 Each question is asked inside the band of its box, above the box's text, and the text box stays as the note for what the question cannot say. The type renames the boxes as built (`COMPETITOR_TYPE_QUESTIONS`).
 
@@ -23,7 +23,7 @@ Each question is asked inside the band of its box, above the box's text, and the
 - **No price question** (2026-11-04): price is not part of the competitor analysis.
 - **No job question** (2026-11-04): what job an offering does is an Offering question (L17, doc 43, O13).
 - **No "how sure" question** (owner, 2026-11-04): it asks about the App User's evidence, not the competitor.
-- **The questions run in the card's order** (2026-11-04), numbered K1 to K13 with no gaps. Withdrawn questions keep no number. The old numbers are in the table at the end.
+- **The questions run in the card's order** (2026-11-04), numbered K1 to K12 with no gaps. Withdrawn questions keep no number. The old numbers are in the table at the end.
 - **No "Not sure" option** (2026-11-02): a question the App User cannot answer yet is left unanswered.
 - **No "Other" option** unless an answer outside the list can really exist (2026-11-04).
 - **The card judges the competitor against the customers, not against the App User** (owner, 2026-11-04). The App User may be a start-up with no Offering, price or staff yet, so no question compares a competitor with the App User's own Offerings, prices, size or channels (The purpose, above). A Review check that reads the Offerings waits until an Offering exists.
@@ -47,11 +47,10 @@ Each question is asked inside the band of its box, above the box's text, and the
 | K6 come back | "Do their customers keep coming back?" | not asked | not asked | not asked |
 | K7 rating | "How do customers rate them online?" | "How do customers rate this alternative online?" | not asked | not asked |
 | K8 struggle | "Where do customers struggle with them?" | "Where do customers struggle with this alternative?" | not asked | not asked |
-| K9 chosen for | "What do customers choose them for?" | "What do customers choose this alternative for?" | "What do customers get from doing it themselves?" | not asked (nothing is chosen) |
-| K10 falls short | "Where do they fall short?" | "Where does this alternative fall short?" | "Where does doing it themselves fall short?" | "What does doing nothing cost customers?" |
-| K11 changes that help | "Which changes could help them?" | "Which changes could help this alternative?" | "Which changes could make doing it themselves easier?" | "Which changes could keep customers where they are?" |
-| K12 changes that hurt | "Which changes could hurt them?" | "Which changes could hurt this alternative?" | "Which changes could make doing it themselves harder?" | "Which changes could push customers to act?" |
-| K13 do differently | "What could you do differently?" | "What could you do differently?" (options say "this alternative") | "What could you do differently?" | "What could you do differently?" |
+| K9 strengths / weaknesses | "How do they do on what customers value?" | "How does this alternative do on what customers value?" | "How does doing it themselves do on what customers value?" | "How does doing nothing do on what customers value?" |
+| K10 changes that help | "Which changes could help them?" | "Which changes could help this alternative?" | "Which changes could make doing it themselves easier?" | "Which changes could keep customers where they are?" |
+| K11 changes that hurt | "Which changes could hurt them?" | "Which changes could hurt this alternative?" | "Which changes could make doing it themselves harder?" | "Which changes could push customers to act?" |
+| K12 do differently | "What could you do differently?" | "What could you do differently?" (options say "this alternative") | "What could you do differently?" | "What could you do differently?" |
 
 This follows the type rules already built for the text boxes: a substitute has no customer acquisition, and the status quo has no offering.
 
@@ -181,7 +180,7 @@ This follows the type rules already built for the text boxes: a substitute has n
   - Their average on Google, Trustpilot or the marketplace they sell on. Read the lowest reviews: they show where customers are let down.
 - **Connections:**
   - *Comes from:* nothing. Invest Northern Ireland's guide asks what customers see as a competitor's strengths and weaknesses [FUN-51]; the SBA's, what customers and prospects say about competitors [FUN-50].
-  - *Read by (not built yet):* K13 ("Win over their unhappy customers"); the Review.
+  - *Read by (not built yet):* K12 ("Win over their unhappy customers"); the Review.
 
 ### K8. Where do customers struggle with them?
 
@@ -195,24 +194,25 @@ This follows the type rules already built for the text boxes: a substitute has n
   - Delivery
   - Support & Follow Up
 - **The "i" says:**
-  - The stage of the journey where their customers are let down. K10 says what falls short; this says where.
+  - The stage of the journey where their customers are let down. K9 says what falls short; this says where.
 - **Connections:**
   - *Comes from:* nothing. Lemon and Verhoef describe the customer's journey in three stages, before, during and after the purchase, each with its touch points [FUN-59]; page 2's five Journey Stages divide the same journey.
-  - *Read by (not built yet):* K13 ("Make [stage] easier"); page 2's Journey Stages, where the App User plans each stage.
+  - *Read by (not built yet):* K12 ("Make [stage] easier"); page 2's Journey Stages, where the App User plans each stage.
 
-For Internal solution and Status quo the box stays text only: it asks about the effort or the current behaviour, which K10 already asks as a choice.
+For Internal solution and Status quo the box stays text only: it asks about the effort or the current behaviour, which K9 already rates.
 
-## Band. Strengths
+## Band. Strengths and Weaknesses
 
-### K9. What do customers choose them for?
+### K9. How do they do on what customers value?
 
-- **Control:** ticks, up to 3, inside the Strengths band, above the Strengths text box, which is kept as the note.
-- **Asked when:** the type is not Status quo.
+- **Control:** one rating row per value, 1 to 5, as a row of five radios; one band across Strengths and Weaknesses, above both text boxes, which stay as the notes. The ends read "1 Clear weakness" and "5 Clear strength", and 3 reads "Average". A row left unrated is unanswered (no "Not sure"). The app has no rating control yet: a new control, a row of five radios, built with the existing radio styles (`RadioChoice`).
+- **Asked when:** always.
 - **Wording by type:**
-  - Direct competitor, Indirect competitor: "What do customers choose them for?"
-  - Substitute: "What do customers choose this alternative for?"
-  - Internal solution: "What do customers get from doing it themselves?"
-- **Options:** the list L1, the Profile's "What matters most" (doc 36, B1):
+  - Direct competitor, Indirect competitor: "How do they do on what customers value?"
+  - Substitute: "How does this alternative do on what customers value?"
+  - Internal solution: "How does doing it themselves do on what customers value?"
+  - Status quo: "How does doing nothing do on what customers value?" For example, Lower price can be a 5, because doing nothing is free.
+- **Rows:** the list L1, the Profile's "What matters most" (doc 36, B1). The values the Segment's Profiles ticked in B1 come first, marked as such; a "Show all" link shows the rest of L1:
   - Lower price
   - Speed
   - Ease and convenience
@@ -224,37 +224,14 @@ For Internal solution and Status quo the box stays text only: it asks about the 
   - Safety and low risk
   - Shared values / identity
 - **The "i" says:**
-  - What their customers value in them. Choose up to three.
-  - The same list as "What matters most" on your Profiles, so the two can be compared.
-  - Judge them as their customers do: what customers and prospects say about them [FUN-50].
+  - Rate each from what their customers say and what you have seen. 1 is a clear weakness and 5 a clear strength.
 - **Connections:**
-  - *Comes from:* the Segment's Profiles: the options ticked in their B1 come first.
-  - *Read by (not built yet):* the Review: a value your Profiles care about that this competitor delivers (later, once an Offering exists: and none of your Offerings does, doc 43, O4).
-
-## Band. Weaknesses
-
-### K10. Where do they fall short?
-
-- **Control:** ticks, up to 3, inside the Weaknesses band, above the Weaknesses text box, which is kept as the note.
-- **Asked when:** always.
-- **Wording by type:**
-  - Direct competitor, Indirect competitor: "Where do they fall short?"
-  - Substitute: "Where does this alternative fall short?"
-  - Internal solution: "Where does doing it themselves fall short?"
-  - Status quo: "What does doing nothing cost customers?"
-- **Options:** L1, as K9.
-- **The "i" says:**
-  - Where they leave their customers wanting more. An opening is where they fall short on what your customers want. Choose up to three.
-  - For the status quo: what doing nothing costs the customer.
-  - Judge them as their customers do: what customers and prospects say about them [FUN-50].
-  - Your Positioning's Differentiation starts the ticks; change them freely.
-- **Connections:**
-  - *Comes from:* Positioning's Differentiation, through the value crosswalk (doc 34, 5.2a): for example Cost-driven ticks Lower price, and Convenience-driven ticks Speed and Ease and convenience. These are starting ticks.
-  - *Read by (not built yet):* the Insights & Differentiation draft ("Customers want [a B1 value]; [name] falls short on it"); the Value Proposition draft (doc 42); later, once an Offering exists, the Review (a K10 that none of your Offerings delivers).
+  - *Comes from:* the owner's decision (2026-11-04): Strengths and Weaknesses used the same options, so one rating replaces the two tick lists and a value rated 2 to 4 also counts in the App User's decisions. The Competitive Profile Matrix rates each success factor from major weakness to major strength [FUN-57]; Kotler's customer value analysis rates competing offers on the attributes customers rank as most important [FUN-55]; a five-point rating as Likert's [FUN-61]. The Profiles' B1 sets the order of the rows; no row starts rated.
+  - *Read by (not built yet):* ratings of 4 and 5 are listed as the competitor's strengths, and 1 and 2 as its weaknesses (the SWOT, the documents and the exports); 3 is neither. K12's options; the Insights & Differentiation draft; the Value Proposition draft (doc 42); later, once an Offering exists, the Review (a value customers want that this competitor is rated 1 or 2 on and none of your Offerings delivers).
 
 ## Band. Opportunities
 
-### K11. Which changes could help them?
+### K10. Which changes could help them?
 
 - **Control:** ticks, up to 2, inside the Opportunities band, above the Opportunities text box, which is kept as the note.
 - **Asked when:** always.
@@ -277,7 +254,7 @@ For Internal solution and Status quo the box stays text only: it asks about the 
 
 ## Band. Threats
 
-### K12. Which changes could hurt them?
+### K11. Which changes could hurt them?
 
 - **Control:** ticks, up to 2, inside the Threats band, above the Threats text box, which is kept as the note.
 - **Asked when:** always.
@@ -286,7 +263,7 @@ For Internal solution and Status quo the box stays text only: it asks about the 
   - Substitute: "Which changes could hurt this alternative?"
   - Internal solution: "Which changes could make doing it themselves harder?"
   - Status quo: "Which changes could push customers to act?"
-- **Options:** as K11. A change may be ticked in both K11 and K12.
+- **Options:** as K10. A change may be ticked in both K10 and K11.
 - **The "i" says:**
   - Choose up to two. The examples of each change, as on your Segment.
 - **Connections:**
@@ -295,27 +272,32 @@ For Internal solution and Status quo the box stays text only: it asks about the 
 
 ## Section. Insights & Differentiation
 
-A section of its own after the SWOT, as built: a title band, an "i" and one text, which stays the App User's own conclusion. K13 is asked above the text, answered from this card's earlier choices (proposed).
+A section of its own after the SWOT, as built: a title band, an "i" and one text, which stays the App User's own conclusion. K12 is asked above the text, answered from this card's earlier choices (proposed).
 - **The question (built):** it follows the type (`COMPETITOR_TYPE_QUESTIONS` in `shared.tsx`). Direct and Indirect competitors use `SUBSECTIONS.competitors.insights`: "What can you learn from competitors to make your offering more distinctive?" Substitute: "What could make customers switch from this alternative to your offering?" Internal solution: "What have you learned from customers solving this themselves, and how could your organisation make it easier, better, faster, or more valuable?" Status quo: "What could trigger customers to change?"
-- **The draft (proposed):** "Customers want [a B1 value]; [name] falls short on it." One line for each value the Segment's Profiles ticked in B1 that this competitor falls short on (K10, or the grid's "Poorly" rows), listing every competitor of the Segment that falls short on the same value. Each opening ticked in K13 adds "You could [opening]." It is added at the end of the text and never overwrites it. The App User then writes what they will do differently.
-- **Connections:** *Comes from:* K10 (or the grid), K13 and the Profiles' B1 (doc 36), not the Offerings.
+- **The draft (proposed):** "Customers want [a B1 value]; [name] falls short on it." One line for each value the Segment's Profiles ticked in B1 that K9 rates 1 or 2, listing every competitor of the Segment that falls short on the same value. Each opening ticked in K12 adds "You could [opening]." It is added at the end of the text and never overwrites it. The App User then writes what they will do differently.
+- **Connections:** *Comes from:* K9, K12 and the Profiles' B1 (doc 36), not the Offerings.
 
-### K13. What could you do differently?
+### K12. What could you do differently?
 
 - **Control:** ticks, up to 3, in the Insights & Differentiation band, above its text box, which is kept as the note.
 - **Asked when:** at least one of its options exists. With no options, only the text shows.
 - **Wording by type:** the same for every type; the options follow the type (below).
 - **Options:** built by the app from this card's answers, each by its rule, and shown only once its source question is answered:
-  - For each value the competitor falls short on (K10, or "Poorly" in the proposed grid) that the Segment's Profiles ticked in "What matters most" (doc 36, B1): "Offer better: [value]", for example "Offer better: Good support". Values that several competitors of the Segment fall short on come first.
+  - From K9's ratings, the whole scale. Each rated value has an opening score, (5 − rating) × weight, where the weight is 2 if a Profile of the Segment ticked the value in "What matters most" (doc 36, B1) and 1 otherwise. The options come in score order; ties are broken by how many of the Segment's competitors rated the value low.
+    - Rating 1 or 2: "Offer better: [value]", for example "Offer better: Good support".
+    - Rating 3: "Stand out on: [value]" (they are average, so there is room).
+    - Rating 4: "Match them on: [value]", shown only for a B1 value (customers expect it).
+    - Rating 5: no option.
   - For each stage ticked in K8: "Make [stage] easier", with the stage in plain words: Discover "finding out", Evaluation "choosing", Purchase "buying", Delivery "getting it", Support & Follow Up "getting help afterwards".
   - If K7 is "Below 3 stars" or "3 to 3.9 stars", or K6 is "Few come back": "Win over their unhappy customers".
   - If K4 is "Declining": "Win customers they are losing".
-  - For each change ticked in K11: "Use [change] too". For each change ticked in K12: "Be ready where [change] hurts them".
-  - By type: a Substitute's options say "this alternative" ("Win over this alternative's unhappy customers"). Internal solution: "Make it easier than doing it themselves". Status quo: from K10, "Show what doing nothing costs: [value]"; from K11 and K12, "Use [change] as a reason to act".
+  - For each change ticked in K10: "Use [change] too". For each change ticked in K11: "Be ready where [change] hurts them".
+  - By type: a Substitute's options say "this alternative" ("Win over this alternative's unhappy customers"). Internal solution: "Make it easier than doing it themselves". Status quo: from the values K9 rates 1 or 2, "Show what doing nothing costs: [value]"; from K10 and K11, "Use [change] as a reason to act".
 - **The "i" says:**
   - Openings drawn from what you answered above. Tick the ones you will act on, then write how in the text.
+  - For each value rated 5: "[name] is hard to beat on [value]; compete elsewhere."
 - **Connections:**
-  - *Comes from:* K4, K6, K7, K8, K10, K11 and K12, and the Profiles' B1 (doc 36).
+  - *Comes from:* K4, K6, K7, K8, K9, K10 and K11, and the Profiles' B1 (doc 36).
   - *Read by (not built yet):* the draft at the end of the text ("You could [opening]"); Positioning's Differentiation (doc 38); the Value Proposition (doc 42).
 
 ## Other ways to answer (proposed, 2026-11-04)
@@ -330,17 +312,16 @@ Each row keeps the current question and proposes another way to answer it, with 
 | K4 Is their business growing? | Growing / Steady / Declining | "What signs have you seen?" Ticks: More locations / New products / Hiring / More reviews / Price cuts / Closures; the app draws growing, steady or declining from them | SBA: growing, steady or declining [FUN-50]; Kotler: sales, capacity and new investment as signs of performance (as cited in Cuellar-Healey and Gomez, 2013) [FUN-53] | Keep Now: it is quicker |
 | K5 How do they reach customers? | Ticks of channels | Withdrawn: the App User's own page 2 channels listed, each marked "They use it too" / "Only you", then their other channels | Cornell: compare products, prices, channels and promotion with close competitors [FUN-53] | Keep Now: the App User may have no Offerings or channels yet |
 | K6 Do their customers keep coming back? | Most / Some / Few come back | Kotler's share of mind and share of heart, as two radios: "Do customers name them first?" Often / Sometimes / Rarely; "Do customers prefer them?" Often / Sometimes / Rarely | Kotler, as cited in Cuellar-Healey and Gomez, 2013 [FUN-53]; Bangladesh Open University, MBA 3313, Unit 4 [FUN-55]. K6 as it stands: Invest Northern Ireland [FUN-51]; Business Tasmania, "Do they have a loyal following?" [FUN-58] | Add "Do customers name them first?" beside K6 |
-| K9 and K10 (chosen for / fall short) | Two tick lists of L1 | One grid: each value that the Segment's Profiles ticked in B1 (L1) is one row, "How well do they deliver it?" Well / Partly / Poorly. The "Well" rows are the competitor's strengths; the "Poorly" rows are its weaknesses and the App User's openings | Kotler's customer value analysis: competing offers rated on the attributes customers rank as most important [FUN-55]; the Competitive Profile Matrix: major strength to major weakness, rated 4 to 1 [FUN-57] | Yes: it ends the overlap of K9 and K10, judges the competitor against the customers, and feeds the Insights draft directly |
-| K11 and K12 (changes that help / hurt) | Two tick lists | One list of the Segment's changes, each marked Helps them / Hurts them / Both / Neither | SWOT: external factors, favourable or unfavourable [FUN-53] | Yes: one question instead of two |
+| K9 (strengths and weaknesses) | Was two tick lists of L1, "chosen for" and "falls short" | One grid: each value the Segment's Profiles ticked in B1 rated Well / Partly / Poorly | Kotler's customer value analysis [FUN-55]; the Competitive Profile Matrix [FUN-57] | Decided: replaced by K9's 1 to 5 rating (owner, 2026-11-04) |
+| K10 and K11 (changes that help / hurt) | Two tick lists | One list of the Segment's changes, each marked Helps them / Hurts them / Both / Neither | SWOT: external factors, favourable or unfavourable [FUN-53] | Yes: one question instead of two |
 | New, optional, in Insights | Not asked | "How would they react to a new rival?" Ignore it / React to some moves / Fight back on everything / Unpredictable | Kotler's reaction patterns: laid-back, selective, tiger, stochastic [FUN-55]; Porter's four corners [FUN-52] | Yes, as optional |
 
 ## What changes when an answer above changes
 
 - A change of the type removes, on the next choice, the answers of the questions the new type does not ask. The text boxes keep their words: the type renames them and never empties them, as built.
-- A change of Positioning's Differentiation does not change K10's ticks once the user has changed them; it changes only the starting ticks of an unanswered K10.
-- A change of a Profile's B1 changes only K9's order.
-- A change of K4, K6, K7, K8, K10, K11 or K12 changes K13's options; a ticked option no longer offered is removed on the next choice.
-- A change of the Segment's `reach` or `trends` changes only the order of K2's, or K11's and K12's, options.
+- A change of a Profile's B1 changes only the order of K9's rows and the weights of K12's options, never a rating.
+- A change of K4, K6, K7, K8, K9, K10 or K11 changes K12's options; a ticked option no longer offered is removed on the next choice.
+- A change of the Segment's `reach` or `trends` changes only the order of K2's, or K10's and K11's, options.
 
 ## Decided, and still to decide
 
@@ -349,15 +330,16 @@ Each row keeps the current question and proposes another way to answer it, with 
 - No price question (2026-11-04).
 - No job question: an Offering question (2026-11-04).
 - No "how sure" question (2026-11-04).
-- The questions numbered K1 to K13 in the card's order (2026-11-04).
+- The questions numbered K1 to K12 in the card's order (2026-11-04).
+- Strengths and Weaknesses as one rating, K9: each value customers want rated from 1 (Clear weakness) to 5 (Clear strength), so that values rated 2 to 4 also count in the App User's decisions (2026-11-04).
 - The Type shown on each competitor's small tile (2026-11-04).
 - No "Not sure" options (2026-11-02); no "Other" unless another answer can exist (2026-11-04).
 - Competitors belong to their Segment.
 
 **Still to decide:**
 - Whether K5's words follow the plain words above ("Shops or wholesalers", "Referrals or affiliates") or the page 2 tile names ("Retail & Wholesale", "Referral & Affiliates"). The plain words follow the "or" rule, so the page 2 names would change with them.
-- K1 to K4, K6 to K8, K11, K12 and K13, the built boxes as choices, including the questions from the research of 2026-11-04 (K4 [FUN-50], K6 [FUN-51], K7 [FUN-50, FUN-51], K8 [FUN-59]) and K13 from the card's own answers.
-- Considered, not added: "How much effort does buying from them take?" (customer effort [FUN-60]). It repeats L1's "Ease and convenience" in K9 and K10.
+- K1 to K4, K6 to K8 and K10 to K12, the built boxes as choices, including the questions from the research of 2026-11-04 (K4 [FUN-50], K6 [FUN-51], K7 [FUN-50, FUN-51], K8 [FUN-59]) and K12 from the card's own answers.
+- Considered, not added: "How much effort does buying from them take?" (customer effort [FUN-60]). It repeats L1's "Ease and convenience", a row of K9.
 - Porter's four corners (goals, assumptions, strategy, capabilities [FUN-52]) also ask how a competitor would react to you: proposed as an optional question in Insights, with Kotler's reaction patterns as its options (Other ways to answer, last row).
 - Other ways to answer: one choice per row of the table above (owner).
 - **Not asked:**
@@ -370,12 +352,12 @@ Each row keeps the current question and proposes another way to answer it, with 
 | 2026-11-03 | Earlier on 2026-11-04 | Now |
 |---|---|---|
 | K1 (price) | withdrawn | withdrawn |
-| K2 | K7 | K9 |
-| K3 | K8 | K10 |
+| K2 (chosen for) | K7, then K9 | K9 (one rating with the old K3) |
+| K3 (falls short) | K8, then K10 | K9 (one rating with the old K2) |
 | K4 | K5 | K5 |
 | K5 (how sure) | withdrawn | withdrawn |
 | K6 (job) | withdrawn | withdrawn |
-| (new) | K1 to K3 | K1 to K3 |
-| (new) | K4, K6 | K4, K6 |
-| (new) | K9, K10 | K11, K12 |
-| (new) | (none) | K7, K8, K13 |
+| (new) | K1 to K4, K6 | K1 to K4, K6 |
+| (new) | K7, K8 | K7, K8 |
+| (new) | K9, K10, then K11, K12 | K10, K11 |
+| (new) | K13 | K12 |
