@@ -1,7 +1,7 @@
-import RatingEnds from "./RatingEnds";
+import RatingScaleEnds from "./RatingScaleEnds";
 
 import "../../styles/radio-choice.css";
-import "../../styles/rating-field.css";
+import "../../styles/rating-scale.css";
 
 /** A rating: 1 (low) to 5 (high). Unrated is `undefined`: there is no "Not sure". */
 export type Rating = 1 | 2 | 3 | 4 | 5;
@@ -21,9 +21,9 @@ export function ratingPointName(point: Rating, ends: { low?: string; high?: stri
  * named by `label`; its rounds share `name`, so the arrows move along the row and Space chooses. Pressing the chosen round again clears it: the row is then
  * unrated, which is how a rating says "I cannot judge this" (there is no "Not sure").
  *
- * Alone, it draws its end words over its rounds (`lowLabel`, `highLabel`: one word each, at the sides only); in a RatingGroup the group draws them once for all its rows.
+ * Alone, it draws its end words over its rounds (`lowLabel`, `highLabel`: one word each, at the sides only); in a RatingScaleGroup the group draws them once for all its rows.
  */
-export default function RatingField({ label, name, value, onChange, lowLabel, highLabel, disabled, className }: {
+export default function RatingScale({ label, name, value, onChange, lowLabel, highLabel, disabled, className }: {
     /** What is rated, for a screen reader (in a group, the row's words). */
     label: string;
     /** The rounds' shared name: one per row on the page. */
@@ -42,9 +42,9 @@ export default function RatingField({ label, name, value, onChange, lowLabel, hi
     const ends = { low: lowLabel, high: highLabel };
     const drawsEnds = lowLabel !== undefined || highLabel !== undefined;
     return (
-        <div className={"rating-field" + (className ? " " + className : "")}>
-            {drawsEnds && <RatingEnds low={lowLabel} high={highLabel} />}
-            <div className="radio-choice rating-field-points" role="radiogroup" aria-label={label}>
+        <div className={"rating-scale" + (className ? " " + className : "")}>
+            {drawsEnds && <RatingScaleEnds low={lowLabel} high={highLabel} />}
+            <div className="radio-choice rating-scale-points" role="radiogroup" aria-label={label}>
                 {RATING_POINTS.map(point => (
                     <label key={point} className="radio-choice-option">
                         <input

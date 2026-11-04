@@ -1,8 +1,8 @@
 /**
- * THE COMPETITOR CARD'S QUESTIONS (design document 41, K1 to K11): pure data and rules, so the card, the saved answer and the documents read the same words. Which
+ * THE COMPETITOR CARD'S QUESTIONS (design document 41, K1 to K10): pure data and rules, so the card, the saved answer and the documents read the same words. Which
  * questions a type of competitor is asked and in which words, the option lists, the review platforms in the order of the App User's industry and country (doc 34,
- * L18), and the openings of K11, built from the card's own answers. The answers are kept as the Segment's and the Profile's are: question id to the ids chosen, a
- * rating as "option:point" under "<id>-rating" (K7 to K10) or as the point itself (K4).
+ * L18), and the openings of K10, built from the card's own answers. The answers are kept as the Segment's and the Profile's are: question id to the ids chosen, a
+ * rating as "option:point" under "<id>-rating" (K6 to K9) or as the point itself (K4).
  */
 
 import { BUSINESS_JOURNEY_STAGES } from "./AnswerBusinessFoundation.ts";
@@ -13,7 +13,7 @@ import { SEGMENT_QUESTIONS, type SegmentOption } from "./SegmentQuestions.ts";
 /** One saved answer: question id to the ids chosen. */
 export type CompetitorAnswers = Record<string, string[]>;
 
-export type CompetitorQuestionId = "k1" | "k2" | "k3" | "k4" | "k5" | "k6" | "k7" | "k8" | "k9" | "k10" | "k11";
+export type CompetitorQuestionId = "k1" | "k2" | "k3" | "k4" | "k5" | "k6" | "k7" | "k8" | "k9" | "k10";
 
 /** The five types of competitor (BUSINESS_COMPETITOR_TYPES' ids); no type chosen is asked as a direct competitor. */
 type TypeId = "direct" | "indirect" | "substitutes" | "internal" | "status-quo";
@@ -24,7 +24,7 @@ const ALL: readonly TypeId[] = ["direct", "indirect", "substitutes", "internal",
 
 /** Which types are asked each question (doc 41, "What the type asks"). */
 const ASKED: Record<CompetitorQuestionId, readonly TypeId[]> = {
-    k1: SOLD, k2: SOLD, k3: RIVALS, k4: SOLD, k5: RIVALS, k6: RIVALS, k7: SOLD, k8: SOLD, k9: ALL, k10: ALL, k11: ALL
+    k1: SOLD, k2: SOLD, k3: RIVALS, k4: SOLD, k5: RIVALS, k6: SOLD, k7: SOLD, k8: ALL, k9: ALL, k10: ALL
 };
 
 const typeOf = (type: string): TypeId => (ALL as readonly string[]).includes(type) ? type as TypeId : "direct";
@@ -34,7 +34,7 @@ export function competitorAsks(type: string, id: CompetitorQuestionId): boolean 
     return ASKED[id].includes(typeOf(type));
 }
 
-/** K8's loyalty ticks, under Support & Follow Up: asked of a direct or indirect competitor only. */
+/** K7's loyalty ticks, under Support & Follow Up: asked of a direct or indirect competitor only. */
 export function competitorAsksLoyalty(type: string): boolean {
     return RIVALS.includes(typeOf(type));
 }
@@ -46,22 +46,21 @@ const WORDING: Record<CompetitorQuestionId, Partial<Record<TypeId, string>> & { 
     k3: { direct: "How big is their organisation?" },
     k4: { direct: "Is their business growing?", substitutes: "Is this alternative growing?" },
     k5: { direct: "How do they reach customers?" },
-    k6: { direct: "How do they attract new customers?" },
-    k7: { direct: "Where are they reviewed, and how are they rated?", substitutes: "Where is this alternative reviewed, and how is it rated?" },
-    k8: { direct: "How easy do they make each stage for customers?", substitutes: "How easy does this alternative make each stage for customers?" },
-    k9: {
+    k6: { direct: "Where are they reviewed, and how are they rated?", substitutes: "Where is this alternative reviewed, and how is it rated?" },
+    k7: { direct: "How easy do they make each stage for customers?", substitutes: "How easy does this alternative make each stage for customers?" },
+    k8: {
         direct: "How do they do on what customers value?",
         substitutes: "How does this alternative do on what customers value?",
         internal: "How does doing it themselves do on what customers value?",
         "status-quo": "How does doing nothing do on what customers value?"
     },
-    k10: {
+    k9: {
         direct: "How could each change affect them?",
         substitutes: "How could each change affect this alternative?",
         internal: "How could each change affect customers doing it themselves?",
         "status-quo": "How could each change affect customers who do nothing?"
     },
-    k11: { direct: "What could you do differently?" }
+    k10: { direct: "What could you do differently?" }
 };
 
 /** A question's words for a type of competitor. */
@@ -75,10 +74,10 @@ export function competitorWording(type: string, id: CompetitorQuestionId): strin
 export const COMPETITOR_RATINGS = {
     k4: { low: "Declining", high: "Growing" },
     k5: { low: "Low", high: "High" },
-    k7: { low: "Poor", high: "Excellent" },
-    k8: { low: "Hard", high: "Easy" },
-    k9: { low: "Weak", high: "Strong" },
-    k10: { low: "Threat", high: "Opportunity" }
+    k6: { low: "Poor", high: "Excellent" },
+    k7: { low: "Hard", high: "Easy" },
+    k8: { low: "Weak", high: "Strong" },
+    k9: { low: "Threat", high: "Opportunity" }
 } as const;
 
 /** What each question's "i" says (doc 41). */
@@ -91,19 +90,18 @@ export const COMPETITOR_INFO: Record<CompetitorQuestionId, readonly string[]> = 
         "Tick each channel they use to find customers, then rate how active they are there: posting weekly on Instagram is High.",
         "Write their account and shop names in the note. Payment and delivery channels are not listed: they do not reach new customers."
     ],
-    k6: ["What they offer to win a first sale: a launch discount, a free sample, a reward for a referral. Tick all you have seen."],
-    k7: [
+    k6: [
         "Tick each place they are reviewed and give their average there, to the nearest star. Most people only use a business with 4 stars or more.",
         "Not listed? Tick Other and write it. Google is where most people read reviews of local businesses (71% in 2026)."
     ],
-    k8: [
+    k7: [
         "Where their customers are let down along the way, and where it goes smoothly. The values below say what falls short; this says where.",
         "Under Support & Follow Up, tick what they do to bring customers back.",
         "To find out, look at their website and social media, sign up to their newsletter or buy from them once."
     ],
-    k9: ["Rate each from what their customers say and what you have seen: 1 is a clear weakness, 5 a clear strength.", "Something customers value that is not listed? Tick Other and write it."],
-    k10: ["How each change could help or hurt them. The examples of each change, as on your Segment."],
-    k11: ["Openings drawn from what you answered above. Tick the ones you will act on, then write how in the text."]
+    k8: ["Rate each from what their customers say and what you have seen: 1 is a clear weakness, 5 a clear strength."],
+    k9: ["How each change could help or hurt them. The examples of each change, as on your Segment."],
+    k10: ["Openings drawn from what you answered above. Tick the ones you will act on, then write how in the text."]
 };
 
 /** What the Customer Experience box's "i" adds: how to find out (doc 41). */
@@ -131,39 +129,48 @@ export const COMPETITOR_CHANNEL_OPTIONS: readonly SegmentOption[] = [
     { id: "online-live", label: "Online / live" }, { id: "retail-wholesale", label: "Shops or wholesalers" }, { id: "referral-affiliates", label: "Referrals or affiliates" }
 ];
 
-/** K6: how they win a first sale (the SBA's promotion [FUN-47]; Cornell's 4Ps, promotion [FUN-53]). */
-export const COMPETITOR_ATTRACT_OPTIONS: readonly SegmentOption[] = [
-    { id: "discounts", label: "Discounts / offers" }, { id: "trial", label: "Free trial / sample" }, { id: "referral", label: "Referral rewards" }, { id: "ads", label: "Paid ads" },
-    { id: "content", label: "Content / social posts" }, { id: "events", label: "Events / fairs" }, { id: "partnerships", label: "Partnerships" }
-];
-
-/** K8's loyalty ticks, under Support & Follow Up (Aftercare is that stage itself: owner, 2026-11-04). */
+/** K7's loyalty ticks, under Support & Follow Up (Aftercare is that stage itself: owner, 2026-11-04). */
 export const COMPETITOR_LOYALTY_OPTIONS: readonly SegmentOption[] = [
     { id: "loyalty", label: "Loyalty scheme / rewards" }, { id: "subscription", label: "Subscription / membership" }, { id: "emails", label: "Regular emails or offers" },
     { id: "community", label: "Community or events" }
 ];
 
-/** A channel in a sentence, for "Reach customers [where]" (K11). */
+/** A channel in a sentence, for "Reach customers [where]" (K10). */
 const CHANNEL_WORDS: Record<string, string> = {
     "social-media": "on social media", community: "in communities", website: "through a website", marketplace: "on marketplaces", "in-person": "in person",
     email: "by email", "online-live": "in live online sessions", "retail-wholesale": "through shops or wholesalers", "referral-affiliates": "through referrals or affiliates"
 };
 
-/** K8's rows: the Journey Stages of page 2. */
+/** K7's rows: the Journey Stages of page 2. */
 export const COMPETITOR_STAGES: readonly SegmentOption[] = BUSINESS_JOURNEY_STAGES.map(stage => ({ id: stage.id, label: stage.label }));
 
-/** A stage in plain words, for "Make [stage] easier". */
-const STAGE_WORDS: Record<string, string> = {
-    discovery: "finding out", evaluation: "choosing", purchase: "buying", delivery: "getting it", support: "getting help afterwards"
+/** K10's option for a stage they make hard (K7 rated 1 or 2), in plain words (owner, 2026-11-04). */
+const STAGE_OPENINGS: Record<string, string> = {
+    discovery: "Make it easier to find you", evaluation: "Make it easier to compare and choose", purchase: "Make buying easier", delivery: "Make delivery smoother",
+    support: "Give better help after the sale"
 };
 
-/** K9's rows: the list L1, in the Profile's own words (B1). */
+/** K10's words for each value of L1: what to offer where they are weak (1 or 2), and the value as a noun ("Be known for ...", "Match them on ..."). */
+const VALUE_OPENINGS: Record<string, { better: string; noun: string }> = {
+    "lower-price": { better: "Offer lower prices", noun: "lower prices" },
+    speed: { better: "Be faster", noun: "speed" },
+    "ease-and-convenience": { better: "Make it easier and more convenient", noun: "ease and convenience" },
+    "quality-and-results": { better: "Offer better quality and results", noun: "quality and results" },
+    "trust-and-reputation": { better: "Earn more trust", noun: "trust and reputation" },
+    "expert-knowledge": { better: "Offer more expert knowledge", noun: "expert knowledge" },
+    "a-service-made-for-them": { better: "Offer a service made for them", noun: "a service made for them" },
+    "good-support": { better: "Offer better support", noun: "good support" },
+    "safety-and-low-risk": { better: "Make it safer and lower risk", noun: "safety and low risk" },
+    "shared-values-or-identity": { better: "Show the values you share with them", noun: "shared values" }
+};
+
+/** K8's rows: the list L1, in the Profile's own words (B1). */
 export const COMPETITOR_VALUES: readonly SegmentOption[] = PROFILE_QUESTIONS.find(question => question.id === "b1")?.options ?? [];
 
-/** K10's rows: the Segment's changes (`trends`), their short words (the examples stay in the Segment's "i"). */
+/** K9's rows: the Segment's changes (`trends`), their short words (the examples stay in the Segment's "i"). */
 export const COMPETITOR_CHANGES: readonly SegmentOption[] = segmentOptions("trends").map(option => ({ id: option.id, label: option.label.split(":")[0].trim() }));
 
-/* ---- K7: the review platforms (L18) and their order ---- */
+/* ---- K6: the review platforms (L18) and their order ---- */
 
 export interface ReviewPlatform extends SegmentOption {
     /** The industries (SEGMENT_INDUSTRIES' ids) it comes first for. */
@@ -199,7 +206,7 @@ export const REVIEW_PLATFORMS: readonly ReviewPlatform[] = [
     { id: "tabelog", label: "Tabelog", industries: ["hospitality"], onlyIn: ["JP"], countries: ["JP"] }
 ];
 
-/** The examples behind the catch-all platforms, for K7's "i" (doc 34, 5.2b). */
+/** The examples behind the catch-all platforms, for K6's "i" (doc 34, 5.2b). */
 export const REVIEW_PLATFORM_EXAMPLES = [
     "Marketplace: where they sell, such as Etsy, Amazon or eBay.",
     "App store: Apple's App Store or Google Play.",
@@ -243,7 +250,7 @@ export function industryOfActivity(country: string, code: string): string | unde
     return industryOfDivision(scheme, division);
 }
 
-/** K7's rows in their order (doc 34, 5.2b): Google and Facebook, the industry's, the country's; the rest behind "Show all". A platform is never shown twice. */
+/** K6's rows in their order (doc 34, 5.2b): Google and Facebook, the industry's, the country's; the rest behind "Show all". A platform is never shown twice. */
 export function reviewPlatformOrder(country: string, activityCode: string): { first: readonly ReviewPlatform[]; rest: readonly ReviewPlatform[] } {
     const industry = industryOfActivity(country, activityCode);
     const place = country && !SIX.includes(country) ? "other" : country;
@@ -259,10 +266,11 @@ export function reviewPlatformOrder(country: string, activityCode: string): { fi
     return { first, rest: REVIEW_PLATFORMS.filter(platform => !first.includes(platform)) };
 }
 
-/* ---- Other: a platform or a value not listed (K7, K9) ---- */
+/* ---- Other: a review platform not listed (K6) ---- */
 
-/** The questions whose list ends with Other: the names typed are kept as "<id>-other", each rated as "other-<n>" (owner, 2026-11-04, in place of "Show all"). */
-export type OtherQuestion = "k7" | "k9";
+/** The question whose list ends with Other: the names typed are kept as "<id>-other", each rated as "other-<n>" (owner, 2026-11-04, in place of "Show all").
+    K8's values are the fixed list L1, as the Profiles use, with no Other (owner, 2026-11-04). */
+export type OtherQuestion = "k6";
 
 /** Names that mean a listed platform (doc 34, L18's examples): typed under Other, they become that platform. */
 const PLATFORM_ALIASES: Record<string, string> = {
@@ -282,9 +290,8 @@ export function otherMatch(id: OtherQuestion, name: string): string | undefined 
     if (!typed) {
         return undefined;
     }
-    const list = id === "k7" ? REVIEW_PLATFORMS : COMPETITOR_VALUES;
-    const found = list.find(option => plain(option.label) === typed || plain(option.label.replace(/\s*\/\s*/g, " or ")) === typed || option.id === typed.replace(/ /g, "-"));
-    return found?.id ?? (id === "k7" ? PLATFORM_ALIASES[typed] : undefined);
+    const found = REVIEW_PLATFORMS.find(option => plain(option.label) === typed || plain(option.label.replace(/\s*\/\s*/g, " or ")) === typed || option.id === typed.replace(/ /g, "-"));
+    return found?.id ?? (id === "k6" ? PLATFORM_ALIASES[typed] : undefined);
 }
 
 /** The names typed under Other. */
@@ -328,8 +335,8 @@ export function competitorOtherSettle(answers: CompetitorAnswers, id: OtherQuest
     }
     const point = competitorRatings(answers, id)["other-" + at];
     let next = competitorOtherRemove(answers, id, at);
-    if (id === "k7" && !(next.k7 ?? []).includes(match)) {
-        next = { ...next, k7: [...(next.k7 ?? []), match] };
+    if (id === "k6" && !(next.k6 ?? []).includes(match)) {
+        next = { ...next, k6: [...(next.k6 ?? []), match] };
     }
     return point !== undefined && competitorRatings(next, id)[match] === undefined ? competitorRate(next, id, match, point) : next;
 }
@@ -392,16 +399,16 @@ export function competitorRate(answers: CompetitorAnswers, id: CompetitorQuestio
 const IDS = (list: readonly SegmentOption[]) => list.map(option => option.id);
 const OPTIONS: Partial<Record<CompetitorQuestionId, readonly string[]>> = {
     k1: IDS(COMPETITOR_OFFER_OPTIONS), k2: IDS(COMPETITOR_REACH_OPTIONS), k3: IDS(COMPETITOR_SIZE_OPTIONS), k4: ["1", "2", "3", "4", "5"],
-    k5: IDS(COMPETITOR_CHANNEL_OPTIONS), k6: IDS(COMPETITOR_ATTRACT_OPTIONS), k7: IDS(REVIEW_PLATFORMS), k8: IDS(COMPETITOR_LOYALTY_OPTIONS)
+    k5: IDS(COMPETITOR_CHANNEL_OPTIONS), k6: IDS(REVIEW_PLATFORMS), k7: IDS(COMPETITOR_LOYALTY_OPTIONS)
 };
 const ROWS: Partial<Record<CompetitorQuestionId, readonly string[]>> = {
-    k5: IDS(COMPETITOR_CHANNEL_OPTIONS), k7: IDS(REVIEW_PLATFORMS), k8: IDS(COMPETITOR_STAGES), k9: IDS(COMPETITOR_VALUES), k10: IDS(COMPETITOR_CHANGES)
+    k5: IDS(COMPETITOR_CHANNEL_OPTIONS), k6: IDS(REVIEW_PLATFORMS), k7: IDS(COMPETITOR_STAGES), k8: IDS(COMPETITOR_VALUES), k9: IDS(COMPETITOR_CHANGES)
 };
 const SINGLE: readonly CompetitorQuestionId[] = ["k1", "k2", "k3", "k4"];
 
 /**
  * A Competitor's answers settled against its type: a question the type no longer asks loses its answer (doc 41: removed on the next choice), as does an option
- * or a row not offered; a platform's rating goes with its tick; K11's ticks are settled against its options by the card (competitorOpenings).
+ * or a row not offered; a platform's rating goes with its tick; K10's ticks are settled against its options by the card (competitorOpenings).
  */
 export function competitorSettle(answers: CompetitorAnswers, type: string): CompetitorAnswers {
     const settled: CompetitorAnswers = {};
@@ -411,24 +418,24 @@ export function competitorSettle(answers: CompetitorAnswers, type: string): Comp
         }
         const offered = OPTIONS[id];
         const chosen = (answers[id] ?? []).filter((entry, at, all) => all.indexOf(entry) === at && (!offered || offered.includes(entry)));
-        if (id === "k8" && !competitorAsksLoyalty(type)) {
+        if (id === "k7" && !competitorAsksLoyalty(type)) {
             // (The loyalty ticks are asked of a rival only.)
-        } else if (id === "k11") {
-            if ((answers.k11 ?? []).length > 0) {
-                settled.k11 = (answers.k11 ?? []).slice(0, 3);
+        } else if (id === "k10") {
+            if ((answers.k10 ?? []).length > 0) {
+                settled.k10 = (answers.k10 ?? []).slice(0, 3);
             }
         } else if (chosen.length > 0) {
             settled[id] = SINGLE.includes(id) ? chosen.slice(0, 1) : chosen;
         }
-        // The names typed under Other (K7, K9): kept while the question is asked.
-        const others = id === "k7" || id === "k9" ? answers[id + "-other"] ?? [] : [];
+        // The names typed under Other (K6): kept while the question is asked.
+        const others = id === "k6" ? answers[id + "-other"] ?? [] : [];
         if (others.length > 0) {
             settled[id + "-other"] = others;
         }
         const rows = ROWS[id];
         if (rows) {
-            // A ticked row's rating (K5, K7) holds only while it is ticked; an Other row's while the row is there.
-            const ticked = id === "k5" || id === "k7";
+            // A ticked row's rating (K5, K6) holds only while it is ticked; an Other row's while the row is there.
+            const ticked = id === "k5" || id === "k6";
             const rated = (answers[id + "-rating"] ?? []).filter(entry => {
                 const [row, point] = entry.split(":");
                 const known = row.startsWith("other-") ? Number(row.slice(6)) < others.length : rows.includes(row) && (!ticked || (settled[id] ?? []).includes(row));
@@ -456,9 +463,9 @@ export function asCompetitorAnswers(source: unknown): CompetitorAnswers {
     return answers;
 }
 
-/* ---- K11: the openings, from the card's own answers ---- */
+/* ---- K10: the openings, from the card's own answers ---- */
 
-/** What K11 reads besides the card itself: the Segment's Profiles' B1 and its other competitors. */
+/** What K10 reads besides the card itself: the Segment's Profiles' B1 and its other competitors. */
 export interface OpeningContext {
     /** Each Profile's answers (b1 and b1-rating). */
     profiles: readonly CompetitorAnswers[];
@@ -493,34 +500,34 @@ const labelOf = (list: readonly SegmentOption[], id: string) => list.find(option
 const inSentence = (words: string) => words.charAt(0).toLowerCase() + words.slice(1);
 
 /**
- * K11's options, in their order, each by its rule (doc 41): the values by their opening score, (5 − rating) × weight, ties broken by how many of the Segment's
+ * K10's options, in their order, each by its rule (doc 41): the values by their opening score, (5 − rating) × weight, ties broken by how many of the Segment's
  * competitors rate the value low; then the stages, the reviews, the loyalty, the growth, the changes. An option shows only once its source is answered.
  */
 export function competitorOpenings(answers: CompetitorAnswers, type: string, context: OpeningContext): Opening[] {
     const kind = typeOf(type);
     const openings: Opening[] = [];
-    const values = competitorRatings(answers, "k9");
-    // A value written under Other is a value as the listed ones are, by its own words.
-    const valueWords = (value: string) => value.startsWith("other-") ? (competitorOthers(answers, "k9")[Number(value.slice(6))] ?? "").trim() || "another value" : labelOf(COMPETITOR_VALUES, value);
-    const valueId = (value: string) => value.startsWith("other-") ? "other:" + plain(valueWords(value)) : value;
-    const changes = competitorRatings(answers, "k10");
+    const values = listedValues(answers);
+    const valueWords = valueNoun;
+    const valueBetter = (value: string) => VALUE_OPENINGS[value]?.better ?? "Offer better " + valueWords(value);
+    const valueId = (value: string) => value;
+    const changes = competitorRatings(answers, "k9");
 
     if (kind === "status-quo") {
         for (const [value, point] of Object.entries(values)) {
             if (point && point <= 2) {
-                openings.push({ id: "cost:" + valueId(value), label: "Show what doing nothing costs: " + valueWords(value), value });
+                openings.push({ id: "cost:" + valueId(value), label: "Show what doing nothing costs them in " + valueWords(value), value });
             }
         }
         for (const [change, point] of Object.entries(changes)) {
             if (point && point <= 2) {
-                openings.push({ id: "act:" + change, label: "Use " + inSentence(labelOf(COMPETITOR_CHANGES, change)) + " as a reason to act" });
+                openings.push({ id: "act:" + change, label: "Use changes in " + inSentence(labelOf(COMPETITOR_CHANGES, change)) + " as a reason to act now" });
             }
         }
         return openings;
     }
 
     const lowCount = (value: string) => context.others.filter(other => {
-        const rated = competitorRatings(other, "k9")[value];
+        const rated = competitorRatings(other, "k8")[value];
         return rated !== undefined && rated <= 2;
     }).length;
     const scored = Object.entries(values)
@@ -530,11 +537,11 @@ export function competitorOpenings(answers: CompetitorAnswers, type: string, con
     for (const { value, point } of scored) {
         const words = valueWords(value);
         if (point <= 2) {
-            openings.push({ id: "better:" + valueId(value), label: "Offer better: " + words, value });
+            openings.push({ id: "better:" + valueId(value), label: valueBetter(value), value });
         } else if (point === 3) {
-            openings.push({ id: "standout:" + valueId(value), label: "Stand out on: " + words, value });
+            openings.push({ id: "standout:" + valueId(value), label: "Be known for " + words, value });
         } else if (point === 4 && valueOfProfiles(value, context)) {
-            openings.push({ id: "match:" + value, label: "Match them on: " + words, value });
+            openings.push({ id: "match:" + value, label: "Match them on " + words, value });
         }
     }
     if (kind === "internal" && Object.keys(values).length > 0) {
@@ -550,61 +557,75 @@ export function competitorOpenings(answers: CompetitorAnswers, type: string, con
         }
     }
 
-    const stages = competitorRatings(answers, "k8");
+    const stages = competitorRatings(answers, "k7");
     for (const stage of COMPETITOR_STAGES) {
         const point = stages[stage.id];
         if (point !== undefined && point <= 2) {
-            openings.push({ id: "stage:" + stage.id, label: "Make " + STAGE_WORDS[stage.id] + " easier" });
+            openings.push({ id: "stage:" + stage.id, label: STAGE_OPENINGS[stage.id] ?? "Make " + inSentence(stage.label) + " easier" });
         }
     }
-    const reviews = competitorRatings(answers, "k7");
+    const reviews = competitorRatings(answers, "k6");
     if (Object.values(reviews).some(point => point !== undefined && point < 4)) {
         openings.push({ id: "unhappy", label: kind === "substitutes" ? "Win over this alternative's unhappy customers" : "Win over their unhappy customers" });
     }
-    if (competitorAsksLoyalty(type) && Object.keys(stages).length > 0 && (answers.k8 ?? []).length === 0) {
+    if (competitorAsksLoyalty(type) && Object.keys(stages).length > 0 && (answers.k7 ?? []).length === 0) {
         openings.push({ id: "loyalty", label: "Give customers a reason to come back" });
     }
     const growth = Number(answers.k4?.[0]);
     if (growth >= 1 && growth <= 2) {
-        openings.push({ id: "losing", label: "Win customers they are losing" });
+        openings.push({ id: "losing", label: "Win the customers they are losing" });
     }
     for (const change of COMPETITOR_CHANGES) {
         const point = changes[change.id];
         if (point !== undefined && point >= 4) {
-            openings.push({ id: "use:" + change.id, label: "Use " + inSentence(change.label) + " too" });
+            openings.push({ id: "use:" + change.id, label: "Make the most of changes in " + inSentence(change.label) });
         } else if (point !== undefined && point <= 2) {
-            openings.push({ id: "ready:" + change.id, label: "Be ready where " + inSentence(change.label) + " hurts them" });
+            openings.push({ id: "ready:" + change.id, label: "Prepare for changes in " + inSentence(change.label) });
         }
     }
     return openings;
 }
 
-/** K11's "i" line for each value rated 5: "[name] is hard to beat on [value]; compete elsewhere." */
+/** A value of L1 inside a sentence ("quality and results"). */
+const valueNoun = (value: string) => VALUE_OPENINGS[value]?.noun ?? inSentence(labelOf(COMPETITOR_VALUES, value));
+
+/** K10's "i" line for each value rated 5: "[name] is hard to beat on [value], so compete elsewhere." */
 export function hardToBeat(name: string, answers: CompetitorAnswers): string[] {
     const who = name.trim() || "This competitor";
-    return Object.entries(competitorRatings(answers, "k9"))
+    return Object.entries(listedValues(answers))
         .filter(([, point]) => point === 5)
-        .map(([value]) => who + " is hard to beat on " + (value.startsWith("other-") ? (competitorOthers(answers, "k9")[Number(value.slice(6))] ?? "").trim() || "another value" : labelOf(COMPETITOR_VALUES, value)) + "; compete elsewhere.");
+        .map(([value]) => who + " is hard to beat on " + valueNoun(value) + ", so compete elsewhere.");
+}
+
+/** K8's ratings of the listed values (L1) only. */
+function listedValues(answers: CompetitorAnswers): Partial<Record<string, Point>> {
+    return Object.fromEntries(Object.entries(competitorRatings(answers, "k8")).filter(([value]) => COMPETITOR_VALUES.some(option => option.id === value))) as Partial<Record<string, Point>>;
+}
+
+/** The draft's lines not already in the text (compared trimmed, any spacing): "Add to text" adds only these, and is not offered when none is left. */
+export function draftToAdd(text: string, draft: string): string {
+    const said = text.replace(/\s+/g, " ").trim();
+    return draft.split("\n").map(line => line.trim()).filter(line => line && !said.includes(line.replace(/\s+/g, " "))).join("\n");
 }
 
 /**
- * The draft added at the end of the Insights text when the App User asks (doc 41): "Customers want [value]; [name] falls short on it.", one line for each value
- * the Segment's Profiles tick that K9 rates 1 or 2, with every competitor of the Segment that falls short on it; then "You could [opening]." for each tick of K11.
+ * The draft added at the end of the Insights text when the App User asks (doc 41): "Customers want [value], and [name] falls short there.", one line for each value
+ * the Segment's Profiles tick that K8 rates 1 or 2, with every competitor of the Segment that falls short on it; then "You could [opening]." for each tick of K10.
  */
 export function insightsDraft(name: string, answers: CompetitorAnswers, context: OpeningContext & { names: readonly { name: string; answers: CompetitorAnswers }[] }, openings: readonly Opening[]): string {
     const lines: string[] = [];
-    for (const [value, point] of Object.entries(competitorRatings(answers, "k9"))) {
+    for (const [value, point] of Object.entries(competitorRatings(answers, "k8"))) {
         if (point === undefined || point > 2 || !valueOfProfiles(value, context)) {
             continue;
         }
         const short = [name, ...context.names
-            .filter(other => other.answers !== answers && (competitorRatings(other.answers, "k9")[value] ?? 5) <= 2)
+            .filter(other => other.answers !== answers && (competitorRatings(other.answers, "k8")[value] ?? 5) <= 2)
             .map(other => other.name)]
             .map(entry => entry.trim())
             .filter((entry, at, all) => entry && all.indexOf(entry) === at);
-        lines.push("Customers want " + inSentence(labelOf(COMPETITOR_VALUES, value)) + "; " + (short.length > 0 ? short.join(", ") : "this competitor") + " " + (short.length > 1 ? "fall" : "falls") + " short on it.");
+        lines.push("Customers want " + valueNoun(value) + ", and " + (short.length > 0 ? short.join(", ") : "this competitor") + " " + (short.length > 1 ? "fall" : "falls") + " short there.");
     }
-    for (const id of answers.k11 ?? []) {
+    for (const id of answers.k10 ?? []) {
         const opening = openings.find(entry => entry.id === id);
         if (opening) {
             lines.push("You could " + inSentence(opening.label) + ".");

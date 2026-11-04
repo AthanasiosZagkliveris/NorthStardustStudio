@@ -8,6 +8,7 @@ import { backButton } from "./assets/backButton.ts";
 import { foldArrow } from "./assets/foldArrow.ts";
 import { dropdown } from "./assets/dropdown.ts";
 import { floatingCard } from "./assets/floatingCard.ts";
+import { ratingScale } from "./assets/ratingScale.ts";
 
 /** Every asset of the library that has a contract. */
-export const assets: readonly AssetContract[] = [labelArrow, plusBox, infoNote, removeX, rails, backButton, foldArrow, dropdown, floatingCard];
+export const assets: readonly AssetContract[] = [labelArrow, plusBox, infoNote, removeX, rails, backButton, foldArrow, dropdown, floatingCard, ratingScale];

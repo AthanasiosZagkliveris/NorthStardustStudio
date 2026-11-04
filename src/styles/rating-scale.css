@@ -1,27 +1,25 @@
-/* THE RATING FIELD (RatingField, RatingGroup, RatingEnds): five rounds of the radio choice in a row, low on the left and high on the right. The rounds keep the look of
+/* THE RATING SCALE (RatingScale, RatingScaleGroup, RatingScaleEnds; doc 21, "Rating Scale"): five rounds of the radio choice in a row, low on the left and high on the right. The rounds keep the look of
    radio-choice.css (this sheet says only where they stand); the end words stand once, over the first and the last round (no word in between). */
 
-/* One rating: its end words over its rounds, 6px apart (a label to its control), the rounds spread across the words' width. */
-.rating-field {
+/* VERTICAL, a single rating (its question over it): its end words over its rounds, 6px apart (a label to its control), the rounds spread evenly across the WHOLE
+   width of the place it stands in, the end words at its two edges (owner, 2026-11-04). */
+.rating-scale {
 
-    display: inline-grid;
-
-    /* As wide as its words and rounds need, even in a parent that stretches its children. */
-    justify-self: start;
+    display: grid;
 
     row-gap: var(--space-label);
 
 }
 
 /* The five rounds, spread from the first end to the last; never closer than the radio choice's own gap. */
-.rating-field-points {
+.rating-scale-points {
 
     justify-content: space-between;
 
 }
 
 /* The end words, one each: the low one starts over the first round, the high one ends over the last. */
-.rating-ends {
+.rating-scale-ends {
 
     display: grid;
     grid-template-columns: auto auto;
@@ -33,13 +31,13 @@
 
 }
 
-.rating-ends-low {
+.rating-scale-ends-low {
 
     justify-self: start;
 
 }
 
-.rating-ends-high {
+.rating-scale-ends-high {
 
     justify-self: end;
 
@@ -48,10 +46,12 @@
 }
 
 /* Several ratings on one scale: each row's words on the left, all rounds in one column on the right, the end words once over that column. */
-.rating-group {
+.rating-scale-group {
 
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    /* HORIZONTAL, a group (owner, 2026-11-04): each row's words (a tick and its words, or an Other row's name cell) take half the width and wrap; its rounds take
+       the other half, spread evenly, under the end words said once over that half. */
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     align-items: center;
 
     column-gap: var(--space-cell);
@@ -62,29 +62,23 @@
 
 }
 
-.rating-group > .rating-ends {
+.rating-scale-group > .rating-scale-ends {
 
     grid-column: 2;
 
 }
 
 /* In a group a rating fills its column, so its rounds spread under the group's end words. */
-.rating-group > .rating-field {
 
-    display: grid;
 
-    justify-self: stretch;
-
-}
-
-.rating-group-label {
+.rating-scale-group-label {
 
     grid-column: 1;
 
 }
 
 /* A selectable row's words: the tick and its words on one line, 8px apart, as every tick option of a card stands (.business-foundation-tick). */
-.rating-group-label.tick-field {
+.rating-scale-group-label.tick-field {
 
     display: flex;
     align-items: center;
@@ -94,14 +88,14 @@
 }
 
 /* An unticked row of a selectable group: its place in the rounds' column, empty. */
-.rating-group-unrated {
+.rating-scale-group-unrated {
 
     grid-column: 2;
 
 }
 
 /* What a row carries under it (ticks of its own), across the group, indented under the row's words. */
-.rating-group-below {
+.rating-scale-group-below {
 
     grid-column: 1 / -1;
 

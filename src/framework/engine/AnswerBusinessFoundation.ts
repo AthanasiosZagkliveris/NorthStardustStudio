@@ -423,7 +423,37 @@ function competitorQuestionsOf(source: unknown): { questions?: Record<string, st
             questions[key] = value as string[];
         }
     }
-    return Object.keys(questions).length > 0 ? { questions } : {};
+    const read = competitorLayoutOf2026_11_04(questions);
+    return Object.keys(read).length > 0 ? { questions: read } : {};
+}
+
+/**
+ * Answers saved under the numbers of the morning of 2026-11-04 (K6 "How do they attract new customers?", K7 the platforms ... K11 the openings) read under the
+ * numbers since K6 went (owner, 2026-11-04: it repeated the channels): K6 is dropped and K7 to K11 become K6 to K10. The values had an Other row for a short
+ * while: a value written there and its rating are dropped too. The older layout is told by a key only it has, or by its K9 ratings being values, not changes.
+ */
+function competitorLayoutOf2026_11_04(questions: Record<string, string[]>): Record<string, string[]> {
+    const ATTRACT = ["discounts", "trial", "referral", "ads", "content", "events", "partnerships"];
+    const CHANGES = ["technology", "regulation", "economy", "society", "supply"];
+    const older = "k11" in questions || "k10-rating" in questions || "k9-other" in questions || "k7-other" in questions
+        || (questions.k6 ?? []).some(id => ATTRACT.includes(id))
+        || (questions["k9-rating"] ?? []).some(entry => !CHANGES.includes(entry.split(":")[0]));
+    if (!older) {
+        return questions;
+    }
+    const read: Record<string, string[]> = {};
+    for (const [key, value] of Object.entries(questions)) {
+        const match = /^k(\d+)(-.+)?$/.exec(key);
+        const n = match ? Number(match[1]) : 0;
+        if (n === 6 || key === "k9-other") {
+            continue;
+        }
+        const entries = key === "k9-rating" ? value.filter(entry => !entry.startsWith("other-")) : value;
+        if (entries.length > 0) {
+            read[n >= 7 ? "k" + (n - 1) + (match?.[2] ?? "") : key] = entries;
+        }
+    }
+    return read;
 }
 
 export function asBusinessOffering(entry: unknown): BusinessOfferingValue {

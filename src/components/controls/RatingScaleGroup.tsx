@@ -1,13 +1,13 @@
 import { Fragment, type ReactNode } from "react";
 
-import RatingEnds from "./RatingEnds";
-import RatingField, { type Rating } from "./RatingField";
+import RatingScaleEnds from "./RatingScaleEnds";
+import RatingScale, { type Rating } from "./RatingScale";
 import TickField from "./TickField";
 
-import "../../styles/rating-field.css";
+import "../../styles/rating-scale.css";
 
 /**
- * THE RATING GROUP: several things rated on one scale, one RatingField per row, each row's words on its left and its five rounds on its right, all rows' rounds
+ * THE RATING GROUP: several things rated on one scale, one RatingScale per row, each row's words on its left and its five rounds on its right, all rows' rounds
  * in one column. The end words are said ONCE, as the column's header over the first row, not repeated on every row (layout rules, "Noise"). A row left unrated
  * is unanswered.
  *
@@ -15,7 +15,7 @@ import "../../styles/rating-field.css";
  * rated); unticking a row clears its rating. `below`: what a row carries under it, across the group (the loyalty ticks under Support & Follow Up). `fixed`: a row
  * with no tick of its own, its rounds always shown, in a selectable group too (a row written under Other, whose words are a text cell).
  */
-export default function RatingGroup({ label, name, rows, values, onChange, lowLabel, highLabel, selectable = false, selected = [], onSelect, disabled, className }: {
+export default function RatingScaleGroup({ label, name, rows, values, onChange, lowLabel, highLabel, selectable = false, selected = [], onSelect, disabled, className }: {
     /** What the group rates, for a screen reader. */
     label: string;
     /** The group's name: each row's rounds are named from it and the row's id. */
@@ -38,8 +38,8 @@ export default function RatingGroup({ label, name, rows, values, onChange, lowLa
     className?: string;
 }) {
     return (
-        <div className={"rating-group" + (className ? " " + className : "")} role="group" aria-label={label}>
-            <RatingEnds low={lowLabel} high={highLabel} />
+        <div className={"rating-scale-group" + (className ? " " + className : "")} role="group" aria-label={label}>
+            <RatingScaleEnds low={lowLabel} high={highLabel} />
             {rows.map(row => {
                 const words = row.name ?? (typeof row.label === "string" ? row.label : row.id);
                 const on = !selectable || row.fixed || selected.includes(row.id);
@@ -48,7 +48,7 @@ export default function RatingGroup({ label, name, rows, values, onChange, lowLa
                         {selectable && !row.fixed
                             ? (
                                 <TickField
-                                    className="rating-group-label"
+                                    className="rating-scale-group-label"
                                     checked={on}
                                     disabled={disabled}
                                     onChange={event => {
@@ -63,10 +63,10 @@ export default function RatingGroup({ label, name, rows, values, onChange, lowLa
                                     {row.label}
                                 </TickField>
                             )
-                            : <span className="rating-group-label">{row.label}</span>}
+                            : <span className="rating-scale-group-label">{row.label}</span>}
                         {on
                             ? (
-                                <RatingField
+                                <RatingScale
                                     label={words}
                                     name={name + "-" + row.id}
                                     value={values[row.id]}
@@ -75,8 +75,8 @@ export default function RatingGroup({ label, name, rows, values, onChange, lowLa
                                 />
                             )
                             // An unticked row keeps its place in the column, with no rounds.
-                            : <span className="rating-group-unrated" aria-hidden="true" />}
-                        {row.below && <div className="rating-group-below">{row.below}</div>}
+                            : <span className="rating-scale-group-unrated" aria-hidden="true" />}
+                        {row.below && <div className="rating-scale-group-below">{row.below}</div>}
                     </Fragment>
                 );
             })}

@@ -8,6 +8,7 @@ import RailsSamples from "./RailsSamples";
 import BackButtonSamples from "./BackButtonSamples";
 import FoldArrowSamples from "./FoldArrowSamples";
 import DropdownSamples from "./DropdownSamples";
+import RatingScaleSamples from "./RatingScaleSamples";
 
 /** How the gallery draws each asset, by the asset's name in its contract. */
 export const galleries: Record<string, ComponentType<{ asset: AssetContract }>> = {
@@ -18,5 +19,6 @@ export const galleries: Record<string, ComponentType<{ asset: AssetContract }>> 
     "Rails": RailsSamples,
     "Back button": BackButtonSamples,
     "Fold arrow": FoldArrowSamples,
-    "Dropdown": DropdownSamples
+    "Dropdown": DropdownSamples,
+    "Rating Scale": RatingScaleSamples
 };

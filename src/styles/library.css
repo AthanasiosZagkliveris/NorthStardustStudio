@@ -302,3 +302,31 @@
     border-radius: 50%;
     background: var(--text-muted);
 }
+
+/* The Rating Scale's samples: a floating card's width (one column), and one of the Segment card's two columns (half of it). */
+.library-grid:has(.library-rating) {
+
+    grid-template-columns: repeat(auto-fill, 520px);
+
+}
+
+.library-sample:has(.library-rating) {
+
+    width: 520px;
+    max-width: 100%;
+
+}
+
+.library-rating-2 {
+
+    width: 50%;
+
+}
+
+.library-rating-question {
+
+    margin: 0 0 var(--space-label);
+
+    font-size: var(--font-body);
+
+}

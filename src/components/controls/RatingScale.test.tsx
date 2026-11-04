@@ -2,14 +2,14 @@ import { cleanup, fireEvent, render, screen, within } from "@testing-library/rea
 import { useState } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import RatingField, { type Rating } from "./RatingField";
-import RatingGroup from "./RatingGroup";
+import RatingScale, { type Rating } from "./RatingScale";
+import RatingScaleGroup from "./RatingScaleGroup";
 
 /** A rating that keeps its own value, as a card does. */
 function Kept({ onChange }: { onChange?: (next: Rating | undefined) => void }) {
     const [value, setValue] = useState<Rating | undefined>(undefined);
     return (
-        <RatingField
+        <RatingScale
             label="Good support"
             name="support"
             value={value}
@@ -20,7 +20,7 @@ function Kept({ onChange }: { onChange?: (next: Rating | undefined) => void }) {
     );
 }
 
-describe("RatingField", () => {
+describe("RatingScale", () => {
 
     afterEach(() => cleanup());
 
@@ -37,7 +37,7 @@ describe("RatingField", () => {
         expect(screen.getAllByText("Weak")).toHaveLength(1);
         expect(screen.getAllByText("Strong")).toHaveLength(1);
         // No word in between (owner, 2026-11-04).
-        expect(document.querySelectorAll(".rating-ends > span")).toHaveLength(2);
+        expect(document.querySelectorAll(".rating-scale-ends > span")).toHaveLength(2);
     });
 
     it("chooses a round, moves to another, and clears when the chosen round is pressed again", () => {
@@ -68,7 +68,7 @@ describe("RatingField", () => {
     });
 
     it("cannot be changed while disabled", () => {
-        render(<RatingField label="Speed" name="speed" value={3} onChange={() => {}} disabled />);
+        render(<RatingScale label="Speed" name="speed" value={3} onChange={() => {}} disabled />);
         for (const round of screen.getAllByRole("radio")) {
             expect((round as HTMLInputElement).disabled).toBe(true);
         }
@@ -76,14 +76,14 @@ describe("RatingField", () => {
 
 });
 
-describe("RatingGroup", () => {
+describe("RatingScaleGroup", () => {
 
     afterEach(() => cleanup());
 
     it("says the end words once for all rows and gives each row its own group", () => {
         const onChange = vi.fn();
         render(
-            <RatingGroup
+            <RatingScaleGroup
                 label="How do they do on what customers value?"
                 name="k9"
                 rows={[{ id: "price", label: "Lower price" }, { id: "speed", label: "Speed" }]}
@@ -111,7 +111,7 @@ describe("RatingGroup", () => {
             const [selected, setSelected] = useState<string[]>([]);
             const [values, setValues] = useState<Partial<Record<string, Rating>>>({});
             return (
-                <RatingGroup
+                <RatingScaleGroup
                     label="Where are they reviewed, and how are they rated?"
                     name="k6"
                     rows={[{ id: "google", label: "Google" }, { id: "trustpilot", label: "Trustpilot" }]}
@@ -146,7 +146,7 @@ describe("RatingGroup", () => {
 
     it("shows what a row carries under it", () => {
         render(
-            <RatingGroup
+            <RatingScaleGroup
                 label="How easy do they make each stage for customers?"
                 name="k7"
                 rows={[{ id: "support", label: "Support & Follow Up", below: <span>Loyalty scheme / rewards</span> }]}

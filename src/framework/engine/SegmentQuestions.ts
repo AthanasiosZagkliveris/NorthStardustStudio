@@ -24,7 +24,7 @@ export interface SegmentQuestion {
     info: readonly string[];
     /** A short name for the notes that say what Positioning or the answers above set ("Size: Medium-sized business"). */
     name?: string;
-    /** A degree, asked as a rating from 1 to 5 (RatingField): the words over its ends and, where one helps, its middle (doc 35, owner 2026-11-04). The answer is the point, "1" to "5". */
+    /** A degree, asked as a rating from 1 to 5 (RatingScale): the words over its ends and, where one helps, its middle (doc 35, owner 2026-11-04). The answer is the point, "1" to "5". */
     rating?: { low: string; high: string };
 }
 
