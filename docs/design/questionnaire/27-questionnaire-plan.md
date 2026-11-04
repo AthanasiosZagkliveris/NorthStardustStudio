@@ -1,6 +1,6 @@
 # 27. Questionnaire plan: from a few answers to a ready-made first draft
 
-Status: **proposal**, written 2026-10-23, updated 2026-11-02. Built so far: the Organisation tile with its activity cascade, the business stage, the Early Positioning questions with their End User questions (document 28, 8.2, 8.2a, 8.5), the Segment card's questions (doc 35) and the Profile card's questions in part (doc 36); the rest of this plan is not built. This is the plan: the goal, the order, what the user gets at each stage, what was cut and why, and what the owner must decide. The detail (every list with examples, the industry list in two levels, every question and option, the connection map and its evidence, the sources) is in document 28, `28-questionnaire-specification.md`, which has a contents block at its top; the flow of the questions is document 29; the sources are in `02-references.md`, section 2.7.
+Status: **proposal**, written 2026-10-23, updated 2026-11-04. Built so far: the Organisation tile with its activity cascade, the business stage, the Early Positioning questions with their End User questions (document 28, 8.2, 8.2a, 8.5), the Segment card's questions (doc 35) and the Profile card's questions in part (doc 36); the rest of this plan is not built. This is the plan: the goal, the order, what the user gets at each stage, what was cut and why, and what the owner must decide. The detail (every list with examples, the industry list in two levels, every question and option, the connection map and its evidence, the sources) is in document 28, `28-questionnaire-specification.md`, which has a contents block at its top; the flow of the questions is document 29; the sources are in `02-references.md`, section 2.7.
 
 > **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Doc 33 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, age limits, accessibility, caregiving and the rest) is a future feature: doc 33. Contents of the documents: `docs/README.md`; index: `docs/index.md`; glossary: `docs/app/glossary.md`.
 
@@ -62,8 +62,8 @@ We settle one tile at a time: its questions and their option lists (written as l
 |---|---|---|
 | 1 | Business 1, the Segment card (tile "Segment Description") | Built: the card asks its questions and reads Identity (doc 35) |
 | 2 | Business 1, the Profile cards (same tile) | Built in part (doc 36): A1 to A3, A5, B1, C1 to C4, D1, D2, E1 to E3; not built: the kind of business, the specialised needs, the proposed Profiles, the user's own Profile |
-| 3 | Business 1, Competitors | |
-| 4 | Business 1, Offerings, with the Value Proposition draft | |
+| 3 | Business 1, Competitors | Proposed (doc 41): K1 to K10, in the card's order; built: the Type on each competitor's tile and the rating field its ratings use (`RatingField`, `RatingGroup`, doc 21), not yet placed in the card |
+| 4 | Business 1, Offerings, with the Value Proposition draft | Proposed: the Offering (doc 43) and the Value Proposition draft (doc 42) |
 | 5 | Identity: the Organisation and Early Positioning tiles (Mission, Vision and the Ethics tiles stay prose) | Built in part: the Organisation tile and the Early Positioning questions (28, 8.2, 8.5); not built: the industry pack, the Description and Positioning drafts |
 | 6 | Business 2, the journey | |
 | 7 | Business 3, delivery and capability; the founders | |

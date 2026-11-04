@@ -15,10 +15,10 @@ The rules that hold for all of them: a radio is one choice, ticks are several (w
 
 | Question | Becomes | Kept as is, and why |
 |---|---|---|
-| Box 1, 8. Household income | rating: 1 Low, 3 Middle, 5 High | |
 | Box 4, 1. and the end user's 8. Online comfort | rating: 1 Not comfortable, 3 Fairly comfortable, 5 Very comfortable | |
 | Box 5, 1. Growing or shrinking | rating: 1 Shrinking, 3 Flat, 5 Growing fast | |
 | Box 5, 4. How crowded | rating: 1 Open, 3 Fragmented, 5 Crowded | |
+| Household income | | named bands (Low, Lower-middle, Middle, Upper-middle, High), each placed against the country's median |
 | Age, education, school stage | | named stages and ranges (doc 31) |
 | Gender mix | | named ranges (80%+, 60–80%, 40–60%) |
 | Where they are, the kind of area | | named places and kinds |
@@ -165,7 +165,7 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
 
 ### 8. How high is your customers' household income?
 
-- **Control:** one choice (a radio). **Proposed, to build:** a rating, 1 to 5 (`RatingField`): 1 "Low", 3 "Middle", 5 "High". Saved answers map one to one: Low 1, Lower-middle 2, Middle 3, Upper-middle 4, High 5.
+- **Control:** one choice (a radio).
 - **Asked when:** The buyer is people, and the age is not Minors.
 - **Options:**
   - Low
