@@ -11,17 +11,18 @@ The rules that hold for all of them: a radio is one choice, ticks are several (w
 
 **Connections.** Under each question: *Comes from* is what it takes from Identity or from the Segment's own earlier answers (built); *Read by* is what reads it. Built: the Market document and the export list every answer as it stands once settled against Identity as it is now (an answer to a question Identity no longer asks, or to an option it no longer offers, is left out of them at once, and is removed from the Segment on its next choice), the Business Plan's Market Analysis counts as covered when a market question is answered, and the Segment's own questions follow one another as stated. *Not built yet* is what the design plans to read it (doc 28, 6.3a and 6.5; doc 33, section 15): until it is built, nothing else reads the answer.
 
-**Built (2026-11-04; owner, 2026-11-04): degree and comfort questions use the 1 to 5 rating unless named ranges exist.** A question that asks how comfortable people are with something, or a level or degree (how high, how fast, how crowded), becomes a rating from 1 to 5 (`RatingScale`, doc 21): one word at each end of its five rounds, none in between (owner, 2026-11-04), the "i" keeping what each end means. A question whose options name ranges or kinds keeps its options. Each changed question says how answers saved before it was a rating are read (`asSegmentAnswers`, `SegmentQuestions.ts`); the documents print a rating as "3 of 5 (Fairly comfortable)", the words only at an end or the middle.
+**Built (2026-11-04; owner, 2026-11-04): degree and comfort questions use the 1 to 5 rating unless named ranges exist.** A question that asks how comfortable people are with something, or a level or degree (how high, how fast, how crowded), becomes a rating from 1 to 5 (`RatingScale`, doc 21): the numbers 1 to 5 over its five rounds, and what 1 and 5 mean as the first line of its "i" ("1 = Uneasy, 5 = Confident."; owner, 2026-11-04: an end word could stand over two rounds). A question whose options name ranges or kinds keeps its options. Each changed question says how answers saved before it was a rating are read (`asSegmentAnswers`, `SegmentQuestions.ts`); the documents print a rating as "3 of 5 (Fairly comfortable)", the words only at an end or the middle.
 
 | Question | Becomes | Kept as is, and why |
 |---|---|---|
 | Box 4, 1. and the end user's 8. Online comfort | rating: Uneasy to Confident | |
 | Box 5, 1. Growing or shrinking | rating: Shrinking to Booming | |
 | Box 5, 4. How crowded | rating: Open to Crowded | |
-| Household income | | named bands (Low, Lower-middle, Middle, Upper-middle, High), each placed against the country's median |
+| Box 1, 8. Household income | rating: Low to High (owner, 2026-11-04, by request: its five bands were already a scale) | |
+| Box 1, 9. Gender mix | rating: Mostly men to Mostly women (owner, 2026-11-04, by request); the shares stay in the "i" | |
+| Box 2, 2. The kind of area | rating: Rural to Urban (owner, 2026-11-04, by request); three kinds saved before are read as 1, 3 and 5 | |
 | Age, education, school stage | | named stages and ranges (doc 31) |
-| Gender mix | | named ranges (80%+, 60–80%, 40–60%) |
-| Where they are, the kind of area | | named places and kinds |
+| Where they are | | named places |
 | Size of their organisations | | named employee ranges (the EU's) |
 | How many potential customers | | named ranges (under 1,000 to 500,000 or more) |
 | Work, schedule, pay, socialising, deciding, where they shop | | kinds, not degrees |
@@ -165,43 +166,33 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
 
 ### 8. How high is your customers' household income?
 
-- **Control:** one choice (a radio).
+- **Control:** a rating, 1 to 5 (`RatingScale`; owner, 2026-11-04). Answers saved before are read as: Low 1, Lower-middle 2, Middle 3, Upper-middle 4, High 5.
 - **Asked when:** The buyer is people, and the age is not Minors.
-- **Options:**
-  - Low
-  - Lower-middle
-  - Middle
-  - Upper-middle
-  - High
+- **Options:** the points 1 to 5.
 - **The "i" says:**
-  - Compare with the typical household income in their country: Middle is around the median, Low and High are the ends.
+  - 1 = Low, 5 = High.
+  - Compare with the typical household income in their country: 3 is around the median.
   - Household income is what the home earns together, not one person's pay.
 - **Connections:**
   - *Comes from:* This Segment's age (not asked of Minors).
   - *Read by (built):* The Market document and the export.
+  - *Read by (built):* the Profile's E3 starts with "The price / budget" when this is rated 1 (doc 36).
   - *Read by (not built yet):* The Review: the price against what they earn.
 
 ### 9. What is the gender mix of your customers?
 
-- **Control:** one choice (a radio).
+- **Control:** a rating, 1 to 5 (`RatingScale`; owner, 2026-11-04). Answers saved before are read as: Mostly men 1, Leans men 2, Balanced mix 3, Leans women 4, Mostly women 5.
 - **Asked when:** The buyer is people.
-- **Options:**
-  - Mostly men
-  - Leans men
-  - Balanced mix
-  - Leans women
-  - Mostly women
+- **Options:** the points 1 to 5.
 - **The "i" says:**
-  - The share of your customers who are men or women. Choose Balanced mix when it does not matter for what you sell.
-  - Mostly men: 80%+
-  - Leans men: 60–80%
-  - Balanced mix: 40–60%
-  - Leans women: 60–80%
-  - Mostly women: 80%+
+  - 1 = Mostly men, 5 = Mostly women.
+  - 1 is 80% or more men, 2 is 60 to 80%, 3 a balanced mix (40 to 60%), 4 is 60 to 80% women, 5 is 80% or more.
+  - Choose 3 when it does not matter for what you sell.
 - **Connections:**
   - *Comes from:* Nothing; the seller and buyer relationship (people).
   - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* The Profile's gender (the Review: it should fit the mix).
+  - *Read by (built):* the Profile's A2, asked unless this is 3, and started from it: 1 or 2 Man, 4 or 5 Woman (doc 36).
+  - *Read by (not built yet):* the Review: the Profile's gender should fit the mix.
 
 
 ## Box 2. Geographics
@@ -228,17 +219,13 @@ Both.
 
 ### 2. Where do your customers live or work?
 
-- **Control:** one choice (a radio).
+- **Control:** a rating, 1 to 5 (`RatingScale`; owner, 2026-11-04). Answers saved before are read as: Rural / remote 1, Suburban 3, Urban 5.
 - **Asked when:** Managing and Growing only (held back while Planning and Launching), and only when the answer above is the city or town, the state or region, or the country.
-- **Options:**
-  - Urban
-  - Suburban
-  - Rural / remote
+- **Options:** the points 1 to 5.
 - **The "i" says:**
-  - The kind of place they live or work in. Asked once the business is managing or growing, and only for customers in one place or one country.
-  - Urban: High-density city centre
-  - Suburban: Residential towns surrounding a city
-  - Rural / remote: Low-density countryside or isolated areas
+  - 1 = Rural, 5 = Urban.
+  - 1 is countryside or remote places, 3 the suburbs and towns around a city, 5 a city centre.
+  - Asked once the business is managing or growing, and only for customers in one place or one country.
 - **Connections:**
   - *Comes from:* This Segment's reach, and the business stage (Organisation: the Opening Date).
   - *Read by (built):* The Market document and the export.
@@ -344,10 +331,11 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
 
 ### 1. How comfortable are your customers online?
 
-- **Control:** a rating, 1 to 5 (`RatingScale`), from "Uneasy" to "Confident". Answers saved before 2026-11-04 are read as: Not very comfortable 1, Fairly comfortable 3, Very comfortable 5.
+- **Control:** a rating, 1 to 5 (`RatingScale`). Answers saved before 2026-11-04 are read as: Not very comfortable 1, Fairly comfortable 3, Very comfortable 5.
 - **Asked when:** Always.
 - **Options:** the points 1 to 5.
 - **The "i" says:**
+  - 1 = Uneasy, 5 = Confident.
   - How easily they use websites, apps and online payment, not whether they own a device.
 - **Connections:**
   - *Read by (built, 2026-11-04):* the Profile's C2, not asked when this is rated 1, and D2's start: 4 or 5 starts "Works it out alone", 1 or 2 "Wants to talk to a person" (doc 36).
@@ -382,12 +370,12 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
   - Mostly online (gaming, community servers, chat apps)
   - Online and in person
   - Mostly in person (events, hospitality, clubs, sports)
-  - Mostly on their own
+  - ("Mostly on their own" removed, owner 2026-11-04: it contradicted the question, which asks how they socialise, and nothing read it; a saved answer of it is dropped when read.)
 - **The "i" says:**
   - Where they spend their free time. It decides how they meet brands and products.
 - **Connections:**
   - *Comes from:* Early Positioning: the relationship (people).
-  - *Read by (built):* The Market document and the export.
+  - *Read by (built):* The Market document and the export; the Profile's C4 (events) is asked when this is Online and in person or Mostly in person (doc 36).
   - *Read by (not built yet):* The Profile's social and interest hubs.
 
 ### 4. How do your customers share what they like?
@@ -500,7 +488,7 @@ Both.
 
 ### 1. Is your market growing or shrinking?
 
-- **Control:** a rating, 1 to 5 (`RatingScale`), from "Shrinking" to "Booming". Answers saved before 2026-11-04 are read as: Shrinking or disrupted 1, Flat / stable 3, Growing steadily 4, Growing fast 5.
+- **Control:** a rating, 1 to 5 (`RatingScale`), the "i" first saying "1 = Shrinking, 5 = Booming.". Answers saved before 2026-11-04 are read as: Shrinking or disrupted 1, Flat / stable 3, Growing steadily 4, Growing fast 5.
 - **Asked when:** Always.
 - **Options:** the points 1 to 5.
 - **The "i" says:**
@@ -553,7 +541,7 @@ Both.
 
 ### 4. How crowded is your market?
 
-- **Control:** a rating, 1 to 5 (`RatingScale`), from "Open" to "Crowded". Answers saved before 2026-11-04 are read as: Open 1, Fragmented 3, Crowded 5.
+- **Control:** a rating, 1 to 5 (`RatingScale`), the "i" first saying "1 = Open, 5 = Crowded.". Answers saved before 2026-11-04 are read as: Open 1, Fragmented 3, Crowded 5.
 - **Asked when:** Always.
 - **Options:** the points 1 to 5.
 - **The "i" says:**

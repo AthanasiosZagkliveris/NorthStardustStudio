@@ -103,7 +103,7 @@ A typical person of the Segment, asked specifically.
   - Another gender
 - **The "i" would say:** Asked only when the Segment's mix leans one way. The categories follow the Australian standard for sex and gender [SEX-01]. Nothing reads it today but the note (the equality notice and the Review check are not built).
 - **Connections:**
-  - *Comes from:* the Segment's gender mix. When it leans one way (60 to 80%) or is mostly one way (80%+), A2 **starts** as Woman or Man, a starting value the App User can change; the question stays visible, because a Segment holds up to three Profiles and one of them can be the minority. When the mix is Balanced the question is not asked: gender does not matter for what is sold.
+  - *Comes from:* the Segment's gender mix. The mix is a rating since 2026-11-04 (doc 35): rated 1 or 2 (mostly or leaning men), A2 **starts** as Man; 4 or 5, as Woman; 3 (balanced) is not asked; a starting value the App User can change; the question stays visible, because a Segment holds up to three Profiles and one of them can be the minority. When the mix is Balanced the question is not asked: gender does not matter for what is sold.
   - *Read by (not built yet):* the Review (a gender that does not fit the mix is noted, never cleared); the equality notice.
   - *When the Segment's mix changes (owner, 2026-11-01):* a gender chosen on a Profile is **never cleared** because the mix flips (a man in a Segment that leans women is a real case); the Review notes it. Only when the mix becomes Balanced is the question no longer asked, and its answer is then removed on the next choice, as for any question no longer asked.
 
@@ -295,10 +295,10 @@ What the Segment cannot say: which devices, which social media, which communitie
 - **Control:** ticks, as many as apply.
 - **Asked when:** the Segment's social environment is a mix of online and in person, or mostly in person.
 - **Options:** the in-person channels the app already lists as events; Other opens a text box under the options, where the App User writes their own, and its words are kept as the answer:
-  - Market / Pop-up
-  - Trade Fair / Exhibition
-  - Workshop / Class
-  - Talk / Conference
+  - Market / pop-up
+  - Trade fair / exhibition
+  - Workshop / class
+  - Talk / conference
   - Other
 - **The "i" would say:** The kinds of events a typical person of the Segment attends. The names of the events stay in the note.
 - **Connections:**
@@ -353,7 +353,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 - **The "i" says:** Choose up to three. What they want to achieve. What matters to them when choosing is asked under Psychographics. Based on: gains (Value Proposition Canvas) [FUN-46].
 - **Asked when:** always. *Read by (not built yet):* the Value Proposition draft (the gains). *Comes from:* nothing.
 
-### E2. What frustrates this person about the way it is done now?
+### E2. What frustrates this person about how it is done now?
 
 - **Control:** ticks, up to 3, then a rating of each ticked frustration from "Mild" to "Severe" (section 11, built 2026-11-04).
 - **Options:** the list L3 (doc 34, 5.2), ten frustrations:
@@ -382,8 +382,19 @@ What the Segment cannot say: which devices, which social media, which communitie
   - Whether it fits the need
   - Support after the sale
   - The effort of switching from the current option
-- **The "i" says:** Choose up to three. Their doubts about buying from you; what frustrates them today is asked above (E2). Starts with the price where the Segment's household income is Low; change it freely.
+- **The "i" says:** Choose up to three. Their doubts about buying from you; what frustrates them today is asked above (E2). Starts with the price where the Segment's household income is rated 1; change it freely.
 - **Asked when:** always. *Read by (not built yet):* the Offering ticks the worries it answers (O8); the Evaluation actions suggested on page 2. *Comes from:* the Segment's household income (the starting value).
+
+
+**Wording reviewed (owner, 2026-11-04: "Improve the wording on the profile card"; doc 28, section 4; doc 39).** Built in `ProfileQuestions.ts`, the ids unchanged:
+- A2's "i": "Asked only when the Segment's gender mix is not 3 (balanced); it starts from the mix. Change it freely." (was two points, the second "Nothing reads it but the note", an internal fact).
+- A1's "i": "One age within the Segment's age group: a typical person, not the average." and "If the Segment's age group changes and this age falls outside it, the age is cleared."
+- B1's "i": "Tick up to five things they weigh when choosing, then rate how much each matters." and "Write their interests, lifestyle and hopes in the note." (was "... stay in the note").
+- C3's and C4's "i": "Write the names of the groups / events in the note." (was "... stay in the note"); C4 "goes to" for "attends".
+- C4's options in sentence case after the slash: Market / pop-up, Trade fair / exhibition, Workshop / class, Talk / conference.
+- E2's question: "What frustrates {o} about how it is done now?" (was "about the way it is done now").
+- E3's "i": its start "where the Segment's household income is rated 1".
+- Every rated question's "i" now starts with what 1 and 5 mean ("1 = Optional, 5 = Essential."), the numbers standing over the rounds (doc 21, Rating Scale).
 
 ## 8. Dropped, merged or left to the note
 

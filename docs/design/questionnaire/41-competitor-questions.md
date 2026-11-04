@@ -35,7 +35,7 @@ Each question is asked inside the band of its box, above the box's text, and the
 - An answer to a question no longer asked, or to an option no longer offered, is removed on the next choice.
 - A slash joins similar things and "or" joins different things. Spelling is UK English.
 
-**Controls.** K4, K5 and K6 to K9 use the Rating Scale (K5 and K6 with a tick per row; K6 ends in Other), a shared control (`RatingScale` and `RatingScaleGroup` in `src/components/controls/`, doc 21): five radio rounds in a row from low to high, the end words said once over the rounds, the chosen round pressed again to clear it.
+**Controls.** K4 and K6 to K9 use the Rating Scale (K6 with a tick per row, ending in Other), a shared control (`RatingScale` and `RatingScaleGroup` in `src/components/controls/`, doc 21): five radio rounds in a row from 1 to 5, the numbers said once over the rounds and what 1 and 5 mean first in the question's "i", the chosen round pressed again to clear it. K5 is ticks with sub-channels.
 
 **What the type asks.** The questions are written for a rival business, and three of the five types are not one. The wording follows the type as `COMPETITOR_TYPE_QUESTIONS` does for the text boxes; the stored answer and the options stay the same.
 
@@ -47,7 +47,7 @@ Each question is asked inside the band of its box, above the box's text, and the
 | K4 growing | "Is their business growing?" | "Is this alternative growing?" | not asked | not asked |
 | K5 reach | "How do they reach customers?" | not asked (no marketing to study) | not asked | not asked |
 | K6 reviews | "Where are they reviewed, and how are they rated?" | "Where is this alternative reviewed, and how is it rated?" | not asked | not asked |
-| K7 journey | "How easy do they make each stage for customers?" (with the loyalty ticks) | "How easy does this alternative make each stage for customers?" (no loyalty ticks) | not asked | not asked |
+| K7 journey | "How easy do they make each stage for customers?" | "How easy does this alternative make each stage for customers?" | not asked | not asked |
 | K8 strengths / weaknesses | "How do they do on what customers value?" | "How does this alternative do on what customers value?" | "How does doing it themselves do on what customers value?" | "How does doing nothing do on what customers value?" |
 | K9 opportunities / threats | "How could each change affect them?" | "How could each change affect this alternative?" | "How could each change affect customers doing it themselves?" | "How could each change affect customers who do nothing?" |
 | K10 do differently | "What could you do differently?" | "What could you do differently?" (options say "this alternative") | "What could you do differently?" | "What could you do differently?" |
@@ -108,7 +108,7 @@ This follows the type rules already built for the text boxes: a substitute has n
 
 ### K4. Is their business growing?
 
-- **Control:** a rating, 1 to 5 (`RatingScale`), inside the Market band, after K3: "Declining" to "Growing", one word at each end (the degree rule, owner 2026-11-04).
+- **Control:** a rating, 1 to 5 (`RatingScale`), inside the Market band, after K3: 1 = Declining, 5 = Growing, said first in its "i" (the degree rule, owner 2026-11-04).
 - **Asked when:** the type is Direct competitor, Indirect competitor or Substitute.
 - **Wording by type:** Direct competitor, Indirect competitor: "Is their business growing?" Substitute: "Is this alternative growing?"
 - **The "i" says:**
@@ -121,25 +121,28 @@ This follows the type rules already built for the text boxes: a substitute has n
 
 ### K5. How do they reach customers?
 
-- **Control:** a rating group with a tick per row (`RatingScaleGroup`, `selectable`), inside the Customer Acquisition band: each channel ticked, then rated for how active they are there, from "Low" to "High" (owner, 2026-11-04). The Customer Acquisition text box, below K6, is kept as the note.
+- **Control:** ticks, as many as apply (`BusinessTicks`), inside the Customer Acquisition band; under a ticked channel that has them, its sub-channels, indented, as many as apply (owner, 2026-11-04: "defining the specific subchannels of the competitors, and compare them with the customers"). No rating (owner, 2026-11-04: the channels do not need the five rounds). The Customer Acquisition text box is kept as the note.
 - **Asked when:** the type is Direct competitor or Indirect competitor.
 - **Wording by type:** the same for both types.
-- **Rows:** the channel categories of page 2 that reach customers, in their order:
-  - Social media
-  - Community
+- **Options:** the channel categories of page 2 that reach customers, in their order, and the sub-channels of four of them:
+  - Social media: the Profile's own list (doc 36, C2): Instagram, Facebook, LinkedIn, YouTube, TikTok, Pinterest, X (Twitter)
+  - Community: the Profile's own list (C3): Facebook Group, Discord, Reddit, Slack, Meetup
   - Website
-  - Marketplace
-  - In person
+  - Marketplace: Etsy, Amazon, eBay, Not On The High Street, Upwork, Fiverr (no Profile question to compare with; recorded only)
+  - In person: the Profile's own list (C4): Market / pop-up, Trade fair / exhibition, Workshop / class, Talk / conference
   - Email
   - Online / live
   - Shops or wholesalers
   - Referrals or affiliates
 - **The "i" says:**
-  - Tick each channel they use to find customers, then rate how active they are there: posting weekly on Instagram is High.
+  - Tick each channel they use to find customers, then which ones: the same lists as your Profiles, so the app can see where your customers are and they are not.
   - Write their account and shop names in the note. Payment and delivery channels are not listed: they do not reach new customers.
+- **Kept as:** the channels under `k5`; the sub-channels under `k5-sub`, each "channel:sub" (`social-media:instagram`), kept while their channel is ticked. A channel's rating saved before 2026-11-04 (`k5-rating`) is dropped on the next answer and read by nothing.
+- **Not yet:** the sub-channels in the order of the App User's industry and country, as K6's platforms are: no source by industry was found for social media, communities or events; they stay in the Profile's order.
 - **Connections:**
-  - *Comes from:* nothing. Each option is a channel category of page 2 by id (`social-media`, `community`, `website`, `marketplace`, `in-person`, `email`, `online-live`, `retail-wholesale`, `referral-affiliates`, in `BUSINESS_CHANNEL_CATEGORIES`), so the words here may differ from the page 2 tile names.
-  - *Read by (later, once page 2's channels are set):* the Review (doc 28, 11.5, rule 21): a channel your customers use (the Segment's Box 4 question 2 and the Profiles' C2 to C4) that competitors use and you do not; the order of the Discover channels on page 2.
+  - *Comes from:* the channel categories of page 2 by id (`BUSINESS_CHANNEL_CATEGORIES`); the sub-channel lists from the Profile's C2, C3 and C4 (doc 36).
+  - *Read by (built, 2026-11-04):* K10: once K5 is answered, each social medium, community or kind of event a Profile of the Segment ticks (C2 to C4) that this competitor's sub-channels do not hold is an opening: "Reach customers on TikTok", "Reach customers in Facebook groups", "Meet customers at workshops and classes". It compares with the customers, never with the App User's own channels (The purpose).
+  - *Read by (later, once page 2's channels are set):* the Review (doc 28, 11.5, rule 21); the order of the Discover channels on page 2.
 
 ## Box. Customer Experience
 
@@ -147,7 +150,7 @@ This follows the type rules already built for the text boxes: a substitute has n
 
 ### K6. Where are they reviewed, and how are they rated?
 
-- **Control:** a rating group with a tick per row (`RatingScaleGroup`, `selectable`), inside the Customer Experience band, above the Customer Experience text box, which is kept as the note for what customers say. Each platform is a tick; once ticked, it gets a rating from "Poor" to "Excellent" (1 to 5 stars), rounded to the nearest whole star. Unticking a platform clears its rating. No platform ticked means no reviews yet.
+- **Control:** a rating group with a tick per row (`RatingScaleGroup`, `selectable`), inside the Customer Experience band, above the Customer Experience text box, which is kept as the note for what customers say. Each platform is a tick; once ticked, it gets a rating from 1 (poor) to 5 (excellent), its stars, rounded to the nearest whole star. Unticking a platform clears its rating. No platform ticked means no reviews yet.
 - **Asked when:** the type is Direct competitor, Indirect competitor or Substitute.
 - **Wording by type:** Direct competitor, Indirect competitor: "Where are they reviewed, and how are they rated?" Substitute: "Where is this alternative reviewed, and how is it rated?"
 - **Rows:** the review platforms, list L18 (doc 34, 5.2b), in this order: Google and Facebook first; then the platforms of the App User's industry (the first activity's industry, `organisation.activities[0]`, through the crosswalk L7, doc 34, 5.3); then those of the App User's country (`organisation.country`); the list ends in Other (below). A platform ticked earlier stays shown.
@@ -160,26 +163,21 @@ This follows the type rules already built for the text boxes: a substitute has n
 
 ### K7. How easy do they make each stage for customers?
 
-- **Control:** a rating group (`RatingScaleGroup`): one row for each of the app's Journey Stages, rated from "Hard" to "Easy". The last row, Support & Follow Up, carries the loyalty ticks under it (the group's `below`). A row left unrated is unanswered.
-- **Asked when:** the type is Direct competitor, Indirect competitor or Substitute; the loyalty ticks only for Direct competitor and Indirect competitor.
+- **Control:** a rating group (`RatingScaleGroup`): one row for each of the app's Journey Stages, rated 1 (hard) to 5 (easy). A row left unrated is unanswered. No loyalty ticks (owner, 2026-11-04: they repeat K5's channels, Email and Community among them).
+- **Asked when:** the type is Direct competitor, Indirect competitor or Substitute.
 - **Wording by type:** Direct competitor, Indirect competitor: "How easy do they make each stage for customers?" Substitute: "How easy does this alternative make each stage for customers?"
 - **Rows:** the app's Journey Stages (`BUSINESS_JOURNEY_STAGES`, page 2, Customer Engagement), in their order:
   - Discover
   - Evaluation
   - Purchase
   - Delivery
-  - Support & Follow Up, and under it, ticks, as many as apply, of how they keep customers coming back:
-    - Loyalty scheme / rewards
-    - Subscription / membership
-    - Regular emails or offers
-    - Community or events
+  - Support & Follow Up
 - **The "i" says:**
   - Where their customers are let down along the way, and where it goes smoothly. The values below (K8) say what falls short; this says where.
-  - Under Support & Follow Up, tick what they do to bring customers back.
   - To find out, look at their website and social media, sign up to their newsletter or buy from them once.
 - **Connections:**
-  - *Comes from:* the owner's decision (2026-11-04): the loyalty question overlapped the journey's last stage, so it stands under that stage. Lemon and Verhoef describe the customer's journey in three stages, before, during and after the purchase, the "loyalty loop" after it [FUN-59]; page 2's five Journey Stages divide the same journey. Invest Northern Ireland lists a competitor's "customer loyalty devices" [FUN-51]; how many customers come back cannot be seen from outside, what a competitor does to bring them back can.
-  - *Read by (not built yet):* K10 ("Make buying easier" and the like, for a stage rated 1 or 2; "Give customers a reason to come back", when no loyalty tick is ticked); page 2's Journey Stages, where the App User plans each stage.
+  - *Comes from:* the owner's decisions (2026-11-04): the loyalty question overlapped the journey's last stage, then its ticks repeated K5's channels, so they went. Lemon and Verhoef describe the customer's journey in three stages, before, during and after the purchase, the "loyalty loop" after it [FUN-59]; page 2's five Journey Stages divide the same journey. Invest Northern Ireland lists a competitor's "customer loyalty devices" [FUN-51]; how many customers come back cannot be seen from outside, what a competitor does to bring them back can.
+  - *Read by (not built yet):* K10 ("Make buying easier" and the like, for a stage rated 1 or 2); page 2's Journey Stages, where the App User plans each stage.
 
 For Internal solution and Status quo the box stays text only: it asks about the effort or the current behaviour, which K8 already rates.
 
@@ -189,14 +187,14 @@ For Internal solution and Status quo the box stays text only: it asks about the 
 
 ### K8. How do they do on what customers value?
 
-- **Control:** a rating group (`RatingScaleGroup`): one row per value, rated from "Weak" to "Strong"; one band across Strengths and Weaknesses, above both text boxes, which stay as the notes. A row left unrated is unanswered (no "Not sure").
+- **Control:** a rating group (`RatingScaleGroup`): one row per value, rated 1 (weak) to 5 (strong); one band across Strengths and Weaknesses, above both text boxes, which stay as the notes. A row left unrated is unanswered (no "Not sure").
 - **Asked when:** always.
 - **Wording by type:**
   - Direct competitor, Indirect competitor: "How do they do on what customers value?"
   - Substitute: "How does this alternative do on what customers value?"
   - Internal solution: "How does doing it themselves do on what customers value?"
   - Status quo: "How does doing nothing do on what customers value?" For example, Lower price can be a 5, because doing nothing is free.
-- **Rows:** the values the Segment's Profiles tick in "What matters most" (doc 36, B1), any Profile, each once: the highest B1 rating first (Essential first), then the value more Profiles tick, then L1's order (`competitorValueRows`). While no Profile has ticked one, all of L1 shows. A value no Profile ticks any more is not shown; its rating stays saved but is not read (not in K10, the draft or the "i"), and shows again when a Profile ticks the value again. The rows carry no mark of the Profiles' rating (it is on the Profile already). No Other. The list L1:
+- **Rows:** every value of L1 (owner, 2026-11-04: "place all the options, but in a hierarchy order depending on the profiles what matters most. Also, highlight the options according to the profile"): ordered by the highest B1 rating among the Segment's Profiles (Essential first), then by how many Profiles tick it, then L1's order (`competitorValueRows`). Each row a Profile ticks carries a band of one colour whose step is only the number of Profiles that chose it, not their ratings (owner, 2026-11-04): 1 Profile the lightest, then 2, 3, and 4 or more the darkest (`bandTone`, `valueProfiles`; the tokens `--tint-importance-1` to `-4`, doc 21). With one Profile in the Segment every chosen row has the same light band; an unchosen row has none. No Other. The list L1:
   - Lower price
   - Speed
   - Ease and convenience
@@ -209,7 +207,7 @@ For Internal solution and Status quo the box stays text only: it asks about the 
   - Shared values / identity
 - **The "i" says:**
   - Rate each from what their customers say and what you have seen: 1 is a clear weakness, 5 a clear strength.
-  - While no Profile has ticked what matters most: "Tick what matters most on your Profiles first; only those values are rated here."
+  - Once a row has a band: "The darker the band, the more of your Profiles chose it."
 - **Connections:**
   - *Comes from:* the Profiles' B1 (doc 36), its ticks (the rows) and its ratings (their order; K10's weights). The owner's decision (2026-11-04): Strengths and Weaknesses used the same options, so one rating replaces the two tick lists and a value rated 2 to 4 also counts in the App User's decisions. The Competitive Profile Matrix rates each success factor from major weakness to major strength [FUN-57]; Kotler's customer value analysis rates competing offers on the attributes customers rank as most important [FUN-55]; a five-point rating as Likert's [FUN-61]. The Profiles' B1 sets the order of the rows; no row starts rated.
   - *Read by (not built yet):* ratings of 4 and 5 are listed as the competitor's strengths, and 1 and 2 as its weaknesses (the SWOT, the documents and the exports); 3 is neither. K10's options; the Insights & Differentiation draft; the Value Proposition draft (doc 42); later, once an Offering exists, the Review (a value customers want that this competitor is rated 1 or 2 on and none of your Offerings delivers).
@@ -218,14 +216,14 @@ For Internal solution and Status quo the box stays text only: it asks about the 
 
 ### K9. How could each change affect them?
 
-- **Control:** a rating group (`RatingScaleGroup`): one row per change, rated from "Threat" to "Opportunity"; one band across Opportunities and Threats, above both text boxes, which stay as the notes. A row left unrated is unanswered.
+- **Control:** a rating group (`RatingScaleGroup`): one row per change, rated 1 (threat) to 5 (opportunity); one band across Opportunities and Threats, above both text boxes, which stay as the notes. A row left unrated is unanswered.
 - **Asked when:** always.
 - **Wording by type:**
   - Direct competitor, Indirect competitor: "How could each change affect them?"
   - Substitute: "How could each change affect this alternative?"
   - Internal solution: "How could each change affect customers doing it themselves?"
   - Status quo: "How could each change affect customers who do nothing?"
-- **Rows:** the Segment's "What is changing most for your customers?" (doc 35, Box 5, question 3; `trends`). The changes the Segment ticked come first:
+- **Rows:** the Segment's "What is changing most for your customers?" (doc 35, Box 5, question 3; `trends`). The changes the Segment ticked come first. No band (owner, 2026-11-04: no Segment or Profile answer chooses a change directly; the links tried that evening were withdrawn):
   - Technology
   - Rules and law
   - The economy
@@ -234,7 +232,7 @@ For Internal solution and Status quo the box stays text only: it asks about the 
 - **The "i" says:**
   - How each change could help or hurt them. The examples of each change, as on your Segment.
 - **Connections:**
-  - *Comes from:* the owner's decision (2026-11-04): one rating replaces the two tick lists of changes that help and changes that hurt. SWOT's external factors, favourable or unfavourable [FUN-53]. The Segment's ticks set the order of the rows; no row starts rated.
+  - *Comes from:* the owner's decision (2026-11-04): one rating replaces the two tick lists of changes that help and changes that hurt. The Segment's ticks set the order of the rows; no row starts rated. SWOT's external factors, favourable or unfavourable [FUN-53]. The Segment's ticks set the order of the rows; no row starts rated.
   - *Read by (not built yet):* ratings of 1 and 2 are listed as the competitor's threats, and 4 and 5 as its opportunities (the SWOT, the documents and the exports); 3 is neither. K10's options; the Review.
 
 ## Section. Insights & Differentiation
@@ -255,10 +253,9 @@ A section of its own after the SWOT, as built: a title band that folds, as the D
     - Rating 3: "Be known for [value]" (they are average, so there is room), for example "Be known for quality and results".
     - Rating 4: "Match them on [value]", shown only for a B1 value (customers expect it).
     - Rating 5: no option.
-  - For each channel K5 rates 1 or 2: "Reach customers [there]" ("Reach customers on social media", "by email", "through a website").
+  - Once K5 is answered, for each social medium, community or kind of event a Profile of the Segment ticks (C2 to C4) that K5's sub-channels do not hold: "Reach customers on TikTok", "Reach customers in Facebook groups", "Meet customers at workshops and classes".
   - For each stage K7 rates 1 or 2: Discover "Make it easier to find you", Evaluation "Make it easier to compare and choose", Purchase "Make buying easier", Delivery "Make delivery smoother", Support & Follow Up "Give better help after the sale".
   - If a platform is rated below 4 stars in K6: "Win over their unhappy customers".
-  - If none of K7's loyalty ticks is ticked: "Give customers a reason to come back".
   - If K4 is rated 1 or 2: "Win the customers they are losing".
   - For each change K9 rates 4 or 5: "Make the most of changes in [change]". For each change K9 rates 1 or 2: "Prepare for changes in [change]".
   - By type: a Substitute's options say "this alternative" ("Win over this alternative's unhappy customers"). Internal solution: "Make it easier than doing it themselves". Status quo: from the values K8 rates 1 or 2, "Show what doing nothing costs them in [value]"; from the changes K9 rates 1 or 2, "Use changes in [change] as a reason to act now".
@@ -274,8 +271,8 @@ A section of its own after the SWOT, as built: a title band that folds, as the D
 Where the text above left a choice, the build took the simplest reading:
 - A card with no Type yet is asked as a Direct competitor.
 - K6's industry is the Organisation's first activity read through the crosswalk L7 by its division (`industryOfActivity`); with no activity or country, Google and Facebook come first; any other platform is written under Other.
-- K8's rows: only the values the Segment's Profiles tick in B1, ordered by their highest B1 rating, then by how many Profiles tick them; all of L1 while none is ticked; a rating of a value no longer ticked is kept in `k8-rating` and filtered when read (`competitorValueRows`, `listedValues`).
-- K10: an option shows once its source is answered; "Give customers a reason to come back" once a stage of K7 is rated and no loyalty tick is ticked; "Make it easier than doing it themselves" for an Internal solution once a value of K8 is rated; the Status quo has only its own two kinds of opening. Values and changes inside a sentence start with a small letter ("Prepare for changes in the economy").
+- K8's rows: all of L1, ordered by the Profiles' highest rating, then how many chose it; banded by how many chose it (`valueProfiles`, `bandTone`). K9's rows: the Segment's ticked changes first, no band.
+- K10: an option shows once its source is answered; "Make it easier than doing it themselves" for an Internal solution once a value of K8 is rated; the Status quo has only its own two kinds of opening. Values and changes inside a sentence start with a small letter ("Prepare for changes in the economy").
 - A Type change keeps the answers until the next answer, which settles them against the new Type (`competitorSettle`); the text boxes keep their words.
 - The answers are kept in the Competitor's `questions` (question id to the ids chosen; a rating as "option:point" under "<id>-rating", K4 as its point).
 
@@ -290,7 +287,7 @@ Each row keeps the current question and proposes another way to answer it, with 
 | K3 How big is their organisation? | Micro to Large | a. Withdrawn: "Compared with you, how big are they?" Smaller / About the same / Larger. b. "What role do they play in your market?" Market leader / Challenger / Follower / Specialist, with the meaning of each in the "i" | Kotler's market roles: leader, challenger, follower, nicher (Kotler, 1997, as cited in Cuellar-Healey and Gomez, 2013) [FUN-53, FUN-54] | Keep Now, plus b as an extra question; a withdrawn: the App User may have no Offerings or staff yet |
 | K4 Is their business growing? | A rating, Declining to Growing | "What signs have you seen?" Ticks: More locations / New products / Hiring / More reviews / Price cuts / Closures; the app draws growing, steady or declining from them | SBA: growing, steady or declining [FUN-50]; Kotler: sales, capacity and new investment as signs of performance (as cited in Cuellar-Healey and Gomez, 2013) [FUN-53] | Keep Now: it is quicker |
 | K5 How do they reach customers? | Ticks of channels | Withdrawn: the App User's own page 2 channels listed, each marked "They use it too" / "Only you", then their other channels | Cornell: compare products, prices, channels and promotion with close competitors [FUN-53] | Keep Now: the App User may have no Offerings or channels yet |
-| K7 (the loyalty ticks under Support & Follow Up) | Ticks of loyalty devices (they replace "Do their customers keep coming back?", which cannot be seen from outside) | Kotler's share of mind and share of heart, as two radios: "Do customers name them first?" Often / Sometimes / Rarely; "Do customers prefer them?" Often / Sometimes / Rarely | Kotler, as cited in Cuellar-Healey and Gomez, 2013 [FUN-53]; Bangladesh Open University, MBA 3313, Unit 4 [FUN-55]. The loyalty ticks as they stand: Invest Northern Ireland [FUN-51]; Business Tasmania, "Do they have a loyal following?" [FUN-58] | Add "Do customers name them first?" beside K7's loyalty ticks |
+| K7 (the loyalty ticks under Support & Follow Up) | Ticks of loyalty devices (they replace "Do their customers keep coming back?", which cannot be seen from outside) | Kotler's share of mind and share of heart, as two radios: "Do customers name them first?" Often / Sometimes / Rarely; "Do customers prefer them?" Often / Sometimes / Rarely | Kotler, as cited in Cuellar-Healey and Gomez, 2013 [FUN-53]; Bangladesh Open University, MBA 3313, Unit 4 [FUN-55]. The loyalty ticks as they stand: Invest Northern Ireland [FUN-51]; Business Tasmania, "Do they have a loyal following?" [FUN-58] | The loyalty ticks went (owner, 2026-11-04); "Do customers name them first?" would stand alone in K7 |
 | K8 (strengths and weaknesses) | Was two tick lists of L1, "chosen for" and "falls short" | One grid: each value the Segment's Profiles ticked in B1 rated Well / Partly / Poorly | Kotler's customer value analysis [FUN-55]; the Competitive Profile Matrix [FUN-57] | Decided: replaced by K8's 1 to 5 rating (owner, 2026-11-04) |
 | K9 (opportunities and threats) | Was two tick lists, changes that help and changes that hurt | One list of the Segment's changes, each marked Helps them / Hurts them / Both / Neither | SWOT: external factors, favourable or unfavourable [FUN-53] | Decided: replaced by K9's rating, Clear threat to Clear opportunity (owner, 2026-11-04) |
 | New, optional, in Insights | Not asked | "How would they react to a new rival?" Ignore it / React to some moves / Fight back on everything / Unpredictable | Kotler's reaction patterns: laid-back, selective, tiger, stochastic [FUN-55]; Porter's four corners [FUN-52] | Yes, as optional |
@@ -314,14 +311,15 @@ Each row keeps the current question and proposes another way to answer it, with 
 - Strengths and Weaknesses as one rating, K8: each value customers want rated from 1 (Weak) to 5 (Strong), so that values rated 2 to 4 also count in the App User's decisions (2026-11-04).
 - Opportunities and Threats as one rating, K9: each of the Segment's changes rated from 1 (Threat) to 5 (Opportunity) (2026-11-04).
 - The review platforms ticked and rated in one question, K6, the platforms in the order of the App User's industry and country (2026-11-04).
-- The loyalty question within the journey: the loyalty ticks under K7's Support & Follow Up (2026-11-04).
-- K5 rated: each channel ticked, then how active they are there, Low to High (owner, 2026-11-04: "Improve the customer acquisition part").
-- K8 rates only what the Profiles chose in B1 (owner, 2026-11-04: B1 and K8 share L1, so the rating uses the Profile's answer); all of L1 until a Profile ticks one.
+- The loyalty question within the journey, under K7's Support & Follow Up (2026-11-04); then its ticks removed: they repeated K5's channels (owner, 2026-11-04).
+- K5 not rated (owner, 2026-11-04: the channels do not need the five rounds): each channel ticked, then its sub-channels, the Profile's own lists, so where the customers are and the competitor is not becomes an opening in K10.
+- K8 shows every value, the Profiles' highest rated first, each chosen value with a band of one colour, darker the more Profiles chose it (owner, 2026-11-04, replacing the same evening's rows of the Profiles' values only, then bold, then a colour per Profile, then a band by rating). K9 has no band: no answer chooses a change directly.
+- The SWOT's four text boxes are the shared Notes (`OptionalNote`), each titled Strengths, Weaknesses, Opportunities or Threats with its "i": ticked to write, saved text starting ticked (owner, 2026-11-04: as on the Profile card).
 - No attract question (owner, 2026-11-04): it repeated the channels ("Content / social posts" is Social media, "Events / fairs" In person, "Referral rewards" Referrals or affiliates, and paid ads run on those channels). Customer Acquisition asks only K5; answers saved to it are dropped when read.
 - Aftercare / follow-up left the loyalty ticks: it is the Support & Follow Up stage itself (owner, 2026-11-04).
 - "Show all" removed; the platforms end in Other, written and rated; the values are the fixed list L1 with no Other (owner, 2026-11-04).
 - K10's options and the draft in a natural voice, the value, stage or change in small letters inside a sentence (owner, 2026-11-04; doc 28, section 4; doc 39).
-- A rating's end words are single words, at the two sides only (owner, 2026-11-04).
+- A rating shows the numbers 1 to 5 over its rounds; what 1 and 5 mean is the first line of the question's "i" (owner, 2026-11-04: an end word could stand over two rounds).
 - The ratings use one shared control, the Rating Scale (`RatingScale`, `RatingScaleGroup`: five radio rounds from low to high, doc 21) (2026-11-04).
 - The Type shown on each competitor's small tile (2026-11-04).
 - Degree and comfort questions use the 1 to 5 rating unless named ranges exist: K4 (2026-11-04).
@@ -337,7 +335,7 @@ Each row keeps the current question and proposes another way to answer it, with 
 - Other ways to answer: one choice per row of the table above (owner).
 - **Not asked:**
   - Doc 28's K5, what customers say (it stays the Customer Experience box, under K6 and K7).
-  - How many of their customers come back (it cannot be seen from outside; K7's loyalty ticks ask what they do to bring them back).
+  - How many of their customers come back (it cannot be seen from outside).
   - A competitor's website (doc 28, 6.10), written in the notes.
   - The price (withdrawn, 2026-11-04).
 
