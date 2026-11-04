@@ -238,9 +238,7 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
         /** Its fold, where the group folds (see groupFold). */
         fold?: { open: boolean; label: string; onToggle: () => void },
         /** The boxes of questions in ONE column, in their order (the Profile's card, which floats at the width every floating card has). */
-        oneColumn = false,
-        /** In one column, the box titles keep the Segment card's dark band (the Competitor's), not the Profile's lighter title. */
-        bandTitles = false
+        oneColumn = false
     ) {
 
         const box = (part: DescriptionPart) => {
@@ -408,7 +406,7 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
 
         const boxes = split && oneColumn && parts.some(part => part.questions)
             ? (
-                <div className={"legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-single" + (bandTitles ? " business-segment-grid-band-titles" : "")}>
+                <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-single">
                     <div className="legal-entity-field">{column(parts)}</div>
                 </div>
             )

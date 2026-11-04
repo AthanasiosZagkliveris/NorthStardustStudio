@@ -870,7 +870,6 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 true,
                                 undefined,
                                 groupFold(competitor.id, "Description", whose),
-                                true,
                                 true
                             )}
 

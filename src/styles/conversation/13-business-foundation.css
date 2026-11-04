@@ -1207,8 +1207,7 @@
 
 }
 
-/* The Profile's boxes take the lighter title (a box under a section); the Competitor's (`-band-titles`, one column) keep the Segment card's dark band and its label size. */
-.business-segment-grid.business-segment-grid-single:not(.business-segment-grid-band-titles) .business-segment-box > .legal-entity-org-section:first-child{
+.business-segment-grid.business-segment-grid-single .business-segment-box > .legal-entity-org-section:first-child{
 
     background:color-mix(in srgb, var(--bg-primary) 14%, transparent);
 
@@ -1218,7 +1217,7 @@
 
 }
 
-.business-segment-grid.business-segment-grid-single:not(.business-segment-grid-band-titles) .business-segment-box > .legal-entity-org-section:first-child .business-foundation-label{
+.business-segment-grid.business-segment-grid-single .business-segment-box > .legal-entity-org-section:first-child .business-foundation-label{
 
     color:var(--title-ink);
 
@@ -1232,7 +1231,7 @@
 
 }
 
-.business-segment-grid.business-segment-grid-single:not(.business-segment-grid-band-titles) .business-segment-box > .legal-entity-org-section:first-child .info-note-button{
+.business-segment-grid.business-segment-grid-single .business-segment-box > .legal-entity-org-section:first-child .info-note-button{
 
     border-color:var(--title-ink);
 
@@ -1240,8 +1239,8 @@
 
 }
 
-.business-segment-grid.business-segment-grid-single:not(.business-segment-grid-band-titles) .business-segment-box > .legal-entity-org-section:first-child .info-note-button:hover,
-.business-segment-grid.business-segment-grid-single:not(.business-segment-grid-band-titles) .business-segment-box > .legal-entity-org-section:first-child .info-note-button[aria-expanded="true"]{
+.business-segment-grid.business-segment-grid-single .business-segment-box > .legal-entity-org-section:first-child .info-note-button:hover,
+.business-segment-grid.business-segment-grid-single .business-segment-box > .legal-entity-org-section:first-child .info-note-button[aria-expanded="true"]{
 
     background:var(--title-ink);
 
