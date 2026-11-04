@@ -449,7 +449,8 @@
                       ],
                       "e3": [
                         "the-effort-of-switching-from-what-they-use-now",
-                        "risk-or-security"
+                        "risk-or-security",
+                        "support-after-they-buy"
                       ],
                       "b1-rating": [
                         "speed:5",
@@ -462,7 +463,8 @@
                       ],
                       "e3-rating": [
                         "the-effort-of-switching-from-what-they-use-now:5",
-                        "risk-or-security:4"
+                        "risk-or-security:4",
+                        "support-after-they-buy:4"
                       ],
                       "emotional-b2b": [
                         "sure-they-made-the-right-choice"
@@ -479,7 +481,7 @@
                     },
                     "goals": "Get hours back each week for the team; make intake, reminders and reporting run on their own; look good to the partners by fixing problems that have lingered for years.",
                     "challenges": "Copying data between the practice-management system, email and spreadsheets; chasing clients for documents; no budget for a full-time developer; past tools abandoned after setup.",
-                    "objections": "Unsure the savings justify the cost; afraid of being left with automations nobody can fix.",
+                    "objections": "Unsure the savings justify the cost.",
                     "needs": {
                       "functional": [
                         "Hand repetitive admin work to reliable automations",

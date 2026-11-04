@@ -633,8 +633,8 @@
                         "it-is-hard-to-find-someone-they-trust:4"
                       ],
                       "e3-rating": [
-                        "the-price-or-their-budget:5",
-                        "whether-it-fits-their-needs:4"
+                        "whether-it-fits-their-needs:4",
+                        "the-price-or-their-budget:3"
                       ],
                       "emotional": [
                         "calm-and-worry-free",
@@ -871,7 +871,7 @@
                       "experience": "Polished; easy returns."
                     },
                     "strengths": "Distribution; marketing budgets.",
-                    "weaknesses": "Not handmade; vague provenance; little personality.",
+                    "weaknesses": "Not handmade; vague provenance.",
                     "opportunities": "Growing customer scepticism of greenwashing.",
                     "threats": "Frequent sales anchor customers to lower prices.",
                     "insights": "Show the maker, the farm and the hours behind each piece; offer made-to-order colours they cannot.",
@@ -883,7 +883,7 @@
                         "countries"
                       ],
                       "k3": [
-                        "medium"
+                        "large"
                       ],
                       "k4": [
                         "4"
@@ -936,7 +936,7 @@
                     "type": "substitutes",
                     "description": {
                       "market": "Mass market, all ages and incomes.",
-                      "experience": "Disposable.",
+                      "experience": "Self-service, in store and online.",
                       "offerings": "Buying cheap mass-produced cushions and throws and replacing them every year or two instead of investing in one handmade piece."
                     },
                     "strengths": "",
@@ -1268,7 +1268,7 @@
                     },
                     "strengths": "",
                     "weaknesses": "Little documentation.",
-                    "opportunities": "Our three-founder team can promise capacity and paperwork.",
+                    "opportunities": "Designers want makers who can promise capacity and paperwork.",
                     "threats": "Price competition on small commissions.",
                     "insights": "Win on reliability: fixed lead times, sampling within a week, sustainability and fire-compliance pack with every quote.",
                     "questions": {
