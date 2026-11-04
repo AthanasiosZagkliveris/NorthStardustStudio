@@ -1,0 +1,86 @@
+/* THE RATING FIELD (RatingField, RatingGroup, RatingEnds): five rounds of the radio choice in a row, low on the left and high on the right. The rounds keep the look of
+   radio-choice.css (this sheet says only where they stand); the end words stand once, over the first and the last round (and the middle word over the centre). */
+
+/* One rating: its end words over its rounds, 6px apart (a label to its control), the rounds spread across the words' width. */
+.rating-field {
+
+    display: inline-grid;
+
+    /* As wide as its words and rounds need, even in a parent that stretches its children. */
+    justify-self: start;
+
+    row-gap: var(--space-label);
+
+}
+
+/* The five rounds, spread from the first end to the last; never closer than the radio choice's own gap. */
+.rating-field-points {
+
+    justify-content: space-between;
+
+}
+
+/* The end words: the low one starts over the first round, the high one ends over the last, the middle one is centred. */
+.rating-ends {
+
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+
+    column-gap: var(--space-cell);
+
+    font-size: var(--font-small);
+
+}
+
+.rating-ends-low {
+
+    justify-self: start;
+
+}
+
+.rating-ends-mid {
+
+    justify-self: center;
+
+}
+
+.rating-ends-high {
+
+    justify-self: end;
+
+    text-align: end;
+
+}
+
+/* Several ratings on one scale: each row's words on the left, all rounds in one column on the right, the end words once over that column. */
+.rating-group {
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+
+    column-gap: var(--space-cell);
+    row-gap: var(--space-row);
+
+}
+
+.rating-group > .rating-ends {
+
+    grid-column: 2;
+
+}
+
+/* In a group a rating fills its column, so its rounds spread under the group's end words. */
+.rating-group > .rating-field {
+
+    display: grid;
+
+    justify-self: stretch;
+
+}
+
+.rating-group-label {
+
+    grid-column: 1;
+
+}

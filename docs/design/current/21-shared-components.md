@@ -1,6 +1,6 @@
 # 21. Shared components: which are shared, which are not
 
-Status: **current design**, written 2026-10-17, updated 2026-11-02, checked against the code (`src/components/controls/`, `src/components/interview/`). Which component draws each kind of control, card, tile and field, and what is still hand-made.
+Status: **current design**, written 2026-10-17, updated 2026-11-04, checked against the code (`src/components/controls/`, `src/components/interview/`). Which component draws each kind of control, card, tile and field, and what is still hand-made.
 
 The aim of the owner: all similar things share ONE component, and no place draws its own markup for them (rule 22.24 of `docs/ai/layout-rules.md`). A place passes a class that says only where the thing stands and how wide it is; the look and the reactions belong to the component. The looks of the library agree with the app (`15-library-vs-app.md`).
 
@@ -11,6 +11,7 @@ A shared control loads its own stylesheet (it imports it), never only a page's s
 | Component | File | What it is | Props that matter | Where it stands |
 |---|---|---|---|---|
 | `RadioChoice` | `controls/RadioChoice.tsx` | A choice of one among a few, drawn as a round with a bullet and its word. Each option is a native radio (arrows move, Space chooses). **It is drawn as a tick box is**: the same fill, recess, glow (`--choice-glow`) and ring (`--choice-ring`), the glow and the ring defined once in `global.css` for both, so a change there changes both; the round is 16px (`--size-radio`), the tick box 24px (`--size-mark`), and the shape (a circle) and the mark (a bullet) differ. | `label` (for a screen reader), `group` (the radios' name), `options` (`id`, `label`, optional `name`), `value`, `onChange`, `disabled` | The one component for rounds: Units / %, Tiles / Table, the table's text size ("Aa" in three sizes). |
+| `RatingField`, `RatingGroup`, `RatingEnds` | `controls/RatingField.tsx`, `controls/RatingGroup.tsx`, `controls/RatingEnds.tsx` | A rating from 1 (low) to 5 (high): five rounds of `RadioChoice` in a row, low on the left, drawn by `radio-choice.css` (its own sheet, `rating-field.css`, only places them). Each row is a radio group (arrows move, Space chooses; each round says "1 of 5" and its end's words); the chosen round pressed again clears it, so a row can be unrated (there is no "Not sure"). The end words are said once: over a lone field's rounds, or as a group's header over all its rows' rounds. | `RatingField`: `label`, `name`, `value` (1 to 5 or none), `onChange` (none when cleared), `lowLabel`, `midLabel`, `highLabel`, `disabled`. `RatingGroup`: `label`, `name`, `rows` (`id`, `label`), `values`, `onChange(id, next)`, the three end words | Not placed yet (2026-11-04). The Competitor card's ratings, doc 41 (K8 to K11); where else it fits: below. |
 | `MenuOption` | `controls/MenuOption.tsx` | A row of a menu pressed to choose it: the dropdown list's own row (`option-picker-option`: its type, its glow under the pointer, its bold chosen row) as a button; `chosen` marks the order in use, `marked` keeps a column for its bullet. | `chosen`, `marked`, the button's own props | The orders of the sort menus (a section's funnel, the Inventory's window). |
 | `ChipOpen` | `controls/ChipOpen.tsx` | The pressed part of a chip: two lines in the accent, a tag (what and where, in numbers) over its description. The chip is the `notepad-chip` list item that holds it. | `tag`, `description`, the button's own props | A note's link to a field, a channel's resource, an action linked to a resource. |
 | `SuggestionOption` | `controls/SuggestionOption.tsx` | A row of a short list pressed to take it: its words and, under them, where it is. | `label`, `place`, the button's own props | The places a note can link to, a channel's typical costs, the actions to link. |
@@ -44,6 +45,30 @@ A shared control loads its own stylesheet (it imports it), never only a page's s
 | `BoxActions`, `useMovableBox`, `useListDrag` | `interview/fields/ReorderControls.tsx` | What a reorderable box carries: the remove button and an optional funnel that sorts its contents; `useMovableBox` moves a selected box with the arrow keys or by dragging, `useListDrag` drags a list's rows. | `label`, `disabled`, `onRemove`, `onAdd` | Boxes and lists of cards. |
 | `BulletRail` | `interview/rails/BulletRail.tsx` | The column of bullets beside the card: pages on the left, the current page's sections on the right, the current one grown and bold, a status shape (not started, in progress, defined) in the bullet. | `RailItem` list (`railItems.ts`) | Every page of sections. |
 | `FoldAllToggle` | `interview/fields/FoldAllToggle.tsx` | "Expand all" / "Collapse all" for one group of item cards (a `TextLink`); hidden for a group of fewer than two. | `ids`, `nested` | The lists of cards. |
+
+### The rating field: where it fits
+
+A rating beats ticks where a thing has degrees and the middle counts (a value done fairly well is still an opening), and beats text where the answers are compared or scored. It fits where the App User can judge from what they see; it does not fit where it would be a guess or where a plain choice says it better.
+
+**Where it fits:**
+
+| Place | What is rated (rows) | End words | Why a rating |
+|---|---|---|---|
+| Competitor, K10 (doc 41) | each value of L1, the Profiles' B1 values first | Clear weakness to Clear strength, 3 Average | One scale gives strengths and weaknesses at once, and a 3 still counts (owner, 2026-11-04) |
+| Competitor, K11 (doc 41) | each of the Segment's changes | Clear threat to Clear opportunity, 3 No effect | One scale gives opportunities and threats at once |
+| Competitor, K8 (doc 41) | each review platform ticked in K7 | 1 star to 5 stars | Review sites rate in stars already: the answer is copied, not judged |
+| Competitor, K9 (doc 41) | each Journey Stage (`BUSINESS_JOURNEY_STAGES`) | Customers struggle to Smooth | Shows where along the journey they are weak, not only whether |
+| Profile, B1 "What matters most" (doc 36) | each value of L1 | Not important to Essential | Gives K12 of doc 41 its weights directly; but ticks up to 3 force a choice, and a rating lets every value be "Essential": to decide with the owner |
+| Strategy, SWOT (the App User's own) | each Strength, Weakness, Opportunity or Threat written | Minor to Major | Orders a long list by weight, so the plan starts with what matters most; the App User knows their own business |
+
+**Where it does not fit:**
+
+| Place | Why not |
+|---|---|
+| Facts: a competitor's size, area, growth (doc 41, K2 to K4), a Segment's market size (doc 35, Box 5) | A plain choice of a few named answers is clearer than a number |
+| Anything compared with the App User's own Offerings, prices or size | A start-up may have none yet (doc 41, "The purpose") |
+| How sure the App User is of an answer | Withdrawn (owner, 2026-11-04): it rates the App User's evidence, not the thing |
+| How many customers come back to a competitor, or its share of the market | Cannot be seen from outside: a rating would only be a guess |
 
 ## The cards, tiles and fields built on them
 
