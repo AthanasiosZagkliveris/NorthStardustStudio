@@ -62,6 +62,9 @@
     column-gap: var(--space-cell);
     row-gap: var(--space-row);
 
+    /* The rows' words in the size of every choice's words (the radio choice's, a tick's). */
+    font-size: var(--font-body);
+
 }
 
 .rating-group > .rating-ends {
