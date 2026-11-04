@@ -10,7 +10,7 @@ import ResponsibilityFilter from "../components/interview/fields/ResponsibilityF
 import { openCard } from "../components/notepad/notepadPlaces";
 import HarvardReference from "../components/references/HarvardReference";
 import { PALETTE } from "../framework/engine/Palette";
-import { harvardCitation, referenceList, SOURCES, type SourceId } from "../framework/engine/Sources";
+import { harvardCitation, harvardReference, referenceList, SOURCES, type SourceId } from "../framework/engine/Sources";
 import { GLOSSARY_KINDS, GlossaryService, type GlossaryKind } from "../services/GlossaryService";
 import { OrganizationService } from "../services/OrganizationService";
 
@@ -45,11 +45,11 @@ const YOUR_TERMS_HUE = PALETTE.find(colour => colour.name === "terracotta")?.hue
 export const GLOSSARY_INFO: Record<GlossaryTab, string[]> = {
     glossary: [
         "Every word the app uses and every name you gave, from A to Z. The funnel shows either kind, or both.",
-        "App terms: the app's own words, with what each means here and the source it rests on. Press a source to read it in full.",
-        "Your terms: the names you gave your Segments, Profiles, Competitors, Offerings and the rest. Press \"Open the …\" to go to it."
+        "App terms, in blue: the app's own words, with what each means here and the source it rests on. Press a source to read it in full.",
+        "Your terms, in terracotta: the names you gave your Segments, Profiles, Offerings and the rest. Press \"Open the …\" to go to it."
     ],
     references: [
-        "Every source the app cites, from A to Z.",
+        "Every source the app cites, from A to Z. The funnel shows the letter ranges you choose.",
         "Written in the Harvard style: the author and year where a source is cited, and the full reference here.",
         "Each address opens in your browser."
     ]
@@ -60,11 +60,75 @@ interface Entry {
     key: string;
     kind: GlossaryKind;
     term: string;
-    /** What it is: "App term", or the kind of card ("Segment"). */
+    /** What it is: "App term" (never shown: an app term is told by its colour and by having no tag), or the kind of card ("Segment"). */
     tag: string;
     meaning: string;
     sources: readonly SourceId[];
     open?: () => void;
+}
+
+/** The letter a term or a reference is filed under: its first letter. */
+const letterOf = (text: string) => text.charAt(0).toLocaleUpperCase("en-GB");
+
+/** A funnel's options ticked off, with one option turned over. */
+const toggled = (current: ReadonlySet<string>, option: string) => {
+    const next = new Set(current);
+    if (!next.delete(option)) {
+        next.add(option);
+    }
+    return next;
+};
+
+/** About this many references to a range of the References' funnel. */
+export const REFERENCES_PER_RANGE = 20;
+
+/** One option of the References' funnel: a run of first letters ("A–I") and the letters it holds. */
+export interface LetterRange {
+    label: string;
+    letters: readonly string[];
+}
+
+/**
+ * The References' funnel options: the first letters of the references (one per reference, in A to Z order) cut into
+ * ceil(count / perRange) runs, as even as the letters allow, each cut between two letters (a letter is never split).
+ * The first run starts at A and the last ends at Z ("A–I", "K–Z"); more runs appear on their own as the references grow.
+ */
+export function letterRanges(letters: readonly string[], perRange = REFERENCES_PER_RANGE): LetterRange[] {
+    const distinct = [...new Set(letters)].sort((one, other) => one.localeCompare(other, "en-GB"));
+    if (distinct.length === 0) {
+        return [];
+    }
+    const counts = distinct.map(letter => letters.filter(each => each === letter).length);
+    const groups = Math.min(distinct.length, Math.max(1, Math.ceil(letters.length / perRange)));
+    const mean = letters.length / groups;
+    // best[g][i]: the least sum of squared distances from the mean for the first i letters in g runs; cut[g][i]: where its last run starts.
+    const best = Array.from({ length: groups + 1 }, () => new Array<number>(distinct.length + 1).fill(Infinity));
+    const cut = Array.from({ length: groups + 1 }, () => new Array<number>(distinct.length + 1).fill(0));
+    best[0][0] = 0;
+    for (let g = 1; g <= groups; g++) {
+        for (let i = g; i <= distinct.length; i++) {
+            let size = 0;
+            for (let start = i - 1; start >= g - 1; start--) {
+                size += counts[start];
+                const cost = best[g - 1][start] + (size - mean) ** 2;
+                if (cost < best[g][i]) {
+                    best[g][i] = cost;
+                    cut[g][i] = start;
+                }
+            }
+        }
+    }
+    const runs: string[][] = [];
+    for (let g = groups, end = distinct.length; g > 0; g--) {
+        const start = cut[g][end];
+        runs.unshift(distinct.slice(start, end));
+        end = start;
+    }
+    return runs.map((run, at) => {
+        const first = at === 0 ? "A" : run[0];
+        const last = at === runs.length - 1 ? "Z" : run[run.length - 1];
+        return { label: first === last ? first : first + "–" + last, letters: run };
+    });
 }
 
 const anchorOf = (key: string) => "glossary-term-" + key.replace(/[^A-Za-z0-9-]+/g, "-");
@@ -77,12 +141,15 @@ const anchorOf = (key: string) => "glossary-term-" + key.replace(/[^A-Za-z0-9-]+
  * Glossary: every term in one A to Z list, in two colours -- the app's
  * own words (APP_TERMS) in the app's blue, YOUR TERMS (the names you
  * gave your Segments, Profiles, Offerings ..., GlossaryService) in
- * terracotta -- with a funnel that shows either kind or both. An app
- * term's meaning is followed by its Harvard citations, each a link to
- * its full reference; one of your terms opens its card.
+ * terracotta, each of yours with its kind ("Segment") -- with a funnel
+ * that shows either kind or both. The two kinds are named once, in the
+ * funnel, and their colours once, in the title's "i": no key on the
+ * page. An app term's meaning is followed by its Harvard citations,
+ * each a link to its full reference; one of your terms opens its card.
  *
  * References: every source the app cites (Sources.ts), as a Harvard
- * reference list, in alphabetical order. Escape, and Back, return to
+ * reference list, in alphabetical order, with a funnel of letter
+ * ranges (letterRanges: "A–I", "K–Z"). Escape, and Back, return to
  * where the page was opened from.
  */
 export default function Glossary() {
@@ -93,6 +160,7 @@ export default function Glossary() {
     const [organizationId] = useState(() => OrganizationService.getSelected());
     const [tab, setTab] = useState<GlossaryTab>(state.tab ?? "glossary");
     const [off, setOff] = useState<ReadonlySet<string>>(new Set());
+    const [lettersOff, setLettersOff] = useState<ReadonlySet<string>>(new Set());
     const [target, setTarget] = useState<string | undefined>(state.term);
 
     const back = useMemo(() => () => {
@@ -119,6 +187,7 @@ export default function Glossary() {
             setTab(state.tab ?? "glossary");
             setTarget(state.term);
             setOff(new Set());
+            setLettersOff(new Set());
         }
     }, [location.key]);
 
@@ -153,7 +222,13 @@ export default function Glossary() {
         return () => window.clearTimeout(timer);
     }, [target, tab]);
 
-    const letters = [...new Set(shown.map(entry => entry.term.charAt(0).toLocaleUpperCase("en-GB")))];
+    const letters = [...new Set(shown.map(entry => letterOf(entry.term)))];
+
+    // The References are filed by the first letter of each reference (its first author); the funnel shows the letter ranges ticked.
+    const references = useMemo(() => referenceList().map(entry => ({ ...entry, letter: letterOf(harvardReference(entry.source)) })), []);
+    const ranges = useMemo(() => letterRanges(references.map(entry => entry.letter)), [references]);
+    const rangeOf = (letter: string) => ranges.find(range => range.letters.includes(letter))?.label ?? "";
+    const referencesShown = references.filter(entry => !lettersOff.has(rangeOf(entry.letter)));
 
     return (
 
@@ -174,21 +249,11 @@ export default function Glossary() {
                     <section className="glossary-section" aria-label="Glossary">
 
                         <div className="glossary-bar">
-                            <p className="glossary-legend">
-                                <span className="glossary-key glossary-key-app">App terms</span>
-                                <span className="glossary-key glossary-key-yours">Your terms</span>
-                            </p>
                             <ResponsibilityFilter
                                 off={off}
                                 options={GLOSSARY_KINDS.map(kind => kind.label)}
                                 label="Choose which terms show"
-                                onToggle={(option) => setOff(current => {
-                                    const next = new Set(current);
-                                    if (!next.delete(option)) {
-                                        next.add(option);
-                                    }
-                                    return next;
-                                })}
+                                onToggle={(option) => setOff(current => toggled(current, option))}
                             />
                         </div>
 
@@ -198,7 +263,7 @@ export default function Glossary() {
                             <section className="glossary-letter" key={letter} aria-label={letter}>
                                 <h2 className="glossary-letter-title">{letter}</h2>
                                 <dl className="glossary-list">
-                                    {shown.filter(entry => entry.term.charAt(0).toLocaleUpperCase("en-GB") === letter).map(entry => (
+                                    {shown.filter(entry => letterOf(entry.term) === letter).map(entry => (
                                         <div
                                             key={entry.kind + entry.key}
                                             id={anchorOf(entry.key)}
@@ -206,7 +271,8 @@ export default function Glossary() {
                                         >
                                             <dt className="glossary-term">
                                                 <span className="glossary-term-name">{entry.term}</span>
-                                                <span className="glossary-term-tag">{entry.tag}</span>
+                                                {/* Only your terms say what they are ("Segment"); an app term is told by its colour and by having no tag. */}
+                                                {entry.kind === "yours" && <span className="glossary-term-tag">{entry.tag}</span>}
                                             </dt>
                                             <dd className="glossary-meaning">
                                                 {entry.meaning}
@@ -221,6 +287,7 @@ export default function Glossary() {
                                                                     title={"Show the full reference"}
                                                                     onClick={() => {
                                                                         setTab("references");
+                                                                        setLettersOff(new Set());
                                                                         setTarget(id);
                                                                     }}
                                                                 >
@@ -250,8 +317,20 @@ export default function Glossary() {
 
                 {tab === "references" && (
                     <section className="glossary-section" aria-label="References">
+
+                        <div className="glossary-bar">
+                            <ResponsibilityFilter
+                                off={lettersOff}
+                                options={ranges.map(range => range.label)}
+                                label="Choose which letter ranges show"
+                                onToggle={(option) => setLettersOff(current => toggled(current, option))}
+                            />
+                        </div>
+
+                        {referencesShown.length === 0 && <p className="glossary-empty">No references to show: the funnel leaves them all out.</p>}
+
                         <ol className="references-list">
-                            {referenceList().map(({ id, source }) => (
+                            {referencesShown.map(({ id, source }) => (
                                 <li key={id} id={"reference-" + id} className={"references-entry" + (target === id ? " glossary-entry-target" : "")}>
                                     <HarvardReference source={source} />
                                 </li>

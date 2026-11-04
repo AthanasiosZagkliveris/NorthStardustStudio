@@ -15,7 +15,7 @@ vi.mock("../services/GlossaryService", async (importOriginal) => {
     };
 });
 
-import Glossary, { GLOSSARY_INFO } from "./Glossary";
+import Glossary, { GLOSSARY_INFO, letterRanges } from "./Glossary";
 import GlossaryButton from "../components/GlossaryButton";
 import { OrganizationService } from "../services/OrganizationService";
 import { harvardReference, SOURCES } from "../framework/engine/Sources";
@@ -51,6 +51,9 @@ describe("the Glossary", () => {
     it("lists the app's terms and yours, each kind in its own colour, A to Z", () => {
         open();
         expect(screen.getByRole("heading", { name: /^Glossary/ })).toBeTruthy();
+        // The kinds are named once, in the funnel, and their colours in the title's "i": no legend, and an app term has no tag.
+        expect(document.querySelector(".glossary-legend")).toBeNull();
+        expect(document.querySelector(".glossary-entry-app .glossary-term-tag")).toBeNull();
         const app = document.querySelector(".glossary-entry-app");
         const yours = document.querySelector(".glossary-entry-yours");
         expect(app).toBeTruthy();
@@ -83,6 +86,49 @@ describe("the Glossary", () => {
         expect(document.querySelectorAll(".references-entry")).toHaveLength(Object.keys(SOURCES).length);
     });
 
+    it("shows the References under the letter ranges ticked in their funnel", () => {
+        open();
+        fireEvent.click(screen.getByRole("tab", { name: "References" }));
+        fireEvent.click(screen.getByRole("button", { name: "Choose which letter ranges show" }));
+        expect(screen.getAllByRole("checkbox")).toHaveLength(2);
+        expect(screen.getByRole("checkbox", { name: "K–Z" })).toBeTruthy();
+        fireEvent.click(screen.getByRole("checkbox", { name: "A–I" }));
+        const left = [...document.querySelectorAll(".references-entry")].map(node => (node.textContent ?? "").charAt(0).toLocaleUpperCase("en-GB"));
+        expect(left).toHaveLength(12);
+        expect(left.every(letter => letter >= "K")).toBe(true);
+    });
+
+});
+
+describe("the References' letter ranges", () => {
+
+    const spread = (counts: Record<string, number>) => Object.entries(counts).flatMap(([letter, count]) => new Array<string>(count).fill(letter));
+
+    it("cut today's 27 references into A–I (15) and K–Z (12)", () => {
+        const letters = spread({ A: 2, B: 2, C: 1, D: 1, F: 2, G: 3, I: 4, K: 2, L: 2, S: 2, T: 2, U: 3, V: 1 });
+        const ranges = letterRanges(letters);
+        expect(ranges.map(range => range.label)).toEqual(["A–I", "K–Z"]);
+        expect(ranges.map(range => letters.filter(letter => range.letters.includes(letter)).length)).toEqual([15, 12]);
+    });
+
+    it("make three ranges of 45 references, about 15 each, from A to Z", () => {
+        const letters = spread({ A: 4, B: 3, C: 3, D: 2, E: 3, F: 3, G: 2, H: 3, J: 4, M: 3, N: 3, P: 3, R: 3, S: 3, W: 3 });
+        expect(letters).toHaveLength(45);
+        const ranges = letterRanges(letters);
+        expect(ranges).toHaveLength(3);
+        expect(ranges[0].label.startsWith("A–")).toBe(true);
+        expect(ranges[2].label.endsWith("–Z")).toBe(true);
+        expect(ranges.map(range => letters.filter(letter => range.letters.includes(letter)).length)).toEqual([15, 15, 15]);
+    });
+
+    it("never split one letter between two ranges", () => {
+        const letters = spread({ A: 25, B: 5 });
+        const ranges = letterRanges(letters);
+        expect(ranges.map(range => range.letters)).toEqual([["A"], ["B"]]);
+        expect(ranges.map(range => range.label)).toEqual(["A", "B–Z"]);
+        expect(letterRanges(spread({ M: 30 })).map(range => range.label)).toEqual(["A–Z"]);
+    });
+
     it("returns on Escape to where it was opened from", () => {
         open();
         act(() => { fireEvent.keyDown(window, { key: "Escape" }); });
@@ -96,7 +142,7 @@ describe("the Glossary's titles", () => {
     it("carry an i with what the page is and how to read it, at most three points of 160 characters", () => {
         open();
         fireEvent.click(screen.getByRole("button", { name: "Glossary: what this means" }));
-        expect(screen.getByText(/^App terms: the app's own words/)).toBeTruthy();
+        expect(screen.getByText(/^App terms, in blue: the app's own words/)).toBeTruthy();
         fireEvent.click(screen.getByRole("tab", { name: "References" }));
         fireEvent.click(screen.getByRole("button", { name: "References: what this means" }));
         expect(screen.getByText(/^Written in the Harvard style/)).toBeTruthy();

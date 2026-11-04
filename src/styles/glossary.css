@@ -26,7 +26,6 @@
     padding:152px 40px 124px;
 
     --glossary-app-ink: var(--text-primary);
-    --glossary-app-ground: var(--bg-primary-tint);
     --glossary-yours-ink: hsl(var(--glossary-yours-hue, 0) var(--theme-text-ink));
     --glossary-yours-ground: hsl(var(--glossary-yours-hue, 0) var(--theme-bg-inner));
 
@@ -46,12 +45,12 @@
 
 }
 
-/* The legend of the two colours, and the funnel at the end of the row. */
+/* The funnel, alone at the end of its row (the Glossary's chooses the kind of term, the References' the letter ranges; the title's "i" names the two colours). */
 .glossary-bar{
 
     display:flex;
     align-items:center;
-    gap:var(--gap-16);
+    justify-content:flex-end;
 
 }
 
@@ -72,41 +71,7 @@
 
 }
 
-.glossary-legend{
-
-    display:flex;
-    flex-wrap:wrap;
-    align-items:baseline;
-    gap:var(--gap-6) var(--gap-16);
-
-    margin:0;
-
-    font-size:var(--font-body);
-
-    color:var(--text-muted);
-
-}
-
-.glossary-key{
-
-    padding:2px 8px;
-
-    border-radius:var(--radius-sm);
-
-    font-weight:600;
-
-}
-
-.glossary-key-app,
-.glossary-entry-app .glossary-term-tag{
-
-    background:var(--glossary-app-ground);
-
-    color:var(--glossary-app-ink);
-
-}
-
-.glossary-key-yours,
+/* Your term's kind ("Segment"), in its colour; an app term has no tag. */
 .glossary-entry-yours .glossary-term-tag{
 
     background:var(--glossary-yours-ground);
@@ -153,7 +118,8 @@
     flex-direction:column;
     gap:var(--gap-4);
 
-    padding:12px 16px;
+    /* One margin: 12px (layout rules, section 1). */
+    padding:var(--card-padding);
 
     border-left:4px solid var(--glossary-app-ink);
 
