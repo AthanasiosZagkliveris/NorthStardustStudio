@@ -105,4 +105,58 @@ describe("RatingGroup", () => {
         expect(onChange).toHaveBeenLastCalledWith("speed", undefined);
     });
 
+    it("selectable: a ticked row shows its rating, unticking hides and clears it, and the tick works from the keyboard", () => {
+        function Reviewed() {
+            const [selected, setSelected] = useState<string[]>([]);
+            const [values, setValues] = useState<Partial<Record<string, Rating>>>({});
+            return (
+                <RatingGroup
+                    label="Where are they reviewed, and how are they rated?"
+                    name="k6"
+                    rows={[{ id: "google", label: "Google" }, { id: "trustpilot", label: "Trustpilot" }]}
+                    values={values}
+                    onChange={(id, next) => setValues(previous => ({ ...previous, [id]: next }))}
+                    lowLabel="1 star"
+                    highLabel="5 stars"
+                    selectable
+                    selected={selected}
+                    onSelect={(id, on) => setSelected(previous => on ? [...previous, id] : previous.filter(entry => entry !== id))}
+                />
+            );
+        }
+        render(<Reviewed />);
+        expect(screen.queryByRole("radiogroup", { name: "Google" })).toBeNull();
+        const google = screen.getByRole("checkbox", { name: "Google" });
+        // Space on a tick box is a click in the browser.
+        google.focus();
+        fireEvent.click(google);
+        const rounds = screen.getByRole("radiogroup", { name: "Google" });
+        fireEvent.click(within(rounds).getByRole("radio", { name: /^4 of 5/ }));
+        expect((within(rounds).getByRole("radio", { name: /^4 of 5/ }) as HTMLInputElement).checked).toBe(true);
+        // Unticked: the rounds go, and ticked again the row starts unrated.
+        fireEvent.click(google);
+        expect(screen.queryByRole("radiogroup", { name: "Google" })).toBeNull();
+        fireEvent.click(google);
+        expect(within(screen.getByRole("radiogroup", { name: "Google" })).getAllByRole("radio").some(r => (r as HTMLInputElement).checked)).toBe(false);
+        // The end words are still said once.
+        expect(screen.getAllByText("1 star")).toHaveLength(1);
+        expect(screen.queryByRole("radiogroup", { name: "Trustpilot" })).toBeNull();
+    });
+
+    it("shows what a row carries under it", () => {
+        render(
+            <RatingGroup
+                label="How easy do they make each stage for customers?"
+                name="k7"
+                rows={[{ id: "support", label: "Support & Follow Up", below: <span>Loyalty scheme / rewards</span> }]}
+                values={{}}
+                onChange={() => {}}
+                lowLabel="Customers struggle"
+                highLabel="Smooth"
+            />
+        );
+        expect(screen.getByText("Loyalty scheme / rewards")).toBeTruthy();
+        expect(screen.getByRole("radiogroup", { name: "Support & Follow Up" })).toBeTruthy();
+    });
+
 });

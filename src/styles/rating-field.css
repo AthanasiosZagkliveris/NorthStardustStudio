@@ -84,3 +84,29 @@
     grid-column: 1;
 
 }
+
+/* A selectable row's words: the tick and its words on one line, 8px apart, as every tick option of a card stands (.business-foundation-tick). */
+.rating-group-label.tick-field {
+
+    display: flex;
+    align-items: center;
+
+    gap: var(--gap-8);
+
+}
+
+/* An unticked row of a selectable group: its place in the rounds' column, empty. */
+.rating-group-unrated {
+
+    grid-column: 2;
+
+}
+
+/* What a row carries under it (ticks of its own), across the group, indented under the row's words. */
+.rating-group-below {
+
+    grid-column: 1 / -1;
+
+    padding-inline-start: var(--space-cell);
+
+}

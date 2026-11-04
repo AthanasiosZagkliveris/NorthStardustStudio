@@ -2,7 +2,7 @@
 
 Status: **proposal**, written 2026-11-03, updated 2026-11-03. Every question of the Offering card (Business System, page 1, tile "Offerings"), in the order it is asked. For each: its control, when it is asked, its options, what its "i" says and what it connects to. The Type, the needs addressed and the text boxes are built; the questions are not.
 
-Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the Profile: the needs, B1, D2, E3), doc 38 (Positioning: Differentiation), doc 41 (the Competitor: K10), doc 42 (the Value Proposition, which reads O1, O4 and O8), doc 34 (the lists L1 and L11, the value crosswalk 5.2a), doc 28 (6.8, 7.4, 10.1 to 10.3 and 11.7, the design this refines), `src/framework/engine/AnswerBusinessFoundation.ts` (the card today).
+Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the Profile: the needs, B1, D2, E3), doc 38 (Positioning: Differentiation), doc 41 (the Competitor: K8), doc 42 (the Value Proposition, which reads O1, O4 and O8), doc 34 (the lists L1 and L11, the value crosswalk 5.2a), doc 28 (6.8, 7.4, 10.1 to 10.3 and 11.7, the design this refines), `src/framework/engine/AnswerBusinessFoundation.ts` (the card today).
 
 **What the card is.** An Offering belongs to its Segment, as a Profile does. Pages 2 to 5 read it by id and never copy it (the page specifications' README, point 1). The card has these parts, in order:
 - **The head:** the number, the name cell and the one x (built).
@@ -93,7 +93,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Your Positioning's Differentiation starts the ticks; change them freely.
 - **Connections:**
   - *Comes from:* Positioning's Differentiation, through the value crosswalk (doc 34, 5.2a), as starting ticks.
-  - *Read by (not built yet):* the Value Proposition draft and its open items (doc 42); the Review (doc 28, 11.5, rules 21 and 22: against the Profiles' B1 and the Competitors' K10).
+  - *Read by (not built yet):* the Value Proposition draft and its open items (doc 42); the Review (doc 28, 11.5, rules 21 and 22: against the Profiles' B1 and the Competitors' K8).
 
 ### O6. How does the customer receive it?
 
@@ -173,7 +173,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Based on: Bain's Elements of Value (HBR).
 - **Connections:**
   - *Comes from:* nothing. The Profiles' functional needs stay their own words (doc 36, section 10); this list compares the Offering with the Competitors, as the owner proposed (2026-11-03).
-  - *Read by (not built yet):* the Review. Doc 41's job question was withdrawn on 2026-11-04 as an Offering question, and with it the Value Proposition's open item "Job left to a competitor" (doc 42); a Competitor chosen for the same thing (rated 4 or 5 in K10, doc 41, against O4) is still a close rival, to be answered in its Insights & Differentiation.
+  - *Read by (not built yet):* the Review. Doc 41's job question was withdrawn on 2026-11-04 as an Offering question, and with it the Value Proposition's open item "Job left to a competitor" (doc 42); a Competitor chosen for the same thing (rated 4 or 5 in K8, doc 41, against O4) is still a close rival, to be answered in its Insights & Differentiation.
 
 ### O10. What does the customer need to give you?
 

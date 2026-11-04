@@ -1,6 +1,6 @@
 # 34. Lists and classifications: the countries, the shared lists, the industries and the codes
 
-Status: **proposal**, written 2026-10-29, updated 2026-11-03; parts are built (as document 28, from which this is section 5, split off on 2026-10-29; the sub-section numbers are unchanged, so "5.7" is still 5.7). Where the first published version differs, doc 33 governs: the six countries and Other, with the five generic legal forms for Other; everything for more countries is a future feature (doc 33).
+Status: **proposal**, written 2026-10-29, updated 2026-11-04; parts are built (as document 28, from which this is section 5, split off on 2026-10-29; the sub-section numbers are unchanged, so "5.7" is still 5.7). Where the first published version differs, doc 33 governs: the six countries and Other, with the five generic legal forms for Other; everything for more countries is a future feature (doc 33).
 
 > **First published version:** for a country other than the six, the legal form is one of the four generic forms and the activity and its code are typed; the ISIC cascade described below stays in the code and the data files as a future feature (doc 33, item 4). The Organisation tile as built is doc 37.
 
@@ -58,6 +58,7 @@ Each list is one definition used wherever its id appears; counts include "Not su
 | L15 | **Devices** (5) | Smartphone; Laptop or desktop; Tablet; A shared or public device; Other (the user writes it in) | P15 (doc 36, C1) |
 | L16 | **What a figure is based on** (9) | Sales or payments I have had; Website or social-media data; Talking to customers; A signed commitment; A pilot test; A benchmark or a comparison with the market; My costs plus a margin (a price only); My own estimate; Nothing yet | R2, D1 |
 | L17 | **The job it does** (7) | Helps them earn money; Keeps things organised; Works with what they already use; Connects them with people; Teaches / informs them; Gives more choice; Appeals to the senses | doc 43, O13 (proposed 2026-11-03); doc 41's job question was withdrawn on 2026-11-04 as an Offering question. Bain's functional elements of value [FUN-48] that L1 does not already hold (saves time is Speed, simplifies and avoids hassles are Ease and convenience, reduces cost is Lower price, reduces risk is Safety and low risk, quality is Quality and results) |
+| L18 | **Review platforms** (21) | Google; Facebook; Apple Maps; Yelp; Better Business Bureau; Trustpilot; ProductReview.com.au; Tripadvisor; Booking.com; Airbnb; OpenTable; Food delivery app; Marketplace; Houzz; Trade directory; G2; Capterra; App store; Clutch; OMR Reviews; Tabelog | doc 41, K6 (proposed 2026-11-04); the order by industry and country in 5.2b |
 
 L12 follows the UN household-consumption divisions [SPN-01] as customer-friendly labels with the division behind each (housing 04, food 01, transport 07, information and communication 08, health 06, education 10, restaurants and accommodation 11, recreation 09, clothing and furnishings and personal care 03, 05 and 13, insurance and financial services 12). Offices label them differently and the new 2018 split is not yet used everywhere, so each option is a customer label with a code behind it, not a survey category.
 
@@ -77,6 +78,38 @@ The positioning (doc 38), the customer's priorities (L1) and the customer's goal
 | Ecosystem & Integration | none | none (open: an L1 option needs the owner's words) |
 
 The goals (L4) are the customer's own outcomes and match none of these one for one; the Value Proposition reads them as the gains (doc 28, 6.7; FUN-46).
+
+#### 5.2b Review platforms (L18) by industry and country
+
+The rows of the Competitor's K6 (doc 41) are ordered from the App User's own answers: Google and Facebook first; then the platforms of the App User's industry, read from the Organisation's first activity (`organisation.activities[0]`) through the industry crosswalk (L7, 5.3); then those of the App User's country (`organisation.country`); then "Show all" the rest. A platform already shown is not shown twice. The order is a suggestion: any platform can be ticked.
+
+**The evidence is thin.** The industry and country columns rest on directory lists ranked by domain authority [FUN-64] and on a vendor's blog [FUN-65], not on a survey of how many people use each site; only Google's and Apple Maps' use rests on a survey (of US consumers [FUN-62]), and Trustpilot's growth in the UK on a university paper [FUN-63]. Germany and Japan are outside the six named countries (doc 33, section 3): they are chosen under Other.
+
+| Platform | First for the industry (L7, its id) | First for the country (ISO code) | Source |
+|---|---|---|---|
+| Google | every industry | every country | [FUN-62] |
+| Facebook | every industry | every country | [FUN-64] (the location lists) |
+| Apple Maps | | United States (US) | [FUN-62] |
+| Yelp | | United States (US), Canada (CA) | [FUN-64] |
+| Better Business Bureau | | United States (US), Canada (CA) | [FUN-64] |
+| Trustpilot | Wholesale and retail trade (`trade`); Professional, scientific and technical services (`professional`) | United Kingdom (GB), Ireland (IE), Australia (AU), New Zealand (NZ), every country outside the six | [FUN-63, FUN-65] |
+| ProductReview.com.au | | Australia (AU) | [FUN-65] |
+| Tripadvisor | Hospitality (`hospitality`); Arts, sport and recreation (`arts`) | | [FUN-64] |
+| Booking.com | Hospitality (`hospitality`) | | [FUN-64] |
+| Airbnb | Hospitality (`hospitality`) | | [FUN-64] |
+| OpenTable | Hospitality (`hospitality`) | | [FUN-64] (restaurants) |
+| Food delivery app | Hospitality (`hospitality`) | (its "i": Just Eat or Deliveroo in the UK, Grubhub in the US, SkipTheDishes in Canada, Menulog in Australia) | [FUN-64] (restaurants) |
+| Marketplace | Wholesale and retail trade (`trade`); Manufacturing (`manufacturing`) | (its "i": Etsy, Amazon or eBay) | page 2's Marketplace channel category |
+| Houzz | Construction (`construction`) | | [FUN-64] (home services) |
+| Trade directory | Construction (`construction`) | (its "i": Checkatrade or TrustATrader in the UK, Angi or HomeAdvisor in the US, HomeStars in Canada) | [FUN-64] (home services) |
+| G2 | Software, IT, media and telecoms (`software`) | | [FUN-64, FUN-65] |
+| Capterra | Software, IT, media and telecoms (`software`) | | [FUN-64, FUN-65] |
+| App store | Software, IT, media and telecoms (`software`) | (its "i": Apple's App Store or Google Play) | |
+| Clutch | Professional, scientific and technical services (`professional`) | | [FUN-64] (marketing agencies) |
+| OMR Reviews | Software, IT, media and telecoms (`software`), in Germany only | Germany (DE) | [FUN-65] |
+| Tabelog | Hospitality (`hospitality`), in Japan only | Japan (JP) | [FUN-65] |
+
+An industry with no row here (farming, mining, energy, transport, finance, real estate, administrative services, government, education, health, other services) shows only Google and Facebook, then its country's platforms.
 
 ### 5.3 The crosswalks (national schemes behind the plain lists)
 
