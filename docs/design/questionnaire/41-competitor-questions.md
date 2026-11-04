@@ -1,6 +1,6 @@
-# 41. The Competitor card: every question and option, as proposed
+# 41. The Competitor card: every question and option, as built
 
-Status: **proposal**, written 2026-11-03, updated 2026-11-04. Every question of the Competitor card (Business System, page 1, tile "Competitors"), in the order it is asked. For each: its control, when it is asked, its options, what its "i" says and what it connects to. The Type and the text boxes are built; the questions are not.
+Status: **specification**, written 2026-11-03, updated 2026-11-04; built. Every question of the Competitor card (Business System, page 1, tile "Competitors"), in the order it is asked. For each: its control, when it is asked, its options, what its "i" says and what it connects to. **Built (2026-11-04):** the Type, the text boxes kept as notes, and K1 to K10 (`CompetitorQuestions.ts`, the card in `useFoundationSubsections.tsx`). **Not built yet:** what reads the answers outside the card (the documents' strengths, weaknesses, opportunities and threats, the Review, Positioning and the Value Proposition).
 
 Related: doc 35 (the Segment, whose answers give K2, K3 and K9 their options and rows), doc 36 (the Profile, whose priorities order K8's rows), doc 38 (Positioning, which reads K10), doc 42 (the Value Proposition, which reads K8 and K10), doc 43 (the Offering, whose Type list K1 shares; a Review check against the Offerings waits until one exists), doc 34 (the list L1 and the value crosswalk, 5.2a), doc 28 (6.6, the design this refines), doc 02 (FUN-47, FUN-50 to FUN-58, the sources of the 2026-11-04 research), `src/framework/engine/AnswerBusinessFoundation.ts` and `src/components/interview/editors/foundation/shared.tsx` (the card today).
 
@@ -10,9 +10,9 @@ Related: doc 35 (the Segment, whose answers give K2, K3 and K9 their options and
 The card has these parts, in order:
 - **The head:** the number, the name cell and the one x (built).
 - **The Type** (built): Direct competitor, Indirect competitor, Substitute, Internal solution, Status quo. Each type has its explanation in the "i".
-- **Description** (built): the boxes Offerings, Market, Customer Acquisition and Customer Experience. K1 to K7 are asked inside them (proposed).
-- **Competitors SWOT Analysis** (built): the bands Strengths, Weaknesses, Opportunities and Threats. K8 and K9 are asked inside them (proposed): K8 is one band across Strengths and Weaknesses, K9 one across Opportunities and Threats.
-- **Insights & Differentiation** (built): a section of its own after the SWOT. K10 is asked above its text (proposed); the text stays the App User's own conclusion.
+- **Description** (built): the boxes Offerings, Market, Customer Acquisition and Customer Experience. K1 to K7 are asked inside them (built).
+- **Competitors SWOT Analysis** (built): the bands Strengths, Weaknesses, Opportunities and Threats. K8 and K9 are asked inside them (built): K8 is one band across Strengths and Weaknesses, K9 one across Opportunities and Threats.
+- **Insights & Differentiation** (built): a section of its own after the SWOT. K10 is asked above its text (built); the text stays the App User's own conclusion.
 
 Each question is asked inside the band of its box, above the box's text, and the text box stays as the note for what the question cannot say. The type renames the boxes as built (`COMPETITOR_TYPE_QUESTIONS`).
 
@@ -144,7 +144,7 @@ This follows the type rules already built for the text boxes: a substitute has n
 
 ## Box. Customer Experience
 
-- **The box's "i" adds (proposed):** how to find out: "Read their reviews, buy from them or ask for a quote yourself, and ask people who use them." Business Tasmania suggests becoming a customer yourself to see the experience [FUN-58].
+- **The box's "i" adds (built):** how to find out: "Read their reviews, buy from them or ask for a quote yourself, and ask people who use them." Business Tasmania suggests becoming a customer yourself to see the experience [FUN-58].
 
 ### K6. Where are they reviewed, and how are they rated?
 
@@ -157,7 +157,7 @@ This follows the type rules already built for the text boxes: a substitute has n
   - Tick each place they are reviewed, then give their average there, rounded to the nearest star. Read the lowest reviews: they show where customers are let down.
 - **Connections:**
   - *Comes from:* the Organisation's country and first activity (Legal Entity, `AnswerLegal.ts`), which order the rows. The order by industry and country rests on directory and vendor lists [FUN-64, FUN-65], not on a survey of how many people use each site; the use of Google and Apple Maps and the 4-star threshold rest on BrightLocal's survey of US consumers [FUN-62], Trustpilot in the UK on Littlechild [FUN-63]. The SBA asks what customers and prospects say about competitors [FUN-50].
-  - *Read by (not built yet):* §K8 ("Win over their unhappy customers", for a platform rated below 4); the Review.
+  - *Read by (not built yet):* K10 ("Win over their unhappy customers", for a platform rated below 4); the Review.
 
 ### K7. How easy do they make each stage for customers?
 
@@ -176,11 +176,11 @@ This follows the type rules already built for the text boxes: a substitute has n
     - Aftercare / follow-up
     - Community or events
 - **The "i" says:**
-  - Where their customers are let down along the way, and where it goes smoothly. K8 says what falls short; this says where.
+  - Where their customers are let down along the way, and where it goes smoothly. The values below (K8) say what falls short; this says where.
   - Under Support & Follow Up, what they do to bring customers back. Look at their website and social media, sign up to their newsletter, or buy from them once. Reviews that mention coming back again also show it.
 - **Connections:**
   - *Comes from:* the owner's decision (2026-11-04): the loyalty question overlapped the journey's last stage, so it stands under that stage. Lemon and Verhoef describe the customer's journey in three stages, before, during and after the purchase, the "loyalty loop" after it [FUN-59]; page 2's five Journey Stages divide the same journey. Invest Northern Ireland lists a competitor's "customer loyalty devices" [FUN-51]; how many customers come back cannot be seen from outside, what a competitor does to bring them back can.
-  - *Read by (not built yet):* §K8 ("Make [stage] easier", for a stage rated 1 or 2; "Give customers a reason to come back", when no loyalty tick is ticked); page 2's Journey Stages, where the App User plans each stage.
+  - *Read by (not built yet):* K10 ("Make [stage] easier", for a stage rated 1 or 2; "Give customers a reason to come back", when no loyalty tick is ticked); page 2's Journey Stages, where the App User plans each stage.
 
 For Internal solution and Status quo the box stays text only: it asks about the effort or the current behaviour, which K8 already rates.
 
@@ -237,9 +237,9 @@ For Internal solution and Status quo the box stays text only: it asks about the 
 
 ## Section. Insights & Differentiation
 
-A section of its own after the SWOT, as built: a title band, an "i" and one text, which stays the App User's own conclusion. K10 is asked above the text, answered from this card's earlier choices (proposed).
+A section of its own after the SWOT, as built: a title band, an "i" and one text, which stays the App User's own conclusion. K10 is asked above the text, answered from this card's earlier choices (built).
 - **The question (built):** it follows the type (`COMPETITOR_TYPE_QUESTIONS` in `shared.tsx`). Direct and Indirect competitors use `SUBSECTIONS.competitors.insights`: "What can you learn from competitors to make your offering more distinctive?" Substitute: "What could make customers switch from this alternative to your offering?" Internal solution: "What have you learned from customers solving this themselves, and how could your organisation make it easier, better, faster, or more valuable?" Status quo: "What could trigger customers to change?"
-- **The draft (proposed):** "Customers want [a B1 value]; [name] falls short on it." One line for each value the Segment's Profiles ticked in B1 that K8 rates 1 or 2, listing every competitor of the Segment that falls short on the same value. Each opening ticked in K10 adds "You could [opening]." It is added at the end of the text and never overwrites it. The App User then writes what they will do differently.
+- **The draft (built):** "Customers want [a B1 value]; [name] falls short on it." One line for each value the Segment's Profiles ticked in B1 that K8 rates 1 or 2, listing every competitor of the Segment that falls short on the same value. Each opening ticked in K10 adds "You could [opening]." It is added at the end of the text, by the link "Add to text" under K10, and never overwrites it. The App User then writes what they will do differently.
 - **Connections:** *Comes from:* K8, K10 and the Profiles' B1 (doc 36), not the Offerings.
 
 ### K10. What could you do differently?
@@ -265,6 +265,16 @@ A section of its own after the SWOT, as built: a title band, an "i" and one text
 - **Connections:**
   - *Comes from:* K4, K6, K7, K8 and K9, and the Profiles' B1 (doc 36).
   - *Read by (not built yet):* the draft at the end of the text ("You could [opening]"); Positioning's Differentiation (doc 38); the Value Proposition (doc 42).
+
+## As built: the readings chosen (2026-11-04)
+
+Where the text above left a choice, the build took the simplest reading:
+- A card with no Type yet is asked as a Direct competitor.
+- K6's industry is the Organisation's first activity read through the crosswalk L7 by its division (`industryOfActivity`); with no activity or country, Google and Facebook come first and the rest are behind "Show all". A platform ticked stays shown.
+- K8's "marked as such": the values the Segment's Profiles tick in B1 come first and the rest stand behind "Show all"; a value rated stays shown; with no Profile ticks, all ten show.
+- K10: an option shows once its source is answered; "Give customers a reason to come back" once a stage of K7 is rated and no loyalty tick is ticked; "Make it easier than doing it themselves" for an Internal solution once a value of K8 is rated; the Status quo has only its own two kinds of opening. Values and changes inside a sentence start with a small letter ("Be ready where the economy hurts them").
+- A Type change keeps the answers until the next answer, which settles them against the new Type (`competitorSettle`); the text boxes keep their words.
+- The answers are kept in the Competitor's `questions` (question id to the ids chosen; a rating as "option:point" under "<id>-rating", K4 as its point).
 
 ## Other ways to answer (proposed, 2026-11-04)
 

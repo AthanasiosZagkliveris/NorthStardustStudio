@@ -218,7 +218,7 @@ A typical person of the Segment, asked specifically.
 
 ### B1. What matters most to this person?
 
-- **Control:** ticks, up to 3, as built. **Proposed, to build (section 11):** ticks, up to 5, then a rating of each ticked value from 1 "Nice to have" to 5 "Must have" (`RatingGroup`, `selectable`).
+- **Control:** ticks, up to 5, then a rating of each ticked value from 1 "Nice to have" to 5 "Must have" (`RatingGroup`, `selectable`; section 11, built 2026-11-04).
 - **Asked when:** always.
 - **Options:** the list L1 (doc 34, 5.2):
   - Lower price
@@ -258,7 +258,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 ### C2. Which social media does this person use?
 
 - **Control:** ticks, as many as apply.
-- **Asked when:** the Segment's customers are not Not very comfortable online (or the comfort is not answered). Once the comfort is a rating (doc 35, proposed): asked unless it is rated 1.
+- **Asked when:** unless the Segment's online comfort is rated 1, Not comfortable (doc 35; built 2026-11-04).
 - **Options:** the social media channels the app already lists; Other opens a text box under the options, where the App User writes their own, and its words are kept as the answer. (Not built: the ones related to the Segment's ways of discovering ideas, creators, communities and algorithmic discovery, would come first.)
   - Instagram
   - Facebook
@@ -341,7 +341,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 ### E1. What are this person's main goals?
 
-- **Control:** ticks, up to 3, as built. **Proposed, to build (section 11):** ticks, up to 3, then a rating of each ticked goal from 1 "Minor" to 5 "Main goal".
+- **Control:** ticks, up to 3, then a rating of each ticked goal from 1 "Minor" to 5 "Main goal" (section 11, built 2026-11-04).
 - **Options:** the list L4 (doc 34, 5.2), without the four goals that repeat B1 (Save time, Save money, Lower risk, Get better results: B1's Speed, Lower price, Safety and low risk, Quality and results; owner, 2026-11-03):
   - Get easier access
   - Learn something new
@@ -354,7 +354,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 ### E2. What frustrates this person about the way it is done now?
 
-- **Control:** ticks, up to 3, as built. **Proposed, to build (section 11):** ticks, up to 3, then a rating of each ticked frustration from 1 "Mild" to 5 "Severe".
+- **Control:** ticks, up to 3, then a rating of each ticked frustration from 1 "Mild" to 5 "Severe" (section 11, built 2026-11-04).
 - **Options:** the list L3 (doc 34, 5.2), ten frustrations:
   - Cost too high
   - Takes too long
@@ -371,7 +371,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 ### E3. What might stop this person buying from you?
 
-- **Control:** ticks, up to 3, as built. **Proposed, to build (section 11):** ticks, up to 3, then a rating of each ticked worry from 1 "Small doubt" to 5 "Deal-breaker".
+- **Control:** ticks, up to 3, then a rating of each ticked worry from 1 "Small doubt" to 5 "Deal-breaker" (section 11, built 2026-11-04).
 - **Options:** the list L2 (doc 34, 5.2), eight worries:
   - The price / budget
   - Whether you can be trusted
@@ -444,9 +444,9 @@ The owner asked (2026-11-03) whether the three Needs lists could be choices inst
 
 **Still to decide:** the option words above.
 
-## 11. Psychographics and Motivations ticked and rated (proposed, to build, owner 2026-11-04)
+## 11. Psychographics and Motivations ticked and rated (owner 2026-11-04; built 2026-11-04)
 
-The owner asked that B1 (Psychographics) and E1 to E3 (Motivations) use both ticks and the five rounds: the App User ticks what applies, then rates each ticked item (`RatingGroup` with `selectable`, doc 21). The ids, the lists and the saved ticks stay; an existing tick starts unrated.
+The owner asked that B1 (Psychographics) and E1 to E3 (Motivations) use both ticks and the five rounds: the App User ticks what applies, then rates each ticked item (`RatingGroup` with `selectable`, doc 21). The ids, the lists and the saved ticks stay; an existing tick starts unrated. **As built:** the ratings are kept as `<id>-rating`, one "option:point" each (`ProfileQuestions.ts`); an untick takes its rating with it; the documents and the exports print each tick with its rating, the highest first ("Speed (5/5); Lower price (3/5); Good support").
 
 | Question | Ticks | Rating of each ticked item | Why these words |
 |---|---|---|---|
@@ -470,10 +470,10 @@ D2 ("How much help does this person want before buying?") stays one choice: its 
 | Niche hobby market | Expert knowledge, quality and shared identity: few and strong | 3 |
 | Mass market | Price, ease and trust: few | 3 |
 
-**The rule.** With a rating, no limit is needed to rank: the rating does the ranking. A cap still keeps a Profile focused and readable, and a long list of ticks says less, not more. The scenarios need three to five for what matters (B1) and never more than three for goals, frustrations and worries, whose first items are what the Value Proposition and the Offering read. So: **B1 up to 5; E1, E2 and E3 up to 3**, the same in B2B and B2C (a corporate group's narrower Profiles simply tick fewer). Five stays within the span a person can hold and compare at once, "somewhere in the neighborhood of seven" (Miller, 1956) [FUN-66]; a more involved buyer searches more (Zaichkowsky, 1985) [FUN-67], which is why a considered purchase needs more than the everyday three.
+**The rule.** With a rating, no limit is needed to rank: the rating does the ranking. A cap still keeps a Profile focused and readable, and a long list of ticks says less, not more. The scenarios need three to five for what matters (B1) and never more than three for goals, frustrations and worries, whose first items are what the Value Proposition and the Offering read. So: **B1 up to 5; E1, E2 and E3 up to 3**, the same in B2B and B2C (a corporate group's narrower Profiles simply tick fewer). **Decided (owner, 2026-11-04): "The limits are fine."** Five stays within the span a person can hold and compare at once, "somewhere in the neighborhood of seven" (Miller, 1956) [FUN-66]; a more involved buyer searches more (Zaichkowsky, 1985) [FUN-67], which is why a considered purchase needs more than the everyday three.
 
-**What the ratings feed (not built yet).**
-- B1 → the Competitor's K8: its rows ordered by the Profiles' highest rating, and in K10 the weight of each value becomes that rating (1 to 5) instead of 2 or 1 (doc 41).
+**What the ratings feed.** Built: B1's ratings weigh the Competitor's K10 (doc 41). Not built yet:
+- B1 → the Competitor's K8: its rows ordered by the Profiles' highest rating (as built, the ticked values come first, in L1's order); in K10 the weight of each value is that rating (built).
 - B1 → the Value Proposition draft (doc 42): the value rated highest comes first.
 - E1 → the Value Proposition draft's gains, the goal rated highest first.
 - E2 → the Value Proposition draft's pains, the frustration rated highest first; the Review.
