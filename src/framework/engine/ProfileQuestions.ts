@@ -188,7 +188,8 @@ export function profileQuestionAsked(question: ProfileQuestion, segment: Segment
         case "a5":
             return business || context.endsUser || (segment.age ?? []).includes("minor");
         case "c2":
-            return !(segment.comfort ?? []).includes("averse") || (segment.comfort ?? []).length === 0;
+            // Asked unless the Segment's online comfort is rated 1, Not comfortable (doc 36).
+            return !(segment.comfort ?? []).includes("1");
         case "c3":
             return (segment.discover ?? []).includes("communities");
         case "c4":
@@ -236,7 +237,8 @@ function startOf(question: ProfileQuestion, segment: SegmentAnswers, context: Se
                 return ["formal"];
             }
             const comfort = first(segment.comfort);
-            return comfort === "savvy" ? ["alone"] : comfort === "averse" ? ["person"] : undefined;
+            // The online comfort, a rating: 4 or 5 starts Works it out alone, 1 or 2 Wants to talk to a person.
+            return comfort === "4" || comfort === "5" ? ["alone"] : comfort === "1" || comfort === "2" ? ["person"] : undefined;
         }
         case "e3":
             return (segment.income ?? []).includes("low") ? ["the-price-or-their-budget"] : undefined;

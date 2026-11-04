@@ -510,7 +510,7 @@
                     "urban"
                   ],
                   "comfort": [
-                    "savvy"
+                    "5"
                   ],
                   "discover": [
                     "communities",
@@ -538,7 +538,7 @@
                     "wallet"
                   ],
                   "trajectory": [
-                    "flat"
+                    "3"
                   ],
                   "tam": [
                     "mid"
@@ -548,7 +548,7 @@
                     "society"
                   ],
                   "competition": [
-                    "fragmented"
+                    "3"
                   ]
                 },
                 "profiles": [
@@ -838,7 +838,7 @@
                     "professional"
                   ],
                   "comfort": [
-                    "moderate"
+                    "3"
                   ],
                   "discover": [
                     "peers",
@@ -855,7 +855,7 @@
                     "solo"
                   ],
                   "trajectory": [
-                    "growing"
+                    "4"
                   ],
                   "tam": [
                     "boutique"
@@ -865,7 +865,7 @@
                     "society"
                   ],
                   "competition": [
-                    "fragmented"
+                    "3"
                   ]
                 },
                 "profiles": [

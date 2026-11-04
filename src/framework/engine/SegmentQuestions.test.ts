@@ -142,6 +142,26 @@ describe("the Segment's questions", () => {
     it("reads a saved answer: known questions and options only, one id for a radio", () => {
         expect(asSegmentAnswers({ age: ["minor", "young"], gender: ["nope"], bogus: ["x"], discover: ["peers", "peers", 3] })).toEqual({ age: ["minor"], discover: ["peers"] });
         expect(asSegmentAnswers(null)).toEqual({});
+    });
+
+    it("reads a degree saved before it became a rating as its point (doc 35)", () => {
+        expect(asSegmentAnswers({ comfort: ["averse"], "u-comfort": ["savvy"] })).toEqual({ comfort: ["1"], "u-comfort": ["5"] });
+        expect(asSegmentAnswers({ comfort: ["moderate"] })).toEqual({ comfort: ["3"] });
+        expect(asSegmentAnswers({ trajectory: ["declining"] })).toEqual({ trajectory: ["1"] });
+        expect(asSegmentAnswers({ trajectory: ["flat"] })).toEqual({ trajectory: ["3"] });
+        expect(asSegmentAnswers({ trajectory: ["growing"] })).toEqual({ trajectory: ["4"] });
+        expect(asSegmentAnswers({ trajectory: ["expanding"] })).toEqual({ trajectory: ["5"] });
+        expect(asSegmentAnswers({ competition: ["blue"] })).toEqual({ competition: ["1"] });
+        expect(asSegmentAnswers({ competition: ["fragmented"] })).toEqual({ competition: ["3"] });
+        expect(asSegmentAnswers({ competition: ["red"] })).toEqual({ competition: ["5"] });
+        // A rating already saved stays; a point outside 1 to 5 goes.
+        expect(asSegmentAnswers({ competition: ["4"], comfort: ["9"] })).toEqual({ competition: ["4"] });
+    });
+
+    it("prints a rating with its point and, at an end or the middle, its words", () => {
+        const lines = segmentAnswerLines({ comfort: ["3"], competition: ["4"] });
+        expect(lines).toContainEqual({ label: "How comfortable are your customers online?", value: "3 of 5 (Fairly comfortable)" });
+        expect(lines).toContainEqual({ label: "How crowded is your market?", value: "4 of 5" });
         expect(segmentAnswerLines({ share: ["public", "verbal"], pay: ["card"] })).toEqual([
             { label: "How do your customers share what they like?", value: "They post it publicly on social media; They tell people in person" },
             { label: "How do your customers pay?", value: "Credit / debit card" }

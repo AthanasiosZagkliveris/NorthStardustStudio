@@ -24,6 +24,8 @@ export interface SegmentQuestion {
     info: readonly string[];
     /** A short name for the notes that say what Positioning or the answers above set ("Size: Medium-sized business"). */
     name?: string;
+    /** A degree, asked as a rating from 1 to 5 (RatingField): the words over its ends and, where one helps, its middle (doc 35, owner 2026-11-04). The answer is the point, "1" to "5". */
+    rating?: { low: string; mid?: string; high: string };
 }
 
 /** What a Segment's questions follow: Identity's answers and the business stage. */
@@ -64,11 +66,29 @@ const NOT_WORKING = [
 const WORKING_INFO = ["Yes includes working full-time, part-time, on contract or self-employed.", "No opens a second question about why they are not working."];
 const NOT_WORKING_INFO = ["Choose the main reason.", "Unable to work: sidelined from the workforce by a chronic medical condition, long-term illness or disability. They typically live on fixed support incomes."];
 
-const COMFORT = [
-    { id: "averse", label: "Not very comfortable" },
-    { id: "moderate", label: "Fairly comfortable" },
-    { id: "savvy", label: "Very comfortable" }
-] as const;
+/**
+ * A RATING'S POINTS as options, so a rating is saved and settled as every choice is: the ids "1" to "5" ("3 of 5"). Its end and middle words are added where it is printed (ratingWords).
+ * Degree and comfort questions are ratings unless named ranges exist (doc 35, owner 2026-11-04).
+ */
+export function ratingOptions(_rating: { low: string; mid?: string; high: string }): SegmentOption[] {
+    return ["1", "2", "3", "4", "5"].map(point => ({ id: point, label: point + " of 5" }));
+}
+
+/** A rating as a document prints it: "3 of 5 (Fairly comfortable)", the words only at an end or the middle. */
+export function ratingWords(point: string, rating: { low: string; mid?: string; high: string }): string {
+    const word = point === "1" ? rating.low : point === "3" ? rating.mid : point === "5" ? rating.high : undefined;
+    return point + " of 5" + (word ? " (" + word + ")" : "");
+}
+
+const COMFORT_RATING = { low: "Not comfortable", mid: "Fairly comfortable", high: "Very comfortable" };
+
+/** The answers saved before a question became a rating, and the point each now is (doc 35). */
+const RATED_BEFORE: Record<string, Record<string, string>> = {
+    comfort: { averse: "1", moderate: "3", savvy: "5" },
+    "u-comfort": { averse: "1", moderate: "3", savvy: "5" },
+    trajectory: { declining: "1", flat: "3", growing: "4", expanding: "5" },
+    competition: { blue: "1", fragmented: "3", red: "5" }
+};
 
 const ORG_TYPES = [
     { id: "private", label: "Private business (For-profit)" },
@@ -317,7 +337,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
 
     {
         id: "comfort", box: "purchasing", label: "How comfortable are your customers online?", many: false,
-        options: COMFORT,
+        rating: COMFORT_RATING, options: ratingOptions(COMFORT_RATING),
         info: ["How easily they use websites, apps and online payment, not whether they own a device."]
     },
     {
@@ -417,13 +437,15 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
 
     {
         id: "trajectory", box: "market-size", label: "Is your market growing or shrinking?", many: false,
-        options: [
-            { id: "expanding", label: "Growing fast (Emerging market, high year-on-year growth)" },
-            { id: "growing", label: "Growing steadily (Mature market, predictable upward trend)" },
-            { id: "flat", label: "Flat / stable (Saturated market, consistent volume but low growth)" },
-            { id: "declining", label: "Shrinking or disrupted (Shrinking market or undergoing severe structural changes)" }
-        ],
-        info: ["Where the market is heading, apart from its size: a market can be large and declining, or small and expanding fast."]
+        rating: { low: "Shrinking", mid: "Flat", high: "Growing fast" },
+        options: ratingOptions({ low: "Shrinking", mid: "Flat", high: "Growing fast" }),
+        info: [
+            "Where the market is heading, apart from its size: a market can be large and declining, or small and expanding fast.",
+            "1 Shrinking: a shrinking market, or one undergoing severe structural changes.",
+            "3 Flat: a saturated market, consistent volume but low growth.",
+            "4: a mature market with a predictable upward trend.",
+            "5 Growing fast: an emerging market, high year-on-year growth."
+        ]
     },
     {
         id: "tam", box: "market-size", label: "How many potential customers are there?", many: false,
@@ -448,12 +470,14 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     },
     {
         id: "competition", box: "market-size", label: "How crowded is your market?", many: false,
-        options: [
-            { id: "red", label: "Crowded (Red Ocean): Dominated by big established players; price wars are common." },
-            { id: "fragmented", label: "Fragmented: Many small and medium players; none controls the market." },
-            { id: "blue", label: "Open (Blue Ocean): Very few direct competitors; the niche is new." }
-        ],
-        info: ["Red Ocean and Blue Ocean are the strategy terms of Kim and Mauborgne: a crowded market against an uncontested one."]
+        rating: { low: "Open", mid: "Fragmented", high: "Crowded" },
+        options: ratingOptions({ low: "Open", mid: "Fragmented", high: "Crowded" }),
+        info: [
+            "Red Ocean and Blue Ocean are the strategy terms of Kim and Mauborgne: a crowded market against an uncontested one.",
+            "1 Open: Blue Ocean. Very few direct competitors; the niche is new.",
+            "3 Fragmented: many small and medium players; none controls the market.",
+            "5 Crowded: Red Ocean. Dominated by big established players; price wars are common."
+        ]
     },
 
     /* ---- The user (a Proxy or Dual-Intent buyer) ---- */
@@ -502,7 +526,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     },
     {
         id: "u-comfort", box: "user", label: "How comfortable are your customers online?", many: false,
-        options: COMFORT,
+        rating: COMFORT_RATING, options: ratingOptions(COMFORT_RATING),
         info: ["How easily they use websites, apps and online payment, not whether they own a device."]
     }
 
@@ -840,6 +864,14 @@ export function asSegmentAnswers(source: unknown): SegmentAnswers {
         }
     }
 
+    // A degree saved before it became a rating (doc 35, 2026-11-04): the old answer is the point it now is.
+    for (const [id, points] of Object.entries(RATED_BEFORE)) {
+        const old = Array.isArray(migrated[id]) ? (migrated[id] as unknown[])[0] : undefined;
+        if (typeof old === "string" && points[old]) {
+            migrated[id] = [points[old]];
+        }
+    }
+
     for (const question of QUESTIONS) {
 
         const entry = migrated[question.id];
@@ -867,7 +899,9 @@ export function segmentAnswerLines(answers: SegmentAnswers): { label: string; va
     return QUESTIONS.flatMap(question => {
 
         const chosen = answers[question.id] ?? [];
-        const words = question.options.filter(option => chosen.includes(option.id)).map(option => option.label);
+        const words = question.rating
+            ? chosen.slice(0, 1).map(point => ratingWords(point, question.rating!))
+            : question.options.filter(option => chosen.includes(option.id)).map(option => option.label);
 
         return words.length > 0
             ? [{ label: question.label.replace(/ \(Select all that apply\)$/, ""), value: words.join("; ") }]

@@ -10,6 +10,7 @@ import { BUSINESS_COMPETITOR_TYPES, BUSINESS_OFFERING_CATEGORIES, BusinessCompet
 import FieldRow from "../../fields/FieldRow.tsx";
 import { BusinessAddButton, BusinessCard, BusinessRemove, BusinessTicks, OptionalNote } from "../../cards/BusinessCardFields.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
+import RatingField, { type Rating } from "../../../controls/RatingField.tsx";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import { type ProfileBox, type ProfileQuestion, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileWho, profileQuestionsOf, profileSettle, profileShown, proposedBusinessProfiles } from "../../../../framework/engine/ProfileQuestions.ts";
@@ -222,7 +223,21 @@ export function useFoundationSubsections(earlier: Earlier) {
                     info={[...question.info]}
                     labelNote={question.max !== undefined ? <span className="business-foundation-tick-note">{question.max + " max"}</span> : undefined}
                 >
-                    {question.many
+                    {question.rating
+                        // A degree is a rating from 1 to 5 (doc 35): its end words over its rounds; pressing the chosen round again clears it.
+                        ? (
+                            <RatingField
+                                label={question.label}
+                                name={segment.id + "-" + question.id}
+                                disabled={disabled}
+                                value={chosen[0] ? Number(chosen[0]) as Rating : undefined}
+                                onChange={(next) => choose(next ? [String(next)] : [])}
+                                lowLabel={question.rating.low}
+                                midLabel={question.rating.mid}
+                                highLabel={question.rating.high}
+                            />
+                        )
+                        : question.many
                         ? (
                             <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={question.label}>
                                 <BusinessTicks name={question.label} disabled={disabled} options={options} chosen={chosen} max={question.max} onChange={choose} />
@@ -265,7 +280,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                 : list;
         };
         /** A box's height in lines: its title, and each question's label and options. */
-        const weightOf = (box: SegmentBox) => 2 + segmentQuestionsOf(box, segment.questions, asked).reduce((sum, question) => sum + 2 + segmentOptions(question, segment.questions, asked).length, 0);
+        const weightOf = (box: SegmentBox) => 2 + segmentQuestionsOf(box, segment.questions, asked).reduce((sum, question) => sum + 2 + (question.rating ? 2 : segmentOptions(question, segment.questions, asked).length), 0);
 
         const segmentParts: DescriptionPart[] = SUBSECTIONS.segments.segmentDescription
             // (A Segment is one group: a business Segment has no Demographics, a people Segment no Business Data.)

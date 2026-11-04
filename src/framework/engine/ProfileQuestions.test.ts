@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { profileChoose, profileQuestionsOf, profileSettle, profileShown, profileWho, proposedBusinessProfiles, PROFILE_QUESTIONS } from "./ProfileQuestions";
+import { profileChoose, profileQuestionAsked, profileQuestionsOf, profileSettle, profileShown, profileWho, proposedBusinessProfiles, PROFILE_QUESTIONS } from "./ProfileQuestions";
 import type { SegmentContext } from "./SegmentQuestions";
 
 const people = { frame: "people", endsUser: false } as unknown as SegmentContext;
@@ -81,8 +81,19 @@ describe("the Profile's questions follow the Segment", () => {
 
     it("starts the worry about price where the household income is Low, and the help from the comfort", () => {
         expect(profileShown({}, { income: ["low"] }, people).e3).toEqual(["the-price-or-their-budget"]);
-        expect(profileShown({}, { comfort: ["averse"] }, people).d2).toEqual(["person"]);
+        // The online comfort is a rating (doc 35): 1 or 2 starts "Wants to talk to a person", 4 or 5 "Works it out alone", 3 nothing.
+        expect(profileShown({}, { comfort: ["1"] }, people).d2).toEqual(["person"]);
+        expect(profileShown({}, { comfort: ["2"] }, people).d2).toEqual(["person"]);
+        expect(profileShown({}, { comfort: ["4"] }, people).d2).toEqual(["alone"]);
+        expect(profileShown({}, { comfort: ["3"] }, people).d2).toBeUndefined();
         expect(profileShown({}, { path: ["impulse"] }, people).d1).toBeUndefined();
+    });
+
+    it("asks the social media unless the Segment's online comfort is rated 1", () => {
+        const c2 = PROFILE_QUESTIONS.find(question => question.id === "c2")!;
+        expect(profileQuestionAsked(c2, { comfort: ["1"] }, people)).toBe(false);
+        expect(profileQuestionAsked(c2, { comfort: ["2"] }, people)).toBe(true);
+        expect(profileQuestionAsked(c2, {}, people)).toBe(true);
     });
 
 });
