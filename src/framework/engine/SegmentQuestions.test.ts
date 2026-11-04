@@ -153,6 +153,8 @@ describe("the Segment's questions", () => {
         expect(asSegmentAnswers({ trajectory: ["expanding"] })).toEqual({ trajectory: ["5"] });
         expect(asSegmentAnswers({ competition: ["blue"] })).toEqual({ competition: ["1"] });
         expect(asSegmentAnswers({ competition: ["fragmented"] })).toEqual({ competition: ["3"] });
+        // Rated at the owner's request (2026-11-04): the household income, the gender mix and the kind of place (three kinds: 1, 3 and 5).
+        expect(asSegmentAnswers({ income: ["upper-middle"], gender: ["leans-women"], area: ["suburban"] })).toEqual({ income: ["4"], gender: ["4"], area: ["3"] });
         expect(asSegmentAnswers({ competition: ["red"] })).toEqual({ competition: ["5"] });
         // A rating already saved stays; a point outside 1 to 5 goes.
         expect(asSegmentAnswers({ competition: ["4"], comfort: ["9"] })).toEqual({ competition: ["4"] });

@@ -4,17 +4,19 @@
  */
 import ListStatic from "../../fields/ListStatic.tsx";
 import TickField from "../../../controls/TickField.tsx";
+import AddButton from "../../../controls/AddButton.tsx";
 import { Fragment, ReactNode, useState } from "react";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
 import { BUSINESS_COMPETITOR_TYPES, BUSINESS_OFFERING_CATEGORIES, BusinessCompetitorValue, BusinessCustomerProfileValue, BusinessCustomerSegmentValue, BusinessOfferingValue, businessSegmentNeeds, createBusinessCompetitor, createBusinessCustomerProfile, createBusinessOffering } from "../../../../framework/engine/AnswerUtils.ts";
 import FieldRow from "../../fields/FieldRow.tsx";
-import { BusinessAddButton, BusinessCard, BusinessRemove, BusinessTicks, OptionalNote } from "../../cards/BusinessCardFields.tsx";
+import { BusinessAddButton, BusinessCard, BusinessRemove, BusinessStep, BusinessTicks, OptionalNote } from "../../cards/BusinessCardFields.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import RatingScale, { type Rating } from "../../../controls/RatingScale.tsx";
+import { ratingScaleMeaning } from "../../../controls/RatingScaleEnds.tsx";
 import RatingScaleGroup from "../../../controls/RatingScaleGroup.tsx";
 import TextLink from "../../fields/TextLink.tsx";
 import TextBox from "../../../controls/TextBox.tsx";
-import { type OtherQuestion, competitorOtherAdd, competitorOtherName, competitorOtherRemove, competitorOtherSettle, competitorOtherTick, competitorOthers, COMPETITOR_CHANGES, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_LOYALTY_OPTIONS, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, COMPETITOR_VALUES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorAsksLoyalty, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, COMPETITOR_VALUES_UNSET, draftToAdd, hardToBeat, insightsDraft, reviewPlatformOrder, valueOfProfiles } from "../../../../framework/engine/CompetitorQuestions.ts";
+import { type OtherQuestion, competitorOtherAdd, competitorOtherName, competitorOtherRemove, competitorOtherSettle, competitorOtherTick, competitorOthers, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, COMPETITOR_SUBCHANNELS, COMPETITOR_BAND_LINE, bandTone, COMPETITOR_CHANGES, valueProfiles, draftToAdd, hardToBeat, insightsDraft, reviewPlatformOrder } from "../../../../framework/engine/CompetitorQuestions.ts";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import { type ProfileBox, type ProfileQuestion, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileRate, profileRatings, profileWho, profileQuestionsOf, profileSettle, profileShown, proposedBusinessProfiles } from "../../../../framework/engine/ProfileQuestions.ts";
@@ -58,7 +60,7 @@ function ProfileAgeCell({ value, label, disabled, onType, onDone }: { value: str
 
 export function useFoundationSubsections(earlier: Earlier) {
 
-    const { built, description, disabled, folds, forceOpen, group, groupFold, labelled, note, targetAudience, identity, text, updateProfile, updateSegment } = earlier;
+    const { built, description, disabled, folds, forceOpen, group, groupFold, labelled, targetAudience, identity, text, updateProfile, updateSegment } = earlier;
 
     /** The delete control every card on this page carries. */
     function remove(what: string, onRemove: () => void) {
@@ -224,7 +226,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                     pair
                     fullList
                     label={question.label}
-                    info={[...question.info]}
+                    info={question.rating ? [ratingScaleMeaning(question.rating), ...question.info] : [...question.info]}
                     labelNote={question.max !== undefined ? <span className="business-foundation-tick-note">{question.max + " max"}</span> : undefined}
                 >
                     {question.rating
@@ -369,7 +371,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                     pair
                     fullList
                     label={label}
-                    info={[...question.info]}
+                    info={question.rating ? [ratingScaleMeaning(question.rating), ...question.info] : [...question.info]}
                     labelNote={question.max !== undefined ? <span className="business-foundation-tick-note">{question.max + " max"}</span> : question.number && ageRange ? <span className="business-foundation-tick-note">{ageRange[1] >= 130 ? ageRange[0] + " or older" : ageRange[0] + "–" + (ageRange[1] - 1)}</span> : undefined}
                 >
                     {question.number
@@ -666,15 +668,10 @@ export function useFoundationSubsections(earlier: Earlier) {
                     // A change of answers is settled against the type: a question it does not ask, an option or a row not offered, loses its answer.
                     const write = (next: CompetitorAnswers) => change({ questions: competitorSettle(next, competitor.type) });
                     const words = (id: CompetitorQuestionId) => competitorWording(competitor.type, id);
-                    const ticks = (id: CompetitorQuestionId, options: readonly { id: string; label: string }[], max?: number) => (
-                        <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={words(id)}>
-                            <BusinessTicks name={words(id)} disabled={disabled} options={options} chosen={answers[id] ?? []} max={max} onChange={(next) => write({ ...answers, [id]: next })} />
-                        </div>
-                    );
                     const radio = (id: CompetitorQuestionId, options: readonly { id: string; label: string }[]) => (
                         <RadioChoice label={words(id)} group={competitor.id + "-" + id} className="legal-entity-radio-stack" disabled={disabled} value={answers[id]?.[0] ?? ""} onChange={(next) => write({ ...answers, [id]: [next] })} options={options} />
                     );
-                    const rated = (id: "k5" | "k6" | "k7" | "k8" | "k9", rows: readonly { id: string; label: ReactNode; name?: string; below?: ReactNode; fixed?: boolean }[], extra: Partial<Parameters<typeof RatingScaleGroup>[0]> = {}) => (
+                    const rated = (id: "k6" | "k7" | "k8" | "k9", rows: readonly { id: string; label: ReactNode; name?: string; below?: ReactNode; fixed?: boolean }[], extra: Partial<Parameters<typeof RatingScaleGroup>[0]> = {}) => (
                         <RatingScaleGroup
                             label={words(id)}
                             name={competitor.id + "-" + id}
@@ -724,12 +721,12 @@ export function useFoundationSubsections(earlier: Earlier) {
                     // K6: the platforms in the order of the App User's industry and country (L18); a platform ticked before stays shown.
                     const platforms = reviewPlatformOrder(identity?.country ?? "", identity?.activityCode ?? "");
                     const platformRows = [...platforms.first, ...platforms.rest.filter(platform => (answers.k6 ?? []).includes(platform.id))];
-                    // K8: all ten values of L1 (a short list), the Segment's Profiles' B1 values first.
                     const context = { profiles: segment.profiles.map(profile => profile.questions ?? {}), others: segment.competitors.filter(other => other.id !== competitor.id).map(other => other.questions ?? {}) };
-                    // K8: the values the Segment's Profiles tick in B1, the highest rated first; all of L1 while none is ticked (doc 41).
-                    const valueRows = competitorValueRows(context);
-                    const valuesUnset = !COMPETITOR_VALUES.some(value => valueOfProfiles(value.id, context));
-                    // K9: the Segment's changes, those it ticks first.
+                    // K8 (doc 41; owner, 2026-11-04): every value, the Profiles' highest rated first, each chosen value with a band of one colour, darker the more
+                    // Profiles chose it (bandTone: the count only).
+                    const valueRows = competitorValueRows(context).map(value => ({ ...value, tone: bandTone(valueProfiles(value.id, context)) }));
+                    const valuesBanded = valueRows.some(row => row.tone > 0);
+                    // K9: the Segment's changes, those it ticks first (no band: no Segment or Profile answer chooses a change directly; owner, 2026-11-04).
                     const ticked = segment.questions.trends ?? [];
                     const changeRows = [...COMPETITOR_CHANGES.filter(entry => ticked.includes(entry.id)), ...COMPETITOR_CHANGES.filter(entry => !ticked.includes(entry.id))];
                     // K10: the openings, from the answers above; a tick no longer offered goes.
@@ -751,12 +748,75 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 highLabel={COMPETITOR_RATINGS.k4.high}
                             />
                         ),
-                        // K5: each channel ticked, then how active they are there (owner, 2026-11-04).
-                        k5: () => rated("k5", COMPETITOR_CHANNEL_OPTIONS, {
-                            selectable: true,
-                            selected: answers.k5 ?? [],
-                            onSelect: (row, on) => write({ ...answers, k5: on ? [...(answers.k5 ?? []), row] : (answers.k5 ?? []).filter(entry => entry !== row) })
-                        }),
+                        // K5 (owner, 2026-11-04): each channel a tick in the left half; once ticked, a dropdown of its sub-channels in the right half (the Rating
+                        // Scale's horizontal rule), the "+" in the card's x column adding one more row under it, each added row with its x. The lists are the
+                        // Profile's own (C2 to C4), so they compare with the customers; a sub-channel chosen in one row is not offered in another.
+                        k5: () => {
+                            const channels = answers.k5 ?? [];
+                            const subsOf = (channel: string) => (answers["k5-sub"] ?? []).filter(entry => entry.startsWith(channel + ":")).map(entry => entry.slice(channel.length + 1));
+                            const setSubs = (channel: string, list: readonly string[]) => write({ ...answers, "k5-sub": [...(answers["k5-sub"] ?? []).filter(entry => !entry.startsWith(channel + ":")), ...list.filter(Boolean).map(id => channel + ":" + id)] });
+                            return (
+                                <div className="business-competitor-channels" role="group" aria-label={words("k5")}>
+                                    {COMPETITOR_CHANNEL_OPTIONS.map(channel => {
+                                        const on = channels.includes(channel.id);
+                                        const list = on ? COMPETITOR_SUBCHANNELS[channel.id] : undefined;
+                                        const chosen = subsOf(channel.id);
+                                        // One dropdown to start with; each chosen sub-channel keeps its row.
+                                        const rows = chosen.length > 0 ? chosen : [""];
+                                        const picker = (id: string, at: number) => list && (
+                                            <OptionPicker
+                                                label={channel.label + ", which one" + (rows.length > 1 ? " " + (at + 1) : "")}
+                                                options={list.filter(option => option.id === id || !chosen.includes(option.id)).map(option => option.label)}
+                                                disabled={disabled}
+                                                value={list.find(option => option.id === id)?.label ?? ""}
+                                                onChange={(next) => {
+                                                    const picked = list.find(option => option.label === next)?.id;
+                                                    if (picked) {
+                                                        setSubs(channel.id, rows.map((entry, position) => position === at ? picked : entry));
+                                                    }
+                                                }}
+                                            />
+                                        );
+                                        return (
+                                            <Fragment key={channel.id}>
+                                                <TickField
+                                                    className="business-foundation-tick business-competitor-channel"
+                                                    aria-label={words("k5") + ": " + channel.label}
+                                                    disabled={disabled}
+                                                    checked={on}
+                                                    onChange={(event) => write({ ...answers, k5: event.currentTarget.checked ? COMPETITOR_CHANNEL_OPTIONS.map(option => option.id).filter(id => id === channel.id || channels.includes(id)) : channels.filter(id => id !== channel.id) })}
+                                                >
+                                                    <span className="business-foundation-tick-label">{channel.label}</span>
+                                                </TickField>
+                                                {list && (
+                                                    <>
+                                                        <div className="business-competitor-subchannel">{picker(rows[0], 0)}</div>
+                                                        <div className="business-competitor-subchannel-step">
+                                                            {chosen.length > 0 && chosen.length < list.length && (
+                                                                <AddButton shape="box" small aria-label={"Add another " + channel.label + " choice"} disabled={disabled} onClick={() => {
+                                                                    const free = list.find(option => !chosen.includes(option.id));
+                                                                    if (free) {
+                                                                        setSubs(channel.id, [...chosen, free.id]);
+                                                                    }
+                                                                }} />
+                                                            )}
+                                                        </div>
+                                                        {rows.slice(1).map((id, index) => (
+                                                            <Fragment key={channel.id + "-" + id}>
+                                                                <div className="business-competitor-subchannel">{picker(id, index + 1)}</div>
+                                                                <div className="business-competitor-subchannel-step">
+                                                                    <BusinessStep kind="remove" what={channel.label + " choice"} disabled={disabled} onClick={() => setSubs(channel.id, chosen.filter((_entry, position) => position !== index + 1))} />
+                                                                </div>
+                                                            </Fragment>
+                                                        ))}
+                                                    </>
+                                                )}
+                                            </Fragment>
+                                        );
+                                    })}
+                                </div>
+                            );
+                        },
                         k6: () => (
                             <>
                                 {rated("k6", [...platformRows, ...otherRows("k6")], {
@@ -767,14 +827,8 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 {otherTick("k6")}
                             </>
                         ),
-                        k7: () => rated("k7", COMPETITOR_STAGES.map(stage => stage.id === "support" && competitorAsksLoyalty(competitor.type)
-                            ? { ...stage, below: ticks("k7", COMPETITOR_LOYALTY_OPTIONS) }
-                            : stage)),
-                        k8: () => (
-                            <>
-                                {rated("k8", valueRows)}
-                            </>
-                        ),
+                        k7: () => rated("k7", COMPETITOR_STAGES),
+                        k8: () => rated("k8", valueRows),
                         k9: () => rated("k9", changeRows),
                         k10: () => (
                             <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={words("k10")}>
@@ -784,7 +838,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                     };
                     const INFO: Partial<Record<CompetitorQuestionId, readonly string[]>> = {
                         k6: [...COMPETITOR_INFO.k6, ...REVIEW_PLATFORM_EXAMPLES],
-                        k8: valuesUnset ? [...COMPETITOR_INFO.k8, COMPETITOR_VALUES_UNSET] : COMPETITOR_INFO.k8,
+                        k8: valuesBanded ? [...COMPETITOR_INFO.k8, COMPETITOR_BAND_LINE] : COMPETITOR_INFO.k8,
                         k10: [...COMPETITOR_INFO.k10, ...hardToBeat(competitor.name, answers, context)]
                     };
                     /** One question: its words (by type) with its "i" (and its limit) over its control. */
@@ -794,7 +848,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                             pair
                             fullList
                             label={words(id)}
-                            info={[...(INFO[id] ?? COMPETITOR_INFO[id])]}
+                            info={[...(id in COMPETITOR_RATINGS ? [ratingScaleMeaning(COMPETITOR_RATINGS[id as keyof typeof COMPETITOR_RATINGS])] : []), ...(INFO[id] ?? COMPETITOR_INFO[id])]}
                             labelNote={id === "k10" ? <span className="business-foundation-tick-note">3 max</span> : undefined}
                         >
                             {controls[id]()}
@@ -878,39 +932,55 @@ export function useFoundationSubsections(earlier: Earlier) {
                             {/* K8, one band over Strengths and Weaknesses; K9, one over Opportunities and Threats (doc 41): the built boxes stay as the notes. */}
                             {band(question("k8"))}
 
-                            {note(
-                                "Strengths",
-                                competitor.strengths,
-                                (next) => change({ strengths: next }),
-                                SUBSECTIONS.competitors.strengths,
-                                whose
-                            )}
+                            {/* The shared Notes (owner, 2026-11-04: as on the Profile card): ticked to write; saved text starts ticked. */}
+                            <OptionalNote
+                                label="Strengths"
+                                fieldId="Strengths"
+                                ariaLabel={whose + " strengths"}
+                                info={SUBSECTIONS.competitors.strengths}
+                                placeholder={NOTE_PLACEHOLDERS.strengths ?? "Add a note"}
+                                disabled={disabled}
+                                value={competitor.strengths}
+                                onChange={(next) => change({ strengths: next })}
+                            />
 
-                            {note(
-                                "Weaknesses",
-                                competitor.weaknesses,
-                                (next) => change({ weaknesses: next }),
-                                SUBSECTIONS.competitors.weaknesses,
-                                whose
-                            )}
+                            {/* The shared Notes (owner, 2026-11-04: as on the Profile card): ticked to write; saved text starts ticked. */}
+                            <OptionalNote
+                                label="Weaknesses"
+                                fieldId="Weaknesses"
+                                ariaLabel={whose + " weaknesses"}
+                                info={SUBSECTIONS.competitors.weaknesses}
+                                placeholder={NOTE_PLACEHOLDERS.weaknesses ?? "Add a note"}
+                                disabled={disabled}
+                                value={competitor.weaknesses}
+                                onChange={(next) => change({ weaknesses: next })}
+                            />
 
                             {band(question("k9"))}
 
-                            {note(
-                                "Opportunities",
-                                competitor.opportunities,
-                                (next) => change({ opportunities: next }),
-                                SUBSECTIONS.competitors.opportunities,
-                                whose
-                            )}
+                            {/* The shared Notes (owner, 2026-11-04: as on the Profile card): ticked to write; saved text starts ticked. */}
+                            <OptionalNote
+                                label="Opportunities"
+                                fieldId="Opportunities"
+                                ariaLabel={whose + " opportunities"}
+                                info={SUBSECTIONS.competitors.opportunities}
+                                placeholder={NOTE_PLACEHOLDERS.opportunities ?? "Add a note"}
+                                disabled={disabled}
+                                value={competitor.opportunities}
+                                onChange={(next) => change({ opportunities: next })}
+                            />
 
-                            {note(
-                                "Threats",
-                                competitor.threats,
-                                (next) => change({ threats: next }),
-                                SUBSECTIONS.competitors.threats,
-                                whose
-                            )}
+                            {/* The shared Notes (owner, 2026-11-04: as on the Profile card): ticked to write; saved text starts ticked. */}
+                            <OptionalNote
+                                label="Threats"
+                                fieldId="Threats"
+                                ariaLabel={whose + " threats"}
+                                info={SUBSECTIONS.competitors.threats}
+                                placeholder={NOTE_PLACEHOLDERS.threats ?? "Add a note"}
+                                disabled={disabled}
+                                value={competitor.threats}
+                                onChange={(next) => change({ threats: next })}
+                            />
 
                             </>, undefined, groupFold(competitor.id, "Competitors SWOT Analysis", whose))}
 

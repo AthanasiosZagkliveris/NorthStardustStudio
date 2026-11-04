@@ -34,11 +34,6 @@ export function competitorAsks(type: string, id: CompetitorQuestionId): boolean 
     return ASKED[id].includes(typeOf(type));
 }
 
-/** K7's loyalty ticks, under Support & Follow Up: asked of a direct or indirect competitor only. */
-export function competitorAsksLoyalty(type: string): boolean {
-    return RIVALS.includes(typeOf(type));
-}
-
 /** Each question's words, by type: the first entry is a direct or indirect competitor's (doc 41, "What the type asks"). */
 const WORDING: Record<CompetitorQuestionId, Partial<Record<TypeId, string>> & { direct: string }> = {
     k1: { direct: "What do they offer?", substitutes: "What form does this alternative take?" },
@@ -73,7 +68,6 @@ export function competitorWording(type: string, id: CompetitorQuestionId): strin
 /** The one word at each end of a rating (doc 41; owner 2026-11-04: single words, at the sides only). */
 export const COMPETITOR_RATINGS = {
     k4: { low: "Declining", high: "Growing" },
-    k5: { low: "Low", high: "High" },
     k6: { low: "Poor", high: "Excellent" },
     k7: { low: "Hard", high: "Easy" },
     k8: { low: "Weak", high: "Strong" },
@@ -87,7 +81,7 @@ export const COMPETITOR_INFO: Record<CompetitorQuestionId, readonly string[]> = 
     k3: ["The EU's sizes, as on your Segment. A sole trader is Micro."],
     k4: ["From what you can see: more branches, staff, products or reviews, or fewer."],
     k5: [
-        "Tick each channel they use to find customers, then rate how active they are there: posting weekly on Instagram is High.",
+        "Tick each channel they use to find customers, then which ones: the same lists as your Profiles, so the app can see where your customers are and they are not.",
         "Write their account and shop names in the note. Payment and delivery channels are not listed: they do not reach new customers."
     ],
     k6: [
@@ -96,7 +90,6 @@ export const COMPETITOR_INFO: Record<CompetitorQuestionId, readonly string[]> = 
     ],
     k7: [
         "Where their customers are let down along the way, and where it goes smoothly. The values below say what falls short; this says where.",
-        "Under Support & Follow Up, tick what they do to bring customers back.",
         "To find out, look at their website and social media, sign up to their newsletter or buy from them once."
     ],
     k8: ["Rate each from what their customers say and what you have seen: 1 is a clear weakness, 5 a clear strength."],
@@ -104,8 +97,18 @@ export const COMPETITOR_INFO: Record<CompetitorQuestionId, readonly string[]> = 
     k10: ["Openings drawn from what you answered above. Tick the ones you will act on, then write how in the text."]
 };
 
-/** K8's "i" while no Profile of the Segment ticks a value in B1: every value of L1 is shown until one does. */
-export const COMPETITOR_VALUES_UNSET = "Tick what matters most on your Profiles first; only those values are rated here.";
+/** K8's "i" line for the band (owner, 2026-11-04). */
+export const COMPETITOR_BAND_LINE = "The darker the band, the more of your Profiles chose it.";
+
+/** A row's band (owner, 2026-11-04): only the number of Profiles that chose it, not their ratings: none, then 1, 2, 3, and 4 or more, light to dark. */
+export function bandTone(profiles: number): 0 | 1 | 2 | 3 | 4 {
+    return profiles <= 0 ? 0 : profiles >= 4 ? 4 : profiles as 1 | 2 | 3;
+}
+
+/** K8's count of a value: how many of the Segment's Profiles tick it in B1 (its band). */
+export function valueProfiles(value: string, context: Pick<OpeningContext, "profiles">): number {
+    return context.profiles.filter(profile => (profile.b1 ?? []).includes(value)).length;
+}
 
 /** What the Customer Experience box's "i" adds: how to find out (doc 41). */
 export const COMPETITOR_EXPERIENCE_HOW = "Read their reviews, buy from them or ask for a quote yourself, and ask people who use them.";
@@ -132,17 +135,28 @@ export const COMPETITOR_CHANNEL_OPTIONS: readonly SegmentOption[] = [
     { id: "online-live", label: "Online / live" }, { id: "retail-wholesale", label: "Shops or wholesalers" }, { id: "referral-affiliates", label: "Referrals or affiliates" }
 ];
 
-/** K7's loyalty ticks, under Support & Follow Up (Aftercare is that stage itself: owner, 2026-11-04). */
-export const COMPETITOR_LOYALTY_OPTIONS: readonly SegmentOption[] = [
-    { id: "loyalty", label: "Loyalty scheme / rewards" }, { id: "subscription", label: "Subscription / membership" }, { id: "emails", label: "Regular emails or offers" },
-    { id: "community", label: "Community or events" }
-];
+/** The Profile's own lists, without their Other (doc 36, C2 to C4). */
+const profileList = (id: string): readonly SegmentOption[] => (PROFILE_QUESTIONS.find(question => question.id === id)?.options ?? []).filter(option => option.id !== "other");
 
-/** A channel in a sentence, for "Reach customers [where]" (K10). */
-const CHANNEL_WORDS: Record<string, string> = {
-    "social-media": "on social media", community: "in communities", website: "through a website", marketplace: "on marketplaces", "in-person": "in person",
-    email: "by email", "online-live": "in live online sessions", "retail-wholesale": "through shops or wholesalers", "referral-affiliates": "through referrals or affiliates"
+/**
+ * K5's sub-channels (owner, 2026-11-04: "defining the specific subchannels of the competitors, and compare them with the customers"): under a ticked channel,
+ * the ones they use. Social media, communities and events are the Profile's own lists (C2, C3, C4), so they compare with what the customers use; marketplaces
+ * have no Profile question, so they are only recorded. Kept as "<channel>:<sub>" under "k5-sub".
+ */
+export const COMPETITOR_SUBCHANNELS: Readonly<Record<string, readonly SegmentOption[]>> = {
+    "social-media": profileList("c2"),
+    community: profileList("c3"),
+    marketplace: [{ id: "etsy", label: "Etsy" }, { id: "amazon", label: "Amazon" }, { id: "ebay", label: "eBay" }, { id: "not-on-the-high-street", label: "Not On The High Street" }, { id: "upwork", label: "Upwork" }, { id: "fiverr", label: "Fiverr" }],
+    "in-person": profileList("c4")
 };
+
+/** Which Profile question each sub-channel list compares with. */
+const SUBCHANNEL_PROFILE: Readonly<Record<string, string>> = { "social-media": "c2", community: "c3", "in-person": "c4" };
+
+/** K10's words for a sub-channel the customers use and the competitor does not. */
+const reachWords = (channel: string, sub: SegmentOption): string => channel === "in-person"
+    ? "Meet customers at " + ({ market: "markets and pop-ups", fair: "trade fairs and exhibitions", workshop: "workshops and classes", talk: "talks and conferences" } as Record<string, string>)[sub.id]
+    : sub.id === "facebook-group" ? "Reach customers in Facebook groups" : "Reach customers on " + sub.label;
 
 /** K7's rows: the Journey Stages of page 2. */
 export const COMPETITOR_STAGES: readonly SegmentOption[] = BUSINESS_JOURNEY_STAGES.map(stage => ({ id: stage.id, label: stage.label }));
@@ -402,10 +416,12 @@ export function competitorRate(answers: CompetitorAnswers, id: CompetitorQuestio
 const IDS = (list: readonly SegmentOption[]) => list.map(option => option.id);
 const OPTIONS: Partial<Record<CompetitorQuestionId, readonly string[]>> = {
     k1: IDS(COMPETITOR_OFFER_OPTIONS), k2: IDS(COMPETITOR_REACH_OPTIONS), k3: IDS(COMPETITOR_SIZE_OPTIONS), k4: ["1", "2", "3", "4", "5"],
-    k5: IDS(COMPETITOR_CHANNEL_OPTIONS), k6: IDS(REVIEW_PLATFORMS), k7: IDS(COMPETITOR_LOYALTY_OPTIONS)
+    k5: IDS(COMPETITOR_CHANNEL_OPTIONS), k6: IDS(REVIEW_PLATFORMS)
 };
+/** Questions answered by their ratings only: a list of ticks saved under their id (K7's loyalty ticks, before 2026-11-04) is dropped. */
+const RATED_ONLY: readonly CompetitorQuestionId[] = ["k7", "k8", "k9"];
 const ROWS: Partial<Record<CompetitorQuestionId, readonly string[]>> = {
-    k5: IDS(COMPETITOR_CHANNEL_OPTIONS), k6: IDS(REVIEW_PLATFORMS), k7: IDS(COMPETITOR_STAGES), k8: IDS(COMPETITOR_VALUES), k9: IDS(COMPETITOR_CHANGES)
+    k6: IDS(REVIEW_PLATFORMS), k7: IDS(COMPETITOR_STAGES), k8: IDS(COMPETITOR_VALUES), k9: IDS(COMPETITOR_CHANGES)
 };
 const SINGLE: readonly CompetitorQuestionId[] = ["k1", "k2", "k3", "k4"];
 
@@ -421,14 +437,24 @@ export function competitorSettle(answers: CompetitorAnswers, type: string): Comp
         }
         const offered = OPTIONS[id];
         const chosen = (answers[id] ?? []).filter((entry, at, all) => all.indexOf(entry) === at && (!offered || offered.includes(entry)));
-        if (id === "k7" && !competitorAsksLoyalty(type)) {
-            // (The loyalty ticks are asked of a rival only.)
+        if (RATED_ONLY.includes(id)) {
+            // (Answered by ratings only.)
         } else if (id === "k10") {
             if ((answers.k10 ?? []).length > 0) {
                 settled.k10 = (answers.k10 ?? []).slice(0, 3);
             }
         } else if (chosen.length > 0) {
             settled[id] = SINGLE.includes(id) ? chosen.slice(0, 1) : chosen;
+        }
+        // K5's sub-channels: kept while their channel is ticked.
+        if (id === "k5") {
+            const subs = (answers["k5-sub"] ?? []).filter((entry, at, all) => {
+                const [channel, sub] = entry.split(":");
+                return all.indexOf(entry) === at && (settled.k5 ?? []).includes(channel) && (COMPETITOR_SUBCHANNELS[channel] ?? []).some(option => option.id === sub);
+            });
+            if (subs.length > 0) {
+                settled["k5-sub"] = subs;
+            }
         }
         // The names typed under Other (K6): kept while the question is asked.
         const others = id === "k6" ? answers[id + "-other"] ?? [] : [];
@@ -437,8 +463,8 @@ export function competitorSettle(answers: CompetitorAnswers, type: string): Comp
         }
         const rows = ROWS[id];
         if (rows) {
-            // A ticked row's rating (K5, K6) holds only while it is ticked; an Other row's while the row is there.
-            const ticked = id === "k5" || id === "k6";
+            // A ticked platform's rating (K6) holds only while it is ticked; an Other row's while the row is there.
+            const ticked = id === "k6";
             const rated = (answers[id + "-rating"] ?? []).filter(entry => {
                 const [row, point] = entry.split(":");
                 const known = row.startsWith("other-") ? Number(row.slice(6)) < others.length : rows.includes(row) && (!ticked || (settled[id] ?? []).includes(row));
@@ -494,15 +520,12 @@ function weightOf(value: string, context: OpeningContext): number {
 }
 
 /**
- * K8's rows (owner, 2026-11-04: B1 and K8 share L1, so K8 rates what the Profiles chose): the values any Profile of the Segment ticks in B1, the highest
- * rated first (Essential first), then the most ticked, then L1's order; every value of L1 while no Profile ticks one. A value no Profile ticks any more is not
- * shown: its rating stays saved (`k8-rating`), unread, and shows again when a Profile ticks the value again.
+ * K8's rows (owner, 2026-11-04: "place all the options, but in a hierarchy order depending on the profiles what matters most"): every value of L1, by its
+ * highest B1 rating among the Segment's Profiles (Essential first), then by how many Profiles tick it, then L1's order. The card bands each row by how many
+ * Profiles tick it (bandTone, valueProfiles).
  */
 export function competitorValueRows(context: Pick<OpeningContext, "profiles">): SegmentOption[] {
-    const chosen = COMPETITOR_VALUES.filter(value => context.profiles.some(profile => (profile.b1 ?? []).includes(value.id)));
-    if (chosen.length === 0) {
-        return [...COMPETITOR_VALUES];
-    }
+    const chosen = COMPETITOR_VALUES;
     const highest = (value: string) => Math.max(0, ...context.profiles.map(profile => {
         const rated = (profile["b1-rating"] ?? []).find(entry => entry.split(":")[0] === value);
         return (profile.b1 ?? []).includes(value) ? (rated ? Number(rated.split(":")[1]) : 1) : 0;
@@ -572,12 +595,16 @@ export function competitorOpenings(answers: CompetitorAnswers, type: string, con
         openings.push({ id: "internal", label: "Make it easier than doing it themselves" });
     }
 
-    // A channel they use but are little active on (K5 rated 1 or 2): customers they do not reach there.
-    const channels = competitorRatings(answers, "k5");
-    for (const channel of COMPETITOR_CHANNEL_OPTIONS) {
-        const point = channels[channel.id];
-        if (point !== undefined && point <= 2) {
-            openings.push({ id: "reach:" + channel.id, label: "Reach customers " + CHANNEL_WORDS[channel.id] });
+    // Where the Segment's customers are and this competitor is not (K5 answered): a social medium, a community or a kind of event a Profile ticks (C2 to C4)
+    // that the competitor's sub-channels do not hold.
+    if ((answers.k5 ?? []).length > 0) {
+        const theirs = answers["k5-sub"] ?? [];
+        for (const [channel, question] of Object.entries(SUBCHANNEL_PROFILE)) {
+            for (const sub of COMPETITOR_SUBCHANNELS[channel]) {
+                if (context.profiles.some(profile => (profile[question] ?? []).includes(sub.id)) && !theirs.includes(channel + ":" + sub.id)) {
+                    openings.push({ id: "reach:" + channel + ":" + sub.id, label: reachWords(channel, sub) });
+                }
+            }
         }
     }
 
@@ -591,9 +618,6 @@ export function competitorOpenings(answers: CompetitorAnswers, type: string, con
     const reviews = competitorRatings(answers, "k6");
     if (Object.values(reviews).some(point => point !== undefined && point < 4)) {
         openings.push({ id: "unhappy", label: kind === "substitutes" ? "Win over this alternative's unhappy customers" : "Win over their unhappy customers" });
-    }
-    if (competitorAsksLoyalty(type) && Object.keys(stages).length > 0 && (answers.k7 ?? []).length === 0) {
-        openings.push({ id: "loyalty", label: "Give customers a reason to come back" });
     }
     const growth = Number(answers.k4?.[0]);
     if (growth >= 1 && growth <= 2) {
@@ -621,7 +645,7 @@ export function hardToBeat(name: string, answers: CompetitorAnswers, context?: P
         .map(([value]) => who + " is hard to beat on " + valueNoun(value) + ", so compete elsewhere.");
 }
 
-/** K8's ratings of the values shown (competitorValueRows): a rating kept for a value no Profile ticks any more is not read. */
+/** K8's ratings of the values of L1. */
 function listedValues(answers: CompetitorAnswers, context?: Pick<OpeningContext, "profiles">): Partial<Record<string, Point>> {
     const shown = context ? competitorValueRows(context) : COMPETITOR_VALUES;
     return Object.fromEntries(Object.entries(competitorRatings(answers, "k8")).filter(([value]) => shown.some(option => option.id === value))) as Partial<Record<string, Point>>;

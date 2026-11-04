@@ -161,7 +161,11 @@ export const NOTE_PLACEHOLDERS: Record<string, string> = {
     offerings: "What they sell, by name",
     market: "The industries and places they serve",
     acquisition: "Their account and shop names, their partners",
-    experience: "What their customers say, in their words"
+    experience: "What their customers say, in their words",
+    strengths: "What they do well that no rating above says",
+    weaknesses: "Where they fall short that no rating above says",
+    opportunities: "What could help them that no change above says",
+    threats: "What could hurt them that no change above says"
 };
 
 export interface DescriptionPart {

@@ -1690,19 +1690,19 @@ The one surface every floating card stands on: 492px wide (a founder's 297px), 8
 
 ### Rating Scale
 
-A rating from 1 to 5: five radio rounds from low to high, one word at each end. Alone, the rounds fill the width under the question; in a group, the right half beside each row's words.
+A rating from 1 to 5: five radio rounds from low to high, the numbers 1 to 5 over them. Alone, the rounds fill the width under the question; in a group, the right half beside each row's words.
 
 - **Kind:** choice control. **Code:** `src/components/controls/RatingScale.tsx, RatingScaleGroup.tsx, RatingScaleEnds.tsx`. **Stylesheet:** `src/styles/rating-scale.css` (also `src/styles/radio-choice.css`).
-- **Parts:** the row's words, or a tick and its words (a group's row); the track: five radio rounds, spread evenly; the end words, one at each end, once per group.
+- **Parts:** the row's words, or a tick and its words (a group's row); the track: five radio rounds, spread evenly; the numbers 1 to 5, once per group, each over its round.
 - **States:** rest, hover, focus, disabled.
-- **Used in:** the Segment card: online comfort (and the end user's), market growth, crowding (doc 35); the Profile card: B1 and E1 to E3, the Emotional and Social needs (doc 36); the Competitor card: K4 to K9 (doc 41).
+- **Used in:** the Segment card: household income, gender mix, kind of area, online comfort (and the end user's), market growth, crowding (doc 35); the Profile card: B1 and E1 to E3, the Emotional and Social needs (doc 36); the Competitor card: K4 and K6 to K9, K8 and K9 banded (doc 41).
 - **Custom properties it reads:** `--space-label`, `--space-cell`, `--space-row`, `--font-small`, `--font-body`, `--gap-8`.
 
 | Variant | Where | Note |
 |---|---|---|
-| vertical (14px label) | a single question: the rounds under it, across the whole width (the Segment's online comfort, market growth and crowding; the Competitor's K4) | RatingScale with its end words: the track fills its place |
-| horizontal (18px label) | a group: the words in the left half, the rounds in the right half (the Competitor's K7 to K9, the Profile's B1) | RatingScaleGroup: the end words once, over the rounds' half |
-| selectable (18px label) | a group whose rows are ticked first; the rounds show once a row is ticked (the Competitor's K5 and K6, the Profile's B1, E1 to E3 and the Needs) | RatingScaleGroup selectable: unticking a row clears its rating |
+| vertical (14px label) | a single question: the rounds under it, across the whole width (the Segment's online comfort, market growth and crowding; the Competitor's K4) | RatingScale with its numbers: the track fills its place |
+| horizontal (18px label) | a group: the words in the left half, the rounds in the right half (the Competitor's K7 to K9, the Profile's B1) | RatingScaleGroup: the numbers once, over the rounds' half |
+| selectable (18px label) | a group whose rows are ticked first; the rounds show once a row is ticked (the Competitor's K6, the Profile's B1, E1 to E3 and the Needs) | RatingScaleGroup selectable: unticking a row clears its rating |
 | chosen and disabled (18px label) | the chosen round, and a group that cannot be changed | the chosen round is the app's blue with a white bullet; a disabled group is drawn faint |
 
 | Number | Value |
@@ -1717,7 +1717,7 @@ A rating from 1 to 5: five radio rounds from low to high, one word at each end. 
 **Accessibility.** Keyboard focus is shown by a ring or outline. Name: each row a radio group named by its words; each round "1 of 5, [low word]" to "5 of 5, [high word]". Contrast it must hold:
 - a round's --text-muted edge at rest against the band it stands on (rest): at least 3:1.
 - the chosen round's fill against the band (rest): at least 3:1.
-- the end words and the row's words against the band (rest): at least 4.5:1.
+- the numbers and the row's words against the band (rest): at least 4.5:1.
 
 <!-- /generated:assets -->
 

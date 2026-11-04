@@ -47,11 +47,11 @@ describe("the Profile's questions follow the Segment", () => {
     });
 
     it("asks gender only where the Segment's mix leans, and starts it from the mix", () => {
-        expect(profileQuestionsOf("personal", { gender: ["balanced"] }, people).map(q => q.id)).not.toContain("a2");
-        expect(profileQuestionsOf("personal", { gender: ["leans-women"] }, people).map(q => q.id)).toContain("a2");
-        expect(profileShown({}, { gender: ["leans-women"] }, people).a2).toEqual(["woman"]);
-        // (A gender the user chose is never overruled by the mix.)
-        expect(profileShown({ a2: ["man"] }, { gender: ["leans-women"] }, people).a2).toEqual(["man"]);
+        expect(profileQuestionsOf("personal", { gender: ["3"] }, people).map(q => q.id)).not.toContain("a2");
+        expect(profileQuestionsOf("personal", { gender: ["4"] }, people).map(q => q.id)).toContain("a2");
+        expect(profileShown({}, { gender: ["4"] }, people).a2).toEqual(["woman"]);
+        // (The mix is a rating, 2026-11-04: 3 is balanced, 4 leans women.) (A gender the user chose is never overruled by the mix.)
+        expect(profileShown({ a2: ["man"] }, { gender: ["4"] }, people).a2).toEqual(["man"]);
     });
 
     it("asks the purchase part only for a business, a user, or minors, and ticks all five for a sole practitioner", () => {
@@ -81,7 +81,7 @@ describe("the Profile's questions follow the Segment", () => {
     });
 
     it("starts the worry about price where the household income is Low, and the help from the comfort", () => {
-        expect(profileShown({}, { income: ["low"] }, people).e3).toEqual(["the-price-or-their-budget"]);
+        expect(profileShown({}, { income: ["1"] }, people).e3).toEqual(["the-price-or-their-budget"]);
         // The online comfort is a rating (doc 35): 1 or 2 starts "Wants to talk to a person", 4 or 5 "Works it out alone", 3 nothing.
         expect(profileShown({}, { comfort: ["1"] }, people).d2).toEqual(["person"]);
         expect(profileShown({}, { comfort: ["2"] }, people).d2).toEqual(["person"]);

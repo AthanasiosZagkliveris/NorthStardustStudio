@@ -11,13 +11,14 @@ import {
     competitorOthers,
     otherMatch,
     draftToAdd,
-    competitorAsksLoyalty,
     competitorOpenings,
     competitorRate,
     competitorRatings,
     competitorSettle,
     competitorWording,
     hardToBeat,
+    bandTone,
+    valueProfiles,
     competitorValueRows,
     industryOfActivity,
     insightsDraft,
@@ -36,8 +37,6 @@ describe("what each type of competitor is asked (doc 41)", () => {
         expect(competitorAsks("substitutes", "k6")).toBe(true);
         expect(["k1", "k2", "k3", "k4", "k5", "k6", "k7"].some(id => competitorAsks("internal", id as never))).toBe(false);
         expect(["k8", "k9", "k10"].every(id => competitorAsks("status-quo", id as never))).toBe(true);
-        expect(competitorAsksLoyalty("indirect")).toBe(true);
-        expect(competitorAsksLoyalty("substitutes")).toBe(false);
         // No type chosen yet: asked as a direct competitor.
         expect(competitorAsks("", "k5")).toBe(true);
     });
@@ -54,7 +53,8 @@ describe("what each type of competitor is asked (doc 41)", () => {
         const answers = { k3: ["small"], k5: ["website"], k7: ["loyalty"], "k7-rating": ["purchase:2"], k8: [], "k8-rating": ["speed:4"] };
         expect(competitorSettle(answers, "substitutes")).toEqual({ "k7-rating": ["purchase:2"], "k8-rating": ["speed:4"] });
         expect(competitorSettle(answers, "status-quo")).toEqual({ "k8-rating": ["speed:4"] });
-        expect(competitorSettle(answers, "direct")).toEqual({ k3: ["small"], k5: ["website"], k7: ["loyalty"], "k7-rating": ["purchase:2"], "k8-rating": ["speed:4"] });
+        // K7's loyalty ticks (removed 2026-11-04) are dropped.
+        expect(competitorSettle(answers, "direct")).toEqual({ k3: ["small"], k5: ["website"], "k7-rating": ["purchase:2"], "k8-rating": ["speed:4"] });
     });
 
     it("keeps a platform's rating only while it is ticked, and nothing outside 1 to 5", () => {
@@ -114,18 +114,16 @@ describe("K10: the openings, from the card's own answers", () => {
         expect(openings.map(opening => opening.id)).toEqual(["better:good-support", "better:expert-knowledge"]);
     });
 
-    it("reads the stages, the reviews, the loyalty, the growth and the changes", () => {
+    it("reads the stages, the reviews, the growth and the changes", () => {
         const answers = { "k7-rating": ["purchase:2", "delivery:4"], k6: ["google"], "k6-rating": ["google:3"], k4: ["2"], "k9-rating": ["technology:5", "economy:1", "society:3"] };
         expect(competitorOpenings(answers, "direct", none).map(opening => opening.label)).toEqual([
             "Make buying easier",
             "Win over their unhappy customers",
-            "Give customers a reason to come back",
             "Win the customers they are losing",
             "Make the most of changes in technology",
             "Prepare for changes in the economy"
         ]);
-        // A loyalty tick: no "reason to come back"; a substitute's unhappy customers are this alternative's.
-        expect(competitorOpenings({ ...answers, k7: ["loyalty"] }, "direct", none).some(opening => opening.id === "loyalty")).toBe(false);
+        // A substitute's unhappy customers are this alternative's.
         expect(competitorOpenings(answers, "substitutes", none).find(opening => opening.id === "unhappy")?.label).toBe("Win over this alternative's unhappy customers");
         // Nothing answered: no openings.
         expect(competitorOpenings({}, "direct", none)).toEqual([]);
@@ -152,16 +150,22 @@ describe("K10: the openings, from the card's own answers", () => {
 
 });
 
-describe("Customer Acquisition, loyalty and Other (owner, 2026-11-04)", () => {
+describe("Customer Acquisition and Other (owner, 2026-11-04)", () => {
 
-    it("rates a channel only while it is ticked, and drops Aftercare", () => {
-        const answers = competitorRate({ k5: ["website", "email"] }, "k5", "email", 2);
-        expect(competitorSettle({ ...answers, k5: ["website"] }, "direct")).toEqual({ k5: ["website"] });
-        expect(competitorSettle(answers, "direct")["k5-rating"]).toEqual(["email:2"]);
-        // A loyalty tick saved before Aftercare went is dropped.
-        expect(competitorSettle({ k7: ["aftercare", "loyalty"] }, "direct")).toEqual({ k7: ["loyalty"] });
-        // A channel they are little active on is an opening.
-        expect(competitorOpenings(answers, "direct", none).map(opening => opening.label)).toEqual(["Reach customers by email"]);
+    it("keeps a channel's sub-channels while it is ticked, and opens where the customers are and the competitor is not", () => {
+        const answers = { k5: ["social-media", "in-person"], "k5-sub": ["social-media:instagram", "in-person:market", "marketplace:etsy", "social-media:nope"], "k5-rating": ["social-media:2"] };
+        // The rating of a channel (removed) goes; a sub-channel stays only under a ticked channel and from its list.
+        expect(competitorSettle(answers, "direct")).toEqual({ k5: ["social-media", "in-person"], "k5-sub": ["social-media:instagram", "in-person:market"] });
+        expect(competitorSettle({ ...answers, k5: ["in-person"] }, "direct")["k5-sub"]).toEqual(["in-person:market"]);
+        // The Profiles use Instagram, TikTok, a Discord and workshops: the competitor is on Instagram and at markets.
+        const profiles = [{ c2: ["instagram", "tiktok"], c3: ["discord"], c4: ["workshop"] }];
+        expect(competitorOpenings(answers, "direct", { profiles, others: [] }).map(opening => opening.label)).toEqual([
+            "Reach customers on TikTok",
+            "Reach customers on Discord",
+            "Meet customers at workshops and classes"
+        ]);
+        // K5 unanswered: no channel openings.
+        expect(competitorOpenings({}, "direct", { profiles, others: [] })).toEqual([]);
     });
 
     it("keeps an Other row while Other is ticked; a name that means a listed item becomes it, its rating kept", () => {
@@ -201,23 +205,22 @@ describe("Customer Acquisition, loyalty and Other (owner, 2026-11-04)", () => {
         expect(asBusinessCompetitor({ questions: current }).questions).toEqual(current);
     });
 
-    it("rates only the values the Segment's Profiles tick in B1, the highest rated first", () => {
+    it("shows every value, the Segment's Profiles' B1 values first, the highest rated first", () => {
         const profiles = [
             { b1: ["speed", "lower-price"], "b1-rating": ["speed:3", "lower-price:5"] },
             { b1: ["speed", "good-support"], "b1-rating": ["speed:3", "good-support:3"] }
         ];
-        // Lower price 5; Speed 3 twice before Good support 3 once.
-        expect(competitorValueRows({ profiles }).map(value => value.id)).toEqual(["lower-price", "speed", "good-support"]);
-        // No Profile has ticked one yet: every value of L1.
-        expect(competitorValueRows({ profiles: [{}] }).length).toBe(10);
-        // A value no Profile ticks any more is not shown and not read, but its rating stays saved.
+        // Lower price 5; Speed 3 twice before Good support 3 once; then the rest of L1 in its order.
+        const rows = competitorValueRows({ profiles }).map(value => value.id);
+        expect(rows.slice(0, 4)).toEqual(["lower-price", "speed", "good-support", "ease-and-convenience"]);
+        expect(rows.length).toBe(10);
+        // The band is the number of Profiles that chose a value, not their ratings: 1, 2, 3, then 4 or more (owner, 2026-11-04).
+        expect(["speed", "lower-price", "ease-and-convenience"].map(value => bandTone(valueProfiles(value, { profiles })))).toEqual([2, 1, 0]);
+        expect([0, 1, 3, 4, 7].map(bandTone)).toEqual([0, 1, 3, 4, 4]);
+        // Every rated value is read, the Profiles' or not.
         const answers = { "k8-rating": ["expert-knowledge:1", "speed:5"] };
-        expect(competitorSettle(answers, "direct")["k8-rating"]).toEqual(["expert-knowledge:1", "speed:5"]);
-        expect(competitorOpenings(answers, "direct", { profiles, others: [] })).toEqual([]);
+        expect(competitorOpenings(answers, "direct", { profiles, others: [] }).map(opening => opening.id)).toEqual(["better:expert-knowledge"]);
         expect(hardToBeat("Them", answers, { profiles })).toEqual(["Them is hard to beat on speed, so compete elsewhere."]);
-        // Ticked again, it is read again.
-        const again = [...profiles, { b1: ["expert-knowledge"] }];
-        expect(competitorOpenings(answers, "direct", { profiles: again, others: [] }).map(opening => opening.id)).toEqual(["better:expert-knowledge"]);
     });
 
 });

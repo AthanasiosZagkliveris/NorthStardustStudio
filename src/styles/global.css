@@ -127,6 +127,24 @@ body {
      --space-cell    one cell of a row to the next, inside a card (a
                      field grid's columns, a pair row, a list's cells) */
 
+/* THE TINTS (owner, 2026-11-04): one family, the app's blue. The cards' alternating question band is the lightest; the importance bands of a
+   rating group (the Competitor's K8, doc 21) step darker by how many Profiles chose a row (1, 2, 3, 4 or more), the same shades for every banded question. */
+:root {
+  --tint-row-band: color-mix(in srgb, var(--bg-primary) 6%, transparent);
+  --tint-importance-1: color-mix(in srgb, var(--bg-primary) 14%, transparent);
+  --tint-importance-2: color-mix(in srgb, var(--bg-primary) 24%, transparent);
+  --tint-importance-3: color-mix(in srgb, var(--bg-primary) 34%, transparent);
+  --tint-importance-4: color-mix(in srgb, var(--bg-primary) 44%, transparent);
+}
+
+/* Sepia: the steps a little closer, so the rounds' edge keeps 3:1 on the darkest (measured 2.92 at 44%, 2026-11-04). */
+:root[data-theme="sepia"] {
+  --tint-importance-1: color-mix(in srgb, var(--bg-primary) 12%, transparent);
+  --tint-importance-2: color-mix(in srgb, var(--bg-primary) 21%, transparent);
+  --tint-importance-3: color-mix(in srgb, var(--bg-primary) 30%, transparent);
+  --tint-importance-4: color-mix(in srgb, var(--bg-primary) 39%, transparent);
+}
+
 :root {
   --space-label: 6px;
   --space-field: 12px;

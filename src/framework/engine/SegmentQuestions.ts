@@ -81,13 +81,20 @@ export function ratingWords(point: string, rating: { low: string; high: string }
 }
 
 const COMFORT_RATING = { low: "Uneasy", high: "Confident" };
+/** The household income, the gender mix and the kind of place, rated 1 to 5 at the owner's request (2026-11-04), the meaning of each end in the "i". */
+const INCOME_RATING = { low: "Low", high: "High" };
+const GENDER_RATING = { low: "Mostly men", high: "Mostly women" };
+const AREA_RATING = { low: "Rural", high: "Urban" };
 
 /** The answers saved before a question became a rating, and the point each now is (doc 35). */
 const RATED_BEFORE: Record<string, Record<string, string>> = {
     comfort: { averse: "1", moderate: "3", savvy: "5" },
     "u-comfort": { averse: "1", moderate: "3", savvy: "5" },
     trajectory: { declining: "1", flat: "3", growing: "4", expanding: "5" },
-    competition: { blue: "1", fragmented: "3", red: "5" }
+    competition: { blue: "1", fragmented: "3", red: "5" },
+    income: { low: "1", "lower-middle": "2", middle: "3", "upper-middle": "4", high: "5" },
+    gender: { men: "1", "leans-men": "2", balanced: "3", "leans-women": "4", women: "5" },
+    area: { rural: "1", suburban: "3", urban: "5" }
 };
 
 const ORG_TYPES = [
@@ -258,25 +265,13 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     },
     {
         id: "income", box: "demographics", label: "How high is your customers' household income?", many: false,
-        options: [
-            { id: "low", label: "Low" },
-            { id: "lower-middle", label: "Lower-middle" },
-            { id: "middle", label: "Middle" },
-            { id: "upper-middle", label: "Upper-middle" },
-            { id: "high", label: "High" }
-        ],
-        info: ["Compare with the typical household income in their country: Middle is around the median, Low and High are the ends.", "Household income is what the home earns together, not one person's pay."]
+        rating: INCOME_RATING, options: ratingOptions(INCOME_RATING),
+        info: ["Compare with the typical household income in their country: 3 is around the median.", "Household income is what the home earns together, not one person's pay."]
     },
     {
         id: "gender", box: "demographics", label: "What is the gender mix of your customers?", many: false,
-        options: [
-            { id: "men", label: "Mostly men (80%+)" },
-            { id: "leans-men", label: "Leans men (60–80%)" },
-            { id: "balanced", label: "Balanced mix (40–60%)" },
-            { id: "leans-women", label: "Leans women (60–80%)" },
-            { id: "women", label: "Mostly women (80%+)" }
-        ],
-        info: ["The share of your customers who are men or women. Choose Balanced mix when it does not matter for what you sell."]
+        rating: GENDER_RATING, options: ratingOptions(GENDER_RATING),
+        info: ["1 is 80% or more men, 2 is 60 to 80%, 3 a balanced mix (40 to 60%), 4 is 60 to 80% women, 5 is 80% or more.", "Choose 3 when it does not matter for what you sell."]
     },
 
     /* ---- Box 2, Geographics ---- */
@@ -294,12 +289,8 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     },
     {
         id: "area", box: "geographics", label: "Where do your customers live or work?", many: false,
-        options: [
-            { id: "urban", label: "Urban (High-density city centre)" },
-            { id: "suburban", label: "Suburban (Residential towns surrounding a city)" },
-            { id: "rural", label: "Rural / remote (Low-density countryside or isolated areas)" }
-        ],
-        info: ["The kind of place they live or work in. Asked once the business is managing or growing, and only for customers in one place or one country."]
+        rating: AREA_RATING, options: ratingOptions(AREA_RATING),
+        info: ["1 is countryside or remote places, 3 the suburbs and towns around a city, 5 a city centre.", "Asked once the business is managing or growing, and only for customers in one place or one country."]
     },
 
     /* ---- Box 3, Business Data ---- */
@@ -360,8 +351,8 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         options: [
             { id: "digital", label: "Mostly online (gaming, community servers, chat apps)" },
             { id: "mixed", label: "Online and in person" },
-            { id: "inperson", label: "Mostly in person (events, hospitality, clubs, sports)" },
-            { id: "independent", label: "Mostly on their own" }
+            { id: "inperson", label: "Mostly in person (events, hospitality, clubs, sports)" }
+            // ("Mostly on their own" removed, owner 2026-11-04: it contradicted the question and fed nothing; a saved answer of it is dropped when read.)
         ],
         info: ["Where they spend their free time. It decides how they meet brands and products."]
     },

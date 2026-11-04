@@ -74,11 +74,11 @@ const QUESTIONS: readonly ProfileQuestion[] = [
     {
         id: "a2", box: "personal", label: "What is this person's gender?", many: false,
         options: [{ id: "woman", label: "Woman" }, { id: "man", label: "Man" }, { id: "non-binary", label: "Non-binary" }, { id: "other", label: "Another gender" }],
-        info: ["Asked only when the Segment's mix leans one way, and it starts from the mix.", "Nothing reads it but the note."]
+        info: ["Asked only when the Segment's gender mix is not 3 (balanced); it starts from the mix. Change it freely."]
     },
     {
         id: "a1", box: "personal", label: "How old is {s}?", many: false, number: true, options: [],
-        info: ["An exact age within the Segment's age group, for a typical person of the group, not the average.", "If the Segment's age group changes and this age is no longer inside it, the age is cleared."]
+        info: ["One age within the Segment's age group: a typical person, not the average.", "If the Segment's age group changes and this age falls outside it, the age is cleared."]
     },
     {
         id: "a7", box: "personal", label: "Who does {s} live with?", many: false, options: HOUSEHOLDS,
@@ -106,7 +106,7 @@ const QUESTIONS: readonly ProfileQuestion[] = [
     },
     {
         id: "b1", box: "psychographics", label: "What matters most to {o}?", many: true, max: 5, options: list(CARES), rating: { low: "Optional", high: "Essential" },
-        info: ["What matters most to a typical person of the Segment when choosing. Tick up to five, then rate how much each matters.", "Interests, lifestyle and aspirations stay in the note."]
+        info: ["Tick up to five things they weigh when choosing, then rate how much each matters.", "Write their interests, lifestyle and hopes in the note."]
     },
     {
         id: "c1", box: "hubs", label: "Which devices does {s} use?", many: true,
@@ -121,12 +121,12 @@ const QUESTIONS: readonly ProfileQuestion[] = [
     {
         id: "c3", box: "hubs", label: "Which communities does {s} belong to?", many: true,
         options: [...["Facebook Group", "Discord", "Reddit", "Slack", "Meetup"].map(label => ({ id: slug(label), label })), OTHER], other: true,
-        info: ["Where they ask, read and recommend.", "The names of the groups stay in the note."]
+        info: ["Where they ask, read and recommend.", "Write the names of the groups in the note."]
     },
     {
         id: "c4", box: "hubs", label: "Which events does {s} attend?", many: true,
-        options: [{ id: "market", label: "Market / Pop-up" }, { id: "fair", label: "Trade Fair / Exhibition" }, { id: "workshop", label: "Workshop / Class" }, { id: "talk", label: "Talk / Conference" }, OTHER], other: true,
-        info: ["The kinds of events a typical person of the Segment attends.", "The names of the events stay in the note."]
+        options: [{ id: "market", label: "Market / pop-up" }, { id: "fair", label: "Trade fair / exhibition" }, { id: "workshop", label: "Workshop / class" }, { id: "talk", label: "Talk / conference" }, OTHER], other: true,
+        info: ["The kinds of events a typical person of the Segment goes to.", "Write the names of the events in the note."]
     },
     {
         id: "d1", box: "habits", label: "How does {s} compare options?", many: true,
@@ -140,13 +140,13 @@ const QUESTIONS: readonly ProfileQuestion[] = [
         info: ["The help a typical person wants before buying; it can differ from how comfortable the Segment is online."]
     },
     { id: "e1", box: "goals", label: "What are {p} main goals?", many: true, max: 3, options: list(GOALS), rating: { low: "Minor", high: "Main" }, info: ["Choose up to three, then rate each.", "What they want to achieve. What matters to them when choosing is asked under Psychographics. Based on: gains (Value Proposition Canvas)."] },
-    { id: "e2", box: "challenges", label: "What frustrates {o} about the way it is done now?", many: true, max: 3, options: list(FRUSTRATIONS), rating: { low: "Mild", high: "Severe" }, info: ["Choose up to three, then rate each.", "What goes wrong for them today, before they buy from you. Based on: pains (Value Proposition Canvas)."] },
+    { id: "e2", box: "challenges", label: "What frustrates {o} about how it is done now?", many: true, max: 3, options: list(FRUSTRATIONS), rating: { low: "Mild", high: "Severe" }, info: ["Choose up to three, then rate each.", "What goes wrong for them today, before they buy from you. Based on: pains (Value Proposition Canvas)."] },
     // The Needs (doc 36, section 10): Emotional and Social ticked and rated, by the Segment's kind; Functional stays the numbered list. Each kind's list stays as its note.
     { id: "emotional", box: "needs", label: "How does {s} want to feel?", many: true, max: 3, options: list(EMOTIONAL_PEOPLE), rating: { low: "Mild", high: "Strong" }, info: NEEDS_INFO("feelings") },
     { id: "emotional-b2b", box: "needs", label: "How does {s} want to feel?", many: true, max: 3, options: list(EMOTIONAL_BUSINESS), rating: { low: "Mild", high: "Strong" }, info: NEEDS_INFO("feelings") },
     { id: "social", box: "needs", label: "How does {s} want others to see {o}?", many: true, max: 3, options: list(SOCIAL_PEOPLE), rating: { low: "Mild", high: "Strong" }, info: NEEDS_INFO("ways of being seen") },
     { id: "social-b2b", box: "needs", label: "How does {s} want others to see {o}?", many: true, max: 3, options: list(SOCIAL_BUSINESS), rating: { low: "Mild", high: "Strong" }, info: NEEDS_INFO("ways of being seen") },
-    { id: "e3", box: "objections", label: "What might stop {o} buying from you?", many: true, max: 3, options: list(WORRIES), rating: { low: "Minor", high: "Blocking" }, info: ["Choose up to three, then rate each.", "Their doubts about buying from you; what frustrates them today is asked above.", "Starts with the price where the Segment's household income is Low; change it freely."] }
+    { id: "e3", box: "objections", label: "What might stop {o} buying from you?", many: true, max: 3, options: list(WORRIES), rating: { low: "Minor", high: "Blocking" }, info: ["Choose up to three, then rate each.", "Their doubts about buying from you; what frustrates them today is asked above.", "Starts with the price where the Segment's household income is rated 1; change it freely."] }
 ];
 
 export const PROFILE_QUESTIONS = QUESTIONS;
@@ -190,7 +190,8 @@ export function profileQuestionAsked(question: ProfileQuestion, segment: Segment
     const business = context.frame === "business";
     switch (question.id) {
         case "a2":
-            return !business && !!segment.gender?.length && !segment.gender.includes("balanced");
+            // The gender mix, a rating: 3 is a balanced mix, where the Profile's gender is not asked.
+            return !business && !!segment.gender?.length && !segment.gender.includes("3");
         case "a3":
             return !business && (segment.work ?? []).includes("working");
         case "a3b":
@@ -232,7 +233,7 @@ function startOf(question: ProfileQuestion, segment: SegmentAnswers, context: Se
     switch (question.id) {
         case "a2": {
             const mix = first(segment.gender);
-            return mix === "men" || mix === "leans-men" ? ["man"] : mix === "women" || mix === "leans-women" ? ["woman"] : undefined;
+            return mix === "1" || mix === "2" ? ["man"] : mix === "4" || mix === "5" ? ["woman"] : undefined;
         }
         case "a5": {
             if ((segment.authorise ?? []).includes("solo")) {
@@ -261,7 +262,8 @@ function startOf(question: ProfileQuestion, segment: SegmentAnswers, context: Se
             return comfort === "4" || comfort === "5" ? ["alone"] : comfort === "1" || comfort === "2" ? ["person"] : undefined;
         }
         case "e3":
-            return (segment.income ?? []).includes("low") ? ["the-price-or-their-budget"] : undefined;
+            // The household income, a rating: 1 (low) starts the worry about price.
+            return (segment.income ?? []).includes("1") ? ["the-price-or-their-budget"] : undefined;
         default:
             return undefined;
     }

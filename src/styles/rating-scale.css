@@ -1,5 +1,5 @@
 /* THE RATING SCALE (RatingScale, RatingScaleGroup, RatingScaleEnds; doc 21, "Rating Scale"): five rounds of the radio choice in a row, low on the left and high on the right. The rounds keep the look of
-   radio-choice.css (this sheet says only where they stand); the end words stand once, over the first and the last round (no word in between). */
+   radio-choice.css (this sheet says only where they stand); the numbers 1 to 5 stand once, each over its round (what 1 and 5 mean is in the question's "i"). */
 
 /* VERTICAL, a single rating (its question over it): its end words over its rounds, 6px apart (a label to its control), the rounds spread evenly across the WHOLE
    width of the place it stands in, the end words at its two edges (owner, 2026-11-04). */
@@ -18,30 +18,21 @@
 
 }
 
-/* The end words, one each: the low one starts over the first round, the high one ends over the last. */
+/* The numbers, each as wide as a round and centred over it, spread as the rounds are. */
 .rating-scale-ends {
 
-    display: grid;
-    grid-template-columns: auto auto;
+    display: flex;
     justify-content: space-between;
-
-    column-gap: var(--space-cell);
 
     font-size: var(--font-small);
 
 }
 
-.rating-scale-ends-low {
+.rating-scale-ends-point {
 
-    justify-self: start;
+    width: var(--size-radio);
 
-}
-
-.rating-scale-ends-high {
-
-    justify-self: end;
-
-    text-align: end;
+    text-align: center;
 
 }
 
@@ -100,5 +91,60 @@
     grid-column: 1 / -1;
 
     padding-inline-start: var(--space-cell);
+
+}
+
+
+/* A row's band (`tone`): one colour, the app's blue (--bg-primary), light to dark by how many Profiles chose the row (owner, 2026-11-04: the count only), in four steps far
+   enough apart to tell (14%, 24%, 34%, 44%), all darker than the cards' alternating band (6%); the text keeps its own ink: measured 2026-11-04, text 5.89 or more and the rounds' edges 3.11 or more on every step, light, sepia and dark (doc 21). In a floating card
+   (the Competitor's K8) a band runs side to side, edge to edge as the card's section bands do, and two banded rows touch: the group's row gap is
+   given to the rows as their own padding. */
+/* (The tints are tokens of global.css: --tint-row-band, --tint-importance-1 to -4.) */
+
+.rating-scale-group-tone-1 { background: var(--tint-importance-1); }
+.rating-scale-group-tone-2 { background: var(--tint-importance-2); }
+.rating-scale-group-tone-3 { background: var(--tint-importance-3); }
+.rating-scale-group-tone-4 { background: var(--tint-importance-4); }
+
+.floating-card-body .rating-scale-group:has([class*="rating-scale-group-tone-"]) {
+
+    row-gap: 0;
+
+}
+
+.floating-card-body .rating-scale-group:has([class*="rating-scale-group-tone-"]) > :is(.rating-scale-group-label, .rating-scale, .rating-scale-group-unrated) {
+
+    align-self: stretch;
+
+    padding-block: calc(var(--space-row) / 2);
+
+}
+
+/* (The words stay centred on the row; the rounds' cell keeps its grid, centred.) */
+.floating-card-body .rating-scale-group > :is(.rating-scale-group-label, .rating-scale-group-unrated) {
+
+    display: flex;
+    align-items: center;
+
+}
+
+.floating-card-body .rating-scale-group > .rating-scale {
+
+    align-content: center;
+
+}
+
+/* The words' cell reaches the card's left edge and bridges the gap to the rounds; the rounds' cell reaches the card's right edge, over its x column. */
+.floating-card-body .rating-scale-group > .rating-scale-group-label {
+
+    margin-inline: calc(-1 * var(--space-cell));
+    padding-inline: var(--space-cell);
+
+}
+
+.floating-card-body .rating-scale-group:has([class*="rating-scale-group-tone-"]) > :is(.rating-scale, .rating-scale-group-unrated) {
+
+    margin-inline-end: calc(-1 * (var(--card-x-column) + var(--space-field)));
+    padding-inline-end: calc(var(--card-x-column) + var(--space-field));
 
 }

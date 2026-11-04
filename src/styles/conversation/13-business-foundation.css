@@ -1217,11 +1217,12 @@
 
 }
 
+/* A subsection title (a box in a one-column card: the Profile's and the Competitor's) in the size of its section's title, the body size (owner, 2026-11-04). */
 .business-segment-grid.business-segment-grid-single .business-segment-box > .legal-entity-org-section:first-child .business-foundation-label{
 
     color:var(--title-ink);
 
-    font-size:var(--font-small);
+    font-size:var(--font-body);
 
     font-weight:700;
 
@@ -1419,5 +1420,45 @@
 
     width:100%;
     min-width:0;
+
+}
+
+
+/* A Competitor's channels (K5; owner, 2026-11-04): the Rating Scale's horizontal rule, a channel's tick in the left half and its sub-channel's dropdown in
+   the right half, every dropdown the same width; a third column in the card's x column (the room the card keeps at its right) holds the "+" that adds a
+   row, and each added row's x. A tick with no dropdown keeps its place in the left half. */
+.business-competitor-channels{
+
+    display:grid;
+    grid-template-columns:minmax(0, 1fr) minmax(0, 1fr) var(--card-x-column);
+    align-items:center;
+
+    column-gap:var(--space-cell);
+    row-gap:var(--space-label);
+
+    margin-inline-end:calc(-1 * (var(--card-x-column) + var(--space-field)));
+
+}
+
+.business-competitor-channel{
+
+    grid-column:1;
+
+}
+
+.business-competitor-subchannel{
+
+    grid-column:2;
+
+    min-width:0;
+
+}
+
+.business-competitor-subchannel-step{
+
+    grid-column:3;
+
+    display:flex;
+    justify-content:flex-start;
 
 }

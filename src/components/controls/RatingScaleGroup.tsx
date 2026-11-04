@@ -13,7 +13,8 @@ import "../../styles/rating-scale.css";
  *
  * `selectable`: each row starts with a tick (the shared TickField), and its rounds show only once it is ticked (where they are reviewed, then how they are
  * rated); unticking a row clears its rating. `below`: what a row carries under it, across the group (the loyalty ticks under Support & Follow Up). `fixed`: a row
- * with no tick of its own, its rounds always shown, in a selectable group too (a row written under Other, whose words are a text cell).
+ * with no tick of its own, its rounds always shown, in a selectable group too (a row written under Other, whose words are a text cell). `tone`: a band across the
+ * row, light (1) to dark (4): how many Profiles chose it (the Competitor's K8).
  */
 export default function RatingScaleGroup({ label, name, rows, values, onChange, lowLabel, highLabel, selectable = false, selected = [], onSelect, disabled, className }: {
     /** What the group rates, for a screen reader. */
@@ -21,7 +22,7 @@ export default function RatingScaleGroup({ label, name, rows, values, onChange, 
     /** The group's name: each row's rounds are named from it and the row's id. */
     name: string;
     /** The rows, in order: what is rated (its words, and its words for a screen reader where the shown words are not plain text), and what stands under it. */
-    rows: readonly { id: string; label: ReactNode; name?: string; below?: ReactNode; fixed?: boolean }[];
+    rows: readonly { id: string; label: ReactNode; name?: string; below?: ReactNode; fixed?: boolean; tone?: 0 | 1 | 2 | 3 | 4 }[];
     /** Each row's rating, by id; a row missing here is unrated. */
     values: Readonly<Partial<Record<string, Rating>>>;
     onChange: (id: string, next: Rating | undefined) => void;
@@ -48,7 +49,7 @@ export default function RatingScaleGroup({ label, name, rows, values, onChange, 
                         {selectable && !row.fixed
                             ? (
                                 <TickField
-                                    className="rating-scale-group-label"
+                                    className={"rating-scale-group-label" + (row.tone ? " rating-scale-group-tone-" + row.tone : "")}
                                     checked={on}
                                     disabled={disabled}
                                     onChange={event => {
@@ -63,10 +64,11 @@ export default function RatingScaleGroup({ label, name, rows, values, onChange, 
                                     {row.label}
                                 </TickField>
                             )
-                            : <span className="rating-scale-group-label">{row.label}</span>}
+                            : <span className={"rating-scale-group-label" + (row.tone ? " rating-scale-group-tone-" + row.tone : "")}>{row.label}</span>}
                         {on
                             ? (
                                 <RatingScale
+                                    className={row.tone ? "rating-scale-group-tone-" + row.tone : undefined}
                                     label={words}
                                     name={name + "-" + row.id}
                                     value={values[row.id]}

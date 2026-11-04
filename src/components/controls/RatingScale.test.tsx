@@ -4,6 +4,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import RatingScale, { type Rating } from "./RatingScale";
 import RatingScaleGroup from "./RatingScaleGroup";
+import { ratingScaleMeaning } from "./RatingScaleEnds";
 
 /** A rating that keeps its own value, as a card does. */
 function Kept({ onChange }: { onChange?: (next: Rating | undefined) => void }) {
@@ -33,11 +34,10 @@ describe("RatingScale", () => {
         ]);
         // One name for the row, so the arrows move along it.
         expect(new Set(rounds.map(round => (round as HTMLInputElement).name))).toEqual(new Set(["support"]));
-        // The end words are shown once, over the rounds.
-        expect(screen.getAllByText("Weak")).toHaveLength(1);
-        expect(screen.getAllByText("Strong")).toHaveLength(1);
-        // No word in between (owner, 2026-11-04).
-        expect(document.querySelectorAll(".rating-scale-ends > span")).toHaveLength(2);
+        // The numbers 1 to 5 stand over the rounds, once; no end word is drawn (owner, 2026-11-04: the "i" says what 1 and 5 mean).
+        expect([...document.querySelectorAll(".rating-scale-ends > span")].map(span => span.textContent)).toEqual(["1", "2", "3", "4", "5"]);
+        expect(screen.queryByText("Weak")).toBeNull();
+        expect(ratingScaleMeaning({ low: "Weak", high: "Strong" })).toBe("1 = Weak, 5 = Strong.");
     });
 
     it("chooses a round, moves to another, and clears when the chosen round is pressed again", () => {
@@ -93,8 +93,8 @@ describe("RatingScaleGroup", () => {
                 highLabel="Strong"
             />
         );
-        expect(screen.getAllByText("Weak")).toHaveLength(1);
-        expect(screen.getAllByText("Strong")).toHaveLength(1);
+        // The numbers are said once for all rows.
+        expect(document.querySelectorAll(".rating-scale-ends")).toHaveLength(1);
         const price = screen.getByRole("radiogroup", { name: "Lower price" });
         const speed = screen.getByRole("radiogroup", { name: "Speed" });
         expect((within(speed).getByRole("radio", { name: /^5 of 5/ }) as HTMLInputElement).checked).toBe(true);
@@ -139,8 +139,8 @@ describe("RatingScaleGroup", () => {
         expect(screen.queryByRole("radiogroup", { name: "Google" })).toBeNull();
         fireEvent.click(google);
         expect(within(screen.getByRole("radiogroup", { name: "Google" })).getAllByRole("radio").some(r => (r as HTMLInputElement).checked)).toBe(false);
-        // The end words are still said once.
-        expect(screen.getAllByText("Poor")).toHaveLength(1);
+        // The numbers are still said once.
+        expect(document.querySelectorAll(".rating-scale-ends")).toHaveLength(1);
         expect(screen.queryByRole("radiogroup", { name: "Trustpilot" })).toBeNull();
     });
 
@@ -149,14 +149,14 @@ describe("RatingScaleGroup", () => {
             <RatingScaleGroup
                 label="How easy do they make each stage for customers?"
                 name="k7"
-                rows={[{ id: "support", label: "Support & Follow Up", below: <span>Loyalty scheme / rewards</span> }]}
+                rows={[{ id: "support", label: "Support & Follow Up", below: <span>A note under the row</span> }]}
                 values={{}}
                 onChange={() => {}}
                 lowLabel="Hard"
                 highLabel="Easy"
             />
         );
-        expect(screen.getByText("Loyalty scheme / rewards")).toBeTruthy();
+        expect(screen.getByText("A note under the row")).toBeTruthy();
         expect(screen.getByRole("radiogroup", { name: "Support & Follow Up" })).toBeTruthy();
     });
 
