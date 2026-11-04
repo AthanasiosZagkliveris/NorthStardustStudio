@@ -7,7 +7,7 @@ import { JOB_INFO, JOB_LEVELS, JOB_RENAMED, type SegmentAnswers, type SegmentCon
  * The job (owner, 2026-11-03): one question per Profile, A3 the kind of work (B2C) or A3b the job level (B2B); A7 who they live with (B2C).
  */
 
-export type ProfileBox = "personal" | "psychographics" | "hubs" | "habits" | "goals" | "challenges" | "objections";
+export type ProfileBox = "personal" | "psychographics" | "hubs" | "habits" | "goals" | "challenges" | "objections" | "needs";
 
 export interface ProfileQuestion {
     id: string;
@@ -58,6 +58,13 @@ const WORDS: Record<string, string> = {
     "a-demo-trial-or-sample": "A demo / trial / sample", "a-quote-or-proposal": "A quote / proposal", "a-meeting-or-call": "A meeting / call"
 };
 const WORRIES = ["The price or their budget", "Whether they can trust you", "How long it takes to start", "How hard it is to use", "Risk or security", "Whether it fits their needs", "Support after they buy", "The effort of switching from what they use now"];
+
+/** The Emotional and Social needs as choices (doc 36, section 10; owner 2026-11-03): Bain's Elements of Value [FUN-48, FUN-49] in plain words, by the Segment's kind. */
+const EMOTIONAL_PEOPLE = ["Calm and worry-free", "Rewarded / treated", "Relaxed / looked after", "Entertained", "Attractive", "Healthy and well", "Delighted by how it looks", "Reminded of good times", "Motivated", "Hopeful", "Fulfilled, as they grow"];
+const EMOTIONAL_BUSINESS = ["Sure they made the right choice", "Glad to work with you", "Growing in their work", "Hopeful about their business", "Inspired about what comes next"];
+const SOCIAL_PEOPLE = ["As having good taste / style", "As part of a group they value", "As one of the few with access", "As caring for others or the planet", "As leaving something for their family"];
+const SOCIAL_BUSINESS = ["As someone others trust", "As well connected", "As more valued in their field", "As a responsible business"];
+const NEEDS_INFO = (what: string) => ["Choose up to three, then rate each: the " + what + " that make them buy, not every one they have.", "Write the details in the list below. Based on: Bain's Elements of Value (HBR, 2016 and 2018)."];
 
 const slug = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 /** What an option says (owner, 2026-11-03): similar things are joined with a slash ("Laptop / desktop"), different things with the word "or" ("Win customers or earn more"). The words shown are the ones written, or their entry in WORDS; the id stays the slug of the words it was first written with. */
@@ -134,6 +141,11 @@ const QUESTIONS: readonly ProfileQuestion[] = [
     },
     { id: "e1", box: "goals", label: "What are {p} main goals?", many: true, max: 3, options: list(GOALS), rating: { low: "Minor", high: "Main" }, info: ["Choose up to three, then rate each.", "What they want to achieve. What matters to them when choosing is asked under Psychographics. Based on: gains (Value Proposition Canvas)."] },
     { id: "e2", box: "challenges", label: "What frustrates {o} about the way it is done now?", many: true, max: 3, options: list(FRUSTRATIONS), rating: { low: "Mild", high: "Severe" }, info: ["Choose up to three, then rate each.", "What goes wrong for them today, before they buy from you. Based on: pains (Value Proposition Canvas)."] },
+    // The Needs (doc 36, section 10): Emotional and Social ticked and rated, by the Segment's kind; Functional stays the numbered list. Each kind's list stays as its note.
+    { id: "emotional", box: "needs", label: "How does {s} want to feel?", many: true, max: 3, options: list(EMOTIONAL_PEOPLE), rating: { low: "Mild", high: "Strong" }, info: NEEDS_INFO("feelings") },
+    { id: "emotional-b2b", box: "needs", label: "How does {s} want to feel?", many: true, max: 3, options: list(EMOTIONAL_BUSINESS), rating: { low: "Mild", high: "Strong" }, info: NEEDS_INFO("feelings") },
+    { id: "social", box: "needs", label: "How does {s} want others to see {o}?", many: true, max: 3, options: list(SOCIAL_PEOPLE), rating: { low: "Mild", high: "Strong" }, info: NEEDS_INFO("ways of being seen") },
+    { id: "social-b2b", box: "needs", label: "How does {s} want others to see {o}?", many: true, max: 3, options: list(SOCIAL_BUSINESS), rating: { low: "Mild", high: "Strong" }, info: NEEDS_INFO("ways of being seen") },
     { id: "e3", box: "objections", label: "What might stop {o} buying from you?", many: true, max: 3, options: list(WORRIES), rating: { low: "Minor", high: "Blocking" }, info: ["Choose up to three, then rate each.", "Their doubts about buying from you; what frustrates them today is asked above.", "Starts with the price where the Segment's household income is Low; change it freely."] }
 ];
 
@@ -159,7 +171,8 @@ export const PROFILE_NOTE_HINTS: Record<ProfileBox, string> = {
     habits: "The note is for what the choices above do not hold: where and when they buy, the terms, the steps.",
     goals: "The note is for what the list above does not say: the details that are theirs.",
     challenges: "The note is for what the list above does not say: the details that are theirs.",
-    objections: "The note is for what the list above does not say: the details that are theirs."
+    objections: "The note is for what the list above does not say: the details that are theirs.",
+    needs: "Each need is one numbered line, in your words. The Offerings choose from these lines."
 };
 
 /** The ages each of the Segment's age terms holds (first number up to, not including, the second). */
@@ -198,6 +211,11 @@ export function profileQuestionAsked(question: ProfileQuestion, segment: Segment
             return (segment.social ?? []).some(id => id === "mixed" || id === "inperson");
         case "d1":
             return !(segment.path ?? []).includes("impulse");
+        // The Needs' lists follow the Segment's kind: a business buyer's, or a person's (doc 36, section 10).
+        case "emotional": case "social":
+            return !business;
+        case "emotional-b2b": case "social-b2b":
+            return business;
         default:
             return true;
     }

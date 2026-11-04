@@ -571,9 +571,14 @@ export function useFoundationSubsections(earlier: Earlier) {
                         {group("Needs", (
                             <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-single">
                                 <div className="legal-entity-field">
-                                    {SUBSECTIONS.segments.needs.map((kind, at) => (
+                                    {SUBSECTIONS.segments.needs.map((kind, at) => {
+                                        // Emotional and Social are ticked and rated (doc 36, section 10), their numbered list kept as the note; Functional stays the list.
+                                        const choices = profileQuestionsOf("needs", segment.questions, asked).find(question => question.id.split("-")[0] === kind.id);
+                                        const shown = profileShown(profile.questions ?? {}, segment.questions, asked);
+                                        return (
                                         <div className={"legal-entity-org-section" + (at % 2 === 1 ? " legal-entity-org-band" : "")} key={kind.id}>
-                                            <FieldRow pair fullList label={kind.title} info={[kind.text]}>
+                                            {choices && profileQuestionOf(profile, profileIndex, shown, choices)}
+                                            <FieldRow pair fullList label={choices ? kind.title + " notes" : kind.title} info={choices ? [PROFILE_NOTE_HINTS.needs] : [kind.text]}>
                                                 <NumberedListInput
                                                     label={kind.title + " needs for " + segmentPath + ", Profile " + (profileIndex + 1)}
                                                     items={profile.needs[kind.id as BusinessNeedKind]}
@@ -585,7 +590,8 @@ export function useFoundationSubsections(earlier: Earlier) {
                                                 />
                                             </FieldRow>
                                         </div>
-                                    ))}
+                                        );
+                                    })}
                                 </div>
                             </div>
                         ), ["Each need is one numbered line. The Offerings choose from these needs."], groupFold(profile.id, "Needs", segmentPath + ", Profile " + (profileIndex + 1)))}

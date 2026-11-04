@@ -167,3 +167,25 @@ describe("Psychographics and Motivations ticked and rated (doc 36, section 11)",
     });
 
 });
+
+describe("the Emotional and Social needs ticked and rated (doc 36, section 10)", () => {
+
+    it("asks a person's lists of a people Segment and a business buyer's of a business one", () => {
+        expect(profileQuestionsOf("needs", {}, people).map(entry => entry.id)).toEqual(["emotional", "social"]);
+        expect(profileQuestionsOf("needs", {}, business).map(entry => entry.id)).toEqual(["emotional-b2b", "social-b2b"]);
+        expect(question("emotional").max).toBe(3);
+        expect(question("social").rating).toEqual({ low: "Mild", high: "Strong" });
+    });
+
+    it("keeps three ticks and their ratings, and prints them with their ratings", () => {
+        const social = question("social");
+        const ticked = profileRate(social, profileChoose(social, {}, ["as-part-of-a-group-they-value", "as-having-good-taste-style", "as-one-of-the-few-with-access", "as-caring-for-others-or-the-planet"]), "as-part-of-a-group-they-value", 4);
+        expect(ticked.social).toHaveLength(3);
+        const settled = profileSettle(ticked, {}, people);
+        expect(settled["social-rating"]).toEqual(["as-part-of-a-group-they-value:4"]);
+        expect(profileAnswerLines(settled).find(line => line.value.startsWith("As part"))?.value).toBe("As part of a group they value (4/5); As having good taste / style; As one of the few with access");
+        // A business Segment does not keep a person's list.
+        expect(profileSettle(ticked, {}, business).social).toBeUndefined();
+    });
+
+});
