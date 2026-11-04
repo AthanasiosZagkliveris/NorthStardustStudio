@@ -635,6 +635,22 @@
                       "e3-rating": [
                         "the-price-or-their-budget:5",
                         "whether-it-fits-their-needs:4"
+                      ],
+                      "emotional": [
+                        "calm-and-worry-free",
+                        "delighted-by-how-it-looks"
+                      ],
+                      "emotional-rating": [
+                        "calm-and-worry-free:5",
+                        "delighted-by-how-it-looks:4"
+                      ],
+                      "social": [
+                        "as-having-good-taste-style",
+                        "as-caring-for-others-or-the-planet"
+                      ],
+                      "social-rating": [
+                        "as-having-good-taste-style:4",
+                        "as-caring-for-others-or-the-planet:3"
                       ]
                     },
                     "goals": "A home that feels warm, unique and made to last; owning things with a story; supporting local makers.",
@@ -732,6 +748,20 @@
                       "e3-rating": [
                         "the-price-or-their-budget:5",
                         "how-long-it-takes-to-start:4"
+                      ],
+                      "emotional": [
+                        "fulfilled-as-they-grow",
+                        "relaxed-looked-after"
+                      ],
+                      "emotional-rating": [
+                        "fulfilled-as-they-grow:5",
+                        "relaxed-looked-after:3"
+                      ],
+                      "social": [
+                        "as-part-of-a-group-they-value"
+                      ],
+                      "social-rating": [
+                        "as-part-of-a-group-they-value:4"
                       ]
                     },
                     "goals": "Learn a real craft; make something for her own room; switch off after work.",
@@ -788,40 +818,53 @@
                         "social-media",
                         "in-person"
                       ],
-                      "k6": [
+                      "k7": [
                         "google",
                         "facebook",
                         "marketplace"
                       ],
-                      "k6-rating": [
+                      "k7-rating": [
                         "google:4",
                         "facebook:4",
                         "marketplace:5"
                       ],
-                      "k7-rating": [
+                      "k8-rating": [
                         "discovery:4",
                         "evaluation:3",
                         "purchase:4",
                         "delivery:3",
                         "support:2"
                       ],
-                      "k8-rating": [
+                      "k9-rating": [
                         "lower-price:4",
                         "quality-and-results:3",
                         "trust-and-reputation:3",
                         "shared-values-or-identity:5",
                         "expert-knowledge:3",
-                        "ease-and-convenience:3"
+                        "ease-and-convenience:3",
+                        "other-0:5"
                       ],
-                      "k9-rating": [
+                      "k10-rating": [
                         "technology:3",
                         "economy:2",
                         "society:4",
                         "supply:3"
                       ],
-                      "k10": [
+                      "k11": [
                         "standout:quality-and-results",
                         "stage:support"
+                      ],
+                      "k5-rating": [
+                        "marketplace:5",
+                        "social-media:3",
+                        "in-person:4"
+                      ],
+                      "k6": [
+                        "events",
+                        "content"
+                      ],
+                      "k9-other": [
+                        "Handmade story"
                       ]
                     }
                   },
@@ -858,26 +901,26 @@
                         "social-media",
                         "retail-wholesale"
                       ],
-                      "k6": [
+                      "k7": [
                         "google",
                         "trustpilot"
                       ],
-                      "k6-rating": [
+                      "k7-rating": [
                         "google:4",
                         "trustpilot:4"
                       ],
-                      "k7-rating": [
+                      "k8-rating": [
                         "discovery:5",
                         "evaluation:4",
                         "purchase:5",
                         "delivery:4",
                         "support:3"
                       ],
-                      "k7": [
+                      "k8": [
                         "emails",
                         "loyalty"
                       ],
-                      "k8-rating": [
+                      "k9-rating": [
                         "lower-price:1",
                         "quality-and-results:4",
                         "trust-and-reputation:4",
@@ -885,13 +928,23 @@
                         "expert-knowledge:3",
                         "ease-and-convenience:5"
                       ],
-                      "k9-rating": [
+                      "k10-rating": [
                         "economy:2",
                         "society:3",
                         "supply:2"
                       ],
-                      "k10": [
+                      "k11": [
                         "better:shared-values-or-identity"
+                      ],
+                      "k5-rating": [
+                        "website:5",
+                        "social-media:5",
+                        "retail-wholesale:4"
+                      ],
+                      "k6": [
+                        "ads",
+                        "content",
+                        "discounts"
                       ]
                     }
                   },
@@ -919,33 +972,33 @@
                       "k4": [
                         "4"
                       ],
-                      "k6": [
+                      "k7": [
                         "google",
                         "trustpilot"
                       ],
-                      "k6-rating": [
+                      "k7-rating": [
                         "google:4",
                         "trustpilot:2"
                       ],
-                      "k7-rating": [
+                      "k8-rating": [
                         "discovery:5",
                         "evaluation:4",
                         "purchase:5",
                         "delivery:4",
                         "support:3"
                       ],
-                      "k8-rating": [
+                      "k9-rating": [
                         "lower-price:5",
                         "ease-and-convenience:5",
                         "quality-and-results:2",
                         "shared-values-or-identity:1",
                         "trust-and-reputation:3"
                       ],
-                      "k9-rating": [
+                      "k10-rating": [
                         "society:2",
                         "economy:4"
                       ],
-                      "k10": [
+                      "k11": [
                         "better:quality-and-results"
                       ]
                     }
@@ -1118,6 +1171,22 @@
                       "e3-rating": [
                         "whether-it-fits-their-needs:5",
                         "support-after-they-buy:4"
+                      ],
+                      "emotional-b2b": [
+                        "sure-they-made-the-right-choice",
+                        "glad-to-work-with-you"
+                      ],
+                      "emotional-b2b-rating": [
+                        "sure-they-made-the-right-choice:5",
+                        "glad-to-work-with-you:4"
+                      ],
+                      "social-b2b": [
+                        "as-a-responsible-business",
+                        "as-more-valued-in-their-field"
+                      ],
+                      "social-b2b-rating": [
+                        "as-a-responsible-business:5",
+                        "as-more-valued-in-their-field:4"
                       ]
                     },
                     "goals": "Distinctive, sustainable interiors that win clients and awards; reliable makers she can return to.",
@@ -1173,35 +1242,42 @@
                         "website",
                         "referral-affiliates"
                       ],
-                      "k6": [
+                      "k7": [
                         "google"
                       ],
-                      "k6-rating": [
+                      "k7-rating": [
                         "google:4"
                       ],
-                      "k7-rating": [
+                      "k8-rating": [
                         "discovery:4",
                         "evaluation:4",
                         "purchase:3",
                         "delivery:2",
                         "support:4"
                       ],
-                      "k7": [
-                        "aftercare"
-                      ],
-                      "k8-rating": [
+                      "k9-rating": [
                         "expert-knowledge:5",
                         "trust-and-reputation:5",
                         "quality-and-results:4",
                         "a-service-made-for-them:2"
                       ],
-                      "k9-rating": [
+                      "k10-rating": [
                         "regulation:4",
                         "supply:2"
                       ],
-                      "k10": [
+                      "k11": [
                         "better:a-service-made-for-them",
                         "stage:delivery"
+                      ],
+                      "k5-rating": [
+                        "in-person:5",
+                        "website:3",
+                        "referral-affiliates:4"
+                      ],
+                      "k6": [
+                        "events",
+                        "partnerships",
+                        "trial"
                       ]
                     }
                   },
@@ -1238,31 +1314,40 @@
                         "website",
                         "in-person"
                       ],
-                      "k6": [
+                      "k7": [
                         "google",
                         "facebook"
                       ],
-                      "k6-rating": [
+                      "k7-rating": [
                         "google:4",
                         "facebook:5"
                       ],
-                      "k7-rating": [
+                      "k8-rating": [
                         "evaluation:3",
                         "delivery:2",
                         "support:3"
                       ],
-                      "k8-rating": [
+                      "k9-rating": [
                         "expert-knowledge:4",
                         "trust-and-reputation:3",
                         "quality-and-results:4",
                         "ease-and-convenience:2"
                       ],
-                      "k9-rating": [
+                      "k10-rating": [
                         "supply:2",
                         "society:4"
                       ],
-                      "k10": [
+                      "k11": [
                         "stage:delivery"
+                      ],
+                      "k5-rating": [
+                        "social-media:3",
+                        "website:2",
+                        "in-person:3"
+                      ],
+                      "k6": [
+                        "content",
+                        "events"
                       ]
                     }
                   }

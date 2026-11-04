@@ -462,6 +462,18 @@
                       "e3-rating": [
                         "the-effort-of-switching-from-what-they-use-now:5",
                         "risk-or-security:4"
+                      ],
+                      "emotional-b2b": [
+                        "sure-they-made-the-right-choice"
+                      ],
+                      "emotional-b2b-rating": [
+                        "sure-they-made-the-right-choice:5"
+                      ],
+                      "social-b2b": [
+                        "as-someone-others-trust"
+                      ],
+                      "social-b2b-rating": [
+                        "as-someone-others-trust:4"
                       ]
                     },
                     "goals": "Get hours back each week for the team; make intake, reminders and reporting run on their own; look good to the partners by fixing problems that have lingered for years.",
@@ -558,6 +570,20 @@
                       "e3-rating": [
                         "the-price-or-their-budget:5",
                         "how-hard-it-is-to-use:4"
+                      ],
+                      "emotional-b2b": [
+                        "growing-in-their-work",
+                        "hopeful-about-their-business"
+                      ],
+                      "emotional-b2b-rating": [
+                        "growing-in-their-work:4",
+                        "hopeful-about-their-business:4"
+                      ],
+                      "social-b2b": [
+                        "as-more-valued-in-their-field"
+                      ],
+                      "social-b2b-rating": [
+                        "as-more-valued-in-their-field:4"
                       ]
                     },
                     "goals": "Grow revenue without growing headcount; deliver client reports and onboarding faster; use AI in a way that holds up in front of clients.",
@@ -611,20 +637,21 @@
                       "k5": [
                         "marketplace"
                       ],
-                      "k6": [
+                      "k7": [
                         "marketplace"
                       ],
-                      "k6-rating": [
-                        "marketplace:4"
-                      ],
                       "k7-rating": [
+                        "marketplace:4",
+                        "other-0:3"
+                      ],
+                      "k8-rating": [
                         "discovery:4",
                         "evaluation:3",
                         "purchase:4",
                         "delivery:3",
                         "support:2"
                       ],
-                      "k8-rating": [
+                      "k9-rating": [
                         "lower-price:5",
                         "speed:3",
                         "ease-and-convenience:3",
@@ -632,13 +659,22 @@
                         "quality-and-results:3",
                         "trust-and-reputation:2"
                       ],
-                      "k9-rating": [
+                      "k10-rating": [
                         "technology:5",
                         "economy:3"
                       ],
-                      "k10": [
+                      "k11": [
                         "better:good-support",
                         "better:trust-and-reputation"
+                      ],
+                      "k5-rating": [
+                        "marketplace:5"
+                      ],
+                      "k6": [
+                        "discounts"
+                      ],
+                      "k7-other": [
+                        "Reddit forums"
                       ]
                     }
                   },
@@ -675,37 +711,44 @@
                         "referral-affiliates",
                         "in-person"
                       ],
-                      "k6": [
+                      "k7": [
                         "google",
                         "clutch"
                       ],
-                      "k6-rating": [
+                      "k7-rating": [
                         "google:4",
                         "clutch:5"
                       ],
-                      "k7-rating": [
+                      "k8-rating": [
                         "evaluation:4",
                         "purchase:2",
                         "delivery:4",
                         "support:4"
                       ],
-                      "k7": [
-                        "aftercare"
-                      ],
-                      "k8-rating": [
+                      "k9-rating": [
                         "speed:2",
                         "lower-price:1",
                         "quality-and-results:5",
                         "trust-and-reputation:5",
                         "ease-and-convenience:2"
                       ],
-                      "k9-rating": [
+                      "k10-rating": [
                         "technology:4",
                         "economy:2"
                       ],
-                      "k10": [
+                      "k11": [
                         "better:speed",
                         "stage:purchase"
+                      ],
+                      "k5-rating": [
+                        "website:4",
+                        "referral-affiliates:5",
+                        "in-person:3"
+                      ],
+                      "k6": [
+                        "content",
+                        "events",
+                        "partnerships"
                       ]
                     }
                   },
@@ -734,33 +777,33 @@
                       "k4": [
                         "5"
                       ],
-                      "k6": [
+                      "k7": [
                         "g2",
                         "capterra",
                         "app-store"
                       ],
-                      "k6-rating": [
+                      "k7-rating": [
                         "g2:4",
                         "capterra:4",
                         "app-store:4"
                       ],
-                      "k7-rating": [
+                      "k8-rating": [
                         "discovery:5",
                         "evaluation:4",
                         "purchase:5",
                         "delivery:3",
                         "support:2"
                       ],
-                      "k8-rating": [
+                      "k9-rating": [
                         "lower-price:4",
                         "speed:3",
                         "ease-and-convenience:2",
                         "good-support:1"
                       ],
-                      "k9-rating": [
+                      "k10-rating": [
                         "technology:5"
                       ],
-                      "k10": [
+                      "k11": [
                         "better:good-support",
                         "stage:support"
                       ]
@@ -782,17 +825,17 @@
                     "threats": "Inertia: the pain is spread thinly, so it never feels urgent.",
                     "insights": "Show the cost of the status quo in hours and dollars during the audit, and compare the Build and Retainer to the cost of a hire.",
                     "questions": {
-                      "k8-rating": [
+                      "k9-rating": [
                         "speed:1",
                         "ease-and-convenience:2",
                         "trust-and-reputation:4",
                         "lower-price:3"
                       ],
-                      "k9-rating": [
+                      "k10-rating": [
                         "economy:2",
                         "technology:2"
                       ],
-                      "k10": [
+                      "k11": [
                         "cost:speed",
                         "act:economy"
                       ]
