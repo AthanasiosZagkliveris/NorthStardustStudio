@@ -498,16 +498,16 @@
                     "salary"
                   ],
                   "income": [
-                    "upper-middle"
+                    "4"
                   ],
                   "gender": [
-                    "leans-women"
+                    "4"
                   ],
                   "reach": [
                     "region"
                   ],
                   "area": [
-                    "urban"
+                    "5"
                   ],
                   "comfort": [
                     "5"
@@ -795,7 +795,7 @@
                       "acquisition": "Broadway Market and Spitalfields.",
                       "experience": "Personal but inconsistent; slow replies."
                     },
-                    "strengths": "Low prices.",
+                    "strengths": "",
                     "weaknesses": "No brand consistency; few offer repair or traceability.",
                     "opportunities": "Most do not run workshops or sell to trade.",
                     "threats": "Price undercutting; Etsy algorithm favours volume sellers.",
@@ -853,10 +853,10 @@
                         "standout:quality-and-results",
                         "stage:support"
                       ],
-                      "k5-rating": [
-                        "marketplace:5",
-                        "social-media:3",
-                        "in-person:4"
+                      "k5-sub": [
+                        "social-media:instagram",
+                        "marketplace:etsy",
+                        "in-person:market"
                       ]
                     }
                   },
@@ -908,10 +908,6 @@
                         "delivery:4",
                         "support:3"
                       ],
-                      "k7": [
-                        "emails",
-                        "loyalty"
-                      ],
                       "k8-rating": [
                         "lower-price:1",
                         "quality-and-results:4",
@@ -928,10 +924,9 @@
                       "k10": [
                         "better:shared-values-or-identity"
                       ],
-                      "k5-rating": [
-                        "website:5",
-                        "social-media:5",
-                        "retail-wholesale:4"
+                      "k5-sub": [
+                        "social-media:instagram",
+                        "social-media:pinterest"
                       ]
                     }
                   },
@@ -944,7 +939,7 @@
                       "experience": "Disposable.",
                       "offerings": "Buying cheap mass-produced cushions and throws and replacing them every year or two instead of investing in one handmade piece."
                     },
-                    "strengths": "Low prices.",
+                    "strengths": "",
                     "weaknesses": "Environmental cost.",
                     "opportunities": "Customers upgrading from their first flat look for “grown-up” pieces.",
                     "threats": "Trend cycles make handmade look expensive by comparison.",
@@ -1044,7 +1039,7 @@
                     "country"
                   ],
                   "area": [
-                    "urban"
+                    "5"
                   ],
                   "orgtype": [
                     "private"
@@ -1207,7 +1202,7 @@
                       "experience": "Professional but impersonal."
                     },
                     "strengths": "Compliance certificates; broad ranges.",
-                    "weaknesses": "Minimum orders; little story; limited bespoke work for small projects.",
+                    "weaknesses": "Minimum orders; little story.",
                     "opportunities": "Designers seeking a local, handmade signature piece alongside mill fabrics.",
                     "threats": "Mills launching “artisan” lines.",
                     "insights": "Position as the handmade signature layer (cushions, throws, headboards and art textiles), not as a replacement for contract fabrics.",
@@ -1256,10 +1251,8 @@
                         "better:a-service-made-for-them",
                         "stage:delivery"
                       ],
-                      "k5-rating": [
-                        "in-person:5",
-                        "website:3",
-                        "referral-affiliates:4"
+                      "k5-sub": [
+                        "in-person:fair"
                       ]
                     }
                   },
@@ -1273,7 +1266,7 @@
                       "acquisition": "",
                       "experience": "Personal."
                     },
-                    "strengths": "Similar values.",
+                    "strengths": "",
                     "weaknesses": "Little documentation.",
                     "opportunities": "Our three-founder team can promise capacity and paperwork.",
                     "threats": "Price competition on small commissions.",
@@ -1314,7 +1307,8 @@
                         "expert-knowledge:4",
                         "trust-and-reputation:3",
                         "quality-and-results:4",
-                        "ease-and-convenience:2"
+                        "ease-and-convenience:2",
+                        "shared-values-or-identity:4"
                       ],
                       "k9-rating": [
                         "supply:2",
@@ -1323,11 +1317,9 @@
                       "k10": [
                         "stage:delivery"
                       ],
-                      "k5-rating": [
-                        "social-media:3",
-                        "website:2",
-                        "in-person:3",
-                        "referral-affiliates:4"
+                      "k5-sub": [
+                        "social-media:instagram",
+                        "in-person:fair"
                       ]
                     }
                   }

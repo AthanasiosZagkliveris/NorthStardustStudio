@@ -615,9 +615,9 @@
                       "offerings": "Zapier, Make and AI chatbot builds, priced by the task or the hour.",
                       "market": "Small businesses in any industry.",
                       "acquisition": "",
-                      "experience": "Cheap and suited to simple tasks."
+                      "experience": "Suited to simple tasks."
                     },
-                    "strengths": "Low prices; large pool of talent; quick to start.",
+                    "strengths": "Large pool of talent; quick to start.",
                     "weaknesses": "Little understanding of professional-services workflows or confidentiality; documentation is rare.",
                     "opportunities": "Rising demand for AI automation is pulling more freelancers into the market.",
                     "threats": "Marketplace fees and price competition; clients burned by poor builds become wary of all outside help.",
@@ -668,11 +668,12 @@
                         "better:good-support",
                         "better:trust-and-reputation"
                       ],
-                      "k5-rating": [
-                        "marketplace:5"
-                      ],
                       "k6-other": [
                         "Reddit forums"
+                      ],
+                      "k5-sub": [
+                        "marketplace:upwork",
+                        "marketplace:fiverr"
                       ]
                     }
                   },
@@ -684,10 +685,10 @@
                       "offerings": "AI strategy, custom model work and enterprise integrations.",
                       "market": "Mid-size and enterprise firms, often in finance and healthcare.",
                       "acquisition": "",
-                      "experience": "Polished and thorough, but expensive for a small firm."
+                      "experience": "Polished and thorough."
                     },
-                    "strengths": "Depth of expertise.",
-                    "weaknesses": "Minimum engagements far above a small firm's budget; not interested in 10-person clients.",
+                    "strengths": "",
+                    "weaknesses": "Minimum engagements; not interested in 10-person clients.",
                     "opportunities": "Could launch packaged small-business offers.",
                     "threats": "Their thought leadership raises expectations of what AI can do.",
                     "insights": "Borrow their rigor (audit, roadmap, governance) and package it at a small-firm price with a single accountable person.",
@@ -728,7 +729,8 @@
                         "lower-price:1",
                         "quality-and-results:5",
                         "trust-and-reputation:5",
-                        "ease-and-convenience:2"
+                        "ease-and-convenience:2",
+                        "expert-knowledge:5"
                       ],
                       "k9-rating": [
                         "technology:4",
@@ -738,10 +740,8 @@
                         "better:speed",
                         "stage:purchase"
                       ],
-                      "k5-rating": [
-                        "website:4",
-                        "referral-affiliates:5",
-                        "in-person:3"
+                      "k5-sub": [
+                        "in-person:talk"
                       ]
                     }
                   },
@@ -755,7 +755,7 @@
                       "acquisition": "Free trials, in-app prompts and vendor marketing.",
                       "experience": "Easy to start, but setups stay half-finished and break when nobody owns them."
                     },
-                    "strengths": "Cheap or already paid for; no outside party involved.",
+                    "strengths": "Already paid for; no outside party involved.",
                     "weaknesses": "Needs time and skills the firm does not have.",
                     "opportunities": "Vendors keep adding AI features, making DIY more tempting.",
                     "threats": "Could shrink the market for simple builds.",
@@ -810,9 +810,9 @@
                       "offerings": "Staff keep copying data and chasing documents by hand, or the firm hires another administrator.",
                       "market": "Most small firms today.",
                       "acquisition": "No acquisition: it is the default.",
-                      "experience": "Familiar and low-risk, but error-prone and costly as the firm grows."
+                      "experience": "Familiar, but error-prone and costly as the firm grows."
                     },
-                    "strengths": "No change needed; no new risk; a new hire can also do other tasks.",
+                    "strengths": "No change needed; a new hire can also do other tasks.",
                     "weaknesses": "An administrator in New York costs $50,000 to $60,000 a year before benefits; manual work does not scale.",
                     "opportunities": "A tight hiring market makes the manual route harder.",
                     "threats": "Inertia: the pain is spread thinly, so it never feels urgent.",
@@ -822,7 +822,8 @@
                         "speed:1",
                         "ease-and-convenience:2",
                         "trust-and-reputation:4",
-                        "lower-price:3"
+                        "lower-price:3",
+                        "safety-and-low-risk:4"
                       ],
                       "k9-rating": [
                         "economy:2",
