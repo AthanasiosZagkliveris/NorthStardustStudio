@@ -26,7 +26,7 @@ export function renderBusinessFoundation(scope: AnswerScope) {
 
         <BusinessFoundationEditor
             value={value}
-            identity={{ relationships: organisation.customerType, marketType: organisation.marketType, audience: organisation.audience, buyerCategory: organisation.buyerCategory, endUser: organisation.endUser, stage: businessStage }}
+            identity={{ relationships: organisation.customerType, marketType: organisation.marketType, audience: organisation.audience, buyerCategory: organisation.buyerCategory, endUser: organisation.endUser, stage: businessStage, country: organisation.country, activityCode: organisation.activities[0]?.code ?? "" }}
             showInstructions={showInstructions}
             columnsDivider={columnsDivider}
             frameTitle={frameTitle}

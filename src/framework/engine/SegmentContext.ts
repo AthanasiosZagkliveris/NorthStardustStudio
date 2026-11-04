@@ -20,6 +20,9 @@ export interface SegmentIdentity {
     endUser?: readonly string[];
     /** The business stage (plan, launch, manage, grow). */
     stage?: string;
+    /** The Organisation's country (ISO code) and its first activity's code: the order of the Competitor's review platforms (doc 41, K6). */
+    country?: string;
+    activityCode?: string;
 }
 
 /** Who the Segment's questions are written for: people (Box 1), businesses and public bodies (Box 3), or not yet known / both (both boxes). */

@@ -182,6 +182,8 @@ export interface BusinessCompetitorValue {
     opportunities: string;
     threats: string;
     insights: string;
+    /** The answers to the card's questions K1 to K10 (doc 41, CompetitorQuestions.ts): question id to the ids chosen, a rating as "option:point" under "<id>-rating". */
+    questions?: Record<string, string[]>;
 }
 
 export interface BusinessOfferingValue {
@@ -403,9 +405,25 @@ export function asBusinessCompetitor(entry: unknown): BusinessCompetitorValue {
         weaknesses: asText(competitor.weaknesses),
         opportunities: asText(competitor.opportunities),
         threats: asText(competitor.threats),
-        insights: asText(competitor.insights)
+        insights: asText(competitor.insights),
+        // (Kept only where something is answered, so a card saved before the questions reads as it did.)
+        ...competitorQuestionsOf(competitor.questions)
     };
 
+}
+
+/** A Competitor's saved questions: lists of words only (doc 41; read by CompetitorQuestions.ts). */
+function competitorQuestionsOf(source: unknown): { questions?: Record<string, string[]> } {
+    if (!source || typeof source !== "object" || Array.isArray(source)) {
+        return {};
+    }
+    const questions: Record<string, string[]> = {};
+    for (const [key, value] of Object.entries(source as Record<string, unknown>)) {
+        if (Array.isArray(value) && value.length > 0 && value.every(entry => typeof entry === "string")) {
+            questions[key] = value as string[];
+        }
+    }
+    return Object.keys(questions).length > 0 ? { questions } : {};
 }
 
 export function asBusinessOffering(entry: unknown): BusinessOfferingValue {
