@@ -233,7 +233,7 @@ A typical person of the Segment, asked specifically.
   - Shared values / identity
 - **The "i" would say:** What matters most to a typical person of the Segment when choosing. Interests, lifestyle and aspirations stay in the note.
 - **Connections:**
-  - *Read by (built, 2026-11-04):* the Competitor's K8 lists the values ticked here first, and its K10 weighs each value by its rating here (doc 41).
+  - *Read by (built, 2026-11-04):* the Competitor's K8 rates only the values ticked here by any Profile of the Segment, the highest rated first (all of L1 while none is ticked), and its K10 weighs each value by its rating here (doc 41).
   - *Comes from:* nothing.
   - *Read by (not built yet):* the Value Proposition draft; the Review (against the Offering's benefit and the positioning).
 

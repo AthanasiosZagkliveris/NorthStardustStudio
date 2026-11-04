@@ -18,6 +18,7 @@ import {
     competitorSettle,
     competitorWording,
     hardToBeat,
+    competitorValueRows,
     industryOfActivity,
     insightsDraft,
     reviewPlatformOrder
@@ -198,6 +199,25 @@ describe("Customer Acquisition, loyalty and Other (owner, 2026-11-04)", () => {
         // Answers already on the new numbers are read as they are.
         const current = { k6: ["google"], "k8-rating": ["speed:2"], "k9-rating": ["economy:1"], k10: ["better:speed"] };
         expect(asBusinessCompetitor({ questions: current }).questions).toEqual(current);
+    });
+
+    it("rates only the values the Segment's Profiles tick in B1, the highest rated first", () => {
+        const profiles = [
+            { b1: ["speed", "lower-price"], "b1-rating": ["speed:3", "lower-price:5"] },
+            { b1: ["speed", "good-support"], "b1-rating": ["speed:3", "good-support:3"] }
+        ];
+        // Lower price 5; Speed 3 twice before Good support 3 once.
+        expect(competitorValueRows({ profiles }).map(value => value.id)).toEqual(["lower-price", "speed", "good-support"]);
+        // No Profile has ticked one yet: every value of L1.
+        expect(competitorValueRows({ profiles: [{}] }).length).toBe(10);
+        // A value no Profile ticks any more is not shown and not read, but its rating stays saved.
+        const answers = { "k8-rating": ["expert-knowledge:1", "speed:5"] };
+        expect(competitorSettle(answers, "direct")["k8-rating"]).toEqual(["expert-knowledge:1", "speed:5"]);
+        expect(competitorOpenings(answers, "direct", { profiles, others: [] })).toEqual([]);
+        expect(hardToBeat("Them", answers, { profiles })).toEqual(["Them is hard to beat on speed, so compete elsewhere."]);
+        // Ticked again, it is read again.
+        const again = [...profiles, { b1: ["expert-knowledge"] }];
+        expect(competitorOpenings(answers, "direct", { profiles: again, others: [] }).map(opening => opening.id)).toEqual(["better:expert-knowledge"]);
     });
 
 });

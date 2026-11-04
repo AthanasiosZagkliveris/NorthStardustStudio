@@ -104,6 +104,9 @@ export const COMPETITOR_INFO: Record<CompetitorQuestionId, readonly string[]> = 
     k10: ["Openings drawn from what you answered above. Tick the ones you will act on, then write how in the text."]
 };
 
+/** K8's "i" while no Profile of the Segment ticks a value in B1: every value of L1 is shown until one does. */
+export const COMPETITOR_VALUES_UNSET = "Tick what matters most on your Profiles first; only those values are rated here.";
+
 /** What the Customer Experience box's "i" adds: how to find out (doc 41). */
 export const COMPETITOR_EXPERIENCE_HOW = "Read their reviews, buy from them or ask for a quote yourself, and ask people who use them.";
 
@@ -490,6 +493,27 @@ function weightOf(value: string, context: OpeningContext): number {
     return weight;
 }
 
+/**
+ * K8's rows (owner, 2026-11-04: B1 and K8 share L1, so K8 rates what the Profiles chose): the values any Profile of the Segment ticks in B1, the highest
+ * rated first (Essential first), then the most ticked, then L1's order; every value of L1 while no Profile ticks one. A value no Profile ticks any more is not
+ * shown: its rating stays saved (`k8-rating`), unread, and shows again when a Profile ticks the value again.
+ */
+export function competitorValueRows(context: Pick<OpeningContext, "profiles">): SegmentOption[] {
+    const chosen = COMPETITOR_VALUES.filter(value => context.profiles.some(profile => (profile.b1 ?? []).includes(value.id)));
+    if (chosen.length === 0) {
+        return [...COMPETITOR_VALUES];
+    }
+    const highest = (value: string) => Math.max(0, ...context.profiles.map(profile => {
+        const rated = (profile["b1-rating"] ?? []).find(entry => entry.split(":")[0] === value);
+        return (profile.b1 ?? []).includes(value) ? (rated ? Number(rated.split(":")[1]) : 1) : 0;
+    }));
+    const count = (value: string) => context.profiles.filter(profile => (profile.b1 ?? []).includes(value)).length;
+    return chosen
+        .map((value, at) => ({ value, at }))
+        .sort((a, b) => highest(b.value.id) - highest(a.value.id) || count(b.value.id) - count(a.value.id) || a.at - b.at)
+        .map(entry => entry.value);
+}
+
 /** Whether a Profile of the Segment ticks a value in B1. */
 export function valueOfProfiles(value: string, context: OpeningContext): boolean {
     return context.profiles.some(profile => (profile.b1 ?? []).includes(value));
@@ -506,7 +530,7 @@ const inSentence = (words: string) => words.charAt(0).toLowerCase() + words.slic
 export function competitorOpenings(answers: CompetitorAnswers, type: string, context: OpeningContext): Opening[] {
     const kind = typeOf(type);
     const openings: Opening[] = [];
-    const values = listedValues(answers);
+    const values = listedValues(answers, context);
     const valueWords = valueNoun;
     const valueBetter = (value: string) => VALUE_OPENINGS[value]?.better ?? "Offer better " + valueWords(value);
     const valueId = (value: string) => value;
@@ -590,16 +614,17 @@ export function competitorOpenings(answers: CompetitorAnswers, type: string, con
 const valueNoun = (value: string) => VALUE_OPENINGS[value]?.noun ?? inSentence(labelOf(COMPETITOR_VALUES, value));
 
 /** K10's "i" line for each value rated 5: "[name] is hard to beat on [value], so compete elsewhere." */
-export function hardToBeat(name: string, answers: CompetitorAnswers): string[] {
+export function hardToBeat(name: string, answers: CompetitorAnswers, context?: Pick<OpeningContext, "profiles">): string[] {
     const who = name.trim() || "This competitor";
-    return Object.entries(listedValues(answers))
+    return Object.entries(listedValues(answers, context))
         .filter(([, point]) => point === 5)
         .map(([value]) => who + " is hard to beat on " + valueNoun(value) + ", so compete elsewhere.");
 }
 
-/** K8's ratings of the listed values (L1) only. */
-function listedValues(answers: CompetitorAnswers): Partial<Record<string, Point>> {
-    return Object.fromEntries(Object.entries(competitorRatings(answers, "k8")).filter(([value]) => COMPETITOR_VALUES.some(option => option.id === value))) as Partial<Record<string, Point>>;
+/** K8's ratings of the values shown (competitorValueRows): a rating kept for a value no Profile ticks any more is not read. */
+function listedValues(answers: CompetitorAnswers, context?: Pick<OpeningContext, "profiles">): Partial<Record<string, Point>> {
+    const shown = context ? competitorValueRows(context) : COMPETITOR_VALUES;
+    return Object.fromEntries(Object.entries(competitorRatings(answers, "k8")).filter(([value]) => shown.some(option => option.id === value))) as Partial<Record<string, Point>>;
 }
 
 /** The draft's lines not already in the text (compared trimmed, any spacing): "Add to text" adds only these, and is not offered when none is left. */
@@ -614,7 +639,7 @@ export function draftToAdd(text: string, draft: string): string {
  */
 export function insightsDraft(name: string, answers: CompetitorAnswers, context: OpeningContext & { names: readonly { name: string; answers: CompetitorAnswers }[] }, openings: readonly Opening[]): string {
     const lines: string[] = [];
-    for (const [value, point] of Object.entries(competitorRatings(answers, "k8"))) {
+    for (const [value, point] of Object.entries(listedValues(answers, context))) {
         if (point === undefined || point > 2 || !valueOfProfiles(value, context)) {
             continue;
         }

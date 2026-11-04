@@ -76,7 +76,7 @@ A rating beats ticks where a thing has degrees and the middle counts (a value do
 
 | Place | What is rated (rows) | End words | Why a rating |
 |---|---|---|---|
-| Competitor, K8 (doc 41) | each value of L1, the Profiles' B1 values first | Weak to Strong | One scale gives strengths and weaknesses at once, and a 3 still counts (owner, 2026-11-04) |
+| Competitor, K8 (doc 41) | the values the Segment's Profiles tick in B1, the highest rated first (all of L1 while none is ticked) | Weak to Strong | One scale gives strengths and weaknesses at once, and a 3 still counts (owner, 2026-11-04) |
 | Competitor, K9 (doc 41) | each of the Segment's changes | Threat to Opportunity | One scale gives opportunities and threats at once |
 | Competitor, K6 (doc 41) | each review platform (L18), ticked first (`selectable`) | Poor to Excellent (1 to 5 stars) | Review sites rate in stars already: the answer is copied, not judged; the tick says where they are reviewed |
 | Competitor, K7 (doc 41) | each Journey Stage (`BUSINESS_JOURNEY_STAGES`), with the loyalty ticks under Support & Follow Up (`below`) | Hard to Easy | Shows where along the journey they are weak, not only whether |

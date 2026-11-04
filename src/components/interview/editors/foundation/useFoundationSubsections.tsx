@@ -14,7 +14,7 @@ import RatingScale, { type Rating } from "../../../controls/RatingScale.tsx";
 import RatingScaleGroup from "../../../controls/RatingScaleGroup.tsx";
 import TextLink from "../../fields/TextLink.tsx";
 import TextBox from "../../../controls/TextBox.tsx";
-import { type OtherQuestion, competitorOtherAdd, competitorOtherName, competitorOtherRemove, competitorOtherSettle, competitorOtherTick, competitorOthers, COMPETITOR_CHANGES, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_LOYALTY_OPTIONS, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, COMPETITOR_VALUES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorAsksLoyalty, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, draftToAdd, hardToBeat, insightsDraft, reviewPlatformOrder, valueOfProfiles } from "../../../../framework/engine/CompetitorQuestions.ts";
+import { type OtherQuestion, competitorOtherAdd, competitorOtherName, competitorOtherRemove, competitorOtherSettle, competitorOtherTick, competitorOthers, COMPETITOR_CHANGES, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_LOYALTY_OPTIONS, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, COMPETITOR_VALUES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorAsksLoyalty, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, COMPETITOR_VALUES_UNSET, draftToAdd, hardToBeat, insightsDraft, reviewPlatformOrder, valueOfProfiles } from "../../../../framework/engine/CompetitorQuestions.ts";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import { type ProfileBox, type ProfileQuestion, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileRate, profileRatings, profileWho, profileQuestionsOf, profileSettle, profileShown, proposedBusinessProfiles } from "../../../../framework/engine/ProfileQuestions.ts";
@@ -726,8 +726,9 @@ export function useFoundationSubsections(earlier: Earlier) {
                     const platformRows = [...platforms.first, ...platforms.rest.filter(platform => (answers.k6 ?? []).includes(platform.id))];
                     // K8: all ten values of L1 (a short list), the Segment's Profiles' B1 values first.
                     const context = { profiles: segment.profiles.map(profile => profile.questions ?? {}), others: segment.competitors.filter(other => other.id !== competitor.id).map(other => other.questions ?? {}) };
-                    const firstValues = COMPETITOR_VALUES.filter(value => valueOfProfiles(value.id, context));
-                    const valueRows = [...firstValues, ...COMPETITOR_VALUES.filter(value => !firstValues.includes(value))];
+                    // K8: the values the Segment's Profiles tick in B1, the highest rated first; all of L1 while none is ticked (doc 41).
+                    const valueRows = competitorValueRows(context);
+                    const valuesUnset = !COMPETITOR_VALUES.some(value => valueOfProfiles(value.id, context));
                     // K9: the Segment's changes, those it ticks first.
                     const ticked = segment.questions.trends ?? [];
                     const changeRows = [...COMPETITOR_CHANGES.filter(entry => ticked.includes(entry.id)), ...COMPETITOR_CHANGES.filter(entry => !ticked.includes(entry.id))];
@@ -783,7 +784,8 @@ export function useFoundationSubsections(earlier: Earlier) {
                     };
                     const INFO: Partial<Record<CompetitorQuestionId, readonly string[]>> = {
                         k6: [...COMPETITOR_INFO.k6, ...REVIEW_PLATFORM_EXAMPLES],
-                        k10: [...COMPETITOR_INFO.k10, ...hardToBeat(competitor.name, answers)]
+                        k8: valuesUnset ? [...COMPETITOR_INFO.k8, COMPETITOR_VALUES_UNSET] : COMPETITOR_INFO.k8,
+                        k10: [...COMPETITOR_INFO.k10, ...hardToBeat(competitor.name, answers, context)]
                     };
                     /** One question: its words (by type) with its "i" (and its limit) over its control. */
                     const question = (id: CompetitorQuestionId) => (

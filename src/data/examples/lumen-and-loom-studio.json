@@ -795,7 +795,7 @@
                       "acquisition": "Broadway Market and Spitalfields.",
                       "experience": "Personal but inconsistent; slow replies."
                     },
-                    "strengths": "",
+                    "strengths": "Low prices.",
                     "weaknesses": "No brand consistency; few offer repair or traceability.",
                     "opportunities": "Most do not run workshops or sell to trade.",
                     "threats": "Price undercutting; Etsy algorithm favours volume sellers.",
@@ -944,7 +944,7 @@
                       "experience": "Disposable.",
                       "offerings": "Buying cheap mass-produced cushions and throws and replacing them every year or two instead of investing in one handmade piece."
                     },
-                    "strengths": "",
+                    "strengths": "Low prices.",
                     "weaknesses": "Environmental cost.",
                     "opportunities": "Customers upgrading from their first flat look for “grown-up” pieces.",
                     "threats": "Trend cycles make handmade look expensive by comparison.",
@@ -1207,7 +1207,7 @@
                       "experience": "Professional but impersonal."
                     },
                     "strengths": "Compliance certificates; broad ranges.",
-                    "weaknesses": "Minimum orders; little story.",
+                    "weaknesses": "Minimum orders; little story; limited bespoke work for small projects.",
                     "opportunities": "Designers seeking a local, handmade signature piece alongside mill fabrics.",
                     "threats": "Mills launching “artisan” lines.",
                     "insights": "Position as the handmade signature layer (cushions, throws, headboards and art textiles), not as a replacement for contract fabrics.",
@@ -1273,7 +1273,7 @@
                       "acquisition": "",
                       "experience": "Personal."
                     },
-                    "strengths": "",
+                    "strengths": "Similar values.",
                     "weaknesses": "Little documentation.",
                     "opportunities": "Our three-founder team can promise capacity and paperwork.",
                     "threats": "Price competition on small commissions.",
@@ -1314,8 +1314,7 @@
                         "expert-knowledge:4",
                         "trust-and-reputation:3",
                         "quality-and-results:4",
-                        "ease-and-convenience:2",
-                        "shared-values-or-identity:4"
+                        "ease-and-convenience:2"
                       ],
                       "k9-rating": [
                         "supply:2",

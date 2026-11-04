@@ -196,7 +196,7 @@ For Internal solution and Status quo the box stays text only: it asks about the 
   - Substitute: "How does this alternative do on what customers value?"
   - Internal solution: "How does doing it themselves do on what customers value?"
   - Status quo: "How does doing nothing do on what customers value?" For example, Lower price can be a 5, because doing nothing is free.
-- **Rows:** the list L1, the Profile's "What matters most" (doc 36, B1). The values the Segment's Profiles ticked in B1 come first, then the rest of L1 (all ten show: L1 is short); no Other:
+- **Rows:** the values the Segment's Profiles tick in "What matters most" (doc 36, B1), any Profile, each once: the highest B1 rating first (Essential first), then the value more Profiles tick, then L1's order (`competitorValueRows`). While no Profile has ticked one, all of L1 shows. A value no Profile ticks any more is not shown; its rating stays saved but is not read (not in K10, the draft or the "i"), and shows again when a Profile ticks the value again. The rows carry no mark of the Profiles' rating (it is on the Profile already). No Other. The list L1:
   - Lower price
   - Speed
   - Ease and convenience
@@ -209,8 +209,9 @@ For Internal solution and Status quo the box stays text only: it asks about the 
   - Shared values / identity
 - **The "i" says:**
   - Rate each from what their customers say and what you have seen: 1 is a clear weakness, 5 a clear strength.
+  - While no Profile has ticked what matters most: "Tick what matters most on your Profiles first; only those values are rated here."
 - **Connections:**
-  - *Comes from:* the owner's decision (2026-11-04): Strengths and Weaknesses used the same options, so one rating replaces the two tick lists and a value rated 2 to 4 also counts in the App User's decisions. The Competitive Profile Matrix rates each success factor from major weakness to major strength [FUN-57]; Kotler's customer value analysis rates competing offers on the attributes customers rank as most important [FUN-55]; a five-point rating as Likert's [FUN-61]. The Profiles' B1 sets the order of the rows; no row starts rated.
+  - *Comes from:* the Profiles' B1 (doc 36), its ticks (the rows) and its ratings (their order; K10's weights). The owner's decision (2026-11-04): Strengths and Weaknesses used the same options, so one rating replaces the two tick lists and a value rated 2 to 4 also counts in the App User's decisions. The Competitive Profile Matrix rates each success factor from major weakness to major strength [FUN-57]; Kotler's customer value analysis rates competing offers on the attributes customers rank as most important [FUN-55]; a five-point rating as Likert's [FUN-61]. The Profiles' B1 sets the order of the rows; no row starts rated.
   - *Read by (not built yet):* ratings of 4 and 5 are listed as the competitor's strengths, and 1 and 2 as its weaknesses (the SWOT, the documents and the exports); 3 is neither. K10's options; the Insights & Differentiation draft; the Value Proposition draft (doc 42); later, once an Offering exists, the Review (a value customers want that this competitor is rated 1 or 2 on and none of your Offerings delivers).
 
 ## Band. Opportunities and Threats
@@ -273,7 +274,7 @@ A section of its own after the SWOT, as built: a title band that folds, as the D
 Where the text above left a choice, the build took the simplest reading:
 - A card with no Type yet is asked as a Direct competitor.
 - K6's industry is the Organisation's first activity read through the crosswalk L7 by its division (`industryOfActivity`); with no activity or country, Google and Facebook come first; any other platform is written under Other.
-- K8's "marked as such": the values the Segment's Profiles tick in B1 come first, the rest of L1 after them; no Other (L1 is ten values, short enough to show whole).
+- K8's rows: only the values the Segment's Profiles tick in B1, ordered by their highest B1 rating, then by how many Profiles tick them; all of L1 while none is ticked; a rating of a value no longer ticked is kept in `k8-rating` and filtered when read (`competitorValueRows`, `listedValues`).
 - K10: an option shows once its source is answered; "Give customers a reason to come back" once a stage of K7 is rated and no loyalty tick is ticked; "Make it easier than doing it themselves" for an Internal solution once a value of K8 is rated; the Status quo has only its own two kinds of opening. Values and changes inside a sentence start with a small letter ("Prepare for changes in the economy").
 - A Type change keeps the answers until the next answer, which settles them against the new Type (`competitorSettle`); the text boxes keep their words.
 - The answers are kept in the Competitor's `questions` (question id to the ids chosen; a rating as "option:point" under "<id>-rating", K4 as its point).
@@ -315,6 +316,7 @@ Each row keeps the current question and proposes another way to answer it, with 
 - The review platforms ticked and rated in one question, K6, the platforms in the order of the App User's industry and country (2026-11-04).
 - The loyalty question within the journey: the loyalty ticks under K7's Support & Follow Up (2026-11-04).
 - K5 rated: each channel ticked, then how active they are there, Low to High (owner, 2026-11-04: "Improve the customer acquisition part").
+- K8 rates only what the Profiles chose in B1 (owner, 2026-11-04: B1 and K8 share L1, so the rating uses the Profile's answer); all of L1 until a Profile ticks one.
 - No attract question (owner, 2026-11-04): it repeated the channels ("Content / social posts" is Social media, "Events / fairs" In person, "Referral rewards" Referrals or affiliates, and paid ads run on those channels). Customer Acquisition asks only K5; answers saved to it are dropped when read.
 - Aftercare / follow-up left the loyalty ticks: it is the Support & Follow Up stage itself (owner, 2026-11-04).
 - "Show all" removed; the platforms end in Other, written and rated; the values are the fixed list L1 with no Other (owner, 2026-11-04).
