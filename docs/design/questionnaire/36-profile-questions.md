@@ -233,7 +233,7 @@ A typical person of the Segment, asked specifically.
   - Shared values / identity
 - **The "i" would say:** What matters most to a typical person of the Segment when choosing. Interests, lifestyle and aspirations stay in the note.
 - **Connections:**
-  - *Read by (built, 2026-11-04):* the Competitor's K8 rates only the values ticked here by any Profile of the Segment, the highest rated first (all of L1 while none is ticked), and its K10 weighs each value by its rating here (doc 41).
+  - *Read by (built, 2026-11-05):* the Competitor's K8 shows every value of L1, those ticked here first, the highest rated first, each banded by how many Profiles ticked it, and its K10 weighs each value by its rating here (doc 41).
   - *Comes from:* nothing.
   - *Read by (not built yet):* the Value Proposition draft; the Review (against the Offering's benefit and the positioning).
 
@@ -398,7 +398,6 @@ What the Segment cannot say: which devices, which social media, which communitie
 - B1's "i": "Tick up to five things they weigh when choosing, then rate how much each matters." and "Write their interests, lifestyle and hopes in the note." (was "... stay in the note").
 - C3's and C4's "i": "Write the names of the groups / events in the note." (was "... stay in the note"); C4 "goes to" for "attends".
 - C4's options in sentence case after the slash: Market / pop-up, Trade fair / exhibition, Workshop / class, Talk / conference.
-- E2's question: "What frustrates {o} about how it is done now?" (was "about the way it is done now").
 - E3's "i": its start "where the Segment's household income is rated 1".
 - Every rated question's "i" now starts with what 1 and 5 mean ("1 = Optional, 5 = Essential."), the numbers standing over the rounds (doc 21, Rating Scale).
 
@@ -450,7 +449,7 @@ The owner asked (2026-11-03) whether the three Needs lists could be choices inst
 - People (B2C): Calm and worry-free; Rewarded / treated; Relaxed / looked after; Entertained; Attractive; Healthy and well; Delighted by how it looks; Reminded of good times; Motivated; Hopeful; Fulfilled, as they grow.
 - Business (B2B): Sure they made the right choice; Glad to work with you; Growing in their work; Hopeful about their business; Inspired about what comes next.
 
-**Social: "How do they want others to see them?"** Ticks, up to 3.
+**Social: "How do they want to be seen?"** Ticks, up to 3.
 - People (B2C): As having good taste / style; As part of a group they value; As one of the few with access; As caring for others or the planet; As leaving something for their family.
 - Business (B2B): As someone others trust; As well connected; As more valued in their field; As a responsible business.
 
@@ -491,7 +490,7 @@ D2 ("How much help does this person want before buying?") stays one choice: its 
 **The rule.** With a rating, no limit is needed to rank: the rating does the ranking. A cap still keeps a Profile focused and readable, and a long list of ticks says less, not more. The scenarios need three to five for what matters (B1) and never more than three for goals, frustrations and worries, whose first items are what the Value Proposition and the Offering read. So: **B1 up to 5; E1, E2 and E3 up to 3**, the same in B2B and B2C (a corporate group's narrower Profiles simply tick fewer). **Decided (owner, 2026-11-04): "The limits are fine."** Five stays within the span a person can hold and compare at once, "somewhere in the neighborhood of seven" (Miller, 1956) [FUN-66]; a more involved buyer searches more (Zaichkowsky, 1985) [FUN-67], which is why a considered purchase needs more than the everyday three.
 
 **What the ratings feed.** Built: B1's ratings weigh the Competitor's K10 (doc 41). Not built yet:
-- B1 → the Competitor's K8: its rows ordered by the Profiles' highest rating (as built, the ticked values come first, in L1's order); in K10 the weight of each value is that rating (built).
+- B1 → the Competitor's K8: built (its rows ordered by the Profiles' highest rating, banded by how many tick each); in K10 the weight of each value is that rating (built).
 - B1 → the Value Proposition draft (doc 42): the value rated highest comes first.
 - E1 → the Value Proposition draft's gains, the goal rated highest first.
 - E2 → the Value Proposition draft's pains, the frustration rated highest first; the Review.

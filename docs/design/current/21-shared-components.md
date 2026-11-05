@@ -101,7 +101,7 @@ A rating beats ticks where a thing has degrees and the middle counts (a value do
 
 **Where it fits:**
 
-| Place | What is rated (rows) | End words | Why a rating |
+| Place | What is rated (rows) | What 1 and 5 mean | Why a rating |
 |---|---|---|---|
 | Competitor, K8 (doc 41) | every value of L1, the Profiles' highest rated first, banded by how many Profiles chose it | Weak to Strong | One scale gives strengths and weaknesses at once, and a 3 still counts (owner, 2026-11-04) |
 | Competitor, K9 (doc 41) | each of the Segment's changes, those the Segment ticks first | Threat to Opportunity | One scale gives opportunities and threats at once |

@@ -287,7 +287,7 @@ The ids of the earlier design are kept here because other documents cite them. W
 | P1 | How old is this person? | doc 36, A1 |
 | P5 | What is this person's gender? | A2 |
 | P6 | What is this person's job role? | A3 |
-| P9 | What matters most to this person? (up to 3, list L1) | B1 |
+| P9 | What matters most to this person? (up to 5, list L1, each rated) | B1 |
 | P11 | Where do they look when they need something like this? (list L6; proposes the **Discover** channels, 7.4) | split into C2 (social media), C3 (communities) and C4 (events) |
 | P12 | How does this person compare options? (proposes **Evaluate** channels, 7.4) | D1 |
 | P13 | How do they usually buy? (proposes **Purchase** channels; reveals the "Contracts or tenders" demand row) | not asked: the Segment asks where they buy (doc 35) |
