@@ -379,11 +379,11 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     {
         id: "path", box: "purchasing", label: "How do your customers usually decide to buy?", many: false,
         options: [
-            { id: "impulse", label: "On impulse: They see it, like it and buy it at once" },
-            { id: "researcher", label: "After research: They compare at length before buying" },
-            { id: "validator", label: "After asking others: They ask a friend or check reviews first" }
+            { id: "impulse", label: "On impulse: They see it, like it and buy it there and then" },
+            { id: "researcher", label: "After comparing options: They weigh prices, features and reviews first" },
+            { id: "validator", label: "On a recommendation: They buy what friends, family or colleagues suggest" }
         ],
-        info: ["Their usual way of buying, the one that fits most of them."]
+        info: ["Their usual way of buying, the one that fits most of them. Reviews read online count as comparing; advice from people they know is a recommendation."]
     },
     {
         id: "setting", box: "purchasing", label: "Where do your customers usually shop?", many: false,
@@ -432,7 +432,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         options: ratingOptions({ low: "Shrinking", high: "Booming" }),
         info: [
             "Where the market is heading, apart from its size: a market can be large and declining, or small and expanding fast.",
-            "1, Shrinking: falling demand, or severe structural change. 3: flat, a saturated market. 5, Booming: an emerging market, fast year-on-year growth."
+            "1: falling demand, or deep structural change. 3: flat, a saturated market. 5: an emerging market, growing fast every year."
         ]
     },
     {
@@ -443,7 +443,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "mid", label: "Mid-market, 50,000–499,999" },
             { id: "mass", label: "Mass market, 500,000 or more" }
         ],
-        info: ["The total number of potential buyers if you had 100% of the market, in the area you serve: the total addressable market (TAM)."]
+        info: ["Everyone in the area you serve who could buy it, if every one of them chose you (the total addressable market).", "For a Segment of businesses, count the organisations, not the people in them."]
     },
     {
         id: "trends", box: "market-size", label: "What is changing most for your customers?", many: true, max: 2,
@@ -454,7 +454,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "society", label: "Society and lifestyle: Remote work, sustainability, changing habits" },
             { id: "supply", label: "Supply and delivery: Material shortages, logistics costs, local sourcing" }
         ],
-        info: ["Choose up to two."]
+        info: ["The changes that affect your customers most. Choose up to two.", "Each Competitor is rated on how every one of these could affect it, the ones ticked here first."]
     },
     {
         id: "competition", box: "market-size", label: "How crowded is your market?", many: false,
@@ -462,7 +462,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         options: ratingOptions({ low: "Open", high: "Crowded" }),
         info: [
             "Red Ocean and Blue Ocean are the strategy terms of Kim and Mauborgne: a crowded market against an uncontested one.",
-            "1, Open: very few direct competitors; the niche is new. 3: many small players, none in control. 5, Crowded: big established players and price wars."
+            "1: very few direct competitors; the niche is new. 3: many small players, none in control. 5: big established players and price wars."
         ]
     },
 

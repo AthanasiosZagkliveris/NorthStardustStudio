@@ -16,7 +16,7 @@ import { ratingScaleMeaning } from "../../../controls/RatingScaleEnds.tsx";
 import RatingScaleGroup from "../../../controls/RatingScaleGroup.tsx";
 import TextLink from "../../fields/TextLink.tsx";
 import TextBox from "../../../controls/TextBox.tsx";
-import { type OtherQuestion, competitorOtherAdd, competitorOtherName, competitorOtherRemove, competitorOtherSettle, competitorOtherTick, competitorOthers, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, COMPETITOR_SUBCHANNELS, COMPETITOR_BAND_LINE, bandTone, COMPETITOR_CHANGES, valueProfiles, draftToAdd, hardToBeat, insightsDraft, reviewPlatformOrder } from "../../../../framework/engine/CompetitorQuestions.ts";
+import { type OtherQuestion, competitorOtherAdd, competitorOtherName, competitorOtherRemove, competitorOtherSettle, competitorOtherTick, competitorOthers, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, shownOpenings, COMPETITOR_SUBCHANNELS, COMPETITOR_BAND_LINE, bandTone, COMPETITOR_CHANGES, valueProfiles, draftToAdd, hardToBeat, insightsDraft, reviewPlatformOrder } from "../../../../framework/engine/CompetitorQuestions.ts";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import { type ProfileBox, type ProfileQuestion, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileRate, profileRatings, profileWho, profileQuestionsOf, profileSettle, profileShown, proposedBusinessProfiles } from "../../../../framework/engine/ProfileQuestions.ts";
@@ -576,9 +576,30 @@ export function useFoundationSubsections(earlier: Earlier) {
                                         const choices = profileQuestionsOf("needs", segment.questions, asked).find(question => question.id.split("-")[0] === kind.id);
                                         const shown = profileShown(profile.questions ?? {}, segment.questions, asked);
                                         return (
+                                        // Emotional and Social: the ticks in their band, then the shared Notes in a band of its own, as every box's Notes
+                                        // (owner, 2026-11-05), one line a need, kept as the list the Value Proposition reads. Functional stays the numbered list
+                                        // the Offerings pick from.
+                                        choices ? (
+                                            <Fragment key={kind.id}>
+                                                {/* The tints run on across every band (Functional, then each kind's ticks and its Notes): the ticks tinted, the Notes not. */}
+                                                <div className="legal-entity-org-section legal-entity-org-band">
+                                                    {profileQuestionOf(profile, profileIndex, shown, choices)}
+                                                </div>
+                                                <div className="legal-entity-org-section business-note-band">
+                                                    <OptionalNote
+                                                        label="Notes"
+                                                        fieldId={kind.title + " notes"}
+                                                        ariaLabel={kind.title + " needs notes for " + segmentPath + ", Profile " + (profileIndex + 1)}
+                                                        placeholder={NOTE_PLACEHOLDERS.needs ?? "Add a note"}
+                                                        disabled={disabled}
+                                                        value={profile.needs[kind.id as BusinessNeedKind].join("\n").replace(/^\n+|\n+$/g, "")}
+                                                        onChange={(next) => updateProfile(segmentIndex, profileIndex, { needs: { ...profile.needs, [kind.id]: next.split("\n") } })}
+                                                    />
+                                                </div>
+                                            </Fragment>
+                                        ) : (
                                         <div className={"legal-entity-org-section" + (at % 2 === 1 ? " legal-entity-org-band" : "")} key={kind.id}>
-                                            {choices && profileQuestionOf(profile, profileIndex, shown, choices)}
-                                            <FieldRow pair fullList label={choices ? kind.title + " notes" : kind.title} info={choices ? [PROFILE_NOTE_HINTS.needs] : [kind.text]}>
+                                            <FieldRow pair fullList label={kind.title} info={[kind.text]}>
                                                 <NumberedListInput
                                                     label={kind.title + " needs for " + segmentPath + ", Profile " + (profileIndex + 1)}
                                                     items={profile.needs[kind.id as BusinessNeedKind]}
@@ -590,6 +611,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                                                 />
                                             </FieldRow>
                                         </div>
+                                        )
                                         );
                                     })}
                                 </div>
@@ -832,7 +854,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                         k9: () => rated("k9", changeRows),
                         k10: () => (
                             <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={words("k10")}>
-                                <BusinessTicks name={words("k10")} disabled={disabled} options={openings} chosen={openingTicks} max={3} onChange={(next) => write({ ...answers, k10: next })} />
+                                <BusinessTicks name={words("k10")} disabled={disabled} options={shownOpenings(openings, openingTicks)} chosen={openingTicks} max={3} onChange={(next) => write({ ...answers, k10: next })} />
                             </div>
                         )
                     };
@@ -937,7 +959,6 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 label="Notes"
                                 fieldId="strengths and weaknesses notes"
                                 ariaLabel={whose + " strengths and weaknesses notes"}
-                                info={SUBSECTIONS.competitors.strengths}
                                 placeholder={NOTE_PLACEHOLDERS.strengths ?? "Add a note"}
                                 disabled={disabled}
                                 value={competitor.strengths}
@@ -951,7 +972,6 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 label="Notes"
                                 fieldId="opportunities and threats notes"
                                 ariaLabel={whose + " opportunities and threats notes"}
-                                info={SUBSECTIONS.competitors.opportunities}
                                 placeholder={NOTE_PLACEHOLDERS.opportunities ?? "Add a note"}
                                 disabled={disabled}
                                 value={competitor.opportunities}

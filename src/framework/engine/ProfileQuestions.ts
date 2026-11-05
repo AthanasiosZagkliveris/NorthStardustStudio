@@ -64,7 +64,7 @@ const EMOTIONAL_PEOPLE = ["Calm and worry-free", "Rewarded / treated", "Relaxed 
 const EMOTIONAL_BUSINESS = ["Sure they made the right choice", "Glad to work with you", "Growing in their work", "Hopeful about their business", "Inspired about what comes next"];
 const SOCIAL_PEOPLE = ["As having good taste / style", "As part of a group they value", "As one of the few with access", "As caring for others or the planet", "As leaving something for their family"];
 const SOCIAL_BUSINESS = ["As someone others trust", "As well connected", "As more valued in their field", "As a responsible business"];
-const NEEDS_INFO = (what: string) => ["Choose up to three, then rate each: the " + what + " that make them buy, not every one they have.", "Write the details in the list below. Based on: Bain's Elements of Value (HBR, 2016 and 2018)."];
+const NEEDS_INFO = (what: string, example: string) => ["The " + what + " that make them buy, not every one they have. Choose up to three, then rate each.", example, "Based on: Bain's Elements of Value (HBR, 2016 and 2018)."];
 
 const slug = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 /** What an option says (owner, 2026-11-03): similar things are joined with a slash ("Laptop / desktop"), different things with the word "or" ("Win customers or earn more"). The words shown are the ones written, or their entry in WORDS; the id stays the slug of the words it was first written with. */
@@ -106,7 +106,7 @@ const QUESTIONS: readonly ProfileQuestion[] = [
     },
     {
         id: "b1", box: "psychographics", label: "What matters most to {o}?", many: true, max: 5, options: list(CARES), rating: { low: "Optional", high: "Essential" },
-        info: ["Tick up to five things they weigh when choosing, then rate how much each matters.", "Write their interests, lifestyle and hopes in the note."]
+        info: ["What they weigh when choosing between offers. Tick up to five, then rate how much each matters.", "For example, a busy parent may weigh Speed and Ease and convenience; a collector, Quality and results.", "Write their interests, lifestyle and hopes in the note."]
     },
     {
         id: "c1", box: "hubs", label: "Which devices does {s} use?", many: true,
@@ -139,14 +139,14 @@ const QUESTIONS: readonly ProfileQuestion[] = [
         options: [{ id: "alone", label: "Works it out alone" }, { id: "little", label: "Likes a little guidance" }, { id: "person", label: "Wants to talk to a person" }, { id: "formal", label: "Needs a formal demonstration or proposal" }],
         info: ["The help a typical person wants before buying; it can differ from how comfortable the Segment is online."]
     },
-    { id: "e1", box: "goals", label: "What are {p} main goals?", many: true, max: 3, options: list(GOALS), rating: { low: "Minor", high: "Main" }, info: ["Choose up to three, then rate each.", "What they want to achieve. What matters to them when choosing is asked under Psychographics. Based on: gains (Value Proposition Canvas)."] },
-    { id: "e2", box: "challenges", label: "What frustrates {o} about how it is done now?", many: true, max: 3, options: list(FRUSTRATIONS), rating: { low: "Mild", high: "Severe" }, info: ["Choose up to three, then rate each.", "What goes wrong for them today, before they buy from you. Based on: pains (Value Proposition Canvas)."] },
+    { id: "e1", box: "goals", label: "What does {s} want to achieve?", many: true, max: 3, options: list(GOALS), rating: { low: "Minor", high: "Main" }, info: ["The results they are after, not what they weigh when choosing (that is \"What matters most\"). Choose up to three, then rate each.", "For example, to learn a new craft, or to win more clients.", "Based on: gains (Value Proposition Canvas)."] },
+    { id: "e2", box: "challenges", label: "What frustrates {o} today?", many: true, max: 3, options: list(FRUSTRATIONS), rating: { low: "Mild", high: "Severe" }, info: ["What goes wrong with the way they do it now, before they buy from you. Choose up to three, then rate how much each bothers them.", "For example, the cheap version breaks too soon, or nobody explains how to start.", "Based on: pains (Value Proposition Canvas)."] },
     // The Needs (doc 36, section 10): Emotional and Social ticked and rated, by the Segment's kind; Functional stays the numbered list. Each kind's list stays as its note.
-    { id: "emotional", box: "needs", label: "How does {s} want to feel?", many: true, max: 3, options: list(EMOTIONAL_PEOPLE), rating: { low: "Mild", high: "Strong" }, info: NEEDS_INFO("feelings") },
-    { id: "emotional-b2b", box: "needs", label: "How does {s} want to feel?", many: true, max: 3, options: list(EMOTIONAL_BUSINESS), rating: { low: "Mild", high: "Strong" }, info: NEEDS_INFO("feelings") },
-    { id: "social", box: "needs", label: "How does {s} want others to see {o}?", many: true, max: 3, options: list(SOCIAL_PEOPLE), rating: { low: "Mild", high: "Strong" }, info: NEEDS_INFO("ways of being seen") },
-    { id: "social-b2b", box: "needs", label: "How does {s} want others to see {o}?", many: true, max: 3, options: list(SOCIAL_BUSINESS), rating: { low: "Mild", high: "Strong" }, info: NEEDS_INFO("ways of being seen") },
-    { id: "e3", box: "objections", label: "What might stop {o} buying from you?", many: true, max: 3, options: list(WORRIES), rating: { low: "Minor", high: "Blocking" }, info: ["Choose up to three, then rate each.", "Their doubts about buying from you; what frustrates them today is asked above.", "Starts with the price where the Segment's household income is rated 1; change it freely."] }
+    { id: "emotional", box: "needs", label: "How does {s} want to feel?", many: true, max: 3, options: list(EMOTIONAL_PEOPLE), rating: { low: "Mild", high: "Strong" }, info: NEEDS_INFO("feelings", "For example, calm and worry-free when a delivery arrives on time, or delighted by how a room looks.") },
+    { id: "emotional-b2b", box: "needs", label: "How does {s} want to feel?", many: true, max: 3, options: list(EMOTIONAL_BUSINESS), rating: { low: "Mild", high: "Strong" }, info: NEEDS_INFO("feelings", "For example, sure they chose the right supplier, or glad to work with you again.") },
+    { id: "social", box: "needs", label: "How does {s} want to be seen?", many: true, max: 3, options: list(SOCIAL_PEOPLE), rating: { low: "Mild", high: "Strong" }, info: NEEDS_INFO("ways of being seen by others", "For example, as having good taste when friends visit, or as caring for the planet.") },
+    { id: "social-b2b", box: "needs", label: "How does {s} want to be seen?", many: true, max: 3, options: list(SOCIAL_BUSINESS), rating: { low: "Mild", high: "Strong" }, info: NEEDS_INFO("ways of being seen by others", "For example, as someone colleagues trust, or as a responsible business.") },
+    { id: "e3", box: "objections", label: "What might hold {o} back?", many: true, max: 3, options: list(WORRIES), rating: { low: "Minor", high: "Blocking" }, info: ["Their doubts about buying from you, not what frustrates them today (the question above). Choose up to three, then rate each.", "For example, whether a beginner can keep up, or whether you will still be there after the sale.", "Starts with the price where the Segment's household income is rated 1; change it freely."] }
 ];
 
 export const PROFILE_QUESTIONS = QUESTIONS;
@@ -172,7 +172,7 @@ export const PROFILE_NOTE_HINTS: Record<ProfileBox, string> = {
     goals: "The note is for what the list above does not say: the details that are theirs.",
     challenges: "The note is for what the list above does not say: the details that are theirs.",
     objections: "The note is for what the list above does not say: the details that are theirs.",
-    needs: "Each need is one numbered line, in your words. The Offerings choose from these lines."
+    needs: "What no tick above says, in your words, one line each. The Value Proposition lists these lines."
 };
 
 /** The ages each of the Segment's age terms holds (first number up to, not including, the second). */

@@ -651,6 +651,11 @@ function listedValues(answers: CompetitorAnswers, context?: Pick<OpeningContext,
     return Object.fromEntries(Object.entries(competitorRatings(answers, "k8")).filter(([value]) => shown.some(option => option.id === value))) as Partial<Record<string, Point>>;
 }
 
+/** K10's options shown (owner, 2026-11-05: thirteen options under "3 max" were too many): the first six, in their order (the values by their score first), and any already ticked. */
+export function shownOpenings(openings: readonly Opening[], ticked: readonly string[], most = 6): Opening[] {
+    return openings.filter((opening, at) => at < most || ticked.includes(opening.id));
+}
+
 /** The draft's lines not already in the text (compared trimmed, any spacing): "Add to text" adds only these, and is not offered when none is left. */
 export function draftToAdd(text: string, draft: string): string {
     const said = text.replace(/\s+/g, " ").trim();

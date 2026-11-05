@@ -17,6 +17,7 @@ import {
     competitorSettle,
     competitorWording,
     hardToBeat,
+    shownOpenings,
     bandTone,
     valueProfiles,
     competitorValueRows,
@@ -195,6 +196,12 @@ describe("Customer Acquisition and Other (owner, 2026-11-04)", () => {
         const one = competitorRate(competitorOtherName(competitorOtherTick({}, "k6", true), "k6", 0, "Forum"), "k6", "other-0", 2);
         const two = competitorRate(competitorOtherAdd(one, "k6"), "k6", "other-1", 4);
         expect(competitorRatings(competitorOtherRemove(two, "k6", 0), "k6")).toEqual({ "other-0": 4 });
+    });
+
+    it("shows the first six openings, and any already ticked", () => {
+        const many = Array.from({ length: 9 }, (_entry, at) => ({ id: "o" + at, label: "Opening " + at }));
+        expect(shownOpenings(many, []).map(opening => opening.id)).toEqual(["o0", "o1", "o2", "o3", "o4", "o5"]);
+        expect(shownOpenings(many, ["o8"]).map(opening => opening.id)).toEqual(["o0", "o1", "o2", "o3", "o4", "o5", "o8"]);
     });
 
     it("reads the four SWOT boxes as two notes, the second box joined in as its own line", () => {

@@ -130,8 +130,8 @@ export default function Review() {
 
 /**
  * One Organization's Review: its four groups, each by Capability.
- * The open Organization's starts open; the others start folded, with
- * how much each has to look at.
+ * Every Organization is shown open, with how much it has to look at (owner,
+ * 2026-11-05: the Review needs no fold arrow).
  */
 function OrganizationReview({ name, items, current, onGo }: {
     name: string;
@@ -140,7 +140,9 @@ function OrganizationReview({ name, items, current, onGo }: {
     onGo: (place: ReviewPlace) => void;
 }) {
 
-    const [open, setOpen] = useState(current);
+    // (Always open: `current` no longer decides a fold.)
+    void current;
+    const open = true;
     const byGroup = (group: ReviewGroup): ReviewItem[] => items.filter(item => item.group === group);
     // (The key dates are milestones, not things to do: they are not in the count of what is left to look at.)
     const toLookAt = items.filter(item => item.group !== "key-dates");
@@ -155,7 +157,8 @@ function OrganizationReview({ name, items, current, onGo }: {
                     label={name}
                     name={name}
                     count={toLookAt.length === 0 ? "Nothing open" : String(toLookAt.length)}
-                    onToggle={() => setOpen(value => !value)}
+                    onToggle={() => undefined}
+                    folds={false}
                 />
             </h2>
 
