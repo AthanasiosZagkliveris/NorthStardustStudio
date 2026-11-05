@@ -416,9 +416,10 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
 - **Control:** one choice (a radio).
 - **Asked when:** The buyer is people.
 - **Options:**
-  - On impulse: They see it, like it and buy it at once
-  - After research: They compare at length before buying
-  - After asking others: They ask a friend or check reviews first
+  - On impulse: They see it, like it and buy it there and then
+  - After comparing options: They weigh prices, features and reviews first
+  - On a recommendation: They buy what friends, family or colleagues suggest
+  - (Reworded 2026-11-05, owner: "improve the wording of the options". The ids are unchanged. Reading reviews was in two options before; it is comparing now, and advice from people they know is a recommendation, as the Profile's D1 starts already read them.)
 - **The "i" says:**
   - Their usual way of buying, the one that fits most of them.
 - **Connections:**
@@ -493,7 +494,7 @@ Both.
 - **Options:** the points 1 to 5.
 - **The "i" says:**
   - Where the market is heading, apart from its size: a market can be large and declining, or small and expanding fast.
-  - 1, Shrinking: falling demand, or severe structural change. 3: flat, a saturated market. 5, Booming: an emerging market, fast year-on-year growth.
+  - 1: falling demand, or deep structural change. 3: flat, a saturated market. 5: an emerging market, growing fast every year.
 - **What it is for.** A growing market leaves room for a new business without taking customers from anyone; a shrinking one means winning them from the competitors already there. **As built, it is read only by the Market document and the export** (the Business Plan's Market Analysis). **Proposed (2026-11-04), not built:** the Competitor's K10 (doc 41) offers "Win new customers the market brings" when this is rated 4 or 5, and "Win customers from [competitor]" for a rival rated Strong on few values when it is rated 1 or 2; Strategy's Situation analysis reads it beside the crowding (Box 5, question 4).
 - **Connections:**
   - *Comes from:* Nothing.
@@ -510,7 +511,8 @@ Both.
   - Mid-market, 50,000–499,999
   - Mass market, 500,000 or more
 - **The "i" says:**
-  - The total number of potential buyers if you had 100% of the market, in the area you serve: the total addressable market (TAM).
+  - Everyone in the area you serve who could buy it, if every one of them chose you (the total addressable market).
+  - For a Segment of businesses, count the organisations, not the people in them.
 - **Connections:**
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export; the Business Plan's Market Analysis is covered once a market question is answered.
@@ -527,7 +529,8 @@ Both.
   - Society and lifestyle
   - Supply and delivery
 - **The "i" says:**
-  - Choose up to two.
+  - The changes that affect your customers most. Choose up to two.
+  - Each Competitor is rated on how every one of these could affect it, the ones ticked here first.
   - Technology: Automation, AI, old systems being replaced
   - Rules and law: New compliance, tax changes, environmental mandates
   - The economy: Inflation, budget cuts, shifts in spending power
@@ -546,7 +549,7 @@ Both.
 - **Options:** the points 1 to 5.
 - **The "i" says:**
   - Red Ocean and Blue Ocean are the strategy terms of Kim and Mauborgne: a crowded market against an uncontested one.
-  - 1, Open: very few direct competitors; the niche is new. 3: many small players, none in control. 5, Crowded: big established players and price wars.
+  - 1: very few direct competitors; the niche is new. 3: many small players, none in control. 5: big established players and price wars.
 - **Connections:**
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export; the Business Plan's Market Analysis is covered once a market question is answered.

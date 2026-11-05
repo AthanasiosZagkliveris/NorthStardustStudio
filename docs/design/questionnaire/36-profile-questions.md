@@ -340,7 +340,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 ## 7. Box E. Motivations
 
-### E1. What are this person's main goals?
+### E1. What does this person want to achieve?
 
 - **Control:** ticks, up to 3, then a rating of each ticked goal from "Minor" to "Main" (section 11, built 2026-11-04).
 - **Options:** the list L4 (doc 34, 5.2), without the four goals that repeat B1 (Save time, Save money, Lower risk, Get better results: B1's Speed, Lower price, Safety and low risk, Quality and results; owner, 2026-11-03):
@@ -353,7 +353,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 - **The "i" says:** Choose up to three. What they want to achieve. What matters to them when choosing is asked under Psychographics. Based on: gains (Value Proposition Canvas) [FUN-46].
 - **Asked when:** always. *Read by (not built yet):* the Value Proposition draft (the gains). *Comes from:* nothing.
 
-### E2. What frustrates this person about how it is done now?
+### E2. What frustrates this person today?
 
 - **Control:** ticks, up to 3, then a rating of each ticked frustration from "Mild" to "Severe" (section 11, built 2026-11-04).
 - **Options:** the list L3 (doc 34, 5.2), ten frustrations:
@@ -370,7 +370,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 - **The "i" says:** Choose up to three. What goes wrong for them today, before they buy from you. Based on: pains (Value Proposition Canvas) [FUN-46].
 - **Asked when:** always. *Read by (not built yet):* the Value Proposition draft (the pains); the Review. *Comes from:* nothing.
 
-### E3. What might stop this person buying from you?
+### E3. What might hold this person back?
 
 - **Control:** ticks, up to 3, then a rating of each ticked worry from "Minor" to "Blocking" (section 11, built 2026-11-04).
 - **Options:** the list L2 (doc 34, 5.2), eight worries:
@@ -385,6 +385,12 @@ What the Segment cannot say: which devices, which social media, which communitie
 - **The "i" says:** Choose up to three. Their doubts about buying from you; what frustrates them today is asked above (E2). Starts with the price where the Segment's household income is rated 1; change it freely.
 - **Asked when:** always. *Read by (not built yet):* the Offering ticks the worries it answers (O8); the Evaluation actions suggested on page 2. *Comes from:* the Segment's household income (the starting value).
 
+
+**Wording made simpler (owner, 2026-11-05: "Improve the wording to something more simple and concise. Add extra explanations, information and details in their i").** Built in `ProfileQuestions.ts`, the ids unchanged:
+- E1 "What does she want to achieve?" (was "What are her main goals?"); E2 "What frustrates her today?" (was "... about how it is done now?"); E3 "What might hold her back?" (was "What might stop her buying from you?"); the Social needs "How does she want to be seen?" (was "How does she want others to see her?").
+- Kept: B1 "What matters most to her?" (five words, and the name the Competitor card's values and K10 refer to) and "How does she want to feel?" (already short).
+- Each "i" now says what belongs there, how it differs from its neighbour (E1 from B1, E3 from E2), and one example, each point within 160 characters (doc 39).
+- The Emotional and Social needs' notes are the shared Notes (`OptionalNote`, titled "Notes") under their ticks, one line a need, kept as the list the Value Proposition reads; what a tick already says is not repeated there (the examples trimmed). Functional stays the numbered list the Offerings pick from.
 
 **Wording reviewed (owner, 2026-11-04: "Improve the wording on the profile card"; doc 28, section 4; doc 39).** Built in `ProfileQuestions.ts`, the ids unchanged:
 - A2's "i": "Asked only when the Segment's gender mix is not 3 (balanced); it starts from the mix. Change it freely." (was two points, the second "Nothing reads it but the note", an internal fact).

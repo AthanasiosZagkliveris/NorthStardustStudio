@@ -74,7 +74,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Glossary | Header › Glossary (`/glossary`): the app's terms and yours, in two colours, with a funnel; the second tab is References, with a funnel by letter range (A–I, K–Z) | Doc 1, C.2; doc 2, 2.1 |
+| Glossary | Header › Glossary (`/glossary`): the app's terms and yours, in two colours, with a funnel of the two kinds and a funnel by letter range (about twenty terms a range, 2026-11-05); the second tab is References, with a funnel by letter range (A–I, K–Z) | Doc 1, C.2; doc 2, 2.1 |
 | Global Settings | Header › Settings (`/settings`) | Doc 28, 8.2a; doc 1, Part D 6; `contents.md` |
 
 ## H
