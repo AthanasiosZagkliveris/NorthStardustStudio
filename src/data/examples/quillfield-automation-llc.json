@@ -479,7 +479,7 @@
                         "as-someone-others-trust:4"
                       ]
                     },
-                    "goals": "Get hours back each week for the team; make intake, reminders and reporting run on their own; look good to the partners by fixing problems that have lingered for years.",
+                    "goals": "Make intake, reminders and reporting run on their own.",
                     "challenges": "Copying data between the practice-management system, email and spreadsheets; chasing clients for documents; no budget for a full-time developer; past tools abandoned after setup.",
                     "objections": "Unsure the savings justify the cost.",
                     "needs": {
@@ -619,10 +619,10 @@
                       "acquisition": "",
                       "experience": "Suited to simple tasks."
                     },
-                    "strengths": "Large pool of talent; quick to start.",
-                    "weaknesses": "Little understanding of professional-services workflows or confidentiality; documentation is rare.",
-                    "opportunities": "Rising demand for AI automation is pulling more freelancers into the market.",
-                    "threats": "Marketplace fees and price competition; clients burned by poor builds become wary of all outside help.",
+                    "strengths": "Strengths: Large pool of talent; quick to start.\nWeaknesses: Little understanding of professional-services workflows or confidentiality; documentation is rare.",
+                    "weaknesses": "",
+                    "opportunities": "Opportunities: Rising demand for AI automation is pulling more freelancers into the market.\nThreats: Marketplace fees and price competition; clients burned by poor builds become wary of all outside help.",
+                    "threats": "",
                     "insights": "Compete on industry focus, a documented audit, privacy review and a care retainer that keeps automations working, not on hourly rate.",
                     "questions": {
                       "k1": [
@@ -689,10 +689,10 @@
                       "acquisition": "",
                       "experience": "Polished and thorough."
                     },
-                    "strengths": "",
-                    "weaknesses": "Minimum engagements; not interested in 10-person clients.",
-                    "opportunities": "Could launch packaged small-business offers.",
-                    "threats": "Their thought leadership raises expectations of what AI can do.",
+                    "strengths": "Weaknesses: Minimum engagements; not interested in 10-person clients.",
+                    "weaknesses": "",
+                    "opportunities": "Opportunities: Could launch packaged small-business offers.\nThreats: Their thought leadership raises expectations of what AI can do.",
+                    "threats": "",
                     "insights": "Borrow their rigor (audit, roadmap, governance) and package it at a small-firm price with a single accountable person.",
                     "questions": {
                       "k1": [
@@ -757,10 +757,10 @@
                       "acquisition": "Free trials, in-app prompts and vendor marketing.",
                       "experience": "Easy to start, but setups stay half-finished and break when nobody owns them."
                     },
-                    "strengths": "Already paid for; no outside party involved.",
-                    "weaknesses": "Needs time and skills the firm does not have.",
-                    "opportunities": "Vendors keep adding AI features, making DIY more tempting.",
-                    "threats": "Could shrink the market for simple builds.",
+                    "strengths": "Strengths: Already paid for; no outside party involved.\nWeaknesses: Needs time and skills the firm does not have.",
+                    "weaknesses": "",
+                    "opportunities": "Opportunities: Vendors keep adding AI features, making DIY more tempting.\nThreats: Could shrink the market for simple builds.",
+                    "threats": "",
                     "insights": "Position Quillfield as the partner that makes these tools work together, and offer to maintain what the firm has already started.",
                     "questions": {
                       "k1": [
@@ -814,10 +814,10 @@
                       "acquisition": "No acquisition: it is the default.",
                       "experience": "Familiar, but error-prone and costly as the firm grows."
                     },
-                    "strengths": "No change needed; a new hire can also do other tasks.",
-                    "weaknesses": "An administrator in New York costs $50,000 to $60,000 a year before benefits; manual work does not scale.",
-                    "opportunities": "A tight hiring market makes the manual route harder.",
-                    "threats": "Inertia: the pain is spread thinly, so it never feels urgent.",
+                    "strengths": "Strengths: No change needed; a new hire can also do other tasks.\nWeaknesses: An administrator in New York costs $50,000 to $60,000 a year before benefits; manual work does not scale.",
+                    "weaknesses": "",
+                    "opportunities": "Opportunities: A tight hiring market makes the manual route harder.\nThreats: Inertia: the pain is spread thinly, so it never feels urgent.",
+                    "threats": "",
                     "insights": "Show the cost of the status quo in hours and dollars during the audit, and compare the Build and Retainer to the cost of a hire.",
                     "questions": {
                       "k8-rating": [

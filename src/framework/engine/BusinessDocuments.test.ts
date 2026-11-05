@@ -504,7 +504,7 @@ describe("Quillfield: the documents tie together", () => {
         expect(planMd).toContain("#### Principles");
         expect(planMd).toContain("#### Customer Profiles");
         expect(planMd).toContain("#### Competitors");
-        expect(planMd).toContain("| Competitor | Type | Strengths | Weaknesses | Insights |");
+        expect(planMd).toContain("| Competitor | Type | Strengths and weaknesses | Insights |");
         // Funds run out before break even: no buffer, said so.
         expect(planMd).toContain("Sustainability buffer: None");
         expect(planMd).toContain("$1,200 / client a month");

@@ -197,6 +197,16 @@ describe("Customer Acquisition and Other (owner, 2026-11-04)", () => {
         expect(competitorRatings(competitorOtherRemove(two, "k6", 0), "k6")).toEqual({ "other-0": 4 });
     });
 
+    it("reads the four SWOT boxes as two notes, the second box joined in as its own line", () => {
+        const both = asBusinessCompetitor({ strengths: "Big budgets.", weaknesses: "Slow.", opportunities: "", threats: "New rivals." });
+        expect([both.strengths, both.weaknesses]).toEqual(["Strengths: Big budgets.\nWeaknesses: Slow.", ""]);
+        expect([both.opportunities, both.threats]).toEqual(["Threats: New rivals.", ""]);
+        // One note already: kept as written, read again unchanged.
+        const one = asBusinessCompetitor({ strengths: "Big budgets, but slow.", opportunities: "A new market." });
+        expect([one.strengths, one.opportunities]).toEqual(["Big budgets, but slow.", "A new market."]);
+        expect(asBusinessCompetitor(both).strengths).toBe(both.strengths);
+    });
+
     it("reads answers saved before K6 (attract) went under the new numbers", () => {
         const older = asBusinessCompetitor({ questions: { k5: ["website"], k6: ["trial"], k7: ["google"], "k7-rating": ["google:4"], "k8-rating": ["purchase:2"], "k9-rating": ["speed:2", "other-0:5"], "k9-other": ["Story"], "k10-rating": ["economy:1"], k11: ["better:speed"] } });
         expect(older.questions).toEqual({ k5: ["website"], k6: ["google"], "k6-rating": ["google:4"], "k7-rating": ["purchase:2"], "k8-rating": ["speed:2"], "k9-rating": ["economy:1"], k10: ["better:speed"] });

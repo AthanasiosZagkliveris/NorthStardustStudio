@@ -187,7 +187,7 @@ For Internal solution and Status quo the box stays text only: it asks about the 
 
 ### K8. How do they do on what customers value?
 
-- **Control:** a rating group (`RatingScaleGroup`): one row per value, rated 1 (weak) to 5 (strong); one band across Strengths and Weaknesses, above both text boxes, which stay as the notes. A row left unrated is unanswered (no "Not sure").
+- **Control:** a rating group (`RatingScaleGroup`): one row per value, rated 1 (weak) to 5 (strong); one band across Strengths and Weaknesses, with one Notes under it (owner, 2026-11-05), what no rating says, kept under `strengths`. A row left unrated is unanswered (no "Not sure").
 - **Asked when:** always.
 - **Wording by type:**
   - Direct competitor, Indirect competitor: "How do they do on what customers value?"
@@ -216,7 +216,7 @@ For Internal solution and Status quo the box stays text only: it asks about the 
 
 ### K9. How could each change affect them?
 
-- **Control:** a rating group (`RatingScaleGroup`): one row per change, rated 1 (threat) to 5 (opportunity); one band across Opportunities and Threats, above both text boxes, which stay as the notes. A row left unrated is unanswered.
+- **Control:** a rating group (`RatingScaleGroup`): one row per change, rated 1 (threat) to 5 (opportunity); one band across Opportunities and Threats, with one Notes under it (owner, 2026-11-05), what no change says, kept under `opportunities`. A row left unrated is unanswered.
 - **Asked when:** always.
 - **Wording by type:**
   - Direct competitor, Indirect competitor: "How could each change affect them?"
@@ -314,7 +314,7 @@ Each row keeps the current question and proposes another way to answer it, with 
 - The loyalty question within the journey, under K7's Support & Follow Up (2026-11-04); then its ticks removed: they repeated K5's channels (owner, 2026-11-04).
 - K5 not rated (owner, 2026-11-04: the channels do not need the five rounds): each channel ticked, then its sub-channels, the Profile's own lists, so where the customers are and the competitor is not becomes an opening in K10.
 - K8 shows every value, the Profiles' highest rated first, each chosen value with a band of one colour, darker the more Profiles chose it (owner, 2026-11-04, replacing the same evening's rows of the Profiles' values only, then bold, then a colour per Profile, then a band by rating). K9 has no band: no answer chooses a change directly.
-- The SWOT's four text boxes are the shared Notes (`OptionalNote`), each titled Strengths, Weaknesses, Opportunities or Threats with its "i": ticked to write, saved text starting ticked (owner, 2026-11-04: as on the Profile card).
+- The SWOT has two Notes (`OptionalNote`, titled "Notes", as on the Profile card; owner, 2026-11-05): one under K8 for strengths and weaknesses, one under K9 for opportunities and threats, each with one "i" ("What they do well or fall short on that no rating above says, in your words."; "What could help or hurt them that no change above says, in your words."). Text saved in the four boxes before is read into them: the second box's text joined in as its own line, "Weaknesses: ..." (and "Strengths: ..." before it where there is any), likewise "Threats: ..." (`AnswerBusinessFoundation.ts`, tested). The Market document's table has one column, Strengths and weaknesses; the export's two, Strengths and weaknesses, Opportunities and threats.
 - No attract question (owner, 2026-11-04): it repeated the channels ("Content / social posts" is Social media, "Events / fairs" In person, "Referral rewards" Referrals or affiliates, and paid ads run on those channels). Customer Acquisition asks only K5; answers saved to it are dropped when read.
 - Aftercare / follow-up left the loyalty ticks: it is the Support & Follow Up stage itself (owner, 2026-11-04).
 - "Show all" removed; the platforms end in Other, written and rated; the values are the fixed list L1 with no Other (owner, 2026-11-04).

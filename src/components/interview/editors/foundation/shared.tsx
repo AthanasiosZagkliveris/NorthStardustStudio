@@ -107,10 +107,8 @@ export const SUBSECTIONS = {
             { id: "acquisition", title: "Customer Acquisition", text: "How do they reach and attract customers?" },
             { id: "experience", title: "Customer Experience", text: "What do customers say about their experience?" }
         ],
-        strengths: ["What does the competitor do particularly well?"],
-        weaknesses: ["Where does the competitor fall short?"],
-        opportunities: ["What changes in the market could benefit the competitor?"],
-        threats: ["What could weaken the competitor's position?"],
+        strengths: ["What they do well or fall short on that no rating above says, in your words."],
+        opportunities: ["What could help or hurt them that no change above says, in your words."],
         insights: [
             "What can you learn from competitors to make your offering more distinctive?"
         ]
@@ -162,10 +160,8 @@ export const NOTE_PLACEHOLDERS: Record<string, string> = {
     market: "The industries and places they serve",
     acquisition: "Their account and shop names, their partners",
     experience: "What their customers say, in their words",
-    strengths: "What they do well that no rating above says",
-    weaknesses: "Where they fall short that no rating above says",
-    opportunities: "What could help them that no change above says",
-    threats: "What could hurt them that no change above says"
+    strengths: "Strengths and weaknesses no rating above says",
+    opportunities: "Opportunities and threats no change above says"
 };
 
 export interface DescriptionPart {

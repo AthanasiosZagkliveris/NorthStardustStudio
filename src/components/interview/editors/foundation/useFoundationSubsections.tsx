@@ -932,11 +932,11 @@ export function useFoundationSubsections(earlier: Earlier) {
                             {/* K8, one band over Strengths and Weaknesses; K9, one over Opportunities and Threats (doc 41): the built boxes stay as the notes. */}
                             {band(question("k8"))}
 
-                            {/* The shared Notes (owner, 2026-11-04: as on the Profile card): ticked to write; saved text starts ticked. */}
+                            {/* One Notes under the rating (owner, 2026-11-05): what no rating says, kept under `strengths`. */}
                             <OptionalNote
-                                label="Strengths"
-                                fieldId="Strengths"
-                                ariaLabel={whose + " strengths"}
+                                label="Notes"
+                                fieldId="strengths and weaknesses notes"
+                                ariaLabel={whose + " strengths and weaknesses notes"}
                                 info={SUBSECTIONS.competitors.strengths}
                                 placeholder={NOTE_PLACEHOLDERS.strengths ?? "Add a note"}
                                 disabled={disabled}
@@ -944,42 +944,18 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 onChange={(next) => change({ strengths: next })}
                             />
 
-                            {/* The shared Notes (owner, 2026-11-04: as on the Profile card): ticked to write; saved text starts ticked. */}
-                            <OptionalNote
-                                label="Weaknesses"
-                                fieldId="Weaknesses"
-                                ariaLabel={whose + " weaknesses"}
-                                info={SUBSECTIONS.competitors.weaknesses}
-                                placeholder={NOTE_PLACEHOLDERS.weaknesses ?? "Add a note"}
-                                disabled={disabled}
-                                value={competitor.weaknesses}
-                                onChange={(next) => change({ weaknesses: next })}
-                            />
-
                             {band(question("k9"))}
 
-                            {/* The shared Notes (owner, 2026-11-04: as on the Profile card): ticked to write; saved text starts ticked. */}
+                            {/* One Notes under the rating (owner, 2026-11-05): what no rating says, kept under `opportunities`. */}
                             <OptionalNote
-                                label="Opportunities"
-                                fieldId="Opportunities"
-                                ariaLabel={whose + " opportunities"}
+                                label="Notes"
+                                fieldId="opportunities and threats notes"
+                                ariaLabel={whose + " opportunities and threats notes"}
                                 info={SUBSECTIONS.competitors.opportunities}
                                 placeholder={NOTE_PLACEHOLDERS.opportunities ?? "Add a note"}
                                 disabled={disabled}
                                 value={competitor.opportunities}
                                 onChange={(next) => change({ opportunities: next })}
-                            />
-
-                            {/* The shared Notes (owner, 2026-11-04: as on the Profile card): ticked to write; saved text starts ticked. */}
-                            <OptionalNote
-                                label="Threats"
-                                fieldId="Threats"
-                                ariaLabel={whose + " threats"}
-                                info={SUBSECTIONS.competitors.threats}
-                                placeholder={NOTE_PLACEHOLDERS.threats ?? "Add a note"}
-                                disabled={disabled}
-                                value={competitor.threats}
-                                onChange={(next) => change({ threats: next })}
                             />
 
                             </>, undefined, groupFold(competitor.id, "Competitors SWOT Analysis", whose))}

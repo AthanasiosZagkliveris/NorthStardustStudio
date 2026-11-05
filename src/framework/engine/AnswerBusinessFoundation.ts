@@ -401,15 +401,25 @@ export function asBusinessCompetitor(entry: unknown): BusinessCompetitorValue {
             competitor.description,
             BUSINESS_FIRST_DESCRIPTION_PART.competitor
         ),
-        strengths: asText(competitor.strengths),
-        weaknesses: asText(competitor.weaknesses),
-        opportunities: asText(competitor.opportunities),
-        threats: asText(competitor.threats),
+        // One Notes for strengths and weaknesses, one for opportunities and threats (owner, 2026-11-05): kept under `strengths` and `opportunities`;
+        // text saved in the second box before is joined in as its own line, "Weaknesses: ..." (and "Strengths: ..." before it, where there is any).
+        strengths: joinedNote("Strengths", asText(competitor.strengths), "Weaknesses", asText(competitor.weaknesses)),
+        weaknesses: "",
+        opportunities: joinedNote("Opportunities", asText(competitor.opportunities), "Threats", asText(competitor.threats)),
+        threats: "",
         insights: asText(competitor.insights),
         // (Kept only where something is answered, so a card saved before the questions reads as it did.)
         ...competitorQuestionsOf(competitor.questions)
     };
 
+}
+
+/** Two SWOT boxes as one note: the first as it is while the second is empty; otherwise each, where it has text, on its own line after its name. */
+function joinedNote(firstName: string, first: string, secondName: string, second: string): string {
+    if (!second.trim()) {
+        return first;
+    }
+    return [first.trim() ? firstName + ": " + first.trim() : "", secondName + ": " + second.trim()].filter(Boolean).join("\n");
 }
 
 /** A Competitor's saved questions: lists of words only (doc 41; read by CompetitorQuestions.ts). */
