@@ -17,6 +17,7 @@ import {
     competitorSettle,
     competitorWording,
     hardToBeat,
+    clearOpenings,
     shownOpenings,
     bandTone,
     valueProfiles,
@@ -196,6 +197,21 @@ describe("Customer Acquisition and Other (owner, 2026-11-04)", () => {
         const one = competitorRate(competitorOtherName(competitorOtherTick({}, "k6", true), "k6", 0, "Forum"), "k6", "other-0", 2);
         const two = competitorRate(competitorOtherAdd(one, "k6"), "k6", "other-1", 4);
         expect(competitorRatings(competitorOtherRemove(two, "k6", 0), "k6")).toEqual({ "other-0": 4 });
+    });
+
+    it("finds a value every Competitor is weak on and a Profile rates Essential, and puts its opening first", () => {
+        const profiles = [{ b1: ["speed", "good-support"], "b1-rating": ["speed:5", "good-support:4"] }];
+        const one = { "k8-rating": ["speed:2", "good-support:1", "lower-price:1"] };
+        const two = { "k8-rating": ["speed:1", "good-support:2"] };
+        // Speed: Essential, and both rate it 1 or 2. Support: rated 4, not Essential. Low price: no Profile ticks it.
+        expect(clearOpenings(profiles, [one, two])).toEqual(["speed"]);
+        // One Competitor rated 3: no opening. One not rated: no opening. No Competitor: no opening.
+        expect(clearOpenings(profiles, [one, { "k8-rating": ["speed:3"] }])).toEqual([]);
+        expect(clearOpenings(profiles, [one, {}])).toEqual([]);
+        expect(clearOpenings(profiles, [])).toEqual([]);
+        // Its option comes first, even where another scores higher.
+        const ids = competitorOpenings({ "k8-rating": ["speed:2", "lower-price:1"] }, "direct", { profiles: [{ b1: ["speed", "lower-price"], "b1-rating": ["speed:5", "lower-price:5"] }], others: [{ "k8-rating": ["speed:1", "lower-price:4"] }] }).map(opening => opening.id);
+        expect(ids[0]).toBe("better:speed");
     });
 
     it("shows the first six openings, and any already ticked", () => {

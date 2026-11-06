@@ -537,6 +537,27 @@ export function competitorValueRows(context: Pick<OpeningContext, "profiles">): 
         .map(entry => entry.value);
 }
 
+/**
+ * The values every Competitor of the Segment is weak on and a Profile rates Essential (owner, 2026-11-06): a value a Profile ticks in B1 and rates 5, and that
+ * every Competitor of the Segment (at least one) rates 1 or 2 in K8. A Competitor that has not rated it does not count as weak. Read live, as the ratings change.
+ */
+export function clearOpenings(profiles: readonly CompetitorAnswers[], competitors: readonly CompetitorAnswers[]): string[] {
+    if (competitors.length === 0) {
+        return [];
+    }
+    return COMPETITOR_VALUES.map(value => value.id).filter(value =>
+        profiles.some(profile => (profile.b1 ?? []).includes(value) && (profile["b1-rating"] ?? []).includes(value + ":5"))
+        && competitors.every(competitor => {
+            const point = competitorRatings(competitor, "k8")[value];
+            return point !== undefined && point <= 2;
+        }));
+}
+
+/** A value of L1 in a sentence, for the Review ("affordability"). */
+export function valueInSentence(value: string): string {
+    return valueNoun(value);
+}
+
 /** Whether a Profile of the Segment ticks a value in B1. */
 export function valueOfProfiles(value: string, context: OpeningContext): boolean {
     return context.profiles.some(profile => (profile.b1 ?? []).includes(value));
@@ -631,7 +652,9 @@ export function competitorOpenings(answers: CompetitorAnswers, type: string, con
             openings.push({ id: "ready:" + change.id, label: "Prepare for changes in " + inSentence(change.label) });
         }
     }
-    return openings;
+    // A value every Competitor of the Segment is weak on and a Profile rates Essential comes first (owner, 2026-11-06).
+    const clear = clearOpenings(context.profiles, [answers, ...context.others]);
+    return [...openings.filter(opening => opening.value !== undefined && clear.includes(opening.value)), ...openings.filter(opening => opening.value === undefined || !clear.includes(opening.value))];
 }
 
 /** A value of L1 inside a sentence ("quality and results"). */

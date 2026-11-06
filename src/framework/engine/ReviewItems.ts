@@ -10,6 +10,9 @@ import { stageMessages, stageOf } from "./BusinessStage.ts";
 import { positioningName } from "./ActivityClassification.ts";
 import { keyDateText, keyDatesOfSessions } from "./KeyDates.ts";
 import { asGlobalSettings, stageDurationsOf } from "./GlobalSettings.ts";
+import { clearOpenings, valueInSentence } from "./CompetitorQuestions.ts";
+import { BUSINESS_FOUNDATION_SUBSECTIONS } from "./AnswerBusinessFoundation.ts";
+import { sectionSegment } from "./FieldKeys.ts";
 
 /** A page as the rail names it: "4. Financial Foundation". */
 function pageName(section: { number: number; title: string }): string {
@@ -167,6 +170,23 @@ function secondLook(input: ReviewInput): ReviewItem[] {
 
     add(f.position.signals, foundation);
     add(f.outlook.signals, sustainability);
+
+    // A clear opening (owner, 2026-11-06): a value every Competitor of a Segment is weak on, which a Profile of it rates Essential.
+    const page = pageOf(session, AnswerType.BusinessFoundation);
+    if (page) {
+        f.segments.forEach((segment, at) => {
+            const name = segment.name.trim() || "Segment " + (at + 1);
+            for (const value of clearOpenings(segment.profiles.map(profile => profile.questions ?? {}), segment.competitors.map(competitor => competitor.questions ?? {}))) {
+                const words = valueInSentence(value);
+                items.push({
+                    group: "second-look",
+                    text: title + " → " + pageName(page) + ": every Competitor in " + name + " is weak on " + words + ", which your Profiles rate Essential. It could be your clearest way to stand out.",
+                    place: { systemNumber: 3, sectionNumber: page.number, key: fieldKey({ systemNumber: 3, sectionNumber: page.number, path: [sectionSegment(BUSINESS_FOUNDATION_SUBSECTIONS[1])] }) },
+                    capability: "foundation"
+                });
+            }
+        });
+    }
 
     return items;
 
