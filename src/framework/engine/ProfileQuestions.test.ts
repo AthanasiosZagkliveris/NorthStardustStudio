@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { profileAnswerLines, profileChoose, profileQuestionAsked, profileQuestionsOf, profileRate, profileRatings, profileSettle, profileShown, profileWho, proposedBusinessProfiles, PROFILE_QUESTIONS } from "./ProfileQuestions";
+import { asProfileAnswers, profileAnswerLines, profileChoose, profileQuestionAsked, profileQuestionsOf, profileRate, profileRatings, profileSettle, profileShown, profileWho, proposedBusinessProfiles, PROFILE_QUESTIONS } from "./ProfileQuestions";
 import type { SegmentContext } from "./SegmentQuestions";
 
 const people = { frame: "people", endsUser: false } as unknown as SegmentContext;
@@ -163,7 +163,7 @@ describe("Psychographics and Motivations ticked and rated (doc 36, section 11)",
 
     it("prints each tick with its rating, the highest first, and an unrated tick after", () => {
         const lines = profileAnswerLines({ b1: ["lower-price", "speed", "good-support"], "b1-rating": ["speed:5", "lower-price:3"] });
-        expect(lines.find(line => line.value.includes("Speed"))?.value).toBe("Speed (5/5); Low price (3/5); Support");
+        expect(lines.find(line => line.value.includes("Speed"))?.value).toBe("Speed (5/5); Affordability (3/5); Support");
     });
 
 });
@@ -183,9 +183,19 @@ describe("the Emotional and Social needs ticked and rated (doc 36, section 10)",
         expect(ticked.social).toHaveLength(3);
         const settled = profileSettle(ticked, {}, people);
         expect(settled["social-rating"]).toEqual(["as-part-of-a-group-they-value:4"]);
-        expect(profileAnswerLines(settled).find(line => line.value.startsWith("Part of"))?.value).toBe("Part of a group (4/5); Stylish; One of the few");
+        expect(profileAnswerLines(settled).find(line => line.value.startsWith("Included"))?.value).toBe("Included (4/5); Stylish; Exclusive");
         // A business Segment does not keep a person's list.
         expect(profileSettle(ticked, {}, business).social).toBeUndefined();
     });
+
+describe("merged options (owner, 2026-11-06)", () => {
+
+    it("reads a merged frustration as the one kept, counted once, the higher rating kept", () => {
+        const read = asProfileAnswers({ e2: ["it-costs-too-much", "prices-are-unclear", "support-is-poor"], "e2-rating": ["it-costs-too-much:2", "prices-are-unclear:4", "support-is-poor:3"] });
+        expect(read.e2).toEqual(["it-costs-too-much", "it-is-too-complicated"]);
+        expect(read["e2-rating"]).toEqual(["it-costs-too-much:4", "it-is-too-complicated:3"]);
+    });
+
+});
 
 });

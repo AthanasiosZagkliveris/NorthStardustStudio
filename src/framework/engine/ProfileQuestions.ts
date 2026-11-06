@@ -45,32 +45,35 @@ const LEVEL_OF_WORK: Record<string, string> = { owner: "owner", manager: "manage
 
 const CARES = ["Lower price", "Speed", "Ease and convenience", "Quality and results", "Trust and reputation", "Expert knowledge", "A service made for them", "Good support", "Safety and low risk", "Shared values or identity"];
 const GOALS = ["Get easier access", "Learn something new", "Express who they are", "Meet a requirement", "Win customers or earn more", "Stay within the rules"];
-const FRUSTRATIONS = ["It costs too much", "It takes too long", "It is too complicated", "The quality is inconsistent", "It is hard to find someone they trust", "They lack the know-how", "Support is poor", "They worry about mistakes or rules", "They have no time or capacity", "Prices are unclear"];
+const FRUSTRATIONS = ["It costs too much", "It takes too long", "It is too complicated", "The quality is inconsistent", "It is hard to find someone they trust", "They lack the know-how", "They have no time or capacity"];
+
+/** Options merged into another (owner, 2026-11-06): a saved tick of the first is read as the second; with both ticked it is one tick, the higher rating kept. */
+const MERGED: Readonly<Record<string, Readonly<Record<string, string>>>> = {
+    e2: { "prices-are-unclear": "it-costs-too-much", "they-worry-about-mistakes-or-rules": "they-lack-the-know-how", "support-is-poor": "it-is-too-complicated" }
+};
 /** The words of an option said of one person and in no pronoun (the ids stay those of the first wording: they are saved answers). */
 const WORDS: Record<string, string> = {
-    // The six questions' options in short, plain words (owner, 2026-11-06: "change the options' wording to something simpler, in their i to explain further").
+    // One word for each option of the six questions (owner, 2026-11-06), what each means a line of its question's "i".
     // What matters most (B1, L1).
-    "lower-price": "Low price", "ease-and-convenience": "Convenience", "quality-and-results": "Quality", "trust-and-reputation": "Reputation", "expert-knowledge": "Expertise",
-    "a-service-made-for-them": "Tailored service", "good-support": "Support", "safety-and-low-risk": "Safety", "shared-values-or-identity": "Shared values",
+    "lower-price": "Affordability", "ease-and-convenience": "Convenience", "quality-and-results": "Quality", "trust-and-reputation": "Reputation", "expert-knowledge": "Expertise",
+    "a-service-made-for-them": "Personalisation", "good-support": "Support", "safety-and-low-risk": "Safety / security", "shared-values-or-identity": "Values",
     // Goals (E1, L4).
-    "get-easier-access": "Easier access", "express-who-they-are": "Express themselves", "win-customers-or-earn-more": "Earn more",
-    // Frustrations (E2, L3).
-    "it-costs-too-much": "Too costly", "it-takes-too-long": "Too slow", "it-is-too-complicated": "Too complicated", "the-quality-is-inconsistent": "Uneven quality",
-    "it-is-hard-to-find-someone-they-trust": "No one to trust", "they-lack-the-know-how": "Don't know how", "support-is-poor": "Poor support",
-    "they-worry-about-mistakes-or-rules": "Fear of mistakes", "they-have-no-time-or-capacity": "No time", "prices-are-unclear": "Unclear prices",
+    "get-easier-access": "Accessibility", "learn-something-new": "Development", "express-who-they-are": "Expression", "meet-a-requirement": "Compliance",
+    "win-customers-or-earn-more": "Revenue", "stay-within-the-rules": "Governance",
+    // Frustrations (E2, L3; three merged).
+    "it-costs-too-much": "Cost", "it-takes-too-long": "Delays", "it-is-too-complicated": "Complexity", "the-quality-is-inconsistent": "Inconsistency",
+    "it-is-hard-to-find-someone-they-trust": "Trust", "they-lack-the-know-how": "Insecurity", "they-have-no-time-or-capacity": "Capacity",
     // Worries (E3, L2).
-    "the-price-or-their-budget": "Price", "whether-they-can-trust-you": "Trust in you", "how-long-it-takes-to-start": "Time to start", "how-hard-it-is-to-use": "Ease of use",
-    "risk-or-security": "Risk / security", "whether-it-fits-their-needs": "Fit", "support-after-they-buy": "Support after buying",
-    "the-effort-of-switching-from-what-they-use-now": "Switching effort",
+    "the-price-or-their-budget": "Price", "whether-they-can-trust-you": "Credibility", "how-long-it-takes-to-start": "Onboarding", "how-hard-it-is-to-use": "Complexity",
+    "risk-or-security": "Risk", "whether-it-fits-their-needs": "Fit", "support-after-they-buy": "Support", "the-effort-of-switching-from-what-they-use-now": "Migration",
     // Emotional needs.
-    "calm-and-worry-free": "Calm", "rewarded-treated": "Treated", "relaxed-looked-after": "Looked after", "healthy-and-well": "Healthy",
-    "delighted-by-how-it-looks": "Delighted by its look", "reminded-of-good-times": "Nostalgic", "fulfilled-as-they-grow": "Fulfilled",
-    "sure-they-made-the-right-choice": "Sure of their choice", "growing-in-their-work": "Growing at work", "hopeful-about-their-business": "Hopeful for the business",
-    "inspired-about-what-comes-next": "Inspired",
+    "calm-and-worry-free": "Calm", "rewarded-treated": "Rewarded", "relaxed-looked-after": "Nurtured", "healthy-and-well": "Healthy", "delighted-by-how-it-looks": "Delighted",
+    "reminded-of-good-times": "Nostalgic", "fulfilled-as-they-grow": "Fulfilled",
+    "sure-they-made-the-right-choice": "Confident", "growing-in-their-work": "Prosperous", "hopeful-about-their-business": "Optimistic", "inspired-about-what-comes-next": "Inspired",
     // Social needs.
-    "as-having-good-taste-style": "Stylish", "as-part-of-a-group-they-value": "Part of a group", "as-one-of-the-few-with-access": "One of the few",
-    "as-caring-for-others-or-the-planet": "Caring for others or the planet", "as-leaving-something-for-their-family": "Leaving a legacy",
-    "as-someone-others-trust": "Trusted", "as-well-connected": "Well connected", "as-more-valued-in-their-field": "Valued in their field", "as-a-responsible-business": "Responsible",
+    "as-having-good-taste-style": "Stylish", "as-part-of-a-group-they-value": "Included", "as-one-of-the-few-with-access": "Exclusive",
+    "as-caring-for-others-or-the-planet": "Altruistic", "as-leaving-something-for-their-family": "Impactful",
+    "as-someone-others-trust": "Trusted", "as-well-connected": "Influential", "as-more-valued-in-their-field": "Respected", "as-a-responsible-business": "Responsible",
     // Other questions' words.
     "your-website": "Your website", "a-demo-trial-or-sample": "A demo / trial / sample", "a-quote-or-proposal": "A quote / proposal", "a-meeting-or-call": "A meeting / call"
 };
@@ -124,8 +127,8 @@ const QUESTIONS: readonly ProfileQuestion[] = [
     {
         id: "b1", box: "psychographics", label: "What matters most to {o}?", many: true, max: 5, options: list(CARES), rating: { low: "Optional", high: "Essential" },
         info: ["What they weigh when choosing between offers. Tick up to five, then rate how much each matters.", "For example, a busy parent may weigh Speed and Convenience; a collector, Quality.",
-            "Convenience: easy to find, buy and use. Reputation: a name they trust. Tailored service: made for them, not for everyone.",
-            "Safety: low risk, nothing goes wrong. Shared values: it stands for what they believe in.", "Write their interests, lifestyle and hopes in the note."]
+            "Affordability: a price they can pay. Convenience: easy to find, buy and use. Reputation: a name they trust. Expertise: deep knowledge.",
+            "Personalisation: made for them, not for everyone. Safety / security: low risk, nothing goes wrong. Values: it stands for what they believe in.", "Write their interests, lifestyle and hopes in the note."]
     },
     {
         id: "c1", box: "hubs", label: "Which devices does {s} use?", many: true,
@@ -158,14 +161,14 @@ const QUESTIONS: readonly ProfileQuestion[] = [
         options: [{ id: "alone", label: "Works it out alone" }, { id: "little", label: "Likes a little guidance" }, { id: "person", label: "Wants to talk to a person" }, { id: "formal", label: "Needs a formal demonstration or proposal" }],
         info: ["The help a typical person wants before buying; it can differ from how comfortable the Segment is online."]
     },
-    { id: "e1", box: "goals", label: "What does {s} want to achieve?", many: true, max: 3, options: list(GOALS), rating: { low: "Minor", high: "Main" }, info: ["The results they are after, not what they weigh when choosing (that is \"What matters most\"). Choose up to three, then rate each.", "For example, to learn a new craft, or to win more clients.", "Easier access: to something hard to reach or get. Meet a requirement: a need they must fill, at work or by law. Earn more: win customers or income.", "Based on: gains (Value Proposition Canvas)."] },
-    { id: "e2", box: "challenges", label: "What frustrates {o} today?", many: true, max: 3, options: list(FRUSTRATIONS), rating: { low: "Mild", high: "Severe" }, info: ["What goes wrong with the way they do it now, before they buy from you. Choose up to three, then rate how much each bothers them.", "For example, the cheap version breaks too soon, or nobody explains how to start.", "No one to trust: hard to find someone reliable. Fear of mistakes: getting it wrong, or breaking a rule. No time: no time or staff to do it.", "Based on: pains (Value Proposition Canvas)."] },
+    { id: "e1", box: "goals", label: "What does {s} want to achieve?", many: true, max: 3, options: list(GOALS), rating: { low: "Minor", high: "Main" }, info: ["The results they are after, not what they weigh when choosing (that is \"What matters most\"). Choose up to three, then rate each.", "For example, to learn a new craft, or to win more clients.", "Accessibility: getting something hard to reach. Development: learning something new. Expression: showing who they are. Revenue: winning customers or income.", "Compliance: meeting a requirement, at work or by law. Governance: staying within the rules.", "Based on: gains (Value Proposition Canvas)."] },
+    { id: "e2", box: "challenges", label: "What frustrates {o} today?", many: true, max: 3, options: list(FRUSTRATIONS), rating: { low: "Mild", high: "Severe" }, info: ["What goes wrong with the way they do it now, before they buy from you. Choose up to three, then rate how much each bothers them.", "For example, the cheap version breaks too soon, or nobody explains how to start.", "Cost: too costly, or unclear prices. Delays: it takes too long. Inconsistency: results vary. Trust: hard to find someone reliable.", "Insecurity: not knowing how, or fearing a mistake. Capacity: no time or staff. Complexity: too complicated, or poor support.", "Based on: pains (Value Proposition Canvas)."] },
     // The Needs (doc 36, section 10): Emotional and Social ticked and rated, by the Segment's kind; Functional stays the numbered list. Each kind's list stays as its note.
-    { id: "emotional", box: "needs", label: "How does {s} want to feel?", many: true, max: 3, options: list(EMOTIONAL_PEOPLE), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("feelings", "For example, calm when a delivery arrives on time, or delighted by how a room looks."), "Treated: rewarded, given something special. Nostalgic: reminded of good times. Fulfilled: growing as a person."] },
-    { id: "emotional-b2b", box: "needs", label: "How does {s} want to feel?", many: true, max: 3, options: list(EMOTIONAL_BUSINESS), rating: { low: "Mild", high: "Strong" }, info: NEEDS_INFO("feelings", "For example, sure they chose the right supplier, or glad to work with you again.") },
-    { id: "social", box: "needs", label: "How does {s} want to be seen?", many: true, max: 3, options: list(SOCIAL_PEOPLE), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("ways of being seen by others", "For example, as stylish when friends visit, or as caring for the planet."), "One of the few: with access others do not have. Leaving a legacy: something for their family."] },
-    { id: "social-b2b", box: "needs", label: "How does {s} want to be seen?", many: true, max: 3, options: list(SOCIAL_BUSINESS), rating: { low: "Mild", high: "Strong" }, info: NEEDS_INFO("ways of being seen by others", "For example, as someone colleagues trust, or as a responsible business.") },
-    { id: "e3", box: "objections", label: "What might hold {o} back?", many: true, max: 3, options: list(WORRIES), rating: { low: "Minor", high: "Blocking" }, info: ["Their doubts about buying from you, not what frustrates them today (the question above). Choose up to three, then rate each.", "For example, whether a beginner can keep up, or whether you will still be there after the sale.", "Fit: whether it suits their need. Switching effort: the work of leaving what they use now.", "Starts with the price where the Segment's household income is rated 1; change it freely."] }
+    { id: "emotional", box: "needs", label: "How does {s} want to feel?", many: true, max: 3, options: list(EMOTIONAL_PEOPLE), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("feelings", "For example, calm when a delivery arrives on time, or delighted by how a room looks."), "Rewarded: treated to something special. Nurtured: looked after. Delighted: by how it looks. Nostalgic: reminded of good times. Fulfilled: growing as a person."] },
+    { id: "emotional-b2b", box: "needs", label: "How does {s} want to feel?", many: true, max: 3, options: list(EMOTIONAL_BUSINESS), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("feelings", "For example, sure they chose the right supplier, or glad to work with you again."), "Confident: sure they made the right choice. Prosperous: growing in their work. Optimistic: hopeful about their business."] },
+    { id: "social", box: "needs", label: "How does {s} want to be seen?", many: true, max: 3, options: list(SOCIAL_PEOPLE), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("ways of being seen by others", "For example, as stylish when friends visit, or as caring for the planet."), "Included: part of a group they value. Exclusive: one of the few with access. Altruistic: caring for others or the planet. Impactful: leaving a legacy."] },
+    { id: "social-b2b", box: "needs", label: "How does {s} want to be seen?", many: true, max: 3, options: list(SOCIAL_BUSINESS), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("ways of being seen by others", "For example, as someone colleagues trust, or as a responsible business."), "Influential: well connected. Respected: valued in their field."] },
+    { id: "e3", box: "objections", label: "What might hold {o} back?", many: true, max: 3, options: list(WORRIES), rating: { low: "Minor", high: "Blocking" }, info: ["Their doubts about buying from you, not what frustrates them today (the question above). Choose up to three, then rate each.", "For example, whether a beginner can keep up, or whether you will still be there after the sale.", "Credibility: whether you can be trusted. Onboarding: the time to get started. Complexity: how hard it is to use. Fit: whether it suits their need.", "Support: help after buying. Migration: the work of leaving what they use now. Risk: risk or security.", "Starts with the price where the Segment's household income is rated 1; change it freely."] }
 ];
 
 export const PROFILE_QUESTIONS = QUESTIONS;
@@ -416,6 +419,25 @@ export function asProfileAnswers(source: unknown): SegmentAnswers {
     for (const [key, value] of Object.entries(source as Record<string, unknown>)) {
         if (Array.isArray(value) && value.every(entry => typeof entry === "string")) {
             result[key] = value as string[];
+        }
+    }
+    // Merged options (owner, 2026-11-06): a tick of a merged one is a tick of the one kept, counted once; its rating is kept where it is the higher.
+    for (const [id, merged] of Object.entries(MERGED)) {
+        const into = (option: string) => merged[option] ?? option;
+        if (result[id]) {
+            result[id] = [...new Set(result[id].map(into))];
+        }
+        const ratings = result[id + "-rating"];
+        if (ratings) {
+            const best = new Map<string, string>();
+            for (const entry of ratings) {
+                const [option, point] = entry.split(":");
+                const kept = into(option);
+                if (!best.has(kept) || Number(point) > Number(best.get(kept))) {
+                    best.set(kept, point);
+                }
+            }
+            result[id + "-rating"] = [...best].map(([option, point]) => option + ":" + point);
         }
     }
     return result;

@@ -169,16 +169,16 @@ const STAGE_OPENINGS: Record<string, string> = {
 
 /** K10's words for each value of L1: what to offer where they are weak (1 or 2), and the value as a noun ("Be known for ...", "Match them on ..."). */
 const VALUE_OPENINGS: Record<string, { better: string; noun: string }> = {
-    "lower-price": { better: "Offer lower prices", noun: "low prices" },
+    "lower-price": { better: "Offer lower prices", noun: "affordability" },
     speed: { better: "Be faster", noun: "speed" },
     "ease-and-convenience": { better: "Make it more convenient", noun: "convenience" },
     "quality-and-results": { better: "Offer better quality", noun: "quality" },
     "trust-and-reputation": { better: "Earn a better reputation", noun: "reputation" },
     "expert-knowledge": { better: "Offer more expertise", noun: "expertise" },
-    "a-service-made-for-them": { better: "Offer a tailored service", noun: "a tailored service" },
+    "a-service-made-for-them": { better: "Offer a tailored service", noun: "personalisation" },
     "good-support": { better: "Offer better support", noun: "support" },
-    "safety-and-low-risk": { better: "Make it safer", noun: "safety" },
-    "shared-values-or-identity": { better: "Show the values you share with them", noun: "shared values" }
+    "safety-and-low-risk": { better: "Make it safer", noun: "safety and security" },
+    "shared-values-or-identity": { better: "Show shared values", noun: "shared values" }
 };
 
 /** K8's rows: the list L1, in the Profile's own words (B1). */

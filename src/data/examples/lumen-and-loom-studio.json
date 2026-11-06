@@ -1130,7 +1130,7 @@
                       ],
                       "e2": [
                         "it-is-hard-to-find-someone-they-trust",
-                        "prices-are-unclear"
+                        "it-costs-too-much"
                       ],
                       "e3": [
                         "whether-it-fits-their-needs",
@@ -1146,7 +1146,7 @@
                       ],
                       "e2-rating": [
                         "it-is-hard-to-find-someone-they-trust:5",
-                        "prices-are-unclear:4"
+                        "it-costs-too-much:4"
                       ],
                       "e3-rating": [
                         "whether-it-fits-their-needs:5",
