@@ -616,7 +616,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                                     })}
                                 </div>
                             </div>
-                        ), ["Each need is one numbered line. The Offerings choose from these needs."], groupFold(profile.id, "Needs", segmentPath + ", Profile " + (profileIndex + 1)))}
+                        ), ["Functional: one numbered line a need; the Offerings choose from these.", "Emotional and Social: tick and rate up to three each, then add Notes."], groupFold(profile.id, "Needs", segmentPath + ", Profile " + (profileIndex + 1)))}
 
                     </>
                 ))}

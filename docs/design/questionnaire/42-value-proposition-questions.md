@@ -50,7 +50,7 @@ Each item names the Profile, Offering or Competitor it is about, and opens it. T
 | **Unwanted benefit** | A benefit an Offering claims (O4) that no Profile cares about (B1) |
 | **Worry left open** | A worry a Profile ticked (E3) that no Offering answers (O8) |
 | **Job left to a competitor** | Withdrawn (2026-11-04): doc 41's job question was withdrawn as an Offering question, so there is no Competitor's job to compare with O13 (doc 43) |
-| **Emotional and social needs** | The Value Proposition is the one owner of these (owner, 2026-11-06; the Offering does not tick them, doc 43): each emotional or social need ticked on the Segment's Profiles (doc 36, section 10), the strongest first, until the text says how it answers it. This puts into effect the tile's built note, "Identify how the Value Proposition addresses each Customer Profile's emotional and social needs." |
+| **Emotional and social needs** | The Value Proposition is the one owner of these (owner, 2026-11-06; the Offering does not tick them, doc 43): each emotional or social need ticked on the Segment's Profiles (doc 36, section 10), the strongest first, until the text says how it answers it. This puts into effect the tile's built note, "Say how it meets the emotional and social needs ticked and rated on each Profile. The lines in their Notes are listed below." (worded so 2026-11-06; as built, the tile lists only the Notes' lines) |
 
 - **The "i" says:** Gaps between what your customers want and what your Offerings give. They are reminders, not errors.
 - **Connections:**

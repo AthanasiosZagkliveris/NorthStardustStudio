@@ -112,6 +112,7 @@ This follows the type rules already built for the text boxes: a substitute has n
 - **Asked when:** the type is Direct competitor, Indirect competitor or Substitute.
 - **Wording by type:** Direct competitor, Indirect competitor: "Is their business growing?" Substitute: "Is this alternative growing?"
 - **The "i" says:**
+  - 1 = Declining, 5 = Growing.
   - From what you can see: more branches, staff, products or reviews, or fewer.
 - **Connections:**
   - *Comes from:* nothing. The U.S. Small Business Administration's competitive analysis asks whether a competitor's business is "growing, steady, or declining" [FUN-50].
@@ -155,6 +156,7 @@ This follows the type rules already built for the text boxes: a substitute has n
 - **Wording by type:** Direct competitor, Indirect competitor: "Where are they reviewed, and how are they rated?" Substitute: "Where is this alternative reviewed, and how is it rated?"
 - **Rows:** the review platforms, list L18 (doc 34, 5.2b), in this order: Google and Facebook first; then the platforms of the App User's industry (the first activity's industry, `organisation.activities[0]`, through the crosswalk L7, doc 34, 5.3); then those of the App User's country (`organisation.country`); the list ends in Other (below). A platform ticked earlier stays shown.
 - **The "i" says:**
+  - 1 = Poor, 5 = Excellent.
   - Tick each place they are reviewed and give their average there, to the nearest star. Most people only use a business with 4 stars or more.
   - Not listed? Tick Other and write it. Google is where most people read reviews of local businesses (71% in 2026).
 - **Connections:**
@@ -173,7 +175,8 @@ This follows the type rules already built for the text boxes: a substitute has n
   - Delivery
   - Support & Follow Up
 - **The "i" says:**
-  - Where their customers are let down along the way, and where it goes smoothly. The values below (K8) say what falls short; this says where.
+  - 1 = Hard, 5 = Easy.
+  - Where their customers are let down along the way, and where it goes smoothly. The values below say what falls short; this says where.
   - To find out, look at their website and social media, sign up to their newsletter or buy from them once.
 - **Connections:**
   - *Comes from:* the owner's decisions (2026-11-04): the loyalty question overlapped the journey's last stage, then its ticks repeated K5's channels, so they went. Lemon and Verhoef describe the customer's journey in three stages, before, during and after the purchase, the "loyalty loop" after it [FUN-59]; page 2's five Journey Stages divide the same journey. Invest Northern Ireland lists a competitor's "customer loyalty devices" [FUN-51]; how many customers come back cannot be seen from outside, what a competitor does to bring them back can.
@@ -206,6 +209,7 @@ For Internal solution and Status quo the box stays text only: it asks about the 
   - Safety / security
   - Values
 - **The "i" says:**
+  - 1 = Weak, 5 = Strong.
   - Rate each from what their customers say and what you have seen: 1 is a clear weakness, 5 a clear strength.
   - Once a row has a band: "The darker the band, the more of your Profiles chose it."
 - **Connections:**
@@ -230,6 +234,7 @@ For Internal solution and Status quo the box stays text only: it asks about the 
   - Society and lifestyle
   - Supply and delivery
 - **The "i" says:**
+  - 1 = Threat, 5 = Opportunity.
   - How each change could help or hurt them. The examples of each change, as on your Segment.
 - **Connections:**
   - *Comes from:* the owner's decision (2026-11-04): one rating replaces the two tick lists of changes that help and changes that hurt. The Segment's ticks set the order of the rows; no row starts rated. SWOT's external factors, favourable or unfavourable [FUN-53]. The Segment's ticks set the order of the rows; no row starts rated.
@@ -332,7 +337,7 @@ Each row keeps the current question and proposes another way to answer it, with 
 - Whether K5's words follow the plain words above ("Shops or wholesalers", "Referrals or affiliates") or the page 2 tile names ("Retail & Wholesale", "Referral & Affiliates"). The plain words follow the "or" rule, so the page 2 names would change with them.
 - K1 to K4, K6, K7 and §K8, the built boxes as choices, including the questions from the research of 2026-11-04 (K4 [FUN-50], K6 [FUN-62 to FUN-65], K7 [FUN-51, FUN-59]) and §K8 from the card's own answers.
 - The order of K6's platforms by industry and country rests on directory and vendor lists, not on a survey of use; a survey of UK consumers' use of review sites would improve it.
-- Considered, not added: "How much effort does buying from them take?" (customer effort [FUN-60]). It repeats L1's "Ease and convenience", a row of K8, and K7's rating of each stage.
+- Considered, not added: "How much effort does buying from them take?" (customer effort [FUN-60]). It repeats L1's "Convenience", a row of K8, and K7's rating of each stage.
 - Porter's four corners (goals, assumptions, strategy, capabilities [FUN-52]) also ask how a competitor would react to you: proposed as an optional question in Insights, with Kotler's reaction patterns as its options (Other ways to answer, last row).
 - Other ways to answer: one choice per row of the table above (owner).
 - **Not asked:**

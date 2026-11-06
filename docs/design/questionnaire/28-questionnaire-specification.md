@@ -269,8 +269,8 @@ The five boxes and what they ask:
 | 1 Demographics | the age group (a term of the buyer's life stage chosen in Positioning), education, work status and what follows from it, household income, gender mix | a buyer that is people |
 | 2 Geographics | where the customers are; the kind of area (Managing and Growing only) | both |
 | 3 Business Data | the type and size of the organisation, the sector, the industry | a buyer that is a business; it comes before Geographics |
-| 4 Purchasing Power & Behaviour | comfort with online tools; where they discover ideas; the social environment, sharing, shopping triggers and path to purchase (people only); where they buy; how they pay; how the decision is authorised (business only) | both, by part |
-| 5 Market Size & Industry Outlook | the trajectory, the size of the market, the macro trend, how competitive | both |
+| 4 Purchasing Power & Behaviour | comfort with online tools; the social environment; where they discover new products, sharing, shopping triggers and path to purchase (people only); where they buy; how they pay; who decides to buy (business only) | both, by part |
+| 5 Market Size & Industry Outlook | the size of the market, the trajectory, the macro trend, how competitive (in this order since 2026-11-06, doc 35) | both |
 
 A **user** part (a life stage, then the questions that follow from the Positioning relationship) is asked when a relationship chosen in Positioning has a Proxy or Dual-Intent buyer. The kind of a Segment (people or businesses) and the two Segments made where Positioning chose both are in doc 35. The code is `src/framework/engine/SegmentQuestions.ts`; the card reads Identity through `segmentContext` (`src/framework/engine/SegmentContext.ts`).
 
@@ -312,7 +312,7 @@ Questions asked only at the Profile, with no Segment range: P9 to P22 (doc 36, b
 
 ### 6.6 Competitor card (tile "Competitors")
 
-> Every question and option, as proposed on 2026-11-03: **document 41**, which refines this section.
+> Every question and option, as proposed on 2026-11-03: **document 41**, which refines this section. **As built** (2026-11-06) the card asks K1 to K10 of doc 41 (K5 the channels with their sub-channels, K8 the values rated, two SWOT Notes, K10 the openings); the two tables below are the proposal of 2026-11-03, kept as the record, and their ids are not the built ones.
 
 | Today | Target |
 |---|---|

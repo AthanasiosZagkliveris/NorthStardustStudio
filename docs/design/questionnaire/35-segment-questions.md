@@ -318,7 +318,8 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - Other services
 - **The "i" says:**
   - The industries of the sector chosen, as the official schemes (SIC and NACE, NAICS, ANZSIC) name their sections.
-  - Government and public administration includes embassies and international bodies. Other services includes households that employ staff, such as cleaners and nannies.
+  - Government and public administration includes embassies and international bodies.
+  - Other services includes households that employ staff, such as cleaners and nannies.
 - **Connections:**
   - *Comes from:* This Segment's sector.
   - *Read by (built):* The Market document and the export.
@@ -354,6 +355,8 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
   - ("Mostly on their own" removed, owner 2026-11-04: it contradicted the question, which asks how they socialise, and nothing read it; a saved answer of it is dropped when read.)
 - **The "i" says:**
   - Where they spend their free time. It decides how they meet brands and products.
+  - Mostly online: gaming, community servers, chat apps
+  - Mostly in person: events, hospitality, clubs, sports
 - **Connections:**
   - *Comes from:* Early Positioning: the relationship (people).
   - *Read by (built):* The Market document and the export; the Profile's C4 (events) is asked when this is Online and in person or Mostly in person (doc 36).
@@ -406,6 +409,7 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
   - Sales, seasons or planned gifts
 - **The "i" says:**
   - Choose up to two.
+  - Boredom or entertainment: browsing feeds, window shopping
 - **Connections:**
   - *Comes from:* Early Positioning: the relationship (people).
   - *Read by (built):* The Market document and the export.
@@ -421,7 +425,10 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
   - On a recommendation: They buy what friends, family or colleagues suggest
   - (Reworded 2026-11-05, owner: "improve the wording of the options". The ids are unchanged. Reading reviews was in two options before; it is comparing now, and advice from people they know is a recommendation, as the Profile's D1 starts already read them.)
 - **The "i" says:**
-  - Their usual way of buying, the one that fits most of them.
+  - Their usual way of buying, the one that fits most of them. Reviews read online count as comparing; advice from people they know is a recommendation.
+  - Straight away: They see it, like it and buy it there and then
+  - After comparing options: They weigh prices, features and reviews first
+  - On a recommendation: They buy what friends, family or colleagues suggest
 - **Connections:**
   - *Comes from:* Early Positioning: the relationship (people).
   - *Read by (built):* The Market document and the export.
@@ -477,6 +484,11 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
 - **The "i" says:**
   - Asked for business customers only. A formal procurement loop reveals the tender row on the Customer Engagement page.
   - Select all that apply.
+  - One person decides: The person who uses it has the budget and the final say.
+  - The team agrees: The people who use it try it and push it upward.
+  - A manager signs off: Needs formal approval from a manager or executive.
+  - Several departments check: IT or security, legal and finance.
+  - Formal procurement: A tender or a request for proposals (RFP), with strict compliance.
 - **Connections:**
   - *Comes from:* Early Positioning: the relationship (business).
   - *Read by (built):* The Market document and the export; the Profile's role in buying (A5 starts with every role where one person decides) and the proposed B2B Profiles by buying role (doc 36, 2).
@@ -512,6 +524,7 @@ Both.
 - **Asked when:** Always.
 - **Options:** the points 1 to 5.
 - **The "i" says:**
+  - 1 = Shrinking, 5 = Booming.
   - Where the market is heading, apart from its size: a market can be large and declining, or small and expanding fast.
   - 1: falling demand, or deep structural change. 3: flat, a saturated market. 5: an emerging market, growing fast every year.
 - **What it is for.** A growing market leaves room for a new business without taking customers from anyone; a shrinking one means winning them from the competitors already there. **As built, it is read only by the Market document and the export** (the Business Plan's Market Analysis). **Proposed (2026-11-04), not built:** the Competitor's K10 (doc 41) offers "Win new customers the market brings" when this is rated 4 or 5, and "Win customers from [competitor]" for a rival rated Strong on few values when it is rated 1 or 2; Strategy's Situation analysis reads it beside the crowding (Box 5, question 4).
@@ -550,6 +563,7 @@ Both.
 - **Asked when:** Always.
 - **Options:** the points 1 to 5.
 - **The "i" says:**
+  - 1 = Open, 5 = Crowded.
   - Red Ocean and Blue Ocean are the strategy terms of Kim and Mauborgne: a crowded market against an uncontested one.
   - 1: very few direct competitors; the niche is new. 3: many small players, none in control. 5: big established players and price wars.
 - **Connections:**

@@ -39,7 +39,7 @@ Related: doc 35 (the Segment's questions, built, in the same form), doc 28 (6.4 
 | Work status (Working) | A3 kind of work | the nine kinds of work, for someone who is working |
 | Gender mix (not Balanced) | A2 gender | shown when the mix is not Balanced mix; a Profile's gender should fit the mix (Review) |
 | Industry | A4 kind of business | the finer list (doc 34, 5.4) of the Segment's industry, each with its example |
-| How they discover ideas (ticks) | C2, C3, C4 | the platforms, communities and events related to the ticked ways come first |
+| Where they discover new products (ticks) | C2, C3, C4 | the platforms, communities and events related to the ticked ways come first |
 | Where they spend time (social environment) | C4 events | asked when the environment is not Mostly digital or Low-frequency |
 
 The app also **proposes Profiles** (up to three): one for each age term of the group; for a Proxy or Dual-Intent buyer, a second Profile for the end user (doc 35, the end-user part). The App User presses Add on the ones they want.
@@ -101,9 +101,10 @@ A typical person of the Segment, asked specifically.
   - Man
   - Non-binary
   - Another gender
-- **The "i" would say:** Asked only when the Segment's mix leans one way. The categories follow the Australian standard for sex and gender [SEX-01]. Nothing reads it today but the note (the equality notice and the Review check are not built).
+- **The "i" says:**
+  - Asked only when the Segment's gender mix is not 3 (balanced); it starts from the mix. Change it freely.
 - **Connections:**
-  - *Comes from:* the Segment's gender mix. The mix is a rating since 2026-11-04 (doc 35): rated 1 or 2 (mostly or leaning men), A2 **starts** as Man; 4 or 5, as Woman; 3 (balanced) is not asked; a starting value the App User can change; the question stays visible, because a Segment holds up to three Profiles and one of them can be the minority. When the mix is Balanced the question is not asked: gender does not matter for what is sold.
+  - *Comes from:* the Segment's gender mix. The mix is a rating since 2026-11-04 (doc 35): rated 1 or 2 (mostly or leaning men), A2 **starts** as Man; 4 or 5, as Woman; 3 (balanced) is not asked; a starting value the App User can change; the question stays visible, because a Segment holds up to three Profiles and one of them can be the minority. When the mix is Balanced the question is not asked: gender does not matter for what is sold. The categories follow the Australian standard for sex and gender [SEX-01].
   - *Read by (not built yet):* the Review (a gender that does not fit the mix is noted, never cleared); the equality notice.
   - *When the Segment's mix changes (owner, 2026-11-01):* a gender chosen on a Profile is **never cleared** because the mix flips (a man in a Segment that leans women is a real case); the Review notes it. Only when the mix becomes Balanced is the question no longer asked, and its answer is then removed on the next choice, as for any question no longer asked.
 
@@ -111,7 +112,9 @@ A typical person of the Segment, asked specifically.
 
 - **Control:** a number (years), in the existing number cell.
 - **Asked when:** the Segment's buyer is people; for a business Segment, the age of the person who decides.
-- **The "i" would say:** An exact age within the Segment's age group, for a typical person of the group, not the average. The ages of the terms are approximate. If the Segment's age group changes and this age is no longer inside it, the age is cleared and the box says so.
+- **The "i" says:**
+  - One age within the Segment's age group: a typical person, not the average.
+  - If the Segment's age group changes and this age falls outside it, the age is cleared.
 - **Connections:**
   - *Comes from:* the Segment's age group (the number is held to it).
   - *Read by (not built yet):* the online-consent ages for under-18s (the Review); the proposed Profiles (one for each age term of the group); the number is cleared when it leaves the group (2.2).
@@ -129,7 +132,9 @@ A typical person of the Segment, asked specifically.
   - Single parent with children
   - With parents / relatives
   - With friends / housemates
-- **The "i" says:** Based on: household types (ONS, Census 2021). Children: children living at home. With parents / relatives includes several generations under one roof.
+- **The "i" says:**
+  - Based on: household types (ONS, Census 2021).
+  - Children: children living at home. With parents / relatives includes several generations under one roof.
 - **Why not marital status:** the household (who shares the home, and whether there are children) shapes time, budget and who influences a purchase; a legal status rarely changes what a seller does. The GSS harmonised marital status question (nine legal options) and the web-survey "relationship status" were considered (project review, 2026-11-03, section 6.3).
 - **Connections:**
   - *Read by (built):* the documents and the exports (`profileAnswerLines`).
@@ -149,7 +154,10 @@ A typical person of the Segment, asked specifically.
   - Skilled trade
   - Machine operator / driver
   - Routine / manual work
-- **The "i" says:** Based on: the ISCO-08 major groups (ILO). Professional: for example a teacher, nurse, engineer or lawyer. Skilled trade: for example an electrician, plumber or chef. Someone who owns and runs a business: Manager / director. Armed forces: choose the group that fits the role.
+- **The "i" says:**
+  - Based on: the ISCO-08 major groups (ILO).
+  - Professional: for example a teacher, nurse, engineer or lawyer. Skilled trade: for example an electrician, plumber or chef.
+  - Someone who owns and runs a business: Manager / director. Armed forces: choose the group that fits the role.
 - **Saved answers:** the ids of the six groups before are kept where the meaning is closest (manager, professional, technician, service, operator); "owner", an employment status rather than an occupation, reads as Manager / director (`JOB_RENAMED`).
 - **Connections:**
   - *Comes from:* the Segment's work status.
@@ -167,7 +175,10 @@ A typical person of the Segment, asked specifically.
   - Director / head of department (Director)
   - Manager / team lead (Manager)
   - Specialist / team member (Senior, Entry, Training, Unpaid)
-- **The "i" says:** Based on: the seniority levels B2B platforms use (LinkedIn), merged into five. Senior executive: the chief executive, a C-level or a vice president. Trainees and interns: Specialist / team member. It starts the role in buying: an owner or senior executive makes the final decision; a specialist uses it.
+- **The "i" says:**
+  - Based on: the seniority levels B2B platforms use (LinkedIn), merged into five.
+  - Senior executive: the chief executive, a C-level or a vice president. Trainees and interns: Specialist / team member.
+  - It starts the role in buying: an owner or senior executive makes the final decision; a specialist uses it.
 - **Saved answers:** a B2B Profile's kind of work saved before reads as a level: Owner to Owner / partner, Manager to Manager / team lead, the others to Specialist / team member.
 - **Connections:**
   - *Read by (built):* A5's starting value (Owner / partner or Senior executive: Makes the final decision; Specialist / team member: Uses it); the documents and the exports.
@@ -193,7 +204,9 @@ A typical person of the Segment, asked specifically.
   - Places the order
   - Makes the final decision
   - Controls who reaches the decision-maker
-- **The "i" would say:** The five buying-centre roles credited to Webster and Wind (1972) [CHN-02]. "Uses it" is the person who uses the offering day to day, who may be neither the one who pays nor the one who decides. The Segment's question on how the decision is authorised says how the whole buying group decides; this one says which part this person plays.
+- **The "i" says:**
+  - The five buying-centre roles credited to Webster and Wind (1972) [CHN-02].
+  - "Uses it" is the person who uses the offering day to day, who may be neither the one who pays nor the one who decides.
 - **Connections:**
   - *Comes from:* the Segment's decision authorisation and end-user part.
   - *Read by (not built yet):* the Review (nobody makes the final decision); context on the Customer Engagement page.
@@ -231,7 +244,13 @@ A typical person of the Segment, asked specifically.
   - Support
   - Safety / security
   - Values
-- **The "i" would say:** What matters most to a typical person of the Segment when choosing. Interests, lifestyle and aspirations stay in the note.
+- **The "i" says:**
+  - 1 = Optional, 5 = Essential.
+  - What they weigh when choosing between offers. Tick up to five, then rate how much each matters.
+  - For example, a busy parent may weigh Speed and Convenience; a collector, Quality.
+  - Affordability: a price they can pay. Convenience: easy to find, buy and use. Reputation: a name they trust. Expertise: deep knowledge.
+  - Personalisation: made for them, not for everyone. Safety / security: low risk, nothing goes wrong. Values: it stands for what they believe in.
+  - Write their interests, lifestyle and hopes in the note.
 - **Connections:**
   - *Read by (built, 2026-11-05):* the Competitor's K8 shows every value of L1, those ticked here first, the highest rated first, each banded by how many Profiles ticked it, and its K10 weighs each value by its rating here (doc 41).
   - *Comes from:* nothing.
@@ -239,7 +258,7 @@ A typical person of the Segment, asked specifically.
 
 ## 5. Box C. Social & Interest Hubs
 
-What the Segment cannot say: which devices, which social media, which communities, which events. The Segment asked how they discover ideas in general; these name them.
+What the Segment cannot say: which devices, which social media, which communities, which events. The Segment asked where they discover new products in general; these name them.
 
 ### C1. Which devices does this person use?
 
@@ -251,7 +270,9 @@ What the Segment cannot say: which devices, which social media, which communitie
   - Tablet
   - A shared / public device
   - Other
-- **The "i" would say:** The devices they use to find and buy, not those they own.
+- **The "i" says:**
+  - The devices they use to find and buy, not those they own.
+  - The Segment's choice of where they buy starts this; change it freely.
 - **Connections:**
   - *Comes from:* the Segment's online comfort and where they buy: the setting starts it (Online, on a phone: Smartphone; Online, on a computer: Laptop / desktop; In a shop: none; Both online and in shops: Smartphone and Laptop / desktop), as a starting value the App User can change.
   - *Read by (not built yet):* the Review (make the order and the forms work on a phone; a note where the devices ticked leave out the one the Segment buys on).
@@ -269,7 +290,9 @@ What the Segment cannot say: which devices, which social media, which communitie
   - Pinterest
   - X (Twitter)
   - Other
-- **The "i" would say:** The platforms they actually use, if any. "They may not have social media at all": leave every one unticked.
+- **The "i" says:**
+  - The platforms they actually use, if any.
+  - Tick Other to write one that is not listed.
 - **Connections:**
   - *Comes from:* the Segment's discovery ways and online comfort.
   - *Read by (not built yet):* the order of the Discover channels (page 2); the Profile's hubs.
@@ -285,7 +308,9 @@ What the Segment cannot say: which devices, which social media, which communitie
   - Slack
   - Meetup
   - Other
-- **The "i" would say:** Where they ask, read and recommend. The names of the groups stay in the note.
+- **The "i" says:**
+  - Where they ask, read and recommend.
+  - Write the names of the groups in the note.
 - **Connections:**
   - *Comes from:* the Segment's discovery ways.
   - *Read by (not built yet):* the Discover channels; the Profile's hubs.
@@ -300,7 +325,9 @@ What the Segment cannot say: which devices, which social media, which communitie
   - Workshop / class
   - Talk / conference
   - Other
-- **The "i" would say:** The kinds of events a typical person of the Segment attends. The names of the events stay in the note.
+- **The "i" says:**
+  - The kinds of events a typical person of the Segment goes to.
+  - Write the names of the events in the note.
 - **Connections:**
   - *Comes from:* the Segment's social environment.
   - *Read by (not built yet):* the In Person channels on page 2; the Profile's hubs.
@@ -319,7 +346,9 @@ What the Segment cannot say: which devices, which social media, which communitie
   - Word of mouth / referrals
   - Comparison sites
   - A meeting / call
-- **The "i" would say:** How they weigh options before choosing. How they pay and where they buy are the Segment's questions.
+- **The "i" says:**
+  - How they weigh options before choosing.
+  - How they pay and where they buy are the Segment's questions.
 - **Connections:**
   - *Comes from:* the Segment's path to purchase.
   - *Read by (not built yet):* the Evaluate channels (page 2).
@@ -333,7 +362,8 @@ What the Segment cannot say: which devices, which social media, which communitie
   - Likes a little guidance
   - Wants to talk to a person
   - Needs a formal demonstration or proposal
-- **The "i" would say:** The help a typical person wants before buying; it can differ from how comfortable the Segment is online.
+- **The "i" says:**
+  - The help a typical person wants before buying; it can differ from how comfortable the Segment is online.
 - **Connections:**
   - *Comes from:* the Segment's online comfort.
   - *Read by (not built yet):* the relationship type suggested on page 2; the Review (against the help the Offering gives).
@@ -352,7 +382,13 @@ What the Segment cannot say: which devices, which social media, which communitie
   - Compliance
   - Revenue
   - Governance
-- **The "i" says:** Choose up to three. What they want to achieve. What matters to them when choosing is asked under Psychographics. Based on: gains (Value Proposition Canvas) [FUN-46].
+- **The "i" says:**
+  - 1 = Minor, 5 = Main.
+  - The results they are after, not what they weigh when choosing (that is "What matters most"). Choose up to three, then rate each.
+  - For example, to learn a new craft, or to win more clients.
+  - Accessibility: getting something hard to reach. Development: learning something new. Expression: showing who they are. Revenue: winning customers or income.
+  - Compliance: meeting a requirement, at work or by law. Governance: staying within the rules.
+  - Based on: gains (Value Proposition Canvas) [FUN-46].
 - **Asked when:** always. *Read by (not built yet):* the Value Proposition draft (the gains). *Comes from:* nothing.
 
 ### E2. What frustrates this person today?
@@ -366,7 +402,13 @@ What the Segment cannot say: which devices, which social media, which communitie
   - Trust
   - Insecurity (Fear of mistakes merged in)
   - Capacity
-- **The "i" says:** Choose up to three. What goes wrong for them today, before they buy from you. Based on: pains (Value Proposition Canvas) [FUN-46].
+- **The "i" says:**
+  - 1 = Mild, 5 = Severe.
+  - What goes wrong with the way they do it now, before they buy from you. Choose up to three, then rate how much each bothers them.
+  - For example, the cheap version breaks too soon, or nobody explains how to start.
+  - Cost: too costly, or unclear prices. Delays: it takes too long. Inconsistency: results vary. Trust: hard to find someone reliable.
+  - Insecurity: not knowing how, or fearing a mistake. Capacity: no time or staff. Complexity: too complicated, or poor support.
+  - Based on: pains (Value Proposition Canvas) [FUN-46].
 - **Asked when:** always. *Read by (not built yet):* the Value Proposition draft (the pains); the Review. *Comes from:* nothing.
 
 ### E3. What might hold this person back?
@@ -381,7 +423,13 @@ What the Segment cannot say: which devices, which social media, which communitie
   - Fit
   - Support
   - Migration
-- **The "i" says:** Choose up to three. Their doubts about buying from you; what frustrates them today is asked above (E2). Starts with the price where the Segment's household income is rated 1; change it freely.
+- **The "i" says:**
+  - 1 = Minor, 5 = Blocking.
+  - Their doubts about buying from you, not what frustrates them today (the question above). Choose up to three, then rate each.
+  - For example, whether a beginner can keep up, or whether you will still be there after the sale.
+  - Credibility: whether you can be trusted. Onboarding: the time to get started. Complexity: how hard it is to use. Fit: whether it suits their need.
+  - Support: help after buying. Migration: the work of leaving what they use now. Risk: risk or security.
+  - Starts with the price where the Segment's household income is rated 1; change it freely.
 - **Asked when:** always. *Read by (not built yet):* the Offering ticks the worries it answers (O8); the Evaluation actions suggested on page 2. *Comes from:* the Segment's household income (the starting value).
 
 
@@ -454,13 +502,13 @@ The owner asked (2026-11-03) whether the three Needs lists could be choices inst
 - People (B2C): Stylish; Included; Exclusive; Altruistic; Impactful.
 - Business (B2B): Trusted; Influential; Respected; Responsible.
 
-**The "i" says:** what 1 and 5 mean; the feelings (or ways of being seen) that make them buy, not every one they have, up to three, each rated; one example; what each word means ("Rewarded: treated to something special", "Nurtured: looked after", "Delighted: by how it looks", "Nostalgic: reminded of good times", "Fulfilled: growing as a person"; "Confident: sure they made the right choice", "Prosperous: growing in their work", "Optimistic: hopeful about their business"; "Included: part of a group they value", "Exclusive: one of the few with access", "Altruistic: caring for others or the planet", "Impactful: leaving a legacy"; "Influential: well connected", "Respected: valued in their field"); Bain's Elements of Value (HBR, 2016 and 2018). One word each (owner, 2026-11-06), the ids kept.
+**The "i" says:** what 1 and 5 mean (1 = Mild, 5 = Strong); the feelings (or ways of being seen) that make them buy, not every one they have, up to three, each rated; one example; what each word means ("Rewarded: treated to something special", "Nurtured: looked after", "Delighted: by how it looks", "Nostalgic: reminded of good times", "Fulfilled: growing as a person"; "Confident: sure they made the right choice", "Prosperous: growing in their work", "Optimistic: hopeful about their business"; "Included: part of a group they value", "Exclusive: one of the few with access", "Altruistic: caring for others or the planet", "Impactful: leaving a legacy"; "Influential: well connected", "Respected: valued in their field"); Bain's Elements of Value (HBR, 2016 and 2018). One word each (owner, 2026-11-06), the ids kept.
 
 **Asked when:** always. **Connections:** *Comes from:* the Segment's kind (the list). *Read by (not built yet):* the Value Proposition's open items, their one owner (owner, 2026-11-06) (doc 42, "Unanswered need" and "Emotional and social needs").
 
 **What changes for saved work.** Nothing is lost: a Profile's emotional and social texts become the notes of the two questions, and the ticks start empty. The Offering's ticks of functional needs are untouched.
 
-**Still to decide:** the option words above.
+**The option words:** decided, one word each (owner, 2026-11-06).
 
 ## 11. Psychographics and Motivations ticked and rated (owner 2026-11-04; built 2026-11-04)
 
@@ -481,11 +529,11 @@ D2 ("How much help does this person want before buying?") stays one choice: its 
 |---|---|---|
 | B2C everyday purchase (a café, a grocery) | Little search; two or three things decide (price, speed, ease) | 3 |
 | B2C considered purchase (furniture, a holiday) | Long search and comparison; four or five things are weighed | 5 |
-| B2C identity or lifestyle (fashion, handmade crafts) | Shared values, quality and a tailored service lead; three or four | 4 |
+| B2C identity or lifestyle (fashion, handmade crafts) | Values, Quality and Personalisation lead; three or four | 4 |
 | B2B small-business buyer (the owner buys) | One person weighs price, ease, support and trust | 4 |
 | B2B corporate buying group | Each Profile is one role (A5): its concerns are narrow | 3 |
 | Public sector or charity | Rules, safety, value for money and trust: several are required at once | 5 |
-| Niche hobby market | Expert knowledge, quality and shared identity: few and strong | 3 |
+| Niche hobby market | Expertise, Quality and Values: few and strong | 3 |
 | Mass market | Price, ease and trust: few | 3 |
 
 **The rule.** With a rating, no limit is needed to rank: the rating does the ranking. A cap still keeps a Profile focused and readable, and a long list of ticks says less, not more. The scenarios need three to five for what matters (B1) and never more than three for goals, frustrations and worries, whose first items are what the Value Proposition and the Offering read. So: **B1 up to 5; E1, E2 and E3 up to 3**, the same in B2B and B2C (a corporate group's narrower Profiles simply tick fewer). **Decided (owner, 2026-11-04): "The limits are fine."** Five stays within the span a person can hold and compare at once, "somewhere in the neighborhood of seven" (Miller, 1956) [FUN-66]; a more involved buyer searches more (Zaichkowsky, 1985) [FUN-67], which is why a considered purchase needs more than the everyday three.

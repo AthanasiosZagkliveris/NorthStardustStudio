@@ -50,8 +50,9 @@ export const SUBSECTIONS = {
                 "Where Positioning chose both, the first Segment is of people and the second of businesses; one added later asks which it is."
             ],
             purchasing: [
-                "For every customer: online comfort, where they discover ideas, where they buy, how they pay.", "For people: their habits and how they decide. For businesses: how a purchase is authorised.",
-                "The ways of discovering ideas that you tick are offered on the Profile as related platforms."
+                "For every customer: online comfort, how they socialise, where they shop, how they pay.",
+                "For people: where they discover and share, what makes them shop and how they decide. For businesses: who decides to buy.",
+                "The ways of discovering new products that you tick are offered on the Profile as related platforms."
             ],
             "market-size": [
                 "These answers describe the market the customers belong to, not your own business."
@@ -104,11 +105,10 @@ export const SUBSECTIONS = {
         description: [
             { id: "offerings", title: "Offerings", text: "What do they sell or provide?" },
             { id: "market", title: "Market", text: "Which areas and industries do they serve?" },
-            { id: "acquisition", title: "Customer Acquisition", text: "How do they reach and attract customers?" },
+            // "and attract" dropped (2026-11-06): the box asks only where they reach customers (K5), since the attract question went (doc 41).
+            { id: "acquisition", title: "Customer Acquisition", text: "How do they reach customers?" },
             { id: "experience", title: "Customer Experience", text: "What do customers say about their experience?" }
         ],
-        strengths: ["What they do well or fall short on that no rating above says, in your words."],
-        opportunities: ["What could help or hurt them that no change above says, in your words."],
         insights: [
             "What can you learn from competitors to make your offering more distinctive?"
         ]
@@ -121,7 +121,7 @@ export const SUBSECTIONS = {
             "Explain what makes your offering different or better than competitors."
         ],
         note: [
-            "Identify how the Value Proposition addresses each Customer Profile's emotional and social needs."
+            "Say how it meets the emotional and social needs ticked and rated on each Profile. The lines in their Notes are listed below."
         ]
     },
 

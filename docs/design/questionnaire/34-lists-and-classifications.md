@@ -70,10 +70,10 @@ The positioning (doc 38), the customer's priorities (L1) and the customer's goal
 
 | Positioning: Differentiation (doc 38, Q8) | Positioning: Outcome (doc 38, Q9) | What customers care about (L1, doc 36 B1) |
 |---|---|---|
-| Cost-driven | Lower costs | Lower price |
-| Convenience-driven | Time saved | Speed; Ease and convenience |
-| Compliance, Risk & Security | Legal & data-protection cover | Safety and low risk; Trust and reputation |
-| Status & Premium | Higher quality & prestige | Quality and results; Shared values / identity |
+| Cost-driven | Lower costs | Affordability |
+| Convenience-driven | Time saved | Speed; Convenience |
+| Compliance, Risk & Security | Legal & data-protection cover | Safety / security; Reputation |
+| Status & Premium | Higher quality & prestige | Quality; Values |
 | Performance & Innovation | none | none (open: an L1 option needs the owner's words) |
 | Ecosystem & Integration | none | none (open: an L1 option needs the owner's words) |
 
@@ -306,7 +306,7 @@ Not verified: the ANZSIC group codes of Division K groups 62 and 63 and Division
 
 Every option has a one-line example shown under it, so the user understands the choice without leaving the card. The examples are the author's and need the owner's approval **[D]**. The first five lists are written here; the others follow the same pattern.
 
-*(The Profile shows L1 to L4 and L15 in its own short words (`WORDS` in `ProfileQuestions.ts`), with a slash between similar things and "or" between different things: "A tailored service", "Shared values / identity", "Cost too high", "The price / budget", "Win customers or earn more", "Laptop / desktop"; the ids stay the words written here.)*
+*(The Profile shows L1 to L4 and L15 in its own words (`WORDS` in `ProfileQuestions.ts`): one word for each option of L1 to L4 since 2026-11-06 ("Affordability", "Personalisation", "Safety / security", "Cost", "Credibility", "Revenue"), each word's meaning in its question's "i" (doc 36); a slash between similar things, as "Laptop / desktop". The ids stay the words written here. L3 shows seven: three of these ten are merged into others, doc 36, E2.)*
 
 **L1, what customers care about**
 

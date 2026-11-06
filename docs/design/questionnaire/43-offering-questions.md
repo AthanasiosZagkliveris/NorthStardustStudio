@@ -80,16 +80,16 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Control:** ticks, up to 3. The first ticked is the main benefit.
 - **Asked when:** always.
 - **Options:** the list L1, the Profile's "What matters most" (doc 36, B1):
-  - Lower price
+  - Affordability
   - Speed
-  - Ease and convenience
-  - Quality and results
-  - Trust and reputation
-  - Expert knowledge
-  - A tailored service
-  - Good support
-  - Safety and low risk
-  - Shared values / identity
+  - Convenience
+  - Quality
+  - Reputation
+  - Expertise
+  - Personalisation
+  - Support
+  - Safety / security
+  - Values
 - **The "i" says:**
   - The benefits your customers get. The first you tick is the main one. Choose up to three.
   - The same list as "What matters most" on your Profiles and on your Competitors, so the three can be compared.
