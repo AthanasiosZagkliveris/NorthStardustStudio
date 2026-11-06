@@ -342,6 +342,8 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 ### E1. What does this person want to achieve?
 
+*Decided (owner, 2026-11-06): the goals list is unchanged: no Competence, no "Grow without adding staff", no "Look after someone else".*
+
 - **Control:** ticks, up to 3, then a rating of each ticked goal from "Minor" to "Main" (section 11, built 2026-11-04).
 - **Options:** the list L4 (doc 34, 5.2), without the four goals that repeat B1 (Save time, Save money, Lower risk, Get better results: B1's Speed, Lower price, Safety and low risk, Quality and results; owner, 2026-11-03):
   - Accessibility
