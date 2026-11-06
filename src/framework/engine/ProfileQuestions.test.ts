@@ -163,7 +163,7 @@ describe("Psychographics and Motivations ticked and rated (doc 36, section 11)",
 
     it("prints each tick with its rating, the highest first, and an unrated tick after", () => {
         const lines = profileAnswerLines({ b1: ["lower-price", "speed", "good-support"], "b1-rating": ["speed:5", "lower-price:3"] });
-        expect(lines.find(line => line.value.includes("Speed"))?.value).toBe("Speed (5/5); Lower price (3/5); Good support");
+        expect(lines.find(line => line.value.includes("Speed"))?.value).toBe("Speed (5/5); Low price (3/5); Support");
     });
 
 });
@@ -183,7 +183,7 @@ describe("the Emotional and Social needs ticked and rated (doc 36, section 10)",
         expect(ticked.social).toHaveLength(3);
         const settled = profileSettle(ticked, {}, people);
         expect(settled["social-rating"]).toEqual(["as-part-of-a-group-they-value:4"]);
-        expect(profileAnswerLines(settled).find(line => line.value.startsWith("As part"))?.value).toBe("As part of a group they value (4/5); As having good taste / style; As one of the few with access");
+        expect(profileAnswerLines(settled).find(line => line.value.startsWith("Part of"))?.value).toBe("Part of a group (4/5); Stylish; One of the few");
         // A business Segment does not keep a person's list.
         expect(profileSettle(ticked, {}, business).social).toBeUndefined();
     });

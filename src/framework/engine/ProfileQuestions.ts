@@ -48,14 +48,31 @@ const GOALS = ["Get easier access", "Learn something new", "Express who they are
 const FRUSTRATIONS = ["It costs too much", "It takes too long", "It is too complicated", "The quality is inconsistent", "It is hard to find someone they trust", "They lack the know-how", "Support is poor", "They worry about mistakes or rules", "They have no time or capacity", "Prices are unclear"];
 /** The words of an option said of one person and in no pronoun (the ids stay those of the first wording: they are saved answers). */
 const WORDS: Record<string, string> = {
-    "express-who-they-are": "Self-expression", "a-service-made-for-them": "A tailored service", "your-website": "Your website",
-    "it-costs-too-much": "Cost too high", "it-takes-too-long": "Takes too long", "it-is-too-complicated": "Too complicated", "the-quality-is-inconsistent": "Inconsistent quality",
-    "it-is-hard-to-find-someone-they-trust": "Hard to find someone trustworthy", "they-lack-the-know-how": "Lack of know-how", "support-is-poor": "Poor support",
-    "they-worry-about-mistakes-or-rules": "Fear of mistakes or breaking rules", "they-have-no-time-or-capacity": "No time / capacity", "prices-are-unclear": "Unclear prices",
-    "the-price-or-their-budget": "The price / budget", "whether-they-can-trust-you": "Whether you can be trusted", "whether-it-fits-their-needs": "Whether it fits the need",
-    "support-after-they-buy": "Support after the sale", "the-effort-of-switching-from-what-they-use-now": "The effort of switching from the current option",
-    "shared-values-or-identity": "Shared values / identity", "risk-or-security": "Risk / security",
-    "a-demo-trial-or-sample": "A demo / trial / sample", "a-quote-or-proposal": "A quote / proposal", "a-meeting-or-call": "A meeting / call"
+    // The six questions' options in short, plain words (owner, 2026-11-06: "change the options' wording to something simpler, in their i to explain further").
+    // What matters most (B1, L1).
+    "lower-price": "Low price", "ease-and-convenience": "Convenience", "quality-and-results": "Quality", "trust-and-reputation": "Reputation", "expert-knowledge": "Expertise",
+    "a-service-made-for-them": "Tailored service", "good-support": "Support", "safety-and-low-risk": "Safety", "shared-values-or-identity": "Shared values",
+    // Goals (E1, L4).
+    "get-easier-access": "Easier access", "express-who-they-are": "Express themselves", "win-customers-or-earn-more": "Earn more",
+    // Frustrations (E2, L3).
+    "it-costs-too-much": "Too costly", "it-takes-too-long": "Too slow", "it-is-too-complicated": "Too complicated", "the-quality-is-inconsistent": "Uneven quality",
+    "it-is-hard-to-find-someone-they-trust": "No one to trust", "they-lack-the-know-how": "Don't know how", "support-is-poor": "Poor support",
+    "they-worry-about-mistakes-or-rules": "Fear of mistakes", "they-have-no-time-or-capacity": "No time", "prices-are-unclear": "Unclear prices",
+    // Worries (E3, L2).
+    "the-price-or-their-budget": "Price", "whether-they-can-trust-you": "Trust in you", "how-long-it-takes-to-start": "Time to start", "how-hard-it-is-to-use": "Ease of use",
+    "risk-or-security": "Risk / security", "whether-it-fits-their-needs": "Fit", "support-after-they-buy": "Support after buying",
+    "the-effort-of-switching-from-what-they-use-now": "Switching effort",
+    // Emotional needs.
+    "calm-and-worry-free": "Calm", "rewarded-treated": "Treated", "relaxed-looked-after": "Looked after", "healthy-and-well": "Healthy",
+    "delighted-by-how-it-looks": "Delighted by its look", "reminded-of-good-times": "Nostalgic", "fulfilled-as-they-grow": "Fulfilled",
+    "sure-they-made-the-right-choice": "Sure of their choice", "growing-in-their-work": "Growing at work", "hopeful-about-their-business": "Hopeful for the business",
+    "inspired-about-what-comes-next": "Inspired",
+    // Social needs.
+    "as-having-good-taste-style": "Stylish", "as-part-of-a-group-they-value": "Part of a group", "as-one-of-the-few-with-access": "One of the few",
+    "as-caring-for-others-or-the-planet": "Caring for others or the planet", "as-leaving-something-for-their-family": "Leaving a legacy",
+    "as-someone-others-trust": "Trusted", "as-well-connected": "Well connected", "as-more-valued-in-their-field": "Valued in their field", "as-a-responsible-business": "Responsible",
+    // Other questions' words.
+    "your-website": "Your website", "a-demo-trial-or-sample": "A demo / trial / sample", "a-quote-or-proposal": "A quote / proposal", "a-meeting-or-call": "A meeting / call"
 };
 const WORRIES = ["The price or their budget", "Whether they can trust you", "How long it takes to start", "How hard it is to use", "Risk or security", "Whether it fits their needs", "Support after they buy", "The effort of switching from what they use now"];
 
@@ -106,7 +123,9 @@ const QUESTIONS: readonly ProfileQuestion[] = [
     },
     {
         id: "b1", box: "psychographics", label: "What matters most to {o}?", many: true, max: 5, options: list(CARES), rating: { low: "Optional", high: "Essential" },
-        info: ["What they weigh when choosing between offers. Tick up to five, then rate how much each matters.", "For example, a busy parent may weigh Speed and Ease and convenience; a collector, Quality and results.", "Write their interests, lifestyle and hopes in the note."]
+        info: ["What they weigh when choosing between offers. Tick up to five, then rate how much each matters.", "For example, a busy parent may weigh Speed and Convenience; a collector, Quality.",
+            "Convenience: easy to find, buy and use. Reputation: a name they trust. Tailored service: made for them, not for everyone.",
+            "Safety: low risk, nothing goes wrong. Shared values: it stands for what they believe in.", "Write their interests, lifestyle and hopes in the note."]
     },
     {
         id: "c1", box: "hubs", label: "Which devices does {s} use?", many: true,
@@ -139,14 +158,14 @@ const QUESTIONS: readonly ProfileQuestion[] = [
         options: [{ id: "alone", label: "Works it out alone" }, { id: "little", label: "Likes a little guidance" }, { id: "person", label: "Wants to talk to a person" }, { id: "formal", label: "Needs a formal demonstration or proposal" }],
         info: ["The help a typical person wants before buying; it can differ from how comfortable the Segment is online."]
     },
-    { id: "e1", box: "goals", label: "What does {s} want to achieve?", many: true, max: 3, options: list(GOALS), rating: { low: "Minor", high: "Main" }, info: ["The results they are after, not what they weigh when choosing (that is \"What matters most\"). Choose up to three, then rate each.", "For example, to learn a new craft, or to win more clients.", "Based on: gains (Value Proposition Canvas)."] },
-    { id: "e2", box: "challenges", label: "What frustrates {o} today?", many: true, max: 3, options: list(FRUSTRATIONS), rating: { low: "Mild", high: "Severe" }, info: ["What goes wrong with the way they do it now, before they buy from you. Choose up to three, then rate how much each bothers them.", "For example, the cheap version breaks too soon, or nobody explains how to start.", "Based on: pains (Value Proposition Canvas)."] },
+    { id: "e1", box: "goals", label: "What does {s} want to achieve?", many: true, max: 3, options: list(GOALS), rating: { low: "Minor", high: "Main" }, info: ["The results they are after, not what they weigh when choosing (that is \"What matters most\"). Choose up to three, then rate each.", "For example, to learn a new craft, or to win more clients.", "Easier access: to something hard to reach or get. Meet a requirement: a need they must fill, at work or by law. Earn more: win customers or income.", "Based on: gains (Value Proposition Canvas)."] },
+    { id: "e2", box: "challenges", label: "What frustrates {o} today?", many: true, max: 3, options: list(FRUSTRATIONS), rating: { low: "Mild", high: "Severe" }, info: ["What goes wrong with the way they do it now, before they buy from you. Choose up to three, then rate how much each bothers them.", "For example, the cheap version breaks too soon, or nobody explains how to start.", "No one to trust: hard to find someone reliable. Fear of mistakes: getting it wrong, or breaking a rule. No time: no time or staff to do it.", "Based on: pains (Value Proposition Canvas)."] },
     // The Needs (doc 36, section 10): Emotional and Social ticked and rated, by the Segment's kind; Functional stays the numbered list. Each kind's list stays as its note.
-    { id: "emotional", box: "needs", label: "How does {s} want to feel?", many: true, max: 3, options: list(EMOTIONAL_PEOPLE), rating: { low: "Mild", high: "Strong" }, info: NEEDS_INFO("feelings", "For example, calm and worry-free when a delivery arrives on time, or delighted by how a room looks.") },
+    { id: "emotional", box: "needs", label: "How does {s} want to feel?", many: true, max: 3, options: list(EMOTIONAL_PEOPLE), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("feelings", "For example, calm when a delivery arrives on time, or delighted by how a room looks."), "Treated: rewarded, given something special. Nostalgic: reminded of good times. Fulfilled: growing as a person."] },
     { id: "emotional-b2b", box: "needs", label: "How does {s} want to feel?", many: true, max: 3, options: list(EMOTIONAL_BUSINESS), rating: { low: "Mild", high: "Strong" }, info: NEEDS_INFO("feelings", "For example, sure they chose the right supplier, or glad to work with you again.") },
-    { id: "social", box: "needs", label: "How does {s} want to be seen?", many: true, max: 3, options: list(SOCIAL_PEOPLE), rating: { low: "Mild", high: "Strong" }, info: NEEDS_INFO("ways of being seen by others", "For example, as having good taste when friends visit, or as caring for the planet.") },
+    { id: "social", box: "needs", label: "How does {s} want to be seen?", many: true, max: 3, options: list(SOCIAL_PEOPLE), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("ways of being seen by others", "For example, as stylish when friends visit, or as caring for the planet."), "One of the few: with access others do not have. Leaving a legacy: something for their family."] },
     { id: "social-b2b", box: "needs", label: "How does {s} want to be seen?", many: true, max: 3, options: list(SOCIAL_BUSINESS), rating: { low: "Mild", high: "Strong" }, info: NEEDS_INFO("ways of being seen by others", "For example, as someone colleagues trust, or as a responsible business.") },
-    { id: "e3", box: "objections", label: "What might hold {o} back?", many: true, max: 3, options: list(WORRIES), rating: { low: "Minor", high: "Blocking" }, info: ["Their doubts about buying from you, not what frustrates them today (the question above). Choose up to three, then rate each.", "For example, whether a beginner can keep up, or whether you will still be there after the sale.", "Starts with the price where the Segment's household income is rated 1; change it freely."] }
+    { id: "e3", box: "objections", label: "What might hold {o} back?", many: true, max: 3, options: list(WORRIES), rating: { low: "Minor", high: "Blocking" }, info: ["Their doubts about buying from you, not what frustrates them today (the question above). Choose up to three, then rate each.", "For example, whether a beginner can keep up, or whether you will still be there after the sale.", "Fit: whether it suits their need. Switching effort: the work of leaving what they use now.", "Starts with the price where the Segment's household income is rated 1; change it freely."] }
 ];
 
 export const PROFILE_QUESTIONS = QUESTIONS;

@@ -169,15 +169,15 @@ const STAGE_OPENINGS: Record<string, string> = {
 
 /** K10's words for each value of L1: what to offer where they are weak (1 or 2), and the value as a noun ("Be known for ...", "Match them on ..."). */
 const VALUE_OPENINGS: Record<string, { better: string; noun: string }> = {
-    "lower-price": { better: "Offer lower prices", noun: "lower prices" },
+    "lower-price": { better: "Offer lower prices", noun: "low prices" },
     speed: { better: "Be faster", noun: "speed" },
-    "ease-and-convenience": { better: "Make it easier and more convenient", noun: "ease and convenience" },
-    "quality-and-results": { better: "Offer better quality and results", noun: "quality and results" },
-    "trust-and-reputation": { better: "Earn more trust", noun: "trust and reputation" },
-    "expert-knowledge": { better: "Offer more expert knowledge", noun: "expert knowledge" },
-    "a-service-made-for-them": { better: "Offer a service made for them", noun: "a service made for them" },
-    "good-support": { better: "Offer better support", noun: "good support" },
-    "safety-and-low-risk": { better: "Make it safer and lower risk", noun: "safety and low risk" },
+    "ease-and-convenience": { better: "Make it more convenient", noun: "convenience" },
+    "quality-and-results": { better: "Offer better quality", noun: "quality" },
+    "trust-and-reputation": { better: "Earn a better reputation", noun: "reputation" },
+    "expert-knowledge": { better: "Offer more expertise", noun: "expertise" },
+    "a-service-made-for-them": { better: "Offer a tailored service", noun: "a tailored service" },
+    "good-support": { better: "Offer better support", noun: "support" },
+    "safety-and-low-risk": { better: "Make it safer", noun: "safety" },
     "shared-values-or-identity": { better: "Show the values you share with them", noun: "shared values" }
 };
 

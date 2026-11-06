@@ -104,7 +104,7 @@ describe("K10: the openings, from the card's own answers", () => {
         const openings = competitorOpenings(answers, "direct", { profiles, others: [] });
         // Speed: (5-3) x 5 = 10; Lower price: (5-2) x 2 = 6; Good support 4, not a B1 value: no option; Quality 5: no option.
         expect(openings.map(opening => opening.label)).toEqual(["Be known for speed", "Offer lower prices"]);
-        expect(hardToBeat("Etsy weavers", answers)).toEqual(["Etsy weavers is hard to beat on quality and results, so compete elsewhere."]);
+        expect(hardToBeat("Etsy weavers", answers)).toEqual(["Etsy weavers is hard to beat on quality, so compete elsewhere."]);
         // A B1 value rated 4 is matched.
         expect(competitorOpenings({ "k8-rating": ["speed:4"] }, "direct", { profiles, others: [] }).map(opening => opening.label)).toEqual(["Match them on speed"]);
     });

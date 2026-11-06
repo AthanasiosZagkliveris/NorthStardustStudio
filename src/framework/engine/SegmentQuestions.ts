@@ -332,6 +332,16 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         info: ["How easily they use websites, apps and online payment, not whether they own a device."]
     },
     {
+        id: "social", box: "purchasing", label: "How do your customers like to socialise?", many: false,
+        options: [
+            { id: "digital", label: "Mostly online (gaming, community servers, chat apps)" },
+            { id: "mixed", label: "Online and in person" },
+            { id: "inperson", label: "Mostly in person (events, hospitality, clubs, sports)" }
+            // ("Mostly on their own" removed, owner 2026-11-04: it contradicted the question and fed nothing; a saved answer of it is dropped when read.)
+        ],
+        info: ["Where they spend their free time. It decides how they meet brands and products."]
+    },
+    {
         id: "discover", box: "purchasing", label: "Where do your customers discover new products?", many: true, max: 3,
         options: [
             { id: "peers", label: "Friends, family and colleagues" },
@@ -345,16 +355,6 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             "What you tick here is offered on the Profile as related platforms to choose from.",
             "Choose up to three."
         ]
-    },
-    {
-        id: "social", box: "purchasing", label: "How do your customers like to socialise?", many: false,
-        options: [
-            { id: "digital", label: "Mostly online (gaming, community servers, chat apps)" },
-            { id: "mixed", label: "Online and in person" },
-            { id: "inperson", label: "Mostly in person (events, hospitality, clubs, sports)" }
-            // ("Mostly on their own" removed, owner 2026-11-04: it contradicted the question and fed nothing; a saved answer of it is dropped when read.)
-        ],
-        info: ["Where they spend their free time. It decides how they meet brands and products."]
     },
     {
         id: "share", box: "purchasing", label: "How do your customers share what they like?", many: true,
@@ -379,7 +379,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     {
         id: "path", box: "purchasing", label: "How do your customers usually decide to buy?", many: false,
         options: [
-            { id: "impulse", label: "On impulse: They see it, like it and buy it there and then" },
+            { id: "impulse", label: "Straight away: They see it, like it and buy it there and then" },
             { id: "researcher", label: "After comparing options: They weigh prices, features and reviews first" },
             { id: "validator", label: "On a recommendation: They buy what friends, family or colleagues suggest" }
         ],
@@ -427,15 +427,6 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     /* ---- Box 5, Market Size & Industry Outlook ---- */
 
     {
-        id: "trajectory", box: "market-size", label: "Is your market growing or shrinking?", many: false,
-        rating: { low: "Shrinking", high: "Booming" },
-        options: ratingOptions({ low: "Shrinking", high: "Booming" }),
-        info: [
-            "Where the market is heading, apart from its size: a market can be large and declining, or small and expanding fast.",
-            "1: falling demand, or deep structural change. 3: flat, a saturated market. 5: an emerging market, growing fast every year."
-        ]
-    },
-    {
         id: "tam", box: "market-size", label: "How many potential customers are there?", many: false,
         options: [
             { id: "micro", label: "Very small niche, under 1,000" },
@@ -444,6 +435,15 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "mass", label: "Mass market, 500,000 or more" }
         ],
         info: ["Everyone in the area you serve who could buy it, if every one of them chose you (the total addressable market).", "For a Segment of businesses, count the organisations, not the people in them."]
+    },
+    {
+        id: "trajectory", box: "market-size", label: "Is your market growing or shrinking?", many: false,
+        rating: { low: "Shrinking", high: "Booming" },
+        options: ratingOptions({ low: "Shrinking", high: "Booming" }),
+        info: [
+            "Where the market is heading, apart from its size: a market can be large and declining, or small and expanding fast.",
+            "1: falling demand, or deep structural change. 3: flat, a saturated market. 5: an emerging market, growing fast every year."
+        ]
     },
     {
         id: "trends", box: "market-size", label: "What is changing most for your customers?", many: true, max: 2,
