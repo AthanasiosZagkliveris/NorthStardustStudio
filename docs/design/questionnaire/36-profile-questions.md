@@ -418,7 +418,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 1. **C2 to C4** keep the lists the app already has (the social media, the communities, the events); no longer list is added. A specific name is written in the box's own note, as it is today.
 2. **Their conditions** (online comfort, the ways of discovering ideas, the social environment) hold: a tendency of the Segment is enough to leave a Profile question out, so a short Segment gives a shorter Profile.
-3. **The needs** stay open text lists. *Replaced for Emotional and Social (owner, 2026-11-03): they become ticks, section 10; Functional stays text.*
+3. **The needs** stay open text lists. *Replaced for Emotional and Social (owner, 2026-11-03): they become ticks, section 10; Functional stays text.* *Proposed for Functional (owner, 2026-11-06): ticks from L17 with its Notes, and the Offering ticks those (doc 43, after O13).*
 4. **The end user's Profile skips Box D** (2.1); the payer's Profile holds how they compare and what help they want.
 
 **Answered for the App User and not shown (owner, 2026-11-01).** The same rule as the Segment's (doc 35): where the answers above leave one answer, it is set and the question is not drawn.

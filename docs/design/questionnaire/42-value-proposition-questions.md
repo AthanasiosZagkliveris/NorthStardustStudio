@@ -28,7 +28,7 @@ The sentence follows Moore's positioning template, as taught at Stanford [FUN-28
 
 - **Control:** a button above the text, "Add a draft". It adds the sentence at the end of the text and never overwrites it.
 - **Shown when:** the Segment has a name, at least one of its Profiles has answered E2 or holds a need, and at least one of its Offerings has a Type.
-- **The words:** "For [the Segment's name] who [the first frustration ticked in the Profiles' E2] and want to [the first goal ticked in E1], [the Offering's name] is a [the Offering's form, O1, else its Type] that [the Offering's main benefit, the first ticked in O4]. Unlike [a Competitor of type Direct competitor, else Status quo], it [the competitor's K3 that matches the Offering's O4]."
+- **The words:** "For [the Segment's name] who [the first frustration ticked in the Profiles' E2] and want to [the first goal ticked in E1], [the Offering's name] is a [the Offering's form, O1, else its Type] that [the Offering's main benefit, the first ticked in O4]. Unlike [a Competitor of type Direct competitor, else Status quo], it [a value of K8 the competitor is rated 1 or 2 on that matches the Offering's O4, doc 41]."
   - A blank whose answer is missing is left in square brackets, so the App User sees what to add.
   - With several Offerings, the draft uses the first, and the button offers one draft per Offering.
 - **The "i" says:**
@@ -50,7 +50,7 @@ Each item names the Profile, Offering or Competitor it is about, and opens it. T
 | **Unwanted benefit** | A benefit an Offering claims (O4) that no Profile cares about (B1) |
 | **Worry left open** | A worry a Profile ticked (E3) that no Offering answers (O8) |
 | **Job left to a competitor** | Withdrawn (2026-11-04): doc 41's job question was withdrawn as an Offering question, so there is no Competitor's job to compare with O13 (doc 43) |
-| **Emotional and social needs** | A Profile's emotional or social need that no Offering addresses. This puts into effect the tile's built note, "Identify how the Value Proposition addresses each Customer Profile's emotional and social needs." |
+| **Emotional and social needs** | The Value Proposition is the one owner of these (owner, 2026-11-06; the Offering does not tick them, doc 43): each emotional or social need ticked on the Segment's Profiles (doc 36, section 10), the strongest first, until the text says how it answers it. This puts into effect the tile's built note, "Identify how the Value Proposition addresses each Customer Profile's emotional and social needs." |
 
 - **The "i" says:** Gaps between what your customers want and what your Offerings give. They are reminders, not errors.
 - **Connections:**
@@ -66,7 +66,7 @@ Nothing in the text changes: a draft once added is the App User's. The open item
 **Decided (owner, 2026-11-03):**
 - The positioning statement is drafted per Segment in this tile.
 - No new Positioning cells are added for the pain point, the category or the status quo (doc 28, 8.2).
-- Emotional and Social needs are ticks (doc 36, section 10), so the "Emotional and social needs" item compares ticks; "Unanswered need" still compares the functional texts by entry.
+- Emotional and Social needs are ticks (doc 36, section 10) and the Value Proposition alone answers them (owner, 2026-11-06), so the "Emotional and social needs" item lists the ticked needs, not an Offering's ticks; "Unanswered need" still compares the functional texts by entry (L17 ticks if the functional needs become choices, doc 43).
 
 **Still to decide:**
 - With several Offerings: one draft per Offering, or one draft that names the main Offering (proposed: one per Offering, each added by its own button).

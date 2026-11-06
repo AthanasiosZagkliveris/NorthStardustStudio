@@ -1,6 +1,6 @@
 # The first version and the questionnaire (documents 27 to 43)
 
-Status: **index**, updated 2026-11-05. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
+Status: **index**, updated 2026-11-06. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
 
 What the first published version contains and what it leaves for later (33, which governs the other documents of this chapter), the questions of each tile as built, and the plan, the lists and the research behind them. Read in this order. **What governs:** 33 (the first version, sections 1 to 9; what is left for later, sections 10 to 15). **The tiles as built, one document each (40 gives the form and the list):** 37 (the Organisation), 38 (Positioning), 35 (the Segment), 36 (the Profile, built in part). **How to word them:** 39 (what an "i" says) and, in 28, sections 3 and 4 (the rules and the plain wording). **The design behind them:** 27 (the plan), 28 (every question, the connections and the evidence), 29 (the flow). **The lists and the data:** 34 (the lists and classifications), 31 and 32 (the positioning decisions and their sources), 30 (age limits).
 
@@ -9,7 +9,7 @@ The standard for these documents is [the standard of the documents](../../standa
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
 | [27-questionnaire-plan.md](27-questionnaire-plan.md) | proposal | The questionnaire plan: the goal, the funnel, the one test (does an answer save the founder work?), the order of building and what was cut. | 2026-11-04 |
-| [28-questionnaire-specification.md](28-questionnaire-specification.md) | proposal | The questionnaire specification: every question, option and rule for the Identity, Segment, Profile, Competitor, Offering and Engagement cards, the connections and the evidence. | 2026-11-03 |
+| [28-questionnaire-specification.md](28-questionnaire-specification.md) | proposal | The questionnaire specification: every question, option and rule for the Identity, Segment, Profile, Competitor, Offering and Engagement cards, the connections and the evidence. | 2026-11-05 |
 | [29-question-guide.md](29-question-guide.md) | proposal | The question guide: the flow of the questions as trees, the key branches and how a question earns its place. | 2026-11-03 |
 | [30-age-limits-by-activity.md](30-age-limits-by-activity.md) | research | Age limits by activity and country: which kinds of business are connected with a minimum age (direct or possible) in the six countries, with sources and status. | 2026-11-03 |
 | [31-positioning-categories.md](31-positioning-categories.md) | collection | The owner's positioning data as given (age stages, buyer categories, relationships, purposes), the register of decisions on it and the reference tables. | 2026-11-03 |

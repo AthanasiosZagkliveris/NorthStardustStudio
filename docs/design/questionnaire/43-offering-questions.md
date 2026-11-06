@@ -7,8 +7,8 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 **What the card is.** An Offering belongs to its Segment, as a Profile does. Pages 2 to 5 read it by id and never copy it (the page specifications' README, point 1). The card has these parts, in order:
 - **The head:** the number, the name cell and the one x (built).
 - **The Type** (built): Product, Service, Hybrid, or Other with its name.
-- **Functional Needs Addressed** (built): ticks of the Segment's Profiles' functional needs.
-- **One box of questions** (proposed): O1 to O13 below, one band each, with the Segment card's layout.
+- **Functional Needs Addressed** (built): ticks of the Segment's Profiles' functional needs (proposed 2026-11-06: their L17 ticks, O13 merged in; below, after O13).
+- **One box of questions** (proposed): O1 to O13 below, one band each, with the Segment card's layout; O12 is derived, not asked (2026-11-06).
 - **The text boxes** (built), each kept as the note for what the questions cannot say: Function; Customer Benefit (O4); Content & Scope; Purchase & Delivery (O3, O6); Support & Communication (O7); Requirements & Conditions (O10).
 
 **The rules of the card** are the Segment's (doc 35):
@@ -48,10 +48,13 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - In a trial / beta
   - Still being built
   - Just an idea
+- **Starts from the business stage** (proposed, owner 2026-11-06; `BusinessStage.ts`, from the Opening Date): Planning → "Still being built"; Launching → "Almost ready"; Managing or Growing → "Yes, now". Only a starting value: an answer chosen is never overwritten, and every option stays (a growing business can still plan a new Offering, "Just an idea").
 - **The "i" says:**
   - Where it stands today. Sales planned before it is ready are noted on the Review.
+  - It starts from your business stage; change it for this Offering.
 - **Connections:**
-  - *Read by (not built yet):* the Review (a Demand estimate for an Offering that is not ready); the Business Plan's product section.
+  - *Comes from (proposed):* the business stage (Organisation: the Opening Date and the Global Settings' durations).
+  - *Read by (not built yet):* the Review (a Demand estimate for an Offering that is not ready; a mismatch with the stage: Planning with an Offering "Yes, now", sales before the opening, or Managing with every Offering "Just an idea"); the Business Plan's product section.
 
 ### O3. How do customers pay for it?
 
@@ -144,16 +147,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - *Comes from:* the Profiles' E3.
   - *Read by (not built yet):* the Value Proposition's open items (doc 42); the actions proposed at the Evaluation stage on page 2 (doc 28, 11.5, rule 8: price → a quote; trust → proof; fit → a demo).
 
-### Emotional and social needs addressed
-
-- **Control:** ticks, as many as apply.
-- **Asked when:** at least one emotional or social need is ticked on the Segment's Profiles (ticks decided by the owner, 2026-11-03, doc 36 section 10).
-- **Options:** the emotional and social needs ticked in the Segment's Profiles.
-- **The "i" says:**
-  - How it makes your customers feel, and how it helps them be seen. The Value Proposition shows any of their needs that nothing addresses.
-- **Connections:**
-  - *Comes from:* the Profiles' emotional and social needs.
-  - *Read by (not built yet):* the Value Proposition's open items (doc 42).
+**The emotional and social needs are not asked here** (owner, 2026-11-06): the Value Proposition answers them (doc 42, its one owner). An "Emotional and social needs addressed" question proposed here on 2026-11-03 is withdrawn.
 
 ### O13. What job does it do for them?
 
@@ -173,7 +167,13 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Based on: Bain's Elements of Value (HBR).
 - **Connections:**
   - *Comes from:* nothing. The Profiles' functional needs stay their own words (doc 36, section 10); the owner proposed this list (2026-11-03) to compare the Offering with the Competitors; the Competitor's job question was withdrawn on 2026-11-04, so the comparison is gone and whether O13 stays is open.
-  - *Read by (not built yet):* the Review. Doc 41's job question was withdrawn on 2026-11-04 as an Offering question, and with it the Value Proposition's open item "Job left to a competitor" (doc 42); a Competitor chosen for the same thing (rated 4 or 5 in K8, doc 41, against O4) is still a close rival, to be answered in its Insights & Differentiation.
+  - *Read by (not built yet):* the Review. Doc 41's job question was withdrawn on 2026-11-04 as an Offering question, and with it the Value Proposition's open item "Job left to a competitor" (doc 42); a Competitor chosen for the same thing (rated 4 or 5 in K8, doc 41, against O4) is still a close rival, to be answered in its Insights & Differentiation. No Competitor question uses L17 now.
+
+**Proposed (owner, 2026-11-06): the functional needs as choices, and O13 merged into them.** L17 is the rest of Bain's functional elements of value [FUN-48], those the Profile's "What matters most" (B1, L1) does not already hold: saves time is Speed, simplifies and avoids hassles are Ease and convenience, reduces cost is Lower price, reduces risk is Safety and low risk, quality is Quality and results. So:
+- The Profile's Functional needs (doc 36, section 10) become ticks from L17, up to 3, each rated, as the Emotional and Social needs are, with the Notes under them for what no tick says (the specifics in the App User's words).
+- The Offering's "Functional Needs Addressed" ticks those ticked needs, the ones the Segment's Profiles chose; O13 is merged into it and goes: one question, no overlap.
+- Saved answers: the Profiles' typed functional needs stay as their Notes; an Offering's "needs addressed" that matched a typed line is kept until the App User ticks again.
+- Not built: it changes the Profile's and the Offering's code.
 
 ### O10. What does the customer need to give you?
 
@@ -193,44 +193,47 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Connections:**
   - *Read by (not built yet):* the Delivery card's "What could slow the work down?" (doc 28, 9.3, W3), as starting ticks: approval and access.
 
-### O12. Is a minimum age to buy it set by law?
+### O12. Is a minimum age to buy it set by law? (no longer a question; proposed, owner 2026-11-06)
 
-- **Control:** ticks, as many as apply.
-- **Asked when:** the Segment's age group (doc 35, Box 1, question 1) is Minors or Young adults, or its end user's age includes Baby, Child or Teenager.
-- **Options:**
-  - Alcohol
-  - Tobacco, vapes or nicotine
-  - Gambling, betting or lotteries
-  - Knives or blades
-  - Fireworks
-  - Films or games with age ratings
-  - Credit, loans or Buy Now, Pay Later
-  - Tattoos, sunbeds or cosmetic treatments
-  - Adult content
-  - Pets
-  - Medicines
-  - None of these
-- **Exclusion:** choosing "None of these" clears every other choice, and choosing any other clears it.
-- **The "i" says:**
-  - Some things cannot be sold below a legal age. The age in your country shows beside each one ticked. Check the law where you sell.
+The answer is already in the app: the Organisation's business activities (doc 28, 6.1, I1; their codes, doc 34, 5.4), the Segment's age group and end user's age (doc 35, Box 1, question 1; the end user's 1), the Profiles' ages (doc 36, A1) and the Organisation's country (the ages, doc 28, 10.3). So nothing is asked: the app derives it.
+
+- **The check:** an activity of an age-restricted kind (the table) and a Segment, end user or Profile younger than the country's age for that kind → a Review item, "Alcohol: the legal age is 18 in the United Kingdom; your Segment includes Young adults (18 to 24)", and a read-only line on each of the Segment's Offerings.
+- **Where the activity tells** (NACE Rev. 2 codes, to be checked against the country schemes and NACE Rev. 2.1 through the crosswalk, doc 34, 5.4):
+
+  | Kind | Activities that tell |
+  |---|---|
+  | Alcohol | 11.01 to 11.05 (making drinks), 46.34 (wholesale of drinks), 47.25 (shops for drinks), 56.30 (bars) |
+  | Tobacco, vapes or nicotine | 12.00, 46.35, 47.26 |
+  | Gambling, betting or lotteries | 92.00 |
+  | Fireworks | 20.51 (explosives) |
+  | Knives or blades | 25.71 (cutlery) |
+  | Films or games with age ratings | 59.11 to 59.13 (films), 58.21 (computer games), 47.63 (shops for films and games) |
+  | Credit, loans or Buy Now, Pay Later | 64.92 (other credit) |
+  | Tattoos, sunbeds or cosmetic treatments | 96.02 (beauty), 96.04 (sunbeds and well-being) |
+  | Pets | 47.76 (pet shops) |
+  | Medicines | 21.20 (making medicines), 46.46, 47.73 (pharmacies) |
+
+- **Where the activity cannot tell:** general shops and online sellers (47.11, 47.19, 47.78, 47.91, 47.99), markets, wholesale of mixed goods (46.90), and adult content (no code of its own). Proposed, still without a question: the app looks for the kind's words (beer, wine, vape, knife, firework, …) in the Offering's name and its Function and Content & Scope notes; a match makes the same Review item, worded as a check ("Does Craft Beer Tasting include alcohol? The legal age is 18 …"). A false match is cleared on the Review, not by a question.
+- **Withdrawn:** the ticks, their "None of these" and the condition on the Segment's age (the question of 2026-11-03).
 - **Connections:**
-  - *Comes from:* the Segment's age; the Organisation's country (the ages shown, doc 28, 10.3, with their status).
-  - *Read by (not built yet):* the Review (a Segment whose age group starts below the age).
+  - *Comes from:* the activities, the ages and the country above.
+  - *Read by (not built yet):* the Review.
 
 ## What changes when an answer above changes
 
 - A change of the Type changes O1's options. An O1 answer no longer offered is removed on the next choice, and O10 is no longer asked of a Product.
 - A change of O1 changes only O6's starting value, never an O6 already chosen.
 - A change of a Profile's E3 changes O8's options. A worry no longer ticked on any Profile is removed from O8 on the next choice.
-- A change of the Segment's age removes O12's question when it no longer applies; its answer is removed on the next choice.
+- A change of an activity, an age or the country changes O12's derived Review item at once (proposed).
+- A change of the business stage changes O2's starting value only, never an answer chosen (proposed).
 
 ## Decided, and still to decide
 
-**Decided (owner, 2026-11-03):** Offerings belong to their Segment; no "Not sure" options.
+**Decided (owner, 2026-11-03):** Offerings belong to their Segment; no "Not sure" options. **(owner, 2026-11-06):** the emotional and social needs are the Value Proposition's, not an Offering question.
 
 **Still to decide:**
 - The option words written new here are proposals until you approve them (doc 28, rule 3.6): O1, O2, O3 ("Pay as they go"), O6 and O7.
-- O13 and L17 (owner's idea, 2026-11-03): the list words, and whether up to 3 is right.
+- O13 and L17 (owner's idea, 2026-11-03): proposed on 2026-11-06 to merge into the functional needs (after O13); the list words still to approve.
 - O11, what they spend on (doc 28, 6.8): it is not asked here, because nothing would read it yet. Keep it as a thought, or drop it.
 - **Not asked:**
   - O5 (merged into O4, 2026-10-26).
