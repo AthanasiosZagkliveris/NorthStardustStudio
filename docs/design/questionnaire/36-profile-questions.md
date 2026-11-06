@@ -221,16 +221,16 @@ A typical person of the Segment, asked specifically.
 - **Control:** ticks, up to 5, then a rating of each ticked value from "Optional" to "Essential" (`RatingScaleGroup`, `selectable`; section 11, built 2026-11-04).
 - **Asked when:** always.
 - **Options:** the list L1 (doc 34, 5.2):
-  - Lower price
+  - Low price
   - Speed
-  - Ease and convenience
-  - Quality and results
-  - Trust and reputation
-  - Expert knowledge
-  - A tailored service
-  - Good support
-  - Safety and low risk
-  - Shared values / identity
+  - Convenience
+  - Quality
+  - Reputation
+  - Expertise
+  - Tailored service
+  - Support
+  - Safety
+  - Shared values
 - **The "i" would say:** What matters most to a typical person of the Segment when choosing. Interests, lifestyle and aspirations stay in the note.
 - **Connections:**
   - *Read by (built, 2026-11-05):* the Competitor's K8 shows every value of L1, those ticked here first, the highest rated first, each banded by how many Profiles ticked it, and its K10 weighs each value by its rating here (doc 41).
@@ -344,11 +344,11 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 - **Control:** ticks, up to 3, then a rating of each ticked goal from "Minor" to "Main" (section 11, built 2026-11-04).
 - **Options:** the list L4 (doc 34, 5.2), without the four goals that repeat B1 (Save time, Save money, Lower risk, Get better results: B1's Speed, Lower price, Safety and low risk, Quality and results; owner, 2026-11-03):
-  - Get easier access
+  - Easier access
   - Learn something new
-  - Self-expression
+  - Express themselves
   - Meet a requirement
-  - Win customers or earn more
+  - Earn more
   - Stay within the rules
 - **The "i" says:** Choose up to three. What they want to achieve. What matters to them when choosing is asked under Psychographics. Based on: gains (Value Proposition Canvas) [FUN-46].
 - **Asked when:** always. *Read by (not built yet):* the Value Proposition draft (the gains). *Comes from:* nothing.
@@ -357,15 +357,15 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 - **Control:** ticks, up to 3, then a rating of each ticked frustration from "Mild" to "Severe" (section 11, built 2026-11-04).
 - **Options:** the list L3 (doc 34, 5.2), ten frustrations:
-  - Cost too high
-  - Takes too long
+  - Too costly
+  - Too slow
   - Too complicated
-  - Inconsistent quality
-  - Hard to find someone trustworthy
-  - Lack of know-how
+  - Uneven quality
+  - No one to trust
+  - Don't know how
   - Poor support
-  - Fear of mistakes or breaking rules
-  - No time / capacity
+  - Fear of mistakes
+  - No time
   - Unclear prices
 - **The "i" says:** Choose up to three. What goes wrong for them today, before they buy from you. Based on: pains (Value Proposition Canvas) [FUN-46].
 - **Asked when:** always. *Read by (not built yet):* the Value Proposition draft (the pains); the Review. *Comes from:* nothing.
@@ -374,17 +374,19 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 - **Control:** ticks, up to 3, then a rating of each ticked worry from "Minor" to "Blocking" (section 11, built 2026-11-04).
 - **Options:** the list L2 (doc 34, 5.2), eight worries:
-  - The price / budget
-  - Whether you can be trusted
-  - How long it takes to start
-  - How hard it is to use
+  - Price
+  - Trust in you
+  - Time to start
+  - Ease of use
   - Risk / security
-  - Whether it fits the need
-  - Support after the sale
-  - The effort of switching from the current option
+  - Fit
+  - Support after buying
+  - Switching effort
 - **The "i" says:** Choose up to three. Their doubts about buying from you; what frustrates them today is asked above (E2). Starts with the price where the Segment's household income is rated 1; change it freely.
 - **Asked when:** always. *Read by (not built yet):* the Offering ticks the worries it answers (O8); the Evaluation actions suggested on page 2. *Comes from:* the Segment's household income (the starting value).
 
+
+**The options' words made shorter (owner, 2026-11-06: "change the options' wording to something simpler, in their i to explain further").** The ids are unchanged, so saved answers, the Competitor's values and K10 read as before (`WORDS` in `ProfileQuestions.ts`); what a short word means is a line of the question's "i". B1: Low price, Speed, Convenience, Quality, Reputation, Expertise, Tailored service, Support, Safety, Shared values. E1: Easier access, Learn something new, Express themselves, Meet a requirement, Earn more, Stay within the rules. E2: Too costly, Too slow, Too complicated, Uneven quality, No one to trust, Don't know how, Poor support, Fear of mistakes, No time, Unclear prices. E3: Price, Trust in you, Time to start, Ease of use, Risk / security, Fit, Support after buying, Switching effort. The needs: section 10.
 
 **Wording made simpler (owner, 2026-11-05: "Improve the wording to something more simple and concise. Add extra explanations, information and details in their i").** Built in `ProfileQuestions.ts`, the ids unchanged:
 - E1 "What does she want to achieve?" (was "What are her main goals?"); E2 "What frustrates her today?" (was "... about how it is done now?"); E3 "What might hold her back?" (was "What might stop her buying from you?"); the Social needs "How does she want to be seen?" (was "How does she want others to see her?").
@@ -446,16 +448,16 @@ The owner asked (2026-11-03) whether the three Needs lists could be choices inst
 **Why Emotional and Social can be ticks.** How people want to feel, and how they want to be seen, falls into a short set that holds across businesses. Bain's *Elements of Value* names it from surveys of 10,000 consumers [FUN-48] and of business buyers [FUN-49]. The lists below are those elements in plain UK words, cut to what a small business can deliver.
 
 **Emotional: "How do they want to feel?"** Ticks, up to 3. The options follow the Segment's kind (doc 35, the buyer type).
-- People (B2C): Calm and worry-free; Rewarded / treated; Relaxed / looked after; Entertained; Attractive; Healthy and well; Delighted by how it looks; Reminded of good times; Motivated; Hopeful; Fulfilled, as they grow.
-- Business (B2B): Sure they made the right choice; Glad to work with you; Growing in their work; Hopeful about their business; Inspired about what comes next.
+- People (B2C): Calm; Treated; Looked after; Entertained; Attractive; Healthy; Delighted by its look; Nostalgic; Motivated; Hopeful; Fulfilled.
+- Business (B2B): Sure of their choice; Glad to work with you; Growing at work; Hopeful for the business; Inspired.
 
 **Social: "How do they want to be seen?"** Ticks, up to 3.
-- People (B2C): As having good taste / style; As part of a group they value; As one of the few with access; As caring for others or the planet; As leaving something for their family.
-- Business (B2B): As someone others trust; As well connected; As more valued in their field; As a responsible business.
+- People (B2C): Stylish; Part of a group; One of the few; Caring for others or the planet; Leaving a legacy.
+- Business (B2B): Trusted; Well connected; Valued in their field; Responsible.
 
-**The "i" says:** Choose up to three: the feelings that make them buy, not every feeling they have. Write the details in the note. Based on: Bain's Elements of Value (HBR, 2016 and 2018).
+**The "i" says:** what 1 and 5 mean; the feelings (or ways of being seen) that make them buy, not every one they have, up to three, each rated; one example; what the short words mean ("Treated: rewarded, given something special", "Nostalgic: reminded of good times", "Fulfilled: growing as a person"; "One of the few: with access others do not have", "Leaving a legacy: something for their family"); Bain's Elements of Value (HBR, 2016 and 2018). The words shortened 2026-11-06 (owner), the ids kept.
 
-**Asked when:** always. **Connections:** *Comes from:* the Segment's kind (the list). *Read by (not built yet):* the Offering's "Emotional and social needs addressed" (doc 43); the Value Proposition's open items (doc 42, "Unanswered need" and "Emotional and social needs").
+**Asked when:** always. **Connections:** *Comes from:* the Segment's kind (the list). *Read by (not built yet):* the Value Proposition's open items, their one owner (owner, 2026-11-06) (doc 42, "Unanswered need" and "Emotional and social needs").
 
 **What changes for saved work.** Nothing is lost: a Profile's emotional and social texts become the notes of the two questions, and the ticks start empty. The Offering's ticks of functional needs are untouched.
 

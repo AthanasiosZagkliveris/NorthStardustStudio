@@ -16,7 +16,7 @@ The rules that hold for all of them: a radio is one choice, ticks are several (w
 | Question | Becomes | Kept as is, and why |
 |---|---|---|
 | Box 4, 1. and the end user's 8. Online comfort | rating: Uneasy to Confident | |
-| Box 5, 1. Growing or shrinking | rating: Shrinking to Booming | |
+| Box 5, 2. Growing or shrinking | rating: Shrinking to Booming | |
 | Box 5, 4. How crowded | rating: Open to Crowded | |
 | Box 1, 8. Household income | rating: Low to High (owner, 2026-11-04, by request: its five bands were already a scale) | |
 | Box 1, 9. Gender mix | rating: Mostly men to Mostly women (owner, 2026-11-04, by request); the shares stay in the "i" | |
@@ -343,7 +343,23 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* Channel order (digital-only channels lower, personal help higher).
 
-### 2. Where do your customers discover new products?
+### 2. How do your customers like to socialise?
+
+- **Control:** one choice (a radio).
+- **Asked when:** The buyer is people.
+- **Options:**
+  - Mostly online (gaming, community servers, chat apps)
+  - Online and in person
+  - Mostly in person (events, hospitality, clubs, sports)
+  - ("Mostly on their own" removed, owner 2026-11-04: it contradicted the question, which asks how they socialise, and nothing read it; a saved answer of it is dropped when read.)
+- **The "i" says:**
+  - Where they spend their free time. It decides how they meet brands and products.
+- **Connections:**
+  - *Comes from:* Early Positioning: the relationship (people).
+  - *Read by (built):* The Market document and the export; the Profile's C4 (events) is asked when this is Online and in person or Mostly in person (doc 36).
+  - *Read by (not built yet):* The Profile's social and interest hubs.
+
+### 3. Where do your customers discover new products?
 
 - **Control:** ticks, up to 3.
 - **Asked when:** Always.
@@ -361,22 +377,6 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* The Profile's related platforms; the order of the channels where customers discover you.
-
-### 3. How do your customers like to socialise?
-
-- **Control:** one choice (a radio).
-- **Asked when:** The buyer is people.
-- **Options:**
-  - Mostly online (gaming, community servers, chat apps)
-  - Online and in person
-  - Mostly in person (events, hospitality, clubs, sports)
-  - ("Mostly on their own" removed, owner 2026-11-04: it contradicted the question, which asks how they socialise, and nothing read it; a saved answer of it is dropped when read.)
-- **The "i" says:**
-  - Where they spend their free time. It decides how they meet brands and products.
-- **Connections:**
-  - *Comes from:* Early Positioning: the relationship (people).
-  - *Read by (built):* The Market document and the export; the Profile's C4 (events) is asked when this is Online and in person or Mostly in person (doc 36).
-  - *Read by (not built yet):* The Profile's social and interest hubs.
 
 ### 4. How do your customers share what they like?
 
@@ -416,7 +416,7 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
 - **Control:** one choice (a radio).
 - **Asked when:** The buyer is people.
 - **Options:**
-  - On impulse: They see it, like it and buy it there and then
+  - Straight away: They see it, like it and buy it there and then (was "On impulse", renamed 2026-11-06)
   - After comparing options: They weigh prices, features and reviews first
   - On a recommendation: They buy what friends, family or colleagues suggest
   - (Reworded 2026-11-05, owner: "improve the wording of the options". The ids are unchanged. Reading reviews was in two options before; it is comparing now, and advice from people they know is a recommendation, as the Profile's D1 starts already read them.)
@@ -485,23 +485,11 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
 
 ## Box 5. Market Size & Industry Outlook
 
+*Order (owner, 2026-11-06): size, then growth, then the changes, then crowding. In Box 4, how they socialise comes before where they discover new products.*
+
 Both.
 
-### 1. Is your market growing or shrinking?
-
-- **Control:** a rating, 1 to 5 (`RatingScale`), the "i" first saying "1 = Shrinking, 5 = Booming.". Answers saved before 2026-11-04 are read as: Shrinking or disrupted 1, Flat / stable 3, Growing steadily 4, Growing fast 5.
-- **Asked when:** Always.
-- **Options:** the points 1 to 5.
-- **The "i" says:**
-  - Where the market is heading, apart from its size: a market can be large and declining, or small and expanding fast.
-  - 1: falling demand, or deep structural change. 3: flat, a saturated market. 5: an emerging market, growing fast every year.
-- **What it is for.** A growing market leaves room for a new business without taking customers from anyone; a shrinking one means winning them from the competitors already there. **As built, it is read only by the Market document and the export** (the Business Plan's Market Analysis). **Proposed (2026-11-04), not built:** the Competitor's K10 (doc 41) offers "Win new customers the market brings" when this is rated 4 or 5, and "Win customers from [competitor]" for a rival rated Strong on few values when it is rated 1 or 2; Strategy's Situation analysis reads it beside the crowding (Box 5, question 4).
-- **Connections:**
-  - *Comes from:* Nothing.
-  - *Read by (built):* The Market document and the export; the Business Plan's Market Analysis is covered once a market question is answered.
-  - *Read by (not built yet):* Competitor emphasis (a thought, doc 33, row 2).
-
-### 2. How many potential customers are there?
+### 1. How many potential customers are there?
 
 - **Control:** one choice (a radio).
 - **Asked when:** Always.
@@ -517,6 +505,20 @@ Both.
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export; the Business Plan's Market Analysis is covered once a market question is answered.
   - *Read by (not built yet):* The Review.
+
+### 2. Is your market growing or shrinking?
+
+- **Control:** a rating, 1 to 5 (`RatingScale`), the "i" first saying "1 = Shrinking, 5 = Booming.". Answers saved before 2026-11-04 are read as: Shrinking or disrupted 1, Flat / stable 3, Growing steadily 4, Growing fast 5.
+- **Asked when:** Always.
+- **Options:** the points 1 to 5.
+- **The "i" says:**
+  - Where the market is heading, apart from its size: a market can be large and declining, or small and expanding fast.
+  - 1: falling demand, or deep structural change. 3: flat, a saturated market. 5: an emerging market, growing fast every year.
+- **What it is for.** A growing market leaves room for a new business without taking customers from anyone; a shrinking one means winning them from the competitors already there. **As built, it is read only by the Market document and the export** (the Business Plan's Market Analysis). **Proposed (2026-11-04), not built:** the Competitor's K10 (doc 41) offers "Win new customers the market brings" when this is rated 4 or 5, and "Win customers from [competitor]" for a rival rated Strong on few values when it is rated 1 or 2; Strategy's Situation analysis reads it beside the crowding (Box 5, question 4).
+- **Connections:**
+  - *Comes from:* Nothing.
+  - *Read by (built):* The Market document and the export; the Business Plan's Market Analysis is covered once a market question is answered.
+  - *Read by (not built yet):* Competitor emphasis (a thought, doc 33, row 2).
 
 ### 3. What is changing most for your customers?
 

@@ -193,18 +193,18 @@ For Internal solution and Status quo the box stays text only: it asks about the 
   - Direct competitor, Indirect competitor: "How do they do on what customers value?"
   - Substitute: "How does this alternative do on what customers value?"
   - Internal solution: "How does doing it themselves do on what customers value?"
-  - Status quo: "How does doing nothing do on what customers value?" For example, Lower price can be a 5, because doing nothing is free.
+  - Status quo: "How does doing nothing do on what customers value?" For example, Low price can be a 5, because doing nothing is free.
 - **Rows:** every value of L1 (owner, 2026-11-04: "place all the options, but in a hierarchy order depending on the profiles what matters most. Also, highlight the options according to the profile"): ordered by the highest B1 rating among the Segment's Profiles (Essential first), then by how many Profiles tick it, then L1's order (`competitorValueRows`). Each row a Profile ticks carries a band of one colour whose step is only the number of Profiles that chose it, not their ratings (owner, 2026-11-04): 1 Profile the lightest, then 2, 3, and 4 or more the darkest (`bandTone`, `valueProfiles`; the tokens `--tint-importance-1` to `-4`, doc 21). With one Profile in the Segment every chosen row has the same light band; an unchosen row has none. No Other. The list L1:
-  - Lower price
+  - Low price
   - Speed
-  - Ease and convenience
-  - Quality and results
-  - Trust and reputation
-  - Expert knowledge
-  - A tailored service
-  - Good support
-  - Safety and low risk
-  - Shared values / identity
+  - Convenience
+  - Quality
+  - Reputation
+  - Expertise
+  - Tailored service
+  - Support
+  - Safety
+  - Shared values
 - **The "i" says:**
   - Rate each from what their customers say and what you have seen: 1 is a clear weakness, 5 a clear strength.
   - Once a row has a band: "The darker the band, the more of your Profiles chose it."
@@ -249,8 +249,8 @@ A section of its own after the SWOT, as built: a title band that folds, as the D
 - **Wording by type:** the same for every type; the options follow the type (below).
 - **Options:** built by the app from this card's answers, each by its rule, and shown only once its source question is answered:
   - From K8's ratings, the whole scale. Each rated value has an opening score, (5 − rating) × weight, where the weight is 2 if a Profile of the Segment ticked the value in "What matters most" (doc 36, B1) and 1 otherwise; once B1 is rated (doc 36, section 11, proposed), the weight is the Profiles' highest rating of the value (1 to 5). The options come in score order; ties are broken by how many of the Segment's competitors rated the value low.
-    - Rating 1 or 2: what to offer, in the value's own words: "Offer lower prices", "Be faster", "Make it easier and more convenient", "Offer better quality and results", "Earn more trust", "Offer more expert knowledge", "Offer a service made for them", "Offer better support", "Make it safer and lower risk", "Show the values you share with them".
-    - Rating 3: "Be known for [value]" (they are average, so there is room), for example "Be known for quality and results".
+    - Rating 1 or 2: what to offer, in the value's own words: "Offer lower prices", "Be faster", "Make it more convenient", "Offer better quality", "Earn a better reputation", "Offer more expertise", "Offer a tailored service", "Offer better support", "Make it safer", "Show the values you share with them" (shortened with the values' words, 2026-11-06).
+    - Rating 3: "Be known for [value]" (they are average, so there is room), for example "Be known for quality".
     - Rating 4: "Match them on [value]", shown only for a B1 value (customers expect it).
     - Rating 5: no option.
   - Once K5 is answered, for each social medium, community or kind of event a Profile of the Segment ticks (C2 to C4) that K5's sub-channels do not hold: "Reach customers on TikTok", "Reach customers in Facebook groups", "Meet customers at workshops and classes".
