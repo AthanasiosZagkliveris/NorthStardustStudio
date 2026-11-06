@@ -13,7 +13,9 @@ const base = arg("base", "http://localhost:1420");
 const out = arg("out", "tools/catalogue/measures/help-texts.json");
 const org = JSON.parse(readFileSync(new URL("../../../src/data/examples/quillfield-automation-llc.json", import.meta.url), "utf8"));
 const browser = await chromium.launch(process.env.PW_CHANNEL ? { channel: process.env.PW_CHANNEL } : {});
-const page = await (await browser.newContext({ viewport: { width: 1920, height: 1000 } })).newPage();
+// A page that crashes (the renderer runs out of memory on a long walk) is replaced, and the step is tried once more on the new one.
+const context = await browser.newContext({ viewport: { width: 1920, height: 1000 } });
+let page = await context.newPage();
 page.setDefaultTimeout(6000);
 const wait = ms => page.waitForTimeout(ms);
 const found = new Map();
@@ -71,7 +73,15 @@ async function record(where) {
         }
     } catch (error) { console.log("record failed " + where + ": " + String(error).slice(0, 80)); }
 }
-const attempt = async (name, fn) => { try { await fn(); } catch (error) { console.log("skipped " + name + ": " + String(error).slice(0, 90)); } };
+const attempt = async (name, fn, again = true) => {
+    try { await fn(); } catch (error) {
+        if (again && /crashed|closed/i.test(String(error))) {
+            await page.close().catch(() => {}); page = await context.newPage(); page.setDefaultTimeout(6000);
+            return attempt(name, fn, false);
+        }
+        console.log("skipped " + name + ": " + String(error).slice(0, 90));
+    }
+};
 
 const PAGES = { "Identity System": ["1. Definition", "2. Legal Entity"], "Brand System": [null], "Business System": ["1. Foundation", "Customer Engagement", "Infrastructure", "Financial Foundation", "Sustainability"], "Strategy System": [null] };
 for (const [system, pages] of Object.entries(PAGES)) {

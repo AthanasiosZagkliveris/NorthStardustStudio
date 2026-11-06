@@ -93,11 +93,11 @@
   {
    "label": "Colour",
    "place": "floating card",
-   "text": "With white 14.4:1 (AAA) · with black 1.5:1 (not for text)\nFormula: Contrast = (L_lighter + 0.05) ÷ (L_darker + 0.05)\nHow readable text in this colour is against white or black. AA needs 4.5:1 for body text (3:1 large), AAA 7:1.\nSource: W3C, “WCAG 2.1: contrast ratio”",
-   "lines": 14,
+   "text": "With white 14.4:1 (AAA) · with black 1.5:1 (not for text)\nFormula: Contrast = (L_lighter + 0.05) ÷ (L_darker + 0.05)\nHow readable text in this colour is against white or black. AA needs 4.5:1 for body text (3:1 large), AAA 7:1.\nSource: Kirkpatrick, A. et al. (eds) (2025) Web Content Accessibility Guidelines (WCAG) 2.1: contrast ratio. W3C Recommendation. Available at: https://www.w3.org/TR/WCAG21/#dfn-contrast-ratio (Accessed: 29 September 2026).",
+   "lines": 20,
    "points": 4,
    "w": 360,
-   "chars": 267,
+   "chars": 450,
    "scenes": [
     "Brand System / main / tile Colours / card 1"
    ]
@@ -117,11 +117,11 @@
   {
    "label": "Colour",
    "place": "floating card",
-   "text": "With white 5.2:1 (AA) · with black 4.0:1 (large text only)\nFormula: Contrast = (L_lighter + 0.05) ÷ (L_darker + 0.05)\nHow readable text in this colour is against white or black. AA needs 4.5:1 for body text (3:1 large), AAA 7:1.\nSource: W3C, “WCAG 2.1: contrast ratio”",
-   "lines": 14,
+   "text": "With white 5.2:1 (AA) · with black 4.0:1 (large text only)\nFormula: Contrast = (L_lighter + 0.05) ÷ (L_darker + 0.05)\nHow readable text in this colour is against white or black. AA needs 4.5:1 for body text (3:1 large), AAA 7:1.\nSource: Kirkpatrick, A. et al. (eds) (2025) Web Content Accessibility Guidelines (WCAG) 2.1: contrast ratio. W3C Recommendation. Available at: https://www.w3.org/TR/WCAG21/#dfn-contrast-ratio (Accessed: 29 September 2026).",
+   "lines": 20,
    "points": 4,
    "w": 360,
-   "chars": 268,
+   "chars": 451,
    "scenes": [
     "Brand System / main / tile Colours / card 2"
    ]
@@ -281,6 +281,19 @@
    ]
   },
   {
+   "label": "What do they offer?",
+   "place": "floating card",
+   "text": "The kinds the app uses for Offerings. A product and a service sold together is a Hybrid.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 88,
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1",
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
    "label": "Market",
    "place": "floating card",
    "text": "Which areas and industries do they serve?",
@@ -294,13 +307,65 @@
    ]
   },
   {
-   "label": "Customer Acquisition",
+   "label": "Where do they sell?",
    "place": "floating card",
-   "text": "How do they reach and attract customers?",
+   "text": "The widest area they sell in. Write the industries they serve in the note.",
    "lines": 3,
    "points": 1,
    "w": 360,
-   "chars": 40,
+   "chars": 74,
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1",
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "label": "How big is their organisation?",
+   "place": "floating card",
+   "text": "The EU's sizes, as on your Segment. A sole trader is Micro.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 59,
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1",
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "label": "Is their business growing?",
+   "place": "floating card",
+   "text": "1 = Declining, 5 = Growing.\nFrom what you can see: more branches, staff, products or reviews, or fewer.",
+   "lines": 6,
+   "points": 2,
+   "w": 360,
+   "chars": 103,
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1",
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "label": "Customer Acquisition",
+   "place": "floating card",
+   "text": "How do they reach customers?",
+   "lines": 2,
+   "points": 1,
+   "w": 360,
+   "chars": 28,
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1",
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "label": "How do they reach customers?",
+   "place": "floating card",
+   "text": "Tick each channel they use to find customers, then which ones: the same lists as your Profiles, so the app can see where your customers are and they are not.\nWrite their account and shop names in the note. Payment and delivery channels are not listed: they do not reach new customers.",
+   "lines": 12,
+   "points": 2,
+   "w": 360,
+   "chars": 284,
    "scenes": [
     "Business System / 1. Foundation / tile Competitors / card 1",
     "Business System / 1. Foundation / tile Competitors / card 2"
@@ -309,63 +374,63 @@
   {
    "label": "Customer Experience",
    "place": "floating card",
-   "text": "What do customers say about their experience?",
-   "lines": 3,
-   "points": 1,
+   "text": "What do customers say about their experience?\nRead their reviews, buy from them or ask for a quote yourself, and ask people who use them.",
+   "lines": 7,
+   "points": 2,
    "w": 360,
-   "chars": 45,
+   "chars": 137,
    "scenes": [
     "Business System / 1. Foundation / tile Competitors / card 1",
     "Business System / 1. Foundation / tile Competitors / card 2"
    ]
   },
   {
-   "label": "Strengths",
+   "label": "Where are they reviewed, and how are they rated?",
    "place": "floating card",
-   "text": "What does the competitor do particularly well?",
-   "lines": 3,
-   "points": 1,
+   "text": "1 = Poor, 5 = Excellent.\nTick each place they are reviewed and give their average there, to the nearest star. Most people only use a business with 4 stars or more.\nNot listed? Tick Other and write it. Google is where most people read reviews of local businesses (71% in 2026).\nMarketplace: where they sell, such as Etsy, Amazon or eBay.\nApp store: Apple's App Store or Google Play.\nTrade directory: Checkatrade or TrustATrader in the UK, Angi or HomeAdvisor in the US, HomeStars in Canada.\nFood delivery app: Just Eat or Deliveroo in the UK, Grubhub in the US, SkipTheDishes in Canada, Menulog in Australia.",
+   "lines": 28,
+   "points": 7,
    "w": 360,
-   "chars": 46,
+   "chars": 607,
    "scenes": [
     "Business System / 1. Foundation / tile Competitors / card 1",
     "Business System / 1. Foundation / tile Competitors / card 2"
    ]
   },
   {
-   "label": "Weaknesses",
+   "label": "How easy do they make each stage for customers?",
    "place": "floating card",
-   "text": "Where does the competitor fall short?",
-   "lines": 2,
-   "points": 1,
+   "text": "1 = Hard, 5 = Easy.\nWhere their customers are let down along the way, and where it goes smoothly. The values below say what falls short; this says where.\nTo find out, look at their website and social media, sign up to their newsletter or buy from them once.",
+   "lines": 11,
+   "points": 3,
    "w": 360,
-   "chars": 37,
+   "chars": 257,
    "scenes": [
     "Business System / 1. Foundation / tile Competitors / card 1",
     "Business System / 1. Foundation / tile Competitors / card 2"
    ]
   },
   {
-   "label": "Opportunities",
+   "label": "How do they do on what customers value?",
    "place": "floating card",
-   "text": "What changes in the market could benefit the competitor?",
-   "lines": 3,
-   "points": 1,
+   "text": "1 = Weak, 5 = Strong.\nRate each from what their customers say and what you have seen: 1 is a clear weakness, 5 a clear strength.\nThe darker the band, the more of your Profiles chose it.",
+   "lines": 10,
+   "points": 3,
    "w": 360,
-   "chars": 56,
+   "chars": 185,
    "scenes": [
     "Business System / 1. Foundation / tile Competitors / card 1",
     "Business System / 1. Foundation / tile Competitors / card 2"
    ]
   },
   {
-   "label": "Threats",
+   "label": "How could each change affect them?",
    "place": "floating card",
-   "text": "What could weaken the competitor's position?",
-   "lines": 3,
-   "points": 1,
+   "text": "1 = Threat, 5 = Opportunity.\nHow each change could help or hurt them. The examples of each change, as on your Segment.",
+   "lines": 6,
+   "points": 2,
    "w": 360,
-   "chars": 44,
+   "chars": 118,
    "scenes": [
     "Business System / 1. Foundation / tile Competitors / card 1",
     "Business System / 1. Foundation / tile Competitors / card 2"
@@ -379,6 +444,19 @@
    "points": 1,
    "w": 360,
    "chars": 75,
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1",
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "label": "What could you do differently?",
+   "place": "floating card",
+   "text": "Openings drawn from what you answered above. Tick the ones you will act on, then write how in the text.\nFreelance automation specialists on marketplaces (Upwork, Fiverr) is hard to beat on affordability, so compete elsewhere.",
+   "lines": 11,
+   "points": 2,
+   "w": 360,
+   "chars": 225,
    "scenes": [
     "Business System / 1. Foundation / tile Competitors / card 1",
     "Business System / 1. Foundation / tile Competitors / card 2"
@@ -492,11 +570,11 @@
   {
    "label": "Segment Description",
    "place": "tile dialog",
-   "text": "Divide your Target Audience into segments, as many as your business stage allows (one while planning and launching, up to two while managing, any number while growing), focusing on the highest-value or easiest-to-reach groups.\nDefine up to 3 customer profiles, including their problems, needs, and the best approach for reaching them.\nEach box asks choice questions. Which ones appear follows your Positioning (Identity): who the buyer is (people or businesses), their life stage, the buyer's category and the business stage. A question that no longer applies is not asked, and its answer is removed.",
-   "lines": 24,
-   "points": 3,
+   "text": "Divide your Target Audience into segments, starting with the groups worth most or easiest to reach.\nHow many follows your stage: one while planning or launching, up to two while managing, any number while growing.\nDefine up to 3 customer profiles, including their problems, needs, and the best approach for reaching them.\nWhich choices each box asks follows your Positioning (who buys, their life stage and category) and your stage. An answer no longer asked is removed.",
+   "lines": 21,
+   "points": 4,
    "w": 360,
-   "chars": 600,
+   "chars": 470,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -562,9 +640,9 @@
   {
    "label": "Which industry are your customers in?",
    "place": "tile dialog",
-   "text": "The industries of the sector chosen, as the official schemes (SIC and NACE, NAICS, ANZSIC) name their sections.\nGovernment and public administration includes embassies and international bodies. Other services includes households that employ staff, such as cleaners and nannies.",
+   "text": "The industries of the sector chosen, as the official schemes (SIC and NACE, NAICS, ANZSIC) name their sections.\nGovernment and public administration includes embassies and international bodies.\nOther services includes households that employ staff, such as cleaners and nannies.",
    "lines": 13,
-   "points": 2,
+   "points": 3,
    "w": 360,
    "chars": 277,
    "scenes": [
@@ -576,11 +654,25 @@
   {
    "label": "Market Size & Industry Outlook",
    "place": "tile dialog",
-   "text": "How large is this group? Where is this market heading: growth, key trends, changes in technology or regulation, competition, and what they mean for your customers?\nThese answers describe the market the customers belong to, not your own business.",
-   "lines": 11,
+   "text": "How large is this group, and where is its market heading: growth, the changes that matter, how crowded it is?\nThese answers describe the market the customers belong to, not your own business.",
+   "lines": 10,
    "points": 2,
    "w": 360,
-   "chars": 245,
+   "chars": 191,
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description",
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "label": "How many potential customers are there?",
+   "place": "tile dialog",
+   "text": "Everyone in the area you serve who could buy it, if every one of them chose you (the total addressable market).\nFor a Segment of businesses, count the organisations, not the people in them.",
+   "lines": 10,
+   "points": 2,
+   "w": 360,
+   "chars": 189,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -590,25 +682,11 @@
   {
    "label": "Is your market growing or shrinking?",
    "place": "tile dialog",
-   "text": "Where the market is heading, apart from its size: a market can be large and declining, or small and expanding fast.\nGrowing fast: Emerging market, high year-on-year growth\nGrowing steadily: Mature market, predictable upward trend\nFlat / stable: Saturated market, consistent volume but low growth\nShrinking / disrupted: Shrinking market or undergoing severe structural changes",
-   "lines": 18,
-   "points": 5,
+   "text": "1 = Shrinking, 5 = Booming.\nWhere the market is heading, apart from its size: a market can be large and declining, or small and expanding fast.\n1: falling demand, or deep structural change. 3: flat, a saturated market. 5: an emerging market, growing fast every year.",
+   "lines": 12,
+   "points": 3,
    "w": 360,
-   "chars": 375,
-   "scenes": [
-    "Business System / 1. Foundation / tile Segment Description",
-    "Business System / 1. Foundation / tile Segment Description / card 1",
-    "Business System / 1. Foundation / tile Segment Description / card 2"
-   ]
-  },
-  {
-   "label": "How many potential customers are there (TAM)?",
-   "place": "tile dialog",
-   "text": "The total number of potential buyers if you had 100% of the market, in the area you serve.",
-   "lines": 5,
-   "points": 1,
-   "w": 360,
-   "chars": 90,
+   "chars": 266,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -618,11 +696,11 @@
   {
    "label": "What is changing most for your customers?",
    "place": "tile dialog",
-   "text": "Choose up to two.\nTechnology: Automation, AI, old systems being replaced\nRules and law: New compliance, tax changes, environmental mandates\nThe economy: Inflation, budget cuts, shifts in spending power\nSociety and lifestyle: Remote work, sustainability, changing habits\nSupply and delivery: Material shortages, logistics costs, local sourcing",
-   "lines": 17,
-   "points": 6,
+   "text": "The changes that affect your customers most. Choose up to two.\nEach Competitor is rated on how every one of these could affect it, the ones ticked here first.\nTechnology: Automation, AI, old systems being replaced\nRules and law: New compliance, tax changes, environmental mandates\nThe economy: Inflation, budget cuts, shifts in spending power\nSociety and lifestyle: Remote work, sustainability, changing habits\nSupply and delivery: Material shortages, logistics costs, local sourcing",
+   "lines": 22,
+   "points": 7,
    "w": 360,
-   "chars": 342,
+   "chars": 483,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -632,11 +710,11 @@
   {
    "label": "How crowded is your market?",
    "place": "tile dialog",
-   "text": "Red Ocean and Blue Ocean are the strategy terms of Kim and Mauborgne: a crowded market against an uncontested one.\nCrowded: Red Ocean. Dominated by big established players; price wars are common.\nFragmented: Many small and medium players; none controls the market.\nOpen: Blue Ocean. Very few direct competitors; the niche is new.",
-   "lines": 16,
-   "points": 4,
+   "text": "1 = Open, 5 = Crowded.\nRed Ocean and Blue Ocean are the strategy terms of Kim and Mauborgne: a crowded market against an uncontested one.\n1: very few direct competitors; the niche is new. 3: many small players, none in control. 5: big established players and price wars.",
+   "lines": 12,
+   "points": 3,
    "w": 360,
-   "chars": 329,
+   "chars": 270,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -646,11 +724,11 @@
   {
    "label": "Geographics",
    "place": "tile dialog",
-   "text": "Where do they live, work or operate?\nWhere most of your customers are, and, for customers in one place or one country, the kind of area they live or work in (asked once the business is managing or growing).\nIf your customers are in more than one place, make another Segment.",
-   "lines": 12,
-   "points": 3,
+   "text": "Where do they live, work or operate?\nWhere most of your customers are.\nOnce you are managing or growing, and for customers in one place or one country: the kind of area they live or work in.\nIf your customers are in more than one place, make another Segment.",
+   "lines": 13,
+   "points": 4,
    "w": 360,
-   "chars": 274,
+   "chars": 258,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -674,11 +752,11 @@
   {
    "label": "Purchasing Power & Behaviour",
    "place": "tile dialog",
-   "text": "How do they find, choose, buy and pay, and who decides?\nSome questions are for every customer (online comfort, where they discover ideas, where they buy, how they pay), some for people (their habits and how they decide to buy) and one for businesses (how the purchase is authorized).\nThe ways of discovering ideas that you tick are offered on the Profile as related platforms.",
-   "lines": 17,
-   "points": 3,
+   "text": "How do they find, choose, buy and pay, and who decides?\nFor every customer: online comfort, how they socialise, where they shop, how they pay.\nFor people: where they discover and share, what makes them shop and how they decide. For businesses: who decides to buy.\nThe ways of discovering new products that you tick are offered on the Profile as related platforms.",
+   "lines": 16,
+   "points": 4,
    "w": 360,
-   "chars": 376,
+   "chars": 363,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -688,11 +766,11 @@
   {
    "label": "How comfortable are your customers online?",
    "place": "tile dialog",
-   "text": "How easily they use websites, apps and online payment, not whether they own a device.",
-   "lines": 5,
-   "points": 1,
+   "text": "1 = Uneasy, 5 = Confident.\nHow easily they use websites, apps and online payment, not whether they own a device.",
+   "lines": 6,
+   "points": 2,
    "w": 360,
-   "chars": 85,
+   "chars": 112,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -730,11 +808,11 @@
   {
    "label": "How do your customers pay?",
    "place": "tile dialog",
-   "text": "Digital wallets are for example Apple Pay, Google Pay and PayPal. Buy Now, Pay Later is for example Klarna and Afterpay.\nInvoicing is asked for business customers only. Credit and Buy Now, Pay Later are not open to minors.\nChoosing a phone as where they buy starts Digital wallets here; change it freely.\nSelect all that apply.",
-   "lines": 16,
-   "points": 4,
+   "text": "Digital wallets are for example Apple Pay, Google Pay and PayPal. Buy Now, Pay Later is for example Klarna and Afterpay.\nCash is still about one payment in ten in the UK (UK Finance, 2024).\nInvoicing is asked for business customers only. Credit and Buy Now, Pay Later are not open to minors.\nChoosing a phone as where they buy starts Digital wallets here; change it freely.\nSelect all that apply.",
+   "lines": 19,
+   "points": 5,
    "w": 360,
-   "chars": 327,
+   "chars": 396,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -744,11 +822,11 @@
   {
    "label": "Who decides to buy?",
    "place": "tile dialog",
-   "text": "Asked for business customers only. A formal procurement loop reveals the tender row on the Customer Engagement page.\nSelect all that apply.\nOne person decides: The user has the budget and the final say.\nThe team agrees: Users try it and push it upward.\nA manager signs off: Needs formal approval from a manager or executive.\nSeveral departments check: IT or security, legal and finance.\nFormal procurement: A tender or a request for proposals (RFP), with strict compliance.",
-   "lines": 23,
+   "text": "Asked for business customers only. A formal procurement loop reveals the tender row on the Customer Engagement page.\nSelect all that apply.\nOne person decides: The person who uses it has the budget and the final say.\nThe team agrees: The people who use it try it and push it upward.\nA manager signs off: Needs formal approval from a manager or executive.\nSeveral departments check: IT or security, legal and finance.\nFormal procurement: A tender or a request for proposals (RFP), with strict compliance.",
+   "lines": 24,
    "points": 7,
    "w": 360,
-   "chars": 473,
+   "chars": 503,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -758,11 +836,11 @@
   {
    "label": "Profile",
    "place": "floating card",
-   "text": "Divide your Target Audience into segments, as many as your business stage allows (one while planning and launching, up to two while managing, any number while growing), focusing on the highest-value or easiest-to-reach groups.\nDefine up to 3 customer profiles, including their problems, needs, and the best approach for reaching them.\nEach box asks choice questions. Which ones appear follows your Positioning (Identity): who the buyer is (people or businesses), their life stage, the buyer's category and the business stage. A question that no longer applies is not asked, and its answer is removed.",
-   "lines": 24,
-   "points": 3,
+   "text": "Divide your Target Audience into segments, starting with the groups worth most or easiest to reach.\nHow many follows your stage: one while planning or launching, up to two while managing, any number while growing.\nDefine up to 3 customer profiles, including their problems, needs, and the best approach for reaching them.\nWhich choices each box asks follows your Positioning (who buys, their life stage and category) and your stage. An answer no longer asked is removed.",
+   "lines": 21,
+   "points": 4,
    "w": 360,
-   "chars": 600,
+   "chars": 470,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -771,11 +849,11 @@
   {
    "label": "Specific Personal Information",
    "place": "floating card",
-   "text": "What are their exact age, gender, marital status, education and job title?\nThe note is for what is not asked above: a name, who they live with, where they live. Their age and the kind of work are asked above.",
-   "lines": 10,
+   "text": "What are their age, job level and role in buying?\nThe note is for what is not asked above: a name, their job title, where they live. Their age, household and work are asked above.",
+   "lines": 8,
    "points": 2,
    "w": 360,
-   "chars": 208,
+   "chars": 179,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -784,24 +862,24 @@
   {
    "label": "How old is this person?",
    "place": "floating card",
-   "text": "An exact age within the Segment's age group, for a typical person of the group, not the average.\nIf the Segment's age group changes and this age is no longer inside it, the age is cleared.",
+   "text": "One age within the Segment's age group: a typical person, not the average.\nIf the Segment's age group changes and this age falls outside it, the age is cleared.",
    "lines": 8,
    "points": 2,
    "w": 360,
-   "chars": 188,
+   "chars": 160,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
    ]
   },
   {
-   "label": "What kind of work does this person do?",
+   "label": "What is this person's job level?",
    "place": "floating card",
-   "text": "The ISCO-08 major groups in plain words: choose the group that fits the role.\nArmed forces: choose the group that fits the role; clergy count as professionals.",
-   "lines": 8,
-   "points": 2,
+   "text": "Based on: the seniority levels B2B platforms use (LinkedIn), merged into five.\nSenior executive: the chief executive, a C-level or a vice president. Trainees and interns: Specialist / team member.\nIt starts the role in buying: an owner or senior executive makes the final decision; a specialist uses it.",
+   "lines": 13,
+   "points": 3,
    "w": 360,
-   "chars": 159,
+   "chars": 303,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -810,11 +888,11 @@
   {
    "label": "What is this person's role in buying?",
    "place": "floating card",
-   "text": "The five buying-centre roles credited to Webster and Wind (1972).\n\"Will use it\" is the person who uses the offering day to day, who may be neither the one who pays nor the one who decides.",
+   "text": "The five buying-centre roles credited to Webster and Wind (1972).\n\"Uses it\" is the person who uses the offering day to day, who may be neither the one who pays nor the one who decides.",
    "lines": 10,
    "points": 2,
    "w": 360,
-   "chars": 188,
+   "chars": 184,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -836,11 +914,11 @@
   {
    "label": "What matters most to this person?",
    "place": "floating card",
-   "text": "What matters most to a typical person of the Segment when choosing.\nInterests, lifestyle and aspirations stay in the note.",
-   "lines": 7,
-   "points": 2,
+   "text": "1 = Optional, 5 = Essential.\nWhat they weigh when choosing between offers. Tick up to five, then rate how much each matters.\nFor example, a busy parent may weigh Speed and Convenience; a collector, Quality.\nAffordability: a price they can pay. Convenience: easy to find, buy and use. Reputation: a name they trust. Expertise: deep knowledge.\nPersonalisation: made for them, not for everyone. Safety / security: low risk, nothing goes wrong. Values: it stands for what they believe in.\nWrite their interests, lifestyle and hopes in the note.",
+   "lines": 23,
+   "points": 6,
    "w": 360,
-   "chars": 122,
+   "chars": 540,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -888,11 +966,11 @@
   {
    "label": "Which communities does this person belong to?",
    "place": "floating card",
-   "text": "Where they ask, read and recommend.\nThe names of the groups stay in the note.",
+   "text": "Where they ask, read and recommend.\nWrite the names of the groups in the note.",
    "lines": 6,
    "points": 2,
    "w": 360,
-   "chars": 77,
+   "chars": 78,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -951,13 +1029,13 @@
    ]
   },
   {
-   "label": "What are this person's main goals?",
+   "label": "What does this person want to achieve?",
    "place": "floating card",
-   "text": "Choose up to three.",
-   "lines": 2,
-   "points": 1,
+   "text": "1 = Minor, 5 = Main.\nThe results they are after, not what they weigh when choosing (that is \"What matters most\"). Choose up to three, then rate each.\nFor example, to learn a new craft, or to win more clients.\nAccessibility: getting something hard to reach. Development: learning something new. Expression: showing who they are. Revenue: winning customers or income.\nCompliance: meeting a requirement, at work or by law. Governance: staying within the rules.\nBased on: gains (Value Proposition Canvas).",
+   "lines": 24,
+   "points": 6,
    "w": 360,
-   "chars": 19,
+   "chars": 501,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -977,13 +1055,13 @@
    ]
   },
   {
-   "label": "What frustrates this person?",
+   "label": "What frustrates this person today?",
    "place": "floating card",
-   "text": "Choose up to three.",
-   "lines": 2,
-   "points": 1,
+   "text": "1 = Mild, 5 = Severe.\nWhat goes wrong with the way they do it now, before they buy from you. Choose up to three, then rate how much each bothers them.\nFor example, the cheap version breaks too soon, or nobody explains how to start.\nCost: too costly, or unclear prices. Delays: it takes too long. Inconsistency: results vary. Trust: hard to find someone reliable.\nInsecurity: not knowing how, or fearing a mistake. Capacity: no time or staff. Complexity: too complicated, or poor support.\nBased on: pains (Value Proposition Canvas).",
+   "lines": 24,
+   "points": 6,
    "w": 360,
-   "chars": 19,
+   "chars": 531,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -1003,13 +1081,13 @@
    ]
   },
   {
-   "label": "What might stop this person buying?",
+   "label": "What might hold this person back?",
    "place": "floating card",
-   "text": "Choose up to three.\nStarts with the price where the Segment's household income is Low; change it freely.",
-   "lines": 6,
-   "points": 2,
+   "text": "1 = Minor, 5 = Blocking.\nTheir doubts about buying from you, not what frustrates them today (the question above). Choose up to three, then rate each.\nFor example, whether a beginner can keep up, or whether you will still be there after the sale.\nCredibility: whether you can be trusted. Onboarding: the time to get started. Complexity: how hard it is to use. Fit: whether it suits their need.\nSupport: help after buying. Migration: the work of leaving what they use now. Risk: risk or security.\nStarts with the price where the Segment's household income is rated 1; change it freely.",
+   "lines": 25,
+   "points": 6,
    "w": 360,
-   "chars": 104,
+   "chars": 583,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -1018,11 +1096,11 @@
   {
    "label": "Needs",
    "place": "floating card",
-   "text": "Each need is one numbered line. The Offerings choose from these needs.",
-   "lines": 3,
-   "points": 1,
+   "text": "Functional: one numbered line a need; the Offerings choose from these.\nEmotional and Social: tick and rate up to three each, then add Notes.",
+   "lines": 7,
+   "points": 2,
    "w": 360,
-   "chars": 70,
+   "chars": 140,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -1042,26 +1120,26 @@
    ]
   },
   {
-   "label": "Emotional",
+   "label": "How does this person want to feel?",
    "place": "floating card",
-   "text": "How they want to feel when using the solution.",
-   "lines": 3,
-   "points": 1,
+   "text": "1 = Mild, 5 = Strong.\nThe feelings that make them buy, not every one they have. Choose up to three, then rate each.\nFor example, sure they chose the right supplier, or glad to work with you again.\nBased on: Bain's Elements of Value (HBR, 2016 and 2018).\nConfident: sure they made the right choice. Prosperous: growing in their work. Optimistic: hopeful about their business.",
+   "lines": 18,
+   "points": 5,
    "w": 360,
-   "chars": 46,
+   "chars": 374,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
    ]
   },
   {
-   "label": "Social",
+   "label": "How does this person want to be seen?",
    "place": "floating card",
-   "text": "How they want others to see them.",
-   "lines": 2,
-   "points": 1,
+   "text": "1 = Mild, 5 = Strong.\nThe ways of being seen by others that make them buy, not every one they have. Choose up to three, then rate each.\nFor example, as someone colleagues trust, or as a responsible business.\nBased on: Bain's Elements of Value (HBR, 2016 and 2018).\nInfluential: well connected. Respected: valued in their field.",
+   "lines": 16,
+   "points": 5,
    "w": 360,
-   "chars": 33,
+   "chars": 327,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -1082,11 +1160,11 @@
   {
    "label": "Value Proposition",
    "place": "tile dialog",
-   "text": "Identify how the Value Proposition addresses each Customer Profile's emotional and social needs.",
-   "lines": 5,
+   "text": "Say how it meets the emotional and social needs ticked and rated on each Profile. The lines in their Notes are listed below.",
+   "lines": 6,
    "points": 1,
    "w": 360,
-   "chars": 96,
+   "chars": 124,
    "scenes": [
     "Business System / 1. Foundation / tile Value Proposition"
    ]
@@ -1174,11 +1252,11 @@
   {
    "label": "The Stretched Operations Manager",
    "place": "page",
-   "text": "Personal & Psychographics: Dana Morales, operations manager at a 22-person accounting firm in Downtown Brooklyn; the person everyone asks when a system breaks. Practical, organized and overloaded; wants fewer manual steps and fewer mistakes; wary of hype and of tools that create more work than they save.\nSocial & Interest Hubs: The firm’s software vendor webinars, NYSSCPA events, local chamber of commerce meetups, operations and practice-management groups.\nInformation & Shopping Habits: Needs a written proposal to take to the partners, and prefers a short paid pilot to a big commitment.",
-   "lines": 24,
+   "text": "Personal & Psychographics: Dana Morales, operations manager at a 22-person accounting firm in Downtown Brooklyn; the person everyone asks when a system breaks. Practical, organised and overloaded; wants fewer manual steps and fewer mistakes; wary of hype and of tools that create more work than they save.\nSocial & Interest Hubs: NYSSCPA events, Brooklyn Chamber of Commerce mixers, webinars from the firm’s practice-management software vendor.\nInformation & Shopping Habits: Takes the proposal to the partners before anything is agreed.",
+   "lines": 23,
    "points": 3,
    "w": 360,
-   "chars": 593,
+   "chars": 537,
    "scenes": [
     "Business System / Customer Engagement / page",
     "Business System / Customer Engagement / tile Social Media",
@@ -1214,11 +1292,11 @@
   {
    "label": "The Agency Founder",
    "place": "page",
-   "text": "Personal & Psychographics: Sam Okafor, founder and creative director of a 9-person marketing agency in Williamsburg. Ambitious, curious about AI and quick to try new tools, but short on time to set them up properly; values speed and a professional client experience.\nSocial & Interest Hubs: Brooklyn tech and marketing meetups, podcasts on agency growth, the founders’ groups he belongs to.\nInformation & Shopping Habits: Books a call straight from a website; decides quickly when a case study matches the agency’s own problem.",
-   "lines": 20,
+   "text": "Personal & Psychographics: Sam Okafor, founder and creative director of a 9-person marketing agency in Williamsburg. Ambitious, curious about AI and quick to try new tools, but short on time to set them up properly.\nSocial & Interest Hubs: Brooklyn tech and marketing meetups, Advertising Week New York, podcasts on agency growth.\nInformation & Shopping Habits: Books a call straight from a website; decides quickly when a case study matches the agency’s own problem.",
+   "lines": 19,
    "points": 3,
    "w": 360,
-   "chars": 527,
+   "chars": 467,
    "scenes": [
     "Business System / Customer Engagement / page",
     "Business System / Customer Engagement / tile Social Media",
@@ -1534,11 +1612,11 @@
   {
    "label": "The Stretched Operations Manager",
    "place": "page",
-   "text": "Personal & Psychographics\n\nDana Morales, operations manager at a 22-person accounting firm in Downtown Brooklyn; the person everyone asks when a system breaks.\nPractical, organized and overloaded; wants fewer manual steps and fewer mistakes; wary of hype and of tools that create more work than they save.\n\nSocial & Interest Hubs\n\nThe firm’s software vendor webinars, NYSSCPA events, local chamber of commerce meetups, operations and practice-management groups.\n\nInformation & Shopping Habits\n\nNeeds a written proposal to take to the partners, and prefers a short paid pilot to a big commitment.",
-   "lines": 23,
+   "text": "Personal & Psychographics\n\nDana Morales, operations manager at a 22-person accounting firm in Downtown Brooklyn; the person everyone asks when a system breaks.\nPractical, organised and overloaded; wants fewer manual steps and fewer mistakes; wary of hype and of tools that create more work than they save.\n\nSocial & Interest Hubs\n\nNYSSCPA events, Brooklyn Chamber of Commerce mixers, webinars from the firm’s practice-management software vendor.\n\nInformation & Shopping Habits\n\nTakes the proposal to the partners before anything is agreed.",
+   "lines": 22,
    "points": 6,
    "w": 360,
-   "chars": 595,
+   "chars": 539,
    "scenes": [
     "Business System / Customer Engagement / page",
     "Business System / Customer Engagement / page",
@@ -1632,11 +1710,11 @@
   {
    "label": "The Agency Founder",
    "place": "page",
-   "text": "Personal & Psychographics\n\nSam Okafor, founder and creative director of a 9-person marketing agency in Williamsburg.\nAmbitious, curious about AI and quick to try new tools, but short on time to set them up properly; values speed and a professional client experience.\n\nSocial & Interest Hubs\n\nBrooklyn tech and marketing meetups, podcasts on agency growth, the founders’ groups he belongs to.\n\nInformation & Shopping Habits\n\nBooks a call straight from a website; decides quickly when a case study matches the agency’s own problem.",
-   "lines": 21,
+   "text": "Personal & Psychographics\n\nSam Okafor, founder and creative director of a 9-person marketing agency in Williamsburg.\nAmbitious, curious about AI and quick to try new tools, but short on time to set them up properly.\n\nSocial & Interest Hubs\n\nBrooklyn tech and marketing meetups, Advertising Week New York, podcasts on agency growth.\n\nInformation & Shopping Habits\n\nBooks a call straight from a website; decides quickly when a case study matches the agency’s own problem.",
+   "lines": 20,
    "points": 6,
    "w": 360,
-   "chars": 529,
+   "chars": 469,
    "scenes": [
     "Business System / Customer Engagement / page",
     "Business System / Customer Engagement / page",
@@ -3168,7 +3246,7 @@
   {
    "label": "Prospects / Month",
    "place": "page",
-   "text": "People or organizations reached each month who could buy: messages, enquiries, meetings.",
+   "text": "People or organisations reached each month who could buy: messages, enquiries, meetings.",
    "lines": 5,
    "points": 1,
    "w": 360,
@@ -3444,11 +3522,11 @@
   {
    "label": "Referrals result",
    "place": "page",
-   "text": "Formula: Referrals × Buy%\nOf the people referred to you, only some buy. Referred customers tend to stay longer and be worth more than customers from other sources.\nBased on: Baylor University, Keller Center for Research, “Maximizing the Benefits of Customer Referrals”",
-   "lines": 10,
+   "text": "Formula: Referrals × Buy%\nOf the people referred to you, only some buy. Referred customers tend to stay longer and be worth more than customers from other sources.\nBased on: Van den Bulte, C. et al. (2019) ‘Maximizing the Benefits of Customer Referrals’, Keller Center Research Report, Baylor University, 1 December. Available at: https://kellercenter.hankamer.baylor.edu/news/story/2019/maximizing-benefits-customer-referrals (Accessed: 29 September 2026).",
+   "lines": 16,
    "points": 3,
    "w": 360,
-   "chars": 268,
+   "chars": 457,
    "scenes": [
     "Business System / Customer Engagement / page",
     "Business System / Customer Engagement / page",
@@ -3967,11 +4045,11 @@
   {
    "label": "Active clients",
    "place": "page",
-   "text": "Formula: Active clients = New clients a month ÷ Cancel%\nAt the steady level, clients joining each month equal clients leaving. Average client lifetime ≈ 1 ÷ Cancel%.\nBased on: UCLA Anderson School of Management, “Modeling Customer Lifetime Value (Gupta et al., Journal of Service Research)”",
-   "lines": 11,
+   "text": "Formula: Active clients = New clients a month ÷ Cancel%\nAt the steady level, clients joining each month equal clients leaving. Average client lifetime ≈ 1 ÷ Cancel%.\nBased on: Gupta, S. et al. (2006) ‘Modeling Customer Lifetime Value’, Journal of Service Research, 9(2), pp. 139–155. Available at: https://www.anderson.ucla.edu/sites/default/files/documents/areas/fac/marketing/JSR2006(0).pdf (Accessed: 29 September 2026).",
+   "lines": 16,
    "points": 3,
    "w": 360,
-   "chars": 290,
+   "chars": 423,
    "scenes": [
     "Business System / Customer Engagement / page",
     "Business System / Customer Engagement / tile Social Media",
@@ -4007,11 +4085,11 @@
   {
    "label": "Months to level",
    "place": "page",
-   "text": "Formula: Months to 90% = ln(10) ÷ −ln(1 − Cancel%)\nThe gap to the steady level shrinks by the same share every month, so growth slows as you approach it.\nBased on: OpenStax, Rice University, “Infinite Series (Strang, Herman, Calculus Volume 2)”",
-   "lines": 10,
+   "text": "Formula: Months to 90% = ln(10) ÷ −ln(1 − Cancel%)\nThe gap to the steady level shrinks by the same share every month, so growth slows as you approach it.\nBased on: Strang, G. and Herman, E. (2016) ‘5.2 Infinite Series’, in Calculus Volume 2. Houston, TX: OpenStax, Rice University. Available at: https://openstax.org/books/calculus-volume-2/pages/5-2-infinite-series (Accessed: 29 September 2026).",
+   "lines": 16,
    "points": 3,
    "w": 360,
-   "chars": 244,
+   "chars": 397,
    "scenes": [
     "Business System / Customer Engagement / page",
     "Business System / Customer Engagement / tile Social Media",
@@ -4566,7 +4644,7 @@
   {
    "label": "Costs",
    "place": "page",
-   "text": "Cost: Money the organization needs to spend.\nCost Group says what a cost supports; Behaviour says how it changes with activity; Frequency says when it is paid. They are three different things.",
+   "text": "Cost: Money the organisation needs to spend.\nCost Group says what a cost supports; Behaviour says how it changes with activity; Frequency says when it is paid. They are three different things.",
    "lines": 10,
    "points": 2,
    "w": 360,
@@ -4614,7 +4692,7 @@
   {
    "label": "Group",
    "place": "page",
-   "text": "Establishment: Costs required to establish or launch the organization.\nOperating: Ongoing costs that keep the organization functioning, independently of any one Offering.\nOffering: Costs of creating, delivering or supporting a particular Offering.",
+   "text": "Establishment: Costs required to establish or launch the organisation.\nOperating: Ongoing costs that keep the organisation functioning, independently of any one Offering.\nOffering: Costs of creating, delivering or supporting a particular Offering.",
    "lines": 11,
    "points": 3,
    "w": 360,
@@ -4675,7 +4753,7 @@
   {
    "label": "Funding Need",
    "place": "page",
-   "text": "Funding Need: Money the organization needs to obtain to support its financial requirements.\nA need can be one amount by one date, or several amounts over time.",
+   "text": "Funding Need: Money the organisation needs to obtain to support its financial requirements.\nA need can be one amount by one date, or several amounts over time.",
    "lines": 7,
    "points": 2,
    "w": 360,
@@ -4688,7 +4766,7 @@
   {
    "label": "Establishment",
    "place": "page",
-   "text": "Money required to establish and launch the organization.",
+   "text": "Money required to establish and launch the organisation.",
    "lines": 3,
    "points": 1,
    "w": 360,
@@ -4760,7 +4838,7 @@
   {
    "label": "Capital & Funding",
    "place": "page",
-   "text": "Capital: Money contributed to the organization, particularly by founders or investors.\nFunding: Financial resources provided by another source to support the organization.\nLoan: Borrowed money that creates a repayment obligation.\nRevenue: Money generated through the organization's Offerings. Capital and funding are not revenue.\nExpected, confirmed and available money are different: only money that has arrived counts as money the organization has.",
+   "text": "Capital: Money contributed to the organisation, particularly by founders or investors.\nFunding: Financial resources provided by another source to support the organisation.\nLoan: Borrowed money that creates a repayment obligation.\nRevenue: Money generated through the organisation's Offerings. Capital and funding are not revenue.\nExpected, confirmed and available money are different: only money that has arrived counts as money the organisation has.",
    "lines": 21,
    "points": 5,
    "w": 360,
@@ -4772,7 +4850,7 @@
   {
    "label": "Internal",
    "place": "page",
-   "text": "Money from inside your organization: its founders' capital, reinvested revenue or funds it already holds.",
+   "text": "Money from inside your organisation: its founders' capital, reinvested revenue or funds it already holds.",
    "lines": 5,
    "points": 1,
    "w": 360,
@@ -4857,11 +4935,11 @@
   {
    "label": "Loan repayment",
    "place": "page",
-   "text": "Formula: Payment = P × r ÷ (1 − (1 + r)^−n) (annuity); equal-principal: P ÷ n plus interest\nA fixed payment that covers interest and repays the loan over n periods; r is the interest rate for one period (for monthly payments, the monthly rate).\nSource: Colorado State University Extension, “Long Term Loan Repayment Methods (Gutierrez, Dalsted)”",
-   "lines": 13,
+   "text": "Formula: Payment = P × r ÷ (1 − (1 + r)^−n) (annuity); equal-principal: P ÷ n plus interest\nA fixed payment that covers interest and repays the loan over n periods; r is the interest rate for one period (for monthly payments, the monthly rate).\nSource: Gutierrez, P.H. and Dalsted, N.L. (2012) Long Term Loan Repayment Methods. Fort Collins, CO: Colorado State University Extension. Available at: https://extension.colostate.edu/resource/long-term-loan-repayment-methods/ (Accessed: 29 September 2026).",
+   "lines": 19,
    "points": 3,
    "w": 360,
-   "chars": 345,
+   "chars": 502,
    "scenes": [
     "Business System / Financial Foundation / page"
    ]
@@ -4881,7 +4959,7 @@
   {
    "label": "Financial Position",
    "place": "page",
-   "text": "Funding Gap: The amount of identified financial requirement not covered by available or confirmed financing.\nFinancial Runway: The estimated period for which available financial resources can support the organization under current assumptions.\nEvery figure here is an estimate based on the information entered, not financial advice.",
+   "text": "Funding Gap: The amount of identified financial requirement not covered by available or confirmed financing.\nFinancial Runway: The estimated period for which available financial resources can support the organisation under current assumptions.\nEvery figure here is an estimate based on the information entered, not financial advice.",
    "lines": 16,
    "points": 3,
    "w": 360,
@@ -4941,11 +5019,11 @@
   {
    "label": "Financial Runway",
    "place": "page",
-   "text": "Financial Runway: The estimated period for which available financial resources can support the organization under current assumptions.\nCounts money available now and confirmed money as it is scheduled to arrive, against every scheduled cost and loan repayment, with the revenue expected on Sustainability as it is received.\nFormula: Runway = Cash ÷ Monthly net burn (here: the first month the projected balance goes below zero)\nBased on: NYU Stern School of Business, “The Bonfire of VC: Cash Burn, the Good, the Bad & the Ugly (Damodaran)”",
-   "lines": 22,
+   "text": "Financial Runway: The estimated period for which available financial resources can support the organisation under current assumptions.\nCounts money available now and confirmed money as it is scheduled to arrive, against every scheduled cost and loan repayment, with the revenue expected on Sustainability as it is received.\nFormula: Runway = Cash ÷ Monthly net burn (here: the first month the projected balance goes below zero)\nBased on: Damodaran, A. (2016) The Bonfire of VC: Cash Burn, the Good, the Bad & the Ugly. New York: NYU Stern School of Business. Available at: https://pages.stern.nyu.edu/~adamodar/pdfiles/blog/CashBurn.pdf (Accessed: 29 September 2026).",
+   "lines": 28,
    "points": 4,
    "w": 360,
-   "chars": 540,
+   "chars": 667,
    "scenes": [
     "Business System / Financial Foundation / page"
    ]
@@ -4977,7 +5055,7 @@
   {
    "label": "Funding Timeline",
    "place": "page",
-   "text": "Money in and out of your organization month by month, and the balance it leaves. A dip below zero is a cash-pressure period, even when the totals are sufficient.",
+   "text": "Money in and out of your organisation month by month, and the balance it leaves. A dip below zero is a cash-pressure period, even when the totals are sufficient.",
    "lines": 7,
    "points": 1,
    "w": 360,
@@ -5046,11 +5124,11 @@
   {
    "label": "Capacity used",
    "place": "tile dialog",
-   "text": "Formula: Utilisation = Demand hours ÷ Available hours\nHow much of the available time the planned work needs. Above 100% means more work than capacity.\nBased on: Board of Governors of the Federal Reserve System, “Industrial Production and Capacity Utilization (G.17): About”",
-   "lines": 10,
+   "text": "Formula: Utilisation = Demand hours ÷ Available hours\nHow much of the available time the planned work needs. Above 100% means more work than capacity.\nBased on: Board of Governors of the Federal Reserve System (2026) Industrial Production and Capacity Utilization (G.17): About. Available at: https://www.federalreserve.gov/releases/g17/About.htm (Accessed: 29 September 2026).",
+   "lines": 16,
    "points": 3,
    "w": 360,
-   "chars": 273,
+   "chars": 377,
    "scenes": [
     "Business System / Infrastructure / tile Delivery",
     "Business System / Infrastructure / tile Delivery / card 1",
@@ -5210,7 +5288,7 @@
   {
    "label": "Status",
    "place": "floating card",
-   "text": "Exists / Free: It is already available to the organization at no additional cost.\nPartners & Suppliers: It is supplied by a partner or a supplier, or cannot or should not be performed by the founders. Choose who.\nActivity: It can be created, developed or established internally by the founders.\nCosts: It must be purchased. Record its price and payment frequency.",
+   "text": "Exists / Free: It is already available to the organisation at no additional cost.\nPartners & Suppliers: It is supplied by a partner or a supplier, or cannot or should not be performed by the founders. Choose who.\nActivity: It can be created, developed or established internally by the founders.\nCosts: It must be purchased. Record its price and payment frequency.",
    "lines": 18,
    "points": 4,
    "w": 360,
@@ -5320,7 +5398,7 @@
   {
    "label": "Resources",
    "place": "tile dialog",
-   "text": "Physical and digital resources the organization needs to operate.",
+   "text": "Physical and digital resources the organisation needs to operate.",
    "lines": 3,
    "points": 1,
    "w": 360,
@@ -5380,7 +5458,7 @@
   {
    "label": "Revenue",
    "place": "page",
-   "text": "Revenue: Money generated through the organization's Offerings.\nFunding, loans, founder capital, grants and investment are financing, not revenue, and are never counted here.\nRevenue may be zero at first. That is a valid model for an organization under development.",
+   "text": "Revenue: Money generated through the organisation's Offerings.\nFunding, loans, founder capital, grants and investment are financing, not revenue, and are never counted here.\nRevenue may be zero at first. That is a valid model for an organisation under development.",
    "lines": 13,
    "points": 3,
    "w": 360,
@@ -5420,7 +5498,7 @@
   {
    "label": "Sales Volume",
    "place": "page",
-   "text": "Few organizations sell at the normal level from the first month: a gradual build-up over 6 to 12 months is usual.\nFor seasons (quieter summers, busy end-of-year gifts), set Build-up to Month by month and enter the months that differ.\nAllow for refunds and returns: a share of sales comes back.",
+   "text": "Few organisations sell at the normal level from the first month: a gradual build-up over 6 to 12 months is usual.\nFor seasons (quieter summers, busy end-of-year gifts), set Build-up to Month by month and enter the months that differ.\nAllow for refunds and returns: a share of sales comes back.",
    "lines": 13,
    "points": 3,
    "w": 360,
@@ -5576,7 +5654,7 @@
   {
    "label": "Can the Expected Sales Be Delivered?",
    "place": "page",
-   "text": "Capacity is the founders' delivery hours a month: the time the organization controls.\nNeeded: each month's expected sales times each founder's Working Hours per Unit (4. Delivery, on Infrastructure & Capability).\nRecurring work (subscriptions, retainers) is served first; what remains is flexible capacity for the other Offerings.\nExternal professionals' hours are delivered outside this capacity; their cost is part of the Offering's costs.\nA shortfall does not change the sales forecast: it says more capacity may be needed.",
+   "text": "Capacity is the founders' delivery hours a month: the time the organisation controls.\nNeeded: each month's expected sales times each founder's Working Hours per Unit (4. Delivery, on Infrastructure & Capability).\nRecurring work (subscriptions, retainers) is served first; what remains is flexible capacity for the other Offerings.\nExternal professionals' hours are delivered outside this capacity; their cost is part of the Offering's costs.\nA shortfall does not change the sales forecast: it says more capacity may be needed.",
    "lines": 22,
    "points": 5,
    "w": 360,
@@ -5588,11 +5666,11 @@
   {
    "label": "Capacity used",
    "place": "page",
-   "text": "Formula: Utilisation = Demand hours ÷ Available hours\nHow much of the available time the planned work needs. Above 100% means more work than capacity.\nBased on: Board of Governors of the Federal Reserve System, “Industrial Production and Capacity Utilization (G.17): About”",
-   "lines": 10,
+   "text": "Formula: Utilisation = Demand hours ÷ Available hours\nHow much of the available time the planned work needs. Above 100% means more work than capacity.\nBased on: Board of Governors of the Federal Reserve System (2026) Industrial Production and Capacity Utilization (G.17): About. Available at: https://www.federalreserve.gov/releases/g17/About.htm (Accessed: 29 September 2026).",
+   "lines": 16,
    "points": 3,
    "w": 360,
-   "chars": 273,
+   "chars": 377,
    "scenes": [
     "Business System / Sustainability / page"
    ]
@@ -5600,7 +5678,7 @@
   {
    "label": "Break Even",
    "place": "page",
-   "text": "Break-Even Point: The level of revenue or activity at which revenue covers costs.\nBreak-Even Time: When the organization is expected to reach that level.\nFinancial Exhaustion: When available resources are expected to run out, with expected revenue included.\nAll results are estimates based on the assumptions entered, not guarantees.",
+   "text": "Break-Even Point: The level of revenue or activity at which revenue covers costs.\nBreak-Even Time: When the organisation is expected to reach that level.\nFinancial Exhaustion: When available resources are expected to run out, with expected revenue included.\nAll results are estimates based on the assumptions entered, not guarantees.",
    "lines": 17,
    "points": 4,
    "w": 360,
@@ -5624,11 +5702,11 @@
   {
    "label": "Break-Even Revenue",
    "place": "page",
-   "text": "Fixed costs divided by the contribution margin of the expected revenue mix.\nFormula: Break-even revenue = Fixed costs ÷ Contribution margin ratio\nSource: U.S. Small Business Administration, “Calculate your startup costs: break-even point”\nAlso: OpenStax, Rice University, “Calculate a Break-Even Point in Units and Dollars (Franklin, Graybeal, Cooper)”",
-   "lines": 14,
+   "text": "Fixed costs divided by the contribution margin of the expected revenue mix.\nFormula: Break-even revenue = Fixed costs ÷ Contribution margin ratio\nSource: U.S. Small Business Administration (n.d.) Calculate your startup costs: break-even point. Available at: https://www.sba.gov/business-guide/plan-your-business/calculate-your-startup-costs/break-even-point (Accessed: 29 September 2026).\nAlso: Franklin, M., Graybeal, P. and Cooper, D. (2019) ‘3.2 Calculate a Break-Even Point in Units and Dollars’, in Principles of Accounting, Volume 2: Managerial Accounting. Houston, TX: OpenStax, Rice University. Available at: https://openstax.org/books/principles-managerial-accounting/pages/3-2-calculate-a-break-even-point-in-units-and-dollars (Accessed: 29 September 2026).",
+   "lines": 27,
    "points": 4,
    "w": 360,
-   "chars": 352,
+   "chars": 767,
    "scenes": [
     "Business System / Sustainability / page"
    ]
@@ -5684,11 +5762,11 @@
   {
    "label": "Break-Even Point",
    "place": "page",
-   "text": "Contribution per unit = price − variable cost per unit.\nOffering break even: the units this Offering alone would need to sell to cover all fixed costs.\nOrganization break even: the expected revenue mix, scaled until its contribution covers the fixed costs, not the Offerings' figures added together.\nFormula: Break-even units = Fixed costs ÷ (Price − Variable cost per unit)\nSource: U.S. Small Business Administration, “Calculate your startup costs: break-even point”",
-   "lines": 20,
+   "text": "Contribution per unit = price − variable cost per unit.\nOffering break even: the units this Offering alone would need to sell to cover all fixed costs.\nOrganisation break even: the expected revenue mix, scaled until its contribution covers the fixed costs, not the Offerings' figures added together.\nFormula: Break-even units = Fixed costs ÷ (Price − Variable cost per unit)\nSource: U.S. Small Business Administration (n.d.) Calculate your startup costs: break-even point. Available at: https://www.sba.gov/business-guide/plan-your-business/calculate-your-startup-costs/break-even-point (Accessed: 29 September 2026).",
+   "lines": 25,
    "points": 5,
    "w": 360,
-   "chars": 467,
+   "chars": 617,
    "scenes": [
     "Business System / Sustainability / page"
    ]
@@ -5696,7 +5774,7 @@
   {
    "label": "Each Offering's Costs",
    "place": "page",
-   "text": "An Offering's costs are those recorded for it on 3. Infrastructure & Capability → Offering's Capability.\nPer sale: paid for every unit or project sold. Contribution is what is left of the price after them.\nWhatever is sold: paid monthly or once, however much is sold. After them, what the Offering adds towards the organization's shared costs.",
+   "text": "An Offering's costs are those recorded for it on 3. Infrastructure & Capability → Offering's Capability.\nPer sale: paid for every unit or project sold. Contribution is what is left of the price after them.\nWhatever is sold: paid monthly or once, however much is sold. After them, what the Offering adds towards the organisation's shared costs.",
    "lines": 15,
    "points": 3,
    "w": 360,
@@ -5708,11 +5786,11 @@
   {
    "label": "Contribution",
    "place": "page",
-   "text": "Formula: Contribution = Price − Variable costs; ratio = Contribution ÷ Price\nWhat each sale leaves to pay fixed costs and profit.\nSource: OpenStax, Rice University, “Explain Contribution Margin (Franklin, Graybeal, Cooper)”",
-   "lines": 10,
+   "text": "Formula: Contribution = Price − Variable costs; ratio = Contribution ÷ Price\nWhat each sale leaves to pay fixed costs and profit.\nSource: Franklin, M., Graybeal, P. and Cooper, D. (2019) ‘3.1 Explain Contribution Margin and Calculate Contribution Margin per Unit, Contribution Margin Ratio, and Total Contribution Margin’, in Principles of Accounting, Volume 2: Managerial Accounting. Houston, TX: OpenStax, Rice University. Available at: https://openstax.org/books/principles-managerial-accounting/pages/3-1-explain-contribution-margin-and-calculate-contribution-margin-per-unit-contribution-margin-ratio-and-total-contribution-margin (Accessed: 29 September 2026).",
+   "lines": 22,
    "points": 3,
    "w": 360,
-   "chars": 223,
+   "chars": 666,
    "scenes": [
     "Business System / Sustainability / page",
     "Business System / Sustainability / page",
@@ -5782,7 +5860,7 @@
   {
    "label": "Plan Start",
    "place": "settings page",
-   "text": "Month 1 of the financial plan. Every timeline on the Financial Foundation and on Sustainability runs from it.\nWorked out: the earlier of the Opening Date's month (set on the Organization tile) and the month of your earliest cost, a costed card or a legal expense, whichever was recorded first.",
+   "text": "Month 1 of the financial plan. Every timeline on the Financial Foundation and on Sustainability runs from it.\nWorked out: the earlier of the Opening Date's month (set on the Organisation tile) and the month of your earliest cost, a costed card or a legal expense, whichever was recorded first.",
    "lines": 12,
    "points": 2,
    "w": 360,
@@ -5950,11 +6028,11 @@
   {
    "label": "Useful Life",
    "place": "settings page",
-   "text": "What it is: The years an asset serves the business before it is worn out, outdated or replaced.\nWhat it does: The cost (CapEx) is spread over those years instead of being counted in the year of purchase.\nA group has one useful life in years; an asset of the group can have its own under it, and an empty one takes the group's.\nSource: Texas DFPS, “State Property Class Codes”",
-   "lines": 17,
+   "text": "What it is: The years an asset serves the business before it is worn out, outdated or replaced.\nWhat it does: The cost (CapEx) is spread over those years instead of being counted in the year of purchase.\nA group has one useful life in years; an asset of the group can have its own under it, and an empty one takes the group's.\nSource: Texas Department of Family and Protective Services (2011) ‘Appendix B: State Property Class Codes’, in Asset Management Handbook. Austin, TX: Texas DFPS. Available at: https://dfps.texas.gov/handbooks/Asset_Management/Files/ASM_px_2.asp (Accessed: 10 October 2026).",
+   "lines": 24,
    "points": 4,
    "w": 360,
-   "chars": 375,
+   "chars": 600,
    "scenes": [
     "Global Settings"
    ]
@@ -6058,23 +6136,23 @@
   {
    "label": "Seller & Buyer Relationship",
    "place": "tile dialog",
-   "text": "Who pays: focuses on the Economic Buyer who approves the budget, separating them from the end user. The positioning statement is written for the target market, and each distinct segment may need its own.\nB2C (Business-to-Consumer): individuals or consumers who pay for personal/family use.\nB2B (Business-to-Business): businesses, companies or freelancers.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: eCornell, Cornell University, “How to Write Market Positioning Statements”\nAlso: Stanford University, “E145 Technology Entrepreneurship, Session 6”",
-   "lines": 26,
+   "text": "Who pays: focuses on the Economic Buyer who approves the budget, separating them from the end user. The positioning statement is written for the target market, and each distinct segment may need its own.\nB2C (Business-to-Consumer): individuals or consumers who pay for personal/family use.\nB2B (Business-to-Business): businesses, companies or freelancers.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: Stayman, D. (2015) ‘How to Write Market Positioning Statements’, eCornell #IMPACT, Cornell University, 20 March. Available at: https://ecornell-impact.cornell.edu/how-to-write-market-positioning-statements/ (Accessed: 25 October 2026).\nAlso: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketing. Stanford, CA: Stanford University. Available at: https://web.stanford.edu/class/e145/2007_fall/startup_mktg_details.shtml (Accessed: 25 October 2026).",
+   "lines": 38,
    "points": 6,
    "w": 360,
-   "chars": 639,
+   "chars": 971,
    "scenes": [
     "Identity System / 1. Definition / tile Early Positioning"
    ]
   },
   {
-   "label": "Audience Specialization & Scale",
+   "label": "Audience Specialisation & Scale",
    "place": "tile dialog",
-   "text": "Limits the target group to a specific niche, aligning the startup with the corresponding sales cycle and the buyer's daily life.\nSolopreneurs & Freelancers: individual professionals (immediate decision, need for low cost/self-service).\nStartups & SMBs: small and medium-sized or rapidly growing companies (need for speed, flexibility and immediate solution).\nMid-Market: medium-sized businesses with structured departments (need for workflows, roles and scale).\nEnterprise / Public Sector: multinationals or public bodies (multi-month sales/tender cycle, need for maximum security).\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: U.S. Small Business Administration, “Market research and competitive analysis”",
-   "lines": 33,
+   "text": "Limits the target group to a specific niche, aligning the startup with the corresponding sales cycle and the buyer's daily life.\nSolopreneurs & Freelancers: individual professionals (immediate decision, need for low cost/self-service).\nStartups & SMBs: small and medium-sized or rapidly growing companies (need for speed, flexibility and immediate solution).\nMid-Market: medium-sized businesses with structured departments (need for workflows, roles and scale).\nEnterprise or Public Sector: multinationals or public bodies (multi-month sales/tender cycle, need for maximum security).\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: U.S. Small Business Administration (n.d.) Market research and competitive analysis. Available at: https://www.sba.gov/business-guide/plan-your-business/market-research-competitive-analysis (Accessed: 25 October 2026).",
+   "lines": 38,
    "points": 7,
    "w": 360,
-   "chars": 797,
+   "chars": 937,
    "scenes": [
     "Identity System / 1. Definition / tile Early Positioning"
    ]
@@ -6082,11 +6160,11 @@
   {
    "label": "Buyer's category",
    "place": "tile dialog",
-   "text": "What the buyer buys for. It tells the buyer who pays from the person who uses it, whatever the buyer's life stage or scale.\nDirect Buyers: purchasing exclusively for their own personal use.\nProxy Buyers: purchasing exclusively on behalf of someone else. The payer is not the user (a gift, a parent buying for a child, an employer buying for its staff).\nDual-Intent Buyers: purchasing a single offering to be used by themselves and their dependents (a family plan, a shared tier).\nFor Proxy and Dual-Intent Buyers the questions about the user follow.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: The Open University, “Understanding your customers, 3.4”",
-   "lines": 31,
+   "text": "What the buyer buys for. It tells the buyer who pays from the person who uses it, whatever the buyer's life stage or scale.\nDirect Buyers: purchasing exclusively for their own personal use.\nProxy Buyers: purchasing exclusively on behalf of someone else. The payer is not the end user (a gift, a parent buying for a child, an employer buying for its staff).\nDual-Intent Buyers: purchasing a single offering to be used by themselves and their dependents (a family plan, a shared tier).\nFor Proxy and Dual-Intent Buyers the questions about the end user follow.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: The Open University (n.d.) ‘3.4 Business decision makers’, in Understanding your customers. Milton Keynes: The Open University (OpenLearn). Available at: https://www.open.edu/openlearn/money-business/understanding-your-customers/content-section-3.4 (Accessed: 26 October 2026).",
+   "lines": 39,
    "points": 7,
    "w": 360,
-   "chars": 742,
+   "chars": 971,
    "scenes": [
     "Identity System / 1. Definition / tile Early Positioning"
    ]
@@ -6106,11 +6184,11 @@
   {
    "label": "Differentiation",
    "place": "tile dialog",
-   "text": "What the offering does differently from the competitors: where it hits exactly the blind spot they leave. It is about the offering; the result the buyer gets from it is the outcome, asked next.\nCost-driven (saving resources): targets the blind spot of expensive competitors with a budget-friendly alternative.\nConvenience-driven (speed and ease): targets the blind spot of complex or slow solutions.\nCompliance, Risk & Security: targets the blind spot of uncertified or questionable alternatives.\nStatus & Premium (exclusivity): targets the blind spot of mass-market or cheap products with top quality and custom service.\nPerformance & Innovation (product superiority): targets the blind spot of dated or underpowered alternatives with better results and newer methods.\nEcosystem & Integration (fits what they already use): targets the blind spot of standalone tools that do not connect to the buyer's other systems and workflows.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: Harvard Business School, Institute for Strategy & Competitiveness, “Strategic Positioning”\nAlso: Stanford University, “E145 Technology Entrepreneurship, Session 6”",
-   "lines": 49,
+   "text": "What the offering does differently from the competitors: where it hits exactly the blind spot they leave. It is about the offering; the result the buyer gets from it is the outcome, asked next.\nCost-driven (saving resources): targets the blind spot of expensive competitors with a budget-friendly alternative.\nConvenience-driven (speed and ease): targets the blind spot of complex or slow solutions.\nCompliance, Risk & Security: targets the blind spot of uncertified or questionable alternatives.\nStatus & Premium (exclusivity): targets the blind spot of mass-market or cheap products with top quality and custom service.\nPerformance & Innovation (product superiority): targets the blind spot of dated or underpowered alternatives with better results and newer methods.\nEcosystem & Integration (fits what they already use): targets the blind spot of standalone tools that do not connect to the buyer's other systems and workflows.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: Institute for Strategy and Competitiveness (n.d.) Strategic Positioning. Boston, MA: Harvard Business School. Available at: https://www.isc.hbs.edu/strategy/business-strategy/Pages/strategic-positioning.aspx (Accessed: 25 October 2026).\nAlso: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketing. Stanford, CA: Stanford University. Available at: https://web.stanford.edu/class/e145/2007_fall/startup_mktg_details.shtml (Accessed: 25 October 2026).",
+   "lines": 60,
    "points": 10,
    "w": 360,
-   "chars": 1230,
+   "chars": 1547,
    "scenes": [
     "Identity System / 1. Definition / tile Early Positioning"
    ]
@@ -6118,11 +6196,11 @@
   {
    "label": "Outcome",
    "place": "tile dialog",
-   "text": "The measurable result the buyer gets from the offering (Outcome / ROI): what the buyer is paying for.\nLower costs: an immediate reduction in operating costs. Time saved: the execution time of a process cut to almost nothing, or the workflow drastically simplified. Legal & data-protection cover: absolute legal coverage and no risk of fines. Higher quality & prestige: top quality, custom service and an upgrade of the buyer's prestige.\nFor a Proxy or Dual-Intent Buyer the user has an outcome of their own, asked next.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: Harvard Business School, Institute for Strategy & Competitiveness, “Strategic Positioning”\nAlso: Stanford University, “E145 Technology Entrepreneurship, Session 6”",
-   "lines": 31,
+   "text": "The measurable result the buyer gets from the offering (Outcome / ROI): what the buyer is paying for.\nLower costs: an immediate reduction in operating costs. Time saved: the execution time of a process cut to almost nothing, or the workflow drastically simplified. Legal & data-protection cover: absolute legal coverage and no risk of fines. Higher quality & prestige: top quality, custom service and an upgrade of the buyer's prestige.\nFor a Proxy or Dual-Intent Buyer the end user has an outcome of their own, asked next.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: Institute for Strategy and Competitiveness (n.d.) Strategic Positioning. Boston, MA: Harvard Business School. Available at: https://www.isc.hbs.edu/strategy/business-strategy/Pages/strategic-positioning.aspx (Accessed: 25 October 2026).\nAlso: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketing. Stanford, CA: Stanford University. Available at: https://web.stanford.edu/class/e145/2007_fall/startup_mktg_details.shtml (Accessed: 25 October 2026).",
+   "lines": 42,
    "points": 6,
    "w": 360,
-   "chars": 819,
+   "chars": 1140,
    "scenes": [
     "Identity System / 1. Definition / tile Early Positioning"
    ]
@@ -6152,27 +6230,27 @@
    ]
   },
   {
-   "label": "Organization",
+   "label": "Organisation",
    "place": "tile dialog",
-   "text": "What the organization is: its name, where it is, its legal form, what it does and where it stands.",
+   "text": "What the organisation is: its name, where it is, its legal form, what it does and where it stands.",
    "lines": 5,
    "points": 1,
    "w": 360,
    "chars": 98,
    "scenes": [
-    "Identity System / 1. Definition / tile Organization"
+    "Identity System / 1. Definition / tile Organisation"
    ]
   },
   {
    "label": "Legal Form",
    "place": "tile dialog",
-   "text": "Decides who is liable for the organization's debts: the organization, or you personally.\nDecides how it is taxed, and whether it must hold share capital.",
+   "text": "Decides who is liable for the organisation's debts: the organisation, or you personally.\nDecides how it is taxed, and whether it must hold share capital.",
    "lines": 7,
    "points": 2,
    "w": 360,
    "chars": 153,
    "scenes": [
-    "Identity System / 1. Definition / tile Organization"
+    "Identity System / 1. Definition / tile Organisation"
    ]
   },
   {
@@ -6184,7 +6262,7 @@
    "w": 360,
    "chars": 455,
    "scenes": [
-    "Identity System / 1. Definition / tile Organization"
+    "Identity System / 1. Definition / tile Organisation"
    ]
   },
   {
@@ -6196,7 +6274,7 @@
    "w": 360,
    "chars": 146,
    "scenes": [
-    "Identity System / 1. Definition / tile Organization"
+    "Identity System / 1. Definition / tile Organisation"
    ]
   },
   {
@@ -6208,7 +6286,7 @@
    "w": 360,
    "chars": 170,
    "scenes": [
-    "Identity System / 1. Definition / tile Organization"
+    "Identity System / 1. Definition / tile Organisation"
    ]
   },
   {
@@ -6335,7 +6413,7 @@
   {
    "label": "Founders & Ownership",
    "place": "tile dialog",
-   "text": "Who owns the organization, and how much of it each founder owns.",
+   "text": "Who owns the organisation, and how much of it each founder owns.",
    "lines": 3,
    "points": 1,
    "w": 360,
@@ -6347,7 +6425,7 @@
   {
    "label": "Roles",
    "place": "tile dialog",
-   "text": "What does this founder do in the organization?\nOne role a line: a founder is often several things at once.\nLenders and investors look for every key job to have someone who owns it.",
+   "text": "What does this founder do in the organisation?\nOne role a line: a founder is often several things at once.\nLenders and investors look for every key job to have someone who owns it.",
    "lines": 10,
    "points": 3,
    "w": 360,
@@ -6371,7 +6449,7 @@
   {
    "label": "Management Experience",
    "place": "tile dialog",
-   "text": "Experience leading people, projects, budgets, businesses, or operations.\nSay how big: how many people, how much money.\nIt shows they can run the organization as it grows.",
+   "text": "Experience leading people, projects, budgets, businesses, or operations.\nSay how big: how many people, how much money.\nIt shows they can run the organisation as it grows.",
    "lines": 9,
    "points": 3,
    "w": 360,
@@ -6407,7 +6485,7 @@
   {
    "label": "Authority / Name",
    "place": "tile dialog",
-   "text": "The body that keeps the public register your organization is listed on.\nFilled in from the country you chose. Change it to match yours.",
+   "text": "The body that keeps the public register your organisation is listed on.\nFilled in from the country you chose. Change it to match yours.",
    "lines": 7,
    "points": 2,
    "w": 360,
@@ -6419,7 +6497,7 @@
   {
    "label": "Tax Identification Number (EIN)",
    "place": "tile dialog",
-   "text": "The number the tax office knows the organization by.\nIn some countries it is the registration number; in others it is issued separately when you register for tax.",
+   "text": "The number the tax office knows the organisation by.\nIn some countries it is the registration number; in others it is issued separately when you register for tax.",
    "lines": 8,
    "points": 2,
    "w": 360,
@@ -6467,7 +6545,7 @@
   {
    "label": "Strategic Compass",
    "place": "tile dialog",
-   "text": "Where do you want your organization to be heading, and what do you want it to build, become, or achieve over the long term?\nChoose a time horizon far enough ahead to give your strategy direction, yet close enough for your organization to make meaningful decisions about.\nThe Vision is the goal; the Compass is the route.: A future in which every small professional firm can use automation and AI as safely and confidently as a large one. Ten years from now, Quillfield is a trusted name for practical automation among small firms across the north-east United States: a small team of automation specialists, a library of proven and well-documented workflows, and hundreds of client firms whose staff spend their days on skilled work rather than admin. Success means clients who stay for years, recommend us to their peers and never feel locked in.",
+   "text": "Where do you want your organisation to be heading, and what do you want it to build, become, or achieve over the long term?\nChoose a time horizon far enough ahead to give your strategy direction, yet close enough for your organisation to make meaningful decisions about.\nThe Vision is the goal; the Compass is the route.: A future in which every small professional firm can use automation and AI as safely and confidently as a large one. Ten years from now, Quillfield is a trusted name for practical automation among small firms across the north-east United States: a small team of automation specialists, a library of proven and well-documented workflows, and hundreds of client firms whose staff spend their days on skilled work rather than admin. Success means clients who stay for years, recommend us to their peers and never feel locked in.",
    "lines": 34,
    "points": 3,
    "w": 360,
@@ -6567,7 +6645,7 @@
   {
    "label": "SWOT Analysis",
    "place": "tile dialog",
-   "text": "Strengths and Weaknesses: inside your organization.\nOpportunities and Threats: outside, in your market.\nThink of resources, skills, customers, competition and technology.",
+   "text": "Strengths and Weaknesses: inside your organisation.\nOpportunities and Threats: outside, in your market.\nThink of resources, skills, customers, competition and technology.",
    "lines": 10,
    "points": 3,
    "w": 360,
