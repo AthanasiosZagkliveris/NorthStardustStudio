@@ -121,7 +121,7 @@ export const SUBSECTIONS = {
             "Explain what makes your offering different or better than competitors."
         ],
         note: [
-            "Say how it meets the emotional and social needs ticked and rated on each Profile. The lines in their Notes are listed below."
+            "Say how it meets the emotional and social needs below: those ticked on the Profiles, strongest first, then the lines of their Notes."
         ]
     },
 

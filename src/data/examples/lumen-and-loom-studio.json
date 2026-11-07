@@ -638,11 +638,13 @@
                       ],
                       "emotional": [
                         "calm-and-worry-free",
-                        "delighted-by-how-it-looks"
+                        "delighted-by-how-it-looks",
+                        "proud-of-what-they-own-or-made"
                       ],
                       "emotional-rating": [
                         "calm-and-worry-free:5",
-                        "delighted-by-how-it-looks:4"
+                        "delighted-by-how-it-looks:4",
+                        "proud-of-what-they-own-or-made:4"
                       ],
                       "social": [
                         "as-having-good-taste-style",
@@ -663,7 +665,7 @@
                         "Easy care and repair"
                       ],
                       "emotional": [
-                        "Pride in owning something handmade"
+                        ""
                       ],
                       "social": [
                         ""

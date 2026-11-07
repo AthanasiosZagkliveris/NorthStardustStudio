@@ -68,7 +68,7 @@ const WORDS: Record<string, string> = {
     "risk-or-security": "Risk", "whether-it-fits-their-needs": "Fit", "support-after-they-buy": "Support", "the-effort-of-switching-from-what-they-use-now": "Migration",
     // Emotional needs.
     "calm-and-worry-free": "Calm", "rewarded-treated": "Rewarded", "relaxed-looked-after": "Nurtured", "healthy-and-well": "Healthy", "delighted-by-how-it-looks": "Delighted",
-    "reminded-of-good-times": "Nostalgic", "fulfilled-as-they-grow": "Fulfilled",
+    "reminded-of-good-times": "Nostalgic", "fulfilled-as-they-grow": "Fulfilled", "proud-of-what-they-own-or-made": "Proud",
     "sure-they-made-the-right-choice": "Confident", "growing-in-their-work": "Prosperous", "hopeful-about-their-business": "Optimistic", "inspired-about-what-comes-next": "Inspired",
     // Social needs.
     "as-having-good-taste-style": "Stylish", "as-part-of-a-group-they-value": "Included", "as-one-of-the-few-with-access": "Exclusive",
@@ -80,7 +80,7 @@ const WORDS: Record<string, string> = {
 const WORRIES = ["The price or their budget", "Whether they can trust you", "How long it takes to start", "How hard it is to use", "Risk or security", "Whether it fits their needs", "Support after they buy", "The effort of switching from what they use now"];
 
 /** The Emotional and Social needs as choices (doc 36, section 10; owner 2026-11-03): Bain's Elements of Value [FUN-48, FUN-49] in plain words, by the Segment's kind. */
-const EMOTIONAL_PEOPLE = ["Calm and worry-free", "Rewarded / treated", "Relaxed / looked after", "Entertained", "Attractive", "Healthy and well", "Delighted by how it looks", "Reminded of good times", "Motivated", "Hopeful", "Fulfilled, as they grow"];
+const EMOTIONAL_PEOPLE = ["Calm and worry-free", "Rewarded / treated", "Relaxed / looked after", "Entertained", "Attractive", "Healthy and well", "Delighted by how it looks", "Reminded of good times", "Motivated", "Hopeful", "Fulfilled, as they grow", "Proud of what they own or made"];
 const EMOTIONAL_BUSINESS = ["Sure they made the right choice", "Glad to work with you", "Growing in their work", "Hopeful about their business", "Inspired about what comes next"];
 const SOCIAL_PEOPLE = ["As having good taste / style", "As part of a group they value", "As one of the few with access", "As caring for others or the planet", "As leaving something for their family"];
 const SOCIAL_BUSINESS = ["As someone others trust", "As well connected", "As more valued in their field", "As a responsible business"];
@@ -164,7 +164,7 @@ const QUESTIONS: readonly ProfileQuestion[] = [
     { id: "e1", box: "goals", label: "What does {s} want to achieve?", many: true, max: 3, options: list(GOALS), rating: { low: "Minor", high: "Main" }, info: ["The results they are after, not what they weigh when choosing (that is \"What matters most\"). Choose up to three, then rate each.", "For example, to learn a new craft, or to win more clients.", "Accessibility: getting something hard to reach. Development: learning something new. Expression: showing who they are. Revenue: winning customers or income.", "Compliance: meeting a requirement, at work or by law. Governance: staying within the rules.", "Based on: gains (Value Proposition Canvas)."] },
     { id: "e2", box: "challenges", label: "What frustrates {o} today?", many: true, max: 3, options: list(FRUSTRATIONS), rating: { low: "Mild", high: "Severe" }, info: ["What goes wrong with the way they do it now, before they buy from you. Choose up to three, then rate how much each bothers them.", "For example, the cheap version breaks too soon, or nobody explains how to start.", "Cost: too costly, or unclear prices. Delays: it takes too long. Inconsistency: results vary. Trust: hard to find someone reliable.", "Insecurity: not knowing how, or fearing a mistake. Capacity: no time or staff. Complexity: too complicated, or poor support.", "Based on: pains (Value Proposition Canvas)."] },
     // The Needs (doc 36, section 10): Emotional and Social ticked and rated, by the Segment's kind; Functional stays the numbered list. Each kind's list stays as its note.
-    { id: "emotional", box: "needs", label: "How does {s} want to feel?", many: true, max: 3, options: list(EMOTIONAL_PEOPLE), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("feelings", "For example, calm when a delivery arrives on time, or delighted by how a room looks."), "Rewarded: treated to something special. Nurtured: looked after. Delighted: by how it looks. Nostalgic: reminded of good times. Fulfilled: growing as a person."] },
+    { id: "emotional", box: "needs", label: "How does {s} want to feel?", many: true, max: 3, options: list(EMOTIONAL_PEOPLE), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("feelings", "For example, calm when a delivery arrives on time, or delighted by how a room looks."), "Rewarded: treated to something special. Nurtured: looked after. Delighted: by how it looks. Nostalgic: reminded of good times. Fulfilled: growing as a person.", "Proud: a sense of self-worth or achievement in what they own or made (Desmet's 25 product emotions, 2012)."] },
     { id: "emotional-b2b", box: "needs", label: "How does {s} want to feel?", many: true, max: 3, options: list(EMOTIONAL_BUSINESS), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("feelings", "For example, sure they chose the right supplier, or glad to work with you again."), "Confident: sure they made the right choice. Prosperous: growing in their work. Optimistic: hopeful about their business."] },
     { id: "social", box: "needs", label: "How does {s} want to be seen?", many: true, max: 3, options: list(SOCIAL_PEOPLE), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("ways of being seen by others", "For example, as stylish when friends visit, or as caring for the planet."), "Included: part of a group they value. Exclusive: one of the few with access. Altruistic: caring for others or the planet. Impactful: leaving a legacy."] },
     { id: "social-b2b", box: "needs", label: "How does {s} want to be seen?", many: true, max: 3, options: list(SOCIAL_BUSINESS), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("ways of being seen by others", "For example, as someone colleagues trust, or as a responsible business."), "Influential: well connected. Respected: valued in their field."] },
@@ -177,6 +177,25 @@ export const PROFILE_QUESTIONS = QUESTIONS;
  * A Profile is one person, so its questions are written of one: she, he, her, him, his once the gender is answered (the first question), "this person" until then
  * and for any other answer. The questions are stored with {s} (subject: she, he), {o} (object: her, him) and {p} (possessive: her, his); the documents list them as "this person".
  */
+/**
+ * The Emotional or Social needs ticked on a Segment's Profiles (owner, 2026-11-07), for the Value Proposition: each option once, the strongest first (its
+ * highest rating on any Profile; ties, and options ticked unrated, in the options' order), in its words. Pass each Profile's shown answers (profileShown).
+ */
+export function segmentNeedTicks(profiles: readonly SegmentAnswers[], kind: "emotional" | "social"): string[] {
+    const ranked: { label: string; point: number; order: number }[] = [];
+    let order = 0;
+    for (const question of QUESTIONS.filter(entry => entry.id === kind || entry.id === kind + "-b2b")) {
+        for (const option of question.options) {
+            order += 1;
+            const ticked = profiles.filter(answers => (answers[question.id] ?? []).includes(option.id));
+            if (ticked.length > 0) {
+                ranked.push({ label: option.label, point: Math.max(0, ...ticked.map(answers => profileRatings(answers, question)[option.id] ?? 0)), order });
+            }
+        }
+    }
+    return ranked.sort((a, b) => b.point - a.point || a.order - b.order).map(entry => entry.label);
+}
+
 export function profileWho(label: string, gender?: string): string {
     const woman = gender === "woman", man = gender === "man";
     return label

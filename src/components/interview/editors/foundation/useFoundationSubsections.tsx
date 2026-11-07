@@ -19,7 +19,7 @@ import TextBox from "../../../controls/TextBox.tsx";
 import { type OtherQuestion, competitorOtherAdd, competitorOtherName, competitorOtherRemove, competitorOtherSettle, competitorOtherTick, competitorOthers, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, shownOpenings, COMPETITOR_SUBCHANNELS, COMPETITOR_BAND_LINE, bandTone, COMPETITOR_CHANGES, valueProfiles, draftToAdd, hardToBeat, insightsDraft, reviewPlatformOrder } from "../../../../framework/engine/CompetitorQuestions.ts";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
-import { type ProfileBox, type ProfileQuestion, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileRate, profileRatings, profileWho, profileQuestionsOf, profileSettle, profileShown, proposedBusinessProfiles } from "../../../../framework/engine/ProfileQuestions.ts";
+import { type ProfileBox, type ProfileQuestion, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileRate, profileRatings, profileWho, profileQuestionsOf, profileSettle, profileShown, proposedBusinessProfiles, segmentNeedTicks } from "../../../../framework/engine/ProfileQuestions.ts";
 import { type SegmentBox, type SegmentQuestion, segmentChoose, segmentOptions, segmentQuestionsOf, segmentRowChoice, segmentSettle, segmentSettledNotes } from "../../../../framework/engine/SegmentQuestions.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
 import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
@@ -1088,11 +1088,14 @@ export function useFoundationSubsections(earlier: Earlier) {
                        than growing a new section part way
                        through. */
 
-                    const entriesOf = (entries: string[]) => (
-                        entries.length > 0 ? (
-                            <ListStatic
-                                lines={entries.map(entry => ({ key: entry, text: entry }))}
-                            />
+                    // The needs ticked on the Profiles, strongest first (owner, 2026-11-07), numbered; then the lines of their Notes, what no tick says, as bullets.
+                    const shownAnswers = segment.profiles.map(profile => profileShown(profile.questions ?? {}, segment.questions, asked));
+                    const entriesOf = (ticks: string[], notes: string[]) => (
+                        ticks.length + notes.length > 0 ? (
+                            <div>
+                                {ticks.length > 0 && <ListStatic lines={ticks.map(tick => ({ key: tick, text: tick }))} />}
+                                {notes.length > 0 && <ListStatic marker="bullet" lines={notes.map(note => ({ key: note, text: note }))} />}
+                            </div>
                         ) : (
                             <p className="business-foundation-empty">
                                 None recorded.
@@ -1124,8 +1127,8 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 aria-hidden="true"
                             />
 
-                            {entriesOf(emotional)}
-                            {entriesOf(social)}
+                            {entriesOf(segmentNeedTicks(shownAnswers, "emotional"), emotional)}
+                            {entriesOf(segmentNeedTicks(shownAnswers, "social"), social)}
 
                         </div>
                     );

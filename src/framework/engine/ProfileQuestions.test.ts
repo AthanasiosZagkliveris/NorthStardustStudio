@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { asProfileAnswers, profileAnswerLines, profileChoose, profileQuestionAsked, profileQuestionsOf, profileRate, profileRatings, profileSettle, profileShown, profileWho, proposedBusinessProfiles, PROFILE_QUESTIONS } from "./ProfileQuestions";
+import { asProfileAnswers, profileAnswerLines, profileChoose, profileQuestionAsked, profileQuestionsOf, profileRate, profileRatings, profileSettle, profileShown, profileWho, proposedBusinessProfiles, PROFILE_QUESTIONS, segmentNeedTicks } from "./ProfileQuestions";
 import type { SegmentContext } from "./SegmentQuestions";
 
 const people = { frame: "people", endsUser: false } as unknown as SegmentContext;
@@ -198,4 +198,21 @@ describe("merged options (owner, 2026-11-06)", () => {
 
 });
 
+});
+
+describe("the needs the Value Proposition lists (owner, 2026-11-07)", () => {
+    it("lists each ticked need once, the strongest first, in its one word; ties keep the options' order", () => {
+        const first = { emotional: ["calm-and-worry-free", "proud-of-what-they-own-or-made"], "emotional-rating": ["calm-and-worry-free:3", "proud-of-what-they-own-or-made:5"] };
+        const second = { emotional: ["calm-and-worry-free", "delighted-by-how-it-looks"], "emotional-rating": ["calm-and-worry-free:4", "delighted-by-how-it-looks:4"] };
+        expect(segmentNeedTicks([first, second], "emotional")).toEqual(["Proud", "Calm", "Delighted"]);
+    });
+    it("reads the business kind too, and a tick left unrated comes last", () => {
+        expect(segmentNeedTicks([{ "social-b2b": ["as-a-responsible-business", "as-someone-others-trust"], "social-b2b-rating": ["as-a-responsible-business:2"] }], "social")).toEqual(["Responsible", "Trusted"]);
+        expect(segmentNeedTicks([{}], "social")).toEqual([]);
+    });
+    it("offers Proud among the feelings, with its meaning in the \"i\"", () => {
+        const emotional = PROFILE_QUESTIONS.find(question => question.id === "emotional")!;
+        expect(emotional.options.map(option => option.label)).toContain("Proud");
+        expect(emotional.info.some(point => point.startsWith("Proud: ") && point.length <= 160)).toBe(true);
+    });
 });

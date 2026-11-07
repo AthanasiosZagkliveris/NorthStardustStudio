@@ -286,3 +286,12 @@
     margin: 4px 0 0;
 
 }
+
+/* AT REST, the recess's shade sides (bottom and right) in --cell-boundary, as every cell's (cell-focus.css; owner 2026-11-07, WCAG 1.4.11: 3:1 on the
+   card). Not while it is focused, open or disabled. */
+.option-picker .option-picker-trigger.interview-input:not(:focus, :focus-visible, :active, :disabled, [aria-expanded="true"]){
+
+    border-right-color: var(--cell-boundary, var(--text-faint)) !important;
+    border-bottom-color: var(--cell-boundary, var(--text-faint)) !important;
+
+}
