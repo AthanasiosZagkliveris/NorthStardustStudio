@@ -8,7 +8,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **The head:** the number, the name cell and the one x (built).
 - **The Type** (built): Product, Service, Hybrid, or Other with its name.
 - **Functional Needs Addressed** (built): ticks of the Segment's Profiles' functional needs. **Built 2026-11-07** (owner: "Update the app"): one tick list, the Profiles' numbered functional items, ticked by each item's id (the same words on two Profiles are one tick, holding both ids), so editing an item's words keeps the tick; a tick saved as words is read as the item's id (`businessSegmentFunctionalItems`, `AnswerBusinessFoundation.ts`); the export and the Customer Engagement page match by id. The functional categories (L17) are read from the Profile, not ticked again here. O13 is retired (it was never built).
-- **The questions** (built 2026-11-07): in two boxes, "What it is and how it reaches them" (O1, O2, O3, O4, O6, O7) and "What it answers" (O8, O10), one band each, as the Profile's Needs; a box with no question asked is not shown. A starting value (O2, O4, O6) shows until it is changed and is saved with the first answer; an answer to a question no longer asked, or an option no longer offered, is dropped (`offeringShown`). The "i" of each is the doc's, without the lines about what is not built yet (the Review's note in O2, Demand, Delivery and the Revenue stream in O3, page 2's channels in O6 and O7). Saved under the Offering's `questions`. O12 is derived, not asked, and **not built**: the age-restricted activities and each country's legal ages are not in the app yet.
+- **The questions** (built 2026-11-07): in two boxes, "What it is and how it reaches them" (O1, O2, O3, O4, O6, O7) and "What it answers" (O8, O10), one band each, as the Profile's Needs; a box with no question asked is not shown. A starting value (O2, O4, O6; O6 from O1: a physical item → Posted / shipped, a digital file → Sent automatically, an app or online access → Ongoing online access, a live session → In a live online session, an in-person service → In person) shows until it is changed and is saved with the first answer; an answer to a question no longer asked, or an option no longer offered, is dropped (`offeringShown`). The "i" of each is the doc's, without the lines about what is not built yet (the Review's note in O2, Demand, Delivery and the Revenue stream in O3, page 2's channels in O6 and O7). Saved under the Offering's `questions`. O12 is derived, not asked, and **not built**: the age-restricted activities and each country's legal ages are not in the app yet.
 - **The text boxes** (built): all six stay visible, each the note for what the questions cannot say. Approved 2026-11-07 (not built): each box's "i" names the question it adds to, with today's numbers (not renumbered yet):
   - Function: O1.
   - Customer Benefit: O4.
@@ -16,6 +16,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Purchase & Delivery: O3 and O6.
   - Support & Communication: O7.
   - Requirements & Conditions: O10.
+  - **Narrowed (owner, 2026-11-07: "fix and optimise the cards, avoid overlapping and repetition"):** each box's prompt asks only what its questions cannot: Customer Benefit "Which problem does it solve, in your customers' words?"; Purchase & Delivery "The steps from order to delivery: prices, deposits, timings."; Support & Communication "What the help and the updates include."; Requirements & Conditions "The details of what they give you, and the conditions that apply." Function and Content & Scope keep theirs.
   - **Built 2026-11-07:** each box's "i" ends with that line ("It adds to: …", in the questions' words; Content & Scope: "The one free-text box for the deliverables, the limits and what is excluded."), `OFFERING_BOX_ADDS`.
 
 **The rules of the card** are the Segment's (doc 35):
@@ -63,7 +64,9 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - *Comes from (proposed):* the business stage (Organisation: the Opening Date and the Global Settings' durations).
   - *Read by (not built yet):* the Review (a Demand estimate for an Offering that is not ready; a mismatch with the stage: Planning with an Offering "Yes, now", sales before the opening, or Managing with every Offering "Just an idea"); the Business Plan's product section.
 
-### O3. How do customers pay for it?
+### O3. On what terms do they pay for it?
+
+*Renamed (owner, 2026-11-07: "fix and optimise the cards, avoid overlapping and repetition"): "How do customers pay for it?" read as the Segment's "How do your customers pay?" (card, invoice); this asks the terms. Upfront payment, a deposit or a minimum term are written in Purchase & Delivery. Id kept.*
 
 - **Control:** one choice (a radio).
 - **Asked when:** always.
@@ -144,6 +147,8 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 
 ### O8. Which of their worries does it answer?
 
+*The worry Support (after they buy) is not listed here (owner, 2026-11-07: "fix and optimise the cards, avoid overlapping and repetition"): O7, the help after the sale, answers it; any help but None counts as answering it on the Value Proposition. O8 is asked only when a Profile has another worry.*
+
 - **Control:** ticks, as many as apply.
 - **Asked when:** a Profile of the Segment has answered E3 (doc 36).
 - **Options:** the worries ticked in the Segment's Profiles' E3 (the list L2), in the order of the list.
@@ -186,6 +191,8 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 
 ### O10. What does the customer need to give you?
 
+*"A minimum commitment / term" and "Payment upfront" left the list (owner, 2026-11-07: "fix and optimise the cards, avoid overlapping and repetition"): they are payment terms (O3, Purchase & Delivery). Six options remain.*
+
 - **Control:** ticks, as many as apply.
 - **Asked when:** the Type is Service or Hybrid.
 - **Options:** the list L11 (doc 34, 5.2):
@@ -194,8 +201,6 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Approval within an agreed time
   - A place to work
   - Their own equipment or software
-  - A minimum commitment / term
-  - Payment upfront
   - To meet certain conditions
 - **The "i" says:**
   - What you need from them before or during the work. Write the details in the note.

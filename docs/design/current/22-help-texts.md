@@ -53,7 +53,7 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | the same text under 2 labels | Competitors | Business System / 1. Foundation / Competitors | Competitor, Competitors |
 | the same text under 2 labels | Offering | Business System / 1. Foundation / Offerings | Offering, Offerings |
 | the same text under 2 labels | Offerings | Business System / 1. Foundation / Offerings | Offering, Offerings |
-| an internal word (tile, card, locked, frozen, driver) | Which of their worries does it answer? | Business System / 1. Foundation / Offerings | tile |
+| an internal word (tile, card, locked, frozen, driver) | On what terms do they pay for it? | Business System / 1. Foundation / Offerings | card |
 | the same text under 2 labels | Profile | Business System / 1. Foundation / Segment Description | Profile, Segment Description |
 | the same text under 2 labels | Segment Description | Business System / 1. Foundation / Segment Description | Profile, Segment Description |
 | a jargon acronym | Which industry are your customers in? | Business System / 1. Foundation / Segment Description | SIC |
@@ -317,20 +317,20 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 |---|---|---|---|---|---|
 | Can customers buy it today? | floating card | 5 | 2 | 87 | Where it stands today. It starts from your business stage; change it for this Offering. |
 | Content & Scope | floating card | 7 | 2 | 127 | What does it include, and what are its boundaries? The one free-text box for the deliverables, the limits and what is excluded. |
-| Customer Benefit | floating card | 6 | 2 | 121 | What problem does it solve, or what does the customer gain or achieve? It adds to: What does it do best for the customer? |
+| Customer Benefit | floating card | 6 | 2 | 105 | Which problem does it solve, in your customers' words? It adds to: What does it do best for the customer? |
 | Function | floating card | 5 | 2 | 87 | What does it do, and what result should it deliver? It adds to: What form does it take? |
-| How do customers pay for it? | floating card | 7 | 2 | 132 | How often they pay, and on what terms. Subscription: regular payments until they cancel. Pay as they go: they pay for what they use. |
 | How does the customer receive it? | floating card | 7 | 2 | 154 | How it reaches them once bought. Sent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready. |
 | Offering | floating card | 7 | 2 | 143 | Turn customer problems and functional needs into practical product features and solutions. Ensure every feature supports the Value Proposition. |
 | Offerings | tile dialog | 7 | 2 | 143 | Turn customer problems and functional needs into practical product features and solutions. Ensure every feature supports the Value Proposition. |
-| Purchase & Delivery | floating card | 7 | 2 | 145 | How does the customer purchase, pay for, and receive the offering? It adds to: How do customers pay for it? and How does the customer receive it? |
-| Requirements & Conditions | floating card | 7 | 2 | 127 | What does the customer need to provide or have, and what conditions apply? It adds to: What does the customer need to give you? |
-| Support & Communication | floating card | 6 | 2 | 107 | What support and communication does the customer receive? It adds to: What help do you give after they buy? |
-| What does it do best for the customer? | floating card | 12 | 3 | 270 | The benefits your customers get. The first you tick is the main one. Choose up to three. The same list as "What matters most" on your Profiles and on your Compe... |
-| What does the customer need to give you? | floating card | 5 | 1 | 81 | What you need from them before or during the work. Write the details in the note. |
-| What form does it take? | floating card | 10 | 2 | 214 | It refines the Type. A product and a service sold together is the Type Hybrid; make one Offering for each form, or choose the main one. Online access: a members... |
+| On what terms do they pay for it? | floating card | 12 | 3 | 267 | How often they pay, and on what terms. How they pay (card, invoice) is the Segment's question. Subscription: regular payments until they cancel. Pay as they go:... |
+| Purchase & Delivery | floating card | 7 | 2 | 144 | The steps from order to delivery: prices, deposits, timings. It adds to: On what terms do they pay for it? and How does the customer receive it? |
+| Requirements & Conditions | floating card | 6 | 2 | 118 | The details of what they give you, and the conditions that apply. It adds to: What does the customer need to give you? |
+| Support & Communication | floating card | 6 | 2 | 88 | What the help and the updates include. It adds to: What help do you give after they buy? |
+| What does it do best for the customer? | floating card | 10 | 2 | 208 | The first you tick is the main benefit. The same list as "What matters most" on your Profiles and Competitors, so they can be compared. Your Positioning's Diffe... |
+| What does the customer need to give you? | floating card | 5 | 1 | 95 | What you need from them before or during the work. The details go in Requirements & Conditions. |
+| What form does it take? | floating card | 8 | 2 | 170 | It refines the Type. For a Hybrid, make one Offering for each form, or choose the main one. Online access: a membership area, a course platform or a subscriptio... |
 | What help do you give after they buy? | floating card | 3 | 1 | 43 | The help that comes with it after the sale. |
-| Which of their worries does it answer? | floating card | 8 | 2 | 166 | The doubts that stop your customers buying from you, as your Profiles say. A worry that nothing answers is shown on the Value Proposition tile. Select all that ... |
+| Which of their worries does it answer? | floating card | 10 | 2 | 188 | The doubts that stop your customers buying from you, as your Profiles say. A worry nothing answers is shown on the Value Proposition. Support is answered by the... |
 
 **Segment Description**
 

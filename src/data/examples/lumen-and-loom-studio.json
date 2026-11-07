@@ -1101,7 +1101,6 @@
                         "the-price-or-their-budget"
                       ],
                       "o10": [
-                        "upfront",
                         "conditions"
                       ]
                     }
@@ -1460,13 +1459,11 @@
                         "dedicated"
                       ],
                       "o8": [
-                        "whether-it-fits-their-needs",
-                        "support-after-they-buy"
+                        "whether-it-fits-their-needs"
                       ],
                       "o10": [
                         "brief",
-                        "approval",
-                        "upfront"
+                        "approval"
                       ]
                     }
                   },

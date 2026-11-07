@@ -132,11 +132,11 @@ export const SUBSECTIONS = {
         ],
         description: [
             { id: "function", title: "Function", text: "What does it do, and what result should it deliver?" },
-            { id: "benefit", title: "Customer Benefit", text: "What problem does it solve, or what does the customer gain or achieve?" },
+            { id: "benefit", title: "Customer Benefit", text: "Which problem does it solve, in your customers' words?" },
             { id: "scope", title: "Content & Scope", text: "What does it include, and what are its boundaries?" },
-            { id: "delivery", title: "Purchase & Delivery", text: "How does the customer purchase, pay for, and receive the offering?" },
-            { id: "support", title: "Support & Communication", text: "What support and communication does the customer receive?" },
-            { id: "requirements", title: "Requirements & Conditions", text: "What does the customer need to provide or have, and what conditions apply?" }
+            { id: "delivery", title: "Purchase & Delivery", text: "The steps from order to delivery: prices, deposits, timings." },
+            { id: "support", title: "Support & Communication", text: "What the help and the updates include." },
+            { id: "requirements", title: "Requirements & Conditions", text: "The details of what they give you, and the conditions that apply." }
         ]
     }
 
@@ -153,7 +153,7 @@ export const OFFERING_BOX_ADDS: Record<string, string> = {
     function: "It adds to: What form does it take?",
     benefit: "It adds to: What does it do best for the customer?",
     scope: "The one free-text box for the deliverables, the limits and what is excluded.",
-    delivery: "It adds to: How do customers pay for it? and How does the customer receive it?",
+    delivery: "It adds to: On what terms do they pay for it? and How does the customer receive it?",
     support: "It adds to: What help do you give after they buy?",
     requirements: "It adds to: What does the customer need to give you?"
 };

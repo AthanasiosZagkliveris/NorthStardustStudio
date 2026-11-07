@@ -492,11 +492,11 @@
   {
    "label": "What form does it take?",
    "place": "floating card",
-   "text": "It refines the Type. A product and a service sold together is the Type Hybrid; make one Offering for each form, or choose the main one.\nOnline access: a membership area, a course platform or a subscription library.",
-   "lines": 10,
+   "text": "It refines the Type. For a Hybrid, make one Offering for each form, or choose the main one.\nOnline access: a membership area, a course platform or a subscription library.",
+   "lines": 8,
    "points": 2,
    "w": 360,
-   "chars": 214,
+   "chars": 170,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -516,13 +516,13 @@
    ]
   },
   {
-   "label": "How do customers pay for it?",
+   "label": "On what terms do they pay for it?",
    "place": "floating card",
-   "text": "How often they pay, and on what terms.\nSubscription: regular payments until they cancel. Pay as they go: they pay for what they use.",
-   "lines": 7,
-   "points": 2,
+   "text": "How often they pay, and on what terms. How they pay (card, invoice) is the Segment's question.\nSubscription: regular payments until they cancel. Pay as they go: they pay for what they use.\nUpfront payment, a deposit or a minimum term: write it in Purchase & Delivery.",
+   "lines": 12,
+   "points": 3,
    "w": 360,
-   "chars": 132,
+   "chars": 267,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -531,11 +531,11 @@
   {
    "label": "What does it do best for the customer?",
    "place": "floating card",
-   "text": "The benefits your customers get. The first you tick is the main one. Choose up to three.\nThe same list as \"What matters most\" on your Profiles and on your Competitors, so the three can be compared.\nYour Positioning's Differentiation starts the ticks; change them freely.",
-   "lines": 12,
-   "points": 3,
+   "text": "The first you tick is the main benefit. The same list as \"What matters most\" on your Profiles and Competitors, so they can be compared.\nYour Positioning's Differentiation starts the ticks; change them freely.",
+   "lines": 10,
+   "points": 2,
    "w": 360,
-   "chars": 270,
+   "chars": 208,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -570,11 +570,11 @@
   {
    "label": "Which of their worries does it answer?",
    "place": "floating card",
-   "text": "The doubts that stop your customers buying from you, as your Profiles say. A worry that nothing answers is shown on the Value Proposition tile.\nSelect all that apply.",
-   "lines": 8,
+   "text": "The doubts that stop your customers buying from you, as your Profiles say. A worry nothing answers is shown on the Value Proposition.\nSupport is answered by the help after they buy, above.",
+   "lines": 10,
    "points": 2,
    "w": 360,
-   "chars": 166,
+   "chars": 188,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -583,11 +583,11 @@
   {
    "label": "What does the customer need to give you?",
    "place": "floating card",
-   "text": "What you need from them before or during the work. Write the details in the note.",
+   "text": "What you need from them before or during the work. The details go in Requirements & Conditions.",
    "lines": 5,
    "points": 1,
    "w": 360,
-   "chars": 81,
+   "chars": 95,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -609,11 +609,11 @@
   {
    "label": "Customer Benefit",
    "place": "floating card",
-   "text": "What problem does it solve, or what does the customer gain or achieve?\nIt adds to: What does it do best for the customer?",
+   "text": "Which problem does it solve, in your customers' words?\nIt adds to: What does it do best for the customer?",
    "lines": 6,
    "points": 2,
    "w": 360,
-   "chars": 121,
+   "chars": 105,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -635,11 +635,11 @@
   {
    "label": "Purchase & Delivery",
    "place": "floating card",
-   "text": "How does the customer purchase, pay for, and receive the offering?\nIt adds to: How do customers pay for it? and How does the customer receive it?",
+   "text": "The steps from order to delivery: prices, deposits, timings.\nIt adds to: On what terms do they pay for it? and How does the customer receive it?",
    "lines": 7,
    "points": 2,
    "w": 360,
-   "chars": 145,
+   "chars": 144,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -648,11 +648,11 @@
   {
    "label": "Support & Communication",
    "place": "floating card",
-   "text": "What support and communication does the customer receive?\nIt adds to: What help do you give after they buy?",
+   "text": "What the help and the updates include.\nIt adds to: What help do you give after they buy?",
    "lines": 6,
    "points": 2,
    "w": 360,
-   "chars": 107,
+   "chars": 88,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -661,11 +661,11 @@
   {
    "label": "Requirements & Conditions",
    "place": "floating card",
-   "text": "What does the customer need to provide or have, and what conditions apply?\nIt adds to: What does the customer need to give you?",
-   "lines": 7,
+   "text": "The details of what they give you, and the conditions that apply.\nIt adds to: What does the customer need to give you?",
+   "lines": 6,
    "points": 2,
    "w": 360,
-   "chars": 127,
+   "chars": 118,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"

@@ -51,3 +51,15 @@ describe("the Value Proposition's draft and open items (doc 42)", () => {
         expect(valueMismatch([{ b1: ["speed"] }], [{ name: "X", answers: { o4: ["speed"] } }])).toEqual({ unmet: [], unwanted: [] });
     });
 });
+
+describe("no question asked twice (owner, 2026-11-07: \"avoid overlapping and repetition\")", () => {
+    it("asks the terms in O3, leaves the payment terms out of O10, and lets O7 answer the Support worry", () => {
+        expect(offeringOptions("o10", { type: "Service" }).map(option => option.id)).toEqual(["access", "brief", "approval", "place", "equipment", "conditions"]);
+        expect(offeringOptions("o8", { type: "Service", worries: ["support-after-they-buy", "risk-or-security"] }).map(option => option.id)).toEqual(["risk-or-security"]);
+        expect(offeringAsks("o8", { type: "Service", worries: ["support-after-they-buy"] })).toBe(false);
+        const support = { ...segment, profiles: [{ ...segment.profiles[0], questions: { e3: ["support-after-they-buy"] } }] };
+        const kinds = (o7: string) => valuePropositionOpenItems(support, [{ o7: [o7] }]).filter(item => item.kind === "Worry left open").length;
+        expect(kinds("none")).toBe(1);
+        expect(kinds("guides")).toBe(0);
+    });
+});

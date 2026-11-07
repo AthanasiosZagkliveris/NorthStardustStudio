@@ -59,21 +59,23 @@ const HELP: readonly SegmentOption[] = [
 /** L11 as doc 43 lists it for O10. */
 const PROVIDE: readonly SegmentOption[] = [
     { id: "access", label: "Access to their systems or information" }, { id: "brief", label: "A clear brief" }, { id: "approval", label: "Approval within an agreed time" },
-    { id: "place", label: "A place to work" }, { id: "equipment", label: "Their own equipment or software" }, { id: "commitment", label: "A minimum commitment / term" },
-    { id: "upfront", label: "Payment upfront" }, { id: "conditions", label: "To meet certain conditions" }
+    { id: "place", label: "A place to work" }, { id: "equipment", label: "Their own equipment or software" }, { id: "conditions", label: "To meet certain conditions" }
+    // ("A minimum commitment / term" and "Payment upfront" left on 2026-11-07, owner: "avoid overlapping and repetition": they are payment terms, O3's.)
 ];
 const WORRIES: readonly SegmentOption[] = PROFILE_QUESTIONS.find(question => question.id === "e3")?.options ?? [];
+/** The worry "Support" (after they buy) is answered by O7, the help given after the sale, not ticked again in O8 (owner, 2026-11-07: "avoid overlapping and repetition"). */
+const SUPPORT_WORRY = "support-after-they-buy";
 
 /** The questions, in the order doc 43 asks them, with the "i" each carries (what the doc's "i" says that is built). */
 export const OFFERING_QUESTIONS: readonly OfferingQuestion[] = [
-    { id: "o1", label: "What form does it take?", many: false, info: ["It refines the Type. A product and a service sold together is the Type Hybrid; make one Offering for each form, or choose the main one.", "Online access: a membership area, a course platform or a subscription library."] },
+    { id: "o1", label: "What form does it take?", many: false, info: ["It refines the Type. For a Hybrid, make one Offering for each form, or choose the main one.", "Online access: a membership area, a course platform or a subscription library."] },
     { id: "o2", label: "Can customers buy it today?", many: false, info: ["Where it stands today.", "It starts from your business stage; change it for this Offering."] },
-    { id: "o3", label: "How do customers pay for it?", many: false, info: ["How often they pay, and on what terms.", "Subscription: regular payments until they cancel. Pay as they go: they pay for what they use."] },
-    { id: "o4", label: "What does it do best for the customer?", many: true, max: 3, info: ["The benefits your customers get. The first you tick is the main one. Choose up to three.", "The same list as \"What matters most\" on your Profiles and on your Competitors, so the three can be compared.", "Your Positioning's Differentiation starts the ticks; change them freely."] },
+    { id: "o3", label: "On what terms do they pay for it?", many: false, info: ["How often they pay, and on what terms. How they pay (card, invoice) is the Segment's question.", "Subscription: regular payments until they cancel. Pay as they go: they pay for what they use.", "Upfront payment, a deposit or a minimum term: write it in Purchase & Delivery."] },
+    { id: "o4", label: "What does it do best for the customer?", many: true, max: 3, info: ["The first you tick is the main benefit. The same list as \"What matters most\" on your Profiles and Competitors, so they can be compared.", "Your Positioning's Differentiation starts the ticks; change them freely."] },
     { id: "o6", label: "How does the customer receive it?", many: false, info: ["How it reaches them once bought.", "Sent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready."] },
     { id: "o7", label: "What help do you give after they buy?", many: false, info: ["The help that comes with it after the sale."] },
-    { id: "o8", label: "Which of their worries does it answer?", many: true, info: ["The doubts that stop your customers buying from you, as your Profiles say. A worry that nothing answers is shown on the Value Proposition tile.", "Select all that apply."] },
-    { id: "o10", label: "What does the customer need to give you?", many: true, info: ["What you need from them before or during the work. Write the details in the note."] }
+    { id: "o8", label: "Which of their worries does it answer?", many: true, info: ["The doubts that stop your customers buying from you, as your Profiles say. A worry nothing answers is shown on the Value Proposition.", "Support is answered by the help after they buy, above."] },
+    { id: "o10", label: "What does the customer need to give you?", many: true, info: ["What you need from them before or during the work. The details go in Requirements & Conditions."] }
 ];
 
 /** The two boxes of the card's questions (doc 43): what it is and how it reaches them; what it answers. */
@@ -86,7 +88,7 @@ export const OFFERING_BOXES: readonly { title: string; ids: readonly OfferingQue
 export function offeringAsks(id: OfferingQuestionId, context: OfferingContext): boolean {
     switch (id) {
         case "o1": return context.type === "Product" || context.type === "Service" || context.type === "Hybrid";
-        case "o8": return (context.worries ?? []).length > 0;
+        case "o8": return (context.worries ?? []).some(id => id !== SUPPORT_WORRY);
         case "o10": return context.type === "Service" || context.type === "Hybrid";
         default: return true;
     }
@@ -101,7 +103,7 @@ export function offeringOptions(id: OfferingQuestionId, context: OfferingContext
         case "o4": return COMPETITOR_VALUES;
         case "o6": return RECEIVE;
         case "o7": return HELP;
-        case "o8": return WORRIES.filter(option => (context.worries ?? []).includes(option.id));
+        case "o8": return WORRIES.filter(option => option.id !== SUPPORT_WORRY && (context.worries ?? []).includes(option.id));
         case "o10": return PROVIDE;
     }
 }
@@ -114,7 +116,7 @@ const CROSSWALK: Record<string, readonly string[]> = {
     premium: ["quality-and-results", "shared-values-or-identity"]
 };
 const STAGE_START: Record<string, string> = { plan: "building", launch: "almost", manage: "now", grow: "now" };
-const RECEIVE_START: Record<string, string> = { physical: "shipped", digital: "auto", live: "live", access: "access" };
+const RECEIVE_START: Record<string, string> = { physical: "shipped", digital: "auto", app: "access", access: "access", live: "live", inperson: "inperson" };
 
 /**
  * The answers as the card shows them: those saved, then a starting value where a question has none (doc 43: O2 from the business stage, O4 from the
@@ -292,6 +294,9 @@ export function valuePropositionOpenItems(segment: BusinessCustomerSegmentValue,
         }
     });
     const answered = new Set(answers.flatMap(entry => entry.o8 ?? []));
+    if (answers.some(entry => (entry.o7 ?? []).some(id => id !== "none"))) {
+        answered.add(SUPPORT_WORRY);
+    }
     const worries = [...new Set(profiles.flatMap(entry => entry.e3 ?? []))];
     for (const worry of WORRIES.map(option => option.id).filter(id => worries.includes(id) && !answered.has(id))) {
         items.push({ kind: "Worry left open", text: "Your Profiles worry about " + worryWord(worry) + ", and no Offering answers it." });
