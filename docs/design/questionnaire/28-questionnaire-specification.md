@@ -335,13 +335,13 @@ Questions asked only at the Profile, with no Segment range: P9 to P22 (doc 36, b
 
 ### 6.7 Tile "Value Proposition"
 
-> Every question and option, as proposed on 2026-11-03: **document 42**, which refines this section.
+> Every question and option, as proposed on 2026-11-03: **document 42**, which refines this section. **As built** (2026-11-07): the text, the needs ticked on the Profiles, "Add a draft" for each Offering and the open items, as doc 42 says; this section is the record of 2026-11-03.
 
 The text stays (one per Segment). A **draft sentence** is proposed from what the Profiles care about (B1), want and are frustrated by (E1, the gains; E2, the pains: the Value Proposition Canvas [FUN-46]), the needs addressed, the Offering's benefit (O4), the positioning's purpose, differentiation and outcomes (doc 38, questions 7 to 10) and the weak points of a competitor (K3), in the template of 8.2 ("For [Segment] who [E2], [Offering] is a [O1] that [O4]. Unlike [competitor], it [K3]."); the user adds it with a button, and nothing is overwritten. The tile also lists, as read-only open items: *something customers care about that no offering delivers*, *an offering that answers no need*, and *a benefit you claim that nobody cares about*.
 
 ### 6.8 Offering card (tile "Offerings")
 
-> Every question and option, as proposed on 2026-11-03: **document 43**, which refines this section.
+> Every question and option, as proposed on 2026-11-03: **document 43**, which refines this section. **As built** (2026-11-07): the Type, Functional Needs Addressed (by the Profiles' task ids), O1 to O10 in two boxes and the six Description boxes, as doc 43 says (O12 not built, O13 retired); this section is the record of 2026-11-03.
 
 | Today | Target |
 |---|---|

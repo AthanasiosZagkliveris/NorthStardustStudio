@@ -40,7 +40,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Hybrid: the eight above
   - Other: not asked
 - **The "i" says:**
-  - It refines the Type. A product and a service sold together is the Type Hybrid.
+  - It refines the Type. For a Hybrid, make one Offering for each form, or choose the main one.
   - Online access: a membership area, a course platform or a subscription library.
 - **Connections:**
   - *Comes from:* the Type.
@@ -58,7 +58,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Just an idea
 - **Starts from the business stage** (proposed, owner 2026-11-06; `BusinessStage.ts`, from the Opening Date): Planning → "Still being built"; Launching → "Almost ready"; Managing or Growing → "Yes, now". Only a starting value: an answer chosen is never overwritten, and every option stays (a growing business can still plan a new Offering, "Just an idea").
 - **The "i" says:**
-  - Where it stands today. Sales planned before it is ready are noted on the Review.
+  - Where it stands today.
   - It starts from your business stage; change it for this Offering.
 - **Connections:**
   - *Comes from (proposed):* the business stage (Organisation: the Opening Date and the Global Settings' durations).
@@ -79,8 +79,9 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - A project or contract
   - A monthly retainer
 - **The "i" says:**
-  - How often they pay, and on what terms. It sets how Demand counts their purchases, how Delivery counts the work and how the Revenue stream charges.
+  - How often they pay, and on what terms. How they pay (card, invoice) is the Segment's question.
   - Subscription: regular payments until they cancel. Pay as they go: they pay for what they use.
+  - Upfront payment, a deposit or a minimum term: write it in Purchase & Delivery.
 - **Connections:**
   - *Comes from:* the Segment's "How do your customers pay?" (doc 35, Box 4, question 8). Invoice, bank transfer or purchase order puts A project or contract first, as an order only.
   - *Read by (not built yet):* Demand's "Customers buy", Delivery's "Delivered" and the Revenue stream's "Charged" (doc 28, 11.7 and 10.2); the Review (doc 28, 11.5, rule 14).
@@ -101,8 +102,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Safety / security
   - Values
 - **The "i" says:**
-  - The benefits your customers get. The first you tick is the main one. Choose up to three.
-  - The same list as "What matters most" on your Profiles and on your Competitors, so the three can be compared.
+  - The first you tick is the main benefit. The same list as "What matters most" on your Profiles and Competitors, so they can be compared.
   - Your Positioning's Differentiation starts the ticks; change them freely.
 - **Connections:**
   - *Comes from:* Positioning's Differentiation, through the value crosswalk (doc 34, 5.2a), as starting ticks.
@@ -121,7 +121,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - They collect it
   - Ongoing online access
 - **The "i" says:**
-  - How it reaches them once bought. It proposes the delivery channels on the Customer Engagement page.
+  - How it reaches them once bought.
   - Sent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready.
 - **Connections:**
   - *Comes from:* O1, the starting value: a physical item → Posted / shipped to them; a digital file → Sent automatically online; a live online session → In a live online session; online access → Ongoing online access.
@@ -139,7 +139,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - A dedicated person or team
   - It depends on the plan
 - **The "i" says:**
-  - The help that comes with it after the sale. It proposes the support channels and the kind of relationship on the Customer Engagement page.
+  - The help that comes with it after the sale.
 - **Connections:**
   - *Read by (not built yet):* the relationship type's starting value and the Support & Follow Up channels on page 2 (doc 28, 7.4); the Review against the Profiles' D2 (doc 36): "wants to talk to a person" while the help is None or Guides and how-tos (rule 10).
 
@@ -153,8 +153,8 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Asked when:** a Profile of the Segment has answered E3 (doc 36).
 - **Options:** the worries ticked in the Segment's Profiles' E3 (the list L2), in the order of the list.
 - **The "i" says:**
-  - The doubts that stop your customers buying from you, as your Profiles say. A worry that nothing answers is shown on the Value Proposition tile.
-  - Select all that apply.
+  - The doubts that stop your customers buying from you, as your Profiles say. A worry nothing answers is shown on the Value Proposition.
+  - Support is answered by the help after they buy, above.
 - **Connections:**
   - *Comes from:* the Profiles' E3.
   - *Read by (not built yet):* the Value Proposition's open items (doc 42); the actions proposed at the Evaluation stage on page 2 (doc 28, 11.5, rule 8: price → a quote; trust → proof; fit → a demo).
@@ -203,7 +203,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Their own equipment or software
   - To meet certain conditions
 - **The "i" says:**
-  - What you need from them before or during the work. Write the details in the note.
+  - What you need from them before or during the work. The details go in Requirements & Conditions.
 - **Connections:**
   - *Read by (not built yet):* the Delivery card's "What could slow the work down?" (doc 28, 9.3, W3), as starting ticks: approval and access.
 
