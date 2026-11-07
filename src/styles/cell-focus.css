@@ -10,18 +10,6 @@
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent) !important;
 }
 
-/* AT REST, the recess's shade sides (bottom and right) are drawn in --cell-boundary, so every cell you write or choose in, and every unticked tick box,
-   holds 3:1 against the card it stands on (WCAG 2.2, 1.4.11; owner 2026-11-07: "follow the standards"). The light sides stay as they were: the same
-   recessed look on every card, no outline round it (owner, 2026-11-06). A disabled cell is exempt and stays flat. A box that holds the field (a date
-   cell, a numbered list) draws it; what is inside does not. The colour is --text-faint, read where the cell stands (on a tinted band, the band's own
-   --text-faint-on-tint); a place may set --cell-boundary to its own. The dropdown (OptionPicker) takes the same edge in its own sheet, option-picker.css. */
-:is(textarea, input:not([type="checkbox"], [type="radio"], [type="range"], [type="color"], [type="file"]), .month-picker-trigger, input[type="checkbox"]:not(:checked)):not(:focus, :focus-visible, :active, :disabled, .numbered-list-input, .date-cell-field > *, .numbered-list *),
-.date-cell-field:not(:focus-within, :has(:disabled)),
-.numbered-list:not(:focus-within, :has(:disabled)) {
-    border-right-color: var(--cell-boundary, var(--text-faint)) !important;
-    border-bottom-color: var(--cell-boundary, var(--text-faint)) !important;
-}
-
 /* A box with no edge of its own (a date cell, the colour cell): the edge is drawn with the ring, round the box. */
 .date-cell-field:focus-within:not(:has(:disabled)) {
     outline: none !important;
