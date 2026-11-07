@@ -25,7 +25,7 @@ Related: doc 35 (the Segment's questions, built, in the same form), doc 28 (6.4 
 | Objections | E3 |
 | Needs | stay text lists |
 
-**What the notes are for (built).** The note under each box holds what the choice questions do not: a name and household in Personal, the values in Psychographics, the names of groups and places in Hubs, where and when they buy in Habits, the details that are theirs in Goals, Challenges and Objections. The "i" of each box says so (`PROFILE_NOTE_HINTS`). The box prompts are the owner's words. The Personal one says what the box asks (owner, 2026-11-03): "What are their age, gender, household and work?", and for a B2B Profile "What are their age, job level and role in buying?".
+**What the notes are for (built).** (The Psychographics Notes' placeholder is "What they believe and enjoy, beyond what matters most" since 2026-11-07, owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments": B1 asks what matters most.) The note under each box holds what the choice questions do not: a name and household in Personal, the values in Psychographics, the names of groups and places in Hubs, where and when they buy in Habits, the details that are theirs in Goals, Challenges and Objections. The "i" of each box says so (`PROFILE_NOTE_HINTS`). The box prompts are the owner's words. The Personal one says what the box asks (owner, 2026-11-03): "What are their age, gender, household and work?", and for a B2B Profile "What are their age, job level and role in buying?".
 
 **The Profile card's layout (built).** The card floats at the standard card width (492px, the width limit of every floating card); it has three levels. **The sections** are Description, Motivations and Needs: each a band on the primary fill with light capitals in the Segment card's title style (18px, regular), with its fold; the double rule splits one section from the next. **The questions** are the labels over their options, the Segment card's design (18px, regular, sentence case), with a line under each label that stands over options; a label over a text holder (the Needs lists) or beside its cell (the age) has none. **Between them, the subsections** (the boxes: Specific Personal Information, Psychographics, Social & Interest Hubs, Information & Shopping Habits under Description; Goals & Desires, Challenges & Problems, Objections under Motivations) are lighter: a band on a 14% tint of the primary fill with a 4px primary bar at its left, the title a size under the section's (14px), bold capitals spaced wide, in the title ink; one line, the width of the card, between subsections (only the sections are split by a double rule). The sections are headings of level 3 and the subsections headings of level 4 (the questions are labels), so a screen reader reads the card as an outline. The double rule that splits the sections is the same component as the Segment card's (two 1px lines, 2px between; measured identical), and only the sections have it. The Notes of a box is a band of its own, the next in the run of tints and with a field gap above its tick row. Every band, line and rule runs from side to side of the card, and a section's band is followed by its first band without a gap. Needs has no subsections: its labels (Functional, Emotional, Social) stand straight under its band. Every box ends with the shared Note component (the tick and the word "Notes", ticked where it holds words), not a bare text cell. The card's edge is in the Segment's hue, as every floating card's is. Content (the name cell, the options, the notes, the lists, the age cell) stops at one line, the right edge of the name cell, before the column of the x, as in every floating card; the bands, their tints, the lines under the labels and the double rules run on to the card's sides.
 
@@ -367,6 +367,15 @@ What the Segment cannot say: which devices, which social media, which communitie
 - **Connections:**
   - *Comes from:* the Segment's online comfort.
   - *Read by (not built yet):* the relationship type suggested on page 2; the Review (against the help the Offering gives).
+
+### D3. When does this person usually buy?
+
+*Added (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments").*
+- **Control:** ticks, as many as apply (optional).
+- **Asked when:** the Segment's buyer is people, and not of the end user's own answers (the end user is not asked Box D).
+- **Options** (L25, doc 34): Weekday daytime; Evenings; Weekends; Around seasons / holidays.
+- **The "i" says:** When they actually buy, not when they are free: the Segment's work schedule says when they work.
+- **Connections:** *Read by:* the documents and the export. The habits Notes keep where and how they buy, in their words.
 
 ## 7. Box E. Motivations
 

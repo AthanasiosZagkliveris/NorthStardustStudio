@@ -8,16 +8,15 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **The head:** the number, the name cell and the one x (built).
 - **The Type** (built): Product, Service, Hybrid, or Other with its name.
 - **Functional Needs Addressed** (built): ticks of the Segment's Profiles' functional needs. **Built 2026-11-07** (owner: "Update the app"): one tick list, the Profiles' numbered functional items, ticked by each item's id (the same words on two Profiles are one tick, holding both ids), so editing an item's words keeps the tick; a tick saved as words is read as the item's id (`businessSegmentFunctionalItems`, `AnswerBusinessFoundation.ts`); the export and the Customer Engagement page match by id. The functional categories (L17) are read from the Profile, not ticked again here. O13 is retired (it was never built).
-- **The questions** (built 2026-11-07): in two boxes, "What it is and how it reaches them" (O1, O2, O3, O4, O6, O7) and "What it answers" (O8, O10), one band each, as the Profile's Needs; a box with no question asked is not shown. A starting value (O2, O4, O6; O6 from O1: a physical item → Posted / shipped, a digital file → Sent automatically, an app or online access → Ongoing online access, a live session → In a live online session, an in-person service → In person) shows until it is changed and is saved with the first answer; an answer to a question no longer asked, or an option no longer offered, is dropped (`offeringShown`). The "i" of each is the doc's, without the lines about what is not built yet (the Review's note in O2, Demand, Delivery and the Revenue stream in O3, page 2's channels in O6 and O7). Saved under the Offering's `questions`. O12 is derived, not asked, and **not built**: the age-restricted activities and each country's legal ages are not in the app yet.
-- **The text boxes** (built): all six stay visible, each the note for what the questions cannot say. Each box's "i" names the question it adds to, with today's numbers (not renumbered yet):
-  - Function: O1.
-  - Customer Benefit: O4.
-  - Content & Scope: none; it is the one free-text box for the deliverables, the limits and what is excluded.
-  - Purchase & Delivery: O3 and O6.
-  - Support & Communication: O7.
-  - Requirements & Conditions: O10.
-  - **Narrowed (owner, 2026-11-07: "fix and optimise the cards, avoid overlapping and repetition"):** each box's prompt asks only what its questions cannot: Customer Benefit "Which problem does it solve, in your customers' words?"; Purchase & Delivery "The steps from order to delivery: prices, deposits, timings."; Support & Communication "What the help and the updates include."; Requirements & Conditions "The details of what they give you, and the conditions that apply." Function and Content & Scope keep theirs.
-  - **Built 2026-11-07:** each box's "i" ends with that line ("It adds to: …", in the questions' words; Content & Scope: "The one free-text box for the deliverables, the limits and what is excluded."), `OFFERING_BOX_ADDS`.
+- **The six Description boxes** (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments"; built the same day): each box is a band with its title and "i", then its questions, one band each, then an optional **Notes** (`OptionalNote`) for what no question says; the Notes open when they hold text. The two separate boxes of questions of earlier on 2026-11-07 are gone. The box's prompt is its "i".
+  - **Function:** O1, O2. Notes: what it is, by name (the Business Plan reads it).
+  - **Customer Benefit:** O4, O8. Notes: the benefit in the customers' words (the Business Plan reads it).
+  - **Content & Scope:** O14. Notes: counts, inclusions and limits.
+  - **Purchase & Delivery:** O3 with its second row, "When do they pay?"; O6; O15. Notes: packaging and the steps.
+  - **Support & Communication:** O7, O17, O16. Notes: names and how often.
+  - **Requirements & Conditions:** O10, O18. Notes: care instructions and standards.
+  - Saved text of the boxes is kept: it is the Notes. A question no longer asked, or an option no longer offered, loses its answer; a starting value (O2, O4, O6) shows until it is changed.
+  - The Business Plan's Offerings table reads "What it does" from the Function Notes, else the form (O1), and "Customer benefit" from the Customer Benefit Notes, else what it does best (O4); the export prints every answer with its question.
 
 **The rules of the card** are the Segment's (doc 35):
 - A radio is one choice; ticks are several, with the limit shown.
@@ -86,6 +85,11 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Connections:**
   - *Comes from:* the Segment's "How do your customers pay?" (doc 35, Box 4, question 8). Invoice, bank transfer or purchase order puts A project or contract first, as an order only.
   - *Read by (not built yet):* Demand's "Customers buy", Delivery's "Delivered" and the Revenue stream's "Charged" (doc 28, 11.7 and 10.2); the Review (doc 28, 11.5, rule 14).
+
+**O3, second row: "When do they pay?"** (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments": one commercial decision, terms and timing, in one band). One choice (a radio), under the terms, in the same band; saved as `o3t`.
+- **Options:** Before they get it; A deposit, then the rest; When it is done / delivered; In instalments / monthly; On invoice terms (for example 30 days).
+- **The "i" says:** When the money comes in. How they pay (card, invoice) is the Segment's question.
+- **Connections:** *Read by (not built yet):* the Revenue stream's cash timing (doc 28, 10.2).
 
 ### O4. What does it do best for the customer?
 
@@ -204,11 +208,56 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Approval within an agreed time
   - A place to work
   - Their own equipment or software
-  - To meet certain conditions
+  - ("To meet certain conditions" left on 2026-11-07, owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments": the conditions of sale are O18.)
 - **The "i" says:**
   - What you need from them before or during the work. The details go in Requirements & Conditions.
 - **Connections:**
   - *Read by (not built yet):* the Delivery card's "What could slow the work down?" (doc 28, 9.3, W3), as starting ticks: approval and access.
+
+### O14. How is it offered?
+
+*Added (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments").* Box: Content & Scope.
+- **Control:** ticks, up to 3.
+- **Asked when:** always.
+- **Options** (list L19, doc 34): A standard range; Made to order / custom; Packages / tiers; Limited / seasonal runs; Add-ons / extras.
+- **The "i" says:** How the Offering is put together for sale: one range, made to each order, packages, limited runs or extras. Counts and what is included go in the Notes. Based on: the product mix (Kotler and Keller).
+- **Connections:** *Read by:* the export. Source [FUN-73].
+
+### O15. How long until they have it?
+
+*Added (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments"; placed in Purchase & Delivery, beside O6).*
+- **Control:** one choice (a radio).
+- **Asked when:** always.
+- **Options** (L20): Straight away; Within a week; One to four weeks; One to three months; Longer.
+- **The "i" says:** The time from order to having it. How it reaches them is the question above.
+- **Connections:** *Read by:* the export.
+
+### O16. How fast do you reply?
+
+*Added (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments").* Box: Support & Communication.
+- **Control:** one choice (a radio).
+- **Asked when:** always.
+- **Options** (L22): The same day; Within one working day; Within a few days; No set time.
+- **The "i" says:** How soon a customer hears back. The channels are on the Customer Engagement page.
+- **Connections:** *Read by:* the export.
+
+### O17. What comes after the sale?
+
+*Added (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments").* Box: Support & Communication, under O7.
+- **Control:** ticks, as many as apply; "None" stands alone.
+- **Asked when:** always.
+- **Options** (L23): Guarantee / warranty; Repairs; Updates; Training; Replacements / refills; None.
+- **The "i" says:** What the help after the sale includes. How much help there is, is the question above.
+- **Connections:** *Read by:* the export.
+
+### O18. Which conditions of sale apply?
+
+*Added (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments").* Box: Requirements & Conditions. It replaces O10's "To meet certain conditions". "An age limit" is not offered: the legal age is O12's, derived, not ticked; until O12 is built, an age limit is written in the box's Notes (the Weaving Workshops' 16+).
+- **Control:** ticks, as many as apply.
+- **Asked when:** always.
+- **Options** (L24): A minimum order; Trade / account only; Non-refundable once made (unless faulty); Notice to cancel; A booking / cancellation fee.
+- **The "i" says:** The terms a customer agrees to. Most online and distance sales can be cancelled within 14 days; goods made to the customer's specification are an exception. Based on: the Consumer Contracts Regulations 2013 (UK).
+- **Connections:** *Read by:* the export. Source [FUN-74].
 
 ### O12. Is a minimum age to buy it set by law? (no longer a question; proposed, owner 2026-11-06)
 
