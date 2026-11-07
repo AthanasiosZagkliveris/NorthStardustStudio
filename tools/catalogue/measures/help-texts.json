@@ -1096,18 +1096,31 @@
   {
    "label": "Needs",
    "place": "floating card",
-   "text": "Functional: one numbered line a need; the Offerings choose from these.\nEmotional and Social: tick and rate up to three each, then add Notes.",
-   "lines": 7,
+   "text": "Functional: tick and rate up to three jobs, then write their own tasks, one numbered line each; the Offerings choose from these lines.\nEmotional and Social: tick and rate up to three each, then add Notes.",
+   "lines": 8,
    "points": 2,
    "w": 360,
-   "chars": 140,
+   "chars": 204,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
    ]
   },
   {
-   "label": "Functional",
+   "label": "What kind of job does this person need done?",
+   "place": "floating card",
+   "text": "1 = Mild, 5 = Strong.\nThe jobs they need done, not every task. Choose up to three, then rate each; write their own tasks in the list below.\nOrganisation: keeps tasks, records or belongings in order. Integration: works with the tools or routines they already use.\nConnection: helps them reach or work with other people. Variety: gives more options than they had.\nInformation: gives answers or facts they need now (learning is the goal Development).\nBased on: Bain's Elements of Value (HBR, 2016).",
+   "lines": 23,
+   "points": 6,
+   "w": 360,
+   "chars": 495,
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "label": "Their own tasks",
    "place": "floating card",
    "text": "The practical task they need to accomplish.",
    "lines": 3,
@@ -1160,11 +1173,11 @@
   {
    "label": "Value Proposition",
    "place": "tile dialog",
-   "text": "Say how it meets the emotional and social needs ticked and rated on each Profile. The lines in their Notes are listed below.",
+   "text": "Say how it meets the emotional and social needs below: those ticked on the Profiles, strongest first, then the lines of their Notes.",
    "lines": 6,
    "points": 1,
    "w": 360,
-   "chars": 124,
+   "chars": 132,
    "scenes": [
     "Business System / 1. Foundation / tile Value Proposition"
    ]

@@ -1,7 +1,7 @@
 import { segmentAnswerLines } from "./SegmentQuestions.ts";
 import { profileAnswerLines } from "./ProfileQuestions.ts";
 import { settledSegmentAnswers } from "./SegmentContext.ts";
-import { workspacesOf, WORKSPACE_GROUP_ID } from "./AnswerUtils.ts";
+import { workspacesOf, WORKSPACE_GROUP_ID, businessOfferingNeedTexts } from "./AnswerUtils.ts";
 import { AUDIENCE_WORDS, BUYER_CATEGORY_WORDS, END_USER_WORDS, CUSTOMER_TYPE_WORDS, MARKET_TYPE_WORDS, DIFFERENTIATION_WORDS, OUTCOME_USER_WORDS, OUTCOME_WORDS, PURPOSE_WORDS, activitiesLine } from "./ActivityClassification.ts";
 /*
     Export blocks for the Answer Structures that have an editor of
@@ -522,7 +522,7 @@ function segmentBlocks(segment: BusinessCustomerSegmentValue, index: number, org
         ...(segment.offerings.length > 0 ? [heading("Offerings", 2)] : []),
         ...segment.offerings.flatMap(offering => [
             ...paragraph((offering.name.trim() || "Unnamed offering") + (offering.category ? " (" + offering.category + ")" : "")),
-            ...paragraph(offering.needsAddressed.join("; "), "Needs addressed"),
+            ...paragraph(businessOfferingNeedTexts(segment, offering).join("; "), "Needs addressed"),
             ...describe(offering.description, OFFERING_FIELDS)
         ])
     ];

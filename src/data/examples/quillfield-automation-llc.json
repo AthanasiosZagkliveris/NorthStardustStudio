@@ -477,6 +477,14 @@
                       ],
                       "social-b2b-rating": [
                         "as-someone-others-trust:4"
+                      ],
+                      "functional": [
+                        "integration",
+                        "organisation"
+                      ],
+                      "functional-rating": [
+                        "integration:5",
+                        "organisation:4"
                       ]
                     },
                     "goals": "Make intake, reminders and reporting run on their own.",
@@ -487,6 +495,11 @@
                         "Hand repetitive admin work to reliable automations",
                         "Faster client intake and document handling",
                         "Automations that keep working after launch"
+                      ],
+                      "functionalIds": [
+                        "need-1f10ah4",
+                        "need-masu55",
+                        "need-1bj6mz"
                       ],
                       "emotional": [
                         "Relief from constant firefighting",
@@ -587,6 +600,14 @@
                       ],
                       "social-b2b-rating": [
                         "as-more-valued-in-their-field:4"
+                      ],
+                      "functional": [
+                        "information",
+                        "integration"
+                      ],
+                      "functional-rating": [
+                        "information:5",
+                        "integration:4"
                       ]
                     },
                     "goals": "Keep headcount flat; deliver client reports and onboarding faster; use AI in a way that holds up in front of clients.",
@@ -597,6 +618,11 @@
                         "A clear plan for where AI actually saves time",
                         "Scale delivery without hiring more staff",
                         "Automations that keep working after launch"
+                      ],
+                      "functionalIds": [
+                        "need-bpzdza",
+                        "need-j6raxw",
+                        "need-1bj6mz"
                       ],
                       "emotional": [
                         "Feel in control of the agency's tools again"
@@ -843,8 +869,8 @@
                     "id": "offering-a4k9r2td",
                     "name": "AI Workflow Audit",
                     "needsAddressed": [
-                      "A clear plan for where AI actually saves time",
-                      "Hand repetitive admin work to reliable automations"
+                      "need-bpzdza",
+                      "need-1f10ah4"
                     ],
                     "category": "Service",
                     "categoryOther": "",
@@ -861,9 +887,9 @@
                     "id": "offering-b7w3m5qx",
                     "name": "Automation Build",
                     "needsAddressed": [
-                      "Hand repetitive admin work to reliable automations",
-                      "Faster client intake and document handling",
-                      "Scale delivery without hiring more staff"
+                      "need-1f10ah4",
+                      "need-masu55",
+                      "need-j6raxw"
                     ],
                     "category": "Service",
                     "categoryOther": "",
@@ -880,8 +906,8 @@
                     "id": "offering-c2p8j6nv",
                     "name": "Automation Care Retainer",
                     "needsAddressed": [
-                      "Automations that keep working after launch",
-                      "Scale delivery without hiring more staff"
+                      "need-1bj6mz",
+                      "need-j6raxw"
                     ],
                     "category": "Service",
                     "categoryOther": "",

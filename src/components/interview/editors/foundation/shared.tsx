@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import type { SegmentIdentity } from "./identityLink.ts";
-import { BUSINESS_COMPETITOR_TYPES, BusinessCustomerSegmentValue, BusinessFoundationValue, BusinessProfileNeedsValue } from "../../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_COMPETITOR_TYPES, BusinessCustomerSegmentValue, BusinessFoundationValue } from "../../../../framework/engine/AnswerUtils.ts";
 
 /**
  * The instruction bullets for each subsection, and the parameter
@@ -309,7 +309,7 @@ export function competitorParts(typeId: string): DescriptionPart[] {
 export const OPTIONAL_DESCRIPTION_PART = "business-data";
 
 /** Which of the three need lists a parameter names. */
-export type BusinessNeedKind = keyof BusinessProfileNeedsValue;
+export type BusinessNeedKind = "functional" | "emotional" | "social";
 
 /**
  * What every OTHER Profile in a Segment has listed under one kind

@@ -115,8 +115,48 @@ export type BusinessDescriptionValue = Record<string, string>;
  */
 export interface BusinessProfileNeedsValue {
     functional: string[];
+    /**
+     * Each functional item's id, line for line (owner, 2026-11-07): an Offering ticks an item by its id, so editing the item's words keeps the tick.
+     * Kept the same length as `functional` by the reader (ids made from the words for saved items without one) and by the list (`reconcileLineIds`).
+     */
+    functionalIds?: string[];
     emotional: string[];
     social: string[];
+}
+
+/** An id for a functional item that has none (saved before 2026-11-07): made from its words and its place, so reading the same answer gives the same id. */
+export function functionalNeedId(text: string, index: number): string {
+    let hash = 0;
+    for (const char of text.trim().toLocaleLowerCase() + "#" + index) {
+        hash = (hash * 31 + char.charCodeAt(0)) | 0;
+    }
+    return "need-" + (hash >>> 0).toString(36);
+}
+
+/** The functional items' ids, one for each item, those saved kept where they line up. */
+export function functionalNeedIds(needs: BusinessProfileNeedsValue): string[] {
+    const saved = needs.functionalIds ?? [];
+    return needs.functional.map((text, index) => saved[index] || functionalNeedId(text, index));
+}
+
+/**
+ * The ids of a numbered list's lines after an edit, so each line keeps its id: the lines before and after the edited stretch keep theirs; inside it, the
+ * lines take the old ids in order and any extra line a new id (Enter splitting a line keeps the id on its first part).
+ */
+export function reconcileLineIds(oldItems: readonly string[], oldIds: readonly string[], newItems: readonly string[], fresh: () => string): string[] {
+    let start = 0;
+    while (start < oldItems.length && start < newItems.length && oldItems[start] === newItems[start]) {
+        start += 1;
+    }
+    let tail = 0;
+    while (tail < oldItems.length - start && tail < newItems.length - start
+        && oldItems[oldItems.length - 1 - tail] === newItems[newItems.length - 1 - tail]) {
+        tail += 1;
+    }
+    const middleOld = oldIds.slice(start, oldItems.length - tail);
+    const middleCount = newItems.length - start - tail;
+    const middle = Array.from({ length: middleCount }, (_, index) => middleOld[index] ?? fresh());
+    return [...oldIds.slice(0, start), ...middle, ...oldIds.slice(oldItems.length - tail)];
 }
 
 export interface BusinessCustomerProfileValue {
@@ -380,8 +420,12 @@ export function asBusinessNeeds(value: unknown): BusinessProfileNeedsValue {
         ? value as Record<string, unknown>
         : {};
 
+    const functional = businessNeedList(source.functional, 1);
+    const saved = Array.isArray(source.functionalIds) ? source.functionalIds.map(entry => typeof entry === "string" ? entry : "") : [];
+
     return {
-        functional: businessNeedList(source.functional, 1),
+        functional,
+        functionalIds: functional.map((text, index) => saved[index] || functionalNeedId(text, index)),
         emotional: businessNeedList(source.emotional, 1),
         social: businessNeedList(source.social, 1)
     };
@@ -555,6 +599,23 @@ export function asBusinessFoundationValue(value: unknown): BusinessFoundationVal
                 ? offerings
                 : (inherited ? pageOfferings : []);
 
+            // An Offering ticks the Profiles' functional items by id (owner, 2026-11-07): a tick saved as the item's words is read as its id.
+            const itemIds = new Map<string, string[]>();
+            for (const profile of profiles) {
+                const ids = functionalNeedIds(profile.needs);
+                profile.needs.functional.forEach((text, at) => {
+                    const key = text.trim().toLocaleLowerCase();
+                    if (key) {
+                        itemIds.set(key, [...(itemIds.get(key) ?? []), ids[at]]);
+                    }
+                });
+            }
+            const known = new Set([...itemIds.values()].flat());
+            for (const offering of ownOfferings) {
+                offering.needsAddressed = [...new Set(offering.needsAddressed.flatMap(entry =>
+                    known.has(entry) ? [entry] : (itemIds.get(entry.trim().toLocaleLowerCase()) ?? [entry])))];
+            }
+
             return {
                 id: asText(segment.id) || randomId("segment"),
                 hue: typeof segment.hue === "number" && Number.isFinite(segment.hue)
@@ -604,9 +665,50 @@ export function asBusinessFoundationValue(value: unknown): BusinessFoundationVal
  * A need belongs to the Segment that has it, so an Offering sold
  * to one Segment is never offered another Segment's needs.
  */
+/** One functional item of a Segment, as an Offering ticks it: its words (the first spelling) and the ids of every Profile item with those words. */
+export interface BusinessFunctionalItem {
+    text: string;
+    ids: string[];
+}
+
+/**
+ * The functional items of ALL of a Segment's Profiles, in page order, one for the same words on several Profiles (as businessSegmentNeeds pools
+ * them), each with the ids an Offering ticks (owner, 2026-11-07: by id, not by text).
+ */
+export function businessSegmentFunctionalItems(segment: BusinessCustomerSegmentValue): BusinessFunctionalItem[] {
+    const items: BusinessFunctionalItem[] = [];
+    const byKey = new Map<string, BusinessFunctionalItem>();
+    for (const profile of segment.profiles) {
+        const ids = functionalNeedIds(profile.needs);
+        profile.needs.functional.forEach((need, at) => {
+            const text = need.trim();
+            if (!text) {
+                return;
+            }
+            const key = text.toLocaleLowerCase();
+            const item = byKey.get(key);
+            if (item) {
+                item.ids.push(ids[at]);
+            } else {
+                const fresh = { text, ids: [ids[at]] };
+                byKey.set(key, fresh);
+                items.push(fresh);
+            }
+        });
+    }
+    return items;
+}
+
+/** The words of the functional items an Offering ticks, in the Segment's order (for the documents and the export). */
+export function businessOfferingNeedTexts(segment: BusinessCustomerSegmentValue, offering: BusinessOfferingValue): string[] {
+    return businessSegmentFunctionalItems(segment)
+        .filter(item => item.ids.some(id => offering.needsAddressed.includes(id)))
+        .map(item => item.text);
+}
+
 export function businessSegmentNeeds(
     segment: BusinessCustomerSegmentValue,
-    kind: keyof BusinessProfileNeedsValue
+    kind: "functional" | "emotional" | "social"
 ): string[] {
 
     const needs: string[] = [];
@@ -1273,16 +1375,15 @@ export function businessChannelOfferings(
  * not sold to that Profile, whatever else is true of it -- so the
  * relationships kept with that Profile are not about it.
  *
- * Matched on the need's TEXT, because that is what an Offering
- * stores, and without regard to case or surrounding space --
- * exactly as businessSegmentNeeds pools them, so the two agree
- * about what counts as the same need.
+ * Matched on the need's ID since 2026-11-07 (owner: an Offering ticks a Profile's numbered item by its id, so editing its words keeps the
+ * tick); a tick still saved as words, which matched no item when read, is matched on the words, without regard to case or space.
  */
 export function businessProfileOfferings(
     profile: BusinessCustomerProfileValue,
     offerings: readonly BusinessOfferingValue[]
 ): BusinessOfferingValue[] {
 
+    const ids = functionalNeedIds(profile.needs).filter((_, at) => profile.needs.functional[at].trim().length > 0);
     const needs = new Set(
         profile.needs.functional
             .map(need => need.trim().toLocaleLowerCase())
@@ -1295,7 +1396,7 @@ export function businessProfileOfferings(
 
     return offerings.filter(offering =>
         offering.needsAddressed.some(need =>
-            needs.has(need.trim().toLocaleLowerCase())
+            ids.includes(need) || needs.has(need.trim().toLocaleLowerCase())
         )
     );
 

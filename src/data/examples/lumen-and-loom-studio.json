@@ -653,6 +653,14 @@
                       "social-rating": [
                         "as-having-good-taste-style:4",
                         "as-caring-for-others-or-the-planet:3"
+                      ],
+                      "functional": [
+                        "information",
+                        "variety"
+                      ],
+                      "functional-rating": [
+                        "information:4",
+                        "variety:3"
                       ]
                     },
                     "goals": "A home that feels warm and made to last; owning things with a story; supporting local makers.",
@@ -663,6 +671,11 @@
                         "Durable textiles that last years",
                         "Natural, traceable materials",
                         "Easy care and repair"
+                      ],
+                      "functionalIds": [
+                        "need-41brmd",
+                        "need-l94bfg",
+                        "need-2b2j92"
                       ],
                       "emotional": [
                         ""
@@ -763,6 +776,14 @@
                       ],
                       "social-rating": [
                         "as-part-of-a-group-they-value:4"
+                      ],
+                      "functional": [
+                        "connection",
+                        "organisation"
+                      ],
+                      "functional-rating": [
+                        "connection:4",
+                        "organisation:3"
                       ]
                     },
                     "goals": "Make something for her own room; switch off after work.",
@@ -773,6 +794,11 @@
                         "Beginner-friendly workshop with all materials",
                         "Something finished to take home",
                         "Evening and weekend dates"
+                      ],
+                      "functionalIds": [
+                        "need-1r8ym3j",
+                        "need-1rx12p5",
+                        "need-sf2joa"
                       ],
                       "emotional": [
                         ""
@@ -991,9 +1017,9 @@
                     "id": "offering-nvfuu2km",
                     "name": "Handwoven Homeware Collection",
                     "needsAddressed": [
-                      "Durable textiles that last years",
-                      "Natural, traceable materials",
-                      "Easy care and repair"
+                      "need-41brmd",
+                      "need-l94bfg",
+                      "need-2b2j92"
                     ],
                     "category": "Product",
                     "categoryOther": "",
@@ -1010,9 +1036,9 @@
                     "id": "offering-8e935f0e",
                     "name": "Weaving Workshops",
                     "needsAddressed": [
-                      "Beginner-friendly workshop with all materials",
-                      "Something finished to take home",
-                      "Evening and weekend dates"
+                      "need-1r8ym3j",
+                      "need-1rx12p5",
+                      "need-sf2joa"
                     ],
                     "category": "Service",
                     "categoryOther": "",
@@ -1169,6 +1195,16 @@
                       "social-b2b-rating": [
                         "as-a-responsible-business:5",
                         "as-more-valued-in-their-field:4"
+                      ],
+                      "functional": [
+                        "information",
+                        "variety",
+                        "integration"
+                      ],
+                      "functional-rating": [
+                        "information:5",
+                        "variety:4",
+                        "integration:3"
                       ]
                     },
                     "goals": "Distinctive, sustainable interiors that win awards; reliable makers she can return to.",
@@ -1179,6 +1215,11 @@
                         "Custom colours and sizes to specification",
                         "Reliable lead times",
                         "Compliance and sustainability documentation"
+                      ],
+                      "functionalIds": [
+                        "need-1xkfvoq",
+                        "need-jy48ee",
+                        "need-11p9i9q"
                       ],
                       "emotional": [
                         ""
@@ -1329,8 +1370,8 @@
                     "id": "offering-vhtapa3v",
                     "name": "Bespoke Textile Commissions",
                     "needsAddressed": [
-                      "Custom colours and sizes to specification",
-                      "Compliance and sustainability documentation"
+                      "need-1xkfvoq",
+                      "need-11p9i9q"
                     ],
                     "category": "Service",
                     "categoryOther": "",
@@ -1347,7 +1388,7 @@
                     "id": "offering-kfyakcw5",
                     "name": "Trade Collection",
                     "needsAddressed": [
-                      "Reliable lead times"
+                      "need-jy48ee"
                     ],
                     "category": "Product",
                     "categoryOther": "",

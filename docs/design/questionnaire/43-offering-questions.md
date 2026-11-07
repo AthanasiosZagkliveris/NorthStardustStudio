@@ -7,7 +7,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 **What the card is.** An Offering belongs to its Segment, as a Profile does. Pages 2 to 5 read it by id and never copy it (the page specifications' README, point 1). The card has these parts, in order:
 - **The head:** the number, the name cell and the one x (built).
 - **The Type** (built): Product, Service, Hybrid, or Other with its name.
-- **Functional Needs Addressed** (built): ticks of the Segment's Profiles' functional needs. **Approved 2026-11-07, not built:** one tick list, the Profiles' numbered functional items, ticked by each item's id; the functional categories (L17) are read from the Profile, not ticked again here; O13 is retired.
+- **Functional Needs Addressed** (built): ticks of the Segment's Profiles' functional needs. **Built 2026-11-07** (owner: "Update the app"): one tick list, the Profiles' numbered functional items, ticked by each item's id (the same words on two Profiles are one tick, holding both ids), so editing an item's words keeps the tick; a tick saved as words is read as the item's id (`businessSegmentFunctionalItems`, `AnswerBusinessFoundation.ts`); the export and the Customer Engagement page match by id. The functional categories (L17) are read from the Profile, not ticked again here. O13 is retired (it was never built).
 - **One box of questions** (proposed): O1 to O13 below, one band each, with the Segment card's layout; O12 is derived, not asked (2026-11-06).
 - **The text boxes** (built): all six stay visible, each the note for what the questions cannot say. Approved 2026-11-07 (not built): each box's "i" names the question it adds to, with today's numbers (not renumbered yet):
   - Function: O1.

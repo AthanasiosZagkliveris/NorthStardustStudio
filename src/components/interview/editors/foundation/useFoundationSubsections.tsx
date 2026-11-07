@@ -7,7 +7,8 @@ import TickField from "../../../controls/TickField.tsx";
 import AddButton from "../../../controls/AddButton.tsx";
 import { Fragment, ReactNode, useState } from "react";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
-import { BUSINESS_COMPETITOR_TYPES, BUSINESS_OFFERING_CATEGORIES, BusinessCompetitorValue, BusinessCustomerProfileValue, BusinessCustomerSegmentValue, BusinessOfferingValue, businessSegmentNeeds, createBusinessCompetitor, createBusinessCustomerProfile, createBusinessOffering } from "../../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_COMPETITOR_TYPES, BUSINESS_OFFERING_CATEGORIES, BusinessCompetitorValue, BusinessCustomerProfileValue, BusinessCustomerSegmentValue, BusinessOfferingValue, businessSegmentNeeds, businessSegmentFunctionalItems, functionalNeedIds, reconcileLineIds, createBusinessCompetitor, createBusinessCustomerProfile, createBusinessOffering } from "../../../../framework/engine/AnswerUtils.ts";
+import { randomId } from "../../../../framework/engine/Readers.ts";
 import FieldRow from "../../fields/FieldRow.tsx";
 import { BusinessAddButton, BusinessCard, BusinessRemove, BusinessStep, BusinessTicks, OptionalNote } from "../../cards/BusinessCardFields.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
@@ -585,6 +586,22 @@ export function useFoundationSubsections(earlier: Earlier) {
                                                 <div className="legal-entity-org-section legal-entity-org-band">
                                                     {profileQuestionOf(profile, profileIndex, shown, choices)}
                                                 </div>
+                                                {kind.id === "functional" ? (
+                                                    // Functional (owner, 2026-11-07): the jobs ticked and rated above, the customer's own tasks in the numbered list below,
+                                                    // as built; each line keeps its id, so an Offering's tick follows the line through edits.
+                                                    <div className="legal-entity-org-section">
+                                                        <FieldRow pair fullList label="Their own tasks" info={[kind.text]}>
+                                                            <NumberedListInput
+                                                                label={kind.title + " needs for " + segmentPath + ", Profile " + (profileIndex + 1)}
+                                                                items={profile.needs.functional}
+                                                                lineIds={functionalNeedIds(profile.needs)}
+                                                                disabled={disabled}
+                                                                suggestions={otherProfileNeeds(segment, profileIndex, "functional")}
+                                                                onChange={(items) => updateProfile(segmentIndex, profileIndex, { needs: { ...profile.needs, functional: items, functionalIds: reconcileLineIds(profile.needs.functional, functionalNeedIds(profile.needs), items, () => randomId("need")) } })}
+                                                            />
+                                                        </FieldRow>
+                                                    </div>
+                                                ) : (
                                                 <div className="legal-entity-org-section business-note-band">
                                                     <OptionalNote
                                                         label="Notes"
@@ -596,6 +613,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                                                         onChange={(next) => updateProfile(segmentIndex, profileIndex, { needs: { ...profile.needs, [kind.id]: next.split("\n") } })}
                                                     />
                                                 </div>
+                                                )}
                                             </Fragment>
                                         ) : (
                                         <div className={"legal-entity-org-section" + (at % 2 === 1 ? " legal-entity-org-band" : "")} key={kind.id}>
@@ -616,7 +634,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                                     })}
                                 </div>
                             </div>
-                        ), ["Functional: one numbered line a need; the Offerings choose from these.", "Emotional and Social: tick and rate up to three each, then add Notes."], groupFold(profile.id, "Needs", segmentPath + ", Profile " + (profileIndex + 1)))}
+                        ), ["Functional: tick and rate up to three jobs, then write their own tasks, one numbered line each; the Offerings choose from these lines.", "Emotional and Social: tick and rate up to three each, then add Notes."], groupFold(profile.id, "Needs", segmentPath + ", Profile " + (profileIndex + 1)))}
 
                     </>
                 ))}
@@ -1141,7 +1159,7 @@ export function useFoundationSubsections(earlier: Earlier) {
 
         /* ---- 4. The Offerings sold to this Segment ---- */
 
-        const needs = businessSegmentNeeds(segment, "functional");
+        const needs = businessSegmentFunctionalItems(segment);
 
         const offerings = (
             <>
@@ -1170,10 +1188,11 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 offering.category === CATEGORY_OTHER
                                     ? offering.categoryOther
                                     : offering.category,
-                                offering.needsAddressed.length
-                                    ? offering.needsAddressed.length +
-                                        (offering.needsAddressed.length === 1 ? " need" : " needs")
-                                    : ""
+                                (() => {
+                                    // The items ticked, each once (the same words on two Profiles are one item, ticked by both ids).
+                                    const count = needs.filter(item => item.ids.some(id => offering.needsAddressed.includes(id))).length;
+                                    return count ? count + (count === 1 ? " need" : " needs") : "";
+                                })()
                             ),
                             // What kind of thing it is, before what it is for: an Offering is a product, a service or both, and that frames everything asked after it. Under the name, from its box's edge.
                             headRow: labelled(
@@ -1234,18 +1253,19 @@ export function useFoundationSubsections(earlier: Earlier) {
                                         Add Functional Needs to a Customer
                                         Profile first, then choose them here.
                                     </p>
-                                ) : needs.map(need => (
-                                    <TickField className="business-foundation-tick" key={need} disabled={disabled} checked={
-                                                offering.needsAddressed.includes(need)
+                                ) : needs.map(item => (
+                                    // Ticked by the items' ids (owner, 2026-11-07), so editing an item's words on the Profile keeps the tick.
+                                    <TickField className="business-foundation-tick" key={item.ids[0]} disabled={disabled} checked={
+                                                item.ids.some(id => offering.needsAddressed.includes(id))
                                             } onChange={(event) => change({
                                                 needsAddressed: event.target.checked
-                                                    ? [...offering.needsAddressed, need]
+                                                    ? [...new Set([...offering.needsAddressed, ...item.ids])]
                                                     : offering.needsAddressed.filter(
-                                                        entry => entry !== need
+                                                        entry => !item.ids.includes(entry)
                                                     )
                                             })}>
                                         <span className="business-foundation-tick-label">
-                                            {need}
+                                            {item.text}
                                         </span>
                                     </TickField>
                                 ))}
