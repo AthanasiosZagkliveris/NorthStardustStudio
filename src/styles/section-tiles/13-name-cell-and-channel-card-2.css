@@ -468,7 +468,7 @@ label:has(> input[type="checkbox"]) > :not(input) {
 
     border-color: var(--line-primary) !important;
 
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent) !important;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) var(--focus-ring-mix), transparent) !important;
 
 }
 

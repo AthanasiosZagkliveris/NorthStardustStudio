@@ -347,7 +347,7 @@ Rules 6 and 7 are about a dropdown alone in a row and fields that pair; 8 to 20 
 10. **A card opened from another keeps its own colour**: an Offering's card opened from a founder is the Offering's, a channel's card the channel's teal (`FloatingItem.hue`).
 11. **An incomplete card lights its tile in every system** (`SystemCardCompleteness.ts`, `CardCompleteness.ts`): a card with something written but not what it needs makes its tile flash red; a card just made and still open, or one holding nothing, is not flagged.
 12. **While a payment plan is ticked** the card has no Start or End date: the plan's dates are the card's (the earliest and the latest payment); an Instalments plan writes its first and last dates and the ones between follow.
-13. **The active (typed-in) text holder shows one effect**: the primary edge and a ring of 3px at 35% (a text box, a list's box, a date or month cell, a note, a settings field, a name in a frame).
+13. **The active (typed-in) text holder shows one effect**: the primary edge and a ring of 3px at 70% (`--focus-ring-mix`, 2026-11-07) (a text box, a list's box, a date or month cell, a note, a settings field, a name in a frame).
 14. **A completed card is an ordinary card in four greys.** The ground (`--bg-completed-card`), the cells' ground (`--bg-completed-ground`), the line (`--line-completed`) and the text (`--completed-dim`, the card's own ink only on the Completed row). Its cells keep the shapes of an open card (recessed text cells, pickers with their chevron, the "+", x and calendar buttons, the tick boxes); "cannot be changed" is told by the cursor, not by flattening them. This is the one case where a disabled cell is not flat.
 15. **What stands with a card takes the card's tone.** The tab, its bullets, the carousel arrows and the halo of the tile that opened it are measured from the open card (its ground, its edge, its ink); a completed card gives them the Completed greys (`COMPLETED_CARD` in `SectionTiles.tsx`). A new kind of companion is drawn from the same measure, never from the tile's hue.
 16. **The halo and the underline follow the card.** While the arrows step through cards, the halo is on the tile or box that holds the card now shown (a founder's card is held as `founder-` and its id: both are looked for), and the line of the tile's list that opens it is bold and underlined; a card with no line of its own leaves them where the card was opened from.
@@ -362,7 +362,7 @@ This table is what the layout check runs against: it hovers up to three of each 
 
 | Kind | Hover | Focus | Disabled |
 |---|---|---|---|
-| Text box (input, textarea) | primary edge + soft glow (18%) | primary edge + ring (3px at 35%, the one effect of every text holder) | muted, no reaction (a completed card's cells keep their shape: rule 14) |
+| Text box (input, textarea) | primary edge + soft glow (18%) | primary edge + ring (3px at 70%, `--focus-ring-mix`, the one effect of every text holder) | muted, no reaction (a completed card's cells keep their shape: rule 14) |
 | Text holder (an image's name and description, one box) | as a text box, on the holder | as a text box | as a text box |
 | Picker | as a text box | as a text box | as a text box |
 | Tick box | its words underlined, the box's glow ring (the field's, 4px at 18%, no wire; whether or not the words are in its label: `.brand-tick` too); ticked, the box is flat (no inner light or shade) and keeps the glow | focus ring | not-allowed cursor |
@@ -910,7 +910,7 @@ drawn only in a dialog that its tile opens.
   - **The type scale** on page 3: only 14 (`--font-small`: list text, summaries, a title that dropped a size), 18 (`--font-body`: tile titles, card names, labels, fields), 24 (`--font-h3`: section headings, dialog titles, captions), 28 (`--font-h2`: column titles) and 36 (`--font-h1`: the page title). The one deviation found, the dialog's visually hidden name at the browser's 16px, now takes 18. Probe rule 18i reads every text.
 - **The edge of an opened card and its cells (no stroke).** The opened cards -- a founder's, a resource's, a partner's and a provider's, an activity's, and, named in the same request, the **Workspace form and the Delivery cards** -- their CELLS (inputs, pickers, text boxes, name cells, the x) have no stroke. The edge is the box's inset light and shade
   (`--box-inset` for a card, `--cell-inset` -- the lighter twin -- for a cell); the 1px border they keep for the box model (so nothing moves) is painted in the light on its top and left and the shade on its right and bottom (`--box-edge`, `--cell-edge`: `border-color` of four values), so the inset shadow runs on into it and there is no
-  hairline of plain ground outside it. Pointed at, a cell keeps the soft glow (18%) around it; focused, the ring (35%) -- accessibility -- over the inset edge; disabled, flat (no light, no shade); the x is filled red under the pointer, no stroke. Tick boxes keep their own box, the dashed add boxes their dashed edge. All in `page-3-edges.css`; the Workspace form's and the Delivery cards'
+  hairline of plain ground outside it. Pointed at, a cell keeps the soft glow (18%) around it; focused, the ring (70%, `--focus-ring-mix`) -- accessibility -- over the inset edge; disabled, flat (no light, no shade); the x is filled red under the pointer, no stroke. Tick boxes keep their own box, the dashed add boxes their dashed edge. All in `page-3-edges.css`; the Workspace form's and the Delivery cards'
   share is ONE block at its foot ("THE WORKSPACE FORM AND THE DELIVERY CARDS"), with the same tokens, nothing else of them changed: delete that block and they have their strokes back.
 - **The "i" of a coloured card.** Every "i" on this page (`InfoNote`): at rest it has NO fill (a wired button: an outline and a letter; the ground of the surface it stands on shows through, and `--info-fill` names that ground: the page card's, the dialog's, an opened card's own; on a box name over the dimmed page, a dark ground) with a 1.5px stroke (drawn as 1px at 100% zoom on a 1x screen: a border is drawn in whole device pixels) and its letter in the darker tint of the card's hue
   (`--info-ink`, `--theme-text-ink`; white on the scrim); under the pointer or the focus (or while its note is open) the stroke is gone and the two swap -- filled with the tint, the letter in the ground colour. The size (24px, the library's) is unchanged. Letter against ground at least 3:1 in both states.
@@ -1688,6 +1688,37 @@ The one surface every floating card stands on: 492px wide (a founder's 297px), 8
 - **1.4.10 Reflow.** The card is never wider than the window less the window margin and its content wraps; the 768px floor is a declared exception until the owner rules on 320px (docs/design/05, 5.8).
 - **4.1.2 Name, role, value.** The host is a dialog with aria-modal and a name; the focus returns to the control that opened it; Escape and a press outside close it.
 
+### Rating Scale
+
+A rating from 1 to 5: five radio rounds from low to high, the numbers 1 to 5 over them. Alone, the rounds fill the width under the question; in a group, the right half beside each row's words.
+
+- **Kind:** choice control. **Code:** `src/components/controls/RatingScale.tsx, RatingScaleGroup.tsx, RatingScaleEnds.tsx`. **Stylesheet:** `src/styles/rating-scale.css` (also `src/styles/radio-choice.css`).
+- **Parts:** the row's words, or a tick and its words (a group's row); the track: five radio rounds, spread evenly; the numbers 1 to 5, once per group, each over its round.
+- **States:** rest, hover, focus, disabled.
+- **Used in:** the Segment card: household income, gender mix, kind of area, online comfort (and the end user's), market growth, crowding (doc 35); the Profile card: B1 and E1 to E3, the Emotional and Social needs (doc 36); the Competitor card: K4 and K6 to K9, K8 and K9 banded (doc 41).
+- **Custom properties it reads:** `--space-label`, `--space-cell`, `--space-row`, `--font-small`, `--font-body`, `--gap-8`.
+
+| Variant | Where | Note |
+|---|---|---|
+| vertical (14px label) | a single question: the rounds under it, across the whole width (the Segment's online comfort, market growth and crowding; the Competitor's K4) | RatingScale with its numbers: the track fills its place |
+| horizontal (18px label) | a group: the words in the left half, the rounds in the right half (the Competitor's K7 to K9, the Profile's B1) | RatingScaleGroup: the numbers once, over the rounds' half |
+| selectable (18px label) | a group whose rows are ticked first; the rounds show once a row is ticked (the Competitor's K6, the Profile's B1, E1 to E3 and the Needs) | RatingScaleGroup selectable: unticking a row clears its rating |
+| chosen and disabled (18px label) | the chosen round, and a group that cannot be changed | the chosen round is the app's blue with a white bullet; a disabled group is drawn faint |
+
+| Number | Value |
+|---|---|
+| round | 16 |
+| groupRoundsShare | 0.5 |
+| endsGap | 6 |
+| columnGap | 12 |
+| endsFontPx | 14 |
+| rowFontPx | 18 |
+
+**Accessibility.** Keyboard focus is shown by a ring or outline. Name: each row a radio group named by its words; each round "1 of 5, [low word]" to "5 of 5, [high word]". Contrast it must hold:
+- a round's --text-muted edge at rest against the band it stands on (rest): at least 3:1.
+- the chosen round's fill against the band (rest): at least 3:1.
+- the numbers and the row's words against the band (rest): at least 4.5:1.
+
 <!-- /generated:assets -->
 
 ---
@@ -1732,7 +1763,7 @@ The owner's rules of one round, each global: made in a shared component, token o
 14. **Information, help and links start closed; content starts open** (`useItemFolds(openByDefault)`): Customer Engagement's items, the financial items and an Objective's Initiatives start open.
 
 **Cells and controls**
-15. **One ring** for every cell (`cell-focus.css`): the primary edge and a 3px ring at 35%; a box that holds a field (a date cell, the colour cell, a numbered list) draws it round the box with the cell's corners, and the field inside draws none. The pointer on such a box gives it the glow.
+15. **One ring** for every cell (`cell-focus.css`): the primary edge and a 3px ring at 70% (`--focus-ring-mix`); a box that holds a field (a date cell, the colour cell, a numbered list) draws it round the box with the cell's corners, and the field inside draws none. The pointer on such a box gives it the glow.
 16. **A colour or typeface card's Role and Colour cells** are one width (the Date step) and start together; the colour is written as a hex (# and six digits); the picker also writes it as RGB or HSL. The Typography tile sets its typeface names at the body size.
 17. **A tile with a "+" box keeps its list clear of it**, on every tile.
 18. **The Strategic Period dialog's tiles and top row end where the Themes' tiles end**, at any width.

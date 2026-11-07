@@ -510,8 +510,9 @@ function segmentBlocks(segment: BusinessCustomerSegmentValue, index: number, org
             ...describe(competitor.description, competitor.type === "substitutes"
                 ? [["offerings", "Alternative Solution"], ["market", "Market"], ["experience", "Customer Experience"]]
                 : COMPETITOR_FIELDS),
-            ...table(["Strengths", "Weaknesses", "Opportunities", "Threats"],
-                [[competitor.strengths, competitor.weaknesses, competitor.opportunities, competitor.threats]]),
+            // Two notes since 2026-11-05 (owner): strengths and weaknesses, opportunities and threats.
+            ...table(["Strengths and weaknesses", "Opportunities and threats"],
+                [[competitor.strengths, competitor.opportunities]]),
             ...paragraph(competitor.insights, "Insights & Differentiation")
         ]),
 

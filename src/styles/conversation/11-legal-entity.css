@@ -1518,9 +1518,11 @@
 
 }
 
+/* Every other question band: a light tint of the app's blue, the card titles' colour (owner, 2026-11-04: not the grey of the label colour it was), the same
+   hue as the importance tints (rating-scale.css), lighter than their first step. */
 .legal-entity-audience .legal-entity-org-band{
 
-    background:color-mix(in srgb, var(--label-color, var(--text-default)) 12%, transparent);
+    background:var(--tint-row-band);
 
 }
 

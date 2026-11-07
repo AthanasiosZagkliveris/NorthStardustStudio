@@ -828,11 +828,11 @@ function marketBlocks(f: Foundation): ExportBlock[] {
                 profile.challenges,
                 bulletCell(profile.needs.functional)
             ]))),
-            ...titled2("Competitors", table(["Competitor", "Type", "Strengths", "Weaknesses", "Insights"], segment.competitors.map(competitor => [
+            ...titled2("Competitors", table(["Competitor", "Type", "Strengths and weaknesses", "Insights"], segment.competitors.map(competitor => [
                 competitor.name,
                 BUSINESS_COMPETITOR_TYPES.find(type => type.id === competitor.type)?.label ?? "",
+                // One note since 2026-11-05 (owner): what no rating says about them.
                 competitor.strengths,
-                competitor.weaknesses,
                 competitor.insights
             ])))
         ]),

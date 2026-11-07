@@ -789,7 +789,9 @@
                         continue;
                     }
                     // DECLARED (docs/ai/tile-and-card-pattern.md, "Three levels" and "Flush"): a box of bands (the Segment and Profile cards) stacks its questions as bands that follow each other with no gap, each with its own padding, not as fields a row gap apart; `npm run check:card` measures those bands.
-                    if (item.element.closest(".business-segment-box")) {
+                    // (The Profile's Needs are bands of the same grid, outside a box: since their Emotional and Social notes became the shared Notes,
+                    // 2026-11-05, a box's text stands over the next band's question as in every box.)
+                    if (item.element.closest(".business-segment-box, .business-segment-grid-single .legal-entity-org-section")) {
                         continue;
                     }
                     // What stands directly above it, in its column, in the same card.

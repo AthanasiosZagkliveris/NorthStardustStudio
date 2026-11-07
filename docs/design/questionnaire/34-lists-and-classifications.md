@@ -1,6 +1,6 @@
 # 34. Lists and classifications: the countries, the shared lists, the industries and the codes
 
-Status: **proposal**, written 2026-10-29, updated 2026-11-03; parts are built (as document 28, from which this is section 5, split off on 2026-10-29; the sub-section numbers are unchanged, so "5.7" is still 5.7). Where the first published version differs, doc 33 governs: the six countries and Other, with the five generic legal forms for Other; everything for more countries is a future feature (doc 33).
+Status: **proposal**, written 2026-10-29, updated 2026-11-04; parts are built (as document 28, from which this is section 5, split off on 2026-10-29; the sub-section numbers are unchanged, so "5.7" is still 5.7). Where the first published version differs, doc 33 governs: the six countries and Other, with the five generic legal forms for Other; everything for more countries is a future feature (doc 33).
 
 > **First published version:** for a country other than the six, the legal form is one of the four generic forms and the activity and its code are typed; the ISIC cascade described below stays in the code and the data files as a future feature (doc 33, item 4). The Organisation tile as built is doc 37.
 
@@ -41,13 +41,13 @@ Each list is one definition used wherever its id appears; counts include "Not su
 
 | Id | Name | Plain options | Used by |
 |---|---|---|---|
-| L1 | **What customers care about** (10) | Lower price; Speed; Ease and convenience; Quality and results; Trust and reputation; Expert knowledge; A service made for them; Good support; Safety and low risk; Shared values or identity | I7, P9, K2, K3, O4, the Value Proposition draft |
-| L2 | **Worries that stop a purchase** (8) | The price / budget; Whether you can be trusted; How long it takes to start; How hard it is to use; Risk or security; Whether it fits the need; Support after they buy; The effort of switching from the current option | P19, O8 |
-| L3 | **Frustrations** (10) | It costs too much; It takes too long; It is too complicated; The quality is inconsistent; It is hard to find someone trustworthy; They lack the know-how; Support is poor; They worry about mistakes or rules; They have no time or capacity; Prices are unclear | P18 |
-| L4 | **Goals** (6) | Get easier access; Learn something new; Self-expression; Meet a requirement; Win customers or earn more; Stay within the rules (Save time, Save money, Lower risk and Get better results were dropped on 2026-11-03: they repeat L1's Speed, Lower price, Safety and low risk, Quality and results) | doc 36, E1 (was P17) |
+| L1 | **What customers care about** (10) | Affordability; Speed; Convenience; Quality; Reputation; Expertise; Personalisation; Support; Safety / security; Values (one word each, owner 2026-11-06, the ids kept; what each means is in the question's "i", doc 36, B1) | I7, P9, doc 41 K8 (was K2 and K3), O4, the Value Proposition draft |
+| L2 | **Worries that stop a purchase** (8) | Price; Credibility; Onboarding; Complexity; Risk; Fit; Support; Migration (one word each, owner 2026-11-06) | P19, O8 |
+| L3 | **Frustrations** (7) | Cost; Delays; Complexity; Inconsistency; Trust; Insecurity; Capacity (one word each, owner 2026-11-06; Unclear prices merged into Cost, Fear of mistakes into Insecurity, Poor support into Complexity, saved answers read as the one kept) | P18 |
+| L4 | **Goals** (6) | Accessibility; Development; Expression; Compliance; Revenue; Governance (one word each, owner 2026-11-06; Save time, Save money, Lower risk and Get better results were dropped on 2026-11-03: they repeat L1's Speed, Affordability, Safety / security, Quality) | doc 36, E1 (was P17) |
 | L5 | **Skill areas** (6) | Delivering your product or service; Marketing; Sales and customer care; Running the business (operations, admin, technology); Money and legal (finance, accounting, legal); Leadership and people (management, hiring) | C1, L2, C4 |
-| L6 | **Channels** | the 13 channel categories and their subchannels, as in the app | P11, K4, the journey |
-| L7 | **Industries, level 1** (18, then Not sure, or more than one; level 2 in 5.4) | Farming, forestry and fishing; Mining, oil, gas and quarrying; Manufacturing; Energy, water and waste; Construction; Wholesale and retail trade; Transport, postal and logistics; Hospitality (accommodation, food, drink); Software, IT, media and telecoms; Finance and insurance; Real estate and property; Professional, scientific and technical services (law, accounting, consulting, engineering, design); Administrative and support services (staffing, cleaning, security, travel); Government and public administration; Education and training; Health and social care; Arts, sport and recreation; Other services (repair, personal, membership, charity) | I1, I2, G15, P24 |
+| L6 | **Channels** | the 13 channel categories and their subchannels, as in the app | P11, doc 41 K5 (was K4), the journey |
+| L7 | **Industries, level 1** (18, then Not sure, or more than one; level 2 in 5.4) | Farming, forestry and fishing; Mining, oil, gas and quarrying; Manufacturing; Energy, water and waste; Construction; Wholesale and retail trade; Transport, postal and logistics; Hospitality (accommodation, food, drink); Software, IT, media and telecoms; Finance and insurance; Real estate and property; Professional, scientific and technical services (law, accounting, consulting, engineering, design); Administrative and support services (staffing, cleaning, security, travel); Government and public administration; Education and training; Health and social care; Arts, sport and recreation; Other services (repair, personal, membership, charity) | I1, I2, G15, P24; doc 41, K6 (the order of L18, 5.2b) |
 | L8 | **Organisation size** (6) | Just one person (self-employed, no employees); 1 to 9 employees; 10 to 49; 50 to 249; 250 to 499; 500 or more | G14 |
 | L9 | **Age bands** (13) | 0 to 2; 3 to 5; 6 to 9; 10 to 12; 13 to 15; 16 to 17; 18 to 24; 25 to 34; 35 to 44; 45 to 54; 55 to 64; 65 to 74; 75 or older (with an "i" under each, doc 28, 6.3) | G6 |
 | L10 | **Education** (6 + Not sure yet) | No formal qualifications; School-level qualifications; Vocational or trade qualification, apprenticeship or diploma; Some college or university, no degree yet; Bachelor's degree or equivalent; Postgraduate degree (master's or doctorate) | G7, P2 |
@@ -57,7 +57,8 @@ Each list is one definition used wherever its id appears; counts include "Not su
 | L14 | **Kind of area** (5) | City centre or large city; Large town; Small town; Rural area; Remote area | G4 |
 | L15 | **Devices** (5) | Smartphone; Laptop or desktop; Tablet; A shared or public device; Other (the user writes it in) | P15 (doc 36, C1) |
 | L16 | **What a figure is based on** (9) | Sales or payments I have had; Website or social-media data; Talking to customers; A signed commitment; A pilot test; A benchmark or a comparison with the market; My costs plus a margin (a price only); My own estimate; Nothing yet | R2, D1 |
-| L17 | **The job it does** (7) | Helps them earn money; Keeps things organised; Works with what they already use; Connects them with people; Teaches / informs them; Gives more choice; Appeals to the senses | doc 43, O13; doc 41, K6 (proposed 2026-11-03). Bain's functional elements of value [FUN-48] that L1 does not already hold (saves time is Speed, simplifies and avoids hassles are Ease and convenience, reduces cost is Lower price, reduces risk is Safety and low risk, quality is Quality and results) |
+| L17 | **Functional jobs** (5; refined 2026-11-07, approved, not built) | Organisation; Integration; Connection; Information; Variety (one word each; what each means and what was left out: 5.2c) | doc 36, Needs, Functional (ticks above the numbered list); read through the Profile by doc 42 and doc 43. Was "The job it does" (7) for doc 43's O13, now retired. Bain's functional elements of value [FUN-48] that no other question already holds |
+| L18 | **Review platforms** (21) | Google; Facebook; Apple Maps; Yelp; Better Business Bureau; Trustpilot; ProductReview.com.au; Tripadvisor; Booking.com; Airbnb; OpenTable; Food delivery app; Marketplace; Houzz; Trade directory; G2; Capterra; App store; Clutch; OMR Reviews; Tabelog | doc 41, K6 (built 2026-11-04, `REVIEW_PLATFORMS` in `CompetitorQuestions.ts`); the order by industry and country in 5.2b |
 
 L12 follows the UN household-consumption divisions [SPN-01] as customer-friendly labels with the division behind each (housing 04, food 01, transport 07, information and communication 08, health 06, education 10, restaurants and accommodation 11, recreation 09, clothing and furnishings and personal care 03, 05 and 13, insurance and financial services 12). Offices label them differently and the new 2018 split is not yet used everywhere, so each option is a customer label with a code behind it, not a survey category.
 
@@ -69,14 +70,92 @@ The positioning (doc 38), the customer's priorities (L1) and the customer's goal
 
 | Positioning: Differentiation (doc 38, Q8) | Positioning: Outcome (doc 38, Q9) | What customers care about (L1, doc 36 B1) |
 |---|---|---|
-| Cost-driven | Lower costs | Lower price |
-| Convenience-driven | Time saved | Speed; Ease and convenience |
-| Compliance, Risk & Security | Legal & data-protection cover | Safety and low risk; Trust and reputation |
-| Status & Premium | Higher quality & prestige | Quality and results; Shared values / identity |
+| Cost-driven | Lower costs | Affordability |
+| Convenience-driven | Time saved | Speed; Convenience |
+| Compliance, Risk & Security | Legal & data-protection cover | Safety / security; Reputation |
+| Status & Premium | Higher quality & prestige | Quality; Values |
 | Performance & Innovation | none | none (open: an L1 option needs the owner's words) |
 | Ecosystem & Integration | none | none (open: an L1 option needs the owner's words) |
 
 The goals (L4) are the customer's own outcomes and match none of these one for one; the Value Proposition reads them as the gains (doc 28, 6.7; FUN-46).
+
+#### 5.2b Review platforms (L18) by industry and country
+
+The rows of the Competitor's K6 (doc 41; built 2026-11-04, `reviewPlatformOrder`) are ordered from the App User's own answers: Google and Facebook first; then the platforms of the App User's industry, read from the Organisation's first activity (`organisation.activities[0]`) through the industry crosswalk (L7, 5.3); then those of the App User's country (`organisation.country`); the list ends in Other, where any other platform is written (a name that means a listed one becomes it). A platform already shown is not shown twice. The order is a suggestion: any platform can be ticked.
+
+**The evidence is thin.** The industry and country columns rest on directory lists ranked by domain authority [FUN-64] and on a vendor's blog [FUN-65], not on a survey of how many people use each site; only Google's and Apple Maps' use rests on a survey (of US consumers [FUN-62]), and Trustpilot's growth in the UK on a university paper [FUN-63]. Germany and Japan are outside the six named countries (doc 33, section 3): they are chosen under Other.
+
+| Platform | First for the industry (L7, its id) | First for the country (ISO code) | Source |
+|---|---|---|---|
+| Google | every industry | every country | [FUN-62] |
+| Facebook | every industry | every country | [FUN-64] (the location lists) |
+| Apple Maps | | United States (US) | [FUN-62] |
+| Yelp | | United States (US), Canada (CA) | [FUN-64] |
+| Better Business Bureau | | United States (US), Canada (CA) | [FUN-64] |
+| Trustpilot | Wholesale and retail trade (`trade`); Professional, scientific and technical services (`professional`) | United Kingdom (GB), Ireland (IE), Australia (AU), New Zealand (NZ), every country outside the six | [FUN-63, FUN-65] |
+| ProductReview.com.au | | Australia (AU) | [FUN-65] |
+| Tripadvisor | Hospitality (`hospitality`); Arts, sport and recreation (`arts`) | | [FUN-64] |
+| Booking.com | Hospitality (`hospitality`) | | [FUN-64] |
+| Airbnb | Hospitality (`hospitality`) | | [FUN-64] |
+| OpenTable | Hospitality (`hospitality`) | | [FUN-64] (restaurants) |
+| Food delivery app | Hospitality (`hospitality`) | (its "i": Just Eat or Deliveroo in the UK, Grubhub in the US, SkipTheDishes in Canada, Menulog in Australia) | [FUN-64] (restaurants) |
+| Marketplace | Wholesale and retail trade (`trade`); Manufacturing (`manufacturing`) | (its "i": Etsy, Amazon or eBay) | page 2's Marketplace channel category |
+| Houzz | Construction (`construction`) | | [FUN-64] (home services) |
+| Trade directory | Construction (`construction`) | (its "i": Checkatrade or TrustATrader in the UK, Angi or HomeAdvisor in the US, HomeStars in Canada) | [FUN-64] (home services) |
+| G2 | Software, IT, media and telecoms (`software`) | | [FUN-64, FUN-65] |
+| Capterra | Software, IT, media and telecoms (`software`) | | [FUN-64, FUN-65] |
+| App store | Software, IT, media and telecoms (`software`) | (its "i": Apple's App Store or Google Play) | |
+| Clutch | Professional, scientific and technical services (`professional`) | | [FUN-64] (marketing agencies) |
+| OMR Reviews | Software, IT, media and telecoms (`software`), in Germany only | Germany (DE) | [FUN-65] |
+| Tabelog | Hospitality (`hospitality`), in Japan only | Japan (JP) | [FUN-65] |
+
+An industry with no row here (farming, mining, energy, transport, finance, real estate, administrative services, government, education, health, other services) shows only Google and Facebook, then its country's platforms.
+
+#### 5.2c Functional jobs (L17): what each means, and what was left out
+
+Approved (owner, 2026-11-07: "Approved. Please go ahead and write the updated specification sections"); not built. The Profile's Functional needs are ticks from this list, up to three, each rated 1 to 5 from Mild to Strong, above the numbered list of the customer's own tasks (doc 36, Needs). The words are Bain's functional elements of value (Almquist, Senior and Bloch, HBR 2016) [FUN-48], one word each, as the Profile's other lists are (owner, 2026-11-06).
+
+| Option | Its "i" | Bain's element |
+|---|---|---|
+| Organisation | Keeps tasks, records or belongings in order. | Organises |
+| Integration | Works with the tools or routines they already use. | Integrates |
+| Connection | Helps them reach or work with other people. | Connects |
+| Information | Gives answers or facts they need now (learning is the goal Development). | Informs |
+| Variety | Gives more options than they had. | Variety |
+
+**Left out, and why** (each is asked elsewhere, so a tick here would repeat it):
+- Simplifies: the frustration Complexity (L3).
+- Reduces risk: the worry Risk (L2) and the value Safety / security (L1).
+- Saves time, Reduces cost, Makes money, Reduces effort: the values Speed, Affordability and Convenience (L1) and the goal Revenue (L4).
+- Builds or repairs: not one of Bain's elements; a task of that kind is written in the numbered list, in the customer's words.
+- (Appeals to the senses, in the earlier L17, is a feeling of the product, not a job; the Emotional needs hold how they want to feel.)
+
+#### 5.2d Draft phrases (hidden; used only by the Value Proposition draft)
+
+Approved (owner, 2026-11-07: "Approved. Please go ahead and write the updated specification sections"); not built. Not shown anywhere: the Profile's tick boxes keep their one word. Only the Value Proposition's draft sentence reads these (doc 42, 1), so that "For [Segment] who [frustration] and want to [goal], …" reads as English. The draft takes the **highest-rated** goal and frustration across the Segment's Profiles; ties go to the one first in the list's order. This list is separate from the value crosswalk (5.2a).
+
+**Goals (L4), after "and want to …"**
+
+| Option | Phrase |
+|---|---|
+| Accessibility | get easier access |
+| Expression | express themselves |
+| Revenue | grow their income |
+| Compliance | meet their legal duties |
+| Development | learn and grow |
+| Governance | run things properly |
+
+**Frustrations (L3), after "who …"**
+
+| Option | Phrase |
+|---|---|
+| Cost | find it too costly |
+| Delays | wait too long |
+| Inconsistency | get uneven results |
+| Trust | struggle to find someone they trust |
+| Insecurity | worry about getting it wrong |
+| Capacity | lack the time or people |
+| Complexity | find it too complicated |
 
 ### 5.3 The crosswalks (national schemes behind the plain lists)
 
@@ -273,7 +352,7 @@ Not verified: the ANZSIC group codes of Division K groups 62 and 63 and Division
 
 Every option has a one-line example shown under it, so the user understands the choice without leaving the card. The examples are the author's and need the owner's approval **[D]**. The first five lists are written here; the others follow the same pattern.
 
-*(The Profile shows L1 to L4 and L15 with a slash in place of the word "or": "Shared values / identity", "Win customers or earn more", "Laptop / desktop"; the ids stay the words written here.)*
+*(The Profile shows L1 to L4 and L15 in its own words (`WORDS` in `ProfileQuestions.ts`): one word for each option of L1 to L4 since 2026-11-06 ("Affordability", "Personalisation", "Safety / security", "Cost", "Credibility", "Revenue"), each word's meaning in its question's "i" (doc 36); a slash between similar things, as "Laptop / desktop". The ids stay the words written here. L3 shows seven: three of these ten are merged into others, doc 36, E2.)*
 
 **L1, what customers care about**
 

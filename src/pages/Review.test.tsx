@@ -89,32 +89,32 @@ describe("Review across Organisations", () => {
         );
     }
 
-    it("shows only the open Organisation, open", () => {
+    it("shows only the open Organisation, open, with no fold arrow (owner, 2026-11-05)", () => {
         OrganizationService.create("Quillfield");
         renderReview();
 
-        const arrows = [...document.querySelectorAll<HTMLButtonElement>(".review-organization-title .strategy-box-toggle")];
-        const heads = arrows.map(arrow => arrow.closest(".fold-head")!);
+        expect(document.querySelectorAll(".review-organization-title .strategy-box-toggle")).toHaveLength(0);
+        const heads = [...document.querySelectorAll(".review-organization-title .fold-head")];
         expect(heads.map(head => head.querySelector(".fold-head-name")?.textContent)).toEqual(["Lumen"]);
-        expect(arrows.map(arrow => arrow.getAttribute("aria-expanded"))).toEqual(["true"]);
+        expect(document.querySelectorAll(".review-organization-body")).toHaveLength(1);
         expect(screen.getByRole("heading", { name: "Review" })).toBeTruthy();
     });
 
-    it("the total review has every Organisation, each folded with its count; Go there selects the other one first", () => {
+    it("the total review has every Organisation, each open with its count; Go there selects the other one first", () => {
         const other = OrganizationService.create("Quillfield");
         const current = OrganizationService.getSelected()!;
 
         renderReview({ total: true });
 
         expect(screen.getByRole("heading", { name: "Total review" })).toBeTruthy();
-        const arrows = [...document.querySelectorAll<HTMLButtonElement>(".review-organization-title .strategy-box-toggle")];
-        const heads = arrows.map(arrow => arrow.closest(".fold-head")!);
+        const heads = [...document.querySelectorAll(".review-organization-title .fold-head")];
         expect(heads.map(head => head.querySelector(".fold-head-name")?.textContent)).toEqual(["Lumen", "Quillfield"]);
-        expect(arrows.map(arrow => arrow.getAttribute("aria-expanded"))).toEqual(["false", "false"]);
+        // No arrows: every Organisation is open.
+        expect(document.querySelectorAll(".review-organization-title .strategy-box-toggle")).toHaveLength(0);
+        expect(document.querySelectorAll(".review-organization-body")).toHaveLength(2);
         // Nothing started: the four Foundation Systems each still open.
         expect(heads[1].querySelector(".fold-head-count")?.textContent).toBe("4");
 
-        act(() => { fireEvent.click(arrows[1]); });
         const quill = screen.getByRole("region", { name: "Quillfield" });
         act(() => { fireEvent.click(quill.querySelectorAll<HTMLButtonElement>(".review-go")[0]); });
         expect(OrganizationService.getSelected()).toBe(other.id);

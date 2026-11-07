@@ -368,7 +368,7 @@
                     "professional"
                   ],
                   "comfort": [
-                    "moderate"
+                    "3"
                   ],
                   "discover": [
                     "peers",
@@ -384,7 +384,7 @@
                     "executive"
                   ],
                   "trajectory": [
-                    "growing"
+                    "4"
                   ],
                   "tam": [
                     "boutique"
@@ -394,7 +394,7 @@
                     "regulation"
                   ],
                   "competition": [
-                    "fragmented"
+                    "3"
                   ]
                 },
                 "profiles": [
@@ -405,7 +405,7 @@
                       "personal": "Dana Morales, operations manager at a 22-person accounting firm in Downtown Brooklyn; the person everyone asks when a system breaks.",
                       "psychographics": "Practical, organised and overloaded; wants fewer manual steps and fewer mistakes; wary of hype and of tools that create more work than they save.",
                       "hubs": "NYSSCPA events, Brooklyn Chamber of Commerce mixers, webinars from the firm’s practice-management software vendor.",
-                      "habits": "Needs a written proposal to take to the partners, and prefers a short paid pilot to a big commitment."
+                      "habits": "Takes the proposal to the partners before anything is agreed."
                     },
                     "questions": {
                       "a1": [
@@ -436,7 +436,8 @@
                       "d1": [
                         "a-demo-trial-or-sample",
                         "reviews-and-recommendations-online",
-                        "a-meeting-or-call"
+                        "a-meeting-or-call",
+                        "a-quote-or-proposal"
                       ],
                       "d2": [
                         "person"
@@ -448,12 +449,39 @@
                       ],
                       "e3": [
                         "the-effort-of-switching-from-what-they-use-now",
-                        "risk-or-security"
+                        "support-after-they-buy",
+                        "the-price-or-their-budget"
+                      ],
+                      "b1-rating": [
+                        "speed:5",
+                        "ease-and-convenience:4",
+                        "good-support:4"
+                      ],
+                      "e2-rating": [
+                        "it-takes-too-long:5",
+                        "they-have-no-time-or-capacity:4"
+                      ],
+                      "e3-rating": [
+                        "the-effort-of-switching-from-what-they-use-now:5",
+                        "support-after-they-buy:4",
+                        "the-price-or-their-budget:3"
+                      ],
+                      "emotional-b2b": [
+                        "sure-they-made-the-right-choice"
+                      ],
+                      "emotional-b2b-rating": [
+                        "sure-they-made-the-right-choice:5"
+                      ],
+                      "social-b2b": [
+                        "as-someone-others-trust"
+                      ],
+                      "social-b2b-rating": [
+                        "as-someone-others-trust:4"
                       ]
                     },
-                    "goals": "Get hours back each week for the team; make intake, reminders and reporting run on their own; look good to the partners by fixing problems that have lingered for years.",
+                    "goals": "Make intake, reminders and reporting run on their own.",
                     "challenges": "Copying data between the practice-management system, email and spreadsheets; chasing clients for documents; no budget for a full-time developer; past tools abandoned after setup.",
-                    "objections": "Worried about client data privacy and AI mistakes; unsure the savings justify the cost; afraid of being left with automations nobody can fix.",
+                    "objections": "",
                     "needs": {
                       "functional": [
                         "Hand repetitive admin work to reliable automations",
@@ -474,7 +502,7 @@
                     "name": "The Agency Founder",
                     "description": {
                       "personal": "Sam Okafor, founder and creative director of a 9-person marketing agency in Williamsburg.",
-                      "psychographics": "Ambitious, curious about AI and quick to try new tools, but short on time to set them up properly; values speed and a professional client experience.",
+                      "psychographics": "Ambitious, curious about AI and quick to try new tools, but short on time to set them up properly.",
                       "hubs": "Brooklyn tech and marketing meetups, Advertising Week New York, podcasts on agency growth.",
                       "habits": "Books a call straight from a website; decides quickly when a case study matches the agency’s own problem."
                     },
@@ -529,9 +557,39 @@
                       "e3": [
                         "the-price-or-their-budget",
                         "how-hard-it-is-to-use"
+                      ],
+                      "b1-rating": [
+                        "speed:5",
+                        "quality-and-results:4",
+                        "trust-and-reputation:4"
+                      ],
+                      "e1-rating": [
+                        "win-customers-or-earn-more:5"
+                      ],
+                      "e2-rating": [
+                        "it-is-too-complicated:5",
+                        "it-costs-too-much:4"
+                      ],
+                      "e3-rating": [
+                        "the-price-or-their-budget:5",
+                        "how-hard-it-is-to-use:4"
+                      ],
+                      "emotional-b2b": [
+                        "growing-in-their-work",
+                        "hopeful-about-their-business"
+                      ],
+                      "emotional-b2b-rating": [
+                        "growing-in-their-work:4",
+                        "hopeful-about-their-business:4"
+                      ],
+                      "social-b2b": [
+                        "as-more-valued-in-their-field"
+                      ],
+                      "social-b2b-rating": [
+                        "as-more-valued-in-their-field:4"
                       ]
                     },
-                    "goals": "Grow revenue without growing headcount; deliver client reports and onboarding faster; use AI in a way that holds up in front of clients.",
+                    "goals": "Keep headcount flat; deliver client reports and onboarding faster; use AI in a way that holds up in front of clients.",
                     "challenges": "Team time lost to reporting, briefs and status updates; a pile of half-connected tools; freelancers who build automations and then disappear.",
                     "objections": "Has tried no-code tools alone and hit limits; unsure about paying a consultant for something that might be done in-house; concerned about lock-in.",
                     "needs": {
@@ -557,15 +615,69 @@
                     "type": "direct",
                     "description": {
                       "offerings": "Zapier, Make and AI chatbot builds, priced by the task or the hour.",
-                      "market": "Small businesses across the US and worldwide; any industry.",
-                      "acquisition": "Marketplace search, reviews and low hourly rates.",
-                      "experience": "Fast and cheap for simple tasks, but quality varies and support often ends when the job does."
+                      "market": "Small businesses in any industry.",
+                      "acquisition": "",
+                      "experience": "Suited to simple tasks."
                     },
-                    "strengths": "Low prices; large pool of talent; quick to start.",
-                    "weaknesses": "Little understanding of professional-services workflows or confidentiality; no ongoing accountability; documentation is rare.",
-                    "opportunities": "Rising demand for AI automation is pulling more freelancers into the market.",
-                    "threats": "Marketplace fees and price competition; clients burned by poor builds become wary of all outside help.",
-                    "insights": "Compete on industry focus, a documented audit, privacy review and a care retainer that keeps automations working, not on hourly rate."
+                    "strengths": "Strengths: Large pool of talent; quick to start.\nWeaknesses: Little understanding of professional-services workflows or confidentiality; documentation is rare.",
+                    "weaknesses": "",
+                    "opportunities": "Opportunities: Rising demand for AI automation is pulling more freelancers into the market.\nThreats: Marketplace fees and price competition; clients burned by poor builds become wary of all outside help.",
+                    "threats": "",
+                    "insights": "Compete on industry focus, a documented audit, privacy review and a care retainer that keeps automations working, not on hourly rate.",
+                    "questions": {
+                      "k1": [
+                        "Service"
+                      ],
+                      "k2": [
+                        "online"
+                      ],
+                      "k3": [
+                        "micro"
+                      ],
+                      "k4": [
+                        "4"
+                      ],
+                      "k5": [
+                        "marketplace"
+                      ],
+                      "k6": [
+                        "marketplace"
+                      ],
+                      "k6-rating": [
+                        "marketplace:4",
+                        "other-0:3"
+                      ],
+                      "k7-rating": [
+                        "discovery:4",
+                        "evaluation:3",
+                        "purchase:4",
+                        "delivery:3",
+                        "support:2"
+                      ],
+                      "k8-rating": [
+                        "lower-price:5",
+                        "speed:3",
+                        "ease-and-convenience:3",
+                        "good-support:2",
+                        "quality-and-results:3",
+                        "trust-and-reputation:2"
+                      ],
+                      "k9-rating": [
+                        "technology:5",
+                        "economy:3"
+                      ],
+                      "k10": [
+                        "better:good-support",
+                        "better:trust-and-reputation"
+                      ],
+                      "k6-other": [
+                        "Reddit forums"
+                      ],
+                      "k5-sub": [
+                        "marketplace:upwork",
+                        "marketplace:fiverr"
+                      ]
+                    }
                   },
                   {
                     "id": "competitor-c9n2s5ul",
@@ -574,14 +686,66 @@
                     "description": {
                       "offerings": "AI strategy, custom model work and enterprise integrations.",
                       "market": "Mid-size and enterprise firms, often in finance and healthcare.",
-                      "acquisition": "Enterprise sales teams, conferences and partnerships with software vendors.",
-                      "experience": "Polished and thorough, but slow and expensive for a small firm."
+                      "acquisition": "",
+                      "experience": "Polished and thorough."
                     },
-                    "strengths": "Credibility, depth of expertise and large teams.",
-                    "weaknesses": "Minimum engagements far above a small firm's budget; not interested in 10-person clients.",
-                    "opportunities": "Could launch packaged small-business offers.",
-                    "threats": "Their thought leadership raises expectations of what AI can do.",
-                    "insights": "Borrow their rigor (audit, roadmap, governance) and package it at a small-firm price with a single accountable person."
+                    "strengths": "Weaknesses: Minimum engagements; not interested in 10-person clients.",
+                    "weaknesses": "",
+                    "opportunities": "Opportunities: Could launch packaged small-business offers.\nThreats: Their thought leadership raises expectations of what AI can do.",
+                    "threats": "",
+                    "insights": "Borrow their rigor (audit, roadmap, governance) and package it at a small-firm price with a single accountable person.",
+                    "questions": {
+                      "k1": [
+                        "Service"
+                      ],
+                      "k2": [
+                        "countries"
+                      ],
+                      "k3": [
+                        "large"
+                      ],
+                      "k4": [
+                        "4"
+                      ],
+                      "k5": [
+                        "website",
+                        "referral-affiliates",
+                        "in-person"
+                      ],
+                      "k6": [
+                        "google",
+                        "clutch"
+                      ],
+                      "k6-rating": [
+                        "google:4",
+                        "clutch:5"
+                      ],
+                      "k7-rating": [
+                        "evaluation:4",
+                        "purchase:2",
+                        "delivery:4",
+                        "support:4"
+                      ],
+                      "k8-rating": [
+                        "speed:2",
+                        "lower-price:1",
+                        "quality-and-results:5",
+                        "trust-and-reputation:5",
+                        "ease-and-convenience:2",
+                        "expert-knowledge:5"
+                      ],
+                      "k9-rating": [
+                        "technology:4",
+                        "economy:2"
+                      ],
+                      "k10": [
+                        "better:speed",
+                        "stage:purchase"
+                      ],
+                      "k5-sub": [
+                        "in-person:talk"
+                      ]
+                    }
                   },
                   {
                     "id": "competitor-s4d6i7ty",
@@ -593,11 +757,52 @@
                       "acquisition": "Free trials, in-app prompts and vendor marketing.",
                       "experience": "Easy to start, but setups stay half-finished and break when nobody owns them."
                     },
-                    "strengths": "Cheap or already paid for; no outside party involved.",
-                    "weaknesses": "Needs time and skills the firm does not have; no one to maintain it.",
-                    "opportunities": "Vendors keep adding AI features, making DIY more tempting.",
-                    "threats": "Could shrink the market for simple builds.",
-                    "insights": "Position Quillfield as the partner that makes these tools work together, and offer to maintain what the firm has already started."
+                    "strengths": "Strengths: Already paid for; no outside party involved.\nWeaknesses: Needs time and skills the firm does not have.",
+                    "weaknesses": "",
+                    "opportunities": "Opportunities: Vendors keep adding AI features, making DIY more tempting.\nThreats: Could shrink the market for simple builds.",
+                    "threats": "",
+                    "insights": "Position Quillfield as the partner that makes these tools work together, and offer to maintain what the firm has already started.",
+                    "questions": {
+                      "k1": [
+                        "Product"
+                      ],
+                      "k2": [
+                        "online"
+                      ],
+                      "k4": [
+                        "5"
+                      ],
+                      "k6": [
+                        "g2",
+                        "capterra",
+                        "app-store"
+                      ],
+                      "k6-rating": [
+                        "g2:4",
+                        "capterra:4",
+                        "app-store:4"
+                      ],
+                      "k7-rating": [
+                        "discovery:5",
+                        "evaluation:4",
+                        "purchase:5",
+                        "delivery:3",
+                        "support:2"
+                      ],
+                      "k8-rating": [
+                        "lower-price:4",
+                        "speed:3",
+                        "ease-and-convenience:2",
+                        "good-support:1"
+                      ],
+                      "k9-rating": [
+                        "technology:5"
+                      ],
+                      "k10": [
+                        "better:good-support",
+                        "stage:support"
+                      ]
+                    }
                   },
                   {
                     "id": "competitor-m3q5o8dx",
@@ -607,13 +812,30 @@
                       "offerings": "Staff keep copying data and chasing documents by hand, or the firm hires another administrator.",
                       "market": "Most small firms today.",
                       "acquisition": "No acquisition: it is the default.",
-                      "experience": "Familiar and low-risk, but slow, error-prone and costly as the firm grows."
+                      "experience": "Familiar, but error-prone and costly as the firm grows."
                     },
-                    "strengths": "No change needed; no new risk; a new hire can also do other tasks.",
-                    "weaknesses": "An administrator in New York costs $50,000 to $60,000 a year before benefits; manual work does not scale.",
-                    "opportunities": "A tight hiring market makes the manual route harder.",
-                    "threats": "Inertia: the pain is spread thinly, so it never feels urgent.",
-                    "insights": "Show the cost of the status quo in hours and dollars during the audit, and compare the Build and Retainer to the cost of a hire."
+                    "strengths": "Strengths: No change needed; a new hire can also do other tasks.\nWeaknesses: An administrator in New York costs $50,000 to $60,000 a year before benefits; manual work does not scale.",
+                    "weaknesses": "",
+                    "opportunities": "Opportunities: A tight hiring market makes the manual route harder.\nThreats: Inertia: the pain is spread thinly, so it never feels urgent.",
+                    "threats": "",
+                    "insights": "Show the cost of the status quo in hours and dollars during the audit, and compare the Build and Retainer to the cost of a hire.",
+                    "questions": {
+                      "k8-rating": [
+                        "speed:1",
+                        "ease-and-convenience:2",
+                        "trust-and-reputation:4",
+                        "lower-price:3",
+                        "safety-and-low-risk:4"
+                      ],
+                      "k9-rating": [
+                        "economy:2",
+                        "technology:2"
+                      ],
+                      "k10": [
+                        "cost:speed",
+                        "act:economy"
+                      ]
+                    }
                   }
                 ],
                 "offerings": [

@@ -24,6 +24,8 @@ export interface SegmentQuestion {
     info: readonly string[];
     /** A short name for the notes that say what Positioning or the answers above set ("Size: Medium-sized business"). */
     name?: string;
+    /** A degree, asked as a rating from 1 to 5 (RatingScale): the words over its ends and, where one helps, its middle (doc 35, owner 2026-11-04). The answer is the point, "1" to "5". */
+    rating?: { low: string; high: string };
 }
 
 /** What a Segment's questions follow: Identity's answers and the business stage. */
@@ -64,11 +66,36 @@ const NOT_WORKING = [
 const WORKING_INFO = ["Yes includes working full-time, part-time, on contract or self-employed.", "No opens a second question about why they are not working."];
 const NOT_WORKING_INFO = ["Choose the main reason.", "Unable to work: sidelined from the workforce by a chronic medical condition, long-term illness or disability. They typically live on fixed support incomes."];
 
-const COMFORT = [
-    { id: "averse", label: "Not very comfortable" },
-    { id: "moderate", label: "Fairly comfortable" },
-    { id: "savvy", label: "Very comfortable" }
-] as const;
+/**
+ * A RATING'S POINTS as options, so a rating is saved and settled as every choice is: the ids "1" to "5" ("3 of 5"). Its end and middle words are added where it is printed (ratingWords).
+ * Degree and comfort questions are ratings unless named ranges exist (doc 35, owner 2026-11-04).
+ */
+export function ratingOptions(_rating: { low: string; high: string }): SegmentOption[] {
+    return ["1", "2", "3", "4", "5"].map(point => ({ id: point, label: point + " of 5" }));
+}
+
+/** A rating as a document prints it: "1 of 5 (Uneasy)", the word only at an end. */
+export function ratingWords(point: string, rating: { low: string; high: string }): string {
+    const word = point === "1" ? rating.low : point === "5" ? rating.high : undefined;
+    return point + " of 5" + (word ? " (" + word + ")" : "");
+}
+
+const COMFORT_RATING = { low: "Uneasy", high: "Confident" };
+/** The household income, the gender mix and the kind of place, rated 1 to 5 at the owner's request (2026-11-04), the meaning of each end in the "i". */
+const INCOME_RATING = { low: "Low", high: "High" };
+const GENDER_RATING = { low: "Mostly men", high: "Mostly women" };
+const AREA_RATING = { low: "Rural", high: "Urban" };
+
+/** The answers saved before a question became a rating, and the point each now is (doc 35). */
+const RATED_BEFORE: Record<string, Record<string, string>> = {
+    comfort: { averse: "1", moderate: "3", savvy: "5" },
+    "u-comfort": { averse: "1", moderate: "3", savvy: "5" },
+    trajectory: { declining: "1", flat: "3", growing: "4", expanding: "5" },
+    competition: { blue: "1", fragmented: "3", red: "5" },
+    income: { low: "1", "lower-middle": "2", middle: "3", "upper-middle": "4", high: "5" },
+    gender: { men: "1", "leans-men": "2", balanced: "3", "leans-women": "4", women: "5" },
+    area: { rural: "1", suburban: "3", urban: "5" }
+};
 
 const ORG_TYPES = [
     { id: "private", label: "Private business (For-profit)" },
@@ -238,25 +265,13 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     },
     {
         id: "income", box: "demographics", label: "How high is your customers' household income?", many: false,
-        options: [
-            { id: "low", label: "Low" },
-            { id: "lower-middle", label: "Lower-middle" },
-            { id: "middle", label: "Middle" },
-            { id: "upper-middle", label: "Upper-middle" },
-            { id: "high", label: "High" }
-        ],
-        info: ["Compare with the typical household income in their country: Middle is around the median, Low and High are the ends.", "Household income is what the home earns together, not one person's pay."]
+        rating: INCOME_RATING, options: ratingOptions(INCOME_RATING),
+        info: ["Compare with the typical household income in their country: 3 is around the median.", "Household income is what the home earns together, not one person's pay."]
     },
     {
         id: "gender", box: "demographics", label: "What is the gender mix of your customers?", many: false,
-        options: [
-            { id: "men", label: "Mostly men (80%+)" },
-            { id: "leans-men", label: "Leans men (60–80%)" },
-            { id: "balanced", label: "Balanced mix (40–60%)" },
-            { id: "leans-women", label: "Leans women (60–80%)" },
-            { id: "women", label: "Mostly women (80%+)" }
-        ],
-        info: ["The share of your customers who are men or women. Choose Balanced mix when it does not matter for what you sell."]
+        rating: GENDER_RATING, options: ratingOptions(GENDER_RATING),
+        info: ["1 is 80% or more men, 2 is 60 to 80%, 3 a balanced mix (40 to 60%), 4 is 60 to 80% women, 5 is 80% or more.", "Choose 3 when it does not matter for what you sell."]
     },
 
     /* ---- Box 2, Geographics ---- */
@@ -274,12 +289,8 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     },
     {
         id: "area", box: "geographics", label: "Where do your customers live or work?", many: false,
-        options: [
-            { id: "urban", label: "Urban (High-density city centre)" },
-            { id: "suburban", label: "Suburban (Residential towns surrounding a city)" },
-            { id: "rural", label: "Rural / remote (Low-density countryside or isolated areas)" }
-        ],
-        info: ["The kind of place they live or work in. Asked once the business is managing or growing, and only for customers in one place or one country."]
+        rating: AREA_RATING, options: ratingOptions(AREA_RATING),
+        info: ["1 is countryside or remote places, 3 the suburbs and towns around a city, 5 a city centre.", "Asked once the business is managing or growing, and only for customers in one place or one country."]
     },
 
     /* ---- Box 3, Business Data ---- */
@@ -309,7 +320,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         options: SEGMENT_INDUSTRIES,
         info: [
             "The industries of the sector chosen, as the official schemes (SIC and NACE, NAICS, ANZSIC) name their sections.",
-            "Government and public administration includes embassies and international bodies. Other services includes households that employ staff, such as cleaners and nannies."
+            "Government and public administration includes embassies and international bodies.", "Other services includes households that employ staff, such as cleaners and nannies."
         ]
     },
 
@@ -317,8 +328,18 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
 
     {
         id: "comfort", box: "purchasing", label: "How comfortable are your customers online?", many: false,
-        options: COMFORT,
+        rating: COMFORT_RATING, options: ratingOptions(COMFORT_RATING),
         info: ["How easily they use websites, apps and online payment, not whether they own a device."]
+    },
+    {
+        id: "social", box: "purchasing", label: "How do your customers like to socialise?", many: false,
+        options: [
+            { id: "digital", label: "Mostly online (gaming, community servers, chat apps)" },
+            { id: "mixed", label: "Online and in person" },
+            { id: "inperson", label: "Mostly in person (events, hospitality, clubs, sports)" }
+            // ("Mostly on their own" removed, owner 2026-11-04: it contradicted the question and fed nothing; a saved answer of it is dropped when read.)
+        ],
+        info: ["Where they spend their free time. It decides how they meet brands and products."]
     },
     {
         id: "discover", box: "purchasing", label: "Where do your customers discover new products?", many: true, max: 3,
@@ -334,16 +355,6 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             "What you tick here is offered on the Profile as related platforms to choose from.",
             "Choose up to three."
         ]
-    },
-    {
-        id: "social", box: "purchasing", label: "How do your customers like to socialise?", many: false,
-        options: [
-            { id: "digital", label: "Mostly online (gaming, community servers, chat apps)" },
-            { id: "mixed", label: "Online and in person" },
-            { id: "inperson", label: "Mostly in person (events, hospitality, clubs, sports)" },
-            { id: "independent", label: "Mostly on their own" }
-        ],
-        info: ["Where they spend their free time. It decides how they meet brands and products."]
     },
     {
         id: "share", box: "purchasing", label: "How do your customers share what they like?", many: true,
@@ -368,11 +379,11 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     {
         id: "path", box: "purchasing", label: "How do your customers usually decide to buy?", many: false,
         options: [
-            { id: "impulse", label: "On impulse: They see it, like it and buy it at once" },
-            { id: "researcher", label: "After research: They compare at length before buying" },
-            { id: "validator", label: "After asking others: They ask a friend or check reviews first" }
+            { id: "impulse", label: "Straight away: They see it, like it and buy it there and then" },
+            { id: "researcher", label: "After comparing options: They weigh prices, features and reviews first" },
+            { id: "validator", label: "On a recommendation: They buy what friends, family or colleagues suggest" }
         ],
-        info: ["Their usual way of buying, the one that fits most of them."]
+        info: ["Their usual way of buying, the one that fits most of them. Reviews read online count as comparing; advice from people they know is a recommendation."]
     },
     {
         id: "setting", box: "purchasing", label: "Where do your customers usually shop?", many: false,
@@ -416,16 +427,6 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     /* ---- Box 5, Market Size & Industry Outlook ---- */
 
     {
-        id: "trajectory", box: "market-size", label: "Is your market growing or shrinking?", many: false,
-        options: [
-            { id: "expanding", label: "Growing fast (Emerging market, high year-on-year growth)" },
-            { id: "growing", label: "Growing steadily (Mature market, predictable upward trend)" },
-            { id: "flat", label: "Flat / stable (Saturated market, consistent volume but low growth)" },
-            { id: "declining", label: "Shrinking or disrupted (Shrinking market or undergoing severe structural changes)" }
-        ],
-        info: ["Where the market is heading, apart from its size: a market can be large and declining, or small and expanding fast."]
-    },
-    {
         id: "tam", box: "market-size", label: "How many potential customers are there?", many: false,
         options: [
             { id: "micro", label: "Very small niche, under 1,000" },
@@ -433,7 +434,16 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "mid", label: "Mid-market, 50,000–499,999" },
             { id: "mass", label: "Mass market, 500,000 or more" }
         ],
-        info: ["The total number of potential buyers if you had 100% of the market, in the area you serve: the total addressable market (TAM)."]
+        info: ["Everyone in the area you serve who could buy it, if every one of them chose you (the total addressable market).", "For a Segment of businesses, count the organisations, not the people in them."]
+    },
+    {
+        id: "trajectory", box: "market-size", label: "Is your market growing or shrinking?", many: false,
+        rating: { low: "Shrinking", high: "Booming" },
+        options: ratingOptions({ low: "Shrinking", high: "Booming" }),
+        info: [
+            "Where the market is heading, apart from its size: a market can be large and declining, or small and expanding fast.",
+            "1: falling demand, or deep structural change. 3: flat, a saturated market. 5: an emerging market, growing fast every year."
+        ]
     },
     {
         id: "trends", box: "market-size", label: "What is changing most for your customers?", many: true, max: 2,
@@ -444,16 +454,16 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "society", label: "Society and lifestyle: Remote work, sustainability, changing habits" },
             { id: "supply", label: "Supply and delivery: Material shortages, logistics costs, local sourcing" }
         ],
-        info: ["Choose up to two."]
+        info: ["The changes that affect your customers most. Choose up to two.", "Each Competitor is rated on how every one of these could affect it, the ones ticked here first."]
     },
     {
         id: "competition", box: "market-size", label: "How crowded is your market?", many: false,
-        options: [
-            { id: "red", label: "Crowded (Red Ocean): Dominated by big established players; price wars are common." },
-            { id: "fragmented", label: "Fragmented: Many small and medium players; none controls the market." },
-            { id: "blue", label: "Open (Blue Ocean): Very few direct competitors; the niche is new." }
-        ],
-        info: ["Red Ocean and Blue Ocean are the strategy terms of Kim and Mauborgne: a crowded market against an uncontested one."]
+        rating: { low: "Open", high: "Crowded" },
+        options: ratingOptions({ low: "Open", high: "Crowded" }),
+        info: [
+            "Red Ocean and Blue Ocean are the strategy terms of Kim and Mauborgne: a crowded market against an uncontested one.",
+            "1: very few direct competitors; the niche is new. 3: many small players, none in control. 5: big established players and price wars."
+        ]
     },
 
     /* ---- The user (a Proxy or Dual-Intent buyer) ---- */
@@ -502,7 +512,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     },
     {
         id: "u-comfort", box: "user", label: "How comfortable are your customers online?", many: false,
-        options: COMFORT,
+        rating: COMFORT_RATING, options: ratingOptions(COMFORT_RATING),
         info: ["How easily they use websites, apps and online payment, not whether they own a device."]
     }
 
@@ -840,6 +850,14 @@ export function asSegmentAnswers(source: unknown): SegmentAnswers {
         }
     }
 
+    // A degree saved before it became a rating (doc 35, 2026-11-04): the old answer is the point it now is.
+    for (const [id, points] of Object.entries(RATED_BEFORE)) {
+        const old = Array.isArray(migrated[id]) ? (migrated[id] as unknown[])[0] : undefined;
+        if (typeof old === "string" && points[old]) {
+            migrated[id] = [points[old]];
+        }
+    }
+
     for (const question of QUESTIONS) {
 
         const entry = migrated[question.id];
@@ -867,7 +885,9 @@ export function segmentAnswerLines(answers: SegmentAnswers): { label: string; va
     return QUESTIONS.flatMap(question => {
 
         const chosen = answers[question.id] ?? [];
-        const words = question.options.filter(option => chosen.includes(option.id)).map(option => option.label);
+        const words = question.rating
+            ? chosen.slice(0, 1).map(point => ratingWords(point, question.rating!))
+            : question.options.filter(option => chosen.includes(option.id)).map(option => option.label);
 
         return words.length > 0
             ? [{ label: question.label.replace(/ \(Select all that apply\)$/, ""), value: words.join("; ") }]

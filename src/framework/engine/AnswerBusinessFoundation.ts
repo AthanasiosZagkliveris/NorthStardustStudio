@@ -182,6 +182,8 @@ export interface BusinessCompetitorValue {
     opportunities: string;
     threats: string;
     insights: string;
+    /** The answers to the card's questions K1 to K10 (doc 41, CompetitorQuestions.ts): question id to the ids chosen, a rating as "option:point" under "<id>-rating". */
+    questions?: Record<string, string[]>;
 }
 
 export interface BusinessOfferingValue {
@@ -399,13 +401,69 @@ export function asBusinessCompetitor(entry: unknown): BusinessCompetitorValue {
             competitor.description,
             BUSINESS_FIRST_DESCRIPTION_PART.competitor
         ),
-        strengths: asText(competitor.strengths),
-        weaknesses: asText(competitor.weaknesses),
-        opportunities: asText(competitor.opportunities),
-        threats: asText(competitor.threats),
-        insights: asText(competitor.insights)
+        // One Notes for strengths and weaknesses, one for opportunities and threats (owner, 2026-11-05): kept under `strengths` and `opportunities`;
+        // text saved in the second box before is joined in as its own line, "Weaknesses: ..." (and "Strengths: ..." before it, where there is any).
+        strengths: joinedNote("Strengths", asText(competitor.strengths), "Weaknesses", asText(competitor.weaknesses)),
+        weaknesses: "",
+        opportunities: joinedNote("Opportunities", asText(competitor.opportunities), "Threats", asText(competitor.threats)),
+        threats: "",
+        insights: asText(competitor.insights),
+        // (Kept only where something is answered, so a card saved before the questions reads as it did.)
+        ...competitorQuestionsOf(competitor.questions)
     };
 
+}
+
+/** Two SWOT boxes as one note: the first as it is while the second is empty; otherwise each, where it has text, on its own line after its name. */
+function joinedNote(firstName: string, first: string, secondName: string, second: string): string {
+    if (!second.trim()) {
+        return first;
+    }
+    return [first.trim() ? firstName + ": " + first.trim() : "", secondName + ": " + second.trim()].filter(Boolean).join("\n");
+}
+
+/** A Competitor's saved questions: lists of words only (doc 41; read by CompetitorQuestions.ts). */
+function competitorQuestionsOf(source: unknown): { questions?: Record<string, string[]> } {
+    if (!source || typeof source !== "object" || Array.isArray(source)) {
+        return {};
+    }
+    const questions: Record<string, string[]> = {};
+    for (const [key, value] of Object.entries(source as Record<string, unknown>)) {
+        if (Array.isArray(value) && value.length > 0 && value.every(entry => typeof entry === "string")) {
+            questions[key] = value as string[];
+        }
+    }
+    const read = competitorLayoutOf2026_11_04(questions);
+    return Object.keys(read).length > 0 ? { questions: read } : {};
+}
+
+/**
+ * Answers saved under the numbers of the morning of 2026-11-04 (K6 "How do they attract new customers?", K7 the platforms ... K11 the openings) read under the
+ * numbers since K6 went (owner, 2026-11-04: it repeated the channels): K6 is dropped and K7 to K11 become K6 to K10. The values had an Other row for a short
+ * while: a value written there and its rating are dropped too. The older layout is told by a key only it has, or by its K9 ratings being values, not changes.
+ */
+function competitorLayoutOf2026_11_04(questions: Record<string, string[]>): Record<string, string[]> {
+    const ATTRACT = ["discounts", "trial", "referral", "ads", "content", "events", "partnerships"];
+    const CHANGES = ["technology", "regulation", "economy", "society", "supply"];
+    const older = "k11" in questions || "k10-rating" in questions || "k9-other" in questions || "k7-other" in questions
+        || (questions.k6 ?? []).some(id => ATTRACT.includes(id))
+        || (questions["k9-rating"] ?? []).some(entry => !CHANGES.includes(entry.split(":")[0]));
+    if (!older) {
+        return questions;
+    }
+    const read: Record<string, string[]> = {};
+    for (const [key, value] of Object.entries(questions)) {
+        const match = /^k(\d+)(-.+)?$/.exec(key);
+        const n = match ? Number(match[1]) : 0;
+        if (n === 6 || key === "k9-other") {
+            continue;
+        }
+        const entries = key === "k9-rating" ? value.filter(entry => !entry.startsWith("other-")) : value;
+        if (entries.length > 0) {
+            read[n >= 7 ? "k" + (n - 1) + (match?.[2] ?? "") : key] = entries;
+        }
+    }
+    return read;
 }
 
 export function asBusinessOffering(entry: unknown): BusinessOfferingValue {

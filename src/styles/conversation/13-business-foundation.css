@@ -1050,33 +1050,8 @@
 
 }
 
-/* THE BOUNDARY OF EVERY CONTROL OF THE SEGMENT AND PROFILE CARDS holds 3:1 on the card's ground (WCAG 1.4.11): an unticked box, an unchosen round, a box you write in or a number cell is drawn with a 1px line in --text-faint (3.7:1 on the light ground, 4.4:1 on sepia, 5:1 and more on dark). The ticked and chosen ones are the app's blue, which holds it already. */
-.business-segment-grid input[type="checkbox"]:not(:checked){
-
-    border-color:var(--text-faint);
-
-}
-
-/* (The boxes you write in take their edge from --cell-edge, which the cards' own rules read.) */
-.business-segment-grid,
-.floating-card-body .column-tile-content > .business-foundation-card{
-
-    --cell-edge:var(--text-faint);
-
-}
-
-.floating-card-body .column-tile-content > .business-foundation-card .numbered-list{
-
-    border-color:var(--text-faint);
-
-}
-
-/* (A round is drawn thin and anti-aliased: its line is the darker --text-muted, so it holds 3:1 where it is thinnest.) */
-.business-segment-grid input[type="radio"]:not(:checked){
-
-    border-color:var(--text-muted);
-
-}
+/* (The dark 1px line every control of the Segment, Profile and Competitor cards had, 2026-11-02, is gone (owner, 2026-11-06: "inconsistency between
+   the styles, using wireframes everywhere"): their tick boxes, text boxes, dropdowns and lists take the app's own cell look, as every other card's do.) */
 
 /* A tick option is a target of 24px at least (WCAG 2.5.8): its one line of 23.4px stands in 24. */
 .business-segment-grid .business-foundation-tick{
@@ -1224,11 +1199,12 @@
 
 }
 
+/* A subsection title (a box in a one-column card: the Profile's and the Competitor's) in the size of its section's title, the body size (owner, 2026-11-04). */
 .business-segment-grid.business-segment-grid-single .business-segment-box > .legal-entity-org-section:first-child .business-foundation-label{
 
     color:var(--title-ink);
 
-    font-size:var(--font-small);
+    font-size:var(--font-body);
 
     font-weight:700;
 
@@ -1407,5 +1383,64 @@
     display:flex;
     flex-wrap:wrap;
     gap:var(--gap-8);
+
+}
+
+/* A Competitor's Other (K7, K9): its tick and "Add another" on one line under the list; a row written under Other is a text cell as wide as the row's words' column. */
+.business-competitor-other-row{
+
+    display:flex;
+    align-items:center;
+
+    gap:var(--space-cell);
+
+    margin-top:var(--space-row);
+
+}
+
+.business-competitor-other{
+
+    width:100%;
+    min-width:0;
+
+}
+
+
+/* A Competitor's channels (K5; owner, 2026-11-04): the Rating Scale's horizontal rule, a channel's tick in the left half and its sub-channel's dropdown in
+   the right half, every dropdown the same width; a third column in the card's x column (the room the card keeps at its right) holds the "+" that adds a
+   row, and each added row's x. A tick with no dropdown keeps its place in the left half. */
+.business-competitor-channels{
+
+    display:grid;
+    grid-template-columns:minmax(0, 1fr) minmax(0, 1fr) var(--card-x-column);
+    align-items:center;
+
+    column-gap:var(--space-cell);
+    row-gap:var(--space-label);
+
+    margin-inline-end:calc(-1 * (var(--card-x-column) + var(--space-field)));
+
+}
+
+.business-competitor-channel{
+
+    grid-column:1;
+
+}
+
+.business-competitor-subchannel{
+
+    grid-column:2;
+
+    min-width:0;
+
+}
+
+.business-competitor-subchannel-step{
+
+    grid-column:3;
+
+    display:flex;
+    justify-content:flex-start;
 
 }

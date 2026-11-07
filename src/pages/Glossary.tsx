@@ -161,6 +161,8 @@ export default function Glossary() {
     const [tab, setTab] = useState<GlossaryTab>(state.tab ?? "glossary");
     const [off, setOff] = useState<ReadonlySet<string>>(new Set());
     const [lettersOff, setLettersOff] = useState<ReadonlySet<string>>(new Set());
+    // The Glossary's own letter ranges (owner, 2026-11-05: "add a letter range filter similarly to the references").
+    const [termLettersOff, setTermLettersOff] = useState<ReadonlySet<string>>(new Set());
     const [target, setTarget] = useState<string | undefined>(state.term);
 
     const back = useMemo(() => () => {
@@ -188,6 +190,7 @@ export default function Glossary() {
             setTarget(state.term);
             setOff(new Set());
             setLettersOff(new Set());
+            setTermLettersOff(new Set());
         }
     }, [location.key]);
 
@@ -209,7 +212,10 @@ export default function Glossary() {
         return [...app, ...yours].sort((one, other) => one.term.localeCompare(other.term, "en-GB", { sensitivity: "base" }));
     }, [organizationId, navigate]);
 
-    const shown = entries.filter(entry => !off.has(GLOSSARY_KINDS.find(kind => kind.id === entry.kind)!.label));
+    // The terms' letter ranges, cut from all the terms as the References' are (about twenty a range).
+    const termRanges = useMemo(() => letterRanges(entries.map(entry => letterOf(entry.term))), [entries]);
+    const termRangeOf = (letter: string) => termRanges.find(range => range.letters.includes(letter))?.label ?? "";
+    const shown = entries.filter(entry => !off.has(GLOSSARY_KINDS.find(kind => kind.id === entry.kind)!.label) && !termLettersOff.has(termRangeOf(letterOf(entry.term))));
 
     // The term asked for: in view, and marked for a moment.
     useEffect(() => {
@@ -255,6 +261,14 @@ export default function Glossary() {
                                 label="Choose which terms show"
                                 onToggle={(option) => setOff(current => toggled(current, option))}
                             />
+                            {termRanges.length > 1 && (
+                                <ResponsibilityFilter
+                                    off={termLettersOff}
+                                    options={termRanges.map(range => range.label)}
+                                    label="Choose which letter ranges show"
+                                    onToggle={(option) => setTermLettersOff(current => toggled(current, option))}
+                                />
+                            )}
                         </div>
 
                         {shown.length === 0 && <p className="glossary-empty">No terms to show: the funnel leaves them all out.</p>}

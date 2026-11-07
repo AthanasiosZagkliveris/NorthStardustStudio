@@ -8,7 +8,7 @@ import { cardNameMissing } from "../../../framework/engine/SystemCardCompletenes
 import { workHue } from "../../../framework/engine/WorkColours.ts";
 import CardBoxes, { type CardBox } from "../cards/CardBoxes.tsx";
 import SectionTiles, { DialogHeading, type SectionTile, type TileAdd } from "../tiles/SectionTiles.tsx";
-import { BUSINESS_FOUNDATION_SUBSECTIONS, BusinessCustomerSegmentValue, createBusinessCompetitor, createBusinessCustomerProfile, createBusinessCustomerSegment, createBusinessOffering, segmentHue } from "../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_COMPETITOR_TYPES, BUSINESS_FOUNDATION_SUBSECTIONS, BusinessCustomerSegmentValue, createBusinessCompetitor, createBusinessCustomerProfile, createBusinessCustomerSegment, createBusinessOffering, segmentHue } from "../../../framework/engine/AnswerUtils.ts";
 import FoldAllToggle from "../fields/FoldAllToggle.tsx";
 import InfoNote, { InfoPoint, InfoText } from "../fields/InfoNote.tsx";
 import { railId } from "../rails/railItems.ts";
@@ -116,6 +116,10 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
             number: at + 1,
             name: entry.name,
             unnamed: "Unnamed " + NOUN[kind].toLowerCase(),
+            // A Competitor's tile names its Type under its name, in the Type select's own words (doc 41); none while no Type is chosen.
+            summary: kind === "competitors"
+                ? BUSINESS_COMPETITOR_TYPES.find(type => type.id === segment.competitors[at].type)?.label
+                : undefined,
             own: true,
             content: () => null
         }));

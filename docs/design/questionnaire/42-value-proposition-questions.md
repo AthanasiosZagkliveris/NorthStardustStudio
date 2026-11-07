@@ -1,8 +1,8 @@
 # 42. The Value Proposition tile: the draft and the open items, as proposed
 
-Status: **proposal**, written 2026-11-03, updated 2026-11-03. The Value Proposition tile (Business System, page 1): what it asks, the draft sentence it offers, and the open items it lists, with what each reads. The text is built; the draft and the open items are not.
+Status: **proposal**, written 2026-11-03, updated 2026-11-04. The Value Proposition tile (Business System, page 1): what it asks, the draft sentence it offers, and the open items it lists, with what each reads. The text is built; the draft and the open items are not.
 
-Related: doc 35 (the Segment), doc 36 (the Profile: the needs, goals, frustrations and worries), doc 38 (Positioning: purpose, differentiation, outcomes), doc 41 (the Competitor: K3 and K6), doc 43 (the Offering: O1, O4, O8 and the needs addressed), doc 34 (the value crosswalk, 5.2a), doc 28 (6.7 and 8.2, the design this refines).
+Related: doc 35 (the Segment), doc 36 (the Profile: the needs, goals, frustrations and worries), doc 38 (Positioning: purpose, differentiation, outcomes), doc 41 (the Competitor: K8 and K10), doc 43 (the Offering: O1, O4, O8 and the needs addressed), doc 34 (the value crosswalk, 5.2a), doc 28 (6.7 and 8.2, the design this refines).
 
 **What the tile is.** There is one Value Proposition per Segment (built). It is a string on the Segment, `valueProposition`. The tile opens one text, with the instructions as built:
 - "Define a clear, concise Value Proposition for each Customer Segment."
@@ -28,14 +28,16 @@ The sentence follows Moore's positioning template, as taught at Stanford [FUN-28
 
 - **Control:** a button above the text, "Add a draft". It adds the sentence at the end of the text and never overwrites it.
 - **Shown when:** the Segment has a name, at least one of its Profiles has answered E2 or holds a need, and at least one of its Offerings has a Type.
-- **The words:** "For [the Segment's name] who [the first frustration ticked in the Profiles' E2] and want to [the first goal ticked in E1], [the Offering's name] is a [the Offering's form, O1, else its Type] that [the Offering's main benefit, the first ticked in O4]. Unlike [a Competitor of type Direct competitor, else Status quo], it [the competitor's K3 that matches the Offering's O4]."
+- **The words** (owner, 2026-11-07: "Approved. Please go ahead and write the updated specification sections"): "For [the Segment's name] who [the frustration's draft phrase] and want to [the goal's draft phrase], [the Offering's name] is a [the Offering's form, O1, else its Type] that [the Offering's main benefit, the first ticked in O4]. Unlike [the Competitors], it [the clear opening's value]."
+  - The goal and the frustration are the **highest-rated** across the Segment's Profiles (E1 and E2 are rated since 2026-11-04), ties in the list's order; each is written in its draft phrase (doc 34, 5.2d), never its one-word tick box ("who wait too long and want to grow their income").
+  - "Unlike …, it …" is taken from the clear opening as built (`clearOpenings`, `CompetitorQuestions.ts`: a value every Competitor of the Segment is weak on and a Profile rates Essential; the Review's second look and the first of K10's openings), not worked out again here. With no clear opening the sentence ends after the benefit.
   - A blank whose answer is missing is left in square brackets, so the App User sees what to add.
   - With several Offerings, the draft uses the first, and the button offers one draft per Offering.
 - **The "i" says:**
   - A starting sentence made from your answers on this page. It is yours once added: change it freely.
   - Based on: Moore's positioning template, and the pains and gains of the Value Proposition Canvas.
 - **Connections:**
-  - *Comes from:* the Segment's name; its Profiles' E1 and E2; its Offerings' O1 and O4 (doc 43); its Competitors' type and K3 (doc 41). Where the words of an answer do not read in the sentence, its crosswalk words are used (doc 34, 5.2a). Positioning's purpose, differentiation and outcomes (doc 38, questions 7 to 10) also come in through the crosswalk.
+  - *Comes from:* the Segment's name; its Profiles' E1 and E2; its Offerings' O1 and O4 (doc 43); its Competitors' type and K8 (doc 41). Where the words of an answer do not read in the sentence, its crosswalk words are used (doc 34, 5.2a). Positioning's purpose, differentiation and outcomes (doc 38, questions 7 to 10) also come in through the crosswalk.
   - *Read by:* nothing. The text is the user's, and the Business Plan reads the text as built.
 
 ## 2. The open items (read-only, under the text)
@@ -45,12 +47,12 @@ Each item names the Profile, Offering or Competitor it is about, and opens it. T
 | Item | Shown when |
 |---|---|
 | **Unmet value** | Something the Profiles care about (B1) that no Offering does best (O4) |
-| **Unanswered need** | A need of a Profile that no Offering lists among its needs addressed |
+| **Unanswered need** | A numbered functional item of a Profile (by its id) that no Offering ticks; no text is matched, so an item edited on the Profile stays the same item. The functional categories (L17) are read from the Profile (2026-11-07, approved, not built) |
 | **Unused offering** | An Offering that answers no need of the Segment |
 | **Unwanted benefit** | A benefit an Offering claims (O4) that no Profile cares about (B1) |
 | **Worry left open** | A worry a Profile ticked (E3) that no Offering answers (O8) |
-| **Job left to a competitor** | A job a Competitor does (K6, doc 41) that none of the Segment's Offerings does (O13, doc 43) |
-| **Emotional and social needs** | A Profile's emotional or social need that no Offering addresses. This puts into effect the tile's built note, "Identify how the Value Proposition addresses each Customer Profile's emotional and social needs." |
+| **Job left to a competitor** | Withdrawn (2026-11-04): doc 41's job question was withdrawn as an Offering question, so there is no Competitor's job to compare with O13 (doc 43) |
+| **Emotional and social needs** | The Value Proposition is the one owner of these (owner, 2026-11-06; the Offering does not tick them, doc 43): each emotional or social need ticked on the Segment's Profiles (doc 36, section 10), the strongest first, until the text says how it answers it. **Built in part (owner, 2026-11-07):** under the text, Emotional Needs and Social Needs list every need ticked on the Segment's Profiles, each once, the strongest first (its highest rating on any Profile; ties in the options' order), numbered, then the lines of the Profiles' Notes as bullets; "None recorded." only when there are neither (`segmentNeedTicks`, `ProfileQuestions.ts`). The tile's "i": "Say how it meets the emotional and social needs below: those ticked on the Profiles, strongest first, then the lines of their Notes." Still proposed: an item stays until the text answers it. |
 
 - **The "i" says:** Gaps between what your customers want and what your Offerings give. They are reminders, not errors.
 - **Connections:**
@@ -66,7 +68,7 @@ Nothing in the text changes: a draft once added is the App User's. The open item
 **Decided (owner, 2026-11-03):**
 - The positioning statement is drafted per Segment in this tile.
 - No new Positioning cells are added for the pain point, the category or the status quo (doc 28, 8.2).
-- Emotional and Social needs are ticks (doc 36, section 10), so the "Emotional and social needs" item compares ticks; "Unanswered need" still compares the functional texts by entry.
+- Emotional and Social needs are ticks (doc 36, section 10) and the Value Proposition alone answers them (owner, 2026-11-06), so the "Emotional and social needs" item lists the ticked needs, not an Offering's ticks; "Unanswered need" compares the Profiles' numbered functional items by id (approved 2026-11-07, not built; until then, as built, the texts by entry).
 
 **Still to decide:**
 - With several Offerings: one draft per Offering, or one draft that names the main Offering (proposed: one per Offering, each added by its own button).

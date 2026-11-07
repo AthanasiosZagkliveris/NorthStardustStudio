@@ -498,19 +498,19 @@
                     "salary"
                   ],
                   "income": [
-                    "upper-middle"
+                    "4"
                   ],
                   "gender": [
-                    "leans-women"
+                    "4"
                   ],
                   "reach": [
                     "region"
                   ],
                   "area": [
-                    "urban"
+                    "5"
                   ],
                   "comfort": [
-                    "savvy"
+                    "5"
                   ],
                   "discover": [
                     "communities",
@@ -538,7 +538,7 @@
                     "wallet"
                   ],
                   "trajectory": [
-                    "flat"
+                    "3"
                   ],
                   "tam": [
                     "mid"
@@ -548,7 +548,7 @@
                     "society"
                   ],
                   "competition": [
-                    "fragmented"
+                    "3"
                   ]
                 },
                 "profiles": [
@@ -619,11 +619,45 @@
                       "e3": [
                         "the-price-or-their-budget",
                         "whether-it-fits-their-needs"
+                      ],
+                      "b1-rating": [
+                        "quality-and-results:5",
+                        "trust-and-reputation:4",
+                        "shared-values-or-identity:4"
+                      ],
+                      "e1-rating": [
+                        "express-who-they-are:5"
+                      ],
+                      "e2-rating": [
+                        "the-quality-is-inconsistent:5",
+                        "it-is-hard-to-find-someone-they-trust:4"
+                      ],
+                      "e3-rating": [
+                        "whether-it-fits-their-needs:4",
+                        "the-price-or-their-budget:3"
+                      ],
+                      "emotional": [
+                        "calm-and-worry-free",
+                        "delighted-by-how-it-looks",
+                        "proud-of-what-they-own-or-made"
+                      ],
+                      "emotional-rating": [
+                        "calm-and-worry-free:5",
+                        "delighted-by-how-it-looks:4",
+                        "proud-of-what-they-own-or-made:4"
+                      ],
+                      "social": [
+                        "as-having-good-taste-style",
+                        "as-caring-for-others-or-the-planet"
+                      ],
+                      "social-rating": [
+                        "as-having-good-taste-style:4",
+                        "as-caring-for-others-or-the-planet:3"
                       ]
                     },
-                    "goals": "A home that feels warm, unique and made to last; owning things with a story; supporting local makers.",
-                    "challenges": "Mass-market textiles look generic and pill quickly; “sustainable” claims are hard to trust; handmade pieces are hard to find in person.",
-                    "objections": "Price compared with high-street cushions; delivery times for made-to-order; worries about care and washing.",
+                    "goals": "A home that feels warm and made to last; owning things with a story; supporting local makers.",
+                    "challenges": "Mass-market textiles look generic and pill quickly; handmade pieces are hard to find in person.",
+                    "objections": "Delivery times for made-to-order; worries about care and washing.",
                     "needs": {
                       "functional": [
                         "Durable textiles that last years",
@@ -631,11 +665,10 @@
                         "Easy care and repair"
                       ],
                       "emotional": [
-                        "Feel calm and at home",
-                        "Pride in owning something handmade"
+                        ""
                       ],
                       "social": [
-                        "Share a home that reflects her values"
+                        ""
                       ]
                     }
                   },
@@ -644,9 +677,9 @@
                     "name": "The Hands-On Hobby Learner",
                     "description": {
                       "personal": "Leila, marketing executive at a design agency in Shoreditch; lives in Hackney, a short bus ride from the studio.",
-                      "psychographics": "Wants a hobby that gets her off her phone; enjoys making things with her hands; likes learning from a real maker in a small group.",
+                      "psychographics": "Wants a hobby that gets her off her phone; enjoys making things with her hands; likes a small group.",
                       "hubs": "Hackney Wick open studios, Broadway Market, a Hackney craft Meetup group, a few weaving creators she follows.",
-                      "habits": "Books a week or two ahead; tries a two-hour taster before paying for a full day; prefers evening sessions after work."
+                      "habits": "Books a week or two ahead; prefers evening sessions after work."
                     },
                     "questions": {
                       "a1": [
@@ -699,11 +732,42 @@
                       "e3": [
                         "the-price-or-their-budget",
                         "how-long-it-takes-to-start"
+                      ],
+                      "b1-rating": [
+                        "expert-knowledge:5",
+                        "quality-and-results:4",
+                        "ease-and-convenience:4"
+                      ],
+                      "e1-rating": [
+                        "learn-something-new:5",
+                        "express-who-they-are:4"
+                      ],
+                      "e2-rating": [
+                        "it-costs-too-much:5",
+                        "they-lack-the-know-how:4"
+                      ],
+                      "e3-rating": [
+                        "the-price-or-their-budget:5",
+                        "how-long-it-takes-to-start:4"
+                      ],
+                      "emotional": [
+                        "fulfilled-as-they-grow",
+                        "relaxed-looked-after"
+                      ],
+                      "emotional-rating": [
+                        "fulfilled-as-they-grow:5",
+                        "relaxed-looked-after:3"
+                      ],
+                      "social": [
+                        "as-part-of-a-group-they-value"
+                      ],
+                      "social-rating": [
+                        "as-part-of-a-group-they-value:4"
                       ]
                     },
-                    "goals": "Learn a real craft; make something for her own room; switch off after work.",
-                    "challenges": "Classes that cost too much for one evening; not knowing where to start; finding a date that fits her week.",
-                    "objections": "Price per class; whether a beginner can keep up; fitting a full-day class into her weekend.",
+                    "goals": "Make something for her own room; switch off after work.",
+                    "challenges": "Finding a date that fits her week.",
+                    "objections": "Whether a beginner can keep up; fitting a full-day class into her weekend.",
                     "needs": {
                       "functional": [
                         "Beginner-friendly workshop with all materials",
@@ -711,11 +775,10 @@
                         "Evening and weekend dates"
                       ],
                       "emotional": [
-                        "Sense of achievement",
-                        "Relaxation away from screens"
+                        ""
                       ],
                       "social": [
-                        "Meeting people who like making things"
+                        ""
                       ]
                     }
                   }
@@ -727,16 +790,75 @@
                     "name": "Independent weavers on Etsy & at craft markets",
                     "type": "direct",
                     "description": {
-                      "offerings": "Handwoven cushions, scarves and wall hangings; one-off pieces, variable quality.",
-                      "market": "Craft-market shoppers and Etsy buyers UK-wide; similar values-driven customers.",
-                      "acquisition": "Etsy search, Instagram, weekend markets (Broadway Market, Spitalfields).",
-                      "experience": "Personal but inconsistent; slow replies; limited aftercare."
+                      "offerings": "Handwoven cushions, scarves and wall hangings; one-off pieces.",
+                      "market": "Craft-market shoppers and Etsy buyers; similar values-driven customers.",
+                      "acquisition": "Broadway Market and Spitalfields.",
+                      "experience": "Personal but inconsistent; slow replies."
                     },
-                    "strengths": "Authentic handmade story; low prices; large marketplace reach.",
-                    "weaknesses": "No brand consistency; few offer repair or traceability; tiny capacity.",
-                    "opportunities": "Most do not run workshops or sell to trade.",
-                    "threats": "Price undercutting; Etsy algorithm favours volume sellers.",
-                    "insights": "We compete on consistency, traceable materials, lifetime repair and the studio experience rather than on price."
+                    "strengths": "Weaknesses: No brand consistency; few offer repair or traceability.",
+                    "weaknesses": "",
+                    "opportunities": "Opportunities: Most do not run workshops or sell to trade.\nThreats: Price undercutting; Etsy algorithm favours volume sellers.",
+                    "threats": "",
+                    "insights": "We compete on consistency, traceable materials, lifetime repair and the studio experience rather than on price.",
+                    "questions": {
+                      "k1": [
+                        "Product"
+                      ],
+                      "k2": [
+                        "online"
+                      ],
+                      "k3": [
+                        "micro"
+                      ],
+                      "k4": [
+                        "3"
+                      ],
+                      "k5": [
+                        "marketplace",
+                        "social-media",
+                        "in-person"
+                      ],
+                      "k6": [
+                        "google",
+                        "facebook",
+                        "marketplace"
+                      ],
+                      "k6-rating": [
+                        "google:4",
+                        "facebook:4",
+                        "marketplace:5"
+                      ],
+                      "k7-rating": [
+                        "discovery:4",
+                        "evaluation:3",
+                        "purchase:4",
+                        "delivery:3",
+                        "support:2"
+                      ],
+                      "k8-rating": [
+                        "lower-price:4",
+                        "quality-and-results:3",
+                        "trust-and-reputation:3",
+                        "shared-values-or-identity:5",
+                        "expert-knowledge:3",
+                        "ease-and-convenience:3"
+                      ],
+                      "k9-rating": [
+                        "technology:3",
+                        "economy:2",
+                        "society:4",
+                        "supply:3"
+                      ],
+                      "k10": [
+                        "standout:quality-and-results",
+                        "stage:support"
+                      ],
+                      "k5-sub": [
+                        "social-media:instagram",
+                        "marketplace:etsy",
+                        "in-person:market"
+                      ]
+                    }
                   },
                   {
                     "id": "competitor-90fq81ag",
@@ -745,14 +867,68 @@
                     "description": {
                       "offerings": "Wool and linen throws and cushions, largely factory-made overseas (e.g. The White Company, Toast Home).",
                       "market": "Affluent UK households; strong in London.",
-                      "acquisition": "Flagship stores, catalogues, paid social, large email lists.",
-                      "experience": "Polished and reliable; fast delivery; easy returns."
+                      "acquisition": "Printed catalogues.",
+                      "experience": "Polished; easy returns."
                     },
-                    "strengths": "Brand trust, distribution, marketing budgets.",
-                    "weaknesses": "Not handmade; vague provenance; little personality.",
-                    "opportunities": "Growing customer scepticism of greenwashing.",
-                    "threats": "Frequent sales anchor customers to lower prices.",
-                    "insights": "Show the maker, the farm and the hours behind each piece; offer made-to-order colours they cannot."
+                    "strengths": "Strengths: Distribution; marketing budgets.\nWeaknesses: Not handmade; vague provenance.",
+                    "weaknesses": "",
+                    "opportunities": "Opportunities: Growing customer scepticism of greenwashing.\nThreats: Frequent sales anchor customers to lower prices.",
+                    "threats": "",
+                    "insights": "Show the maker, the farm and the hours behind each piece; offer made-to-order colours they cannot.",
+                    "questions": {
+                      "k1": [
+                        "Product"
+                      ],
+                      "k2": [
+                        "countries"
+                      ],
+                      "k3": [
+                        "large"
+                      ],
+                      "k4": [
+                        "4"
+                      ],
+                      "k5": [
+                        "website",
+                        "social-media",
+                        "retail-wholesale"
+                      ],
+                      "k6": [
+                        "google",
+                        "trustpilot"
+                      ],
+                      "k6-rating": [
+                        "google:4",
+                        "trustpilot:4"
+                      ],
+                      "k7-rating": [
+                        "discovery:5",
+                        "evaluation:4",
+                        "purchase:5",
+                        "delivery:4",
+                        "support:3"
+                      ],
+                      "k8-rating": [
+                        "lower-price:1",
+                        "quality-and-results:4",
+                        "trust-and-reputation:4",
+                        "shared-values-or-identity:2",
+                        "expert-knowledge:3",
+                        "ease-and-convenience:5"
+                      ],
+                      "k9-rating": [
+                        "economy:2",
+                        "society:3",
+                        "supply:2"
+                      ],
+                      "k10": [
+                        "better:shared-values-or-identity"
+                      ],
+                      "k5-sub": [
+                        "social-media:instagram",
+                        "social-media:pinterest"
+                      ]
+                    }
                   },
                   {
                     "id": "competitor-nmtnvlut",
@@ -760,14 +936,54 @@
                     "type": "substitutes",
                     "description": {
                       "market": "Mass market, all ages and incomes.",
-                      "experience": "Convenient and cheap; disposable.",
+                      "experience": "Self-service, in store and online.",
                       "offerings": "Buying cheap mass-produced cushions and throws and replacing them every year or two instead of investing in one handmade piece."
                     },
-                    "strengths": "Price and convenience.",
-                    "weaknesses": "Short lifespan; environmental cost; no story.",
-                    "opportunities": "Customers upgrading from their first flat look for “grown-up” pieces.",
-                    "threats": "Trend cycles make handmade look expensive by comparison.",
-                    "insights": "Frame our pieces as a one-off investment with cost-per-year and repair for life."
+                    "strengths": "Weaknesses: Environmental cost.",
+                    "weaknesses": "",
+                    "opportunities": "Opportunities: Customers upgrading from their first flat look for “grown-up” pieces.\nThreats: Trend cycles make handmade look expensive by comparison.",
+                    "threats": "",
+                    "insights": "Frame our pieces as a one-off investment with cost-per-year and repair for life.",
+                    "questions": {
+                      "k1": [
+                        "Product"
+                      ],
+                      "k2": [
+                        "country"
+                      ],
+                      "k4": [
+                        "4"
+                      ],
+                      "k6": [
+                        "google",
+                        "trustpilot"
+                      ],
+                      "k6-rating": [
+                        "google:4",
+                        "trustpilot:2"
+                      ],
+                      "k7-rating": [
+                        "discovery:5",
+                        "evaluation:4",
+                        "purchase:5",
+                        "delivery:4",
+                        "support:3"
+                      ],
+                      "k8-rating": [
+                        "lower-price:5",
+                        "ease-and-convenience:5",
+                        "quality-and-results:2",
+                        "shared-values-or-identity:1",
+                        "trust-and-reputation:3"
+                      ],
+                      "k9-rating": [
+                        "society:2",
+                        "economy:4"
+                      ],
+                      "k10": [
+                        "better:quality-and-results"
+                      ]
+                    }
                   }
                 ],
                 "offerings": [
@@ -823,7 +1039,7 @@
                     "country"
                   ],
                   "area": [
-                    "urban"
+                    "5"
                   ],
                   "orgtype": [
                     "private"
@@ -838,7 +1054,7 @@
                     "professional"
                   ],
                   "comfort": [
-                    "moderate"
+                    "3"
                   ],
                   "discover": [
                     "peers",
@@ -855,7 +1071,7 @@
                     "solo"
                   ],
                   "trajectory": [
-                    "growing"
+                    "4"
                   ],
                   "tam": [
                     "boutique"
@@ -865,7 +1081,7 @@
                     "society"
                   ],
                   "competition": [
-                    "fragmented"
+                    "3"
                   ]
                 },
                 "profiles": [
@@ -916,14 +1132,46 @@
                       ],
                       "e2": [
                         "it-is-hard-to-find-someone-they-trust",
-                        "prices-are-unclear"
+                        "it-costs-too-much"
                       ],
                       "e3": [
                         "whether-it-fits-their-needs",
                         "support-after-they-buy"
+                      ],
+                      "b1-rating": [
+                        "expert-knowledge:5",
+                        "trust-and-reputation:4",
+                        "quality-and-results:4"
+                      ],
+                      "e1-rating": [
+                        "win-customers-or-earn-more:5"
+                      ],
+                      "e2-rating": [
+                        "it-is-hard-to-find-someone-they-trust:5",
+                        "it-costs-too-much:4"
+                      ],
+                      "e3-rating": [
+                        "whether-it-fits-their-needs:5",
+                        "support-after-they-buy:4"
+                      ],
+                      "emotional-b2b": [
+                        "sure-they-made-the-right-choice",
+                        "glad-to-work-with-you"
+                      ],
+                      "emotional-b2b-rating": [
+                        "sure-they-made-the-right-choice:5",
+                        "glad-to-work-with-you:4"
+                      ],
+                      "social-b2b": [
+                        "as-a-responsible-business",
+                        "as-more-valued-in-their-field"
+                      ],
+                      "social-b2b-rating": [
+                        "as-a-responsible-business:5",
+                        "as-more-valued-in-their-field:4"
                       ]
                     },
-                    "goals": "Distinctive, sustainable interiors that win clients and awards; reliable makers she can return to.",
+                    "goals": "Distinctive, sustainable interiors that win awards; reliable makers she can return to.",
                     "challenges": "Small makers miss deadlines or cannot scale; poor documentation for fire regulations and sustainability reporting.",
                     "objections": "Lead times, capacity for larger orders, fire-retardancy compliance for hospitality, trade pricing.",
                     "needs": {
@@ -933,10 +1181,10 @@
                         "Compliance and sustainability documentation"
                       ],
                       "emotional": [
-                        "Confidence the maker will deliver"
+                        ""
                       ],
                       "social": [
-                        "Recognition for sustainable, local design"
+                        ""
                       ]
                     }
                   }
@@ -949,15 +1197,64 @@
                     "type": "direct",
                     "description": {
                       "offerings": "Large contract fabric ranges, fire-rated, sold by the metre to the trade.",
-                      "market": "Hotels, offices and residential designers worldwide.",
-                      "acquisition": "Showrooms, sales reps, trade fairs, sample libraries.",
-                      "experience": "Professional, reliable, but impersonal and not bespoke at small scale."
+                      "market": "Hotels, offices and residential designers.",
+                      "acquisition": "",
+                      "experience": "Professional but impersonal."
                     },
-                    "strengths": "Scale, compliance certificates, broad ranges.",
-                    "weaknesses": "Minimum orders; little story; limited bespoke work for small projects.",
-                    "opportunities": "Designers seeking a local, handmade signature piece alongside mill fabrics.",
-                    "threats": "Mills launching “artisan” lines.",
-                    "insights": "Position as the handmade signature layer (cushions, throws, headboards and art textiles), not as a replacement for contract fabrics."
+                    "strengths": "Strengths: Compliance certificates; broad ranges.\nWeaknesses: Minimum orders; little story.",
+                    "weaknesses": "",
+                    "opportunities": "Opportunities: Designers seeking a local, handmade signature piece alongside mill fabrics.\nThreats: Mills launching “artisan” lines.",
+                    "threats": "",
+                    "insights": "Position as the handmade signature layer (cushions, throws, headboards and art textiles), not as a replacement for contract fabrics.",
+                    "questions": {
+                      "k1": [
+                        "Product"
+                      ],
+                      "k2": [
+                        "countries"
+                      ],
+                      "k3": [
+                        "large"
+                      ],
+                      "k4": [
+                        "3"
+                      ],
+                      "k5": [
+                        "in-person",
+                        "website",
+                        "referral-affiliates"
+                      ],
+                      "k6": [
+                        "google"
+                      ],
+                      "k6-rating": [
+                        "google:4"
+                      ],
+                      "k7-rating": [
+                        "discovery:4",
+                        "evaluation:4",
+                        "purchase:3",
+                        "delivery:2",
+                        "support:4"
+                      ],
+                      "k8-rating": [
+                        "expert-knowledge:5",
+                        "trust-and-reputation:5",
+                        "quality-and-results:4",
+                        "a-service-made-for-them:2"
+                      ],
+                      "k9-rating": [
+                        "regulation:4",
+                        "supply:2"
+                      ],
+                      "k10": [
+                        "better:a-service-made-for-them",
+                        "stage:delivery"
+                      ],
+                      "k5-sub": [
+                        "in-person:fair"
+                      ]
+                    }
                   },
                   {
                     "id": "competitor-bhg38l6r",
@@ -966,14 +1263,65 @@
                     "description": {
                       "offerings": "Bespoke woven and printed textiles for interiors.",
                       "market": "Interior designers and private clients in London and the South East.",
-                      "acquisition": "Instagram, trade shows, word of mouth.",
-                      "experience": "Personal, but often capacity-constrained and slow."
+                      "acquisition": "",
+                      "experience": "Personal."
                     },
-                    "strengths": "Craft credibility; similar values.",
-                    "weaknesses": "One-person studios; unreliable lead times; little documentation.",
-                    "opportunities": "Our three-founder team can promise capacity and paperwork.",
-                    "threats": "Price competition on small commissions.",
-                    "insights": "Win on reliability: fixed lead times, sampling within a week, sustainability and fire-compliance pack with every quote."
+                    "strengths": "Weaknesses: Little documentation.",
+                    "weaknesses": "",
+                    "opportunities": "Opportunities: Designers want makers who can promise capacity and paperwork.\nThreats: Price competition on small commissions.",
+                    "threats": "",
+                    "insights": "Win on reliability: fixed lead times, sampling within a week, sustainability and fire-compliance pack with every quote.",
+                    "questions": {
+                      "k1": [
+                        "Product"
+                      ],
+                      "k2": [
+                        "country"
+                      ],
+                      "k3": [
+                        "micro"
+                      ],
+                      "k4": [
+                        "3"
+                      ],
+                      "k5": [
+                        "social-media",
+                        "website",
+                        "in-person",
+                        "referral-affiliates"
+                      ],
+                      "k6": [
+                        "google",
+                        "facebook"
+                      ],
+                      "k6-rating": [
+                        "google:4",
+                        "facebook:5"
+                      ],
+                      "k7-rating": [
+                        "evaluation:3",
+                        "delivery:2",
+                        "support:3"
+                      ],
+                      "k8-rating": [
+                        "expert-knowledge:4",
+                        "trust-and-reputation:3",
+                        "quality-and-results:4",
+                        "ease-and-convenience:2",
+                        "shared-values-or-identity:4"
+                      ],
+                      "k9-rating": [
+                        "supply:2",
+                        "society:4"
+                      ],
+                      "k10": [
+                        "stage:delivery"
+                      ],
+                      "k5-sub": [
+                        "social-media:instagram",
+                        "in-person:fair"
+                      ]
+                    }
                   }
                 ],
                 "offerings": [

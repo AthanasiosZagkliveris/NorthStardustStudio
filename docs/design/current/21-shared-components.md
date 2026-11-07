@@ -1,6 +1,6 @@
 # 21. Shared components: which are shared, which are not
 
-Status: **current design**, written 2026-10-17, updated 2026-11-02, checked against the code (`src/components/controls/`, `src/components/interview/`). Which component draws each kind of control, card, tile and field, and what is still hand-made.
+Status: **current design**, written 2026-10-17, updated 2026-11-04, checked against the code (`src/components/controls/`, `src/components/interview/`). Which component draws each kind of control, card, tile and field, and what is still hand-made.
 
 The aim of the owner: all similar things share ONE component, and no place draws its own markup for them (rule 22.24 of `docs/ai/layout-rules.md`). A place passes a class that says only where the thing stands and how wide it is; the look and the reactions belong to the component. The looks of the library agree with the app (`15-library-vs-app.md`).
 
@@ -11,6 +11,7 @@ A shared control loads its own stylesheet (it imports it), never only a page's s
 | Component | File | What it is | Props that matter | Where it stands |
 |---|---|---|---|---|
 | `RadioChoice` | `controls/RadioChoice.tsx` | A choice of one among a few, drawn as a round with a bullet and its word. Each option is a native radio (arrows move, Space chooses). **It is drawn as a tick box is**: the same fill, recess, glow (`--choice-glow`) and ring (`--choice-ring`), the glow and the ring defined once in `global.css` for both, so a change there changes both; the round is 16px (`--size-radio`), the tick box 24px (`--size-mark`), and the shape (a circle) and the mark (a bullet) differ. | `label` (for a screen reader), `group` (the radios' name), `options` (`id`, `label`, optional `name`), `value`, `onChange`, `disabled` | The one component for rounds: Units / %, Tiles / Table, the table's text size ("Aa" in three sizes). |
+| `RatingScale`, `RatingScaleGroup`, `RatingScaleEnds` | `controls/RatingScale.tsx`, `controls/RatingScaleGroup.tsx`, `controls/RatingScaleEnds.tsx` | A rating from 1 (low) to 5 (high): five rounds of `RadioChoice` in a row, low on the left, drawn by `radio-choice.css` (its own sheet, `rating-scale.css`, only places them); every round has its `--text-muted` edge in every state (3:1 on every band, measured 4.67 to 7.86 on 2026-11-04). The numbers 1 to 5 over the rounds; what 1 and 5 mean first in the "i". Each row is a radio group (arrows move, Space chooses; each round says "1 of 5" and its end's words); the chosen round pressed again clears it, so a row can be unrated (there is no "Not sure"). The numbers 1 to 5 are said once: over a lone field's rounds, or as a group's header over all its rows' rounds; the end words name each round for a screen reader and the question's "i" says them first. A group can be `selectable`: each row starts with the shared `TickField`, its rounds show once it is ticked, and unticking clears its rating. A row can carry ticks of its own under it (`below`), or be `fixed` (no tick, its rounds always shown: a row written under Other). | `RatingScale`: `label`, `name`, `value` (1 to 5 or none), `onChange` (none when cleared), `lowLabel`, `highLabel`, `disabled`. `RatingScaleGroup`: `label`, `name`, `rows` (`id`, `label`, optional `below`, `fixed` and `tone`), `values`, `onChange(id, next)`, the two end words, `selectable`, `selected`, `onSelect(id, on)` | Placed (2026-11-04): the Segment's household income, gender mix, kind of area, online comfort, market growth and crowding (doc 35); the Profile's B1 and E1 to E3, ticked and rated (doc 36); the Profile's Emotional and Social needs (doc 36, section 10); the Competitor's K4 and K6 to K9 (doc 41). The whole component: "Rating Scale" below. |
 | `MenuOption` | `controls/MenuOption.tsx` | A row of a menu pressed to choose it: the dropdown list's own row (`option-picker-option`: its type, its glow under the pointer, its bold chosen row) as a button; `chosen` marks the order in use, `marked` keeps a column for its bullet. | `chosen`, `marked`, the button's own props | The orders of the sort menus (a section's funnel, the Inventory's window). |
 | `ChipOpen` | `controls/ChipOpen.tsx` | The pressed part of a chip: two lines in the accent, a tag (what and where, in numbers) over its description. The chip is the `notepad-chip` list item that holds it. | `tag`, `description`, the button's own props | A note's link to a field, a channel's resource, an action linked to a resource. |
 | `SuggestionOption` | `controls/SuggestionOption.tsx` | A row of a short list pressed to take it: its words and, under them, where it is. | `label`, `place`, the button's own props | The places a note can link to, a channel's typical costs, the actions to link. |
@@ -26,7 +27,7 @@ A shared control loads its own stylesheet (it imports it), never only a page's s
 | `OptionPicker` | `interview/fields/OptionPicker.tsx` | Every dropdown. No native `<select>` is drawn anywhere. | `label`, `options`, `value`, `onChange`, `searchable`, `currency`, `searchAliases`, `hug` (as wide as the longest option), `keepWidth` (a hugging picker alone in its row keeps that width instead of taking the row), `tight` (hug, with the placeholder not counted), `fill`, `sizeFor`, `placeholder` | `ValuePicker` (same file) is the same dropdown where the value is not the words; `MultiPicker` is the one of several choices (the calendar funnel). The cells' height is one (44px). |
 | `TextBox` | `controls/TextBox.tsx` | Every one-line text cell: a plain text input. | The input's own props; the class a place passes is the look | Used in about 22 files. Left on purpose: the date cell's own text, the picker's search box, the search dialog's combobox, native number and time inputs, the library's demo parts. |
 | `FittingRadioChoice` | `interview/editors/foundation/FittingRadioChoice.tsx` | A `RadioChoice` of short options that stands in ONE row where the whole row fits its column and in ONE column where it does not (never a row that wraps). It measures the row once and follows the column's width. | The props of `RadioChoice` (without `className`) | The Segment and Profile cards' radios of short options (`segmentRowChoice` decides which). |
-| `OptionalNote` | `interview/cards/BusinessCardFields.tsx` | The Note every card ends a part with: a tick and the word "Notes", the text box behind it, ticked where it holds words, unticked it empties. | `label`, `fieldId` (the key of a renamed label), `value`, `onChange`, `info`, `ariaLabel`, `placeholder`, `className`, `disabled` | Every card's notes, the Organisation dialog's Notes, and the Segment and Profile cards' parts (the last band of each). Used in about 23 files. |
+| `OptionalNote` | `interview/cards/BusinessCardFields.tsx` | The Note every card ends a part with: a tick and the word "Notes", the text box behind it, ticked where it holds words, unticked it empties. | `label`, `fieldId` (the key of a renamed label), `value`, `onChange`, `info`, `ariaLabel`, `placeholder`, `className`, `disabled` | Every card's notes, the Organisation dialog's Notes, the Segment and Profile cards' parts (the last band of each), the Competitor card's two SWOT notes, one under each rating, and the Profile's Emotional and Social needs notes (2026-11-05). Used in about 23 files. |
 | `NumberCell` | `controls/NumberCell.tsx` | Every number cell, with the numeric keyboard and the number aligned right. | `kind` (`int` or `decimal`), `inputMode` (where the place computes it) | Width and alignment from the place's class. |
 | `TextField` | `controls/TextField.tsx` | Every free-text cell: a text area that grows with its words and never scrolls inside itself, with list writing ("- " or "1. " at the line start). | `value`, `onChange`, `rows` (the floor), `list` (off for a name), `grow`, `maxLines`, `onKeyDown`, `elementRef`, `ariaLabel`, `placeholder` | A card's name is a `TextField` with `maxLines={2}` (`CardNameInput`). Not joined: `NumberedListInput` and `SuggestedInput` (editors with their own keys). |
 | `TickField` | `controls/TickField.tsx` | A tick and its words as one `<label>`. | The input's props, `title`, `children` (the words) | About 10 files. `TickBox` is the bare tick. |
@@ -44,6 +45,83 @@ A shared control loads its own stylesheet (it imports it), never only a page's s
 | `BoxActions`, `useMovableBox`, `useListDrag` | `interview/fields/ReorderControls.tsx` | What a reorderable box carries: the remove button and an optional funnel that sorts its contents; `useMovableBox` moves a selected box with the arrow keys or by dragging, `useListDrag` drags a list's rows. | `label`, `disabled`, `onRemove`, `onAdd` | Boxes and lists of cards. |
 | `BulletRail` | `interview/rails/BulletRail.tsx` | The column of bullets beside the card: pages on the left, the current page's sections on the right, the current one grown and bold, a status shape (not started, in progress, defined) in the bullet. | `RailItem` list (`railItems.ts`) | Every page of sections. |
 | `FoldAllToggle` | `interview/fields/FoldAllToggle.tsx` | "Expand all" / "Collapse all" for one group of item cards (a `TextLink`); hidden for a group of fewer than two. | `ids`, `nested` | The lists of cards. |
+
+### Rating Scale
+
+**Name and purpose.** The Rating Scale (owner, 2026-11-04) rates a thing from 1 (low) to 5 (high) where the thing has degrees and the middle counts. Components: `RatingScale` (one rating), `RatingScaleGroup` (several on one scale), `RatingScaleEnds` (the numbers over the rounds, and `ratingScaleMeaning`, the "i" line); sheet `rating-scale.css`; the rounds are `radio-choice.css`'s own.
+
+**Anatomy.** A row's words, or a tick and its words (a selectable group); the track: five radio rounds, spread evenly from the first to the last; the numbers 1 to 5, each over its round, said once per group (over the rounds) or once over a single rating. What 1 and 5 mean is the first line of the question's "i", "1 = Weak, 5 = Strong." (owner, 2026-11-04: an end word could be long enough to stand over two rounds). A row can carry a band (`tone`, below).
+
+**Why numbers, with the meaning in the "i".** The research is mixed: fully labelled scales often give better data [FUN-70], but a review of 17 studies found no clear advantage of full labels over end labels, and numbers alone gave the same results as full words in one test [FUN-71]. The numbers 1 to 5 are all positive, so 1 reads as "little of it", not "the opposite" [FUN-68]; how points are labelled with words, numbers or both is weighed by Krosnick and Presser [FUN-69]. Because words at the ends help people read a scale [FUN-70], the meaning is kept easy to find: the first line of the "i", in the question's own words.
+
+**Layout** (owner, 2026-11-04), from the place it stands in (its column or card body), never a fixed width:
+- *Horizontal* (a group: a row's words and its rounds on one row): the words take the left half and wrap; the rounds take the right half, spread evenly; the numbers stand once over that half. The Competitor's K6 to K9, the Profile's B1, E1 to E3 and the Needs.
+- *Vertical* (a single question, its words over it): the rounds take the whole width under the question, spread evenly, the numbers over them. The Segment's household income, gender mix, kind of area, online comfort (and the end user's), market growth and crowding; the Competitor's K4.
+
+**Bands** (`tone` on a group's row; owner, 2026-11-04): one colour, light to dark, in four steps defined once as tokens in `global.css`, `--tint-importance-1` to `-4` (the app's blue, `--bg-primary`, at 14%, 24%, 34% and 44%; on sepia 12%, 21%, 30% and 39%), the same for every banded question so a level always shows the same shade. The cards' alternating question band is the lightest of the same family, `--tint-row-band` (6%; it replaced the grey of the label colour at 12%, owner, 2026-11-04), used by `.legal-entity-audience .legal-entity-org-band` in every card with question bands (Segment, Profile, Competitor, Positioning). In a floating card a band runs edge to edge, as the card's section bands do, and banded rows touch. Used by the Competitor's K8 (doc 41): the step is the number of Profiles that chose the value (`bandTone`: 1, 2, 3, 4 or more), and its "i" adds "The darker the band, the more of your Profiles chose it."
+
+**The chosen round and the ticked box** (owner, 2026-11-07: "make consistent all the components"): both read `--choice-fill` and `--choice-mark` (`global.css`): the app's blue with a white mark, and in dark the lighter blue of the focus edge (`--line-primary`) with a dark mark, because the dark blue held only 2.6 to 2.8 on the cards (now 4.8 to 6.3; the mark 7.0). Focused, both take the primary edge and the one ring, `--focus-ring-mix` (doc 18, R2).
+
+**Contrast of this round's colours** (WCAG 2.2 AA: text 4.5:1, a mark 3:1, SC 1.4.11), measured in the app on 2026-11-04, the Competitor card, in each of the app's three reading modes (it has no high-contrast or forced-colours mode):
+
+| What | Against | Light | Sepia | Dark |
+|---|---|---|---|---|
+| Question text | `--tint-row-band` | 5.44 | 5.11 | 7.48 |
+| Row words | `--tint-importance-1` | 12.14 | 8.91 | 10.10 |
+| Row words | `--tint-importance-2` | 10.46 | 7.85 | 9.21 |
+| Row words | `--tint-importance-3` | 8.96 | 6.87 | 8.37 |
+| Row words | `--tint-importance-4` | 7.63 | 5.98 | 7.58 |
+| A round's edge | `--tint-importance-1` | 4.86 | 4.71 | 6.98 |
+| A round's edge | `--tint-importance-2` | 4.19 | 4.15 | 6.37 |
+| A round's edge | `--tint-importance-3` | 3.59 | 3.64 | 5.79 |
+| A round's edge | `--tint-importance-4` | 3.06 | 3.16 (2.92 at 44%: sepia's steps set closer) | 5.24 |
+| A round's edge | the band, no tint | 5.92 | 5.53 | 7.85 |
+| The numbers 1 to 5 | the band | 14.78 | 10.45 | 11.35 |
+| A sub-channel dropdown's border (K5) | the band | 4.08 | 4.73 | 6.52 |
+| A sub-channel dropdown's text (K5) | its box | 17.74 | 11.95 | 13.78 |
+| A tick box's edge (K5) | the band | 5.92 | 5.53 | 7.85 |
+
+**Sizes** (page 3 type scale and spacing): the round 16px (`--size-radio`); the numbers `--font-small` (14px), each as wide as a round and centred over it; a row's words `--font-body` (18px); numbers to rounds `--space-label` (6px); words to rounds `--space-cell` (12px); between rows `--space-row` (a banded group's rows carry it as their own padding); a tick and its words `--gap-8`. Measured on 2026-11-04 at 1280px wide: a group in the Profile and Competitor cards 422px, its rounds 205px (the right half less the gap); a single rating in one of the Segment card's columns 263px, the column's whole width, as wide as the column's other fields.
+
+**States and contrast.** Rest: every round has its `--text-muted` edge (3:1 on every band: 4.67 to 7.86 measured on the light, sepia and dark themes, 2026-11-04). On the bands, measured 2026-11-04: the words 5.89 or more and the rounds' edges 3.11 or more on every step, in light, sepia and dark. Hover and keyboard focus: the radio choice's own ring. Chosen: the app's blue with a white bullet. Disabled: drawn faint, as every disabled radio. A selectable row unticked shows no rounds.
+
+**Behaviour.** Each row is one radio group (the arrows move along it, Space chooses; each round reads "1 of 5, [low word]" to "5 of 5, [high word]"). Pressing the chosen round again clears it: the row is unrated (there is no "Not sure"). In a selectable group, unticking a row clears its rating first. Kept as `<id>-rating`, each entry "option:point" (a single rating as its point).
+
+**When to use it.** A question of comfort or of degree (how comfortable, how much it is changing, how crowded, how well they do), with a word for each end; not where the answers have their own named kinds (a size of organisation, the type of a business): a plain choice says those better. The Segment's household income, gender mix and kind of area are ratings at the owner's request (2026-11-04), their bands and shares kept in the "i". Where it fits and where it does not, place by place: below.
+
+**Where it is used today.** Segment (doc 35): `income`, `gender`, `area`, `comfort`, `u-comfort`, `trajectory`, `competition` (vertical). Profile (doc 36): B1, E1, E2, E3, `emotional`, `emotional-b2b`, `social`, `social-b2b` (horizontal, selectable). Competitor (doc 41): K4 (vertical); K6 (horizontal, selectable); K7 and K9 (horizontal); K8 (horizontal, banded).
+
+**Prototype.** The library's gallery, development only: `npm run dev`, then `/library`, section "Rating Scale" (contract `src/library/assets/ratingScale.ts`, samples `src/library/gallery/RatingScaleSamples.tsx`): vertical in a one-column card and in one of the Segment card's two columns; horizontal, selectable, and chosen and disabled, on the page and card grounds; the theme follows the app's setting.
+
+### A choice with its own sub-choices (the Competitor's K5)
+
+Built 2026-11-04 (owner): a tick per channel in the left half; once ticked, an `OptionPicker` of its sub-channels in the right half, every dropdown the same width; the `AddButton` box "+" in the card's x column adds a row under it, each added row with a `BusinessStep` remove (its x) in the same column; a sub-channel chosen in one row is not offered in the next. Existing components only (`TickField`, `OptionPicker`, `AddButton`, `BusinessStep`); its grid is `.business-competitor-channels` (13-business-foundation.css).
+
+### The Rating Scale: where it fits
+
+A rating beats ticks where a thing has degrees and the middle counts (a value done fairly well is still an opening), and beats text where the answers are compared or scored. It fits where the App User can judge from what they see; it does not fit where it would be a guess or where a plain choice says it better.
+
+**Where it fits:**
+
+| Place | What is rated (rows) | What 1 and 5 mean | Why a rating |
+|---|---|---|---|
+| Competitor, K8 (doc 41) | every value of L1, the Profiles' highest rated first, banded by how many Profiles chose it | Weak to Strong | One scale gives strengths and weaknesses at once, and a 3 still counts (owner, 2026-11-04) |
+| Competitor, K9 (doc 41) | each of the Segment's changes, those the Segment ticks first | Threat to Opportunity | One scale gives opportunities and threats at once |
+| Competitor, K6 (doc 41) | each review platform (L18), ticked first (`selectable`) | Poor to Excellent (1 to 5 stars) | Review sites rate in stars already: the answer is copied, not judged; the tick says where they are reviewed |
+| Competitor, K7 (doc 41) | each Journey Stage (`BUSINESS_JOURNEY_STAGES`) | Hard to Easy | Shows where along the journey they are weak, not only whether |
+| Profile, B1 and E1 to E3 (doc 36, section 11) | each tick (`selectable`) | Optional to Essential; Minor to Main; Mild to Severe; Minor to Blocking | Built: the ticks keep a Profile focused, the ratings rank them and weigh K10 of doc 41 |
+| Profile, Emotional and Social needs (doc 36, section 10) | each tick (`selectable`) | Mild to Strong | Built: Bain's elements ticked, each rated, the list kept as the note |
+| Strategy, SWOT (the App User's own) | each Strength, Weakness, Opportunity or Threat written | Minor to Major | Orders a long list by weight, so the plan starts with what matters most; the App User knows their own business |
+
+**Where it does not fit:**
+
+| Place | Why not |
+|---|---|
+| Facts: a competitor's size and area (doc 41, K2 and K3), a Segment's market size (doc 35, Box 5) | A plain choice of a few named answers is clearer than a number |
+| A competitor's channels (doc 41, K5) | Removed 2026-11-04 (owner): how active they are is a guess; which sub-channels they use, against the customers', says more |
+| Anything compared with the App User's own Offerings, prices or size | A start-up may have none yet (doc 41, "The purpose") |
+| How sure the App User is of an answer | Withdrawn (owner, 2026-11-04): it rates the App User's evidence, not the thing |
+| How many customers come back to a competitor, or its share of the market | Cannot be seen from outside: a rating would only be a guess |
 
 ## The cards, tiles and fields built on them
 

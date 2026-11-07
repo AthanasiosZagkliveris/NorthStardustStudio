@@ -52,6 +52,9 @@
     align-items:center;
     justify-content:flex-end;
 
+    /* Two funnels (the kinds, the letter ranges) a cell apart. */
+    gap:var(--space-cell);
+
     /* One margin: 12px (layout rules, section 1). The funnel belongs to what is under the tabs, so it stands --space-field from the tab line and from the list: the page's and the section's 24px gaps are taken back to 12px on both sides. */
     margin-block:calc(var(--space-field) - var(--gap-24));
 

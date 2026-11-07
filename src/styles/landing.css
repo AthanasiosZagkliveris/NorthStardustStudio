@@ -254,7 +254,7 @@
        produced no visible change at all, and on an empty field
        there wasn't even a text-selection highlight to fall back
        on. The ring is independent of both backgrounds. */
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) var(--focus-ring-mix), transparent);
 }
 
 /* The app's one card/box delete control -- same size, drawn X,
