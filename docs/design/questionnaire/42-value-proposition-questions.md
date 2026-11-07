@@ -28,7 +28,9 @@ The sentence follows Moore's positioning template, as taught at Stanford [FUN-28
 
 - **Control:** a button above the text, "Add a draft". It adds the sentence at the end of the text and never overwrites it.
 - **Shown when:** the Segment has a name, at least one of its Profiles has answered E2 or holds a need, and at least one of its Offerings has a Type.
-- **The words:** "For [the Segment's name] who [the first frustration ticked in the Profiles' E2] and want to [the first goal ticked in E1], [the Offering's name] is a [the Offering's form, O1, else its Type] that [the Offering's main benefit, the first ticked in O4]. Unlike [a Competitor of type Direct competitor, else Status quo], it [a value of K8 the competitor is rated 1 or 2 on that matches the Offering's O4, doc 41]."
+- **The words** (owner, 2026-11-07: "Approved. Please go ahead and write the updated specification sections"): "For [the Segment's name] who [the frustration's draft phrase] and want to [the goal's draft phrase], [the Offering's name] is a [the Offering's form, O1, else its Type] that [the Offering's main benefit, the first ticked in O4]. Unlike [the Competitors], it [the clear opening's value]."
+  - The goal and the frustration are the **highest-rated** across the Segment's Profiles (E1 and E2 are rated since 2026-11-04), ties in the list's order; each is written in its draft phrase (doc 34, 5.2d), never its one-word tick box ("who wait too long and want to grow their income").
+  - "Unlike …, it …" is taken from the clear opening as built (`clearOpenings`, `CompetitorQuestions.ts`: a value every Competitor of the Segment is weak on and a Profile rates Essential; the Review's second look and the first of K10's openings), not worked out again here. With no clear opening the sentence ends after the benefit.
   - A blank whose answer is missing is left in square brackets, so the App User sees what to add.
   - With several Offerings, the draft uses the first, and the button offers one draft per Offering.
 - **The "i" says:**
@@ -45,7 +47,7 @@ Each item names the Profile, Offering or Competitor it is about, and opens it. T
 | Item | Shown when |
 |---|---|
 | **Unmet value** | Something the Profiles care about (B1) that no Offering does best (O4) |
-| **Unanswered need** | A need of a Profile that no Offering lists among its needs addressed |
+| **Unanswered need** | A numbered functional item of a Profile (by its id) that no Offering ticks; no text is matched, so an item edited on the Profile stays the same item. The functional categories (L17) are read from the Profile (2026-11-07, approved, not built) |
 | **Unused offering** | An Offering that answers no need of the Segment |
 | **Unwanted benefit** | A benefit an Offering claims (O4) that no Profile cares about (B1) |
 | **Worry left open** | A worry a Profile ticked (E3) that no Offering answers (O8) |
@@ -66,7 +68,7 @@ Nothing in the text changes: a draft once added is the App User's. The open item
 **Decided (owner, 2026-11-03):**
 - The positioning statement is drafted per Segment in this tile.
 - No new Positioning cells are added for the pain point, the category or the status quo (doc 28, 8.2).
-- Emotional and Social needs are ticks (doc 36, section 10) and the Value Proposition alone answers them (owner, 2026-11-06), so the "Emotional and social needs" item lists the ticked needs, not an Offering's ticks; "Unanswered need" still compares the functional texts by entry (L17 ticks if the functional needs become choices, doc 43).
+- Emotional and Social needs are ticks (doc 36, section 10) and the Value Proposition alone answers them (owner, 2026-11-06), so the "Emotional and social needs" item lists the ticked needs, not an Offering's ticks; "Unanswered need" compares the Profiles' numbered functional items by id (approved 2026-11-07, not built; until then, as built, the texts by entry).
 
 **Still to decide:**
 - With several Offerings: one draft per Offering, or one draft that names the main Offering (proposed: one per Offering, each added by its own button).

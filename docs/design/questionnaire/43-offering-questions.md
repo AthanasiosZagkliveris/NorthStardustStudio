@@ -7,9 +7,15 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 **What the card is.** An Offering belongs to its Segment, as a Profile does. Pages 2 to 5 read it by id and never copy it (the page specifications' README, point 1). The card has these parts, in order:
 - **The head:** the number, the name cell and the one x (built).
 - **The Type** (built): Product, Service, Hybrid, or Other with its name.
-- **Functional Needs Addressed** (built): ticks of the Segment's Profiles' functional needs (proposed 2026-11-06: their L17 ticks, O13 merged in; below, after O13).
+- **Functional Needs Addressed** (built): ticks of the Segment's Profiles' functional needs. **Approved 2026-11-07, not built:** one tick list, the Profiles' numbered functional items, ticked by each item's id; the functional categories (L17) are read from the Profile, not ticked again here; O13 is retired.
 - **One box of questions** (proposed): O1 to O13 below, one band each, with the Segment card's layout; O12 is derived, not asked (2026-11-06).
-- **The text boxes** (built), each kept as the note for what the questions cannot say: Function; Customer Benefit (O4); Content & Scope; Purchase & Delivery (O3, O6); Support & Communication (O7); Requirements & Conditions (O10).
+- **The text boxes** (built): all six stay visible, each the note for what the questions cannot say. Approved 2026-11-07 (not built): each box's "i" names the question it adds to, with today's numbers (not renumbered yet):
+  - Function: O1.
+  - Customer Benefit: O4.
+  - Content & Scope: none; it is the one free-text box for the deliverables, the limits and what is excluded.
+  - Purchase & Delivery: O3 and O6.
+  - Support & Communication: O7.
+  - Requirements & Conditions: O10.
 
 **The rules of the card** are the Segment's (doc 35):
 - A radio is one choice; ticks are several, with the limit shown.
@@ -149,7 +155,9 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 
 **The emotional and social needs are not asked here** (owner, 2026-11-06): the Value Proposition answers them (doc 42, its one owner). An "Emotional and social needs addressed" question proposed here on 2026-11-03 is withdrawn.
 
-### O13. What job does it do for them?
+### O13. What job does it do for them? (RETIRED 2026-11-07)
+
+**Retired** (owner, 2026-11-07: "Approved. Please go ahead and write the updated specification sections"): merged into the Profile's functional ticks (doc 36, Needs; L17, doc 34, 5.2c). The id is kept and not reused. What follows is the record.
 
 - **Control:** ticks, up to 3.
 - **Asked when:** always.
@@ -169,7 +177,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - *Comes from:* nothing. The Profiles' functional needs stay their own words (doc 36, section 10); the owner proposed this list (2026-11-03) to compare the Offering with the Competitors; the Competitor's job question was withdrawn on 2026-11-04, so the comparison is gone and whether O13 stays is open.
   - *Read by (not built yet):* the Review. Doc 41's job question was withdrawn on 2026-11-04 as an Offering question, and with it the Value Proposition's open item "Job left to a competitor" (doc 42); a Competitor chosen for the same thing (rated 4 or 5 in K8, doc 41, against O4) is still a close rival, to be answered in its Insights & Differentiation. No Competitor question uses L17 now.
 
-**Proposed (owner, 2026-11-06): the functional needs as choices, and O13 merged into them.** L17 is the rest of Bain's functional elements of value [FUN-48], those the Profile's "What matters most" (B1, L1) does not already hold: saves time is Speed, simplifies and avoids hassles are Convenience, reduces cost is Affordability, reduces risk is Safety / security, quality is Quality. So:
+**Proposed (owner, 2026-11-06): the functional needs as choices, and O13 merged into them.** *Replaced by what was approved on 2026-11-07 (the head of this doc, Functional Needs Addressed; doc 36, Needs; doc 34, 5.2c): the Profile ticks up to three of five functional jobs above its numbered list, and the Offering ticks only the numbered items, by id. The paragraph below is the record.* L17 is the rest of Bain's functional elements of value [FUN-48], those the Profile's "What matters most" (B1, L1) does not already hold: saves time is Speed, simplifies and avoids hassles are Convenience, reduces cost is Affordability, reduces risk is Safety / security, quality is Quality. So:
 - The Profile's Functional needs (doc 36, section 10) become ticks from L17, up to 3, each rated, as the Emotional and Social needs are, with the Notes under them for what no tick says (the specifics in the App User's words).
 - The Offering's "Functional Needs Addressed" ticks those ticked needs, the ones the Segment's Profiles chose; O13 is merged into it and goes: one question, no overlap.
 - Saved answers: the Profiles' typed functional needs stay as their Notes; an Offering's "needs addressed" that matched a typed line is kept until the App User ticks again.
@@ -233,7 +241,7 @@ The answer is already in the app: the Organisation's business activities (doc 28
 
 **Still to decide:**
 - The option words written new here are proposals until you approve them (doc 28, rule 3.6): O1, O2, O3 ("Pay as they go"), O6 and O7.
-- O13 and L17 (owner's idea, 2026-11-03): proposed on 2026-11-06 to merge into the functional needs (after O13); the list words still to approve.
+- O13 and L17: decided 2026-11-07. O13 is retired; L17 is the five functional jobs (doc 34, 5.2c).
 - O11, what they spend on (doc 28, 6.8): it is not asked here, because nothing would read it yet. Keep it as a thought, or drop it.
 - **Not asked:**
   - O5 (merged into O4, 2026-10-26).
