@@ -32,7 +32,7 @@ The sentence follows Moore's positioning template, as taught at Stanford [FUN-28
   - The goal and the frustration are the **highest-rated** across the Segment's Profiles (E1 and E2 are rated since 2026-11-04), ties in the list's order; each is written in its draft phrase (doc 34, 5.2d), never its one-word tick box ("who wait too long and want to grow their income").
   - "Unlike …, it …" is taken from the clear opening as built (`clearOpenings`, `CompetitorQuestions.ts`: a value every Competitor of the Segment is weak on and a Profile rates Essential; the Review's second look and the first of K10's openings), not worked out again here. With no clear opening the sentence ends after the benefit.
   - A blank whose answer is missing is left in square brackets, so the App User sees what to add.
-  - With several Offerings, the draft uses the first, and the button offers one draft per Offering.
+  - With several Offerings, one draft link for each Offering with a Type, "Add a draft for [its name]" (built 2026-11-07).
 - **The "i" says:**
   - A starting sentence made from your answers on this page. It is yours once added: change it freely.
   - Based on: Moore's positioning template, and the pains and gains of the Value Proposition Canvas.
@@ -49,10 +49,10 @@ Each item names the Profile, Offering or Competitor it is about, and opens it. T
 | Item | Shown when |
 |---|---|
 | **Unmet value** | Something the Profiles care about (B1) that no Offering does best (O4) |
-| **Unanswered need** | A numbered functional item of a Profile (by its id) that no Offering ticks; no text is matched, so an item edited on the Profile stays the same item. The functional categories (L17) are read from the Profile (2026-11-07, approved, not built) |
+| **Unanswered need** | A numbered functional item of a Profile (by its id) that no Offering ticks; no text is matched, so an item edited on the Profile stays the same item. Matched by id since 2026-11-07 (built). The functional categories (L17) are the Profile's own ticks, also built on 2026-11-07, and are not ticked again on the Offering |
 | **Unused offering** | An Offering that answers no need of the Segment |
 | **Unwanted benefit** | A benefit an Offering claims (O4) that no Profile cares about (B1) |
-| **Worry left open** | A worry a Profile ticked (E3) that no Offering answers (O8) |
+| **Worry left open** | A worry a Profile ticked (E3) that no Offering answers (O8). The worry Support is answered when an Offering's O7, the help after the sale, is anything but None (built 2026-11-07) |
 | **Job left to a competitor** | Withdrawn (2026-11-04): doc 41's job question was withdrawn as an Offering question, so there is no Competitor's job to compare with O13 (doc 43) |
 | **Emotional and social needs** | The Value Proposition is the one owner of these (owner, 2026-11-06; the Offering does not tick them, doc 43): each emotional or social need ticked on the Segment's Profiles (doc 36, section 10), the strongest first, until the text says how it answers it. **Built in part (owner, 2026-11-07):** under the text, Emotional Needs and Social Needs list every need ticked on the Segment's Profiles, each once, the strongest first (its highest rating on any Profile; ties in the options' order), numbered, then the lines of the Profiles' Notes as bullets; "None recorded." only when there are neither (`segmentNeedTicks`, `ProfileQuestions.ts`). The tile's "i": "Say how it meets the emotional and social needs below: those ticked on the Profiles, strongest first, then the lines of their Notes." Still proposed: an item stays until the text answers it. |
 
@@ -71,7 +71,10 @@ Nothing in the text changes: a draft once added is the App User's. The open item
 **Decided (owner, 2026-11-03):**
 - The positioning statement is drafted per Segment in this tile.
 - No new Positioning cells are added for the pain point, the category or the status quo (doc 28, 8.2).
-- Emotional and Social needs are ticks (doc 36, section 10) and the Value Proposition alone answers them (owner, 2026-11-06), so the "Emotional and social needs" item lists the ticked needs, not an Offering's ticks; "Unanswered need" compares the Profiles' numbered functional items by id (approved 2026-11-07, not built; until then, as built, the texts by entry).
+- Emotional and Social needs are ticks (doc 36, section 10) and the Value Proposition alone answers them (owner, 2026-11-06), so the "Emotional and social needs" item lists the ticked needs, not an Offering's ticks; "Unanswered need" compares the Profiles' numbered functional items by id.
 
-**Still to decide:**
-- With several Offerings: one draft per Offering, or one draft that names the main Offering (proposed: one per Offering, each added by its own button).
+**Built (2026-11-07):**
+- "Unanswered need" matched by the items' ids, not their words.
+- One draft link for each Offering with a Type ("Add a draft for [its name]" when there are several).
+
+**Still to decide:** nothing for this tile. (With several Offerings, one draft per Offering was the proposal; it is built, above.)

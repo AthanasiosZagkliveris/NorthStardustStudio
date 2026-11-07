@@ -9,7 +9,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **The Type** (built): Product, Service, Hybrid, or Other with its name.
 - **Functional Needs Addressed** (built): ticks of the Segment's Profiles' functional needs. **Built 2026-11-07** (owner: "Update the app"): one tick list, the Profiles' numbered functional items, ticked by each item's id (the same words on two Profiles are one tick, holding both ids), so editing an item's words keeps the tick; a tick saved as words is read as the item's id (`businessSegmentFunctionalItems`, `AnswerBusinessFoundation.ts`); the export and the Customer Engagement page match by id. The functional categories (L17) are read from the Profile, not ticked again here. O13 is retired (it was never built).
 - **The questions** (built 2026-11-07): in two boxes, "What it is and how it reaches them" (O1, O2, O3, O4, O6, O7) and "What it answers" (O8, O10), one band each, as the Profile's Needs; a box with no question asked is not shown. A starting value (O2, O4, O6; O6 from O1: a physical item → Posted / shipped, a digital file → Sent automatically, an app or online access → Ongoing online access, a live session → In a live online session, an in-person service → In person) shows until it is changed and is saved with the first answer; an answer to a question no longer asked, or an option no longer offered, is dropped (`offeringShown`). The "i" of each is the doc's, without the lines about what is not built yet (the Review's note in O2, Demand, Delivery and the Revenue stream in O3, page 2's channels in O6 and O7). Saved under the Offering's `questions`. O12 is derived, not asked, and **not built**: the age-restricted activities and each country's legal ages are not in the app yet.
-- **The text boxes** (built): all six stay visible, each the note for what the questions cannot say. Approved 2026-11-07 (not built): each box's "i" names the question it adds to, with today's numbers (not renumbered yet):
+- **The text boxes** (built): all six stay visible, each the note for what the questions cannot say. Each box's "i" names the question it adds to, with today's numbers (not renumbered yet):
   - Function: O1.
   - Customer Benefit: O4.
   - Content & Scope: none; it is the one free-text box for the deliverables, the limits and what is excluded.
@@ -44,7 +44,8 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Online access: a membership area, a course platform or a subscription library.
 - **Connections:**
   - *Comes from:* the Type.
-  - *Read by (not built yet):* O6's starting value; the goods and service options of pages 2 and 3 (doc 28, 11.7: without a physical item, Physical Delivery and the delivery costs are hidden, not deleted); the Value Proposition draft (doc 42).
+  - *Read by (built, 2026-11-07):* O6's starting value; the Value Proposition draft (doc 42).
+  - *Read by (not built yet):* the goods and service options of pages 2 and 3 (doc 28, 11.7: without a physical item, Physical Delivery and the delivery costs are hidden, not deleted).
 
 ### O2. Can customers buy it today?
 
@@ -106,7 +107,8 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Your Positioning's Differentiation starts the ticks; change them freely.
 - **Connections:**
   - *Comes from:* Positioning's Differentiation, through the value crosswalk (doc 34, 5.2a), as starting ticks.
-  - *Read by (not built yet):* the Value Proposition draft and its open items (doc 42); the Review (doc 28, 11.5, rules 21 and 22: against the Profiles' B1 and the Competitors' K8).
+  - *Read by (built, 2026-11-07):* the Value Proposition draft and its open items (doc 42).
+  - *Read by (not built yet):* the Review (doc 28, 11.5, rules 21 and 22: against the Profiles' B1 and the Competitors' K8).
 
 ### O6. How does the customer receive it?
 
@@ -157,7 +159,8 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Support is answered by the help after they buy, above.
 - **Connections:**
   - *Comes from:* the Profiles' E3.
-  - *Read by (not built yet):* the Value Proposition's open items (doc 42); the actions proposed at the Evaluation stage on page 2 (doc 28, 11.5, rule 8: price → a quote; trust → proof; fit → a demo).
+  - *Read by (built, 2026-11-07):* the Value Proposition's open items (doc 42).
+  - *Read by (not built yet):* the actions proposed at the Evaluation stage on page 2 (doc 28, 11.5, rule 8: price → a quote; trust → proof; fit → a demo).
 
 **The emotional and social needs are not asked here** (owner, 2026-11-06): the Value Proposition answers them (doc 42, its one owner). An "Emotional and social needs addressed" question proposed here on 2026-11-03 is withdrawn.
 
