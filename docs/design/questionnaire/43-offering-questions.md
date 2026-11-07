@@ -1,6 +1,6 @@
 # 43. The Offering card: every question and option, as proposed
 
-Status: **proposal**, written 2026-11-03, updated 2026-11-04. Every question of the Offering card (Business System, page 1, tile "Offerings"), in the order it is asked. For each: its control, when it is asked, its options, what its "i" says and what it connects to. The Type, the needs addressed and the text boxes are built; the questions are not.
+Status: **proposal**, written 2026-11-03, updated 2026-11-04. Every question of the Offering card (Business System, page 1, tile "Offerings"), in the order it is asked. For each: its control, when it is asked, its options, what its "i" says and what it connects to. The Type, the needs addressed and the text boxes are built; the questions O1 to O10 are **built** too (owner, 2026-11-07: "Update the Value Proposition and Offering card according to their docs"; `OfferingQuestions.ts`), O12 is not.
 
 Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the Profile: the needs, B1, D2, E3), doc 38 (Positioning: Differentiation), doc 41 (the Competitor: K8), doc 42 (the Value Proposition, which reads O1, O4 and O8), doc 34 (the lists L1 and L11, the value crosswalk 5.2a), doc 28 (6.8, 7.4, 10.1 to 10.3 and 11.7, the design this refines), `src/framework/engine/AnswerBusinessFoundation.ts` (the card today).
 
@@ -8,7 +8,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **The head:** the number, the name cell and the one x (built).
 - **The Type** (built): Product, Service, Hybrid, or Other with its name.
 - **Functional Needs Addressed** (built): ticks of the Segment's Profiles' functional needs. **Built 2026-11-07** (owner: "Update the app"): one tick list, the Profiles' numbered functional items, ticked by each item's id (the same words on two Profiles are one tick, holding both ids), so editing an item's words keeps the tick; a tick saved as words is read as the item's id (`businessSegmentFunctionalItems`, `AnswerBusinessFoundation.ts`); the export and the Customer Engagement page match by id. The functional categories (L17) are read from the Profile, not ticked again here. O13 is retired (it was never built).
-- **One box of questions** (proposed): O1 to O13 below, one band each, with the Segment card's layout; O12 is derived, not asked (2026-11-06).
+- **The questions** (built 2026-11-07): in two boxes, "What it is and how it reaches them" (O1, O2, O3, O4, O6, O7) and "What it answers" (O8, O10), one band each, as the Profile's Needs; a box with no question asked is not shown. A starting value (O2, O4, O6) shows until it is changed and is saved with the first answer; an answer to a question no longer asked, or an option no longer offered, is dropped (`offeringShown`). The "i" of each is the doc's, without the lines about what is not built yet (the Review's note in O2, Demand, Delivery and the Revenue stream in O3, page 2's channels in O6 and O7). Saved under the Offering's `questions`. O12 is derived, not asked, and **not built**: the age-restricted activities and each country's legal ages are not in the app yet.
 - **The text boxes** (built): all six stay visible, each the note for what the questions cannot say. Approved 2026-11-07 (not built): each box's "i" names the question it adds to, with today's numbers (not renumbered yet):
   - Function: O1.
   - Customer Benefit: O4.
@@ -16,6 +16,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Purchase & Delivery: O3 and O6.
   - Support & Communication: O7.
   - Requirements & Conditions: O10.
+  - **Built 2026-11-07:** each box's "i" ends with that line ("It adds to: …", in the questions' words; Content & Scope: "The one free-text box for the deliverables, the limits and what is excluded."), `OFFERING_BOX_ADDS`.
 
 **The rules of the card** are the Segment's (doc 35):
 - A radio is one choice; ticks are several, with the limit shown.

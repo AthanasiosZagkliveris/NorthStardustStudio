@@ -148,6 +148,16 @@ export const SUBSECTIONS = {
  * "i" carries.
  */
 /** What each note of a Profile or a Competitor says before anything is written (owner, 2026-11-04): what belongs there and is not asked above. */
+/** What each Offering Description box adds to (doc 43, owner 2026-11-07): the question it writes more about, in its "i". */
+export const OFFERING_BOX_ADDS: Record<string, string> = {
+    function: "It adds to: What form does it take?",
+    benefit: "It adds to: What does it do best for the customer?",
+    scope: "The one free-text box for the deliverables, the limits and what is excluded.",
+    delivery: "It adds to: How do customers pay for it? and How does the customer receive it?",
+    support: "It adds to: What help do you give after they buy?",
+    requirements: "It adds to: What does the customer need to give you?"
+};
+
 export const NOTE_PLACEHOLDERS: Record<string, string> = {
     personal: "A name, a job title, where they live",
     psychographics: "What they value, believe and enjoy",

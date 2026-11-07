@@ -1,6 +1,6 @@
 # 42. The Value Proposition tile: the draft and the open items, as proposed
 
-Status: **proposal**, written 2026-11-03, updated 2026-11-04. The Value Proposition tile (Business System, page 1): what it asks, the draft sentence it offers, and the open items it lists, with what each reads. The text is built; the draft and the open items are not.
+Status: **proposal**, written 2026-11-03, updated 2026-11-04. The Value Proposition tile (Business System, page 1): what it asks, the draft sentence it offers, and the open items it lists, with what each reads. The text is built; the draft and the open items are **built** (owner, 2026-11-07: "Update the Value Proposition and Offering card according to their docs"; `OfferingQuestions.ts`), with what is not yet built named in each section.
 
 Related: doc 35 (the Segment), doc 36 (the Profile: the needs, goals, frustrations and worries), doc 38 (Positioning: purpose, differentiation, outcomes), doc 41 (the Competitor: K8 and K10), doc 43 (the Offering: O1, O4, O8 and the needs addressed), doc 34 (the value crosswalk, 5.2a), doc 28 (6.7 and 8.2, the design this refines).
 
@@ -40,6 +40,8 @@ The sentence follows Moore's positioning template, as taught at Stanford [FUN-28
   - *Comes from:* the Segment's name; its Profiles' E1 and E2; its Offerings' O1 and O4 (doc 43); its Competitors' type and K8 (doc 41). Where the words of an answer do not read in the sentence, its crosswalk words are used (doc 34, 5.2a). Positioning's purpose, differentiation and outcomes (doc 38, questions 7 to 10) also come in through the crosswalk.
   - *Read by:* nothing. The text is the user's, and the Business Plan reads the text as built.
 
+**As built (2026-11-07):** one link for each Offering with a Type, "Add a draft" (with several Offerings, "Add a draft for [its name]", the proposal under "Still to decide"), above the text; it adds its sentence at the end, only what is not already there (`draftToAdd`), and goes once added. The sentence: "For [Segment] who [frustration phrase] and want to [goal phrase], [Offering] is [its form, O1, else its Type] that offers [its main benefit]. Unlike its competitors, it offers [the clear opening]." The "i" of the tile carries the two lines of the draft's "i" above. `valuePropositionDraft`, `draftOffered`.
+
 ## 2. The open items (read-only, under the text)
 
 Each item names the Profile, Offering or Competitor it is about, and opens it. These come from doc 28, 6.7, and the review of 2026-11-03.
@@ -55,6 +57,7 @@ Each item names the Profile, Offering or Competitor it is about, and opens it. T
 | **Emotional and social needs** | The Value Proposition is the one owner of these (owner, 2026-11-06; the Offering does not tick them, doc 43): each emotional or social need ticked on the Segment's Profiles (doc 36, section 10), the strongest first, until the text says how it answers it. **Built in part (owner, 2026-11-07):** under the text, Emotional Needs and Social Needs list every need ticked on the Segment's Profiles, each once, the strongest first (its highest rating on any Profile; ties in the options' order), numbered, then the lines of the Profiles' Notes as bullets; "None recorded." only when there are neither (`segmentNeedTicks`, `ProfileQuestions.ts`). The tile's "i": "Say how it meets the emotional and social needs below: those ticked on the Profiles, strongest first, then the lines of their Notes." Still proposed: an item stays until the text answers it. |
 
 - **The "i" says:** Gaps between what your customers want and what your Offerings give. They are reminders, not errors.
+- **As built (2026-11-07):** "Open items" under the needs, one bullet each, "[kind]: [what it says]", shown only when there is one: Unmet value and Unwanted benefit from one function (`valueMismatch`, for the Review to read too), Unanswered need by item id, Unused offering (an Offering with a Type that addresses none of the Segment's items), Worry left open (O8). **Not built:** an item opening the card it is about; the Review listing the same items; "Emotional and social needs" as an item (the needs are listed above the items, as built on 2026-11-07, and nothing yet says when one is answered).
 - **Connections:**
   - *Comes from:* doc 36 (B1, E3, the Needs); doc 43 (O4, O8, the needs addressed).
   - *Read by (not built yet):* the Review page, which lists the same items.

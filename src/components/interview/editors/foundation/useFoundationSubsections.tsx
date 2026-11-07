@@ -19,6 +19,7 @@ import TextLink from "../../fields/TextLink.tsx";
 import TextBox from "../../../controls/TextBox.tsx";
 import { type OtherQuestion, competitorOtherAdd, competitorOtherName, competitorOtherRemove, competitorOtherSettle, competitorOtherTick, competitorOthers, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, shownOpenings, COMPETITOR_SUBCHANNELS, COMPETITOR_BAND_LINE, bandTone, COMPETITOR_CHANGES, valueProfiles, draftToAdd, hardToBeat, insightsDraft, reviewPlatformOrder } from "../../../../framework/engine/CompetitorQuestions.ts";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
+import { OFFERING_BOXES, OFFERING_QUESTIONS, type OfferingAnswers, type OfferingContext, type OfferingQuestionId, draftOffered, offeringAsks, offeringOptions, offeringShown, valuePropositionDraft, valuePropositionOpenItems } from "../../../../framework/engine/OfferingQuestions.ts";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import { type ProfileBox, type ProfileQuestion, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileRate, profileRatings, profileWho, profileQuestionsOf, profileSettle, profileShown, proposedBusinessProfiles, segmentNeedTicks } from "../../../../framework/engine/ProfileQuestions.ts";
 import { type SegmentBox, type SegmentQuestion, segmentChoose, segmentOptions, segmentQuestionsOf, segmentRowChoice, segmentSettle, segmentSettledNotes } from "../../../../framework/engine/SegmentQuestions.ts";
@@ -27,7 +28,7 @@ import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
 import NumberedListInput from "../../fields/NumberedListInput.tsx";
 import OptionPicker from "../../fields/OptionPicker.tsx";
 import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
-import { BusinessNeedKind, CATEGORY_OTHER, COMPETITOR_TYPE_QUESTIONS, DescriptionPart, NOTE_PLACEHOLDERS, OPTIONAL_DESCRIPTION_PART, SUBSECTIONS, competitorParts, otherProfileNeeds } from "./shared.tsx";
+import { BusinessNeedKind, CATEGORY_OTHER, OFFERING_BOX_ADDS, COMPETITOR_TYPE_QUESTIONS, DescriptionPart, NOTE_PLACEHOLDERS, OPTIONAL_DESCRIPTION_PART, SUBSECTIONS, competitorParts, otherProfileNeeds } from "./shared.tsx";
 import { BUSINESS_AUDIENCE, PEOPLE_AUDIENCE, audienceLine, segmentContextFor, segmentFrame } from "./identityLink.ts";
 import type { useFoundationState } from "./useFoundationState.tsx";
 
@@ -1068,9 +1069,36 @@ export function useFoundationSubsections(earlier: Earlier) {
             two kinds of need it exists to address are recalled
             beneath it.
         */
+        /* The Offerings' answers as their cards show them (doc 43: starting values included), read by the Value Proposition's draft and open items too. */
+        const worries = [...new Set(segment.profiles.flatMap(profile => profileShown(profile.questions ?? {}, segment.questions, asked).e3 ?? []))];
+        const offeringContext = (offering: BusinessOfferingValue): OfferingContext => ({
+            type: offering.category, stage: identity?.stage, differentiation: identity?.differentiation, pay: segment.questions.pay ?? [], worries
+        });
+        const offeringAnswers = segment.offerings.map(offering => offeringShown(offering.questions ?? {}, offeringContext(offering)));
+
+        /* The draft (doc 42, 1): one link for each Offering with a Type (the doc's proposal for several Offerings), adding its sentence at the end of the text. */
+        const drafts = draftOffered(segment)
+            ? segment.offerings.map((offering, at) => ({ offering, draft: offering.category.trim() ? valuePropositionDraft(segment, offering, offeringAnswers[at], offeringContext(offering)) : "" })).filter(entry => entry.draft && draftToAdd(segment.valueProposition, entry.draft))
+            : [];
+        const openItems = valuePropositionOpenItems(segment, offeringAnswers);
+
         const valueProposition = group(
             "Value Proposition",
             <div className="business-foundation-field">
+
+                {drafts.map(({ offering, draft }) => (
+                    <TextLink
+                        key={offering.id}
+                        className="business-competitor-draft"
+                        disabled={disabled}
+                        onClick={() => {
+                            const adding = draftToAdd(segment.valueProposition, draft);
+                            updateSegment(segmentIndex, { valueProposition: segment.valueProposition.trim() ? segment.valueProposition.replace(/\s+$/, "") + "\n\n" + adding : adding });
+                        }}
+                    >
+                        {segment.offerings.length > 1 ? "Add a draft for " + (offering.name.trim() || "this Offering") : "Add a draft"}
+                    </TextLink>
+                ))}
 
                 <StrategyTextArea
                     className="interview-input business-foundation-proposition-input"
@@ -1153,8 +1181,15 @@ export function useFoundationSubsections(earlier: Earlier) {
 
                 })()}
 
+                {/* The open items (doc 42, 2): read-only, under the text. */}
+                {openItems.length > 0 && (
+                    <FieldRow pair fullList label="Open items" info={["Gaps between what your customers want and what your Offerings give. They are reminders, not errors."]}>
+                        <ListStatic marker="bullet" lines={openItems.map((item, at) => ({ key: item.kind + at, text: item.kind + ": " + item.text }))} />
+                    </FieldRow>
+                )}
+
             </div>,
-            SUBSECTIONS.valueProposition.note
+            [...SUBSECTIONS.valueProposition.note, "Add a draft: a starting sentence made from your answers on this page. It is yours once added: change it freely.", "Based on: Moore's positioning template, and the pains and gains of the Value Proposition Canvas."]
         );
 
         /* ---- 4. The Offerings sold to this Segment ---- */
@@ -1272,9 +1307,51 @@ export function useFoundationSubsections(earlier: Earlier) {
 
                             </div>
 
+                            {/* The card's questions (doc 43, O1 to O10), in its two boxes, one band each as the Profile's Needs are; a starting value shows until changed. */}
+                            {(() => {
+                                const context = offeringContext(offering);
+                                const shown = offeringAnswers[index];
+                                const write = (id: OfferingQuestionId, next: string[]) => change({ questions: { ...shown, [id]: next } as OfferingAnswers });
+                                const whose = segmentPath + ", Offering " + (index + 1);
+                                const ask = (id: OfferingQuestionId) => {
+                                    const question = OFFERING_QUESTIONS.find(entry => entry.id === id)!;
+                                    const options = offeringOptions(id, context).map(option => ({ ...option }));
+                                    const chosen = shown[id] ?? [];
+                                    return (
+                                        <FieldRow key={id} pair fullList label={question.label} info={[...question.info]}
+                                            labelNote={question.max !== undefined ? <span className="business-foundation-tick-note">{question.max + " max"}</span> : undefined}>
+                                            {question.many
+                                                ? (
+                                                    <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={question.label}>
+                                                        <BusinessTicks name={whose + " " + question.label} disabled={disabled} options={options} chosen={chosen} max={question.max} onChange={(next) => write(id, next)} />
+                                                    </div>
+                                                )
+                                                : <RadioChoice label={question.label} group={offering.id + "-" + id} className="legal-entity-radio-stack" disabled={disabled} value={chosen[0] ?? ""} onChange={(next) => write(id, [next])} options={options} />}
+                                        </FieldRow>
+                                    );
+                                };
+                                return OFFERING_BOXES.map(box => {
+                                    const ids = box.ids.filter(id => offeringAsks(id, context));
+                                    return ids.length > 0 && (
+                                        <Fragment key={box.title}>
+                                            {group(box.title, (
+                                                <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-single">
+                                                    <div className="legal-entity-field">
+                                                        {ids.map((id, at) => (
+                                                            <div key={id} className={"legal-entity-org-section" + (at % 2 === 1 ? " legal-entity-org-band" : "")}>{ask(id)}</div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            ), undefined, groupFold(offering.id, box.title, whose))}
+                                        </Fragment>
+                                    );
+                                });
+                            })()}
+
                             {description(
                                 segmentPath + ", Offering " + (index + 1),
-                                SUBSECTIONS.offerings.description,
+                                // Each box's "i" names the question it adds to (doc 43, 2026-11-07); Content & Scope is the one free-text box.
+                                SUBSECTIONS.offerings.description.map(part => ({ ...part, extra: [OFFERING_BOX_ADDS[part.id]] })),
                                 offering.description,
                                 (next) => change({ description: next }),
                                 false,

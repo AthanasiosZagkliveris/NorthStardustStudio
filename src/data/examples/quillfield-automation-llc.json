@@ -881,6 +881,35 @@
                       "delivery": "Booked through the website after a free 30-minute call; paid in full upfront by QuickBooks invoice (card or ACH); delivered in a recorded walkthrough and a written report.",
                       "support": "Weekly email updates during the audit; a 30-day follow-up call to answer questions about the roadmap.",
                       "requirements": "Access to one decision-maker and one day-to-day user; read-only access to the tools under review; a signed mutual NDA."
+                    },
+                    "questions": {
+                      "o1": [
+                        "project"
+                      ],
+                      "o2": [
+                        "now"
+                      ],
+                      "o3": [
+                        "project"
+                      ],
+                      "o4": [
+                        "trust-and-reputation",
+                        "expert-knowledge",
+                        "safety-and-low-risk"
+                      ],
+                      "o6": [
+                        "byyou"
+                      ],
+                      "o7": [
+                        "personal"
+                      ],
+                      "o8": [
+                        "the-price-or-their-budget"
+                      ],
+                      "o10": [
+                        "access",
+                        "conditions"
+                      ]
                     }
                   },
                   {
@@ -900,6 +929,36 @@
                       "delivery": "Statement of work and QuickBooks invoice (card or ACH): 50% at signing and 50% on handover about two months later.",
                       "support": "Named point of contact (Jordan); weekly progress call; 30 days of fixes after handover.",
                       "requirements": "A completed audit or equivalent scoping; admin access to the relevant tools; a staff member available for testing."
+                    },
+                    "questions": {
+                      "o1": [
+                        "project"
+                      ],
+                      "o2": [
+                        "now"
+                      ],
+                      "o3": [
+                        "project"
+                      ],
+                      "o4": [
+                        "speed",
+                        "ease-and-convenience",
+                        "quality-and-results"
+                      ],
+                      "o6": [
+                        "byyou"
+                      ],
+                      "o7": [
+                        "personal"
+                      ],
+                      "o8": [
+                        "the-effort-of-switching-from-what-they-use-now",
+                        "how-hard-it-is-to-use"
+                      ],
+                      "o10": [
+                        "access",
+                        "equipment"
+                      ]
                     }
                   },
                   {
@@ -918,6 +977,36 @@
                       "delivery": "Monthly card or ACH billing through QuickBooks; cancel with 30 days' notice.",
                       "support": "Shared support channel; monthly review call; emergency fixes for failed automations.",
                       "requirements": "An existing Quillfield build or an audited set of automations; continued admin access for monitoring."
+                    },
+                    "questions": {
+                      "o1": [
+                        "ongoing"
+                      ],
+                      "o2": [
+                        "now"
+                      ],
+                      "o3": [
+                        "retainer"
+                      ],
+                      "o4": [
+                        "good-support",
+                        "speed",
+                        "safety-and-low-risk"
+                      ],
+                      "o6": [
+                        "access"
+                      ],
+                      "o7": [
+                        "dedicated"
+                      ],
+                      "o8": [
+                        "support-after-they-buy",
+                        "risk-or-security"
+                      ],
+                      "o10": [
+                        "access",
+                        "commitment"
+                      ]
                     }
                   }
                 ]

@@ -237,6 +237,8 @@ export interface BusinessOfferingValue {
     /** Named when the category is "Other". */
     categoryOther: string;
     description: BusinessDescriptionValue;
+    /** The answers to the card's questions O1 to O10 (doc 43, OfferingQuestions.ts; owner 2026-11-07): question id to the option ids chosen. */
+    questions?: Record<string, string[]>;
 }
 
 /**
@@ -510,6 +512,20 @@ function competitorLayoutOf2026_11_04(questions: Record<string, string[]>): Reco
     return read;
 }
 
+/** The Offering's answers (O1 to O10), kept only where there are some: question ids to lists of option ids. */
+function offeringQuestionsOf(source: unknown): { questions?: Record<string, string[]> } {
+    if (!source || typeof source !== "object") {
+        return {};
+    }
+    const questions: Record<string, string[]> = {};
+    for (const [key, value] of Object.entries(source as Record<string, unknown>)) {
+        if (Array.isArray(value) && value.every(entry => typeof entry === "string") && value.length > 0) {
+            questions[key] = value as string[];
+        }
+    }
+    return Object.keys(questions).length > 0 ? { questions } : {};
+}
+
 export function asBusinessOffering(entry: unknown): BusinessOfferingValue {
 
     const offering = asObject(entry);
@@ -523,7 +539,8 @@ export function asBusinessOffering(entry: unknown): BusinessOfferingValue {
         description: asBusinessDescription(
             offering.description,
             BUSINESS_FIRST_DESCRIPTION_PART.offering
-        )
+        ),
+        ...offeringQuestionsOf(offering.questions)
     };
 
 }

@@ -490,13 +490,117 @@
    ]
   },
   {
-   "label": "Function",
+   "label": "What form does it take?",
    "place": "floating card",
-   "text": "What does it do, and what result should it deliver?",
+   "text": "It refines the Type. A product and a service sold together is the Type Hybrid; make one Offering for each form, or choose the main one.\nOnline access: a membership area, a course platform or a subscription library.",
+   "lines": 10,
+   "points": 2,
+   "w": 360,
+   "chars": 214,
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1",
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "label": "Can customers buy it today?",
+   "place": "floating card",
+   "text": "Where it stands today.\nIt starts from your business stage; change it for this Offering.",
+   "lines": 5,
+   "points": 2,
+   "w": 360,
+   "chars": 87,
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1",
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "label": "How do customers pay for it?",
+   "place": "floating card",
+   "text": "How often they pay, and on what terms.\nSubscription: regular payments until they cancel. Pay as they go: they pay for what they use.",
+   "lines": 7,
+   "points": 2,
+   "w": 360,
+   "chars": 132,
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1",
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "label": "What does it do best for the customer?",
+   "place": "floating card",
+   "text": "The benefits your customers get. The first you tick is the main one. Choose up to three.\nThe same list as \"What matters most\" on your Profiles and on your Competitors, so the three can be compared.\nYour Positioning's Differentiation starts the ticks; change them freely.",
+   "lines": 12,
+   "points": 3,
+   "w": 360,
+   "chars": 270,
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1",
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "label": "How does the customer receive it?",
+   "place": "floating card",
+   "text": "How it reaches them once bought.\nSent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready.",
+   "lines": 7,
+   "points": 2,
+   "w": 360,
+   "chars": 154,
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1",
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "label": "What help do you give after they buy?",
+   "place": "floating card",
+   "text": "The help that comes with it after the sale.",
    "lines": 3,
    "points": 1,
    "w": 360,
-   "chars": 51,
+   "chars": 43,
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1",
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "label": "Which of their worries does it answer?",
+   "place": "floating card",
+   "text": "The doubts that stop your customers buying from you, as your Profiles say. A worry that nothing answers is shown on the Value Proposition tile.\nSelect all that apply.",
+   "lines": 8,
+   "points": 2,
+   "w": 360,
+   "chars": 166,
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1",
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "label": "What does the customer need to give you?",
+   "place": "floating card",
+   "text": "What you need from them before or during the work. Write the details in the note.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 81,
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1",
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "label": "Function",
+   "place": "floating card",
+   "text": "What does it do, and what result should it deliver?\nIt adds to: What form does it take?",
+   "lines": 5,
+   "points": 2,
+   "w": 360,
+   "chars": 87,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -505,11 +609,11 @@
   {
    "label": "Customer Benefit",
    "place": "floating card",
-   "text": "What problem does it solve, or what does the customer gain or achieve?",
-   "lines": 3,
-   "points": 1,
+   "text": "What problem does it solve, or what does the customer gain or achieve?\nIt adds to: What does it do best for the customer?",
+   "lines": 6,
+   "points": 2,
    "w": 360,
-   "chars": 70,
+   "chars": 121,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -518,11 +622,11 @@
   {
    "label": "Content & Scope",
    "place": "floating card",
-   "text": "What does it include, and what are its boundaries?",
-   "lines": 3,
-   "points": 1,
+   "text": "What does it include, and what are its boundaries?\nThe one free-text box for the deliverables, the limits and what is excluded.",
+   "lines": 7,
+   "points": 2,
    "w": 360,
-   "chars": 50,
+   "chars": 127,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -531,11 +635,11 @@
   {
    "label": "Purchase & Delivery",
    "place": "floating card",
-   "text": "How does the customer purchase, pay for, and receive the offering?",
-   "lines": 3,
-   "points": 1,
+   "text": "How does the customer purchase, pay for, and receive the offering?\nIt adds to: How do customers pay for it? and How does the customer receive it?",
+   "lines": 7,
+   "points": 2,
    "w": 360,
-   "chars": 66,
+   "chars": 145,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -544,11 +648,11 @@
   {
    "label": "Support & Communication",
    "place": "floating card",
-   "text": "What support and communication does the customer receive?",
-   "lines": 3,
-   "points": 1,
+   "text": "What support and communication does the customer receive?\nIt adds to: What help do you give after they buy?",
+   "lines": 6,
+   "points": 2,
    "w": 360,
-   "chars": 57,
+   "chars": 107,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -557,11 +661,11 @@
   {
    "label": "Requirements & Conditions",
    "place": "floating card",
-   "text": "What does the customer need to provide or have, and what conditions apply?",
-   "lines": 5,
-   "points": 1,
+   "text": "What does the customer need to provide or have, and what conditions apply?\nIt adds to: What does the customer need to give you?",
+   "lines": 7,
+   "points": 2,
    "w": 360,
-   "chars": 74,
+   "chars": 127,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -1173,11 +1277,23 @@
   {
    "label": "Value Proposition",
    "place": "tile dialog",
-   "text": "Say how it meets the emotional and social needs below: those ticked on the Profiles, strongest first, then the lines of their Notes.",
-   "lines": 6,
+   "text": "Say how it meets the emotional and social needs below: those ticked on the Profiles, strongest first, then the lines of their Notes.\nAdd a draft: a starting sentence made from your answers on this page. It is yours once added: change it freely.\nBased on: Moore's positioning template, and the pains and gains of the Value Proposition Canvas.",
+   "lines": 15,
+   "points": 3,
+   "w": 360,
+   "chars": 341,
+   "scenes": [
+    "Business System / 1. Foundation / tile Value Proposition"
+   ]
+  },
+  {
+   "label": "Open items",
+   "place": "tile dialog",
+   "text": "Gaps between what your customers want and what your Offerings give. They are reminders, not errors.",
+   "lines": 5,
    "points": 1,
    "w": 360,
-   "chars": 132,
+   "chars": 99,
    "scenes": [
     "Business System / 1. Foundation / tile Value Proposition"
    ]

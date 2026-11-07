@@ -1030,6 +1030,31 @@
                       "delivery": "Online shop (Shopify), studio open days, three London markets a year; UK delivery in recyclable packaging.",
                       "support": "Care guide in every parcel; lifetime repair service; email and Instagram support within one working day.",
                       "requirements": "Hand-wash or dry-clean only; made-to-order items are non-refundable unless faulty."
+                    },
+                    "questions": {
+                      "o1": [
+                        "physical"
+                      ],
+                      "o2": [
+                        "now"
+                      ],
+                      "o3": [
+                        "once"
+                      ],
+                      "o4": [
+                        "quality-and-results",
+                        "shared-values-or-identity",
+                        "trust-and-reputation"
+                      ],
+                      "o6": [
+                        "shipped"
+                      ],
+                      "o7": [
+                        "personal"
+                      ],
+                      "o8": [
+                        "whether-it-fits-their-needs"
+                      ]
                     }
                   },
                   {
@@ -1049,6 +1074,36 @@
                       "delivery": "Booked and paid online via the website (Eventbrite integration); gift vouchers valid 12 months.",
                       "support": "Pre-workshop email with directions and what to wear; follow-up email with pattern and discount code.",
                       "requirements": "Ages 16+; 7-day cancellation policy; studio is step-free."
+                    },
+                    "questions": {
+                      "o1": [
+                        "inperson"
+                      ],
+                      "o2": [
+                        "now"
+                      ],
+                      "o3": [
+                        "once"
+                      ],
+                      "o4": [
+                        "expert-knowledge",
+                        "quality-and-results",
+                        "ease-and-convenience"
+                      ],
+                      "o6": [
+                        "inperson"
+                      ],
+                      "o7": [
+                        "guides"
+                      ],
+                      "o8": [
+                        "how-long-it-takes-to-start",
+                        "the-price-or-their-budget"
+                      ],
+                      "o10": [
+                        "upfront",
+                        "conditions"
+                      ]
                     }
                   }
                 ]
@@ -1382,6 +1437,37 @@
                       "delivery": "Quote → 50% deposit → samples within 7 days → production 4–8 weeks → delivery or installation in London.",
                       "support": "Named project lead (Oliver); weekly progress updates; repair and re-covering service.",
                       "requirements": "Minimum order £500; hospitality pieces treated to BS 5852 where required; 30-day terms for trade accounts."
+                    },
+                    "questions": {
+                      "o1": [
+                        "project"
+                      ],
+                      "o2": [
+                        "now"
+                      ],
+                      "o3": [
+                        "project"
+                      ],
+                      "o4": [
+                        "expert-knowledge",
+                        "quality-and-results",
+                        "a-service-made-for-them"
+                      ],
+                      "o6": [
+                        "inperson"
+                      ],
+                      "o7": [
+                        "dedicated"
+                      ],
+                      "o8": [
+                        "whether-it-fits-their-needs",
+                        "support-after-they-buy"
+                      ],
+                      "o10": [
+                        "brief",
+                        "approval",
+                        "upfront"
+                      ]
                     }
                   },
                   {
@@ -1399,6 +1485,30 @@
                       "delivery": "Trade portal / email orders; 3-week lead time; courier delivery UK-wide.",
                       "support": "Quarterly trade newsletter; account manager; marketing images for retailers.",
                       "requirements": "Trade account required; minimum order 6 pieces; 40% trade discount off RRP."
+                    },
+                    "questions": {
+                      "o1": [
+                        "physical"
+                      ],
+                      "o2": [
+                        "now"
+                      ],
+                      "o3": [
+                        "once"
+                      ],
+                      "o4": [
+                        "quality-and-results",
+                        "trust-and-reputation"
+                      ],
+                      "o6": [
+                        "shipped"
+                      ],
+                      "o7": [
+                        "dedicated"
+                      ],
+                      "o8": [
+                        "whether-it-fits-their-needs"
+                      ]
                     }
                   }
                 ]
