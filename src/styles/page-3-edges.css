@@ -60,7 +60,7 @@
 /* Focused: the ring the page has always drawn (accessibility), over the inset edge. */
 .section-tile-overlay.business-capability :is(.interview-input, .option-picker-trigger):focus:not(.delivery-card *) {
 
-    box-shadow: var(--cell-inset), 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+    box-shadow: var(--cell-inset), 0 0 0 3px color-mix(in srgb, var(--glow-color) var(--focus-ring-mix), transparent);
 
 }
 
@@ -104,7 +104,7 @@
 
 .section-tile-overlay.business-capability :is(.delivery-card) :is(.interview-input, .option-picker-trigger):focus {
 
-    box-shadow: var(--cell-inset), 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+    box-shadow: var(--cell-inset), 0 0 0 3px color-mix(in srgb, var(--glow-color) var(--focus-ring-mix), transparent);
 
 }
 
@@ -137,7 +137,7 @@
 
 .section-tile-overlay.business-capability.business-capability :is(input.interview-input:not([type=checkbox]), textarea.interview-input):not(.option-picker-trigger):focus {
 
-    box-shadow: var(--cell-inset-recess), 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+    box-shadow: var(--cell-inset-recess), 0 0 0 3px color-mix(in srgb, var(--glow-color) var(--focus-ring-mix), transparent);
 
 }
 

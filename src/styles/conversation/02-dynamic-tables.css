@@ -576,7 +576,7 @@
        independent of the border colour, adds no layout (box-shadow
        does not affect flow), and matches the ring .user-name-input
        and the Free Text textarea already use. */
-    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) var(--focus-ring-mix), transparent);
 
 }
 
@@ -625,7 +625,7 @@
        independent of the border colour, adds no layout (box-shadow
        does not affect flow), and matches the ring .user-name-input
        and the Free Text textarea already use. */
-    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) var(--focus-ring-mix), transparent);
 
 }
 
@@ -850,7 +850,7 @@
     outline:none;
     border-color:var(--line-primary);
     /* Focus ring, not just a border-colour swap (WCAG 2.2 SC 2.4.11): independent of the border colour, no layout. */
-    box-shadow:var(--cell-inset-recess), 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+    box-shadow:var(--cell-inset-recess), 0 0 0 3px color-mix(in srgb, var(--glow-color) var(--focus-ring-mix), transparent);
 }
 
 .date-cell-input:disabled{
@@ -1124,7 +1124,7 @@
        independent of the border colour, adds no layout (box-shadow
        does not affect flow), and matches the ring .user-name-input
        and the Free Text textarea already use. */
-    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) var(--focus-ring-mix), transparent);
 
 }
 

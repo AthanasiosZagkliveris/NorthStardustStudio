@@ -240,7 +240,7 @@
 }
 .option-picker .option-picker-trigger.interview-input:is(:focus-visible, [aria-expanded="true"]){
     outline:none;
-    box-shadow:var(--cell-inset), 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+    box-shadow:var(--cell-inset), 0 0 0 3px color-mix(in srgb, var(--glow-color) var(--focus-ring-mix), transparent);
 }
 
 /* THE DROP-DOWN OF SEVERAL CHOICES (MultiPicker, OptionPicker.tsx): the same cell and list; its list is as wide as its words (at least the cell) with All and None above the ticks. */

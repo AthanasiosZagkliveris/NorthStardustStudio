@@ -809,7 +809,7 @@
     /* Same focus ring every other input scope uses -- independent
        of the border colour, which on its own is only 1.5:1 away
        from the unfocused state. */
-    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) var(--focus-ring-mix), transparent);
 
 }
 

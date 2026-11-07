@@ -60,6 +60,8 @@ A shared control loads its own stylesheet (it imports it), never only a page's s
 
 **Bands** (`tone` on a group's row; owner, 2026-11-04): one colour, light to dark, in four steps defined once as tokens in `global.css`, `--tint-importance-1` to `-4` (the app's blue, `--bg-primary`, at 14%, 24%, 34% and 44%; on sepia 12%, 21%, 30% and 39%), the same for every banded question so a level always shows the same shade. The cards' alternating question band is the lightest of the same family, `--tint-row-band` (6%; it replaced the grey of the label colour at 12%, owner, 2026-11-04), used by `.legal-entity-audience .legal-entity-org-band` in every card with question bands (Segment, Profile, Competitor, Positioning). In a floating card a band runs edge to edge, as the card's section bands do, and banded rows touch. Used by the Competitor's K8 (doc 41): the step is the number of Profiles that chose the value (`bandTone`: 1, 2, 3, 4 or more), and its "i" adds "The darker the band, the more of your Profiles chose it."
 
+**The chosen round and the ticked box** (owner, 2026-11-07: "make consistent all the components"): both read `--choice-fill` and `--choice-mark` (`global.css`): the app's blue with a white mark, and in dark the lighter blue of the focus edge (`--line-primary`) with a dark mark, because the dark blue held only 2.6 to 2.8 on the cards (now 4.8 to 6.3; the mark 7.0). Focused, both take the primary edge and the one ring, `--focus-ring-mix` (doc 18, R2).
+
 **Contrast of this round's colours** (WCAG 2.2 AA: text 4.5:1, a mark 3:1, SC 1.4.11), measured in the app on 2026-11-04, the Competitor card, in each of the app's three reading modes (it has no high-contrast or forced-colours mode):
 
 | What | Against | Light | Sepia | Dark |

@@ -7,20 +7,20 @@
 :is(textarea, input:not([type="checkbox"], [type="radio"], [type="range"], [type="color"], [type="file"]), .option-picker-trigger, .month-picker-trigger):is(:focus, :focus-visible, :active):not(:disabled, .numbered-list-input, .date-cell-field > :is(input, textarea)) {
     outline: none !important;
     border-color: var(--line-primary) !important;
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent) !important;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) var(--focus-ring-mix), transparent) !important;
 }
 
 /* A box with no edge of its own (a date cell, the colour cell): the edge is drawn with the ring, round the box. */
 .date-cell-field:focus-within:not(:has(:disabled)) {
     outline: none !important;
-    box-shadow: 0 0 0 1px var(--line-primary), 0 0 0 4px color-mix(in srgb, var(--glow-color) 35%, transparent) !important;
+    box-shadow: 0 0 0 1px var(--line-primary), 0 0 0 4px color-mix(in srgb, var(--glow-color) var(--focus-ring-mix), transparent) !important;
 }
 
 /* A box with an edge of its own (a numbered list). */
 .numbered-list:focus-within:not(:has(:disabled)) {
     outline: none !important;
     border-color: var(--line-primary) !important;
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent) !important;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) var(--focus-ring-mix), transparent) !important;
 }
 
 /* What is inside a box that draws the ring draws no edge and no outline: a date or colour cell's text keeps its recess, a list's line has none. */
@@ -59,12 +59,12 @@
 
 /* THE COLOUR BOX (the swatch inside a colour cell) answers the pointer with its own halo, the glow round the box, and the keyboard with the ring round it. */
 .brand-colour-picker:hover:not(:disabled) {
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 35%, transparent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) var(--focus-ring-mix), transparent);
 }
 
 .brand-colour-picker:focus-visible:not(:disabled) {
     outline: none;
-    box-shadow: 0 0 0 1px var(--line-primary), 0 0 0 4px color-mix(in srgb, var(--glow-color) 35%, transparent);
+    box-shadow: 0 0 0 1px var(--line-primary), 0 0 0 4px color-mix(in srgb, var(--glow-color) var(--focus-ring-mix), transparent);
 }
 
 /* NO WIREFRAME AT REST: a list you write in, an image's holder and the holder of an image's name and note have no stroke and no dashes: they are drawn as a text box is
@@ -94,7 +94,7 @@
 .brand-holder-button.brand-holder-button:focus-visible,
 .brand-image-text.brand-image-text:focus-within {
     border-color: var(--line-primary);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) var(--focus-ring-mix), transparent);
 }
 
 /* THE TEXT HIERARCHY's CARD answers the pointer as the nested cards of the Strategy (a Goal, an Objective, a Metric) do: the primary edge and the glow round the card. */

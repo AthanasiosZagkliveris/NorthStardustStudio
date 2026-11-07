@@ -1195,10 +1195,25 @@ h6 {
   overflow: visible;
 }
 
+/* THE FOCUS RING'S STRENGTH, one for every control in the app (owner, 2026-11-07: "make consistent all the components, and adjust the colours"): the
+   ring is the glow colour at this share, 3:1 and more on the cards' grounds in light, sepia and dark (WCAG 1.4.11). Every ring reads it.
+   THE FILL OF A CHOSEN BOX (a ticked tick box, a chosen round, the Rating Scale's too) and the mark on it: the app's blue and white; in dark, where the
+   blue holds only 2.6 to 2.8 on the cards, the lighter blue the focus edge uses, with a dark mark (doc 18, R3). */
+:root {
+  --focus-ring-mix: 70%;
+  --choice-fill: var(--bg-primary);
+  --choice-mark: var(--text-on-fill);
+}
+
+:root[data-theme="dark"] {
+  --choice-fill: var(--line-primary);
+  --choice-mark: var(--bg-surface);
+}
+
 /* THE RING AND THE GLOW OF A CHOICE BOX, one definition for the tick box and for the radio (radio-choice.css reads them too): change one here and both change. */
 :root {
   --choice-glow: 0 0 0 4px color-mix(in srgb, var(--glow-color) calc(18% * var(--hover-lift, 1)), transparent);
-  --choice-ring: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+  --choice-ring: 0 0 0 3px color-mix(in srgb, var(--glow-color) var(--focus-ring-mix), transparent);
 }
 
 /* ONE TICK BOX: every checkbox in the app is the same fixed box (--size-mark,
@@ -1248,8 +1263,13 @@ input[type="checkbox"]:checked:focus-visible {
 /* Ticked, the box is FLAT: the fill, no inner light or shade (the glow of the pointer and the ring of the keyboard still show). */
 input[type="checkbox"]:checked {
   box-shadow: none;
-  background-color: var(--bg-primary);
+  background-color: var(--choice-fill);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5.5 12.5l4.2 4.2 8.8-9.4' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+/* (In dark the mark is dark, --choice-mark, on the lighter fill: a drawn picture cannot read a token, so its colour is written here, dark's --bg-surface.) */
+:root[data-theme="dark"] input[type="checkbox"]:checked {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5.5 12.5l4.2 4.2 8.8-9.4' fill='none' stroke='%231a1d21' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
 
 input[type="checkbox"]:disabled {

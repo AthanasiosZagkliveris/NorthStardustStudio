@@ -73,11 +73,11 @@
 
 .radio-choice-option > input[type="radio"]:checked {
 
-    border-color: var(--bg-primary);
+    border-color: var(--choice-fill);
 
     box-shadow: none;
 
-    background: radial-gradient(circle, var(--text-on-fill) 0 32%, transparent 36%), var(--bg-primary);
+    background: radial-gradient(circle, var(--choice-mark) 0 32%, transparent 36%), var(--choice-fill);
 
 }
 

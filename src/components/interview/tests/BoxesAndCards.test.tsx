@@ -530,10 +530,10 @@ describe("the round of small controls: the x, the Back button, the lift, the rin
         expect(edges).toMatch(/calc\(28% \* var\(--hover-lift\)\)/);
     });
 
-    it("rings a focused cell one way in every mode: the primary edge and a 3px ring at 35% (cell-focus.css)", () => {
+    it("rings a focused cell one way in every mode: the primary edge and a 3px ring at the one strength, --focus-ring-mix (cell-focus.css; 70% since 2026-11-07)", () => {
         const ring = stylesheet("cell-focus.css");
         expect(ring).toContain("border-color: var(--line-primary) !important;");
-        expect(ring).toContain("box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent) !important;");
+        expect(ring).toContain("box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) var(--focus-ring-mix), transparent) !important;");
         expect(edges).not.toMatch(/:root\[data-theme="dark"\] [^{]*:focus \{/);
     });
 

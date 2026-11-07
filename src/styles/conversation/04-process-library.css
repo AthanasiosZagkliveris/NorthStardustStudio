@@ -44,7 +44,7 @@
        independent of the border colour, adds no layout (box-shadow
        does not affect flow), and matches the ring .user-name-input
        and the Free Text textarea already use. */
-    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) var(--focus-ring-mix), transparent);
 
 }
 
