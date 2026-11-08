@@ -93,6 +93,36 @@ describe("the Review page's items", () => {
         expect(reviewItems({ sessions, titles, organisationName: "Quillfield" }).filter(item => item.group === "open" && /Register the trademark: responsible/.test(item.text))).toEqual([]);
     });
 
+    test("an Offering with no Type, or no terms (O3), is open, as the later pages read them (phase 5f)", () => {
+        const sessions = load("Quillfield");
+        const business = sessions[3]!;
+        const page = pageOf(business, AnswerType.BusinessFoundation);
+        const foundation = asBusinessFoundationValue(business.getResponse(page.number));
+        const segment = foundation.segments[0];
+        const [first, ...rest] = segment.offerings;
+        const { o3: _terms, ...questions } = first.questions ?? {};
+        business.saveResponse(page.number, { ...foundation, segments: [{ ...segment, offerings: [{ ...first, category: "", questions }, ...rest] }, ...foundation.segments.slice(1)] });
+        const at = "3. Business System → " + page.number + ". Foundation: ";
+        const place = { systemNumber: 3, sectionNumber: page.number, key: "3." + page.number + ":offering", anchors: [first.id] };
+        expect(reviewItems({ sessions, titles, organisationName: "Quillfield" }).filter(item => item.group === "open")).toEqual([
+            { group: "open", capability: "foundation", text: at + first.name.trim() + ": Type: not chosen yet.", place },
+            { group: "open", capability: "foundation", text: at + first.name.trim() + ": the terms they pay on: not chosen yet.", place }
+        ]);
+    });
+
+    test("a second named Segment with no Offering and no competitor of its own is open; one with either is not (phase 5f)", () => {
+        const sessions = load("Quillfield");
+        const business = sessions[3]!;
+        const page = pageOf(business, AnswerType.BusinessFoundation);
+        const foundation = asBusinessFoundationValue(business.getResponse(page.number));
+        const empty = { ...foundation.segments[0], id: "segment-x", name: "Accountants", profiles: foundation.segments[0].profiles, offerings: [], competitors: [] };
+        business.saveResponse(page.number, { ...foundation, segments: [...foundation.segments, empty] });
+        const open = () => reviewItems({ sessions, titles, organisationName: "Quillfield" }).filter(item => item.group === "open" && /Accountants: a named Offering/.test(item.text));
+        expect(open().map(item => item.text)).toEqual(["3. Business System → " + page.number + ". Foundation: Accountants: a named Offering and a named competitor or alternative."]);
+        business.saveResponse(page.number, { ...foundation, segments: [...foundation.segments, { ...empty, competitors: foundation.segments[0].competitors }] });
+        expect(open()).toEqual([]);
+    });
+
     test("lists nothing the Foundation never asks for", () => {
         const items = reviewItems({ sessions: load(), titles, organisationName: "Lumen" }).filter(item => item.group === "missing");
         expect(items.some(item => /Intellectual Property/.test(item.text))).toBe(false);

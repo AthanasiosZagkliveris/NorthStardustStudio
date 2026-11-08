@@ -44,6 +44,7 @@ import { InterviewValidator } from "./InterviewValidator.ts";
 import { monthOrdinal } from "./FinancialModel.ts";
 import { parseAmount } from "./Amounts.ts";
 import { pageStatus } from "./PageStatus.ts";
+import { effectiveOfferingAnswers } from "./EffectiveAnswers.ts";
 
 /*
     STILL OPEN: what is missing, by the CARD (or, where a page has no
@@ -254,7 +255,22 @@ export function openItemsOf(
                 }
                 if (!foundation.segments.some(segment => segment.offerings.some(offering => !blank(offering.name)))) {
                     sectionItem(BUSINESS_FOUNDATION_SUBSECTIONS[2], "a named Offering");
+                } else {
+                    // A second Segment reaches the later pages with nothing of its own (phase 5f, 2026-11-09): named, with no named Offering and no named competitor.
+                    named.filter(segment => !segment.offerings.some(offering => !blank(offering.name)) && !segment.competitors.some(competitor => !blank(competitor.name))).forEach(segment =>
+                        add(segment.name.trim() + ": a named Offering and a named competitor or alternative.", { key: key(sectionSegment(BUSINESS_FOUNDATION_SUBSECTIONS[0])), anchors: [segment.id] }));
                 }
+                // What the later pages read of each Offering (specifications/business-system/README.md): its Type (Page 3 hides stock for a service) and its terms, O3 (Pages 2, 3 and 5 start from them).
+                foundation.segments.forEach(segment => segment.offerings.forEach((offering, at) => {
+                    const name = offering.name.trim() || "Offering " + (at + 1);
+                    const place = { key: key(sectionSegment(BUSINESS_FOUNDATION_SUBSECTIONS[2])), anchors: [offering.id] };
+                    if (blank(offering.category)) {
+                        add(name + ": Type: not chosen yet.", place);
+                    }
+                    if ((effectiveOfferingAnswers(offering, segment, undefined).o3 ?? []).length === 0) {
+                        add(name + ": the terms they pay on: not chosen yet.", place);
+                    }
+                }));
                 named.filter(segment => blank(segment.valueProposition)).forEach(segment =>
                     add(segment.name.trim() + ": value proposition.", { key: key(sectionSegment(BUSINESS_FOUNDATION_SUBSECTIONS[3])), anchors: [segment.id] }));
                 break;
