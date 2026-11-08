@@ -1,7 +1,8 @@
 import { segmentAnswerLines } from "./SegmentQuestions.ts";
 import { profileAnswerLines } from "./ProfileQuestions.ts";
 import { offeringAnswerLines } from "./OfferingQuestions.ts";
-import { settledSegmentAnswers } from "./SegmentContext.ts";
+import { segmentIdentityOf, settledSegmentAnswers } from "./SegmentContext.ts";
+import { effectiveOfferingAnswers, effectiveProfileAnswers, offeringContextOf } from "./EffectiveAnswers.ts";
 import { workspacesOf, WORKSPACE_GROUP_ID, businessOfferingNeedTexts } from "./AnswerUtils.ts";
 import { AUDIENCE_WORDS, BUYER_CATEGORY_WORDS, END_USER_WORDS, CUSTOMER_TYPE_WORDS, MARKET_TYPE_WORDS, DIFFERENTIATION_WORDS, OUTCOME_USER_WORDS, OUTCOME_WORDS, PURPOSE_WORDS, activitiesLine } from "./ActivityClassification.ts";
 /*
@@ -485,14 +486,16 @@ function describe(description: Record<string, string>, fields: [string, string][
     return fields.flatMap(([id, label]) => paragraph(description[id] ?? "", label));
 }
 
-function segmentBlocks(segment: BusinessCustomerSegmentValue, index: number, organisation: Parameters<typeof settledSegmentAnswers>[1]): ExportBlock[] {
+function segmentBlocks(segment: BusinessCustomerSegmentValue, index: number, organisation: Parameters<typeof segmentIdentityOf>[0], stage?: string): ExportBlock[] {
+    // The Profiles' and Offerings' answers as their cards show them, starting values included (EffectiveAnswers.ts).
+    const identity = segmentIdentityOf(organisation, stage);
     return [
         heading("Segment " + (index + 1) + ": " + (segment.name.trim() || "Unnamed segment")),
         ...details(segmentAnswerLines(settledSegmentAnswers(segment, organisation)).map((line): [string, string] => [line.label, line.value])),
 
         ...segment.profiles.flatMap((profile, position) => [
             heading("Profile " + (index + 1) + "." + (position + 1) + ": " + (profile.name.trim() || "Unnamed profile"), 2),
-            ...details(profileAnswerLines(profile.questions ?? {}).map((line): [string, string] => [line.label, line.value])),
+            ...details(profileAnswerLines(effectiveProfileAnswers(profile, segment, identity)).map((line): [string, string] => [line.label, line.value])),
             ...describe(profile.description, PROFILE_FIELDS),
             ...paragraph(profile.goals, "Goals & Desires"),
             ...paragraph(profile.challenges, "Challenges & Problems"),
@@ -525,7 +528,7 @@ function segmentBlocks(segment: BusinessCustomerSegmentValue, index: number, org
             ...paragraph((offering.name.trim() || "Unnamed offering") + (offering.category ? " (" + offering.category + ")" : "")),
             ...paragraph(businessOfferingNeedTexts(segment, offering).join("; "), "Needs addressed"),
             // The card's answers (doc 43, O1 to O18), each with its question.
-            ...details(offeringAnswerLines(offering.questions ?? {}, { type: offering.category }).map((line): [string, string] => [line.label, line.value])),
+            ...details(offeringAnswerLines(effectiveOfferingAnswers(offering, segment, identity), offeringContextOf(offering, segment, identity)).map((line): [string, string] => [line.label, line.value])),
             ...describe(offering.description, OFFERING_FIELDS)
         ])
     ];
@@ -533,7 +536,7 @@ function segmentBlocks(segment: BusinessCustomerSegmentValue, index: number, org
 
 function businessFoundationBlocks(value: unknown, context: ExportContext): ExportBlock[] {
     const organisation = asLegalEntityValue(context.responseOf?.(AnswerType.LegalEntity) ?? context.legalEntity).organisation;
-    return asBusinessFoundationValue(value).segments.flatMap((segment, index) => segmentBlocks(segment, index, organisation));
+    return asBusinessFoundationValue(value).segments.flatMap((segment, index) => segmentBlocks(segment, index, organisation, context.businessStage));
 }
 
 /* ==========================================================

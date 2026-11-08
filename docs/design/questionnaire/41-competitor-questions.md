@@ -2,7 +2,7 @@
 
 Status: **specification**, written 2026-11-03, updated 2026-11-08; built. Every question of the Competitor card (Business System, page 1, tile "Competitors"), in the order it is asked. For each: its control, when it is asked, its options, what its "i" says and what it connects to. **Built (2026-11-04):** the Type, the text boxes kept as notes, and K1 to K10 (`CompetitorQuestions.ts`, the card in `useFoundationSubsections.tsx`). **Not built yet:** what reads the answers outside the card (the documents' strengths, weaknesses, opportunities and threats, the Review, Positioning and the Value Proposition).
 
-Related: doc 35 (the Segment, whose answers give K2, K3 and K9 their options and rows), doc 36 (the Profile, whose priorities order K8's rows), doc 38 (Positioning, which reads K10), doc 42 (the Value Proposition, which reads K8 and K10), doc 43 (the Offering, whose Type list K1 shares; a Review check against the Offerings waits until one exists), doc 34 (the list L1 and the value crosswalk, 5.2a), doc 28 (6.6, the design this refines), doc 02 (FUN-47, FUN-50 to FUN-58, the sources of the 2026-11-04 research), `src/framework/engine/AnswerBusinessFoundation.ts` and `src/components/interview/editors/foundation/shared.tsx` (the card today).
+Related: doc 35 (the Segment, whose answers give K2, K3 and K9 their options and rows), doc 36 (the Profile, whose priorities order K8's rows), doc 38 (Positioning, which will read K10, not built yet), doc 42 (the Value Proposition, which reads K8 and will read K10, not built yet), doc 43 (the Offering, whose Type list K1 shares; a Review check against the Offerings waits until one exists), doc 34 (the list L1 and the value crosswalk, 5.2a), doc 28 (6.6, the design this refines), doc 02 (FUN-47, FUN-50 to FUN-58, the sources of the 2026-11-04 research), `src/framework/engine/AnswerBusinessFoundation.ts` and `src/components/interview/editors/foundation/shared.tsx` (the card today).
 
 **What the card is.** A Competitor belongs to its Segment, as a Profile does. The tile "Competitors" in the Segment's frame lists that Segment's competitors as small tiles, and each opens as a floating card.
 - **The small tile:** the number and the name and, under them, the Type ("Direct competitor"). A tile with no Type chosen shows only the number and the name.
@@ -35,7 +35,7 @@ Each question is asked inside the band of its box, above the box's text, and the
 - An answer to a question no longer asked, or to an option no longer offered, is removed on the next choice.
 - A slash joins similar things and "or" joins different things. Spelling is UK English.
 
-**Controls.** K4 and K6 to K9 use the Rating Scale (K6 with a tick per row, ending in Other), a shared control (`RatingScale` and `RatingScaleGroup` in `src/components/controls/`, doc 21): five radio rounds in a row from 1 to 5, the numbers said once over the rounds and what 1 and 5 mean first in the question's "i", the chosen round pressed again to clear it. K5 is ticks with sub-channels.
+**Controls.** K4 and K6 to K9 use the Rating Scale (K6 with a tick per row, ending in Other), a shared control (`RatingScale` and `RatingScaleGroup` in `src/components/controls/`, doc 21): five radio rounds in a row from 1 to 5, the numbers said once over the rounds and what 1 and 5 mean first in the question's "i", the chosen round pressed again to clear it. K5 is a tick per channel; once a channel that has sub-channels is ticked, a dropdown (`OptionPicker`) of them, one per row, with a "+" to add a row and an × to remove one.
 
 **What the type asks.** The questions are written for a rival business, and three of the five types are not one. The wording follows the type as `COMPETITOR_TYPE_QUESTIONS` does for the text boxes; the stored answer and the options stay the same.
 
@@ -87,7 +87,7 @@ This follows the type rules already built for the text boxes: a substitute has n
 - **The "i" says:**
   - The widest area they sell in. Write the industries they serve in the note.
 - **Connections:**
-  - *Comes from:* the Segment's answer, shown first.
+  - *Comes from:* the Segment's list of options, in its fixed order.
   - *Read by (not built yet):* the Review (a competitor selling wider than your Segment reaches).
 
 ### K3. How big is their organisation?
@@ -122,7 +122,7 @@ This follows the type rules already built for the text boxes: a substitute has n
 
 ### K5. How do they reach customers?
 
-- **Control:** ticks, as many as apply (`BusinessTicks`), inside the Customer Acquisition band; under a ticked channel that has them, its sub-channels, indented, as many as apply (owner, 2026-11-04: "defining the specific subchannels of the competitors, and compare them with the customers"). No rating (owner, 2026-11-04: the channels do not need the five rounds). The Customer Acquisition text box is kept as the note.
+- **Control:** a tick per channel, as many as apply, inside the Customer Acquisition band; once a channel that has sub-channels is ticked, a dropdown (`OptionPicker`) of them beside it, one sub-channel per row, a "+" adding a row under it and an × removing an added row; a sub-channel chosen in one row is not offered in another (owner, 2026-11-04: "defining the specific subchannels of the competitors, and compare them with the customers"). No rating (owner, 2026-11-04: the channels do not need the five rounds). The Customer Acquisition text box is kept as the note.
 - **Asked when:** the type is Direct competitor or Indirect competitor.
 - **Wording by type:** the same for both types.
 - **Options:** the channel categories of page 2 that reach customers, in their order, and the sub-channels of four of them:
@@ -159,9 +159,11 @@ This follows the type rules already built for the text boxes: a substitute has n
   - 1 = Poor, 5 = Excellent.
   - Tick each place they are reviewed and give their average there, to the nearest star. Most people only use a business with 4 stars or more.
   - Not listed? Tick Other and write it. Google is where most people read reviews of local businesses (71% in 2026).
+  - Then the examples behind the catch-all platforms (`REVIEW_PLATFORM_EXAMPLES`): "Marketplace: where they sell, such as Etsy, Amazon or eBay." "App store: Apple's App Store or Google Play." "Trade directory: Checkatrade or TrustATrader in the UK, Angi or HomeAdvisor in the US, HomeStars in Canada." "Food delivery app: Just Eat or Deliveroo in the UK, Grubhub in the US, SkipTheDishes in Canada, Menulog in Australia."
 - **Connections:**
   - *Comes from:* the Organisation's country and first activity (Legal Entity, `AnswerLegal.ts`), which order the rows. The order by industry and country rests on directory and vendor lists [FUN-64, FUN-65], not on a survey of how many people use each site; the use of Google and Apple Maps and the 4-star threshold rest on BrightLocal's survey of US consumers [FUN-62], Trustpilot in the UK on Littlechild [FUN-63]. The SBA asks what customers and prospects say about competitors [FUN-50].
-  - *Read by (not built yet):* K10 ("Win over their unhappy customers", for a platform rated below 4); the Review.
+  - *Read by (built):* K10 ("Win over their unhappy customers", for a platform rated below 4).
+  - *Read by (not built yet):* the Review.
 
 ### K7. How easy do they make each stage for customers?
 
@@ -180,7 +182,8 @@ This follows the type rules already built for the text boxes: a substitute has n
   - To find out, look at their website and social media, sign up to their newsletter or buy from them once.
 - **Connections:**
   - *Comes from:* the owner's decisions (2026-11-04): the loyalty question overlapped the journey's last stage, then its ticks repeated K5's channels, so they went. Lemon and Verhoef describe the customer's journey in three stages, before, during and after the purchase, the "loyalty loop" after it [FUN-59]; page 2's five Journey Stages divide the same journey. Invest Northern Ireland lists a competitor's "customer loyalty devices" [FUN-51]; how many customers come back cannot be seen from outside, what a competitor does to bring them back can.
-  - *Read by (not built yet):* K10 ("Make buying easier" and the like, for a stage rated 1 or 2); page 2's Journey Stages, where the App User plans each stage.
+  - *Read by (built):* K10 ("Make buying easier" and the like, for a stage rated 1 or 2).
+  - *Read by (not built yet):* page 2's Journey Stages, where the App User plans each stage.
 
 For Internal solution and Status quo the box stays text only: it asks about the effort or the current behaviour, which K8 already rates.
 
@@ -196,7 +199,7 @@ For Internal solution and Status quo the box stays text only: it asks about the 
   - Direct competitor, Indirect competitor: "How do they do on what customers value?"
   - Substitute: "How does this alternative do on what customers value?"
   - Internal solution: "How does doing it themselves do on what customers value?"
-  - Status quo: "How does doing nothing do on what customers value?" For example, Affordability can be a 5, because doing nothing is free.
+  - Status quo: "How does doing nothing do on what customers value?" For example, Affordability can be a 5, because doing nothing is free. (doc only)
 - **Rows:** every value of L1 (owner, 2026-11-04: "place all the options, but in a hierarchy order depending on the profiles what matters most. Also, highlight the options according to the profile"): ordered by the highest B1 rating among the Segment's Profiles (Essential first), then by how many Profiles tick it, then L1's order (`competitorValueRows`). Each row a Profile ticks carries a band of one colour whose step is only the number of Profiles that chose it, not their ratings (owner, 2026-11-04): 1 Profile the lightest, then 2, 3, and 4 or more the darkest (`bandTone`, `valueProfiles`; the tokens `--tint-importance-1` to `-4`, doc 21). With one Profile in the Segment every chosen row has the same light band; an unchosen row has none. No Other. The list L1:
   - Affordability
   - Speed
@@ -214,7 +217,8 @@ For Internal solution and Status quo the box stays text only: it asks about the 
   - Once a row has a band: "The darker the band, the more of your Profiles chose it."
 - **Connections:**
   - *Comes from:* the Profiles' B1 (doc 36), its ticks (the rows) and its ratings (their order; K10's weights). The owner's decision (2026-11-04): Strengths and Weaknesses used the same options, so one rating replaces the two tick lists and a value rated 2 to 4 also counts in the App User's decisions. The Competitive Profile Matrix rates each success factor from major weakness to major strength [FUN-57]; Kotler's customer value analysis rates competing offers on the attributes customers rank as most important [FUN-55]; a five-point rating as Likert's [FUN-61]. The Profiles' B1 sets the order of the rows; no row starts rated.
-  - *Read by (not built yet):* ratings of 4 and 5 are listed as the competitor's strengths, and 1 and 2 as its weaknesses (the SWOT, the documents and the exports); 3 is neither. K10's options; the Insights & Differentiation draft; the Value Proposition draft (doc 42); later, once an Offering exists, the Review (a value customers want that this competitor is rated 1 or 2 on and none of your Offerings delivers).
+  - *Read by (built):* K10's options; the Insights & Differentiation draft.
+  - *Read by (not built yet):* ratings of 4 and 5 are listed as the competitor's strengths, and 1 and 2 as its weaknesses (the SWOT, the documents and the exports); 3 is neither. The Value Proposition draft (doc 42); later, once an Offering exists, the Review (a value customers want that this competitor is rated 1 or 2 on and none of your Offerings delivers).
 
 ## Band. Opportunities and Threats
 
@@ -238,7 +242,8 @@ For Internal solution and Status quo the box stays text only: it asks about the 
   - How each change could help or hurt them. The examples of each change, as on your Segment.
 - **Connections:**
   - *Comes from:* the owner's decision (2026-11-04): one rating replaces the two tick lists of changes that help and changes that hurt. The Segment's ticks set the order of the rows; no row starts rated. SWOT's external factors, favourable or unfavourable [FUN-53].
-  - *Read by (not built yet):* ratings of 1 and 2 are listed as the competitor's threats, and 4 and 5 as its opportunities (the SWOT, the documents and the exports); 3 is neither. K10's options; the Review.
+  - *Read by (built):* K10's options.
+  - *Read by (not built yet):* ratings of 1 and 2 are listed as the competitor's threats, and 4 and 5 as its opportunities (the SWOT, the documents and the exports); 3 is neither. The Review.
 
 ## Section. Insights & Differentiation
 
@@ -269,7 +274,8 @@ A section of its own after the SWOT, as built: a title band that folds, as the D
   - For each value rated 5: "[name] is hard to beat on [value], so compete elsewhere."
 - **Connections:**
   - *Comes from:* K4, K5, K6, K7, K8 and K9, and the Profiles' B1 (doc 36).
-  - *Read by (built):* the draft at the end of the text: "Customers want [value], and [name] falls short there." for a B1 value rated 1 or 2, then "You could [opening]." for each tick ("You could offer better quality."); "Add to text" adds only the lines not already in the text, and is not shown when none is left; Positioning's Differentiation (doc 38); the Value Proposition (doc 42).
+  - *Read by (built):* the draft at the end of the text: "Customers want [value], and [name] falls short there." for a B1 value rated 1 or 2, then "You could [opening]." for each tick ("You could offer better quality."); "Add to text" adds only the lines not already in the text, and is not shown when none is left.
+  - *Read by (not built yet):* Positioning's Differentiation (doc 38); the Value Proposition (doc 42). Nothing outside the card reads K10 yet.
 
 ## As built: the readings chosen (2026-11-04)
 
@@ -297,7 +303,7 @@ Each row keeps the current question and proposes another way to answer it, with 
 - A change of a Profile's B1 changes only the order of K8's rows and the weights of K10's options, never a rating.
 - Unticking a platform in K6 clears its rating; a change of the Organisation's country or first activity changes only the order of K6's rows.
 - A change of K4, K6, K7, K8 or K9 changes K10's options; a ticked option no longer offered is removed on the next choice.
-- A change of the Segment's `reach` or `trends` changes only the order of K2's options or K9's rows.
+- A change of the Segment's `trends` changes only the order of K9's rows.
 
 ## Decided, and still to decide
 
@@ -311,7 +317,7 @@ Each row keeps the current question and proposes another way to answer it, with 
 - Opportunities and Threats as one rating, K9: each of the Segment's changes rated from 1 (Threat) to 5 (Opportunity) (2026-11-04).
 - The review platforms ticked and rated in one question, K6, the platforms in the order of the App User's industry and country (2026-11-04).
 - The loyalty question within the journey, under K7's Support & Follow Up (2026-11-04); then its ticks removed: they repeated K5's channels (owner, 2026-11-04).
-- K5 not rated (owner, 2026-11-04: the channels do not need the five rounds): each channel ticked, then its sub-channels, the Profile's own lists, so where the customers are and the competitor is not becomes an opening in K10.
+- K5 not rated (owner, 2026-11-04: the channels do not need the five rounds): each channel ticked, then its sub-channels chosen in a dropdown, one per row, from the Profile's own lists, so where the customers are and the competitor is not becomes an opening in K10.
 - K8 shows every value, the Profiles' highest rated first, each chosen value with a band of one colour, darker the more Profiles chose it (owner, 2026-11-04, replacing the same evening's rows of the Profiles' values only, then bold, then a colour per Profile, then a band by rating). K9 has no band: no answer chooses a change directly.
 - The Market and Customer Experience Notes say, before anything is written, only what no question asks (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments"): Market "What no answer above says about their market"; Customer Experience "What no rating above says, in their customers' words".
 - The SWOT has two Notes (`OptionalNote`, titled "Notes", as on the Profile card; owner, 2026-11-05): one under K8 for strengths and weaknesses, one under K9 for opportunities and threats, with no "i", as every card's Notes (its "i" fell off the line, 2026-11-05); the placeholder says what belongs there ("Strengths and weaknesses no rating above says"; "Opportunities and threats no change above says"). Text saved in the four boxes before is read into them: the second box's text joined in as its own line, "Weaknesses: ..." (and "Strengths: ..." before it where there is any), likewise "Threats: ..." (`AnswerBusinessFoundation.ts`, tested). The Market document's table has one column, Strengths and weaknesses; the export's two, Strengths and weaknesses, Opportunities and threats.

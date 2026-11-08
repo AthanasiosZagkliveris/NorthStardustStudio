@@ -21,7 +21,7 @@ Related: doc 38 (Early Positioning, the next tile, in the same form), doc 35 (th
 
 - **Control:** one choice (the existing picker).
 - **Asked when:** always. It comes first because it decides the registry, the tax, the legal forms and the classification of the activities.
-- **Options:** the six countries of the first version (United Kingdom, Ireland, United States, Canada, Australia, New Zealand) and Other.
+- **Options:** the six countries of the first version, in alphabetical order (Australia, Canada, Ireland, New Zealand, United Kingdom, United States), then Other.
 - **The "i":** none.
 - **Connections:**
   - *Comes from:* nothing. Changing it empties what depends on it (the state or region, the legal form, the activities).
@@ -49,7 +49,7 @@ Related: doc 38 (Early Positioning, the next tile, in the same form), doc 35 (th
 ### 5. Address
 
 - **Control:** a text box of several lines (at least two, growing with the text). Placeholder: the lines expected, in the country's words (the city, then the street and the country's postal code name, or the street alone where addresses carry no code).
-- **Asked when:** a country is chosen (frozen until then).
+- **Asked when:** a country is chosen and, where the country has a State or Region, that is chosen too (frozen until then, with a hint saying which to choose first).
 - **The "i":** none.
 - **Connections:**
   - *Comes from:* the country (the placeholder).
@@ -76,7 +76,7 @@ Related: doc 38 (Early Positioning, the next tile, in the same form), doc 35 (th
 ### 8. Registration Date
 
 - **Control:** a date cell.
-- **Asked when:** always, except where the legal form is a sole trader or a sole proprietorship in the six countries: then it is not asked, not required and not checked (`registrationDateApplies`; see the note "Built on 2026-11-01" below). It cannot be later than today (the cell's limit), nor later than the Opening Date (the Review says so).
+- **Asked when:** always, except where the legal form is a sole trader or a sole proprietorship in the six countries: then it is not asked, not required and not checked (`registrationDateApplies`; see the note "Built on 2026-11-01" below). It cannot be later than today (the cell's limit), nor later than the Opening Date (an alert under the dates on the tile says so).
 - **The "i" says:** The day the organisation was registered with the registry of its country. It is its own date: it does not depend on the registration number, and the number does not depend on it. It cannot be later than today, nor later than the Opening Date: the business cannot open before the company exists.
 - **Connections:**
   - *Comes from:* nothing; it is checked against the Opening Date. It is saved with the Legal Entity page's formation.
@@ -93,9 +93,9 @@ Related: doc 38 (Early Positioning, the next tile, in the same form), doc 35 (th
 
 ### 10. Activities
 
-- **Control:** up to four rows, each the existing activities field (a cascade of dropdowns for the six countries, ending in the country's official code; typed activity and code for Other). The first row is required, the others optional.
+- **Control:** up to four rows, each the existing activities field (a cascade of dropdowns for the six countries, ending in the country's official code; typed activity and code for Other). The first row is the primary activity; the app requires no row: the Organisation section counts as complete only once the main activity is given (Notes, field 11).
 - **Asked when:** a country is chosen (frozen until then).
-- **The "i" says:** The primary activity is required; the others are optional, up to four in all. Each one ends in one official code of your country (the code of its classification scheme); for Other the activity and its code are typed.
+- **The "i" says:** The first is the primary activity; add others, up to four in all. Each one ends in one official code of your country (the code of its classification scheme); for Other the activity and its code are typed.
 - **Connections:**
   - *Comes from:* the country (the classification scheme and its edition).
   - *Read by (built):* the exports and the documents (the activities line).
@@ -106,7 +106,7 @@ Related: doc 38 (Early Positioning, the next tile, in the same form), doc 35 (th
 ### 11. Notes
 
 - **Control:** the shared optional note: a tick and the word, the box opening on ticking. It saves the page's Description.
-- **Asked when:** always (optional).
+- **Asked when:** always. The Organisation section counts as complete only once the main activity (`organisation.mainActivity`) is given; the box the user sees for it is this Notes box, which shows the main activity until the page's Description is written.
 - **The "i" says:** Who are you, and what do you do? What do you create or provide? Write it as a registry or a bank would expect to read it. Name, country, address and legal form are above.
 - **Connections:**
   - *Read by (built):* the Business Plan's company description and the exports.

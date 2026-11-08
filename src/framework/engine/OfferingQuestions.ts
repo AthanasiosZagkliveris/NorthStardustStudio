@@ -1,5 +1,5 @@
 /**
- * THE OFFERING'S QUESTIONS (doc 43; owner, 2026-11-07: "Update the Value Proposition and Offering card according to their docs"): O1 to O10 in the doc's
+ * THE OFFERING'S QUESTIONS (doc 43; owner, 2026-11-07: "Update the Value Proposition and Offering card according to their docs"): O1 to O18 in the doc's
  * order, their options, when each is asked and where each starts from; and the Value Proposition's draft and open items (doc 42), which read them.
  * Answers are kept on the Offering under `questions`, question id to the option ids chosen, as the Profile's and the Competitor's are.
  */
@@ -23,7 +23,7 @@ export interface OfferingQuestion {
 
 /** What the Offering's card needs from the rest of the page to ask and start its questions. */
 export interface OfferingContext {
-    /** The Offering's Type: Product, Service, Hybrid or Other (BUSINESS_OFFERING_CATEGORIES). */
+    /** The Offering's Type: Product, Service or Hybrid (BUSINESS_OFFERING_CATEGORIES); a saved "Other" is still read. */
     type: string;
     /** The business stage (plan, launch, manage, grow), for O2's starting value. */
     stage?: string;
@@ -95,7 +95,7 @@ const SUPPORT_WORRY = "support-after-they-buy";
 export const OFFERING_QUESTIONS: readonly OfferingQuestion[] = [
     { id: "o1", label: "What form does it take?", many: false, info: ["It refines the Type. For a Hybrid, make one Offering for each form, or choose the main one.", "Online access: a membership area, a course platform or a subscription library."] },
     { id: "o2", label: "Can customers buy it today?", many: false, info: ["Where it stands today.", "It starts from your business stage; change it for this Offering."] },
-    { id: "o3", label: "On what terms do they pay for it?", many: false, info: ["How often they pay, and on what terms. How they pay (card, invoice) is the Segment's question.", "Subscription: regular payments until they cancel. Pay as they go: they pay for what they use.", "Upfront payment, a deposit or a minimum term: write it in Purchase & Delivery."] },
+    { id: "o3", label: "On what terms do they pay for it?", many: false, info: ["How often they pay, and on what terms. How they pay (card, invoice) is the Segment's question.", "Subscription: regular payments until they cancel. Pay as they go: they pay for what they use.", "A minimum term: write it in the Notes."] },
     { id: "o3t", label: "When do they pay?", many: false, info: ["When the money comes in. How they pay (card, invoice) is the Segment's question."] },
     { id: "o4", label: "What does it do best for the customer?", many: true, max: 3, info: ["The first you tick is the main benefit. The same list as \"What matters most\" on your Profiles and Competitors, so they can be compared.", "Your Positioning's Differentiation starts the ticks; change them freely."] },
     { id: "o6", label: "How does the customer receive it?", many: false, info: ["How it reaches them once bought.", "Sent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready."] },
@@ -106,7 +106,7 @@ export const OFFERING_QUESTIONS: readonly OfferingQuestion[] = [
     { id: "o15", label: "How long until they have it?", many: false, info: ["The time from order to having it. How it reaches them is the question above."] },
     { id: "o16", label: "How fast do you reply?", many: false, info: ["How soon a customer hears back. The channels are on the Customer Engagement page."] },
     { id: "o17", label: "What comes after the sale?", many: true, info: ["What the help after the sale includes. How much help there is, is the question above.", "None stands alone: ticking it clears the others."] },
-    { id: "o18", label: "Which conditions of sale apply?", many: true, info: ["The terms a customer agrees to. Most online and distance sales can be cancelled within 14 days; goods made to their specification are an exception.", "Based on: the Consumer Contracts Regulations 2013 (UK). A legal minimum age is not ticked here: write an age limit in the Notes."] }
+    { id: "o18", label: "Which conditions of sale apply?", many: true, info: ["The terms a customer agrees to. In the UK and the EU, most online and distance sales can be cancelled within 14 days; goods made to their specification are an exception. Elsewhere, check your country's rules.","Based on: the Consumer Contracts Regulations 2013 (UK). A legal minimum age is not ticked here: write an age limit in the Notes."] }
 ];
 
 /**
@@ -122,8 +122,14 @@ export const OFFERING_BOX_QUESTIONS: Readonly<Record<string, readonly (readonly 
     requirements: [["o10"], ["o18"]]
 };
 
-/** A choice of ticks, where "None" stands alone (O17): ticking None clears the others, ticking another clears None. */
+/**
+ * A choice of ticks, where "None" stands alone (O17): ticking None clears the others, ticking another clears None. O4 keeps the order they were ticked in, so the
+ * first ticked is the main benefit (doc 43, O4): a tick kept stays where it was, a new one goes last.
+ */
 export function offeringChoose(id: OfferingQuestionId, chosen: readonly string[], next: readonly string[]): string[] {
+    if (id === "o4") {
+        return [...chosen.filter(entry => next.includes(entry)), ...next.filter(entry => !chosen.includes(entry))];
+    }
     if (id !== "o17") {
         return [...next];
     }
@@ -266,7 +272,7 @@ function formWords(offering: BusinessOfferingValue, answers: OfferingAnswers, co
     if (form) {
         return form.label.charAt(0).toLowerCase() + form.label.slice(1);
     }
-    const type = offering.category === "Hybrid" ? "product and service" : offering.category === "Other" ? (offering.categoryOther.trim() || "offering") : offering.category.toLowerCase();
+    const type = offering.category === "Hybrid" ? "product and service" : offering.category === "Other" ? "offering" : offering.category.toLowerCase();
     return (/^[aeiou]/i.test(type) ? "an " : "a ") + type;
 }
 
@@ -284,8 +290,9 @@ export function draftOffered(segment: BusinessCustomerSegmentValue): boolean {
  * its competitors, it offers [the clear opening]." The goal and frustration are the highest-rated across the Profiles, in their draft phrases; a blank whose
  * answer is missing stays in square brackets; with no clear opening the sentence ends after the benefit.
  */
-export function valuePropositionDraft(segment: BusinessCustomerSegmentValue, offering: BusinessOfferingValue, answers: OfferingAnswers, context: OfferingContext): string {
-    const profiles = segment.profiles.map(profile => profile.questions ?? {});
+export function valuePropositionDraft(segment: BusinessCustomerSegmentValue, offering: BusinessOfferingValue, answers: OfferingAnswers, context: OfferingContext,
+    profileAnswers: readonly Record<string, string[]>[] = segment.profiles.map(profile => profile.questions ?? {})): string {
+    const profiles = [...profileAnswers];
     const goal = highestRated(profiles, "e1");
     const frustration = highestRated(profiles, "e2");
     const benefit = answers.o4?.[0];
@@ -323,10 +330,11 @@ const worryWord = (id: string) => WORRIES.find(option => option.id === id)?.labe
 
 /**
  * The open items of a Segment (doc 42, 2): gaps between what its customers want and what its Offerings give, reminders not errors. `answers` are each
- * Offering's answers as its card shows them (offeringShown), in the Segment's order.
+ * Offering's answers as its card shows them (offeringShown), in the Segment's order; `profileAnswers` each Profile's, as its card shows them (EffectiveAnswers.ts).
  */
-export function valuePropositionOpenItems(segment: BusinessCustomerSegmentValue, answers: readonly OfferingAnswers[]): OpenItem[] {
-    const profiles = segment.profiles.map(profile => profile.questions ?? {});
+export function valuePropositionOpenItems(segment: BusinessCustomerSegmentValue, answers: readonly OfferingAnswers[],
+    profileAnswers: readonly Record<string, string[]>[] = segment.profiles.map(profile => profile.questions ?? {})): OpenItem[] {
+    const profiles = [...profileAnswers];
     const named = (offering: BusinessOfferingValue, at: number) => offering.name.trim() || "Offering " + (at + 1);
     const items: OpenItem[] = [];
     const mismatch = valueMismatch(profiles, segment.offerings.map((offering, at) => ({ name: named(offering, at), answers: answers[at] ?? {} })));

@@ -683,8 +683,9 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
 
             {entity.organisation.country.trim().length > 0 && !profiled && (
                 <p className="legal-entity-note-line legal-entity-field-wide">
-                    This app holds no legal form or tax detail for the country you
-                    chose, so the questions below stay general. Your jurisdiction may
+                    This app holds no tax detail for the country you chose, and
+                    offers its four general legal forms, so the questions below
+                    stay general. Your jurisdiction may
                     require something different, so check with someone who knows
                     it.
                 </p>

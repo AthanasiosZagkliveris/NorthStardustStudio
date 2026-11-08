@@ -50,9 +50,8 @@ export const SUBSECTIONS = {
                 "Where Positioning chose both, the first Segment is of people and the second of businesses; one added later asks which it is."
             ],
             purchasing: [
-                "For every customer: online comfort, how they socialise, where they shop, how they pay.",
-                "For people: where they discover and share, what makes them shop and how they decide. For businesses: who decides to buy.",
-                "The ways of discovering new products that you tick are offered on the Profile as related platforms."
+                "For every customer: online comfort, where they discover new products, where they shop, how they pay.",
+                "For people: how they socialise and share, what makes them shop and how they decide. For businesses: who decides to buy."
             ],
             "market-size": [
                 "These answers describe the market the customers belong to, not your own business."
@@ -152,7 +151,7 @@ export const NOTE_PLACEHOLDERS: Record<string, string> = {
     personal: "A name, a job title, where they live",
     psychographics: "What they believe and enjoy, beyond what matters most",
     hubs: "The names of their groups, accounts and events",
-    habits: "Where and when they buy, and the steps",
+    habits: "How they buy, in their words",
     goals: "What they want, in their own words",
     challenges: "What goes wrong for them, in their words",
     objections: "Their doubts, in their own words",

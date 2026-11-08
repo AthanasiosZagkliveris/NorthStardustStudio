@@ -81,14 +81,14 @@ describe("the review platforms in the order of the App User's industry and count
         expect(industryOfActivity("GB", "")).toBeUndefined();
     });
 
-    it("puts Google and Facebook first, then the industry's, then the country's; the rest behind Show all", () => {
+    it("puts Google and Facebook first, then the industry's, then the country's; the rest after them", () => {
         expect(ids(reviewPlatformOrder("GB", "13921").first)).toEqual(["google", "facebook", "marketplace", "trustpilot"]);
         expect(ids(reviewPlatformOrder("US", "511210").first)).toEqual(["google", "facebook", "g2", "capterra", "app-store", "apple-maps", "yelp", "bbb"]);
         expect(ids(reviewPlatformOrder("AU", "4511").first)).toEqual(["google", "facebook", "tripadvisor", "booking", "airbnb", "opentable", "food-delivery", "trustpilot", "productreview"]);
         // Outside the six countries: Trustpilot; Japan's restaurants: Tabelog.
         expect(ids(reviewPlatformOrder("JP", "5610").first)).toEqual(["google", "facebook", "tripadvisor", "booking", "airbnb", "opentable", "food-delivery", "tabelog", "trustpilot"]);
         expect(ids(reviewPlatformOrder("DE", "6201").first)).toEqual(["google", "facebook", "g2", "capterra", "app-store", "omr", "trustpilot"]);
-        // Nothing known: the two first, the rest behind Show all.
+        // Nothing known: the two first, the rest after them.
         const unknown = reviewPlatformOrder("", "");
         expect(ids(unknown.first)).toEqual(["google", "facebook"]);
         expect(unknown.rest).toHaveLength(19);

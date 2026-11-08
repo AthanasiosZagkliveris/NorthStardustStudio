@@ -19,9 +19,10 @@ import TextLink from "../../fields/TextLink.tsx";
 import TextBox from "../../../controls/TextBox.tsx";
 import { type OtherQuestion, competitorOtherAdd, competitorOtherName, competitorOtherRemove, competitorOtherSettle, competitorOtherTick, competitorOthers, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, shownOpenings, COMPETITOR_SUBCHANNELS, COMPETITOR_BAND_LINE, bandTone, COMPETITOR_CHANGES, valueProfiles, draftToAdd, hardToBeat, insightsDraft, reviewPlatformOrder } from "../../../../framework/engine/CompetitorQuestions.ts";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
-import { OFFERING_BOX_QUESTIONS, OFFERING_QUESTIONS, offeringChoose, type OfferingAnswers, type OfferingContext, type OfferingQuestionId, draftOffered, offeringAsks, offeringOptions, offeringShown, valuePropositionDraft, valuePropositionOpenItems } from "../../../../framework/engine/OfferingQuestions.ts";
+import { OFFERING_BOX_QUESTIONS, OFFERING_QUESTIONS, offeringChoose, type OfferingAnswers, type OfferingContext, type OfferingQuestionId, draftOffered, offeringAsks, offeringOptions, valuePropositionDraft, valuePropositionOpenItems } from "../../../../framework/engine/OfferingQuestions.ts";
+import { effectiveOfferingAnswers, effectiveProfileAnswers, offeringContextOf, withFieldSet } from "../../../../framework/engine/EffectiveAnswers.ts";
 import NumberCell from "../../../controls/NumberCell.tsx";
-import { type ProfileBox, type ProfileQuestion, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileRate, profileRatings, profileWho, profileQuestionsOf, profileSettle, profileShown, proposedBusinessProfiles, segmentNeedTicks } from "../../../../framework/engine/ProfileQuestions.ts";
+import { type ProfileBox, type ProfileQuestion, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileRate, profileRatings, profileWho, profileQuestionsOf, profileSettle, proposedBusinessProfiles, segmentNeedTicks } from "../../../../framework/engine/ProfileQuestions.ts";
 import { type SegmentBox, type SegmentQuestion, segmentChoose, segmentOptions, segmentQuestionsOf, segmentRowChoice, segmentSettle, segmentSettledNotes } from "../../../../framework/engine/SegmentQuestions.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
 import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
@@ -62,7 +63,7 @@ function ProfileAgeCell({ value, label, disabled, onType, onDone }: { value: str
 
 export function useFoundationSubsections(earlier: Earlier) {
 
-    const { built, description, disabled, folds, forceOpen, group, groupFold, labelled, targetAudience, identity, text, updateProfile, updateSegment } = earlier;
+    const { built, description, disabled, folds, forceOpen, group, groupFold, labelled, targetAudience, identity, updateProfile, updateSegment } = earlier;
 
     /** The delete control every card on this page carries. */
     function remove(what: string, onRemove: () => void) {
@@ -364,7 +365,9 @@ export function useFoundationSubsections(earlier: Earlier) {
             const label = profileWho(question.label, shown.a2?.[0]);
             const ageRange = question.number ? profileAgeRange(segment.questions) : null;
             const chosen = shown[question.id] ?? [];
-            const write = (next: Record<string, string[]>) => updateProfile(segmentIndex, profileIndex, { questions: profileSettle(next, segment.questions, asked) });
+            // Only this field is saved (with its ratings and Other); every other field keeps following its start (docs 36 and 43; owner, 2026-11-08).
+            const saved = profile.questions ?? {};
+            const write = (next: Record<string, string[]>) => updateProfile(segmentIndex, profileIndex, { questions: profileSettle(withFieldSet(saved, next, question.id), segment.questions, asked) });
             const choose = (next: string[]) => write(profileChoose(question, shown, next));
             const options = question.options.map(option => ({ ...option }));
             return (
@@ -383,7 +386,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                                                                 label={label}
                                 disabled={disabled}
                                 value={chosen[0] ?? ""}
-                                onType={(typed) => updateProfile(segmentIndex, profileIndex, { questions: typed ? { ...profileSettle({ ...shown, [question.id]: [typed] }, segment.questions, asked), [question.id]: [typed] } : profileSettle({ ...shown, [question.id]: [] }, segment.questions, asked) })}
+                                onType={(typed) => updateProfile(segmentIndex, profileIndex, { questions: typed ? { ...profileSettle({ ...saved, [question.id]: [typed] }, segment.questions, asked), [question.id]: [typed] } : profileSettle({ ...saved, [question.id]: [] }, segment.questions, asked) })}
                                 onDone={() => write(shown)}
                             />
                         )
@@ -434,7 +437,7 @@ export function useFoundationSubsections(earlier: Earlier) {
         };
         /** The boxes of a Profile's Description, each with its questions and its note, and the ones the Segment leaves no question in are plain notes. */
         const profileParts = (profile: BusinessCustomerProfileValue, profileIndex: number): DescriptionPart[] => {
-            const shown = profileShown(profile.questions ?? {}, segment.questions, asked);
+            const shown = effectiveProfileAnswers(profile, segment, identity);
             return SUBSECTIONS.segments.profileDescription.map(({ textBusiness, ...part }: { id: string; title: string; text: string; textBusiness?: string }) => ({
                 ...part,
                 // The Personal box's prompt says what it asks (owner, 2026-11-03): a B2B Profile is asked its job level and role in buying, not its household.
@@ -457,7 +460,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                 { box: "challenges", title: "Challenges & Problems", info: [...SUBSECTIONS.segments.motivations.challenges, PROFILE_NOTE_HINTS.challenges], text: profile.challenges, field: "challenges" },
                 { box: "objections", title: "Objections", info: [...SUBSECTIONS.segments.motivations.objections, PROFILE_NOTE_HINTS.objections], text: profile.objections, field: "objections" }
             ];
-            const shown = profileShown(profile.questions ?? {}, segment.questions, asked);
+            const shown = effectiveProfileAnswers(profile, segment, identity);
             return (
                 <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-single">
                     <div className="legal-entity-field">
@@ -576,7 +579,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                                     {SUBSECTIONS.segments.needs.map((kind, at) => {
                                         // Emotional and Social are ticked and rated (doc 36, section 10), their numbered list kept as the note; Functional stays the list.
                                         const choices = profileQuestionsOf("needs", segment.questions, asked).find(question => question.id.split("-")[0] === kind.id);
-                                        const shown = profileShown(profile.questions ?? {}, segment.questions, asked);
+                                        const shown = effectiveProfileAnswers(profile, segment, identity);
                                         return (
                                         // Emotional and Social: the ticks in their band, then the shared Notes in a band of its own, as every box's Notes
                                         // (owner, 2026-11-05), one line a need, kept as the list the Value Proposition reads. Functional stays the numbered list
@@ -725,7 +728,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                             {...extra}
                         />
                     );
-                    // Other (K6, K8; owner 2026-11-04, in place of "Show all"): ticked, a row to write in, rated as the listed ones; a name that means a listed item becomes it.
+                    // Other (K6; owner 2026-11-04): ticked, a row to write in, rated as the listed ones; a name that means a listed item becomes it.
                     const otherRows = (id: OtherQuestion) => competitorOthers(answers, id).map((name, at) => ({
                         id: "other-" + at,
                         name: name.trim() || "Other " + (at + 1),
@@ -734,7 +737,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                             <TextBox
                                 className="interview-input business-competitor-other"
                                 aria-label={words(id) + ", other " + (at + 1)}
-                                placeholder={id === "k6" ? "Where else are they reviewed?" : "What else do customers value?"}
+                                placeholder="Where else are they reviewed?"
                                 disabled={disabled}
                                 value={name}
                                 onChange={(event) => write(competitorOtherName(answers, id, at, event.target.value))}
@@ -1070,17 +1073,16 @@ export function useFoundationSubsections(earlier: Earlier) {
             beneath it.
         */
         /* The Offerings' answers as their cards show them (doc 43: starting values included), read by the Value Proposition's draft and open items too. */
-        const worries = [...new Set(segment.profiles.flatMap(profile => profileShown(profile.questions ?? {}, segment.questions, asked).e3 ?? []))];
-        const offeringContext = (offering: BusinessOfferingValue): OfferingContext => ({
-            type: offering.category, stage: identity?.stage, differentiation: identity?.differentiation, pay: segment.questions.pay ?? [], worries
-        });
-        const offeringAnswers = segment.offerings.map(offering => offeringShown(offering.questions ?? {}, offeringContext(offering)));
+        // (EffectiveAnswers.ts: the same answers the Business Plan and the export read.)
+        const offeringContext = (offering: BusinessOfferingValue): OfferingContext => offeringContextOf(offering, segment, identity);
+        const offeringAnswers = segment.offerings.map(offering => effectiveOfferingAnswers(offering, segment, identity));
+        const profileAnswers = segment.profiles.map(profile => effectiveProfileAnswers(profile, segment, identity));
 
         /* The draft (doc 42, 1): one link for each Offering with a Type (the doc's proposal for several Offerings), adding its sentence at the end of the text. */
         const drafts = draftOffered(segment)
-            ? segment.offerings.map((offering, at) => ({ offering, draft: offering.category.trim() ? valuePropositionDraft(segment, offering, offeringAnswers[at], offeringContext(offering)) : "" })).filter(entry => entry.draft && draftToAdd(segment.valueProposition, entry.draft))
+            ? segment.offerings.map((offering, at) => ({ offering, draft: offering.category.trim() ? valuePropositionDraft(segment, offering, offeringAnswers[at], offeringContext(offering), profileAnswers) : "" })).filter(entry => entry.draft && draftToAdd(segment.valueProposition, entry.draft))
             : [];
-        const openItems = valuePropositionOpenItems(segment, offeringAnswers);
+        const openItems = valuePropositionOpenItems(segment, offeringAnswers, profileAnswers);
 
         const valueProposition = group(
             "Value Proposition",
@@ -1135,7 +1137,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                        through. */
 
                     // The needs ticked on the Profiles, strongest first (owner, 2026-11-07), numbered; then the lines of their Notes, what no tick says, as bullets.
-                    const shownAnswers = segment.profiles.map(profile => profileShown(profile.questions ?? {}, segment.questions, asked));
+                    const shownAnswers = segment.profiles.map(profile => effectiveProfileAnswers(profile, segment, identity));
                     const entriesOf = (ticks: string[], notes: string[]) => (
                         ticks.length + notes.length > 0 ? (
                             <div>
@@ -1235,7 +1237,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 <OptionPicker
                                     label={segmentPath + ", Offering " + (index + 1) + " type"}
                                     hug
-                                    options={[...BUSINESS_OFFERING_CATEGORIES]}
+                                    options={offering.category === CATEGORY_OTHER ? [...BUSINESS_OFFERING_CATEGORIES, CATEGORY_OTHER] : [...BUSINESS_OFFERING_CATEGORIES]}
                                     disabled={disabled}
                                     value={offering.category}
                                     onChange={(next) => change({
@@ -1258,12 +1260,6 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 )
                         },
                         <>
-
-                            {offering.category === CATEGORY_OTHER && text(
-                                "Name the type",
-                                offering.categoryOther,
-                                (next) => change({ categoryOther: next })
-                            )}
 
                             {/* The FUNCTIONAL needs typed into this
                                 Segment's own Profiles, more than one
@@ -1313,7 +1309,8 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 const context = offeringContext(offering);
                                 const shown = offeringAnswers[index];
                                 const whose = segmentPath + ", Offering " + (index + 1);
-                                const write = (id: OfferingQuestionId, next: string[]) => change({ questions: { ...shown, [id]: offeringChoose(id, shown[id] ?? [], next) } as OfferingAnswers });
+                                // Only the question answered is saved; the others keep following their starts (owner, 2026-11-08).
+                                const write = (id: OfferingQuestionId, next: string[]) => change({ questions: { ...(offering.questions ?? {}), [id]: offeringChoose(id, shown[id] ?? [], next) } as OfferingAnswers });
                                 const ask = (id: OfferingQuestionId) => {
                                     const question = OFFERING_QUESTIONS.find(entry => entry.id === id)!;
                                     const options = offeringOptions(id, context).map(option => ({ ...option }));

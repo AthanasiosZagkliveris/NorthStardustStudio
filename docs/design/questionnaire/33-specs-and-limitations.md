@@ -35,7 +35,7 @@ Related: doc 28 (questionnaire specification), doc 31 (positioning categories), 
 | Market structure | **Single-sided only** |
 | Seller and buyer relationship | **B2C and/or B2B** only |
 | Buyer | The **buyer's category** is separate from the **buyer's life stage** |
-| Ages | Age limits are checked on the **Offering** (O12) and the **Review** (doc 43, O12) |
+| Ages | Age limits are checked on the **Offering** (O12) and the **Review** (doc 43, O12) (not built yet) |
 
 ## 2. Language
 
@@ -60,10 +60,10 @@ English only, and **UK English** (owner, 2026-11-03: organisation, centre, speci
 
 ## 4. Market structure and relationships
 
-1. **Single-sided only.** The Market Structure question (I11) has no Multi-sided option in the first version.
+1. **Single-sided only.** The Market Structure question (I11) is not asked in the first version: every market is read as single-sided.
 2. **B2C and/or B2B only.** The Seller and Buyer Relationship question (I3) offers B2C and B2B; **B2G and G2B are left out** (their information is in doc 33, section 14).
 
-**Check:** what this makes unnecessary in doc 28 8.2: the anchor-side rule and the "side:outcome" per-side answers (no sides), the audience lists for B2G (Administrative Level) and G2B (Regulatory Intensity), the locked audiences (Central Government and Ministries; Heavily Regulated Markets), and the public-sector and government-to-business relationships of doc 31 sections 6.3 and 6.4. The stage limits (1, 1, 2, any) still apply to B2C and B2B. The built app has these options; they are hidden in the first version, not deleted (doc 33).
+**Check:** what this makes unnecessary in doc 28 8.2: the anchor-side rule and the "side:outcome" per-side answers (no sides), the audience lists for B2G (Administrative Level) and G2B (Regulatory Intensity), the locked audiences (Central Government and Ministries; Heavily Regulated Markets), and the public-sector and government-to-business relationships of doc 31 sections 6.3 and 6.4. The stage limits still apply to B2C and B2B: one choice while Planning; one while Launching, except two for the Outcome, the Differentiation and the Purpose; two while Managing; any number while Growing. The built app has these options; they are hidden in the first version, not deleted (doc 33).
 
 ## 5. The buyer: category and life stage are two separate things
 
@@ -115,11 +115,11 @@ The B2B list is the six business relationships of doc 31 section 6.2, each with 
 
 ## 6. Ages
 
-**Age limits are checked on the Offering (O12) and the Review (doc 43, O12).** The owner's first item (2026-10-29) placed the ages in the Segment, maybe as an "i"; the Segment now asks the age terms (doc 35, Box 1, question 1) and the app derives the legal age from the activities, the ages and the country.
+**Age limits are checked on the Offering (O12) and the Review (doc 43, O12) (not built yet).** The owner's first item (2026-10-29) placed the ages in the Segment, maybe as an "i"; the Segment now asks the age terms (doc 35, Box 1, question 1) and the app derives the legal age from the activities, the ages and the country.
 
 **Checks** (settled):
-- **Which ages?** Three kinds exist: the **legal ages by activity and country** (doc 30: alcohol, tobacco, gambling and so on), the **legal ages for a buyer** (majority, consent, credit; doc 31 section 10.2), and the **life-stage age ranges** (doc 31 section 1; the Segment's age terms, doc 35, Box 1, question 1). The first two were requirements R-1 (Organisation card) and R-2 (Positioning card) of doc 31 section 9; they are checked on the Offering (O12) and the Review (doc 43, O12), with the legal ones applied from the customers' country automatically.
-- **Where, exactly:** a Review item and a read-only line on each of the Segment's Offerings (doc 43, O12).
+- **Which ages?** Three kinds exist: the **legal ages by activity and country** (doc 30: alcohol, tobacco, gambling and so on), the **legal ages for a buyer** (majority, consent, credit; doc 31 section 10.2), and the **life-stage age ranges** (doc 31 section 1; the Segment's age terms, doc 35, Box 1, question 1). The first two were requirements R-1 (Organisation card) and R-2 (Positioning card) of doc 31 section 9; they are checked on the Offering (O12) and the Review (doc 43, O12) (not built yet), with the legal ones applied from the customers' country automatically.
+- **Where, exactly:** a Review item and a read-only line on each of the Segment's Offerings (doc 43, O12; not built yet).
 
 ## 7. Limits that already stand (from earlier owner decisions)
 
@@ -150,7 +150,7 @@ The tiles that follow this document are described as built in their own document
 | 1 | Other languages | English only | doc 28 4.1 (wording rules) | English |
 | 2 | Complete lists (legal forms, activities, codes) for more countries | Six countries; Other (any other country) with typed activity and code | doc 28 5 | Any country can be chosen; some have a profile, the rest a neutral one |
 | 3 | Official legal forms, with sources, for countries beyond the six, in place of the four generic forms | Four generic forms for Other | doc 28 rule 14 | Per-country lists in `LegalEntityJurisdictions.ts` |
-| 4a | Heavy, public or late-stage institutional legal forms: the public company forms; the Nonprofit Corporation (US) and Cooperative (Canada) forms | Left out | section 14 below | Removed from the app |
+| 4a | Heavy, public or late-stage institutional legal forms: the public company forms; the Nonprofit Corporation (US) and Cooperative (Canada) forms | Left out | section 14 below | Not offered |
 | 4 | Other classification schemes and a general crosswalk (ISIC) | The six countries' own schemes; Other typed by hand | doc 34 5.3, 5.8 | Built for the six countries |
 | 5 | Multi-sided markets and platforms: sides, one Segment per side, Differentiation and Outcome per side, the anchor-side rule | Single-sided | doc 28 8.2 | Built and hidden (the Market Structure question is not asked) |
 | 6 | B2G: public-sector buyers, Administrative Level audience, the institutional relationships | B2C and/or B2B | doc 28 8.2; section 14.1 | Built and hidden |
@@ -173,7 +173,7 @@ The tiles that follow this document are described as built in their own document
 | 18 | The caregiver override of privacy walls, decided by each country's law | doc 31 decision 9 |
 | 19 | Review checks: a household plan's unit price against a single-user purchase option (O3); the exact syntax of the P25 field | doc 31 decisions 20 to 22 |
 
-Age limits by activity and by buyer, which were listed here, are now in the first version: they are checked on the Offering (O12) and the Review (doc 43, O12; section 6).
+Age limits by activity and by buyer, which were listed here, are now in the first version: they are checked on the Offering (O12) and the Review (doc 43, O12; section 6) (not built yet).
 
 ## 12. Research still to do
 

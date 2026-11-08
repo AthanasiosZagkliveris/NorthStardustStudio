@@ -165,7 +165,7 @@ const QUESTIONS: readonly ProfileQuestion[] = [
         options: [{ id: "alone", label: "Works it out alone" }, { id: "little", label: "Likes a little guidance" }, { id: "person", label: "Wants to talk to a person" }, { id: "formal", label: "Needs a formal demonstration or proposal" }],
         info: ["The help a typical person wants before buying; it can differ from how comfortable the Segment is online."]
     },
-    { id: "d3", box: "habits", label: "When does {s} usually buy?", many: true, options: list(BUY_TIMES), info: ["When they actually buy, not when they are free: the Segment's work schedule says when they work.", "Where and how they buy go in the Notes."] },
+    { id: "d3", box: "habits", label: "When does {s} usually buy?", many: true, options: list(BUY_TIMES), info: ["When they actually buy, not when they are free: the Segment's work schedule says when they work.", "How they buy, in their words, goes in the Notes."] },
     { id: "e1", box: "goals", label: "What does {s} want to achieve?", many: true, max: 3, options: list(GOALS), rating: { low: "Minor", high: "Main" }, info: ["The results they are after, not what they weigh when choosing (that is \"What matters most\"). Choose up to three, then rate each.", "For example, to learn a new craft, or to win more clients.", "Accessibility: getting something hard to reach. Development: learning something new. Expression: showing who they are. Revenue: winning customers or income.", "Compliance: meeting a requirement, at work or by law. Governance: staying within the rules.", "Based on: gains (Value Proposition Canvas)."] },
     { id: "e2", box: "challenges", label: "What frustrates {o} today?", many: true, max: 3, options: list(FRUSTRATIONS), rating: { low: "Mild", high: "Severe" }, info: ["What goes wrong with the way they do it now, before they buy from you. Choose up to three, then rate how much each bothers them.", "For example, the cheap version breaks too soon, or nobody explains how to start.", "Cost: too costly, or unclear prices. Delays: it takes too long. Inconsistency: results vary. Trust: hard to find someone reliable.", "Insecurity: not knowing how, or fearing a mistake. Capacity: no time or staff. Complexity: too complicated, or poor support.", "Based on: pains (Value Proposition Canvas)."] },
     // The Needs (doc 36, section 10): Emotional and Social ticked and rated, by the Segment's kind; Functional stays the numbered list. Each kind's list stays as its note.
@@ -215,7 +215,7 @@ export const PROFILE_NOTE_HINTS: Record<ProfileBox, string> = {
     personal: "The note is for what is not asked above: a name, their job title, where they live. Their age, household and work are asked above.",
     psychographics: "The note is for what they value, believe in and enjoy, in your words. What matters most when choosing is asked above.",
     hubs: "The note is for names: the groups, accounts, events and places. Which kinds of platform and event they use is asked above.",
-    habits: "The note is for what the choices above do not hold: where and when they buy, the terms, the steps.",
+    habits: "The note is for what the choices above do not hold: how they buy, in their words.",
     goals: "The note is for what the list above does not say: the details that are theirs.",
     challenges: "The note is for what the list above does not say: the details that are theirs.",
     objections: "The note is for what the list above does not say: the details that are theirs.",
@@ -246,12 +246,14 @@ export function profileQuestionAsked(question: ProfileQuestion, segment: Segment
             return business && !(segment.orgtype ?? []).includes("self");
         case "a7": {
             const ages = segment.age ?? [];
-            return !business && !context.endsUser && !(ages.length > 0 && ages.every(id => id === "minor"));
+            // Asked on the payer's Profile of a Proxy or Dual-Intent Segment too (a parent buying for a child); it is skipped only on the end user's own
+            // Profile (doc 36, A7), which is not built yet, so it shows on every Profile.
+            return !business && !(ages.length > 0 && ages.every(id => id === "minor"));
         }
         case "a5":
             return business || context.endsUser || (segment.age ?? []).includes("minor");
         case "c2":
-            // Asked unless the Segment's online comfort is rated 1, Not comfortable (doc 36).
+            // Asked unless the Segment's online comfort is rated 1, Uneasy (doc 36).
             return !(segment.comfort ?? []).includes("1");
         case "c3":
             return (segment.discover ?? []).includes("communities");

@@ -39,6 +39,7 @@ import {
     incomeTaxMissing
 } from "./FinancialModel.ts";
 import { fieldKey, sectionSegment } from "./FieldKeys.ts";
+import { registrationDateApplies } from "./LegalEntityJurisdictions.ts";
 import { InterviewValidator } from "./InterviewValidator.ts";
 import { monthOrdinal } from "./FinancialModel.ts";
 import { parseAmount } from "./Amounts.ts";
@@ -174,7 +175,8 @@ export function openItemsOf(
                 }
                 const planned = entity.formation.status === "planned";
                 const formation = [
-                    !planned && blank(entity.formation.date) && "formation date",
+                    // Not asked, required or checked for a sole trader / sole proprietorship (doc 37, Registration Date; owner, 2026-11-01).
+                    !planned && blank(entity.formation.date) && registrationDateApplies(entity.organisation.country, entity.organisation.subdivision, entity.organisation.legalForm) && "formation date",
                     blank(entity.formation.authority) && "registration authority",
                     !planned && blank(entity.formation.registrationNumber) && "registration number"
                 ].filter((word): word is string => !!word);
