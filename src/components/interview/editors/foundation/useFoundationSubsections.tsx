@@ -10,7 +10,7 @@ import FieldLabel from "../../../controls/FieldLabel.tsx";
 import { BUSINESS_COMPETITOR_TYPES, BUSINESS_OFFERING_CATEGORIES, BusinessCompetitorValue, BusinessCustomerProfileValue, BusinessCustomerSegmentValue, BusinessOfferingValue, businessSegmentNeeds, businessSegmentFunctionalItems, functionalNeedIds, reconcileLineIds, createBusinessCompetitor, createBusinessCustomerProfile, createBusinessOffering } from "../../../../framework/engine/AnswerUtils.ts";
 import { randomId } from "../../../../framework/engine/Readers.ts";
 import FieldRow from "../../fields/FieldRow.tsx";
-import { BusinessAddButton, BusinessCard, BusinessRemove, BusinessStep, BusinessTicks, OptionalNote } from "../../cards/BusinessCardFields.tsx";
+import { BusinessAddButton, BusinessCard, BusinessEmpty, BusinessRemove, BusinessStep, BusinessTicks, OptionalNote } from "../../cards/BusinessCardFields.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import RatingScale, { type Rating } from "../../../controls/RatingScale.tsx";
 import { ratingScaleMeaning } from "../../../controls/RatingScaleEnds.tsx";
@@ -49,7 +49,7 @@ function ProfileAgeCell({ value, label, disabled, onType, onDone }: { value: str
             disabled={disabled}
             value={draft ?? value}
             onChange={(event) => {
-                const typed = event.target.value.replace(/D/g, "").slice(0, 3);
+                const typed = event.target.value.replace(/\D/g, "").slice(0, 3);
                 setDraft(typed);
                 onType(typed);
             }}
@@ -712,9 +712,10 @@ export function useFoundationSubsections(earlier: Earlier) {
                     // A change of answers is settled against the type: a question it does not ask, an option or a row not offered, loses its answer.
                     const write = (next: CompetitorAnswers) => change({ questions: competitorSettle(next, competitor.type) });
                     const words = (id: CompetitorQuestionId) => competitorWording(competitor.type, id);
-                    const radio = (id: CompetitorQuestionId, options: readonly { id: string; label: string }[]) => (
-                        <RadioChoice label={words(id)} group={competitor.id + "-" + id} className="legal-entity-radio-stack" disabled={disabled} value={answers[id]?.[0] ?? ""} onChange={(next) => write({ ...answers, [id]: [next] })} options={options} />
-                    );
+                    // A radio of short options stands in one row, as on the Segment and the Profile.
+                    const radio = (id: CompetitorQuestionId, options: readonly { id: string; label: string }[]) => segmentRowChoice({ id, label: words(id), box: "demographics", many: false, options } as unknown as SegmentQuestion, options.map(option => ({ ...option })))
+                        ? <FittingRadioChoice label={words(id)} group={competitor.id + "-" + id} disabled={disabled} value={answers[id]?.[0] ?? ""} onChange={(next) => write({ ...answers, [id]: [next] })} options={options.map(option => ({ ...option }))} />
+                        : <RadioChoice label={words(id)} group={competitor.id + "-" + id} className="legal-entity-radio-stack" disabled={disabled} value={answers[id]?.[0] ?? ""} onChange={(next) => write({ ...answers, [id]: [next] })} options={options} />;
                     const rated = (id: "k6" | "k7" | "k8" | "k9", rows: readonly { id: string; label: ReactNode; name?: string; below?: ReactNode; fixed?: boolean }[], extra: Partial<Parameters<typeof RatingScaleGroup>[0]> = {}) => (
                         <RatingScaleGroup
                             label={words(id)}
@@ -898,10 +899,15 @@ export function useFoundationSubsections(earlier: Earlier) {
                             {controls[id]()}
                         </FieldRow>
                     );
-                    /** A question standing alone in a group (K8 to K10): a band as the boxes' questions are. */
-                    const band = (content: ReactNode) => (
-                        <div className="business-segment-box">
-                            <div className="legal-entity-org-section">{content}</div>
+                    /** A question standing alone in a group (K8 to K10): a band as the boxes' questions are, in the same wrapper as the Profile's Motivations, with its Notes in the note band under it. */
+                    const band = (content: ReactNode, note?: ReactNode) => (
+                        <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-single">
+                            <div className="legal-entity-field">
+                                <div className="business-segment-box">
+                                    <div className="legal-entity-org-section">{content}</div>
+                                    {note && <div className="legal-entity-org-section business-note-band legal-entity-org-band">{note}</div>}
+                                </div>
+                            </div>
                         </div>
                     );
 
@@ -974,31 +980,30 @@ export function useFoundationSubsections(earlier: Earlier) {
                             {group("Competitors SWOT Analysis", <>
 
                             {/* K8, one band over Strengths and Weaknesses; K9, one over Opportunities and Threats (doc 41): the built boxes stay as the notes. */}
-                            {band(question("k8"))}
+                            {/* One Notes under each rating (owner, 2026-11-05): what no rating says, kept under `strengths` and `opportunities`. */}
+                            {band(question("k8"), (
+                                <OptionalNote
+                                    label="Notes"
+                                    fieldId="strengths and weaknesses notes"
+                                    ariaLabel={whose + " strengths and weaknesses notes"}
+                                    placeholder={NOTE_PLACEHOLDERS.strengths ?? "Add a note"}
+                                    disabled={disabled}
+                                    value={competitor.strengths}
+                                    onChange={(next) => change({ strengths: next })}
+                                />
+                            ))}
 
-                            {/* One Notes under the rating (owner, 2026-11-05): what no rating says, kept under `strengths`. */}
-                            <OptionalNote
-                                label="Notes"
-                                fieldId="strengths and weaknesses notes"
-                                ariaLabel={whose + " strengths and weaknesses notes"}
-                                placeholder={NOTE_PLACEHOLDERS.strengths ?? "Add a note"}
-                                disabled={disabled}
-                                value={competitor.strengths}
-                                onChange={(next) => change({ strengths: next })}
-                            />
-
-                            {band(question("k9"))}
-
-                            {/* One Notes under the rating (owner, 2026-11-05): what no rating says, kept under `opportunities`. */}
-                            <OptionalNote
-                                label="Notes"
-                                fieldId="opportunities and threats notes"
-                                ariaLabel={whose + " opportunities and threats notes"}
-                                placeholder={NOTE_PLACEHOLDERS.opportunities ?? "Add a note"}
-                                disabled={disabled}
-                                value={competitor.opportunities}
-                                onChange={(next) => change({ opportunities: next })}
-                            />
+                            {band(question("k9"), (
+                                <OptionalNote
+                                    label="Notes"
+                                    fieldId="opportunities and threats notes"
+                                    ariaLabel={whose + " opportunities and threats notes"}
+                                    placeholder={NOTE_PLACEHOLDERS.opportunities ?? "Add a note"}
+                                    disabled={disabled}
+                                    value={competitor.opportunities}
+                                    onChange={(next) => change({ opportunities: next })}
+                                />
+                            ))}
 
                             </>, undefined, groupFold(competitor.id, "Competitors SWOT Analysis", whose))}
 
@@ -1145,40 +1150,22 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 {notes.length > 0 && <ListStatic marker="bullet" lines={notes.map(note => ({ key: note, text: note }))} />}
                             </div>
                         ) : (
-                            <p className="business-foundation-empty">
+                            <BusinessEmpty>
                                 None recorded.
-                            </p>
+                            </BusinessEmpty>
                         )
                     );
 
-                    /*
-                        Laid out flat rather than as two columns of
-                        their own: the two titles, ONE RULE ACROSS
-                        BOTH, then the two lists. A rule per column
-                        was two rules with a gap between them, which
-                        read as two of something rather than as the
-                        single line the boxes opposite draw.
-                    */
+                    // Each list as a field row, as "Open items" below: on the content line, with the shared label line.
                     return (
-                        <div className="business-foundation-needs-recall">
-
-                            <FieldLabel className="business-foundation-label">
-                                Emotional Needs
-                            </FieldLabel>
-
-                            <FieldLabel className="business-foundation-label">
-                                Social Needs
-                            </FieldLabel>
-
-                            <div
-                                className="business-foundation-needs-recall-rule"
-                                aria-hidden="true"
-                            />
-
-                            {entriesOf(segmentNeedTicks(shownAnswers, "emotional"), emotional)}
-                            {entriesOf(segmentNeedTicks(shownAnswers, "social"), social)}
-
-                        </div>
+                        <>
+                            <FieldRow pair fullList nested label="Emotional Needs">
+                                {entriesOf(segmentNeedTicks(shownAnswers, "emotional"), emotional)}
+                            </FieldRow>
+                            <FieldRow pair fullList label="Social Needs">
+                                {entriesOf(segmentNeedTicks(shownAnswers, "social"), social)}
+                            </FieldRow>
+                        </>
                     );
 
                 })()}
@@ -1273,34 +1260,39 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 it, and to be seen for it, is what the
                                 Value Proposition answers -- and those
                                 two are shown there, beneath it. */}
-                            <div className="business-foundation-field">
-
-                                <FieldLabel className="business-foundation-label">
-                                    Functional Needs Addressed
-                                </FieldLabel>
-
-                                {needs.length === 0 ? (
-                                    <p className="business-foundation-empty">
-                                        Add Functional Needs to a Customer
-                                        Profile first, then choose them here.
-                                    </p>
-                                ) : needs.map(item => (
-                                    // Ticked by the items' ids (owner, 2026-11-07), so editing an item's words on the Profile keeps the tick.
-                                    <TickField className="business-foundation-tick" key={item.ids[0]} disabled={disabled} checked={
-                                                item.ids.some(id => offering.needsAddressed.includes(id))
-                                            } onChange={(event) => change({
-                                                needsAddressed: event.target.checked
-                                                    ? [...new Set([...offering.needsAddressed, ...item.ids])]
-                                                    : offering.needsAddressed.filter(
-                                                        entry => !item.ids.includes(entry)
-                                                    )
-                                            })}>
-                                        <span className="business-foundation-tick-label">
-                                            {item.text}
-                                        </span>
-                                    </TickField>
-                                ))}
-
+                            {/* One band, as every question on the card (FieldRow and BusinessTicks): the shared tick pitch, the label's line and its mark. */}
+                            <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-single">
+                                <div className="legal-entity-field business-segment-box">
+                                    <div className="legal-entity-org-section">
+                                        <FieldRow pair fullList label="Functional Needs Addressed">
+                                            {needs.length === 0 ? (
+                                                <BusinessEmpty>
+                                                    Add Functional Needs to a Customer
+                                                    Profile first, then choose them here.
+                                                </BusinessEmpty>
+                                            ) : (
+                                                <div className="radio-choice legal-entity-radio-stack" role="group" aria-label="Functional Needs Addressed">
+                                                    {/* Ticked by the items' ids (owner, 2026-11-07), so editing an item's words on the Profile keeps the tick. */}
+                                                    <BusinessTicks
+                                                        name={segmentPath + ", Offering " + (index + 1) + " Functional Needs Addressed"}
+                                                        disabled={disabled}
+                                                        options={needs.map(item => ({ id: item.ids[0], label: item.text }))}
+                                                        chosen={needs.filter(item => item.ids.some(id => offering.needsAddressed.includes(id))).map(item => item.ids[0])}
+                                                        onChange={(next) => {
+                                                            const itemIds = new Set(needs.flatMap(item => item.ids));
+                                                            change({
+                                                                needsAddressed: [
+                                                                    ...offering.needsAddressed.filter(entry => !itemIds.has(entry)),
+                                                                    ...needs.filter(item => next.includes(item.ids[0])).flatMap(item => item.ids)
+                                                                ]
+                                                            });
+                                                        }}
+                                                    />
+                                                </div>
+                                            )}
+                                        </FieldRow>
+                                    </div>
+                                </div>
                             </div>
 
                             {/* The six Description boxes (doc 43; owner, 2026-11-07), as the Profile's and the Competitor's: each asks its questions, one band each
@@ -1316,7 +1308,8 @@ export function useFoundationSubsections(earlier: Earlier) {
                                     const options = offeringOptions(id, context).map(option => ({ ...option }));
                                     const chosen = shown[id] ?? [];
                                     return (
-                                        <FieldRow key={id} pair fullList label={question.label} info={[...question.info]}
+                                        // (O3's second row stands under the first in one band: nested, the shared 12px between rows.)
+                                        <FieldRow key={id} pair fullList nested={id === "o3t"} label={question.label} info={[...question.info]}
                                             labelNote={question.max !== undefined ? <span className="business-foundation-tick-note">{question.max + " max"}</span> : undefined}>
                                             {question.many
                                                 ? (
@@ -1324,7 +1317,10 @@ export function useFoundationSubsections(earlier: Earlier) {
                                                         <BusinessTicks name={whose + " " + question.label} disabled={disabled} options={options} chosen={chosen} max={question.max} onChange={(next) => write(id, next)} />
                                                     </div>
                                                 )
-                                                : <RadioChoice label={question.label} group={offering.id + "-" + id} className="legal-entity-radio-stack" disabled={disabled} value={chosen[0] ?? ""} onChange={(next) => write(id, [next])} options={options} />}
+                                                // A radio of short options stands in one row, as on the Segment and the Profile.
+                                                : segmentRowChoice({ ...question, box: "demographics" } as unknown as SegmentQuestion, options)
+                                                    ? <FittingRadioChoice label={question.label} group={offering.id + "-" + id} disabled={disabled} value={chosen[0] ?? ""} onChange={(next) => write(id, [next])} options={options} />
+                                                    : <RadioChoice label={question.label} group={offering.id + "-" + id} className="legal-entity-radio-stack" disabled={disabled} value={chosen[0] ?? ""} onChange={(next) => write(id, [next])} options={options} />}
                                         </FieldRow>
                                     );
                                 };
