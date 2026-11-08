@@ -11,13 +11,13 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 **What the card is.** An Offering belongs to its Segment, as a Profile does. Pages 2 to 5 read it by id and never copy it (the page specifications' README, point 1). The card has these parts, in order:
 - **The head:** the number, the name cell and the one x (built).
 - **The Type** (built): Product, Service or Hybrid. No "Other" (owner, 2026-11-04; built 2026-11-08: a saved "Other" still shows until it is changed).
-- **Functional Needs Addressed** (built): ticks of the Segment's Profiles' functional needs. **Built 2026-11-07** (owner: "Update the app"): one tick list, the Profiles' numbered functional items, ticked by each item's id (the same words on two Profiles are one tick, holding both ids), so editing an item's words keeps the tick; a tick saved as words is read as the item's id (`businessSegmentFunctionalItems`, `AnswerBusinessFoundation.ts`); the export and the Customer Engagement page match by id. The functional categories (L17) are read from the Profile, not ticked again here. O13 is retired (it was never built).
+- **Functional Needs Addressed** (built; since 2026-11-08 the first band of the Customer Benefit box, owner, P6): ticks of the Segment's Profiles' functional needs. **Built 2026-11-07** (owner: "Update the app"): one tick list, the Profiles' numbered functional items, ticked by each item's id (the same words on two Profiles are one tick, holding both ids), so editing an item's words keeps the tick; a tick saved as words is read as the item's id (`businessSegmentFunctionalItems`, `AnswerBusinessFoundation.ts`); the export and the Customer Engagement page match by id. The functional categories (L17) are read from the Profile, not ticked again here. O13 is retired (it was never built).
   - *A Segment with an end user (doc 36, 2.4; owner, 2026-11-08):* the functional tasks are the end user's there, kept on the Profile with the same ids, so the ticks are unchanged; O8 reads the worries (E3), which are the buyer's.
 - **The six Description boxes** (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments"; built the same day): each box is a band with its title and "i", then its questions, one band each, then an optional **Notes** (`OptionalNote`) for what no question says; the Notes open when they hold text. The two separate boxes of questions of earlier on 2026-11-07 are gone. The box's prompt is its "i".
-  - **Function:** O1, O2. Notes: what it is, by name (the Business Plan reads it).
-  - **Customer Benefit:** O4, O8. Notes: the benefit in the customers' words (the Business Plan reads it).
+  - **Function:** O1. Notes: what it is, by name (the Business Plan reads it).
+  - **Customer Benefit:** the Functional Needs Addressed, then O8, then O4 (owner, 2026-11-08, P6: what it answers before what it does best). Notes: the benefit in the customers' words (the Business Plan reads it).
   - **Content & Scope:** O14. Notes: counts, inclusions and limits.
-  - **Purchase & Delivery:** O3 with its second row, "When do they pay?"; O6; O15. Notes: packaging and the steps.
+  - **Purchase & Delivery:** O2 (owner, 2026-11-08, P7: whether it can be bought today opens the purchase); O3 with its second row, "When do they pay?"; O15; O6 (how long until they have it, then how it reaches them). Notes: packaging and the steps.
   - **Support & Communication:** O7, O17, O16. Notes: names and how often.
   - **Requirements & Conditions:** O10, O18. Notes: care instructions and standards.
   - Saved text of the boxes is kept: it is the Notes. A question no longer asked, or an option no longer offered, loses its answer; a starting value (O2, O4, O6) shows until that field is changed (another answer does not fix it), and the Business Plan, the export and the Value Proposition read it too (built 2026-11-08).
@@ -176,7 +176,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Options:** the worries ticked in the Segment's Profiles' E3 (the list L2), in the order of the list.
 - **The "i" says:**
   - The doubts that stop your customers buying from you, as your Profiles say. A worry nothing answers is shown on the Value Proposition.
-  - Support is answered by the help after they buy, above.
+  - Support is answered by the help after they buy, in Support & Communication. (It said "above" until 2026-11-08: O7 stands in the box below.)
 - **Connections:**
   - *Comes from:* the Profiles' E3.
   - *Read by (built, 2026-11-07):* the Value Proposition's open items (doc 42).
@@ -252,7 +252,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Asked when:** always.
 - **Options** (L20): Straight away; Within a week; One to four weeks; One to three months; Longer.
 - **The "i" says:**
-  - The time from order to having it. How it reaches them is the question above.
+  - The time from order to having it. How it reaches them is the question below (O6 follows O15 since 2026-11-08).
 - **Connections:** *Read by:* the export.
 
 ### O16. How fast do you reply?

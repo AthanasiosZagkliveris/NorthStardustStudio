@@ -1366,57 +1366,42 @@ export function useFoundationSubsections(earlier: Earlier) {
                         },
                         <>
 
-                            {/* The FUNCTIONAL needs typed into this
-                                Segment's own Profiles, more than one
-                                selectable. Tick boxes rather than a
-                                list, because the choice is a set
-                                rather than one value.
-
-                                Functional only: an Offering is the
-                                practical thing that gets a job done.
-                                How the customer wants to feel about
-                                it, and to be seen for it, is what the
-                                Value Proposition answers -- and those
-                                two are shown there, beneath it. */}
-                            {/* One band, as every question on the card (FieldRow and BusinessTicks): the shared tick pitch, the label's line and its mark. */}
-                            <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-single">
-                                <div className="legal-entity-field business-segment-box">
-                                    <div className="legal-entity-org-section">
-                                        <FieldRow pair fullList label="Functional Needs Addressed">
-                                            {needs.length === 0 ? (
-                                                <BusinessEmpty>
-                                                    Add Functional Needs to a Customer
-                                                    Profile first, then choose them here.
-                                                </BusinessEmpty>
-                                            ) : (
-                                                <div className="radio-choice legal-entity-radio-stack" role="group" aria-label="Functional Needs Addressed">
-                                                    {/* Ticked by the items' ids (owner, 2026-11-07), so editing an item's words on the Profile keeps the tick. */}
-                                                    <BusinessTicks
-                                                        name={segmentPath + ", Offering " + (index + 1) + " Functional Needs Addressed"}
-                                                        disabled={disabled}
-                                                        options={needs.map(item => ({ id: item.ids[0], label: item.text }))}
-                                                        chosen={needs.filter(item => item.ids.some(id => offering.needsAddressed.includes(id))).map(item => item.ids[0])}
-                                                        onChange={(next) => {
-                                                            const itemIds = new Set(needs.flatMap(item => item.ids));
-                                                            change({
-                                                                needsAddressed: [
-                                                                    ...offering.needsAddressed.filter(entry => !itemIds.has(entry)),
-                                                                    ...needs.filter(item => next.includes(item.ids[0])).flatMap(item => item.ids)
-                                                                ]
-                                                            });
-                                                        }}
-                                                    />
-                                                </div>
-                                            )}
-                                        </FieldRow>
-                                    </div>
-                                </div>
-                            </div>
-
                             {/* The six Description boxes (doc 43; owner, 2026-11-07), as the Profile's and the Competitor's: each asks its questions, one band each
                                 (O3's band holds its two rows), then its optional Notes, the box's saved text. A starting value shows until changed. */}
                             {(() => {
                                 const context = offeringContext(offering);
+                                /* The FUNCTIONAL needs typed into this Segment's own Profiles, more than one selectable: tick boxes, because the choice is a set. Functional only: an
+                                   Offering is the practical thing that gets a job done; how the customer wants to feel about it, and to be seen for it, is what the Value Proposition
+                                   answers, and those two are shown there. Its band opens the Customer Benefit box, before O8 and O4 (owner, 2026-11-08, P6). */
+                                const needsBand = (
+                                    <FieldRow pair fullList label="Functional Needs Addressed">
+                                        {needs.length === 0 ? (
+                                            <BusinessEmpty>
+                                                Add Functional Needs to a Customer
+                                                Profile first, then choose them here.
+                                            </BusinessEmpty>
+                                        ) : (
+                                            <div className="radio-choice legal-entity-radio-stack" role="group" aria-label="Functional Needs Addressed">
+                                                {/* Ticked by the items' ids (owner, 2026-11-07), so editing an item's words on the Profile keeps the tick. */}
+                                                <BusinessTicks
+                                                    name={segmentPath + ", Offering " + (index + 1) + " Functional Needs Addressed"}
+                                                    disabled={disabled}
+                                                    options={needs.map(item => ({ id: item.ids[0], label: item.text }))}
+                                                    chosen={needs.filter(item => item.ids.some(id => offering.needsAddressed.includes(id))).map(item => item.ids[0])}
+                                                    onChange={(next) => {
+                                                        const itemIds = new Set(needs.flatMap(item => item.ids));
+                                                        change({
+                                                            needsAddressed: [
+                                                                ...offering.needsAddressed.filter(entry => !itemIds.has(entry)),
+                                                                ...needs.filter(item => next.includes(item.ids[0])).flatMap(item => item.ids)
+                                                            ]
+                                                        });
+                                                    }}
+                                                />
+                                            </div>
+                                        )}
+                                    </FieldRow>
+                                );
                                 const shown = offeringAnswers[index];
                                 const whose = segmentPath + ", Offering " + (index + 1);
                                 // Only the question answered is saved; the others keep following their starts (owner, 2026-11-08).
@@ -1448,11 +1433,11 @@ export function useFoundationSubsections(earlier: Earlier) {
                                         const bands = (OFFERING_BOX_QUESTIONS[part.id] ?? []).map(band => band.filter(id => offeringAsks(id, context))).filter(band => band.length > 0);
                                         return {
                                             ...part,
-                                            questions: bands.map(band => <Fragment key={band.join("-")}>{band.map(ask)}</Fragment>),
+                                            questions: [...(part.id === "benefit" ? [<Fragment key="needs">{needsBand}</Fragment>] : []), ...bands.map(band => <Fragment key={band.join("-")}>{band.map(ask)}</Fragment>)],
                                             note: true,
                                             placeholder: NOTE_PLACEHOLDERS[part.id],
                                             level: 4,
-                                            weight: 2 + bands.flat().length * 4
+                                            weight: 2 + (bands.flat().length + (part.id === "benefit" ? 1 : 0)) * 4
                                         };
                                     }),
                                     offering.description,

@@ -446,7 +446,7 @@ function rows(code) {
         const notBuilt = OFFERING_NOT_BUILT.map(([code, label, asked]) => ({ code, id: "–", label, control: "none", max: "", asked, starts: "", status: "not built", owner: "doc 43, " + code, unplaced: true }));
         cards.push({
             title: "Offering", where: "Business System, page 1, an Offering of a Segment", owner: "43",
-            source: "`OFFERING_QUESTIONS` and `OFFERING_BOX_QUESTIONS` in `src/framework/engine/OfferingQuestions.ts` (the options, `offeringOptions`); saved under `questions` on the Offering. Before the boxes the card asks the Type (Product, Service, Hybrid) and the Functional Needs Addressed (ticks of the Profiles' numbered tasks), which are not coded questions",
+            source: "`OFFERING_QUESTIONS` and `OFFERING_BOX_QUESTIONS` in `src/framework/engine/OfferingQuestions.ts` (the options, `offeringOptions`); saved under `questions` on the Offering. Under the name the card asks the Type (Product, Service, Hybrid), and the Customer Benefit box opens with the Functional Needs Addressed (ticks of the Profiles' numbered tasks; owner, 2026-11-08), neither of them a coded question",
             boxes: F.SUBSECTIONS.offerings.description.map(part => ({
                 title: part.title,
                 questions: [...(O.OFFERING_BOX_QUESTIONS[part.id] ?? []).flat().map(id => {

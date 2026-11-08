@@ -10,7 +10,8 @@ import {
     businessFoundationSubsectionsEmpty,
     createBusinessCompetitor,
     createBusinessCustomerProfile,
-    createBusinessCustomerSegment
+    createBusinessCustomerSegment,
+    createBusinessOffering
 } from "../../../framework/engine/AnswerUtils";
 
 function Harness({ initial }: { initial: unknown }) {
@@ -325,6 +326,31 @@ describe("BusinessFoundationEditor places the Segment's End user part", () => {
         const business = order(boxTitles(), ["Business Data", "End user"]);
         expect(business.every(at => at >= 0)).toBe(true);
         expect(business[1]).toBe(business[0] + 1);
+    });
+
+});
+
+/* Phase 5, P6 (owner, 2026-11-08): the Functional Needs Addressed open the Offering's Customer Benefit box, before O8 and O4. */
+describe("BusinessFoundationEditor's Offering card order", () => {
+
+    it("draws the needs addressed as the first band of Customer Benefit, then O8 and O4; Function asks O1 alone; O2 opens Purchase & Delivery", () => {
+        const segment = createBusinessCustomerSegment([]);
+        const profile = { ...createBusinessCustomerProfile(), name: "Parent", needs: { functional: ["Book a lesson"], emotional: [], social: [] }, questions: { e3: ["the-price-or-their-budget"] } };
+        render(<Harness initial={{ ...asBusinessFoundationValue(undefined), segments: [{ ...segment, profiles: [profile], offerings: [{ ...createBusinessOffering(), name: "Tutoring", category: "Service" }] }] }} />);
+        fireEvent.click(toggles(/Offering 1$/)[0]);
+        const boxOf = (title: string) => screen.getAllByRole("heading").find(heading => (heading.textContent ?? "").replace(/i$/, "").trim() === title)!.closest(".business-segment-box")!;
+        const labels = (box: Element) => [...box.querySelectorAll(".legal-entity-org-section")].map(band => band.textContent ?? "");
+        const benefit = labels(boxOf("Customer Benefit"));
+        const at = (text: string) => benefit.findIndex(band => band.includes(text));
+        expect(at("Functional Needs Addressed")).toBeGreaterThan(0);
+        expect(at("Functional Needs Addressed")).toBeLessThan(at("Which of their worries does it answer?"));
+        expect(at("Which of their worries does it answer?")).toBeLessThan(at("What does it do best"));
+        const fn = labels(boxOf("Function"));
+        expect(fn.some(band => band.includes("What form does it take?"))).toBe(true);
+        expect(fn.some(band => band.includes("Can customers buy it today?"))).toBe(false);
+        const delivery = labels(boxOf("Purchase & Delivery"));
+        expect(delivery.findIndex(band => band.includes("Can customers buy it today?"))).toBe(1);
+        expect(delivery.findIndex(band => band.includes("How long until they have it?"))).toBeLessThan(delivery.findIndex(band => band.includes("receive it?")));
     });
 
 });

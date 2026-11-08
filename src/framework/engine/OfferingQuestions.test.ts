@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { asBusinessFoundationValue } from "./AnswerBusinessFoundation";
 import { OUTCOME_IDS } from "./PositioningIds";
-import { asOfferingAnswers, draftOffered, highestRated, offeringAsks, offeringInfo, offeringOptions, offeringShown, valueMismatch, valuePropositionDraft, valuePropositionOpenItems } from "./OfferingQuestions";
+import { OFFERING_BOX_QUESTIONS, asOfferingAnswers, draftOffered, highestRated, offeringAsks, offeringInfo, offeringOptions, offeringShown, valueMismatch, valuePropositionDraft, valuePropositionOpenItems } from "./OfferingQuestions";
 
 const segment = asBusinessFoundationValue({
     segments: [{
@@ -156,4 +156,18 @@ describe("O2, O3, O10 and O18 from the research (2026-11-08)", () => {
         expect(draft("meet-a-requirement")).toContain("want to meet their obligations");
     });
 
+});
+
+/* Phase 5, P6 and P7 (owner, 2026-11-08): the boxes in the order of the card; the codes stay. */
+describe("the Offering's boxes", () => {
+    it("asks O1 alone in Function, O8 then O4 in Customer Benefit (after the needs addressed), and O2, O3, O15, O6 in Purchase & Delivery", () => {
+        expect(OFFERING_BOX_QUESTIONS.function).toEqual([["o1"]]);
+        expect(OFFERING_BOX_QUESTIONS.benefit).toEqual([["o8"], ["o4"]]);
+        expect(OFFERING_BOX_QUESTIONS.delivery).toEqual([["o2"], ["o3", "o3t"], ["o15"], ["o6"]]);
+    });
+    it("points O8's and O15's \"i\" where the other question stands now", () => {
+        expect(offeringInfo("o8", { type: "Service" }).join(" ")).toContain("in Support & Communication");
+        expect(offeringInfo("o8", { type: "Service" }).join(" ")).not.toContain("above");
+        expect(offeringInfo("o15", { type: "Service" }).join(" ")).toContain("the question below");
+    });
 });
