@@ -305,7 +305,8 @@ A typical person of the Segment, asked specifically.
 - **Connections:**
   - *Read by (built, 2026-11-05):* the Competitor's K8 shows every value of L1, those ticked here first, the highest rated first, each banded by how many Profiles ticked it, and its K10 weighs each value by its rating here (doc 41).
   - *Comes from:* nothing.
-  - *Read by (not built yet):* the Value Proposition draft; the Review (against the Offering's benefit and the positioning).
+  - *Read by (built, 2026-11-07):* the Value Proposition's open items, Unmet value and Unwanted benefit (B1 against the Offerings' O4, doc 42, 2).
+  - *Read by (not built yet):* the Review (against the Offering's benefit and the positioning). (The draft sentence does not read B1: its benefit is O4's, doc 42, 1.)
 
 ## 5. Box C. Social & Interest Hubs
 
@@ -459,7 +460,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
   - Compliance: meeting a requirement or staying within the rules, at work or by law. Efficiency: saving time or money.
   - Resolution: getting a specific problem fixed. Enjoyment: having fun or a good time.
   - Based on: gains (Value Proposition Canvas) [FUN-46].
-- **Asked when:** always. *Read by (not built yet):* the Value Proposition draft (the gains). *Comes from:* nothing.
+- **Asked when:** always. *Read by (built, 2026-11-07):* the Value Proposition draft (the gains: the goal rated highest across the Segment's Profiles, in its draft phrase; doc 42, 1). *Comes from:* nothing.
 
 ### E2. What frustrates this person today?
 
@@ -480,7 +481,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
   - Cost: too costly, or unclear prices. Delays: it takes too long. Inconsistency: results vary. Trust: hard to find someone reliable.
   - Skills gap: not knowing how, or fearing a mistake. Capacity: no time or staff. Hassle: too complicated, or poor support.
   - Based on: pains (Value Proposition Canvas) [FUN-46].
-- **Asked when:** always. *Read by (not built yet):* the Value Proposition draft (the pains); the Review. *Comes from:* nothing.
+- **Asked when:** always. *Read by (built, 2026-11-07):* the Value Proposition draft (the pains: the frustration rated highest across the Segment's Profiles, in its draft phrase; doc 42, 1). *Read by (not built yet):* the Review. *Comes from:* nothing.
 
 ### E4. Outcome for the end user (the end user's part only)
 
@@ -624,8 +625,7 @@ D2 ("How much help does this person want before buying?") stays one choice: its 
 
 **The rule.** With a rating, no limit is needed to rank: the rating does the ranking. A cap still keeps a Profile focused and readable, and a long list of ticks says less, not more. The scenarios need three to five for what matters (B1) and never more than three for goals, frustrations and worries, whose first items are what the Value Proposition and the Offering read. So: **B1 up to 5; E1, E2 and E3 up to 3**, the same in B2B and B2C (a corporate group's narrower Profiles simply tick fewer). **Decided (owner, 2026-11-04): "The limits are fine."** Five stays within the span a person can hold and compare at once, "somewhere in the neighborhood of seven" (Miller, 1956) [FUN-66]; a more involved buyer searches more (Zaichkowsky, 1985) [FUN-67], which is why a considered purchase needs more than the everyday three.
 
-**What the ratings feed.** Built: B1's ratings weigh the Competitor's K10 (doc 41); B1 → the Competitor's K8 (its rows ordered by the Profiles' highest rating, banded by how many tick each). Not built yet:
-- B1 → the Value Proposition draft (doc 42): the value rated highest comes first.
-- E1 → the Value Proposition draft's gains, the goal rated highest first.
-- E2 → the Value Proposition draft's pains, the frustration rated highest first; the Review.
+**What the ratings feed.** Built: B1's ratings weigh the Competitor's K10 (doc 41); B1 → the Competitor's K8 (its rows ordered by the Profiles' highest rating, banded by how many tick each); E1 → the Value Proposition draft's gains and E2 → its pains, the goal and the frustration rated highest first (doc 42, 1; built 2026-11-07). Not built yet:
+- B1 → the Value Proposition draft (doc 42): the value rated highest comes first. (As built, the draft's benefit is the Offering's O4; B1 feeds the open items.)
+- E2 → the Review.
 - E3 → the Offering's O8 (doc 43): the worries rated highest first; a "Blocking" worry no Offering answers is a Review item.

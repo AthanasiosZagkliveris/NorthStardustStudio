@@ -500,7 +500,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - Select all that apply.
 - **Connections:**
   - *Comes from:* This Segment's age (credit and Buy Now, Pay Later not for Minors) and Early Positioning's relationship (invoicing for business).
-  - *Read by (built):* The Market document and the export.
+  - *Read by (built):* The Market document and the export; the Offering's O3, whose options it orders (Invoice, bank transfer or purchase order puts A project or contract first; the settled answer is read, 2026-11-08; doc 43, O3).
   - *Read by (not built yet):* The Offering's payment plan (instalments, invoicing) and the Direct Payment channels.
 
 ### 4. How do your customers share what they like?
