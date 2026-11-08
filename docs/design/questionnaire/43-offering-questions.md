@@ -66,7 +66,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 
 ### O3. On what terms do they pay for it?
 
-*Renamed (owner, 2026-11-07: "fix and optimise the cards, avoid overlapping and repetition"): "How do customers pay for it?" read as the Segment's "How do your customers pay?" (card, invoice); this asks the terms. Upfront payment, a deposit or a minimum term are written in Purchase & Delivery. Id kept.*
+*Renamed (owner, 2026-11-07: "fix and optimise the cards, avoid overlapping and repetition"): "How do customers pay for it?" read as the Segment's "How do your customers pay?" (card, invoice); this asks the terms. A minimum term is written in the Notes. Id kept.*
 
 - **Control:** one choice (a radio).
 - **Asked when:** always.
@@ -82,6 +82,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - How often they pay, and on what terms. How they pay (card, invoice) is the Segment's question.
   - Subscription: regular payments until they cancel. Pay as they go: they pay for what they use.
   - A minimum term: write it in the Notes.
+- **Not built yet:** the card's "i" still has the old line.
 - **Connections:**
   - *Comes from:* the Segment's "How do your customers pay?" (doc 35, Box 4, question 8). Invoice, bank transfer or purchase order puts A project or contract first, as an order only.
   - *Read by (not built yet):* Demand's "Customers buy", Delivery's "Delivered" and the Revenue stream's "Charged" (doc 28, 11.7 and 10.2); the Review (doc 28, 11.5, rule 14).

@@ -378,7 +378,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 - **The "i" says:**
   - When they actually buy, not when they are free: the Segment's work schedule says when they work.
   - How they buy, in their words, goes in the Notes.
-- **Connections:** *Read by:* the documents and the export. The habits Notes keep where and how they buy, in their words.
+- **Connections:** *Read by:* the documents and the export. The habits Notes keep how they buy, in their words.
 
 ## 7. Box E. Motivations
 

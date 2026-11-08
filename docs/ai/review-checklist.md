@@ -1,6 +1,6 @@
 # The review checklist: what to check when reviewing a table, tile, card, page or control
 
-Status: **rules**, written 2026-10-20, updated 2026-11-02. What to check when reviewing a table, tile, card, page or control, and the proof before saying done.
+Status: **rules**, written 2026-10-20, updated 2026-11-08. What to check when reviewing a table, tile, card, page or control, and the proof before saying done.
 
 The standard behind each line, with the numbers and how to measure them, is `review-criteria.md`.
 
