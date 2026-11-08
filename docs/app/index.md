@@ -1,6 +1,6 @@
 # NorthStardust: index of the app
 
-Status: **index**, written 2026-10-29, updated 2026-11-02 (every place checked against the code). An alphabetical list of the places and things in the app: where to find each in the app, and which document describes it. The order of the pages and how the app is entered are in `contents.md`; the meaning of the terms is in `glossary.md`; the alphabetical index of the documents is `docs/index.md`.
+Status: **index**, written 2026-10-29, updated 2026-11-09 (every place checked against the code; the Competitors, Offerings and Value Proposition rows 2026-11-09). An alphabetical list of the places and things in the app: where to find each in the app, and which document describes it. The order of the pages and how the app is entered are in `contents.md`; the meaning of the terms is in `glossary.md`; the alphabetical index of the documents is `docs/index.md`.
 
 Paths are written "System › page › tile". "Doc 28" is the document numbered 28 in `docs/README.md` (`design/questionnaire/28-questionnaire-specification.md`); "01 C.2" is its section C.2. "Page 3" is `specifications/business-system/page-3-infrastructure-and-capability.md`, and so for the other pages (the folder is `specifications/business-system/`).
 
@@ -37,7 +37,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Channel Fee Table | Global Settings › Channel Fee Table | Doc 1, Part D 6 |
 | Channels | Business › 2 Customer Engagement › Customer Channel | Page 2, section 1 |
 | Colours | Brand › Brand System › Style | Doc 1, B.1 |
-| Competitors | Business › 1 Foundation › Competitors | Doc 28, 6.6; page 1 |
+| Competitors | Business › 1 Foundation › Competitors | Doc 41; doc 28, 6.6; page 1 |
 | Completed | Business › 3 Infrastructure & Capability › the footer band (a help tile; only while an activity is completed) | Page 3 |
 | Costs | Business › 4 Financial Foundation › Costs | Page 4 |
 | Current Situation Analysis | Strategy › Situation & Direction | Doc 1, B.1 |
@@ -117,7 +117,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Item | Where in the app | Described in |
 |---|---|---|
 | Offering's Capability | Business › 3 Infrastructure & Capability, the second card: Resources, Activities, Partners & Suppliers, Delivery | Page 3 |
-| Offerings | Business › 1 Foundation › Offerings | Doc 28, 6.8; page 1 |
+| Offerings | Business › 1 Foundation › Offerings | Doc 43; doc 28, 6.8; page 1 |
 | Opening Date | Identity › 1 Definition and Ethics › Organisation; it decides the business stage and the plan start | Doc 37; doc 28, 8.2a |
 | Organisation (tile) | Identity › 1 Definition and Ethics › Organisation | Doc 37; doc 28, 8.5 |
 | Organisations (home) | The first screen: create, import, export or delete an Organisation; Reload; System Selection; Capability Generator | `contents.md` |
@@ -169,6 +169,6 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Value Proposition | Business › 1 Foundation › Value Proposition | Doc 28, 6.7; page 1 |
+| Value Proposition | Business › 1 Foundation › Value Proposition | Doc 42; doc 28, 6.7; page 1 |
 | Values | Identity › 1 Definition and Ethics › Ethics | Doc 1, B.1 |
 | Vision | Identity › 1 Definition and Ethics › Definition | Doc 1, B.1 |

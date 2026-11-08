@@ -2,7 +2,7 @@
 
 Status: **index**, written 2026-09-27, updated 2026-11-09. The five pages of the Business System (System 3 of the Foundation), the file that specifies each, the editor and the data module that build it, and what crosses between the pages.
 
-The pages are numbered 1 to 5 as the app numbers them. Page 1's questions (the Segment's and the Profile's) are kept in docs 35 and 36 (`design/questionnaire/`), not here. Each file holds the requirement as the owner wrote it and, where the app does it differently, an **As built** section that wins. The layout of the pages (tiles, cards, measures) is not specified here: it is the rulebook's (`ai/layout-rules.md`), and the page of Customer Engagement has its own (`ai/customer-engagement-layout.md`). The open requirements for the pages are in document 5, section 5.5; this folder says what the pages do, that one what they could do.
+The pages are numbered 1 to 5 as the app numbers them. Page 1's questions (the Segment's, the Profile's, the Competitor's, the Value Proposition's and the Offering's) are kept in docs 35, 36, 41, 42 and 43 (`design/questionnaire/`), not here. Each file holds the requirement as the owner wrote it and, where the app does it differently, an **As built** section that wins. The layout of the pages (tiles, cards, measures) is not specified here: it is the rulebook's (`ai/layout-rules.md`), and the page of Customer Engagement has its own (`ai/customer-engagement-layout.md`). The open requirements for the pages are in document 5, section 5.5; this folder says what the pages do, that one what they could do.
 
 ## The pages
 

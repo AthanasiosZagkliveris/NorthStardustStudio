@@ -1,7 +1,15 @@
 /**
- * THE EFFECTIVE ANSWERS of a Profile and an Offering (docs 36 and 43; owner, 2026-11-08: "App follows the docs"): what is saved where the user set it, otherwise the
- * starting value the card shows. One place, read by the card, the Value Proposition, the Business Plan and the export, so they cannot drift apart.
- * Only the fields the user set are saved; every other field keeps following its source answers.
+ * THE EFFECTIVE ANSWERS of a Segment, a Profile and an Offering (docs 35, 36 and 43; owner, 2026-11-08: "App follows the docs"): what is saved where the user set it,
+ * otherwise the starting value the card shows. Only the fields the user set are saved; every other field keeps following its source answers. The one place every reader
+ * of Page 1's answers goes through, so they cannot drift apart:
+ * - Page 1's cards and the Value Proposition's draft and open items (editors/foundation/useFoundationSubsections.tsx): the Profile's, its end user's and the Offering's
+ *   answers, offeringContextOf and withFieldSet.
+ * - The Business Plan (BusinessDocuments.ts): the Offering's answers. The export (ExportRenderers.ts): the Profile's, its end user's and the Offering's.
+ * - The Review (OpenItems.ts): the Offering's O3.
+ * - The later pages (specifications/business-system/README.md, "What each later page reads from Page 1"): offeringStartsById for Page 2's Customers Buy
+ *   (engagement/useEngagementDemand.tsx), Page 3's Delivery (capability/useCapabilityActivityAndDelivery.tsx) and Page 5's revenue stream
+ *   (FinancialSustainabilityEditor.tsx); noPhysicalOffering for what Page 3 hides without a physical item (capability/useCapabilityState.tsx).
+ * The Segment's answers (effectiveSegmentAnswers) are read here only, by offeringContextOf.
  */
 import type { BusinessCustomerProfileValue, BusinessCustomerSegmentValue, BusinessOfferingValue } from "./AnswerBusinessFoundation.ts";
 import { type OfferingAnswers, type OfferingContext, offeringOptions, offeringShown } from "./OfferingQuestions.ts";
