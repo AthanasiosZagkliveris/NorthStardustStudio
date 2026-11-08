@@ -5,13 +5,23 @@
  */
 import type { BusinessCustomerProfileValue, BusinessCustomerSegmentValue, BusinessOfferingValue } from "./AnswerBusinessFoundation.ts";
 import { type OfferingAnswers, type OfferingContext, offeringShown } from "./OfferingQuestions.ts";
-import { profileShown } from "./ProfileQuestions.ts";
+import { profileShown, profileUserShown } from "./ProfileQuestions.ts";
 import { type SegmentIdentity, segmentContextFor, segmentIsBusiness, segmentPositioningShown } from "./SegmentContext.ts";
 import type { SegmentAnswers } from "./SegmentQuestions.ts";
 
 /** A Profile's answers as its card shows them: its own, with each start for a question it never answered. */
 export function effectiveProfileAnswers(profile: BusinessCustomerProfileValue, segment: BusinessCustomerSegmentValue, identity: SegmentIdentity | undefined): SegmentAnswers {
     return profileShown(profile.questions ?? {}, segment.questions, segmentContextFor(identity, segmentIsBusiness(segment)));
+}
+
+/**
+ * The end user's own answers of a Profile (doc 36, 2.1; owner, 2026-11-08), as its end-user part shows them: saved under `user.questions`, with A8 started from the Segment's End
+ * user, 8 and E4 from the Segment's End user, 9 (itself started from Positioning's answer saved before) where never answered. Empty where the Segment has no end user. The end
+ * user's E1, E2 and Needs are in `effectiveProfileAnswers` (the part they stand in: `profilePartOf`).
+ */
+export function effectiveProfileUserAnswers(profile: BusinessCustomerProfileValue, segment: BusinessCustomerSegmentValue, identity: SegmentIdentity | undefined): SegmentAnswers {
+    const context = segmentContextFor(identity, segmentIsBusiness(segment));
+    return profileUserShown(profile.user?.questions ?? {}, segmentPositioningShown(segment.questions, identity, context), context);
 }
 
 /** A Segment's answers as its card shows them: its own, with the Positioning answers saved before 2026-11-08 as the starts of its Differentiation and its end user's outcome. */
@@ -26,7 +36,7 @@ export function effectiveSegmentAnswers(segment: BusinessCustomerSegmentValue, i
 export function offeringContextOf(offering: BusinessOfferingValue, segment: BusinessCustomerSegmentValue, identity: SegmentIdentity | undefined): OfferingContext {
     const worries = [...new Set(segment.profiles.flatMap(profile => effectiveProfileAnswers(profile, segment, identity).e3 ?? []))];
     const differentiation = effectiveSegmentAnswers(segment, identity).differentiation ?? [];
-    return { type: offering.category, stage: identity?.stage, differentiation, outcome: identity?.outcome ?? [], pay: segment.questions.pay ?? [], worries, country: identity?.country };
+    return { type: offering.category, stage: identity?.stage, differentiation, outcome: identity?.outcome ?? [], pay: segment.questions.pay ?? [], worries, country: identity?.country, ...(segmentContextFor(identity, segmentIsBusiness(segment)).endsUser ? { endsUser: true } : {}) };
 }
 
 /** An Offering's answers as its card shows them: its own, with each start for a question it never answered. */

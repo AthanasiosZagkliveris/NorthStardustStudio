@@ -1,10 +1,12 @@
-import { JOB_INFO, JOB_LEVELS, JOB_RENAMED, type SegmentAnswers, type SegmentContext, type SegmentOption } from "./SegmentQuestions.ts";
+import { JOB_INFO, JOB_LEVELS, JOB_RENAMED, SEGMENT_QUESTIONS, ratingOptions, ratingWords, type SegmentAnswers, type SegmentContext, type SegmentOption } from "./SegmentQuestions.ts";
+import { choiceLimit } from "./PositioningIds.ts";
 
 /**
  * THE PROFILE'S QUESTIONS (document 36): a typical person of the Segment, asked only what the Segment cannot. A Profile keeps its answers as `questions` (question id -> the option ids chosen; the
  * exact age, A1, is the number as text). Which are asked follows the Segment's own answers; an answer to a question no longer asked is removed; starting values come from the Segment and
  * can be changed. Not built yet: A4 (the kind of business) and A6 (the specialised needs).
  * The job (owner, 2026-11-03): one question per Profile, A3 the kind of work (B2C) or A3b the job level (B2B); A7 who they live with (B2C).
+ * A Segment with an end user (Proxy or Dual-Intent) splits each Profile into the buyer's part and the end user's (owner, 2026-11-08; see "THE BUYER AND THE END USER" below).
  */
 
 export type ProfileBox = "personal" | "psychographics" | "hubs" | "habits" | "goals" | "challenges" | "objections" | "needs";
@@ -184,6 +186,168 @@ const QUESTIONS: readonly ProfileQuestion[] = [
 
 export const PROFILE_QUESTIONS = QUESTIONS;
 
+/*
+ * THE BUYER AND THE END USER (owner, 2026-11-08: "If the buyer is proxy, the profile should contain questions for both buyer and end user."). On a Segment whose own buyer is
+ * Proxy or Dual-Intent (`context.endsUser`), each Profile holds two parts in one card: the buyer (the person who chooses and pays) and the end user (the person it is for; for a
+ * Dual-Intent buyer, who also uses it, the people they buy for besides themselves). One rule splits the questions: who they are, how they use it and what they want from it belong to
+ * the end user; choosing, paying and deciding belong to the buyer. A Direct Segment's Profile is one person and keeps every question in one part, as before.
+ *
+ * Saved data. The buyer's answers stay where every Profile's are (`questions`), no key changed. The questions only the end user is asked (E1, E2 and the Needs) keep their keys there
+ * too, because a Direct Segment asks them of its one person and the Offerings tick the functional tasks by id: on a Proxy or Dual-Intent Segment they are the end user's. The end
+ * user's own answers, to the questions both parts ask with answers that can differ (A1, A7) and to the end user's own (A8 online comfort, E4 the outcome), are saved under
+ * `user.questions` on the Profile, its Personal note under `user.note`.
+ */
+
+/** Which part of a Proxy or Dual-Intent Segment's Profile asks a question: "buyer" or "user" (the end user). */
+export type ProfilePart = "buyer" | "user";
+
+/** The questions of `questions` asked in the end user's part (E1, E2 and the Needs): what they want from it and the jobs, feelings and image they want. */
+const USER_PART = ["e1", "e2", "functional", "emotional", "emotional-b2b", "social", "social-b2b"];
+
+/** The part a question of `questions` stands in: the end user's for E1, E2 and the Needs where the Segment has an end user; else the buyer's (a Direct Segment's one person). */
+export function profilePartOf(question: Pick<ProfileQuestion, "id">, context: Pick<SegmentContext, "endsUser">): ProfilePart {
+    return context.endsUser && USER_PART.includes(question.id) ? "user" : "buyer";
+}
+
+const COMFORT_RATING = { low: "Uneasy", high: "Confident" };
+const OUTCOME = SEGMENT_QUESTIONS.find(question => question.id === "u-outcome");
+
+/**
+ * The end user's own questions (saved under `user.questions`): A1 and A7 asked again of the end user, where the answer can differ from the buyer's; A8 how comfortable the end user
+ * is online (from the Segment's End user, 8); E4 the outcome for the end user (the Segment's End user, 9 until 2026-11-08, and Positioning's 10 before it: both are its start).
+ */
+const USER_QUESTIONS: readonly ProfileQuestion[] = [
+    {
+        id: "a1", box: "personal", label: "How old is {s}?", many: false, number: true, options: [],
+        info: ["One age within the Segment's end-user stage: a typical end user, not the average.", "If the Segment's end-user stage changes and this age falls outside it, the age is cleared."]
+    },
+    {
+        id: "a7", box: "personal", label: "Who does {s} live with?", many: false, options: HOUSEHOLDS,
+        info: ["Asked of an adult end user, who may not live with the buyer.", "Based on: household types (ONS, Census 2021).", "Children: children living at home. With parents / relatives includes several generations under one roof."]
+    },
+    {
+        id: "comfort", box: "personal", label: "How comfortable is {s} online?", many: false, rating: COMFORT_RATING, options: ratingOptions(COMFORT_RATING),
+        info: ["How easily they use websites, apps and online payment, not whether they own a device.", "The Segment's answer for its end users starts this; change it freely."]
+    },
+    {
+        id: "outcome", box: "goals", label: OUTCOME?.label ?? "Outcome for the end user", many: true, options: OUTCOME?.options ?? [],
+        info: [
+            "What matters most to the end user, apart from the buyer's own reasons for paying: the result the end user gets.",
+            ...(OUTCOME?.info.slice(1) ?? []),
+            "The Segment's answer saved before (or Positioning's) starts this; change it freely."
+        ]
+    }
+];
+
+export const PROFILE_USER_QUESTIONS = USER_QUESTIONS;
+
+/** A question of the end user's part, written of the end user ("How old is the end user?"). */
+export function profileUserWho(label: string): string {
+    return label.replace(/{s}|{o}/g, "the end user").replace(/{p}/g, "the end user's");
+}
+
+/** The ages each of the Segment's end-user stages holds (first number up to, not including, the second). */
+const USER_AGE_RANGES: Record<string, [number, number]> = {
+    baby: [0, 3], child: [3, 11], teen: [11, 18], young: [18, 25], established: [25, 40], peak: [40, 55], mature: [55, 65], active: [65, 75], dependent: [75, 130]
+};
+const ADULT_USER_AGES = ["young", "established", "peak", "mature", "active", "dependent"];
+
+/** The range of years the Segment's end-user stage allows (End user, 1), or null where none is chosen. */
+export function profileUserAgeRange(segment: SegmentAnswers): [number, number] | null {
+    const range = USER_AGE_RANGES[(segment["u-age"] ?? [])[0]];
+    return range ?? null;
+}
+
+/**
+ * Whether the end user's part asks one of its own questions. Only where the Segment has an end user. A7 only of an adult end user of a people Segment (a baby, child or teenager
+ * lives with the buyer; a business Segment's end users are staff or clients); A8 not of a baby (as the Segment's End user, 8).
+ */
+export function profileUserQuestionAsked(question: Pick<ProfileQuestion, "id">, segment: SegmentAnswers, context: SegmentContext): boolean {
+    if (!context.endsUser) {
+        return false;
+    }
+    const age = (segment["u-age"] ?? [])[0];
+    switch (question.id) {
+        case "a7":
+            return context.frame !== "business" && ADULT_USER_AGES.includes(age);
+        case "comfort":
+            return age !== "baby";
+        default:
+            return true;
+    }
+}
+
+/** What the outcome (E4) allows at the business stage: Positioning's outcome limit, as the Segment's End user, 9 had it. */
+export function profileOutcomeLimit(context: Pick<SegmentContext, "stage">): number | null {
+    return choiceLimit(context.stage, "outcome");
+}
+
+/**
+ * The end user's own answers settled: an age within the end-user stage, an option offered, the outcome within the stage's limit (over it, back to empty, as on Positioning; a
+ * cleared outcome stays cleared, an empty list saved). Nothing is kept where the Segment has no end user.
+ */
+export function profileUserSettle(saved: SegmentAnswers, segment: SegmentAnswers, context: SegmentContext): SegmentAnswers {
+    const settled: SegmentAnswers = {};
+    for (const question of USER_QUESTIONS) {
+        const chosen = saved[question.id];
+        if (!chosen || !profileUserQuestionAsked(question, segment, context)) {
+            continue;
+        }
+        if (question.number) {
+            const age = Number(chosen[0]);
+            const range = profileUserAgeRange(segment);
+            if (Number.isFinite(age) && chosen[0] !== "" && (!range || (age >= range[0] && age < range[1]))) {
+                settled[question.id] = chosen;
+            }
+            continue;
+        }
+        const offered = chosen.filter(id => question.options.some(option => option.id === id));
+        if (question.id === "outcome") {
+            const limit = profileOutcomeLimit(context);
+            settled[question.id] = limit !== null && offered.length > limit ? [] : offered;
+            continue;
+        }
+        settled[question.id] = question.many ? offered : offered.slice(0, 1);
+    }
+    return settled;
+}
+
+/**
+ * The end user's own answers as the part shows them: its own, with a start where it never answered (no key saved): A8 from the Segment's End user, 8, E4 from the Segment's End user,
+ * 9 (with Positioning's answer saved before as its own start: pass the Segment's answers as `segmentPositioningShown` gives them), within the stage's limit. A saved answer wins, even an
+ * empty one.
+ */
+export function profileUserShown(answers: SegmentAnswers, segment: SegmentAnswers, context: SegmentContext): SegmentAnswers {
+    const shown: SegmentAnswers = { ...answers };
+    if (!("comfort" in shown) && (segment["u-comfort"] ?? []).length > 0) {
+        shown.comfort = segment["u-comfort"].slice(0, 1);
+    }
+    if (!("outcome" in shown) && (segment["u-outcome"] ?? []).length > 0) {
+        const limit = profileOutcomeLimit(context);
+        shown.outcome = limit === null ? [...segment["u-outcome"]] : segment["u-outcome"].slice(0, limit);
+    }
+    return profileUserSettle(shown, segment, context);
+}
+
+/** The end user's own questions of one box that the part asks. */
+export function profileUserQuestionsOf(box: ProfileBox, segment: SegmentAnswers, context: SegmentContext): ProfileQuestion[] {
+    return USER_QUESTIONS.filter(question => question.box === box && profileUserQuestionAsked(question, segment, context));
+}
+
+/** What the end user's own answers say, as lines for the documents and the exports, written of the end user. */
+export function profileUserAnswerLines(answers: SegmentAnswers): { label: string; value: string }[] {
+    return USER_QUESTIONS.flatMap(question => {
+        const chosen = answers[question.id] ?? [];
+        if (chosen.length === 0) {
+            return [];
+        }
+        const value = question.number ? chosen[0] + " years"
+            : question.rating ? ratingWords(chosen[0], question.rating)
+                : question.options.filter(option => chosen.includes(option.id)).map(option => option.label).join("; ");
+        return [{ label: profileUserWho(question.label), value }];
+    });
+}
+
 /**
  * A Profile is one person, so its questions are written of one: she, he, her, him, his once the gender is answered (the first question), "this person" until then
  * and for any other answer. The questions are stored with {s} (subject: she, he), {o} (object: her, him) and {p} (possessive: her, his); the documents list them as "this person".
@@ -251,8 +415,8 @@ export function profileQuestionAsked(question: ProfileQuestion, segment: Segment
             return business && !(segment.orgtype ?? []).includes("self");
         case "a7": {
             const ages = segment.age ?? [];
-            // Asked on the payer's Profile of a Proxy or Dual-Intent Segment too (a parent buying for a child); it is skipped only on the end user's own
-            // Profile (doc 36, A7), which is not built yet, so it shows on every Profile.
+            // Asked of the buyer of a Proxy or Dual-Intent Segment too (a parent buying for a child: the buyer's household); the end user's part asks its own A7
+            // only of an adult end user (profileUserQuestionAsked).
             return !business && !(ages.length > 0 && ages.every(id => id === "minor"));
         }
         case "a5":
@@ -281,9 +445,9 @@ export function profileQuestionAsked(question: ProfileQuestion, segment: Segment
     }
 }
 
-/** The questions of one box a Profile is asked. */
-export function profileQuestionsOf(box: ProfileBox, segment: SegmentAnswers, context: SegmentContext): ProfileQuestion[] {
-    return QUESTIONS.filter(question => question.box === box && profileQuestionAsked(question, segment, context))
+/** The questions of one box a Profile is asked; with a part, only those that part asks (profilePartOf: a Direct Segment's are all the buyer's). */
+export function profileQuestionsOf(box: ProfileBox, segment: SegmentAnswers, context: SegmentContext, part?: ProfilePart): ProfileQuestion[] {
+    return QUESTIONS.filter(question => question.box === box && profileQuestionAsked(question, segment, context) && (!part || profilePartOf(question, context) === part))
         .map(question => ({ ...question, options: profileOptionsOf(question, context) }));
 }
 
@@ -443,11 +607,14 @@ export function profileSettle(saved: SegmentAnswers, segment: SegmentAnswers, co
     return settled;
 }
 
-/** What a Profile's answers say, as lines for the documents and the exports. */
-export function profileAnswerLines(answers: SegmentAnswers): { label: string; value: string }[] {
+/**
+ * What a Profile's answers say, as lines for the documents and the exports. With a part (a Segment with an end user), only that part's questions: the end user's are written
+ * of the end user ("What does the end user want to achieve?").
+ */
+export function profileAnswerLines(answers: SegmentAnswers, part?: ProfilePart): { label: string; value: string }[] {
     return QUESTIONS.flatMap(question => {
         const chosen = answers[question.id] ?? [];
-        if (chosen.length === 0) {
+        if (chosen.length === 0 || (part && profilePartOf(question, { endsUser: true }) !== part)) {
             return [];
         }
         const other = (answers[question.id + "-other"]?.[0] ?? "").trim();
@@ -458,7 +625,7 @@ export function profileAnswerLines(answers: SegmentAnswers): { label: string; va
             const label = id === "other" && other ? "Other: " + other : question.options.find(option => option.id === id)?.label ?? id;
             return ratings[id] ? label + " (" + ratings[id] + "/5)" : label;
         }).join("; ");
-        return [{ label: profileWho(question.label, answers.a2?.[0]), value: words }];
+        return [{ label: part === "user" ? profileUserWho(question.label) : profileWho(question.label, answers.a2?.[0]), value: words }];
     });
 }
 

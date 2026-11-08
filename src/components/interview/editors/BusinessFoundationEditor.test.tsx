@@ -219,17 +219,50 @@ describe("BusinessFoundationEditor asks the questions that left Positioning", ()
         expect((screen.getByRole("checkbox", { name: "Differentiation: Cost-driven" }) as HTMLInputElement).disabled).toBe(true);
     });
 
-    it("asks the end user's outcome in the Segment's End user part only where the Segment has an end user", () => {
+    it("asks the end user's outcome in each Profile's end-user part (E4) only where the Segment has an end user, no longer on the Segment", () => {
         const saved: { current: unknown } = { current: null };
         render(<Held identity={proxy} saved={saved} />);
+        // (Closed, a Profile shows no question: the Segment's End user part no longer asks it.)
+        expect(screen.queryByRole("group", { name: "Outcome for the end user" })).toBeNull();
+        fireEvent.click(toggles(/Profile 1$/)[0]);
         const outcome = screen.getByRole("group", { name: "Outcome for the end user" });
         // (Ordered by the purposes chosen: Protection & Risk Reduction puts Safety & care first; started from Positioning.)
         expect(outcome.querySelector("label")?.textContent).toBe("Safety & care");
         expect((screen.getByRole("checkbox", { name: "Outcome for the end user: Safety & care" }) as HTMLInputElement).checked).toBe(true);
+        // (Nothing is saved until a tick; a tick is saved on the Profile's end-user part.)
+        expect(asBusinessFoundationValue(saved.current).segments[0].profiles[0].user).toBeUndefined();
+        fireEvent.click(screen.getByRole("checkbox", { name: "Outcome for the end user: Learning & growth" }));
+        expect([...(asBusinessFoundationValue(saved.current).segments[0].profiles[0].user?.questions?.outcome ?? [])].sort()).toEqual(["learning", "safety"]);
+        expect(asBusinessFoundationValue(saved.current).segments[0].profiles[0].questions?.outcome).toBeUndefined();
         cleanup();
         render(<Held identity={{ ...proxy, buyerCategory: ["b2c:direct"], endUser: [] }} saved={saved} />);
+        fireEvent.click(toggles(/Profile 1$/)[0]);
         expect(screen.queryByRole("group", { name: "Outcome for the end user" })).toBeNull();
         expect(screen.queryByRole("radiogroup", { name: "Outcome for the end user" })).toBeNull();
+    });
+
+    it("splits a Proxy or Dual-Intent Segment's Profile into the buyer and the end user; a Direct Segment's keeps its three sections", () => {
+        const saved: { current: unknown } = { current: null };
+        const heads = () => screen.getAllByRole("heading", { level: 3 }).map(heading => (heading.textContent ?? "").trim().replace(/i$/, ""))  /* (an "i" after a title reads as its letter) */;
+        for (const category of ["b2c:proxy", "b2c:dual"]) {
+            render(<Held identity={{ ...proxy, buyerCategory: [category] }} saved={saved} />);
+            fireEvent.click(toggles(/Profile 1$/)[0]);
+            expect(heads()).toEqual(expect.arrayContaining(["The buyer", "The end user"]));
+            expect(heads()).not.toContain("Motivations");
+            // The buyer: what matters when choosing (B1), the worries (E3); the end user: the age within the end-user stage (a Child: 3 to 10), the goals and frustrations.
+            expect(screen.getByRole("group", { name: "What matters most to this person?" })).toBeTruthy();
+            expect(screen.getByRole("group", { name: "What does the end user want to achieve?" })).toBeTruthy();
+            expect(screen.getByRole("group", { name: "What frustrates the end user today?" })).toBeTruthy();
+            expect(screen.queryByRole("group", { name: "What does this person want to achieve?" })).toBeNull();
+            expect(screen.getByLabelText("How old is the end user?")).toBeTruthy();
+            cleanup();
+        }
+        render(<Held identity={{ ...proxy, buyerCategory: ["b2c:direct"], endUser: [] }} saved={saved} />);
+        fireEvent.click(toggles(/Profile 1$/)[0]);
+        expect(heads()).toEqual(expect.arrayContaining(["Description", "Motivations", "Needs"]));
+        expect(heads()).not.toContain("The end user");
+        expect(screen.getByRole("group", { name: "What does this person want to achieve?" })).toBeTruthy();
+        expect(screen.queryByLabelText("How old is the end user?")).toBeNull();
     });
 
     it("asks one Differentiation as a radio while planning", () => {

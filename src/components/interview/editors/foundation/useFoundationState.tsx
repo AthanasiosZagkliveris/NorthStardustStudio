@@ -238,7 +238,10 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
         /** Its fold, where the group folds (see groupFold). */
         fold?: { open: boolean; label: string; onToggle: () => void },
         /** The boxes of questions in ONE column, in their order (the Profile's card, which floats at the width every floating card has). */
-        oneColumn = false
+        oneColumn = false,
+        /** The section's title and its "i": a Profile with an end user has two, "The buyer" and "The end user" (doc 36, 2.1). */
+        title = "Description",
+        info?: InfoPoint[]
     ) {
 
         const box = (part: DescriptionPart) => {
@@ -320,20 +323,20 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
                 return (
                     <div className="business-segment-box" key={part.id}>
                         <div className="legal-entity-org-section">{labelRow}</div>
-                        {asked && part.questions.map((question, at) => (
+                        {asked && (part.body ?? part.questions.map((question, at) => (
                             <div className={"legal-entity-org-section" + (at % 2 === 1 ? " legal-entity-org-band" : "")} key={at}>{question}</div>
-                        ))}
+                        )))}
                         {/* The box ends with the shared Note (the tick and the word, as every card has), ticked where it holds words. */}
                         {part.note && (
                             <div className={"legal-entity-org-section business-note-band" + (part.questions.length % 2 === 1 ? " legal-entity-org-band" : "")}>
                                 <OptionalNote
                                     label="Notes"
-                                    fieldId={part.title + " notes"}
+                                    fieldId={part.noteId ?? part.title + " notes"}
                                     ariaLabel={kind + " description: " + part.title + " notes"}
                                     placeholder={part.placeholder ?? "Add a note"}
                                     disabled={disabled}
-                                    value={current[part.id] ?? ""}
-                                    onChange={(next) => onNext({ ...current, [part.id]: next })}
+                                    value={part.noteValue ?? current[part.id] ?? ""}
+                                    onChange={(next) => part.onNote ? part.onNote(next) : onNext({ ...current, [part.id]: next })}
                                 />
                             </div>
                         )}
@@ -437,9 +440,9 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
                 : parts.map(box);
 
         return group(
-            "Description",
+            title,
             boxes,
-            undefined,
+            info,
             fold
         );
 

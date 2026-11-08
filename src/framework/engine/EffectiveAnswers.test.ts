@@ -105,7 +105,9 @@ describe("the Differentiation and the end user's outcome start from the Position
         expect(effectiveSegmentAnswers(withQuestions({}), direct)["u-outcome"]).toBeUndefined();
         expect(effectiveSegmentAnswers(withQuestions({}), direct).differentiation).toEqual(["cost", "premium"]);
         expect(segmentQuestionsOf("user", {}, segmentContextFor(direct, false)).map(question => question.id)).not.toContain("u-outcome");
-        expect(segmentQuestionsOf("user", {}, segmentContextFor(proxy, false)).map(question => question.id)).toContain("u-outcome");
+        // (Not shown on the Segment since it moved on to the Profile's end-user part, E4 (owner, 2026-11-08); kept and settled there as its start.)
+        expect(segmentQuestionsOf("user", {}, segmentContextFor(proxy, false)).map(question => question.id)).not.toContain("u-outcome");
+        expect(segmentSettle({ "u-outcome": ["safety"] }, segmentContextFor(proxy, false))).toEqual({ "u-outcome": ["safety"] });
         // (A saved one goes once the Segment has no end user.)
         expect(segmentSettle({ "u-outcome": ["safety"] }, segmentContextFor(direct, false))).toEqual({});
     });
@@ -123,7 +125,8 @@ describe("the Differentiation and the end user's outcome start from the Position
         const organisation = { customerType: ["b2c"], marketType: "single", audience: ["adult"], buyerCategory: ["b2c:proxy"], endUser: ["rel:parent", "age:minor"], differentiation: ["cost"], outcomeUser: ["safety"] };
         const lines = segmentAnswerLines(settledSegmentAnswers(withQuestions({}), organisation));
         expect(lines).toContainEqual({ label: "Differentiation", value: "Cost-driven" });
-        expect(lines).toContainEqual({ label: "Outcome for the end user", value: "Safety & care" });
+        // (The end user's outcome is printed with the Profile's end-user part, E4, no longer with the Segment.)
+        expect(lines.some(line => line.label === "Outcome for the end user")).toBe(false);
         expect(segmentAnswerLines(settledSegmentAnswers(withQuestions({ differentiation: ["ecosystem"] }), organisation))).toContainEqual({ label: "Differentiation", value: "Ecosystem & Integration" });
     });
 });

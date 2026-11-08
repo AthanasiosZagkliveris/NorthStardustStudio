@@ -1,6 +1,6 @@
 # 35. The Segment's questions: every question and option as built
 
-Status: **specification**, written 2026-11-01, updated 2026-11-08. Every question of the Segment card in the order it is asked, with its control, when it is asked, its options and what its "i" says. Since 2026-11-08 (owner, "Move all three") the end user's outcome is asked here (The end user, 9), and the Segment holds its Differentiation, asked once under its Competitors (doc 41, K14). **Who the questions are about:** the questions are written for "your customers" (a direct buyer); when the buyer is a Proxy or Dual-Intent buyer, the buyer's boxes say "your buyers" and the end user's box says "your end users" (`segmentWho`).
+Status: **specification**, written 2026-11-01, updated 2026-11-08. Every question of the Segment card in the order it is asked, with its control, when it is asked, its options and what its "i" says. Since 2026-11-08 (owner, "Move all three") the end user's outcome was asked here (The end user, 9); the same day it moved on to each Profile's end-user part (doc 36, 2.1, E4: owner, 2026-11-08, "If the buyer is proxy, the profile should contain questions for both buyer and end user."), where the answer saved here is its start. The Segment holds its Differentiation, asked once under its Competitors (doc 41, K14). **Who the questions are about:** the questions are written for "your customers" (a direct buyer); when the buyer is a Proxy or Dual-Intent buyer, the buyer's boxes say "your buyers" and the end user's box says "your end users" (`segmentWho`).
 
 Related: doc 36 (the Profile's questions, in the same form), doc 28 (6.3a, the Segment card in the specification), doc 31 (the age terms), doc 33 (the first version; its section 15 holds the thoughts), `src/framework/engine/SegmentQuestions.ts` (where these words are kept; where the two differ, the code is right).
 
@@ -601,7 +601,7 @@ Both.
 
 ## The end user (a part of the same card)
 
-Asked when the Segment's own buyer relationship has a Proxy or Dual-Intent buyer: a people Segment reads the B2C buyer's category and relationships, a business Segment the B2B buyer's (owner, 2026-11-08; `segmentContextFor`). So where Positioning chose B2C Direct and B2B Proxy, only the business Segment has an end user. Questions only.
+Asked when the Segment's own buyer relationship has a Proxy or Dual-Intent buyer: a people Segment reads the B2C buyer's category and relationships, a business Segment the B2B buyer's (owner, 2026-11-08; `segmentContextFor`). So where Positioning chose B2C Direct and B2B Proxy, only the business Segment has an end user. Questions only. The Segment asks the end users as a group (their stage, school, work, clients, online comfort); each Profile then holds a typical end user beside its buyer (doc 36, 2.1; owner, 2026-11-08), whose age is held to the stage asked here and whose online comfort starts from 8.
 
 ### 1. How old are your customers?
 
@@ -744,10 +744,12 @@ Asked when the Segment's own buyer relationship has a Proxy or Dual-Intent buyer
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* Channel order for the end user's side.
 
-### 9. Outcome for the end user (moved from Positioning, owner, 2026-11-08)
+### 9. Outcome for the end user (moved from Positioning, then to the Profile, owner, 2026-11-08; retired here)
+
+*Moved on to each Profile's end-user part (doc 36, 2.1, E4; owner, 2026-11-08: "If the buyer is proxy, the profile should contain questions for both buyer and end user."): the outcome is what one typical end user gets, so it stands with the end user's goals. It is no longer shown on the Segment, nor printed with its answers; the saved key `u-outcome` stays readable and settled (its stage limit holds), and it is the starting value of each Profile's E4 until the Profile saves its own (the saved value in the Profile wins, even cleared). Its code here, End user, 9, is retired (doc 44). What follows is the question as it was asked here.*
 
 - **Control:** a radio while the stage allows one choice, else ticks that lock at the limit with "2 max" beside the label, as on Positioning: Planning 1, Launching 2, Managing 2, Growing free (`choiceLimit`, the outcome's limit). A saved answer over the stage's limit goes back to empty.
-- **Asked when:** the Segment has an end user (its own buyer is Proxy or Dual-Intent), as every question of this part. (Positioning's question 10 until 2026-11-08, owner, "Move all three"; the end user's own Profile is not built yet, and Phase 4b moves this question into its end-user part.)
+- **Asked when:** no longer asked here (2026-11-08): the Profile's E4 asks it where the Segment has an end user. (Positioning's question 10 until 2026-11-08, owner, "Move all three".)
 - **Options:** as built on Positioning: Enjoyment & fun; Comfort & ease; Safety & care; Learning & growth; Looks & belonging; Practical use. Ordered as before by Positioning's purposes, then the buyer's and the end user's life stages (`userOutcomeOptionsFor`).
 - **Starts:** Positioning's answer saved before 2026-11-08 (`organisation.outcomeUser`), within the stage's limit, until the Segment saves its own; a value saved here wins, even cleared (saved as an empty list).
 - **The "i" says:**
@@ -756,5 +758,4 @@ Asked when the Segment's own buyer relationship has a Proxy or Dual-Intent buyer
   - The stage's line ("At this stage (Planning): choose one. …").
 - **Connections:**
   - *Comes from:* Early Positioning: the buyer's category, the purposes and the life stages (the order); the stage (the limit).
-  - *Read by (built):* The Market document ("What we know of them") and the export, under the Segment.
-  - *Read by (not built yet):* the end user's own Profile (doc 36, Phase 4b).
+  - *Read by (built):* each Profile's E4, as its start (doc 36, 2.1). The Market document and the export print it with the Profile's end-user part, no longer under the Segment.

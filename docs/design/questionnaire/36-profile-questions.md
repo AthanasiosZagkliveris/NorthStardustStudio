@@ -1,6 +1,6 @@
 # 36. The Profile's questions: every question and option, as built in part
 
-Status: **specification**, written 2026-11-01, updated 2026-11-08; built in part. The questions of the Profile card in the order they are asked, with their control, when they are asked, their options, what their "i" says and what they connect to. **Built:** A1 (the exact age, held to the Segment's group), A2, A7, A3 (B2C) and A3b (B2B), A5, B1, C1 to C4, D1 to D3, E1 to E3 and the Needs (Functional, Emotional, Social; section 10), with their conditions, starting values and settling (`ProfileQuestions.ts`, answers kept as `questions` on the Profile), in one column at the width every floating card has (492px), the boxes in their order, each with the Segment card's title band. The proposed B2B Profiles by buying role (2). **Not built yet:** A4 (the kind of business), A6 (the specialised needs), the other proposed Profiles (by age term; the end user's beside a Proxy or Dual-Intent payer), the end user's own Profile (and so its Box D rule), the reads marked "not built yet" below.
+Status: **specification**, written 2026-11-01, updated 2026-11-08; built in part. The questions of the Profile card in the order they are asked, with their control, when they are asked, their options, what their "i" says and what they connect to. **Built:** A1 (the exact age, held to the Segment's group), A2, A7, A3 (B2C) and A3b (B2B), A5, B1, C1 to C4, D1 to D3, E1 to E3 and the Needs (Functional, Emotional, Social; section 10), with their conditions, starting values and settling (`ProfileQuestions.ts`, answers kept as `questions` on the Profile), in one column at the width every floating card has (492px), the boxes in their order, each with the Segment card's title band. The proposed B2B Profiles by buying role (2). **The buyer and the end user in one Profile (2.4; owner, 2026-11-08):** on a Proxy or Dual-Intent Segment each Profile holds the buyer's part and the end user's, with A1 (end user), A7 (end user), A8 and E4 (saved under `user.questions`). **Not built yet:** A4 (the kind of business), A6 (the specialised needs), the other proposed Profiles (by age term), the reads marked "not built yet" below.
 
 Related: doc 35 (the Segment's questions, built, in the same form), doc 28 (6.4 and 6.5, the Profile design this refines, and the shared lists), doc 34 (the lists L1 to L16), doc 33 (its section 15 holds the thoughts), doc 31 (the age terms), `src/components/interview/editors/foundation/` (the Profile card today).
 
@@ -8,7 +8,7 @@ Related: doc 35 (the Segment's questions, built, in the same form), doc 28 (6.4 
 
 ## 1. What a Profile holds, and the rules
 
-**What a Profile holds.** A Name; seven boxes of two parts each (the questions below, then the box's note): *Specific Personal Information*, *Psychographics*, *Social & Interest Hubs* and *Information & Shopping Habits* (the section Description), *Goals & Desires*, *Challenges & Problems* and *Objections* (Motivations); and the three *Needs* (Functional, Emotional, Social): Emotional and Social are rated ticks with their Notes, and Functional is rated ticks above the numbered list of their own tasks (2026-11-07, section 10). The answers are kept as `questions` on the Profile and are listed in the documents and the exports (`profileAnswerLines`, `ExportRenderers.ts`). The Offering reads the needs. The words of each question's "i" are in `info` in `ProfileQuestions.ts`; the "i would say" texts below are the fuller design, and the shorter texts in the code are the ones shown.
+**What a Profile holds.** A Name; seven boxes of two parts each (the questions below, then the box's note): *Specific Personal Information*, *Psychographics*, *Social & Interest Hubs* and *Information & Shopping Habits* (the section Description), *Goals & Desires*, *Challenges & Problems* and *Objections* (Motivations); and the three *Needs* (Functional, Emotional, Social): Emotional and Social are rated ticks with their Notes, and Functional is rated ticks above the numbered list of their own tasks (2026-11-07, section 10). The answers are kept as `questions` on the Profile and are listed in the documents and the exports (`profileAnswerLines`, `ExportRenderers.ts`). On a Proxy or Dual-Intent Segment the card holds two parts, the buyer and the end user (2.4), the end user's own answers kept as `user.questions` and its Personal note as `user.note`. The Offering reads the needs. The words of each question's "i" are in `info` in `ProfileQuestions.ts`; the "i would say" texts below are the fuller design, and the shorter texts in the code are the ones shown.
 
 **The rules are the Segment's** (doc 35): a radio is one choice, ticks are several, with a limit where stated, built from the existing controls (`RadioChoice`, `BusinessTicks`, `NumberCell`, `OptionPicker`, `FieldRow`); an option says its few words and what is added in brackets or after a colon stands in the question's "i"; a question with one option left is not shown (none of the Profile's has yet); an answer to a question no longer asked is removed on the next choice; no "Not sure" option; each box keeps its title, its prompt (the "i") and **its note**, which stays for what the questions cannot say (a Profile is a person, and a person is described in words too); the layout is the Positioning card's (bands, divider lines, a double rule between boxes). The Emotional and Social needs are rated ticks with their Notes; the Functional needs are rated ticks above the numbered list (section 10, 2026-11-07): the list keeps the precise statement ("send an invoice in under a minute"), which no category holds.
 
@@ -16,11 +16,11 @@ Related: doc 35 (the Segment's questions, built, in the same form), doc 28 (6.4 
 
 | Box today | Questions below |
 |---|---|
-| Specific Personal Information | A1 to A5 |
+| Specific Personal Information | A1 to A5; the end user's A1 (end user), A7 (end user) and A8 (2.4) |
 | Psychographics | B1 |
 | Social & Interest Hubs | C1 to C4 |
 | Information & Shopping Habits | D1 to D3 |
-| Goals & Desires | E1 |
+| Goals & Desires | E1; the end user's E4 before it (2.4) |
 | Challenges & Problems | E2 |
 | Objections | E3 |
 | Needs | Emotional and Social: rated ticks with Notes; Functional: rated ticks above the numbered list (section 10) |
@@ -42,7 +42,7 @@ Related: doc 35 (the Segment's questions, built, in the same form), doc 28 (6.4 
 | Where they discover new products (ticks) | C2, C3, C4 | the platforms, communities and events related to the ticked ways come first (not built yet); built: C3 is asked only when "Online communities / forums" is ticked |
 | Where they spend time (social environment) | C4 events | asked when the Segment socialises "Online and in person" or "Mostly in person" (doc 35, Box 4, 2); a business Segment's Profile is always asked (owner, 2026-11-08) |
 
-The app also **proposes Profiles** (up to three): one for each age term of the group; for a Proxy or Dual-Intent buyer, a second Profile for the end user (doc 35, the end-user part). The App User presses Add on the ones they want.
+The app also **proposes Profiles** (up to three): one for each age term of the group (not built yet). The App User presses Add on the ones they want. *(For a Proxy or Dual-Intent buyer a second Profile for the end user was proposed here; since 2026-11-08 every Profile of such a Segment holds the end user in its own part instead: 2.4.)*
 
 **For a business Segment, by buying role (built, owner 2026-11-03: "go on with your proposed changes", review section 6.1).** Read from the Segment's "Who decides to buy?" (doc 35, 9), after the buying-centre roles of Webster and Wind (1972). Each proposal is an add button above "+ Add Profile" ("+ Add User Profile"); it adds a Profile with that name and its A5 roles ticked, which the App User can change, and it is not offered again while a Profile of the Segment has its name (`proposedBusinessProfiles`, `ProfileQuestions.ts`):
 
@@ -61,16 +61,16 @@ Nothing is proposed before the question is answered, or for people. The kinds of
 | The Segment is | The Profiles | Asked | Not asked |
 |---|---|---|---|
 | **B2C, Direct Buyers** | one typical person, who pays and uses | A1, A2, A7, A3, A6; B1; C; D; E (and A5 where the age group includes Minors) | A5 (the person plays every part), unless the age group includes Minors |
-| **B2C, Proxy or Dual-Intent** | the payer's Profile, and a second Profile for the end user (proposed beside it, doc 28, 6.5) | the payer: all but A5's "Uses it"; the end user: A1, A2, A5 (who uses it, who influences), A6, B1, C, E | the end user's Box D: the end user does not run the purchase (the payer's Profile holds how they compare and what help they want) |
-| **B2B** | the person who decides (or the one asked to use it) | A1, A3b, A4, A5, B1, C, D, E | A2 and A6 (they are asked only where the owner turns them on) |
+| **B2C, Proxy or Dual-Intent** | each Profile in two parts, the buyer and the end user (2.4, built 2026-11-08; it replaces the second Profile proposed beside the payer's, doc 28, 6.5) | the buyer: A2, A1, A7, A3, A5, B1, C, D, E3; the end user: A1 (end user), A7 (end user, an adult only), A8, E4, E1, E2, the Needs | the end user's Box D (the buyer runs the purchase), A2, A3, A5, B1, C and E3 |
+| **B2B** | the person who decides (or the one asked to use it) | A1, A3b, A4, A5, B1, C, D, E; for a Proxy or Dual-Intent business buyer (staff, clients) in two parts as above (2.4): the end user's A1 (end user), A8, E4, E1, E2 and the Needs | A2 and A6 (they are asked only where the owner turns them on) |
 
-**A5 (owner, 2026-11-01).** A pure B2C Direct Segment whose age group does not include Minors: A5 is not asked and leaves no gap (the one person plays every part). A B2C Proxy or Dual-Intent Segment: A5 is asked on both Profiles, starting with "Places the order" and "Makes the final decision" ticked on the payer's and "Uses it" ticked on the end user's, as starting values the App User can change; nothing is locked. A B2B Segment: A5 is always asked.
+**A5 (owner, 2026-11-01).** A pure B2C Direct Segment whose age group does not include Minors: A5 is not asked and leaves no gap (the one person plays every part). A B2C Proxy or Dual-Intent Segment: A5 is asked in the buyer's part, starting with "Places the order" and "Makes the final decision" ticked, as starting values the App User can change; nothing is locked (the end user's part asks no role in buying: 2.4). A B2B Segment: A5 is always asked.
 
 ### 2.2 When an answer above changes
 
 The Segment's rule holds here: **a question that is no longer asked, or an option no longer offered, has its answer removed on the next choice**, and the documents read the answers settled against what is asked now.
 
-**The exact age (A1), decided by the owner (2026-11-01).** When the Segment's age group changes, A1 is **cleared if its number falls outside the new group, and kept if it is still inside it**. A Profile of 21 stays when the Segment goes from Young adults (18–24) to a group that still holds 21 (or to none chosen), and is cleared when it goes to Peak (40–54). The cleared cell says why, in its placeholder: *"Age reset to match the Segment's age group. Enter a typical age from 40 to 54."* (not built yet; the range of the new group, both ages included (doc 35, Box 1, 1); for the last group, "75 or older"). Nothing else on the Profile is touched. **An end user's Profile (owner, 2026-11-01).** When the Segment stops being Proxy or Dual-Intent (a change of the buyer's category in Positioning, or of the relationship), the end user's Profile is **deleted completely at once**, not hidden: what it holds (its name, notes, needs and answers) is removed from the Segment's saved answer, so nothing of it reaches the documents, the exports or the wire, and a later change back to Proxy starts a new, empty end user's Profile. The payer's Profile is untouched.
+**The exact age (A1), decided by the owner (2026-11-01).** When the Segment's age group changes, A1 is **cleared if its number falls outside the new group, and kept if it is still inside it**. A Profile of 21 stays when the Segment goes from Young adults (18–24) to a group that still holds 21 (or to none chosen), and is cleared when it goes to Peak (40–54). The cleared cell says why, in its placeholder: *"Age reset to match the Segment's age group. Enter a typical age from 40 to 54."* (not built yet; the range of the new group, both ages included (doc 35, Box 1, 1); for the last group, "75 or older"). Nothing else on the Profile is touched. **An end user's Profile (owner, 2026-11-01).** When the Segment stops being Proxy or Dual-Intent (a change of the buyer's category in Positioning, or of the relationship), the end user's Profile is **deleted completely**, not hidden: what it holds is removed from the Segment's saved answer, so nothing of it reaches the documents, the exports or the wire, and a later change back to Proxy starts a new, empty end user's Profile. The payer's Profile is untouched. **As built (2026-11-08), with the end user a part of each Profile (2.4):** the end user's own answers and Notes (`user`) are no longer read at once (the card, the documents, the exports and the drafts leave them out), and are removed from the saved answer with the Profile's next answer, the rule every question no longer asked follows; E1, E2 and the Needs stay, as the one person's.
 
 ### 2.3 The card's layout
 
@@ -84,7 +84,44 @@ The card is built and its layout is in section 1 ("The Profile card's layout"): 
 | A box's note | the shared Note component (`OptionalNote`), under the questions |
 | What is not asked | a question that is not asked leaves no gap: its band is not drawn |
 
-**What changes with the Segment's kind (2.1, proposed):** a B2C Direct Profile shows boxes A (without A4 and A5), B, C, D, E; a Proxy Segment adds the end user's Profile card beside it, with box D left out; a B2B Profile shows A1, A3, A4, A5, hides A2 and the specialised needs, and C asks the professional hubs only. Built so far: the questions follow the Segment's answers as the tables in 2.1 and 9 say, where the card exists.
+**What changes with the Segment's kind (2.1):** a B2C Direct Profile shows boxes A (without A4 and A5), B, C, D, E; a Proxy or Dual-Intent Segment's Profile holds the buyer's part and the end user's in the same card, box D in the buyer's only (2.4, built); a B2B Profile shows A1, A3, A4, A5, hides A2 and the specialised needs, and C asks the professional hubs only. Built so far: the questions follow the Segment's answers as the tables in 2.1 and 9 say, where the card exists.
+
+### 2.4 The buyer and the end user in one Profile (owner, 2026-11-08; built)
+
+> **The owner's rule (2026-11-08, 18:11):** "If the buyer is proxy, the profile should contain questions for both buyer and end user."
+
+**What it means.** On a Segment whose own buyer is **Proxy** (a parent who buys for a child, an employer who pays for its staff) each Profile holds **two parts in the same card**: **The buyer**, the person who chooses and pays, and **The end user**, the person it is for. The same holds for a **Dual-Intent** buyer: the buyer uses it too, and the end user's part describes the people they buy for besides themselves (the dependents; its "i" says so). A Direct Segment's Profile is one person, who pays and uses, and is unchanged: its three sections (Description, Motivations, Needs) and every question in them.
+
+**One rule splits the questions:** who they are, how they use it and what they want from it belong to the **end user**; choosing, paying and deciding belong to the **buyer**. A question asked of both is shown once in each part only where the two answers can really differ (the age, the household); otherwise it is asked once, in the part it belongs to.
+
+| Question | Part | Why |
+|---|---|---|
+| A2 gender | buyer | the buyer's own identity; the Segment's gender mix (which starts it) is the buyers'; the end user is written of as "the end user" |
+| A1 age | both | the buyer's held to the Segment's age group; the end user's, **A1 (end user)**, held to the Segment's end-user stage (doc 35, End user, 1: a Child 3 to 10), not the buyer's age group |
+| A7 household | both | the buyer's household as before; **A7 (end user)** only of an adult end user of a people Segment (18 or more): a baby, child or teenager lives with the buyer, and a business Segment's end users are its staff or clients |
+| A3 / A3b work, job level | buyer | the job of the person who decides |
+| A5 role in buying | buyer | deciding and ordering; it starts at Places the order and Makes the final decision as before |
+| B1 what matters most | buyer | what they weigh when **choosing**; so the Competitor's K8 and K10, the open items and the Review's clear opening read the buyer's |
+| C1 to C4 devices, social media, communities, events | buyer | where they find and buy (C1's "i": the devices they use to find and buy): who the channels must reach |
+| D1 to D3 comparing, help, when they buy | buyer | the purchase, run by the buyer (as doc 36 decided in 2026-11-01: the end user's Box D is not asked) |
+| E3 worries | buyer | the doubts about **buying** (the price among them), so the Offering's O8 reads the buyer's |
+| **A8** online comfort | end user | new, the end user's own: how easily the end user uses websites and apps; starts from the Segment's End user, 8; not asked of a Baby |
+| E1 goals | end user | what they want from it |
+| **E4** outcome for the end user | end user | moved here from the Segment's End user, 9 (and Positioning's 10 before it); stands first in the end user's Goals & Desires |
+| E2 frustrations | end user | what goes wrong for the person who uses it |
+| N1 to N5 the Needs | end user | the jobs, the feelings and the way they want to be seen of the person it is for |
+
+Payment-related items (how they pay, the household income, who authorises the purchase) are the Segment's questions, of the buyers; the Profile asks none. Minors keep their rules: an end user of under 18 is asked no household and no work or income (none is asked of the end user at all), a Baby no online comfort.
+
+**How the card shows it.** Two sections, each the existing section band with its fold and its "i" (the level 3 headings "The buyer" and "The end user", split by the shared double rule), and under each the existing boxes (level 4 bands) with their questions and their Notes: the buyer's Specific Personal Information, Psychographics, Social & Interest Hubs, Information & Shopping Habits and Objections; the end user's Specific Personal Information (its own Notes), Goals & Desires (E4 then E1), Challenges & Problems (E2) and Needs (the Functional jobs and the numbered list of their own tasks, the Emotional and Social ticks with their Notes). The end user's questions are written of the end user ("How old is the end user?", "What does the end user want to achieve?"). No new look: the same `BusinessGroup`, box, `FieldRow`, `OptionalNote` and controls (A8 the `RatingScale` the Segment's comfort uses; E4 a radio while the stage allows one, else ticks that lock at the limit, as it was on the Segment).
+
+**Saved data (no key changed for the buyer).** The Profile's answers stay where they were (`questions`, `description`, `goals`, `challenges`, `objections`, `needs`), and on a Proxy or Dual-Intent Segment they are the buyer's, except E1, E2, the Needs and the Goals & Desires and Challenges & Problems Notes, which keep their keys and are the end user's there (a Direct Segment asks them of its one person, and the Offerings tick the functional tasks by id, so the ids stay stable and Functional Needs Addressed, the open items and the Customer Engagement relationships read them as before). The end user's own answers are saved under **`user.questions`** on the Profile (`a1`, `a7`, `comfort`, `outcome`), and its Personal Notes under **`user.note`**. They start empty, except A8 (from the Segment's End user, 8) and E4 (from the Segment's End user, 9 saved before, else Positioning's `organisation.outcomeUser`, within the stage's limit); the saved value in the new place wins, even cleared (an empty list). Old data stays readable and nothing is lost: the Segment's `u-outcome` is kept and settled as E4's start.
+
+**When the Segment loses its end user** (2.2): the end user's part is no longer shown or read (not in the documents, the exports, the drafts), and `user` is removed with the Profile's next answer; a later change back to Proxy starts it empty. E1, E2 and the Needs stay, as the one person's.
+
+**The readers (built).** The export prints the Profile in its two parts ("The buyer", then "The end user", each with its answers and its Notes); the Business Plan's Customer Profiles table heads its columns "End user's goals", "End user's challenges" and "End user's needs" for such a Segment; the Value Proposition's draft reads "For [Segment] whose end users [frustration] and want to [goal], …" (doc 42, 1); its open items read the buyer's B1 and E3 and the end user's tasks, as before; the Competitor's K8, K10 and the Review's clear opening read B1, the buyer's; the Offering's O8 reads E3, the buyer's (`effectiveProfileAnswers`, `effectiveProfileUserAnswers`, `profilePartOf` in `ProfileQuestions.ts`).
+
+**Decided for the owner (2026-11-08), to confirm.** A2 is the buyer's only (no end-user gender: the Segment holds no end users' gender mix). C1 to C4 are the buyer's. E2 is the end user's although Cost may be felt by the buyer (the rule: what goes wrong with the way they do it now, for the person who uses it). A business Segment's end user keeps the business Needs lists (N3, N5) and is not offered E1's Enjoyment, as every Profile of a business Segment; whether staff should be offered the people's lists is left open. The Segment's Box 4 (online comfort) stays the buyers'.
 
 ## 3. Box A. Specific Personal Information
 
@@ -118,6 +155,7 @@ A typical person of the Segment, asked specifically.
 - **Connections:**
   - *Comes from:* the Segment's age group (the number is held to it).
   - *Read by (built):* the number is cleared when it leaves the group (2.2; `profileSettle`).
+  - *The end user's age, A1 (end user) (2.4, built 2026-11-08):* asked in the end user's part where the Segment has an end user, held to the Segment's end-user stage (doc 35, End user, 1: Baby 0 to 2, Child 3 to 10, Teenager 11 to 17, then the adult terms), not to the buyer's age group; cleared when it leaves the stage; saved as `user.questions.a1`.
   - *Read by (not built yet):* the online-consent ages for under-18s (the Review); the proposed Profiles (one for each age term of the group).
 
 ### A7. Who does this person live with?
@@ -125,7 +163,7 @@ A typical person of the Segment, asked specifically.
 *Added (owner, 2026-11-03), built.* Asked before the work, after the age.
 
 - **Control:** one choice (a radio).
-- **Asked when:** the Segment's buyer is people (B2C), not for the end user's own Profile, and not where the Segment's age group is only Minors. The end user's own Profile is not built yet, so A7 is asked on every Profile, the payer's included (built 2026-11-08).
+- **Asked when:** the Segment's buyer is people (B2C), and not where the Segment's age group is only Minors; on a Proxy or Dual-Intent Segment, of the buyer (the buyer's household), and again of an adult end user in the end user's part, A7 (end user) (2.4).
 - **Options** (the ONS household types, Census 2021, household composition 8a, in plain words) [DEM-14]:
   - Alone
   - With a partner
@@ -229,6 +267,16 @@ A typical person of the Segment, asked specifically.
   - *Read by (not built yet):* flags the owner's text asks for, kept as a thought (doc 33, section 15, row 6): a solo or single-parent household raises a time-poverty and churn-risk note in a customer journey; sensory or physical needs raise a "compliance validation required" badge on an Offering. They would only highlight, never decide.
 
 ## 4. Box B. Psychographics
+
+### A8. How comfortable is the end user online? (the end user's part only)
+
+*Added (2.4; owner, 2026-11-08).*
+
+- **Control:** a rating from 1 (Uneasy) to 5 (Confident), the `RatingScale` of the Segment's own comfort question.
+- **Asked when:** the Segment has an end user who is not a Baby (as the Segment's End user, 8).
+- **Starts:** the Segment's End user, 8, a starting value the App User can change.
+- **The "i" says:** how easily they use websites, apps and online payment, not whether they own a device; that the Segment's answer starts it.
+- **Saved as:** `user.questions.comfort` on the Profile. *Read by (built):* the export, in the end user's part.
 
 ### B1. What matters most to this person?
 
@@ -430,6 +478,17 @@ What the Segment cannot say: which devices, which social media, which communitie
   - Based on: pains (Value Proposition Canvas) [FUN-46].
 - **Asked when:** always. *Read by (not built yet):* the Value Proposition draft (the pains); the Review. *Comes from:* nothing.
 
+### E4. Outcome for the end user (the end user's part only)
+
+*Moved here from the Segment's End user, 9 (owner, 2026-11-08: "If the buyer is proxy, the profile should contain questions for both buyer and end user."; 2.4); Positioning's question 10 before that.*
+
+- **Control:** a radio while the stage allows one choice, else ticks that lock at the limit, "2 max" beside the label: Planning 1, Launching 2, Managing 2, Growing free (Positioning's outcome limit, `choiceLimit`); a saved answer over the limit goes back to empty.
+- **Asked when:** the Segment has an end user (its own buyer is Proxy or Dual-Intent), in the end user's Goals & Desires, before E1.
+- **Options:** Enjoyment & fun; Comfort & ease; Safety & care; Learning & growth; Looks & belonging; Practical use, ordered by Positioning's purposes, then the buyer's and the end user's life stages (`userOutcomeOptionsFor`).
+- **Starts:** the Segment's End user, 9 saved before, else Positioning's answer saved before 2026-11-08 (`organisation.outcomeUser`), within the stage's limit; the value saved on the Profile wins, even cleared (an empty list).
+- **The "i" says:** what matters most to the end user, apart from the buyer's own reasons for paying: the result the end user gets; the meaning of each option; that the Segment's (or Positioning's) answer starts it; the stage's line.
+- **Saved as:** `user.questions.outcome` on the Profile. *Read by (built):* the export, in the end user's part.
+
 ### E3. What might hold this person back?
 
 - **Control:** ticks, up to 3, then a rating of each ticked worry from "Minor" to "Blocking" (section 11, built 2026-11-04).
@@ -488,7 +547,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 1. **C2 to C4** keep the lists the app already has (the social media, the communities, the events); no longer list is added. A specific name is written in the box's own note, as it is today.
 2. **Their conditions** (online comfort, the ways of discovering ideas, the social environment) hold: a tendency of the Segment is enough to leave a Profile question out, so a short Segment gives a shorter Profile.
 3. **The needs** stay open text lists. *Replaced for Emotional and Social (owner, 2026-11-03): they become ticks, section 10; Functional stays text.* *Proposed for Functional (owner, 2026-11-06): ticks from L17 with its Notes, and the Offering ticks those (doc 43, after O13).*
-4. **The end user's Profile skips Box D** (2.1); the payer's Profile holds how they compare and what help they want.
+4. **The end user's Profile skips Box D** (2.1); the payer's Profile holds how they compare and what help they want. *(Built 2026-11-08 as the end user's part of each Profile: 2.4.)*
 
 **Answered for the App User and not shown (owner, 2026-11-01).** The same rule as the Segment's (doc 35): where the answers above leave one answer, it is set and the question is not drawn.
 
@@ -504,7 +563,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 **Also decided (owner, 2026-11-01).** A5 is asked only for a business buyer, a Segment with an end-user part, or a group that includes Minors (2.1); an end user's Profile is deleted completely when its Segment loses its end user (2.2).
 
-**Not built.** A4, A6, the proposed Profiles other than the B2B ones by buying role (2), the end user's own Profile and the reads marked "not built yet", which are built when the Segment's are.
+**Not built.** A4, A6, the proposed Profiles other than the B2B ones by buying role (2), and the reads marked "not built yet", which are built when the Segment's are. (The end user's own Profile is built as the end user's part of each Profile, 2.4.)
 
 ## 10. The Needs as choices (decided, 2026-11-03)
 

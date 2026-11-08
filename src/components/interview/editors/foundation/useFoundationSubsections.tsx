@@ -20,9 +20,9 @@ import TextBox from "../../../controls/TextBox.tsx";
 import { type OtherQuestion, competitorOtherAdd, competitorOtherName, competitorOtherRemove, competitorOtherSettle, competitorOtherTick, competitorOthers, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, shownOpenings, COMPETITOR_SUBCHANNELS, COMPETITOR_BAND_LINE, bandTone, COMPETITOR_CHANGES, valueProfiles, draftToAdd, hardToBeat, insightsDraft, reviewPlatformOrder } from "../../../../framework/engine/CompetitorQuestions.ts";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
 import { OFFERING_BOX_QUESTIONS, OFFERING_QUESTIONS, offeringChoose, type OfferingAnswers, type OfferingContext, type OfferingQuestionId, draftOffered, offeringAsks, offeringInfo, offeringOptions, valuePropositionDraft, valuePropositionOpenItems } from "../../../../framework/engine/OfferingQuestions.ts";
-import { effectiveOfferingAnswers, effectiveProfileAnswers, offeringContextOf, withFieldSet } from "../../../../framework/engine/EffectiveAnswers.ts";
+import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveProfileUserAnswers, offeringContextOf, withFieldSet } from "../../../../framework/engine/EffectiveAnswers.ts";
 import NumberCell from "../../../controls/NumberCell.tsx";
-import { type ProfileBox, type ProfileQuestion, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileRate, profileRatings, profileWho, profileQuestionsOf, profileSettle, proposedBusinessProfiles, segmentNeedTicks } from "../../../../framework/engine/ProfileQuestions.ts";
+import { type ProfileBox, type ProfilePart, type ProfileQuestion, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileOutcomeLimit, profileRate, profileRatings, profileWho, profileQuestionsOf, profileSettle, profileUserAgeRange, profileUserQuestionsOf, profileUserSettle, profileUserWho, proposedBusinessProfiles, segmentNeedTicks } from "../../../../framework/engine/ProfileQuestions.ts";
 import { type SegmentBox, type SegmentQuestion, SEGMENT_QUESTIONS, segmentChoose, segmentOptions, segmentQuestionsOf, segmentRowChoice, segmentSettle, segmentSettledNotes } from "../../../../framework/engine/SegmentQuestions.ts";
 import { INFO as POSITIONING_INFO, choiceLimit, differentiationOptionsFor, stageLimitLine, userOutcomeOptionsFor, withStageLine } from "../legal/shared.tsx";
 import { summaryText } from "../../cards/cardSummary.ts";
@@ -375,42 +375,81 @@ export function useFoundationSubsections(earlier: Earlier) {
 
         /* ---- 1. Its Profiles ---- */
 
-        /** One question of a Profile box: as the Segment's are drawn (a radio, ticks or the number of the age), against what the Segment answered. */
-        const profileQuestionOf = (profile: BusinessCustomerProfileValue, profileIndex: number, shown: Record<string, string[]>, question: ProfileQuestion) => {
-            const label = profileWho(question.label, shown.a2?.[0]);
-            const ageRange = question.number ? profileAgeRange(segment.questions) : null;
+        /**
+         * One question of a Profile box: as the Segment's are drawn (a radio, ticks or the number of the age), against what the Segment answered. `part` says where it stands and is
+         * kept (doc 36, 2.1): "buyer" (a Direct Segment's one person too) and "user" (E1, E2 and the Needs in the end user's part) are kept in `questions`; "own", the end user's own
+         * answers (A1, A7, A8, E4), in `user.questions`. The end user's questions are written of the end user.
+         */
+        const profileQuestionOf = (profile: BusinessCustomerProfileValue, profileIndex: number, shown: Record<string, string[]>, question: ProfileQuestion, part: "buyer" | "user" | "own" = "buyer") => {
+            const own = part === "own";
+            // (The end user's A1 and A7 stand on the same card as the buyer's: their names differ.)
+            const group = profile.id + (own ? "-user-" : "-") + question.id;
+            const label = part === "buyer" ? profileWho(question.label, shown.a2?.[0]) : profileUserWho(question.label);
+            const ageRange = question.number ? (own ? profileUserAgeRange(segment.questions) : profileAgeRange(segment.questions)) : null;
             const chosen = shown[question.id] ?? [];
             // Only this field is saved (with its ratings and Other); every other field keeps following its start (docs 36 and 43; owner, 2026-11-08).
-            const saved = profile.questions ?? {};
-            const write = (next: Record<string, string[]>) => updateProfile(segmentIndex, profileIndex, { questions: profileSettle(withFieldSet(saved, next, question.id), segment.questions, asked) });
+            const saved = (own ? profile.user?.questions : profile.questions) ?? {};
+            const settle = (answers: Record<string, string[]>) => own ? profileUserSettle(answers, shownAnswers, asked) : profileSettle(answers, segment.questions, asked);
+            // (A Profile whose Segment has no end user any more loses its end user's part with its next answer: doc 36, 2.2.)
+            const put = (answers: Record<string, string[]>) => updateProfile(segmentIndex, profileIndex, own ? { user: { ...profile.user, questions: answers } } : { questions: answers, ...(!asked.endsUser && profile.user ? { user: undefined } : {}) });
+            const write = (next: Record<string, string[]>) => put(settle(withFieldSet(saved, next, question.id)));
             const choose = (next: string[]) => write(profileChoose(question, shown, next));
-            const options = question.options.map(option => ({ ...option }));
+            // The end user's outcome (E4): ordered as on Positioning, its limit the stage's, one choice a radio while only one is allowed (as the Segment's End user, 9 was).
+            const outcome = own && question.id === "outcome";
+            const stageMax = outcome ? profileOutcomeLimit(asked) ?? undefined : undefined;
+            const max = outcome ? stageMax : question.max;
+            const radio = outcome && stageMax === 1 && chosen.length <= 1;
+            const options = (outcome ? userOutcomeOptionsFor(positioningOrder) : question.options).map(option => ({ ...option }));
+            const info: InfoPoint[] = question.rating ? [ratingScaleMeaning(question.rating), ...question.info]
+                : outcome ? withStageLine(question.info, stageLimitLine(asked.stage, stageMax ?? null))
+                    : [...question.info];
             return (
                 <FieldRow
                     key={question.id}
                     pair
                     fullList
                     label={label}
-                    info={question.rating ? [ratingScaleMeaning(question.rating), ...question.info] : [...question.info]}
-                    labelNote={question.max !== undefined ? <span className="business-foundation-tick-note">{question.max + " max"}</span> : question.number && ageRange ? <span className="business-foundation-tick-note">{ageRange[1] >= 130 ? ageRange[0] + " or older" : ageRange[0] + "–" + (ageRange[1] - 1)}</span> : undefined}
+                    info={info}
+                    labelNote={max !== undefined && !radio ? <span className="business-foundation-tick-note">{max + " max"}</span> : question.number && ageRange ? <span className="business-foundation-tick-note">{ageRange[1] >= 130 ? ageRange[0] + " or older" : ageRange[0] + "–" + (ageRange[1] - 1)}</span> : undefined}
                 >
                     {question.number
                         // (A number stands beside its label, on the label's line, at the right end of the band: see .business-profile-age.)
                         ? (
                             <ProfileAgeCell
-                                                                label={label}
+                                label={label}
                                 disabled={disabled}
                                 value={chosen[0] ?? ""}
-                                onType={(typed) => updateProfile(segmentIndex, profileIndex, { questions: typed ? { ...profileSettle({ ...saved, [question.id]: [typed] }, segment.questions, asked), [question.id]: [typed] } : profileSettle({ ...saved, [question.id]: [] }, segment.questions, asked) })}
+                                onType={(typed) => put(typed ? { ...settle({ ...saved, [question.id]: [typed] }), [question.id]: [typed] } : settle({ ...saved, [question.id]: [] }))}
                                 onDone={() => write(shown)}
                             />
                         )
+                        : question.rating && !question.many
+                            // A degree (the end user's online comfort, A8): a rating from 1 to 5, as the Segment's; pressing the chosen round again clears it.
+                            ? (
+                                <RatingScale
+                                    label={label}
+                                    name={group}
+                                    disabled={disabled}
+                                    value={chosen[0] ? Number(chosen[0]) as Rating : undefined}
+                                    onChange={(next) => choose(next ? [String(next)] : [])}
+                                    lowLabel={question.rating.low}
+                                    highLabel={question.rating.high}
+                                />
+                            )
+                        : outcome && radio
+                            ? <RadioChoice label={label} group={group} className="legal-entity-radio-stack" disabled={disabled} value={chosen[0] ?? ""} onChange={(next) => write({ ...shown, [question.id]: [next] })} options={options} />
+                        : outcome
+                            ? (
+                                <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={label}>
+                                    <BusinessTicks name={label} disabled={disabled} options={options} chosen={chosen} max={max} onChange={(next) => write({ ...shown, [question.id]: next })} />
+                                </div>
+                            )
                         : question.rating
                             // Ticked, then each tick rated from 1 to 5 (doc 36, section 11): the limit holds the ticks; an untick takes its rating with it (profileSettle).
                             ? (
                                 <RatingScaleGroup
                                     label={label}
-                                    name={profile.id + "-" + question.id}
+                                    name={group}
                                     rows={options.map(option => ({ id: option.id, label: option.label }))}
                                     values={profileRatings(shown, question)}
                                     selectable
@@ -445,8 +484,8 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 </>
                             )
                             : segmentRowChoice({ ...question, box: "demographics" } as unknown as SegmentQuestion, options)
-                                ? <FittingRadioChoice label={label} group={profile.id + "-" + question.id} disabled={disabled} value={chosen[0] ?? ""} onChange={(next) => choose([next])} options={options} />
-                                : <RadioChoice label={label} group={profile.id + "-" + question.id} className="legal-entity-radio-stack" disabled={disabled} value={chosen[0] ?? ""} onChange={(next) => choose([next])} options={options} />}
+                                ? <FittingRadioChoice label={label} group={group} disabled={disabled} value={chosen[0] ?? ""} onChange={(next) => choose([next])} options={options} />
+                                : <RadioChoice label={label} group={group} className="legal-entity-radio-stack" disabled={disabled} value={chosen[0] ?? ""} onChange={(next) => choose([next])} options={options} />}
                 </FieldRow>
             );
         };
@@ -516,6 +555,111 @@ export function useFoundationSubsections(earlier: Earlier) {
             );
         };
 
+        /**
+         * The bands of a Profile's Needs: Functional (the jobs ticked and rated, then the numbered list of their own tasks), Emotional and Social (ticked and rated, then their Notes).
+         * In the Needs section of a Direct Segment's Profile the ticks are tinted; in the end user's Needs box (doc 36, 2.1) the bands run on from its title band, so the tints
+         * alternate the other way, as every box's do, and the questions are written of the end user.
+         */
+        const NEEDS_INFO = ["Functional: tick and rate up to three jobs, then write their own tasks, one numbered line each; the Offerings choose from these lines.", "Emotional and Social: tick and rate up to three each, then add Notes."];
+        const needsBands = (profile: BusinessCustomerProfileValue, profileIndex: number, inBox: boolean) => SUBSECTIONS.segments.needs.map((kind, at) => {
+            // Emotional and Social are ticked and rated (doc 36, section 10), their numbered list kept as the note; Functional stays the list.
+            const choices = profileQuestionsOf("needs", segment.questions, asked).find(question => question.id.split("-")[0] === kind.id);
+            const shown = effectiveProfileAnswers(profile, segment, identity);
+            return (
+            // Emotional and Social: the ticks in their band, then the shared Notes in a band of its own, as every box's Notes
+            // (owner, 2026-11-05), one line a need, kept as the list the Value Proposition reads. Functional stays the numbered list
+            // the Offerings pick from.
+            choices ? (
+                <Fragment key={kind.id}>
+                    {/* The tints run on across every band (Functional, then each kind's ticks and its Notes): in the Needs section the ticks tinted, the Notes not; in a box the other way. */}
+                    <div className={"legal-entity-org-section" + (inBox ? "" : " legal-entity-org-band")}>
+                        {profileQuestionOf(profile, profileIndex, shown, choices, inBox ? "user" : "buyer")}
+                    </div>
+                    {kind.id === "functional" ? (
+                        // Functional (owner, 2026-11-07): the jobs ticked and rated above, the customer's own tasks in the numbered list below,
+                        // as built; each line keeps its id, so an Offering's tick follows the line through edits.
+                        <div className={"legal-entity-org-section" + (inBox ? " legal-entity-org-band" : "")}>
+                            <FieldRow pair fullList label="Their own tasks" info={[kind.text]}>
+                                <NumberedListInput
+                                    label={kind.title + " needs for " + segmentPath + ", Profile " + (profileIndex + 1)}
+                                    items={profile.needs.functional}
+                                    lineIds={functionalNeedIds(profile.needs)}
+                                    disabled={disabled}
+                                    suggestions={otherProfileNeeds(segment, profileIndex, "functional")}
+                                    onChange={(items) => updateProfile(segmentIndex, profileIndex, { needs: { ...profile.needs, functional: items, functionalIds: reconcileLineIds(profile.needs.functional, functionalNeedIds(profile.needs), items, () => randomId("need")) } })}
+                                />
+                            </FieldRow>
+                        </div>
+                    ) : (
+                    <div className={"legal-entity-org-section business-note-band" + (inBox ? " legal-entity-org-band" : "")}>
+                        <OptionalNote
+                            label="Notes"
+                            fieldId={kind.title + " notes"}
+                            ariaLabel={kind.title + " needs notes for " + segmentPath + ", Profile " + (profileIndex + 1)}
+                            placeholder={NOTE_PLACEHOLDERS.needs ?? "Add a note"}
+                            disabled={disabled}
+                            value={profile.needs[kind.id as BusinessNeedKind].join("\n").replace(/^\n+|\n+$/g, "")}
+                            onChange={(next) => updateProfile(segmentIndex, profileIndex, { needs: { ...profile.needs, [kind.id]: next.split("\n") } })}
+                        />
+                    </div>
+                    )}
+                </Fragment>
+            ) : (
+            <div className={"legal-entity-org-section" + (at % 2 === 1 ? " legal-entity-org-band" : "")} key={kind.id}>
+                <FieldRow pair fullList label={kind.title} info={[kind.text]}>
+                    <NumberedListInput
+                        label={kind.title + " needs for " + segmentPath + ", Profile " + (profileIndex + 1)}
+                        items={profile.needs[kind.id as BusinessNeedKind]}
+                        disabled={disabled}
+                        /* What the OTHER Profiles of this Segment have called this need, offered as it is typed: they share
+                           their needs, so the second Profile to want the same thing says so in the same words. */
+                        suggestions={otherProfileNeeds(segment, profileIndex, kind.id as BusinessNeedKind)}
+                        onChange={(items) => updateProfile(segmentIndex, profileIndex, { needs: { ...profile.needs, [kind.id]: items } })}
+                    />
+                </FieldRow>
+            </div>
+            )
+            );
+        });
+
+        /**
+         * A PROFILE OF A SEGMENT WITH AN END USER (owner, 2026-11-08: "If the buyer is proxy, the profile should contain questions for both buyer and end user."; doc 36, 2.1): two
+         * sections in the one card, the buyer's and the end user's, each a section as the Description is, its boxes the Profile's boxes with their Notes. The buyer, who chooses and
+         * pays: the Description's four boxes and Objections. The end user, who it is for: its own Personal box, Goals & Desires (E4, then E1), Challenges & Problems (E2) and Needs.
+         */
+        const dual = (identity?.buyerCategory ?? []).some(id => id.endsWith(":dual") && (asked.frame === "business") !== id.startsWith("b2c:"));
+        const twoParts = (profile: BusinessCustomerProfileValue, profileIndex: number) => {
+            const path = segmentPath + ", Profile " + (profileIndex + 1);
+            const shown = effectiveProfileAnswers(profile, segment, identity);
+            const userShown = effectiveProfileUserAnswers(profile, segment, identity);
+            const parts = SUBSECTIONS.segments.profileParts;
+            const own = (box: ProfileBox) => profileUserQuestionsOf(box, segment.questions, asked).map(question => profileQuestionOf(profile, profileIndex, userShown, question, "own"));
+            const motivation = (box: "goals" | "challenges" | "objections", title: string, part: ProfilePart, before: ReactNode[] = []): DescriptionPart => ({
+                id: box, title, text: SUBSECTIONS.segments.motivations[box][0], extra: [PROFILE_NOTE_HINTS[box]], level: 4, note: true,
+                placeholder: NOTE_PLACEHOLDERS[box], noteValue: profile[box], onNote: (next) => updateProfile(segmentIndex, profileIndex, { [box]: next }),
+                questions: [...before, ...profileQuestionsOf(box, segment.questions, asked, part).map(question => profileQuestionOf(profile, profileIndex, shown, question, part))]
+            });
+            const buyer: DescriptionPart[] = [...profileParts(profile, profileIndex), motivation("objections", "Objections", "buyer")];
+            const user: DescriptionPart[] = [
+                {
+                    id: "user-personal", title: "Specific Personal Information", text: parts.userPersonal, extra: [parts.userPersonalHint], level: 4, note: true,
+                    placeholder: NOTE_PLACEHOLDERS.userPersonal, noteValue: profile.user?.note ?? "", noteId: "End user Specific Personal Information notes",
+                    onNote: (next) => updateProfile(segmentIndex, profileIndex, { user: { ...profile.user, note: next } }),
+                    questions: own("personal")
+                },
+                motivation("goals", "Goals & Desires", "user", own("goals")),
+                motivation("challenges", "Challenges & Problems", "user"),
+                { id: "needs", title: "Needs", text: "What the end user needs done, how they want to feel and how they want to be seen.", extra: NEEDS_INFO, level: 4, questions: [], body: needsBands(profile, profileIndex, true) }
+            ];
+            return (
+                <>
+                    {description(path, buyer, profile.description, (next) => updateProfile(segmentIndex, profileIndex, { description: next }), true, undefined, groupFold(profile.id, "The buyer", path), true, "The buyer", parts.buyer)}
+                    <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double business-profile-section-rule" role="separator" />
+                    {description(path + ", end user", user, {}, () => undefined, true, undefined, groupFold(profile.id, "The end user", path), true, "The end user", dual ? parts.userDual : parts.user)}
+                </>
+            );
+        };
+
         const profiles = (
             <>
 
@@ -542,7 +686,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 })
                             )
                     },
-                    <>
+                    asked.endsUser ? twoParts(profile, profileIndex) : <>
 
                         {description(
                             segmentPath + ", Profile " + (profileIndex + 1),
@@ -591,69 +735,10 @@ export function useFoundationSubsections(earlier: Earlier) {
                         {group("Needs", (
                             <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-single">
                                 <div className="legal-entity-field">
-                                    {SUBSECTIONS.segments.needs.map((kind, at) => {
-                                        // Emotional and Social are ticked and rated (doc 36, section 10), their numbered list kept as the note; Functional stays the list.
-                                        const choices = profileQuestionsOf("needs", segment.questions, asked).find(question => question.id.split("-")[0] === kind.id);
-                                        const shown = effectiveProfileAnswers(profile, segment, identity);
-                                        return (
-                                        // Emotional and Social: the ticks in their band, then the shared Notes in a band of its own, as every box's Notes
-                                        // (owner, 2026-11-05), one line a need, kept as the list the Value Proposition reads. Functional stays the numbered list
-                                        // the Offerings pick from.
-                                        choices ? (
-                                            <Fragment key={kind.id}>
-                                                {/* The tints run on across every band (Functional, then each kind's ticks and its Notes): the ticks tinted, the Notes not. */}
-                                                <div className="legal-entity-org-section legal-entity-org-band">
-                                                    {profileQuestionOf(profile, profileIndex, shown, choices)}
-                                                </div>
-                                                {kind.id === "functional" ? (
-                                                    // Functional (owner, 2026-11-07): the jobs ticked and rated above, the customer's own tasks in the numbered list below,
-                                                    // as built; each line keeps its id, so an Offering's tick follows the line through edits.
-                                                    <div className="legal-entity-org-section">
-                                                        <FieldRow pair fullList label="Their own tasks" info={[kind.text]}>
-                                                            <NumberedListInput
-                                                                label={kind.title + " needs for " + segmentPath + ", Profile " + (profileIndex + 1)}
-                                                                items={profile.needs.functional}
-                                                                lineIds={functionalNeedIds(profile.needs)}
-                                                                disabled={disabled}
-                                                                suggestions={otherProfileNeeds(segment, profileIndex, "functional")}
-                                                                onChange={(items) => updateProfile(segmentIndex, profileIndex, { needs: { ...profile.needs, functional: items, functionalIds: reconcileLineIds(profile.needs.functional, functionalNeedIds(profile.needs), items, () => randomId("need")) } })}
-                                                            />
-                                                        </FieldRow>
-                                                    </div>
-                                                ) : (
-                                                <div className="legal-entity-org-section business-note-band">
-                                                    <OptionalNote
-                                                        label="Notes"
-                                                        fieldId={kind.title + " notes"}
-                                                        ariaLabel={kind.title + " needs notes for " + segmentPath + ", Profile " + (profileIndex + 1)}
-                                                        placeholder={NOTE_PLACEHOLDERS.needs ?? "Add a note"}
-                                                        disabled={disabled}
-                                                        value={profile.needs[kind.id as BusinessNeedKind].join("\n").replace(/^\n+|\n+$/g, "")}
-                                                        onChange={(next) => updateProfile(segmentIndex, profileIndex, { needs: { ...profile.needs, [kind.id]: next.split("\n") } })}
-                                                    />
-                                                </div>
-                                                )}
-                                            </Fragment>
-                                        ) : (
-                                        <div className={"legal-entity-org-section" + (at % 2 === 1 ? " legal-entity-org-band" : "")} key={kind.id}>
-                                            <FieldRow pair fullList label={kind.title} info={[kind.text]}>
-                                                <NumberedListInput
-                                                    label={kind.title + " needs for " + segmentPath + ", Profile " + (profileIndex + 1)}
-                                                    items={profile.needs[kind.id as BusinessNeedKind]}
-                                                    disabled={disabled}
-                                                    /* What the OTHER Profiles of this Segment have called this need, offered as it is typed: they share
-                                                       their needs, so the second Profile to want the same thing says so in the same words. */
-                                                    suggestions={otherProfileNeeds(segment, profileIndex, kind.id as BusinessNeedKind)}
-                                                    onChange={(items) => updateProfile(segmentIndex, profileIndex, { needs: { ...profile.needs, [kind.id]: items } })}
-                                                />
-                                            </FieldRow>
-                                        </div>
-                                        )
-                                        );
-                                    })}
+                                    {needsBands(profile, profileIndex, false)}
                                 </div>
                             </div>
-                        ), ["Functional: tick and rate up to three jobs, then write their own tasks, one numbered line each; the Offerings choose from these lines.", "Emotional and Social: tick and rate up to three each, then add Notes."], groupFold(profile.id, "Needs", segmentPath + ", Profile " + (profileIndex + 1)))}
+                        ), NEEDS_INFO, groupFold(profile.id, "Needs", segmentPath + ", Profile " + (profileIndex + 1)))}
 
                     </>
                 ))}

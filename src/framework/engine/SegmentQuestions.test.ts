@@ -78,15 +78,15 @@ describe("the Segment's questions", () => {
     it("asks the user block only for a Proxy or Dual-Intent buyer, by relationship", () => {
         expect(segmentQuestionsOf("user", {}, OPEN)).toEqual([]);
         const parent = { ...OPEN, endsUser: true, userStages: ["age:minor"], relations: ["rel:parent"] };
-        expect(ids(segmentQuestionsOf("user", {}, parent))).toEqual(["u-age", "u-school", "u-comfort", "u-outcome"]);
+        expect(ids(segmentQuestionsOf("user", {}, parent))).toEqual(["u-age", "u-school", "u-comfort"]);
         expect(ids(segmentOptions(question("u-age"), {}, parent))).toEqual(["baby", "child", "teen"]);
         expect(ids(segmentOptions(question("u-school"), {}, parent))).toEqual(["early", "primary", "secondary"]);
         expect(ids(segmentOptions(question("u-school"), { "u-age": ["child"] }, parent))).toEqual(["early", "primary"]);
         expect(segmentSettle({ "u-age": ["baby"], "u-school": ["secondary"] }, parent)).toEqual({ "u-age": ["baby"], "u-school": ["early"] });
         const serving = { ...OPEN, endsUser: true, relations: ["rel:serving"] };
-        expect(ids(segmentQuestionsOf("user", { "u-orgtype": ["self"] }, serving))).toEqual(["u-age", "u-orgtype", "u-comfort", "u-outcome"]);
+        expect(ids(segmentQuestionsOf("user", { "u-orgtype": ["self"] }, serving))).toEqual(["u-age", "u-orgtype", "u-comfort"]);
         const employer = { ...OPEN, endsUser: true, relations: ["rel:employer", "rel:friend"] };
-        expect(ids(segmentQuestionsOf("user", {}, employer))).toEqual(["u-age", "u-work", "u-job", "u-comfort", "u-outcome"]);
+        expect(ids(segmentQuestionsOf("user", {}, employer))).toEqual(["u-age", "u-work", "u-job", "u-comfort"]);
     });
 
     it("settles the answers: what is no longer asked, or no longer offered, goes", () => {
@@ -98,7 +98,7 @@ describe("the Segment's questions", () => {
 
     it("does not show a question with one option left, and its answer is that option", () => {
         const adults = { ...OPEN, endsUser: true, userStages: ["age:young"], relations: ["rel:friend"] };
-        expect(ids(segmentQuestionsOf("user", {}, adults))).toEqual(["u-work", "u-comfort", "u-outcome"]);
+        expect(ids(segmentQuestionsOf("user", {}, adults))).toEqual(["u-work", "u-comfort"]);
         expect(segmentSettle({}, adults)).toEqual({ "u-age": ["young"] });
     });
 
@@ -216,12 +216,12 @@ describe("the Segment's questions", () => {
         it("asks the user's school stage, work and tool comfort only where the user's age calls for them", () => {
             const parent = { ...OPEN, endsUser: true, userStages: ["age:minor"], relations: ["rel:parent", "rel:friend"] };
             expect(segmentSettle({ "u-age": ["baby"] }, parent)).toEqual({ "u-age": ["baby"], "u-school": ["early"] });
-            expect(ids(segmentQuestionsOf("user", { "u-age": ["baby"] }, parent))).toEqual(["u-age", "u-outcome"]);
+            expect(ids(segmentQuestionsOf("user", { "u-age": ["baby"] }, parent))).toEqual(["u-age"]);
             expect(ids(segmentOptions(question("u-school"), { "u-age": ["child"] }, parent))).toEqual(["early", "primary"]);
             expect(segmentSettle({ "u-age": ["teen"] }, parent)["u-school"]).toEqual(["secondary"]);
-            expect(ids(segmentQuestionsOf("user", { "u-age": ["child"] }, parent))).toEqual(["u-age", "u-school", "u-comfort", "u-outcome"]);
+            expect(ids(segmentQuestionsOf("user", { "u-age": ["child"] }, parent))).toEqual(["u-age", "u-school", "u-comfort"]);
             const adults = { ...OPEN, endsUser: true, userStages: ["age:adult"], relations: ["rel:parent", "rel:friend"] };
-            expect(ids(segmentQuestionsOf("user", { "u-age": ["peak"] }, adults))).toEqual(["u-age", "u-work", "u-comfort", "u-outcome"]);
+            expect(ids(segmentQuestionsOf("user", { "u-age": ["peak"] }, adults))).toEqual(["u-age", "u-work", "u-comfort"]);
         });
 
     });

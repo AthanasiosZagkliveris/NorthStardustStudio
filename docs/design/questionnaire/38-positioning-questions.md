@@ -116,8 +116,8 @@ Related: doc 37 (the Organisation tile, whose Opening Date sets the stage), doc 
 
 ### 10. Outcome for the end user (moved to the Segment, owner, 2026-11-08)
 
-- **Where it is now:** the Segment's End user part, End user, 9 (doc 35), asked only where the Segment has an end user (its own buyer is Proxy or Dual-Intent); its options, its "i" and its order (the purposes, then the life stages) as built here; the stage sets its limit. Phase 4b moves it into the end user's own Profile (doc 36) when that is built.
-- **The saved answer:** `organisation.outcomeUser` stays readable; it is the starting value of each Segment's End user, 9 where that Segment has an end user, until the Segment saves its own.
+- **Where it is now:** the Segment's End user part, End user, 9 (doc 35), asked only where the Segment has an end user (its own buyer is Proxy or Dual-Intent); its options, its "i" and its order (the purposes, then the life stages) as built here; the stage sets its limit. On the same day it moved on to each Profile's end-user part, E4 (doc 36, 2.1; owner, 2026-11-08), where the Segment's answer, else this one, is its start.
+- **The saved answer:** `organisation.outcomeUser` stays readable; it is the starting value of each Profile's E4 (through the Segment's End user, 9 where that was saved) where the Segment has an end user, until the Profile saves its own.
 
 ## 3. Under both columns
 

@@ -164,6 +164,11 @@ export interface BusinessCustomerProfileValue {
     description: BusinessDescriptionValue;
     /** The Profile's choice questions (ProfileQuestions.ts): question id -> the option ids chosen. */
     questions?: Record<string, string[]>;
+    /**
+     * The end user's own part, on a Segment whose buyer is Proxy or Dual-Intent (owner, 2026-11-08; doc 36, 2.1): its answers to the questions both parts ask (A1, A7) and to its
+     * own (A8, E4), by question, and its Personal note. The end user's E1, E2 and Needs are kept with the other answers above (`questions`, `goals`, `challenges`, `needs`).
+     */
+    user?: { questions?: Record<string, string[]>; note?: string };
     goals: string;
     challenges: string;
     objections: string;
@@ -579,6 +584,11 @@ export function asBusinessFoundationValue(value: unknown): BusinessFoundationVal
                 .map(candidate => {
 
                     const profile = asObject(candidate);
+                    // The end user's part (doc 36, 2.1): kept where it holds anything.
+                    const userSource = asObject(profile.user);
+                    const userQuestions = asProfileAnswers(userSource.questions);
+                    const userNote = asText(userSource.note);
+                    const user = Object.keys(userQuestions).length > 0 || userNote ? { ...(Object.keys(userQuestions).length > 0 ? { questions: userQuestions } : {}), ...(userNote ? { note: userNote } : {}) } : undefined;
 
                     return {
                         id: asText(profile.id) || randomId("profile"),
@@ -588,6 +598,7 @@ export function asBusinessFoundationValue(value: unknown): BusinessFoundationVal
                             BUSINESS_FIRST_DESCRIPTION_PART.profile
                         ),
                         ...(Object.keys(asProfileAnswers(profile.questions)).length > 0 ? { questions: asProfileAnswers(profile.questions) } : {}),
+                        ...(user ? { user } : {}),
                         goals: asText(profile.goals),
                         challenges: asText(profile.challenges),
                         objections: asText(profile.objections),

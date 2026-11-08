@@ -73,6 +73,15 @@ export const SUBSECTIONS = {
             challenges: ["What problems, difficulties, or frustrations does the customer face?"],
             objections: ["What concerns or reasons might stop the customer from choosing a solution?"]
         },
+        // A Profile of a Segment with an end user (owner, 2026-11-08: "If the buyer is proxy, the profile should contain questions for both buyer and end user."): its two
+        // parts, each a section with its "i" (doc 36, 2.1). Choosing, paying and deciding are the buyer's; who they are, how they use it and what they want from it, the end user's.
+        profileParts: {
+            buyer: ["The person who chooses and pays: what matters to them when choosing, where they find you, how they compare and what might hold them back."],
+            user: ["The person it is for, who uses it: who they are, what they want from it, what frustrates them and what they need."],
+            userDual: ["The people the buyer buys for besides themselves (the buyer uses it too): who they are, what they want from it, what frustrates them and what they need."],
+            userPersonal: "Who is the end user, the person it is for?",
+            userPersonalHint: "The note is for what is not asked above: a name, what they do, where they live."
+        },
         // One list each, with the specification's own explanation
         // on each as its "i". The word "Needs" is dropped from
         // each: they sit under a Needs title, which says it once.
@@ -149,6 +158,8 @@ export const SUBSECTIONS = {
 /** What each note of a Profile or a Competitor says before anything is written (owner, 2026-11-04): what belongs there and is not asked above. */
 export const NOTE_PLACEHOLDERS: Record<string, string> = {
     personal: "A name, a job title, where they live",
+    // (The end user's Personal box, doc 36, 2.1.)
+    userPersonal: "A name, what they do, where they live",
     psychographics: "What they believe and enjoy, beyond what matters most",
     hubs: "The names of their groups, accounts and events",
     habits: "How they buy, in their words",
@@ -189,6 +200,15 @@ export interface DescriptionPart {
     level?: number;
     /** What its note says before anything is written: what belongs there that the questions do not ask. */
     placeholder?: string;
+    /**
+     * Where its note is kept, when not in the Description's own text under its id (a Profile's Objections, Goals and Challenges notes, and the end user's Personal note: doc 36,
+     * 2.1): the note's text, how it is written, and the key of its field where the title is used twice on one card.
+     */
+    noteValue?: string;
+    onNote?: (next: string) => void;
+    noteId?: string;
+    /** The box's bands, drawn as they are, in place of a band per question (a Profile's Needs in the end user's part). */
+    body?: ReactNode;
 
 }
 

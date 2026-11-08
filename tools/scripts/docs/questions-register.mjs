@@ -69,7 +69,7 @@ const POSITIONING_BOXES = { left: "The left column: the customers", right: "The 
 const POSITIONING_RETIRED = [
     ["8", "Differentiation (`organisation.differentiation`)", "moved to the Competitor card's Insights & Differentiation, once per Segment after its Competitors: K14 (doc 41); the old answer is its start"],
     ["9", "Outcome for the buyer (`organisation.outcome`)", "moved to the Offering's O4, its one owner, through the crosswalk (doc 34, 5.2a; doc 43); the old answer starts O4's ticks"],
-    ["10", "Outcome for the end user (`organisation.outcomeUser`)", "moved to the Segment's End user part: End user, 9 (doc 35; the end user's own Profile takes it in Phase 4b); the old answer is its start"]
+    ["10", "Outcome for the end user (`organisation.outcomeUser`)", "moved to the Segment's End user part (End user, 9), then to each Profile's end-user part: E4 (doc 36, 2.1; 2026-11-08); the old answer is its start"]
 ];
 
 /** The Segment (doc 35): saved id -> [code, asked when, starts]. The code of a box's question is "Box N, M"; the end user's, "End user, M". */
@@ -110,12 +110,14 @@ const SEGMENT_CODES = {
     "u-job": ["End user, 5", "the relationship is Employer, Business partner or Other (business)"],
     "u-orgtype": ["End user, 6", "the relationship is Business serving clients or Professional intermediary"],
     "u-size": ["End user, 7", "as End user, 6, and the clients are not self-employed"],
-    "u-comfort": ["End user, 8", "an end user who is not a Baby"],
-    "u-outcome": ["End user, 9", "the Segment's own buyer is Proxy or Dual-Intent (moved from Positioning 10, 2026-11-08); ordered by Positioning's purposes and life stages", "Positioning's answer saved before 2026-11-08 (`organisation.outcomeUser`), within the stage's limit; a saved answer wins"]
+    "u-comfort": ["End user, 8", "an end user who is not a Baby"]
 };
 /** The Segment's question asked once in its Competitors column (box `competitors`): listed under the Competitor card, as K14. */
 const SEGMENT_ON_COMPETITOR = { differentiation: ["K14", "once per Segment, after its Competitor cards (moved from Positioning 8, 2026-11-08); ordered by Positioning's answers as built", "Positioning's answer saved before 2026-11-08 (`organisation.differentiation`), within the stage's limit; a saved answer wins"] };
-const SEGMENT_RETIRED = [];
+/** The Segment's questions that moved on (owner, 2026-11-08): the saved key stays readable and settled, as the start of its new place. */
+const SEGMENT_RETIRED = [
+    { code: "End user, 9", was: "Outcome for the end user (`u-outcome`; Positioning 10 until 2026-11-08)", by: "each Profile's end-user part: E4 (doc 36, 2.1; 2026-11-08); the Segment's saved answer is its start", owner: "doc 35, The end user" }
+];
 
 /** The Profile (doc 36): saved id -> [code, asked when, starts]. A3 and A3b, and the people's and the business's Needs, are one place on the card. */
 const PROFILE_CODES = {
@@ -133,14 +135,24 @@ const PROFILE_CODES = {
     d1: ["D1", "unless the Segment buys on impulse or when it urgently needs it", "from the Segment's path: comparing options (reviews), a recommendation (what others recommend)"],
     d2: ["D2", "always", "a formal proposal where the decision has formal procurement; else from online comfort (4 or 5 alone, 1 or 2 a person)"],
     d3: ["D3", "a people Segment"],
-    e1: ["E1", "always"],
-    e2: ["E2", "always"],
+    e1: ["E1", "always; in the end user's part where the Segment has an end user"],
+    e2: ["E2", "always; in the end user's part where the Segment has an end user"],
     e3: ["E3", "always", "Price where the Segment's household income is rated 1"],
-    functional: ["N1", "always (above the numbered list \"Their own tasks\")"],
-    emotional: ["N2", "a people Segment"],
-    "emotional-b2b": ["N3", "a business Segment", "", "emotional"],
-    social: ["N4", "a people Segment"],
-    "social-b2b": ["N5", "a business Segment", "", "social"]
+    functional: ["N1", "always (above the numbered list \"Their own tasks\"); in the end user's part where the Segment has an end user"],
+    emotional: ["N2", "a people Segment; in the end user's part where it has one"],
+    "emotional-b2b": ["N3", "a business Segment; in the end user's part where it has one", "", "emotional"],
+    social: ["N4", "a people Segment; in the end user's part where it has one"],
+    "social-b2b": ["N5", "a business Segment; in the end user's part where it has one", "", "social"]
+};
+/**
+ * The end user's own questions (doc 36, 2.1; owner, 2026-11-08), saved under `user.questions` on the Profile: saved id -> [code, asked when, starts]. A question the buyer's part
+ * asks too keeps its code with the part after it ("A1 (end user)"); a question of the end user's only takes the next free code of its letter (A8, E4). Codes are permanent.
+ */
+const PROFILE_USER_CODES = {
+    a1: ["A1 (end user)", "the Segment has an end user (held to its end-user stage, End user, 1)"],
+    a7: ["A7 (end user)", "a people Segment with an end user of 18 or more (End user, 1)"],
+    comfort: ["A8", "the Segment has an end user who is not a Baby", "the Segment's End user, 8"],
+    outcome: ["E4", "the Segment has an end user (moved from the Segment's End user, 9, 2026-11-08); ordered by Positioning's purposes and life stages", "the Segment's End user, 9 saved before, else Positioning's answer saved before 2026-11-08 (`organisation.outcomeUser`), within the stage's limit; a saved answer wins"]
 };
 /** Profile questions in the doc that are not built: [code, box, label, control, asked when, after (the saved id they stand after)]. */
 const PROFILE_NOT_BUILT = [
@@ -311,7 +323,7 @@ function rows(code) {
             source: "`SEGMENT_QUESTIONS` in `src/framework/engine/SegmentQuestions.ts` (the card adds Box 1, 0; the Differentiation, saved here too, is listed under the Competitor card as K14); saved under `questions` on the Segment. Max of End user, 9 is by stage: Planning / Launching / Managing / Growing. The words are a direct buyer's (\"your customers\"); a Proxy or Dual-Intent buyer reads \"your buyers\", and the end user's part \"your end users\" (`segmentWho`)",
             boxes: boxes.map(([box, title]) => ({
                 title,
-                questions: questions.filter(question => question.box === box).map(question => {
+                questions: questions.filter(question => question.box === box && !question.startsProfile).map(question => {
                     const [code, asked, starts] = SEGMENT_CODES[question.id] ?? missing("Segment", question.id);
                     const moved = question.fromPositioning;
                     const options = question.rating ? ratingOptions(question)
@@ -335,8 +347,8 @@ function rows(code) {
             ...Object.entries(PROFILE_BOX_TITLES)
         ];
         cards.push({
-            title: "Profile", where: "Business System, page 1, a Profile of a Segment (the buyer's; the end user's own Profile is not built yet)", owner: "36",
-            source: "`PROFILE_QUESTIONS` in `src/framework/engine/ProfileQuestions.ts`; saved under `questions` on the Profile (a rating as `<id>-rating`, an Other as `<id>-other`). The words say \"this person\" until A2 is answered (`profileWho`). A3 and A3b, and the people's and the business's Needs, are one place on the card (one or the other is asked)",
+            title: "Profile", where: "Business System, page 1, a Profile of a Segment; where the Segment's buyer is Proxy or Dual-Intent, in two parts, the buyer and the end user (doc 36, 2.1)", owner: "36",
+            source: "`PROFILE_QUESTIONS` in `src/framework/engine/ProfileQuestions.ts`; saved under `questions` on the Profile (a rating as `<id>-rating`, an Other as `<id>-other`). The words say \"this person\" until A2 is answered (`profileWho`). A3 and A3b, and the people's and the business's Needs, are one place on the card (one or the other is asked). Where the Segment has an end user, E1, E2 and the Needs stand in the end user's part (`profilePartOf`), written of the end user, the others in the buyer's; the end user's own questions (`PROFILE_USER_QUESTIONS`) are listed last, saved under `user.questions`",
             boxes: boxes.map(([box, title]) => {
                 const built = P.PROFILE_QUESTIONS.filter(question => question.box === box).map(question => {
                     const [code, asked, starts, place] = PROFILE_CODES[question.id] ?? missing("Profile", question.id);
@@ -352,7 +364,21 @@ function rows(code) {
                     built.splice(at + 1, 0, { code, id: "–", label, control: kindOf, max: "", asked, starts: "", status: "not built", owner: "doc 36, " + code.slice(0, 2), notAfter: after, unplaced: true });
                 }
                 return { title, questions: built };
-            }),
+            }).concat([{
+                title: "The end user's own questions (a Segment whose buyer is Proxy or Dual-Intent)",
+                questions: P.PROFILE_USER_QUESTIONS.map(question => {
+                    const [code, asked, starts] = PROFILE_USER_CODES[question.id] ?? missing("Profile (end user)", question.id);
+                    const outcome = question.id === "outcome";
+                    const options = question.number ? "a number of years, within the Segment's end-user stage"
+                        : question.rating ? ratingOptions(question) : list(question.options);
+                    return {
+                        code, id: "`user.questions." + question.id + "`", label: P.profileUserWho(question.label),
+                        control: outcome ? "RadioChoice at 1, BusinessTicks above" : control(question, question.options),
+                        max: outcome ? STAGES.map(([stage]) => L.choiceLimit(stage, "outcome") ?? "any").join(" / ") : question.max ?? "", asked, starts: starts ?? "",
+                        status: "built", owner: "doc 36, 2.1", options, info: ratingInfo(question)
+                    };
+                })
+            }]),
             retired: PROFILE_RETIRED.map(([code, was, by]) => ({ code, was, by, owner: "doc 36, 8" }))
         });
     }

@@ -35,6 +35,11 @@ export interface SegmentQuestion {
      * empty, and an answer cleared stays cleared (saved as an empty list), so the Positioning answer saved before, its start, does not come back (`segmentPositioningShown`).
      */
     fromPositioning?: boolean;
+    /**
+     * Moved on to the Profile (owner, 2026-11-08: the end user's outcome is asked in each Profile's end-user part, doc 36, E4): not shown on the Segment and not printed with its
+     * answers; a saved answer stays readable and settled, as the Profile's start.
+     */
+    startsProfile?: boolean;
 }
 
 /** What a Segment's questions follow: Identity's answers and the business stage. */
@@ -535,9 +540,10 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         rating: COMFORT_RATING, options: ratingOptions(COMFORT_RATING),
         info: ["How easily they use websites, apps and online payment, not whether they own a device."]
     },
-    // Positioning's question 10, moved here on 2026-11-08 (owner: "Move all three"), its options and "i" as built; the end user's own Profile takes it later (Phase 4b).
+    // Positioning's question 10, moved here on 2026-11-08 (owner: "Move all three"), its options and "i" as built; moved on the same day to each Profile's end-user part (doc 36, E4),
+    // where a saved answer here is the start: kept and settled, no longer shown.
     {
-        id: "u-outcome", box: "user", label: "Outcome for the end user", many: true, fromPositioning: true,
+        id: "u-outcome", box: "user", label: "Outcome for the end user", many: true, fromPositioning: true, startsProfile: true,
         options: Object.entries(OUTCOME_USER_WORDS).map(([id, label]) => ({ id, label })),
         info: [
             "What matters most to the end user, apart from the buyer's own reasons for paying: the result the end user gets. It starts the end user's Profile.",
@@ -765,7 +771,7 @@ export function segmentSettledNotes(box: SegmentBox, answers: SegmentAnswers, co
 
 /** The questions of one box a Segment is asked and shows, in order: a question with only one option left is not shown (there is nothing to choose); its answer is that option (see segmentSettle). */
 export function segmentQuestionsOf(box: SegmentBox, answers: SegmentAnswers, context: SegmentContext): SegmentQuestion[] {
-    return QUESTIONS.filter(question => question.box === box && segmentQuestionAsked(question, answers, context)
+    return QUESTIONS.filter(question => question.box === box && !question.startsProfile && segmentQuestionAsked(question, answers, context)
         && segmentOptions(question, answers, context, false).length !== 1)
         .map(question => ({ ...question, label: segmentWho(question.label, question.box, context) }));
 }
@@ -941,7 +947,8 @@ export function segmentBoxAnswered(answers: SegmentAnswers, box: SegmentBox): bo
 /** Each answered question as its label and the words chosen, for the documents. */
 export function segmentAnswerLines(answers: SegmentAnswers): { label: string; value: string }[] {
 
-    return QUESTIONS.flatMap(question => {
+    // (A question moved on to the Profile is printed there: doc 36, E4.)
+    return QUESTIONS.filter(question => !question.startsProfile).flatMap(question => {
 
         const chosen = answers[question.id] ?? [];
         const words = question.rating

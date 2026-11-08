@@ -3,7 +3,7 @@ import { workspacesOf, WORKSPACE_GROUP_ID } from "./AnswerUtils.ts";
 import { activitiesLine, positioningDocumentTitle } from "./ActivityClassification.ts";
 import { stageOf } from "./BusinessStage.ts";
 import { segmentAnswerLines, segmentBoxAnswered } from "./SegmentQuestions.ts";
-import { segmentIdentityOf, settledSegmentAnswers } from "./SegmentContext.ts";
+import { segmentContextFor, segmentIdentityOf, segmentIsBusiness, settledSegmentAnswers } from "./SegmentContext.ts";
 import { effectiveOfferingAnswers, offeringContextOf } from "./EffectiveAnswers.ts";
 /*
     The two documents the Foundation capability adds up to, built from
@@ -827,7 +827,8 @@ function marketBlocks(f: Foundation): ExportBlock[] {
         ...f.segments.flatMap((segment, index) => [
             heading("Segment " + (index + 1) + ": " + (segment.name.trim() || "Unnamed segment")),
             ...titled2("What we know of them", details(segmentAnswerLines(settledSegmentAnswers(segment, f.legalEntity.organisation)).map(line => [line.label, line.value]))),
-            ...titled2("Customer Profiles", table(["Profile", "Goals", "Challenges", "Needs"], segment.profiles.map(profile => [
+            // A Segment with an end user (Proxy or Dual-Intent): the goals, challenges and needs are the end user's (doc 36, 2.1).
+            ...titled2("Customer Profiles", table(segmentContextFor(segmentIdentityOf(f.legalEntity.organisation), segmentIsBusiness(segment)).endsUser ? ["Profile", "End user's goals", "End user's challenges", "End user's needs"] : ["Profile", "Goals", "Challenges", "Needs"], segment.profiles.map(profile => [
                 profile.name,
                 profile.goals,
                 profile.challenges,
