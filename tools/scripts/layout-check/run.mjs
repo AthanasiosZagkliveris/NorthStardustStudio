@@ -51,6 +51,17 @@ export const PAGES = [
     ["Strategy System", ["Strategy System"]]
 ];
 
+/**
+ * THE ORGANISATIONS THE CHECK OPENS: the two examples (src/data/examples, every page), then the check-only fixtures (./fixtures, only the pages each is made for). A fixture is
+ * never one of the examples: no test reads it, and the app never ships it. proxy-tutoring.json is a parent buying tutoring for a child (B2C Proxy, Parent or guardian, a Minor):
+ * its Foundation page draws the Profile in two parts, "The buyer" and "The end user", which neither example has.
+ */
+export const EXAMPLES = [
+    { name: "lumen-and-loom-studio.json", file: new URL("../../../src/data/examples/lumen-and-loom-studio.json", import.meta.url) },
+    { name: "quillfield-automation-llc.json", file: new URL("../../../src/data/examples/quillfield-automation-llc.json", import.meta.url) },
+    { name: "proxy-tutoring.json", file: new URL("./fixtures/proxy-tutoring.json", import.meta.url), pages: [["Business System", ["^1\\. Foundation"]]] }
+];
+
 export const WIDTHS = [1920, 1366, 768];
 export const THEMES = ["light", "dark"];
 
@@ -472,11 +483,11 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
     const base = process.env.BASE_URL ?? "http://localhost:1420";
     const failures = [];
     // A quick run: CHECK_PAGES="Customer Engagement,Roadmap" CHECK_WIDTHS=1920 CHECK_THEMES=light CHECK_EXAMPLES=lumen node tools/scripts/layout-check/run.mjs
-    // --quick: the one setting the baseline is made at (the Quillfield example, 1920 wide, the light page); the full check is the same command without it.
+    // --quick: the one setting the baseline is made at (the Quillfield example and the proxy-tutoring fixture's Foundation page, 1920 wide, the light page); the full check is the same command without it.
     if (process.argv.includes("--quick")) {
         process.env.CHECK_WIDTHS ??= "1920";
         process.env.CHECK_THEMES ??= "light";
-        process.env.CHECK_EXAMPLES ??= "quillfield";
+        process.env.CHECK_EXAMPLES ??= "quillfield,proxy-tutoring";
     }
     const only = (name) => process.env[name]?.split(",").map(entry => entry.trim()).filter(Boolean);
     const pageFilter = only("CHECK_PAGES");
@@ -488,12 +499,17 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
     const sizes = sizeText ?? (widths ? widths.map(width => [width, 1000]) : wide ? WIDE_SIZES : SIZES);
     const themes = only("CHECK_THEMES") ?? (wide ? WIDE_THEMES : THEMES);
     const exampleFilter = only("CHECK_EXAMPLES");
-    for (const example of ["lumen-and-loom-studio.json", "quillfield-automation-llc.json"].filter(name => !exampleFilter || exampleFilter.some(entry => name.includes(entry)))) {
+    for (const { name: example, file, pages: ownPages } of EXAMPLES.filter(entry => !exampleFilter || exampleFilter.some(text => entry.name.includes(text)))) {
+        // (A fixture opens only the pages it is made for, within CHECK_PAGES.)
+        const examplePages = ownPages ? ownPages.map(([system, names]) => [system, names.filter(name => pages.some(([other, kept]) => other === system && kept.includes(name)))]).filter(([, names]) => names.length > 0) : pages;
+        if (examplePages.length === 0) {
+            continue;
+        }
         // (A page that reloads under the script -- the dev server hot-reloading, a slow machine -- makes the run start again, twice at most, instead of ending it.)
         for (let attempt = 1; ; attempt += 1) {
             try {
-                await seedExample(page, base, readFileSync(new URL("../../../src/data/examples/" + example, import.meta.url), "utf8"));
-                failures.push(...(await runLayoutCheck(page, { base, probe, pages, sizes, themes })).map(failure => ({ example, ...failure })));
+                await seedExample(page, base, readFileSync(file, "utf8"));
+                failures.push(...(await runLayoutCheck(page, { base, probe, pages: examplePages, sizes, themes })).map(failure => ({ example, ...failure })));
                 break;
             } catch (error) {
                 if (attempt >= 3 || !/context was destroyed|Target closed|net::ERR/.test(String(error))) {

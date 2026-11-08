@@ -7,7 +7,9 @@
  *   node tools/scripts/layout-check/floating-card-audit.mjs
  *   CARD_PAGE="1. Foundation" CARD_SYSTEM="Business System" CARD_OPEN="The Considered Nester" EXAMPLE=lumen-and-loom-studio node tools/scripts/layout-check/floating-card-audit.mjs
  *
- * It lists what fails and exits 1 if anything does. It reads the example from src/data/examples.
+ * With no CARD_OPEN or EXAMPLE it audits each card of CARDS in turn: the Considered Nester of the Lumen example (src/data/examples), and the Profile of the check-only fixture
+ * fixtures/proxy-tutoring.json (a parent buying tutoring for a child: B2C Proxy), the two-part Profile, whose "The buyer" and "The end user" sections it also requires.
+ * It lists what fails and exits 1 if anything does.
  */
 import { chromium } from "playwright";
 import { PNG } from "playwright-core/lib/utilsBundle";
@@ -16,11 +18,16 @@ import { readFileSync } from "node:fs";
 const BASE = process.env.BASE_URL ?? "http://localhost:1420";
 const SYSTEM = process.env.CARD_SYSTEM ?? "Business System";
 const PAGE = process.env.CARD_PAGE ?? "1. Foundation";
-const OPEN = process.env.CARD_OPEN ?? "The Considered Nester";
-const EXAMPLE = process.env.EXAMPLE ?? "lumen-and-loom-studio";
+/** The cards audited by default: an example's card, then a fixture's (./fixtures, never one of the examples: no test reads it). `parts`: the section headings the card must show. */
+const CARDS = [
+    { open: "The Considered Nester", file: new URL("../../../src/data/examples/lumen-and-loom-studio.json", import.meta.url) },
+    { open: "The Worried Working Parent", file: new URL("./fixtures/proxy-tutoring.json", import.meta.url), parts: ["The buyer", "The end user"] }
+];
+const chosen = process.env.CARD_OPEN || process.env.EXAMPLE
+    ? [{ open: process.env.CARD_OPEN ?? "The Considered Nester", file: new URL("../../../src/data/examples/" + (process.env.EXAMPLE ?? "lumen-and-loom-studio") + ".json", import.meta.url) }]
+    : CARDS;
 const RUNS = [["sepia", 1440], ["light", 1440], ["dark", 1440], ["sepia", 520]];
 
-const org = JSON.parse(readFileSync(new URL("../../../src/data/examples/" + EXAMPLE + ".json", import.meta.url), "utf8"));
 const lum = c => { const f = v => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }; return 0.2126 * f(c.r) + 0.7152 * f(c.g) + 0.0722 * f(c.b); };
 const ratio = (a, c) => { const x = lum(a), y = lum(c); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
 
@@ -87,6 +94,9 @@ const collect = () => {
 
 const browser = await chromium.launch();
 let failed = 0;
+for (const { open: OPEN, file, parts = [] } of chosen) {
+const org = JSON.parse(readFileSync(file, "utf8"));
+console.log(org.name + ": " + OPEN);
 for (const [theme, width] of RUNS) {
     const page = await browser.newPage({ viewport: { width, height: 7000 } });
     const errors = []; page.on("console", m => { if (m.type() === "error") errors.push(m.text().slice(0, 100)); });
@@ -100,6 +110,9 @@ for (const [theme, width] of RUNS) {
     for (let r = 0; r < 3; r++) { for (const bt of await page.getByRole("button", { name: /^(Expand all|Maximize)/ }).all()) { try { await bt.click({ timeout: 400 }); } catch {} } await page.waitForTimeout(250); }
     await page.locator("text=" + OPEN).first().evaluate(n => n.click()); await page.waitForTimeout(3500);
     const problems = await page.evaluate(structure);
+    const heads = await page.evaluate(() => [...document.querySelectorAll(".floating-card-body [role=heading]")].map(h => h.textContent.trim().replace(/i$/, "").trim()));
+    const missing = parts.filter(part => !heads.includes(part));
+    if (missing.length) problems.push("parts [missing: " + missing.join(", ") + "]");
     if (!problems.some(p => p.startsWith("card "))) {
         const { texts, controls } = await page.evaluate(collect);
         const withText = PNG.sync.read(await page.screenshot({ fullPage: true }));
@@ -133,6 +146,7 @@ for (const [theme, width] of RUNS) {
     console.log((problems.length ? "FAIL " : "pass ") + theme + " " + width + (problems.length ? ": " + problems.join("; ") : ""));
     failed += problems.length;
     await page.close();
+}
 }
 await browser.close();
 process.exit(failed ? 1 : 0);

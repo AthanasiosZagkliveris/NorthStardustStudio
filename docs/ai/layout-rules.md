@@ -1296,8 +1296,8 @@ lists the failures. **A finding that is not in `tools/scripts/layout-check/basel
 fails it; the baseline is empty, so any finding fails.**
 The runs:
 
-- `npm run check:layout`: the quick run, the one setting the baseline is made at (the Quillfield example, 1920 wide, the light page).
-- `node tools/scripts/layout-check/run.mjs`: the full run, at **1920, 1366 and 768px** in **light and dark**, both examples (about 25 minutes).
+- `npm run check:layout`: the quick run, the one setting the baseline is made at (the Quillfield example and the Foundation page of the proxy-tutoring fixture, 1920 wide, the light page).
+- `node tools/scripts/layout-check/run.mjs`: the full run, at **1920, 1366 and 768px** in **light and dark**, both examples and the fixture (about 25 minutes). The fixture (`tools/scripts/layout-check/fixtures/proxy-tutoring.json`, a parent buying tutoring for a child) is check-only: no test reads it and the app never ships it; it is there so the checks draw the Profile's two parts, "The buyer" and "The end user". `npm run check:card` audits its Profile as well as the Considered Nester.
 - `npm run check:layout:wide`: the three reading modes and the screen classes; its baseline is not written yet.
 - `CHECK_PAGES="Customer Engagement" npm run check:layout` runs one page; a sub-pixel finding (a gap of 12.95 for 12) can come and go between runs. A card added with a "+" box is waited for (two seconds at most) until it is drawn and has taken the focus (in its name, or on the card where the app writes the name), so a slow frame on a busy machine is not a finding.
 - `npm run check:layout:baseline` rewrites the baseline: only by the owner's decision.
