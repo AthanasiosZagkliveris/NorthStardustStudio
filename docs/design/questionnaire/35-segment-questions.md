@@ -31,7 +31,7 @@ The rules that hold for all of them: a radio is one choice, ticks are several (w
 
 The people who pay (the buyer is people: B2C alone, or the first of the two Segments made where both are chosen). Questions that have no answer for Minors are skipped for them. The specialised needs (accessibility and caregiving) are not asked here: they belong to the Profile, which is specified in doc 36.
 
-### Before 1. Who is this Segment's customer?
+### 0. Who is this Segment's customer?
 
 - **Control:** one choice (a radio).
 - **Asked when:** Positioning chose both B2C and B2B, and the Segment is the third or a later one (the first two are made for the user, people then businesses, and are not asked). It is the first question of the Segment's first box.

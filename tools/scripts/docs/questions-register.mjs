@@ -71,7 +71,7 @@ const POSITIONING_BOXES = { left: "The left column: the customers", right: "The 
 
 /** The Segment (doc 35): saved id -> [code, asked when, starts]. The code of a box's question is "Box N, M"; the end user's, "End user, M". */
 const SEGMENT_CODES = {
-    kind: ["Box 1, before 1", "Positioning chose both B2C and B2B, and this is the third Segment or a later one"],
+    kind: ["Box 1, 0", "Positioning chose both B2C and B2B, and this is the third Segment or a later one"],
     age: ["Box 1, 1", "the buyer is people; the terms follow the buyer's life stage (Positioning 3)"],
     education: ["Box 1, 2", "the buyer is people and the age is not Minors"],
     work: ["Box 1, 3", "the buyer is people; set to No (not shown) for Active Retirees and Dependent seniors", "from the age group: Minors and Young adults No (then Student), Established to Mature Yes, retirees No (then Retired)"],
@@ -130,11 +130,11 @@ const PROFILE_CODES = {
     e1: ["E1", "always"],
     e2: ["E2", "always"],
     e3: ["E3", "always", "Price where the Segment's household income is rated 1"],
-    functional: ["Functional", "always (above the numbered list \"Their own tasks\")"],
-    emotional: ["Emotional", "a people Segment"],
-    "emotional-b2b": ["Emotional (B2B)", "a business Segment", "", "emotional"],
-    social: ["Social", "a people Segment"],
-    "social-b2b": ["Social (B2B)", "a business Segment", "", "social"]
+    functional: ["N1", "always (above the numbered list \"Their own tasks\")"],
+    emotional: ["N2", "a people Segment"],
+    "emotional-b2b": ["N3", "a business Segment", "", "emotional"],
+    social: ["N4", "a people Segment"],
+    "social-b2b": ["N5", "a business Segment", "", "social"]
 };
 /** Profile questions in the doc that are not built: [code, box, label, control, asked when, after (the saved id they stand after)]. */
 const PROFILE_NOT_BUILT = [
@@ -177,7 +177,7 @@ const OFFERING_CODES = {
     o1: ["O1", "the Type is chosen (the forms follow it)"],
     o2: ["O2", "always", "from the business stage: Planning, Still being built; Launching to Growing, Yes, now"],
     o3: ["O3", "always"],
-    o3t: ["O3 row 2", "always (the second row of O3's band)"],
+    o3t: ["O3b", "always (the second row of O3's band)"],
     o4: ["O4", "always", "from Positioning's Differentiation, through the value crosswalk (up to three)"],
     o6: ["O6", "always", "from O1 (a physical item: Posted / shipped; a digital file: Sent automatically online; and so on)"],
     o7: ["O7", "always"],
@@ -301,7 +301,7 @@ function rows(code) {
         const questions = [kind, ...S.SEGMENT_QUESTIONS];
         cards.push({
             title: "Segment", where: "Business System, page 1, the Segment's Description (the end user's part in the same card)", owner: "35",
-            source: "`SEGMENT_QUESTIONS` in `src/framework/engine/SegmentQuestions.ts` (the card adds Box 1, before 1); saved under `questions` on the Segment. The words are a direct buyer's (\"your customers\"); a Proxy or Dual-Intent buyer reads \"your buyers\", and the end user's part \"your end users\" (`segmentWho`)",
+            source: "`SEGMENT_QUESTIONS` in `src/framework/engine/SegmentQuestions.ts` (the card adds Box 1, 0); saved under `questions` on the Segment. The words are a direct buyer's (\"your customers\"); a Proxy or Dual-Intent buyer reads \"your buyers\", and the end user's part \"your end users\" (`segmentWho`)",
             boxes: boxes.map(([box, title]) => ({
                 title,
                 questions: questions.filter(question => question.box === box).map(question => {

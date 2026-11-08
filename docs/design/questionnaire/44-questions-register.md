@@ -215,13 +215,13 @@ None.
 
 ## 3. Segment
 
-*Business System, page 1, the Segment's Description (the end user's part in the same card). Owner: doc 35.* From `SEGMENT_QUESTIONS` in `src/framework/engine/SegmentQuestions.ts` (the card adds Box 1, before 1); saved under `questions` on the Segment. The words are a direct buyer's ("your customers"); a Proxy or Dual-Intent buyer reads "your buyers", and the end user's part "your end users" (`segmentWho`).
+*Business System, page 1, the Segment's Description (the end user's part in the same card). Owner: doc 35.* From `SEGMENT_QUESTIONS` in `src/framework/engine/SegmentQuestions.ts` (the card adds Box 1, 0); saved under `questions` on the Segment. The words are a direct buyer's ("your customers"); a Proxy or Dual-Intent buyer reads "your buyers", and the end user's part "your end users" (`segmentWho`).
 
 ### 3.1 Demographics
 
 | Pos | Code | Saved id | Label | Control | Max | Asked when | Starts | Status | Owner |
 |---|---|---|---|---|---|---|---|---|---|
-| 1 | Box 1, before 1 | the Description's `business-data` key, present or not | Who is this Segment's customer? | FittingRadioChoice | – | Positioning chose both B2C and B2B, and this is the third Segment or a later one | – | built | doc 35, Box 1 |
+| 1 | Box 1, 0 | the Description's `business-data` key, present or not | Who is this Segment's customer? | FittingRadioChoice | – | Positioning chose both B2C and B2B, and this is the third Segment or a later one | – | built | doc 35, Box 1 |
 | 2 | Box 1, 1 | `age` | How old are your customers? | RadioChoice | – | the buyer is people; the terms follow the buyer's life stage (Positioning 3) | – | built | doc 35, Box 1 |
 | 3 | Box 1, 2 | `education` | What is their highest level of education? | RadioChoice | – | the buyer is people and the age is not Minors | – | built | doc 35, Box 1 |
 | 4 | Box 1, 3 | `work` | Are your customers working? | FittingRadioChoice | – | the buyer is people; set to No (not shown) for Active Retirees and Dependent seniors | from the age group: Minors and Young adults No (then Student), Established to Mature Yes, retirees No (then Retired) | built | doc 35, Box 1 |
@@ -232,7 +232,7 @@ None.
 | 9 | Box 1, 8 | `income` | How high is your customers' household income? | RatingScale | – | the buyer is people and the age is not Minors | – | built | doc 35, Box 1 |
 | 10 | Box 1, 9 | `gender` | What is the gender mix of your customers? | RatingScale | – | the buyer is people | – | built | doc 35, Box 1 |
 
-- **Box 1, before 1. Who is this Segment's customer?**
+- **Box 1, 0. Who is this Segment's customer?**
   - Options: People (B2C); Businesses (B2B).
   - "i":
     - The Segment is one group: people, or businesses.
@@ -694,13 +694,13 @@ None.
 
 | Pos | Code | Saved id | Label | Control | Max | Asked when | Starts | Status | Owner |
 |---|---|---|---|---|---|---|---|---|---|
-| 17 | Functional | `functional` | What kind of job does this person need done? | RatingScaleGroup (selectable) | 3 | always (above the numbered list "Their own tasks") | – | built | doc 36, 10 |
-| 18 | Emotional | `emotional` | How does this person want to feel? | RatingScaleGroup (selectable) | 3 | a people Segment | – | built | doc 36, 10 |
-| 18 | Emotional (B2B) | `emotional-b2b` | How does this person want to feel? | RatingScaleGroup (selectable) | 3 | a business Segment | – | built | doc 36, 10 |
-| 19 | Social | `social` | How does this person want to be seen? | RatingScaleGroup (selectable) | 3 | a people Segment | – | built | doc 36, 10 |
-| 19 | Social (B2B) | `social-b2b` | How does this person want to be seen? | RatingScaleGroup (selectable) | 3 | a business Segment | – | built | doc 36, 10 |
+| 17 | N1 | `functional` | What kind of job does this person need done? | RatingScaleGroup (selectable) | 3 | always (above the numbered list "Their own tasks") | – | built | doc 36, 10 |
+| 18 | N2 | `emotional` | How does this person want to feel? | RatingScaleGroup (selectable) | 3 | a people Segment | – | built | doc 36, 10 |
+| 18 | N3 | `emotional-b2b` | How does this person want to feel? | RatingScaleGroup (selectable) | 3 | a business Segment | – | built | doc 36, 10 |
+| 19 | N4 | `social` | How does this person want to be seen? | RatingScaleGroup (selectable) | 3 | a people Segment | – | built | doc 36, 10 |
+| 19 | N5 | `social-b2b` | How does this person want to be seen? | RatingScaleGroup (selectable) | 3 | a business Segment | – | built | doc 36, 10 |
 
-- **Functional. What kind of job does this person need done?**
+- **N1. What kind of job does this person need done?**
   - Options: ticked, then each rated 1 to 5: Organisation; Integration; Connection; Information; Variety.
   - "i":
     - 1 = Mild, 5 = Strong.
@@ -709,7 +709,7 @@ None.
     - Connection: helps them reach or work with other people. Variety: gives more options than they had.
     - Information: gives answers or facts they need now (learning is the goal Development).
     - Based on: Bain's Elements of Value (HBR, 2016).
-- **Emotional. How does this person want to feel?**
+- **N2. How does this person want to feel?**
   - Options: ticked, then each rated 1 to 5: Calm; Rewarded; Nurtured; Entertained; Attractive; Healthy; Delighted; Nostalgic; Motivated; Hopeful; Fulfilled; Proud.
   - "i":
     - 1 = Mild, 5 = Strong.
@@ -718,7 +718,7 @@ None.
     - Based on: Bain's Elements of Value (HBR, 2016 and 2018).
     - Rewarded: treated to something special. Nurtured: looked after. Delighted: by how it looks. Nostalgic: reminded of good times. Fulfilled: growing as a person.
     - Proud: a sense of self-worth or achievement in what they own or made (Desmet's 25 product emotions, 2012).
-- **Emotional (B2B). How does this person want to feel?**
+- **N3. How does this person want to feel?**
   - Options: ticked, then each rated 1 to 5: Confident; Glad to work with you; Prosperous; Optimistic; Inspired.
   - "i":
     - 1 = Mild, 5 = Strong.
@@ -726,7 +726,7 @@ None.
     - For example, sure they chose the right supplier, or glad to work with you again.
     - Based on: Bain's Elements of Value (HBR, 2016 and 2018).
     - Confident: sure they made the right choice. Prosperous: growing in their work. Optimistic: hopeful about their business.
-- **Social. How does this person want to be seen?**
+- **N4. How does this person want to be seen?**
   - Options: ticked, then each rated 1 to 5: Stylish; Included; Exclusive; Altruistic; Impactful.
   - "i":
     - 1 = Mild, 5 = Strong.
@@ -734,7 +734,7 @@ None.
     - For example, as stylish when friends visit, or as caring for the planet.
     - Based on: Bain's Elements of Value (HBR, 2016 and 2018).
     - Included: part of a group they value. Exclusive: one of the few with access. Altruistic: caring for others or the planet. Impactful: leaving a legacy.
-- **Social (B2B). How does this person want to be seen?**
+- **N5. How does this person want to be seen?**
   - Options: ticked, then each rated 1 to 5: Trusted; Influential; Respected; Responsible.
   - "i":
     - 1 = Mild, 5 = Strong.
@@ -936,7 +936,7 @@ No questions: the tile shows a draft sentence and the open items, read from the 
 | Pos | Code | Saved id | Label | Control | Max | Asked when | Starts | Status | Owner |
 |---|---|---|---|---|---|---|---|---|---|
 | 6 | O3 | `o3` | On what terms do they pay for it? | RadioChoice | – | always | – | built | doc 43, O3 |
-| 7 | O3 row 2 | `o3t` | When do they pay? | RadioChoice | – | always (the second row of O3's band) | – | built | doc 43, O3 |
+| 7 | O3b | `o3t` | When do they pay? | RadioChoice | – | always (the second row of O3's band) | – | built | doc 43, O3b |
 | 8 | O6 | `o6` | How does the customer receive it? | RadioChoice | – | always | from O1 (a physical item: Posted / shipped; a digital file: Sent automatically online; and so on) | built | doc 43, O6 |
 | 9 | O15 | `o15` | How long until they have it? | FittingRadioChoice | – | always | – | built | doc 43, O15 |
 
@@ -948,7 +948,7 @@ No questions: the tile shows a draft sentence and the open items, read from the 
     - Per session / per hour: a price for each session or hour. Rent / hire: they pay to use it for a time, then give it back.
     - Commission on each sale: a share of each sale you make for them. Free to them: someone else pays, such as an advertiser or a funder.
     - A minimum term: write it in the Notes.
-- **O3 row 2. When do they pay?**
+- **O3b. When do they pay?**
   - Options: Before they get it; A deposit, then the rest; When it is done / delivered; In instalments / monthly; On invoice terms (for example 30 days).
   - "i":
     - When the money comes in. How they pay (card, invoice) is the Segment's question.
