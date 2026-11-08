@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { asBusinessFoundationValue } from "./AnswerBusinessFoundation";
-import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveSegmentAnswers, withFieldSet } from "./EffectiveAnswers";
+import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveSegmentAnswers, offeringStarts, offeringStartsById, withFieldSet } from "./EffectiveAnswers";
 import { segmentAnswerLines, segmentQuestionsOf, segmentSettle } from "./SegmentQuestions";
 import { segmentContextFor, settledSegmentAnswers } from "./SegmentContext";
 import { offeringChoose, valuePropositionOpenItems } from "./OfferingQuestions";
@@ -130,3 +130,55 @@ describe("the Differentiation and the end user's outcome start from the Position
         expect(segmentAnswerLines(settledSegmentAnswers(withQuestions({ differentiation: ["ecosystem"] }), organisation))).toContainEqual({ label: "Differentiation", value: "Ecosystem & Integration" });
     });
 });
+
+/* What the later pages start from (specifications/business-system/README.md, "What each later page reads from Page 1"; phase 5f, 2026-11-09). */
+describe("the later pages' starts follow the Offering's O3, O3b, O10 and O15", () => {
+    const offeringWith = (questions: Record<string, string[]>, category = "Service") => {
+        const segment = asBusinessFoundationValue({ segments: [{ id: "s", name: "Firms", offerings: [{ id: "o", name: "Audit", category, questions }] }] }).segments[0];
+        return offeringStarts(segment.offerings[0], segment, undefined);
+    };
+
+    it("maps every O3 term to Customers Buy, Delivered and Charged", () => {
+        const cases: [string, boolean, "unit" | "monthly", string][] = [
+            ["once", false, "unit", "per-sale"], ["session", false, "unit", "per-sale"], ["rent", false, "unit", "per-sale"], ["commission", false, "unit", "per-sale"],
+            ["project", false, "unit", "per-project"],
+            ["subscription", true, "monthly", "monthly"], ["retainer", true, "monthly", "monthly"], ["payg", true, "monthly", "monthly"], ["licence", true, "monthly", "annually"]
+        ];
+        for (const [terms, recurring, deliveryMode, charged] of cases) {
+            expect(offeringWith({ o3: [terms] }), terms).toMatchObject({ recurring, deliveryMode, charged });
+        }
+        // Free to them, or no answer, starts nothing.
+        expect(offeringWith({ o3: ["free"] })).toEqual({});
+        expect(offeringWith({})).toEqual({});
+        // A saved membership is a subscription (merged 2026-11-08).
+        expect(offeringWith({ o3: ["membership"] })).toMatchObject({ recurring: true, charged: "monthly" });
+    });
+
+    it("maps O3b to the Payment Timing: instalments are Milestones on a charge paid once, and no start on a monthly one", () => {
+        expect(offeringWith({ o3: ["project"], o3t: ["before"] }).paymentTiming).toBe("upfront");
+        expect(offeringWith({ o3: ["project"], o3t: ["deposit"] }).paymentTiming).toBe("split");
+        expect(offeringWith({ o3: ["project"], o3t: ["after"] }).paymentTiming).toBe("completion");
+        expect(offeringWith({ o3: ["project"], o3t: ["invoice"] }).paymentTiming).toBe("completion");
+        expect(offeringWith({ o3: ["project"], o3t: ["monthly"] }).paymentTiming).toBe("milestone");
+        expect(offeringWith({ o3: ["retainer"], o3t: ["monthly"] }).paymentTiming).toBeUndefined();
+    });
+
+    it("starts Calendar Time from O15's band for an Offering delivered per unit only, and Constraints from O10's words", () => {
+        expect(offeringWith({ o3: ["project"], o15: ["week"] }).duration).toBe("1");
+        expect(offeringWith({ o3: ["project"], o15: ["weeks"] }).duration).toBe("4");
+        expect(offeringWith({ o3: ["project"], o15: ["months"] }).duration).toBe("13");
+        expect(offeringWith({ o3: ["project"], o15: ["now"] }).duration).toBeUndefined();
+        expect(offeringWith({ o3: ["project"], o15: ["longer"] }).duration).toBeUndefined();
+        expect(offeringWith({ o3: ["retainer"], o15: ["weeks"] }).duration).toBeUndefined();
+        expect(offeringWith({ o10: ["access", "brief"] }).constraints).toBe("Access to their systems or information; A clear brief.");
+        // O10 is not asked of a Product, so a Product's saved O10 starts nothing.
+        expect(offeringWith({ o10: ["access"] }, "Product").constraints).toBeUndefined();
+    });
+
+    it("finds an Offering by its id in any Segment, and gives nothing for an id not on Page 1", () => {
+        const segments = asBusinessFoundationValue({ segments: [{ id: "a", name: "A", offerings: [] }, { id: "b", name: "B", offerings: [{ id: "o2", name: "Care", category: "Service", questions: { o3: ["retainer"] } }] }] }).segments;
+        expect(offeringStartsById(segments, "o2").recurring).toBe(true);
+        expect(offeringStartsById(segments, "gone")).toEqual({});
+    });
+});
+

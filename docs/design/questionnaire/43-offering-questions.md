@@ -1,6 +1,6 @@
 # 43. The Offering card: every question and option, as built in part
 
-Status: **specification**, as built in part (O12 not built), written 2026-11-03, updated 2026-11-08. Every question of the Offering card (Business System, page 1, tile "Offerings"), in the order it is asked. For each: its control, when it is asked, its options, what its "i" says and what it connects to. The Type, the needs addressed and the text boxes are built; the questions O1 to O4, O3's second row, O6 to O8, O10 and O14 to O18 are **built** too (owner, 2026-11-07: "Update the Value Proposition and Offering card according to their docs"; `OfferingQuestions.ts`), O12 is not.
+Status: **specification**, as built in part (O12 not built), written 2026-11-03, updated 2026-11-09. Every question of the Offering card (Business System, page 1, tile "Offerings"), in the order it is asked. For each: its control, when it is asked, its options, what its "i" says and what it connects to. The Type, the needs addressed and the text boxes are built; the questions O1 to O4, O3's second row, O6 to O8, O10 and O14 to O18 are **built** too (owner, 2026-11-07: "Update the Value Proposition and Offering card according to their docs"; `OfferingQuestions.ts`), O12 is not.
 
 Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the Profile: the needs, B1, D2, E3), doc 38 (Positioning: the Differentiation and the buyer's outcome saved there before 2026-11-08), doc 41 (K14, the Segment's Differentiation), doc 41 (the Competitor: K8), doc 42 (the Value Proposition, which reads O1, O4 and O8), doc 34 (the lists L1 and L11, the value crosswalk 5.2a), doc 37 (the Organisation's fields: the Opening Date for O2; the activities and the country for O12), doc 28 (6.8, 7.4, 10.1 to 10.3 and 11.7, the design this refines), `src/framework/engine/AnswerBusinessFoundation.ts` (the card today).
 
@@ -99,12 +99,13 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - A minimum term: write it in the Notes.
 - **Connections:**
   - *Comes from:* the Segment's "How do your customers pay?" (doc 35, Box 4, question 8). Invoice, bank transfer or purchase order puts A project or contract first, as an order only (found by its id, so the options added do not move it). It reads the Segment's **settled** answer (`segmentSettle`, in `offeringContextOf`; 2026-11-08): an invoice saved on a people Segment, where invoicing is not offered, no longer puts it first.
-  - *Read by (not built yet):* Demand's "Customers buy", Delivery's "Delivered" and the Revenue stream's "Charged" (doc 28, 11.7 and 10.2); the Review (doc 28, 11.5, rule 14). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (built, 2026-11-09, as starts):* Demand's "Customers Buy" (Page 2), Delivery's "Delivered" (Page 3) and the Revenue stream's "Charged" (Page 5) start from it on a card those pages have not saved yet (`offeringStarts`, EffectiveAnswers.ts); a one-off term (One purchase, Per session / per hour, Rent / hire, Commission on each sale, A project or contract) is one sale at a time and per unit, a recurring one (A subscription / membership, A monthly retainer, Pay as they go, A licence) every month; Free to them starts nothing. The mapping, with Charged's, is the map's. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (not built yet):* the Review (doc 28, 11.5, rule 14).
 
 **O3b. O3, second row: "When do they pay?"** (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments": one commercial decision, terms and timing, in one band). One choice (a radio), under the terms, in the same band; saved as `o3t`.
 - **Options:** Before they get it; A deposit, then the rest; When it is done / delivered; In instalments / monthly; On invoice terms (for example 30 days).
 - **The "i" says:** When the money comes in. How they pay (card, invoice) is the Segment's question.
-- **Connections:** *Read by (not built yet):* the Revenue stream's cash timing (doc 28, 10.2). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+- **Connections:** *Read by (built, 2026-11-09, as a start):* the Revenue stream's "Customer Pays" (its payment timing, Page 5; doc 28, 10.2), on a stream not saved yet. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### O4. Which of what matters most to your customers does it do best?
 
@@ -236,7 +237,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - A place to work: a desk or a room for you to use. Access to their home or site: the work is done there, such as a repair or a fitting.
   - Their time or attendance: they must take part or be there, such as at a session or a fitting.
 - **Connections:**
-  - *Read by (not built yet):* the Delivery card's "What could slow the work down?" (doc 28, 9.3, W3), as starting ticks: approval and access. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (built, 2026-11-09, as a start):* the Delivery card's Constraints (Page 3) start with the options ticked, in their words, on a Delivery not saved yet. *Not built yet:* the Delivery card's "What could slow the work down?" (doc 28, 9.3, W3) ticks. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### O14. How is it offered?
 
@@ -257,7 +258,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Options** (L20): Straight away; Within a week; One to four weeks; One to three months; Longer.
 - **The "i" says:**
   - The time from order to having it. How it reaches them is the question below (O6 follows O15 since 2026-11-08).
-- **Connections:** *Read by:* the export.
+- **Connections:** *Read by:* the export; *(built, 2026-11-09, as a start)* the Delivery card's Calendar Time (Page 3, weeks), for an Offering delivered per unit, on a Delivery not saved yet: the band's upper end (1, 4 or 13 weeks; Straight away and Longer start nothing). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### O16. How fast do you reply?
 

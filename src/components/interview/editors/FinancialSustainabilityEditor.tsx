@@ -11,6 +11,7 @@ import {
     businessFoundationSegments,
     withLegalEntityFounders
 } from "../../../framework/engine/AnswerUtils.ts";
+import { offeringStartsById } from "../../../framework/engine/EffectiveAnswers.ts";
 
 import {
     FINANCIAL_SUSTAINABILITY_SECTIONS,
@@ -321,14 +322,21 @@ export default function FinancialSustainabilityEditor({
         Foundation page has its card here; its stream is stored the
         first time something is written in it, under an id taken from
         the Offering's. A stream whose Offering is gone is shown after
-        them, so its figures are not counted unseen.
+        them, so its figures are not counted unseen. Not stored yet, its
+        Charged starts from the Offering's O3 on Page 1 and its Payment
+        Timing from O3's second row (offeringStarts), saved with the first
+        thing written; what is stored wins.
     */
+    function streamStarts(offeringId: string): Partial<RevenueStreamValue> {
+        const starts = offeringStartsById(businessFoundationSegments(foundation), offeringId);
+        return { ...(starts.charged ? { frequency: starts.charged } : {}), ...(starts.paymentTiming ? { paymentTiming: starts.paymentTiming } : {}) };
+    }
     const shownStreams: { stream: RevenueStreamValue; orphan: boolean }[] = [
         ...offerings.flatMap(offering => {
             const saved = page.streams.filter(stream => stream.offeringId === offering.id);
             return saved.length > 0
                 ? saved.map(stream => ({ stream, orphan: false }))
-                : [{ stream: { ...createRevenueStream(), id: "stream-" + offering.id, offeringId: offering.id }, orphan: false }];
+                : [{ stream: { ...createRevenueStream(), ...streamStarts(offering.id), id: "stream-" + offering.id, offeringId: offering.id }, orphan: false }];
         }),
         ...page.streams
             .filter(stream => !offerings.some(offering => offering.id === stream.offeringId))

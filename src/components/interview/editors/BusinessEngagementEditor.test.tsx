@@ -417,3 +417,35 @@ describe("BusinessEngagementEditor Engagement Strategy (2. Customer Relationship
     });
 
 });
+
+describe("BusinessEngagementEditor starts from Page 1 (phase 5f, 2026-11-09)", () => {
+
+    function StartHarness({ saved }: { saved?: boolean }) {
+        const [{ foundation, engagement }] = useState(() => {
+            const scenario = engagementScenario();
+            const [audit, retainer] = scenario.foundation.segments[0].offerings;
+            const offerings = [{ ...audit, category: "Service", questions: { o3: ["project"] } }, { ...retainer, category: "Service", questions: { o3: ["retainer"] } }];
+            return {
+                foundation: { ...scenario.foundation, segments: [{ ...scenario.foundation.segments[0], offerings }] },
+                // (A demand saved for the Retainer, bought one sale at a time: the page's own answer.)
+                engagement: saved ? { ...scenario.engagement, demand: { [retainer.id]: { sources: [], recurring: false } } } : scenario.engagement
+            };
+        });
+        const [value, setValue] = useState<unknown>(engagement);
+        return <BusinessEngagementEditor value={value} onChange={setValue} foundation={foundation} />;
+    }
+
+    it("starts Customers Buy from the Offering's O3 where the demand is not saved yet", () => {
+        render(<StartHarness />);
+        expandAll("Expand all offerings");
+        expect(screen.getByRole("button", { name: "How customers buy Retainer: Every month, until they cancel" })).toBeTruthy();
+        expect(screen.getByRole("button", { name: "How customers buy Audit: One sale at a time" })).toBeTruthy();
+    });
+
+    it("keeps the page's own answer over the start", () => {
+        render(<StartHarness saved />);
+        expandAll("Expand all offerings");
+        expect(screen.getByRole("button", { name: "How customers buy Retainer: One sale at a time" })).toBeTruthy();
+    });
+
+});

@@ -4,7 +4,7 @@
  * Only the fields the user set are saved; every other field keeps following its source answers.
  */
 import type { BusinessCustomerProfileValue, BusinessCustomerSegmentValue, BusinessOfferingValue } from "./AnswerBusinessFoundation.ts";
-import { type OfferingAnswers, type OfferingContext, offeringShown } from "./OfferingQuestions.ts";
+import { type OfferingAnswers, type OfferingContext, offeringOptions, offeringShown } from "./OfferingQuestions.ts";
 import { profileShown, profileUserShown } from "./ProfileQuestions.ts";
 import { type SegmentIdentity, segmentContextFor, segmentIsBusiness, segmentPositioningShown } from "./SegmentContext.ts";
 import { type SegmentAnswers, segmentSettle } from "./SegmentQuestions.ts";
@@ -45,6 +45,77 @@ export function offeringContextOf(offering: BusinessOfferingValue, segment: Busi
 /** An Offering's answers as its card shows them: its own, with each start for a question it never answered. */
 export function effectiveOfferingAnswers(offering: BusinessOfferingValue, segment: BusinessCustomerSegmentValue, identity: SegmentIdentity | undefined): OfferingAnswers {
     return offeringShown(offering.questions ?? {}, offeringContextOf(offering, segment, identity));
+}
+
+/* ---- What the later pages start from (specifications/business-system/README.md, "What each later page reads from Page 1"; phase 5f, 2026-11-09) ---- */
+
+/** O3's terms paid once (one-off) and every month (recurring); Free to them is neither, so it starts nothing. */
+const O3_ONE_OFF: readonly string[] = ["once", "session", "rent", "commission", "project"];
+const O3_RECURRING: readonly string[] = ["subscription", "licence", "payg", "retainer"];
+/** Page 5's Charged (REVENUE_CHARGES' ids) for each O3 term. */
+const O3_CHARGED: Readonly<Record<string, "per-sale" | "per-project" | "monthly" | "annually">> = {
+    once: "per-sale", session: "per-sale", rent: "per-sale", commission: "per-sale", project: "per-project",
+    subscription: "monthly", retainer: "monthly", payg: "monthly", licence: "annually"
+};
+/** Page 3's Calendar Time in weeks for each O15 band: the band's upper end (Straight away and Longer start nothing). */
+const O15_WEEKS: Readonly<Record<string, string>> = { week: "1", weeks: "4", months: "13" };
+
+/** What an Offering's later cards start from: each field is there only where Page 1's answer says it. */
+export interface OfferingStarts {
+    /** Page 2, Demand & Conversion, Customers Buy: true is "Every month, until they cancel". */
+    recurring?: boolean;
+    /** Page 3, Delivery, Delivered. */
+    deliveryMode?: "unit" | "monthly";
+    /** Page 3, Delivery, Calendar Time (weeks), for an Offering delivered per unit. */
+    duration?: string;
+    /** Page 3, Delivery, Constraints: O10's options, as their words. */
+    constraints?: string;
+    /** Page 5, the revenue stream's Charged. */
+    charged?: "per-sale" | "per-project" | "monthly" | "annually";
+    /** Page 5, the revenue stream's Payment Timing (PAYMENT_TIMINGS' ids; When earned, "", is the default and starts nothing). */
+    paymentTiming?: "upfront" | "completion" | "split" | "milestone";
+}
+
+/**
+ * The starts an Offering gives its cards on Pages 2, 3 and 5, from its answers as its card shows them (O3, its second row O3t, O10, O15). A later page shows them on a card it has
+ * not saved yet and saves them with the first thing written there; what that page saved wins.
+ */
+export function offeringStarts(offering: BusinessOfferingValue, segment: BusinessCustomerSegmentValue, identity: SegmentIdentity | undefined): OfferingStarts {
+    const answers = effectiveOfferingAnswers(offering, segment, identity);
+    const terms = answers.o3?.[0] ?? "";
+    const recurring = O3_RECURRING.includes(terms) ? true : O3_ONE_OFF.includes(terms) ? false : undefined;
+    const starts: OfferingStarts = {};
+    if (recurring !== undefined) {
+        starts.recurring = recurring;
+        starts.deliveryMode = recurring ? "monthly" : "unit";
+    }
+    const weeks = O15_WEEKS[answers.o15?.[0] ?? ""];
+    if (weeks && recurring !== true) {
+        starts.duration = weeks;
+    }
+    const context = offeringContextOf(offering, segment, identity);
+    const provided = (answers.o10 ?? []).map(id => offeringOptions("o10", context).find(option => option.id === id)?.label).filter((label): label is string => !!label);
+    if (provided.length > 0) {
+        starts.constraints = provided.join("; ") + ".";
+    }
+    if (O3_CHARGED[terms]) {
+        starts.charged = O3_CHARGED[terms];
+    }
+    // When they pay (O3t): paid in instalments is Milestones on a charge paid once, and When earned (no start) on a monthly one.
+    const when = answers.o3t?.[0] ?? "";
+    const timing = when === "before" ? "upfront" : when === "deposit" ? "split" : when === "after" || when === "invoice" ? "completion"
+        : when === "monthly" && recurring !== true ? "milestone" : undefined;
+    if (timing) {
+        starts.paymentTiming = timing;
+    }
+    return starts;
+}
+
+/** The starts of the Offering with this id, wherever it is on Page 1; none where there is no such Offering. */
+export function offeringStartsById(segments: readonly BusinessCustomerSegmentValue[], offeringId: string, identity?: SegmentIdentity): OfferingStarts {
+    const segment = segments.find(entry => entry.offerings.some(offering => offering.id === offeringId));
+    const offering = segment?.offerings.find(entry => entry.id === offeringId);
+    return segment && offering ? offeringStarts(offering, segment, identity) : {};
 }
 
 /**

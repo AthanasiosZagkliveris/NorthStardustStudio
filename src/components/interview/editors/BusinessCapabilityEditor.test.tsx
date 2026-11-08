@@ -1156,3 +1156,47 @@ describe("BusinessCapabilityEditor founders' share of working hours", () => {
     });
 
 });
+
+describe("BusinessCapabilityEditor starts from Page 1 (phase 5f, 2026-11-09)", () => {
+
+    const founders = [{ id: "f1", name: "Ann", ownership: "100", capital: "", roles: [""], experience: "" }];
+    const foundation = { segments: [{ id: "s", name: "Firms", offerings: [
+        { id: "offering-1", name: "Build", category: "Service", questions: { o1: ["project"], o3: ["project"], o15: ["weeks"], o10: ["access", "brief"] } },
+        { id: "offering-2", name: "Care", category: "Service", questions: { o1: ["ongoing"], o3: ["retainer"] } }
+    ] }] };
+
+    function StartHarness({ initial, onValue }: { initial: unknown; onValue?: (next: unknown) => void }) {
+        const [value, setValue] = useState<unknown>(initial);
+        return <BusinessCapabilityEditor value={value} onChange={(next) => { setValue(next); onValue?.(next); }} legalEntityFounders={founders} foundation={foundation} />;
+    }
+
+    it("starts Delivered from O3, Calendar Time from O15 and Constraints from O10 on a Delivery not saved yet", () => {
+        render(<StartHarness initial={asBusinessCapabilityValue(undefined)} />);
+        openTile("Delivery");
+        openCard("Build");
+        expect(screen.getByRole("button", { name: "Build delivered per unit or every month: Per unit" })).toBeTruthy();
+        expect((screen.getByLabelText("Build calendar time, weeks") as HTMLInputElement).value).toBe("4");
+        expect((screen.getByLabelText("Build delivery constraints") as HTMLTextAreaElement).value).toBe("Access to their systems or information; A clear brief.");
+    });
+
+    it("starts Every month for a retainer, and saves the start with the first thing written", () => {
+        let saved: unknown;
+        render(<StartHarness initial={asBusinessCapabilityValue(undefined)} onValue={(next) => { saved = next; }} />);
+        openTile("Delivery");
+        openCard("Care");
+        expect(screen.getByRole("button", { name: "Care delivered per unit or every month: Every month" })).toBeTruthy();
+        fireEvent.change(screen.getByLabelText(/^Ann hours per client a month of Care/), { target: { value: "6" } });
+        expect(asBusinessCapabilityValue(saved).delivery["offering-2"]).toMatchObject({ mode: "monthly", hours: { f1: "6" } });
+    });
+
+    it("keeps the page's own Delivery over the starts", () => {
+        const initial = { ...asBusinessCapabilityValue(undefined), delivery: { "offering-1": { hours: { f1: "40" }, duration: "6", constraints: "", effort: "", deliverers: [], mode: "unit", period: "" } } };
+        render(<StartHarness initial={initial} />);
+        openTile("Delivery");
+        openCard("Build");
+        expect((screen.getByLabelText("Build calendar time, weeks") as HTMLInputElement).value).toBe("6");
+        expect(screen.queryByLabelText("Build delivery constraints")).toBeNull();
+    });
+
+});
+
