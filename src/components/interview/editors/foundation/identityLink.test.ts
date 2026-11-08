@@ -57,10 +57,10 @@ describe("the buyer the Segment card follows", () => {
         expect(profileQuestionAsked(PROFILE_QUESTIONS.find(question => question.id === "a5")!, {}, people)).toBe(false);
     });
 
-    it("offers a business Segment's end user only adult ages (owner, 2026-11-08)", () => {
+    it("offers a business Segment's end user only working ages (owner, 2026-11-08; no retirees, phase 5)", () => {
         const context = segmentContextFor({ relationships: ["b2b"], marketType: "single", audience: ["mid"], buyerCategory: ["b2b:proxy"], endUser: ["rel:employer"] }, true);
         const ages = segmentOptions(SEGMENT_QUESTIONS.find(question => question.id === "u-age")!, {}, context).map(option => option.id);
-        expect(ages).toEqual(["young", "established", "peak", "mature", "active", "dependent"]);
+        expect(ages).toEqual(["young", "established", "peak", "mature"]);
         // A consumer's end user can still be a child.
         const child = segmentContextFor({ relationships: ["b2c"], marketType: "single", audience: ["adult"], buyerCategory: ["b2c:proxy"], endUser: ["rel:family"] }, false);
         expect(segmentOptions(SEGMENT_QUESTIONS.find(question => question.id === "u-age")!, {}, child).map(option => option.id)).toContain("baby");
