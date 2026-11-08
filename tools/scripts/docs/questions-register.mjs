@@ -310,7 +310,8 @@ function rows(code) {
 
     /* ---- Segment ---- */
     {
-        const boxes = [...F.SUBSECTIONS.segments.segmentDescription.map(part => [part.id, part.title]), ["user", "End user"]];
+        // The End user part stands right after who the buyer is (owner, 2026-11-08, P9a): after Demographics (a business Segment's: after Business Data, which comes first there).
+        const boxes = F.SUBSECTIONS.segments.segmentDescription.flatMap(part => part.id === "demographics" ? [[part.id, part.title], ["user", "End user"]] : [[part.id, part.title]]);
         const boxNumber = { demographics: 1, geographics: 2, "business-data": 3, purchasing: 4, "market-size": 5 };
         const kind = {
             id: "kind", box: "demographics", label: "Who is this Segment's customer?", many: false,

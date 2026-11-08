@@ -18,8 +18,8 @@ Related: doc 35 (the Segment's questions, built, in the same form), doc 28 (6.4 
 |---|---|
 | Specific Personal Information | A1 to A5; the end user's A1 (end user), A7 (end user) and A8 (2.4) |
 | Psychographics | B1 |
-| Social & Interest Hubs | C1 to C4 |
-| Information & Shopping Habits | D1 to D3 |
+| Social & Interest Hubs | C2 to C4 |
+| Information & Shopping Habits | C1, then D1 to D3 (C1 moved here, owner, 2026-11-08) |
 | Goals & Desires | E1; the end user's E4 before it (2.4) |
 | Challenges & Problems | E2 |
 | Objections | E3 |
@@ -307,24 +307,7 @@ A typical person of the Segment, asked specifically.
 
 ## 5. Box C. Social & Interest Hubs
 
-What the Segment cannot say: which devices, which social media, which communities, which events. The Segment asked where they discover new products in general; these name them.
-
-### C1. Which devices does this person use?
-
-- **Control:** ticks, as many as apply.
-- **Asked when:** always.
-- **Options:** the list L15 (doc 34, 5.2); Other opens a text box under the options, where the App User writes their own, and its words are kept as the answer:
-  - Smartphone
-  - Laptop / desktop
-  - Tablet
-  - A shared / public device
-  - Other
-- **The "i" says:**
-  - The devices they use to find and buy, not those they own.
-  - The Segment's choice of where they buy starts this; change it freely.
-- **Connections:**
-  - *Comes from:* the Segment's where they buy: the setting starts it (Online, on a phone: Smartphone; Online, on a computer: Laptop / desktop; In a shop: none; Both online and in shops: Smartphone and Laptop / desktop), as a starting value the App User can change.
-  - *Read by (not built yet):* the Review (make the order and the forms work on a phone; a note where the devices ticked leave out the one the Segment buys on).
+What the Segment cannot say: which social media, which communities, which events (the devices, C1, are asked in Box D since 2026-11-08). The Segment asked where they discover new products in general; these name them.
 
 ### C2. Which social media does this person use?
 
@@ -382,6 +365,25 @@ What the Segment cannot say: which devices, which social media, which communitie
   - *Read by (not built yet):* the In Person channels on page 2; the Profile's hubs.
 
 ## 6. Box D. Information & Shopping Habits
+
+C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a shopping habit, not a place they meet; the code stays C1 (doc 44).
+
+### C1. Which devices does this person use?
+
+- **Control:** ticks, as many as apply.
+- **Asked when:** always.
+- **Options:** the list L15 (doc 34, 5.2); Other opens a text box under the options, where the App User writes their own, and its words are kept as the answer:
+  - Smartphone
+  - Laptop / desktop
+  - Tablet
+  - A shared / public device
+  - Other
+- **The "i" says:**
+  - The devices they use to find and buy, not those they own.
+  - The Segment's choice of where they buy starts this; change it freely.
+- **Connections:**
+  - *Comes from:* the Segment's where they buy: the setting starts it (Online, on a phone: Smartphone; Online, on a computer: Laptop / desktop; In a shop: none; Both online and in shops: Smartphone and Laptop / desktop), as a starting value the App User can change.
+  - *Read by (not built yet):* the Review (make the order and the forms work on a phone; a note where the devices ticked leave out the one the Segment buys on).
 
 ### D1. How does this person compare options?
 

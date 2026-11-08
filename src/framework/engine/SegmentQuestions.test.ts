@@ -164,9 +164,10 @@ describe("the Segment's questions", () => {
         const lines = segmentAnswerLines({ comfort: ["5"], competition: ["4"] });
         expect(lines).toContainEqual({ label: "How comfortable are your customers online?", value: "5 of 5 (Confident)" });
         expect(lines).toContainEqual({ label: "How crowded is your market?", value: "4 of 5" });
+        // (In the card's order: how they share is the last of Box 4 since 2026-11-08.)
         expect(segmentAnswerLines({ share: ["public", "verbal"], pay: ["card"] })).toEqual([
-            { label: "How do your customers share what they like?", value: "They post it publicly on social media; They tell people in person" },
-            { label: "How do your customers pay?", value: "Credit / debit card" }
+            { label: "How do your customers pay?", value: "Credit / debit card" },
+            { label: "How do your customers share what they like?", value: "They post it publicly on social media; They tell people in person" }
         ]);
     });
 
@@ -263,4 +264,14 @@ describe("what is changing, the path to purchase and where they discover (2026-1
         expect(question("discover").max).toBe(3);
     });
 
+});
+
+/* Phase 5, P3 (owner, 2026-11-08): Box 4 in the order of a purchase; the codes stay. */
+describe("Box 4's order", () => {
+    it("asks comfort and socialising, then what makes them shop, where they discover, how they decide, where they shop, how they pay and how they share", () => {
+        const people = { ...OPEN, frame: "people" as const };
+        const business = { ...OPEN, frame: "business" as const };
+        expect(ids(segmentQuestionsOf("purchasing", {}, people))).toEqual(["comfort", "social", "trigger", "discover", "path", "setting", "pay", "share"]);
+        expect(ids(segmentQuestionsOf("purchasing", {}, business))).toEqual(["comfort", "discover", "authorise", "setting", "pay"]);
+    });
 });

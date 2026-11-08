@@ -342,7 +342,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
 
 ## Box 4. Purchasing Power & Behaviour
 
-Part A (every Segment): questions 1 and 3. Part B (the buyer is people): 2, 4, 5 and 6 (since 2026-11-06). Part C (every Segment): 7 and 8. Part D (the buyer is a business): 9. A Segment of people is asked parts A, B and C; one of businesses, part D and the questions that are not about people.
+**Order (owner, 2026-11-08, P3): the order of a purchase.** Online comfort (1) and how they socialise (2), what makes them shop (5), where they discover (3), how they decide (6; a business: who decides, 9), where they shop (7), how they pay (8), then how they share it (4). One box, as before; the numbers are the permanent codes (doc 44), not positions. Every Segment is asked 1, 3, 7 and 8; the buyer is people: 2, 4, 5 and 6 (since 2026-11-06); the buyer is a business: 9.
 
 ### 1. How comfortable are your customers online?
 
@@ -376,6 +376,23 @@ Part A (every Segment): questions 1 and 3. Part B (the buyer is people): 2, 4, 5
   - *Read by (built):* The Market document and the export; the Profile's C4 (events) is asked when this is Online and in person or Mostly in person (doc 36).
   - *Read by (not built yet):* The Profile's social and interest hubs.
 
+### 5. What makes your customers go shopping?
+
+- **Control:** ticks, up to 2.
+- **Asked when:** The buyer is people.
+- **Options:**
+  - Boredom or entertainment (browsing feeds, window shopping)
+  - Seeing a friend or creator use it
+  - A need / problem to solve
+  - Sales, seasons or planned gifts
+- **The "i" says:**
+  - Choose up to two.
+  - Boredom or entertainment: browsing feeds, window shopping
+- **Connections:**
+  - *Comes from:* Early Positioning: the relationship (people).
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* The customer journey.
+
 ### 3. Where do your customers discover new products?
 
 - **Control:** ticks, up to 3.
@@ -399,40 +416,6 @@ Part A (every Segment): questions 1 and 3. Part B (the buyer is people): 2, 4, 5
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export; "Online communities / forums" makes the Profile ask C3 (doc 36).
   - *Read by (not built yet):* The Profile's related platforms first; the order of the channels where customers discover you.
-
-### 4. How do your customers share what they like?
-
-- **Control:** ticks, as many as apply.
-- **Asked when:** The buyer is people.
-- **Exclusion:** choosing "They rarely share what they buy" clears every other choice, and choosing any other way clears it.
-- **Options:**
-  - They post it publicly on social media
-  - They send it to friends in private chats
-  - They tell people in person
-  - They rarely share what they buy
-- **The "i" says:**
-  - Private chat apps are for example WhatsApp and iMessage. "They rarely share what they buy" excludes the other three.
-- **Connections:**
-  - *Comes from:* Early Positioning: the relationship (people).
-  - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* The Profile's habits.
-
-### 5. What makes your customers go shopping?
-
-- **Control:** ticks, up to 2.
-- **Asked when:** The buyer is people.
-- **Options:**
-  - Boredom or entertainment (browsing feeds, window shopping)
-  - Seeing a friend or creator use it
-  - A need / problem to solve
-  - Sales, seasons or planned gifts
-- **The "i" says:**
-  - Choose up to two.
-  - Boredom or entertainment: browsing feeds, window shopping
-- **Connections:**
-  - *Comes from:* Early Positioning: the relationship (people).
-  - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* The customer journey.
 
 ### 6. How do your customers usually decide to buy?
 
@@ -458,6 +441,30 @@ Part A (every Segment): questions 1 and 3. Part B (the buyer is people): 2, 4, 5
   - *Comes from:* Early Positioning: the relationship (people).
   - *Read by (built):* The Market document and the export; the Profile's D1 is not asked on "On impulse" or "When they urgently need it" (neither compares first), is asked with no start on "Out of habit", and otherwise starts from this answer (doc 36).
   - *Read by (not built yet):* The customer journey (consideration).
+
+### 9. Who decides to buy?
+
+- **Control:** ticks, as many as apply.
+- **Asked when:** The buyer is a business. For a self-employed customer (chosen, or because only freelancers were chosen in Positioning) only "One person decides" is offered, so it is answered and not shown.
+- **Options:**
+  - One person decides: The person who uses it has the budget and the final say.
+  - The team agrees: The people who use it try it and push it upward.
+  - A manager signs off: Needs formal approval from a manager or executive.
+  - Several departments check: IT or security, legal and finance.
+  - Formal procurement: A tender or a request for proposals (RFP), with strict compliance.
+- **The "i" says:**
+  - Asked for business customers only.
+  - Select all that apply.
+  - One person decides: The person who uses it has the budget and the final say.
+  - The team agrees: The people who use it try it and push it upward.
+  - A manager signs off: Needs formal approval from a manager or executive.
+  - Several departments check: IT or security, legal and finance.
+  - Formal procurement: A tender or a request for proposals (RFP), with strict compliance.
+- **Connections:**
+  - *Comes from:* Early Positioning: the relationship (business).
+  - *Read by (built):* The Market document and the export; the Profile's role in buying (A5 starts with every role where one person decides) and the proposed B2B Profiles by buying role (doc 36, 2); Formal procurement starts the Profile's D2 at "formal" (doc 36).
+  - *Read by (not built yet):* the tender row (a formal procurement loop).
+
 
 ### 7. Where do your customers usually shop?
 
@@ -496,29 +503,22 @@ Part A (every Segment): questions 1 and 3. Part B (the buyer is people): 2, 4, 5
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* The Offering's payment plan (instalments, invoicing) and the Direct Payment channels.
 
-### 9. Who decides to buy?
+### 4. How do your customers share what they like?
 
 - **Control:** ticks, as many as apply.
-- **Asked when:** The buyer is a business. For a self-employed customer (chosen, or because only freelancers were chosen in Positioning) only "One person decides" is offered, so it is answered and not shown.
+- **Asked when:** The buyer is people.
+- **Exclusion:** choosing "They rarely share what they buy" clears every other choice, and choosing any other way clears it.
 - **Options:**
-  - One person decides: The person who uses it has the budget and the final say.
-  - The team agrees: The people who use it try it and push it upward.
-  - A manager signs off: Needs formal approval from a manager or executive.
-  - Several departments check: IT or security, legal and finance.
-  - Formal procurement: A tender or a request for proposals (RFP), with strict compliance.
+  - They post it publicly on social media
+  - They send it to friends in private chats
+  - They tell people in person
+  - They rarely share what they buy
 - **The "i" says:**
-  - Asked for business customers only.
-  - Select all that apply.
-  - One person decides: The person who uses it has the budget and the final say.
-  - The team agrees: The people who use it try it and push it upward.
-  - A manager signs off: Needs formal approval from a manager or executive.
-  - Several departments check: IT or security, legal and finance.
-  - Formal procurement: A tender or a request for proposals (RFP), with strict compliance.
+  - Private chat apps are for example WhatsApp and iMessage. "They rarely share what they buy" excludes the other three.
 - **Connections:**
-  - *Comes from:* Early Positioning: the relationship (business).
-  - *Read by (built):* The Market document and the export; the Profile's role in buying (A5 starts with every role where one person decides) and the proposed B2B Profiles by buying role (doc 36, 2); Formal procurement starts the Profile's D2 at "formal" (doc 36).
-  - *Read by (not built yet):* the tender row (a formal procurement loop).
-
+  - *Comes from:* Early Positioning: the relationship (people).
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* The Profile's habits.
 
 ## Box 5. Market Size & Industry Outlook
 
@@ -600,6 +600,8 @@ Both.
 
 
 ## The end user (a part of the same card)
+
+**Where it stands (owner, 2026-11-08, P9a):** right after who the buyer is: after Box 1, Demographics, on a people Segment; after Box 3, Business Data (which comes first there), on a business Segment. Its codes stay End user, 1 to 9 (doc 44).
 
 Asked when the Segment's own buyer relationship has a Proxy or Dual-Intent buyer: a people Segment reads the B2C buyer's category and relationships, a business Segment the B2B buyer's (owner, 2026-11-08; `segmentContextFor`). So where Positioning chose B2C Direct and B2B Proxy, only the business Segment has an end user. Questions only. The Segment asks the end users as a group (their stage, school, work, clients, online comfort); each Profile then holds a typical end user beside its buyer (doc 36, 2.1; owner, 2026-11-08), whose age is held to the stage asked here and whose online comfort starts from 8.
 

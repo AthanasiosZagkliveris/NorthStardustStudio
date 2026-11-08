@@ -306,3 +306,25 @@ describe("BusinessFoundationEditor asks the questions that left Positioning", ()
     });
 
 });
+
+/* Phase 5, P9a (owner, 2026-11-08): the Segment's End user part comes right after who the buyer is. */
+describe("BusinessFoundationEditor places the Segment's End user part", () => {
+
+    const boxTitles = () => screen.getAllByRole("heading").map(heading => (heading.textContent ?? "").trim().replace(/i$/, ""));
+    const order = (titles: string[], names: string[]) => names.map(name => titles.indexOf(name));
+
+    it("right after Demographics on a people Segment, and right after Business Data on a business Segment (the boxes of each column in their order)", () => {
+        const proxy = { relationships: ["b2c"], marketType: "single", audience: ["adult"], buyerCategory: ["b2c:proxy"], endUser: ["rel:parent", "age:minor"], stage: "manage" };
+        render(<BusinessFoundationEditor value={twoProfiles()} onChange={() => undefined} identity={proxy as never} />);
+        const people = order(boxTitles(), ["Demographics", "End user"]);
+        expect(people.every(at => at >= 0)).toBe(true);
+        expect(people[1]).toBe(people[0] + 1);
+        cleanup();
+        const employer = { relationships: ["b2b"], marketType: "single", audience: ["mid"], buyerCategory: ["b2b:proxy"], endUser: ["rel:employer"], stage: "manage" };
+        render(<BusinessFoundationEditor value={twoProfiles()} onChange={() => undefined} identity={employer as never} />);
+        const business = order(boxTitles(), ["Business Data", "End user"]);
+        expect(business.every(at => at >= 0)).toBe(true);
+        expect(business[1]).toBe(business[0] + 1);
+    });
+
+});

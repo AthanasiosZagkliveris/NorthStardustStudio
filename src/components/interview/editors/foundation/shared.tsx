@@ -49,9 +49,10 @@ export const SUBSECTIONS = {
                 "Asked when the customers are businesses; for a business buyer this box comes before Geographics.",
                 "Where Positioning chose both, the first Segment is of people and the second of businesses; one added later asks which it is."
             ],
+            // In the order of a purchase (owner, 2026-11-08, P3).
             purchasing: [
-                "For every customer: online comfort, where they discover new products, where they shop, how they pay.",
-                "For people: how they socialise and share, what makes them shop and how they decide. For businesses: who decides to buy."
+                "In the order they buy: online comfort, socialising, what makes them shop, where they discover, how they decide, where they shop, how they pay, how they share.",
+                "Socialising, what makes them shop, how they decide and how they share are asked about people; who decides to buy, about businesses."
             ],
             "market-size": [
                 "These answers describe the market the customers belong to, not your own business."
@@ -209,6 +210,8 @@ export interface DescriptionPart {
     noteId?: string;
     /** The box's bands, drawn as they are, in place of a band per question (a Profile's Needs in the end user's part). */
     body?: ReactNode;
+    /** Where the boxes stand in two columns, this one stays in the first box's column, so it reads right after it (the Segment's End user part: owner, 2026-11-08, P9a). */
+    withFirst?: boolean;
 
 }
 

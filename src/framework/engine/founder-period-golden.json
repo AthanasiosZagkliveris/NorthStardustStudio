@@ -2,14 +2,14 @@
   "lumen": {
     "founders": "| Founder | Roles | Salary / month | Working Hours / month | Delivery Hours / month | Responsibilities |\n| --- | --- | --- | --- | --- | --- |\n| Maya Chen |  | £1,800 | 160 | 112 | Investigate Warping mill; Source British wool and organic cotton yarns; Weave spring collection (40 pieces); Test fire-retardant finish for hospitality orders; Sample three headboard panels for hotel pitches; Run the first six beginner workshops; Freelance weaving tutor |\n| Oliver Grant |  | £1,800 | 160 | 48 | Set up Product photography; Launch website and journal (completed); Plan Clerkenwell Design Week stand; Instagram content calendar; Build trade price list and swatch box; DPD Local (courier); Royal Mail Tracked 48 |\n| Priya Shah |  | £1,800 | 160 | 40 | Register trade mark and ICO data protection fee (completed); Set up Xero, VAT returns and payroll; Monthly bookkeeping with the accountant; Set up the lifetime repair service; Accountant; Lawyer; Hackney Wick Maker Yard (landlord); Hackney Sparks (electrician); FlameGuard Finishing Ltd (Tottenham); Stripe card payments (Shopify Payments); SumUp in-person card fees |\n\n",
     "forecast": "1354bedd907f0f:14261",
-    "plan": "f101e61fecdd1:165204",
-    "exported": "1695a117c9a171:50357"
+    "plan": "efd1fd17cbe1c:165204",
+    "exported": "eced44a340484:50357"
   },
   "quillfield": {
     "founders": "| Founder | Roles | Salary / month | Working Hours / month | Delivery Hours / month | Responsibilities |\n| --- | --- | --- | --- | --- | --- |\n| Jordan Ellis |  | £4,500 | 160 | 96 | Register the business name and get an EIN (completed); Open a business bank account (completed); Standard client contract templates; Write a client data privacy and AI use policy; Launch the website with booking; Set up bookkeeping and quarterly estimated taxes; Investigate Password and credential vault for client logins; Build a reusable automation component library; Create the audit interview guide and roadmap template; Define the build handover pack; Set up retainer monitoring and alerts; LinkedIn content plan; Start the monthly newsletter; Publish three case studies; Proposal and statement-of-work templates; Recruit three referral partners; Accountant (CPA); Lawyer; Copywriting and web design for launch; Brooklyn coworking space (hot desk membership); Referral partners (10% of a referred audit); Freelance developer (overflow); Card and ACH processing (QuickBooks Payments) |\n\n",
     "forecast": "6ba0c7377f83f:11418",
-    "plan": "1e64ff166d2f43:85411",
-    "exported": "a620c921d6f0b:37694"
+    "plan": "33c4f330e5279:85411",
+    "exported": "4a02eb7a62c71:37694"
   },
   "lumen-weekly": {
     "founders": "| Founder | Roles | Salary / month | Working Hours / month | Delivery Hours / month | Responsibilities |\n| --- | --- | --- | --- | --- | --- |\n| Maya Chen |  | £1,800 | 38 | 26 | Investigate Warping mill; Source British wool and organic cotton yarns; Weave spring collection (40 pieces); Test fire-retardant finish for hospitality orders; Sample three headboard panels for hotel pitches; Run the first six beginner workshops; Freelance weaving tutor |\n| Oliver Grant |  | £1,800 | 38 | 26 | Set up Product photography; Launch website and journal (completed); Plan Clerkenwell Design Week stand; Instagram content calendar; Build trade price list and swatch box; DPD Local (courier); Royal Mail Tracked 48 |\n| Priya Shah |  | £1,800 | 38 | 26 | Register trade mark and ICO data protection fee (completed); Set up Xero, VAT returns and payroll; Monthly bookkeeping with the accountant; Set up the lifetime repair service; Accountant; Lawyer; Hackney Wick Maker Yard (landlord); Hackney Sparks (electrician); FlameGuard Finishing Ltd (Tottenham); Stripe card payments (Shopify Payments); SumUp in-person card fees |\n\n",
@@ -2358,7 +2358,7 @@
       0,
       0
     ],
-    "planShape": "f695b475585e4:159970",
+    "planShape": "20378f245a035:159970",
     "planNumbers": [
       64,
       2,
@@ -16509,7 +16509,7 @@
       4,
       5
     ],
-    "exportedShape": "70a2e761e28b5:49295",
+    "exportedShape": "24d59bb3d18c8:49295",
     "exportedNumbers": [
       3,
       1,

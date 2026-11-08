@@ -142,11 +142,6 @@ const QUESTIONS: readonly ProfileQuestion[] = [
             "Personalisation: made for them, not for everyone. Safety / security: low risk, nothing goes wrong. Values: it stands for what they believe in.", "Write their interests, lifestyle and hopes in the note."]
     },
     {
-        id: "c1", box: "hubs", label: "Which devices does {s} use?", many: true,
-        options: [{ id: "phone", label: "Smartphone" }, { id: "computer", label: "Laptop / desktop" }, { id: "tablet", label: "Tablet" }, { id: "shared", label: "A shared / public device" }, OTHER], other: true,
-        info: ["The devices they use to find and buy, not those they own.", "The Segment's choice of where they buy starts this; change it freely."]
-    },
-    {
         id: "c2", box: "hubs", label: "Which social media does {s} use?", many: true,
         options: [...["Instagram", "Facebook", "LinkedIn", "YouTube", "TikTok", "Pinterest", "X (Twitter)"].map(label => ({ id: slug(label), label })), OTHER], other: true,
         info: ["The platforms they actually use, if any.", "Tick Other to write one that is not listed."]
@@ -160,6 +155,12 @@ const QUESTIONS: readonly ProfileQuestion[] = [
         id: "c4", box: "hubs", label: "Which events does {s} attend?", many: true,
         options: [{ id: "market", label: "Market / pop-up" }, { id: "fair", label: "Trade fair / exhibition" }, { id: "workshop", label: "Workshop / class" }, { id: "talk", label: "Talk / conference" }, OTHER], other: true,
         info: ["The kinds of events a typical person of the Segment goes to.", "Write the names of the events in the note."]
+    },
+    // C1 opens Information & Shopping Habits (owner, 2026-11-08, P8): the devices they find and buy on are a shopping habit, not a place they meet (the code stays C1).
+    {
+        id: "c1", box: "habits", label: "Which devices does {s} use?", many: true,
+        options: [{ id: "phone", label: "Smartphone" }, { id: "computer", label: "Laptop / desktop" }, { id: "tablet", label: "Tablet" }, { id: "shared", label: "A shared / public device" }, OTHER], other: true,
+        info: ["The devices they use to find and buy, not those they own.", "The Segment's choice of where they buy starts this; change it freely."]
     },
     {
         id: "d1", box: "habits", label: "How does {s} compare options?", many: true,

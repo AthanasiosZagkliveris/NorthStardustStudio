@@ -394,7 +394,8 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
         let leftSet = new Set(parts.slice(0, Math.min(half, parts.length)).map(part => part.id));
         let best = Infinity;
         for (let mask = 1; mask < (1 << parts.length) - 1; mask++) {
-            if (!(mask & 1)) {
+            // (A box that stays with the first, the Segment's End user part, stands in the left column too.)
+            if (!(mask & 1) || parts.some((part, at) => part.withFirst && !(mask & (1 << at)))) {
                 continue;
             }
             const left = weights.reduce((sum, weight, at) => sum + (mask & (1 << at) ? weight : 0), 0);

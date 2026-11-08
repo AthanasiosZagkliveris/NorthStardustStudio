@@ -306,7 +306,7 @@ describe("a Proxy or Dual-Intent Segment's Profile holds the buyer and the end u
         for (const identity of [parent, family]) {
             const context = segmentContextFor(identity, false);
             const segment = { age: ["peak"], work: ["working"], gender: ["4"], discover: ["communities"], social: ["mixed"], "u-age": ["child"] };
-            expect(partIds(segment, context, "buyer")).toEqual(["a2", "a1", "a7", "a3", "a5", "b1", "c1", "c2", "c3", "c4", "d1", "d2", "d3", "e3"]);
+            expect(partIds(segment, context, "buyer")).toEqual(["a2", "a1", "a7", "a3", "a5", "b1", "c2", "c3", "c4", "c1", "d1", "d2", "d3", "e3"]);
             expect(partIds(segment, context, "user")).toEqual(["e1", "e2", "functional", "emotional", "social"]);
             // The end user's own questions: the age (within the end-user stage), the online comfort, the outcome; no household for a child.
             expect(boxes.flatMap(box => ids(profileUserQuestionsOf(box, segment, context)))).toEqual(["a1", "comfort", "outcome"]);
@@ -405,5 +405,15 @@ describe("a Proxy or Dual-Intent Segment's Profile holds the buyer and the end u
         expect(draft.startsWith("For Busy parents whose end users wait too long and want to learn and grow, Tutoring is")).toBe(true);
         const directDraft = valuePropositionDraft(segment, offering, effectiveOfferingAnswers(offering, segment, direct), offeringContextOf(offering, segment, direct), segment.profiles.map(profile => effectiveProfileAnswers(profile, segment, direct)));
         expect(directDraft.startsWith("For Busy parents who wait too long")).toBe(true);
+    });
+});
+
+/* Phase 5, P8 (owner, 2026-11-08): the devices (C1) open Information & Shopping Habits. */
+describe("the Profile's devices question", () => {
+    it("stands first in Information & Shopping Habits, no longer in Social & Interest Hubs", () => {
+        const context = segmentContextFor({ relationships: ["b2c"], marketType: "single", audience: ["adult"], buyerCategory: ["b2c:direct"], endUser: [], stage: "manage" }, false);
+        const segment = { age: ["peak"], discover: ["communities"], social: ["mixed"] };
+        expect(profileQuestionsOf("hubs", segment, context).map(entry => entry.id)).toEqual(["c2", "c3", "c4"]);
+        expect(profileQuestionsOf("habits", segment, context).map(entry => entry.id)).toEqual(["c1", "d1", "d2", "d3"]);
     });
 });

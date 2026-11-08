@@ -353,15 +353,18 @@ export function useFoundationSubsections(earlier: Earlier) {
             segmentParts[0] = { ...segmentParts[0], questions: [kindQuestion, ...(segmentParts[0].questions ?? [])], weight: (segmentParts[0].weight ?? 0) + 3 };
         }
 
-        // The user of a Proxy or Dual-Intent buyer: described in the same card.
+        // The user of a Proxy or Dual-Intent buyer: described in the same card, right after who the buyer is (owner, 2026-11-08, P9a): after Demographics, or after Business Data
+        // for a business Segment.
         if (asked.endsUser) {
-            segmentParts.push({
+            const after = segmentParts.findIndex(part => part.id === "demographics" || part.id === OPTIONAL_DESCRIPTION_PART);
+            segmentParts.splice(after + 1, 0, {
                 id: "user",
                 title: "End user",
                 text: "Who uses what the buyer buys?",
                 extra: SUBSECTIONS.segments.boxNotes.user,
                 questions: questionsOf("user"),
-                weight: weightOf("user")
+                weight: weightOf("user"),
+                withFirst: true
             });
         }
 

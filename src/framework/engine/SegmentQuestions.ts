@@ -338,7 +338,9 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         ]
     },
 
-    /* ---- Box 4, Purchasing Power & Behaviour ---- */
+    /* ---- Box 4, Purchasing Power & Behaviour ----
+       In the order of a purchase (owner, 2026-11-08, P3): online comfort and how they socialise, what makes them shop, where they discover, how they decide (a business:
+       who decides), where they shop, how they pay, then how they share it. The codes stay Box 4, 1 to 9 (doc 44: codes are ids, not positions). */
 
     {
         id: "comfort", box: "purchasing", label: "How comfortable are your customers online?", many: false,
@@ -354,6 +356,16 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             // ("Mostly on their own" removed, owner 2026-11-04: it contradicted the question and fed nothing; a saved answer of it is dropped when read.)
         ],
         info: ["Where they spend their free time. It decides how they meet brands and products."]
+    },
+    {
+        id: "trigger", box: "purchasing", label: "What makes your customers go shopping?", many: true, max: 2,
+        options: [
+            { id: "boredom", label: "Boredom or entertainment (browsing feeds, window shopping)" },
+            { id: "proof", label: "Seeing a friend or creator use it" },
+            { id: "need", label: "A need / problem to solve" },
+            { id: "seasonal", label: "Sales, seasons or planned gifts" }
+        ],
+        info: ["Choose up to two."]
     },
     {
         id: "discover", box: "purchasing", label: "Where do your customers discover new products?", many: true, max: 3,
@@ -376,26 +388,6 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         ]
     },
     {
-        id: "share", box: "purchasing", label: "How do your customers share what they like?", many: true,
-        options: [
-            { id: "public", label: "They post it publicly on social media" },
-            { id: "private", label: "They send it to friends in private chats" },
-            { id: "verbal", label: "They tell people in person" },
-            { id: "none", label: "They rarely share what they buy" }
-        ],
-        info: ["Private chat apps are for example WhatsApp and iMessage. \"They rarely share what they buy\" excludes the other three."]
-    },
-    {
-        id: "trigger", box: "purchasing", label: "What makes your customers go shopping?", many: true, max: 2,
-        options: [
-            { id: "boredom", label: "Boredom or entertainment (browsing feeds, window shopping)" },
-            { id: "proof", label: "Seeing a friend or creator use it" },
-            { id: "need", label: "A need / problem to solve" },
-            { id: "seasonal", label: "Sales, seasons or planned gifts" }
-        ],
-        info: ["Choose up to two."]
-    },
-    {
         id: "path", box: "purchasing", label: "How do your customers usually decide to buy?", many: false,
         options: [
             // (2026-11-08, the research: "Straight away" reworded as an impulse, its id kept; habit and urgent need added.)
@@ -407,6 +399,17 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         ],
         info: ["Their usual way of buying, the one that fits most of them. Reviews read online count as comparing; advice from people they know is a recommendation.",
             "On impulse or when they urgently need it, their Profiles are not asked how they compare options."]
+    },
+    {
+        id: "authorise", name: "Decision", box: "purchasing", label: "Who decides to buy?", many: true,
+        options: [
+            { id: "solo", label: "One person decides: The person who uses it has the budget and the final say." },
+            { id: "champions", label: "The team agrees: The people who use it try it and push it upward." },
+            { id: "executive", label: "A manager signs off: Needs formal approval from a manager or executive." },
+            { id: "multi", label: "Several departments check: IT or security, legal and finance." },
+            { id: "procurement", label: "Formal procurement: A tender or a request for proposals (RFP), with strict compliance." }
+        ],
+        info: ["Asked for business customers only.", "Select all that apply."]
     },
     {
         id: "setting", box: "purchasing", label: "Where do your customers usually shop?", many: false,
@@ -436,15 +439,14 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         ]
     },
     {
-        id: "authorise", name: "Decision", box: "purchasing", label: "Who decides to buy?", many: true,
+        id: "share", box: "purchasing", label: "How do your customers share what they like?", many: true,
         options: [
-            { id: "solo", label: "One person decides: The person who uses it has the budget and the final say." },
-            { id: "champions", label: "The team agrees: The people who use it try it and push it upward." },
-            { id: "executive", label: "A manager signs off: Needs formal approval from a manager or executive." },
-            { id: "multi", label: "Several departments check: IT or security, legal and finance." },
-            { id: "procurement", label: "Formal procurement: A tender or a request for proposals (RFP), with strict compliance." }
+            { id: "public", label: "They post it publicly on social media" },
+            { id: "private", label: "They send it to friends in private chats" },
+            { id: "verbal", label: "They tell people in person" },
+            { id: "none", label: "They rarely share what they buy" }
         ],
-        info: ["Asked for business customers only.", "Select all that apply."]
+        info: ["Private chat apps are for example WhatsApp and iMessage. \"They rarely share what they buy\" excludes the other three."]
     },
 
     /* ---- Box 5, Market Size & Industry Outlook ---- */
