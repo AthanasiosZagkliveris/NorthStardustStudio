@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { asBusinessFoundationValue } from "./AnswerBusinessFoundation";
-import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveSegmentAnswers, offeringStarts, offeringStartsById, withFieldSet } from "./EffectiveAnswers";
+import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveSegmentAnswers, noPhysicalOffering, offeringIsPhysical, offeringStarts, offeringStartsById, withFieldSet } from "./EffectiveAnswers";
 import { segmentAnswerLines, segmentQuestionsOf, segmentSettle } from "./SegmentQuestions";
 import { segmentContextFor, settledSegmentAnswers } from "./SegmentContext";
 import { offeringChoose, valuePropositionOpenItems } from "./OfferingQuestions";
@@ -182,3 +182,19 @@ describe("the later pages' starts follow the Offering's O3, O3b, O10 and O15", (
     });
 });
 
+describe("an Offering without a physical item (doc 28, 11.7)", () => {
+    const segmentOf = (offerings: { category: string; o1?: string }[]) => asBusinessFoundationValue({
+        segments: [{ id: "s", name: "Firms", offerings: offerings.map((entry, at) => ({ id: "o" + at, name: "O" + at, category: entry.category, questions: entry.o1 ? { o1: [entry.o1] } : {} })) }]
+    }).segments;
+
+    it("is a Service, or a form with no physical item; an Offering with no Type or form may have one", () => {
+        const [segment] = segmentOf([{ category: "Service" }, { category: "Product", o1: "digital" }, { category: "Product", o1: "physical" }, { category: "Product" }, { category: "" }, { category: "Hybrid", o1: "project" }]);
+        expect(segment.offerings.map(offering => offeringIsPhysical(offering, segment))).toEqual([false, false, true, true, true, false]);
+    });
+
+    it("hides the physical groups only when every Offering is without one, and not when there are no Offerings", () => {
+        expect(noPhysicalOffering(segmentOf([{ category: "Service" }, { category: "Product", o1: "app" }]))).toBe(true);
+        expect(noPhysicalOffering(segmentOf([{ category: "Service" }, { category: "Product", o1: "physical" }]))).toBe(false);
+        expect(noPhysicalOffering(segmentOf([]))).toBe(false);
+    });
+});

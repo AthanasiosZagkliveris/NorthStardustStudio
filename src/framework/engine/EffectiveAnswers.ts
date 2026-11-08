@@ -118,6 +118,27 @@ export function offeringStartsById(segments: readonly BusinessCustomerSegmentVal
     return segment && offering ? offeringStarts(offering, segment, identity) : {};
 }
 
+/** O1's forms with no physical item (doc 43, O1): a digital file, an app, online access, a live online session, project work, an ongoing service. */
+const NOT_PHYSICAL_FORMS: readonly string[] = ["digital", "app", "access", "live", "project", "ongoing"];
+
+/**
+ * Whether an Offering has a physical item (doc 28, 11.7): not where its Type is Service, or its form (O1) is one of NOT_PHYSICAL_FORMS. An Offering with no Type or form yet
+ * (or Other) may have one, so it counts as having one.
+ */
+export function offeringIsPhysical(offering: BusinessOfferingValue, segment: BusinessCustomerSegmentValue, identity?: SegmentIdentity): boolean {
+    if (offering.category === "Service") {
+        return false;
+    }
+    const form = effectiveOfferingAnswers(offering, segment, identity).o1?.[0];
+    return !(form && NOT_PHYSICAL_FORMS.includes(form));
+}
+
+/** Whether Page 1 has Offerings and none of them has a physical item: Pages 3 and 4 then hide the groups of stock, delivery vehicles and logistics while they hold no card. */
+export function noPhysicalOffering(segments: readonly BusinessCustomerSegmentValue[], identity?: SegmentIdentity): boolean {
+    const all = segments.flatMap(segment => segment.offerings.map(offering => ({ offering, segment })));
+    return all.length > 0 && all.every(entry => !offeringIsPhysical(entry.offering, entry.segment, identity));
+}
+
 /**
  * The saved answers with one field set by the user: the field, its ratings and its Other text are taken from `next` (the answers as shown, changed); every other
  * field stays as saved, so a field never set keeps following its start.

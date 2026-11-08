@@ -4,7 +4,7 @@
  */
 import { orphanedCards, withInheritedOfferings, type GeneratedCard } from "../../../../framework/engine/GeneratedCards.ts";
 import { useEffect, useRef, useState } from "react";
-import { BUSINESS_COST_FREQUENCIES, BUSINESS_RESOURCE_GROUPS, BUSINESS_OFFERING_RESOURCE_GROUPS, offeringGroupsOf, soleGroupOf, BUSINESS_PARTNER_GROUPS, partnerGroupHelp, statusInGroup, RENT_SUPPLIER_GROUP, usesSupplier, type BusinessPaymentPlan, BILLING_TYPES, billingOf, costOptionsOf, withNewInsurances, BUSINESS_WORKSPACE_KINDS, BusinessCategoryValue, partnerNoun, BusinessCapabilityValue, BusinessCostValue, BusinessPartnerValue, BusinessResourceSlotValue, asBusinessCapabilityValue, asBusinessEngagementValue, createBusinessPartner, orderedByDate, todayIsoDate, workspacesOf, withLegalEntityFounders } from "../../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_COST_FREQUENCIES, BUSINESS_RESOURCE_GROUPS, BUSINESS_OFFERING_RESOURCE_GROUPS, PHYSICAL_PARTNER_GROUP_IDS, PHYSICAL_RESOURCE_CATEGORY_IDS, businessFoundationSegments, offeringGroupsOf, soleGroupOf, BUSINESS_PARTNER_GROUPS, partnerGroupHelp, statusInGroup, RENT_SUPPLIER_GROUP, usesSupplier, type BusinessPaymentPlan, BILLING_TYPES, billingOf, costOptionsOf, withNewInsurances, BUSINESS_WORKSPACE_KINDS, BusinessCategoryValue, partnerNoun, BusinessCapabilityValue, BusinessCostValue, BusinessPartnerValue, BusinessResourceSlotValue, asBusinessCapabilityValue, asBusinessEngagementValue, createBusinessPartner, orderedByDate, todayIsoDate, workspacesOf, withLegalEntityFounders } from "../../../../framework/engine/AnswerUtils.ts";
 import { LinkSymbol, BusinessField, BusinessText, uniqueChoices } from "../../cards/BusinessCardFields.tsx";
 import { moneyFormatter } from "../../../../framework/engine/FinancialModel.ts";
 import { PreferencesService } from "../../../../services/PreferencesService.ts";
@@ -15,6 +15,7 @@ import { resourceChannels, resourceReach } from "../../../../framework/engine/Ch
 import OptionPicker from "../../fields/OptionPicker.tsx";
 import { useItemFolds } from "../../fields/useItemFolds.ts";
 import { ADD_ACTIVITY, Scope, newActivityFor, costInGroup, startOfCard, withActivity, withActivityPatched, OTHER_PARTNER, WORKSPACE_PROVIDER, NO_CATEGORY, NO_GROUP, blankSlot, blankActivity, blankPartner } from "../BusinessCapabilityModel.ts";
+import { noPhysicalOffering } from "../../../../framework/engine/EffectiveAnswers.ts";
 import type { BusinessCapabilityEditorProps } from "./types.ts";
 
 export function useCapabilityState(props: BusinessCapabilityEditorProps) {
@@ -178,6 +179,18 @@ export function useCapabilityState(props: BusinessCapabilityEditorProps) {
         Never from a later page.
     */
     const engagementValue = asBusinessEngagementValue(engagement);
+    /*
+        NO PHYSICAL ITEM (doc 28, 11.7): while no Offering on Page 1 has one (each is a Service, or its form, O1, is digital, online or project work), the Offering's
+        Vehicles and Materials & Inventory categories and the Logistics & Fulfilment group are hidden where they hold no card: never deleted, back when a Type or form changes.
+    */
+    const noPhysical = noPhysicalOffering(businessFoundationSegments(foundation));
+    function resourceCategoryHidden(categoryId: string): boolean {
+        return noPhysical && PHYSICAL_RESOURCE_CATEGORY_IDS.includes(categoryId) && !capability.offering.resources.some(slot => slot.category === categoryId);
+    }
+    function partnerGroupHidden(groupId: string): boolean {
+        return noPhysical && PHYSICAL_PARTNER_GROUP_IDS.includes(groupId)
+            && ![...capability.offering.professionals, ...capability.offering.providers].some(partner => partner.group === groupId);
+    }
     /**
      * The cards a Customer Channel made ("+ Add expenses" on a channel,
      * ChannelResources.ts): they get their own tile and colour, apart
@@ -511,7 +524,7 @@ export function useCapabilityState(props: BusinessCapabilityEditorProps) {
                     label: "Category",
                     allowNew: false,
                     key: slot.id + ":offering-category",
-                    options: BUSINESS_OFFERING_RESOURCE_GROUPS.map(entry => ({ id: entry.id, label: entry.label })),
+                    options: BUSINESS_OFFERING_RESOURCE_GROUPS.filter(entry => !resourceCategoryHidden(entry.id)).map(entry => ({ id: entry.id, label: entry.label })),
                     value: category?.label ?? "",
                     custom: undefined,
                     onPick: (id) => {
@@ -707,7 +720,7 @@ export function useCapabilityState(props: BusinessCapabilityEditorProps) {
         // The Group list holds every group of the place, Partners' first then Suppliers': the group chosen is what says which of the two the card is.
         const everyGroup = [
             ...BUSINESS_PARTNER_GROUPS[scope].partners.map(entry => ({ id: entry.id, label: entry.label, type: "partners" as const })),
-            ...BUSINESS_PARTNER_GROUPS[scope].suppliers.map(entry => ({ id: entry.id, label: entry.label, type: "suppliers" as const }))
+            ...BUSINESS_PARTNER_GROUPS[scope].suppliers.filter(entry => !partnerGroupHidden(entry.id)).map(entry => ({ id: entry.id, label: entry.label, type: "suppliers" as const }))
         ];
         const groupOptions = [
             ...everyGroup,
@@ -985,6 +998,6 @@ export function useCapabilityState(props: BusinessCapabilityEditorProps) {
         return billingOf(place, groupId, optionId) === "percentage" && cost.price.trim() === "" && rate !== "" ? { ...cost, price: rate } : cost;
     }
 
-    return { activityRows, capability, cardDates, categoryRow, channelCardIds, channelCategoryText, channelMade, channelNamesById, channelTitle, collapsed, columnsDivider, completedOpen, costOptionRows, dateNotice, defaultRateOf, disabled, discard, engagementValue, financialFoundation, folds, formatMoney, foundation, founders, foundersProfile, globalSettings, helpOpen, latestPaymentOf, legalEntity, legalEntityFounders, legalEntityPrefill, legalExpenses, legalUnder, linksOpen, live, offeringCategoryCells, onChange, onChangeLegalEntity, onOpenFoundation, onOpenLegalEntity, openPair, openingDate, organisationCurrency, pair, partnersOf, patchPartner, pending, rentRow, resourceCategoryCells, responsibilityFolds, responsibilityOff, setCollapsed, setCompletedOpen, setDateNotice, setHelpOpen, setLegalUnder, setLinksOpen, setPair, setPending, setResponsibilityFolds, setResponsibilityOff, showInstructions, stored, supplierRows, value, withDefaultRate, withPartners, write };
+    return { activityRows, capability, partnerGroupHidden, resourceCategoryHidden, cardDates, categoryRow, channelCardIds, channelCategoryText, channelMade, channelNamesById, channelTitle, collapsed, columnsDivider, completedOpen, costOptionRows, dateNotice, defaultRateOf, disabled, discard, engagementValue, financialFoundation, folds, formatMoney, foundation, founders, foundersProfile, globalSettings, helpOpen, latestPaymentOf, legalEntity, legalEntityFounders, legalEntityPrefill, legalExpenses, legalUnder, linksOpen, live, offeringCategoryCells, onChange, onChangeLegalEntity, onOpenFoundation, onOpenLegalEntity, openPair, openingDate, organisationCurrency, pair, partnersOf, patchPartner, pending, rentRow, resourceCategoryCells, responsibilityFolds, responsibilityOff, setCollapsed, setCompletedOpen, setDateNotice, setHelpOpen, setLegalUnder, setLinksOpen, setPair, setPending, setResponsibilityFolds, setResponsibilityOff, showInstructions, stored, supplierRows, value, withDefaultRate, withPartners, write };
 
 }

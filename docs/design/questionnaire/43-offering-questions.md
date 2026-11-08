@@ -53,7 +53,8 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Connections:**
   - *Comes from:* the Type.
   - *Read by (built, 2026-11-07):* O6's starting value; the Value Proposition draft (doc 42).
-  - *Read by (not built yet):* the goods and service options of pages 2 and 3 (doc 28, 11.7: without a physical item, Physical Delivery and the delivery costs are hidden, not deleted). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (built, 2026-11-09, with the Type):* Page 3 (doc 28, 11.7): while no Offering has a physical item (a Service, or a form with none: A digital file, An app / online tool, Online access, A live online session, Project work, An ongoing service), the Offering's Vehicles and Materials & Inventory categories and the Logistics & Fulfilment group are hidden where they hold no card, not deleted (`noPhysicalOffering`, EffectiveAnswers.ts). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (not built yet):* Page 2's Physical Delivery and Retail & Wholesale channels (doc 28, 11.7). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### O2. Can your customers buy it today?
 

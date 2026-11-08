@@ -1200,3 +1200,31 @@ describe("BusinessCapabilityEditor starts from Page 1 (phase 5f, 2026-11-09)", (
 
 });
 
+describe("BusinessCapabilityEditor without a physical item (doc 28, 11.7; phase 5f)", () => {
+
+    const services = { segments: [{ id: "s", name: "Firms", offerings: [{ id: "offering-1", name: "Build", category: "Service", questions: { o1: ["project"] } }] }] };
+    const goods = { segments: [{ id: "s", name: "Homes", offerings: [{ id: "offering-1", name: "Throws", category: "Product", questions: { o1: ["physical"] } }] }] };
+    const categoryTiles = () => [...(topDialog()?.querySelectorAll<HTMLElement>("button.section-tile") ?? [])].map(button => (button.getAttribute("aria-label") ?? "").split(",")[0]);
+
+    it("hides Vehicles and Materials & Inventory in the Offering's Resources while every Offering is a service and they hold no card", () => {
+        render(<BusinessCapabilityEditor value={asBusinessCapabilityValue(undefined)} onChange={() => undefined} foundation={services} />);
+        openTile("Resources");
+        expect(categoryTiles()).toContain("Equipment");
+        expect(categoryTiles()).not.toContain("Vehicles");
+        expect(categoryTiles()).not.toContain("Materials & Inventory");
+    });
+
+    it("shows them for a physical item, and shows a category that holds a card whatever the Offerings", () => {
+        render(<BusinessCapabilityEditor value={asBusinessCapabilityValue(undefined)} onChange={() => undefined} foundation={goods} />);
+        openTile("Resources");
+        expect(categoryTiles()).toEqual(expect.arrayContaining(["Vehicles", "Materials & Inventory"]));
+        cleanup();
+        const base = asBusinessCapabilityValue(undefined);
+        const withStock = { ...base, offering: { ...base.offering, resources: [{ ...createBusinessResourceSlot(), category: "materials", group: "materials-stock", name: "Kits" }] } };
+        render(<BusinessCapabilityEditor value={withStock} onChange={() => undefined} foundation={services} />);
+        openTile("Resources");
+        expect(categoryTiles()).toContain("Materials & Inventory");
+        expect(categoryTiles()).not.toContain("Vehicles");
+    });
+
+});
