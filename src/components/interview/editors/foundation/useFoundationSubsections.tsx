@@ -725,7 +725,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                             {...extra}
                         />
                     );
-                    // Other (K6, K8; owner 2026-11-04, in place of "Show all"): ticked, a row to write in, rated as the listed ones; a name that means a listed item becomes it.
+                    // Other (K6; owner 2026-11-04): ticked, a row to write in, rated as the listed ones; a name that means a listed item becomes it.
                     const otherRows = (id: OtherQuestion) => competitorOthers(answers, id).map((name, at) => ({
                         id: "other-" + at,
                         name: name.trim() || "Other " + (at + 1),
@@ -734,7 +734,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                             <TextBox
                                 className="interview-input business-competitor-other"
                                 aria-label={words(id) + ", other " + (at + 1)}
-                                placeholder={id === "k6" ? "Where else are they reviewed?" : "What else do customers value?"}
+                                placeholder="Where else are they reviewed?"
                                 disabled={disabled}
                                 value={name}
                                 onChange={(event) => write(competitorOtherName(answers, id, at, event.target.value))}

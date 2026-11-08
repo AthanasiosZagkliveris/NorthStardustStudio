@@ -349,14 +349,14 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | How many potential customers are there? | tile dialog | 10 | 2 | 189 | Everyone in the area you serve who could buy it, if every one of them chose you (the total addressable market). For a Segment of businesses, count the organisat... |
 | How much help does this person want before buying? | floating card | 5 | 1 | 104 | The help a typical person wants before buying; it can differ from how comfortable the Segment is online. |
 | How old is this person? | floating card | 8 | 2 | 160 | One age within the Segment's age group: a typical person, not the average. If the Segment's age group changes and this age falls outside it, the age is cleared. |
-| Information & Shopping Habits | floating card | 8 | 2 | 167 | How do they find, learn about, compare and buy products or services? The note is for what the choices above do not hold: where and when they buy, the terms, the... |
+| Information & Shopping Habits | floating card | 8 | 2 | 150 | How do they find, learn about, compare and buy products or services? The note is for what the choices above do not hold: how they buy, in their words. |
 | Is your market growing or shrinking? | tile dialog | 12 | 3 | 266 | 1 = Shrinking, 5 = Booming. Where the market is heading, apart from its size: a market can be large and declining, or small and expanding fast. 1: falling deman... |
 | Market Size & Industry Outlook | tile dialog | 10 | 2 | 191 | How large is this group, and where is its market heading: growth, the changes that matter, how crowded it is? These answers describe the market the customers be... |
 | Needs | floating card | 8 | 2 | 204 | Functional: tick and rate up to three jobs, then write their own tasks, one numbered line each; the Offerings choose from these lines. Emotional and Social: tic... |
 | Objections | floating card | 8 | 2 | 153 | What concerns or reasons might stop the customer from choosing a solution? The note is for what the list above does not say: the details that are theirs. |
 | Profile | floating card | 21 | 4 | 470 | Divide your Target Audience into segments, starting with the groups worth most or easiest to reach. How many follows your stage: one while planning or launching... |
 | Psychographics | floating card | 8 | 2 | 179 | What do they value, believe in, enjoy and consider important? The note is for what they value, believe in and enjoy, in your words. What matters most when choos... |
-| Purchasing Power & Behaviour | tile dialog | 16 | 4 | 376 | How do they find, choose, buy and pay, and who decides? For every customer: online comfort, where they discover new products, where they shop, how they pay. For... |
+| Purchasing Power & Behaviour | tile dialog | 12 | 3 | 276 | How do they find, choose, buy and pay, and who decides? For every customer: online comfort, where they discover new products, where they shop, how they pay. For... |
 | Segment Description | tile dialog | 21 | 4 | 470 | Divide your Target Audience into segments, starting with the groups worth most or easiest to reach. How many follows your stage: one while planning or launching... |
 | Social & Interest Hubs | floating card | 11 | 2 | 229 | Which communities, professional networks, events and other places do they regularly visit or take part in? The note is for names: the groups, accounts, events a... |
 | Specific Personal Information | floating card | 8 | 2 | 179 | What are their age, job level and role in buying? The note is for what is not asked above: a name, their job title, where they live. Their age, household and wo... |
@@ -371,14 +371,14 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | What matters most to this person? | floating card | 23 | 6 | 540 | 1 = Optional, 5 = Essential. What they weigh when choosing between offers. Tick up to five, then rate how much each matters. For example, a busy parent may weig... |
 | What might hold this person back? | floating card | 25 | 6 | 583 | 1 = Minor, 5 = Blocking. Their doubts about buying from you, not what frustrates them today (the question above). Choose up to three, then rate each. For exampl... |
 | Where are your customers? | tile dialog | 6 | 1 | 124 | The widest area most of your customers are spread over, now or as you plan it. If it is more than one, make another Segment. |
-| Where do your customers discover new products? | tile dialog | 11 | 3 | 221 | Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn. What you tick here is offered on the Pro... |
+| Where do your customers discover new products? | tile dialog | 7 | 2 | 139 | Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn. Choose up to three. |
 | Where do your customers usually shop? | tile dialog | 6 | 1 | 116 | Where most of their purchases start and finish. Choose Both online and in shops when they mix the two about equally. |
 | Which communities does this person belong to? | floating card | 6 | 2 | 78 | Where they ask, read and recommend. Write the names of the groups in the note. |
 | Which devices does this person use? | floating card | 6 | 2 | 127 | The devices they use to find and buy, not those they own. The Segment's choice of where they buy starts this; change it freely. |
 | Which industry are your customers in? | tile dialog | 13 | 3 | 277 | The industries of the sector chosen, as the official schemes (SIC and NACE, NAICS, ANZSIC) name their sections. Government and public administration includes em... |
 | Which sector are your customers in? | tile dialog | 5 | 1 | 100 | Six classes over the industries below. If they work in more than one industry, make another Segment. |
 | Which social media does this person use? | floating card | 6 | 2 | 84 | The platforms they actually use, if any. Tick Other to write one that is not listed. |
-| Who decides to buy? | tile dialog | 24 | 7 | 503 | Asked for business customers only. A formal procurement loop reveals the tender row on the Customer Engagement page. Select all that apply. One person decides: ... |
+| Who decides to buy? | tile dialog | 21 | 7 | 421 | Asked for business customers only. Select all that apply. One person decides: The person who uses it has the budget and the final say. The team agrees: The peop... |
 
 **Value Proposition**
 
@@ -722,13 +722,13 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 
 | Label | Opens in | Rows | Points | Characters | Text |
 |---|---|---|---|---|---|
-| Audience Specialisation & Scale | tile dialog | 38 | 7 | 937 | Limits the target group to a specific niche, aligning the startup with the corresponding sales cycle and the buyer's daily life. Solopreneurs & Freelancers: ind... |
+| Audience Specialisation & Scale | tile dialog | 39 | 7 | 946 | Limits the target group to a specific niche, aligning the startup with the corresponding sales cycle and the buyer's daily life. Solopreneurs & Freelancers: ind... |
 | Buyer's category | tile dialog | 39 | 7 | 971 | What the buyer buys for. It tells the buyer who pays from the person who uses it, whatever the buyer's life stage or scale. Direct Buyers: purchasing exclusivel... |
 | Differentiation | tile dialog | 60 | 10 | 1547 | What the offering does differently from the competitors: where it hits exactly the blind spot they leave. It is about the offering; the result the buyer gets fr... |
 | Early Positioning | tile dialog | 8 | 3 | 111 | Who is your target audience? Which market or category do you belong to? How are you different from competitors? |
-| Outcome | tile dialog | 42 | 6 | 1140 | The measurable result the buyer gets from the offering (Outcome / ROI): what the buyer is paying for. Lower costs: an immediate reduction in operating costs. Ti... |
+| Outcome | tile dialog | 42 | 6 | 1144 | The measurable result the buyer gets from the offering (outcome or return): what the buyer is paying for. Lower costs: an immediate reduction in operating costs... |
 | Purpose | tile dialog | 32 | 4 | 747 | Why the offering is bought: the purpose it serves for the person who gets it. Choose the ones that fit best. Only the purposes that fit your answers above are o... |
-| Seller & Buyer Relationship | tile dialog | 38 | 6 | 971 | Who pays: focuses on the Economic Buyer who approves the budget, separating them from the end user. The positioning statement is written for the target market, ... |
+| Seller & Buyer Relationship | tile dialog | 38 | 6 | 974 | Who pays: focuses on the Economic Buyer who approves the budget, separating them from the end user. The positioning statement is written for the target market, ... |
 
 **Manifesto**
 
@@ -746,7 +746,7 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 
 | Label | Opens in | Rows | Points | Characters | Text |
 |---|---|---|---|---|---|
-| Activities | tile dialog | 6 | 1 | 146 | The primary activity is required; the others are optional, up to four in all. Each one ends in one official code of your country (the NAICS code). |
+| Activities | tile dialog | 6 | 1 | 134 | The first is the primary activity; add others, up to four in all. Each one ends in one official code of your country (the NAICS code). |
 | Legal Form | tile dialog | 7 | 2 | 153 | Decides who is liable for the organisation's debts: the organisation, or you personally. Decides how it is taxed, and whether it must hold share capital. |
 | Notes | tile dialog | 9 | 3 | 170 | Who are you, and what do you do? What do you create or provide? Write it as a registry or a bank would expect to read it. Name, country, address and legal form ... |
 | Opening Date | tile dialog | 19 | 3 | 455 | The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it. The stage also sets the name of the Positioni... |

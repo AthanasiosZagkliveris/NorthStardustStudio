@@ -215,7 +215,7 @@ export const PROFILE_NOTE_HINTS: Record<ProfileBox, string> = {
     personal: "The note is for what is not asked above: a name, their job title, where they live. Their age, household and work are asked above.",
     psychographics: "The note is for what they value, believe in and enjoy, in your words. What matters most when choosing is asked above.",
     hubs: "The note is for names: the groups, accounts, events and places. Which kinds of platform and event they use is asked above.",
-    habits: "The note is for what the choices above do not hold: where and when they buy, the terms, the steps.",
+    habits: "The note is for what the choices above do not hold: how they buy, in their words.",
     goals: "The note is for what the list above does not say: the details that are theirs.",
     challenges: "The note is for what the list above does not say: the details that are theirs.",
     objections: "The note is for what the list above does not say: the details that are theirs.",
@@ -253,7 +253,7 @@ export function profileQuestionAsked(question: ProfileQuestion, segment: Segment
         case "a5":
             return business || context.endsUser || (segment.age ?? []).includes("minor");
         case "c2":
-            // Asked unless the Segment's online comfort is rated 1, Not comfortable (doc 36).
+            // Asked unless the Segment's online comfort is rated 1, Uneasy (doc 36).
             return !(segment.comfort ?? []).includes("1");
         case "c3":
             return (segment.discover ?? []).includes("communities");

@@ -20,7 +20,7 @@ A tile document is **one document for one tile or card**, in this order:
 4. **What changes when an answer above changes:** what is removed and what is kept (the rule of every tile: an answer to a question no longer asked, or to an option no longer offered, is removed on the next choice).
 5. **Decided, and still to decide:** the owner's decisions with their dates, and what is open.
 
-**Where the words are kept.** The words of a built tile are kept in one place in the code (the Segment: `src/framework/engine/SegmentQuestions.ts`; the Profile: `src/framework/engine/ProfileQuestions.ts`; the Competitor: `src/framework/engine/CompetitorQuestions.ts`; the Offering, with the Value Proposition's draft and open items: `src/framework/engine/OfferingQuestions.ts`), and the document is made from them; where the two differ the code is right. How a floating card of questions is built (the engine file, the parts, the three levels, the notes) is in `docs/ai/tile-and-card-pattern.md`.
+**Where the words are kept.** The words of a built tile are kept in one place in the code (the Segment: `src/framework/engine/SegmentQuestions.ts`; the Profile: `src/framework/engine/ProfileQuestions.ts`; the Competitor: `src/framework/engine/CompetitorQuestions.ts`; the Offering, with the Value Proposition's draft and open items: `src/framework/engine/OfferingQuestions.ts`), and the document is made from them; where the two differ, the most recent owner decision wins. How a floating card of questions is built (the engine file, the parts, the three levels, the notes) is in `docs/ai/tile-and-card-pattern.md`.
 
 ## 2. Where each tile stands
 

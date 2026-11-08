@@ -267,7 +267,7 @@ export function industryOfActivity(country: string, code: string): string | unde
     return industryOfDivision(scheme, division);
 }
 
-/** K6's rows in their order (doc 34, 5.2b): Google and Facebook, the industry's, the country's; the rest behind "Show all". A platform is never shown twice. */
+/** K6's rows in their order (doc 34, 5.2b): Google and Facebook, the industry's, the country's; any other platform is shown only where it was ticked before. A platform is never shown twice. */
 export function reviewPlatformOrder(country: string, activityCode: string): { first: readonly ReviewPlatform[]; rest: readonly ReviewPlatform[] } {
     const industry = industryOfActivity(country, activityCode);
     const place = country && !SIX.includes(country) ? "other" : country;

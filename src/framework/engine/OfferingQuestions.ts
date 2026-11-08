@@ -1,5 +1,5 @@
 /**
- * THE OFFERING'S QUESTIONS (doc 43; owner, 2026-11-07: "Update the Value Proposition and Offering card according to their docs"): O1 to O10 in the doc's
+ * THE OFFERING'S QUESTIONS (doc 43; owner, 2026-11-07: "Update the Value Proposition and Offering card according to their docs"): O1 to O18 in the doc's
  * order, their options, when each is asked and where each starts from; and the Value Proposition's draft and open items (doc 42), which read them.
  * Answers are kept on the Offering under `questions`, question id to the option ids chosen, as the Profile's and the Competitor's are.
  */

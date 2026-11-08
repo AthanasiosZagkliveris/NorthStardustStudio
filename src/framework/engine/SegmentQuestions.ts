@@ -24,7 +24,7 @@ export interface SegmentQuestion {
     info: readonly string[];
     /** A short name for the notes that say what Positioning or the answers above set ("Size: Medium-sized business"). */
     name?: string;
-    /** A degree, asked as a rating from 1 to 5 (RatingScale): the words over its ends and, where one helps, its middle (doc 35, owner 2026-11-04). The answer is the point, "1" to "5". */
+    /** A degree, asked as a rating from 1 to 5 (RatingScale): the words over its ends (doc 35, owner 2026-11-04). The answer is the point, "1" to "5". */
     rating?: { low: string; high: string };
 }
 
@@ -67,7 +67,7 @@ const WORKING_INFO = ["Yes includes working full-time, part-time, on contract or
 const NOT_WORKING_INFO = ["Choose the main reason.", "Unable to work: sidelined from the workforce by a chronic medical condition, long-term illness or disability. They typically live on fixed support incomes."];
 
 /**
- * A RATING'S POINTS as options, so a rating is saved and settled as every choice is: the ids "1" to "5" ("3 of 5"). Its end and middle words are added where it is printed (ratingWords).
+ * A RATING'S POINTS as options, so a rating is saved and settled as every choice is: the ids "1" to "5" ("3 of 5"). Its end words (at 1 and 5) are added where it is printed (ratingWords).
  * Degree and comfort questions are ratings unless named ranges exist (doc 35, owner 2026-11-04).
  */
 export function ratingOptions(_rating: { low: string; high: string }): SegmentOption[] {
@@ -352,7 +352,6 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         ],
         info: [
             "Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn.",
-            "What you tick here is offered on the Profile as related platforms to choose from.",
             "Choose up to three."
         ]
     },
@@ -421,7 +420,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "multi", label: "Several departments check: IT or security, legal and finance." },
             { id: "procurement", label: "Formal procurement: A tender or a request for proposals (RFP), with strict compliance." }
         ],
-        info: ["Asked for business customers only. A formal procurement loop reveals the tender row on the Customer Engagement page.", "Select all that apply."]
+        info: ["Asked for business customers only.", "Select all that apply."]
     },
 
     /* ---- Box 5, Market Size & Industry Outlook ---- */
@@ -690,7 +689,7 @@ export function segmentOptions(question: SegmentQuestion, answers: SegmentAnswer
 
 }
 
-/** Whether a radio's options are short enough to stand in a row (they wrap onto the next line where the column is narrow): the card draws the others one under the other. */
+/** Whether a radio's options are short enough to stand in a row (2 to 6 options, each of 24 characters or fewer, 90 in all; the row never wraps): the card draws the others one under the other. */
 export function segmentRowChoice(question: SegmentQuestion, options: readonly SegmentOption[]): boolean {
     // (The words an option shows: what stands in brackets or after a colon is in the question's "i".)
     const words = options.map(option => splitOption(option).option.label.length);

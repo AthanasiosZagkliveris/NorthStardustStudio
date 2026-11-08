@@ -387,7 +387,6 @@ Part A (every Segment): questions 1 and 3. Part B (the buyer is people): 2, 4, 5
   - Feeds, ads and marketplace suggestions
 - **The "i" says:**
   - Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn.
-  - What you tick here is offered on the Profile as related platforms to choose from.
   - Choose up to three.
 - **Connections:**
   - *Comes from:* Nothing.
@@ -495,7 +494,7 @@ Part A (every Segment): questions 1 and 3. Part B (the buyer is people): 2, 4, 5
   - Several departments check: IT or security, legal and finance.
   - Formal procurement: A tender or a request for proposals (RFP), with strict compliance.
 - **The "i" says:**
-  - Asked for business customers only. A formal procurement loop reveals the tender row on the Customer Engagement page.
+  - Asked for business customers only.
   - Select all that apply.
   - One person decides: The person who uses it has the budget and the final say.
   - The team agrees: The people who use it try it and push it upward.

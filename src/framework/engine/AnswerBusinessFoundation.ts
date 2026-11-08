@@ -229,14 +229,14 @@ export interface BusinessOfferingValue {
     id: string;
     name: string;
     /**
-     * Needs chosen from its own Segment's Profiles, by their text.
+     * Needs chosen from its own Segment's Profiles, by their ids.
      */
     needsAddressed: string[];
     category: string;
     /** Named when the category is "Other". */
     categoryOther: string;
     description: BusinessDescriptionValue;
-    /** The answers to the card's questions O1 to O10 (doc 43, OfferingQuestions.ts; owner 2026-11-07): question id to the option ids chosen. */
+    /** The answers to the card's questions O1 to O18 (doc 43, OfferingQuestions.ts; owner 2026-11-07): question id to the option ids chosen. */
     questions?: Record<string, string[]>;
 }
 
@@ -511,7 +511,7 @@ function competitorLayoutOf2026_11_04(questions: Record<string, string[]>): Reco
     return read;
 }
 
-/** The Offering's answers (O1 to O10), kept only where there are some: question ids to lists of option ids. */
+/** The Offering's answers (O1 to O18), kept only where there are some: question ids to lists of option ids. */
 function offeringQuestionsOf(source: unknown): { questions?: Record<string, string[]> } {
     if (!source || typeof source !== "object") {
         return {};

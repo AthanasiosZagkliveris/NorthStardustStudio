@@ -21,8 +21,8 @@
  * stable and widely documented. The rest get a form that works
  * rather than a guess dressed as knowledge.
  *
- * Nothing here is binding on the user. Legal Form always accepts
- * free text alongside the list, capital is a switch the user
+ * Nothing here is binding on the user. Legal Form offers the
+ * country's list (no free text, doc 33, 9), capital is a switch the user
  * controls whatever the profile suggests, and every requirement type
  * stays available however it is marked. The profile changes what is
  * OFFERED and what is EMPHASISED, never what is possible.
@@ -976,7 +976,7 @@ export function legalFormOptions(
     subdivisionName: string
 ): LegalFormOption[] {
 
-    // The first published version (design document 33, section 3): the six countries keep their own lists; every other country is "Other" and has the five generic forms.
+    // The first published version (design document 33, section 3): the six countries keep their own lists; every other country is "Other" and has the four generic forms.
     if (!FIRST_VERSION_COUNTRIES.includes(countryCode)) {
         return GENERIC_LEGAL_FORMS;
     }
@@ -1004,7 +1004,7 @@ export function registrationDateApplies(countryCode: string, subdivision: string
 
 }
 
-/** The legal forms of a country that is not one of the six (the owner's list, document 33): the same five whatever the country. */
+/** The legal forms of a country that is not one of the six (the owner's list, document 33): the same four whatever the country. */
 export const GENERIC_LEGAL_FORMS: LegalFormOption[] = [
     { label: "Sole Proprietorship", capital: false, soleFounder: true },
     { label: "General Partnership", capital: false },

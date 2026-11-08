@@ -384,7 +384,7 @@ describe("LegalEntityEditor where it is", () => {
         expect(screen.getByRole("button", { name: "Remove secondary activity" })).toBeTruthy();
         // The "i" says which is required, and names the country's code.
         fireEvent.click(screen.getByRole("button", { name: /Activities/ }));
-        expect(document.body.textContent).toContain("The primary activity is required; the others are optional, up to four in all.");
+        expect(document.body.textContent).toContain("The first is the primary activity; add others, up to four in all.");
         expect(document.body.textContent).toContain("(the SIC code)");
 
     });

@@ -10,10 +10,9 @@ import { FIRST_VERSION_COUNTRIES } from "../../../../framework/engine/LegalEntit
 import { categoryOfModel, relationshipFits, relationshipFitsBuyerStage, userStageFits } from "../../../../framework/engine/RelationshipFit.ts";
 
 /**
- * The last entry in every Legal Form list. The brief forbids
- * prescribing a legal form, and a list of them goes stale the
- * moment a country adds one -- so the way out is always on offer,
- * inside the list rather than as a second field beside it.
+ * A Legal Form saved as "Other (not listed)" before 2026-10-30. The list no
+ * longer offers it (doc 33, section 9; the owner): an older answer still
+ * shows, with its typed name, until it is changed.
  */
 export const LEGAL_FORM_OTHER = "Other (not listed)";
 
@@ -294,12 +293,12 @@ export function fitPositioningToStage<T extends { customerType: string[]; market
 /** The name of the positioning tile follows the business stage (defined with the exports' words). */
 export { positioningName } from "../../../../framework/engine/ActivityClassification.ts";
 
-/** The "i" of the Activities: the primary one is required, the others optional, and each ends in the code the country's register uses. */
+/** The "i" of the Activities: the first is the primary one, others may be added, and each ends in the code the country's register uses. */
 export function activitiesInfo(country: string): string {
     if (!FIRST_VERSION_COUNTRIES.includes(country)) {
-        return "The primary activity is required; the others are optional, up to four in all. Type each activity and its code: the official code your country's register uses.";
+        return "The first is the primary activity; add others, up to four in all. Type each activity and its code: the official code your country's register uses.";
     }
-    return "The primary activity is required; the others are optional, up to four in all. Each one ends in one official code of your country (the " + SCHEME_CODE_LABEL[schemeKeyOf(country)] + " code).";
+    return "The first is the primary activity; add others, up to four in all. Each one ends in one official code of your country (the " + SCHEME_CODE_LABEL[schemeKeyOf(country)] + " code).";
 }
 
 export const INFO = {
@@ -345,7 +344,7 @@ export const INFO = {
 
     customerType: [
         "Who pays: focuses on the Economic Buyer who approves the budget, separating them from the end user. The positioning statement is written for the target market, and each distinct segment may need its own.",
-        "B2C (Business-to-Consumer): individuals or consumers who pay for personal/family use.",
+        "B2C (Business-to-Consumer): individuals or consumers who pay for personal or family use.",
         "B2B (Business-to-Business): businesses, companies or freelancers.",
         { title: "Based on", source: SOURCES.positioningStatement },
         { title: "Also", source: SOURCES.positioningTemplate }
@@ -361,18 +360,18 @@ export const INFO = {
 
     audienceScale: [
         "Limits the target group to a specific niche, aligning the startup with the corresponding sales cycle and the buyer's daily life.",
-        "Solopreneurs & Freelancers: individual professionals (immediate decision, need for low cost/self-service).",
-        "Startups & SMBs: small and medium-sized or rapidly growing companies (need for speed, flexibility and immediate solution).",
+        "Solopreneurs & Freelancers: individual professionals (immediate decision, need for low cost or self-service).",
+        "Startups & SMBs: small and medium-sized or rapidly growing companies (need for speed, flexibility and an immediate solution).",
         "Mid-Market: medium-sized businesses with structured departments (need for workflows, roles and scale).",
-        "Enterprise or Public Sector: multinationals or public bodies (multi-month sales/tender cycle, need for maximum security).",
+        "Enterprise or Public Sector: multinationals or public bodies (multi-month sales or tender cycle, need for maximum security).",
         { title: "Based on", source: SOURCES.marketResearch }
     ],
 
     lifeStage: [
         "Limits the target group to a specific niche, aligning the startup with the corresponding sales cycle and the buyer's daily life.",
-        "Students / Young Adults (Gen Z, students): they buy for themselves. Tech-savvy, low budget, sensitive to trends.",
-        "Workers / Professionals: they buy for themselves, with their own income. They seek time savings, convenience or status, and they decide inside a busy working life.",
-        "Seniors: they buy for themselves, often with a fixed income and more time to compare. They have needs for accessibility, simplicity, trust and health support; a family member may help decide (then the buyer's category below is Proxy or Dual-Intent).",
+        "Students / Young Adults: they buy for themselves; tech-savvy, low budget, sensitive to trends.",
+        "Workers / Professionals: they buy for themselves, with their own income; they seek time savings, convenience or status and decide inside a busy working life.",
+        "Seniors: they buy for themselves, often with a fixed income and more time to compare; needs for accessibility, simplicity, trust and health support; a family member may help decide (then the buyer's category below is Proxy or Dual-Intent).",
         { title: "Based on", source: SOURCES.marketResearch },
         { title: "Also", source: SOURCES.brandPositioningStatement }
     ],
@@ -431,7 +430,7 @@ export const INFO = {
     ],
 
     outcome: [
-        "The measurable result the buyer gets from the offering (Outcome / ROI): what the buyer is paying for.",
+        "The measurable result the buyer gets from the offering (outcome or return): what the buyer is paying for.",
         "Lower costs: an immediate reduction in operating costs. Time saved: the execution time of a process cut to almost nothing, or the workflow drastically simplified. Legal & data-protection cover: absolute legal coverage and no risk of fines. Higher quality & prestige: top quality, custom service and an upgrade of the buyer's prestige.",
         "For a Proxy or Dual-Intent Buyer the end user has an outcome of their own, asked next.",
         { title: "Based on", source: SOURCES.strategicPositioning },

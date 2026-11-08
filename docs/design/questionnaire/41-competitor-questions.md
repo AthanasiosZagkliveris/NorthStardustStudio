@@ -87,7 +87,7 @@ This follows the type rules already built for the text boxes: a substitute has n
 - **The "i" says:**
   - The widest area they sell in. Write the industries they serve in the note.
 - **Connections:**
-  - *Comes from:* the Segment's answer, shown first.
+  - *Comes from:* the Segment's list of options, in its fixed order.
   - *Read by (not built yet):* the Review (a competitor selling wider than your Segment reaches).
 
 ### K3. How big is their organisation?
@@ -199,7 +199,7 @@ For Internal solution and Status quo the box stays text only: it asks about the 
   - Direct competitor, Indirect competitor: "How do they do on what customers value?"
   - Substitute: "How does this alternative do on what customers value?"
   - Internal solution: "How does doing it themselves do on what customers value?"
-  - Status quo: "How does doing nothing do on what customers value?" For example, Affordability can be a 5, because doing nothing is free.
+  - Status quo: "How does doing nothing do on what customers value?" For example, Affordability can be a 5, because doing nothing is free. (doc only)
 - **Rows:** every value of L1 (owner, 2026-11-04: "place all the options, but in a hierarchy order depending on the profiles what matters most. Also, highlight the options according to the profile"): ordered by the highest B1 rating among the Segment's Profiles (Essential first), then by how many Profiles tick it, then L1's order (`competitorValueRows`). Each row a Profile ticks carries a band of one colour whose step is only the number of Profiles that chose it, not their ratings (owner, 2026-11-04): 1 Profile the lightest, then 2, 3, and 4 or more the darkest (`bandTone`, `valueProfiles`; the tokens `--tint-importance-1` to `-4`, doc 21). With one Profile in the Segment every chosen row has the same light band; an unchosen row has none. No Other. The list L1:
   - Affordability
   - Speed
@@ -303,7 +303,7 @@ Each row keeps the current question and proposes another way to answer it, with 
 - A change of a Profile's B1 changes only the order of K8's rows and the weights of K10's options, never a rating.
 - Unticking a platform in K6 clears its rating; a change of the Organisation's country or first activity changes only the order of K6's rows.
 - A change of K4, K6, K7, K8 or K9 changes K10's options; a ticked option no longer offered is removed on the next choice.
-- A change of the Segment's `reach` or `trends` changes only the order of K2's options or K9's rows.
+- A change of the Segment's `trends` changes only the order of K9's rows.
 
 ## Decided, and still to decide
 

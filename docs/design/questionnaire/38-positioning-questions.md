@@ -19,7 +19,7 @@ Related: doc 37 (the Organisation tile, whose Opening Date sets the stage), doc 
 - **Options:**
   - B2C (Business-to-Consumer)
   - B2B (Business-to-Business)
-- **The "i" says:** Who pays: focuses on the Economic Buyer who approves the budget, separating them from the end user. The positioning statement is written for the target market, and each distinct segment may need its own. B2C: individuals or consumers who pay for personal or family use. B2B: businesses, companies or freelancers. Based on the positioning statement of the strategy literature.
+- **The "i" says:** Who pays: focuses on the Economic Buyer who approves the budget, separating them from the end user. The positioning statement is written for the target market, and each distinct segment may need its own. B2C (Business-to-Consumer): individuals or consumers who pay for personal or family use. B2B (Business-to-Business): businesses, companies or freelancers. Based on the positioning statement of the strategy literature.
 - **Connections:**
   - *Comes from:* the stage (the limit).
   - *Read by (built):* the Segment card, which asks people's questions for B2C and the business's for B2B (doc 35); every question below; the exports.

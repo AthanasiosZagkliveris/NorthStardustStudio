@@ -934,11 +934,11 @@
   {
    "label": "Purchasing Power & Behaviour",
    "place": "tile dialog",
-   "text": "How do they find, choose, buy and pay, and who decides?\nFor every customer: online comfort, where they discover new products, where they shop, how they pay.\nFor people: how they socialise and share, what makes them shop and how they decide. For businesses: who decides to buy.\nThe ways of discovering new products that you tick are offered on the Profile as related platforms.",
-   "lines": 16,
-   "points": 4,
+   "text": "How do they find, choose, buy and pay, and who decides?\nFor every customer: online comfort, where they discover new products, where they shop, how they pay.\nFor people: how they socialise and share, what makes them shop and how they decide. For businesses: who decides to buy.",
+   "lines": 12,
+   "points": 3,
    "w": 360,
-   "chars": 376,
+   "chars": 276,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -962,11 +962,11 @@
   {
    "label": "Where do your customers discover new products?",
    "place": "tile dialog",
-   "text": "Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn.\nWhat you tick here is offered on the Profile as related platforms to choose from.\nChoose up to three.",
-   "lines": 11,
-   "points": 3,
+   "text": "Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn.\nChoose up to three.",
+   "lines": 7,
+   "points": 2,
    "w": 360,
-   "chars": 221,
+   "chars": 139,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -1004,11 +1004,11 @@
   {
    "label": "Who decides to buy?",
    "place": "tile dialog",
-   "text": "Asked for business customers only. A formal procurement loop reveals the tender row on the Customer Engagement page.\nSelect all that apply.\nOne person decides: The person who uses it has the budget and the final say.\nThe team agrees: The people who use it try it and push it upward.\nA manager signs off: Needs formal approval from a manager or executive.\nSeveral departments check: IT or security, legal and finance.\nFormal procurement: A tender or a request for proposals (RFP), with strict compliance.",
-   "lines": 24,
+   "text": "Asked for business customers only.\nSelect all that apply.\nOne person decides: The person who uses it has the budget and the final say.\nThe team agrees: The people who use it try it and push it upward.\nA manager signs off: Needs formal approval from a manager or executive.\nSeveral departments check: IT or security, legal and finance.\nFormal procurement: A tender or a request for proposals (RFP), with strict compliance.",
+   "lines": 21,
    "points": 7,
    "w": 360,
-   "chars": 503,
+   "chars": 421,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -1161,11 +1161,11 @@
   {
    "label": "Information & Shopping Habits",
    "place": "floating card",
-   "text": "How do they find, learn about, compare and buy products or services?\nThe note is for what the choices above do not hold: where and when they buy, the terms, the steps.",
+   "text": "How do they find, learn about, compare and buy products or services?\nThe note is for what the choices above do not hold: how they buy, in their words.",
    "lines": 8,
    "points": 2,
    "w": 360,
-   "chars": 167,
+   "chars": 150,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -6343,11 +6343,11 @@
   {
    "label": "Seller & Buyer Relationship",
    "place": "tile dialog",
-   "text": "Who pays: focuses on the Economic Buyer who approves the budget, separating them from the end user. The positioning statement is written for the target market, and each distinct segment may need its own.\nB2C (Business-to-Consumer): individuals or consumers who pay for personal/family use.\nB2B (Business-to-Business): businesses, companies or freelancers.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: Stayman, D. (2015) ‘How to Write Market Positioning Statements’, eCornell #IMPACT, Cornell University, 20 March. Available at: https://ecornell-impact.cornell.edu/how-to-write-market-positioning-statements/ (Accessed: 25 October 2026).\nAlso: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketing. Stanford, CA: Stanford University. Available at: https://web.stanford.edu/class/e145/2007_fall/startup_mktg_details.shtml (Accessed: 25 October 2026).",
+   "text": "Who pays: focuses on the Economic Buyer who approves the budget, separating them from the end user. The positioning statement is written for the target market, and each distinct segment may need its own.\nB2C (Business-to-Consumer): individuals or consumers who pay for personal or family use.\nB2B (Business-to-Business): businesses, companies or freelancers.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: Stayman, D. (2015) ‘How to Write Market Positioning Statements’, eCornell #IMPACT, Cornell University, 20 March. Available at: https://ecornell-impact.cornell.edu/how-to-write-market-positioning-statements/ (Accessed: 25 October 2026).\nAlso: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketing. Stanford, CA: Stanford University. Available at: https://web.stanford.edu/class/e145/2007_fall/startup_mktg_details.shtml (Accessed: 25 October 2026).",
    "lines": 38,
    "points": 6,
    "w": 360,
-   "chars": 971,
+   "chars": 974,
    "scenes": [
     "Identity System / 1. Definition / tile Early Positioning"
    ]
@@ -6355,11 +6355,11 @@
   {
    "label": "Audience Specialisation & Scale",
    "place": "tile dialog",
-   "text": "Limits the target group to a specific niche, aligning the startup with the corresponding sales cycle and the buyer's daily life.\nSolopreneurs & Freelancers: individual professionals (immediate decision, need for low cost/self-service).\nStartups & SMBs: small and medium-sized or rapidly growing companies (need for speed, flexibility and immediate solution).\nMid-Market: medium-sized businesses with structured departments (need for workflows, roles and scale).\nEnterprise or Public Sector: multinationals or public bodies (multi-month sales/tender cycle, need for maximum security).\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: U.S. Small Business Administration (n.d.) Market research and competitive analysis. Available at: https://www.sba.gov/business-guide/plan-your-business/market-research-competitive-analysis (Accessed: 25 October 2026).",
-   "lines": 38,
+   "text": "Limits the target group to a specific niche, aligning the startup with the corresponding sales cycle and the buyer's daily life.\nSolopreneurs & Freelancers: individual professionals (immediate decision, need for low cost or self-service).\nStartups & SMBs: small and medium-sized or rapidly growing companies (need for speed, flexibility and an immediate solution).\nMid-Market: medium-sized businesses with structured departments (need for workflows, roles and scale).\nEnterprise or Public Sector: multinationals or public bodies (multi-month sales or tender cycle, need for maximum security).\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: U.S. Small Business Administration (n.d.) Market research and competitive analysis. Available at: https://www.sba.gov/business-guide/plan-your-business/market-research-competitive-analysis (Accessed: 25 October 2026).",
+   "lines": 39,
    "points": 7,
    "w": 360,
-   "chars": 937,
+   "chars": 946,
    "scenes": [
     "Identity System / 1. Definition / tile Early Positioning"
    ]
@@ -6403,11 +6403,11 @@
   {
    "label": "Outcome",
    "place": "tile dialog",
-   "text": "The measurable result the buyer gets from the offering (Outcome / ROI): what the buyer is paying for.\nLower costs: an immediate reduction in operating costs. Time saved: the execution time of a process cut to almost nothing, or the workflow drastically simplified. Legal & data-protection cover: absolute legal coverage and no risk of fines. Higher quality & prestige: top quality, custom service and an upgrade of the buyer's prestige.\nFor a Proxy or Dual-Intent Buyer the end user has an outcome of their own, asked next.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: Institute for Strategy and Competitiveness (n.d.) Strategic Positioning. Boston, MA: Harvard Business School. Available at: https://www.isc.hbs.edu/strategy/business-strategy/Pages/strategic-positioning.aspx (Accessed: 25 October 2026).\nAlso: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketing. Stanford, CA: Stanford University. Available at: https://web.stanford.edu/class/e145/2007_fall/startup_mktg_details.shtml (Accessed: 25 October 2026).",
+   "text": "The measurable result the buyer gets from the offering (outcome or return): what the buyer is paying for.\nLower costs: an immediate reduction in operating costs. Time saved: the execution time of a process cut to almost nothing, or the workflow drastically simplified. Legal & data-protection cover: absolute legal coverage and no risk of fines. Higher quality & prestige: top quality, custom service and an upgrade of the buyer's prestige.\nFor a Proxy or Dual-Intent Buyer the end user has an outcome of their own, asked next.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: Institute for Strategy and Competitiveness (n.d.) Strategic Positioning. Boston, MA: Harvard Business School. Available at: https://www.isc.hbs.edu/strategy/business-strategy/Pages/strategic-positioning.aspx (Accessed: 25 October 2026).\nAlso: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketing. Stanford, CA: Stanford University. Available at: https://web.stanford.edu/class/e145/2007_fall/startup_mktg_details.shtml (Accessed: 25 October 2026).",
    "lines": 42,
    "points": 6,
    "w": 360,
-   "chars": 1140,
+   "chars": 1144,
    "scenes": [
     "Identity System / 1. Definition / tile Early Positioning"
    ]
@@ -6475,11 +6475,11 @@
   {
    "label": "Activities",
    "place": "tile dialog",
-   "text": "The primary activity is required; the others are optional, up to four in all. Each one ends in one official code of your country (the NAICS code).",
+   "text": "The first is the primary activity; add others, up to four in all. Each one ends in one official code of your country (the NAICS code).",
    "lines": 6,
    "points": 1,
    "w": 360,
-   "chars": 146,
+   "chars": 134,
    "scenes": [
     "Identity System / 1. Definition / tile Organisation"
    ]
