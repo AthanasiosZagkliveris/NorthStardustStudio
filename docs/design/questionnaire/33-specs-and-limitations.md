@@ -1,6 +1,6 @@
 # 33. Specs and limitations: the first published version, and what is left for later (owner, 2026-10-29)
 
-Status: **specification**, written 2026-10-29, updated 2026-11-04, as given by the owner. What the first published version of the app contains and what it does not. The owner's items are written as given; the assistant's checks against the app, doc 28 and doc 31 are marked **Check** and are for the owner to confirm. The Organisation tile, Early Positioning and the Segment card follow it (section 8); the Profile card is built in part (doc 36). What the first version leaves out is in sections 10 to 15 (the future features: **all other existing information is a future feature**; nothing there is scheduled; items already built stay in the code, hidden or unused, and are not deleted; they were document 33 until 2026-11-02, a living list).
+Status: **specification**, written 2026-10-29, updated 2026-11-08, as given by the owner. What the first published version of the app contains and what it does not. The owner's items are written as given; the assistant's checks against the app, doc 28 and doc 31 are marked **Check** and are for the owner to confirm. The Organisation tile, Early Positioning and the Segment card follow it (section 8); the Profile card is built in part (doc 36). What the first version leaves out is in sections 10 to 15 (the future features: **all other existing information is a future feature**; nothing there is scheduled; items already built stay in the code, hidden or unused, and are not deleted; they were document 33 until 2026-11-02, a living list).
 
 Related: doc 28 (questionnaire specification), doc 31 (positioning categories), doc 32 (sources), `docs/README.md` (contents), `docs/index.md` (index) and `docs/app/glossary.md` (glossary).
 
@@ -35,7 +35,7 @@ Related: doc 28 (questionnaire specification), doc 31 (positioning categories), 
 | Market structure | **Single-sided only** |
 | Seller and buyer relationship | **B2C and/or B2B** only |
 | Buyer | The **buyer's category** is separate from the **buyer's life stage** |
-| Ages | Placed in the **Segment**, and maybe as an "i" |
+| Ages | Age limits are checked on the **Offering** (O12) and the **Review** (doc 43, O12) |
 
 ## 2. Language
 
@@ -52,11 +52,11 @@ English only, and **UK English** (owner, 2026-11-03: organisation, centre, speci
      3. Private Limited Company (LLC / Ltd / GmbH)
      4. Limited Liability Partnership (LLP)
 
-**Check, for the owner:**
+**Checks** (all settled except the second, which stays open for the owner):
 - **Settled while building (section 8):** the country picker lists the six countries and Other; Other opens a second list of every other country, and the legal form is one of the four generic forms.
-- **Do the six countries' built legal-form lists count as "complete"?** The lists in the code are the ones the owner's rule 14 allows only from official documents; whether each is complete and sourced for the six countries has not been re-checked here.
-- **The four generic forms are the owner's own list** (not from an official document), allowed because Other has no official source. Option 3 names several countries' forms in one option; the documents that follow the legal form (the "limited company" phrase, capital, registration authority) would follow the option for Other.
-- **General Partnership** is new on the list in this form; the built lists name partnership forms per country.
+- **Open: do the six countries' built legal-form lists count as "complete"?** The lists in the code are the ones the owner's rule 14 allows only from official documents; whether each is complete and sourced for the six countries has not been re-checked here.
+- **Settled (built, section 8): the four generic forms are the owner's own list** (not from an official document), allowed because Other has no official source. Option 3 names several countries' forms in one option; the documents that follow the legal form (the "limited company" phrase, capital, registration authority) would follow the option for Other.
+- **Settled (built, section 8): General Partnership** is new on the list in this form; the built lists name partnership forms per country.
 
 ## 4. Market structure and relationships
 
@@ -101,25 +101,25 @@ The B2B list is the six business relationships of doc 31 section 6.2, each with 
 3. Adults
 4. Seniors
 
-**Then:** Purpose, Differentiation, Outcome. (The owner's list was sent unfinished; see the checks.)
+**Then:** Purpose, Differentiation, Outcome (settled 2026-10-30: check 6).
 
 **What the End User block holds in the first version:** the relationship and, for B2C, the end user's life stage. The questions "who chooses" (I7f) and "what matters most to the User" (I7g), the routing into the second Profile's ticks, and everything else collected about the End User are **future features** (doc 33).
 
-**Check, for the owner:**
+**Checks** (all settled and built, section 8, except check 3, which stays open for the owner):
 1. **This replaces the I7b design of doc 31 decision 19.** There the life-stage list had five options, with Proxy and Dual-Intent among them. Now **I7b keeps three life-stage options** and **the category is a separate question**. The End User block is shown by the category.
 2. **The life-stage list no longer holds "Proxy Buyers / Gifters"** (section 8): an older saved answer is read in the new form and the buyer's category is asked again.
-3. **The end user's life stage has four coarse groups** with no age edges given. Minors is read as under 18 and Seniors as 65 and over (which includes the Dependent seniors of 75 and over). Do the four replace the detailed stages of doc 31 section 1 or group them? Not stated.
+3. **Open: the end user's life stage has four coarse groups** with no age edges given. Minors is read as under 18 and Seniors as 65 and over (which includes the Dependent seniors of 75 and over). Do the four replace the detailed stages of doc 31 section 1 or group them? Not stated.
 4. **B2B end users have no life stage.** The end user's life stage is read as B2C only; for B2B the relationship is the only End User item.
 5. **The buyer's category for B2B:** the archetypes of section 10.6 suggest a category for each relationship (Proxy or Dual-Intent); as decided in doc 31 decisions 8 to 10, the relationship only **suggests** it and the buyer's own answer governs.
 6. **Purpose, Differentiation and Outcome are three items** (settled 2026-10-30: the owner asked for the Differentiation to be separate from the Outcome, the Differentiation focused on the offering, and for a different outcome for the buyer and the end user where the buyer is a Proxy or Dual-Intent Buyer). Purpose uses the 12 purposes of doc 31 section 7; Differentiation keeps the owner's four words, with two more added the same day (section 8: six in all); the Outcome for the buyer is the four results those words name; the Outcome for the end user is the six answers of the former "what matters most to the End User".
 
 ## 6. Ages
 
-**Ages are placed in the Segment, and maybe as an "i"** (owner). Read as the age information collected in docs 30 and 31, shown on the Segment card (Business 1) and possibly in an "i" beside the relevant answer.
+**Age limits are checked on the Offering (O12) and the Review (doc 43, O12).** The owner's first item (2026-10-29) placed the ages in the Segment, maybe as an "i"; the Segment now asks the age terms (doc 35, Box 1, question 1) and the app derives the legal age from the activities, the ages and the country.
 
-**Check, for the owner:**
-- **Which ages?** Three kinds exist: the **legal ages by activity and country** (doc 30: alcohol, tobacco, gambling and so on), the **legal ages for a buyer** (majority, consent, credit; doc 31 section 10.2), and the **life-stage age ranges** (doc 31 section 1; the Segment's age range G6 already exists). The first two were requirements R-1 (Organisation card) and R-2 (Positioning card) of doc 31 section 9; they now move to the Segment. Read here as **all three, shown on the Segment**, with the legal ones applied from the customers' country automatically.
-- **Where, exactly:** a line in the Segment card, an "i", or both is not decided.
+**Checks** (settled):
+- **Which ages?** Three kinds exist: the **legal ages by activity and country** (doc 30: alcohol, tobacco, gambling and so on), the **legal ages for a buyer** (majority, consent, credit; doc 31 section 10.2), and the **life-stage age ranges** (doc 31 section 1; the Segment's age terms, doc 35, Box 1, question 1). The first two were requirements R-1 (Organisation card) and R-2 (Positioning card) of doc 31 section 9; they are checked on the Offering (O12) and the Review (doc 43, O12), with the legal ones applied from the customers' country automatically.
+- **Where, exactly:** a Review item and a read-only line on each of the Segment's Offerings (doc 43, O12).
 
 ## 7. Limits that already stand (from earlier owner decisions)
 
@@ -132,8 +132,8 @@ The tiles that follow this document are described as built in their own document
 
 ## 9. Open points of the first version
 
-1. The owner's list was sent **unfinished** more than once. Anything after it is to be added here.
-2. The checks of sections 3 to 6, in particular: the country picker; the four coarse life stages; whether B2B end users have a life stage; Purpose, Differentiation and Outcome as three questions; which ages go in the Segment and where.
+1. Settled: the owner's list, sent unfinished more than once, is complete as far as it goes; the country picker is built (section 3) and Purpose / Differentiation / Outcome are three questions (2026-10-30, section 5, check 6). Anything new is added here.
+2. Still open: whether the six countries' legal-form lists are complete (section 3, second check) and the four coarse life stages (section 5, check 3).
 
 **Closed on 2026-10-30 (the owner: close the open points of the Positioning tile):** the Outcome lists (buyer and end user) and the relationships offered for each category are approved as written; a purpose a table does not list is read from the next table; the master matrix stays a reference; no "Recommended" tag is added (doc 31, decision 38). Still future: the routing of the outcome for the end user into the second Profile (doc 33, item 13).
 
@@ -173,7 +173,7 @@ The tiles that follow this document are described as built in their own document
 | 18 | The caregiver override of privacy walls, decided by each country's law | doc 31 decision 9 |
 | 19 | Review checks: a household plan's unit price against a single-user purchase option (O3); the exact syntax of the P25 field | doc 31 decisions 20 to 22 |
 
-Age limits by activity and by buyer, which were listed here, are now in the first version, in the Segment (section 6).
+Age limits by activity and by buyer, which were listed here, are now in the first version: they are checked on the Offering (O12) and the Review (doc 43, O12; section 6).
 
 ## 12. Research still to do
 
@@ -232,14 +232,7 @@ These examples are slightly different because G2B often involves a government se
 | 21 | Government supporting or funding businesses (new row) | ○ |  |  |  |  | ○ | ● |  |  |  | ● | ● |
 | 22 | Other institutional relationship (government to business) (new row) |  |  |  |  |  | ● | ● |  |  | ● | ● | ○ |
 
-And, from the first collection (section 8 of doc 31), the four rows of the 15-row table:
-
-| Buyer–end user relationship | Learn & develop | Health & care | Gift & appreciation | Entertainment | Social connection | Productivity | Business growth | Creation | Everyday needs | Protection | Compliance | Access & support |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Public authority → employees | ● | ○ |  |  | ○ | ● |  |  | ○ | ● | ○ | ○ |
-| Public authority → citizens | ● | ● |  | ● | ● | ○ |  | ○ | ● | ○ | ○ | ● |
-| Public authority → beneficiaries | ● | ● |  | ○ | ● | ○ |  |  | ● | ○ | ○ | ● |
-| Government → businesses | ○ |  |  |  |  | ● | ● |  | ○ | ● | ● | ● |
+The first collection's four public rows (doc 31, section 8) are rows 13, 14, 15 and 18 above; the one difference (row 18's Learn & develop) is noted in doc 31, 10.4. Rows 1 to 12 are in doc 31, 10.4.
 
 ## 15. Thoughts (evaluated, not decided, not scheduled; owner's review of the Segment, 2026-11-01)
 
@@ -248,7 +241,7 @@ These came from a review of how the Segment's Box 4 and Box 5 answers could be r
 | # | Thought | Why it is worth keeping | Waits for |
 |---|---|---|---|
 | 1 | **Persona archetype tags** on a Profile (for example "Trend-Driven Impulse Buyer"), compiled from Box 4 | A Profile can be summarised at a glance | A fixed list of archetypes in the owner's words; the app must not invent the names |
-| 2 | **Competitor emphasis from Box 5, question 4**: a crowded market (Red Ocean; rated 4 or 5 once the question is a rating, doc 35) raises differentiation and price comparison, an open one (Blue Ocean; 1 or 2) raises market education | It points the App User to the work that matters | A place in the Competitor card; it highlights and orders, it does not add or remove rows |
+| 2 | **Competitor emphasis from Box 5, question 4**: a crowded market (Red Ocean; rated 4 or 5, doc 35) raises differentiation and price comparison, an open one (Blue Ocean; 1 or 2) raises market education | It points the App User to the work that matters | A place in the Competitor card; it highlights and orders, it does not add or remove rows |
 | 3 | **Demand and capacity warning**: Box 5 size and trend against the capacity to deliver (a solo team with manual fulfilment) | A scaling bottleneck is seen early | The Capability page and the Review checks, which are held back while Planning and Launching |
 | 4 | **"Why this is suggested" notice** on a page whose suggestions follow the Segment, with a way to see everything | The App User knows why a list is ordered as it is | The owner's word on a new element (the notice and its switch) |
 | 5 | **Journey auto-layout**: Awareness from Box 4 question 3, Consideration from question 6, Decision from questions 7 and 8 | The data already maps onto the three stages | A customer journey part; none is in the documents today |

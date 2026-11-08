@@ -559,7 +559,7 @@
                       "personal": "Hannah, UX designer; owns a flat in Stoke Newington and is furnishing it room by room.",
                       "psychographics": "Values craft, provenance and calm; avoids fast fashion and throwaway homeware; wants her home to feel personal, not catalogue-bought.",
                       "hubs": "Broadway Market and Columbia Road at weekends, Crafts Council events, The Modern House journal, Apartamento magazine.",
-                      "habits": "Reads the maker’s website on materials and care first; buys larger pieces online and small ones at pop-ups; changes cushions and throws with the seasons."
+                      "habits": "Reads the maker's website on materials and care first; buys larger pieces online and small ones at pop-ups."
                     },
                     "questions": {
                       "a1": [
@@ -653,6 +653,18 @@
                       "social-rating": [
                         "as-having-good-taste-style:4",
                         "as-caring-for-others-or-the-planet:3"
+                      ],
+                      "functional": [
+                        "information",
+                        "variety"
+                      ],
+                      "functional-rating": [
+                        "information:4",
+                        "variety:3"
+                      ],
+                      "d3": [
+                        "weekends",
+                        "around-seasons-holidays"
                       ]
                     },
                     "goals": "A home that feels warm and made to last; owning things with a story; supporting local makers.",
@@ -663,6 +675,11 @@
                         "Durable textiles that last years",
                         "Natural, traceable materials",
                         "Easy care and repair"
+                      ],
+                      "functionalIds": [
+                        "need-41brmd",
+                        "need-l94bfg",
+                        "need-2b2j92"
                       ],
                       "emotional": [
                         ""
@@ -679,7 +696,7 @@
                       "personal": "Leila, marketing executive at a design agency in Shoreditch; lives in Hackney, a short bus ride from the studio.",
                       "psychographics": "Wants a hobby that gets her off her phone; enjoys making things with her hands; likes a small group.",
                       "hubs": "Hackney Wick open studios, Broadway Market, a Hackney craft Meetup group, a few weaving creators she follows.",
-                      "habits": "Books a week or two ahead; prefers evening sessions after work."
+                      "habits": "Books a week or two ahead."
                     },
                     "questions": {
                       "a1": [
@@ -763,6 +780,18 @@
                       ],
                       "social-rating": [
                         "as-part-of-a-group-they-value:4"
+                      ],
+                      "functional": [
+                        "connection",
+                        "organisation"
+                      ],
+                      "functional-rating": [
+                        "connection:4",
+                        "organisation:3"
+                      ],
+                      "d3": [
+                        "evenings",
+                        "weekends"
                       ]
                     },
                     "goals": "Make something for her own room; switch off after work.",
@@ -773,6 +802,11 @@
                         "Beginner-friendly workshop with all materials",
                         "Something finished to take home",
                         "Evening and weekend dates"
+                      ],
+                      "functionalIds": [
+                        "need-1r8ym3j",
+                        "need-1rx12p5",
+                        "need-sf2joa"
                       ],
                       "emotional": [
                         ""
@@ -991,38 +1025,127 @@
                     "id": "offering-nvfuu2km",
                     "name": "Handwoven Homeware Collection",
                     "needsAddressed": [
-                      "Durable textiles that last years",
-                      "Natural, traceable materials",
-                      "Easy care and repair"
+                      "need-41brmd",
+                      "need-l94bfg",
+                      "need-2b2j92"
                     ],
                     "category": "Product",
                     "categoryOther": "",
                     "description": {
                       "function": "Cushions, throws, table runners and wall hangings, handwoven on floor looms in small batches.",
                       "benefit": "Beautiful, durable textiles with full provenance that last for decades and can be repaired.",
-                      "scope": "Core range of 12 designs in 5 colourways; seasonal limited runs; made-to-order colours in 3–4 weeks.",
-                      "delivery": "Online shop (Shopify), studio open days, three London markets a year; UK delivery in recyclable packaging.",
-                      "support": "Care guide in every parcel; lifetime repair service; email and Instagram support within one working day.",
-                      "requirements": "Hand-wash or dry-clean only; made-to-order items are non-refundable unless faulty."
+                      "scope": "12 designs in 5 colourways; made-to-order colours take 3–4 weeks.",
+                      "delivery": "UK delivery in recyclable packaging.",
+                      "support": "A care guide in every parcel; repairs for life.",
+                      "requirements": "Hand-wash or dry-clean only."
+                    },
+                    "questions": {
+                      "o1": [
+                        "physical"
+                      ],
+                      "o2": [
+                        "now"
+                      ],
+                      "o3": [
+                        "once"
+                      ],
+                      "o4": [
+                        "quality-and-results",
+                        "shared-values-or-identity",
+                        "trust-and-reputation"
+                      ],
+                      "o6": [
+                        "shipped"
+                      ],
+                      "o7": [
+                        "personal"
+                      ],
+                      "o8": [
+                        "whether-it-fits-their-needs"
+                      ],
+                      "o14": [
+                        "range",
+                        "custom",
+                        "limited"
+                      ],
+                      "o3t": [
+                        "before"
+                      ],
+                      "o15": [
+                        "weeks"
+                      ],
+                      "o16": [
+                        "oneday"
+                      ],
+                      "o17": [
+                        "repairs"
+                      ],
+                      "o18": [
+                        "nonrefundable"
+                      ]
                     }
                   },
                   {
                     "id": "offering-8e935f0e",
                     "name": "Weaving Workshops",
                     "needsAddressed": [
-                      "Beginner-friendly workshop with all materials",
-                      "Something finished to take home",
-                      "Evening and weekend dates"
+                      "need-1r8ym3j",
+                      "need-1rx12p5",
+                      "need-sf2joa"
                     ],
                     "category": "Service",
                     "categoryOther": "",
                     "description": {
-                      "function": "Small-group (max 8) beginner and intermediate weaving workshops at the Hackney Wick studio.",
+                      "function": "Small-group (8 at most) beginner and intermediate weaving workshops at the Hackney Wick studio.",
                       "benefit": "Learn a real craft, relax away from screens and take home a finished piece.",
-                      "scope": "Half-day Beginner Frame Loom (3.5 h), full-day Intro to Floor Loom (6 h), 4-week evening course; all materials, tea and cake included.",
-                      "delivery": "Booked and paid online via the website (Eventbrite integration); gift vouchers valid 12 months.",
-                      "support": "Pre-workshop email with directions and what to wear; follow-up email with pattern and discount code.",
-                      "requirements": "Ages 16+; 7-day cancellation policy; studio is step-free."
+                      "scope": "Half-day frame loom (3.5 h), full-day floor loom (6 h), 4-week evening course; materials, tea and cake included.",
+                      "delivery": "Booked and paid online through Eventbrite; gift vouchers valid for 12 months.",
+                      "support": "Directions and what to wear before; the pattern and a discount code after.",
+                      "requirements": "Ages 16+ (until the legal-age check is built); 7 days' notice to cancel; the studio is step-free."
+                    },
+                    "questions": {
+                      "o1": [
+                        "inperson"
+                      ],
+                      "o2": [
+                        "now"
+                      ],
+                      "o3": [
+                        "once"
+                      ],
+                      "o4": [
+                        "expert-knowledge",
+                        "quality-and-results",
+                        "ease-and-convenience"
+                      ],
+                      "o6": [
+                        "inperson"
+                      ],
+                      "o7": [
+                        "guides"
+                      ],
+                      "o8": [
+                        "how-long-it-takes-to-start",
+                        "the-price-or-their-budget"
+                      ],
+                      "o14": [
+                        "packages"
+                      ],
+                      "o3t": [
+                        "before"
+                      ],
+                      "o15": [
+                        "weeks"
+                      ],
+                      "o16": [
+                        "oneday"
+                      ],
+                      "o17": [
+                        "updates"
+                      ],
+                      "o18": [
+                        "notice"
+                      ]
                     }
                   }
                 ]
@@ -1169,6 +1292,16 @@
                       "social-b2b-rating": [
                         "as-a-responsible-business:5",
                         "as-more-valued-in-their-field:4"
+                      ],
+                      "functional": [
+                        "information",
+                        "variety",
+                        "integration"
+                      ],
+                      "functional-rating": [
+                        "information:5",
+                        "variety:4",
+                        "integration:3"
                       ]
                     },
                     "goals": "Distinctive, sustainable interiors that win awards; reliable makers she can return to.",
@@ -1179,6 +1312,11 @@
                         "Custom colours and sizes to specification",
                         "Reliable lead times",
                         "Compliance and sustainability documentation"
+                      ],
+                      "functionalIds": [
+                        "need-1xkfvoq",
+                        "need-jy48ee",
+                        "need-11p9i9q"
                       ],
                       "emotional": [
                         ""
@@ -1329,35 +1467,125 @@
                     "id": "offering-vhtapa3v",
                     "name": "Bespoke Textile Commissions",
                     "needsAddressed": [
-                      "Custom colours and sizes to specification",
-                      "Compliance and sustainability documentation"
+                      "need-1xkfvoq",
+                      "need-11p9i9q"
                     ],
                     "category": "Service",
                     "categoryOther": "",
                     "description": {
-                      "function": "Design and weave custom cushions, throws, headboard panels and wall textiles to a designer’s brief.",
+                      "function": "Custom cushions, throws, headboard panels and wall textiles, designed and woven to a designer's brief.",
                       "benefit": "A unique, locally made signature piece with full provenance and documentation.",
-                      "scope": "Design consultation, 2 rounds of samples, production of 1–200 pieces, documentation pack.",
-                      "delivery": "Quote → 50% deposit → samples within 7 days → production 4–8 weeks → delivery or installation in London.",
-                      "support": "Named project lead (Oliver); weekly progress updates; repair and re-covering service.",
+                      "scope": "Design consultation, two rounds of samples, 1–200 pieces, a documentation pack.",
+                      "delivery": "Quote, samples within 7 days, production in 4–8 weeks, then delivery or installation in London.",
+                      "support": "A named project lead (Oliver); weekly progress updates; re-covering.",
                       "requirements": "Minimum order £500; hospitality pieces treated to BS 5852 where required; 30-day terms for trade accounts."
+                    },
+                    "questions": {
+                      "o1": [
+                        "project"
+                      ],
+                      "o2": [
+                        "now"
+                      ],
+                      "o3": [
+                        "project"
+                      ],
+                      "o4": [
+                        "expert-knowledge",
+                        "quality-and-results",
+                        "a-service-made-for-them"
+                      ],
+                      "o6": [
+                        "inperson"
+                      ],
+                      "o7": [
+                        "dedicated"
+                      ],
+                      "o8": [
+                        "whether-it-fits-their-needs"
+                      ],
+                      "o10": [
+                        "brief",
+                        "approval"
+                      ],
+                      "o14": [
+                        "custom"
+                      ],
+                      "o3t": [
+                        "deposit"
+                      ],
+                      "o15": [
+                        "months"
+                      ],
+                      "o16": [
+                        "oneday"
+                      ],
+                      "o17": [
+                        "repairs"
+                      ],
+                      "o18": [
+                        "minimum"
+                      ]
                     }
                   },
                   {
                     "id": "offering-kfyakcw5",
                     "name": "Trade Collection",
                     "needsAddressed": [
-                      "Reliable lead times"
+                      "need-jy48ee"
                     ],
                     "category": "Product",
                     "categoryOther": "",
                     "description": {
-                      "function": "The core cushion and throw range offered to designers and independent retailers at trade prices.",
+                      "function": "The core cushion and throw range for designers and independent retailers, at trade prices.",
                       "benefit": "Handmade quality with predictable stock, pricing and lead times.",
-                      "scope": "8 core designs in 3 colourways; trade price list; sample swatch box.",
-                      "delivery": "Trade portal / email orders; 3-week lead time; courier delivery UK-wide.",
-                      "support": "Quarterly trade newsletter; account manager; marketing images for retailers.",
-                      "requirements": "Trade account required; minimum order 6 pieces; 40% trade discount off RRP."
+                      "scope": "8 core designs in 3 colourways; a trade price list; a sample swatch box.",
+                      "delivery": "Orders through the trade portal or by email; courier delivery UK-wide; 3 weeks.",
+                      "support": "An account manager; a quarterly trade newsletter; marketing images for retailers.",
+                      "requirements": "Minimum order of 6 pieces; 40% trade discount off RRP."
+                    },
+                    "questions": {
+                      "o1": [
+                        "physical"
+                      ],
+                      "o2": [
+                        "now"
+                      ],
+                      "o3": [
+                        "once"
+                      ],
+                      "o4": [
+                        "quality-and-results",
+                        "trust-and-reputation"
+                      ],
+                      "o6": [
+                        "shipped"
+                      ],
+                      "o7": [
+                        "dedicated"
+                      ],
+                      "o8": [
+                        "whether-it-fits-their-needs"
+                      ],
+                      "o14": [
+                        "range"
+                      ],
+                      "o3t": [
+                        "invoice"
+                      ],
+                      "o15": [
+                        "weeks"
+                      ],
+                      "o16": [
+                        "oneday"
+                      ],
+                      "o17": [
+                        "updates"
+                      ],
+                      "o18": [
+                        "minimum",
+                        "trade"
+                      ]
                     }
                   }
                 ]

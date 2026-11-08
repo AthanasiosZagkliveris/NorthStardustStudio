@@ -171,8 +171,8 @@ describe("Psychographics and Motivations ticked and rated (doc 36, section 11)",
 describe("the Emotional and Social needs ticked and rated (doc 36, section 10)", () => {
 
     it("asks a person's lists of a people Segment and a business buyer's of a business one", () => {
-        expect(profileQuestionsOf("needs", {}, people).map(entry => entry.id)).toEqual(["emotional", "social"]);
-        expect(profileQuestionsOf("needs", {}, business).map(entry => entry.id)).toEqual(["emotional-b2b", "social-b2b"]);
+        expect(profileQuestionsOf("needs", {}, people).map(entry => entry.id)).toEqual(["functional", "emotional", "social"]);
+        expect(profileQuestionsOf("needs", {}, business).map(entry => entry.id)).toEqual(["functional", "emotional-b2b", "social-b2b"]);
         expect(question("emotional").max).toBe(3);
         expect(question("social").rating).toEqual({ low: "Mild", high: "Strong" });
     });
@@ -214,5 +214,15 @@ describe("the needs the Value Proposition lists (owner, 2026-11-07)", () => {
         const emotional = PROFILE_QUESTIONS.find(question => question.id === "emotional")!;
         expect(emotional.options.map(option => option.label)).toContain("Proud");
         expect(emotional.info.some(point => point.startsWith("Proud: ") && point.length <= 160)).toBe(true);
+    });
+});
+
+describe("the functional jobs ticked above the Profile's own tasks (owner, 2026-11-07)", () => {
+    it("offers the five jobs of L17, up to three, rated Mild to Strong, each meaning within 160 characters", () => {
+        const functional = PROFILE_QUESTIONS.find(entry => entry.id === "functional")!;
+        expect(functional.options.map(option => option.label)).toEqual(["Organisation", "Integration", "Connection", "Information", "Variety"]);
+        expect(functional.max).toBe(3);
+        expect(functional.rating).toEqual({ low: "Mild", high: "Strong" });
+        expect(functional.info.every(point => point.length <= 160)).toBe(true);
     });
 });

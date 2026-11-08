@@ -477,6 +477,14 @@
                       ],
                       "social-b2b-rating": [
                         "as-someone-others-trust:4"
+                      ],
+                      "functional": [
+                        "integration",
+                        "organisation"
+                      ],
+                      "functional-rating": [
+                        "integration:5",
+                        "organisation:4"
                       ]
                     },
                     "goals": "Make intake, reminders and reporting run on their own.",
@@ -488,9 +496,13 @@
                         "Faster client intake and document handling",
                         "Automations that keep working after launch"
                       ],
+                      "functionalIds": [
+                        "need-1f10ah4",
+                        "need-masu55",
+                        "need-1bj6mz"
+                      ],
                       "emotional": [
-                        "Relief from constant firefighting",
-                        "Confidence that client data is handled safely"
+                        "Relief from constant firefighting"
                       ],
                       "social": [
                         "Be seen by the partners as the person who modernised the firm"
@@ -587,6 +599,14 @@
                       ],
                       "social-b2b-rating": [
                         "as-more-valued-in-their-field:4"
+                      ],
+                      "functional": [
+                        "information",
+                        "integration"
+                      ],
+                      "functional-rating": [
+                        "information:5",
+                        "integration:4"
                       ]
                     },
                     "goals": "Keep headcount flat; deliver client reports and onboarding faster; use AI in a way that holds up in front of clients.",
@@ -597,6 +617,11 @@
                         "A clear plan for where AI actually saves time",
                         "Scale delivery without hiring more staff",
                         "Automations that keep working after launch"
+                      ],
+                      "functionalIds": [
+                        "need-bpzdza",
+                        "need-j6raxw",
+                        "need-1bj6mz"
                       ],
                       "emotional": [
                         "Feel in control of the agency's tools again"
@@ -843,55 +868,191 @@
                     "id": "offering-a4k9r2td",
                     "name": "AI Workflow Audit",
                     "needsAddressed": [
-                      "A clear plan for where AI actually saves time",
-                      "Hand repetitive admin work to reliable automations"
+                      "need-bpzdza",
+                      "need-1f10ah4"
                     ],
                     "category": "Service",
                     "categoryOther": "",
                     "description": {
                       "function": "A fixed-price discovery of how the firm works today, ending in a prioritised automation roadmap.",
                       "benefit": "The firm learns where AI and automation will save the most hours, what it will cost, and what to leave alone.",
-                      "scope": "Two interviews, a review of up to eight core workflows and the software stack, a privacy and risk check, and a written roadmap with estimated hours saved and costs. Two to three weeks.",
-                      "delivery": "Booked through the website after a free 30-minute call; paid in full upfront by QuickBooks invoice (card or ACH); delivered in a recorded walkthrough and a written report.",
-                      "support": "Weekly email updates during the audit; a 30-day follow-up call to answer questions about the roadmap.",
-                      "requirements": "Access to one decision-maker and one day-to-day user; read-only access to the tools under review; a signed mutual NDA."
+                      "scope": "Two interviews, a review of up to eight core workflows and the software stack, a privacy and risk check, and a written roadmap with estimated hours saved and costs.",
+                      "delivery": "Booked through the website after a free 30-minute call; a recorded walkthrough and a written report.",
+                      "support": "Weekly email updates during the audit; a follow-up call after 30 days.",
+                      "requirements": "One decision-maker and one day-to-day user; read-only access to the tools under review; a signed mutual NDA."
+                    },
+                    "questions": {
+                      "o1": [
+                        "project"
+                      ],
+                      "o2": [
+                        "now"
+                      ],
+                      "o3": [
+                        "project"
+                      ],
+                      "o4": [
+                        "trust-and-reputation",
+                        "expert-knowledge",
+                        "safety-and-low-risk"
+                      ],
+                      "o6": [
+                        "byyou"
+                      ],
+                      "o7": [
+                        "personal"
+                      ],
+                      "o8": [
+                        "the-price-or-their-budget"
+                      ],
+                      "o10": [
+                        "access"
+                      ],
+                      "o14": [
+                        "packages"
+                      ],
+                      "o3t": [
+                        "before"
+                      ],
+                      "o15": [
+                        "weeks"
+                      ],
+                      "o16": [
+                        "oneday"
+                      ],
+                      "o17": [
+                        "updates"
+                      ]
                     }
                   },
                   {
                     "id": "offering-b7w3m5qx",
                     "name": "Automation Build",
                     "needsAddressed": [
-                      "Hand repetitive admin work to reliable automations",
-                      "Faster client intake and document handling",
-                      "Scale delivery without hiring more staff"
+                      "need-1f10ah4",
+                      "need-masu55",
+                      "need-j6raxw"
                     ],
                     "category": "Service",
                     "categoryOther": "",
                     "description": {
                       "function": "Design and build of two to four automations from the audit roadmap, using the firm's own tools plus Make, Zapier and AI models.",
                       "benefit": "Repetitive admin runs on its own, with fewer errors and faster turnaround for clients.",
-                      "scope": "Two to four automations, testing with real cases, a privacy review, staff training and written documentation. Four to eight weeks; extra automations quoted separately.",
-                      "delivery": "Statement of work and QuickBooks invoice (card or ACH): 50% at signing and 50% on handover about two months later.",
-                      "support": "Named point of contact (Jordan); weekly progress call; 30 days of fixes after handover.",
-                      "requirements": "A completed audit or equivalent scoping; admin access to the relevant tools; a staff member available for testing."
+                      "scope": "Two to four automations, tested with real cases, a privacy review, staff training and written documentation; extra automations quoted separately.",
+                      "delivery": "A statement of work; 50% at signing and 50% on handover, about two months later.",
+                      "support": "A named point of contact (Jordan); a weekly progress call; 30 days of fixes after handover.",
+                      "requirements": "A completed audit or equivalent scoping; a staff member available for testing."
+                    },
+                    "questions": {
+                      "o1": [
+                        "project"
+                      ],
+                      "o2": [
+                        "now"
+                      ],
+                      "o3": [
+                        "project"
+                      ],
+                      "o4": [
+                        "speed",
+                        "ease-and-convenience",
+                        "quality-and-results"
+                      ],
+                      "o6": [
+                        "byyou"
+                      ],
+                      "o7": [
+                        "personal"
+                      ],
+                      "o8": [
+                        "the-effort-of-switching-from-what-they-use-now",
+                        "how-hard-it-is-to-use"
+                      ],
+                      "o10": [
+                        "access",
+                        "equipment"
+                      ],
+                      "o14": [
+                        "custom"
+                      ],
+                      "o3t": [
+                        "deposit"
+                      ],
+                      "o15": [
+                        "months"
+                      ],
+                      "o16": [
+                        "oneday"
+                      ],
+                      "o17": [
+                        "guarantee",
+                        "training"
+                      ]
                     }
                   },
                   {
                     "id": "offering-c2p8j6nv",
                     "name": "Automation Care Retainer",
                     "needsAddressed": [
-                      "Automations that keep working after launch",
-                      "Scale delivery without hiring more staff"
+                      "need-1bj6mz",
+                      "need-j6raxw"
                     ],
                     "category": "Service",
                     "categoryOther": "",
                     "description": {
                       "function": "Monthly monitoring, fixes and one small improvement to the firm's automations.",
                       "benefit": "Automations keep working as tools and staff change, and keep improving without a new project each time.",
-                      "scope": "Error monitoring and alerts, fixes within one business day, AI model and prompt updates, one small improvement a month, and a monthly usage report. Up to six hours a month.",
-                      "delivery": "Monthly card or ACH billing through QuickBooks; cancel with 30 days' notice.",
-                      "support": "Shared support channel; monthly review call; emergency fixes for failed automations.",
-                      "requirements": "An existing Quillfield build or an audited set of automations; continued admin access for monitoring."
+                      "scope": "Error monitoring and alerts, AI model and prompt updates, one small improvement and a usage report each month; up to six hours a month.",
+                      "delivery": "Billed monthly through QuickBooks (card or ACH).",
+                      "support": "A shared support channel; a monthly review call; emergency fixes for failed automations.",
+                      "requirements": "An existing Quillfield build or an audited set of automations; 30 days' notice to cancel."
+                    },
+                    "questions": {
+                      "o1": [
+                        "ongoing"
+                      ],
+                      "o2": [
+                        "now"
+                      ],
+                      "o3": [
+                        "retainer"
+                      ],
+                      "o4": [
+                        "good-support",
+                        "speed",
+                        "safety-and-low-risk"
+                      ],
+                      "o6": [
+                        "access"
+                      ],
+                      "o7": [
+                        "dedicated"
+                      ],
+                      "o8": [
+                        "risk-or-security"
+                      ],
+                      "o10": [
+                        "access"
+                      ],
+                      "o14": [
+                        "packages"
+                      ],
+                      "o3t": [
+                        "monthly"
+                      ],
+                      "o15": [
+                        "now"
+                      ],
+                      "o16": [
+                        "oneday"
+                      ],
+                      "o17": [
+                        "repairs",
+                        "updates"
+                      ],
+                      "o18": [
+                        "notice"
+                      ]
                     }
                   }
                 ]

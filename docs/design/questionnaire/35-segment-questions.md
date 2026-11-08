@@ -1,6 +1,6 @@
 # 35. The Segment's questions: every question and option as built
 
-Status: **specification**, written 2026-11-01, updated 2026-11-04. Every question of the Segment card in the order it is asked, with its control, when it is asked, its options and what its "i" says. **Who the questions are about:** the questions are written for "your customers" (a direct buyer); when the buyer is a Proxy or Dual-Intent buyer, the buyer's boxes say "your buyers" and the end user's box says "your end users" (`segmentWho`).
+Status: **specification**, written 2026-11-01, updated 2026-11-08. Every question of the Segment card in the order it is asked, with its control, when it is asked, its options and what its "i" says. **Who the questions are about:** the questions are written for "your customers" (a direct buyer); when the buyer is a Proxy or Dual-Intent buyer, the buyer's boxes say "your buyers" and the end user's box says "your end users" (`segmentWho`).
 
 Related: doc 36 (the Profile's questions, in the same form), doc 28 (6.3a, the Segment card in the specification), doc 31 (the age terms), doc 33 (the first version; its section 15 holds the thoughts), `src/framework/engine/SegmentQuestions.ts` (where these words are kept; where the two differ, the code is right).
 
@@ -156,7 +156,7 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
 - **The "i" says:**
   - How steady their pay is, not how much it is (that is the household income below).
   - A fixed salary suits regular subscriptions; variable or hourly earners feel sudden cash-flow dips.
-  - Fixed salary: Predictable monthly/bi-weekly paycheck
+  - Fixed salary: Predictable monthly or fortnightly pay (the card's words change with the next code change)
   - Hourly wage: Fluctuating based on scheduled shifts
   - Variable pay: Freelance invoices, commission, seasonal contracts
 - **Connections:**
@@ -212,8 +212,8 @@ Both.
 - **The "i" says:**
   - The widest area most of your customers are spread over, now or as you plan it. If it is more than one, make another Segment.
 - **Connections:**
-  - *Read by (built, 2026-11-04):* the Competitor's K2 takes this list as its options, this Segment's answer first (doc 41).
   - *Comes from:* Nothing.
+  - *Read by (built, 2026-11-04):* the Competitor's K2 takes this list as its options, this Segment's answer first (doc 41).
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* Channel suggestions by country; the Review (distant customers and delivery).
 
@@ -270,8 +270,8 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - Countries define them a little differently; the United States and Canada use other limits.
   - The sizes follow the scale chosen in Positioning.
 - **Connections:**
-  - *Read by (built, 2026-11-04):* the Competitor's K3 takes this list as its options (doc 41).
   - *Comes from:* This Segment's type of organisation.
+  - *Read by (built, 2026-11-04):* the Competitor's K3 takes this list as its options (doc 41).
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* Channel suggestions by size.
 
@@ -328,7 +328,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
 
 ## Box 4. Purchasing Power & Behaviour
 
-Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6. Part C (every Segment): 7 and 8. Part D (the buyer is a business): 9. A Segment of people is asked parts A, B and C; one of businesses, part D and the questions that are not about people.
+Part A (every Segment): questions 1 and 3. Part B (the buyer is people): 2, 4, 5 and 6 (since 2026-11-06). Part C (every Segment): 7 and 8. Part D (the buyer is a business): 9. A Segment of people is asked parts A, B and C; one of businesses, part D and the questions that are not about people.
 
 ### 1. How comfortable are your customers online?
 
@@ -339,8 +339,8 @@ Part A (every Segment): questions 1 and 2. Part B (the buyer is people): 3 to 6.
   - 1 = Uneasy, 5 = Confident.
   - How easily they use websites, apps and online payment, not whether they own a device.
 - **Connections:**
-  - *Read by (built, 2026-11-04):* the Profile's C2, not asked when this is rated 1, and D2's start: 4 or 5 starts "Works it out alone", 1 or 2 "Wants to talk to a person" (doc 36).
   - *Comes from:* Nothing.
+  - *Read by (built, 2026-11-04):* the Profile's C2, not asked when this is rated 1, and D2's start: 4 or 5 starts "Works it out alone", 1 or 2 "Wants to talk to a person" (doc 36).
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* Channel order (digital-only channels lower, personal help higher).
 
@@ -552,8 +552,8 @@ Both.
   - Society and lifestyle: Remote work, sustainability, changing habits
   - Supply and delivery: Material shortages, logistics costs, local sourcing
 - **Connections:**
-  - *Read by (built, 2026-11-04):* the Competitor's K9 rates each of these changes, the ones ticked here first (doc 41).
   - *Comes from:* Nothing.
+  - *Read by (built, 2026-11-04):* the Competitor's K9 rates each of these changes, the ones ticked here first (doc 41).
   - *Read by (built):* The Market document and the export; the Business Plan's Market Analysis is covered once a market question is answered.
   - *Read by (not built yet):* The Review.
 
@@ -710,6 +710,7 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
 - **Asked when:** As the end user's life stage. Not asked of a Baby.
 - **Options:** the points 1 to 5.
 - **The "i" says:**
+  - 1 = Uneasy, 5 = Confident.
   - How easily they use websites, apps and online payment, not whether they own a device.
 - **Connections:**
   - *Comes from:* Early Positioning: the buyer's category.

@@ -23,6 +23,8 @@ export interface SegmentIdentity {
     /** The Organisation's country (ISO code) and its first activity's code: the order of the Competitor's review platforms (doc 41, K6). */
     country?: string;
     activityCode?: string;
+    /** Positioning's differentiation ids: the Offering's O4 starts from them (doc 43). */
+    differentiation?: readonly string[];
 }
 
 /** Who the Segment's questions are written for: people (Box 1), businesses and public bodies (Box 3), or not yet known / both (both boxes). */

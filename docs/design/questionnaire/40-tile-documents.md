@@ -1,6 +1,6 @@
 # 40. The tile documents: the form, and where each tile stands
 
-Status: **rules**, written 2026-11-01, updated 2026-11-03. The form every document about a tile or a card takes (so that one can be read like the others), the list of the tiles and the document each one has, and what is still missing.
+Status: **rules**, written 2026-11-01, updated 2026-11-08. The form every document about a tile or a card takes (so that one can be read like the others), the list of the tiles and the document each one has, and what is still missing.
 
 Related: doc 35 (the Segment), doc 36 (the Profile), doc 37 (the Organisation), doc 38 (Positioning), doc 39 (what an "i" says), doc 28 (the design these documents refine), doc 21 (the shared components).
 
@@ -20,7 +20,7 @@ A tile document is **one document for one tile or card**, in this order:
 4. **What changes when an answer above changes:** what is removed and what is kept (the rule of every tile: an answer to a question no longer asked, or to an option no longer offered, is removed on the next choice).
 5. **Decided, and still to decide:** the owner's decisions with their dates, and what is open.
 
-**Where the words are kept.** The words of a built tile are kept in one place in the code (the Segment: `src/framework/engine/SegmentQuestions.ts`; the Profile: `src/framework/engine/ProfileQuestions.ts`), and the document is made from them; where the two differ the code is right. How a floating card of questions is built (the engine file, the parts, the three levels, the notes) is in `docs/ai/tile-and-card-pattern.md`.
+**Where the words are kept.** The words of a built tile are kept in one place in the code (the Segment: `src/framework/engine/SegmentQuestions.ts`; the Profile: `src/framework/engine/ProfileQuestions.ts`; the Competitor: `src/framework/engine/CompetitorQuestions.ts`; the Offering, with the Value Proposition's draft and open items: `src/framework/engine/OfferingQuestions.ts`), and the document is made from them; where the two differ the code is right. How a floating card of questions is built (the engine file, the parts, the three levels, the notes) is in `docs/ai/tile-and-card-pattern.md`.
 
 ## 2. Where each tile stands
 
@@ -34,8 +34,8 @@ A tile document is **one document for one tile or card**, in this order:
 | Business 1: Segment Description | 35 | built (specification) |
 | Business 1: Profile | 36 | built in part (specification) |
 | Business 1: Competitors | 41 | built (specification) |
-| Business 1: Value Proposition | 42 | not yet (proposal) |
-| Business 1: Offerings | 43 | not yet (proposal) |
+| Business 1: Value Proposition | 42 | built in part (proposal) |
+| Business 1: Offerings | 43 | built in part (proposal) |
 | Business 2: Customer Engagement | none (doc 28, section 7) | not yet |
 | Business 3 to 5 | none (doc 28, sections 9 and 10) | not yet |
 | Strategy: Situation & Direction (Current Situation Analysis, SWOT Analysis, Strategic Compass, Strategic Period) | none | not yet |

@@ -7,7 +7,8 @@ import TickField from "../../../controls/TickField.tsx";
 import AddButton from "../../../controls/AddButton.tsx";
 import { Fragment, ReactNode, useState } from "react";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
-import { BUSINESS_COMPETITOR_TYPES, BUSINESS_OFFERING_CATEGORIES, BusinessCompetitorValue, BusinessCustomerProfileValue, BusinessCustomerSegmentValue, BusinessOfferingValue, businessSegmentNeeds, createBusinessCompetitor, createBusinessCustomerProfile, createBusinessOffering } from "../../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_COMPETITOR_TYPES, BUSINESS_OFFERING_CATEGORIES, BusinessCompetitorValue, BusinessCustomerProfileValue, BusinessCustomerSegmentValue, BusinessOfferingValue, businessSegmentNeeds, businessSegmentFunctionalItems, functionalNeedIds, reconcileLineIds, createBusinessCompetitor, createBusinessCustomerProfile, createBusinessOffering } from "../../../../framework/engine/AnswerUtils.ts";
+import { randomId } from "../../../../framework/engine/Readers.ts";
 import FieldRow from "../../fields/FieldRow.tsx";
 import { BusinessAddButton, BusinessCard, BusinessRemove, BusinessStep, BusinessTicks, OptionalNote } from "../../cards/BusinessCardFields.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
@@ -18,6 +19,7 @@ import TextLink from "../../fields/TextLink.tsx";
 import TextBox from "../../../controls/TextBox.tsx";
 import { type OtherQuestion, competitorOtherAdd, competitorOtherName, competitorOtherRemove, competitorOtherSettle, competitorOtherTick, competitorOthers, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, shownOpenings, COMPETITOR_SUBCHANNELS, COMPETITOR_BAND_LINE, bandTone, COMPETITOR_CHANGES, valueProfiles, draftToAdd, hardToBeat, insightsDraft, reviewPlatformOrder } from "../../../../framework/engine/CompetitorQuestions.ts";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
+import { OFFERING_BOX_QUESTIONS, OFFERING_QUESTIONS, offeringChoose, type OfferingAnswers, type OfferingContext, type OfferingQuestionId, draftOffered, offeringAsks, offeringOptions, offeringShown, valuePropositionDraft, valuePropositionOpenItems } from "../../../../framework/engine/OfferingQuestions.ts";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import { type ProfileBox, type ProfileQuestion, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileRate, profileRatings, profileWho, profileQuestionsOf, profileSettle, profileShown, proposedBusinessProfiles, segmentNeedTicks } from "../../../../framework/engine/ProfileQuestions.ts";
 import { type SegmentBox, type SegmentQuestion, segmentChoose, segmentOptions, segmentQuestionsOf, segmentRowChoice, segmentSettle, segmentSettledNotes } from "../../../../framework/engine/SegmentQuestions.ts";
@@ -585,6 +587,22 @@ export function useFoundationSubsections(earlier: Earlier) {
                                                 <div className="legal-entity-org-section legal-entity-org-band">
                                                     {profileQuestionOf(profile, profileIndex, shown, choices)}
                                                 </div>
+                                                {kind.id === "functional" ? (
+                                                    // Functional (owner, 2026-11-07): the jobs ticked and rated above, the customer's own tasks in the numbered list below,
+                                                    // as built; each line keeps its id, so an Offering's tick follows the line through edits.
+                                                    <div className="legal-entity-org-section">
+                                                        <FieldRow pair fullList label="Their own tasks" info={[kind.text]}>
+                                                            <NumberedListInput
+                                                                label={kind.title + " needs for " + segmentPath + ", Profile " + (profileIndex + 1)}
+                                                                items={profile.needs.functional}
+                                                                lineIds={functionalNeedIds(profile.needs)}
+                                                                disabled={disabled}
+                                                                suggestions={otherProfileNeeds(segment, profileIndex, "functional")}
+                                                                onChange={(items) => updateProfile(segmentIndex, profileIndex, { needs: { ...profile.needs, functional: items, functionalIds: reconcileLineIds(profile.needs.functional, functionalNeedIds(profile.needs), items, () => randomId("need")) } })}
+                                                            />
+                                                        </FieldRow>
+                                                    </div>
+                                                ) : (
                                                 <div className="legal-entity-org-section business-note-band">
                                                     <OptionalNote
                                                         label="Notes"
@@ -596,6 +614,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                                                         onChange={(next) => updateProfile(segmentIndex, profileIndex, { needs: { ...profile.needs, [kind.id]: next.split("\n") } })}
                                                     />
                                                 </div>
+                                                )}
                                             </Fragment>
                                         ) : (
                                         <div className={"legal-entity-org-section" + (at % 2 === 1 ? " legal-entity-org-band" : "")} key={kind.id}>
@@ -616,7 +635,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                                     })}
                                 </div>
                             </div>
-                        ), ["Functional: one numbered line a need; the Offerings choose from these.", "Emotional and Social: tick and rate up to three each, then add Notes."], groupFold(profile.id, "Needs", segmentPath + ", Profile " + (profileIndex + 1)))}
+                        ), ["Functional: tick and rate up to three jobs, then write their own tasks, one numbered line each; the Offerings choose from these lines.", "Emotional and Social: tick and rate up to three each, then add Notes."], groupFold(profile.id, "Needs", segmentPath + ", Profile " + (profileIndex + 1)))}
 
                     </>
                 ))}
@@ -1050,9 +1069,36 @@ export function useFoundationSubsections(earlier: Earlier) {
             two kinds of need it exists to address are recalled
             beneath it.
         */
+        /* The Offerings' answers as their cards show them (doc 43: starting values included), read by the Value Proposition's draft and open items too. */
+        const worries = [...new Set(segment.profiles.flatMap(profile => profileShown(profile.questions ?? {}, segment.questions, asked).e3 ?? []))];
+        const offeringContext = (offering: BusinessOfferingValue): OfferingContext => ({
+            type: offering.category, stage: identity?.stage, differentiation: identity?.differentiation, pay: segment.questions.pay ?? [], worries
+        });
+        const offeringAnswers = segment.offerings.map(offering => offeringShown(offering.questions ?? {}, offeringContext(offering)));
+
+        /* The draft (doc 42, 1): one link for each Offering with a Type (the doc's proposal for several Offerings), adding its sentence at the end of the text. */
+        const drafts = draftOffered(segment)
+            ? segment.offerings.map((offering, at) => ({ offering, draft: offering.category.trim() ? valuePropositionDraft(segment, offering, offeringAnswers[at], offeringContext(offering)) : "" })).filter(entry => entry.draft && draftToAdd(segment.valueProposition, entry.draft))
+            : [];
+        const openItems = valuePropositionOpenItems(segment, offeringAnswers);
+
         const valueProposition = group(
             "Value Proposition",
             <div className="business-foundation-field">
+
+                {drafts.map(({ offering, draft }) => (
+                    <TextLink
+                        key={offering.id}
+                        className="business-competitor-draft"
+                        disabled={disabled}
+                        onClick={() => {
+                            const adding = draftToAdd(segment.valueProposition, draft);
+                            updateSegment(segmentIndex, { valueProposition: segment.valueProposition.trim() ? segment.valueProposition.replace(/\s+$/, "") + "\n\n" + adding : adding });
+                        }}
+                    >
+                        {segment.offerings.length > 1 ? "Add a draft for " + (offering.name.trim() || "this Offering") : "Add a draft"}
+                    </TextLink>
+                ))}
 
                 <StrategyTextArea
                     className="interview-input business-foundation-proposition-input"
@@ -1135,13 +1181,20 @@ export function useFoundationSubsections(earlier: Earlier) {
 
                 })()}
 
+                {/* The open items (doc 42, 2): read-only, under the text. */}
+                {openItems.length > 0 && (
+                    <FieldRow pair fullList label="Open items" info={["Gaps between what your customers want and what your Offerings give. They are reminders, not errors."]}>
+                        <ListStatic marker="bullet" lines={openItems.map((item, at) => ({ key: item.kind + at, text: item.kind + ": " + item.text }))} />
+                    </FieldRow>
+                )}
+
             </div>,
-            SUBSECTIONS.valueProposition.note
+            [...SUBSECTIONS.valueProposition.note, "Add a draft: a starting sentence made from your answers on this page. It is yours once added: change it freely.", "Based on: Moore's positioning template, and the pains and gains of the Value Proposition Canvas."]
         );
 
         /* ---- 4. The Offerings sold to this Segment ---- */
 
-        const needs = businessSegmentNeeds(segment, "functional");
+        const needs = businessSegmentFunctionalItems(segment);
 
         const offerings = (
             <>
@@ -1170,10 +1223,11 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 offering.category === CATEGORY_OTHER
                                     ? offering.categoryOther
                                     : offering.category,
-                                offering.needsAddressed.length
-                                    ? offering.needsAddressed.length +
-                                        (offering.needsAddressed.length === 1 ? " need" : " needs")
-                                    : ""
+                                (() => {
+                                    // The items ticked, each once (the same words on two Profiles are one item, ticked by both ids).
+                                    const count = needs.filter(item => item.ids.some(id => offering.needsAddressed.includes(id))).length;
+                                    return count ? count + (count === 1 ? " need" : " needs") : "";
+                                })()
                             ),
                             // What kind of thing it is, before what it is for: an Offering is a product, a service or both, and that frames everything asked after it. Under the name, from its box's edge.
                             headRow: labelled(
@@ -1234,33 +1288,70 @@ export function useFoundationSubsections(earlier: Earlier) {
                                         Add Functional Needs to a Customer
                                         Profile first, then choose them here.
                                     </p>
-                                ) : needs.map(need => (
-                                    <TickField className="business-foundation-tick" key={need} disabled={disabled} checked={
-                                                offering.needsAddressed.includes(need)
+                                ) : needs.map(item => (
+                                    // Ticked by the items' ids (owner, 2026-11-07), so editing an item's words on the Profile keeps the tick.
+                                    <TickField className="business-foundation-tick" key={item.ids[0]} disabled={disabled} checked={
+                                                item.ids.some(id => offering.needsAddressed.includes(id))
                                             } onChange={(event) => change({
                                                 needsAddressed: event.target.checked
-                                                    ? [...offering.needsAddressed, need]
+                                                    ? [...new Set([...offering.needsAddressed, ...item.ids])]
                                                     : offering.needsAddressed.filter(
-                                                        entry => entry !== need
+                                                        entry => !item.ids.includes(entry)
                                                     )
                                             })}>
                                         <span className="business-foundation-tick-label">
-                                            {need}
+                                            {item.text}
                                         </span>
                                     </TickField>
                                 ))}
 
                             </div>
 
-                            {description(
-                                segmentPath + ", Offering " + (index + 1),
-                                SUBSECTIONS.offerings.description,
-                                offering.description,
-                                (next) => change({ description: next }),
-                                false,
-                                undefined,
-                                groupFold(offering.id, "Description", segmentPath + ", Offering " + (index + 1))
-                            )}
+                            {/* The six Description boxes (doc 43; owner, 2026-11-07), as the Profile's and the Competitor's: each asks its questions, one band each
+                                (O3's band holds its two rows), then its optional Notes, the box's saved text. A starting value shows until changed. */}
+                            {(() => {
+                                const context = offeringContext(offering);
+                                const shown = offeringAnswers[index];
+                                const whose = segmentPath + ", Offering " + (index + 1);
+                                const write = (id: OfferingQuestionId, next: string[]) => change({ questions: { ...shown, [id]: offeringChoose(id, shown[id] ?? [], next) } as OfferingAnswers });
+                                const ask = (id: OfferingQuestionId) => {
+                                    const question = OFFERING_QUESTIONS.find(entry => entry.id === id)!;
+                                    const options = offeringOptions(id, context).map(option => ({ ...option }));
+                                    const chosen = shown[id] ?? [];
+                                    return (
+                                        <FieldRow key={id} pair fullList label={question.label} info={[...question.info]}
+                                            labelNote={question.max !== undefined ? <span className="business-foundation-tick-note">{question.max + " max"}</span> : undefined}>
+                                            {question.many
+                                                ? (
+                                                    <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={question.label}>
+                                                        <BusinessTicks name={whose + " " + question.label} disabled={disabled} options={options} chosen={chosen} max={question.max} onChange={(next) => write(id, next)} />
+                                                    </div>
+                                                )
+                                                : <RadioChoice label={question.label} group={offering.id + "-" + id} className="legal-entity-radio-stack" disabled={disabled} value={chosen[0] ?? ""} onChange={(next) => write(id, [next])} options={options} />}
+                                        </FieldRow>
+                                    );
+                                };
+                                return description(
+                                    whose,
+                                    SUBSECTIONS.offerings.description.map(part => {
+                                        const bands = (OFFERING_BOX_QUESTIONS[part.id] ?? []).map(band => band.filter(id => offeringAsks(id, context))).filter(band => band.length > 0);
+                                        return {
+                                            ...part,
+                                            questions: bands.map(band => <Fragment key={band.join("-")}>{band.map(ask)}</Fragment>),
+                                            note: true,
+                                            placeholder: NOTE_PLACEHOLDERS[part.id],
+                                            level: 4,
+                                            weight: 2 + bands.flat().length * 4
+                                        };
+                                    }),
+                                    offering.description,
+                                    (next) => change({ description: next }),
+                                    true,
+                                    undefined,
+                                    groupFold(offering.id, "Description", whose),
+                                    true
+                                );
+                            })()}
 
                         </>
                     );

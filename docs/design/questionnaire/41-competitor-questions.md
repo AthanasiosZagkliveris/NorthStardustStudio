@@ -1,6 +1,6 @@
 # 41. The Competitor card: every question and option, as built
 
-Status: **specification**, written 2026-11-03, updated 2026-11-04; built. Every question of the Competitor card (Business System, page 1, tile "Competitors"), in the order it is asked. For each: its control, when it is asked, its options, what its "i" says and what it connects to. **Built (2026-11-04):** the Type, the text boxes kept as notes, and K1 to K10 (`CompetitorQuestions.ts`, the card in `useFoundationSubsections.tsx`). **Not built yet:** what reads the answers outside the card (the documents' strengths, weaknesses, opportunities and threats, the Review, Positioning and the Value Proposition).
+Status: **specification**, written 2026-11-03, updated 2026-11-08; built. Every question of the Competitor card (Business System, page 1, tile "Competitors"), in the order it is asked. For each: its control, when it is asked, its options, what its "i" says and what it connects to. **Built (2026-11-04):** the Type, the text boxes kept as notes, and K1 to K10 (`CompetitorQuestions.ts`, the card in `useFoundationSubsections.tsx`). **Not built yet:** what reads the answers outside the card (the documents' strengths, weaknesses, opportunities and threats, the Review, Positioning and the Value Proposition).
 
 Related: doc 35 (the Segment, whose answers give K2, K3 and K9 their options and rows), doc 36 (the Profile, whose priorities order K8's rows), doc 38 (Positioning, which reads K10), doc 42 (the Value Proposition, which reads K8 and K10), doc 43 (the Offering, whose Type list K1 shares; a Review check against the Offerings waits until one exists), doc 34 (the list L1 and the value crosswalk, 5.2a), doc 28 (6.6, the design this refines), doc 02 (FUN-47, FUN-50 to FUN-58, the sources of the 2026-11-04 research), `src/framework/engine/AnswerBusinessFoundation.ts` and `src/components/interview/editors/foundation/shared.tsx` (the card today).
 
@@ -237,7 +237,7 @@ For Internal solution and Status quo the box stays text only: it asks about the 
   - 1 = Threat, 5 = Opportunity.
   - How each change could help or hurt them. The examples of each change, as on your Segment.
 - **Connections:**
-  - *Comes from:* the owner's decision (2026-11-04): one rating replaces the two tick lists of changes that help and changes that hurt. The Segment's ticks set the order of the rows; no row starts rated. SWOT's external factors, favourable or unfavourable [FUN-53]. The Segment's ticks set the order of the rows; no row starts rated.
+  - *Comes from:* the owner's decision (2026-11-04): one rating replaces the two tick lists of changes that help and changes that hurt. The Segment's ticks set the order of the rows; no row starts rated. SWOT's external factors, favourable or unfavourable [FUN-53].
   - *Read by (not built yet):* ratings of 1 and 2 are listed as the competitor's threats, and 4 and 5 as its opportunities (the SWOT, the documents and the exports); 3 is neither. K10's options; the Review.
 
 ## Section. Insights & Differentiation
@@ -253,7 +253,7 @@ A section of its own after the SWOT, as built: a title band that folds, as the D
 - **Asked when:** at least one of its options exists. With no options, only the text shows.
 - **Wording by type:** the same for every type; the options follow the type (below).
 - **Options:** built by the app from this card's answers, each by its rule, and shown only once its source question is answered:
-  - From K8's ratings, the whole scale. Each rated value has an opening score, (5 − rating) × weight, where the weight is 2 if a Profile of the Segment ticked the value in "What matters most" (doc 36, B1) and 1 otherwise; once B1 is rated (doc 36, section 11, proposed), the weight is the Profiles' highest rating of the value (1 to 5). The options come in score order; ties are broken by how many of the Segment's competitors rated the value low.
+  - From K8's ratings, the whole scale. Each rated value has an opening score, (5 − rating) × weight, where the weight is the Profiles' highest rating of the value in "What matters most" (doc 36, B1; B1 is rated, doc 36, section 11, built 2026-11-04), 1 to 5; 2 where a Profile of the Segment ticks the value but has not rated it, and 1 where no Profile ticks it. The options come in score order; ties are broken by how many of the Segment's competitors rated the value low.
     - Rating 1 or 2: what to offer, in the value's own words: "Offer lower prices", "Be faster", "Make it more convenient", "Offer better quality", "Earn a better reputation", "Offer more expertise", "Offer a tailored service", "Offer better support", "Make it safer", "Show shared values" (with the values' one-word names, owner 2026-11-06).
     - Rating 3: "Be known for [value]" (they are average, so there is room), for example "Be known for quality".
     - Rating 4: "Match them on [value]", shown only for a B1 value (customers expect it).
@@ -269,7 +269,7 @@ A section of its own after the SWOT, as built: a title band that folds, as the D
   - For each value rated 5: "[name] is hard to beat on [value], so compete elsewhere."
 - **Connections:**
   - *Comes from:* K4, K5, K6, K7, K8 and K9, and the Profiles' B1 (doc 36).
-  - *Read by (not built yet):* the draft at the end of the text: "Customers want [value], and [name] falls short there." for a B1 value rated 1 or 2, then "You could [opening]." for each tick ("You could offer better quality and results."); "Add to text" adds only the lines not already in the text, and is not shown when none is left; Positioning's Differentiation (doc 38); the Value Proposition (doc 42).
+  - *Read by (built):* the draft at the end of the text: "Customers want [value], and [name] falls short there." for a B1 value rated 1 or 2, then "You could [opening]." for each tick ("You could offer better quality."); "Add to text" adds only the lines not already in the text, and is not shown when none is left; Positioning's Differentiation (doc 38); the Value Proposition (doc 42).
 
 ## As built: the readings chosen (2026-11-04)
 
@@ -283,18 +283,12 @@ Where the text above left a choice, the build took the simplest reading:
 
 ## Other ways to answer (proposed, 2026-11-04)
 
-Each row keeps the current question and proposes another way to answer it, with its source; the owner chooses. A way that compares the competitor with the App User's own Offerings, prices, size or channels is withdrawn (The purpose, above).
+Each row keeps the current question and proposes another way to answer it, with its source; the owner chooses. A way that compares the competitor with the App User's own Offerings, prices, size or channels is withdrawn (The purpose, above). Only the open rows stay here; the rows decided or gone (K1, K2, K5, K7's loyalty ticks, K8, K9) are under Decided, below.
 
 | Question | Now | Another way | Source | Recommended |
 |---|---|---|---|---|
-| K1 What do they offer? | Product / Service / Hybrid | Withdrawn: "Which of your Offerings do they compete with?", ticks of the App User's own Offerings (doc 43) | Nwes business plan guidance: a grid of your products and services against each competitor, showing which each offers [FUN-56] | Keep Now: the App User may have no Offerings yet |
-| K2 Where do they sell? | The Segment's area list | Withdrawn: "Compared with you, where do they sell?" Smaller area / The same area / Larger area | Cornell: the more one firm's strategy resembles another's, the more the two compete [FUN-53] | Keep Now: the App User may have no Offerings yet |
 | K3 How big is their organisation? | Micro to Large | a. Withdrawn: "Compared with you, how big are they?" Smaller / About the same / Larger. b. "What role do they play in your market?" Market leader / Challenger / Follower / Specialist, with the meaning of each in the "i" | Kotler's market roles: leader, challenger, follower, nicher (Kotler, 1997, as cited in Cuellar-Healey and Gomez, 2013) [FUN-53, FUN-54] | Keep Now, plus b as an extra question; a withdrawn: the App User may have no Offerings or staff yet |
 | K4 Is their business growing? | A rating, Declining to Growing | "What signs have you seen?" Ticks: More locations / New products / Hiring / More reviews / Price cuts / Closures; the app draws growing, steady or declining from them | SBA: growing, steady or declining [FUN-50]; Kotler: sales, capacity and new investment as signs of performance (as cited in Cuellar-Healey and Gomez, 2013) [FUN-53] | Keep Now: it is quicker |
-| K5 How do they reach customers? | Ticks of channels | Withdrawn: the App User's own page 2 channels listed, each marked "They use it too" / "Only you", then their other channels | Cornell: compare products, prices, channels and promotion with close competitors [FUN-53] | Keep Now: the App User may have no Offerings or channels yet |
-| K7 (the loyalty ticks under Support & Follow Up) | Ticks of loyalty devices (they replace "Do their customers keep coming back?", which cannot be seen from outside) | Kotler's share of mind and share of heart, as two radios: "Do customers name them first?" Often / Sometimes / Rarely; "Do customers prefer them?" Often / Sometimes / Rarely | Kotler, as cited in Cuellar-Healey and Gomez, 2013 [FUN-53]; Bangladesh Open University, MBA 3313, Unit 4 [FUN-55]. The loyalty ticks as they stand: Invest Northern Ireland [FUN-51]; Business Tasmania, "Do they have a loyal following?" [FUN-58] | The loyalty ticks went (owner, 2026-11-04); "Do customers name them first?" would stand alone in K7 |
-| K8 (strengths and weaknesses) | Was two tick lists of L1, "chosen for" and "falls short" | One grid: each value the Segment's Profiles ticked in B1 rated Well / Partly / Poorly | Kotler's customer value analysis [FUN-55]; the Competitive Profile Matrix [FUN-57] | Decided: replaced by K8's 1 to 5 rating (owner, 2026-11-04) |
-| K9 (opportunities and threats) | Was two tick lists, changes that help and changes that hurt | One list of the Segment's changes, each marked Helps them / Hurts them / Both / Neither | SWOT: external factors, favourable or unfavourable [FUN-53] | Decided: replaced by K9's rating, Clear threat to Clear opportunity (owner, 2026-11-04) |
 | New, optional, in Insights | Not asked | "How would they react to a new rival?" Ignore it / React to some moves / Fight back on everything / Unpredictable | Kotler's reaction patterns: laid-back, selective, tiger, stochastic [FUN-55]; Porter's four corners [FUN-52] | Yes, as optional |
 
 ## What changes when an answer above changes
@@ -302,12 +296,12 @@ Each row keeps the current question and proposes another way to answer it, with 
 - A change of the type removes, on the next choice, the answers of the questions the new type does not ask. The text boxes keep their words: the type renames them and never empties them, as built.
 - A change of a Profile's B1 changes only the order of K8's rows and the weights of K10's options, never a rating.
 - Unticking a platform in K6 clears its rating; a change of the Organisation's country or first activity changes only the order of K6's rows.
-- A change of K4, K6, K7, K8 or K9 changes §K8's options; a ticked option no longer offered is removed on the next choice.
+- A change of K4, K6, K7, K8 or K9 changes K10's options; a ticked option no longer offered is removed on the next choice.
 - A change of the Segment's `reach` or `trends` changes only the order of K2's options or K9's rows.
 
 ## Decided, and still to decide
 
-**Decided (owner, 2026-11-03):**
+**Decided (owner):**
 - The Competitor's SWOT stays whole and is not the Strategy SWOT (2026-11-04).
 - No price question (2026-11-04).
 - No job question: an Offering question (2026-11-04).
@@ -319,6 +313,7 @@ Each row keeps the current question and proposes another way to answer it, with 
 - The loyalty question within the journey, under K7's Support & Follow Up (2026-11-04); then its ticks removed: they repeated K5's channels (owner, 2026-11-04).
 - K5 not rated (owner, 2026-11-04: the channels do not need the five rounds): each channel ticked, then its sub-channels, the Profile's own lists, so where the customers are and the competitor is not becomes an opening in K10.
 - K8 shows every value, the Profiles' highest rated first, each chosen value with a band of one colour, darker the more Profiles chose it (owner, 2026-11-04, replacing the same evening's rows of the Profiles' values only, then bold, then a colour per Profile, then a band by rating). K9 has no band: no answer chooses a change directly.
+- The Market and Customer Experience Notes say, before anything is written, only what no question asks (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments"): Market "What no answer above says about their market"; Customer Experience "What no rating above says, in their customers' words".
 - The SWOT has two Notes (`OptionalNote`, titled "Notes", as on the Profile card; owner, 2026-11-05): one under K8 for strengths and weaknesses, one under K9 for opportunities and threats, with no "i", as every card's Notes (its "i" fell off the line, 2026-11-05); the placeholder says what belongs there ("Strengths and weaknesses no rating above says"; "Opportunities and threats no change above says"). Text saved in the four boxes before is read into them: the second box's text joined in as its own line, "Weaknesses: ..." (and "Strengths: ..." before it where there is any), likewise "Threats: ..." (`AnswerBusinessFoundation.ts`, tested). The Market document's table has one column, Strengths and weaknesses; the export's two, Strengths and weaknesses, Opportunities and threats.
 - No attract question (owner, 2026-11-04): it repeated the channels ("Content / social posts" is Social media, "Events / fairs" In person, "Referral rewards" Referrals or affiliates, and paid ads run on those channels). Customer Acquisition asks only K5; answers saved to it are dropped when read.
 - "Show all" removed; the platforms end in Other, written and rated; the values are the fixed list L1 with no Other (owner, 2026-11-04).
@@ -331,11 +326,13 @@ Each row keeps the current question and proposes another way to answer it, with 
 - The Type shown on each competitor's small tile (2026-11-04).
 - Degree and comfort questions use the 1 to 5 rating unless named ranges exist: K4 (2026-11-04).
 - No "Not sure" options (2026-11-02); no "Other" unless another answer can exist (2026-11-04).
-- Competitors belong to their Segment.
+- Competitors belong to their Segment (2026-11-03).
+- Other ways to answer, K1, K2 and K5 (2026-11-04): each keeps its question. The ways that compare with the App User's own Offerings, area or channels are withdrawn ("Which of your Offerings do they compete with?" [FUN-56]; "Compared with you, where do they sell?" [FUN-53]; the App User's page 2 channels marked "They use it too" / "Only you" [FUN-53]): the App User may have no Offerings or channels yet (The purpose).
+- Other ways to answer, K7 (2026-11-04): the loyalty ticks went; Kotler's share of mind and share of heart ("Do customers name them first?", "Do customers prefer them?" [FUN-53, FUN-55]) are not added.
+- Other ways to answer, K8 and K9 (2026-11-04): the grid of Well / Partly / Poorly [FUN-55, FUN-57] and the marks Helps them / Hurts them / Both / Neither [FUN-53] are replaced by K8's and K9's 1 to 5 ratings.
 
 **Still to decide:**
 - Whether K5's words follow the plain words above ("Shops or wholesalers", "Referrals or affiliates") or the page 2 tile names ("Retail & Wholesale", "Referral & Affiliates"). The plain words follow the "or" rule, so the page 2 names would change with them.
-- K1 to K4, K6, K7 and §K8, the built boxes as choices, including the questions from the research of 2026-11-04 (K4 [FUN-50], K6 [FUN-62 to FUN-65], K7 [FUN-51, FUN-59]) and §K8 from the card's own answers.
 - The order of K6's platforms by industry and country rests on directory and vendor lists, not on a survey of use; a survey of UK consumers' use of review sites would improve it.
 - Considered, not added: "How much effort does buying from them take?" (customer effort [FUN-60]). It repeats L1's "Convenience", a row of K8, and K7's rating of each stage.
 - Porter's four corners (goals, assumptions, strategy, capabilities [FUN-52]) also ask how a competitor would react to you: proposed as an optional question in Insights, with Kotler's reaction patterns as its options (Other ways to answer, last row).

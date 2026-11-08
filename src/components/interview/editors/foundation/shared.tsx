@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import type { SegmentIdentity } from "./identityLink.ts";
-import { BUSINESS_COMPETITOR_TYPES, BusinessCustomerSegmentValue, BusinessFoundationValue, BusinessProfileNeedsValue } from "../../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_COMPETITOR_TYPES, BusinessCustomerSegmentValue, BusinessFoundationValue } from "../../../../framework/engine/AnswerUtils.ts";
 
 /**
  * The instruction bullets for each subsection, and the parameter
@@ -132,11 +132,11 @@ export const SUBSECTIONS = {
         ],
         description: [
             { id: "function", title: "Function", text: "What does it do, and what result should it deliver?" },
-            { id: "benefit", title: "Customer Benefit", text: "What problem does it solve, or what does the customer gain or achieve?" },
+            { id: "benefit", title: "Customer Benefit", text: "Which problem does it solve, in your customers' words?" },
             { id: "scope", title: "Content & Scope", text: "What does it include, and what are its boundaries?" },
-            { id: "delivery", title: "Purchase & Delivery", text: "How does the customer purchase, pay for, and receive the offering?" },
-            { id: "support", title: "Support & Communication", text: "What support and communication does the customer receive?" },
-            { id: "requirements", title: "Requirements & Conditions", text: "What does the customer need to provide or have, and what conditions apply?" }
+            { id: "delivery", title: "Purchase & Delivery", text: "The steps from order to delivery: prices, deposits, timings." },
+            { id: "support", title: "Support & Communication", text: "What the help and the updates include." },
+            { id: "requirements", title: "Requirements & Conditions", text: "The details of what they give you, and the conditions that apply." }
         ]
     }
 
@@ -150,19 +150,26 @@ export const SUBSECTIONS = {
 /** What each note of a Profile or a Competitor says before anything is written (owner, 2026-11-04): what belongs there and is not asked above. */
 export const NOTE_PLACEHOLDERS: Record<string, string> = {
     personal: "A name, a job title, where they live",
-    psychographics: "What they value, believe and enjoy",
+    psychographics: "What they believe and enjoy, beyond what matters most",
     hubs: "The names of their groups, accounts and events",
     habits: "Where and when they buy, and the steps",
     goals: "What they want, in their own words",
     challenges: "What goes wrong for them, in their words",
     objections: "Their doubts, in their own words",
     offerings: "What they sell, by name",
-    market: "The industries and places they serve",
+    market: "What no answer above says about their market",
     acquisition: "Their account and shop names, their partners",
-    experience: "What their customers say, in their words",
+    experience: "What no rating above says, in their customers' words",
     strengths: "Strengths and weaknesses no rating above says",
     opportunities: "Opportunities and threats no change above says",
-    needs: "What no tick above says"
+    needs: "What no tick above says",
+    // The Offering's Notes (owner, 2026-11-07): what no question of the box says.
+    function: "What it is, by name",
+    benefit: "The benefit in your customers' words",
+    scope: "Counts, inclusions and limits",
+    delivery: "Packaging and the steps",
+    support: "Names and how often",
+    requirements: "Care instructions and standards"
 };
 
 export interface DescriptionPart {
@@ -309,7 +316,7 @@ export function competitorParts(typeId: string): DescriptionPart[] {
 export const OPTIONAL_DESCRIPTION_PART = "business-data";
 
 /** Which of the three need lists a parameter names. */
-export type BusinessNeedKind = keyof BusinessProfileNeedsValue;
+export type BusinessNeedKind = "functional" | "emotional" | "social";
 
 /**
  * What every OTHER Profile in a Segment has listed under one kind

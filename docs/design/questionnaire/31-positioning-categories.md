@@ -1,8 +1,8 @@
 # 31. Positioning categories: collected data (owner, 2026-10-27)
 
-Status: **collection**, written 2026-10-27, updated 2026-11-02. The owner's categories for the buyer, the user and the purpose of an offering, written down as given: sections 1 to 8 are the collection (its wording, numbers and order are the owner's; the only edits are the layout of the lists and the spelling of "Seniors"). **This document owns the age terms and the buyer and user relationships.** The first version builds from it the buyer's category, the relationships and the purposes (doc 38) and the age terms of the Segment (doc 35). Section 9 is the register of the decisions taken on the collection.
+Status: **collection**, written 2026-10-27, updated 2026-11-08. The owner's categories for the buyer, the user and the purpose of an offering, written down as given: sections 1 to 8 are the collection (its wording, numbers and order are the owner's; the only edits are the layout of the lists and the spelling of "Seniors"). **This document owns the age terms and the buyer and user relationships.** The first version builds from it the buyer's category, the relationships and the purposes (doc 38) and the age terms of the Segment (doc 35). Section 9 is the register of the decisions taken on the collection.
 
-> **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Doc 33 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, age limits, accessibility, caregiving and the rest) is a future feature: doc 33. Contents of the documents: `docs/README.md`; index: `docs/index.md`; glossary: `docs/app/glossary.md`.
+> **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Doc 33 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, accessibility, caregiving and the rest) is a future feature: doc 33. Age limits are checked on the Offering (O12) and the Review (doc 43, O12). Contents of the documents: `docs/README.md`; index: `docs/index.md`; glossary: `docs/app/glossary.md`.
 
 > **Where the decisions stand (2026-10-29).** Sections 1 to 8 are the owner's collection as given. Section 9 is the register of every decision taken on it; section 10 holds the reference tables. The first version uses only what doc 33 names; the rest is future (doc 33).
 
@@ -154,23 +154,7 @@ Practical examples for each buyer and user relationship, using real-world organi
 
 ## 8. Relationship-to-purpose mapping
 
-The table shows which of the 12 purposes are most relevant to each relationship. **● primary relevance · ○ possible relevance · blank = generally less directly relevant.** **Replaced on 2026-10-27** by the owner's complete table (12 columns in every row; the first paste had 11 cells in every row and no header-aligned Access & support column). Where a row's cells moved between the two pastes, the second is the owner's and stands.
-
-| Buyer–user relationship | Learn & develop | Health & care | Gift & appreciation | Entertainment | Social connection | Productivity | Business growth | Creation | Everyday needs | Protection | Compliance | Access & support |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Parent / guardian | ● | ● | ○ | ● | ● |  |  | ○ | ● | ● |  | ○ |
-| Caregiver | ○ | ● | ○ | ○ | ● | ● |  |  | ● | ○ | ● | ● |
-| Family member / relative | ○ | ○ | ● | ● | ● |  |  | ○ | ○ |  |  | ○ |
-| Spouse / romantic partner | ○ | ○ | ● | ● | ● |  |  | ○ | ○ |  |  |  |
-| Friend / acquaintance | ○ |  | ● | ● | ● |  |  | ● |  |  |  |  |
-| Other personal relationship | ○ | ○ | ○ | ○ | ● | ○ |  | ○ |  |  |  | ○ |
-| Employer → employees | ● | ● | ● | ○ | ● | ● | ● | ○ | ● | ● | ○ | ○ |
-| Business partner / co-owner | ● |  |  |  | ○ | ● | ● | ● | ○ | ● |  |  |
-| Business → clients / customers | ○ | ○ | ○ | ○ | ○ | ● | ● | ● | ● | ● | ○ | ○ |
-| Professional intermediary → client | ○ | ○ |  |  |  | ● | ● | ● | ○ | ● |  | ○ |
-| Sponsor / funder → recipients | ● | ● | ○ | ○ | ○ | ○ | ○ | ○ | ○ |  |  | ● |
-
-This is a practical starting model, not a fixed classification. For example, a parent might buy a creative product primarily for entertainment rather than education.
+The relationship-to-purpose table is in section 10.4 (its single copy).
 
 ## 9. Decisions register (2026-10-29)
 
@@ -180,7 +164,7 @@ The decisions of 2026-10-27 to 2026-10-29, one row each, by topic. The rounds of
 |---|---|---|
 | 1 | Age stages are one fixed set with the edge rule "from X up to but not including Y" (10.1) | decided; the first version uses the coarse groups only; the detailed stages are future |
 | 2 | The stage **term** leads; the age is its definition, except where a country's law states a specific limit (shown as the law states it) | decided |
-| 3 | A person aged exactly 74 is a Dependent senior and in no buyer stage | confirmed |
+| 3 | Active Retirees are 65 to 74 and Dependent seniors 75+; a Dependent senior is in no buyer stage | changed (doc 35, Box 1); was "a person aged exactly 74 is a Dependent senior", confirmed 2026-10-27 |
 | 4 | The buyer stages are the user stage names over 18 to 74; all buyer categories share them | decided; future |
 | 5 | Micro-Buyers (16 to 18) are a restricted sub-category of Direct Buyers, not a separate category | decided; future |
 | 6 | What the law does at an age is looked up from the customers' country automatically (10.2); ages are placed in the Segment, maybe as an "i" | decided; first version (doc 33 section 6) |
@@ -193,8 +177,8 @@ The decisions of 2026-10-27 to 2026-10-29, one row each, by topic. The rounds of
 | 13 | Mid-Market maps to 50 to 249 employees | confirmed (doc 28) |
 | 14 | Doc 28 stands: a multi-sided market answers for the anchor side only while Planning and Launching; segments 1, 1, 2, any; stage durations as in the Global Settings; the End User block at any stage; Central Government and Heavily Regulated Markets open from Managing | decided; multi-sided is future |
 | 15 | The database schema is deleted | decided |
-| 16 | I7g (what matters most) routes into the second Profile's P9 and P17 ticks (10.3) | decided; future |
-| 17 | I7f (who chooses) routes into the Profile's P21 (10.5) | decided; future |
+| 16 | I7g (what matters most) routes into the second Profile's P9 and P17 ticks (10.3) | removed (doc 33, 5) |
+| 17 | I7f (who chooses) routes into the Profile's P21 (10.5) | removed (doc 33, 5) |
 | 18 | I7e is replaced by the 22 relationships; the Profile field is P25, "Buyer's Relationship to this User" | decided; the relationship is in the first version |
 | 19 | Dual-Intent as a fifth option of I7b | superseded by doc 33 section 5: the buyer's category is a separate question (built 2026-10-29 as I7h) |
 | 20 | A Dual-Intent buyer gets a second Profile for the dependents; I7f has household wording for them (10.5) | decided; future |
@@ -217,7 +201,7 @@ The decisions of 2026-10-27 to 2026-10-29, one row each, by topic. The rounds of
 | 37 | Every question before the Purpose (including the buyer and user relationship and the user's life stage) is in the left column of the Early Positioning tile | built 2026-10-30 |
 | 38 | Decided 2026-10-30 (the owner: close the open points): (a) a purpose a table does not list is read from the next table (the inheritance rule), so the life-stage table's three missing purposes and the business relationship tables' missing ones are closed as they are; (b) the Outcome lists (buyer, user) are approved as written; (c) the relationships offered for each category are approved as in the table above (a Parent or a Caregiver is offered to both categories); (d) the ● and ○ of the user life stage matrix only hide the blanks, the stages keep their natural order; (e) the master matrix is a reference: its umbrella relationships (Landlord, Personal professional, Employer) and its B2B names are not built, doc 28 keeps its lists; (f) no "Recommended" tag is added: ranking first is the highlight, and no new element is made | decided |
 
-**Still open** (doc 33, section 9): the four coarse user life stages and their edges; which ages go in the Segment and where; the country picker. (Purpose, Differentiation and Outcome as three questions: settled 2026-10-30, decision 31.)
+**Closed (built):** the country picker (doc 33, section 3); the four coarse user life stages (built 2026-10-29, decision 23) and the Segment's age terms with their ages (doc 35, Box 1, question 1); the legal ages are checked on the Offering (O12) and the Review (doc 43, O12). (Purpose, Differentiation and Outcome as three questions: settled 2026-10-30, decision 31.) **Still open:** the owner's two questions of 10.6.
 
 ## 10. Reference tables
 
@@ -241,10 +225,10 @@ Kept from the decision rounds; each is the single copy.
 | | Established | 25 | 40 |
 | | Peak | 40 | 55 |
 | | Mature | 55 | 65 |
-| Seniors | Active Retirees | 65 | 74 |
-| | Dependent seniors | 74 | no limit |
+| Seniors | Active Retirees (65 to 74, doc 35) | 65 | 75 |
+| | Dependent seniors (75+, doc 35) | 75 | no limit |
 
-The groups are the same intervals joined: Baby [0, 3), Child [3, 11), Teenager [11, 18), Minors [0, 18), Working Adult [18, 65), Seniors [65, no limit). The **buyer stages** are the same names over [18, 74) and the Micro-Buyers over [16, 18) (section 2). A person aged exactly 74 is a Dependent senior and so is **not** in a buyer stage: **confirmed by the owner on 2026-10-27**; it is the one place the edge rule changes who counts as a buyer.
+The groups are the same intervals joined: Baby [0, 3), Child [3, 11), Teenager [11, 18), Minors [0, 18), Working Adult [18, 65), Seniors [65, no limit). The **buyer stages** are the same names over [18, 75) and the Micro-Buyers over [16, 18) (section 2). Active Retirees are 65 to 74 and Dependent seniors 75+ (doc 35, Box 1); a Dependent senior is **not** in a buyer stage. (Until doc 35, a person aged exactly 74 was a Dependent senior, confirmed by the owner on 2026-10-27.)
 
 **The term leads, the age defines it (owner's emphasis, 2026-10-27: "emphasis on the term than the age").** What the app shows, asks and stores is the **stage term** (Infancy, Early Childhood, Teenager, Established, Peak, Mature, Active Retirees and the others), **not a number of years**. The ages and the edge rule above are the **definition behind the term**: they decide which term a given age gets (and, for a date of birth, the app works the term out), and they are shown **as supporting detail** (for example in the "i" of the term), never as the thing the user has to choose or read first. A question about the user or the buyer therefore offers the terms as its options, in the owner's names and order. **Exception (owner, 2026-10-27): the laws of each country that state a specific limit.** Where a law names an age (a minimum age to buy alcohol, the age of online consent, the age of majority, the minimum working age and so on, section 10.2 and doc 30), the **number is the law's own and is shown and applied as the law states it**, for that country, even where it falls inside a stage or between two stages (for example 13 inside Mid Adolescence, 19 inside Young). The term still names the stage; the legal age is a separate, country-specific fact that the app looks up automatically (below) and states in years, with its source and status. *(This replaces the assistant's earlier reading of the emphasis, "age alone places a person in a stage", which stressed the age; the owner asked for the opposite emphasis.)*
 
@@ -281,12 +265,14 @@ Each of these edges falls inside or between the owner's stages: 13 and 14 inside
 
 | I7g, what matters most to the End User | Profile P9 tick (list L1) | Profile P17 tick (list L4) |
 |---|---|---|
-| Enjoyment and fun | (none) | Self-expression |
-| Comfort and ease | Ease and convenience | Save time |
-| Safety and care | Safety and low risk | Lower risk |
-| Learning and growth | Expert knowledge | Learn something new |
-| Looks and belonging | Shared values or identity | Self-expression |
-| Practical use | Ease and convenience | Save time |
+| Enjoyment and fun | (none) | Expression |
+| Comfort and ease | Convenience | (none: Save time was dropped from L4; L1's Speed) |
+| Safety and care | Safety / security | (none: Lower risk was dropped from L4; L1's Safety / security) |
+| Learning and growth | Expertise | Development |
+| Looks and belonging | Values | Expression |
+| Practical use | Convenience | (none: Save time was dropped from L4; L1's Speed) |
+
+The words are the current L1 and L4 options (doc 34, 5.2); P9 is now the Profile's B1 and P17 its E1 (doc 36).
 
 **Routing of I7f (who chooses) into the Profile's P21, "What part do they play in the purchase":** the Buyer chooses alone gives only "They will use it" (the decision flags stay with the buyer's own Profile); the End User asks and the Buyer approves gives "They will use it" and "They influence the decision"; the End User chooses and the Buyer pays gives "They will use it" and "They make the final decision".
 
@@ -296,7 +282,7 @@ Each of these edges falls inside or between the owner's stages: 13 and 14 inside
 
 The purpose table for the 12 relationships of the first version (the ten public-sector and government rows, 13 to 22, are in doc 33, section 14)
 
-● primary · ○ possible · blank = low direct relevance. Information and ordering only (section 9 item 3, section 9). This **replaces the 15-row table of section 8** for use; section 8 stays as the first collection.
+● primary · ○ possible · blank = low direct relevance. Information and ordering only (section 9 item 3, section 9). This **replaces the 15-row table of section 8** (the owner's first collection of 2026-10-27; its 11 consumer and business rows are rows 1 to 11 here, cell for cell; its public rows are in doc 33, section 14); section 8 now links here. It is a practical starting model, not a fixed classification: for example, a parent might buy a creative product primarily for entertainment rather than education.
 
 | # | Relationship | Learn & develop | Health & care | Gift & appreciation | Entertainment | Social connection | Productivity | Business growth | Creation | Everyday needs | Protection | Compliance | Access & support |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -334,6 +320,8 @@ The single test is: **does the buyer personally consume the offering, or only pa
 
 **Not recorded as a requirement of the questionnaire** (they describe how a product's system would work, not what the owner asks about the customer; the database schema was deleted on the owner's instruction): account linkage and forwarding, multi-profile and family-sharing logic, billing, data-sovereignty and administrator rules. They are kept here only as the reason for the two types.
 
+**Removed (doc 33, 5):** I7f and its routing into P21 are not in the app; the wording below is kept as collected.
+
 3. **I7f is asked for Dual-Intent Family Buyers, with its own wording.** The stored values stay `decides:buyer`, `decides:asks` and `decides:user`:
 
 | Stored value | Wording under Dual-Intent | P21 on the dependents' Profile |
@@ -346,7 +334,7 @@ The question reads: "How is the choice of the offering made between you and your
 
 ### 10.6 The B2B relationships as Proxy and Dual-Intent archetypes
 
-The owner pasted a text on how the six business relationships (6.2) position, grouped by intent. Recorded as collected material. The text has **no sources** and ends with two questions to the owner (is this for an internal sales deck or an external pitch; which archetype is the primary target customer), which are **not answered** here.
+The owner pasted a text on how the six business relationships (6.2) position, grouped by intent. Recorded as collected material. The text has **no sources** and ends with two questions to the owner (is this for an internal sales deck or an external pitch; which archetype is the primary target customer), which are **not answered** here and stay open.
 
 | Relationship (6.2) | Intent | Example | Value positioning | Buyer pain point | End-user pain point | Messaging focus |
 |---|---|---|---|---|---|---|
@@ -473,14 +461,14 @@ The buyer's life stage is a Student / Young Adult, a Worker (Adult) or a Senior 
 | Health, Care and Wellbeing | ○ | ○ | ○ | ○ | ● | ○ | ● | ● | ● | ○ | ○ | ● |
 | Gifting and Appreciation | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
 | Entertainment and Enjoyment | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) |
-| Social Connection and Belonging | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) |
+| Social Connection and Relationships | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) |
 | Productivity and Efficiency | ○ | ● | ● |  | ○ | ● | ● | ○ |  | ○ | ○ |  |
 | Business Growth and Performance |  | ○ | ○ |  |  | ○ | ● |  |  |  |  |  |
-| Creation and Self-Expression | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) |
+| Creation and Expression | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) | (not in the table) |
 | Everyday Needs and Convenience | ● | ● | ● | ○ | ● | ● | ● | ● | ● | ● | ● | ● |
 | Protection and Risk Reduction | ○ | ○ | ○ | ○ | ● | ○ | ● | ● | ● | ○ | ● | ● |
 | Compliance and Obligations |  |  |  |  | ● | ○ | ● | ● | ● |  | ○ | ● |
-| Access and Affordability | ● | ● | ○ | ○ | ● | ● | ○ | ● | ● | ● | ○ | ● |
+| Access and Social Support | ● | ● | ○ | ○ | ● | ● | ○ | ● | ● | ● | ○ | ● |
 
 **Core relationship logic (the owner's notes):**
 
