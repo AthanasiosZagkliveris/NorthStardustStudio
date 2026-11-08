@@ -19,7 +19,7 @@ import TextLink from "../../fields/TextLink.tsx";
 import TextBox from "../../../controls/TextBox.tsx";
 import { type OtherQuestion, competitorOtherAdd, competitorOtherName, competitorOtherRemove, competitorOtherSettle, competitorOtherTick, competitorOthers, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, shownOpenings, COMPETITOR_SUBCHANNELS, COMPETITOR_BAND_LINE, bandTone, COMPETITOR_CHANGES, valueProfiles, draftToAdd, hardToBeat, insightsDraft, reviewPlatformOrder } from "../../../../framework/engine/CompetitorQuestions.ts";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
-import { OFFERING_BOX_QUESTIONS, OFFERING_QUESTIONS, offeringChoose, type OfferingAnswers, type OfferingContext, type OfferingQuestionId, draftOffered, offeringAsks, offeringOptions, valuePropositionDraft, valuePropositionOpenItems } from "../../../../framework/engine/OfferingQuestions.ts";
+import { OFFERING_BOX_QUESTIONS, OFFERING_QUESTIONS, offeringChoose, type OfferingAnswers, type OfferingContext, type OfferingQuestionId, draftOffered, offeringAsks, offeringInfo, offeringOptions, valuePropositionDraft, valuePropositionOpenItems } from "../../../../framework/engine/OfferingQuestions.ts";
 import { effectiveOfferingAnswers, effectiveProfileAnswers, offeringContextOf, withFieldSet } from "../../../../framework/engine/EffectiveAnswers.ts";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import { type ProfileBox, type ProfileQuestion, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileRate, profileRatings, profileWho, profileQuestionsOf, profileSettle, proposedBusinessProfiles, segmentNeedTicks } from "../../../../framework/engine/ProfileQuestions.ts";
@@ -1309,7 +1309,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                                     const chosen = shown[id] ?? [];
                                     return (
                                         // (O3's second row stands under the first in one band: nested, the shared 12px between rows.)
-                                        <FieldRow key={id} pair fullList nested={id === "o3t"} label={question.label} info={[...question.info]}
+                                        <FieldRow key={id} pair fullList nested={id === "o3t"} label={question.label} info={[...offeringInfo(id, context)]}
                                             labelNote={question.max !== undefined ? <span className="business-foundation-tick-note">{question.max + " max"}</span> : undefined}>
                                             {question.many
                                                 ? (

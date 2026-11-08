@@ -44,11 +44,15 @@ const SENIORITY = [
 const LEVEL_OF_WORK: Record<string, string> = { owner: "owner", manager: "manager", professional: "specialist", technician: "specialist", service: "specialist", operator: "specialist" };
 
 const CARES = ["Lower price", "Speed", "Ease and convenience", "Quality and results", "Trust and reputation", "Expert knowledge", "A service made for them", "Good support", "Safety and low risk", "Shared values or identity"];
-const GOALS = ["Get easier access", "Learn something new", "Express who they are", "Meet a requirement", "Win customers or earn more", "Stay within the rules"];
+// (2026-11-08, the research: "Stay within the rules" merged into "Meet a requirement"; three goals added. "Enjoy themselves" is a person's goal, not offered to a business Profile.)
+const GOALS = ["Get easier access", "Learn something new", "Express who they are", "Meet a requirement", "Win customers or earn more", "Save time / money", "Get a problem fixed", "Enjoy themselves"];
+/** E1's goal a business Profile is not offered (profileOptionsOf). */
+const PEOPLE_GOALS = ["enjoy-themselves"];
 const FRUSTRATIONS = ["It costs too much", "It takes too long", "It is too complicated", "The quality is inconsistent", "It is hard to find someone they trust", "They lack the know-how", "They have no time or capacity"];
 
-/** Options merged into another (owner, 2026-11-06): a saved tick of the first is read as the second; with both ticked it is one tick, the higher rating kept. */
+/** Options merged into another (owner, 2026-11-06; E1, 2026-11-08): a saved tick of the first is read as the second; with both ticked it is one tick, the higher rating kept. */
 const MERGED: Readonly<Record<string, Readonly<Record<string, string>>>> = {
+    e1: { "stay-within-the-rules": "meet-a-requirement" },
     e2: { "prices-are-unclear": "it-costs-too-much", "they-worry-about-mistakes-or-rules": "they-lack-the-know-how", "support-is-poor": "it-is-too-complicated" }
 };
 /** The words of an option said of one person and in no pronoun (the ids stay those of the first wording: they are saved answers). */
@@ -59,13 +63,14 @@ const WORDS: Record<string, string> = {
     "a-service-made-for-them": "Personalisation", "good-support": "Support", "safety-and-low-risk": "Safety / security", "shared-values-or-identity": "Values",
     // Goals (E1, L4).
     "get-easier-access": "Accessibility", "learn-something-new": "Development", "express-who-they-are": "Expression", "meet-a-requirement": "Compliance",
-    "win-customers-or-earn-more": "Revenue", "stay-within-the-rules": "Governance",
-    // Frustrations (E2, L3; three merged).
-    "it-costs-too-much": "Cost", "it-takes-too-long": "Delays", "it-is-too-complicated": "Complexity", "the-quality-is-inconsistent": "Inconsistency",
-    "it-is-hard-to-find-someone-they-trust": "Trust", "they-lack-the-know-how": "Insecurity", "they-have-no-time-or-capacity": "Capacity",
-    // Worries (E3, L2).
+    "win-customers-or-earn-more": "Revenue", "save-time-money": "Efficiency", "get-a-problem-fixed": "Resolution", "enjoy-themselves": "Enjoyment",
+    // Frustrations (E2, L3; three merged; Hassle and Skills gap renamed 2026-11-08, the ids kept).
+    "it-costs-too-much": "Cost", "it-takes-too-long": "Delays", "it-is-too-complicated": "Hassle", "the-quality-is-inconsistent": "Inconsistency",
+    "it-is-hard-to-find-someone-they-trust": "Trust", "they-lack-the-know-how": "Skills gap", "they-have-no-time-or-capacity": "Capacity",
+    // Worries (E3, L2; Image added 2026-11-08).
     "the-price-or-their-budget": "Price", "whether-they-can-trust-you": "Credibility", "how-long-it-takes-to-start": "Onboarding", "how-hard-it-is-to-use": "Complexity",
     "risk-or-security": "Risk", "whether-it-fits-their-needs": "Fit", "support-after-they-buy": "Support", "the-effort-of-switching-from-what-they-use-now": "Migration",
+    "what-others-will-think": "Image",
     // Emotional needs.
     "calm-and-worry-free": "Calm", "rewarded-treated": "Rewarded", "relaxed-looked-after": "Nurtured", "healthy-and-well": "Healthy", "delighted-by-how-it-looks": "Delighted",
     "reminded-of-good-times": "Nostalgic", "fulfilled-as-they-grow": "Fulfilled", "proud-of-what-they-own-or-made": "Proud",
@@ -77,7 +82,7 @@ const WORDS: Record<string, string> = {
     // Other questions' words.
     "your-website": "Your website", "a-demo-trial-or-sample": "A demo / trial / sample", "a-quote-or-proposal": "A quote / proposal", "a-meeting-or-call": "A meeting / call"
 };
-const WORRIES = ["The price or their budget", "Whether they can trust you", "How long it takes to start", "How hard it is to use", "Risk or security", "Whether it fits their needs", "Support after they buy", "The effort of switching from what they use now"];
+const WORRIES = ["The price or their budget", "Whether they can trust you", "How long it takes to start", "How hard it is to use", "Risk or security", "Whether it fits their needs", "Support after they buy", "The effort of switching from what they use now", "What others will think"];
 
 /** The Emotional and Social needs as choices (doc 36, section 10; owner 2026-11-03): Bain's Elements of Value [FUN-48, FUN-49] in plain words, by the Segment's kind. */
 const EMOTIONAL_PEOPLE = ["Calm and worry-free", "Rewarded / treated", "Relaxed / looked after", "Entertained", "Attractive", "Healthy and well", "Delighted by how it looks", "Reminded of good times", "Motivated", "Hopeful", "Fulfilled, as they grow", "Proud of what they own or made"];
@@ -166,15 +171,15 @@ const QUESTIONS: readonly ProfileQuestion[] = [
         info: ["The help a typical person wants before buying; it can differ from how comfortable the Segment is online."]
     },
     { id: "d3", box: "habits", label: "When does {s} usually buy?", many: true, options: list(BUY_TIMES), info: ["When they actually buy, not when they are free: the Segment's work schedule says when they work.", "How they buy, in their words, goes in the Notes."] },
-    { id: "e1", box: "goals", label: "What does {s} want to achieve?", many: true, max: 3, options: list(GOALS), rating: { low: "Minor", high: "Main" }, info: ["The results they are after, not what they weigh when choosing (that is \"What matters most\"). Choose up to three, then rate each.", "For example, to learn a new craft, or to win more clients.", "Accessibility: getting something hard to reach. Development: learning something new. Expression: showing who they are. Revenue: winning customers or income.", "Compliance: meeting a requirement, at work or by law. Governance: staying within the rules.", "Based on: gains (Value Proposition Canvas)."] },
-    { id: "e2", box: "challenges", label: "What frustrates {o} today?", many: true, max: 3, options: list(FRUSTRATIONS), rating: { low: "Mild", high: "Severe" }, info: ["What goes wrong with the way they do it now, before they buy from you. Choose up to three, then rate how much each bothers them.", "For example, the cheap version breaks too soon, or nobody explains how to start.", "Cost: too costly, or unclear prices. Delays: it takes too long. Inconsistency: results vary. Trust: hard to find someone reliable.", "Insecurity: not knowing how, or fearing a mistake. Capacity: no time or staff. Complexity: too complicated, or poor support.", "Based on: pains (Value Proposition Canvas)."] },
+    { id: "e1", box: "goals", label: "What does {s} want to achieve?", many: true, max: 3, options: list(GOALS), rating: { low: "Minor", high: "Main" }, info: ["The results they are after, not what they weigh when choosing (that is \"What matters most\"). Choose up to three, then rate each.", "For example, to learn a new craft, or to win more clients.", "Accessibility: getting something hard to reach. Development: learning something new. Expression: showing who they are. Revenue: winning customers or income.", "Compliance: meeting a requirement or staying within the rules, at work or by law. Efficiency: saving time or money.", "Resolution: getting a specific problem fixed. Enjoyment: having fun or a good time.", "Based on: gains (Value Proposition Canvas)."] },
+    { id: "e2", box: "challenges", label: "What frustrates {o} today?", many: true, max: 3, options: list(FRUSTRATIONS), rating: { low: "Mild", high: "Severe" }, info: ["What goes wrong with the way they do it now, before they buy from you. Choose up to three, then rate how much each bothers them.", "For example, the cheap version breaks too soon, or nobody explains how to start.", "Cost: too costly, or unclear prices. Delays: it takes too long. Inconsistency: results vary. Trust: hard to find someone reliable.", "Skills gap: not knowing how, or fearing a mistake. Capacity: no time or staff. Hassle: too complicated, or poor support.", "Based on: pains (Value Proposition Canvas)."] },
     // The Needs (doc 36, section 10): Emotional and Social ticked and rated, by the Segment's kind; Functional stays the numbered list. Each kind's list stays as its note.
     { id: "functional", box: "needs", label: "What kind of job does {s} need done?", many: true, max: 3, options: list(FUNCTIONAL), rating: { low: "Mild", high: "Strong" }, info: ["The jobs they need done, not every task. Choose up to three, then rate each; write their own tasks in the list below.", "Organisation: keeps tasks, records or belongings in order. Integration: works with the tools or routines they already use.", "Connection: helps them reach or work with other people. Variety: gives more options than they had.", "Information: gives answers or facts they need now (learning is the goal Development).", "Based on: Bain's Elements of Value (HBR, 2016)."] },
     { id: "emotional", box: "needs", label: "How does {s} want to feel?", many: true, max: 3, options: list(EMOTIONAL_PEOPLE), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("feelings", "For example, calm when a delivery arrives on time, or delighted by how a room looks."), "Rewarded: treated to something special. Nurtured: looked after. Delighted: by how it looks. Nostalgic: reminded of good times. Fulfilled: growing as a person.", "Proud: a sense of self-worth or achievement in what they own or made (Desmet's 25 product emotions, 2012)."] },
     { id: "emotional-b2b", box: "needs", label: "How does {s} want to feel?", many: true, max: 3, options: list(EMOTIONAL_BUSINESS), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("feelings", "For example, sure they chose the right supplier, or glad to work with you again."), "Confident: sure they made the right choice. Prosperous: growing in their work. Optimistic: hopeful about their business."] },
     { id: "social", box: "needs", label: "How does {s} want to be seen?", many: true, max: 3, options: list(SOCIAL_PEOPLE), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("ways of being seen by others", "For example, as stylish when friends visit, or as caring for the planet."), "Included: part of a group they value. Exclusive: one of the few with access. Altruistic: caring for others or the planet. Impactful: leaving a legacy."] },
     { id: "social-b2b", box: "needs", label: "How does {s} want to be seen?", many: true, max: 3, options: list(SOCIAL_BUSINESS), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("ways of being seen by others", "For example, as someone colleagues trust, or as a responsible business."), "Influential: well connected. Respected: valued in their field."] },
-    { id: "e3", box: "objections", label: "What might hold {o} back?", many: true, max: 3, options: list(WORRIES), rating: { low: "Minor", high: "Blocking" }, info: ["Their doubts about buying from you, not what frustrates them today (the question above). Choose up to three, then rate each.", "For example, whether a beginner can keep up, or whether you will still be there after the sale.", "Credibility: whether you can be trusted. Onboarding: the time to get started. Complexity: how hard it is to use. Fit: whether it suits their need.", "Support: help after buying. Migration: the work of leaving what they use now. Risk: risk or security.", "Starts with the price where the Segment's household income is rated 1; change it freely."] }
+    { id: "e3", box: "objections", label: "What might hold {o} back?", many: true, max: 3, options: list(WORRIES), rating: { low: "Minor", high: "Blocking" }, info: ["Their doubts about buying from you, not what frustrates them today (the question above). Choose up to three, then rate each.", "For example, whether a beginner can keep up, or whether you will still be there after the sale.", "Credibility: whether you can be trusted. Onboarding: the time to get started. Complexity: how hard it is to use. Fit: whether it suits their need.", "Support: help after buying. Migration: the work of leaving what they use now. Risk: risk or security. Image: what others will think of them.", "Starts with the price where the Segment's household income is rated 1; change it freely."] }
 ];
 
 export const PROFILE_QUESTIONS = QUESTIONS;
@@ -261,7 +266,8 @@ export function profileQuestionAsked(question: ProfileQuestion, segment: Segment
             // A business Segment is not asked how it socialises: its Profiles are asked about events always (owner, 2026-11-08).
             return business || (segment.social ?? []).some(id => id === "mixed" || id === "inperson");
         case "d1":
-            return !(segment.path ?? []).includes("impulse");
+            // A Segment that buys on impulse, or when it urgently needs it, does not compare options first (2026-11-08); one that buys out of habit is asked, with no start.
+            return !(segment.path ?? []).some(id => id === "impulse" || id === "urgent");
         // When they buy (owner, 2026-11-07): a people Segment's Profiles only.
         case "d3":
             return !business;
@@ -281,9 +287,17 @@ export function profileQuestionsOf(box: ProfileBox, segment: SegmentAnswers, con
         .map(question => ({ ...question, options: profileOptionsOf(question, context) }));
 }
 
-/** The options a question offers a Profile: a business Segment's Profile is not offered a Market / pop-up, a consumer's event (C4; owner, 2026-11-08). */
+/**
+ * The options a question offers a Profile: a business Segment's Profile is not offered a Market / pop-up, a consumer's event (C4; owner, 2026-11-08), nor the
+ * goal Enjoyment, a person's own (E1; 2026-11-08).
+ */
 export function profileOptionsOf(question: ProfileQuestion, context: SegmentContext): ProfileQuestion["options"] {
-    return question.id === "c4" && context.frame === "business" ? question.options.filter(option => option.id !== "market") : question.options;
+    if (context.frame !== "business") {
+        return question.options;
+    }
+    return question.id === "c4" ? question.options.filter(option => option.id !== "market")
+        : question.id === "e1" ? question.options.filter(option => !PEOPLE_GOALS.includes(option.id))
+            : question.options;
 }
 
 /** What the Segment sets for a question that is not shown, or starts for one that is (the user can change a start). */

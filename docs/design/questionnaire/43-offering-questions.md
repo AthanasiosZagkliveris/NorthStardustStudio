@@ -58,7 +58,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - In a trial / beta
   - Still being built
   - Just an idea
-- **Starts from the business stage** (owner 2026-11-06; `BusinessStage.ts`, from the Opening Date): Planning → "Still being built"; Launching → "Almost ready"; Managing or Growing → "Yes, now". Only a starting value: an answer chosen is never overwritten, and every option stays (a growing business can still plan a new Offering, "Just an idea").
+- **Starts from the business stage** (owner 2026-11-06; `BusinessStage.ts`, from the Opening Date): Planning → "Still being built"; Launching → "Yes, now" (was "Almost ready" until 2026-11-08, the options-and-wording research: a business that is launching sells); Managing or Growing → "Yes, now". Only a starting value: an answer chosen is never overwritten, and every option stays (a growing business can still plan a new Offering, "Just an idea").
 - **The "i" says:**
   - Where it stands today.
   - It starts from your business stage; change it for this Offering.
@@ -74,18 +74,24 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Asked when:** always.
 - **Options:**
   - One purchase
-  - A subscription
-  - A membership
+  - A subscription / membership (A membership merged in, 2026-11-08: the id `subscription` kept; a saved `membership` is read as it, `OFFERING_MERGED`, tested)
   - A licence
   - Pay as they go
+  - Per session / per hour (`session`)
+  - Rent / hire (`rent`)
   - A project or contract
   - A monthly retainer
+  - Commission on each sale (`commission`)
+  - Free to them (`free`: someone else pays; "paid by others" is in the "i", not in the option)
+  - (The four added 2026-11-08, the options-and-wording research.)
 - **The "i" says:**
   - How often they pay, and on what terms. How they pay (card, invoice) is the Segment's question.
-  - Subscription: regular payments until they cancel. Pay as they go: they pay for what they use.
+  - Subscription / membership: regular payments until they cancel. Pay as they go: they pay for what they use.
+  - Per session / per hour: a price for each session or hour. Rent / hire: they pay to use it for a time, then give it back.
+  - Commission on each sale: a share of each sale you make for them. Free to them: someone else pays, such as an advertiser or a funder.
   - A minimum term: write it in the Notes.
 - **Connections:**
-  - *Comes from:* the Segment's "How do your customers pay?" (doc 35, Box 4, question 8). Invoice, bank transfer or purchase order puts A project or contract first, as an order only.
+  - *Comes from:* the Segment's "How do your customers pay?" (doc 35, Box 4, question 8). Invoice, bank transfer or purchase order puts A project or contract first, as an order only (found by its id, so the options added do not move it).
   - *Read by (not built yet):* Demand's "Customers buy", Delivery's "Delivered" and the Revenue stream's "Charged" (doc 28, 11.7 and 10.2); the Review (doc 28, 11.5, rule 14).
 
 **O3, second row: "When do they pay?"** (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments": one commercial decision, terms and timing, in one band). One choice (a radio), under the terms, in the same band; saved as `o3t`.
@@ -112,7 +118,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - The first you tick is the main benefit. The same list as "What matters most" on your Profiles and Competitors, so they can be compared.
   - Your Positioning's Differentiation starts the ticks; change them freely.
 - **Connections:**
-  - *Comes from:* Positioning's Differentiation, through the value crosswalk (doc 34, 5.2a), as starting ticks (at most three). All six differentiations start ticks: Performance & Innovation starts Quality and Expertise, Ecosystem & Integration starts Convenience (owner, 2026-11-08).
+  - *Comes from:* Positioning's Differentiation, through the value crosswalk (doc 34, 5.2a), as starting ticks (at most three). All seven differentiations start ticks: Performance & Innovation starts Quality and Expertise, Ecosystem & Integration starts Convenience (owner, 2026-11-08); Personal Service & Relationship starts Personalisation and Support (2026-11-08).
   - *Read by (built, 2026-11-07):* the Value Proposition draft and its open items (doc 42). The open item "Unwanted benefit" reads only the ticks the App User saved, never the starting ticks (owner, 2026-11-08).
   - *Read by (not built yet):* the Review (doc 28, 11.5, rules 21 and 22: against the Profiles' B1 and the Competitors' K8).
 
@@ -212,9 +218,13 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Approval within an agreed time
   - A place to work
   - Their own equipment or software
+  - Access to their home or site (`home`; added 2026-11-08, the options-and-wording research)
+  - Their time or attendance (`attendance`; added 2026-11-08)
   - ("To meet certain conditions" left on 2026-11-07, owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments": the conditions of sale are O18.)
 - **The "i" says:**
   - What you need from them before or during the work. The details go in the Notes.
+  - A place to work: a desk or a room for you to use. Access to their home or site: the work is done there, such as a repair or a fitting.
+  - Their time or attendance: they must take part or be there, such as at a session or a fitting.
 - **Connections:**
   - *Read by (not built yet):* the Delivery card's "What could slow the work down?" (doc 28, 9.3, W3), as starting ticks: approval and access.
 
@@ -266,10 +276,20 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Control:** ticks, as many as apply.
 - **Asked when:** always.
 - **Options** (L24): A minimum order; Trade / account only; Non-refundable once made (unless faulty); Notice to cancel; A booking / cancellation fee.
-- **The "i" says:**
-  - The terms a customer agrees to. In the UK and the EU, most online and distance sales can be cancelled within 14 days; goods made to their specification are an exception. Elsewhere, check your country's rules.
-  - Based on: the Consumer Contracts Regulations 2013 (UK). A legal minimum age is not ticked here: write an age limit in the Notes.
-- **Connections:** *Read by:* the export. Source [FUN-74].
+- **The "i" says** (built 2026-11-08, the options-and-wording research: only the Organisation's country's rule, `offeringInfo`, the country from the Organisation tile through `OfferingContext.country`):
+  - The terms a customer agrees to.
+  - The country's rule, one of:
+    - **United Kingdom (GB):** "In the UK, a consumer can cancel most online, phone and doorstep sales within 14 days (goods: from delivery; services: from the contract)." Then "Not covered: goods made to their specification or personalised, perishable goods, and leisure, catering or accommodation booked for a set date."
+    - **Ireland (IE):** the same, beginning "In Ireland and the EU, …".
+    - **United States (US):** "No general right to cancel. The FTC Cooling-Off Rule gives 3 business days for sales made at the customer's home or at a temporary location." Then "Online, phone and shop sales are not covered. State laws can add more."
+    - **Canada (CA):** "Set by each province, with no general right to cancel an online purchase (Ontario: 10 days for door-to-door sales)."
+    - **Australia (AU):** "No change-of-mind right for shop or website purchases; 10 business days to cancel an unsolicited sale of $100 or more."
+    - **New Zealand (NZ):** "No change-of-mind right; 5 working days to cancel an uninvited direct sale over $100."
+    - **No country, or another:** "Cancellation rights differ by country; check the rules where you sell." (no source line)
+  - A legal minimum age is not ticked here: write an age limit in the Notes.
+  - The source, last: GB "Based on: the Consumer Contracts Regulations 2013, regulation 28 (UK)." [FUN-74]; IE "Based on: the Consumer Rights Directive 2011/83/EU, Article 16 (EU)." [FUN-75]; US "Based on: the FTC Cooling-Off Rule (US)." [FUN-76]; CA "Based on: Ontario's Consumer Protection Act (CA)." [FUN-77]; AU "Based on: the Australian Consumer Law (ACCC)." [FUN-78]; NZ "Based on: the Fair Trading Act 1986, section 36M (NZ)." [FUN-79].
+  - (Each point is within 160 characters, tested.)
+- **Connections:** *Comes from:* the Organisation's country (the "i" only). *Read by:* the export. Sources [FUN-74] to [FUN-79].
 
 ### O12. Is a minimum age to buy it set by law? (no longer a question; proposed, owner 2026-11-06)
 
@@ -306,6 +326,7 @@ The answer is already in the app: the Organisation's business activities (doc 28
 - A change of a Profile's E3 changes O8's options. A worry no longer ticked on any Profile is removed from O8 on the next choice.
 - A change of an activity, an age or the country changes O12's derived Review item at once (proposed).
 - A change of the business stage changes O2's starting value only, never an answer chosen.
+- A change of the Organisation's country changes only what O18's "i" says (2026-11-08).
 
 ## Decided, and still to decide
 

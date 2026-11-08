@@ -561,8 +561,11 @@ Example paths from the seller and buyer relationship to the differentiation: B2C
 | Status & Premium | ○ |  | ○ |  | ● |  | ● |  |
 | Performance & Innovation | ● |  | ● | ○ | ● | ○ | ● | ● |
 | Ecosystem & Integration | ○ |  | ○ | ● | ● | ● | ● | ● |
+| Personal Service & Relationship | ○ | ○ | ○ | ○ | ○ | ○ | ○ | ○ |
 
 **Changed (owner, 2026-11-08):** Cost-driven for an Enterprise / Public Sector Direct / Dual buyer was blank (not offered); it is possible (○), so a public body that buys on cost can choose it. The only cell changed.
+
+**Added (2026-11-08, the options-and-wording research):** Personal Service & Relationship (`personal`), Treacy and Wiersema's customer intimacy [FUN-22], the seventh differentiation. It is possible (○) in every column of the three tables of this section (scale, purpose, relationship): no owner's table rates it yet, and possible ranks it without hiding it anywhere. The life stages' preference has no mark for it (a preference is primary only).
 
 **Rationale (the owner's notes):** 1. Cost to status: Solopreneurs and Startups are cost-conscious; at Mid-Market and Enterprise price gives way to Status & Premium and specialised deployment. 2. Compliance guardrails: a Proxy buyer (IT, Legal, Procurement) puts Compliance, Risk & Security first from SMB to Enterprise. 3. Convenience stays strong across almost every segment. 4. Ecosystem & Integration is secondary for the smallest buyers and primary from Mid-Market up (large organisations want a tool that connects to their stacks); an Enterprise / Public Sector Proxy buyer values Performance & Innovation (superior or proprietary features for large data volumes).
 
@@ -602,20 +605,20 @@ Example paths from the seller and buyer relationship to the differentiation: B2C
 
 **Which differentiations a purpose drives (the owner's matrix, 2026-10-30, six differentiations; the purposes chosen bring these differentiations first; nothing is hidden or chosen for the user)**
 
-| Purpose | Cost-driven | Convenience-driven | Compliance, Risk & Security | Status & Premium | Performance & Innovation | Ecosystem & Integration |
-|---|---|---|---|---|---|---|
-| Learning and Development | ○ | ● |  | ○ | ● | ○ |
-| Health, Care and Wellbeing |  | ● | ○ |  |  |  |
-| Gifting and Appreciation |  | ○ |  | ● |  |  |
-| Entertainment and Enjoyment |  | ○ |  | ● |  |  |
-| Social Connection and Relationships |  | ● |  |  |  | ○ |
-| Productivity and Efficiency | ○ | ● |  |  | ○ | ● |
-| Business Growth and Performance |  | ● |  | ● | ● | ○ |
-| Creation and Expression |  | ● |  | ○ | ● | ○ |
-| Everyday Needs and Convenience | ● | ● |  |  |  | ○ |
-| Protection and Risk Reduction |  |  | ● |  | ○ | ● |
-| Compliance and Obligations |  |  | ● |  |  | ● |
-| Access and Social Support | ● | ● | ○ |  |  |  |
+| Purpose | Cost-driven | Convenience-driven | Compliance, Risk & Security | Status & Premium | Performance & Innovation | Ecosystem & Integration | Personal Service & Relationship |
+|---|---|---|---|---|---|---|---|
+| Learning and Development | ○ | ● |  | ○ | ● | ○ | ○ |
+| Health, Care and Wellbeing |  | ● | ○ |  |  |  | ○ |
+| Gifting and Appreciation |  | ○ |  | ● |  |  | ○ |
+| Entertainment and Enjoyment |  | ○ |  | ● |  |  | ○ |
+| Social Connection and Relationships |  | ● |  |  |  | ○ | ○ |
+| Productivity and Efficiency | ○ | ● |  |  | ○ | ● | ○ |
+| Business Growth and Performance |  | ● |  | ● | ● | ○ | ○ |
+| Creation and Expression |  | ● |  | ○ | ● | ○ | ○ |
+| Everyday Needs and Convenience | ● | ● |  |  |  | ○ | ○ |
+| Protection and Risk Reduction |  |  | ● |  | ○ | ● | ○ |
+| Compliance and Obligations |  |  | ● |  |  | ● | ○ |
+| Access and Social Support | ● | ● | ○ |  |  |  | ○ |
 
 **Clusters (the owner's notes):** Protection and Compliance are about exposure, so they shape Compliance, Risk & Security; Business Growth and Entertainment are about expansion and prestige, so they shape Status & Premium or Convenience; Productivity and Everyday Needs are about time and friction, so they shape Convenience or Cost. The order inside a level stays as the audience scale and the buyer's category set it. Decided 2026-10-30: the matching boxes are **not pre-selected**; they are ranked first (the app never chooses for the user, doc 33). A "Recommended" tag or a highlight on them was suggested and is not built (it needs a new element; doc 5).
 
@@ -629,6 +632,7 @@ Example paths from the seller and buyer relationship to the differentiation: B2C
 | Status & Premium | ● | ● |  |  |  |  |
 | Performance & Innovation | ● | ○ |  | ● |  |  |
 | Ecosystem & Integration | ● | ● | ● | ○ | ○ | ○ |
+| Personal Service & Relationship | ○ | ○ | ○ | ○ | ○ | ○ |
 
 **The two newest differentiations (2026-10-30):** Performance & Innovation (product superiority) and Ecosystem & Integration (fits what the buyer already uses) were added to the four of the first version; every table above has their rows. The owner's "Productivity pivot": an Employer who chooses Productivity gets Ecosystem & Integration first.
 

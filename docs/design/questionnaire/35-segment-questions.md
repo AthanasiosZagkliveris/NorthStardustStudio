@@ -386,8 +386,14 @@ Part A (every Segment): questions 1 and 3. Part B (the buyer is people): 2, 4, 5
   - Creators / influencers / experts
   - Media, reviews and comparison sites
   - Feeds, ads and marketplace suggestions
+  - Search engines / maps
+  - Seeing it in person / passing by
+  - Events / trade shows
+  - Sales calls or tenders (business customers only: `segmentOptions`; a saved tick of it on a people Segment is removed)
+  - (The last four added 2026-11-08, the options-and-wording research. Checked for overlap first: none repeats an option here, and the Profile's D1 asks how they compare options, not where they first hear of one, so nothing was merged. Profile C4 asks which events a typical person attends; this asks whether events are where the Segment discovers products.)
 - **The "i" says:**
   - Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn.
+  - Seeing it in person / passing by: a shop window, a stall, a sign or a vehicle. Sales calls or tenders: asked for business customers only.
   - Choose up to three.
 - **Connections:**
   - *Comes from:* Nothing.
@@ -433,18 +439,24 @@ Part A (every Segment): questions 1 and 3. Part B (the buyer is people): 2, 4, 5
 - **Control:** one choice (a radio).
 - **Asked when:** The buyer is people.
 - **Options:**
-  - Straight away: They see it, like it and buy it there and then (was "On impulse", renamed 2026-11-06)
+  - On impulse: They see it, like it and buy it there and then (was "Straight away", renamed 2026-11-08 so it reads as an impulse; it was "On impulse" before 2026-11-06; the id `impulse` kept)
   - After comparing options: They weigh prices, features and reviews first
   - On a recommendation: They buy what friends, family or colleagues suggest
+  - Out of habit: They buy again what they bought before, as a routine (`habit`; added 2026-11-08)
+  - When they urgently need it: They buy what solves it now (`urgent`; added 2026-11-08)
   - (Reworded 2026-11-05, owner: "improve the wording of the options". The ids are unchanged. Reading reviews was in two options before; it is comparing now, and advice from people they know is a recommendation, as the Profile's D1 starts already read them.)
+  - (2026-11-08, the options-and-wording research: a routine rebuy and an urgent need are ways of buying none of the three held. With five options and "When they urgently need it" over 24 characters, the choice stands one under the other, not in a row.)
 - **The "i" says:**
   - Their usual way of buying, the one that fits most of them. Reviews read online count as comparing; advice from people they know is a recommendation.
-  - Straight away: They see it, like it and buy it there and then
+  - On impulse or when they urgently need it, their Profiles are not asked how they compare options.
+  - On impulse: They see it, like it and buy it there and then
   - After comparing options: They weigh prices, features and reviews first
   - On a recommendation: They buy what friends, family or colleagues suggest
+  - Out of habit: They buy again what they bought before, as a routine
+  - When they urgently need it: They buy what solves it now
 - **Connections:**
   - *Comes from:* Early Positioning: the relationship (people).
-  - *Read by (built):* The Market document and the export; the Profile's D1 is not asked on "Straight away" and otherwise starts from this answer (doc 36).
+  - *Read by (built):* The Market document and the export; the Profile's D1 is not asked on "On impulse" or "When they urgently need it" (neither compares first), is asked with no start on "Out of habit", and otherwise starts from this answer (doc 36).
   - *Read by (not built yet):* The customer journey (consideration).
 
 ### 7. Where do your customers usually shop?
@@ -556,17 +568,19 @@ Both.
   - The economy
   - Society and lifestyle
   - Supply and delivery
+  - Environment and climate (`environment`; added 2026-11-08, the options-and-wording research: the E of PESTLE, which no option held. Its examples "environmental mandates" and "sustainability" moved here from Rules and law and Society and lifestyle, so no two options overlap.)
 - **The "i" says:**
   - The changes that affect your customers most. Choose up to two.
   - Each Competitor is rated on how every one of these could affect it, the ones ticked here first.
   - Technology: Automation, AI, old systems being replaced
-  - Rules and law: New compliance, tax changes, environmental mandates
+  - Rules and law: New compliance, tax changes
   - The economy: Inflation, budget cuts, shifts in spending power
-  - Society and lifestyle: Remote work, sustainability, changing habits
+  - Society and lifestyle: Remote work, changing habits
   - Supply and delivery: Material shortages, logistics costs, local sourcing
+  - Environment and climate: Extreme weather, sustainability, environmental mandates
 - **Connections:**
   - *Comes from:* Nothing.
-  - *Read by (built, 2026-11-04):* the Competitor's K9 rates each of these changes, the ones ticked here first (doc 41).
+  - *Read by (built, 2026-11-04):* the Competitor's K9 rates each of these changes, the ones ticked here first (doc 41); Environment and climate is a K9 row too since 2026-11-08.
   - *Read by (built):* The Market document and the export; the Business Plan's Market Analysis is covered once a market question is answered.
   - *Read by (not built yet):* The Review.
 

@@ -348,10 +348,16 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "communities", label: "Online communities / forums" },
             { id: "creators", label: "Creators / influencers / experts" },
             { id: "media", label: "Media, reviews and comparison sites" },
-            { id: "algorithmic", label: "Feeds, ads and marketplace suggestions" }
+            { id: "algorithmic", label: "Feeds, ads and marketplace suggestions" },
+            // (Added 2026-11-08, the research; "Sales calls or tenders" is offered for business customers only, segmentOptions.)
+            { id: "search", label: "Search engines / maps" },
+            { id: "passing", label: "Seeing it in person / passing by" },
+            { id: "events", label: "Events / trade shows" },
+            { id: "sales", label: "Sales calls or tenders" }
         ],
         info: [
             "Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn.",
+            "Seeing it in person / passing by: a shop window, a stall, a sign or a vehicle. Sales calls or tenders: asked for business customers only.",
             "Choose up to three."
         ]
     },
@@ -378,11 +384,15 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     {
         id: "path", box: "purchasing", label: "How do your customers usually decide to buy?", many: false,
         options: [
-            { id: "impulse", label: "Straight away: They see it, like it and buy it there and then" },
+            // (2026-11-08, the research: "Straight away" reworded as an impulse, its id kept; habit and urgent need added.)
+            { id: "impulse", label: "On impulse: They see it, like it and buy it there and then" },
             { id: "researcher", label: "After comparing options: They weigh prices, features and reviews first" },
-            { id: "validator", label: "On a recommendation: They buy what friends, family or colleagues suggest" }
+            { id: "validator", label: "On a recommendation: They buy what friends, family or colleagues suggest" },
+            { id: "habit", label: "Out of habit: They buy again what they bought before, as a routine" },
+            { id: "urgent", label: "When they urgently need it: They buy what solves it now" }
         ],
-        info: ["Their usual way of buying, the one that fits most of them. Reviews read online count as comparing; advice from people they know is a recommendation."]
+        info: ["Their usual way of buying, the one that fits most of them. Reviews read online count as comparing; advice from people they know is a recommendation.",
+            "On impulse or when they urgently need it, their Profiles are not asked how they compare options."]
     },
     {
         id: "setting", box: "purchasing", label: "Where do your customers usually shop?", many: false,
@@ -448,10 +458,12 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         id: "trends", box: "market-size", label: "What is changing most for your customers?", many: true, max: 2,
         options: [
             { id: "technology", label: "Technology: Automation, AI, old systems being replaced" },
-            { id: "regulation", label: "Rules and law: New compliance, tax changes, environmental mandates" },
+            { id: "regulation", label: "Rules and law: New compliance, tax changes" },
             { id: "economy", label: "The economy: Inflation, budget cuts, shifts in spending power" },
-            { id: "society", label: "Society and lifestyle: Remote work, sustainability, changing habits" },
-            { id: "supply", label: "Supply and delivery: Material shortages, logistics costs, local sourcing" }
+            { id: "society", label: "Society and lifestyle: Remote work, changing habits" },
+            { id: "supply", label: "Supply and delivery: Material shortages, logistics costs, local sourcing" },
+            // (Added 2026-11-08, the research: the E of PESTLE. The environmental mandates and sustainability moved here from Rules and law and Society, so nothing overlaps.)
+            { id: "environment", label: "Environment and climate: Extreme weather, sustainability, environmental mandates" }
         ],
         info: ["The changes that affect your customers most. Choose up to two.", "Each Competitor is rated on how every one of these could affect it, the ones ticked here first."]
     },
@@ -670,6 +682,9 @@ export function segmentOptions(question: SegmentQuestion, answers: SegmentAnswer
         case "industry":
             return SEGMENT_INDUSTRIES.filter(option => keep(option, (answers.sector ?? []).includes(option.sector)))
                 .map(({ id, label }) => ({ id, label }));
+        case "discover":
+            // Sales calls or tenders: how a business finds a supplier, not a person (2026-11-08).
+            return question.options.filter(option => keep(option, option.id !== "sales" || context.frame === "business"));
         case "pay":
             return question.options.filter(option => keep(option,
                 !(option.id === "bnpl" && has(answers, "age", "minor"))

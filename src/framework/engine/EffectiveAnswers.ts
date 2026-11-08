@@ -14,10 +14,10 @@ export function effectiveProfileAnswers(profile: BusinessCustomerProfileValue, s
     return profileShown(profile.questions ?? {}, segment.questions, segmentContextFor(identity, segmentIsBusiness(segment)));
 }
 
-/** What an Offering's questions follow: its Type, the business stage, Positioning's Differentiation, the Segment's payment and its Profiles' worries. */
+/** What an Offering's questions follow: its Type, the business stage, Positioning's Differentiation, the Segment's payment, its Profiles' worries and the Organisation's country (O18's "i"). */
 export function offeringContextOf(offering: BusinessOfferingValue, segment: BusinessCustomerSegmentValue, identity: SegmentIdentity | undefined): OfferingContext {
     const worries = [...new Set(segment.profiles.flatMap(profile => effectiveProfileAnswers(profile, segment, identity).e3 ?? []))];
-    return { type: offering.category, stage: identity?.stage, differentiation: identity?.differentiation, pay: segment.questions.pay ?? [], worries };
+    return { type: offering.category, stage: identity?.stage, differentiation: identity?.differentiation, pay: segment.questions.pay ?? [], worries, country: identity?.country };
 }
 
 /** An Offering's answers as its card shows them: its own, with each start for a question it never answered. */

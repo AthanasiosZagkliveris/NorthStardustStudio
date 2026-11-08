@@ -176,7 +176,8 @@ export const DIFFERENTIATIONS = [
     { id: "compliance", label: "Compliance, Risk & Security" },
     { id: "premium", label: "Status & Premium" },
     { id: "performance", label: "Performance & Innovation" },
-    { id: "ecosystem", label: "Ecosystem & Integration" }
+    { id: "ecosystem", label: "Ecosystem & Integration" },
+    { id: "personal", label: "Personal Service & Relationship" }
 ] as const;
 
 /** Outcome for the buyer: the measurable result the buyer gets (the results the differentiation text names: lower costs, time saved, legal cover, prestige). */
@@ -425,6 +426,7 @@ export const INFO = {
         "Status & Premium (exclusivity): targets the blind spot of mass-market or cheap products with top quality and custom service.",
         "Performance & Innovation (product superiority): targets the blind spot of dated or underpowered alternatives with better results and newer methods.",
         "Ecosystem & Integration (fits what they already use): targets the blind spot of standalone tools that do not connect to the buyer's other systems and workflows.",
+        "Personal Service & Relationship (customer intimacy): targets the blind spot of impersonal providers with a service shaped around each customer.",
         { title: "Based on", source: SOURCES.strategicPositioning },
         { title: "Also", source: SOURCES.positioningTemplate }
     ],

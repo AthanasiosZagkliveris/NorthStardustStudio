@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { asBusinessFoundationValue } from "./AnswerBusinessFoundation";
-import { draftOffered, highestRated, offeringAsks, offeringOptions, offeringShown, valueMismatch, valuePropositionDraft, valuePropositionOpenItems } from "./OfferingQuestions";
+import { asOfferingAnswers, draftOffered, highestRated, offeringAsks, offeringInfo, offeringOptions, offeringShown, valueMismatch, valuePropositionDraft, valuePropositionOpenItems } from "./OfferingQuestions";
 
 const segment = asBusinessFoundationValue({
     segments: [{
@@ -70,7 +70,7 @@ describe("the Value Proposition's draft and open items (doc 42)", () => {
 
 describe("no question asked twice (owner, 2026-11-07: \"avoid overlapping and repetition\")", () => {
     it("asks the terms in O3, leaves the payment terms out of O10, and lets O7 answer the Support worry", () => {
-        expect(offeringOptions("o10", { type: "Service" }).map(option => option.id)).toEqual(["access", "brief", "approval", "place", "equipment"]);
+        expect(offeringOptions("o10", { type: "Service" }).map(option => option.id)).toEqual(["access", "brief", "approval", "place", "equipment", "home", "attendance"]);
         expect(offeringOptions("o8", { type: "Service", worries: ["support-after-they-buy", "risk-or-security"] }).map(option => option.id)).toEqual(["risk-or-security"]);
         expect(offeringAsks("o8", { type: "Service", worries: ["support-after-they-buy"] })).toBe(false);
         const support = { ...segment, profiles: [{ ...segment.profiles[0], questions: { e3: ["support-after-they-buy"] } }] };
@@ -78,4 +78,66 @@ describe("no question asked twice (owner, 2026-11-07: \"avoid overlapping and re
         expect(kinds("none")).toBe(1);
         expect(kinds("guides")).toBe(0);
     });
+});
+
+describe("O2, O3, O10 and O18 from the research (2026-11-08)", () => {
+
+    it("starts O2 at Yes, now while launching", () => {
+        expect(offeringShown({}, { type: "Service", stage: "launch" }).o2).toEqual(["now"]);
+        expect(offeringShown({}, { type: "Service", stage: "plan" }).o2).toEqual(["building"]);
+    });
+
+    it("reads a saved A membership as A subscription / membership, and keeps A project or contract first for an invoice", () => {
+        expect(asOfferingAnswers({ o3: ["membership"] }).o3).toEqual(["subscription"]);
+        expect(offeringShown({ o3: ["membership"] }, { type: "Service" }).o3).toEqual(["subscription"]);
+        const ids = offeringOptions("o3", { type: "Service" }).map(option => option.id);
+        expect(ids).toEqual(["once", "subscription", "licence", "payg", "session", "rent", "project", "retainer", "commission", "free"]);
+        expect(offeringOptions("o3", { type: "Service" }).find(option => option.id === "subscription")?.label).toBe("A subscription / membership");
+        expect(offeringOptions("o3", { type: "Service", pay: ["invoice"] })[0].id).toBe("project");
+        expect(offeringOptions("o3", { type: "Service", pay: ["invoice"] })).toHaveLength(10);
+    });
+
+    it("says only the Organisation country's cancellation rule in O18's \"i\"", () => {
+        const info = (country?: string) => offeringInfo("o18", { type: "Service", country });
+        expect(info()).toEqual(["The terms a customer agrees to.", "Cancellation rights differ by country; check the rules where you sell.", "A legal minimum age is not ticked here: write an age limit in the Notes."]);
+        expect(info("DE")).toEqual(info());
+        expect(info("GB")[1]).toMatch(/^In the UK, a consumer can cancel/);
+        expect(info("GB")[2]).toMatch(/^Not covered: goods made to their specification/);
+        expect(info("GB")[4]).toMatch(/Consumer Contracts Regulations 2013, regulation 28/);
+        expect(info("IE")[1]).toMatch(/^In Ireland and the EU/);
+        expect(info("IE")[4]).toMatch(/2011\/83\/EU, Article 16/);
+        expect(info("US").join(" ")).toMatch(/Cooling-Off Rule gives 3 business days/);
+        expect(info("CA")[1]).toMatch(/^Set by each province/);
+        expect(info("AU")[1]).toMatch(/10 business days/);
+        expect(info("NZ")[1]).toMatch(/5 working days/);
+        for (const country of ["GB", "IE", "US", "CA", "AU", "NZ"]) {
+            const lines = info(country);
+            expect(lines[0]).toBe("The terms a customer agrees to.");
+            expect(lines).toContain("A legal minimum age is not ticked here: write an age limit in the Notes.");
+            expect(lines[lines.length - 1]).toMatch(/^Based on: /);
+            for (const line of lines) {
+                expect(line.length, line).toBeLessThanOrEqual(160);
+            }
+        }
+        expect(offeringInfo("o3", { type: "Service", country: "GB" })).toBe(offeringInfo("o3", { type: "Service" }));
+    });
+
+    it("keeps every new point of O3 and O10 within 160 characters", () => {
+        for (const line of [...offeringInfo("o3", { type: "Service" }), ...offeringInfo("o10", { type: "Service" })]) {
+            expect(line.length, line).toBeLessThanOrEqual(160);
+        }
+    });
+
+    it("starts O4 from Personal Service & Relationship with Personalisation and Support", () => {
+        expect(offeringShown({}, { type: "Service", differentiation: ["personal"] }).o4).toEqual(["a-service-made-for-them", "good-support"]);
+    });
+
+    it("drafts the new goals in their phrases", () => {
+        const draft = (goal: string) => valuePropositionDraft(segment, segment.offerings[0], {}, { type: "Service" }, [{ e1: [goal], e2: ["it-takes-too-long"] }]);
+        expect(draft("save-time-money")).toContain("want to save time and money");
+        expect(draft("get-a-problem-fixed")).toContain("want to get a problem fixed");
+        expect(draft("enjoy-themselves")).toContain("want to enjoy themselves");
+        expect(draft("meet-a-requirement")).toContain("want to meet their obligations");
+    });
+
 });

@@ -237,3 +237,30 @@ describe("who the questions are about", () => {
         expect(segmentWho("How old are your customers?", "user", proxy)).toBe("How old are your end users?");
     });
 });
+
+describe("what is changing, the path to purchase and where they discover (2026-11-08)", () => {
+
+    const PEOPLE: SegmentContext = { ...OPEN, frame: "people" };
+    const BUSINESS: SegmentContext = { ...OPEN, frame: "business" };
+
+    it("adds Environment and climate to what is changing", () => {
+        expect(ids(question("trends").options)).toEqual(["technology", "regulation", "economy", "society", "supply", "environment"]);
+        expect(question("trends").options.find(option => option.id === "environment")?.label).toBe("Environment and climate");
+    });
+
+    it("reads Straight away as On impulse, its id kept, and adds habit and urgent need", () => {
+        expect(question("path").options.map(option => option.label)).toEqual(["On impulse", "After comparing options", "On a recommendation", "Out of habit", "When they urgently need it"]);
+        expect(asSegmentAnswers({ path: ["impulse"] }).path).toEqual(["impulse"]);
+    });
+
+    it("offers Sales calls or tenders to business customers only", () => {
+        const discover = (context: SegmentContext) => ids(segmentOptions(question("discover"), {}, context, false));
+        expect(discover(BUSINESS)).toEqual(["peers", "communities", "creators", "media", "algorithmic", "search", "passing", "events", "sales"]);
+        expect(discover(PEOPLE)).not.toContain("sales");
+        expect(discover(OPEN)).not.toContain("sales");
+        expect(segmentSettle({ discover: ["sales", "search"] }, PEOPLE).discover).toEqual(["search"]);
+        expect(segmentSettle({ discover: ["sales", "search"] }, BUSINESS).discover).toEqual(["sales", "search"]);
+        expect(question("discover").max).toBe(3);
+    });
+
+});

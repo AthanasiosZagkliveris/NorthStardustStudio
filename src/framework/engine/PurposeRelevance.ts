@@ -29,10 +29,10 @@ const TABLES = {
         columns: ["solo|direct", "solo|other", "smb|direct", "smb|proxy", "mid|direct", "mid|proxy", "enterprise|direct", "enterprise|proxy"],
         rows: ["P.PSPSPP", "S.SPSPSP", ".PSPSPSP", "S.PSPSPS", "S.S.S.S.", "P.PSPSPS", "P.P.P.P.", "P.S.S.S.", "P.PPPPPP", "S.SPSPSP", "S.SPSPSP", "...S.P.P"]
     },
-    /** The same columns for the six differentiations (cost, convenience, compliance, premium, performance, ecosystem): the owner's table of 2026-10-30; Cost-driven for an Enterprise or Public Sector Direct / Dual buyer is possible, not blank (owner, 2026-11-08). */
+    /** The same columns for the six differentiations (cost, convenience, compliance, premium, performance, ecosystem): the owner's table of 2026-10-30; Cost-driven for an Enterprise or Public Sector Direct / Dual buyer is possible, not blank (owner, 2026-11-08). Personal Service & Relationship, the seventh (2026-11-08), is possible for every column. */
     differentiationScale: {
         columns: ["solo|direct", "solo|other", "smb|direct", "smb|proxy", "mid|direct", "mid|proxy", "enterprise|direct", "enterprise|proxy"],
-        rows: ["PSPSSSSS", "PPPPPSP.", "..SPSPPP", "S.S.P.P.", "P.PSPSPP", "S.SPPPPP"]
+        rows: ["PSPSSSSS", "PPPPPSP.", "..SPSPPP", "S.S.P.P.", "P.PSPSPP", "S.SPPPPP", "SSSSSSSS"]
     },
     /** The seven buyer and user relationships of a consumer buyer. */
     relationship: {
@@ -92,8 +92,8 @@ export function differentiationRelevance(context: PurposeContext): Record<string
     return out;
 }
 
-/** How strongly each purpose drives each differentiation (cost, convenience, compliance, premium, performance, ecosystem; the owner's matrix of 2026-10-30), one row per purpose in the order of the purpose ids. */
-const PURPOSE_DRIVES = ["SP.SPS", ".PS...", ".S.P..", ".S.P..", ".P...S", "SP..SP", ".P.PPS", ".P.SPS", "PP...S", "..P.SP", "..P..P", "PPS..."];
+/** How strongly each purpose drives each differentiation (cost, convenience, compliance, premium, performance, ecosystem; the owner's matrix of 2026-10-30; personal, added 2026-11-08, possible for every purpose), one row per purpose in the order of the purpose ids. */
+const PURPOSE_DRIVES = ["SP.SPSS", ".PS...S", ".S.P..S", ".S.P..S", ".P...SS", "SP..SPS", ".P.PPSS", ".P.SPSS", "PP...SS", "..P.SPS", "..P..PS", "PPS...S"];
 
 /** The relevance of each differentiation (2 primary driver, 1 secondary, 0 none) for the purposes chosen, by differentiation id: the strongest of the purposes chosen; null where no purpose is chosen. */
 export function differentiationByPurpose(purposes: readonly string[]): Record<string, number> | null {
@@ -108,9 +108,9 @@ export function differentiationByPurpose(purposes: readonly string[]): Record<st
     return out;
 }
 
-/** How strongly each business buyer and user relationship drives each differentiation (cost, convenience, compliance, premium, performance, ecosystem; the owner's table of 2026-10-30): columns in the order of BUSINESS_RELATIONSHIPS. */
+/** How strongly each business buyer and user relationship drives each differentiation (cost, convenience, compliance, premium, performance, ecosystem; the owner's table of 2026-10-30; personal, added 2026-11-08, possible for every relationship): columns in the order of BUSINESS_RELATIONSHIPS. */
 const BUSINESS_RELATIONSHIPS = ["rel:copartner", "rel:serving", "rel:employer", "rel:intermediary", "rel:sponsor", "rel:otherbusiness"];
-const RELATIONSHIP_DRIVES = [".SS.PP", "SPPS.P", "S.PPPS", "PP....", "PS.P..", "PPPSSS"];
+const RELATIONSHIP_DRIVES = [".SS.PP", "SPPS.P", "S.PPPS", "PP....", "PS.P..", "PPPSSS", "SSSSSS"];
 
 /** The relevance of each differentiation (2 primary, 1 secondary, 0 none) for the business relationships chosen, by differentiation id: the strongest of those chosen; null where none is chosen. */
 export function differentiationByRelationship(relationships: readonly string[]): Record<string, number> | null {
@@ -233,7 +233,7 @@ export function userOutcomeByPurpose(purposes: readonly string[]): Record<string
 }
 
 /** What a buyer's life stage prefers in a differentiation (the owner's rule, 2026-10-30), in the order cost, convenience, compliance, premium, performance, ecosystem: a Student / Young Adult is price and speed sensitive; a Worker values workflow and liability protection; a Senior is risk-averse and values prestige. */
-const LIFE_STAGE_DIFFERENTIATION: Record<string, string> = { young: "PP....", adult: ".PP...", senior: "..PP.." };
+const LIFE_STAGE_DIFFERENTIATION: Record<string, string> = { young: "PP.....", adult: ".PP....", senior: "..PP..." };
 
 /** Both life stages answered (a consumer buyer's and the user's): the key that comes first. */
 function bothStages(buyerStages: readonly string[], userStages: readonly string[]): string[] {

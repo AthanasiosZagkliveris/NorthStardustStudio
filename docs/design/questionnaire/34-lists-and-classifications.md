@@ -42,16 +42,16 @@ Each list is one definition used wherever its id appears.
 | Id | Name | Plain options | Used by |
 |---|---|---|---|
 | L1 | **What customers care about** (10) | Affordability; Speed; Convenience; Quality; Reputation; Expertise; Personalisation; Support; Safety / security; Values (one word each, owner 2026-11-06, the ids kept; what each means is in the question's "i", doc 36, B1) | I7, doc 36 B1 (was P9), doc 41 K8 (was K2 and K3), doc 43 O4, the Value Proposition draft |
-| L2 | **Worries that stop a purchase** (8) | Price; Credibility; Onboarding; Complexity; Risk; Fit; Support; Migration (one word each, owner 2026-11-06) | doc 36 E3 (was P19), doc 43 O8 |
-| L3 | **Frustrations** (7) | Cost; Delays; Complexity; Inconsistency; Trust; Insecurity; Capacity (one word each, owner 2026-11-06; Unclear prices merged into Cost, Fear of mistakes into Insecurity, Poor support into Complexity, saved answers read as the one kept) | doc 36 E2 (was P18) |
-| L4 | **Goals** (6) | Accessibility; Development; Expression; Compliance; Revenue; Governance (one word each, owner 2026-11-06; Save time, Save money, Lower risk and Get better results were dropped on 2026-11-03: they repeat L1's Speed, Affordability, Safety / security, Quality) | doc 36, E1 (was P17) |
+| L2 | **Worries that stop a purchase** (9) | Price; Credibility; Onboarding; Complexity; Risk; Fit; Support; Migration; Image (one word each, owner 2026-11-06; Image, "What others will think", added 2026-11-08) | doc 36 E3 (was P19), doc 43 O8 |
+| L3 | **Frustrations** (7) | Cost; Delays; Hassle; Inconsistency; Trust; Skills gap; Capacity (one word each, owner 2026-11-06; Unclear prices merged into Cost, Fear of mistakes into Skills gap, Poor support into Hassle, saved answers read as the one kept; Complexity renamed Hassle and Insecurity Skills gap on 2026-11-08, the ids kept) | doc 36 E2 (was P18) |
+| L4 | **Goals** (8) | Accessibility; Development; Expression; Compliance; Revenue; Efficiency; Resolution; Enjoyment (one word each, owner 2026-11-06; Lower risk and Get better results were dropped on 2026-11-03: they repeat L1's Safety / security and Quality; on 2026-11-08 Governance was merged into Compliance, a saved tick read as Compliance, and Efficiency ("Save time / money"), Resolution ("Get a problem fixed") and Enjoyment ("Enjoy themselves", people only) were added) | doc 36, E1 (was P17) |
 | L5 | **Skill areas** (6) | Delivering your product or service; Marketing; Sales and customer care; Running the business (operations, admin, technology); Money and legal (finance, accounting, legal); Leadership and people (management, hiring) | C1, L2, C4 |
 | L6 | **Channels** | the 13 channel categories and their subchannels, as in the app | page 2's channel categories (P11 was split into doc 36 C2, C3 and C4), doc 41 K5 (was K4), the journey |
 | L7 | **Industries, level 1** (18, under the six sectors of doc 35, Box 3, question 3; level 2 in 5.4; `SEGMENT_INDUSTRIES`, `SegmentQuestions.ts`) | Resource extraction & energy: Farming, forestry and fishing; Mining, oil, gas and quarrying; Energy, water and waste. Manufacturing & construction: Manufacturing; Construction. Consumer goods & retail: Wholesale and retail trade; Hospitality; Arts, sport and recreation. Infrastructure & finance: Transport, postal and logistics; Finance and insurance; Real estate and property. Tech, data & media, and business services: Software, IT, media and telecoms; Professional, scientific and technical services; Administrative and support services. Human services & public sector, and other services: Government and public administration; Education; Health and social care; Other services | I1, I2, doc 35 Box 3 question 4 (was G15), doc 36 A4 (its level 2; was P24); doc 41, K6 (the order of L18, 5.2b) |
 | L8 | **Organisation size** (4; `ORG_SIZES`, `SegmentQuestions.ts`) | Micro, 1–9 employees; Small, 10–49 employees; Medium-sized, 50–249 employees; Large, 250+ employees (Self-employed, a type of organisation, skips the question) | doc 35 Box 3 question 2 (was G14) |
 | L9 | **Age bands** (7 for the buyer, 9 for the end user; `BUYER_AGES`, `USER_AGES`, `SegmentQuestions.ts`) | The buyer: Minors, semi-dependent 13–17; Young adults 18–24; Established 25–39; Peak 40–54; Mature 55–64; Active Retirees 65–74; Dependent seniors 75+. The end user: Baby 0–2; Child 3–10; Teenager 11–17; Young adult 18–24; Established 25–39; Peak 40–54; Mature 55–64; Active Retirees 65–74; Dependent seniors 75+ | doc 35 Box 1 question 1 and the end user's question 1 (was G6) |
 | L10 | **Education** (6; `SegmentQuestions.ts`) | Did not finish secondary school; Secondary school; Vocational / technical diploma; Bachelor's degree; Master's degree; Doctorate | doc 35 Box 1 question 2 (was G7; the Profile does not ask it, doc 36, 8) |
-| L11 | **What the customer must provide** (5; `PROVIDE`, `OfferingQuestions.ts`; on 2026-11-07 "A minimum commitment or term" and "Payment upfront" left as payment terms, O3's, "To meet certain conditions" as the conditions of sale, L24; "Nothing" left too) | Access to their systems or information; A clear brief; Approval within an agreed time; A place to work; Their own equipment or software | doc 43 O10 |
+| L11 | **What the customer must provide** (7; `PROVIDE`, `OfferingQuestions.ts`; on 2026-11-07 "A minimum commitment or term" and "Payment upfront" left as payment terms, O3's, "To meet certain conditions" as the conditions of sale, L24; "Nothing" left too; the last two added 2026-11-08) | Access to their systems or information; A clear brief; Approval within an agreed time; A place to work; Their own equipment or software; Access to their home or site; Their time or attendance | doc 43 O10 |
 | L12 | **What they spend on** (10) | Housing and home running costs; Food and groceries; Getting around; Phone, internet and communication; Health and wellbeing; Education and learning; Eating out, travel and accommodation; Leisure, hobbies, sport and entertainment; Clothing, home goods and personal care; Insurance, saving and financial services | not asked (doc 43, O11; was G18) |
 | L13 | **How they pay** (5; `SegmentQuestions.ts`) | Credit / debit card; Digital wallets; Cash; Buy Now, Pay Later or financing; Invoice, bank transfer or purchase order | doc 35 Box 4 question 8 (was P14) |
 | L14 | **Kind of area** (a rating, 1 to 5; `AREA_RATING`, `SegmentQuestions.ts`) | 1 = Rural, 5 = Urban (1 is countryside or remote places, 3 the suburbs and towns around a city, 5 a city centre) | doc 35 Box 2 question 2 (was G4) |
@@ -83,6 +83,7 @@ The positioning (doc 38), the customer's priorities (L1) and the customer's goal
 | Status & Premium | Higher quality & prestige | Quality; Values |
 | Performance & Innovation | none | Quality; Expertise (the nearest L1 options; owner, 2026-11-08) |
 | Ecosystem & Integration | none | Convenience (the nearest L1 option; owner, 2026-11-08) |
+| Personal Service & Relationship | none | Personalisation; Support (added 2026-11-08: customer intimacy is a service made for them and the help around it) |
 
 The goals (L4) are the customer's own outcomes and match none of these one for one; the Value Proposition reads them as the gains (doc 28, 6.7; FUN-46).
 
@@ -148,9 +149,11 @@ Approved (owner, 2026-11-07: "Approved. Please go ahead and write the updated sp
 | Accessibility | get easier access |
 | Expression | express themselves |
 | Revenue | grow their income |
-| Compliance | meet their legal duties |
+| Compliance | meet their obligations (was "meet their legal duties"; Governance, "run things properly", merged in on 2026-11-08, so the phrase covers both) |
 | Development | learn and grow |
-| Governance | run things properly |
+| Efficiency | save time and money (added 2026-11-08) |
+| Resolution | get a problem fixed (added 2026-11-08) |
+| Enjoyment | enjoy themselves (added 2026-11-08) |
 
 **Frustrations (L3), after "who …"**
 
@@ -160,9 +163,9 @@ Approved (owner, 2026-11-07: "Approved. Please go ahead and write the updated sp
 | Delays | wait too long |
 | Inconsistency | get uneven results |
 | Trust | struggle to find someone they trust |
-| Insecurity | worry about getting it wrong |
+| Skills gap (Insecurity until 2026-11-08) | worry about getting it wrong |
 | Capacity | lack the time or people |
-| Complexity | find it too complicated |
+| Hassle (Complexity until 2026-11-08) | find it too complicated |
 
 ### 5.3 The crosswalks (national schemes behind the plain lists)
 
@@ -390,6 +393,7 @@ Every option has a one-line example shown under it, so the user understands the 
 | Whether it fits the need | "Will it work for us?" |
 | Support after they buy | "Who helps when it breaks?" |
 | The effort of switching | "We already use something else" |
+| What others will think | "Will they think it was a silly buy?" (added 2026-11-08) |
 
 **L3, frustrations**
 
@@ -419,7 +423,10 @@ Every option has a one-line example shown under it, so the user understands the 
 | Self-expression | Look and feel like themselves |
 | Meet a requirement | A rule, a contract, a deadline |
 | Win customers or earn more | Grow the business |
-| Stay within the rules | Tax, safety, data protection |
+| Stay within the rules | Tax, safety, data protection (merged into Meet a requirement, 2026-11-08) |
+| Save time / money | Less time and cost for the same result (added 2026-11-08) |
+| Get a problem fixed | A leak repaired, a bug solved (added 2026-11-08) |
+| Enjoy themselves | A good evening out (added 2026-11-08; people only) |
 
 **L5, skill areas**
 

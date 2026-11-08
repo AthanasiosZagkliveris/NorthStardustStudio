@@ -338,8 +338,8 @@ What the Segment cannot say: which devices, which social media, which communitie
 ### D1. How does this person compare options?
 
 - **Control:** ticks, as many as apply.
-- **Asked when:** unless the Segment buys "Straight away".
-- **Starting values:** "After comparing options" starts Online reviews / ratings; "On a recommendation" starts Word of mouth / referrals (the App User can change them).
+- **Asked when:** unless the Segment buys "On impulse" (was "Straight away", the id `impulse` kept) or "When they urgently need it" (2026-11-08: neither compares options first).
+- **Starting values:** "After comparing options" starts Online reviews / ratings; "On a recommendation" starts Word of mouth / referrals (the App User can change them). "Out of habit" (2026-11-08) asks D1 with no start: a routine rebuy names no way of comparing.
 - **Options:**
   - Your website
   - Online reviews / ratings
@@ -387,20 +387,25 @@ What the Segment cannot say: which devices, which social media, which communitie
 
 *Decided (owner, 2026-11-06): the goals list is unchanged: no Competence, no "Grow without adding staff", no "Look after someone else".*
 
+*Changed (2026-11-08, the options-and-wording research): Governance ("Stay within the rules") merged into Compliance ("Meet a requirement"), the id `meet-a-requirement` kept and a saved `stay-within-the-rules` read as it, once, the higher rating kept (`MERGED`, `asProfileAnswers`, tested); three goals added: Efficiency ("Save time / money", `save-time-money`), Resolution ("Get a problem fixed", `get-a-problem-fixed`) and Enjoyment ("Enjoy themselves", `enjoy-themselves`). Enjoyment is a person's goal: a business Profile is not offered it (`profileOptionsOf`), and a saved tick of it there is removed. Efficiency comes back although "Save time" and "Save money" left on 2026-11-03 as repeats of B1's Speed and Affordability: the "i" keeps the two apart (a result they are after, not what they weigh when choosing).*
+
 - **Control:** ticks, up to 3, then a rating of each ticked goal from "Minor" to "Main" (section 11, built 2026-11-04).
-- **Options:** the list L4 (doc 34, 5.2), without the four goals that repeat B1 (Save time, Save money, Lower risk, Get better results: B1's Speed, Affordability, Safety / security, Quality; owner, 2026-11-03):
+- **Options:** the list L4 (doc 34, 5.2), without Lower risk and Get better results (B1's Safety / security and Quality; owner, 2026-11-03):
   - Accessibility
   - Development
   - Expression
-  - Compliance
+  - Compliance (Governance merged in, 2026-11-08)
   - Revenue
-  - Governance
+  - Efficiency
+  - Resolution
+  - Enjoyment (people only)
 - **The "i" says:**
   - 1 = Minor, 5 = Main.
   - The results they are after, not what they weigh when choosing (that is "What matters most"). Choose up to three, then rate each.
   - For example, to learn a new craft, or to win more clients.
   - Accessibility: getting something hard to reach. Development: learning something new. Expression: showing who they are. Revenue: winning customers or income.
-  - Compliance: meeting a requirement, at work or by law. Governance: staying within the rules.
+  - Compliance: meeting a requirement or staying within the rules, at work or by law. Efficiency: saving time or money.
+  - Resolution: getting a specific problem fixed. Enjoyment: having fun or a good time.
   - Based on: gains (Value Proposition Canvas) [FUN-46].
 - **Asked when:** always. *Read by (not built yet):* the Value Proposition draft (the gains). *Comes from:* nothing.
 
@@ -410,24 +415,25 @@ What the Segment cannot say: which devices, which social media, which communitie
 - **Options:** the list L3 (doc 34, 5.2), seven frustrations (three merged on 2026-11-06):
   - Cost (Unclear prices merged in)
   - Delays
-  - Complexity (Poor support merged in)
+  - Hassle (was Complexity, renamed 2026-11-08; Poor support merged in)
   - Inconsistency
   - Trust
-  - Insecurity (Fear of mistakes merged in)
+  - Skills gap (was Insecurity, renamed 2026-11-08; Fear of mistakes merged in)
   - Capacity
+  - (Renamed 2026-11-08, the options-and-wording research; Complexity was also E3's word for how hard it is to use. Only the words changed: the ids `it-is-too-complicated` and `they-lack-the-know-how` are kept, so saved ticks, ratings and the draft phrases stand.)
 - **The "i" says:**
   - 1 = Mild, 5 = Severe.
   - What goes wrong with the way they do it now, before they buy from you. Choose up to three, then rate how much each bothers them.
   - For example, the cheap version breaks too soon, or nobody explains how to start.
   - Cost: too costly, or unclear prices. Delays: it takes too long. Inconsistency: results vary. Trust: hard to find someone reliable.
-  - Insecurity: not knowing how, or fearing a mistake. Capacity: no time or staff. Complexity: too complicated, or poor support.
+  - Skills gap: not knowing how, or fearing a mistake. Capacity: no time or staff. Hassle: too complicated, or poor support.
   - Based on: pains (Value Proposition Canvas) [FUN-46].
 - **Asked when:** always. *Read by (not built yet):* the Value Proposition draft (the pains); the Review. *Comes from:* nothing.
 
 ### E3. What might hold this person back?
 
 - **Control:** ticks, up to 3, then a rating of each ticked worry from "Minor" to "Blocking" (section 11, built 2026-11-04).
-- **Options:** the list L2 (doc 34, 5.2), eight worries:
+- **Options:** the list L2 (doc 34, 5.2), nine worries:
   - Price
   - Credibility
   - Onboarding
@@ -436,17 +442,18 @@ What the Segment cannot say: which devices, which social media, which communitie
   - Fit
   - Support
   - Migration
+  - Image ("What others will think", `what-others-will-think`: the social risk of buying; added 2026-11-08, the options-and-wording research)
 - **The "i" says:**
   - 1 = Minor, 5 = Blocking.
   - Their doubts about buying from you, not what frustrates them today (the question above). Choose up to three, then rate each.
   - For example, whether a beginner can keep up, or whether you will still be there after the sale.
   - Credibility: whether you can be trusted. Onboarding: the time to get started. Complexity: how hard it is to use. Fit: whether it suits their need.
-  - Support: help after buying. Migration: the work of leaving what they use now. Risk: risk or security.
+  - Support: help after buying. Migration: the work of leaving what they use now. Risk: risk or security. Image: what others will think of them.
   - Starts with the price where the Segment's household income is rated 1; change it freely.
 - **Asked when:** always. *Read by (not built yet):* the Offering ticks the worries it answers (O8); the Evaluation actions suggested on page 2. *Comes from:* the Segment's household income (the starting value).
 
 
-**One word for each option (owner, 2026-11-06, replacing the same day's shorter words).** The ids are unchanged where an option is only renamed (`WORDS` in `ProfileQuestions.ts`); what each word means is a line of the question's "i", each within 160 characters. B1: Affordability, Speed, Convenience, Quality, Reputation, Expertise, Personalisation, Support, Safety / security, Values. E1: Accessibility, Development, Expression, Compliance, Revenue, Governance ("Competence" was suggested with no old option: not added, the owner asked). E2, with three merges: Cost (Unclear prices merged in), Delays, Complexity (Poor support merged in), Inconsistency, Trust, Insecurity (Fear of mistakes merged in), Capacity; a saved tick of a merged option is read as the one kept, once, the higher rating kept (`MERGED`, `asProfileAnswers`, tested). E3: Price, Credibility, Onboarding, Complexity, Risk, Fit, Support, Migration. The needs: section 10.
+**One word for each option (owner, 2026-11-06, replacing the same day's shorter words).** The ids are unchanged where an option is only renamed (`WORDS` in `ProfileQuestions.ts`); what each word means is a line of the question's "i", each within 160 characters. B1: Affordability, Speed, Convenience, Quality, Reputation, Expertise, Personalisation, Support, Safety / security, Values. E1: Accessibility, Development, Expression, Compliance, Revenue, Governance ("Competence" was suggested with no old option: not added, the owner asked); since 2026-11-08 Governance is merged into Compliance and Efficiency, Resolution and Enjoyment are added (E1 above). E2, with three merges: Cost (Unclear prices merged in), Delays, Complexity (Poor support merged in), Inconsistency, Trust, Insecurity (Fear of mistakes merged in), Capacity; a saved tick of a merged option is read as the one kept, once, the higher rating kept (`MERGED`, `asProfileAnswers`, tested); since 2026-11-08 Complexity reads Hassle and Insecurity reads Skills gap, the ids kept (E2 above). E3: Price, Credibility, Onboarding, Complexity, Risk, Fit, Support, Migration; Image added 2026-11-08. The needs: section 10.
 
 **Wording made simpler (owner, 2026-11-05: "Improve the wording to something more simple and concise. Add extra explanations, information and details in their i").** Built in `ProfileQuestions.ts`, the ids unchanged:
 - E1 "What does she want to achieve?" (was "What are her main goals?"); E2 "What frustrates her today?" (was "... about how it is done now?"); E3 "What might hold her back?" (was "What might stop her buying from you?"); the Social needs "How does she want to be seen?" (was "How does she want others to see her?").
@@ -489,7 +496,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 |---|---|---|
 | A3b job level | the Segment's customers are self-employed | Owner / partner (built: not asked; set, so the documents show it) |
 
-**Starting values the App User can change (owner, 2026-11-01).** Each follows the Segment until that field is changed (another answer does not fix it), and the export and the Value Proposition read it too (built 2026-11-08). D1 and D2 start from the Segment's path to purchase and online comfort ("After comparing options": Online reviews / ratings; "On a recommendation": Word of mouth / referrals; online comfort rated 4 or 5: Works it out alone; rated 1 or 2: Wants to talk to a person); D2 starts at a formal proposal where the Segment's decision includes a formal procurement loop; A2 starts from the Segment's gender mix when it leans (60 to 80%) or is mostly (80%+) one way, and stays visible; C1 as in 5. A Segment that buys "Straight away" skips D1. A5 starts with all five roles ticked where the Segment's "Who decides to buy?" includes "One person decides" (which is all it offers for a self-employed customer). **E3** starts with "Price" ticked where the Segment's household income is rated 1, a starting value the App User can change without any validation in the way (owner, 2026-11-01).
+**Starting values the App User can change (owner, 2026-11-01).** Each follows the Segment until that field is changed (another answer does not fix it), and the export and the Value Proposition read it too (built 2026-11-08). D1 and D2 start from the Segment's path to purchase and online comfort ("After comparing options": Online reviews / ratings; "On a recommendation": Word of mouth / referrals; online comfort rated 4 or 5: Works it out alone; rated 1 or 2: Wants to talk to a person); D2 starts at a formal proposal where the Segment's decision includes a formal procurement loop; A2 starts from the Segment's gender mix when it leans (60 to 80%) or is mostly (80%+) one way, and stays visible; C1 as in 5. A Segment that buys "On impulse" or "When they urgently need it" skips D1 (2026-11-08). A5 starts with all five roles ticked where the Segment's "Who decides to buy?" includes "One person decides" (which is all it offers for a self-employed customer). **E3** starts with "Price" ticked where the Segment's household income is rated 1, a starting value the App User can change without any validation in the way (owner, 2026-11-01).
 
 **One list for the kinds of work.** A3 and the Segment's end-user question ("What kind of work do your end users do?") take the same nine groups, written once (`JOB_LEVELS`, `SegmentQuestions.ts`), so the words never differ between the two cards or the exports.
 

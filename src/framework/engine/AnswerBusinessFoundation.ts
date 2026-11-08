@@ -489,7 +489,8 @@ function competitorQuestionsOf(source: unknown): { questions?: Record<string, st
  */
 function competitorLayoutOf2026_11_04(questions: Record<string, string[]>): Record<string, string[]> {
     const ATTRACT = ["discounts", "trial", "referral", "ads", "content", "events", "partnerships"];
-    const CHANGES = ["technology", "regulation", "economy", "society", "supply"];
+    // (Environment added 2026-11-08 with the Segment's new change, so its rating is not read as the older layout.)
+    const CHANGES = ["technology", "regulation", "economy", "society", "supply", "environment"];
     const older = "k11" in questions || "k10-rating" in questions || "k9-other" in questions || "k7-other" in questions
         || (questions.k6 ?? []).some(id => ATTRACT.includes(id))
         || (questions["k9-rating"] ?? []).some(entry => !CHANGES.includes(entry.split(":")[0]));

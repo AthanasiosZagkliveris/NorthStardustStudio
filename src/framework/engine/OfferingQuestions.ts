@@ -33,6 +33,8 @@ export interface OfferingContext {
     pay?: readonly string[];
     /** The worries ticked in the Segment's Profiles' E3, for O8's options. */
     worries?: readonly string[];
+    /** The Organisation's country (ISO code), for the cancellation rule O18's "i" shows. */
+    country?: string;
 }
 
 const PRODUCT_FORMS: readonly SegmentOption[] = [
@@ -45,9 +47,13 @@ const READINESS: readonly SegmentOption[] = [
     { id: "now", label: "Yes, now" }, { id: "almost", label: "Almost ready" }, { id: "trial", label: "In a trial / beta" }, { id: "building", label: "Still being built" }, { id: "idea", label: "Just an idea" }
 ];
 const PAYMENT: readonly SegmentOption[] = [
-    { id: "once", label: "One purchase" }, { id: "subscription", label: "A subscription" }, { id: "membership", label: "A membership" }, { id: "licence", label: "A licence" },
-    { id: "payg", label: "Pay as they go" }, { id: "project", label: "A project or contract" }, { id: "retainer", label: "A monthly retainer" }
+    { id: "once", label: "One purchase" }, { id: "subscription", label: "A subscription / membership" }, { id: "licence", label: "A licence" },
+    { id: "payg", label: "Pay as they go" }, { id: "session", label: "Per session / per hour" }, { id: "rent", label: "Rent / hire" },
+    { id: "project", label: "A project or contract" }, { id: "retainer", label: "A monthly retainer" }, { id: "commission", label: "Commission on each sale" },
+    { id: "free", label: "Free to them" }
 ];
+/** Options merged into another (2026-11-08): a saved answer of the first is read as the second (asOfferingAnswers). */
+const OFFERING_MERGED: Readonly<Record<string, Readonly<Record<string, string>>>> = { o3: { membership: "subscription" } };
 const RECEIVE: readonly SegmentOption[] = [
     { id: "auto", label: "Sent automatically online" }, { id: "byyou", label: "Sent by you online" }, { id: "live", label: "In a live online session" }, { id: "inperson", label: "In person" },
     { id: "shipped", label: "Posted / shipped to them" }, { id: "collect", label: "They collect it" }, { id: "access", label: "Ongoing online access" }
@@ -59,7 +65,9 @@ const HELP: readonly SegmentOption[] = [
 /** L11 as doc 43 lists it for O10. */
 const PROVIDE: readonly SegmentOption[] = [
     { id: "access", label: "Access to their systems or information" }, { id: "brief", label: "A clear brief" }, { id: "approval", label: "Approval within an agreed time" },
-    { id: "place", label: "A place to work" }, { id: "equipment", label: "Their own equipment or software" }
+    { id: "place", label: "A place to work" }, { id: "equipment", label: "Their own equipment or software" },
+    // (Added 2026-11-08, the research: a visit needs their home or site; a session needs them there.)
+    { id: "home", label: "Access to their home or site" }, { id: "attendance", label: "Their time or attendance" }
     // ("A minimum commitment / term" and "Payment upfront" left on 2026-11-07, owner: "avoid overlapping and repetition": they are payment terms, O3's.
     // "To meet certain conditions" left the same day: the conditions of sale are O18.)
 ];
@@ -95,19 +103,63 @@ const SUPPORT_WORRY = "support-after-they-buy";
 export const OFFERING_QUESTIONS: readonly OfferingQuestion[] = [
     { id: "o1", label: "What form does it take?", many: false, info: ["It refines the Type. For a Hybrid, make one Offering for each form, or choose the main one.", "Online access: a membership area, a course platform or a subscription library."] },
     { id: "o2", label: "Can customers buy it today?", many: false, info: ["Where it stands today.", "It starts from your business stage; change it for this Offering."] },
-    { id: "o3", label: "On what terms do they pay for it?", many: false, info: ["How often they pay, and on what terms. How they pay (card, invoice) is the Segment's question.", "Subscription: regular payments until they cancel. Pay as they go: they pay for what they use.", "A minimum term: write it in the Notes."] },
+    { id: "o3", label: "On what terms do they pay for it?", many: false, info: ["How often they pay, and on what terms. How they pay (card, invoice) is the Segment's question.",
+        "Subscription / membership: regular payments until they cancel. Pay as they go: they pay for what they use.",
+        "Per session / per hour: a price for each session or hour. Rent / hire: they pay to use it for a time, then give it back.",
+        "Commission on each sale: a share of each sale you make for them. Free to them: someone else pays, such as an advertiser or a funder.",
+        "A minimum term: write it in the Notes."] },
     { id: "o3t", label: "When do they pay?", many: false, info: ["When the money comes in. How they pay (card, invoice) is the Segment's question."] },
     { id: "o4", label: "What does it do best for the customer?", many: true, max: 3, info: ["The first you tick is the main benefit. The same list as \"What matters most\" on your Profiles and Competitors, so they can be compared.", "Your Positioning's Differentiation starts the ticks; change them freely."] },
     { id: "o6", label: "How does the customer receive it?", many: false, info: ["How it reaches them once bought.", "Sent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready."] },
     { id: "o7", label: "What help do you give after they buy?", many: false, info: ["The help that comes with it after the sale."] },
     { id: "o8", label: "Which of their worries does it answer?", many: true, info: ["The doubts that stop your customers buying from you, as your Profiles say. A worry nothing answers is shown on the Value Proposition.", "Support is answered by the help after they buy, above."] },
-    { id: "o10", label: "What does the customer need to give you?", many: true, info: ["What you need from them before or during the work. The details go in the Notes."] },
+    { id: "o10", label: "What does the customer need to give you?", many: true, info: ["What you need from them before or during the work. The details go in the Notes.",
+        "A place to work: a desk or a room for you to use. Access to their home or site: the work is done there, such as a repair or a fitting.",
+        "Their time or attendance: they must take part or be there, such as at a session or a fitting."] },
     { id: "o14", label: "How is it offered?", many: true, max: 3, info: ["How it is put together for sale: one range, made to each order, packages, limited runs or extras. Counts and what is included go in the Notes.", "Based on: the product mix (Kotler and Keller)."] },
     { id: "o15", label: "How long until they have it?", many: false, info: ["The time from order to having it. How it reaches them is the question above."] },
     { id: "o16", label: "How fast do you reply?", many: false, info: ["How soon a customer hears back. The channels are on the Customer Engagement page."] },
     { id: "o17", label: "What comes after the sale?", many: true, info: ["What the help after the sale includes. How much help there is, is the question above.", "None stands alone: ticking it clears the others."] },
-    { id: "o18", label: "Which conditions of sale apply?", many: true, info: ["The terms a customer agrees to. In the UK and the EU, most online and distance sales can be cancelled within 14 days; goods made to their specification are an exception. Elsewhere, check your country's rules.","Based on: the Consumer Contracts Regulations 2013 (UK). A legal minimum age is not ticked here: write an age limit in the Notes."] }
+    // O18's "i" says the cancellation rule of the Organisation's country only (offeringInfo); this is what it says with no country, or another one.
+    { id: "o18", label: "Which conditions of sale apply?", many: true, info: ["The terms a customer agrees to.", "Cancellation rights differ by country; check the rules where you sell.", "A legal minimum age is not ticked here: write an age limit in the Notes."] }
 ];
+
+/** What is not covered by the 14 days in the UK and the EU (the same exceptions in both). */
+const NOT_COVERED = "Not covered: goods made to their specification or personalised, perishable goods, and leisure, catering or accommodation booked for a set date.";
+/** The right to cancel a consumer sale in each of the six countries (doc 43, O18; 2026-11-08): what the "i" says, then its source. */
+const CANCELLING: Readonly<Record<string, { rule: readonly string[]; source: string }>> = {
+    GB: {
+        rule: ["In the UK, a consumer can cancel most online, phone and doorstep sales within 14 days (goods: from delivery; services: from the contract).", NOT_COVERED],
+        source: "Based on: the Consumer Contracts Regulations 2013, regulation 28 (UK)."
+    },
+    IE: {
+        rule: ["In Ireland and the EU, a consumer can cancel most online, phone and doorstep sales within 14 days (goods: from delivery; services: from the contract).", NOT_COVERED],
+        source: "Based on: the Consumer Rights Directive 2011/83/EU, Article 16 (EU)."
+    },
+    US: {
+        rule: ["No general right to cancel. The FTC Cooling-Off Rule gives 3 business days for sales made at the customer's home or at a temporary location.", "Online, phone and shop sales are not covered. State laws can add more."],
+        source: "Based on: the FTC Cooling-Off Rule (US)."
+    },
+    CA: {
+        rule: ["Set by each province, with no general right to cancel an online purchase (Ontario: 10 days for door-to-door sales)."],
+        source: "Based on: Ontario's Consumer Protection Act (CA)."
+    },
+    AU: {
+        rule: ["No change-of-mind right for shop or website purchases; 10 business days to cancel an unsolicited sale of $100 or more."],
+        source: "Based on: the Australian Consumer Law (ACCC)."
+    },
+    NZ: {
+        rule: ["No change-of-mind right; 5 working days to cancel an uninvited direct sale over $100."],
+        source: "Based on: the Fair Trading Act 1986, section 36M (NZ)."
+    }
+};
+
+/** What a question's "i" says for this Offering: O18 the cancellation rule of the Organisation's country, the others their own. */
+export function offeringInfo(id: OfferingQuestionId, context: OfferingContext): readonly string[] {
+    const info = OFFERING_QUESTIONS.find(question => question.id === id)?.info ?? [];
+    const country = id === "o18" && context.country ? CANCELLING[context.country] : undefined;
+    return country ? [info[0], ...country.rule, info[2], country.source] : info;
+}
 
 /**
  * The questions of each Description box (doc 43; owner, 2026-11-07): each box asks its questions, one band each, then its optional Notes. A band can hold two
@@ -155,7 +207,7 @@ export function offeringOptions(id: OfferingQuestionId, context: OfferingContext
     switch (id) {
         case "o1": return context.type === "Product" ? PRODUCT_FORMS : context.type === "Service" ? SERVICE_FORMS : context.type === "Hybrid" ? [...PRODUCT_FORMS, ...SERVICE_FORMS] : [];
         case "o2": return READINESS;
-        case "o3": return (context.pay ?? []).includes("invoice") ? [PAYMENT[5], ...PAYMENT.filter((_, at) => at !== 5)] : PAYMENT;
+        case "o3": return (context.pay ?? []).includes("invoice") ? [...PAYMENT.filter(option => option.id === "project"), ...PAYMENT.filter(option => option.id !== "project")] : PAYMENT;
         case "o4": return COMPETITOR_VALUES;
         case "o6": return RECEIVE;
         case "o7": return HELP;
@@ -178,9 +230,12 @@ const CROSSWALK: Record<string, readonly string[]> = {
     premium: ["quality-and-results", "shared-values-or-identity"],
     // The nearest L1 options (owner, 2026-11-08): L1 has no option of their own.
     performance: ["quality-and-results", "expert-knowledge"],
-    ecosystem: ["ease-and-convenience"]
+    ecosystem: ["ease-and-convenience"],
+    // Personal Service & Relationship (2026-11-08): Personalisation and Support.
+    personal: ["a-service-made-for-them", "good-support"]
 };
-const STAGE_START: Record<string, string> = { plan: "building", launch: "almost", manage: "now", grow: "now" };
+// (Launching starts "Yes, now", 2026-11-08: a business that is launching sells.)
+const STAGE_START: Record<string, string> = { plan: "building", launch: "now", manage: "now", grow: "now" };
 const RECEIVE_START: Record<string, string> = { physical: "shipped", digital: "auto", app: "access", access: "access", live: "live", inperson: "inperson" };
 
 /**
@@ -194,7 +249,8 @@ export function offeringShown(saved: OfferingAnswers, context: OfferingContext):
             continue;
         }
         const offered = offeringOptions(question.id, context).map(option => option.id);
-        const kept = (saved[question.id] ?? []).filter(id => offered.includes(id));
+        // A merged option is read as the one kept (OFFERING_MERGED), so an answer saved before the merge still shows.
+        const kept = [...new Set((saved[question.id] ?? []).map(id => OFFERING_MERGED[question.id]?.[id] ?? id))].filter(id => offered.includes(id));
         if (kept.length > 0) {
             shown[question.id] = kept;
         }
@@ -225,6 +281,12 @@ export function asOfferingAnswers(source: unknown): OfferingAnswers {
             result[key] = value as string[];
         }
     }
+    // Merged options (2026-11-08): a saved A membership is A subscription / membership, counted once.
+    for (const [id, merged] of Object.entries(OFFERING_MERGED)) {
+        if (result[id]) {
+            result[id] = [...new Set(result[id].map(option => merged[option] ?? option))];
+        }
+    }
     return result;
 }
 
@@ -241,7 +303,9 @@ export function offeringAnswerLines(answers: OfferingAnswers, context: OfferingC
 /** Each goal (L4, E1) after "and want to …", and each frustration (L3, E2) after "who …" (doc 34, 5.2d): hidden, only the draft reads them. */
 const GOAL_PHRASES: Record<string, string> = {
     "get-easier-access": "get easier access", "express-who-they-are": "express themselves", "win-customers-or-earn-more": "grow their income",
-    "meet-a-requirement": "meet their legal duties", "learn-something-new": "learn and grow", "stay-within-the-rules": "run things properly"
+    // (Stay within the rules merged into Meet a requirement, 2026-11-08: the phrase covers both.)
+    "meet-a-requirement": "meet their obligations", "learn-something-new": "learn and grow",
+    "save-time-money": "save time and money", "get-a-problem-fixed": "get a problem fixed", "enjoy-themselves": "enjoy themselves"
 };
 const FRUSTRATION_PHRASES: Record<string, string> = {
     "it-costs-too-much": "find it too costly", "it-takes-too-long": "wait too long", "the-quality-is-inconsistent": "get uneven results",

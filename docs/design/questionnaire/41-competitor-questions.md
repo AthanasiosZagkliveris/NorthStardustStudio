@@ -237,6 +237,7 @@ For Internal solution and Status quo the box stays text only: it asks about the 
   - The economy
   - Society and lifestyle
   - Supply and delivery
+  - Environment and climate (added 2026-11-08 with the Segment's option)
 - **The "i" says:**
   - 1 = Threat, 5 = Opportunity.
   - How each change could help or hurt them. The examples of each change, as on your Segment.

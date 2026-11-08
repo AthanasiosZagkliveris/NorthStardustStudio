@@ -240,3 +240,45 @@ describe("the functional jobs ticked above the Profile's own tasks (owner, 2026-
         expect(functional.info.every(point => point.length <= 160)).toBe(true);
     });
 });
+
+describe("goals, frustrations and worries from the research (2026-11-08)", () => {
+
+    it("reads a saved Stay within the rules as Compliance, counted once, the higher rating kept", () => {
+        const read = asProfileAnswers({ e1: ["meet-a-requirement", "stay-within-the-rules"], "e1-rating": ["meet-a-requirement:2", "stay-within-the-rules:5"] });
+        expect(read.e1).toEqual(["meet-a-requirement"]);
+        expect(read["e1-rating"]).toEqual(["meet-a-requirement:5"]);
+        expect(asProfileAnswers({ e1: ["stay-within-the-rules"] }).e1).toEqual(["meet-a-requirement"]);
+        expect(question("e1").options.map(option => option.label)).toEqual(["Accessibility", "Development", "Expression", "Compliance", "Revenue", "Efficiency", "Resolution", "Enjoyment"]);
+    });
+
+    it("offers Enjoyment to a person's Profile only", () => {
+        const e1 = (context: SegmentContext) => profileQuestionsOf("goals", {}, context).find(entry => entry.id === "e1")!.options.map(option => option.id);
+        expect(e1(people)).toContain("enjoy-themselves");
+        expect(e1(business)).not.toContain("enjoy-themselves");
+        expect(e1(business)).toContain("save-time-money");
+        expect(profileSettle({ e1: ["enjoy-themselves", "get-a-problem-fixed"] }, {}, business).e1).toEqual(["get-a-problem-fixed"]);
+    });
+
+    it("renames Complexity to Hassle and Insecurity to Skills gap, keeping the saved ids", () => {
+        const words = (id: string) => question("e2").options.find(option => option.id === id)?.label;
+        expect(words("it-is-too-complicated")).toBe("Hassle");
+        expect(words("they-lack-the-know-how")).toBe("Skills gap");
+        const read = asProfileAnswers({ e2: ["it-is-too-complicated", "they-lack-the-know-how"] });
+        expect(profileSettle(read, {}, people).e2).toEqual(["it-is-too-complicated", "they-lack-the-know-how"]);
+        expect(profileAnswerLines(read)[0].value).toBe("Hassle; Skills gap");
+    });
+
+    it("adds the worry Image, what others will think", () => {
+        expect(question("e3").options.find(option => option.id === "what-others-will-think")?.label).toBe("Image");
+    });
+
+    it("does not ask how they compare options of a Segment that buys on impulse or when it urgently needs it; out of habit it asks, with no start", () => {
+        const d1 = question("d1");
+        expect(profileQuestionAsked(d1, { path: ["impulse"] }, people)).toBe(false);
+        expect(profileQuestionAsked(d1, { path: ["urgent"] }, people)).toBe(false);
+        expect(profileQuestionAsked(d1, { path: ["habit"] }, people)).toBe(true);
+        expect(profileShown({}, { path: ["habit"] }, people).d1).toBeUndefined();
+        expect(profileShown({}, { path: ["researcher"] }, people).d1).toEqual(["reviews-and-recommendations-online"]);
+    });
+
+});
