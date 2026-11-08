@@ -28,6 +28,10 @@ describe("the Offering's questions (doc 43; owner, 2026-11-07)", () => {
         expect(offeringShown({ o2: ["idea"], o4: ["speed"] }, { type: "Product", stage: "grow", differentiation: ["cost"] })).toMatchObject({ o2: ["idea"], o4: ["speed"] });
         expect(offeringShown({ o1: ["physical"] }, { type: "Service" }).o1).toBeUndefined();
     });
+    it("starts O4 from Performance & Innovation and Ecosystem & Integration through the nearest L1 options (doc 34, 5.2a; owner, 2026-11-08)", () => {
+        expect(offeringShown({}, { type: "Product", differentiation: ["performance"] }).o4).toEqual(["quality-and-results", "expert-knowledge"]);
+        expect(offeringShown({}, { type: "Product", differentiation: ["ecosystem"] }).o4).toEqual(["ease-and-convenience"]);
+    });
 });
 
 describe("the Value Proposition's draft and open items (doc 42)", () => {
@@ -49,6 +53,18 @@ describe("the Value Proposition's draft and open items (doc 42)", () => {
             "Worry left open: Your Profiles worry about Fit, and no Offering answers it."
         ]);
         expect(valueMismatch([{ b1: ["speed"] }], [{ name: "X", answers: { o4: ["speed"] } }])).toEqual({ unmet: [], unwanted: [] });
+    });
+    it("counts an unwanted benefit only from O4 ticks the user saved, not from its starting ticks (owner, 2026-11-08)", () => {
+        const unsaved = { ...segment, offerings: [{ ...segment.offerings[0], questions: { o1: ["live"] } }] };
+        const started = [offeringShown(unsaved.offerings[0].questions, { type: "Service", differentiation: ["premium"] })];
+        expect(started[0].o4).toEqual(["quality-and-results", "shared-values-or-identity"]);
+        const items = valuePropositionOpenItems(unsaved, started);
+        expect(items.map(item => item.kind)).not.toContain("Unwanted benefit");
+        // (The starting ticks still count for the other open items: Quality is done best, so only Speed is unmet.)
+        expect(items.filter(item => item.kind === "Unmet value").map(item => item.text)).toEqual(["Your Profiles care about Speed, and no Offering does it best."]);
+        // A tick the user saved counts.
+        const savedTicks = { ...segment, offerings: [{ ...segment.offerings[0], questions: { o1: ["live"], o4: ["shared-values-or-identity"] } }] };
+        expect(valuePropositionOpenItems(savedTicks, [offeringShown(savedTicks.offerings[0].questions, { type: "Service" })]).map(item => item.kind)).toContain("Unwanted benefit");
     });
 });
 

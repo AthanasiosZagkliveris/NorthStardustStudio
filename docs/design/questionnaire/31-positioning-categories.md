@@ -555,12 +555,14 @@ Example paths from the seller and buyer relationship to the differentiation: B2C
 
 | Differentiation | Solopreneur: Direct | Solopreneur: Proxy / Dual | Startups & SMBs: Direct / Dual | Startups & SMBs: Proxy | Mid-Market: Direct / Dual | Mid-Market: Proxy | Enterprise / Public Sector: Direct / Dual | Enterprise / Public Sector: Proxy |
 |---|---|---|---|---|---|---|---|---|
-| Cost-driven | ● | ○ | ● | ○ | ○ | ○ |  | ○ |
+| Cost-driven | ● | ○ | ● | ○ | ○ | ○ | ○ (owner, 2026-11-08) | ○ |
 | Convenience-driven | ● | ● | ● | ● | ● | ○ | ● |  |
 | Compliance, Risk & Security |  |  | ○ | ● | ○ | ● | ● | ● |
 | Status & Premium | ○ |  | ○ |  | ● |  | ● |  |
 | Performance & Innovation | ● |  | ● | ○ | ● | ○ | ● | ● |
 | Ecosystem & Integration | ○ |  | ○ | ● | ● | ● | ● | ● |
+
+**Changed (owner, 2026-11-08):** Cost-driven for an Enterprise / Public Sector Direct / Dual buyer was blank (not offered); it is possible (○), so a public body that buys on cost can choose it. The only cell changed.
 
 **Rationale (the owner's notes):** 1. Cost to status: Solopreneurs and Startups are cost-conscious; at Mid-Market and Enterprise price gives way to Status & Premium and specialised deployment. 2. Compliance guardrails: a Proxy buyer (IT, Legal, Procurement) puts Compliance, Risk & Security first from SMB to Enterprise. 3. Convenience stays strong across almost every segment. 4. Ecosystem & Integration is secondary for the smallest buyers and primary from Mid-Market up (large organisations want a tool that connects to their stacks); an Enterprise / Public Sector Proxy buyer values Performance & Innovation (superior or proprietary features for large data volumes).
 

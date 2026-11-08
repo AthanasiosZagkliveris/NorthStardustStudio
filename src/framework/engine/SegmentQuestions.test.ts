@@ -193,6 +193,15 @@ describe("the Segment's questions", () => {
             expect(ids(segmentOptions(question("size"), {}, { ...business, scales: [] }))).toEqual(["micro", "small", "medium", "large"]);
         });
 
+        it("keeps the size a choice for a public body of Enterprise or Public Sector, which can be small (owner, 2026-11-08)", () => {
+            const enterprise = { ...business, scales: ["enterprise"] };
+            expect(ids(segmentOptions(question("size"), { orgtype: ["public"] }, enterprise))).toEqual(["micro", "small", "medium", "large"]);
+            expect(ids(segmentQuestionsOf("business-data", { orgtype: ["public"] }, enterprise))).toContain("size");
+            expect(segmentSettle({ orgtype: ["public"], size: ["small"] }, enterprise).size).toEqual(["small"]);
+            // A private enterprise is still large.
+            expect(segmentSettle({ orgtype: ["private"] }, enterprise).size).toEqual(["large"]);
+        });
+
         it("makes a self-employed customer decide alone", () => {
             expect(segmentSettle({ orgtype: ["self"] }, { ...business, scales: ["solo", "smb"] })).toEqual({ orgtype: ["self"], authorise: ["solo"] });
         });

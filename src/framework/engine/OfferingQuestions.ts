@@ -175,7 +175,10 @@ const CROSSWALK: Record<string, readonly string[]> = {
     cost: ["lower-price"],
     convenience: ["speed", "ease-and-convenience"],
     compliance: ["safety-and-low-risk", "trust-and-reputation"],
-    premium: ["quality-and-results", "shared-values-or-identity"]
+    premium: ["quality-and-results", "shared-values-or-identity"],
+    // The nearest L1 options (owner, 2026-11-08): L1 has no option of their own.
+    performance: ["quality-and-results", "expert-knowledge"],
+    ecosystem: ["ease-and-convenience"]
 };
 const STAGE_START: Record<string, string> = { plan: "building", launch: "almost", manage: "now", grow: "now" };
 const RECEIVE_START: Record<string, string> = { physical: "shipped", digital: "auto", app: "access", access: "access", live: "live", inperson: "inperson" };
@@ -341,7 +344,9 @@ export function valuePropositionOpenItems(segment: BusinessCustomerSegmentValue,
     for (const value of mismatch.unmet) {
         items.push({ kind: "Unmet value", text: "Your Profiles care about " + valueWord(value) + ", and no Offering does it best." });
     }
-    for (const entry of mismatch.unwanted) {
+    // An unwanted benefit is one the user ticked: O4's starting ticks (from the Differentiation) are not counted until saved (owner, 2026-11-08).
+    const saved = segment.offerings.map((offering, at) => ({ name: named(offering, at), answers: { o4: (offering.questions?.o4 ?? []).filter(id => (answers[at]?.o4 ?? []).includes(id)) } }));
+    for (const entry of valueMismatch(profiles, saved).unwanted) {
         items.push({ kind: "Unwanted benefit", text: entry.offering + " does " + entry.values.map(valueWord).join(" and ") + " best, which no Profile ticks as what matters most." });
     }
     const ticked = new Set(segment.offerings.flatMap(offering => offering.needsAddressed));

@@ -272,7 +272,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
 ### 2. How big are your customers' organisations?
 
 - **Control:** one choice (a radio).
-- **Asked when:** As above, and the type is not self-employed. When the type is changed to self-employed, an answer already given here is removed at once. The sizes follow the scale chosen in Positioning: Startups & SMBs: Micro and Small; Mid-Market: Medium-sized only (set, not shown); Enterprise or Public Sector: Large only (set, not shown); Solopreneurs & Freelancers: not asked.
+- **Asked when:** As above, and the type is not self-employed. When the type is changed to self-employed, an answer already given here is removed at once. The sizes follow the scale chosen in Positioning: Startups & SMBs: Micro and Small; Mid-Market: Medium-sized only (set, not shown); Enterprise or Public Sector: Large only (set, not shown), except for a public body, which can be of any size (a school, a small council), so every size is offered (owner, 2026-11-08); Solopreneurs & Freelancers: not asked.
 - **Options:**
   - Micro, 1–9 employees
   - Small, 10–49 employees
@@ -282,6 +282,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - The EU's definition of small and medium-sized enterprises: micro under 10 employees, small under 50, medium-sized under 250.
   - Countries define them a little differently; the United States and Canada use other limits.
   - The sizes follow the scale chosen in Positioning.
+  - A public body can be of any size, so every size is offered for one.
 - **Connections:**
   - *Comes from:* This Segment's type of organisation.
   - *Read by (built, 2026-11-04):* the Competitor's K3 takes this list as its options (doc 41).
@@ -586,12 +587,12 @@ Both.
 
 ## The end user (a part of the same card)
 
-Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent buyer. Questions only.
+Asked when the Segment's own buyer relationship has a Proxy or Dual-Intent buyer: a people Segment reads the B2C buyer's category and relationships, a business Segment the B2B buyer's (owner, 2026-11-08; `segmentContextFor`). So where Positioning chose B2C Direct and B2B Proxy, only the business Segment has an end user. Questions only.
 
 ### 1. How old are your customers?
 
 - **Control:** one choice (a radio).
-- **Asked when:** A buyer relationship chosen in Positioning has a Proxy or Dual-Intent buyer. The terms follow the end user's life stage chosen in Positioning: Minors: Baby, Child, Teenager; Young Adults: Young adult; Adults: Established, Peak, Mature; Seniors: Active Retirees, Dependent seniors. Not shown when only one term is left.
+- **Asked when:** The Segment's buyer relationship has a Proxy or Dual-Intent buyer. The terms follow the end user's life stage chosen in Positioning: Minors: Baby, Child, Teenager; Young Adults: Young adult; Adults: Established, Peak, Mature; Seniors: Active Retirees, Dependent seniors. A business Segment's end user (staff, a partner, clients) is offered the adult terms only, Young adult to Dependent seniors (owner, 2026-11-08). Not shown when only one term is left.
 - **Options:**
   - Baby 0–2
   - Child 3–10

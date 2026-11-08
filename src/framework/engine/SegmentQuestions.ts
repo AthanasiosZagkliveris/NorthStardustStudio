@@ -308,7 +308,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     {
         id: "size", name: "Size", box: "business-data", label: "How big are your customers' organisations?", many: false,
         options: ORG_SIZES,
-        info: ["The EU's definition of small and medium-sized enterprises: micro under 10 employees, small under 50, medium-sized under 250.", "Countries define them a little differently; the United States and Canada use other limits.", "The sizes follow the scale chosen in Positioning."]
+        info: ["The EU's definition of small and medium-sized enterprises: micro under 10 employees, small under 50, medium-sized under 250.", "Countries define them a little differently; the United States and Canada use other limits.", "The sizes follow the scale chosen in Positioning.", "A public body can be of any size, so every size is offered for one."]
     },
     {
         id: "sector", box: "business-data", label: "Which sector are your customers in?", many: false,
@@ -657,8 +657,9 @@ export function segmentOptions(question: SegmentQuestion, answers: SegmentAnswer
                 || (option.id === "self" ? solo : option.id === "public" ? scales.includes("enterprise") : bigger)));
         }
         case "size": {
+            // A public body (a school, a small council) can be of any size: for one, Enterprise or Public Sector holds every size (owner, 2026-11-08).
             const scales = context.scales;
-            const sizes = scales.flatMap(id => SIZES_OF_SCALE[id] ?? []);
+            const sizes = scales.flatMap(id => id === "enterprise" && has(answers, "orgtype", "public") ? ORG_SIZES.map(size => size.id) : SIZES_OF_SCALE[id] ?? []);
             return question.options.filter(option => keep(option, scales.length === 0 || sizes.length === 0 || sizes.includes(option.id)));
         }
         case "authorise":
@@ -681,7 +682,9 @@ export function segmentOptions(question: SegmentQuestion, answers: SegmentAnswer
                         : has(answers, "u-age", "teen") ? option.id === "secondary"
                             : true));
         case "u-age":
-            return USER_AGES.filter(option => keep(option, context.userStages.length === 0 || context.userStages.includes(option.stage)))
+            // A business Segment's end user (staff, a partner, clients) is an adult: no age under 18 is offered (owner, 2026-11-08).
+            return USER_AGES.filter(option => keep(option, !(context.frame === "business" && option.stage === "age:minor")
+                && (context.userStages.length === 0 || context.userStages.includes(option.stage))))
                 .map(({ id, label }) => ({ id, label }));
         default:
             return question.options;

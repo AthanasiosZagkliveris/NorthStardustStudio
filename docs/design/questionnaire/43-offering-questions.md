@@ -112,8 +112,8 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - The first you tick is the main benefit. The same list as "What matters most" on your Profiles and Competitors, so they can be compared.
   - Your Positioning's Differentiation starts the ticks; change them freely.
 - **Connections:**
-  - *Comes from:* Positioning's Differentiation, through the value crosswalk (doc 34, 5.2a), as starting ticks.
-  - *Read by (built, 2026-11-07):* the Value Proposition draft and its open items (doc 42).
+  - *Comes from:* Positioning's Differentiation, through the value crosswalk (doc 34, 5.2a), as starting ticks (at most three). All six differentiations start ticks: Performance & Innovation starts Quality and Expertise, Ecosystem & Integration starts Convenience (owner, 2026-11-08).
+  - *Read by (built, 2026-11-07):* the Value Proposition draft and its open items (doc 42). The open item "Unwanted benefit" reads only the ticks the App User saved, never the starting ticks (owner, 2026-11-08).
   - *Read by (not built yet):* the Review (doc 28, 11.5, rules 21 and 22: against the Profiles' B1 and the Competitors' K8).
 
 ### O6. How does the customer receive it?

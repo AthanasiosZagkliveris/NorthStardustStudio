@@ -81,8 +81,8 @@ The positioning (doc 38), the customer's priorities (L1) and the customer's goal
 | Convenience-driven | Time saved | Speed; Convenience |
 | Compliance, Risk & Security | Legal & data-protection cover | Safety / security; Reputation |
 | Status & Premium | Higher quality & prestige | Quality; Values |
-| Performance & Innovation | none | none (open: an L1 option needs the owner's words) |
-| Ecosystem & Integration | none | none (open: an L1 option needs the owner's words) |
+| Performance & Innovation | none | Quality; Expertise (the nearest L1 options; owner, 2026-11-08) |
+| Ecosystem & Integration | none | Convenience (the nearest L1 option; owner, 2026-11-08) |
 
 The goals (L4) are the customer's own outcomes and match none of these one for one; the Value Proposition reads them as the gains (doc 28, 6.7; FUN-46).
 

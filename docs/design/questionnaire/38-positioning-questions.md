@@ -19,7 +19,7 @@ Related: doc 37 (the Organisation tile, whose Opening Date sets the stage), doc 
 - **Options:**
   - B2C (Business-to-Consumer)
   - B2B (Business-to-Business)
-- **The "i" says:** Who pays: focuses on the Economic Buyer who approves the budget, separating them from the end user. The positioning statement is written for the target market, and each distinct segment may need its own. B2C (Business-to-Consumer): individuals or consumers who pay for personal or family use. B2B (Business-to-Business): businesses, companies or freelancers. Based on the positioning statement of the strategy literature.
+- **The "i" says:** Who pays: focuses on the Economic Buyer who approves the budget, separating them from the end user. The positioning statement is written for the target market, and each distinct segment may need its own. B2C (Business-to-Consumer): individuals or consumers who pay for personal or family use. B2B (Business-to-Business): businesses, companies, freelancers or public bodies. Based on the positioning statement of the strategy literature. (Public bodies named, owner, 2026-11-08: a public buyer is chosen as B2B, with the scale Enterprise or Public Sector.)
 - **Connections:**
   - *Comes from:* the stage (the limit).
   - *Read by (built):* the Segment card, which asks people's questions for B2C and the business's for B2B (doc 35); every question below; the exports.
@@ -106,7 +106,7 @@ Related: doc 37 (the Organisation tile, whose Opening Date sets the stage), doc 
 
 - **Control:** ticks, as the purpose.
 - **Asked when:** always.
-- **Options:** Cost-driven; Convenience-driven; Compliance, Risk & Security; Status & Premium; Performance & Innovation; Ecosystem & Integration, in an order that follows the audience scale, the category, the relationships, the life stages and the purposes chosen (never a filter beyond the tables).
+- **Options:** Cost-driven; Convenience-driven; Compliance, Risk & Security; Status & Premium; Performance & Innovation; Ecosystem & Integration, in an order that follows the audience scale, the category, the relationships, the life stages and the purposes chosen (never a filter beyond the tables). A blank of the audience scale's table is not offered; Cost-driven is offered to an Enterprise or Public Sector Direct or Dual-Intent buyer (possible relevance, doc 31; owner, 2026-11-08).
 - **The "i" says:** What the offering does differently from the competitors: where it hits exactly the blind spot they leave. It is about the offering; the result the buyer gets from it is the outcome, asked next. Then one line per option: "Cost-driven (saving resources): targets the blind spot of expensive competitors with a budget-friendly alternative." "Convenience-driven (speed and ease): targets the blind spot of complex or slow solutions." "Compliance, Risk & Security: targets the blind spot of uncertified or questionable alternatives." "Status & Premium (exclusivity): targets the blind spot of mass-market or cheap products with top quality and custom service." "Performance & Innovation (product superiority): targets the blind spot of dated or underpowered alternatives with better results and newer methods." "Ecosystem & Integration (fits what they already use): targets the blind spot of standalone tools that do not connect to the buyer's other systems and workflows." Based on strategic positioning.
 - **Connections:**
   - *Comes from:* the answers above (the order).

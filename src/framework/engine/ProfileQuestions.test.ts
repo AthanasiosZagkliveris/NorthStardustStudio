@@ -78,6 +78,14 @@ describe("the Profile's questions follow the Segment", () => {
         expect(profileSettle(answers, { discover: ["communities"], social: ["mixed"] }, people)).toEqual(answers);
     });
 
+    it("asks a business Segment's Profile about events, without the consumer's Market / pop-up (owner, 2026-11-08)", () => {
+        expect(profileQuestionAsked(question("c4"), {}, business)).toBe(true);
+        expect(profileQuestionsOf("hubs", {}, business).find(entry => entry.id === "c4")!.options.map(option => option.id)).toEqual(["fair", "workshop", "talk", "other"]);
+        expect(profileSettle({ c4: ["market", "fair"] }, {}, business).c4).toEqual(["fair"]);
+        // A people Segment still asks it from how they socialise.
+        expect(profileQuestionAsked(question("c4"), { social: ["digital"] }, people)).toBe(false);
+    });
+
     it("holds a limit, and keeps what is written under Other only while Other is ticked", () => {
         // What matters most holds five since 2026-11-04 (doc 36, section 11).
         expect(profileChoose(question("b1"), {}, ["lower-price", "speed", "ease-and-convenience", "quality-and-results", "trust-and-reputation", "expert-knowledge"]).b1).toHaveLength(5);

@@ -258,7 +258,8 @@ export function profileQuestionAsked(question: ProfileQuestion, segment: Segment
         case "c3":
             return (segment.discover ?? []).includes("communities");
         case "c4":
-            return (segment.social ?? []).some(id => id === "mixed" || id === "inperson");
+            // A business Segment is not asked how it socialises: its Profiles are asked about events always (owner, 2026-11-08).
+            return business || (segment.social ?? []).some(id => id === "mixed" || id === "inperson");
         case "d1":
             return !(segment.path ?? []).includes("impulse");
         // When they buy (owner, 2026-11-07): a people Segment's Profiles only.
@@ -276,7 +277,13 @@ export function profileQuestionAsked(question: ProfileQuestion, segment: Segment
 
 /** The questions of one box a Profile is asked. */
 export function profileQuestionsOf(box: ProfileBox, segment: SegmentAnswers, context: SegmentContext): ProfileQuestion[] {
-    return QUESTIONS.filter(question => question.box === box && profileQuestionAsked(question, segment, context));
+    return QUESTIONS.filter(question => question.box === box && profileQuestionAsked(question, segment, context))
+        .map(question => ({ ...question, options: profileOptionsOf(question, context) }));
+}
+
+/** The options a question offers a Profile: a business Segment's Profile is not offered a Market / pop-up, a consumer's event (C4; owner, 2026-11-08). */
+export function profileOptionsOf(question: ProfileQuestion, context: SegmentContext): ProfileQuestion["options"] {
+    return question.id === "c4" && context.frame === "business" ? question.options.filter(option => option.id !== "market") : question.options;
 }
 
 /** What the Segment sets for a question that is not shown, or starts for one that is (the user can change a start). */
@@ -401,7 +408,7 @@ export function profileSettle(saved: SegmentAnswers, segment: SegmentAnswers, co
             }
             continue;
         }
-        const offered = chosen.filter(id => question.options.some(option => option.id === id));
+        const offered = chosen.filter(id => profileOptionsOf(question, context).some(option => option.id === id));
         const held = question.max !== undefined ? offered.slice(0, question.max) : offered;
         settled[question.id] = question.many ? held : held.slice(0, 1);
         const written = answers[question.id + "-other"];

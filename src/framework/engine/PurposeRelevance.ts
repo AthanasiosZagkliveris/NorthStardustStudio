@@ -29,10 +29,10 @@ const TABLES = {
         columns: ["solo|direct", "solo|other", "smb|direct", "smb|proxy", "mid|direct", "mid|proxy", "enterprise|direct", "enterprise|proxy"],
         rows: ["P.PSPSPP", "S.SPSPSP", ".PSPSPSP", "S.PSPSPS", "S.S.S.S.", "P.PSPSPS", "P.P.P.P.", "P.S.S.S.", "P.PPPPPP", "S.SPSPSP", "S.SPSPSP", "...S.P.P"]
     },
-    /** The same columns for the six differentiations (cost, convenience, compliance, premium, performance, ecosystem): the owner's table of 2026-10-30. */
+    /** The same columns for the six differentiations (cost, convenience, compliance, premium, performance, ecosystem): the owner's table of 2026-10-30; Cost-driven for an Enterprise or Public Sector Direct / Dual buyer is possible, not blank (owner, 2026-11-08). */
     differentiationScale: {
         columns: ["solo|direct", "solo|other", "smb|direct", "smb|proxy", "mid|direct", "mid|proxy", "enterprise|direct", "enterprise|proxy"],
-        rows: ["PSPSSS.S", "PPPPPSP.", "..SPSPPP", "S.S.P.P.", "P.PSPSPP", "S.SPPPPP"]
+        rows: ["PSPSSSSS", "PPPPPSP.", "..SPSPPP", "S.S.P.P.", "P.PSPSPP", "S.SPPPPP"]
     },
     /** The seven buyer and user relationships of a consumer buyer. */
     relationship: {

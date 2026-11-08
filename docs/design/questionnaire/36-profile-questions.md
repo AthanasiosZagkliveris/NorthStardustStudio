@@ -40,7 +40,7 @@ Related: doc 35 (the Segment's questions, built, in the same form), doc 28 (6.4 
 | Gender mix (not Balanced) | A2 gender | shown when the mix is not Balanced mix; a Profile's gender should fit the mix (Review) |
 | Industry | A4 kind of business | the finer list (doc 34, 5.4) of the Segment's industry, each with its example |
 | Where they discover new products (ticks) | C2, C3, C4 | the platforms, communities and events related to the ticked ways come first (not built yet); built: C3 is asked only when "Online communities / forums" is ticked |
-| Where they spend time (social environment) | C4 events | asked when the Segment socialises "Online and in person" or "Mostly in person" (doc 35, Box 4, 2) |
+| Where they spend time (social environment) | C4 events | asked when the Segment socialises "Online and in person" or "Mostly in person" (doc 35, Box 4, 2); a business Segment's Profile is always asked (owner, 2026-11-08) |
 
 The app also **proposes Profiles** (up to three): one for each age term of the group; for a Proxy or Dual-Intent buyer, a second Profile for the end user (doc 35, the end-user part). The App User presses Add on the ones they want.
 
@@ -198,7 +198,7 @@ A typical person of the Segment, asked specifically.
 ### A5. What is this person's role in buying?
 
 - **Control:** ticks, as many as apply.
-- **Asked when:** the Segment's buyer is a business, or it has an end-user part (a Proxy or Dual-Intent buyer), or its age group includes Minors.
+- **Asked when:** the Segment's buyer is a business, or it has an end-user part (its own relationship's buyer is Proxy or Dual-Intent: a B2C Direct Segment is not asked because the B2B buyer is a Proxy one; owner, 2026-11-08), or its age group includes Minors.
 - **Options:**
   - Uses it
   - Influences the decision
@@ -319,8 +319,8 @@ What the Segment cannot say: which devices, which social media, which communitie
 ### C4. Which events does this person attend?
 
 - **Control:** ticks, as many as apply.
-- **Asked when:** the Segment's social environment is a mix of online and in person, or mostly in person.
-- **Options:** the in-person channels the app already lists as events; Other opens a text box under the options, where the App User writes their own, and its words are kept as the answer:
+- **Asked when:** a people Segment's social environment is a mix of online and in person, or mostly in person; a business Segment's Profile always (a business Segment is not asked how it socialises; owner, 2026-11-08).
+- **Options:** the in-person channels the app already lists as events; Other opens a text box under the options, where the App User writes their own, and its words are kept as the answer. A business Segment's Profile is not offered Market / pop-up, a consumer's event (owner, 2026-11-08); the list has no networking option, so a networking event is written under Other:
   - Market / pop-up
   - Trade fair / exhibition
   - Workshop / class

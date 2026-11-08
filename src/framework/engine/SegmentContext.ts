@@ -126,10 +126,27 @@ export function segmentContext(identity: SegmentIdentity | undefined): SegmentCo
 export function segmentContextFor(identity: SegmentIdentity | undefined, business: boolean): SegmentContext {
 
     const context = segmentContext(identity);
+    const frame = context.frame === "open" ? (business ? "business" : "people") : context.frame;
 
-    return context.frame === "open" ? { ...context, frame: business ? "business" : "people" } : context;
+    // The end user is that of the Segment's own relationship (owner, 2026-11-08): a people Segment reads the consumer buyer's category and relationships, a business Segment the business
+    // buyer's, so a B2C Direct Segment of a business that also sells B2B Proxy has no end user.
+    const models = frame === "people" ? ["b2c"] : ["b2b", "b2g", "g2b"];
+    const categories = identity?.buyerCategory ?? [];
+    const endsUser = (identity?.relationships ?? []).some(model => models.includes(model) && (categories.includes(model + ":proxy") || categories.includes(model + ":dual")));
+
+    return {
+        ...context,
+        frame,
+        endsUser,
+        relations: context.relations.filter(id => BUSINESS_RELATIONS.includes(id) === (frame === "business")),
+        // (The user's life stage is asked of a consumer buyer only.)
+        userStages: frame === "people" ? context.userStages : []
+    };
 
 }
+
+/** The buyer and user relationships of a business buyer (Positioning's End User); the others are a consumer buyer's. */
+const BUSINESS_RELATIONS = ["rel:employer", "rel:copartner", "rel:serving", "rel:intermediary", "rel:sponsor", "rel:otherbusiness"];
 
 /** The audience ids of a buyer who is a person, and of a business or public buyer. */
 export const PEOPLE_AUDIENCE = ["young", "adult", "senior"];

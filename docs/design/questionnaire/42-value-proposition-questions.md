@@ -49,7 +49,7 @@ Each item names the Profile, Offering or Competitor it is about, and opens it. T
 | Item | Shown when |
 |---|---|
 | **Unmet value** | Something the Profiles care about (B1) that no Offering does best (O4) |
-| **Unwanted benefit** | A benefit an Offering claims (O4) that no Profile cares about (B1) |
+| **Unwanted benefit** | A benefit an Offering claims (O4) that no Profile cares about (B1); only the O4 ticks the App User saved count, not the starting ticks from the Differentiation (owner, 2026-11-08) |
 | **Unanswered need** | A numbered functional item of a Profile (by its id) that no Offering ticks; no text is matched, so an item edited on the Profile stays the same item. Matched by id since 2026-11-07 (built). The functional categories (L17) are the Profile's own ticks, also built on 2026-11-07, and are not ticked again on the Offering |
 | **Unused offering** | An Offering that answers no need of the Segment |
 | **Worry left open** | A worry a Profile ticked (E3) that no Offering answers (O8). The worry Support is answered when an Offering's O7, the help after the sale, is anything but None (built 2026-11-07) |

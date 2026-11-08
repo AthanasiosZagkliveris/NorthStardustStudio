@@ -345,7 +345,7 @@ export const INFO = {
     customerType: [
         "Who pays: focuses on the Economic Buyer who approves the budget, separating them from the end user. The positioning statement is written for the target market, and each distinct segment may need its own.",
         "B2C (Business-to-Consumer): individuals or consumers who pay for personal or family use.",
-        "B2B (Business-to-Business): businesses, companies or freelancers.",
+        "B2B (Business-to-Business): businesses, companies, freelancers or public bodies.",
         { title: "Based on", source: SOURCES.positioningStatement },
         { title: "Also", source: SOURCES.positioningTemplate }
     ],
