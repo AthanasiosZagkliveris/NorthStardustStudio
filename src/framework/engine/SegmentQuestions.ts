@@ -4,7 +4,11 @@
  * The words are the owner's. Where a list names platforms or brands they stand in the question's "i" as examples, never in the option.
  */
 
-export type SegmentBox = "demographics" | "geographics" | "business-data" | "purchasing" | "market-size" | "user";
+import { DIFFERENTIATION_WORDS, OUTCOME_USER_WORDS } from "./ActivityClassification.ts";
+import { choiceLimit } from "./PositioningIds.ts";
+
+/** The boxes of the Segment's Description, its user block, and "competitors": a question of the Segment asked once in its Competitors column, after the Competitor cards (doc 41, K14). */
+export type SegmentBox = "demographics" | "geographics" | "business-data" | "purchasing" | "market-size" | "user" | "competitors";
 
 export interface SegmentOption {
     id: string;
@@ -26,6 +30,11 @@ export interface SegmentQuestion {
     name?: string;
     /** A degree, asked as a rating from 1 to 5 (RatingScale): the words over its ends (doc 35, owner 2026-11-04). The answer is the point, "1" to "5". */
     rating?: { low: string; high: string };
+    /**
+     * A question that left Positioning for the Segment (owner, 2026-11-08): its limit is the business stage's (Positioning's outcome limit, `choiceLimit`), an answer over it goes back to
+     * empty, and an answer cleared stays cleared (saved as an empty list), so the Positioning answer saved before, its start, does not come back (`segmentPositioningShown`).
+     */
+    fromPositioning?: boolean;
 }
 
 /** What a Segment's questions follow: Identity's answers and the business stage. */
@@ -525,6 +534,25 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         id: "u-comfort", box: "user", label: "How comfortable are your customers online?", many: false,
         rating: COMFORT_RATING, options: ratingOptions(COMFORT_RATING),
         info: ["How easily they use websites, apps and online payment, not whether they own a device."]
+    },
+    // Positioning's question 10, moved here on 2026-11-08 (owner: "Move all three"), its options and "i" as built; the end user's own Profile takes it later (Phase 4b).
+    {
+        id: "u-outcome", box: "user", label: "Outcome for the end user", many: true, fromPositioning: true,
+        options: Object.entries(OUTCOME_USER_WORDS).map(([id, label]) => ({ id, label })),
+        info: [
+            "What matters most to the end user, apart from the buyer's own reasons for paying: the result the end user gets. It starts the end user's Profile.",
+            "Enjoyment & fun. Comfort & ease. Safety & care. Learning & growth. Looks & belonging (fitting in with friends, a style). Practical use."
+        ]
+    },
+
+    /* ---- Asked once in the Segment's Competitors column, after its Competitors (doc 41, K14) ---- */
+
+    // Positioning's question 8, moved here on 2026-11-08 (owner: "Move all three"; differentiation is set against the alternatives, Dunford): its options as built; its "i" and its order
+    // are the Positioning ones (`INFO.differentiation`, `differentiationOptionsFor` in legal/shared.tsx), drawn by the card.
+    {
+        id: "differentiation", box: "competitors", label: "Differentiation", many: true, fromPositioning: true,
+        options: Object.entries(DIFFERENTIATION_WORDS).map(([id, label]) => ({ id, label })),
+        info: []
     }
 
 ];
@@ -617,7 +645,7 @@ export function segmentQuestionAsked(question: SegmentQuestion, answers: Segment
             return people;
         case "authorise":
             return business;
-        case "u-age":
+        case "u-age": case "u-outcome":
             return context.endsUser;
         case "u-comfort":
             // A baby does not use online tools.
@@ -768,7 +796,8 @@ export function segmentChoose(question: SegmentQuestion, answers: SegmentAnswers
 
     const settled = { ...answers };
 
-    if (chosen.length > 0) {
+    // (A question moved from Positioning keeps an empty answer: cleared, it does not fall back to the Positioning answer saved before.)
+    if (chosen.length > 0 || question.fromPositioning) {
         settled[question.id] = chosen;
     } else {
         delete settled[question.id];
@@ -820,7 +849,19 @@ export function segmentSettle(answers: SegmentAnswers, context: SegmentContext):
                 continue;
             }
 
-            if (!chosen || chosen.length === 0) {
+            if (!chosen) {
+                continue;
+            }
+
+            // A question moved from Positioning: kept even when empty (cleared), and back to empty when the stage allows fewer choices than it holds (as on Positioning).
+            if (question.fromPositioning) {
+                const limit = choiceLimit(context.stage, "outcome");
+                const kept = chosen.filter(id => offered.includes(id));
+                next[question.id] = limit !== null && kept.length > limit ? [] : kept;
+                continue;
+            }
+
+            if (chosen.length === 0) {
                 continue;
             }
 
@@ -881,7 +922,8 @@ export function asSegmentAnswers(source: unknown): SegmentAnswers {
         const ids = (Array.isArray(entry) ? entry : []).filter((id): id is string => typeof id === "string");
         const known = ids.filter((id, at) => ids.indexOf(id) === at && question.options.some(option => option.id === id));
 
-        if (known.length > 0) {
+        // (A question moved from Positioning keeps an answer cleared: an empty list saved.)
+        if (known.length > 0 || (question.fromPositioning && Array.isArray(entry))) {
             answers[question.id] = question.many ? known : known.slice(0, 1);
         }
 

@@ -1,14 +1,14 @@
 # 38. The Positioning tile: every question and option, as built
 
-Status: **specification**, written 2026-11-01, updated 2026-11-08. Every question of the Positioning tile (Identity System, page 1) in the order it is asked, with its control, when it is asked, its options, what its "i" says and what it connects to.
+Status: **specification**, written 2026-11-01, updated 2026-11-08. Every question of the Positioning tile (Identity System, page 1) in the order it is asked, with its control, when it is asked, its options, what its "i" says and what it connects to. Questions 8 to 10 (the Differentiation and the two outcomes) moved to the Business System's Foundation cards on 2026-11-08 (owner, "Move all three"): K14 after the Competitors (doc 41), the Offering's O4 (doc 43) and the Segment's End user, 9 (doc 35); their sections below say where, and their codes stay retired (doc 44).
 
 Related: doc 37 (the Organisation tile, whose Opening Date sets the stage), doc 35 (the Segment's questions, which read these answers), doc 33 (the first version: single-sided, B2C and B2B), doc 31 (the age terms, the relationships and the relevance tables), doc 28 (8.2, the design), `src/components/interview/editors/legal/` and `src/framework/engine/PositioningIds.ts`.
 
-**The tile** is named by the business stage: **Early Positioning** (Planning and Launching), **Core Market Positioning** (Managing), **Corporate & Portfolio Positioning** (Growing); the saved key stays `positioning`. It has two columns with a divider: on the left, who the customers are (the relationship, the audience, the buyer's category, the end user); on the right, what is offered (the purpose, the differentiation, the outcomes); the Notes, the positioning statement, stand under both. The questions are bands, as on the Segment card. A question with a limit shows it beside its label ("2 max") and locks the other options at the limit, with no warning.
+**The tile** is named by the business stage: **Early Positioning** (Planning and Launching), **Core Market Positioning** (Managing), **Corporate & Portfolio Positioning** (Growing); the saved key stays `positioning`. It has two columns with a divider: on the left, who the customers are (the relationship, the audience, the buyer's category, the end user); on the right, what is offered (the purpose; the differentiation and the outcomes moved to the Business System on 2026-11-08); the Notes, the positioning statement, stand under both. The tile's lines say the customers, the end user and the purposes. The questions are bands, as on the Segment card. A question with a limit shows it beside its label ("2 max") and locks the other options at the limit, with no warning.
 
-**The stage sets how many choices a question allows** (the owner's matrix, doc 28, 8.2): Planning: one in every question. Launching: one, except two in the purpose, the differentiation and the outcomes. Managing: two in each. Growing: free. A question of one choice is a radio; a question of several is ticks. When a new Opening Date moves the business into another stage, an answer that no longer fits goes back to empty, and a question that fits keeps its answers. Every question's "i" carries the stage's line, before its sources, in the stage's words, for example: "At this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty."
+**The stage sets how many choices a question allows** (the owner's matrix, doc 28, 8.2): Planning: one in every question. Launching: one, except two in the purpose (and in the differentiation and the end user's outcome, which keep this limit where they are asked now). Managing: two in each. Growing: free. A question of one choice is a radio; a question of several is ticks. When a new Opening Date moves the business into another stage, an answer that no longer fits goes back to empty, and a question that fits keeps its answers. Every question's "i" carries the stage's line, before its sources, in the stage's words, for example: "At this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty."
 
-**Connections** are named as in doc 35: *Comes from* is what a question takes from another answer; *Read by* is what reads it, built and not built yet. Built for all of them: the exports and the Business Plan's positioning statement list the answers in words.
+**Connections** are named as in doc 35: *Comes from* is what a question takes from another answer; *Read by* is what reads it, built and not built yet. Built for all of them: the exports list the answers in words (the Differentiation and the end user's outcome under each Segment since 2026-11-08).
 
 ## 1. The left column: the customers
 
@@ -102,33 +102,22 @@ Related: doc 37 (the Organisation tile, whose Opening Date sets the stage), doc 
   - *Read by (built):* the order of the differentiations and outcomes; the exports.
   - *Read by (not built yet):* the Value Proposition draft (doc 28, 6.7). No Offering question asks a purpose.
 
-### 8. Differentiation
+### 8. Differentiation (moved to the Business System, owner, 2026-11-08)
 
-- **Control:** ticks, as the purpose.
-- **Asked when:** always.
-- **Options:** Cost-driven; Convenience-driven; Compliance, Risk & Security; Status & Premium; Performance & Innovation; Ecosystem & Integration; Personal Service & Relationship (`personal`, added 2026-11-08, the options-and-wording research: Treacy and Wiersema's customer intimacy [FUN-22]; possible relevance in every table of doc 31, so it is always offered; it starts O4 with Personalisation and Support, doc 34, 5.2a; to move to the Competitor card later), in an order that follows the audience scale, the category, the relationships, the life stages and the purposes chosen (never a filter beyond the tables). A blank of the audience scale's table is not offered; Cost-driven is offered to an Enterprise or Public Sector Direct or Dual-Intent buyer (possible relevance, doc 31; owner, 2026-11-08).
-- **The "i" says:** What the offering does differently from the competitors: where it hits exactly the blind spot they leave. It is about the offering; the result the buyer gets from it is the outcome, asked next. Then one line per option: "Cost-driven (saving resources): targets the blind spot of expensive competitors with a budget-friendly alternative." "Convenience-driven (speed and ease): targets the blind spot of complex or slow solutions." "Compliance, Risk & Security: targets the blind spot of uncertified or questionable alternatives." "Status & Premium (exclusivity): targets the blind spot of mass-market or cheap products with top quality and custom service." "Performance & Innovation (product superiority): targets the blind spot of dated or underpowered alternatives with better results and newer methods." "Ecosystem & Integration (fits what they already use): targets the blind spot of standalone tools that do not connect to the buyer's other systems and workflows." "Personal Service & Relationship (customer intimacy): targets the blind spot of impersonal providers with a service shaped around each customer." Based on strategic positioning.
-- **Connections:**
-  - *Comes from:* the answers above (the order).
-  - *Read by (built):* the exports and the positioning statement. *Not built yet:* the Competitor card and the Value Proposition.
+**Moved.** The owner decided (2026-11-08, "Move all three") that questions 8, 9 and 10 leave this tile and are answered on the Business System's Foundation cards. **Why:** a differentiation is set against the alternatives the customer would otherwise choose, so it is answered after the competitors are known, not before them (Dunford, *Obviously Awesome*, 2019: the competitive alternatives come first, the unique attributes and the value they enable follow from them).
 
-### 9. Outcome (for the buyer)
+- **Where it is now:** once for each Segment, in its Competitors column after the Competitor cards, under the heading Insights & Differentiation: code K14 (doc 41), saved on the Segment (`questions.differentiation`). Its options, its "i" (one line changed: the result is asked on each Offering, not "next") and its order (doc 31, the owner's tables, `differentiationOptionsFor`) are as built here; the stage sets its limit as before.
+- **The saved answer:** `organisation.differentiation` stays readable; it is the starting value of every Segment's K14 until that Segment saves its own, which then wins (even cleared). It no longer shows on this tile, in the tile's lines or in the Review's open item of this tile.
 
-- **Control:** ticks, as the purpose. The label is "Outcome" until an end user's outcome is asked.
-- **Asked when:** always.
-- **Options:** Lower costs; Time saved; Legal & data-protection cover; Higher quality & prestige, ordered by the purposes and the life stages.
-- **The "i" says:** The measurable result the buyer gets from the offering (outcome or return): what the buyer is paying for. Then a line on the four options: "Lower costs: an immediate reduction in operating costs. Time saved: the execution time of a process cut to almost nothing, or the workflow drastically simplified. Legal & data-protection cover: absolute legal coverage and no risk of fines. Higher quality & prestige: top quality, custom service and an upgrade of the buyer's prestige." For a Proxy or Dual-Intent Buyer the end user has an outcome of their own, asked next.
-- **Connections:**
-  - *Read by (built):* the exports and the positioning statement. *Not built yet:* the Value Proposition.
+### 9. Outcome for the buyer (moved to the Offering, owner, 2026-11-08)
 
-### 10. Outcome for the end user
+- **Where it is now:** the Offering's O4 ("What does it do best for the customer?") is its one owner (doc 43); no question asks it twice. Each of its four options already has its value in O4's list through the crosswalk (doc 34, 5.2a: Lower costs → Affordability; Time saved → Speed, Convenience; Legal & data-protection cover → Safety / security, Reputation; Higher quality & prestige → Quality, Values), so O4 needed no new option.
+- **The saved answer:** `organisation.outcome` stays readable; it starts O4's ticks after the Differentiation's (up to three), until the Offering saves its own.
 
-- **Control:** ticks, as the purpose.
-- **Asked when:** some buyer is a Proxy or Dual-Intent Buyer.
-- **Options:** Enjoyment & fun; Comfort & ease; Safety & care; Learning & growth; Looks & belonging; Practical use, ordered by the purposes and the life stages.
-- **The "i" says:** What matters most to the end user, apart from the buyer's own reasons for paying: the result the end user gets. It starts the end user's Profile. Then a line listing the options: "Enjoyment & fun. Comfort & ease. Safety & care. Learning & growth. Looks & belonging (fitting in with friends, a style). Practical use."
-- **Connections:**
-  - *Read by (built):* the exports. *Not built yet:* the end user's Profile (doc 36).
+### 10. Outcome for the end user (moved to the Segment, owner, 2026-11-08)
+
+- **Where it is now:** the Segment's End user part, End user, 9 (doc 35), asked only where the Segment has an end user (its own buyer is Proxy or Dual-Intent); its options, its "i" and its order (the purposes, then the life stages) as built here; the stage sets its limit. Phase 4b moves it into the end user's own Profile (doc 36) when that is built.
+- **The saved answer:** `organisation.outcomeUser` stays readable; it is the starting value of each Segment's End user, 9 where that Segment has an end user, until the Segment saves its own.
 
 ## 3. Under both columns
 

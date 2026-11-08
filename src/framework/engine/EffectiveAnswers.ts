@@ -6,7 +6,7 @@
 import type { BusinessCustomerProfileValue, BusinessCustomerSegmentValue, BusinessOfferingValue } from "./AnswerBusinessFoundation.ts";
 import { type OfferingAnswers, type OfferingContext, offeringShown } from "./OfferingQuestions.ts";
 import { profileShown } from "./ProfileQuestions.ts";
-import { type SegmentIdentity, segmentContextFor, segmentIsBusiness } from "./SegmentContext.ts";
+import { type SegmentIdentity, segmentContextFor, segmentIsBusiness, segmentPositioningShown } from "./SegmentContext.ts";
 import type { SegmentAnswers } from "./SegmentQuestions.ts";
 
 /** A Profile's answers as its card shows them: its own, with each start for a question it never answered. */
@@ -14,10 +14,19 @@ export function effectiveProfileAnswers(profile: BusinessCustomerProfileValue, s
     return profileShown(profile.questions ?? {}, segment.questions, segmentContextFor(identity, segmentIsBusiness(segment)));
 }
 
-/** What an Offering's questions follow: its Type, the business stage, Positioning's Differentiation, the Segment's payment, its Profiles' worries and the Organisation's country (O18's "i"). */
+/** A Segment's answers as its card shows them: its own, with the Positioning answers saved before 2026-11-08 as the starts of its Differentiation and its end user's outcome. */
+export function effectiveSegmentAnswers(segment: BusinessCustomerSegmentValue, identity: SegmentIdentity | undefined): SegmentAnswers {
+    return segmentPositioningShown(segment.questions, identity, segmentContextFor(identity, segmentIsBusiness(segment)));
+}
+
+/**
+ * What an Offering's questions follow: its Type, the business stage, the Segment's own Differentiation (K14; the Positioning one saved before is its start), the buyer's outcome saved on
+ * Positioning before 2026-11-08 (O4 owns it now), the Segment's payment, its Profiles' worries and the Organisation's country (O18's "i").
+ */
 export function offeringContextOf(offering: BusinessOfferingValue, segment: BusinessCustomerSegmentValue, identity: SegmentIdentity | undefined): OfferingContext {
     const worries = [...new Set(segment.profiles.flatMap(profile => effectiveProfileAnswers(profile, segment, identity).e3 ?? []))];
-    return { type: offering.category, stage: identity?.stage, differentiation: identity?.differentiation, pay: segment.questions.pay ?? [], worries, country: identity?.country };
+    const differentiation = effectiveSegmentAnswers(segment, identity).differentiation ?? [];
+    return { type: offering.category, stage: identity?.stage, differentiation, outcome: identity?.outcome ?? [], pay: segment.questions.pay ?? [], worries, country: identity?.country };
 }
 
 /** An Offering's answers as its card shows them: its own, with each start for a question it never answered. */

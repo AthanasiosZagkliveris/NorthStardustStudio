@@ -2,7 +2,7 @@
 
 Status: **specification**, written 2026-11-03, updated 2026-11-08. The Value Proposition tile (Business System, page 1): what it asks, the draft sentence it offers, and the open items it lists, with what each reads. The text is built; the draft and the open items are **built** (owner, 2026-11-07: "Update the Value Proposition and Offering card according to their docs"; `OfferingQuestions.ts`), with what is not yet built named in each section.
 
-Related: doc 35 (the Segment), doc 36 (the Profile: the needs, goals, frustrations and worries), doc 38 (Positioning: purpose, differentiation, outcomes), doc 41 (the Competitor: K8 and K10), doc 43 (the Offering: O1, O4, O8 and the needs addressed), doc 34 (the value crosswalk, 5.2a), doc 28 (6.7 and 8.2, the design this refines).
+Related: doc 35 (the Segment), doc 36 (the Profile: the needs, goals, frustrations and worries), doc 38 (Positioning: the purpose; the differentiation and the outcomes it held until 2026-11-08), doc 41 (K14, the Segment's Differentiation), doc 41 (the Competitor: K8 and K10), doc 43 (the Offering: O1, O4, O8 and the needs addressed), doc 34 (the value crosswalk, 5.2a), doc 28 (6.7 and 8.2, the design this refines).
 
 **What the tile is.** There is one Value Proposition per Segment (built). It is a string on the Segment, `valueProposition`. The tile opens one text, with the instructions as built:
 - "Define a clear, concise Value Proposition for each Customer Segment."
@@ -37,7 +37,7 @@ The sentence follows Moore's positioning template, as taught at Stanford [FUN-28
   - Add a draft: a starting sentence made from your answers on this page. It is yours once added: change it freely.
   - Based on: Moore's positioning template, and the pains and gains of the Value Proposition Canvas.
 - **Connections:**
-  - *Comes from:* the Segment's name; its Profiles' E1 and E2; its Offerings' O1 and O4 (doc 43); its Competitors' type and K8 (doc 41). Where the words of an answer do not read in the sentence, its crosswalk words are used (doc 34, 5.2a). Positioning's purpose, differentiation and outcomes (doc 38, questions 7 to 10) also come in through the crosswalk.
+  - *Comes from:* the Segment's name; its Profiles' E1 and E2; its Offerings' O1 and O4 (doc 43); its Competitors' type and K8 (doc 41). Where the words of an answer do not read in the sentence, its crosswalk words are used (doc 34, 5.2a). The Segment's Differentiation (K14, doc 41; Positioning's question 8 until 2026-11-08, whose saved answer starts it) and the buyer's outcome saved on Positioning before (O4 owns it now, doc 43) come in through O4's starting ticks and the crosswalk; the draft reads O4 as the card shows it (`effectiveOfferingAnswers`). Positioning's purpose is not read.
   - *Read by:* nothing. The text is the user's, and the Business Plan reads the text as built.
 
 **As built (2026-11-07):** the draft and the open items read the Profiles' and the Offerings' answers as their cards show them, starting values included (2026-11-08). One link for each Offering with a Type, "Add a draft" (with several Offerings, "Add a draft for [its name]": one draft per Offering, decided, as section 1 says), above the text; it adds its sentence at the end, only what is not already there (`draftToAdd`), and goes once added. The sentence: "For [Segment] who [frustration phrase] and want to [goal phrase], [Offering] is [its form, O1, else its Type] that offers [its main benefit]. Unlike its competitors, it offers [the clear opening]." The "i" of the tile carries the two lines of the draft's "i" above. `valuePropositionDraft`, `draftOffered`.
@@ -49,7 +49,7 @@ Each item names the Profile, Offering or Competitor it is about, and opens it. T
 | Item | Shown when |
 |---|---|
 | **Unmet value** | Something the Profiles care about (B1) that no Offering does best (O4) |
-| **Unwanted benefit** | A benefit an Offering claims (O4) that no Profile cares about (B1); only the O4 ticks the App User saved count, not the starting ticks from the Differentiation (owner, 2026-11-08) |
+| **Unwanted benefit** | A benefit an Offering claims (O4) that no Profile cares about (B1); only the O4 ticks the App User saved count, not the starting ticks from the Segment's Differentiation and the buyer's outcome saved before (owner, 2026-11-08) |
 | **Unanswered need** | A numbered functional item of a Profile (by its id) that no Offering ticks; no text is matched, so an item edited on the Profile stays the same item. Matched by id since 2026-11-07 (built). The functional categories (L17) are the Profile's own ticks, also built on 2026-11-07, and are not ticked again on the Offering |
 | **Unused offering** | An Offering that answers no need of the Segment |
 | **Worry left open** | A worry a Profile ticked (E3) that no Offering answers (O8). The worry Support is answered when an Offering's O7, the help after the sale, is anything but None (built 2026-11-07) |

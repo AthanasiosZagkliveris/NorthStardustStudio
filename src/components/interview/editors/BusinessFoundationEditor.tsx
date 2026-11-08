@@ -154,7 +154,28 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                     links: listOf(segment, kind).filter(entry => entry.name.trim()).slice(0, 6).map(entry => ({ card: entry.id })),
                     add,
                     cardFor,
-                    content: () => dialog(section, title, <CardBoxes items={boxesOf(segment, kind)} label={title} what={NOUN[kind]} add={add} autoStart={false} />)
+                    content: () => dialog(section, title, kind === "competitors" ? (
+                        <>
+                            <CardBoxes items={boxesOf(segment, kind)} label={title} what={NOUN[kind]} add={add} autoStart={false} />
+                            {/* THE DIFFERENTIATION (doc 41, K14; owner, 2026-11-08): once for the Segment, under its Competitors' tiles, a section of the dialog as the Segment
+                                Description's Profiles are: split by the shared double rule, its title a band on the primary fill, its question in a band under it. */}
+                            <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-full">
+                                <div className="legal-entity-field">
+                                    <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double" role="separator" />
+                                    <div className="business-segment-box">
+                                        <div className="legal-entity-org-section">
+                                            <span className="business-foundation-label-info legal-entity-label-info">
+                                                <FieldLabel className="business-foundation-label" role="heading" aria-level={3}>Insights & Differentiation</FieldLabel>
+                                            </span>
+                                        </div>
+                                        <div className="legal-entity-org-section legal-entity-org-band">
+                                            {subsectionsFor(segment, index).differentiation}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </>
+                    ) : <CardBoxes items={boxesOf(segment, kind)} label={title} what={NOUN[kind]} add={add} autoStart={false} />)
                 };
             };
             const profileAdd = addOf(segment.id, "profiles");

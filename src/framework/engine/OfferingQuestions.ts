@@ -27,8 +27,10 @@ export interface OfferingContext {
     type: string;
     /** The business stage (plan, launch, manage, grow), for O2's starting value. */
     stage?: string;
-    /** Positioning's differentiation ids, for O4's starting ticks. */
+    /** The Segment's Differentiation ids (K14, doc 41; the Positioning one saved before 2026-11-08 is its start), for O4's starting ticks. */
     differentiation?: readonly string[];
+    /** The buyer's outcome ids saved on Positioning before 2026-11-08 (no longer asked: O4 owns it), for O4's starting ticks after the differentiation's. */
+    outcome?: readonly string[];
     /** The Segment's "How do your customers pay?" ids, for O3's order. */
     pay?: readonly string[];
     /** The worries ticked in the Segment's Profiles' E3, for O8's options. */
@@ -109,7 +111,7 @@ export const OFFERING_QUESTIONS: readonly OfferingQuestion[] = [
         "Commission on each sale: a share of each sale you make for them. Free to them: someone else pays, such as an advertiser or a funder.",
         "A minimum term: write it in the Notes."] },
     { id: "o3t", label: "When do they pay?", many: false, info: ["When the money comes in. How they pay (card, invoice) is the Segment's question."] },
-    { id: "o4", label: "What does it do best for the customer?", many: true, max: 3, info: ["The first you tick is the main benefit. The same list as \"What matters most\" on your Profiles and Competitors, so they can be compared.", "Your Positioning's Differentiation starts the ticks; change them freely."] },
+    { id: "o4", label: "What does it do best for the customer?", many: true, max: 3, info: ["The first you tick is the main benefit. The same list as \"What matters most\" on your Profiles and Competitors, so they can be compared.", "The Segment's Differentiation (under its Competitors) starts the ticks, and so does the outcome for the buyer you chose before; change them freely."] },
     { id: "o6", label: "How does the customer receive it?", many: false, info: ["How it reaches them once bought.", "Sent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready."] },
     { id: "o7", label: "What help do you give after they buy?", many: false, info: ["The help that comes with it after the sale."] },
     { id: "o8", label: "Which of their worries does it answer?", many: true, info: ["The doubts that stop your customers buying from you, as your Profiles say. A worry nothing answers is shown on the Value Proposition.", "Support is answered by the help after they buy, above."] },
@@ -234,13 +236,23 @@ const CROSSWALK: Record<string, readonly string[]> = {
     // Personal Service & Relationship (2026-11-08): Personalisation and Support.
     personal: ["a-service-made-for-them", "good-support"]
 };
+/**
+ * The buyer's outcome (Positioning's question 9 until 2026-11-08; O4 is its one owner now, owner: "Move all three"), through the same crosswalk (doc 34, 5.2a): each of its four options has
+ * its value in L1 already, so O4 needed no new option; a saved outcome starts O4's ticks after the differentiation's.
+ */
+const OUTCOME_CROSSWALK: Record<string, readonly string[]> = {
+    savings: ["lower-price"],
+    time: ["speed", "ease-and-convenience"],
+    assurance: ["safety-and-low-risk", "trust-and-reputation"],
+    prestige: ["quality-and-results", "shared-values-or-identity"]
+};
 // (Launching starts "Yes, now", 2026-11-08: a business that is launching sells.)
 const STAGE_START: Record<string, string> = { plan: "building", launch: "now", manage: "now", grow: "now" };
 const RECEIVE_START: Record<string, string> = { physical: "shipped", digital: "auto", app: "access", access: "access", live: "live", inperson: "inperson" };
 
 /**
  * The answers as the card shows them: those saved, then a starting value where a question has none (doc 43: O2 from the business stage, O4 from the
- * differentiation, O6 from O1), never over an answer chosen; an answer to a question not asked, or an option not offered, is dropped.
+ * Segment's differentiation and the buyer's outcome saved before, O6 from O1), never over an answer chosen; an answer to a question not asked, or an option not offered, is dropped.
  */
 export function offeringShown(saved: OfferingAnswers, context: OfferingContext): OfferingAnswers {
     const shown: OfferingAnswers = {};
@@ -259,7 +271,7 @@ export function offeringShown(saved: OfferingAnswers, context: OfferingContext):
         shown.o2 = [STAGE_START[context.stage]];
     }
     if (!saved.o4) {
-        const start = [...new Set((context.differentiation ?? []).flatMap(id => CROSSWALK[id] ?? []))].slice(0, 3);
+        const start = [...new Set([...(context.differentiation ?? []).flatMap(id => CROSSWALK[id] ?? []), ...(context.outcome ?? []).flatMap(id => OUTCOME_CROSSWALK[id] ?? [])])].slice(0, 3);
         if (start.length > 0) {
             shown.o4 = start;
         }

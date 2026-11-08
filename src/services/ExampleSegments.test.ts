@@ -6,7 +6,7 @@ import { asBusinessFoundationValue, asLegalEntityValue } from "../framework/engi
 import { SEGMENT_QUESTIONS, segmentQuestionAsked, segmentSettle } from "../framework/engine/SegmentQuestions";
 import { stageOf } from "../framework/engine/BusinessStage";
 import { fitPositioningToStage } from "../components/interview/editors/legal/shared";
-import { segmentContextFor } from "../components/interview/editors/foundation/identityLink";
+import { segmentContextFor, segmentPositioningShown } from "../components/interview/editors/foundation/identityLink";
 import { asProfileAnswers, profileSettle } from "../framework/engine/ProfileQuestions";
 
 /**
@@ -18,7 +18,7 @@ describe.each([["Lumen & Loom Studio", lumen], ["Quillfield Automation LLC", qui
     const systems = example.systems as unknown as Record<string, { responses: { value: unknown }[] }>;
     const organisation = asLegalEntityValue(systems["1"].responses[2].value).organisation;
     const currentStage = stageOf((example as unknown as { globalSettings: { openingDate: string } }).globalSettings.openingDate, new Date());
-    const identity = { relationships: organisation.customerType, marketType: organisation.marketType, audience: organisation.audience, buyerCategory: organisation.buyerCategory, endUser: organisation.endUser, stage: currentStage };
+    const identity = { relationships: organisation.customerType, marketType: organisation.marketType, audience: organisation.audience, buyerCategory: organisation.buyerCategory, endUser: organisation.endUser, stage: currentStage, differentiation: organisation.differentiation, outcomeUser: organisation.outcomeUser };
     const segments = asBusinessFoundationValue(systems["3"].responses[0].value).segments;
 
     // The Positioning answers of an example stand at its stage today and at every later one: where a stage allows fewer choices, the app empties the answer, and the example would then open with its Positioning blank.
@@ -32,9 +32,11 @@ describe.each([["Lumen & Loom Studio", lumen], ["Quillfield Automation LLC", qui
         // (Where both relationships are chosen, the Segment is of businesses if it has the Business Data key.)
         const context = segmentContextFor(identity, segment.description["business-data"] !== undefined);
         expect(segmentSettle(segment.questions, context)).toEqual(segment.questions);
-        // (A question with one option left is not shown, and holds that option as its answer: it is still asked.)
+        // (A question with one option left is not shown, and holds that option as its answer: it is still asked. The Differentiation, and the end user's outcome, are answered by the
+        // Positioning answer saved before 2026-11-08, their start, where the Segment saved none: segmentPositioningShown.)
+        const shown = segmentPositioningShown(segment.questions, identity, context);
         const asked = SEGMENT_QUESTIONS.filter(question => segmentQuestionAsked(question, segment.questions, context)).map(question => question.id);
-        expect(asked.filter(id => !(segment.questions[id]?.length))).toEqual([]);
+        expect(asked.filter(id => !(shown[id]?.length))).toEqual([]);
         expect(Object.keys(segment.questions).filter(id => !asked.includes(id))).toEqual([]);
     });
 

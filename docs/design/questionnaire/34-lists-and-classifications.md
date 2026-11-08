@@ -75,7 +75,7 @@ L12 follows the UN household-consumption divisions [SPN-01] as customer-friendly
 
 The positioning (doc 38), the customer's priorities (L1) and the customer's goals (L4) describe value at three levels: what the business claims, what the customer chooses by, what the customer wants to achieve. This table is the one place that says which answers mean the same thing, so that the Value Proposition draft and the Review can compare them (doc 28, 11.5, rule 22). It suggests starting ticks and raises Review notes; it never hides an option.
 
-| Positioning: Differentiation (doc 38, Q8) | Positioning: Outcome (doc 38, Q9) | What customers care about (L1, doc 36 B1) |
+| Differentiation (the Segment's K14, doc 41; Positioning's question 8 until 2026-11-08) | The buyer's outcome (O4 owns it since 2026-11-08; Positioning's question 9 before) | What customers care about (L1, doc 36 B1) |
 |---|---|---|
 | Cost-driven | Lower costs | Affordability |
 | Convenience-driven | Time saved | Speed; Convenience |
@@ -84,6 +84,8 @@ The positioning (doc 38), the customer's priorities (L1) and the customer's goal
 | Performance & Innovation | none | Quality; Expertise (the nearest L1 options; owner, 2026-11-08) |
 | Ecosystem & Integration | none | Convenience (the nearest L1 option; owner, 2026-11-08) |
 | Personal Service & Relationship | none | Personalisation; Support (added 2026-11-08: customer intimacy is a service made for them and the help around it) |
+
+**Since 2026-11-08** (owner, "Move all three"): the Differentiation is asked once per Segment after its Competitors (K14, doc 41) and the buyer's outcome is owned by the Offering's O4 (doc 43). Both start O4's ticks through this table: the Segment's Differentiation first (Positioning's saved answer where the Segment saved none), then a buyer's outcome saved on Positioning before (`CROSSWALK` and `OUTCOME_CROSSWALK`, `OfferingQuestions.ts`), three at most. Every outcome has its L1 value in the third column, so O4 needed no new option.
 
 The goals (L4) are the customer's own outcomes and match none of these one for one; the Value Proposition reads them as the gains (doc 28, 6.7; FUN-46).
 

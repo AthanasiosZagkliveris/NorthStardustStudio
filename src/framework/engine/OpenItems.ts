@@ -71,8 +71,11 @@ export interface OpenItem {
 
 const validator = new InterviewValidator();
 
-/** What the Positioning tile still lacks: each of its questions with no choice (the audience and the buyer's category are asked for each relationship chosen). */
-export function positioningLacks(organisation: { customerType: string[]; audience: string[]; buyerCategory: string[]; purpose: string[]; differentiation: string[]; outcome: string[] }): string[] {
+/**
+ * What the Positioning tile still lacks: each of its questions with no choice (the audience and the buyer's category are asked for each relationship chosen). The differentiation and the
+ * outcomes are not Positioning's since 2026-11-08 (owner): the Business System asks them.
+ */
+export function positioningLacks(organisation: { customerType: string[]; audience: string[]; buyerCategory: string[]; purpose: string[] }): string[] {
     const scales = ["solo", "smb", "mid", "enterprise"];
     const stages = ["young", "adult", "senior"];
     const models = organisation.customerType;
@@ -80,9 +83,7 @@ export function positioningLacks(organisation: { customerType: string[]; audienc
         models.length === 0 && "the seller and buyer relationship",
         models.some(model => !organisation.audience.some(id => (model === "b2b" ? scales : stages).includes(id))) && "the audience",
         models.some(model => !organisation.buyerCategory.some(id => id.startsWith(model + ":"))) && "the buyer's category",
-        organisation.purpose.length === 0 && "the purpose",
-        organisation.differentiation.length === 0 && "the differentiation",
-        organisation.outcome.length === 0 && "the outcome"
+        organisation.purpose.length === 0 && "the purpose"
     ].filter((word): word is string => !!word);
 }
 

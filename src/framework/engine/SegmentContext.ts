@@ -3,7 +3,8 @@
  * Pure functions, so the card, the documents and the tests read the same rules (in the engine, since the documents settle a Segment's answers against Identity too).
  */
 import { AUDIENCE_WORDS } from "./ActivityClassification.ts";
-import { type SegmentAnswers, type SegmentContext, segmentSettle } from "./SegmentQuestions.ts";
+import { type SegmentAnswers, type SegmentContext, SEGMENT_QUESTIONS, segmentQuestionAsked, segmentSettle } from "./SegmentQuestions.ts";
+import { choiceLimit } from "./PositioningIds.ts";
 import { withOnlyUserStage } from "./RelationshipFit.ts";
 
 /** The Identity answers the Segment card reads. Absent: nothing is known, and the card is as it was. */
@@ -23,8 +24,15 @@ export interface SegmentIdentity {
     /** The Organisation's country (ISO code) and its first activity's code: the order of the Competitor's review platforms (doc 41, K6). */
     country?: string;
     activityCode?: string;
-    /** Positioning's differentiation ids: the Offering's O4 starts from them (doc 43). */
+    /**
+     * The Positioning answers saved before they left Positioning (owner, 2026-11-08): the differentiation starts each Segment's own (K14, doc 41), the end user's outcome each Segment's
+     * End user, 9 (doc 35), the buyer's outcome the Offering's O4 (doc 43, through the crosswalk of doc 34, 5.2a). Never asked again; read only as starts.
+     */
     differentiation?: readonly string[];
+    outcome?: readonly string[];
+    outcomeUser?: readonly string[];
+    /** Positioning's purposes: the order of the Differentiation and of the end user's outcome. */
+    purpose?: readonly string[];
 }
 
 /** The Organisation's answers the Segment, Profile and Offering cards read (the Organisation tile and Positioning). */
@@ -37,6 +45,9 @@ export interface IdentityOrganisation {
     country?: string;
     activities?: readonly { code: string }[];
     differentiation?: readonly string[];
+    outcome?: readonly string[];
+    outcomeUser?: readonly string[];
+    purpose?: readonly string[];
 }
 
 /** The Identity answers as the cards read them, from the Organisation and the business stage: one mapping for the page, the documents and the exports. */
@@ -50,8 +61,38 @@ export function segmentIdentityOf(organisation: IdentityOrganisation, stage?: st
         stage,
         country: organisation.country,
         activityCode: organisation.activities?.[0]?.code ?? "",
-        differentiation: organisation.differentiation
+        differentiation: organisation.differentiation,
+        outcome: organisation.outcome,
+        outcomeUser: organisation.outcomeUser,
+        purpose: organisation.purpose
     };
+}
+
+/** The Segment's questions that came from Positioning, and the Positioning answer (saved before 2026-11-08) each starts from. */
+const POSITIONING_STARTS: readonly { id: string; from: "differentiation" | "outcomeUser" }[] = [
+    { id: "differentiation", from: "differentiation" },
+    { id: "u-outcome", from: "outcomeUser" }
+];
+
+/**
+ * A SEGMENT'S ANSWERS WITH THE POSITIONING STARTS (owner, 2026-11-08: the Differentiation and the end user's outcome left Positioning for each Segment): where the Segment never answered
+ * one (no key saved), the Positioning answer saved before is its starting value, within the stage's limit; a value saved on the Segment wins, even an empty one (cleared). The end user's
+ * outcome is started only where the Segment has an end user. What the card shows, and what the documents, the exports and the Offering's O4 read.
+ */
+export function segmentPositioningShown(answers: SegmentAnswers, identity: Pick<SegmentIdentity, "differentiation" | "outcomeUser"> | undefined, context: SegmentContext): SegmentAnswers {
+    const shown: SegmentAnswers = { ...answers };
+    const limit = choiceLimit(context.stage, "outcome");
+    for (const { id, from } of POSITIONING_STARTS) {
+        const question = SEGMENT_QUESTIONS.find(entry => entry.id === id);
+        if (!question || id in answers || !segmentQuestionAsked(question, answers, context)) {
+            continue;
+        }
+        const start = (identity?.[from] ?? []).filter(option => question.options.some(entry => entry.id === option));
+        if (start.length > 0) {
+            shown[id] = limit === null ? start : start.slice(0, limit);
+        }
+    }
+    return shown;
 }
 
 /** Whether a Segment is of businesses: the presence of its Business Data key. */
@@ -160,7 +201,7 @@ export const BUSINESS_AUDIENCE = ["solo", "smb", "mid", "enterprise", "local", "
  */
 export function settledSegmentAnswers(
     segment: { questions: SegmentAnswers; description: Record<string, string> },
-    organisation: { customerType: readonly string[]; marketType: string; audience: readonly string[]; buyerCategory?: readonly string[]; endUser?: readonly string[] }
+    organisation: { customerType: readonly string[]; marketType: string; audience: readonly string[]; buyerCategory?: readonly string[]; endUser?: readonly string[]; differentiation?: readonly string[]; outcomeUser?: readonly string[] }
 ): SegmentAnswers {
 
     const context = segmentContextFor({
@@ -172,6 +213,7 @@ export function settledSegmentAnswers(
         stage: "grow"
     }, segment.description["business-data"] !== undefined);
 
-    return segmentSettle(segment.questions, context);
+    // (With the Positioning answers saved before 2026-11-08 as the starts of the Differentiation and the end user's outcome: segmentPositioningShown.)
+    return segmentPositioningShown(segmentSettle(segment.questions, context), organisation, context);
 
 }

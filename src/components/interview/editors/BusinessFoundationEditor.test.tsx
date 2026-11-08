@@ -7,6 +7,7 @@ import { toggles } from "../../../test/interviewTestUtils";
 import {
     asBusinessFoundationValue,
     businessFoundationSubsectionsEmpty,
+    createBusinessCompetitor,
     createBusinessCustomerProfile,
     createBusinessCustomerSegment
 } from "../../../framework/engine/AnswerUtils";
@@ -182,6 +183,61 @@ describe("BusinessFoundationEditor asks its questions", () => {
     it("has no free-text box in a box of the Segment's Description", () => {
         render(<Harness initial={twoProfiles()} />);
         expect(screen.queryByLabelText(/Segment 1 description:/)).toBeNull();
+    });
+
+});
+
+/* Positioning's 8 and 10 on the Business System (owner, 2026-11-08, "Move all three"): the Differentiation once per Segment after its Competitors, the end user's outcome in its End user part. */
+describe("BusinessFoundationEditor asks the questions that left Positioning", () => {
+
+    function Held({ identity, saved }: { identity: Record<string, unknown>; saved: { current: unknown } }) {
+        const [value, setValue] = useState<unknown>(() => {
+            const segment = createBusinessCustomerSegment([]);
+            return { ...asBusinessFoundationValue(undefined), segments: [{ ...segment, competitors: [createBusinessCompetitor(), createBusinessCompetitor()] }] };
+        });
+        saved.current = value;
+        return <BusinessFoundationEditor value={value} onChange={setValue} identity={identity as never} />;
+    }
+    const proxy = { relationships: ["b2c"], marketType: "single", audience: ["adult"], buyerCategory: ["b2c:proxy"], endUser: ["rel:parent", "age:minor"], stage: "manage", differentiation: ["premium"], outcomeUser: ["safety"], purpose: ["protection"] };
+
+    it("asks the Differentiation once for the Segment, in its Competitors column after the Competitor cards, started from Positioning; a tick is saved on the Segment", () => {
+        const saved: { current: unknown } = { current: null };
+        const { container } = render(<Held identity={proxy} saved={saved} />);
+        const groups = screen.getAllByRole("group", { name: "Differentiation" });
+        expect(groups).toHaveLength(1);
+        // (In the Competitors column, after both Competitor cards.)
+        const column = container.querySelector(".business-foundation-competitors")!;
+        expect(column.contains(groups[0])).toBe(true);
+        const cards = [...column.querySelectorAll("[data-anchor]")];
+        expect(cards.length).toBeGreaterThanOrEqual(2);
+        expect(cards[cards.length - 1].compareDocumentPosition(groups[0]) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+        // (Managing: two at most, "2 max"; the Positioning answer is the start, nothing is saved until a tick.)
+        expect((screen.getByRole("checkbox", { name: "Differentiation: Status & Premium" }) as HTMLInputElement).checked).toBe(true);
+        expect(asBusinessFoundationValue(saved.current).segments[0].questions.differentiation).toBeUndefined();
+        fireEvent.click(screen.getByRole("checkbox", { name: "Differentiation: Personal Service & Relationship" }));
+        expect([...asBusinessFoundationValue(saved.current).segments[0].questions.differentiation].sort()).toEqual(["personal", "premium"]);
+        expect((screen.getByRole("checkbox", { name: "Differentiation: Cost-driven" }) as HTMLInputElement).disabled).toBe(true);
+    });
+
+    it("asks the end user's outcome in the Segment's End user part only where the Segment has an end user", () => {
+        const saved: { current: unknown } = { current: null };
+        render(<Held identity={proxy} saved={saved} />);
+        const outcome = screen.getByRole("group", { name: "Outcome for the end user" });
+        // (Ordered by the purposes chosen: Protection & Risk Reduction puts Safety & care first; started from Positioning.)
+        expect(outcome.querySelector("label")?.textContent).toBe("Safety & care");
+        expect((screen.getByRole("checkbox", { name: "Outcome for the end user: Safety & care" }) as HTMLInputElement).checked).toBe(true);
+        cleanup();
+        render(<Held identity={{ ...proxy, buyerCategory: ["b2c:direct"], endUser: [] }} saved={saved} />);
+        expect(screen.queryByRole("group", { name: "Outcome for the end user" })).toBeNull();
+        expect(screen.queryByRole("radiogroup", { name: "Outcome for the end user" })).toBeNull();
+    });
+
+    it("asks one Differentiation as a radio while planning", () => {
+        const saved: { current: unknown } = { current: null };
+        render(<Held identity={{ ...proxy, stage: "plan" }} saved={saved} />);
+        expect(screen.getByRole("radiogroup", { name: "Differentiation" })).toBeTruthy();
+        fireEvent.click(screen.getByRole("radio", { name: "Cost-driven" }));
+        expect(asBusinessFoundationValue(saved.current).segments[0].questions.differentiation).toEqual(["cost"]);
     });
 
 });

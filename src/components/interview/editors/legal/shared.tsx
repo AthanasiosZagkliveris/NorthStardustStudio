@@ -1,13 +1,15 @@
 import type { StageKey } from "../../../../framework/engine/BusinessStage.ts";
 import { ReactNode } from "react";
-import { SCHEME_CODE_LABEL, schemeKeyOf } from "../../../../framework/engine/ActivityClassification.ts";
+import { BUSINESS_STAGE_WORDS, SCHEME_CODE_LABEL, schemeKeyOf } from "../../../../framework/engine/ActivityClassification.ts";
+import { choiceLimit } from "../../../../framework/engine/PositioningIds.ts";
 import { isoToDisplay } from "../../fields/DateCellInput.tsx";
 import { PreferencesService } from "../../../../services/PreferencesService.ts";
 import { FoundersProfileValue, LegalEntityValue, todayIsoDate, createLegalEntityExpense } from "../../../../framework/engine/AnswerUtils.ts";
 import { InfoPoint } from "../../fields/InfoNote.tsx";
 import { SOURCES } from "../../../../framework/engine/Sources.ts";
 import { FIRST_VERSION_COUNTRIES } from "../../../../framework/engine/LegalEntityJurisdictions.ts";
-import { categoryOfModel, relationshipFits, relationshipFitsBuyerStage, userStageFits } from "../../../../framework/engine/RelationshipFit.ts";
+import { categoryOfModel, orderedByCategory, relationshipFits, relationshipFitsBuyerStage, userStageFits } from "../../../../framework/engine/RelationshipFit.ts";
+import { differentiationByLifeStage, differentiationByPurpose, differentiationByRelationship, differentiationRelevance, orderedByRelevance, outcomesByLifeStage, userOutcomeByPurpose } from "../../../../framework/engine/PurposeRelevance.ts";
 
 /**
  * A Legal Form saved as "Other (not listed)" before 2026-10-30. The list no
@@ -180,15 +182,10 @@ export const DIFFERENTIATIONS = [
     { id: "personal", label: "Personal Service & Relationship" }
 ] as const;
 
-/** Outcome for the buyer: the measurable result the buyer gets (the results the differentiation text names: lower costs, time saved, legal cover, prestige). */
-export const OUTCOMES = [
-    { id: "savings", label: "Lower costs" },
-    { id: "time", label: "Time saved" },
-    { id: "assurance", label: "Legal & data-protection cover" },
-    { id: "prestige", label: "Higher quality & prestige" }
-] as const;
+/* (The Outcome for the buyer left Positioning on 2026-11-08, owner: the Offering's O4 owns it; a saved answer starts O4 through the crosswalk, doc 34, 5.2a. Its words stay
+   for the saved answer: OUTCOME_WORDS, ActivityClassification.ts.) */
 
-/** Outcome for the user, asked of a Proxy or Dual-Intent Buyer: what matters most to the user. */
+/** Outcome for the user, asked of a Proxy or Dual-Intent Buyer: what matters most to the user. Asked on the Segment's End user part since 2026-11-08 (SegmentQuestions.ts, `u-outcome`); the order below. */
 export const USER_OUTCOMES = [
     { id: "enjoy", label: "Enjoyment & fun" },
     { id: "comfort", label: "Comfort & ease" },
@@ -198,22 +195,66 @@ export const USER_OUTCOMES = [
     { id: "practical", label: "Practical use" }
 ] as const;
 
+/** The Positioning answers that order the Differentiation and the end user's outcome (asked on the Business System since 2026-11-08, ordered as they were on Positioning). */
+export interface PositioningOrder {
+    customerType: readonly string[];
+    audience: readonly string[];
+    buyerCategory: readonly string[];
+    endUser: readonly string[];
+    purpose: readonly string[];
+}
+
+/** Whether a relationship's buyer is a Proxy or Dual-Intent buyer (an end user follows). */
+function endsUserOf(order: PositioningOrder, model: string): boolean {
+    return order.buyerCategory.includes(model + ":proxy") || order.buyerCategory.includes(model + ":dual");
+}
+
+/** The buyer's and the user's life stages, once a consumer buyer has an end user: the first key of the differentiations and of the outcomes (the owner's precedence, 2026-10-30). */
+function lifeStagesOf(order: PositioningOrder): { buyer: string[]; user: string[] } {
+    const consumer = order.customerType.includes("b2c") && endsUserOf(order, "b2c");
+    return {
+        buyer: consumer ? order.audience.filter(id => ["young", "adult", "senior"].includes(id)) : [],
+        user: consumer ? order.endUser.filter(id => id.startsWith("age:")) : []
+    };
+}
+
 /**
- * HOW MANY CHOICES EACH QUESTION OF EARLY POSITIONING ALLOWS follows the business stage (design document 28, 8.2, the owner's matrix): the earlier the business, the narrower the focus.
- * Planning (and no stage yet): one everywhere. Launching: one, except two in the outcome. Managing: two in each. Growing: free (null).
+ * THE DIFFERENTIATIONS IN THEIR ORDER (as built on Positioning; doc 31, the owner's tables): a business buyer's audience scale and category order them (a blank of the scale's table is not
+ * offered; one already chosen stays), otherwise the buyer's category does; the business relationships, the purposes chosen and the life stages come before them, in that precedence.
  */
-export type PositioningQuestion = "relationship" | "audience" | "outcome";
-export function choiceLimit(stage: string, question: PositioningQuestion): number | null {
-    if (stage === "grow") {
-        return null;
-    }
-    if (stage === "manage") {
-        return 2;
-    }
-    if (stage === "launch") {
-        return question === "outcome" ? 2 : 1;
-    }
-    return 1;
+export function differentiationOptionsFor(order: PositioningOrder, chosen: readonly string[]): { id: string; label: string }[] {
+    const models = [...order.customerType];
+    const scales = models.includes("b2b") ? order.audience.filter(id => ["solo", "smb", "mid", "enterprise"].includes(id)) : [];
+    const about = differentiationRelevance({ models, categories: [...order.buyerCategory], relationships: [], businessScales: scales });
+    const first = about ? orderedByRelevance(DIFFERENTIATIONS, about).filter(option => about[option.id] > 0 || chosen.includes(option.id)) : orderedByCategory(DIFFERENTIATIONS, order.buyerCategory);
+    const options = orderedByRelevance(orderedByRelevance(first, differentiationByRelationship(order.endUser)), differentiationByPurpose(order.purpose));
+    const life = lifeStagesOf(order);
+    return orderedByRelevance(options, differentiationByLifeStage(life.buyer, life.user));
+}
+
+/** THE END USER'S OUTCOMES IN THEIR ORDER (as built on Positioning): the purposes chosen, then the life stages. */
+export function userOutcomeOptionsFor(order: PositioningOrder): { id: string; label: string }[] {
+    const life = lifeStagesOf(order);
+    return orderedByRelevance(orderedByRelevance(USER_OUTCOMES, userOutcomeByPurpose(order.purpose)), outcomesByLifeStage(life.buyer, life.user)?.user ?? null);
+}
+
+/** How many choices a question allows at the business stage (defined in the engine, where the Segment's questions read it too). */
+export { choiceLimit, type PositioningQuestion } from "../../../../framework/engine/PositioningIds.ts";
+
+/**
+ * What the business stage allows in a question, for its "i" (before its sources): "At this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the
+ * limit goes back to empty." One sentence for Positioning's questions and for the ones that left it for the Business System (2026-11-08).
+ */
+export function stageLimitLine(stage: string, limit: number | null): string {
+    return "At this stage (" + (BUSINESS_STAGE_WORDS[stage] ?? "Planning") + "): "
+        + (limit === null ? "choose as many as apply." : limit === 1 ? "choose one." : "choose up to " + limit + ".")
+        + " When the stage changes (the Opening Date), an answer over the limit goes back to empty.";
+}
+
+/** An "i" with the stage's line added before its sources. */
+export function withStageLine(info: readonly InfoPoint[], line: string): InfoPoint[] {
+    const sourceAt = info.findIndex(point => typeof point !== "string" && "source" in point);
+    return sourceAt < 0 ? [...info, line] : [...info.slice(0, sourceAt), line, ...info.slice(sourceAt)];
 }
 
 /**
@@ -419,7 +460,7 @@ export const INFO = {
     ],
 
     differentiation: [
-        "What the offering does differently from the competitors: where it hits exactly the blind spot they leave. It is about the offering; the result the buyer gets from it is the outcome, asked next.",
+        "What the offering does differently from the competitors: where it hits exactly the blind spot they leave. It is about the offering; the result the buyer gets from it is asked on each Offering (what it does best for the customer).",
         "Cost-driven (saving resources): targets the blind spot of expensive competitors with a budget-friendly alternative.",
         "Convenience-driven (speed and ease): targets the blind spot of complex or slow solutions.",
         "Compliance, Risk & Security: targets the blind spot of uncertified or questionable alternatives.",
@@ -429,19 +470,6 @@ export const INFO = {
         "Personal Service & Relationship (customer intimacy): targets the blind spot of impersonal providers with a service shaped around each customer.",
         { title: "Based on", source: SOURCES.strategicPositioning },
         { title: "Also", source: SOURCES.positioningTemplate }
-    ],
-
-    outcome: [
-        "The measurable result the buyer gets from the offering (outcome or return): what the buyer is paying for.",
-        "Lower costs: an immediate reduction in operating costs. Time saved: the execution time of a process cut to almost nothing, or the workflow drastically simplified. Legal & data-protection cover: absolute legal coverage and no risk of fines. Higher quality & prestige: top quality, custom service and an upgrade of the buyer's prestige.",
-        "For a Proxy or Dual-Intent Buyer the end user has an outcome of their own, asked next.",
-        { title: "Based on", source: SOURCES.strategicPositioning },
-        { title: "Also", source: SOURCES.positioningTemplate }
-    ],
-
-    outcomeUser: [
-        "What matters most to the end user, apart from the buyer's own reasons for paying: the result the end user gets. It starts the end user's Profile.",
-        "Enjoyment & fun. Comfort & ease. Safety & care. Learning & growth. Looks & belonging (fitting in with friends, a style). Practical use."
     ],
 
     legalForm: [

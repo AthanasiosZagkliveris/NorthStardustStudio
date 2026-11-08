@@ -197,13 +197,13 @@ describe.each(["GB", "IE", "US", "CA", "AU", "NZ"])("ten scenarios for %s, three
             const value = asLegalEntityValue({ organisation: scenario.organisation });
             const { container, unmount } = render(<Org value={value} audienceOnly />);
             const checked = [...container.querySelectorAll("input:checked")].map(input => (input.closest("label")?.textContent ?? "").trim());
-            // One answer for each question that is asked: the relationship, its audience, the category, the purposes, the differentiations, the outcome (and, for a Proxy or Dual-Intent buyer, the user's).
-            const expected = 1 + 1 + 1 + value.organisation.purpose.length + value.organisation.differentiation.length + value.organisation.outcome.length
-                + value.organisation.endUser.length + value.organisation.outcomeUser.length;
+            // One answer for each question that is asked: the relationship, its audience, the category, the purposes (and, for a Proxy or Dual-Intent buyer, the user's relationship and
+            // life stage). (The differentiations and the outcomes are asked on the Business System since 2026-11-08: not here.)
+            const expected = 1 + 1 + 1 + value.organisation.purpose.length + value.organisation.endUser.length;
             expect(checked.length, where + ": " + checked.join(" | ")).toBe(expected);
-            // (The groups are told apart by double divider lines, no subtitles: one between the Offering and the Outcome, and one between the Business and the User where there is a user.)
+            // (The groups are told apart by double divider lines, no subtitles: one between the Business and the User where there is a user; the Outcome's left with it.)
             const user = !value.organisation.buyerCategory[0].endsWith("direct");
-            expect(container.querySelectorAll(".business-capability-card-rule-double").length, where).toBe(user ? 2 : 1);
+            expect(container.querySelectorAll(".business-capability-card-rule-double").length, where).toBe(user ? 1 : 0);
             expect(container.textContent?.includes("Buyer & End User relationship"), where).toBe(user);
             unmount();
         }

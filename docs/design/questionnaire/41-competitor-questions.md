@@ -1,8 +1,8 @@
 # 41. The Competitor card: every question and option, as built
 
-Status: **specification**, written 2026-11-03, updated 2026-11-08; built. Every question of the Competitor card (Business System, page 1, tile "Competitors"), in the order it is asked. For each: its control, when it is asked, its options, what its "i" says and what it connects to. **Built (2026-11-04):** the Type, the text boxes kept as notes, and K1 to K10 (`CompetitorQuestions.ts`, the card in `useFoundationSubsections.tsx`). **Not built yet:** what reads the answers outside the card (the documents' strengths, weaknesses, opportunities and threats, the Review, Positioning and the Value Proposition).
+Status: **specification**, written 2026-11-03, updated 2026-11-08; built. Every question of the Competitor card (Business System, page 1, tile "Competitors"), in the order it is asked. For each: its control, when it is asked, its options, what its "i" says and what it connects to. **Built (2026-11-04):** the Type, the text boxes kept as notes, and K1 to K10 (`CompetitorQuestions.ts`, the card in `useFoundationSubsections.tsx`). **Built (2026-11-08):** K14, the Differentiation, moved from Positioning (owner, "Move all three"), asked once per Segment after its Competitors and saved on the Segment. **Not built yet:** what reads the answers outside the card (the documents' strengths, weaknesses, opportunities and threats, the Review, Positioning and the Value Proposition).
 
-Related: doc 35 (the Segment, whose answers give K2, K3 and K9 their options and rows), doc 36 (the Profile, whose priorities order K8's rows), doc 38 (Positioning, which will read K10, not built yet), doc 42 (the Value Proposition, which reads K8 and will read K10, not built yet), doc 43 (the Offering, whose Type list K1 shares; a Review check against the Offerings waits until one exists), doc 34 (the list L1 and the value crosswalk, 5.2a), doc 28 (6.6, the design this refines), doc 02 (FUN-47, FUN-50 to FUN-58, the sources of the 2026-11-04 research), `src/framework/engine/AnswerBusinessFoundation.ts` and `src/components/interview/editors/foundation/shared.tsx` (the card today).
+Related: doc 35 (the Segment, whose answers give K2, K3 and K9 their options and rows), doc 36 (the Profile, whose priorities order K8's rows), doc 38 (Positioning, whose Differentiation moved here as K14 on 2026-11-08), doc 42 (the Value Proposition, which reads K8 and will read K10, not built yet), doc 43 (the Offering, whose Type list K1 shares; a Review check against the Offerings waits until one exists), doc 34 (the list L1 and the value crosswalk, 5.2a), doc 28 (6.6, the design this refines), doc 02 (FUN-47, FUN-50 to FUN-58, the sources of the 2026-11-04 research), `src/framework/engine/AnswerBusinessFoundation.ts` and `src/components/interview/editors/foundation/shared.tsx` (the card today).
 
 **What the card is.** A Competitor belongs to its Segment, as a Profile does. The tile "Competitors" in the Segment's frame lists that Segment's competitors as small tiles, and each opens as a floating card.
 - **The small tile:** the number and the name and, under them, the Type ("Direct competitor"). A tile with no Type chosen shows only the number and the name.
@@ -13,6 +13,7 @@ The card has these parts, in order:
 - **Description** (built): the boxes Offerings, Market, Customer Acquisition and Customer Experience. K1 to K7 are asked inside them (built).
 - **Competitors SWOT Analysis** (built): the bands Strengths, Weaknesses, Opportunities and Threats. K8 and K9 are asked inside them (built): K8 is one band across Strengths and Weaknesses, K9 one across Opportunities and Threats.
 - **Insights & Differentiation** (built): a section of its own after the SWOT. K10 is asked above its text (built); the text stays the App User's own conclusion.
+- **Once per Segment, after the Competitors** (built 2026-11-08): K14, the Differentiation, in the Competitors tile's dialog under the Competitors' small tiles (below).
 
 Each question is asked inside the band of its box, above the box's text, and the text box stays as the note for what the question cannot say. The type renames the boxes as built (`COMPETITOR_TYPE_QUESTIONS`).
 
@@ -276,7 +277,22 @@ A section of its own after the SWOT, as built: a title band that folds, as the D
 - **Connections:**
   - *Comes from:* K4, K5, K6, K7, K8 and K9, and the Profiles' B1 (doc 36).
   - *Read by (built):* the draft at the end of the text: "Customers want [value], and [name] falls short there." for a B1 value rated 1 or 2, then "You could [opening]." for each tick ("You could offer better quality."); "Add to text" adds only the lines not already in the text, and is not shown when none is left.
-  - *Read by (not built yet):* Positioning's Differentiation (doc 38); the Value Proposition (doc 42). Nothing outside the card reads K10 yet.
+  - *Read by (not built yet):* the Segment's Differentiation (K14, below: K10's openings could suggest its starting ticks); the Value Proposition (doc 42). Nothing outside the card reads K10 yet.
+
+### K14. Differentiation (once per Segment, after its Competitors; moved from Positioning, owner, 2026-11-08)
+
+The owner decided (2026-11-08, "Move all three") that Positioning's Differentiation (doc 38, 8) is answered here, after the competitors: a differentiation is set against the alternatives the customer would otherwise choose (Dunford, *Obviously Awesome*, 2019: the competitive alternatives first, then the unique attributes and the value they enable). A Competitor card is one competitor, so the question is asked **once per Segment**, not on each card: the code K14 is the next free code of this card (K11 to K13 are retired), and the answer is saved on the Segment.
+
+- **Where:** the Competitors tile's dialog of the Segment, under the Competitors' small tiles: a section split by the shared double rule, its title band "Insights & Differentiation", the question in a band under it, as the Segment Description's Profiles section is built. (In the page's column view, the Segment's group "Insights & Differentiation" after the Competitor cards.) Saved as `questions.differentiation` on the Segment (`SegmentQuestions.ts`, box `competitors`).
+- **Control:** a radio while the stage allows one choice, else ticks that lock at the limit with "2 max" beside the label (`FieldRow`, `RadioChoice` or `BusinessTicks`, as on Positioning): Planning 1, Launching 2, Managing 2, Growing free (`choiceLimit`, the outcome's limit). A saved answer over the stage's limit goes back to empty, as on Positioning.
+- **Asked when:** always, once per Segment.
+- **Options:** as built on Positioning: Cost-driven; Convenience-driven; Compliance, Risk & Security; Status & Premium; Performance & Innovation; Ecosystem & Integration; Personal Service & Relationship. Ordered by Positioning's answers as before (doc 31, the owner's tables; `differentiationOptionsFor`): a blank of the business scale's table is not offered, one chosen stays.
+- **Starts:** Positioning's Differentiation saved before 2026-11-08 (`organisation.differentiation`) is the starting value of every Segment's K14, within the stage's limit, until the Segment saves its own; a value saved here wins, even cleared (saved as an empty list). (K10's openings could suggest starting ticks later: not built.)
+- **The "i" says:** as on Positioning (doc 38, 8), its first line now "It is about the offering; the result the buyer gets from it is asked on each Offering (what it does best for the customer).", then the stage's line before the sources.
+- **Connections:**
+  - *Comes from:* Positioning's relationship, audience, buyer's category, end user and purposes (the order); the stage (the limit).
+  - *Read by (built):* the Offering's O4, whose starting ticks follow it through the value crosswalk (doc 34, 5.2a; doc 43); the Business Plan's "What we know of them" and the export's Segment block, which print it under the Segment.
+  - *Read by (not built yet):* the Value Proposition draft's "Unlike its competitors" (doc 42).
 
 ## As built: the readings chosen (2026-11-04)
 
@@ -314,6 +330,7 @@ Each row keeps the current question and proposes another way to answer it, with 
 - No job question: an Offering question (2026-11-04).
 - No "how sure" question (2026-11-04).
 - The questions numbered K1 to K10 in the card's order (2026-11-04).
+- Positioning's Differentiation answered here, after the competitors, once per Segment: K14 (owner, 2026-11-08, "Move all three"; Dunford, *Obviously Awesome*: differentiation is set against the alternatives). Codes are permanent: K14 is the next free code (doc 44).
 - Strengths and Weaknesses as one rating, K8: each value customers want rated from 1 (Weak) to 5 (Strong), so that values rated 2 to 4 also count in the App User's decisions (2026-11-04).
 - Opportunities and Threats as one rating, K9: each of the Segment's changes rated from 1 (Threat) to 5 (Opportunity) (2026-11-04).
 - The review platforms ticked and rated in one question, K6, the platforms in the order of the App User's industry and country (2026-11-04).

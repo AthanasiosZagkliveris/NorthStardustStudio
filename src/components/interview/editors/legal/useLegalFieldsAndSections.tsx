@@ -23,12 +23,11 @@ import OptionPicker from "../../fields/OptionPicker.tsx";
 import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import ActivitiesField from "./ActivitiesField.tsx";
-import { differentiationByLifeStage, outcomesByLifeStage, outcomeByPurpose, userOutcomeByPurpose, differentiationByPurpose, differentiationByRelationship, differentiationRelevance, orderedByRelevance, purposeRelevance } from "../../../../framework/engine/PurposeRelevance.ts";
-import { categoryOfModel, relationshipFits, relationshipFitsBuyerStage, relationshipFitsUserStages, orderedByCategory, userStageFits } from "../../../../framework/engine/RelationshipFit.ts";
+import { orderedByRelevance, purposeRelevance } from "../../../../framework/engine/PurposeRelevance.ts";
+import { categoryOfModel, relationshipFits, relationshipFitsBuyerStage, relationshipFitsUserStages, userStageFits } from "../../../../framework/engine/RelationshipFit.ts";
 import DateCellInput from "../../fields/DateCellInput.tsx";
 import { todayIsoDate } from "../../../../framework/engine/AnswerUtils.ts";
-import { BUSINESS_STAGE_WORDS } from "../../../../framework/engine/ActivityClassification.ts";
-import { AUDIENCE_SCALES, BUYER_CATEGORIES, BUYER_USER_RELATIONS, DIFFERENTIATIONS, FIRST_VERSION_CUSTOMER_TYPES, INFO, LIFE_STAGES, OUTCOMES, PURPOSES, USER_LIFE_STAGES, USER_OUTCOMES, choiceLimit, LEGAL_FORM_OTHER, activitiesInfo, formationIssues, MAX_OTHER_NUMBER_LENGTH, OTHER_OPTION, TOTAL_OWNERSHIP_HELP, savedOther, shownOther } from "./shared.tsx";
+import { AUDIENCE_SCALES, BUYER_CATEGORIES, BUYER_USER_RELATIONS, FIRST_VERSION_CUSTOMER_TYPES, INFO, LIFE_STAGES, PURPOSES, USER_LIFE_STAGES, choiceLimit, stageLimitLine, withStageLine, LEGAL_FORM_OTHER, activitiesInfo, formationIssues, MAX_OTHER_NUMBER_LENGTH, OTHER_OPTION, TOTAL_OWNERSHIP_HELP, savedOther, shownOther } from "./shared.tsx";
 import type { useLegalState } from "./useLegalState.tsx";
 
 type Earlier = ReturnType<typeof useLegalState>;
@@ -149,7 +148,8 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
     }
     // THE QUESTIONS OF EARLY POSITIONING (design documents 28, 8.2, and 33, sections 4 and 5), in the first published version: the structure of the market is single-sided (no question), the seller and
     // buyer relationship is B2C or B2B, and each relationship asks its audience (a scale for a business, a life stage for a consumer), the buyer's category (direct, proxy or dual-intent), the End User
-    // (for a proxy or dual-intent buyer: the buyer and user relationship and, for a consumer, the user's life stage), then, once, the purpose and the differentiation and outcome. How many choices a
+    // (for a proxy or dual-intent buyer: the buyer and user relationship and, for a consumer, the user's life stage), then, once, the purpose. (The differentiation and the outcomes left for the
+    // Business System on 2026-11-08, owner: the Differentiation after the Segment's Competitors, the buyer's outcome in the Offering's O4, the end user's in the Segment's End user part.) How many choices a
     // question takes follows the business stage (one while planning, up to two while managing, free while growing): a question of one choice is a radio, a question of several is a tick group that LOCKS its
     // other options once the limit is reached (no warning), with its limit beside the label ("2 max"). Saved with the organisation, as its other answers are.
     // (B2G, G2B and the multi-sided market are built and hidden: a future feature, document 33.)
@@ -185,8 +185,6 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
     /** The End User ids of a model's questions. */
     const endUserIdsOf = (model: string) => model === "b2c" ? [...idsOf(BUYER_USER_RELATIONS.b2c), ...idsOf(USER_LIFE_STAGES)] : idsOf(BUYER_USER_RELATIONS.b2b);
     const suffix = (model: string) => models.length > 1 ? " (" + SIDE_NAMES[model] + ")" : "";
-    /** The user has an outcome of their own where some buyer is a Proxy or Dual-Intent Buyer (the buyer and the user want different things). */
-    const userHasOutcome = models.some(model => endsUser(model));
     /** The buyer and user relationships a model offers: only those that can be the buyer's category (fewer options help); one already chosen stays. */
     const relationOptions = (model: "b2c" | "b2b") => BUYER_USER_RELATIONS[model].filter(option => (relationshipFits(option.id, categoryOfModel(entity.organisation.buyerCategory, model)) && relationshipFitsBuyerStage(option.id, entity.organisation.audience) && relationshipFitsUserStages(option.id, entity.organisation.audience, entity.organisation.endUser)) || entity.organisation.endUser.includes(option.id));
 
@@ -206,13 +204,9 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
         const radio = limit === 1 && selected.length <= 1;
         // What the business stage allows in this question: how many choices, and which options are not open yet.
         const lockedWords = options.filter(option => locked.includes(option.id)).map(option => option.label);
-        const allowed = "At this stage (" + (BUSINESS_STAGE_WORDS[stage] ?? "Planning") + "): "
-            + (limit === null ? "choose as many as apply." : limit === 1 ? "choose one." : "choose up to " + limit + ".")
-            + " When the stage changes (the Opening Date), an answer over the limit goes back to empty."
+        const allowed = stageLimitLine(stage, limit)
             + (lockedWords.length > 0 ? " Not open yet: " + lockedWords.join(", ") + ". " + (lockedWords.length > 1 ? "They open" : "It opens") + " when the business reaches Managing." : "");
-        info = forStage(info);
-        const sourceAt = info.findIndex(point => typeof point !== "string" && "source" in point);
-        info = sourceAt < 0 ? [...info, allowed] : [...info.slice(0, sourceAt), allowed, ...info.slice(sourceAt)];
+        info = withStageLine(forStage(info), allowed);
         options = options.map(option => locked.includes(option.id) && !selected.includes(option.id) ? { ...option, locked: true } : option);
         // (A radio is one choice and says nothing; ticks say how many.)
         const note = limit === null || radio ? undefined : limit + " max";
@@ -258,19 +252,6 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
         userStages: models.includes("b2c") && endsUser("b2c") ? entity.organisation.endUser.filter(id => id.startsWith("age:")) : [],
         businessScales: models.includes("b2b") ? entity.organisation.audience.filter(id => ["solo", "smb", "mid", "enterprise"].includes(id)) : []
     });
-    // The differentiations: a business buyer's audience scale and category order them (the owner's table); otherwise the buyer's category does.
-    const differentiationAbout = differentiationRelevance({ models, categories: entity.organisation.buyerCategory, relationships: [], businessScales: models.includes("b2b") ? entity.organisation.audience.filter(id => ["solo", "smb", "mid", "enterprise"].includes(id)) : [] });
-    const byPurpose = differentiationByPurpose(entity.organisation.purpose);
-    const differentiationFirst = differentiationAbout ? orderedByRelevance(DIFFERENTIATIONS, differentiationAbout).filter(option => differentiationAbout[option.id] > 0 || entity.organisation.differentiation.includes(option.id)) : orderedByCategory(DIFFERENTIATIONS, entity.organisation.buyerCategory);
-    // The purposes chosen then bring the differentiations they drive first (inside each level the business relationships chosen order them, and inside theirs the audience scale and category; nothing is chosen for the user).
-    const differentiationOptions = orderedByRelevance(orderedByRelevance(differentiationFirst, differentiationByRelationship(entity.organisation.endUser)), byPurpose);
-    // THE BUYER'S AND THE USER'S LIFE STAGES, once both are answered, are the first key of the differentiations and of the outcomes (the owner's precedence, 2026-10-30: life stages, then the relationship, then the category); the purposes chosen come next.
-    const lifeBuyer = models.includes("b2c") && endsUser("b2c") ? entity.organisation.audience.filter(id => ["young", "adult", "senior"].includes(id)) : [];
-    const lifeUser = models.includes("b2c") && endsUser("b2c") ? entity.organisation.endUser.filter(id => id.startsWith("age:")) : [];
-    const byLifeStage = outcomesByLifeStage(lifeBuyer, lifeUser);
-    const differentiationShown = orderedByRelevance(differentiationOptions, differentiationByLifeStage(lifeBuyer, lifeUser));
-    const outcomeShown = orderedByRelevance(orderedByRelevance(OUTCOMES, outcomeByPurpose(entity.organisation.purpose, entity.organisation.buyerCategory)), byLifeStage?.buyer ?? null);
-    const userOutcomeShown = orderedByRelevance(orderedByRelevance(USER_OUTCOMES, userOutcomeByPurpose(entity.organisation.purpose)), byLifeStage?.user ?? null);
     // THE QUESTIONS ARE BANDS, as the channel card's parts are: every other question of a column stands on a tint (the card's own label colour, 12%), the others on the card's ground, edge to edge, no gap between.
     const bandsAt = { left: 0, right: 0 };
     const band = (column: "left" | "right") => (bandsAt[column]++ % 2 === 1 ? " legal-entity-org-band" : "");
@@ -293,8 +274,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                         customerType: next,
                         audience: kept(entity.organisation.audience, audienceSets, index => audienceShown(audienceSets[index], next)),
                         buyerCategory: entity.organisation.buyerCategory.filter(id => next.includes(id.split(":")[0])),
-                        endUser: entity.organisation.endUser.filter(id => ["b2c", "b2b"].every(model => next.includes(model) || !endUserIdsOf(model).includes(id))),
-                        outcomeUser: next.some(model => endsUser(model)) ? entity.organisation.outcomeUser : []
+                        endUser: entity.organisation.endUser.filter(id => ["b2c", "b2b"].every(model => next.includes(model) || !endUserIdsOf(model).includes(id)))
                     }),
                     INFO.customerType
                 )}
@@ -326,12 +306,11 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                             (next) => {
                                 const categories = [...entity.organisation.buyerCategory.filter(id => !id.startsWith(set.model + ":")), ...next];
                                 // (The End User is asked for Proxy and Dual-Intent Buyers only: its answers go with that choice.)
-                                // (A relationship that cannot be the new category goes with it, and so does the user's outcome where no buyer is a Proxy or Dual-Intent Buyer any more.)
+                                // (A relationship that cannot be the new category goes with it. The end user's outcome saved here before 2026-11-08 stays: it starts the Segment's own.)
                                 const category = categoryOfModel(categories, set.model);
                                 updateOrganisation({
                                     buyerCategory: categories,
-                                    endUser: entity.organisation.endUser.filter(id => !endUserIdsOf(set.model).includes(id) || (category !== "" && relationshipFits(id, category))),
-                                    outcomeUser: models.some(model => endsUser(model, categories)) ? entity.organisation.outcomeUser : []
+                                    endUser: entity.organisation.endUser.filter(id => !endUserIdsOf(set.model).includes(id) || (category !== "" && relationshipFits(id, category)))
                                 });
                             },
                             INFO.buyerCategory
@@ -384,7 +363,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
 
             <div className="legal-entity-field legal-entity-questions">
 
-                {/* THE OFFERING (the purpose and the differentiation), then, under a double divider line, THE OUTCOME. */}
+                {/* THE OFFERING: its purpose. (The Differentiation and the Outcomes are asked on the Business System since 2026-11-08: docs 41, 43 and 35.) */}
 
                 <div className={"legal-entity-org-section legal-entity-org-outcome" + band("right")}>
                 {choice(
@@ -397,46 +376,6 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                     INFO.purpose
                 )}
                 </div>
-
-                <div className={"legal-entity-org-section legal-entity-org-outcome" + band("right")}>
-                {choice(
-                    "Differentiation",
-                    "legal-entity-differentiation",
-                    differentiationShown,
-                    chosenOf(entity.organisation.differentiation, DIFFERENTIATIONS),
-                    choiceLimit(stage, "outcome"),
-                    (next) => updateOrganisation({ differentiation: next }),
-                    INFO.differentiation
-                )}
-                </div>
-
-                <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double" role="separator" />
-
-                <div className={"legal-entity-org-section legal-entity-org-outcome" + band("right")}>
-                {choice(
-                    userHasOutcome ? "Outcome for the buyer" : "Outcome",
-                    "legal-entity-outcome",
-                    outcomeShown,
-                    chosenOf(entity.organisation.outcome, OUTCOMES),
-                    choiceLimit(stage, "outcome"),
-                    (next) => updateOrganisation({ outcome: next }),
-                    INFO.outcome
-                )}
-                </div>
-
-                {userHasOutcome && (
-                    <div className={"legal-entity-org-section legal-entity-org-outcome" + band("right")}>
-                    {choice(
-                        "Outcome for the end user",
-                        "legal-entity-outcome-user",
-                        userOutcomeShown,
-                        chosenOf(entity.organisation.outcomeUser, USER_OUTCOMES),
-                        choiceLimit(stage, "outcome"),
-                        (next) => updateOrganisation({ outcomeUser: next }),
-                        INFO.outcomeUser
-                    )}
-                    </div>
-                )}
 
             </div>
 

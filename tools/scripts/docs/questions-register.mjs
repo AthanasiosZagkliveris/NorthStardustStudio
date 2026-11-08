@@ -62,12 +62,15 @@ const POSITIONING = [
     { box: "left", code: "5", id: "`organisation.endUser` (rel:…)", label: "Buyer & End User relationship", options: "BUYER_USER_RELATIONS", limit: "audience", info: "buyerUserRelation", asked: "the buyer's category is Proxy or Dual-Intent, for that relationship" },
     { box: "left", code: "6", id: "`organisation.endUser` (age:…)", label: "End User's Life-Stage", options: "USER_LIFE_STAGES", limit: "audience", info: "userLifeStage", asked: "B2C with a Proxy or Dual-Intent buyer, and more than one life stage fits (else set, not shown)" },
     { box: "right", code: "7", id: "organisation.purpose", label: "Purpose", options: "PURPOSES", limit: "outcome", info: "purpose", asked: "always; only the purposes that fit the answers above are offered" },
-    { box: "right", code: "8", id: "organisation.differentiation", label: "Differentiation", options: "DIFFERENTIATIONS", limit: "outcome", info: "differentiation", asked: "always; ordered by the answers above" },
-    { box: "right", code: "9", id: "organisation.outcome", label: "Outcome (\"Outcome for the buyer\" when the end user's is asked)", options: "OUTCOMES", limit: "outcome", info: "outcome", asked: "always" },
-    { box: "right", code: "10", id: "organisation.outcomeUser", label: "Outcome for the end user", options: "USER_OUTCOMES", limit: "outcome", info: "outcomeUser", asked: "some buyer is Proxy or Dual-Intent" },
     { box: "under", code: "11", id: "the part's answer, key `positioning`", label: "Notes", options: null, limit: "note", info: null, asked: "always (optional)" }
 ];
 const POSITIONING_BOXES = { left: "The left column: the customers", right: "The right column: what is offered", under: "Under both columns" };
+/** Positioning's questions that left the tile (owner, 2026-11-08: "Move all three"): their saved keys stay readable, and each old answer starts its new place. */
+const POSITIONING_RETIRED = [
+    ["8", "Differentiation (`organisation.differentiation`)", "moved to the Competitor card's Insights & Differentiation, once per Segment after its Competitors: K14 (doc 41); the old answer is its start"],
+    ["9", "Outcome for the buyer (`organisation.outcome`)", "moved to the Offering's O4, its one owner, through the crosswalk (doc 34, 5.2a; doc 43); the old answer starts O4's ticks"],
+    ["10", "Outcome for the end user (`organisation.outcomeUser`)", "moved to the Segment's End user part: End user, 9 (doc 35; the end user's own Profile takes it in Phase 4b); the old answer is its start"]
+];
 
 /** The Segment (doc 35): saved id -> [code, asked when, starts]. The code of a box's question is "Box N, M"; the end user's, "End user, M". */
 const SEGMENT_CODES = {
@@ -107,8 +110,11 @@ const SEGMENT_CODES = {
     "u-job": ["End user, 5", "the relationship is Employer, Business partner or Other (business)"],
     "u-orgtype": ["End user, 6", "the relationship is Business serving clients or Professional intermediary"],
     "u-size": ["End user, 7", "as End user, 6, and the clients are not self-employed"],
-    "u-comfort": ["End user, 8", "an end user who is not a Baby"]
+    "u-comfort": ["End user, 8", "an end user who is not a Baby"],
+    "u-outcome": ["End user, 9", "the Segment's own buyer is Proxy or Dual-Intent (moved from Positioning 10, 2026-11-08); ordered by Positioning's purposes and life stages", "Positioning's answer saved before 2026-11-08 (`organisation.outcomeUser`), within the stage's limit; a saved answer wins"]
 };
+/** The Segment's question asked once in its Competitors column (box `competitors`): listed under the Competitor card, as K14. */
+const SEGMENT_ON_COMPETITOR = { differentiation: ["K14", "once per Segment, after its Competitor cards (moved from Positioning 8, 2026-11-08); ordered by Positioning's answers as built", "Positioning's answer saved before 2026-11-08 (`organisation.differentiation`), within the stage's limit; a saved answer wins"] };
 const SEGMENT_RETIRED = [];
 
 /** The Profile (doc 36): saved id -> [code, asked when, starts]. A3 and A3b, and the people's and the business's Needs, are one place on the card. */
@@ -178,7 +184,7 @@ const OFFERING_CODES = {
     o2: ["O2", "always", "from the business stage: Planning, Still being built; Launching to Growing, Yes, now"],
     o3: ["O3", "always"],
     o3t: ["O3b", "always (the second row of O3's band)"],
-    o4: ["O4", "always", "from Positioning's Differentiation, through the value crosswalk (up to three)"],
+    o4: ["O4", "always", "from the Segment's Differentiation (K14), then the buyer's outcome saved on Positioning before 2026-11-08, through the value crosswalk (up to three)"],
     o6: ["O6", "always", "from O1 (a physical item: Posted / shipped; a digital file: Sent automatically online; and so on)"],
     o7: ["O7", "always"],
     o8: ["O8", "a Profile of the Segment ticked a worry in E3 other than Support"],
@@ -285,7 +291,8 @@ function rows(code) {
                     max: limits(entry.limit), asked: entry.asked, starts: "", status: "built", owner: "doc 38, " + entry.code,
                     options: optionsOf(entry.options), info: entry.info ? L.INFO[entry.info].map(point) : ["none (the guidance on the statement is on the \"i\" of the dialog's title)"]
                 }))
-            }))
+            })),
+            retired: POSITIONING_RETIRED.map(([code, was, by]) => ({ code, was, by, owner: "doc 38, 8 to 10" }))
         });
     }
 
@@ -301,17 +308,18 @@ function rows(code) {
         const questions = [kind, ...S.SEGMENT_QUESTIONS];
         cards.push({
             title: "Segment", where: "Business System, page 1, the Segment's Description (the end user's part in the same card)", owner: "35",
-            source: "`SEGMENT_QUESTIONS` in `src/framework/engine/SegmentQuestions.ts` (the card adds Box 1, 0); saved under `questions` on the Segment. The words are a direct buyer's (\"your customers\"); a Proxy or Dual-Intent buyer reads \"your buyers\", and the end user's part \"your end users\" (`segmentWho`)",
+            source: "`SEGMENT_QUESTIONS` in `src/framework/engine/SegmentQuestions.ts` (the card adds Box 1, 0; the Differentiation, saved here too, is listed under the Competitor card as K14); saved under `questions` on the Segment. Max of End user, 9 is by stage: Planning / Launching / Managing / Growing. The words are a direct buyer's (\"your customers\"); a Proxy or Dual-Intent buyer reads \"your buyers\", and the end user's part \"your end users\" (`segmentWho`)",
             boxes: boxes.map(([box, title]) => ({
                 title,
                 questions: questions.filter(question => question.box === box).map(question => {
                     const [code, asked, starts] = SEGMENT_CODES[question.id] ?? missing("Segment", question.id);
+                    const moved = question.fromPositioning;
                     const options = question.rating ? ratingOptions(question)
                         : question.id === "industry" ? S.SEGMENT_SECTORS.map(sector => sector.label + ": " + S.SEGMENT_INDUSTRIES.filter(entry => entry.sector === sector.id).map(entry => entry.label).join(", ")).join(". ")
                             : list(question.options);
                     return {
                         code, id: question.id === "kind" ? "the Description's `" + F.OPTIONAL_DESCRIPTION_PART + "` key, present or not" : question.id,
-                        label: question.label, control: control(question, question.options), max: question.max ?? "", asked, starts: starts ?? "",
+                        label: question.label, control: moved ? "RadioChoice at 1, BusinessTicks above" : control(question, question.options), max: moved ? STAGES.map(([stage]) => L.choiceLimit(stage, "outcome") ?? "any").join(" / ") : question.max ?? "", asked, starts: starts ?? "",
                         status: "built", owner: "doc 35, " + (box === "user" ? "The end user" : "Box " + boxNumber[box]), options, info: ratingInfo(question)
                     };
                 })
@@ -371,7 +379,7 @@ function rows(code) {
             source: "`CompetitorQuestions.ts` (the words by type, `competitorWording`; who is asked, `competitorAsks`; the options and the \"i\", `COMPETITOR_INFO`); the box of each question and its control as the card asks them (`useFoundationSubsections.tsx`, kept in this script); saved under `questions` on the Competitor",
             boxes: COMPETITOR_BOXES.map(([box, ids]) => ({
                 title: titles[box],
-                questions: ids.map(id => {
+                questions: [...ids.map(id => {
                     const asked = TYPES.filter(type => C.competitorAsks(type, id));
                     const words = TYPES.filter(type => type !== "direct" && C.competitorWording(type, id) !== C.competitorWording("direct", id))
                         .map(type => typeNames[type] + ": \"" + C.competitorWording(type, id) + "\"");
@@ -383,7 +391,14 @@ function rows(code) {
                         asked: (asked.length === TYPES.length ? "every type" : asked.map(type => typeNames[type]).join(", ")) + (id === "k10" ? ", once an opening exists" : ""),
                         starts: "", status: "built", owner: "doc 41, " + id.toUpperCase(), options: OPTIONS[id], info, words
                     };
-                })
+                }), ...(box === "insights" ? Object.entries(SEGMENT_ON_COMPETITOR).map(([id, [code, asked, starts]]) => {
+                    const question = S.SEGMENT_QUESTIONS.find(entry => entry.id === id) ?? missing("Competitor", id);
+                    return {
+                        code, id: "`" + id + "` on the Segment (`questions`)", label: question.label, control: "RadioChoice at 1, BusinessTicks above",
+                        max: STAGES.map(([stage]) => L.choiceLimit(stage, "outcome") ?? "any").join(" / "), asked, starts, status: "built", owner: "doc 41, " + code,
+                        options: list(L.DIFFERENTIATIONS), info: L.INFO.differentiation.map(point)
+                    };
+                }) : [])]
             })),
             retired: COMPETITOR_RETIRED.map(([code, was, by]) => ({ code, was, by, owner: "doc 41, Numbers changed on 2026-11-04" }))
         });

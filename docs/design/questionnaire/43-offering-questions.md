@@ -2,7 +2,7 @@
 
 Status: **specification**, as built in part (O12 not built), written 2026-11-03, updated 2026-11-08. Every question of the Offering card (Business System, page 1, tile "Offerings"), in the order it is asked. For each: its control, when it is asked, its options, what its "i" says and what it connects to. The Type, the needs addressed and the text boxes are built; the questions O1 to O4, O3's second row, O6 to O8, O10 and O14 to O18 are **built** too (owner, 2026-11-07: "Update the Value Proposition and Offering card according to their docs"; `OfferingQuestions.ts`), O12 is not.
 
-Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the Profile: the needs, B1, D2, E3), doc 38 (Positioning: Differentiation), doc 41 (the Competitor: K8), doc 42 (the Value Proposition, which reads O1, O4 and O8), doc 34 (the lists L1 and L11, the value crosswalk 5.2a), doc 37 (the Organisation's fields: the Opening Date for O2; the activities and the country for O12), doc 28 (6.8, 7.4, 10.1 to 10.3 and 11.7, the design this refines), `src/framework/engine/AnswerBusinessFoundation.ts` (the card today).
+Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the Profile: the needs, B1, D2, E3), doc 38 (Positioning: the Differentiation and the buyer's outcome saved there before 2026-11-08), doc 41 (K14, the Segment's Differentiation), doc 41 (the Competitor: K8), doc 42 (the Value Proposition, which reads O1, O4 and O8), doc 34 (the lists L1 and L11, the value crosswalk 5.2a), doc 37 (the Organisation's fields: the Opening Date for O2; the activities and the country for O12), doc 28 (6.8, 7.4, 10.1 to 10.3 and 11.7, the design this refines), `src/framework/engine/AnswerBusinessFoundation.ts` (the card today).
 
 **The card's order:** doc 44 (the questions register) lists the Offering's questions box by box in the card's order; the codes O1 to O18 are permanent ids, not positions.
 
@@ -118,9 +118,10 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Values
 - **The "i" says:**
   - The first you tick is the main benefit. The same list as "What matters most" on your Profiles and Competitors, so they can be compared.
-  - Your Positioning's Differentiation starts the ticks; change them freely.
+  - The Segment's Differentiation (under its Competitors) starts the ticks, and so does the outcome for the buyer you chose before; change them freely.
 - **Connections:**
-  - *Comes from:* Positioning's Differentiation, through the value crosswalk (doc 34, 5.2a), as starting ticks (at most three). All seven differentiations start ticks: Performance & Innovation starts Quality and Expertise, Ecosystem & Integration starts Convenience (owner, 2026-11-08); Personal Service & Relationship starts Personalisation and Support (2026-11-08).
+  - *Comes from:* the Segment's own Differentiation (K14, doc 41; Positioning's, saved before 2026-11-08, where the Segment saved none), then the buyer's outcome saved on Positioning before 2026-11-08, through the value crosswalk (doc 34, 5.2a), as starting ticks (at most three). All seven differentiations start ticks: Performance & Innovation starts Quality and Expertise, Ecosystem & Integration starts Convenience (owner, 2026-11-08); Personal Service & Relationship starts Personalisation and Support (2026-11-08).
+  - *Owns the buyer's outcome* (owner, 2026-11-08, "Move all three"): Positioning's question 9 (doc 38) left the tile and is not asked twice; O4 is its one owner. Each of its four options has its value in L1 already (Lower costs: Affordability; Time saved: Speed, Convenience; Legal & data-protection cover: Safety / security, Reputation; Higher quality & prestige: Quality, Values), so no option was added; a saved `organisation.outcome` starts the ticks after the Differentiation's (`OUTCOME_CROSSWALK`, `OfferingQuestions.ts`).
   - *Read by (built, 2026-11-07):* the Value Proposition draft and its open items (doc 42). The open item "Unwanted benefit" reads only the ticks the App User saved, never the starting ticks (owner, 2026-11-08).
   - *Read by (not built yet):* the Review (doc 28, 11.5, rules 21 and 22: against the Profiles' B1 and the Competitors' K8).
 

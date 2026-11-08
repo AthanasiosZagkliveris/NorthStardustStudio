@@ -7,8 +7,9 @@ const none = { customerType: [] as string[], audience: [] as string[], buyerCate
 describe("what the Positioning tile still lacks (the Review's open item)", () => {
 
     it("says every question of an empty tile, the audience and the category only once a relationship is chosen", () => {
-        expect(positioningLacks(none)).toEqual(["the seller and buyer relationship", "the purpose", "the differentiation", "the outcome"]);
-        expect(positioningLacks({ ...none, customerType: ["b2c"] })).toEqual(["the audience", "the buyer's category", "the purpose", "the differentiation", "the outcome"]);
+        // (The differentiation and the outcome are not Positioning's since 2026-11-08: an empty one is no open item of the tile.)
+        expect(positioningLacks(none)).toEqual(["the seller and buyer relationship", "the purpose"]);
+        expect(positioningLacks({ ...none, customerType: ["b2c"] })).toEqual(["the audience", "the buyer's category", "the purpose"]);
     });
 
     it("asks the audience and the category of each relationship chosen, and nothing of a complete tile", () => {

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { asBusinessFoundationValue } from "./AnswerBusinessFoundation";
+import { OUTCOME_IDS } from "./PositioningIds";
 import { asOfferingAnswers, draftOffered, highestRated, offeringAsks, offeringInfo, offeringOptions, offeringShown, valueMismatch, valuePropositionDraft, valuePropositionOpenItems } from "./OfferingQuestions";
 
 const segment = asBusinessFoundationValue({
@@ -31,6 +32,21 @@ describe("the Offering's questions (doc 43; owner, 2026-11-07)", () => {
     it("starts O4 from Performance & Innovation and Ecosystem & Integration through the nearest L1 options (doc 34, 5.2a; owner, 2026-11-08)", () => {
         expect(offeringShown({}, { type: "Product", differentiation: ["performance"] }).o4).toEqual(["quality-and-results", "expert-knowledge"]);
         expect(offeringShown({}, { type: "Product", differentiation: ["ecosystem"] }).o4).toEqual(["ease-and-convenience"]);
+    });
+    it("starts O4 from the buyer's outcome saved on Positioning before 2026-11-08 (O4 owns it now), through the crosswalk, after the differentiation's ticks (doc 34, 5.2a)", () => {
+        // (Every outcome has its value in O4's list already: O4 needed no new option.)
+        const values = offeringOptions("o4", { type: "Product" }).map(option => option.id);
+        for (const outcome of OUTCOME_IDS) {
+            const start = offeringShown({}, { type: "Product", outcome: [outcome] }).o4 ?? [];
+            expect(start.length, outcome).toBeGreaterThan(0);
+            expect(start.every(id => values.includes(id)), outcome).toBe(true);
+        }
+        expect(offeringShown({}, { type: "Product", outcome: ["savings"] }).o4).toEqual(["lower-price"]);
+        expect(offeringShown({}, { type: "Product", outcome: ["assurance"] }).o4).toEqual(["safety-and-low-risk", "trust-and-reputation"]);
+        // The differentiation's first, then the outcome's, three at most; a saved O4 wins.
+        expect(offeringShown({}, { type: "Product", differentiation: ["cost"], outcome: ["time"] }).o4).toEqual(["lower-price", "speed", "ease-and-convenience"]);
+        expect(offeringShown({}, { type: "Product", differentiation: ["premium"], outcome: ["prestige"] }).o4).toEqual(["quality-and-results", "shared-values-or-identity"]);
+        expect(offeringShown({ o4: ["good-support"] }, { type: "Product", outcome: ["time"] }).o4).toEqual(["good-support"]);
     });
 });
 

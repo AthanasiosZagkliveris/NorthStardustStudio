@@ -161,9 +161,6 @@ None.
 | Pos | Code | Saved id | Label | Control | Max | Asked when | Starts | Status | Owner |
 |---|---|---|---|---|---|---|---|---|---|
 | 7 | 7 | `organisation.purpose` | Purpose | RadioChoice at 1, BusinessTicks above | 1 / 2 / 2 / any | always; only the purposes that fit the answers above are offered | – | built | doc 38, 7 |
-| 8 | 8 | `organisation.differentiation` | Differentiation | RadioChoice at 1, BusinessTicks above | 1 / 2 / 2 / any | always; ordered by the answers above | – | built | doc 38, 8 |
-| 9 | 9 | `organisation.outcome` | Outcome ("Outcome for the buyer" when the end user's is asked) | RadioChoice at 1, BusinessTicks above | 1 / 2 / 2 / any | always | – | built | doc 38, 9 |
-| 10 | 10 | `organisation.outcomeUser` | Outcome for the end user | RadioChoice at 1, BusinessTicks above | 1 / 2 / 2 / any | some buyer is Proxy or Dual-Intent | – | built | doc 38, 10 |
 
 - **7. Purpose**
   - Options: Learning & Development; Health, Care & Wellbeing; Gifting & Appreciation; Entertainment & Enjoyment; Social Connection & Relationships; Productivity & Efficiency; Business Growth & Performance; Creation & Expression; Everyday Needs & Convenience; Protection & Risk Reduction; Compliance & Obligations; Access & Social Support.
@@ -171,38 +168,12 @@ None.
     - Why the offering is bought: the purpose it serves for the person who gets it. Choose the ones that fit best.
     - Only the purposes that fit your answers above are offered: the primary ones first, then the possible ones. The ones that are generally less directly relevant to that buyer are left out.
     - Learning & Development. Health, Care & Wellbeing. Gifting & Appreciation. Entertainment & Enjoyment. Social Connection & Relationships. Productivity & Efficiency. Business Growth & Performance. Creation & Expression. Everyday Needs & Convenience. Protection & Risk Reduction. Compliance & Obligations. Access & Social Support.
-- **8. Differentiation**
-  - Options: Cost-driven; Convenience-driven; Compliance, Risk & Security; Status & Premium; Performance & Innovation; Ecosystem & Integration; Personal Service & Relationship.
-  - "i":
-    - What the offering does differently from the competitors: where it hits exactly the blind spot they leave. It is about the offering; the result the buyer gets from it is the outcome, asked next.
-    - Cost-driven (saving resources): targets the blind spot of expensive competitors with a budget-friendly alternative.
-    - Convenience-driven (speed and ease): targets the blind spot of complex or slow solutions.
-    - Compliance, Risk & Security: targets the blind spot of uncertified or questionable alternatives.
-    - Status & Premium (exclusivity): targets the blind spot of mass-market or cheap products with top quality and custom service.
-    - Performance & Innovation (product superiority): targets the blind spot of dated or underpowered alternatives with better results and newer methods.
-    - Ecosystem & Integration (fits what they already use): targets the blind spot of standalone tools that do not connect to the buyer's other systems and workflows.
-    - Personal Service & Relationship (customer intimacy): targets the blind spot of impersonal providers with a service shaped around each customer.
-    - Based on: Institute for Strategy and Competitiveness (n.d.) Strategic Positioning
-    - Also: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketing
-- **9. Outcome ("Outcome for the buyer" when the end user's is asked)**
-  - Options: Lower costs; Time saved; Legal & data-protection cover; Higher quality & prestige.
-  - "i":
-    - The measurable result the buyer gets from the offering (outcome or return): what the buyer is paying for.
-    - Lower costs: an immediate reduction in operating costs. Time saved: the execution time of a process cut to almost nothing, or the workflow drastically simplified. Legal & data-protection cover: absolute legal coverage and no risk of fines. Higher quality & prestige: top quality, custom service and an upgrade of the buyer's prestige.
-    - For a Proxy or Dual-Intent Buyer the end user has an outcome of their own, asked next.
-    - Based on: Institute for Strategy and Competitiveness (n.d.) Strategic Positioning
-    - Also: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketing
-- **10. Outcome for the end user**
-  - Options: Enjoyment & fun; Comfort & ease; Safety & care; Learning & growth; Looks & belonging; Practical use.
-  - "i":
-    - What matters most to the end user, apart from the buyer's own reasons for paying: the result the end user gets. It starts the end user's Profile.
-    - Enjoyment & fun. Comfort & ease. Safety & care. Learning & growth. Looks & belonging (fitting in with friends, a style). Practical use.
 
 ### 2.3 Under both columns
 
 | Pos | Code | Saved id | Label | Control | Max | Asked when | Starts | Status | Owner |
 |---|---|---|---|---|---|---|---|---|---|
-| 11 | 11 | the part's answer, key `positioning` | Notes | OptionalNote | – | always (optional) | – | built | doc 38, 11 |
+| 8 | 11 | the part's answer, key `positioning` | Notes | OptionalNote | – | always (optional) | – | built | doc 38, 11 |
 
 - **11. Notes**
   - Options: none.
@@ -211,11 +182,15 @@ None.
 
 ### 2.4 Retired codes
 
-None.
+| Code | Was | Status | Replaced by | Owner |
+|---|---|---|---|---|
+| 8 | Differentiation (`organisation.differentiation`) | retired | moved to the Competitor card's Insights & Differentiation, once per Segment after its Competitors: K14 (doc 41); the old answer is its start | doc 38, 8 to 10 |
+| 9 | Outcome for the buyer (`organisation.outcome`) | retired | moved to the Offering's O4, its one owner, through the crosswalk (doc 34, 5.2a; doc 43); the old answer starts O4's ticks | doc 38, 8 to 10 |
+| 10 | Outcome for the end user (`organisation.outcomeUser`) | retired | moved to the Segment's End user part: End user, 9 (doc 35; the end user's own Profile takes it in Phase 4b); the old answer is its start | doc 38, 8 to 10 |
 
 ## 3. Segment
 
-*Business System, page 1, the Segment's Description (the end user's part in the same card). Owner: doc 35.* From `SEGMENT_QUESTIONS` in `src/framework/engine/SegmentQuestions.ts` (the card adds Box 1, 0); saved under `questions` on the Segment. The words are a direct buyer's ("your customers"); a Proxy or Dual-Intent buyer reads "your buyers", and the end user's part "your end users" (`segmentWho`).
+*Business System, page 1, the Segment's Description (the end user's part in the same card). Owner: doc 35.* From `SEGMENT_QUESTIONS` in `src/framework/engine/SegmentQuestions.ts` (the card adds Box 1, 0; the Differentiation, saved here too, is listed under the Competitor card as K14); saved under `questions` on the Segment. Max of End user, 9 is by stage: Planning / Launching / Managing / Growing. The words are a direct buyer's ("your customers"); a Proxy or Dual-Intent buyer reads "your buyers", and the end user's part "your end users" (`segmentWho`).
 
 ### 3.1 Demographics
 
@@ -473,6 +448,7 @@ None.
 | 35 | End user, 6 | `u-orgtype` | What kind of organisation are their clients? | RadioChoice | – | the relationship is Business serving clients or Professional intermediary | – | built | doc 35, The end user |
 | 36 | End user, 7 | `u-size` | How big are their clients' organisations? | RadioChoice | – | as End user, 6, and the clients are not self-employed | – | built | doc 35, The end user |
 | 37 | End user, 8 | `u-comfort` | How comfortable are your customers online? | RatingScale | – | an end user who is not a Baby | – | built | doc 35, The end user |
+| 38 | End user, 9 | `u-outcome` | Outcome for the end user | RadioChoice at 1, BusinessTicks above | 1 / 2 / 2 / any | the Segment's own buyer is Proxy or Dual-Intent (moved from Positioning 10, 2026-11-08); ordered by Positioning's purposes and life stages | Positioning's answer saved before 2026-11-08 (`organisation.outcomeUser`), within the stage's limit; a saved answer wins | built | doc 35, The end user |
 
 - **End user, 1. How old are your customers?**
   - Options: Baby 0–2; Child 3–10; Teenager 11–17; Young adult 18–24; Established 25–39; Peak 40–54; Mature 55–64; Active Retirees 65–74; Dependent seniors 75+.
@@ -514,6 +490,11 @@ None.
   - "i":
     - 1 = Uneasy, 5 = Confident.
     - How easily they use websites, apps and online payment, not whether they own a device.
+- **End user, 9. Outcome for the end user**
+  - Options: Enjoyment & fun; Comfort & ease; Safety & care; Learning & growth; Looks & belonging; Practical use.
+  - "i":
+    - What matters most to the end user, apart from the buyer's own reasons for paying: the result the end user gets. It starts the end user's Profile.
+    - Enjoyment & fun. Comfort & ease. Safety & care. Learning & growth. Looks & belonging (fitting in with friends, a style). Practical use.
 
 ### 3.7 Retired codes
 
@@ -858,12 +839,26 @@ None.
 | Pos | Code | Saved id | Label | Control | Max | Asked when | Starts | Status | Owner |
 |---|---|---|---|---|---|---|---|---|---|
 | 10 | K10 | `k10` | What could you do differently? | BusinessTicks | 3 | every type, once an opening exists | – | built | doc 41, K10 |
+| 11 | K14 | `differentiation` on the Segment (`questions`) | Differentiation | RadioChoice at 1, BusinessTicks above | 1 / 2 / 2 / any | once per Segment, after its Competitor cards (moved from Positioning 8, 2026-11-08); ordered by Positioning's answers as built | Positioning's answer saved before 2026-11-08 (`organisation.differentiation`), within the stage's limit; a saved answer wins | built | doc 41, K14 |
 
 - **K10. What could you do differently?**
   - Options: from the answers above (`competitorOpenings`): the openings each answer makes.
   - "i":
     - Openings drawn from what you answered above. Tick the ones you will act on, then write how in the text.
     - (and the values that are hard to beat, from the answers above)
+- **K14. Differentiation**
+  - Options: Cost-driven; Convenience-driven; Compliance, Risk & Security; Status & Premium; Performance & Innovation; Ecosystem & Integration; Personal Service & Relationship.
+  - "i":
+    - What the offering does differently from the competitors: where it hits exactly the blind spot they leave. It is about the offering; the result the buyer gets from it is asked on each Offering (what it does best for the customer).
+    - Cost-driven (saving resources): targets the blind spot of expensive competitors with a budget-friendly alternative.
+    - Convenience-driven (speed and ease): targets the blind spot of complex or slow solutions.
+    - Compliance, Risk & Security: targets the blind spot of uncertified or questionable alternatives.
+    - Status & Premium (exclusivity): targets the blind spot of mass-market or cheap products with top quality and custom service.
+    - Performance & Innovation (product superiority): targets the blind spot of dated or underpowered alternatives with better results and newer methods.
+    - Ecosystem & Integration (fits what they already use): targets the blind spot of standalone tools that do not connect to the buyer's other systems and workflows.
+    - Personal Service & Relationship (customer intimacy): targets the blind spot of impersonal providers with a service shaped around each customer.
+    - Based on: Institute for Strategy and Competitiveness (n.d.) Strategic Positioning
+    - Also: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketing
 
 ### 5.7 Retired codes
 
@@ -905,14 +900,14 @@ No questions: the tile shows a draft sentence and the open items, read from the 
 
 | Pos | Code | Saved id | Label | Control | Max | Asked when | Starts | Status | Owner |
 |---|---|---|---|---|---|---|---|---|---|
-| 3 | O4 | `o4` | What does it do best for the customer? | BusinessTicks | 3 | always | from Positioning's Differentiation, through the value crosswalk (up to three) | built | doc 43, O4 |
+| 3 | O4 | `o4` | What does it do best for the customer? | BusinessTicks | 3 | always | from the Segment's Differentiation (K14), then the buyer's outcome saved on Positioning before 2026-11-08, through the value crosswalk (up to three) | built | doc 43, O4 |
 | 4 | O8 | `o8` | Which of their worries does it answer? | BusinessTicks | – | a Profile of the Segment ticked a worry in E3 other than Support | – | built | doc 43, O8 |
 
 - **O4. What does it do best for the customer?**
   - Options: Affordability; Speed; Convenience; Quality; Reputation; Expertise; Personalisation; Support; Safety / security; Values (the list of B1 and K8).
   - "i":
     - The first you tick is the main benefit. The same list as "What matters most" on your Profiles and Competitors, so they can be compared.
-    - Your Positioning's Differentiation starts the ticks; change them freely.
+    - The Segment's Differentiation (under its Competitors) starts the ticks, and so does the outcome for the buyer you chose before; change them freely.
 - **O8. Which of their worries does it answer?**
   - Options: from the Profiles' E3 ticks (Support left out: O7 answers it): Price; Credibility; Onboarding; Complexity; Risk; Fit; Migration; Image.
   - "i":
@@ -1020,10 +1015,10 @@ No questions: the tile shows a draft sentence and the open items, read from the 
 | Card | Built | Not built | Retired |
 |---|---|---|---|
 | Organisation | 11 | 0 | 0 |
-| Positioning | 11 | 0 | 0 |
-| Segment | 37 | 0 | 0 |
+| Positioning | 8 | 0 | 3 |
+| Segment | 38 | 0 | 0 |
 | Profile | 22 | 6 | 6 |
-| Competitor | 10 | 0 | 3 |
+| Competitor | 11 | 0 | 3 |
 | Value Proposition | 0 | 0 | 0 |
 | Offering | 14 | 1 | 4 |
-| **All** | **105** | **7** | **13** |
+| **All** | **104** | **7** | **16** |
