@@ -136,7 +136,7 @@ export const SUBSECTIONS = {
     offerings: {
         instructions: [
             "Turn customer problems and functional needs into practical product features and solutions.",
-            "Ensure every feature supports the Value Proposition."
+            "Make sure each one answers your Profiles' needs."
         ],
         description: [
             { id: "function", title: "Function", text: "What does it do, and what result should it deliver?" },

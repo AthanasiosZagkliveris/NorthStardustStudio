@@ -99,10 +99,10 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
         const ownCard = (segment: BusinessCustomerSegmentValue, index: number, which: "description" | "proposition"): ReactNode => (
             // (Only the section itself: the Segment's number, name and x are the frame's, outside the tiles.)
             <div className="column-tile-content" style={{ "--strategy-theme-hue": workHue("discover") } as CSSProperties}>
-                <CardShell engagement={false} data-anchor={segment.id + ":" + (which === "description" ? 0 : 2)}>
+                <CardShell engagement={false} data-anchor={segment.id + ":" + (which === "description" ? 0 : 3)}>
                     {which === "description"
                         ? <div className="business-foundation-description" data-rail={rail(0)}>{subsectionsFor(segment, index).segmentDescription}</div>
-                        : <div className="business-foundation-proposition" data-rail={rail(2)}>{subsectionsFor(segment, index).valueProposition}</div>}
+                        : <div className="business-foundation-proposition" data-rail={rail(3)}>{subsectionsFor(segment, index).valueProposition}</div>}
                 </CardShell>
             </div>
         );
@@ -130,7 +130,7 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
             </div>
         );
         /**
-         * A SEGMENT'S FOUR TILES, two by two, in its frame: Customers (its Description and its Profiles), Value Proposition, Competitors and Offerings. Customers, Competitors
+         * A SEGMENT'S FOUR TILES, two by two, in its frame: Customers (its Description and its Profiles), Competitors, Offerings and Value Proposition (owner, 2026-11-08: the Offerings before the Value Proposition). Customers, Competitors
          * and Offerings open the small tiles of their cards; every card -- the Description, a Profile, the Value Proposition, a Competitor, an Offering -- floats over its tile.
          */
         const tilesOf = (segment: BusinessCustomerSegmentValue, index: number): SectionTile[] => {
@@ -226,22 +226,23 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                         </>
                     ))
                 },
+                listTile("competitors", 1, "Competitors"),
+                // The Offerings before the Value Proposition (owner, 2026-11-08): it is drafted from them, so it is the last tile.
+                listTile("offerings", 2, "Offerings"),
                 {
                     id: segment.id + ":value-proposition",
                     title: "Value Proposition",
                     group: "Value Proposition",
                     large: true,
-                    rail: rail(2),
+                    rail: rail(3),
                     items: segment.valueProposition.trim() ? [segment.valueProposition.trim()] : [],
                     // (The Value Proposition is a section of the Segment, one each: it opens in the dialog, a tile the arrows go through.)
-                    content: () => dialog(2, "Value Proposition", (
+                    content: () => dialog(3, "Value Proposition", (
                         <div className="column-tile-content" style={{ "--strategy-theme-hue": workHue("discover") } as CSSProperties}>
-                            <div className="business-foundation-proposition" data-rail={rail(2)}>{subsectionsFor(segment, index).valueProposition}</div>
+                            <div className="business-foundation-proposition" data-rail={rail(3)}>{subsectionsFor(segment, index).valueProposition}</div>
                         </div>
                     ))
-                },
-                listTile("competitors", 1, "Competitors"),
-                listTile("offerings", 3, "Offerings")
+                }
             ];
         };
         /** A Segment's frame title: "Segment" until it has a name, then the name; with several Segments each is numbered. */
@@ -276,7 +277,7 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                                             () => update({ segments: foundation.segments.filter((_candidate, position) => position !== index) })
                                         )}
                                     </div>
-                                    <SectionTiles label={frameName(segment, index) + ": Customers, Value Proposition, Competitors, Offerings"} hue={workHue("discover")} tiles={tilesOf(segment, index)} incomplete={missingFoundation} />
+                                    <SectionTiles label={frameName(segment, index) + ": Customers, Competitors, Offerings, Value Proposition"} hue={workHue("discover")} tiles={tilesOf(segment, index)} incomplete={missingFoundation} />
                                 </div>
                             </div>
                         </CardShell>
@@ -494,17 +495,14 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                                         and what is sold to it to
                                         keep that promise, level with
                                         the Profile and Competitor
-                                        cards. */}
-                                    <div
-                                        className="business-foundation-proposition"
-                                        data-rail={railId(BUSINESS_FOUNDATION_SUBSECTIONS[2])}
-                                    >
-                                        {parts.valueProposition}
-                                    </div>
-
+                                        cards. Where the card stacks
+                                        (1500px and less), the
+                                        Offerings come before the
+                                        Value Proposition (owner,
+                                        2026-11-08). */}
                                     <div
                                         className="business-foundation-offerings"
-                                        data-rail={railId(BUSINESS_FOUNDATION_SUBSECTIONS[3])}
+                                        data-rail={railId(BUSINESS_FOUNDATION_SUBSECTIONS[2])}
                                     >
                                         <span className="field-group-title business-foundation-subhead business-foundation-column-title fold-group-head">
                                             Offerings
@@ -515,6 +513,13 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                                             />
                                         </span>
                                         {parts.offerings}
+                                    </div>
+
+                                    <div
+                                        className="business-foundation-proposition"
+                                        data-rail={railId(BUSINESS_FOUNDATION_SUBSECTIONS[3])}
+                                    >
+                                        {parts.valueProposition}
                                     </div>
 
                                 </>

@@ -9,7 +9,7 @@ Related: doc 35 (the Segment), doc 36 (the Profile: the needs, goals, frustratio
 - "State the specific problem you solve and the key benefits you provide."
 - "Explain what makes your offering different or better than competitors."
 
-**It asks no new question.** Everything it needs has already been answered by the time the App User reaches it. A question here would ask a second time what the Profile, the Offering or the Competitor already holds, and break one owner per fact (doc 28, rule 3.1). So the tile gives a **draft** and **open items**, and the text stays the App User's own.
+**It asks no new question.** Everything it needs has already been answered by the time the App User reaches it: it is the last tile of the Segment's frame, after the Segment Description with its Profiles, the Competitors and the Offerings (owner, 2026-11-08: the Offerings before the Value Proposition; built the same day). A question here would ask a second time what the Profile, the Offering or the Competitor already holds, and break one owner per fact (doc 28, rule 3.1). So the tile gives a **draft** and **open items**, and the text stays the App User's own.
 
 **Why this structure.** The tile follows the Value Proposition Canvas [FUN-46], which fits what a Segment's customers want to what an offering gives them. On the customer's side are their jobs, pains and gains. On the offering's side are its pain relievers and gain creators. The app already asks all of these:
 

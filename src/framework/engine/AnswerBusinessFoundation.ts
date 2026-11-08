@@ -779,10 +779,11 @@ export function businessSegmentNeeds(
  * 2. A named competitor or alternative, under any Segment. The
  *    specification asks for three to five, but a page that refused
  *    to finish on four would be enforcing a recommendation.
- * 3. A Value Proposition for every Segment that has a name. One
+ * 3. A named Offering, under any Segment.
+ * 4. A Value Proposition for every Segment that has a name. One
  *    Segment left blank is the subsection left unfinished, which is
- *    the point of writing one per Segment.
- * 4. A named Offering, under any Segment.
+ *    the point of writing one per Segment. (Last since 2026-11-08: it
+ *    reads the Offerings, so they come before it.)
  */
 export function businessFoundationSubsectionsEmpty(value: unknown): boolean[] {
 
@@ -811,7 +812,7 @@ export function businessFoundationSubsectionsEmpty(value: unknown): boolean[] {
         )
     );
 
-    return [segmentsEmpty, competitorsEmpty, propositionEmpty, offeringsEmpty];
+    return [segmentsEmpty, competitorsEmpty, offeringsEmpty, propositionEmpty];
 
 }
 
@@ -820,12 +821,14 @@ export function businessFoundationSubsectionsEmpty(value: unknown): boolean[] {
  *
  * Singular throughout, as the page's headings read them: each
  * names the kind of thing being answered, not the pile of them.
+ * The Offering before the Value Proposition (owner, 2026-11-08): the
+ * Value Proposition is drafted from the Offerings, so it comes last.
  */
 export const BUSINESS_FOUNDATION_SUBSECTIONS = [
     "Customer Segment and Profile",
     "Competitor and Alternative",
-    "Value Proposition",
-    "Offering"
+    "Offering",
+    "Value Proposition"
 ] as const;
 
 /* ==================================================================

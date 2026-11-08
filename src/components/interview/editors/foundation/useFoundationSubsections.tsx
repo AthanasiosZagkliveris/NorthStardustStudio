@@ -177,16 +177,17 @@ export function useFoundationSubsections(earlier: Earlier) {
             // Who you are compared with follows from where you stand.
             note: { label: "Your Positioning (Identity)", points: targetAudienceNote }
         },
+        // The Offering before the Value Proposition (owner, 2026-11-08): the Value Proposition is drafted from what the three before it hold.
         {
             number: 3,
-            title: "Value Proposition",
-            instructions: SUBSECTIONS.valueProposition.instructions,
+            title: "Offering",
+            instructions: SUBSECTIONS.offerings.instructions,
             note: null
         },
         {
             number: 4,
-            title: "Offering",
-            instructions: SUBSECTIONS.offerings.instructions,
+            title: "Value Proposition",
+            instructions: SUBSECTIONS.valueProposition.instructions,
             note: null
         }
     ];

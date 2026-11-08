@@ -1,6 +1,6 @@
 # Business System — Page 1: Foundation
 
-Status: **specification**, written 2026-09-27, updated 2026-11-02. The text from "Describe and implement" on is the owner's requirement as given (its wording is used exactly); "As built" says how the app draws it today.
+Status: **specification**, written 2026-09-27, updated 2026-11-08. The text from "Describe and implement" on is the owner's requirement as given (its wording is used exactly); "As built" says how the app draws it today.
 
 > **3. Business System — Page 1 of 5.**
 > Pages: **1. Foundation** · 2. Customer Engagement ·
@@ -15,10 +15,10 @@ The four columns below are four **tiles**, drawn two by two in one frame for eac
 |---|---|---|
 | 1. Customer Segments and Profiles | **Segment Description** (listing its Profiles) | The Segment card: its boxes, each asking choice questions, then the section Profiles as small tiles; a Profile is a card that floats over the tile |
 | 2. Competitors and Alternatives | **Competitors** | The Competitors as small tiles; each is a card |
-| 3. Value Proposition | **Value Proposition** | The one text of the Segment |
 | 4. Offerings | **Offerings** | The Offerings as small tiles; each is a card |
+| 3. Value Proposition | **Value Proposition** | The one text of the Segment |
 
-The tile order in the frame is Segment Description, Value Proposition, Competitors, Offerings.
+The tile order in the frame is Segment Description, Competitors, Offerings, Value Proposition (owner, 2026-11-08: the Offerings before the Value Proposition, which is drafted from them); the page numbers its subsections in that order (1. Customer Segment and Profile, 2. Competitor and Alternative, 3. Offering, 4. Value Proposition).
 
 **What the page asks.**
 

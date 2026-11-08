@@ -252,11 +252,11 @@ export function openItemsOf(
                 if (!foundation.segments.some(segment => segment.competitors.some(competitor => !blank(competitor.name)))) {
                     sectionItem(BUSINESS_FOUNDATION_SUBSECTIONS[1], "a named competitor or alternative");
                 }
-                named.filter(segment => blank(segment.valueProposition)).forEach(segment =>
-                    add(segment.name.trim() + ": value proposition.", { key: key(sectionSegment(BUSINESS_FOUNDATION_SUBSECTIONS[2])), anchors: [segment.id] }));
                 if (!foundation.segments.some(segment => segment.offerings.some(offering => !blank(offering.name)))) {
-                    sectionItem(BUSINESS_FOUNDATION_SUBSECTIONS[3], "a named Offering");
+                    sectionItem(BUSINESS_FOUNDATION_SUBSECTIONS[2], "a named Offering");
                 }
+                named.filter(segment => blank(segment.valueProposition)).forEach(segment =>
+                    add(segment.name.trim() + ": value proposition.", { key: key(sectionSegment(BUSINESS_FOUNDATION_SUBSECTIONS[3])), anchors: [segment.id] }));
                 break;
             }
 

@@ -6,6 +6,8 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 
 **The card's order:** doc 44 (the questions register) lists the Offering's questions box by box in the card's order; the codes O1 to O18 are permanent ids, not positions.
 
+**Where it stands.** The Offerings are the third tile of the Segment's frame, after the Segment Description and the Competitors and before the Value Proposition, which is drafted from them (owner, 2026-11-08; built the same day). The tile's instructions: "Turn customer problems and functional needs into practical product features and solutions." and "Make sure each one answers your Profiles' needs." (it pointed forward to the Value Proposition until 2026-11-08).
+
 **What the card is.** An Offering belongs to its Segment, as a Profile does. Pages 2 to 5 read it by id and never copy it (the page specifications' README, point 1). The card has these parts, in order:
 - **The head:** the number, the name cell and the one x (built).
 - **The Type** (built): Product, Service or Hybrid. No "Other" (owner, 2026-11-04; built 2026-11-08: a saved "Other" still shows until it is changed).

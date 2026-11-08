@@ -141,15 +141,16 @@
 
     /* Two thirds of two columns is both of them, so what is offered
        to the Segment drops below rather than squeezing into half a
-       column. */
+       column. The page order: the Offerings before the Value
+       Proposition (owner, 2026-11-08). */
     .business-foundation > .business-foundation-input{
 
         grid-template-areas:
             "head        head"
-            "proposition proposition"
             "description description"
             "profiles    competitors"
-            "offerings   offerings";
+            "offerings   offerings"
+            "proposition proposition";
 
     }
 
@@ -169,11 +170,11 @@
 
         grid-template-areas:
             "head"
-            "proposition"
             "description"
             "profiles"
             "competitors"
-            "offerings";
+            "offerings"
+            "proposition";
 
     }
 
@@ -214,10 +215,10 @@
 
         grid-template-areas:
             "head head        head"
-            ".    proposition proposition"
             ".    description description"
             ".    profiles    competitors"
-            ".    offerings   offerings";
+            ".    offerings   offerings"
+            ".    proposition proposition";
 
     }
 
@@ -231,11 +232,11 @@
 
         grid-template-areas:
             "head head"
-            ".    proposition"
             ".    description"
             ".    profiles"
             ".    competitors"
-            ".    offerings";
+            ".    offerings"
+            ".    proposition";
 
     }
 
