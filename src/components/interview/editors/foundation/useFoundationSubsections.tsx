@@ -389,7 +389,7 @@ export function useFoundationSubsections(earlier: Earlier) {
             // (The end user's A1 and A7 stand on the same card as the buyer's: their names differ.)
             const group = profile.id + (own ? "-user-" : "-") + question.id;
             const label = part === "buyer" ? profileWho(question.label, shown.a2?.[0]) : profileUserWho(question.label);
-            const ageRange = question.number ? (own ? profileUserAgeRange(segment.questions) : profileAgeRange(segment.questions)) : null;
+            const ageRange = question.number ? (own ? profileUserAgeRange(segment.questions, asked) : profileAgeRange(segment.questions)) : null;
             const chosen = shown[question.id] ?? [];
             // Only this field is saved (with its ratings and Other); every other field keeps following its start (docs 36 and 43; owner, 2026-11-08).
             const saved = (own ? profile.user?.questions : profile.questions) ?? {};

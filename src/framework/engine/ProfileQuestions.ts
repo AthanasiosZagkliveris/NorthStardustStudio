@@ -253,10 +253,19 @@ const USER_AGE_RANGES: Record<string, [number, number]> = {
 };
 const ADULT_USER_AGES = ["young", "established", "peak", "mature", "active", "dependent"];
 
-/** The range of years the Segment's end-user stage allows (End user, 1), or null where none is chosen. */
-export function profileUserAgeRange(segment: SegmentAnswers): [number, number] | null {
-    const range = USER_AGE_RANGES[(segment["u-age"] ?? [])[0]];
-    return range ?? null;
+/** The working ages of a business Segment's end user (its staff): Young adult to Mature, 18 to 64 (phase 5, 2026-11-08). */
+const WORKING_USER_AGES = ["young", "established", "peak", "mature"];
+
+/**
+ * The range of years the Segment's end-user stage allows (End user, 1), or null where none is chosen. A business Segment's end user is of working age: its range is the stage's where
+ * that is a working stage, else 18 to 64 (a retiree's stage saved before is not offered there).
+ */
+export function profileUserAgeRange(segment: SegmentAnswers, context?: Pick<SegmentContext, "frame">): [number, number] | null {
+    const stage = (segment["u-age"] ?? [])[0];
+    if (context?.frame === "business" && !WORKING_USER_AGES.includes(stage)) {
+        return [18, 65];
+    }
+    return USER_AGE_RANGES[stage] ?? null;
 }
 
 /**
@@ -296,7 +305,7 @@ export function profileUserSettle(saved: SegmentAnswers, segment: SegmentAnswers
         }
         if (question.number) {
             const age = Number(chosen[0]);
-            const range = profileUserAgeRange(segment);
+            const range = profileUserAgeRange(segment, context);
             if (Number.isFinite(age) && chosen[0] !== "" && (!range || (age >= range[0] && age < range[1]))) {
                 settled[question.id] = chosen;
             }

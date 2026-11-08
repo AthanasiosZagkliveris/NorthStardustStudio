@@ -749,8 +749,8 @@ export function segmentOptions(question: SegmentQuestion, answers: SegmentAnswer
                         : has(answers, "u-age", "teen") ? option.id === "secondary"
                             : true));
         case "u-age":
-            // A business Segment's end user (staff, a partner, clients) is an adult: no age under 18 is offered (owner, 2026-11-08).
-            return USER_AGES.filter(option => keep(option, !(context.frame === "business" && option.stage === "age:minor")
+            // A business Segment's end user (staff, a partner, clients) is of working age: no age under 18 (owner, 2026-11-08) and no retiree (phase 5, 2026-11-08), Young adult to Mature.
+            return USER_AGES.filter(option => keep(option, !(context.frame === "business" && (option.stage === "age:minor" || option.stage === "age:senior"))
                 && (context.userStages.length === 0 || context.userStages.includes(option.stage))))
                 .map(({ id, label }) => ({ id, label }));
         default:

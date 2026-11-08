@@ -608,7 +608,7 @@ Asked when the Segment's own buyer relationship has a Proxy or Dual-Intent buyer
 ### 1. How old are your customers?
 
 - **Control:** one choice (a radio).
-- **Asked when:** The Segment's buyer relationship has a Proxy or Dual-Intent buyer. The terms follow the end user's life stage chosen in Positioning: Minors: Baby, Child, Teenager; Young Adults: Young adult; Adults: Established, Peak, Mature; Seniors: Active Retirees, Dependent seniors. A business Segment's end user (staff, a partner, clients) is offered the adult terms only, Young adult to Dependent seniors (owner, 2026-11-08). Not shown when only one term is left.
+- **Asked when:** The Segment's buyer relationship has a Proxy or Dual-Intent buyer. The terms follow the end user's life stage chosen in Positioning: Minors: Baby, Child, Teenager; Young Adults: Young adult; Adults: Established, Peak, Mature; Seniors: Active Retirees, Dependent seniors. A business Segment's end user (staff, a partner, clients) is offered the working-age terms only, Young adult to Mature (owner, 2026-11-08: no minors; phase 5, the same day: no Active Retirees or Dependent seniors either; a retiree's term saved before is removed on the next choice). Not shown when only one term is left.
 - **Options:**
   - Baby 0–2
   - Child 3–10

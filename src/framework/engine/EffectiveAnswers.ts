@@ -7,7 +7,7 @@ import type { BusinessCustomerProfileValue, BusinessCustomerSegmentValue, Busine
 import { type OfferingAnswers, type OfferingContext, offeringShown } from "./OfferingQuestions.ts";
 import { profileShown, profileUserShown } from "./ProfileQuestions.ts";
 import { type SegmentIdentity, segmentContextFor, segmentIsBusiness, segmentPositioningShown } from "./SegmentContext.ts";
-import type { SegmentAnswers } from "./SegmentQuestions.ts";
+import { type SegmentAnswers, segmentSettle } from "./SegmentQuestions.ts";
 
 /** A Profile's answers as its card shows them: its own, with each start for a question it never answered. */
 export function effectiveProfileAnswers(profile: BusinessCustomerProfileValue, segment: BusinessCustomerSegmentValue, identity: SegmentIdentity | undefined): SegmentAnswers {
@@ -36,7 +36,10 @@ export function effectiveSegmentAnswers(segment: BusinessCustomerSegmentValue, i
 export function offeringContextOf(offering: BusinessOfferingValue, segment: BusinessCustomerSegmentValue, identity: SegmentIdentity | undefined): OfferingContext {
     const worries = [...new Set(segment.profiles.flatMap(profile => effectiveProfileAnswers(profile, segment, identity).e3 ?? []))];
     const differentiation = effectiveSegmentAnswers(segment, identity).differentiation ?? [];
-    return { type: offering.category, stage: identity?.stage, differentiation, outcome: identity?.outcome ?? [], pay: segment.questions.pay ?? [], worries, country: identity?.country, ...(segmentContextFor(identity, segmentIsBusiness(segment)).endsUser ? { endsUser: true } : {}) };
+    const context = segmentContextFor(identity, segmentIsBusiness(segment));
+    // The pay O3's order reads is the Segment's settled answer (a stale invoice on a people Segment is not counted; phase 5, 2026-11-08); the frame tells O18's "i" a business Segment.
+    const pay = segmentSettle(segment.questions, context).pay ?? [];
+    return { type: offering.category, stage: identity?.stage, differentiation, outcome: identity?.outcome ?? [], pay, worries, country: identity?.country, frame: context.frame, ...(context.endsUser ? { endsUser: true } : {}) };
 }
 
 /** An Offering's answers as its card shows them: its own, with each start for a question it never answered. */

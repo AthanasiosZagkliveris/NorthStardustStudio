@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { asBusinessFoundationValue } from "./AnswerBusinessFoundation";
 import { OUTCOME_IDS } from "./PositioningIds";
+import { offeringContextOf } from "./EffectiveAnswers";
 import { OFFERING_BOX_QUESTIONS, asOfferingAnswers, draftOffered, highestRated, offeringAsks, offeringInfo, offeringOptions, offeringShown, valueMismatch, valuePropositionDraft, valuePropositionOpenItems } from "./OfferingQuestions";
 
 const segment = asBusinessFoundationValue({
@@ -182,5 +183,24 @@ describe("O16 and O17 held back while Planning", () => {
         expect(offeringAsks("o16", { type: "Service", stage: "launch" })).toBe(true);
         expect(offeringAsks("o17", { type: "Service", stage: "launch" })).toBe(true);
         expect(offeringShown({ o16: ["sameday"], o17: ["updates"] }, { type: "Service", stage: "plan" })).toEqual(expect.objectContaining({ o16: ["sameday"], o17: ["updates"] }));
+    });
+});
+
+/* Phase 5, three small fixes (2026-11-08). */
+describe("O18 between businesses and O3's order from the settled pay", () => {
+    it("says on a business Segment that consumer cancellation rights do not apply, instead of the country's consumer rule", () => {
+        const info = offeringInfo("o18", { type: "Service", country: "GB", frame: "business" });
+        expect(info).toContain("Consumer cancellation rights do not apply between businesses; your contract terms decide.");
+        expect(info.join(" ")).not.toContain("14 days");
+        expect(offeringInfo("o18", { type: "Service", country: "GB", frame: "people" }).join(" ")).toContain("14 days");
+    });
+    it("orders O3 by the Segment's settled pay: a stale invoice on a people Segment no longer puts A project or contract first", () => {
+        const foundation = asBusinessFoundationValue({ segments: [{ id: "s", name: "Parents", questions: { pay: ["card", "invoice"] }, offerings: [{ id: "o", name: "Tutoring", category: "Service" }] }] });
+        const segment = foundation.segments[0];
+        const people = { relationships: ["b2c"], marketType: "single", audience: ["adult"], buyerCategory: ["b2c:direct"], endUser: [], stage: "launch" };
+        const context = offeringContextOf(segment.offerings[0], segment, people);
+        expect(context.pay).toEqual(["card"]);
+        expect(context.frame).toBe("people");
+        expect(offeringOptions("o3", context)[0].id).not.toBe("project");
     });
 });

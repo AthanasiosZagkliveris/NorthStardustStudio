@@ -97,7 +97,7 @@ The card is built and its layout is in section 1 ("The Profile card's layout"): 
 | Question | Part | Why |
 |---|---|---|
 | A2 gender | buyer | the buyer's own identity; the Segment's gender mix (which starts it) is the buyers'; the end user is written of as "the end user" |
-| A1 age | both | the buyer's held to the Segment's age group; the end user's, **A1 (end user)**, held to the Segment's end-user stage (doc 35, End user, 1: a Child 3 to 10), not the buyer's age group |
+| A1 age | both | the buyer's held to the Segment's age group; the end user's, **A1 (end user)**, held to the Segment's end-user stage (doc 35, End user, 1: a Child 3 to 10), not the buyer's age group; on a business Segment (staff) held to working age, 18 to 64, where no working stage is chosen (2026-11-08) |
 | A7 household | both | the buyer's household as before; **A7 (end user)** only of an adult end user of a people Segment (18 or more): a baby, child or teenager lives with the buyer, and a business Segment's end users are its staff or clients |
 | A3 / A3b work, job level | buyer | the job of the person who decides |
 | A5 role in buying | buyer | deciding and ordering; it starts at Places the order and Makes the final decision as before |

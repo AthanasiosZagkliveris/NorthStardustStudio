@@ -103,7 +103,7 @@ const SEGMENT_CODES = {
     trajectory: ["Box 5, 2", "always"],
     trends: ["Box 5, 3", "always"],
     competition: ["Box 5, 4", "always"],
-    "u-age": ["End user, 1", "the Segment's own buyer is Proxy or Dual-Intent; adult terms only for a business Segment; not shown when one term is left"],
+    "u-age": ["End user, 1", "the Segment's own buyer is Proxy or Dual-Intent; working-age terms only for a business Segment (Young adult to Mature, 2026-11-08); not shown when one term is left"],
     "u-school": ["End user, 2", "the end user is under 18 and the relationship is Parent or guardian, or Caregiver"],
     "u-work": ["End user, 3", "a personal relationship (not a parent or caregiver) or Sponsor or funder; not a Baby or a Child"],
     "u-work2": ["End user, 4", "End user, 3 is No"],

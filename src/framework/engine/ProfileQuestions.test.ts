@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { asProfileAnswers, profileAnswerLines, profileChoose, profilePartOf, profileQuestionAsked, profileQuestionsOf, profileRate, profileRatings, profileSettle, profileShown, profileUserAgeRange, profileUserAnswerLines, profileUserQuestionAsked, profileUserQuestionsOf, profileUserSettle, profileWho, proposedBusinessProfiles, PROFILE_QUESTIONS, segmentNeedTicks, type ProfilePart } from "./ProfileQuestions";
-import { segmentAnswerLines, segmentQuestionsOf, segmentSettle, type SegmentContext } from "./SegmentQuestions";
+import { segmentAnswerLines, segmentOptions, segmentQuestionsOf, segmentSettle, type SegmentContext } from "./SegmentQuestions";
 import { segmentContextFor, type SegmentIdentity } from "./SegmentContext";
 import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveProfileUserAnswers, offeringContextOf } from "./EffectiveAnswers";
 import { asBusinessFoundationValue, asLegalEntityValue } from "./AnswerUtils";
@@ -415,5 +415,21 @@ describe("the Profile's devices question", () => {
         const segment = { age: ["peak"], discover: ["communities"], social: ["mixed"] };
         expect(profileQuestionsOf("hubs", segment, context).map(entry => entry.id)).toEqual(["c2", "c3", "c4"]);
         expect(profileQuestionsOf("habits", segment, context).map(entry => entry.id)).toEqual(["c1", "d1", "d2", "d3"]);
+    });
+});
+
+/* Phase 5 (2026-11-08): a business Segment's end user (its staff) is of working age. */
+describe("a business Segment's end user", () => {
+    it("is offered Young adult to Mature only, and its Profile part holds the age to 18 to 64", () => {
+        const employer: SegmentIdentity = { relationships: ["b2b"], marketType: "single", audience: ["mid"], buyerCategory: ["b2b:proxy"], endUser: ["rel:employer"], stage: "launch" };
+        const staff = segmentContextFor(employer, true);
+        const uAge = segmentQuestionsOf("user", {}, staff).find(entry => entry.id === "u-age");
+        expect(segmentOptions(uAge!, {}, staff).map(option => option.id)).toEqual(["young", "established", "peak", "mature"]);
+        expect(segmentSettle({ "u-age": ["active"] }, staff)["u-age"]).toBeUndefined();
+        expect(profileUserAgeRange({}, staff)).toEqual([18, 65]);
+        expect(profileUserAgeRange({ "u-age": ["peak"] }, staff)).toEqual([40, 55]);
+        expect(profileUserAgeRange({ "u-age": ["active"] }, staff)).toEqual([18, 65]);
+        expect(profileUserSettle({ a1: ["70"] }, {}, staff).a1).toBeUndefined();
+        expect(profileUserSettle({ a1: ["35"] }, {}, staff).a1).toEqual(["35"]);
     });
 });

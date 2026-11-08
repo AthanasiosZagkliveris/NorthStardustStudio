@@ -98,7 +98,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Commission on each sale: a share of each sale you make for them. Free to them: someone else pays, such as an advertiser or a funder.
   - A minimum term: write it in the Notes.
 - **Connections:**
-  - *Comes from:* the Segment's "How do your customers pay?" (doc 35, Box 4, question 8). Invoice, bank transfer or purchase order puts A project or contract first, as an order only (found by its id, so the options added do not move it).
+  - *Comes from:* the Segment's "How do your customers pay?" (doc 35, Box 4, question 8). Invoice, bank transfer or purchase order puts A project or contract first, as an order only (found by its id, so the options added do not move it). It reads the Segment's **settled** answer (`segmentSettle`, in `offeringContextOf`; 2026-11-08): an invoice saved on a people Segment, where invoicing is not offered, no longer puts it first.
   - *Read by (not built yet):* Demand's "Customers buy", Delivery's "Delivered" and the Revenue stream's "Charged" (doc 28, 11.7 and 10.2); the Review (doc 28, 11.5, rule 14).
 
 **O3b. O3, second row: "When do they pay?"** (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments": one commercial decision, terms and timing, in one band). One choice (a radio), under the terms, in the same band; saved as `o3t`.
@@ -288,7 +288,8 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Options** (L24): A minimum order; Trade / account only; Non-refundable once made (unless faulty); Notice to cancel; A booking / cancellation fee.
 - **The "i" says** (built 2026-11-08, the options-and-wording research: only the Organisation's country's rule, `offeringInfo`, the country from the Organisation tile through `OfferingContext.country`):
   - The terms your customers agree to.
-  - The country's rule, one of:
+  - **On a business Segment** (the Segment's frame is business, passed as `OfferingContext.frame`; 2026-11-08): "Consumer cancellation rights do not apply between businesses; your contract terms decide." in place of the country's rule and its source.
+  - Otherwise the country's rule, one of:
     - **United Kingdom (GB):** "In the UK, a consumer can cancel most online, phone and doorstep sales within 14 days (goods: from delivery; services: from the contract)." Then "Not covered: goods made to their specification or personalised, perishable goods, and leisure, catering or accommodation booked for a set date."
     - **Ireland (IE):** the same, beginning "In Ireland and the EU, …".
     - **United States (US):** "No general right to cancel. The FTC Cooling-Off Rule gives 3 business days for sales made at the customer's home or at a temporary location." Then "Online, phone and shop sales are not covered. State laws can add more."

@@ -38,6 +38,8 @@ export interface OfferingContext {
     worries?: readonly string[];
     /** The Organisation's country (ISO code), for the cancellation rule O18's "i" shows. */
     country?: string;
+    /** The Segment's frame (its customers are people or businesses): a business Segment's O18 "i" says consumer cancellation rights do not apply (2026-11-08). */
+    frame?: "people" | "business" | "open";
     /** The Segment has an end user (its buyer is Proxy or Dual-Intent): the draft's goal and frustration are the end user's (doc 36, 2.1; doc 42, 1). */
     endsUser?: boolean;
 }
@@ -159,9 +161,15 @@ const CANCELLING: Readonly<Record<string, { rule: readonly string[]; source: str
     }
 };
 
-/** What a question's "i" says for this Offering: O18 the cancellation rule of the Organisation's country, the others their own. */
+/** What O18's "i" says on a business Segment, in place of the consumer rule (phase 5, 2026-11-08). */
+export const BUSINESS_CANCELLING = "Consumer cancellation rights do not apply between businesses; your contract terms decide.";
+
+/** What a question's "i" says for this Offering: O18 the cancellation rule of the Organisation's country (none between businesses), the others their own. */
 export function offeringInfo(id: OfferingQuestionId, context: OfferingContext): readonly string[] {
     const info = OFFERING_QUESTIONS.find(question => question.id === id)?.info ?? [];
+    if (id === "o18" && context.frame === "business") {
+        return [info[0], BUSINESS_CANCELLING, info[2]];
+    }
     const country = id === "o18" && context.country ? CANCELLING[context.country] : undefined;
     return country ? [info[0], ...country.rule, info[2], country.source] : info;
 }
