@@ -248,7 +248,7 @@ A typical person of the Segment, asked specifically.
   - "Uses it" is the person who uses the offering day to day, who may be neither the one who pays nor the one who decides.
 - **Connections:**
   - *Comes from:* the Segment's decision authorisation and end-user part.
-  - *Read by (not built yet):* the Review (nobody makes the final decision); context on the Customer Engagement page.
+  - *Read by (not built yet):* the Review (nobody makes the final decision); context on the Customer Engagement page. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### A6. Specialised needs
 
@@ -264,7 +264,7 @@ A typical person of the Segment, asked specifically.
 
 - **Connections (A6):**
   - *Comes from:* the tick; each question the answer above it.
-  - *Read by (not built yet):* flags the owner's text asks for, kept as a thought (doc 33, section 15, row 6): a solo or single-parent household raises a time-poverty and churn-risk note in a customer journey; sensory or physical needs raise a "compliance validation required" badge on an Offering. They would only highlight, never decide.
+  - *Read by (not built yet):* flags the owner's text asks for, kept as a thought (doc 33, section 15, row 6): a solo or single-parent household raises a time-poverty and churn-risk note in a customer journey; sensory or physical needs raise a "compliance validation required" badge on an Offering. They would only highlight, never decide. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ## 4. Box B. Psychographics
 
@@ -330,7 +330,7 @@ What the Segment cannot say: which social media, which communities, which events
   - Tick Other to write one that is not listed.
 - **Connections:**
   - *Comes from:* the Segment's discovery ways and online comfort.
-  - *Read by (not built yet):* the order of the Discover channels (page 2); the Profile's hubs.
+  - *Read by (not built yet):* the order of the Discover channels (page 2); the Profile's hubs. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### C3. Which communities does this person belong to?
 
@@ -348,7 +348,7 @@ What the Segment cannot say: which social media, which communities, which events
   - Write the names of the groups in the note.
 - **Connections:**
   - *Comes from:* the Segment's discovery ways.
-  - *Read by (not built yet):* the Discover channels; the Profile's hubs.
+  - *Read by (not built yet):* the Discover channels; the Profile's hubs. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### C4. Which events does this person attend?
 
@@ -365,7 +365,7 @@ What the Segment cannot say: which social media, which communities, which events
   - Write the names of the events in the note.
 - **Connections:**
   - *Comes from:* the Segment's social environment.
-  - *Read by (not built yet):* the In Person channels on page 2; the Profile's hubs.
+  - *Read by (not built yet):* the In Person channels on page 2; the Profile's hubs. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ## 6. Box D. Information & Shopping Habits
 
@@ -406,7 +406,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
   - How they pay and where they buy are the Segment's questions.
 - **Connections:**
   - *Comes from:* the Segment's path to purchase.
-  - *Read by (not built yet):* the Evaluate channels (page 2).
+  - *Read by (not built yet):* the Evaluate channels (page 2). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### D2. How much help does this person want before buying?
 
@@ -421,7 +421,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
   - The help a typical person wants before buying; it can differ from how comfortable the Segment is online.
 - **Connections:**
   - *Comes from:* the Segment's online comfort.
-  - *Read by (not built yet):* the relationship type suggested on page 2; the Review (against the help the Offering gives).
+  - *Read by (not built yet):* the relationship type suggested on page 2; the Review (against the help the Offering gives). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### D3. When does this person usually buy?
 
@@ -514,7 +514,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
   - Credibility: whether you can be trusted. Onboarding: the time to get started. Complexity: how hard it is to use. Fit: whether it suits their need.
   - Support: help after buying. Migration: the work of leaving what they use now. Risk: risk or security. Image: what others will think of them.
   - Starts with the price where the Segment's household income is rated 1; change it freely.
-- **Asked when:** always. *Read by (not built yet):* the Offering ticks the worries it answers (O8); the Evaluation actions suggested on page 2. *Comes from:* the Segment's household income (the starting value).
+- **Asked when:** always. *Read by (not built yet):* the Offering ticks the worries it answers (O8); the Evaluation actions suggested on page 2. *Comes from:* the Segment's household income (the starting value). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 
 **One word for each option (owner, 2026-11-06, replacing the same day's shorter words).** The ids are unchanged where an option is only renamed (`WORDS` in `ProfileQuestions.ts`); what each word means is a line of the question's "i", each within 160 characters. B1: Affordability, Speed, Convenience, Quality, Reputation, Expertise, Personalisation, Support, Safety / security, Values. E1: Accessibility, Development, Expression, Compliance, Revenue, Governance ("Competence" was suggested with no old option: not added, the owner asked); since 2026-11-08 Governance is merged into Compliance and Efficiency, Resolution and Enjoyment are added (E1 above). E2, with three merges: Cost (Unclear prices merged in), Delays, Complexity (Poor support merged in), Inconsistency, Trust, Insecurity (Fear of mistakes merged in), Capacity; a saved tick of a merged option is read as the one kept, once, the higher rating kept (`MERGED`, `asProfileAnswers`, tested); since 2026-11-08 Complexity reads Hassle and Insecurity reads Skills gap, the ids kept (E2 above). E3: Price, Credibility, Onboarding, Complexity, Risk, Fit, Support, Migration; Image added 2026-11-08. The needs: section 10.
