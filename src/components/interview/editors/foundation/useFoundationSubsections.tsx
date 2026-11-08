@@ -19,7 +19,7 @@ import TextLink from "../../fields/TextLink.tsx";
 import TextBox from "../../../controls/TextBox.tsx";
 import { type OtherQuestion, competitorOtherAdd, competitorOtherName, competitorOtherRemove, competitorOtherSettle, competitorOtherTick, competitorOthers, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, shownOpenings, COMPETITOR_SUBCHANNELS, COMPETITOR_BAND_LINE, bandTone, COMPETITOR_CHANGES, valueProfiles, draftToAdd, hardToBeat, insightsDraft, reviewPlatformOrder } from "../../../../framework/engine/CompetitorQuestions.ts";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
-import { OFFERING_BOXES, OFFERING_QUESTIONS, type OfferingAnswers, type OfferingContext, type OfferingQuestionId, draftOffered, offeringAsks, offeringOptions, offeringShown, valuePropositionDraft, valuePropositionOpenItems } from "../../../../framework/engine/OfferingQuestions.ts";
+import { OFFERING_BOX_QUESTIONS, OFFERING_QUESTIONS, offeringChoose, type OfferingAnswers, type OfferingContext, type OfferingQuestionId, draftOffered, offeringAsks, offeringOptions, offeringShown, valuePropositionDraft, valuePropositionOpenItems } from "../../../../framework/engine/OfferingQuestions.ts";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import { type ProfileBox, type ProfileQuestion, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileRate, profileRatings, profileWho, profileQuestionsOf, profileSettle, profileShown, proposedBusinessProfiles, segmentNeedTicks } from "../../../../framework/engine/ProfileQuestions.ts";
 import { type SegmentBox, type SegmentQuestion, segmentChoose, segmentOptions, segmentQuestionsOf, segmentRowChoice, segmentSettle, segmentSettledNotes } from "../../../../framework/engine/SegmentQuestions.ts";
@@ -28,7 +28,7 @@ import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
 import NumberedListInput from "../../fields/NumberedListInput.tsx";
 import OptionPicker from "../../fields/OptionPicker.tsx";
 import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
-import { BusinessNeedKind, CATEGORY_OTHER, OFFERING_BOX_ADDS, COMPETITOR_TYPE_QUESTIONS, DescriptionPart, NOTE_PLACEHOLDERS, OPTIONAL_DESCRIPTION_PART, SUBSECTIONS, competitorParts, otherProfileNeeds } from "./shared.tsx";
+import { BusinessNeedKind, CATEGORY_OTHER, COMPETITOR_TYPE_QUESTIONS, DescriptionPart, NOTE_PLACEHOLDERS, OPTIONAL_DESCRIPTION_PART, SUBSECTIONS, competitorParts, otherProfileNeeds } from "./shared.tsx";
 import { BUSINESS_AUDIENCE, PEOPLE_AUDIENCE, audienceLine, segmentContextFor, segmentFrame } from "./identityLink.ts";
 import type { useFoundationState } from "./useFoundationState.tsx";
 
@@ -1307,12 +1307,13 @@ export function useFoundationSubsections(earlier: Earlier) {
 
                             </div>
 
-                            {/* The card's questions (doc 43, O1 to O10), in its two boxes, one band each as the Profile's Needs are; a starting value shows until changed. */}
+                            {/* The six Description boxes (doc 43; owner, 2026-11-07), as the Profile's and the Competitor's: each asks its questions, one band each
+                                (O3's band holds its two rows), then its optional Notes, the box's saved text. A starting value shows until changed. */}
                             {(() => {
                                 const context = offeringContext(offering);
                                 const shown = offeringAnswers[index];
-                                const write = (id: OfferingQuestionId, next: string[]) => change({ questions: { ...shown, [id]: next } as OfferingAnswers });
                                 const whose = segmentPath + ", Offering " + (index + 1);
+                                const write = (id: OfferingQuestionId, next: string[]) => change({ questions: { ...shown, [id]: offeringChoose(id, shown[id] ?? [], next) } as OfferingAnswers });
                                 const ask = (id: OfferingQuestionId) => {
                                     const question = OFFERING_QUESTIONS.find(entry => entry.id === id)!;
                                     const options = offeringOptions(id, context).map(option => ({ ...option }));
@@ -1330,34 +1331,27 @@ export function useFoundationSubsections(earlier: Earlier) {
                                         </FieldRow>
                                     );
                                 };
-                                return OFFERING_BOXES.map(box => {
-                                    const ids = box.ids.filter(id => offeringAsks(id, context));
-                                    return ids.length > 0 && (
-                                        <Fragment key={box.title}>
-                                            {group(box.title, (
-                                                <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-single">
-                                                    <div className="legal-entity-field">
-                                                        {ids.map((id, at) => (
-                                                            <div key={id} className={"legal-entity-org-section" + (at % 2 === 1 ? " legal-entity-org-band" : "")}>{ask(id)}</div>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                            ), undefined, groupFold(offering.id, box.title, whose))}
-                                        </Fragment>
-                                    );
-                                });
+                                return description(
+                                    whose,
+                                    SUBSECTIONS.offerings.description.map(part => {
+                                        const bands = (OFFERING_BOX_QUESTIONS[part.id] ?? []).map(band => band.filter(id => offeringAsks(id, context))).filter(band => band.length > 0);
+                                        return {
+                                            ...part,
+                                            questions: bands.map(band => <Fragment key={band.join("-")}>{band.map(ask)}</Fragment>),
+                                            note: true,
+                                            placeholder: NOTE_PLACEHOLDERS[part.id],
+                                            level: 4,
+                                            weight: 2 + bands.flat().length * 4
+                                        };
+                                    }),
+                                    offering.description,
+                                    (next) => change({ description: next }),
+                                    true,
+                                    undefined,
+                                    groupFold(offering.id, "Description", whose),
+                                    true
+                                );
                             })()}
-
-                            {description(
-                                segmentPath + ", Offering " + (index + 1),
-                                // Each box's "i" names the question it adds to (doc 43, 2026-11-07); Content & Scope is the one free-text box.
-                                SUBSECTIONS.offerings.description.map(part => ({ ...part, extra: [OFFERING_BOX_ADDS[part.id]] })),
-                                offering.description,
-                                (next) => change({ description: next }),
-                                false,
-                                undefined,
-                                groupFold(offering.id, "Description", segmentPath + ", Offering " + (index + 1))
-                            )}
 
                         </>
                     );

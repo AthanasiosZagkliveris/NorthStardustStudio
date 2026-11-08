@@ -54,7 +54,7 @@ describe("the Value Proposition's draft and open items (doc 42)", () => {
 
 describe("no question asked twice (owner, 2026-11-07: \"avoid overlapping and repetition\")", () => {
     it("asks the terms in O3, leaves the payment terms out of O10, and lets O7 answer the Support worry", () => {
-        expect(offeringOptions("o10", { type: "Service" }).map(option => option.id)).toEqual(["access", "brief", "approval", "place", "equipment", "conditions"]);
+        expect(offeringOptions("o10", { type: "Service" }).map(option => option.id)).toEqual(["access", "brief", "approval", "place", "equipment"]);
         expect(offeringOptions("o8", { type: "Service", worries: ["support-after-they-buy", "risk-or-security"] }).map(option => option.id)).toEqual(["risk-or-security"]);
         expect(offeringAsks("o8", { type: "Service", worries: ["support-after-they-buy"] })).toBe(false);
         const support = { ...segment, profiles: [{ ...segment.profiles[0], questions: { e3: ["support-after-they-buy"] } }] };

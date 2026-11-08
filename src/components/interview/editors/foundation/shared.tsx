@@ -148,31 +148,28 @@ export const SUBSECTIONS = {
  * "i" carries.
  */
 /** What each note of a Profile or a Competitor says before anything is written (owner, 2026-11-04): what belongs there and is not asked above. */
-/** What each Offering Description box adds to (doc 43, owner 2026-11-07): the question it writes more about, in its "i". */
-export const OFFERING_BOX_ADDS: Record<string, string> = {
-    function: "It adds to: What form does it take?",
-    benefit: "It adds to: What does it do best for the customer?",
-    scope: "The one free-text box for the deliverables, the limits and what is excluded.",
-    delivery: "It adds to: On what terms do they pay for it? and How does the customer receive it?",
-    support: "It adds to: What help do you give after they buy?",
-    requirements: "It adds to: What does the customer need to give you?"
-};
-
 export const NOTE_PLACEHOLDERS: Record<string, string> = {
     personal: "A name, a job title, where they live",
-    psychographics: "What they value, believe and enjoy",
+    psychographics: "What they believe and enjoy, beyond what matters most",
     hubs: "The names of their groups, accounts and events",
     habits: "Where and when they buy, and the steps",
     goals: "What they want, in their own words",
     challenges: "What goes wrong for them, in their words",
     objections: "Their doubts, in their own words",
     offerings: "What they sell, by name",
-    market: "The industries and places they serve",
+    market: "What no answer above says about their market",
     acquisition: "Their account and shop names, their partners",
-    experience: "What their customers say, in their words",
+    experience: "What no rating above says, in their customers' words",
     strengths: "Strengths and weaknesses no rating above says",
     opportunities: "Opportunities and threats no change above says",
-    needs: "What no tick above says"
+    needs: "What no tick above says",
+    // The Offering's Notes (owner, 2026-11-07): what no question of the box says.
+    function: "What it is, by name",
+    benefit: "The benefit in your customers' words",
+    scope: "Counts, inclusions and limits",
+    delivery: "Packaging and the steps",
+    support: "Names and how often",
+    requirements: "Care instructions and standards"
 };
 
 export interface DescriptionPart {

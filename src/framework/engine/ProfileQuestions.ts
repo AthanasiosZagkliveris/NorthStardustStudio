@@ -83,6 +83,8 @@ const WORRIES = ["The price or their budget", "Whether they can trust you", "How
 const EMOTIONAL_PEOPLE = ["Calm and worry-free", "Rewarded / treated", "Relaxed / looked after", "Entertained", "Attractive", "Healthy and well", "Delighted by how it looks", "Reminded of good times", "Motivated", "Hopeful", "Fulfilled, as they grow", "Proud of what they own or made"];
 const EMOTIONAL_BUSINESS = ["Sure they made the right choice", "Glad to work with you", "Growing in their work", "Hopeful about their business", "Inspired about what comes next"];
 const SOCIAL_PEOPLE = ["As having good taste / style", "As part of a group they value", "As one of the few with access", "As caring for others or the planet", "As leaving something for their family"];
+/** When they buy (owner, 2026-11-07; L25, doc 34): optional, a people Segment's Profiles only. */
+const BUY_TIMES = ["Weekday daytime", "Evenings", "Weekends", "Around seasons / holidays"];
 /** The functional jobs (owner, 2026-11-07; L17, doc 34, 5.2c): Bain's functional elements no other question already holds [FUN-48], one word each. */
 const FUNCTIONAL = ["Organisation", "Integration", "Connection", "Information", "Variety"];
 const SOCIAL_BUSINESS = ["As someone others trust", "As well connected", "As more valued in their field", "As a responsible business"];
@@ -163,6 +165,7 @@ const QUESTIONS: readonly ProfileQuestion[] = [
         options: [{ id: "alone", label: "Works it out alone" }, { id: "little", label: "Likes a little guidance" }, { id: "person", label: "Wants to talk to a person" }, { id: "formal", label: "Needs a formal demonstration or proposal" }],
         info: ["The help a typical person wants before buying; it can differ from how comfortable the Segment is online."]
     },
+    { id: "d3", box: "habits", label: "When does {s} usually buy?", many: true, options: list(BUY_TIMES), info: ["When they actually buy, not when they are free: the Segment's work schedule says when they work.", "Where and how they buy go in the Notes."] },
     { id: "e1", box: "goals", label: "What does {s} want to achieve?", many: true, max: 3, options: list(GOALS), rating: { low: "Minor", high: "Main" }, info: ["The results they are after, not what they weigh when choosing (that is \"What matters most\"). Choose up to three, then rate each.", "For example, to learn a new craft, or to win more clients.", "Accessibility: getting something hard to reach. Development: learning something new. Expression: showing who they are. Revenue: winning customers or income.", "Compliance: meeting a requirement, at work or by law. Governance: staying within the rules.", "Based on: gains (Value Proposition Canvas)."] },
     { id: "e2", box: "challenges", label: "What frustrates {o} today?", many: true, max: 3, options: list(FRUSTRATIONS), rating: { low: "Mild", high: "Severe" }, info: ["What goes wrong with the way they do it now, before they buy from you. Choose up to three, then rate how much each bothers them.", "For example, the cheap version breaks too soon, or nobody explains how to start.", "Cost: too costly, or unclear prices. Delays: it takes too long. Inconsistency: results vary. Trust: hard to find someone reliable.", "Insecurity: not knowing how, or fearing a mistake. Capacity: no time or staff. Complexity: too complicated, or poor support.", "Based on: pains (Value Proposition Canvas)."] },
     // The Needs (doc 36, section 10): Emotional and Social ticked and rated, by the Segment's kind; Functional stays the numbered list. Each kind's list stays as its note.
@@ -256,6 +259,9 @@ export function profileQuestionAsked(question: ProfileQuestion, segment: Segment
             return (segment.social ?? []).some(id => id === "mixed" || id === "inperson");
         case "d1":
             return !(segment.path ?? []).includes("impulse");
+        // When they buy (owner, 2026-11-07): a people Segment's Profiles only.
+        case "d3":
+            return !business;
         // The Needs' lists follow the Segment's kind: a business buyer's, or a person's (doc 36, section 10).
         case "emotional": case "social":
             return !business;

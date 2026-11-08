@@ -1,5 +1,6 @@
 import { segmentAnswerLines } from "./SegmentQuestions.ts";
 import { profileAnswerLines } from "./ProfileQuestions.ts";
+import { offeringAnswerLines } from "./OfferingQuestions.ts";
 import { settledSegmentAnswers } from "./SegmentContext.ts";
 import { workspacesOf, WORKSPACE_GROUP_ID, businessOfferingNeedTexts } from "./AnswerUtils.ts";
 import { AUDIENCE_WORDS, BUYER_CATEGORY_WORDS, END_USER_WORDS, CUSTOMER_TYPE_WORDS, MARKET_TYPE_WORDS, DIFFERENTIATION_WORDS, OUTCOME_USER_WORDS, OUTCOME_WORDS, PURPOSE_WORDS, activitiesLine } from "./ActivityClassification.ts";
@@ -523,6 +524,8 @@ function segmentBlocks(segment: BusinessCustomerSegmentValue, index: number, org
         ...segment.offerings.flatMap(offering => [
             ...paragraph((offering.name.trim() || "Unnamed offering") + (offering.category ? " (" + offering.category + ")" : "")),
             ...paragraph(businessOfferingNeedTexts(segment, offering).join("; "), "Needs addressed"),
+            // The card's answers (doc 43, O1 to O18), each with its question.
+            ...details(offeringAnswerLines(offering.questions ?? {}, { type: offering.category }).map((line): [string, string] => [line.label, line.value])),
             ...describe(offering.description, OFFERING_FIELDS)
         ])
     ];

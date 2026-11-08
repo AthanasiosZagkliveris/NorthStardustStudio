@@ -10,7 +10,7 @@ import type { BusinessCustomerSegmentValue, BusinessOfferingValue } from "./Answ
 import { businessSegmentFunctionalItems } from "./AnswerBusinessFoundation.ts";
 
 export type OfferingAnswers = Record<string, string[]>;
-export type OfferingQuestionId = "o1" | "o2" | "o3" | "o4" | "o6" | "o7" | "o8" | "o10";
+export type OfferingQuestionId = "o1" | "o2" | "o3" | "o3t" | "o4" | "o6" | "o7" | "o8" | "o10" | "o14" | "o15" | "o16" | "o17" | "o18";
 
 export interface OfferingQuestion {
     id: OfferingQuestionId;
@@ -59,8 +59,33 @@ const HELP: readonly SegmentOption[] = [
 /** L11 as doc 43 lists it for O10. */
 const PROVIDE: readonly SegmentOption[] = [
     { id: "access", label: "Access to their systems or information" }, { id: "brief", label: "A clear brief" }, { id: "approval", label: "Approval within an agreed time" },
-    { id: "place", label: "A place to work" }, { id: "equipment", label: "Their own equipment or software" }, { id: "conditions", label: "To meet certain conditions" }
-    // ("A minimum commitment / term" and "Payment upfront" left on 2026-11-07, owner: "avoid overlapping and repetition": they are payment terms, O3's.)
+    { id: "place", label: "A place to work" }, { id: "equipment", label: "Their own equipment or software" }
+    // ("A minimum commitment / term" and "Payment upfront" left on 2026-11-07, owner: "avoid overlapping and repetition": they are payment terms, O3's.
+    // "To meet certain conditions" left the same day: the conditions of sale are O18.)
+];
+/* The questions added on 2026-11-07 (owner, approving the free-text review): L19 to L24 (doc 34). */
+const OFFERED: readonly SegmentOption[] = [
+    { id: "range", label: "A standard range" }, { id: "custom", label: "Made to order / custom" }, { id: "packages", label: "Packages / tiers" },
+    { id: "limited", label: "Limited / seasonal runs" }, { id: "addons", label: "Add-ons / extras" }
+];
+const LEAD_TIME: readonly SegmentOption[] = [
+    { id: "now", label: "Straight away" }, { id: "week", label: "Within a week" }, { id: "weeks", label: "One to four weeks" }, { id: "months", label: "One to three months" }, { id: "longer", label: "Longer" }
+];
+const PAY_WHEN: readonly SegmentOption[] = [
+    { id: "before", label: "Before they get it" }, { id: "deposit", label: "A deposit, then the rest" }, { id: "after", label: "When it is done / delivered" },
+    { id: "monthly", label: "In instalments / monthly" }, { id: "invoice", label: "On invoice terms (for example 30 days)" }
+];
+const REPLY: readonly SegmentOption[] = [
+    { id: "sameday", label: "The same day" }, { id: "oneday", label: "Within one working day" }, { id: "fewdays", label: "Within a few days" }, { id: "none", label: "No set time" }
+];
+const AFTER_SALE: readonly SegmentOption[] = [
+    { id: "guarantee", label: "Guarantee / warranty" }, { id: "repairs", label: "Repairs" }, { id: "updates", label: "Updates" }, { id: "training", label: "Training" },
+    { id: "replacements", label: "Replacements / refills" }, { id: "none", label: "None" }
+];
+const CONDITIONS: readonly SegmentOption[] = [
+    { id: "minimum", label: "A minimum order" }, { id: "trade", label: "Trade / account only" }, { id: "nonrefundable", label: "Non-refundable once made (unless faulty)" },
+    { id: "notice", label: "Notice to cancel" }, { id: "fee", label: "A booking / cancellation fee" }
+    // (No age limit: the legal age is O12's, derived, not ticked.)
 ];
 const WORRIES: readonly SegmentOption[] = PROFILE_QUESTIONS.find(question => question.id === "e3")?.options ?? [];
 /** The worry "Support" (after they buy) is answered by O7, the help given after the sale, not ticked again in O8 (owner, 2026-11-07: "avoid overlapping and repetition"). */
@@ -71,18 +96,43 @@ export const OFFERING_QUESTIONS: readonly OfferingQuestion[] = [
     { id: "o1", label: "What form does it take?", many: false, info: ["It refines the Type. For a Hybrid, make one Offering for each form, or choose the main one.", "Online access: a membership area, a course platform or a subscription library."] },
     { id: "o2", label: "Can customers buy it today?", many: false, info: ["Where it stands today.", "It starts from your business stage; change it for this Offering."] },
     { id: "o3", label: "On what terms do they pay for it?", many: false, info: ["How often they pay, and on what terms. How they pay (card, invoice) is the Segment's question.", "Subscription: regular payments until they cancel. Pay as they go: they pay for what they use.", "Upfront payment, a deposit or a minimum term: write it in Purchase & Delivery."] },
+    { id: "o3t", label: "When do they pay?", many: false, info: ["When the money comes in. How they pay (card, invoice) is the Segment's question."] },
     { id: "o4", label: "What does it do best for the customer?", many: true, max: 3, info: ["The first you tick is the main benefit. The same list as \"What matters most\" on your Profiles and Competitors, so they can be compared.", "Your Positioning's Differentiation starts the ticks; change them freely."] },
     { id: "o6", label: "How does the customer receive it?", many: false, info: ["How it reaches them once bought.", "Sent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready."] },
     { id: "o7", label: "What help do you give after they buy?", many: false, info: ["The help that comes with it after the sale."] },
     { id: "o8", label: "Which of their worries does it answer?", many: true, info: ["The doubts that stop your customers buying from you, as your Profiles say. A worry nothing answers is shown on the Value Proposition.", "Support is answered by the help after they buy, above."] },
-    { id: "o10", label: "What does the customer need to give you?", many: true, info: ["What you need from them before or during the work. The details go in Requirements & Conditions."] }
+    { id: "o10", label: "What does the customer need to give you?", many: true, info: ["What you need from them before or during the work. The details go in the Notes."] },
+    { id: "o14", label: "How is it offered?", many: true, max: 3, info: ["How it is put together for sale: one range, made to each order, packages, limited runs or extras. Counts and what is included go in the Notes.", "Based on: the product mix (Kotler and Keller)."] },
+    { id: "o15", label: "How long until they have it?", many: false, info: ["The time from order to having it. How it reaches them is the question above."] },
+    { id: "o16", label: "How fast do you reply?", many: false, info: ["How soon a customer hears back. The channels are on the Customer Engagement page."] },
+    { id: "o17", label: "What comes after the sale?", many: true, info: ["What the help after the sale includes. How much help there is, is the question above.", "None stands alone: ticking it clears the others."] },
+    { id: "o18", label: "Which conditions of sale apply?", many: true, info: ["The terms a customer agrees to. Most online and distance sales can be cancelled within 14 days; goods made to their specification are an exception.", "Based on: the Consumer Contracts Regulations 2013 (UK). A legal minimum age is not ticked here: write an age limit in the Notes."] }
 ];
 
-/** The two boxes of the card's questions (doc 43): what it is and how it reaches them; what it answers. */
-export const OFFERING_BOXES: readonly { title: string; ids: readonly OfferingQuestionId[] }[] = [
-    { title: "What it is and how it reaches them", ids: ["o1", "o2", "o3", "o4", "o6", "o7"] },
-    { title: "What it answers", ids: ["o8", "o10"] }
-];
+/**
+ * The questions of each Description box (doc 43; owner, 2026-11-07): each box asks its questions, one band each, then its optional Notes. A band can hold two
+ * rows (O3, the terms, then when they pay).
+ */
+export const OFFERING_BOX_QUESTIONS: Readonly<Record<string, readonly (readonly OfferingQuestionId[])[]>> = {
+    function: [["o1"], ["o2"]],
+    benefit: [["o4"], ["o8"]],
+    scope: [["o14"]],
+    delivery: [["o3", "o3t"], ["o6"], ["o15"]],
+    support: [["o7"], ["o17"], ["o16"]],
+    requirements: [["o10"], ["o18"]]
+};
+
+/** A choice of ticks, where "None" stands alone (O17): ticking None clears the others, ticking another clears None. */
+export function offeringChoose(id: OfferingQuestionId, chosen: readonly string[], next: readonly string[]): string[] {
+    if (id !== "o17") {
+        return [...next];
+    }
+    const added = next.filter(entry => !chosen.includes(entry));
+    if (added.includes("none")) {
+        return ["none"];
+    }
+    return next.filter(entry => entry !== "none");
+}
 
 /** Whether a question is asked of this Offering (doc 43, "Asked when"). */
 export function offeringAsks(id: OfferingQuestionId, context: OfferingContext): boolean {
@@ -105,6 +155,12 @@ export function offeringOptions(id: OfferingQuestionId, context: OfferingContext
         case "o7": return HELP;
         case "o8": return WORRIES.filter(option => option.id !== SUPPORT_WORRY && (context.worries ?? []).includes(option.id));
         case "o10": return PROVIDE;
+        case "o3t": return PAY_WHEN;
+        case "o14": return OFFERED;
+        case "o15": return LEAD_TIME;
+        case "o16": return REPLY;
+        case "o17": return AFTER_SALE;
+        case "o18": return CONDITIONS;
     }
 }
 

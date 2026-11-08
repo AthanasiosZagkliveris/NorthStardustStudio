@@ -210,7 +210,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Their own equipment or software
   - ("To meet certain conditions" left on 2026-11-07, owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments": the conditions of sale are O18.)
 - **The "i" says:**
-  - What you need from them before or during the work. The details go in Requirements & Conditions.
+  - What you need from them before or during the work. The details go in the Notes.
 - **Connections:**
   - *Read by (not built yet):* the Delivery card's "What could slow the work down?" (doc 28, 9.3, W3), as starting ticks: approval and access.
 
@@ -220,7 +220,9 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Control:** ticks, up to 3.
 - **Asked when:** always.
 - **Options** (list L19, doc 34): A standard range; Made to order / custom; Packages / tiers; Limited / seasonal runs; Add-ons / extras.
-- **The "i" says:** How the Offering is put together for sale: one range, made to each order, packages, limited runs or extras. Counts and what is included go in the Notes. Based on: the product mix (Kotler and Keller).
+- **The "i" says:**
+  - How it is put together for sale: one range, made to each order, packages, limited runs or extras. Counts and what is included go in the Notes.
+  - Based on: the product mix (Kotler and Keller).
 - **Connections:** *Read by:* the export. Source [FUN-73].
 
 ### O15. How long until they have it?
@@ -229,7 +231,8 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Control:** one choice (a radio).
 - **Asked when:** always.
 - **Options** (L20): Straight away; Within a week; One to four weeks; One to three months; Longer.
-- **The "i" says:** The time from order to having it. How it reaches them is the question above.
+- **The "i" says:**
+  - The time from order to having it. How it reaches them is the question above.
 - **Connections:** *Read by:* the export.
 
 ### O16. How fast do you reply?
@@ -238,7 +241,8 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Control:** one choice (a radio).
 - **Asked when:** always.
 - **Options** (L22): The same day; Within one working day; Within a few days; No set time.
-- **The "i" says:** How soon a customer hears back. The channels are on the Customer Engagement page.
+- **The "i" says:**
+  - How soon a customer hears back. The channels are on the Customer Engagement page.
 - **Connections:** *Read by:* the export.
 
 ### O17. What comes after the sale?
@@ -247,7 +251,9 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Control:** ticks, as many as apply; "None" stands alone.
 - **Asked when:** always.
 - **Options** (L23): Guarantee / warranty; Repairs; Updates; Training; Replacements / refills; None.
-- **The "i" says:** What the help after the sale includes. How much help there is, is the question above.
+- **The "i" says:**
+  - What the help after the sale includes. How much help there is, is the question above.
+  - None stands alone: ticking it clears the others.
 - **Connections:** *Read by:* the export.
 
 ### O18. Which conditions of sale apply?
@@ -256,7 +262,9 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Control:** ticks, as many as apply.
 - **Asked when:** always.
 - **Options** (L24): A minimum order; Trade / account only; Non-refundable once made (unless faulty); Notice to cancel; A booking / cancellation fee.
-- **The "i" says:** The terms a customer agrees to. Most online and distance sales can be cancelled within 14 days; goods made to the customer's specification are an exception. Based on: the Consumer Contracts Regulations 2013 (UK).
+- **The "i" says:**
+  - The terms a customer agrees to. Most online and distance sales can be cancelled within 14 days; goods made to their specification are an exception.
+  - Based on: the Consumer Contracts Regulations 2013 (UK). A legal minimum age is not ticked here: write an age limit in the Notes.
 - **Connections:** *Read by:* the export. Source [FUN-74].
 
 ### O12. Is a minimum age to buy it set by law? (no longer a question; proposed, owner 2026-11-06)

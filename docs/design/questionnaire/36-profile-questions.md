@@ -374,7 +374,9 @@ What the Segment cannot say: which devices, which social media, which communitie
 - **Control:** ticks, as many as apply (optional).
 - **Asked when:** the Segment's buyer is people, and not of the end user's own answers (the end user is not asked Box D).
 - **Options** (L25, doc 34): Weekday daytime; Evenings; Weekends; Around seasons / holidays.
-- **The "i" says:** When they actually buy, not when they are free: the Segment's work schedule says when they work.
+- **The "i" says:**
+  - When they actually buy, not when they are free: the Segment's work schedule says when they work.
+  - Where and how they buy go in the Notes.
 - **Connections:** *Read by:* the documents and the export. The habits Notes keep where and how they buy, in their words.
 
 ## 7. Box E. Motivations
