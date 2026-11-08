@@ -50,8 +50,8 @@ export const SUBSECTIONS = {
                 "Where Positioning chose both, the first Segment is of people and the second of businesses; one added later asks which it is."
             ],
             purchasing: [
-                "For every customer: online comfort, how they socialise, where they shop, how they pay.",
-                "For people: where they discover and share, what makes them shop and how they decide. For businesses: who decides to buy.",
+                "For every customer: online comfort, where they discover new products, where they shop, how they pay.",
+                "For people: how they socialise and share, what makes them shop and how they decide. For businesses: who decides to buy.",
                 "The ways of discovering new products that you tick are offered on the Profile as related platforms."
             ],
             "market-size": [

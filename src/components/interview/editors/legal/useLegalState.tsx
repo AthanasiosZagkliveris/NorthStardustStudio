@@ -251,6 +251,11 @@ export function useLegalState(props: LegalEntityEditorProps) {
      */
     function chooseCountry(country: string) {
 
+        // Choosing the same country again changes nothing (doc 33, section 9; owner, 2026-10-30).
+        if (country === entity.organisation.country) {
+            return;
+        }
+
         update({
 
             organisation: {

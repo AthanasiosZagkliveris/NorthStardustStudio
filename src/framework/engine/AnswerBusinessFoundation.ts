@@ -82,12 +82,11 @@ export const BUSINESS_COMPETITOR_TYPES = [
     }
 ] as const;
 
-/** Offering categories, as the specification lists them. */
+/** Offering categories, as the specification lists them: no "Other" (owner, 2026-11-04; doc 43). A saved "Other" still shows until it is changed. */
 export const BUSINESS_OFFERING_CATEGORIES = [
     "Product",
     "Service",
-    "Hybrid",
-    "Other"
+    "Hybrid"
 ] as const;
 
 /**

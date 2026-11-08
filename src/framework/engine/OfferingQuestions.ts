@@ -23,7 +23,7 @@ export interface OfferingQuestion {
 
 /** What the Offering's card needs from the rest of the page to ask and start its questions. */
 export interface OfferingContext {
-    /** The Offering's Type: Product, Service, Hybrid or Other (BUSINESS_OFFERING_CATEGORIES). */
+    /** The Offering's Type: Product, Service or Hybrid (BUSINESS_OFFERING_CATEGORIES); a saved "Other" is still read. */
     type: string;
     /** The business stage (plan, launch, manage, grow), for O2's starting value. */
     stage?: string;
@@ -95,7 +95,7 @@ const SUPPORT_WORRY = "support-after-they-buy";
 export const OFFERING_QUESTIONS: readonly OfferingQuestion[] = [
     { id: "o1", label: "What form does it take?", many: false, info: ["It refines the Type. For a Hybrid, make one Offering for each form, or choose the main one.", "Online access: a membership area, a course platform or a subscription library."] },
     { id: "o2", label: "Can customers buy it today?", many: false, info: ["Where it stands today.", "It starts from your business stage; change it for this Offering."] },
-    { id: "o3", label: "On what terms do they pay for it?", many: false, info: ["How often they pay, and on what terms. How they pay (card, invoice) is the Segment's question.", "Subscription: regular payments until they cancel. Pay as they go: they pay for what they use.", "Upfront payment, a deposit or a minimum term: write it in Purchase & Delivery."] },
+    { id: "o3", label: "On what terms do they pay for it?", many: false, info: ["How often they pay, and on what terms. How they pay (card, invoice) is the Segment's question.", "Subscription: regular payments until they cancel. Pay as they go: they pay for what they use.", "A minimum term: write it in the Notes."] },
     { id: "o3t", label: "When do they pay?", many: false, info: ["When the money comes in. How they pay (card, invoice) is the Segment's question."] },
     { id: "o4", label: "What does it do best for the customer?", many: true, max: 3, info: ["The first you tick is the main benefit. The same list as \"What matters most\" on your Profiles and Competitors, so they can be compared.", "Your Positioning's Differentiation starts the ticks; change them freely."] },
     { id: "o6", label: "How does the customer receive it?", many: false, info: ["How it reaches them once bought.", "Sent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready."] },
@@ -106,7 +106,7 @@ export const OFFERING_QUESTIONS: readonly OfferingQuestion[] = [
     { id: "o15", label: "How long until they have it?", many: false, info: ["The time from order to having it. How it reaches them is the question above."] },
     { id: "o16", label: "How fast do you reply?", many: false, info: ["How soon a customer hears back. The channels are on the Customer Engagement page."] },
     { id: "o17", label: "What comes after the sale?", many: true, info: ["What the help after the sale includes. How much help there is, is the question above.", "None stands alone: ticking it clears the others."] },
-    { id: "o18", label: "Which conditions of sale apply?", many: true, info: ["The terms a customer agrees to. Most online and distance sales can be cancelled within 14 days; goods made to their specification are an exception.", "Based on: the Consumer Contracts Regulations 2013 (UK). A legal minimum age is not ticked here: write an age limit in the Notes."] }
+    { id: "o18", label: "Which conditions of sale apply?", many: true, info: ["The terms a customer agrees to. In the UK and the EU, most online and distance sales can be cancelled within 14 days; goods made to their specification are an exception. Elsewhere, check your country's rules.","Based on: the Consumer Contracts Regulations 2013 (UK). A legal minimum age is not ticked here: write an age limit in the Notes."] }
 ];
 
 /**
@@ -266,7 +266,7 @@ function formWords(offering: BusinessOfferingValue, answers: OfferingAnswers, co
     if (form) {
         return form.label.charAt(0).toLowerCase() + form.label.slice(1);
     }
-    const type = offering.category === "Hybrid" ? "product and service" : offering.category === "Other" ? (offering.categoryOther.trim() || "offering") : offering.category.toLowerCase();
+    const type = offering.category === "Hybrid" ? "product and service" : offering.category === "Other" ? "offering" : offering.category.toLowerCase();
     return (/^[aeiou]/i.test(type) ? "an " : "a ") + type;
 }
 

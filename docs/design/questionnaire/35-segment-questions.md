@@ -4,14 +4,14 @@ Status: **specification**, written 2026-11-01, updated 2026-11-08. Every questio
 
 Related: doc 36 (the Profile's questions, in the same form), doc 28 (6.3a, the Segment card in the specification), doc 31 (the age terms), doc 33 (the first version; its section 15 holds the thoughts), `src/framework/engine/SegmentQuestions.ts` (where these words are kept; where the two differ, the code is right).
 
-The rules that hold for all of them: a radio is one choice, ticks are several (with a limit where stated); an option says its few words, and what is added in brackets or after a colon (an example, a range, an explanation, a platform or brand) is in the "i" of the question; a box has no free-text note; where they buy on a phone ("On a phone") and no way of paying is chosen yet, "Digital wallets" starts ticked, a starting value the App User can change; a question that the answers above settle is **answered for the App User and not shown** (owner, 2026-11-01): the Positioning scale of a business buyer sets the organisation's type and size; a self-employed customer decides alone; a retiree is not working and retired; an end user's age sets the school stage and removes the work and tool questions that do not apply. A question with only one option left is likewise not shown (there is nothing to choose) and its answer is that option; an answer to a question that is no longer asked, or to an option no longer offered, is removed when the next choice is made. Where Identity chose both relationships (or none), there is no Business Data tick (owner, 2026-11-02): a Segment of people has no Business Data and a Segment of businesses has it and no Demographics. Where Positioning chose both B2C and B2B, the first two Segment cards are made for the App User, with no question: the first of people (B2C), the second of businesses (B2B); one "+ Segment" button adds more, and a Segment added after them has one question that opens its first box, "Who is this Segment's customer?" (People (B2C), Businesses (B2B)). The kind is kept as the presence of the Business Data key in the Segment's Description and is asked the business's questions only (a Segment is one group, never both). What Positioning or the answers above have set in a box is said in one small line under its title ("Set for you from Positioning and your answers above: Size: no employees."), so an answer that is not asked is never silent. A radio whose options are short (each of 24 characters or fewer, 90 in all) stands in one row where the whole row fits its column and in one column where it does not, never in a row that wraps; the others stand in one column. The starting values (the work situation from the age group, a wallet from a phone) are said in the "i". Where Identity chose no relationship, the buyer is read from the buyer's category, then from the audience (a business scale is a business buyer, a life stage a person). Choosing an age term starts the work situation with the one that goes with it (a minor or a young adult: Student; an established, peak or mature adult: Employed; a retiree: Retired) where none is chosen; the App User changes it freely. The two columns are of nearly one height: the boxes are shared between them by their length, each column keeping the order of the boxes. The card is laid out as the Positioning card is (two columns with a divider, each question a band, a double rule between boxes). The box titles are in capitals.
+The rules that hold for all of them: a radio is one choice, ticks are several (with a limit where stated); an option says its few words, and what is added in brackets or after a colon (an example, a range, an explanation, a platform or brand) is in the "i" of the question; a box has no free-text note; where they buy on a phone ("On a phone") and no way of paying is chosen yet, "Digital wallets" starts ticked, a starting value the App User can change; a question that the answers above settle is **answered for the App User and not shown** (owner, 2026-11-01): the Positioning scale of a business buyer sets the organisation's type and size; a self-employed customer decides alone; a retiree is not working and retired; an end user's age sets the school stage and removes the work and tool questions that do not apply. A question with only one option left is likewise not shown (there is nothing to choose) and its answer is that option; an answer to a question that is no longer asked, or to an option no longer offered, is removed when the next choice is made. Where Identity chose both relationships (or none), there is no Business Data tick (owner, 2026-11-02): a Segment of people has no Business Data and a Segment of businesses has it and no Demographics. Where Positioning chose both B2C and B2B, the first two Segment cards are made for the App User, with no question: the first of people (B2C), the second of businesses (B2B); one "+ Segment" button adds more, and a Segment added after them has one question that opens its first box, "Who is this Segment's customer?" (People (B2C), Businesses (B2B)). The kind is kept as the presence of the Business Data key in the Segment's Description and is asked the business's questions only (a Segment is one group, never both). What Positioning or the answers above have set in a box is said in one small line under its title ("Set for you from Positioning and your answers above: Size: no employees."), so an answer that is not asked is never silent. A radio of 2 to 6 options whose options are short (each of 24 characters or fewer, 90 in all) stands in one row where the whole row fits its column and in one column where it does not, never in a row that wraps; the others stand in one column. The starting values (the work situation from the age group, a wallet from a phone) are said in the "i". Where Identity chose no relationship, the buyer is read from the buyer's category, then from the audience (a business scale is a business buyer, a life stage a person). Choosing an age term starts the work situation with the one that goes with it (a minor or a young adult: Student; an established, peak or mature adult: Employed; a retiree: Retired) where none is chosen; the App User changes it freely. The two columns are of nearly one height: the boxes are shared between them by their length, each column keeping the order of the boxes. The card is laid out as the Positioning card is (two columns with a divider, each question a band, a double rule between boxes). The box titles are in capitals.
 
 
 
 
 **Connections.** Under each question: *Comes from* is what it takes from Identity or from the Segment's own earlier answers (built); *Read by* is what reads it. Built: the Market document and the export list every answer as it stands once settled against Identity as it is now (an answer to a question Identity no longer asks, or to an option it no longer offers, is left out of them at once, and is removed from the Segment on its next choice), the Business Plan's Market Analysis counts as covered when a market question is answered, and the Segment's own questions follow one another as stated. *Not built yet* is what the design plans to read it (doc 28, 6.3a and 6.5; doc 33, section 15): until it is built, nothing else reads the answer.
 
-**Built (2026-11-04; owner, 2026-11-04): degree and comfort questions use the 1 to 5 rating unless named ranges exist.** A question that asks how comfortable people are with something, or a level or degree (how high, how fast, how crowded), becomes a rating from 1 to 5 (`RatingScale`, doc 21): the numbers 1 to 5 over its five rounds, and what 1 and 5 mean as the first line of its "i" ("1 = Uneasy, 5 = Confident."; owner, 2026-11-04: an end word could stand over two rounds). A question whose options name ranges or kinds keeps its options. Each changed question says how answers saved before it was a rating are read (`asSegmentAnswers`, `SegmentQuestions.ts`); the documents print a rating as "3 of 5 (Fairly comfortable)", the words only at an end or the middle.
+**Built (2026-11-04; owner, 2026-11-04): degree and comfort questions use the 1 to 5 rating unless named ranges exist.** A question that asks how comfortable people are with something, or a level or degree (how high, how fast, how crowded), becomes a rating from 1 to 5 (`RatingScale`, doc 21): the numbers 1 to 5 over its five rounds, and what 1 and 5 mean as the first line of its "i" ("1 = Uneasy, 5 = Confident."; owner, 2026-11-04: an end word could stand over two rounds). A question whose options name ranges or kinds keeps its options. Each changed question says how answers saved before it was a rating are read (`asSegmentAnswers`, `SegmentQuestions.ts`); the documents print a rating as "1 of 5 (Uneasy)" or "3 of 5", the word only at 1 and 5 (`ratingWords`).
 
 | Question | Becomes | Kept as is, and why |
 |---|---|---|
@@ -30,6 +30,20 @@ The rules that hold for all of them: a radio is one choice, ticks are several (w
 ## Box 1. Demographics
 
 The people who pay (the buyer is people: B2C alone, or the first of the two Segments made where both are chosen). Questions that have no answer for Minors are skipped for them. The specialised needs (accessibility and caregiving) are not asked here: they belong to the Profile, which is specified in doc 36.
+
+### Before 1. Who is this Segment's customer?
+
+- **Control:** one choice (a radio).
+- **Asked when:** Positioning chose both B2C and B2B, and the Segment is the third or a later one (the first two are made for the user, people then businesses, and are not asked). It is the first question of the Segment's first box.
+- **Options:**
+  - People (B2C)
+  - Businesses (B2B)
+- **The "i" says:**
+  - The Segment is one group: people, or businesses.
+  - Choosing one changes the questions asked; answers that no longer apply are removed.
+- **Connections:**
+  - *Comes from:* Early Positioning: the seller and buyer relationship (both B2C and B2B).
+  - *Read by (built):* the Segment's boxes and questions (people's, or the business's with Business Data); the choice is kept as the presence of the Business Data key.
 
 ### 1. How old are your customers?
 
@@ -50,8 +64,8 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
   - Each age group holds the years from its first number to its last, both included, so no age is in two groups (25–39, then 40–54).
 - **Connections:**
   - *Comes from:* Early Positioning: the buyer's life stage (the terms offered) and the seller and buyer relationship (people).
-  - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* The Profile's typical age is chosen within this group, and the Profiles proposed follow it; the Review checks the online-consent ages.
+  - *Read by (built):* The Market document and the export; the Profile's typical age (A1) is held to this group and cleared when it falls outside it; Minors makes the Profile ask A5 (role in buying) and, when every age chosen is Minors, skips A7 (doc 36).
+  - *Read by (not built yet):* The Profiles proposed follow this group; the Review checks the online-consent ages.
 
 ### 2. What is their highest level of education?
 
@@ -86,8 +100,7 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
   - Choosing an age group starts this with the one that goes with it; change it freely.
 - **Connections:**
   - *Comes from:* This Segment's age: choosing the age term starts it.
-  - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* The Profile's job level (for someone working).
+  - *Read by (built):* The Market document and the export; the Profile asks A3 (job) when this is Yes (doc 36).
 
 ### 4. Why are your customers not working?
 
@@ -156,7 +169,7 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
 - **The "i" says:**
   - How steady their pay is, not how much it is (that is the household income below).
   - A fixed salary suits regular subscriptions; variable or hourly earners feel sudden cash-flow dips.
-  - Fixed salary: Predictable monthly or fortnightly pay (the card's words change with the next code change)
+  - Fixed salary: Predictable monthly or fortnightly pay
   - Hourly wage: Fluctuating based on scheduled shifts
   - Variable pay: Freelance invoices, commission, seasonal contracts
 - **Connections:**
@@ -253,7 +266,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - Private business: For-profit
 - **Connections:**
   - *Comes from:* Early Positioning: the seller and buyer relationship (business), (Business Data has no tick).
-  - *Read by (built):* The Market document and the export.
+  - *Read by (built):* The Market document and the export; Self-employed sets the Profile's A3b (job level) to Owner / partner and does not show it (doc 36).
   - *Read by (not built yet):* The tender row for a public body on the Customer Engagement page; the Profile's kind of business.
 
 ### 2. How big are your customers' organisations?
@@ -378,8 +391,8 @@ Part A (every Segment): questions 1 and 3. Part B (the buyer is people): 2, 4, 5
   - Choose up to three.
 - **Connections:**
   - *Comes from:* Nothing.
-  - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* The Profile's related platforms; the order of the channels where customers discover you.
+  - *Read by (built):* The Market document and the export; "Online communities / forums" makes the Profile ask C3 (doc 36).
+  - *Read by (not built yet):* The Profile's related platforms first; the order of the channels where customers discover you.
 
 ### 4. How do your customers share what they like?
 
@@ -431,8 +444,8 @@ Part A (every Segment): questions 1 and 3. Part B (the buyer is people): 2, 4, 5
   - On a recommendation: They buy what friends, family or colleagues suggest
 - **Connections:**
   - *Comes from:* Early Positioning: the relationship (people).
-  - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* The Profile's habits; the customer journey (consideration).
+  - *Read by (built):* The Market document and the export; the Profile's D1 is not asked on "Straight away" and otherwise starts from this answer (doc 36).
+  - *Read by (not built yet):* The customer journey (consideration).
 
 ### 7. Where do your customers usually shop?
 
@@ -447,7 +460,7 @@ Part A (every Segment): questions 1 and 3. Part B (the buyer is people): 2, 4, 5
   - Where most of their purchases start and finish. Choose Both online and in shops when they mix the two about equally.
 - **Connections:**
   - *Comes from:* Nothing.
-  - *Read by (built):* The Market document and the export.
+  - *Read by (built):* The Market document and the export; the Profile's C1 (devices) starts from this answer (doc 36).
   - *Read by (not built yet):* The order of the channels where customers buy; the customer journey.
 
 ### 8. How do your customers pay?
@@ -491,7 +504,7 @@ Part A (every Segment): questions 1 and 3. Part B (the buyer is people): 2, 4, 5
   - Formal procurement: A tender or a request for proposals (RFP), with strict compliance.
 - **Connections:**
   - *Comes from:* Early Positioning: the relationship (business).
-  - *Read by (built):* The Market document and the export; the Profile's role in buying (A5 starts with every role where one person decides) and the proposed B2B Profiles by buying role (doc 36, 2).
+  - *Read by (built):* The Market document and the export; the Profile's role in buying (A5 starts with every role where one person decides) and the proposed B2B Profiles by buying role (doc 36, 2); Formal procurement starts the Profile's D2 at "formal" (doc 36).
   - *Read by (not built yet):* the tender row (a formal procurement loop).
 
 

@@ -1205,4 +1205,20 @@ describe("LegalEntityEditor: a change of country empties the state and the addre
 
     });
 
+    it("keeps the state, the legal form and the activities when the same country is chosen again (doc 33, section 9)", () => {
+
+        const empty = asLegalEntityValue(undefined);
+        const activities = [{ code: "541511", edition: "" }];
+        const initial = { ...empty, organisation: { ...empty.organisation, country: "US", subdivision: "Delaware", legalForm: "Limited Liability Company (LLC)", activities } };
+        let saved: { organisation: typeof initial.organisation } = initial;
+        render(<LegalEntityEditor value={initial} onChange={(next) => { saved = next as typeof saved; }} />);
+
+        fireEvent.click(screen.getByRole("button", { name: /^Country/ }));
+        fireEvent.click(screen.getByRole("option", { name: "United States of America" }));
+        expect(saved.organisation.subdivision).toBe("Delaware");
+        expect(saved.organisation.legalForm).toBe("Limited Liability Company (LLC)");
+        expect(saved.organisation.activities.map(activity => activity.code)).toEqual(["541511"]);
+
+    });
+
 });

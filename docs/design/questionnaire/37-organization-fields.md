@@ -49,7 +49,7 @@ Related: doc 38 (Early Positioning, the next tile, in the same form), doc 35 (th
 ### 5. Address
 
 - **Control:** a text box of several lines (at least two, growing with the text). Placeholder: the lines expected, in the country's words (the city, then the street and the country's postal code name, or the street alone where addresses carry no code).
-- **Asked when:** a country is chosen (frozen until then).
+- **Asked when:** a country is chosen and, where the country has a State or Region, that is chosen too (frozen until then, with a hint saying which to choose first).
 - **The "i":** none.
 - **Connections:**
   - *Comes from:* the country (the placeholder).
@@ -76,7 +76,7 @@ Related: doc 38 (Early Positioning, the next tile, in the same form), doc 35 (th
 ### 8. Registration Date
 
 - **Control:** a date cell.
-- **Asked when:** always, except where the legal form is a sole trader or a sole proprietorship in the six countries: then it is not asked, not required and not checked (`registrationDateApplies`; see the note "Built on 2026-11-01" below). It cannot be later than today (the cell's limit), nor later than the Opening Date (the Review says so).
+- **Asked when:** always, except where the legal form is a sole trader or a sole proprietorship in the six countries: then it is not asked, not required and not checked (`registrationDateApplies`; see the note "Built on 2026-11-01" below). It cannot be later than today (the cell's limit), nor later than the Opening Date (an alert under the dates on the tile says so).
 - **The "i" says:** The day the organisation was registered with the registry of its country. It is its own date: it does not depend on the registration number, and the number does not depend on it. It cannot be later than today, nor later than the Opening Date: the business cannot open before the company exists.
 - **Connections:**
   - *Comes from:* nothing; it is checked against the Opening Date. It is saved with the Legal Entity page's formation.

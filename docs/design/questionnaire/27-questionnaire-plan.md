@@ -61,7 +61,7 @@ We settle one tile at a time: its questions and their option lists (written as l
 | Step | Tile | Status |
 |---|---|---|
 | 1 | Business 1, the Segment card (tile "Segment Description") | Built: the card asks its questions and reads Identity (doc 35) |
-| 2 | Business 1, the Profile cards (same tile) | Built in part (doc 36): A1 to A3, A5, B1, C1 to C4, D1, D2, E1 to E3 (B1 and E1 to E3 ticked and rated, 2026-11-04); not built: the kind of business, the specialised needs, the proposed Profiles, the user's own Profile |
+| 2 | Business 1, the Profile cards (same tile) | Built in part (doc 36): A1 to A3, A3b, A5, A7, B1, C1 to C4, D1 to D3, E1 to E3 (B1 and E1 to E3 ticked and rated, 2026-11-04), and the Needs (Functional, Emotional, Social); not built: the kind of business, the specialised needs, the proposed Profiles, the user's own Profile |
 | 3 | Business 1, Competitors | Built (doc 41): the Type on each competitor's tile and K1 to K10 on the card (2026-11-04); not built: what reads the answers outside the card |
 | 4 | Business 1, Offerings, with the Value Proposition draft | Built in part: the Offering's Type, Functional Needs Addressed and O1 to O10 (2026-11-07) and O14 to O18 in its six boxes with Notes (2026-11-08) (doc 43); the Value Proposition draft and its open items (2026-11-07, doc 42); not built: O12 |
 | 5 | Identity: the Organisation and Early Positioning tiles (Mission, Vision and the Ethics tiles stay prose) | Built in part: the Organisation tile and the Early Positioning questions (28, 8.2, 8.5); not built: the industry pack, the Description and Positioning drafts |

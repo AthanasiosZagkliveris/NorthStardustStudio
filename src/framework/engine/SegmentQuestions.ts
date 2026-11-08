@@ -257,7 +257,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     {
         id: "workincome", box: "demographics", label: "How are your customers paid?", many: false,
         options: [
-            { id: "salary", label: "Fixed salary (Predictable monthly/bi-weekly paycheck)" },
+            { id: "salary", label: "Fixed salary (Predictable monthly or fortnightly pay)" },
             { id: "hourly", label: "Hourly wage (Fluctuating based on scheduled shifts)" },
             { id: "variable", label: "Variable pay (Freelance invoices, commission, seasonal contracts)" }
         ],

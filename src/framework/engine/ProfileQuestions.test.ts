@@ -46,6 +46,12 @@ describe("the Profile's questions follow the Segment", () => {
         expect(question("a7").options).toHaveLength(6);
     });
 
+    it("asks who they live with on the payer's Profile of a Segment with an end user (a parent buying for a child)", () => {
+        const payer = { frame: "people", endsUser: true } as unknown as SegmentContext;
+        expect(profileQuestionAsked(question("a7"), { age: ["established"] }, payer)).toBe(true);
+        expect(profileQuestionAsked(question("a7"), { age: ["minor"] }, payer)).toBe(false);
+    });
+
     it("asks gender only where the Segment's mix leans, and starts it from the mix", () => {
         expect(profileQuestionsOf("personal", { gender: ["3"] }, people).map(q => q.id)).not.toContain("a2");
         expect(profileQuestionsOf("personal", { gender: ["4"] }, people).map(q => q.id)).toContain("a2");

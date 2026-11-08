@@ -1,12 +1,12 @@
 # 43. The Offering card: every question and option, as built in part
 
-Status: **specification**, as built in part (O12 not built), written 2026-11-03, updated 2026-11-08. Every question of the Offering card (Business System, page 1, tile "Offerings"), in the order it is asked. For each: its control, when it is asked, its options, what its "i" says and what it connects to. The Type, the needs addressed and the text boxes are built; the questions O1 to O10 are **built** too (owner, 2026-11-07: "Update the Value Proposition and Offering card according to their docs"; `OfferingQuestions.ts`), O12 is not.
+Status: **specification**, as built in part (O12 not built), written 2026-11-03, updated 2026-11-08. Every question of the Offering card (Business System, page 1, tile "Offerings"), in the order it is asked. For each: its control, when it is asked, its options, what its "i" says and what it connects to. The Type, the needs addressed and the text boxes are built; the questions O1 to O4, O3's second row, O6 to O8, O10 and O14 to O18 are **built** too (owner, 2026-11-07: "Update the Value Proposition and Offering card according to their docs"; `OfferingQuestions.ts`), O12 is not.
 
 Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the Profile: the needs, B1, D2, E3), doc 38 (Positioning: Differentiation), doc 41 (the Competitor: K8), doc 42 (the Value Proposition, which reads O1, O4 and O8), doc 34 (the lists L1 and L11, the value crosswalk 5.2a), doc 37 (the Organisation's fields: the Opening Date for O2; the activities and the country for O12), doc 28 (6.8, 7.4, 10.1 to 10.3 and 11.7, the design this refines), `src/framework/engine/AnswerBusinessFoundation.ts` (the card today).
 
 **What the card is.** An Offering belongs to its Segment, as a Profile does. Pages 2 to 5 read it by id and never copy it (the page specifications' README, point 1). The card has these parts, in order:
 - **The head:** the number, the name cell and the one x (built).
-- **The Type** (built): Product, Service or Hybrid. No "Other" (owner, 2026-11-04). Not built yet: the card still offers Other.
+- **The Type** (built): Product, Service or Hybrid. No "Other" (owner, 2026-11-04; built 2026-11-08: a saved "Other" still shows until it is changed).
 - **Functional Needs Addressed** (built): ticks of the Segment's Profiles' functional needs. **Built 2026-11-07** (owner: "Update the app"): one tick list, the Profiles' numbered functional items, ticked by each item's id (the same words on two Profiles are one tick, holding both ids), so editing an item's words keeps the tick; a tick saved as words is read as the item's id (`businessSegmentFunctionalItems`, `AnswerBusinessFoundation.ts`); the export and the Customer Engagement page match by id. The functional categories (L17) are read from the Profile, not ticked again here. O13 is retired (it was never built).
 - **The six Description boxes** (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments"; built the same day): each box is a band with its title and "i", then its questions, one band each, then an optional **Notes** (`OptionalNote`) for what no question says; the Notes open when they hold text. The two separate boxes of questions of earlier on 2026-11-07 are gone. The box's prompt is its "i".
   - **Function:** O1, O2. Notes: what it is, by name (the Business Plan reads it).
@@ -25,9 +25,11 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - There is no "Not sure" option (owner, 2026-11-02).
 - A slash joins similar things and "or" joins different things. Spelling is UK English.
 
-**What the Offering shapes later.** O3 is the one place that says how customers pay over time; O6 and O7 propose page 2's channels; O1 and the Type decide the goods options of pages 2 and 3 (doc 28, 11.7). So the box asks these first, after what the Offering is.
+**What the Offering shapes later.** O3 is the one place that says how customers pay over time; O6 and O7 propose page 2's channels; O1 and the Type decide the goods options of pages 2 and 3 (doc 28, 11.7). So these are asked first, after what the Offering is.
 
 ## Box. What it is and how it reaches them
+
+(The card's six boxes are listed above; this heading groups the questions as written on 2026-11-03.)
 
 ### O1. What form does it take?
 
@@ -37,7 +39,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Product: A physical item; A digital file; An app / online tool; Online access
   - Service: A live online session; An in-person service; Project work; An ongoing service
   - Hybrid: the eight above
-  - No "Other" Type (owner, 2026-11-04). Not built yet: the card still offers Other, and O1 is not asked for it.
+  - No "Other" Type (owner, 2026-11-04; built 2026-11-08). O1 is not asked for a saved "Other".
 - **The "i" says:**
   - It refines the Type. For a Hybrid, make one Offering for each form, or choose the main one.
   - Online access: a membership area, a course platform or a subscription library.
@@ -56,12 +58,12 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - In a trial / beta
   - Still being built
   - Just an idea
-- **Starts from the business stage** (proposed, owner 2026-11-06; `BusinessStage.ts`, from the Opening Date): Planning → "Still being built"; Launching → "Almost ready"; Managing or Growing → "Yes, now". Only a starting value: an answer chosen is never overwritten, and every option stays (a growing business can still plan a new Offering, "Just an idea").
+- **Starts from the business stage** (owner 2026-11-06; `BusinessStage.ts`, from the Opening Date): Planning → "Still being built"; Launching → "Almost ready"; Managing or Growing → "Yes, now". Only a starting value: an answer chosen is never overwritten, and every option stays (a growing business can still plan a new Offering, "Just an idea").
 - **The "i" says:**
   - Where it stands today.
   - It starts from your business stage; change it for this Offering.
 - **Connections:**
-  - *Comes from (proposed):* the business stage (Organisation: the Opening Date and the Global Settings' durations).
+  - *Comes from:* the business stage (Organisation: the Opening Date and the Global Settings' durations).
   - *Read by (not built yet):* the Review (a Demand estimate for an Offering that is not ready; a mismatch with the stage: Planning with an Offering "Yes, now", sales before the opening, or Managing with every Offering "Just an idea"); the Business Plan's product section.
 
 ### O3. On what terms do they pay for it?
@@ -82,7 +84,6 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - How often they pay, and on what terms. How they pay (card, invoice) is the Segment's question.
   - Subscription: regular payments until they cancel. Pay as they go: they pay for what they use.
   - A minimum term: write it in the Notes.
-- **Not built yet:** the card's "i" still has the old line.
 - **Connections:**
   - *Comes from:* the Segment's "How do your customers pay?" (doc 35, Box 4, question 8). Invoice, bank transfer or purchase order puts A project or contract first, as an order only.
   - *Read by (not built yet):* Demand's "Customers buy", Delivery's "Delivered" and the Revenue stream's "Charged" (doc 28, 11.7 and 10.2); the Review (doc 28, 11.5, rule 14).
@@ -131,7 +132,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - How it reaches them once bought.
   - Sent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready.
 - **Connections:**
-  - *Comes from:* O1, the starting value: a physical item → Posted / shipped to them; a digital file → Sent automatically online; a live online session → In a live online session; online access → Ongoing online access.
+  - *Comes from:* O1, the starting value: a physical item → Posted / shipped to them; a digital file → Sent automatically online; a live online session → In a live online session; an app / online tool → Ongoing online access; online access → Ongoing online access; an in-person service → In person.
   - *Read by (not built yet):* the Delivery stage's proposed channels (doc 28, 7.4); the Review (the Segment's "Rural / remote", doc 35 Box 2 question 2, with In person or Posted / shipped: a delivery-cost check, rule 17).
 
 ### O7. What help do you give after they buy?
@@ -151,6 +152,8 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - *Read by (not built yet):* the relationship type's starting value and the Support & Follow Up channels on page 2 (doc 28, 7.4); the Review against the Profiles' D2 (doc 36): "wants to talk to a person" while the help is None or Guides and how-tos (rule 10).
 
 ## Box. What it answers
+
+(The card's six boxes are listed above; this heading groups the questions as written on 2026-11-03.)
 
 ### O8. Which of their worries does it answer?
 
@@ -302,7 +305,7 @@ The answer is already in the app: the Organisation's business activities (doc 28
 - A change of O1 changes only O6's starting value, never an O6 already chosen.
 - A change of a Profile's E3 changes O8's options. A worry no longer ticked on any Profile is removed from O8 on the next choice.
 - A change of an activity, an age or the country changes O12's derived Review item at once (proposed).
-- A change of the business stage changes O2's starting value only, never an answer chosen (proposed).
+- A change of the business stage changes O2's starting value only, never an answer chosen.
 
 ## Decided, and still to decide
 

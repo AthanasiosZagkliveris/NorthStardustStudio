@@ -62,7 +62,7 @@ function ProfileAgeCell({ value, label, disabled, onType, onDone }: { value: str
 
 export function useFoundationSubsections(earlier: Earlier) {
 
-    const { built, description, disabled, folds, forceOpen, group, groupFold, labelled, targetAudience, identity, text, updateProfile, updateSegment } = earlier;
+    const { built, description, disabled, folds, forceOpen, group, groupFold, labelled, targetAudience, identity, updateProfile, updateSegment } = earlier;
 
     /** The delete control every card on this page carries. */
     function remove(what: string, onRemove: () => void) {
@@ -1235,7 +1235,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 <OptionPicker
                                     label={segmentPath + ", Offering " + (index + 1) + " type"}
                                     hug
-                                    options={[...BUSINESS_OFFERING_CATEGORIES]}
+                                    options={offering.category === CATEGORY_OTHER ? [...BUSINESS_OFFERING_CATEGORIES, CATEGORY_OTHER] : [...BUSINESS_OFFERING_CATEGORIES]}
                                     disabled={disabled}
                                     value={offering.category}
                                     onChange={(next) => change({
@@ -1258,12 +1258,6 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 )
                         },
                         <>
-
-                            {offering.category === CATEGORY_OTHER && text(
-                                "Name the type",
-                                offering.categoryOther,
-                                (next) => change({ categoryOther: next })
-                            )}
 
                             {/* The FUNCTIONAL needs typed into this
                                 Segment's own Profiles, more than one
