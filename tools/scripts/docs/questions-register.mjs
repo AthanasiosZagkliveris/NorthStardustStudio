@@ -79,9 +79,9 @@ const SEGMENT_CODES = {
     education: ["Box 1, 2", "the buyer is people and the age is not Minors"],
     work: ["Box 1, 3", "the buyer is people; set to No (not shown) for Active Retirees and Dependent seniors", "from the age group: Minors and Young adults No (then Student), Established to Mature Yes, retirees No (then Retired)"],
     work2: ["Box 1, 4", "Box 1, 3 is No; set to Retired (not shown) for Active Retirees and Dependent seniors", "with Box 1, 3, from the age group"],
-    workenv: ["Box 1, 5", "Box 1, 3 is Yes"],
+    workenv: ["Box 1, 5", "Box 1, 3 is Yes; held back while Planning (owner, 2026-11-08), its saved answer kept"],
     workschedule: ["Box 1, 6", "Box 1, 3 is Yes"],
-    workincome: ["Box 1, 7", "Box 1, 3 is Yes"],
+    workincome: ["Box 1, 7", "Box 1, 3 is Yes; held back while Planning (owner, 2026-11-08), its saved answer kept"],
     income: ["Box 1, 8", "the buyer is people and the age is not Minors"],
     gender: ["Box 1, 9", "the buyer is people"],
     reach: ["Box 2, 1", "always"],
@@ -93,7 +93,7 @@ const SEGMENT_CODES = {
     comfort: ["Box 4, 1", "always"],
     social: ["Box 4, 2", "the buyer is people"],
     discover: ["Box 4, 3", "always (Sales calls or tenders for a business only)"],
-    share: ["Box 4, 4", "the buyer is people"],
+    share: ["Box 4, 4", "the buyer is people; held back while Planning (owner, 2026-11-08), its saved answer kept"],
     trigger: ["Box 4, 5", "the buyer is people"],
     path: ["Box 4, 6", "the buyer is people"],
     setting: ["Box 4, 7", "always"],
@@ -203,8 +203,8 @@ const OFFERING_CODES = {
     o10: ["O10", "the Type is Service or Hybrid"],
     o14: ["O14", "always"],
     o15: ["O15", "always"],
-    o16: ["O16", "always"],
-    o17: ["O17", "always"],
+    o16: ["O16", "always from Launching; held back while Planning (owner, 2026-11-08), its saved answer kept"],
+    o17: ["O17", "always from Launching; held back while Planning (owner, 2026-11-08), its saved answer kept"],
     o18: ["O18", "always"]
 };
 const OFFERING_NOT_BUILT = [
@@ -415,7 +415,7 @@ function rows(code) {
                     const radio = S.segmentRowChoice({ id, label: "", box: "demographics", many: false, options: [] }, { k2: C.COMPETITOR_REACH_OPTIONS, k3: C.COMPETITOR_SIZE_OPTIONS }[id] ?? []) ? "FittingRadioChoice" : "RadioChoice";
                     return {
                         code: id.toUpperCase(), id, label: C.competitorWording("direct", id), control: COMPETITOR_CONTROLS[id] ?? radio, max: id === "k10" ? 3 : "",
-                        asked: (asked.length === TYPES.length ? "every type" : asked.map(type => typeNames[type]).join(", ")) + (id === "k10" ? ", once an opening exists" : ""),
+                        asked: (asked.length === TYPES.length ? "every type" : asked.map(type => typeNames[type]).join(", ")) + (id === "k10" ? ", once an opening exists" : "") + (C.COMPETITOR_HELD_WHILE_PLANNING.includes(id) ? "; held back while Planning (owner, 2026-11-08), its saved answer kept" : ""),
                         starts: "", status: "built", owner: "doc 41, " + id.toUpperCase(), options: OPTIONS[id], info, words
                     };
                 }), ...(box === "insights" ? Object.entries(SEGMENT_ON_COMPETITOR).map(([id, [code, asked, starts]]) => {

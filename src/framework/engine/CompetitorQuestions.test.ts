@@ -257,3 +257,14 @@ describe("Customer Acquisition and Other (owner, 2026-11-04)", () => {
     });
 
 });
+
+/* Phase 5, P5 (owner, 2026-11-08): K3 held back while Planning, its saved answer kept. */
+describe("K3 held back while Planning", () => {
+    it("is not asked by the card while Planning (an empty stage too), is asked from Launching, and keeps its saved answer", () => {
+        expect(competitorAsks("direct", "k3", { stage: "plan" })).toBe(false);
+        expect(competitorAsks("direct", "k3", { stage: undefined })).toBe(false);
+        expect(competitorAsks("direct", "k3", { stage: "launch" })).toBe(true);
+        expect(competitorAsks("direct", "k2", { stage: "plan" })).toBe(true);
+        expect(competitorSettle({ k3: ["small"] }, "direct")).toEqual({ k3: ["small"] });
+    });
+});

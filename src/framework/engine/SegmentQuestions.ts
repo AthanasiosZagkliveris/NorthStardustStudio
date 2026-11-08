@@ -6,6 +6,7 @@
 
 import { DIFFERENTIATION_WORDS, OUTCOME_USER_WORDS } from "./ActivityClassification.ts";
 import { choiceLimit } from "./PositioningIds.ts";
+import { onlyPlanning } from "./BusinessStage.ts";
 
 /** The boxes of the Segment's Description, its user block, and "competitors": a question of the Segment asked once in its Competitors column, after the Competitor cards (doc 41, K14). */
 export type SegmentBox = "demographics" | "geographics" | "business-data" | "purchasing" | "market-size" | "user" | "competitors";
@@ -626,8 +627,23 @@ function has(answers: SegmentAnswers, id: string, option: string): boolean {
     return (answers[id] ?? []).includes(option);
 }
 
+/**
+ * The questions held back while the business is only Planning (owner, 2026-11-08, P5: progressive disclosure): where they mainly work (Box 1, 5), how they are paid (Box 1, 7) and how they
+ * share what they like (Box 4, 4). Shown from Launching; a saved answer is kept while they are held back (segmentSettle), never removed.
+ */
+export const SEGMENT_HELD_WHILE_PLANNING: readonly string[] = ["workenv", "workincome", "share"];
+
+/** Whether a question is held back by the stage alone: it would be asked from Launching, with the same answers. */
+export function segmentHeldBack(question: SegmentQuestion, answers: SegmentAnswers, context: SegmentContext): boolean {
+    return SEGMENT_HELD_WHILE_PLANNING.includes(question.id) && onlyPlanning(context.stage) && segmentQuestionAsked(question, answers, { ...context, stage: "launch" });
+}
+
 /** Whether a question is asked of a Segment, given its answers so far. */
 export function segmentQuestionAsked(question: SegmentQuestion, answers: SegmentAnswers, context: SegmentContext): boolean {
+
+    if (SEGMENT_HELD_WHILE_PLANNING.includes(question.id) && onlyPlanning(context.stage)) {
+        return false;
+    }
 
     const people = context.frame !== "business";
     const business = context.frame !== "people";
@@ -846,6 +862,10 @@ export function segmentSettle(answers: SegmentAnswers, context: SegmentContext):
             const chosen = current[question.id];
 
             if (!segmentQuestionAsked(question, current, context)) {
+                // Held back by the stage alone (while Planning): the saved answer is kept, to show again from Launching.
+                if (chosen && segmentHeldBack(question, current, context)) {
+                    next[question.id] = chosen;
+                }
                 continue;
             }
 

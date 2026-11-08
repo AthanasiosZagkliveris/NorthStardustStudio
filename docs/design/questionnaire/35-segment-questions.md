@@ -123,7 +123,7 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
 ### 5. Where do your customers mainly work?
 
 - **Control:** one choice (a radio).
-- **Asked when:** The answer to "Are your customers working?" is Yes.
+- **Asked when:** The answer to "Are your customers working?" is Yes. **Held back while Planning (owner, 2026-11-08, P5):** not asked while the business stage is Planning (the stage from the Opening Date; no date is Planning), asked from Launching; a saved answer is kept, not removed (the settling keeps an answer held back only by the stage), and the documents still print it.
 - **Options:**
   - At home
   - In an office
@@ -161,7 +161,7 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
 ### 7. How are your customers paid?
 
 - **Control:** one choice (a radio).
-- **Asked when:** The answer to "Are your customers working?" is Yes.
+- **Asked when:** The answer to "Are your customers working?" is Yes. **Held back while Planning (owner, 2026-11-08, P5):** not asked while the business stage is Planning (the stage from the Opening Date; no date is Planning), asked from Launching; a saved answer is kept, not removed (the settling keeps an answer held back only by the stage), and the documents still print it.
 - **Options:**
   - Fixed salary
   - Hourly wage
@@ -506,7 +506,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
 ### 4. How do your customers share what they like?
 
 - **Control:** ticks, as many as apply.
-- **Asked when:** The buyer is people.
+- **Asked when:** The buyer is people. **Held back while Planning (owner, 2026-11-08, P5):** not asked while the business stage is Planning (the stage from the Opening Date; no date is Planning), asked from Launching; a saved answer is kept, not removed (the settling keeps an answer held back only by the stage), and the documents still print it.
 - **Exclusion:** choosing "They rarely share what they buy" clears every other choice, and choosing any other way clears it.
 - **Options:**
   - They post it publicly on social media

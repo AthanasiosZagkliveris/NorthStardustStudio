@@ -171,3 +171,16 @@ describe("the Offering's boxes", () => {
         expect(offeringInfo("o15", { type: "Service" }).join(" ")).toContain("the question below");
     });
 });
+
+/* Phase 5, P5 (owner, 2026-11-08): O16 and O17 held back while Planning, their saved answers kept. */
+describe("O16 and O17 held back while Planning", () => {
+    it("are not asked while Planning (an empty stage too) and are from Launching; a saved answer stays readable", () => {
+        for (const stage of ["plan", undefined]) {
+            expect(offeringAsks("o16", { type: "Service", stage })).toBe(false);
+            expect(offeringAsks("o17", { type: "Service", stage })).toBe(false);
+        }
+        expect(offeringAsks("o16", { type: "Service", stage: "launch" })).toBe(true);
+        expect(offeringAsks("o17", { type: "Service", stage: "launch" })).toBe(true);
+        expect(offeringShown({ o16: ["sameday"], o17: ["updates"] }, { type: "Service", stage: "plan" })).toEqual(expect.objectContaining({ o16: ["sameday"], o17: ["updates"] }));
+    });
+});

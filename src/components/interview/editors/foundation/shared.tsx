@@ -34,7 +34,9 @@ export const SUBSECTIONS = {
             { id: "market-size", title: "Market Size & Industry Outlook", text: "How large is this group, and where is its market heading: growth, the changes that matter, how crowded it is?" }
         ],
         // What the "i" of the Segment Description adds to the two instructions (which stand above the line on the page): how the questions of its boxes come and go.
+        // (Two points since 2026-11-08: an answer held back while Planning is kept.)
         questionsNote: "Which choices each box asks follows your Positioning (who buys, their life stage and category) and your stage. An answer no longer asked is removed.",
+        questionsHeldNote: "Some questions wait until you launch; an answer given to one of them is kept.",
         // What the "i" of each box adds to its prompt: what it asks and what its questions follow.
         boxNotes: {
             demographics: [

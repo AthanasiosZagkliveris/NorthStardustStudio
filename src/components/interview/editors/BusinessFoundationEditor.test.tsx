@@ -354,3 +354,49 @@ describe("BusinessFoundationEditor's Offering card order", () => {
     });
 
 });
+
+/* Phase 5, P5 (owner, 2026-11-08): questions held back while Planning; a saved answer survives a stage change back and forth. */
+describe("BusinessFoundationEditor holds questions back while Planning", () => {
+
+    function Staged({ stage, saved }: { stage: string; saved: { current: unknown } }) {
+        const [value, setValue] = useState<unknown>(() => {
+            const segment = createBusinessCustomerSegment([]);
+            return {
+                ...asBusinessFoundationValue(undefined),
+                segments: [{
+                    ...segment,
+                    questions: { age: ["peak"], work: ["working"], workenv: ["office"], share: ["public"] },
+                    competitors: [{ ...createBusinessCompetitor(), name: "Rival", type: "direct", questions: { k3: ["small"] } }],
+                    offerings: [{ ...createBusinessOffering(), name: "Tutoring", category: "Service", questions: { o16: ["sameday"] } }]
+                }]
+            };
+        });
+        saved.current = value;
+        const identity = { relationships: ["b2c"], marketType: "single", audience: ["adult"], buyerCategory: ["b2c:direct"], endUser: [], stage };
+        return <BusinessFoundationEditor value={value} onChange={setValue} identity={identity as never} />;
+    }
+
+    it("hides Box 1, 5, Box 4, 4, K3 and O16 while Planning, shows them from Launching, and keeps their answers", () => {
+        const saved: { current: unknown } = { current: null };
+        const { rerender } = render(<Staged stage="plan" saved={saved} />);
+        for (const toggle of [...toggles(/Competitor 1$/), ...toggles(/Offering 1$/)]) {
+            fireEvent.click(toggle);
+        }
+        const asked = () => ["Where do your customers mainly work?", "How do your customers share what they like?", "How big is their organisation?", "How fast do you reply?"]
+            .map(name => (screen.queryByRole("radiogroup", { name }) ?? screen.queryByRole("group", { name })) !== null);
+        expect(asked()).toEqual([false, false, false, false]);
+        // (A choice elsewhere settles the Segment: the held-back answers stay.)
+        fireEvent.click(screen.getByRole("checkbox", { name: /Feeds, ads and marketplace suggestions/ }));
+        const kept = () => {
+            const segment = asBusinessFoundationValue(saved.current).segments[0];
+            return [segment.questions.workenv, segment.questions.share, segment.competitors[0].questions?.k3, segment.offerings[0].questions?.o16];
+        };
+        expect(kept()).toEqual([["office"], ["public"], ["small"], ["sameday"]]);
+        rerender(<Staged stage="launch" saved={saved} />);
+        expect(asked()).toEqual([true, true, true, true]);
+        rerender(<Staged stage="plan" saved={saved} />);
+        expect(asked()).toEqual([false, false, false, false]);
+        expect(kept()).toEqual([["office"], ["public"], ["small"], ["sameday"]]);
+    });
+
+});

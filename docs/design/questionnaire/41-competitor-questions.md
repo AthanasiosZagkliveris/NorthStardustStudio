@@ -98,7 +98,7 @@ This follows the type rules already built for the text boxes: a substitute has n
 ### K3. How big is their organisation?
 
 - **Control:** one choice (a radio), inside the Market band, after K2.
-- **Asked when:** the type is Direct competitor or Indirect competitor.
+- **Asked when:** the type is Direct competitor or Indirect competitor. **Held back while Planning (owner, 2026-11-08, P5):** not asked while the business stage is Planning (the stage from the Opening Date; no date is Planning), asked from Launching; a saved answer is kept, not removed (the settling keeps an answer held back only by the stage), and the documents still print it.
 - **Wording by type:** the same for both types.
 - **Options:** the Segment's "How big are your customers' organisations?" (doc 35, Box 3, question 2; `size`):
   - Micro, 1–9 employees

@@ -263,7 +263,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 
 *Added (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments").* Box: Support & Communication.
 - **Control:** one choice (a radio).
-- **Asked when:** always.
+- **Asked when:** always. **Held back while Planning (owner, 2026-11-08, P5):** not asked while the business stage is Planning (the stage from the Opening Date; no date is Planning), asked from Launching; a saved answer is kept, not removed (the settling keeps an answer held back only by the stage), and the documents still print it.
 - **Options** (L22): The same day; Within one working day; Within a few days; No set time.
 - **The "i" says:**
   - How soon your customers hear back. The channels are on the Customer Engagement page.
@@ -273,7 +273,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 
 *Added (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments").* Box: Support & Communication, under O7.
 - **Control:** ticks, as many as apply; "None" stands alone.
-- **Asked when:** always.
+- **Asked when:** always. **Held back while Planning (owner, 2026-11-08, P5):** not asked while the business stage is Planning (the stage from the Opening Date; no date is Planning), asked from Launching; a saved answer is kept, not removed (the settling keeps an answer held back only by the stage), and the documents still print it.
 - **Options** (L23): Guarantee / warranty; Repairs; Updates; Training; Replacements / refills; None.
 - **The "i" says:**
   - What the help after the sale includes. How much help there is, is the question above.

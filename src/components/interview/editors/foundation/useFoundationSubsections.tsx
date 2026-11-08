@@ -1068,7 +1068,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                             {description(
                                 whose,
                                 competitorParts(competitor.type).map(part => {
-                                    const questions = (PART_QUESTIONS[part.id] ?? []).filter(id => competitorAsks(competitor.type, id)).map(question);
+                                    const questions = (PART_QUESTIONS[part.id] ?? []).filter(id => competitorAsks(competitor.type, id, { stage: identity?.stage })).map(question);
                                     return {
                                         ...part,
                                         extra: part.id === "experience" ? [COMPETITOR_EXPERIENCE_HOW] : part.extra,

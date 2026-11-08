@@ -8,6 +8,7 @@ import { COMPETITOR_VALUES, clearOpenings, valueInSentence } from "./CompetitorQ
 import { PROFILE_QUESTIONS, profileRatings } from "./ProfileQuestions.ts";
 import type { BusinessCustomerSegmentValue, BusinessOfferingValue } from "./AnswerBusinessFoundation.ts";
 import { businessSegmentFunctionalItems } from "./AnswerBusinessFoundation.ts";
+import { onlyPlanning } from "./BusinessStage.ts";
 
 export type OfferingAnswers = Record<string, string[]>;
 export type OfferingQuestionId = "o1" | "o2" | "o3" | "o3t" | "o4" | "o6" | "o7" | "o8" | "o10" | "o14" | "o15" | "o16" | "o17" | "o18";
@@ -198,8 +199,17 @@ export function offeringChoose(id: OfferingQuestionId, chosen: readonly string[]
     return next.filter(entry => entry !== "none");
 }
 
-/** Whether a question is asked of this Offering (doc 43, "Asked when"). */
+/** The questions held back while the business is only Planning (owner, 2026-11-08, P5): how fast you reply (O16) and what comes after the sale (O17); shown from Launching. */
+export const OFFERING_HELD_WHILE_PLANNING: readonly OfferingQuestionId[] = ["o16", "o17"];
+
+/**
+ * Whether a question is asked of this Offering (doc 43, "Asked when"). A question held back while Planning (an empty stage is Planning) is not asked then, but its saved answer stays
+ * on the Offering (only the question answered is ever written), so it shows again from Launching.
+ */
 export function offeringAsks(id: OfferingQuestionId, context: OfferingContext): boolean {
+    if (OFFERING_HELD_WHILE_PLANNING.includes(id) && onlyPlanning(context.stage)) {
+        return false;
+    }
     switch (id) {
         case "o1": return context.type === "Product" || context.type === "Service" || context.type === "Hybrid";
         case "o8": return (context.worries ?? []).some(id => id !== SUPPORT_WORRY);
@@ -261,7 +271,9 @@ const RECEIVE_START: Record<string, string> = { physical: "shipped", digital: "a
 export function offeringShown(saved: OfferingAnswers, context: OfferingContext): OfferingAnswers {
     const shown: OfferingAnswers = {};
     for (const question of OFFERING_QUESTIONS) {
-        if (!offeringAsks(question.id, context)) {
+        // (A question held back only by the stage keeps its saved answer here, so the documents still print it; the card does not ask it while Planning.)
+        const heldBack = OFFERING_HELD_WHILE_PLANNING.includes(question.id) && offeringAsks(question.id, { ...context, stage: "launch" });
+        if (!offeringAsks(question.id, context) && !heldBack) {
             continue;
         }
         const offered = offeringOptions(question.id, context).map(option => option.id);

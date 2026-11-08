@@ -9,6 +9,7 @@ import { BUSINESS_JOURNEY_STAGES } from "./AnswerBusinessFoundation.ts";
 import { schemeKeyOf } from "./ActivityClassification.ts";
 import { PROFILE_QUESTIONS } from "./ProfileQuestions.ts";
 import { SEGMENT_QUESTIONS, type SegmentOption } from "./SegmentQuestions.ts";
+import { onlyPlanning } from "./BusinessStage.ts";
 
 /** One saved answer: question id to the ids chosen. */
 export type CompetitorAnswers = Record<string, string[]>;
@@ -29,8 +30,17 @@ const ASKED: Record<CompetitorQuestionId, readonly TypeId[]> = {
 
 const typeOf = (type: string): TypeId => (ALL as readonly string[]).includes(type) ? type as TypeId : "direct";
 
-/** Whether a type of competitor is asked a question. */
-export function competitorAsks(type: string, id: CompetitorQuestionId): boolean {
+/** The questions held back while the business is only Planning (owner, 2026-11-08, P5): K3, how big their organisation is. Shown from Launching; a saved answer is kept. */
+export const COMPETITOR_HELD_WHILE_PLANNING: readonly CompetitorQuestionId[] = ["k3"];
+
+/**
+ * Whether a type of competitor is asked a question. Given `at` (the business stage, as the card passes it; an empty stage is Planning), a question held back while Planning is not
+ * asked then; without it the type alone decides, as competitorSettle reads it, so an answer held back by the stage is kept.
+ */
+export function competitorAsks(type: string, id: CompetitorQuestionId, at?: { stage?: string }): boolean {
+    if (at && COMPETITOR_HELD_WHILE_PLANNING.includes(id) && onlyPlanning(at.stage)) {
+        return false;
+    }
     return ASKED[id].includes(typeOf(type));
 }
 
@@ -428,7 +438,7 @@ const SINGLE: readonly CompetitorQuestionId[] = ["k1", "k2", "k3", "k4"];
 
 /**
  * A Competitor's answers settled against its type: a question the type no longer asks loses its answer (doc 41: removed on the next choice), as does an option
- * or a row not offered; a platform's rating goes with its tick; K10's ticks are settled against its options by the card (competitorOpenings).
+ * or a row not offered; a question held back only by the stage (K3 while Planning) keeps it, since the type alone is read here; a platform's rating goes with its tick; K10's ticks are settled against its options by the card (competitorOpenings).
  */
 export function competitorSettle(answers: CompetitorAnswers, type: string): CompetitorAnswers {
     const settled: CompetitorAnswers = {};

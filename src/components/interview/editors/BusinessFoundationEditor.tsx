@@ -108,7 +108,8 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
         );
         const DESCRIPTION = ":description";
         const PROPOSITION = ":proposition";
-        const info = (section: number): InfoPoint[] => [...heads[section].instructions, ...(section === 0 ? [SUBSECTIONS.segments.questionsNote] : [])];
+        // (The Segment, the Competitors and the Offerings each hold questions that wait while Planning, owner 2026-11-08: their "i" says so; the Value Proposition's none.)
+        const info = (section: number): InfoPoint[] => [...heads[section].instructions, ...(section === 0 ? [SUBSECTIONS.segments.questionsNote] : []), ...(section < 3 ? [SUBSECTIONS.segments.questionsHeldNote] : [])];
         const written = (names: readonly string[], count = 6) => names.map(name => name.trim()).filter(name => name.length > 0).slice(0, count);
         const boxesOf = (segment: BusinessCustomerSegmentValue, kind: Kind): CardBox[] => listOf(segment, kind).map((entry, at) => ({
             id: entry.id,

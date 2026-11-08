@@ -275,3 +275,26 @@ describe("Box 4's order", () => {
         expect(ids(segmentQuestionsOf("purchasing", {}, business))).toEqual(["comfort", "discover", "authorise", "setting", "pay"]);
     });
 });
+
+/* Phase 5, P5 (owner, 2026-11-08): questions held back while Planning, their saved answers kept. */
+describe("the questions held back while Planning", () => {
+    const at = (stage: string) => ({ ...OPEN, frame: "people" as const, stage });
+    const working = { age: ["peak"], work: ["working"] };
+    it("does not ask where they work, how they are paid or how they share while Planning (an empty stage too), and asks them from Launching", () => {
+        for (const stage of ["plan", ""]) {
+            expect(ids(segmentQuestionsOf("demographics", working, at(stage)))).not.toEqual(expect.arrayContaining(["workenv"]));
+            expect(ids(segmentQuestionsOf("demographics", working, at(stage)))).not.toContain("workincome");
+            expect(ids(segmentQuestionsOf("purchasing", working, at(stage)))).not.toContain("share");
+        }
+        expect(ids(segmentQuestionsOf("demographics", working, at("launch")))).toEqual(expect.arrayContaining(["workenv", "workincome"]));
+        expect(ids(segmentQuestionsOf("purchasing", working, at("launch")))).toContain("share");
+    });
+    it("keeps a saved answer through a stage change back and forth", () => {
+        const saved = { ...working, workenv: ["office"], workincome: ["salary"], share: ["public"] };
+        const planning = segmentSettle(saved, at("plan"));
+        expect(planning).toEqual(expect.objectContaining({ workenv: ["office"], workincome: ["salary"], share: ["public"] }));
+        expect(segmentSettle(planning, at("launch"))).toEqual(expect.objectContaining({ workenv: ["office"], workincome: ["salary"], share: ["public"] }));
+        // (A question not asked for another reason still loses its answer: no longer working.)
+        expect(segmentSettle({ ...saved, work: ["notworking"] }, at("plan")).workenv).toBeUndefined();
+    });
+});
