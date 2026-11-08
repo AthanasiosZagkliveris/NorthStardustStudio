@@ -27,6 +27,38 @@ export interface SegmentIdentity {
     differentiation?: readonly string[];
 }
 
+/** The Organisation's answers the Segment, Profile and Offering cards read (the Organisation tile and Positioning). */
+export interface IdentityOrganisation {
+    customerType: readonly string[];
+    marketType: string;
+    audience: readonly string[];
+    buyerCategory?: readonly string[];
+    endUser?: readonly string[];
+    country?: string;
+    activities?: readonly { code: string }[];
+    differentiation?: readonly string[];
+}
+
+/** The Identity answers as the cards read them, from the Organisation and the business stage: one mapping for the page, the documents and the exports. */
+export function segmentIdentityOf(organisation: IdentityOrganisation, stage?: string): SegmentIdentity {
+    return {
+        relationships: organisation.customerType,
+        marketType: organisation.marketType,
+        audience: organisation.audience,
+        buyerCategory: organisation.buyerCategory,
+        endUser: organisation.endUser,
+        stage,
+        country: organisation.country,
+        activityCode: organisation.activities?.[0]?.code ?? "",
+        differentiation: organisation.differentiation
+    };
+}
+
+/** Whether a Segment is of businesses: the presence of its Business Data key. */
+export function segmentIsBusiness(segment: { description: Record<string, string> }): boolean {
+    return segment.description["business-data"] !== undefined;
+}
+
 /** Who the Segment's questions are written for: people (Box 1), businesses and public bodies (Box 3), or not yet known / both (both boxes). */
 export type SegmentFrame = "people" | "business" | "open";
 

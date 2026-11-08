@@ -3,7 +3,8 @@ import { workspacesOf, WORKSPACE_GROUP_ID } from "./AnswerUtils.ts";
 import { activitiesLine, positioningDocumentTitle } from "./ActivityClassification.ts";
 import { stageOf } from "./BusinessStage.ts";
 import { segmentAnswerLines, segmentBoxAnswered } from "./SegmentQuestions.ts";
-import { settledSegmentAnswers } from "./SegmentContext.ts";
+import { segmentIdentityOf, settledSegmentAnswers } from "./SegmentContext.ts";
+import { effectiveOfferingAnswers, offeringContextOf } from "./EffectiveAnswers.ts";
 /*
     The two documents the Foundation capability adds up to, built from
     what has been answered -- nothing is asked again:
@@ -257,9 +258,13 @@ export function readFoundation(sessions: FoundationSessions, options?: { wholeOn
     // The documents are in whole amounts throughout.
     const format = moneyFormatter(currency, options);
 
+    const settings = sessions.globalSettings === undefined ? undefined : asGlobalSettings(sessions.globalSettings);
+    // The business stage: the documents' own, and what starts the Offering's O2 as its card shows it.
+    const stage = stageOf(settings?.openingDate ?? "", new Date(), settings ? stageDurationsOf(settings) : undefined);
+
     const business: ExportContext = sessions.business
-        ? sessionExportContext(sessions.business, { legalEntity, foundersProfile, currency })
-        : { legalEntity, foundersProfile, currency };
+        ? sessionExportContext(sessions.business, { legalEntity, foundersProfile, currency, businessStage: stage })
+        : { legalEntity, foundersProfile, currency, businessStage: stage };
 
     const strategy: ExportContext = sessions.strategy
         ? sessionExportContext(sessions.strategy, { legalEntity, foundersProfile, currency })
@@ -281,7 +286,6 @@ export function readFoundation(sessions: FoundationSessions, options?: { wholeOn
     // forecast counts them (see FinancialForecast.ts).
     const drawings = ownersTakeDrawings(legalEntity.organisation.legalForm);
 
-    const settings = sessions.globalSettings === undefined ? undefined : asGlobalSettings(sessions.globalSettings);
     const calculated = settings
         ? calculatedLines({ foundation: financial, revenuePage, lines, capability, settings, openingDate: settings.openingDate, drawings }, incomeTaxRate(financial))
         : undefined;
@@ -302,7 +306,7 @@ export function readFoundation(sessions: FoundationSessions, options?: { wholeOn
     const name = text(legalEntity.organisation.name) || text(sessions.organisationName) || "The organisation";
 
     return {
-        stage: stageOf(settings?.openingDate ?? "", new Date(), settings ? stageDurationsOf(settings) : undefined),
+        stage,
         legalEntity, foundersProfile, currency, format, drawings, business, strategy, foundationValue, segments,
         capability, engagement, financial, lines, position, revenuePage, outlook, name, calculated,
         definition: responseByTitle(sessions.identity, /^definition$/i),
@@ -852,11 +856,14 @@ function offeringBlocks(f: Foundation): ExportBlock[] {
             ...labelled("Value proposition", segment.valueProposition),
             ...table(["Offering", "Type", "What it does", "Customer benefit", "Price", "Pricing model"], segment.offerings.map(offering => {
                 const stream = f.revenuePage.streams.find(entry => entry.offeringId === offering.id);
+                // The answers as the card shows them, starting values included (EffectiveAnswers.ts).
+                const identity = segmentIdentityOf(f.legalEntity.organisation, f.stage);
+                const lines = offeringAnswerLines(effectiveOfferingAnswers(offering, segment, identity), offeringContextOf(offering, segment, identity));
                 return [
                     // What it does and its benefit: the Notes, else the answers (owner, 2026-11-07: the Notes are optional), O1's form and O4's values.
                     offering.name, offering.category,
-                    (offering.description.function ?? "").trim() || offeringAnswerLines(offering.questions ?? {}, { type: offering.category }).find(line => line.label === "What form does it take?")?.value || "",
-                    (offering.description.benefit ?? "").trim() || offeringAnswerLines(offering.questions ?? {}, { type: offering.category }).find(line => line.label === "What does it do best for the customer?")?.value || "",
+                    (offering.description.function ?? "").trim() || lines.find(line => line.label === "What form does it take?")?.value || "",
+                    (offering.description.benefit ?? "").trim() || lines.find(line => line.label === "What does it do best for the customer?")?.value || "",
                     priceText(stream, f.format), stream ? revenueModelLabel(stream) : ""
                 ];
             }))

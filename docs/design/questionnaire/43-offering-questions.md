@@ -15,7 +15,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - **Purchase & Delivery:** O3 with its second row, "When do they pay?"; O6; O15. Notes: packaging and the steps.
   - **Support & Communication:** O7, O17, O16. Notes: names and how often.
   - **Requirements & Conditions:** O10, O18. Notes: care instructions and standards.
-  - Saved text of the boxes is kept: it is the Notes. A question no longer asked, or an option no longer offered, loses its answer; a starting value (O2, O4, O6) shows until it is changed.
+  - Saved text of the boxes is kept: it is the Notes. A question no longer asked, or an option no longer offered, loses its answer; a starting value (O2, O4, O6) shows until that field is changed (another answer does not fix it), and the Business Plan, the export and the Value Proposition read it too (built 2026-11-08).
   - The Business Plan's Offerings table reads "What it does" from the Function Notes, else the form (O1), and "Customer benefit" from the Customer Benefit Notes, else what it does best (O4); the export prints every answer with its question.
 
 **The rules of the card** are the Segment's (doc 35):

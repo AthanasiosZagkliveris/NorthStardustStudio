@@ -14,6 +14,7 @@ import BrandInventoryEditor from "../BrandInventoryEditor.tsx";
 import { asLegalEntityValue } from "../../../../framework/engine/AnswerUtils.ts";
 import type { FoundersProfileValue } from "../../../../framework/engine/AnswerUtils.ts";
 import type { AnswerScope } from "./scope.ts";
+import { segmentIdentityOf } from "../../../../framework/engine/SegmentContext.ts";
 
 export function renderBusinessFoundation(scope: AnswerScope) {
 
@@ -26,7 +27,7 @@ export function renderBusinessFoundation(scope: AnswerScope) {
 
         <BusinessFoundationEditor
             value={value}
-            identity={{ relationships: organisation.customerType, marketType: organisation.marketType, audience: organisation.audience, buyerCategory: organisation.buyerCategory, endUser: organisation.endUser, stage: businessStage, country: organisation.country, activityCode: organisation.activities[0]?.code ?? "", differentiation: organisation.differentiation }}
+            identity={segmentIdentityOf(organisation, businessStage)}
             showInstructions={showInstructions}
             columnsDivider={columnsDivider}
             frameTitle={frameTitle}

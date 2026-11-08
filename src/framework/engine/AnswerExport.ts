@@ -71,6 +71,8 @@ export interface ExportContext {
     /** The Identity System's Founders Profile, as saved (see founderProfiles). */
     foundersProfile?: unknown;
     currency?: string;
+    /** The business stage (plan, launch, manage, grow), which starts the Offering's O2 as the card shows it (EffectiveAnswers.ts). */
+    businessStage?: string;
 }
 
 export interface BuildAnswerBlocksOptions {

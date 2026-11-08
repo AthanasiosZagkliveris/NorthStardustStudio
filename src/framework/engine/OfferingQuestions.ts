@@ -122,8 +122,14 @@ export const OFFERING_BOX_QUESTIONS: Readonly<Record<string, readonly (readonly 
     requirements: [["o10"], ["o18"]]
 };
 
-/** A choice of ticks, where "None" stands alone (O17): ticking None clears the others, ticking another clears None. */
+/**
+ * A choice of ticks, where "None" stands alone (O17): ticking None clears the others, ticking another clears None. O4 keeps the order they were ticked in, so the
+ * first ticked is the main benefit (doc 43, O4): a tick kept stays where it was, a new one goes last.
+ */
 export function offeringChoose(id: OfferingQuestionId, chosen: readonly string[], next: readonly string[]): string[] {
+    if (id === "o4") {
+        return [...chosen.filter(entry => next.includes(entry)), ...next.filter(entry => !chosen.includes(entry))];
+    }
     if (id !== "o17") {
         return [...next];
     }
@@ -284,8 +290,9 @@ export function draftOffered(segment: BusinessCustomerSegmentValue): boolean {
  * its competitors, it offers [the clear opening]." The goal and frustration are the highest-rated across the Profiles, in their draft phrases; a blank whose
  * answer is missing stays in square brackets; with no clear opening the sentence ends after the benefit.
  */
-export function valuePropositionDraft(segment: BusinessCustomerSegmentValue, offering: BusinessOfferingValue, answers: OfferingAnswers, context: OfferingContext): string {
-    const profiles = segment.profiles.map(profile => profile.questions ?? {});
+export function valuePropositionDraft(segment: BusinessCustomerSegmentValue, offering: BusinessOfferingValue, answers: OfferingAnswers, context: OfferingContext,
+    profileAnswers: readonly Record<string, string[]>[] = segment.profiles.map(profile => profile.questions ?? {})): string {
+    const profiles = [...profileAnswers];
     const goal = highestRated(profiles, "e1");
     const frustration = highestRated(profiles, "e2");
     const benefit = answers.o4?.[0];
@@ -323,10 +330,11 @@ const worryWord = (id: string) => WORRIES.find(option => option.id === id)?.labe
 
 /**
  * The open items of a Segment (doc 42, 2): gaps between what its customers want and what its Offerings give, reminders not errors. `answers` are each
- * Offering's answers as its card shows them (offeringShown), in the Segment's order.
+ * Offering's answers as its card shows them (offeringShown), in the Segment's order; `profileAnswers` each Profile's, as its card shows them (EffectiveAnswers.ts).
  */
-export function valuePropositionOpenItems(segment: BusinessCustomerSegmentValue, answers: readonly OfferingAnswers[]): OpenItem[] {
-    const profiles = segment.profiles.map(profile => profile.questions ?? {});
+export function valuePropositionOpenItems(segment: BusinessCustomerSegmentValue, answers: readonly OfferingAnswers[],
+    profileAnswers: readonly Record<string, string[]>[] = segment.profiles.map(profile => profile.questions ?? {})): OpenItem[] {
+    const profiles = [...profileAnswers];
     const named = (offering: BusinessOfferingValue, at: number) => offering.name.trim() || "Offering " + (at + 1);
     const items: OpenItem[] = [];
     const mismatch = valueMismatch(profiles, segment.offerings.map((offering, at) => ({ name: named(offering, at), answers: answers[at] ?? {} })));
