@@ -18,7 +18,7 @@ Status: **index**, updated 2026-11-08. One line per document: where it is, what 
 3. [The design and its records (`design/core/`, documents 1 to 7)](#3-the-design-and-its-records-designcore-documents-1-to-7)
 4. [The library (`design/library/`, documents 8 to 15)](#4-the-library-designlibrary-documents-8-to-15)
 5. [The current design (`design/current/`, documents 16 to 26)](#5-the-current-design-designcurrent-documents-16-to-26)
-6. [The first version and the questionnaire (`design/questionnaire/`, documents 27 to 43)](#6-the-first-version-and-the-questionnaire-designquestionnaire-documents-27-to-43)
+6. [The first version and the questionnaire (`design/questionnaire/`, documents 27 to 44)](#6-the-first-version-and-the-questionnaire-designquestionnaire-documents-27-to-44)
 7. [Rules for the assistant](#7-rules-for-the-assistant-ai)
 8. [The specifications](#8-the-specifications-specifications)
 9. [The archive](#9-the-archive-archive)
@@ -31,7 +31,7 @@ How the documents are numbered, headed and written.
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [standard.md](standard.md) | rules | The standard of the documents: where a document goes, how it is numbered, the head every document has, the kinds, how a document is written, and how to add one. | 2026-11-03 |
+| [standard.md](standard.md) | rules | The standard of the documents: where a document goes, how it is numbered, the head every document has, the kinds, how a document is written, and how to add one. | 2026-11-08 |
 
 ## 2. The app (`app/`)
 
@@ -50,7 +50,7 @@ The current design of the Foundation, the sources, the research, the log of ever
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
 | [design/core/01-current-design.md](design/core/01-current-design.md) | current design | The single description of what the Foundation capability is: what the app does, how it is organised, the interface elements, the cost model, the automatic rules, the help texts and the colour map. | 2026-11-06 |
-| [design/core/02-references.md](design/core/02-references.md) | reference | The source register: the rule for what counts as a reference, and every decision in the app and in these documents with the source behind it. | 2026-11-07 |
+| [design/core/02-references.md](design/core/02-references.md) | reference | The source register: the rule for what counts as a reference, and every decision in the app and in these documents with the source behind it. | 2026-11-08 |
 | [design/core/03-research.md](design/core/03-research.md) | research | The research behind the design decisions: the question, the recommendation, the reason and the source. Document 1 prevails where they differ. | 2026-11-03 |
 | [design/core/04-log.md](design/core/04-log.md) | log | Every change to the app, the design, the documents or the plan, newest on top. The only place a change is written. | 2026-11-08 |
 | [design/core/05-not-done-yet.md](design/core/05-not-done-yet.md) | living list | What has not been done: the road, the plans, the requirements still open, the open decisions and the open points of the reviews. | 2026-11-03 |
@@ -90,9 +90,9 @@ What the app is today in detail: the texts, the reactions, the shared components
 | [design/current/25-folder-plan.md](design/current/25-folder-plan.md) | current design | The folders of the repository: the app files, the examples, the working files and the exports, and the documents folder. | 2026-11-02 |
 | [design/current/26-card-structure.md](design/current/26-card-structure.md) | current design | Card structure: what the user can reach in each card, row by row, and why. The structure tables and the catalogue record are generated from it. | 2026-11-03 |
 
-## 6. The first version and the questionnaire (`design/questionnaire/`, documents 27 to 43)
+## 6. The first version and the questionnaire (`design/questionnaire/`, documents 27 to 44)
 
-What the first published version contains and what it leaves for later (33, which governs the other documents of this chapter), the questions of each tile as built, and the plan, the lists and the research behind them. Read in this order. **What governs:** 33 (the first version, sections 1 to 9; what is left for later, sections 10 to 15). **The tiles as built, one document each (40 gives the form and the list):** 37 (the Organisation), 38 (Positioning), 35 (the Segment), 36 (the Profile, built in part), 41 (the Competitor), 42 (the Value Proposition, built in part), 43 (the Offering, built in part). **How to word them:** 39 (what an "i" says) and, in 28, sections 3 and 4 (the rules and the plain wording). **The design behind them:** 27 (the plan), 28 (every question, the connections and the evidence), 29 (the flow). **The lists and the data:** 34 (the lists and classifications), 31 and 32 (the positioning decisions and their sources), 30 (age limits).
+What the first published version contains and what it leaves for later (33, which governs the other documents of this chapter), the questions of each tile as built, and the plan, the lists and the research behind them. Read in this order. **What governs:** 33 (the first version, sections 1 to 9; what is left for later, sections 10 to 15). **The tiles as built, one document each (40 gives the form and the list):** 37 (the Organisation), 38 (Positioning), 35 (the Segment), 36 (the Profile, built in part), 41 (the Competitor), 42 (the Value Proposition, built in part), 43 (the Offering, built in part). **Every question in one table, by card and position, with its permanent code:** 44 (generated). **How to word them:** 39 (what an "i" says) and, in 28, sections 3 and 4 (the rules and the plain wording). **The design behind them:** 27 (the plan), 28 (every question, the connections and the evidence), 29 (the flow). **The lists and the data:** 34 (the lists and classifications), 31 and 32 (the positioning decisions and their sources), 30 (age limits).
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
@@ -113,6 +113,7 @@ What the first published version contains and what it leaves for later (33, whic
 | [design/questionnaire/41-competitor-questions.md](design/questionnaire/41-competitor-questions.md) | specification | The Competitor card: every question and option, as built (K1 to K10, in the card's order, by the competitor's type). | 2026-11-08 |
 | [design/questionnaire/42-value-proposition-questions.md](design/questionnaire/42-value-proposition-questions.md) | proposal | The Value Proposition tile: the draft sentence and the open items, as proposed. | 2026-11-08 |
 | [design/questionnaire/43-offering-questions.md](design/questionnaire/43-offering-questions.md) | specification | The Offering card: every question and option (O1 to O18), built in part. | 2026-11-08 |
+| [design/questionnaire/44-questions-register.md](design/questionnaire/44-questions-register.md) | generated | The questions register: every question of the Foundation's cards by card and position, with its permanent code, saved id, control, limit, when it is asked, its start, options and "i", and the retired codes; generated from the code. | 2026-11-08 |
 
 ## 7. Rules for the assistant (`ai/`)
 

@@ -10,13 +10,15 @@ Status: **rules**, written 2026-10-29. How a document in `docs/` is named, numbe
 | `docs/design/core/` | The current design of the Foundation, the sources, the research, the log, the open list, the generated catalogue (documents 1 to 7) | `NN-name.md` |
 | `docs/design/library/` | The assets library, its generated lists and logs (8 to 15) | `NN-name.md` |
 | `docs/design/current/` | What the app is today in detail: texts, reactions, components, pop-ups, tooltips, folders, card structure (16 to 26) | `NN-name.md` |
-| `docs/design/questionnaire/` | The first version, its future features, the questions, the lists, the research (27 to 40) | `NN-name.md` |
+| `docs/design/questionnaire/` | The first version, its future features, the questions, the lists, the research, the questions register (27 to 44) | `NN-name.md` |
 | `docs/ai/` | Rules, references and playbooks for an AI assistant | plain names |
 | `docs/specifications/business-system/` | The pages of the Business System | `page-N-name.md` |
 | `docs/specifications/identity-system/` | The pages of the Identity System that have a document of their own | `page-N-name.md` |
 | `docs/archive/` | Finished or replaced documents, kept for their information | plain names |
 
 **Numbering** (checked): the design documents are numbered 1 to N in the order of the chapters, with no gap and no repeat. The number is in the file name (two digits), in the title, and it is how documents cite one another ("doc 28"). A new document takes the next number in its chapter; the numbers after it move up and the references are rewritten (the index fails on a gap). A document that leaves the numbered set goes to the archive with a plain name.
+
+**Question codes** (checked): codes are permanent ids, not positions. Never renumber; reorder freely; the register (doc 44) shows the order. A new question takes the next free code; a retired code stays listed as retired with what replaced it. The codes are kept in `tools/scripts/docs/questions-register.mjs`, which writes doc 44; `npm run docs:check` fails when doc 44 is stale or when a questionnaire document (27 to 43) cites an Offering, Competitor or Profile code (O1, K1, A1 to E3) that the register does not know.
 
 ## 2. The head of a document
 

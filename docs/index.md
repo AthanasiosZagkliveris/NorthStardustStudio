@@ -79,7 +79,7 @@ Status: **index**, updated 2026-11-08, written by `npm run docs:index` (the subj
 - **Purposes of an offering**: [31 sections 7 and 10.4](design/questionnaire/31-positioning-categories.md)
 ## Q
 
-- **Questions, the plan and the guide**: [27](design/questionnaire/27-questionnaire-plan.md); [29](design/questionnaire/29-question-guide.md); [28](design/questionnaire/28-questionnaire-specification.md)
+- **Questions, the plan and the guide**: [44 (the register: every question and its code)](design/questionnaire/44-questions-register.md); [27](design/questionnaire/27-questionnaire-plan.md); [29](design/questionnaire/29-question-guide.md); [28](design/questionnaire/28-questionnaire-specification.md)
 ## R
 
 - **Reactions (hover, press, focus)**: [18](design/current/18-reactions.md)

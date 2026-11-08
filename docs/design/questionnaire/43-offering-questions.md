@@ -4,6 +4,8 @@ Status: **specification**, as built in part (O12 not built), written 2026-11-03,
 
 Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the Profile: the needs, B1, D2, E3), doc 38 (Positioning: Differentiation), doc 41 (the Competitor: K8), doc 42 (the Value Proposition, which reads O1, O4 and O8), doc 34 (the lists L1 and L11, the value crosswalk 5.2a), doc 37 (the Organisation's fields: the Opening Date for O2; the activities and the country for O12), doc 28 (6.8, 7.4, 10.1 to 10.3 and 11.7, the design this refines), `src/framework/engine/AnswerBusinessFoundation.ts` (the card today).
 
+**The card's order:** doc 44 (the questions register) lists the Offering's questions box by box in the card's order; the codes O1 to O18 are permanent ids, not positions.
+
 **What the card is.** An Offering belongs to its Segment, as a Profile does. Pages 2 to 5 read it by id and never copy it (the page specifications' README, point 1). The card has these parts, in order:
 - **The head:** the number, the name cell and the one x (built).
 - **The Type** (built): Product, Service or Hybrid. No "Other" (owner, 2026-11-04; built 2026-11-08: a saved "Other" still shows until it is changed).
