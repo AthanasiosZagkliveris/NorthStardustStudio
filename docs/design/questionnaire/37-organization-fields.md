@@ -1,6 +1,6 @@
 # 37. The Organisation tile: every field and option, as built
 
-Status: **specification**, written 2026-11-01, updated 2026-11-02. Every field of the Organisation tile (Identity System, page 1, the tile before Early Positioning) in the order it is asked, with its control, when it is asked, its options, what its "i" says and what it connects to.
+Status: **specification**, written 2026-11-01, updated 2026-11-08. Every field of the Organisation tile (Identity System, page 1, the tile before Early Positioning) in the order it is asked, with its control, when it is asked, its options, what its "i" says and what it connects to.
 
 Related: doc 38 (Early Positioning, the next tile, in the same form), doc 35 (the Segment's questions), doc 28 (8.5 the tile as designed; 8.2a the stage, the Opening Date and the key dates), doc 34 (the countries, the activity cascade and the codes), doc 33 (the first version: six countries and Other), `src/components/interview/editors/legal/`.
 
@@ -76,7 +76,7 @@ Related: doc 38 (Early Positioning, the next tile, in the same form), doc 35 (th
 ### 8. Registration Date
 
 - **Control:** a date cell.
-- **Asked when:** always. It cannot be later than today (the cell's limit), nor later than the Opening Date (the Review says so).
+- **Asked when:** always, except where the legal form is a sole trader or a sole proprietorship in the six countries: then it is not asked, not required and not checked (`registrationDateApplies`; see the note "Built on 2026-11-01" below). It cannot be later than today (the cell's limit), nor later than the Opening Date (the Review says so).
 - **The "i" says:** The day the organisation was registered with the registry of its country. It is its own date: it does not depend on the registration number, and the number does not depend on it. It cannot be later than today, nor later than the Opening Date: the business cannot open before the company exists.
 - **Connections:**
   - *Comes from:* nothing; it is checked against the Opening Date. It is saved with the Legal Entity page's formation.

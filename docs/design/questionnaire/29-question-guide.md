@@ -2,7 +2,9 @@
 
 Status: **proposal**, written 2026-10-23, updated 2026-11-02. The Identity questions, the Segment card (doc 35) and the Profile card in part (doc 36) are built; the trees below are the design they came from, and the banners say where the built questions differ. This is the guide to the questions as a **flow**: which answer leads to which question, which questions are the key branches, what happens when the answer is "both" or "other", in what order to ask so that the user answers as little as possible, and why each question matters to the user. It answers the owner's review of 2026-10-23. Document 27 is the plan, document 28 holds the lists, wording, connection map, evidence, decisions and the counts of questions (Appendix B); this document holds the logic between them.
 
-> **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Doc 33 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, age limits, accessibility, caregiving and the rest) is a future feature: doc 33. Contents of the documents: `docs/README.md`; index: `docs/index.md`; glossary: `docs/app/glossary.md`.
+> **Superseded by docs 35 to 43 where they differ; kept as the record of 2026-10-26.**
+
+> **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Doc 33 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, accessibility, caregiving and the rest) is a future feature: doc 33. Age limits are checked on the Offering (O12) and the Review (doc 43; O12 is not built yet). Contents of the documents: `docs/README.md`; index: `docs/index.md`; glossary: `docs/app/glossary.md`.
 
 > **As built on 2026-10-29 (Early Positioning, first version):** no Market Structure question (single-sided); B2C and B2B only; I7b keeps three life stages and the new buyer's category (I7h: Direct, Proxy, Dual-Intent) is asked for each relationship; for a Proxy or Dual-Intent Buyer the End User asks the buyer and user relationship (I7e) and, for B2C, the user's life stage (I7d); the Purpose (I7i) is asked once; I7f and I7g are not asked. The trees below show the earlier flow; doc 28, 8.2 has the questions as built.
 
@@ -291,16 +293,7 @@ The test for every question: *what does the user get for answering?* "Limited" m
 
 ## 8. Writing a new question
 
-A question is added only when it passes this list.
-
-1. **It has an owner**: the one card where it is asked (one owner per answer).
-2. **It passes the value test** (section 7): the answer produces a proposal, or narrows a list, or is a cheap check worth asking after the draft. Otherwise it is a note.
-3. **It is in the right place and order** (section 6): it prunes early or waits for the draft.
-4. **Its tree is drawn**: each answer says what is shown, hidden or proposed; "both" and "not sure" are handled (section 4); an "other" option says what it could hold (section 5).
-5. **Its wording follows 28, section 4.1**: one idea; plain words; options that do not overlap; "Not sure yet" and "Not relevant" where valid; no loaded words; the right control (a range for an ordered fact, one value for an unordered fact, several only for what people do).
-6. **Its options have examples** and a one-line "i" (28, 5.5).
-7. **Any connection that is not certain shows its evidence** and says "tends to" (28, 11.6).
-8. **It has an id, a type** (driver, check or note) **and a row in 28, Appendix B.**
+The checklist for a new question is in document 28, section 4.1 (the wording and what a new question needs); what its "i" says is document 39.
 
 ## 9. Decisions for the owner
 

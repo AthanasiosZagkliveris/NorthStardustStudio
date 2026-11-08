@@ -1,6 +1,6 @@
 # 36. The Profile's questions: every question and option, as built in part
 
-Status: **specification**, written 2026-11-01, updated 2026-11-04; built in part. The questions of the Profile card in the order they are asked, with their control, when they are asked, their options, what their "i" says and what they connect to. **Built:** A1 (the exact age, held to the Segment's group), A2, A7, A3 (B2C) and A3b (B2B), A5, B1, C1 to C4, D1, D2 and E1 to E3, with their conditions, starting values and settling (`ProfileQuestions.ts`, answers kept as `questions` on the Profile), in one column at the width every floating card has (492px), the boxes in their order, each with the Segment card's title band. The proposed B2B Profiles by buying role (2). **Not built yet:** A4 (the kind of business), A6 (the specialised needs), the other proposed Profiles (by age term; the end user's beside a Proxy or Dual-Intent payer), the end user's own Profile (and so its Box D rule), the reads marked "not built yet" below.
+Status: **specification**, written 2026-11-01, updated 2026-11-08; built in part. The questions of the Profile card in the order they are asked, with their control, when they are asked, their options, what their "i" says and what they connect to. **Built:** A1 (the exact age, held to the Segment's group), A2, A7, A3 (B2C) and A3b (B2B), A5, B1, C1 to C4, D1, D2 and E1 to E3, with their conditions, starting values and settling (`ProfileQuestions.ts`, answers kept as `questions` on the Profile), in one column at the width every floating card has (492px), the boxes in their order, each with the Segment card's title band. The proposed B2B Profiles by buying role (2). **Not built yet:** A4 (the kind of business), A6 (the specialised needs), the other proposed Profiles (by age term; the end user's beside a Proxy or Dual-Intent payer), the end user's own Profile (and so its Box D rule), the reads marked "not built yet" below.
 
 Related: doc 35 (the Segment's questions, built, in the same form), doc 28 (6.4 and 6.5, the Profile design this refines, and the shared lists), doc 34 (the lists L1 to L16), doc 33 (its section 15 holds the thoughts), doc 31 (the age terms), `src/components/interview/editors/foundation/` (the Profile card today).
 
@@ -8,9 +8,9 @@ Related: doc 35 (the Segment's questions, built, in the same form), doc 28 (6.4 
 
 ## 1. What a Profile holds, and the rules
 
-**What a Profile holds.** A Name; seven boxes of two parts each (the questions below, then the box's note): *Specific Personal Information*, *Psychographics*, *Social & Interest Hubs* and *Information & Shopping Habits* (the section Description), *Goals & Desires*, *Challenges & Problems* and *Objections* (Motivations); and three numbered text lists of *Needs* (Functional, Emotional, Social). The answers are kept as `questions` on the Profile and are listed in the documents and the exports (`profileAnswerLines`, `ExportRenderers.ts`). The Offering reads the needs. The words of each question's "i" are in `info` in `ProfileQuestions.ts`; the "i would say" texts below are the fuller design, and the shorter texts in the code are the ones shown.
+**What a Profile holds.** A Name; seven boxes of two parts each (the questions below, then the box's note): *Specific Personal Information*, *Psychographics*, *Social & Interest Hubs* and *Information & Shopping Habits* (the section Description), *Goals & Desires*, *Challenges & Problems* and *Objections* (Motivations); and the three *Needs* (Functional, Emotional, Social): Emotional and Social are rated ticks with their Notes, and Functional is rated ticks above the numbered list of their own tasks (2026-11-07, section 10). The answers are kept as `questions` on the Profile and are listed in the documents and the exports (`profileAnswerLines`, `ExportRenderers.ts`). The Offering reads the needs. The words of each question's "i" are in `info` in `ProfileQuestions.ts`; the "i would say" texts below are the fuller design, and the shorter texts in the code are the ones shown.
 
-**The rules are the Segment's** (doc 35): a radio is one choice, ticks are several, with a limit where stated, built from the existing controls (`RadioChoice`, `BusinessTicks`, `NumberCell`, `OptionPicker`, `FieldRow`); an option says its few words and what is added in brackets or after a colon stands in the question's "i"; a question with one option left is not shown (none of the Profile's has yet); an answer to a question no longer asked is removed on the next choice; no "Not sure" option; each box keeps its title, its prompt (the "i") and **its note**, which stays for what the questions cannot say (a Profile is a person, and a person is described in words too); the layout is the Positioning card's (bands, divider lines, a double rule between boxes). The Functional needs stay a text list (Emotional and Social become ticks, section 10): a functional need is a precise statement ("send an invoice in under a minute"), not a category.
+**The rules are the Segment's** (doc 35): a radio is one choice, ticks are several, with a limit where stated, built from the existing controls (`RadioChoice`, `BusinessTicks`, `NumberCell`, `OptionPicker`, `FieldRow`); an option says its few words and what is added in brackets or after a colon stands in the question's "i"; a question with one option left is not shown (none of the Profile's has yet); an answer to a question no longer asked is removed on the next choice; no "Not sure" option; each box keeps its title, its prompt (the "i") and **its note**, which stays for what the questions cannot say (a Profile is a person, and a person is described in words too); the layout is the Positioning card's (bands, divider lines, a double rule between boxes). The Emotional and Social needs are rated ticks with their Notes; the Functional needs are rated ticks above the numbered list (section 10, 2026-11-07): the list keeps the precise statement ("send an invoice in under a minute"), which no category holds.
 
 **How the boxes map.**
 
@@ -19,11 +19,11 @@ Related: doc 35 (the Segment's questions, built, in the same form), doc 28 (6.4 
 | Specific Personal Information | A1 to A5 |
 | Psychographics | B1 |
 | Social & Interest Hubs | C1 to C4 |
-| Information & Shopping Habits | D1, D2 |
+| Information & Shopping Habits | D1 to D3 |
 | Goals & Desires | E1 |
 | Challenges & Problems | E2 |
 | Objections | E3 |
-| Needs | stay text lists |
+| Needs | Emotional and Social: rated ticks with Notes; Functional: rated ticks above the numbered list (section 10) |
 
 **What the notes are for (built).** (The Psychographics Notes' placeholder is "What they believe and enjoy, beyond what matters most" since 2026-11-07, owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments": B1 asks what matters most.) The note under each box holds what the choice questions do not: a name and household in Personal, the values in Psychographics, the names of groups and places in Hubs, where and when they buy in Habits, the details that are theirs in Goals, Challenges and Objections. The "i" of each box says so (`PROFILE_NOTE_HINTS`). The box prompts are the owner's words. The Personal one says what the box asks (owner, 2026-11-03): "What are their age, gender, household and work?", and for a B2B Profile "What are their age, job level and role in buying?".
 
@@ -40,7 +40,7 @@ Related: doc 35 (the Segment's questions, built, in the same form), doc 28 (6.4 
 | Gender mix (not Balanced) | A2 gender | shown when the mix is not Balanced mix; a Profile's gender should fit the mix (Review) |
 | Industry | A4 kind of business | the finer list (doc 34, 5.4) of the Segment's industry, each with its example |
 | Where they discover new products (ticks) | C2, C3, C4 | the platforms, communities and events related to the ticked ways come first |
-| Where they spend time (social environment) | C4 events | asked when the environment is not Mostly digital or Low-frequency |
+| Where they spend time (social environment) | C4 events | asked when the Segment socialises "Online and in person" or "Mostly in person" (doc 35, Box 4, 2) |
 
 The app also **proposes Profiles** (up to three): one for each age term of the group; for a Proxy or Dual-Intent buyer, a second Profile for the end user (doc 35, the end-user part). The App User presses Add on the ones they want.
 
@@ -70,7 +70,7 @@ Nothing is proposed before the question is answered, or for people. The kinds of
 
 The Segment's rule holds here: **a question that is no longer asked, or an option no longer offered, has its answer removed on the next choice**, and the documents read the answers settled against what is asked now.
 
-**The exact age (A1), decided by the owner (2026-11-01).** When the Segment's age group changes, A1 is **cleared if its number falls outside the new group, and kept if it is still inside it**. A Profile of 21 stays when the Segment goes from Young adults (18–24) to a group that still holds 21 (or to none chosen), and is cleared when it goes to Peak (40–54). The cleared cell says why, in its placeholder: *"Age reset to match the Segment's age group. Enter a typical age from 40 to 54."* (the range of the new group: from its first age up to, but not including, its second; for the last group, "75 or older"). Nothing else on the Profile is touched. **An end user's Profile (owner, 2026-11-01).** When the Segment stops being Proxy or Dual-Intent (a change of the buyer's category in Positioning, or of the relationship), the end user's Profile is **deleted completely at once**, not hidden: what it holds (its name, notes, needs and answers) is removed from the Segment's saved answer, so nothing of it reaches the documents, the exports or the wire, and a later change back to Proxy starts a new, empty end user's Profile. The payer's Profile is untouched.
+**The exact age (A1), decided by the owner (2026-11-01).** When the Segment's age group changes, A1 is **cleared if its number falls outside the new group, and kept if it is still inside it**. A Profile of 21 stays when the Segment goes from Young adults (18–24) to a group that still holds 21 (or to none chosen), and is cleared when it goes to Peak (40–54). The cleared cell says why, in its placeholder: *"Age reset to match the Segment's age group. Enter a typical age from 40 to 54."* (not built yet; the range of the new group, both ages included (doc 35, Box 1, 1); for the last group, "75 or older"). Nothing else on the Profile is touched. **An end user's Profile (owner, 2026-11-01).** When the Segment stops being Proxy or Dual-Intent (a change of the buyer's category in Positioning, or of the relationship), the end user's Profile is **deleted completely at once**, not hidden: what it holds (its name, notes, needs and answers) is removed from the Segment's saved answer, so nothing of it reaches the documents, the exports or the wire, and a later change back to Proxy starts a new, empty end user's Profile. The payer's Profile is untouched.
 
 ### 2.3 The card's layout
 
@@ -189,7 +189,7 @@ A typical person of the Segment, asked specifically.
 - **Control:** one choice (a radio, or the existing picker where the list is long).
 - **Asked when:** the Segment's buyer is a business and its industry is answered.
 - **Options:** the level-2 list (doc 34, 5.4) of the Segment's industry, each with its example.
-- **The "i" would say:** The finer kind of business within the Segment's industry. If the customer fits another kind, that is another Profile.
+- **The "i" would say:** The finer kind of business within the Segment's industry. If the customer fits another kind, that is another Segment.
 - **Connections:**
   - *Comes from:* the Segment's sector and industry; the country's crosswalk (doc 34, 5.3).
   - *Read by (not built yet):* the industry pack's examples for this customer; competitor industry overlap.
@@ -219,7 +219,7 @@ A typical person of the Segment, asked specifically.
 
 **A6b. What is their primary functional limitation category?** Ticks. Asked when the needs are temporary or permanent. Options: Physical and mobility needs; Sensory needs; Cognitive and neurodivergent needs. *"i":* Motor coordination and fine motor limitations; visual impairments, hearing loss and sensory sensitivities; ADHD, autism and age-related slowing. Select all that apply, so that the later parts can adapt the accessibility of what you offer, digital and physical.
 
-**A6c. Do they balance high-intensity caregiving or family life roles?** One choice: No primary caregiving responsibilities; Yes, primary childcare provider; Yes, primary eldercare provider; Yes, specialised care provider; Yes, "Sandwich Generation" provider. *"i":* A parent or legal guardian of minors; aging parents or senior relatives; a spouse, sibling or child with permanent needs; balancing children and elders at once. The person mainly responsible for daily care and lifestyle choices; "Sandwich Generation" flags extreme time poverty across several generations of one household.
+**A6c. Do they balance high-intensity caregiving or family life roles?** One choice: No primary caregiving responsibilities; Yes, primary childcare provider; Yes, primary eldercare provider; Yes, specialised care provider; Yes, "Sandwich Generation" provider. *"i":* A parent or legal guardian of minors; ageing parents or senior relatives; a spouse, sibling or child with permanent needs; balancing children and elders at once. The person mainly responsible for daily care and lifestyle choices; "Sandwich Generation" flags extreme time poverty across several generations of one household.
 
 **A6d. What is their household or caregiving structure?** Ticks, up to 2. Asked when A6c is any "Yes". Options: Single-parent / Solo-caregiver household; Multigenerational household; Co-caregiver / Shared support. *"i":* Choose up to two. A multigenerational household shares care with the extended family; co-caregivers share the load with a partner or professional aides.
 
@@ -337,7 +337,8 @@ What the Segment cannot say: which devices, which social media, which communitie
 ### D1. How does this person compare options?
 
 - **Control:** ticks, as many as apply.
-- **Asked when:** always.
+- **Asked when:** unless the Segment buys "Straight away".
+- **Starting values:** "After comparing options" starts Online reviews / ratings; "On a recommendation" starts Word of mouth / referrals (the App User can change them).
 - **Options:**
   - Your website
   - Online reviews / ratings
@@ -376,7 +377,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 - **Options** (L25, doc 34): Weekday daytime; Evenings; Weekends; Around seasons / holidays.
 - **The "i" says:**
   - When they actually buy, not when they are free: the Segment's work schedule says when they work.
-  - Where and how they buy go in the Notes.
+  - How they buy, in their words, goes in the Notes.
 - **Connections:** *Read by:* the documents and the export. The habits Notes keep where and how they buy, in their words.
 
 ## 7. Box E. Motivations
@@ -386,7 +387,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 *Decided (owner, 2026-11-06): the goals list is unchanged: no Competence, no "Grow without adding staff", no "Look after someone else".*
 
 - **Control:** ticks, up to 3, then a rating of each ticked goal from "Minor" to "Main" (section 11, built 2026-11-04).
-- **Options:** the list L4 (doc 34, 5.2), without the four goals that repeat B1 (Save time, Save money, Lower risk, Get better results: B1's Speed, Lower price, Safety and low risk, Quality and results; owner, 2026-11-03):
+- **Options:** the list L4 (doc 34, 5.2), without the four goals that repeat B1 (Save time, Save money, Lower risk, Get better results: B1's Speed, Affordability, Safety / security, Quality; owner, 2026-11-03):
   - Accessibility
   - Development
   - Expression
@@ -405,7 +406,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 ### E2. What frustrates this person today?
 
 - **Control:** ticks, up to 3, then a rating of each ticked frustration from "Mild" to "Severe" (section 11, built 2026-11-04).
-- **Options:** the list L3 (doc 34, 5.2), ten frustrations:
+- **Options:** the list L3 (doc 34, 5.2), seven frustrations (three merged on 2026-11-06):
   - Cost (Unclear prices merged in)
   - Delays
   - Complexity (Poor support merged in)
@@ -456,7 +457,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 - A2's "i": "Asked only when the Segment's gender mix is not 3 (balanced); it starts from the mix. Change it freely." (was two points, the second "Nothing reads it but the note", an internal fact).
 - A1's "i": "One age within the Segment's age group: a typical person, not the average." and "If the Segment's age group changes and this age falls outside it, the age is cleared."
 - B1's "i": "Tick up to five things they weigh when choosing, then rate how much each matters." and "Write their interests, lifestyle and hopes in the note." (was "... stay in the note").
-- C3's and C4's "i": "Write the names of the groups / events in the note." (was "... stay in the note"); C4 "goes to" for "attends".
+- C3's and C4's "i": "Write the names of the groups / events in the note." (was "... stay in the note").
 - C4's options in sentence case after the slash: Market / pop-up, Trade fair / exhibition, Workshop / class, Talk / conference.
 - E3's "i": its start "where the Segment's household income is rated 1".
 - Every rated question's "i" now starts with what 1 and 5 mean ("1 = Optional, 5 = Essential."), the numbers standing over the rounds (doc 21, Rating Scale).
@@ -487,7 +488,7 @@ What the Segment cannot say: which devices, which social media, which communitie
 |---|---|---|
 | A3b job level | the Segment's customers are self-employed | Owner / partner (built: not asked; set, so the documents show it) |
 
-**Starting values the App User can change (owner, 2026-11-01).** D1 and D2 start from the Segment's path to purchase and online comfort (a Researcher: reviews; a Social validator: what other people recommend; Tech-savvy: they work it out themselves; Tech-averse: they want to talk to a person); D2 starts at a formal proposal where the Segment's decision includes a formal procurement loop; A2 starts from the Segment's gender mix when it leans (60 to 80%) or is mostly (80%+) one way, and stays visible; C1 as in 5. Impulse buyers skip D1. A5 starts with all five roles ticked where the Segment's "Who decides to buy?" includes "One person decides" (which is all it offers for a self-employed customer). **E3** starts with "The price / budget" ticked where the Segment's household income is Low, a starting value the App User can change without any validation in the way (owner, 2026-11-01).
+**Starting values the App User can change (owner, 2026-11-01).** D1 and D2 start from the Segment's path to purchase and online comfort ("After comparing options": Online reviews / ratings; "On a recommendation": Word of mouth / referrals; online comfort rated 4 or 5: Works it out alone; rated 1 or 2: Wants to talk to a person); D2 starts at a formal proposal where the Segment's decision includes a formal procurement loop; A2 starts from the Segment's gender mix when it leans (60 to 80%) or is mostly (80%+) one way, and stays visible; C1 as in 5. A Segment that buys "Straight away" skips D1. A5 starts with all five roles ticked where the Segment's "Who decides to buy?" includes "One person decides" (which is all it offers for a self-employed customer). **E3** starts with "Price" ticked where the Segment's household income is rated 1, a starting value the App User can change without any validation in the way (owner, 2026-11-01).
 
 **One list for the kinds of work.** A3 and the Segment's end-user question ("What kind of work do your end users do?") take the same nine groups, written once (`JOB_LEVELS`, `SegmentQuestions.ts`), so the words never differ between the two cards or the exports.
 
@@ -526,7 +527,7 @@ The owner asked (2026-11-03) whether the three Needs lists could be choices inst
 
 ## 11. Psychographics and Motivations ticked and rated (owner 2026-11-04; built 2026-11-04)
 
-The owner asked that B1 (Psychographics) and E1 to E3 (Motivations) use both ticks and the five rounds: the App User ticks what applies, then rates each ticked item (`RatingScaleGroup` with `selectable`, doc 21). The ids, the lists and the saved ticks stay; an existing tick starts unrated. **As built:** the ratings are kept as `<id>-rating`, one "option:point" each (`ProfileQuestions.ts`); an untick takes its rating with it; the documents and the exports print each tick with its rating, the highest first ("Speed (5/5); Lower price (3/5); Good support").
+The owner asked that B1 (Psychographics) and E1 to E3 (Motivations) use both ticks and the five rounds: the App User ticks what applies, then rates each ticked item (`RatingScaleGroup` with `selectable`, doc 21). The ids, the lists and the saved ticks stay; an existing tick starts unrated. **As built:** the ratings are kept as `<id>-rating`, one "option:point" each (`ProfileQuestions.ts`); an untick takes its rating with it; the documents and the exports print each tick with its rating, the highest first ("Speed (5/5); Affordability (3/5); Support").
 
 | Question | Ticks | Rating of each ticked item | Why these words |
 |---|---|---|---|
@@ -552,8 +553,7 @@ D2 ("How much help does this person want before buying?") stays one choice: its 
 
 **The rule.** With a rating, no limit is needed to rank: the rating does the ranking. A cap still keeps a Profile focused and readable, and a long list of ticks says less, not more. The scenarios need three to five for what matters (B1) and never more than three for goals, frustrations and worries, whose first items are what the Value Proposition and the Offering read. So: **B1 up to 5; E1, E2 and E3 up to 3**, the same in B2B and B2C (a corporate group's narrower Profiles simply tick fewer). **Decided (owner, 2026-11-04): "The limits are fine."** Five stays within the span a person can hold and compare at once, "somewhere in the neighborhood of seven" (Miller, 1956) [FUN-66]; a more involved buyer searches more (Zaichkowsky, 1985) [FUN-67], which is why a considered purchase needs more than the everyday three.
 
-**What the ratings feed.** Built: B1's ratings weigh the Competitor's K10 (doc 41). Not built yet:
-- B1 → the Competitor's K8: built (its rows ordered by the Profiles' highest rating, banded by how many tick each); in K10 the weight of each value is that rating (built).
+**What the ratings feed.** Built: B1's ratings weigh the Competitor's K10 (doc 41); B1 → the Competitor's K8 (its rows ordered by the Profiles' highest rating, banded by how many tick each). Not built yet:
 - B1 → the Value Proposition draft (doc 42): the value rated highest comes first.
 - E1 → the Value Proposition draft's gains, the goal rated highest first.
 - E2 → the Value Proposition draft's pains, the frustration rated highest first; the Review.

@@ -55,6 +55,7 @@ Read this before reviewing or changing anything on screen, and tick every line t
 1. **Words**: sentence case, no abbreviations that are not the app's, no bracketed hints in a dropdown option (the "i" says it), the same word for the same thing everywhere.
 2. **What it shows is what is stored**: change an answer and see every place that shows it change (the page, the Inventory, the calendar, the review, the documents).
 3. **A removed option**: what happens to old data that held it (cleared, said in the description, never lost silently).
+4. A change to a label, option or condition updates its "i" in the same commit (doc 39, 3.6).
 
 ## 7. Proof before "done"
 

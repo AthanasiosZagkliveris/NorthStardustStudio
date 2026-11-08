@@ -1,6 +1,6 @@
 # 39. The help texts: what an "i" says, by place and by field
 
-Status: **proposal**, written 2026-11-01, updated 2026-11-02. What the help texts of the app are (doc 22 counts them), what is written about them (little), and the structure for the "i" of each kind of place and field, with the standard phrases, the size budget and a way to check them. **Built:** the 160-character budget and the warnings in doc 22 (`tools/scripts/catalogue/help-texts-doc.mjs`); the rest applies when a field is next changed.
+Status: **specification**, decided 2026-11-01, built in part, written 2026-11-01, updated 2026-11-08. This document owns what an "i" says; doc 28, 4.1 owns how a question is worded. What the help texts of the app are (doc 22 counts them), what is written about them (little), and the structure for the "i" of each kind of place and field, with the standard phrases, the size budget and a way to check them. **Built:** the 160-character budget and the warnings in doc 22 (`tools/scripts/catalogue/help-texts-doc.mjs`); the rest applies when a field is next changed.
 
 Related: doc 22 (the generated list of every help text, from the running app), doc 28 (section 4, the plain wording, and 4.1, the rules for writing questions), docs 35, 37 and 38 (what the "i" of the Segment, the Organisation and Positioning say today), doc 21 (the `InfoNote` component), `docs/ai/layout-rules.md` (how the "i" looks and where it opens), `docs/specifications/business-system/page-1-foundation.md` (the owner's texts, which stay).
 
@@ -8,7 +8,7 @@ Related: doc 22 (the generated list of every help text, from the running app), d
 
 **There is no document on what an "i" should say.** What exists:
 
-- Doc 28, section 4: *"Every question has a one-line help under the "i" saying what the question is for. A connection that rests on evidence adds one evidence line"*, no jargon, speak to "you" and say "they" for the customer, one idea per question. Section 4.1 holds rules for writing the questions themselves.
+- Doc 28, section 4: no jargon, speak to "you" and say "they" for the customer, one idea per question; it said then that every question has a one-line help under the "i" and a connection that rests on evidence adds one evidence line, and it now points here for what an "i" says. Section 4.1 holds rules for writing the questions themselves.
 - The layout rules say how the "i" looks (the ring and the letter in the card's tint), where it stands (glued to the last word of its label, 6px after it) and where its panel opens (portaled to the dialog's overlay, so nothing clips it). They say nothing of its content.
 - The specifications hold the owner's texts (the column instructions, the prompts of a Description's boxes), with the rule *"must be used exactly as provided"*.
 - Doc 22 lists what the app draws, and counts it. It does not judge it.
