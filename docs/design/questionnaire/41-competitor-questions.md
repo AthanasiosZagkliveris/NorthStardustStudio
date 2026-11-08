@@ -49,7 +49,7 @@ Each question is asked inside the band of its box, above the box's text, and the
 | K5 reach | "How do they reach customers?" | not asked (no marketing to study) | not asked | not asked |
 | K6 reviews | "Where are they reviewed, and how are they rated?" | "Where is this alternative reviewed, and how is it rated?" | not asked | not asked |
 | K7 journey | "How easy do they make each stage for customers?" | "How easy does this alternative make each stage for customers?" | not asked | not asked |
-| K8 strengths / weaknesses | "How do they do on what customers value?" | "How does this alternative do on what customers value?" | "How does doing it themselves do on what customers value?" | "How does doing nothing do on what customers value?" |
+| K8 strengths / weaknesses | "How do they do on what matters most to your customers?" | "How does this alternative do on what matters most to your customers?" | "How does doing it themselves do on what matters most to your customers?" | "How does doing nothing do on what matters most to your customers?" |
 | K9 opportunities / threats | "How could each change affect them?" | "How could each change affect this alternative?" | "How could each change affect customers doing it themselves?" | "How could each change affect customers who do nothing?" |
 | K10 do differently | "What could you do differently?" | "What could you do differently?" (options say "this alternative") | "What could you do differently?" | "What could you do differently?" |
 
@@ -74,6 +74,10 @@ This follows the type rules already built for the text boxes: a substitute has n
 
 ## Box. Market
 
+**The box's prompt (its "i"):** "Where do they sell, how big are they, and are they growing?", what K2 to K4 ask (owner, 2026-11-08, S10; it said "Which areas and industries do they serve?", which promised industries no question asks).
+
+**One term per subject (owner, 2026-11-08, P10):** on the Competitor card "they" is the competitor only; the App User's customers are "your customers" (K8: "How do they do on what matters most to your customers?", the same phrase as B1 and O4 for the one list L1).
+
 ### K2. Where do they sell?
 
 - **Control:** one choice (a radio), inside the Market band, above the Market text box, which is kept as the note.
@@ -86,7 +90,7 @@ This follows the type rules already built for the text boxes: a substitute has n
   - In several countries
   - Anywhere online
 - **The "i" says:**
-  - The widest area they sell in. Write the industries they serve in the note.
+  - The widest area they sell in. Write the places by name in the note. (It said "Write the industries they serve" until 2026-11-08: the card asks no industry.)
 - **Connections:**
   - *Comes from:* the Segment's list of options, in its fixed order.
   - *Read by (not built yet):* the Review (a competitor selling wider than your Segment reaches).
@@ -192,15 +196,15 @@ For Internal solution and Status quo the box stays text only: it asks about the 
 
 ## Band. Strengths and Weaknesses
 
-### K8. How do they do on what customers value?
+### K8. How do they do on what matters most to your customers?
 
 - **Control:** a rating group (`RatingScaleGroup`): one row per value, rated 1 (weak) to 5 (strong); one band across Strengths and Weaknesses, with one Notes under it (owner, 2026-11-05), what no rating says, kept under `strengths`. A row left unrated is unanswered (no "Not sure").
 - **Asked when:** always.
 - **Wording by type:**
-  - Direct competitor, Indirect competitor: "How do they do on what customers value?"
-  - Substitute: "How does this alternative do on what customers value?"
-  - Internal solution: "How does doing it themselves do on what customers value?"
-  - Status quo: "How does doing nothing do on what customers value?" For example, Affordability can be a 5, because doing nothing is free. (doc only)
+  - Direct competitor, Indirect competitor: "How do they do on what matters most to your customers?"
+  - Substitute: "How does this alternative do on what matters most to your customers?"
+  - Internal solution: "How does doing it themselves do on what matters most to your customers?"
+  - Status quo: "How does doing nothing do on what matters most to your customers?" For example, Affordability can be a 5, because doing nothing is free. (doc only)
 - **Rows:** every value of L1 (owner, 2026-11-04: "place all the options, but in a hierarchy order depending on the profiles what matters most. Also, highlight the options according to the profile"): ordered by the highest B1 rating among the Segment's Profiles (Essential first), then by how many Profiles tick it, then L1's order (`competitorValueRows`). Each row a Profile ticks carries a band of one colour whose step is only the number of Profiles that chose it, not their ratings (owner, 2026-11-04): 1 Profile the lightest, then 2, 3, and 4 or more the darkest (`bandTone`, `valueProfiles`; the tokens `--tint-importance-1` to `-4`, doc 21). With one Profile in the Segment every chosen row has the same light band; an unchosen row has none. No Other. The list L1:
   - Affordability
   - Speed

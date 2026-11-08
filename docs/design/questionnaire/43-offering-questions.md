@@ -23,6 +23,8 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Saved text of the boxes is kept: it is the Notes. A question no longer asked, or an option no longer offered, loses its answer; a starting value (O2, O4, O6) shows until that field is changed (another answer does not fix it), and the Business Plan, the export and the Value Proposition read it too (built 2026-11-08).
   - The Business Plan's Offerings table reads "What it does" from the Function Notes, else the form (O1), and "Customer benefit" from the Customer Benefit Notes, else what it does best (O4); the export prints every answer with its question.
 
+**One term per subject (owner, 2026-11-08, P10):** the card says "your customers" for the customers everywhere (O2, O4, O6, O10, the "i" of O16 and O18), never "the customer" or a bare "customers"; the legal rules quoted in O18's "i" keep their own words ("a consumer").
+
 **The rules of the card** are the Segment's (doc 35):
 - A radio is one choice; ticks are several, with the limit shown.
 - An example goes in the "i".
@@ -53,7 +55,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - *Read by (built, 2026-11-07):* O6's starting value; the Value Proposition draft (doc 42).
   - *Read by (not built yet):* the goods and service options of pages 2 and 3 (doc 28, 11.7: without a physical item, Physical Delivery and the delivery costs are hidden, not deleted).
 
-### O2. Can customers buy it today?
+### O2. Can your customers buy it today?
 
 - **Control:** one choice (a radio).
 - **Asked when:** always.
@@ -104,7 +106,9 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **The "i" says:** When the money comes in. How they pay (card, invoice) is the Segment's question.
 - **Connections:** *Read by (not built yet):* the Revenue stream's cash timing (doc 28, 10.2).
 
-### O4. What does it do best for the customer?
+### O4. Which of what matters most to your customers does it do best?
+
+*Worded on 2026-11-08 (owner, P10) as one phrase with B1 ("What matters most to this person?") and K8 ("How do they do on what matters most to your customers?"), the three questions of list L1; it read "What does it do best for the customer?". The "i" keeps "The first you tick is the main benefit."*
 
 - **Control:** ticks, up to 3. The first ticked is the main benefit.
 - **Asked when:** always.
@@ -128,7 +132,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - *Read by (built, 2026-11-07):* the Value Proposition draft and its open items (doc 42). The open item "Unwanted benefit" reads only the ticks the App User saved, never the starting ticks (owner, 2026-11-08).
   - *Read by (not built yet):* the Review (doc 28, 11.5, rules 21 and 22: against the Profiles' B1 and the Competitors' K8).
 
-### O6. How does the customer receive it?
+### O6. How do your customers receive it?
 
 - **Control:** one choice (a radio).
 - **Asked when:** always.
@@ -212,7 +216,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - Saved answers: the Profiles' typed functional needs stay as their Notes; an Offering's "needs addressed" that matched a typed line is kept until the App User ticks again.
 - Not built: it changes the Profile's and the Offering's code.
 
-### O10. What does the customer need to give you?
+### O10. What do your customers need to give you?
 
 *"A minimum commitment / term" and "Payment upfront" left the list (owner, 2026-11-07: "fix and optimise the cards, avoid overlapping and repetition"): they are payment terms (O3, Purchase & Delivery). Six options remain.*
 
@@ -262,7 +266,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Asked when:** always.
 - **Options** (L22): The same day; Within one working day; Within a few days; No set time.
 - **The "i" says:**
-  - How soon a customer hears back. The channels are on the Customer Engagement page.
+  - How soon your customers hear back. The channels are on the Customer Engagement page.
 - **Connections:** *Read by:* the export.
 
 ### O17. What comes after the sale?
@@ -283,7 +287,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Asked when:** always.
 - **Options** (L24): A minimum order; Trade / account only; Non-refundable once made (unless faulty); Notice to cancel; A booking / cancellation fee.
 - **The "i" says** (built 2026-11-08, the options-and-wording research: only the Organisation's country's rule, `offeringInfo`, the country from the Organisation tile through `OfferingContext.country`):
-  - The terms a customer agrees to.
+  - The terms your customers agree to.
   - The country's rule, one of:
     - **United Kingdom (GB):** "In the UK, a consumer can cancel most online, phone and doorstep sales within 14 days (goods: from delivery; services: from the contract)." Then "Not covered: goods made to their specification or personalised, perishable goods, and leisure, catering or accommodation booked for a set date."
     - **Ireland (IE):** the same, beginning "In Ireland and the EU, …".

@@ -113,7 +113,8 @@ export const SUBSECTIONS = {
         // specification's, word for word.
         description: [
             { id: "offerings", title: "Offerings", text: "What do they sell or provide?" },
-            { id: "market", title: "Market", text: "Which areas and industries do they serve?" },
+            // K2 to K4 (owner, 2026-11-08, S10): the box asks where they sell, how big they are and whether they are growing; it no longer promises industries.
+            { id: "market", title: "Market", text: "Where do they sell, how big are they, and are they growing?" },
             // "and attract" dropped (2026-11-06): the box asks only where they reach customers (K5), since the attract question went (doc 41).
             { id: "acquisition", title: "Customer Acquisition", text: "How do they reach customers?" },
             { id: "experience", title: "Customer Experience", text: "What do customers say about their experience?" }

@@ -115,7 +115,7 @@ describe("O2, O3, O10 and O18 from the research (2026-11-08)", () => {
 
     it("says only the Organisation country's cancellation rule in O18's \"i\"", () => {
         const info = (country?: string) => offeringInfo("o18", { type: "Service", country });
-        expect(info()).toEqual(["The terms a customer agrees to.", "Cancellation rights differ by country; check the rules where you sell.", "A legal minimum age is not ticked here: write an age limit in the Notes."]);
+        expect(info()).toEqual(["The terms your customers agree to.", "Cancellation rights differ by country; check the rules where you sell.", "A legal minimum age is not ticked here: write an age limit in the Notes."]);
         expect(info("DE")).toEqual(info());
         expect(info("GB")[1]).toMatch(/^In the UK, a consumer can cancel/);
         expect(info("GB")[2]).toMatch(/^Not covered: goods made to their specification/);
@@ -128,7 +128,7 @@ describe("O2, O3, O10 and O18 from the research (2026-11-08)", () => {
         expect(info("NZ")[1]).toMatch(/5 working days/);
         for (const country of ["GB", "IE", "US", "CA", "AU", "NZ"]) {
             const lines = info(country);
-            expect(lines[0]).toBe("The terms a customer agrees to.");
+            expect(lines[0]).toBe("The terms your customers agree to.");
             expect(lines).toContain("A legal minimum age is not ticked here: write an age limit in the Notes.");
             expect(lines[lines.length - 1]).toMatch(/^Based on: /);
             for (const line of lines) {

@@ -47,7 +47,7 @@ describe("what each type of competitor is asked (doc 41)", () => {
         expect(competitorWording("direct", "k1")).toBe("What do they offer?");
         expect(competitorWording("indirect", "k1")).toBe("What do they offer?");
         expect(competitorWording("substitutes", "k1")).toBe("What form does this alternative take?");
-        expect(competitorWording("internal", "k8")).toBe("How does doing it themselves do on what customers value?");
+        expect(competitorWording("internal", "k8")).toBe("How does doing it themselves do on what matters most to your customers?");
         expect(competitorWording("status-quo", "k9")).toBe("How could each change affect customers who do nothing?");
     });
 

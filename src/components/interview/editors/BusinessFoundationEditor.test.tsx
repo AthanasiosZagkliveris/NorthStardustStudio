@@ -344,12 +344,12 @@ describe("BusinessFoundationEditor's Offering card order", () => {
         const at = (text: string) => benefit.findIndex(band => band.includes(text));
         expect(at("Functional Needs Addressed")).toBeGreaterThan(0);
         expect(at("Functional Needs Addressed")).toBeLessThan(at("Which of their worries does it answer?"));
-        expect(at("Which of their worries does it answer?")).toBeLessThan(at("What does it do best"));
+        expect(at("Which of their worries does it answer?")).toBeLessThan(at("Which of what matters most to your customers does it do best?"));
         const fn = labels(boxOf("Function"));
         expect(fn.some(band => band.includes("What form does it take?"))).toBe(true);
-        expect(fn.some(band => band.includes("Can customers buy it today?"))).toBe(false);
+        expect(fn.some(band => band.includes("Can your customers buy it today?"))).toBe(false);
         const delivery = labels(boxOf("Purchase & Delivery"));
-        expect(delivery.findIndex(band => band.includes("Can customers buy it today?"))).toBe(1);
+        expect(delivery.findIndex(band => band.includes("Can your customers buy it today?"))).toBe(1);
         expect(delivery.findIndex(band => band.includes("How long until they have it?"))).toBeLessThan(delivery.findIndex(band => band.includes("receive it?")));
     });
 

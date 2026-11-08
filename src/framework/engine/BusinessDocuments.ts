@@ -1,4 +1,4 @@
-import { offeringAnswerLines } from "./OfferingQuestions.ts";
+import { OFFERING_QUESTIONS, offeringAnswerLines } from "./OfferingQuestions.ts";
 import { workspacesOf, WORKSPACE_GROUP_ID } from "./AnswerUtils.ts";
 import { activitiesLine, positioningDocumentTitle } from "./ActivityClassification.ts";
 import { stageOf } from "./BusinessStage.ts";
@@ -863,8 +863,8 @@ function offeringBlocks(f: Foundation): ExportBlock[] {
                 return [
                     // What it does and its benefit: the Notes, else the answers (owner, 2026-11-07: the Notes are optional), O1's form and O4's values.
                     offering.name, offering.category,
-                    (offering.description.function ?? "").trim() || lines.find(line => line.label === "What form does it take?")?.value || "",
-                    (offering.description.benefit ?? "").trim() || lines.find(line => line.label === "What does it do best for the customer?")?.value || "",
+                    (offering.description.function ?? "").trim() || lines.find(line => line.label === OFFERING_QUESTIONS.find(question => question.id === "o1")?.label)?.value || "",
+                    (offering.description.benefit ?? "").trim() || lines.find(line => line.label === OFFERING_QUESTIONS.find(question => question.id === "o4")?.label)?.value || "",
                     priceText(stream, f.format), stream ? revenueModelLabel(stream) : ""
                 ];
             }))

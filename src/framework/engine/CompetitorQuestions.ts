@@ -44,10 +44,11 @@ const WORDING: Record<CompetitorQuestionId, Partial<Record<TypeId, string>> & { 
     k6: { direct: "Where are they reviewed, and how are they rated?", substitutes: "Where is this alternative reviewed, and how is it rated?" },
     k7: { direct: "How easy do they make each stage for customers?", substitutes: "How easy does this alternative make each stage for customers?" },
     k8: {
-        direct: "How do they do on what customers value?",
-        substitutes: "How does this alternative do on what customers value?",
-        internal: "How does doing it themselves do on what customers value?",
-        "status-quo": "How does doing nothing do on what customers value?"
+        // One phrase for the parallel questions of list L1 (owner, 2026-11-08, P10): B1 "What matters most to this person?", K8, O4.
+        direct: "How do they do on what matters most to your customers?",
+        substitutes: "How does this alternative do on what matters most to your customers?",
+        internal: "How does doing it themselves do on what matters most to your customers?",
+        "status-quo": "How does doing nothing do on what matters most to your customers?"
     },
     k9: {
         direct: "How could each change affect them?",
@@ -77,7 +78,7 @@ export const COMPETITOR_RATINGS = {
 /** What each question's "i" says (doc 41). */
 export const COMPETITOR_INFO: Record<CompetitorQuestionId, readonly string[]> = {
     k1: ["The kinds the app uses for Offerings. A product and a service sold together is a Hybrid."],
-    k2: ["The widest area they sell in. Write the industries they serve in the note."],
+    k2: ["The widest area they sell in. Write the places by name in the note."],
     k3: ["The EU's sizes, as on your Segment. A sole trader is Micro."],
     k4: ["From what you can see: more branches, staff, products or reviews, or fewer."],
     k5: [

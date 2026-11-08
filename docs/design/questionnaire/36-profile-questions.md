@@ -280,6 +280,8 @@ A typical person of the Segment, asked specifically.
 
 ### B1. What matters most to this person?
 
+*One phrase for the three questions of list L1 (owner, 2026-11-08, P10): B1, the Competitor's K8 ("How do they do on what matters most to your customers?") and the Offering's O4 ("Which of what matters most to your customers does it do best?").*
+
 - **Control:** ticks, up to 5, then a rating of each ticked value from "Optional" to "Essential" (`RatingScaleGroup`, `selectable`; section 11, built 2026-11-04).
 - **Asked when:** always.
 - **Options:** the list L1 (doc 34, 5.2):

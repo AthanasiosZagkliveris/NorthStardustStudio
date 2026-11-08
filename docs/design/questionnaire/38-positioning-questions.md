@@ -111,7 +111,7 @@ Related: doc 37 (the Organisation tile, whose Opening Date sets the stage), doc 
 
 ### 9. Outcome for the buyer (moved to the Offering, owner, 2026-11-08)
 
-- **Where it is now:** the Offering's O4 ("What does it do best for the customer?") is its one owner (doc 43); no question asks it twice. Each of its four options already has its value in O4's list through the crosswalk (doc 34, 5.2a: Lower costs → Affordability; Time saved → Speed, Convenience; Legal & data-protection cover → Safety / security, Reputation; Higher quality & prestige → Quality, Values), so O4 needed no new option.
+- **Where it is now:** the Offering's O4 ("Which of what matters most to your customers does it do best?") is its one owner (doc 43); no question asks it twice. Each of its four options already has its value in O4's list through the crosswalk (doc 34, 5.2a: Lower costs → Affordability; Time saved → Speed, Convenience; Legal & data-protection cover → Safety / security, Reputation; Higher quality & prestige → Quality, Values), so O4 needed no new option.
 - **The saved answer:** `organisation.outcome` stays readable; it starts O4's ticks after the Differentiation's (up to three), until the Offering saves its own.
 
 ### 10. Outcome for the end user (moved to the Segment, owner, 2026-11-08)
