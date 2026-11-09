@@ -740,9 +740,12 @@ table.business-relationship-table {
 
 }
 
+/* A Metric's Baseline and Target fill their column and ask nothing of it (no width of their own while the columns are sized): the pickers size the columns (08-strategy-roadmap.css, "Metric fields -- pairing"). */
 :is(.strategy-theme-dialog, .strategy-goal-card) .strategy-metric-box:not(.strategy-initiatives-box) .strategy-metric-field > .interview-input {
 
-    width: 100%;
+    width: 0;
+
+    min-width: 100%;
 
 }
 

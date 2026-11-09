@@ -504,6 +504,18 @@ Today: the chapter titles of 3. Infrastructure & Capability (right of the title 
   Metric box ends where that column needs it, and its name and
   description boxes end with it. (Every card's own x stays at its own
   12px side margin: a Goal's x is not moved in to its Objectives'.)
+- **A Metric's two rows of figures** (Frequency | Unit, Baseline | Target,
+  `.strategy-metric-fields`: every Metric, in a Theme's dialog and in a
+  Goal's floating card): two columns sized by their content (owner,
+  2026-11-09). Each column is at least as wide as its widest picker needs
+  for its longest option (the Frequency's "Semiannually"; the Unit's
+  "Percentage", with the currency picker beside a Currency Unit), and what
+  the row has over is shared between the two (`repeat(2, auto)`). Every
+  control fills its column (the closed set's "its column"), so the
+  Baseline stands under the Frequency at its width and the Target under
+  the Unit; the number cells ask nothing of the columns (`width: 0;
+  min-width: 100%`). Where the row is narrower than its pickers need, the
+  columns give way from equal shares.
 - **Segment card** (Business Foundation, the page as tiles): a Segment is a frame of four tiles, two by two (Segment Description, Value Proposition, Competitors, Offerings); its Description opens in a dialog and a Profile, a Competitor or an Offering floats over it. The Description is laid out as the Positioning card is: two equal columns with a 1px divider between, each box a title band on the primary fill, each question a band under it (every other one tinted), the shared double rule between one box and the next, one column under 900px; the boxes are shared between the columns by their height. A Segment of businesses has Business Data (before Geographics) and no Demographics; where Positioning chose both B2C and B2B the first two Segments are made automatically (people, then businesses). Profiles are a section under the boxes: the shared double rule, a title band in the boxes' style, the Profile tiles in a band under it. The questions and their layout are in doc 35; the Profile card, a floating card of questions, is in `docs/ai/tile-and-card-pattern.md`. A Segment is added with "+ Add Segment". **The frame's title** (the Segment's name, typed in place: `SegmentName`) is a title as every tile title is (section 9, "Tile title" and the slide under it): one line cut by an ellipsis, the full name its tooltip, sliding to its end under the pointer and back on leave (`useTitleSlide`; still while it is typed in, home again when left); it ends 12px before the x and never under it (the head's padding on both sides: the x's 4px, its 32px and the 12px gap, so the title stays centred) (owner, 2026-11-09).
 - **Competitor and Offering cards**: the Type field is a row of the head
   under the name, set against the name box's RIGHT edge: the picker's
