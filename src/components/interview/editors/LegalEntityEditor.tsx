@@ -297,9 +297,11 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
                                     circles: expenseCircles(["formation-registration-number", ...entity.formation.additionalNumbers.map(number => number.id), "tax-consumption-number", ...entity.tax.additionalRegistrations.map(registration => registration.id)]),
                                     content: () => (
                                         <div className="legal-entity-body legal-entity-subview">
-                                            {section2}
-                                            <div className="business-capability-card-rule legal-entity-org-rule" role="separator" />
-                                            {section3}
+                                            {/* In bands (owner, 2026-11-09: one style for every card of the Foundation): the registry's numbers, then the tax's, tinted. */}
+                                            <div className="legal-entity-audience legal-entity-bands">
+                                                <div className="legal-entity-org-section">{section2}</div>
+                                                <div className="legal-entity-org-section legal-entity-org-band">{section3}</div>
+                                            </div>
                                         </div>
                                     )
                                 },

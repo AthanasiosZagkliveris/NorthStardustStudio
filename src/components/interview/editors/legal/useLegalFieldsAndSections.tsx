@@ -708,7 +708,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                 asked what capital means.
             */}
             {/* ONE STYLE FOR EVERY CARD OF THE FOUNDATION (owner, 2026-11-09): the dialog's parts in bands, as the Organisation's fields: the capital's tick untinted, the owners' table tinted, the totals untinted. */}
-            <div className="legal-entity-audience legal-entity-founders-bands">
+            <div className="legal-entity-audience legal-entity-bands">
             <div className="legal-entity-org-section">
             <div className="legal-entity-switch-row">
 
