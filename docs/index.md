@@ -76,6 +76,7 @@ Status: **index**, updated 2026-11-09, written by `npm run docs:index` (the subj
 - **Pop-ups**: [23](design/current/23-popups.md)
 - **Positioning**: [38 (the tile as built)](design/questionnaire/38-positioning-questions.md); [28 section 8.2](design/questionnaire/28-questionnaire-specification.md); [31](design/questionnaire/31-positioning-categories.md)
 - **Profile card**: [36 (as built)](design/questionnaire/36-profile-questions.md); [28 section 6.4](design/questionnaire/28-questionnaire-specification.md)
+- **Purpose & Beliefs (Mission, Vision, Values, Principles, Philosophy, Manifesto)**: [45 (proposal)](design/questionnaire/45-purpose-and-beliefs-questions.md); [28 section 8.1](design/questionnaire/28-questionnaire-specification.md)
 - **Purposes of an offering**: [31 sections 7 and 10.4](design/questionnaire/31-positioning-categories.md)
 ## Q
 
