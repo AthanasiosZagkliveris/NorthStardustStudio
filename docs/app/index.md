@@ -33,7 +33,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Capability (founders) | Identity › 2 Legal Entity › Capability | Doc 28, 9; doc 26 |
 | Capability Generator | Organisations (home) › the Capability Generator button; an unfinished page (a text box, and "Analyse Capability" does nothing yet) | `contents.md` |
 | Capital & Funding | Business › 4 Financial Foundation › Capital & Funding | Page 4 |
-| Card notes | Header › Notes › Card notes | `contents.md` |
+| Card notes | Header › Workbook › Notes › Card notes | `contents.md` |
 | Channel Fee Table | Global Settings › Channel Fee Table | Doc 1, Part D 6 |
 | Channels | Business › 2 Customer Engagement › Customer Channel | Page 2, section 1 |
 | Colours | Brand › Brand System › Style | Doc 1, B.1 |
@@ -74,14 +74,14 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Glossary | Header › Glossary (`/glossary`): the app's terms and yours, in two colours, with a funnel of the two kinds and a funnel by letter range (about twenty terms a range, 2026-11-05); the second tab is References, with a funnel by letter range (A–I, K–Z) | Doc 1, C.2; doc 2, 2.1 |
+| Glossary | Header › Workbook › Glossary, and the Glossary page (`/glossary`, from the Workbook's References link, the Landing page and Search): the app's terms and yours, in two colours, under ONE funnel of the two kinds and the letter ranges (about twenty terms a range; one funnel since 2026-11-09); the second tab is References, with a funnel by letter range (A–I, K–Z) | Doc 1, C.2; doc 2, 2.1 |
 | Global Settings | Header › Settings (`/settings`) | Doc 28, 8.2a; doc 1, Part D 6; `contents.md` |
 
 ## H
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Header | Every page with an Organisation open: save status, reading mode, Focus, Search, Notes, Review, Settings | `contents.md` |
+| Header | Every page with an Organisation open: save status, reading mode, Focus, Search, Workbook (Notes, Review, Glossary), Settings; the Landing page: reading mode, Reload, Review (every organisation), Glossary | `contents.md` |
 | Help tile | Business › 3 Infrastructure & Capability › the footer band: Inventory and Completed | Page 3; doc 1, C.5 |
 
 ## I
@@ -110,7 +110,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Notes | Header (the user's own notes, and Card notes) | `contents.md` |
+| Notes | Header › Workbook › Notes (the user's own notes, and Card notes) | `contents.md` |
 
 ## O
 
@@ -137,11 +137,11 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Item | Where in the app | Described in |
 |---|---|---|
 | Reading mode | Header: light, sepia, dark, auto | Doc 1, B.2 |
-| References | Header › Glossary › References: every source the app cites, as a Harvard reference list; the "i" notes cite the same references | Doc 2, 2.1 and 2.2 |
+| References | Header › Workbook › Glossary › References (the Glossary page's second tab): every source the app cites, as a Harvard reference list; the "i" notes cite the same references | Doc 2, 2.1 and 2.2 |
 | Registrations | Identity › 2 Legal Entity › Registrations | Doc 26 |
 | Resources | Business › 3 Infrastructure & Capability (both cards) | Page 3 |
 | Revenue | Business › 5 Sustainability › Revenue | Page 5 |
-| Review | Header (`/review`): Still open, Worth a second look, Key dates, Missing from the documents; on the Organisations screen, every organisation | Doc 1, C.2 |
+| Review | Header › Workbook › Review, and the Review page (`/review`): Still open, Worth a second look, Key dates, Missing from the documents; on the Organisations screen, every organisation | Doc 1, C.2 |
 | Roadmap | Strategy › Situation & Direction › Strategic Period (the Roadmap tile) | Doc 1, B.1 |
 
 ## S
@@ -172,3 +172,4 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Value Proposition | Business › 1 Foundation › Value Proposition | Doc 42; doc 28, 6.7; page 1 |
 | Values | Identity › 1 Definition and Ethics › Ethics | Doc 1, B.1 |
 | Vision | Identity › 1 Definition and Ethics › Definition | Doc 1, B.1 |
+| Workbook | Header, wherever an Organisation is open (2026-11-09): one button with the Review's count, opening the panel on the right with three tabs, Notes, Review and Glossary; Escape or its arrow closes it | `contents.md` |

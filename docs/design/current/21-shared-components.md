@@ -1,6 +1,6 @@
 # 21. Shared components: which are shared, which are not
 
-Status: **current design**, written 2026-10-17, updated 2026-11-04, checked against the code (`src/components/controls/`, `src/components/interview/`). Which component draws each kind of control, card, tile and field, and what is still hand-made.
+Status: **current design**, written 2026-10-17, updated 2026-11-09, checked against the code (`src/components/controls/`, `src/components/interview/`). Which component draws each kind of control, card, tile and field, and what is still hand-made.
 
 The aim of the owner: all similar things share ONE component, and no place draws its own markup for them (rule 22.24 of `docs/ai/layout-rules.md`). A place passes a class that says only where the thing stands and how wide it is; the look and the reactions belong to the component. The looks of the library agree with the app (`15-library-vs-app.md`).
 
@@ -130,6 +130,8 @@ A rating beats ticks where a thing has degrees and the middle counts (a value do
 | `CardHead`, `NameCell`, `CardShell` | `interview/cards/` | The head of a folding card (fold arrow, number, mark, name, actions, summary), the name in it (asked, a link, or text), and the outer box of every card and section panel. |
 | `BusinessCard` | `interview/cards/BusinessCardFields.tsx` | The shared card; with `legal` it draws the Legal Entity page's requirement, expense and founder cards (the CSS of the two stays separate on purpose: merging it moved the number and the glass ground). |
 | `Tile`, `TileGrid`, `TileParts` | `interview/tiles/` | Every tile, every tile grid (the Inventory's is `bare`), and the shared parts: links layer, "+", hover origin. `CardBoxes` gives its grid the one shape (`gridColumns`: 1 to 3 in a row, 4 as 2 x 2, 5 or more in two rows) unless it is `threeAcross`; `SubTiles` keeps a tile's list clear of its "+" and circles and takes a title with a forced break (2026-11-09). |
+| `OrganizationReview`, `GlossaryList` | `components/` | One Organisation's Review (its four groups by Capability, each item with "Go there": `goToReviewPlace`) and the Glossary's A to Z list under its ONE funnel (the kinds, then the letter ranges): each drawn once, on its page (`/review`, `/glossary`) and in the Workbook panel's Review and Glossary tabs (2026-11-09). |
+| `WorkbookButton`, `NotepadPanel` | `components/notepad/Notepad.tsx` | The header's one tool for the Notes, the Review and the Glossary (with the Review's count, `useReviewCount`), and its panel with a `TabList` of the three (2026-11-09). |
 | `FieldRow`, `FieldHead` | `interview/fields/FieldRow.tsx` | A label with its control as a cell of the Legal Entity grid; `FieldHead` draws the label with "i", mark and status line for the Business fields too. |
 | `DatePopup`, `CalendarIcon`, `ListStatic` | `interview/fields/` | The popup of the date cell and the month picker (`useDatePopup`); the calendar symbol that takes the place of the dropdown arrow in a date cell (`DateCellInput`, `MonthYearPicker`); the read-only numbered or bulleted list. |
 

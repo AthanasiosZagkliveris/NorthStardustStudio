@@ -1,6 +1,7 @@
 /* ==========================================================
-   The Notepad (Notepad.tsx): the header's Notes button, the panel
-   on the right, the links as chips, and picking a field.
+   The Workbook (Notepad.tsx): the header's Workbook button, the panel
+   on the right with its three tabs (Notes, Review, Glossary), the
+   notes' links as chips, and picking a field.
 
    The panel lies between the header (80px) and the footer (64px),
    as the Organization rail does on the left, and slides in from the
@@ -8,7 +9,8 @@
 ========================================================== */
 
 :root {
-    --notepad-width: 360px;
+    /* One width step (L, --control-l) since the Workbook holds the Review and the Glossary too: their lines and its three tabs need it. */
+    --notepad-width: var(--control-l);
 }
 
 /* ---------- The panel ---------- */

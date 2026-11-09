@@ -5,22 +5,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { OrganizationService } from "../services/OrganizationService";
 
 /**
- * The header's Review button, beside Notes and like it: an icon and a
- * word (the icon alone in a narrow header), and how many items are
- * still open or worth a second look -- no count when there are none.
- * It opens the Review page, remembering where it was opened from so
- * Back and Escape return there; on the Review page it does nothing.
- *
- * The count reads every Foundation answer, so it is worked out after
- * the page has drawn, and the module that works it out is loaded then
- * too, never with the page that shows the button.
- *
- * On the Landing page (`total`) no Organization is open: the button
- * opens the review of every Organization, and has no count.
+ * How many items of the open Organisation are still open or worth a second look (null until worked out, and with no Organisation
+ * open or for the total review). The count reads every Foundation answer, so it is worked out after the page has drawn, and the
+ * module that works it out is loaded then too, never with the page that shows the button. The Workbook button shows it too.
  */
-export default function ReviewButton({ total = false }: { total?: boolean }) {
+export function useReviewCount(total = false): number | null {
 
-    const navigate = useNavigate();
     const location = useLocation();
     const [count, setCount] = useState<number | null>(null);
 
@@ -44,6 +34,21 @@ export default function ReviewButton({ total = false }: { total?: boolean }) {
             window.clearTimeout(timer);
         };
     }, [location.key, total]);
+
+    return count;
+
+}
+
+/**
+ * The Landing page's Review button (the header's tools of an open Organisation are in the Workbook since 2026-11-09): an icon and a
+ * word (the icon alone in a narrow header). No Organisation is open there (`total`): it opens the review of every Organisation, and
+ * has no count. It remembers where it was opened from so Back and Escape return there; on the Review page it does nothing.
+ */
+export default function ReviewButton({ total = false }: { total?: boolean }) {
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    const count = useReviewCount(total);
 
     const words = count ? count + (count === 1 ? " item" : " items") + " to look at" : "nothing open";
 

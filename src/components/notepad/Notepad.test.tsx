@@ -7,7 +7,7 @@ import { OrganizationService } from "../../services/OrganizationService";
 import { clearFieldRegistry } from "../../framework/engine/FieldKeys";
 import { BusinessField } from "../interview/cards/BusinessCardFields";
 import { FieldPageProvider } from "../interview/fields/fieldMarks";
-import { NotepadButton, NotepadPanel, NotepadPicker, linkFor, noteMomentText, noteTodayText } from "./Notepad";
+import { WorkbookButton, NotepadPanel, NotepadPicker, linkFor, noteMomentText, noteTodayText } from "./Notepad";
 import { findPlaces, linkAvailable } from "./notepadPlaces";
 import { UndoService } from "../../services/UndoService";
 import { stylesheet } from "../../test/stylesheet";
@@ -89,7 +89,7 @@ describe("the notepad on the page", () => {
     function page(organizationId: string) {
         return render(
             <MemoryRouter>
-                <NotepadButton />
+                <WorkbookButton />
                 <NotepadPanel />
                 <NotepadPicker />
                 <FieldPageProvider organizationId={organizationId} systemNumber={3} sectionNumber={1} pageTitle="1. Foundation">
@@ -111,12 +111,12 @@ describe("the notepad on the page", () => {
         NotepadService.addNote();
         page(organization.id);
 
-        const button = screen.getByRole("button", { name: "Notes, 1 note" });
+        const button = screen.getByRole("button", { name: /^Workbook/ });
         act(() => { fireEvent.click(button); });
-        expect(screen.getByRole("complementary", { name: "Notes" })).toBeTruthy();
+        expect(screen.getByRole("complementary", { name: "Workbook" })).toBeTruthy();
 
         act(() => { fireEvent.keyDown(window, { key: "Escape" }); });
-        expect(screen.queryByRole("complementary", { name: "Notes" })).toBeNull();
+        expect(screen.queryByRole("complementary", { name: "Workbook" })).toBeNull();
     });
 
     it("deletes a note at once and offers it back, where it was, with its id, text and links", () => {
@@ -129,7 +129,7 @@ describe("the notepad on the page", () => {
         NotepadService.setText(newer, "Check the market size");
         NotepadService.addNote(organization.id);
         page(organization.id);
-        act(() => { fireEvent.click(screen.getByRole("button", { name: /^Notes, 3 notes/ })); });
+        act(() => { fireEvent.click(screen.getByRole("button", { name: /^Workbook/ })); });
 
         // An empty note just goes.
         act(() => { fireEvent.click(screen.getAllByRole("button", { name: "Delete note" })[0]); });
@@ -343,12 +343,31 @@ describe("the Notepad panel", () => {
     it("stays open when the page is clicked (fields are linked by clicking them)", () => {
         const organization = OrganizationService.create("Lumen");
         OrganizationService.setSelected(organization.id);
-        render(<MemoryRouter><NotepadButton /><NotepadPanel /><p>Page</p></MemoryRouter>);
-        act(() => { fireEvent.click(screen.getByRole("button", { name: /^Notes/ })); });
+        render(<MemoryRouter><WorkbookButton /><NotepadPanel /><p>Page</p></MemoryRouter>);
+        act(() => { fireEvent.click(screen.getByRole("button", { name: /^Workbook/ })); });
         act(() => { fireEvent.mouseDown(screen.getByText("Page")); fireEvent.click(screen.getByText("Page")); });
-        expect(screen.getByRole("complementary", { name: "Notes" })).toBeTruthy();
-        act(() => { fireEvent.click(screen.getByRole("button", { name: "Close notes" })); });
-        expect(screen.queryByRole("complementary", { name: "Notes" })).toBeNull();
+        expect(screen.getByRole("complementary", { name: "Workbook" })).toBeTruthy();
+        act(() => { fireEvent.click(screen.getByRole("button", { name: "Close the workbook" })); });
+        expect(screen.queryByRole("complementary", { name: "Workbook" })).toBeNull();
+    });
+
+    it("holds the Notes, the Review and the Glossary as three tabs of one panel", () => {
+        const organization = OrganizationService.create("Lumen");
+        OrganizationService.setSelected(organization.id);
+        render(<MemoryRouter><WorkbookButton /><NotepadPanel /></MemoryRouter>);
+        act(() => { fireEvent.click(screen.getByRole("button", { name: /^Workbook/ })); });
+        const panel = screen.getByRole("complementary", { name: "Workbook" });
+        expect([...panel.querySelectorAll("[role=tab]")].map(tab => tab.textContent)).toEqual(["Notes", "Review", "Glossary"]);
+        // Notes: today's panel, with its "+ Add note".
+        expect(screen.getByRole("button", { name: "+ Add note" })).toBeTruthy();
+        act(() => { fireEvent.click(screen.getByRole("tab", { name: "Review" })); });
+        expect(panel.querySelector(".review-organization")).toBeTruthy();
+        expect(screen.queryByRole("button", { name: "+ Add note" })).toBeNull();
+        act(() => { fireEvent.click(screen.getByRole("tab", { name: "Glossary" })); });
+        expect(panel.querySelector(".glossary-entry")).toBeTruthy();
+        // One funnel, and the References a link away.
+        expect(screen.getAllByRole("button", { name: "Choose which terms show" })).toHaveLength(1);
+        expect(screen.getByRole("button", { name: "References" })).toBeTruthy();
     });
 
 });

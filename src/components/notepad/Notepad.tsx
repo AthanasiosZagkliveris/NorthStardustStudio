@@ -7,7 +7,12 @@ import TextField from "../controls/TextField.tsx";
 import AddButton from "../controls/AddButton.tsx";
 import TickBox from "../controls/TickBox.tsx";
 import RemoveButton from "../controls/RemoveButton.tsx";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import TabList from "../controls/TabList.tsx";
+import GlossaryList from "../GlossaryList.tsx";
+import OrganizationReview, { goToReviewPlace } from "../OrganizationReview.tsx";
+import { useReviewCount } from "../ReviewButton.tsx";
+import { organizationReview } from "../../services/ReviewService";
 
 import { NotepadService, type Note, type NoteLink } from "../../services/NotepadService";
 import { UndoService } from "../../services/UndoService";
@@ -24,15 +29,20 @@ import "../../styles/notepad.css";
 import TextLink from "../interview/fields/TextLink.tsx";
 
 /*
-    THE NOTEPAD (NotepadService.ts): the header's "Notes" button, the
-    panel it opens on the right, and picking a field or card to link.
+    THE WORKBOOK (owner, 2026-11-09: the Notes, the Review and the
+    Glossary under one header button): the header's "Workbook" button,
+    the panel it opens on the right with three tabs -- Notes (the
+    Notepad, NotepadService.ts: the notes and picking a field or card
+    to link), Review (the open Organisation's, OrganizationReview) and
+    Glossary (GlossaryList; the References are on the Glossary page,
+    a link away).
 
     The panel slides in from the right OVER the page, between the
     header and the footer: the page does not narrow or move under it,
     and stays clickable -- a field is linked by clicking it -- so a
     click on the page never closes it. It stays open while the person
-    works, from page to page, until closed (its ×, the Notes button,
-    or Escape).
+    works, from page to page, until closed (its arrow, the Workbook
+    button, or Escape).
 */
 
 /** The notepad's notes and view, kept current. */
@@ -55,26 +65,36 @@ function places(): Promise<Places> {
 }
 
 
-/** The header button: icon and word (icon alone when narrow), and how many notes there are. */
-export function NotepadButton() {
+/** The header button: icon and word (icon alone when narrow), and how many Review items there are to look at (no count when none). It opens and closes the Workbook panel. */
+export function WorkbookButton() {
 
-    const { notes, view } = useNotepad();
+    const { view } = useNotepad();
+    const count = useReviewCount();
+    const words = count ? count + (count === 1 ? " item" : " items") + " to look at" : "nothing open";
 
     return (
         <AddButton className="header-tool"
             aria-expanded={view.open}
-            aria-label={"Notes, " + notes.length + (notes.length === 1 ? " note" : " notes")}
+            aria-label={"Workbook: notes, review and glossary, " + words}
             onClick={() => NotepadService.toggle()}>
             <svg className="header-tool-icon" viewBox="0 0 20 20" aria-hidden="true">
                 <path d="M5 2.5h7.5L16 6v11.5H5z" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
                 <path d="M7.5 9h6M7.5 12h6M7.5 15h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
-            <span className="header-tool-word">Notes</span>
-            {notes.length > 0 && <span className="header-tool-count">{notes.length}</span>}
+            <span className="header-tool-word">Workbook</span>
+            {count ? <span className="header-tool-count">{count}</span> : null}
         </AddButton>
     );
 
 }
+
+export type WorkbookTab = "notes" | "review" | "glossary";
+
+const WORKBOOK_TABS: readonly { id: WorkbookTab; label: string }[] = [
+    { id: "notes", label: "Notes" },
+    { id: "review", label: "Review" },
+    { id: "glossary", label: "Glossary" }
+];
 
 /** A box that grows with what is in it, for a note. */
 function NoteText({ note, onKey, textRef }: {
@@ -382,11 +402,52 @@ function NoteGroup({ group, focusNoteIds }: { group: NoteGroupValue; focusNoteId
     );
 }
 
-/** The panel: every note, newest first, by Organization, with its links. */
+/** The open Organisation's Review, in the panel: the Review page's OrganizationReview; "Go there" opens the place and leaves the panel open. */
+function WorkbookReview() {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const organizationId = OrganizationService.getSelected() ?? "";
+    // (Worked out again as the app moves: an answer given since may close an item.)
+    const items = useMemo(() => organizationId ? organizationReview(organizationId) : [], [organizationId, location.key]);
+    if (!organizationId) {
+        return null;
+    }
+    return (
+        <OrganizationReview
+            name={OrganizationService.getSummary(organizationId)?.name ?? ""}
+            items={items}
+            current
+            onGo={(place) => goToReviewPlace(navigate, organizationId, place)}
+        />
+    );
+}
+
+/** The Glossary, in the panel: the Glossary page's list and its one funnel; a citation and "References" open the Glossary page. */
+function WorkbookGlossary() {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = { pathname: location.pathname, state: location.state };
+    return (
+        <GlossaryList
+            organizationId={OrganizationService.getSelected()}
+            onCitation={(id) => navigate("/glossary", { state: { tab: "references", term: id, from } })}
+            lead={<TextLink className="workbook-references" onClick={() => navigate("/glossary", { state: { tab: "references", from } })}>References</TextLink>}
+        />
+    );
+}
+
+/** The panel: three tabs -- Notes (every note, newest first, by Organization, with its links), Review, Glossary. */
 export function NotepadPanel() {
 
     const { notes, view } = useNotepad();
     const panel = useRef<HTMLElement | null>(null);
+    const [tab, setTab] = useState<WorkbookTab>("notes");
+    // A note asked for (the Calendar, a noted field) shows on the Notes tab.
+    useEffect(() => {
+        if (view.focusNoteIds.length > 0 || view.pickingFor) {
+            setTab("notes");
+        }
+    }, [view.focusNoteIds.join(","), view.pickingFor]);
     // Escape closes it -- and only it: the key goes no further.
     useEffect(() => {
         if (!view.open) {
@@ -407,29 +468,39 @@ export function NotepadPanel() {
     }
 
     return (
-        <aside className="notepad-panel" aria-label="Notes" ref={panel}>
+        <aside className="notepad-panel" aria-label="Workbook" ref={panel}>
 
             <div className="notepad-head">
-                <h2 className="notepad-title">Notes</h2>
-                <AddButton className="notepad-add"
-                    onClick={() => {
-                        NotepadService.addNote(OrganizationService.getSelected() ?? "");
-                        window.setTimeout(() => panel.current?.querySelector<HTMLTextAreaElement>(".notepad-note-text")?.focus(), 0);
-                    }}
-                >
-                    + Add note
-                </AddButton>
-                <NavArrow direction="next" label="Close notes" className="page-arrow notepad-close" onClick={() => NotepadService.close()} />
+                <h2 className="notepad-title">Workbook</h2>
+                {tab === "notes" && (
+                    <AddButton className="notepad-add"
+                        onClick={() => {
+                            NotepadService.addNote(OrganizationService.getSelected() ?? "");
+                            window.setTimeout(() => panel.current?.querySelector<HTMLTextAreaElement>(".notepad-note-text")?.focus(), 0);
+                        }}
+                    >
+                        + Add note
+                    </AddButton>
+                )}
+                <NavArrow direction="next" label="Close the workbook" className="page-arrow notepad-close" onClick={() => NotepadService.close()} />
             </div>
 
-            {/* ONE scrolling column, padded as every card is: the card notes, then the notes of each Organization. */}
+            <TabList label="Notes, review or glossary" tabs={WORKBOOK_TABS} value={tab} onChange={setTab} className="workbook-tabs" />
+
+            {/* ONE scrolling column, padded as every card is: on Notes, the card notes, then the notes of each Organization. */}
             <div className="notepad-list">
-                <CardNotes />
-                {notes.length === 0
-                    ? <p className="notepad-empty">No notes yet. Add one, and link it to any page, card or field.</p>
-                    : noteGroups(notes).map(group => (
-                        <NoteGroup key={group.id || "general"} group={group} focusNoteIds={view.focusNoteIds} />
-                    ))}
+                {tab === "notes" && (
+                    <>
+                        <CardNotes />
+                        {notes.length === 0
+                            ? <p className="notepad-empty">No notes yet. Add one, and link it to any page, card or field.</p>
+                            : noteGroups(notes).map(group => (
+                                <NoteGroup key={group.id || "general"} group={group} focusNoteIds={view.focusNoteIds} />
+                            ))}
+                    </>
+                )}
+                {tab === "review" && <WorkbookReview />}
+                {tab === "glossary" && <WorkbookGlossary />}
             </div>
 
         </aside>

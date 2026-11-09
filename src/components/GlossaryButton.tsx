@@ -2,7 +2,7 @@ import AddButton from "./controls/AddButton.tsx";
 import { useLocation, useNavigate } from "react-router-dom";
 
 /**
- * The header's Glossary button, beside Search and like it: an open book
+ * The Landing page's Glossary button (with an Organisation open, the Glossary is a tab of the Workbook), like the other header tools: an open book
  * and the word (the book alone in a narrow header). It opens the
  * Glossary page (its References are the page's second tab),
  * remembering where it was opened from so Back and Escape return

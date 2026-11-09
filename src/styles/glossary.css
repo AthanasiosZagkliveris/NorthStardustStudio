@@ -25,6 +25,12 @@
     margin:0 auto;
     padding:152px 40px 124px;
 
+}
+
+/* The two kinds' colours: on the page, and on the list wherever it stands (the page, the Workbook panel's Glossary). */
+.glossary-page,
+.glossary-section{
+
     --glossary-app-ink: var(--text-primary);
     --glossary-yours-ink: hsl(var(--glossary-yours-hue, 0) var(--theme-text-ink));
     --glossary-yours-ground: hsl(var(--glossary-yours-hue, 0) var(--theme-bg-inner));
@@ -45,15 +51,12 @@
 
 }
 
-/* The funnel, alone at the end of its row (the Glossary's chooses the kind of term, the References' the letter ranges; the title's "i" names the two colours). */
+/* The funnel, alone at the end of its row: ONE on each tab (the Glossary's chooses the kinds of term and the letter ranges, the References' the letter ranges; the title's "i" names the two colours). */
 .glossary-bar{
 
     display:flex;
     align-items:center;
     justify-content:flex-end;
-
-    /* Two funnels (the kinds, the letter ranges) a cell apart. */
-    gap:var(--space-cell);
 
     /* One margin: 12px (layout rules, section 1). The funnel belongs to what is under the tabs, so it stands --space-field from the tab line and from the list: the page's and the section's 24px gaps are taken back to 12px on both sides. */
     margin-block:calc(var(--space-field) - var(--gap-24));

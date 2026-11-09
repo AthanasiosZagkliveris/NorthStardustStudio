@@ -2,7 +2,7 @@ import logo from "../assets/NORTH STARDUST Organization Framework.svg";
 
 import AddButton from "./controls/AddButton.tsx";
 import SaveStatus from "./SaveStatus";
-import { NotepadButton, NotepadPanel, NotepadPicker } from "./notepad/Notepad";
+import { WorkbookButton, NotepadPanel, NotepadPicker } from "./notepad/Notepad";
 import FocusModeButton from "./FocusModeButton";
 import GlossaryButton from "./GlossaryButton";
 import ReviewButton from "./ReviewButton";
@@ -28,7 +28,7 @@ interface AppHeaderProps {
     focusable?: boolean;
     /** The landing page: a Reload tool beside the theme switch (the app's view is drawn again; the data is kept: it is on disk). */
     reloadable?: boolean;
-    /** The landing page: the Review tool is offered, for every Organization (none is open). */
+    /** The landing page: the Review tool is offered, for every Organization (none is open), and the Glossary. */
     totalReview?: boolean;
     /** Called before the reload (the Landing page refreshes the saved examples from the current example files). */
     onReload?: () => void;
@@ -66,12 +66,12 @@ export default function AppHeader({ organizationName, focusable = false, reloada
             {/* Focus mode: on an interview page. */}
             {organizationName && focusable && <FocusModeButton />}
 
-            {/* Search (Ctrl+K), the Glossary and its References, and the person's own notes: wherever an Organization is open. */}
+            {/* Search (Ctrl+K), and the Workbook (the person's own notes, the Review and the Glossary, one panel: owner, 2026-11-09): wherever an Organization is open. */}
             {organizationName && <SearchButton />}
-            {organizationName && <GlossaryButton />}
-            {organizationName && <NotepadButton />}
-            {organizationName && <ReviewButton />}
+            {organizationName && <WorkbookButton />}
+            {/* The Landing page: the review of every Organisation and the Glossary (no Organisation is open there, so no Workbook). */}
             {!organizationName && totalReview && <ReviewButton total />}
+            {!organizationName && totalReview && <GlossaryButton />}
             {organizationName && <SettingsButton />}
             {organizationName && <NotepadPanel />}
             {organizationName && <NotepadPicker />}

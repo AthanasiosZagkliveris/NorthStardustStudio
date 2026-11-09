@@ -74,6 +74,22 @@ describe("the Glossary", () => {
         expect(screen.getByText("No terms to show: the funnel leaves them all out.")).toBeTruthy();
     });
 
+    it("has ONE funnel: the kinds of term first, then the letter ranges", () => {
+        open();
+        expect(document.querySelectorAll(".glossary-bar .funnel-box, .glossary-bar [aria-label^='Choose']")).toHaveLength(1);
+        fireEvent.click(screen.getByRole("button", { name: "Choose which terms show" }));
+        const options = screen.getAllByRole("checkbox").map(box => box.getAttribute("aria-label") ?? box.closest("label")?.textContent ?? "");
+        expect(options.slice(0, 2).join("|")).toMatch(/App terms.*\|.*Your terms/);
+        // A letter range ticked off hides its terms, and leaves the kinds alone.
+        const ranges = options.slice(2);
+        if (ranges.length > 0) {
+            const before = document.querySelectorAll(".glossary-entry").length;
+            fireEvent.click(screen.getAllByRole("checkbox")[2]);
+            expect(document.querySelectorAll(".glossary-entry").length).toBeLessThan(before);
+            expect(document.querySelector(".glossary-entry-app")).toBeTruthy();
+        }
+    });
+
     it("cites an app term in the Harvard style, and the citation opens its full reference", () => {
         open();
         const citation = screen.getAllByRole("button", { name: "(Franklin, Graybeal and Cooper, 2019)" })[0];
