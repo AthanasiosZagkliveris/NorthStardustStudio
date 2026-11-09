@@ -324,16 +324,12 @@ body {
   /* THE CELLS of an opened card (inputs, pickers, text boxes, name cells, Back; not the x, which keeps its own look) have no stroke either: a lighter light and shade, inside. */
   --cell-light: rgba(255, 255, 255, 0.5);
   --cell-shade: rgba(0, 0, 0, 0.12);
-  --cell-inset: inset 1px 1px 0 var(--cell-edge-light), inset -1px -1px 0 var(--cell-edge-dark), inset 2px 2px 3px var(--cell-light), inset -2px -2px 3px var(--cell-shade);
+  --cell-inset: inset 2px 2px 3px var(--cell-light), inset -2px -2px 3px var(--cell-shade);
   /* A TEXT OR NUMBER CELL reads as a deeper part of its card: the same light and shade, the other way round (the shade at the top left, the light at the bottom right). */
-  /* THE CELL'S EDGE (owner, 2026-11-09: "a darker inset shade that reaches at least 3:1, preserving the borderless look"): a 1px tonal step inside the cell, darker at
-     the top left, a little lighter at the bottom right, each at least 3:1 against the cell's fill and the card around it (WCAG 2.2, 1.4.11), in every reading mode;
-     the soft light and shade stay. THE CELL'S FILL is a warm off-white in light, which pairs with the near-black text and spares the eyes the glare of pure white. */
-  --cell-edge-dark: #6e6e6e;
-  --cell-edge-light: #7a7a7a;
-  --cell-step: inset 1px 1px 0 var(--cell-edge-dark), inset -1px -1px 0 var(--cell-edge-light);
+  /* THE CELL'S FILL is a warm off-white in light (owner, 2026-11-09), which pairs with the near-black text and spares the eyes the glare of pure white. Its edge
+     is the soft light and shade alone: the 1px edge tried that evening was taken away by the owner ("Remove the thin darker inset edge"). */
   --cell-fill: #faf9f6;
-  --cell-inset-recess: var(--cell-step), inset 2px 2px 3px var(--cell-shade), inset -2px -2px 3px var(--cell-light);
+  --cell-inset-recess: inset 2px 2px 3px var(--cell-shade), inset -2px -2px 3px var(--cell-light);
   /* The "+" box's fill: the darker tone of the tile's hue (the card's hue at this saturation and lightness). */
   --plus-fill-saturation: 36%;
   --plus-fill-lightness: 38%;
@@ -394,8 +390,6 @@ body {
   --box-shade: rgba(0, 0, 0, 0.5);
   --cell-light: rgba(255, 255, 255, 0.07);
   --cell-shade: rgba(0, 0, 0, 0.45);
-  --cell-edge-dark: #858585;
-  --cell-edge-light: #9a9a9a;
   --cell-fill: var(--bg-surface);
   --plus-fill-saturation: 42%;
   --plus-fill-lightness: 68%;
@@ -406,8 +400,6 @@ body {
   --box-shade: rgba(60, 40, 20, 0.2);
   --cell-light: rgba(255, 252, 244, 0.55);
   --cell-shade: rgba(60, 40, 20, 0.14);
-  --cell-edge-dark: #6b5d50;
-  --cell-edge-light: #77685a;
   --cell-fill: var(--bg-surface);
   --plus-fill-saturation: 34%;
   --plus-fill-lightness: 36%;
