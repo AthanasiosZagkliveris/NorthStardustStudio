@@ -23,7 +23,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Saved text of the boxes is kept: it is the Notes. A question no longer asked, or an option no longer offered, loses its answer; a starting value (O2, O4, O6) shows until that field is changed (another answer does not fix it), and the Business Plan, the export and the Value Proposition read it too (built 2026-11-08).
   - The Business Plan's Offerings table reads "What it does" from the Function Notes, else the form (O1), and "Customer benefit" from the Customer Benefit Notes, else what it does best (O4); the export prints every answer with its question.
 
-**Who it is about, where the buyer is Proxy (2026-11-09; `offeringWho`):** how it reaches them, how long until they have it and what they give you are the end user's: O6 "How do your end users receive it?", O15 "How long until your end users have it?", O10 "What do your end users need to give you?"; the terms are the buyer's: O3 "On what terms do your buyers pay for it?", O3b "When do your buyers pay?". A Dual-Intent buyer uses it too, so the card keeps "your customers" and "they" there. The documents keep the words as written.
+**Who it is about, where the buyer is Proxy (2026-11-09; `offeringWho`):** how it reaches them, how long until they have it and what they give you are the end user's: O6 "How do your end users receive it?", O15 "How long until your end users have it?", O10 "What do your end users need to give you?"; the terms are the buyer's: O3 "On what terms do your buyers pay for it?", O3b "When do your buyers pay?"; and what matters most is the buyer's, who chooses (owner, 2026-11-09, as K8): O4 "Which of what matters most to your buyers does it do best?". A Dual-Intent buyer uses it too, so the card keeps "your customers" and "they" there. The documents keep the words as written.
 
 **One term per subject (owner, 2026-11-08, P10):** the card says "your customers" for the customers everywhere (O2, O4, O6, O10, the "i" of O16 and O18), never "the customer" or a bare "customers"; the legal rules quoted in O18's "i" keep their own words ("a consumer").
 
@@ -81,6 +81,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 
 - **Control:** ticks, up to 3. The first ticked is the main benefit.
 - **Asked when:** always.
+- **Wording by buyer (owner, 2026-11-09):** on a Proxy Segment "Which of what matters most to your buyers does it do best?", as K8 (the buyer chooses); a Dual-Intent or Direct one keeps "your customers" (`offeringWho`).
 - **Options:** the list L1, the Profile's "What matters most" (doc 36, B1):
   - Affordability
   - Speed

@@ -3,7 +3,7 @@ import { segmentContextFor } from "./SegmentContext";
 import type { SegmentIdentity } from "./SegmentContext";
 import { SEGMENT_QUESTIONS, segmentChoose, segmentOptions, segmentQuestionsOf } from "./SegmentQuestions";
 import { PROFILE_QUESTIONS, profileOptionsShown, profileShown, profileUserName, profileUserWho } from "./ProfileQuestions";
-import { offeringOptionsWith, offeringShown, offeringWho } from "./OfferingQuestions";
+import { OFFERING_QUESTIONS, offeringOptionsWith, offeringShown, offeringWho } from "./OfferingQuestions";
 
 /* Proxy and Dual-Intent tailoring, and earlier answers shaping later ones (2026-11-09; docs 35, 36 and 43): starts and orders only, never locks; a saved answer wins. */
 
@@ -32,6 +32,11 @@ describe("the words follow who the question is about", () => {
         expect(offeringWho("o3t", "When do they pay?", proxy)).toBe("When do your buyers pay?");
         expect(offeringWho("o6", "How do your customers receive it?", { endsUser: true, dual: true })).toBe("How do your customers receive it?");
         expect(offeringWho("o6", "How do your customers receive it?", {})).toBe("How do your customers receive it?");
+        // O4: the buyer's on a Proxy Segment (owner, 2026-11-09, as K8); a Dual or Direct one keeps "your customers".
+        const o4 = OFFERING_QUESTIONS.find(question => question.id === "o4")!.label;
+        expect(offeringWho("o4", o4, proxy)).toBe("Which of what matters most to your buyers does it do best?");
+        expect(offeringWho("o4", o4, { endsUser: true, dual: true })).toBe(o4);
+        expect(offeringWho("o4", o4, {})).toBe("Which of what matters most to your customers does it do best?");
     });
 
     it("names the end user by the relationship, else the end user", () => {

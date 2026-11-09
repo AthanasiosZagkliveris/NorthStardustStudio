@@ -271,7 +271,7 @@ export function offeringOptionsWith(id: OfferingQuestionId, context: OfferingCon
 
 /**
  * Who a question is about on a Segment whose buyer is Proxy (2026-11-09): how it reaches them (O6), how long until they have it (O15) and what they give you (O10) are the end user's;
- * the terms and when they pay (O3, O3b) the buyer's. A Direct or Dual-Intent buyer (who uses it too) keeps the words as written. The documents keep them as written.
+ * the terms and when they pay (O3, O3b) and what matters most (O4, as K8) the buyer's. A Direct or Dual-Intent buyer (who uses it too) keeps the words as written. The documents keep them as written.
  */
 export function offeringWho(id: OfferingQuestionId, label: string, context: Pick<OfferingContext, "endsUser" | "dual">): string {
     if (!context.endsUser || context.dual) {
@@ -282,6 +282,8 @@ export function offeringWho(id: OfferingQuestionId, label: string, context: Pick
         case "o15": return label.replace("until they have", "until your end users have");
         case "o3": return label.replace("do they pay", "do your buyers pay");
         case "o3t": return label.replace("do they pay", "do your buyers pay");
+        // What matters most to the buyer, who chooses (owner, 2026-11-09), as K8 reads the buyer's B1.
+        case "o4": return label.replace("your customers", "your buyers");
         default: return label;
     }
 }
