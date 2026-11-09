@@ -187,7 +187,7 @@ const SHAPE_ASSOCIATIONS: InfoPoint[] = [
     { title: "Hexagon", text: "balance, connection, efficiency and structure." },
     { title: "Organic shapes", text: "natural, friendly, creative and approachable." },
     { title: "Abstract shapes", text: "distinctive, conceptual and open to interpretation." },
-    "These are common visual associations rather than fixed meanings."
+    "These are common visual associations, and context shapes what each one means."
 ];
 
 const IMAGE_TYPES: InfoPoint[] = [

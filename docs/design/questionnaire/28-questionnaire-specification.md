@@ -142,6 +142,7 @@ This section owns how a question is worded; doc 39 owns what its "i" says. From 
 | **A slash joins similar things, the word "or" joins different things** ("Laptop / desktop", "Non-profit / charity / NGO"; "Owner or senior executive", "Invoice, bank transfer or purchase order"); a name that holds a comma ("Buy Now, Pay Later") keeps it | owner, 2026-11-03 (replaces the slash-only rule of 2026-11-02) |
 | **Reuse an established wording** (the statistics offices') where there is one | QST-10 |
 | **Test the wording** with a few real users before it is built | QST-10, QST-15 |
+| **Affirmative, natural voice**: say what something is and does; the rule is owned by `standard.md`, section 3 | owner, 2026-11-09 |
 
 | Avoid | Source |
 |---|---|

@@ -222,7 +222,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         info: [
             "Minors, semi-dependent: Mid and Late Adolescence, with limited buying power; mostly cash, wallets and gift cards.",
             "Credit and long contracts are not open to them. Look up the country's online-consent age and its minimum working age.",
-            "Choose the group that pays, not the one that uses it.",
+            "Choose the group that pays, even when another group uses it.",
             AGE_NOTE
         ]
     },
@@ -278,12 +278,12 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "hourly", label: "Hourly wage (Fluctuating based on scheduled shifts)" },
             { id: "variable", label: "Variable pay (Freelance invoices, commission, seasonal contracts)" }
         ],
-        info: ["How steady their pay is, not how much it is (that is the household income below).", "A fixed salary suits regular subscriptions; variable or hourly earners feel sudden cash-flow dips."]
+        info: ["How steady their pay is; how much they earn is the household income below.", "A fixed salary suits regular subscriptions; variable or hourly earners feel sudden cash-flow dips."]
     },
     {
         id: "income", box: "demographics", label: "How high is your customers' household income?", many: false,
         rating: INCOME_RATING, options: ratingOptions(INCOME_RATING),
-        info: ["Compare with the typical household income in their country: 3 is around the median.", "Household income is what the home earns together, not one person's pay."]
+        info: ["Compare with the typical household income in their country: 3 is around the median.", "Household income is what everyone in the home earns together."]
     },
     {
         id: "gender", box: "demographics", label: "What is the gender mix of your customers?", many: false,
@@ -348,7 +348,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     {
         id: "comfort", box: "purchasing", label: "How comfortable are your customers online?", many: false,
         rating: COMFORT_RATING, options: ratingOptions(COMFORT_RATING),
-        info: ["How easily they use websites, apps and online payment, not whether they own a device."]
+        info: ["How easily they use websites, apps and online payment."]
     },
     {
         id: "social", box: "purchasing", label: "How do your customers like to socialise?", many: false,
@@ -462,7 +462,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "mid", label: "Mid-market, 50,000–499,999" },
             { id: "mass", label: "Mass market, 500,000 or more" }
         ],
-        info: ["Everyone in the area you serve who could buy it, if every one of them chose you (the total addressable market).", "For a Segment of businesses, count the organisations, not the people in them."]
+        info: ["Everyone in the area you serve who could buy it, if every one of them chose you (the total addressable market).", "For a Segment of businesses, count each organisation once."]
     },
     {
         id: "trajectory", box: "market-size", label: "Is your market growing or shrinking?", many: false,
@@ -543,7 +543,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     {
         id: "u-comfort", box: "user", label: "How comfortable are your customers online?", many: false,
         rating: COMFORT_RATING, options: ratingOptions(COMFORT_RATING),
-        info: ["How easily they use websites, apps and online payment, not whether they own a device."]
+        info: ["How easily they use websites, apps and online payment."]
     },
     // Positioning's question 10, moved here on 2026-11-08 (owner: "Move all three"), its options and "i" as built; moved on the same day to each Profile's end-user part (doc 36, E4),
     // where a saved answer here is the start: kept and settled, no longer shown.

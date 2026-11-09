@@ -155,7 +155,7 @@ A typical person of the Segment, asked specifically.
 - **Control:** a number (years), in the existing number cell.
 - **Asked when:** the Segment's buyer is people; for a business Segment, the age of the person who decides.
 - **The "i" says:**
-  - One age within the Segment's age group: a typical person, not the average.
+  - One age within the Segment's age group: a typical person, as you picture them.
   - If the Segment's age group changes and this age falls outside it, the age is cleared.
 - **Connections:**
   - *Comes from:* the Segment's age group (the number is held to it).
@@ -281,7 +281,7 @@ A typical person of the Segment, asked specifically.
 - **Control:** a rating from 1 (Uneasy) to 5 (Confident), the `RatingScale` of the Segment's own comfort question.
 - **Asked when:** the Segment has an end user who is not a Baby (as the Segment's End user, 8).
 - **Starts:** the Segment's End user, 8, a starting value the App User can change.
-- **The "i" says:** how easily they use websites, apps and online payment, not whether they own a device; that the Segment's answer starts it.
+- **The "i" says:** how easily they use websites, apps and online payment; that the Segment's answer starts it.
 - **Saved as:** `user.questions.comfort` on the Profile. *Read by (built):* the export, in the end user's part.
 
 ### B1. What matters most to this person?
@@ -306,7 +306,7 @@ A typical person of the Segment, asked specifically.
   - What they weigh when choosing between offers. Tick up to five, then rate how much each matters.
   - For example, a busy parent may weigh Speed and Convenience; a collector, Quality.
   - Affordability: a price they can pay. Convenience: easy to find, buy and use. Reputation: a name they trust. Expertise: deep knowledge.
-  - Personalisation: made for them, not for everyone. Safety / security: low risk, nothing goes wrong. Values: it stands for what they believe in.
+  - Personalisation: made just for them. Safety / security: low risk, nothing goes wrong. Values: it stands for what they believe in.
   - Write their interests, lifestyle and hopes in the note.
 - **Connections:**
   - *Read by (built, 2026-11-05):* the Competitor's K8 shows every value of L1, those ticked here first, the highest rated first, each banded by how many Profiles ticked it, and its K10 weighs each value by its rating here (doc 41).
@@ -388,7 +388,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
   - A shared / public device
   - Other
 - **The "i" says:**
-  - The devices they use to find and buy, not those they own.
+  - The devices they use to find and buy.
   - The Segment's choice of where they buy starts this; change it freely.
 - **Connections:**
   - *Comes from:* the Segment's where they buy: the setting starts it (Online, on a phone: Smartphone; Online, on a computer: Laptop / desktop; In a shop: none; Both online and in shops: Smartphone and Laptop / desktop), as a starting value the App User can change.
@@ -436,7 +436,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
 - **Asked when:** the Segment's buyer is people, and not of the end user's own answers (the end user is not asked Box D).
 - **Options** (L25, doc 34): Weekday daytime; Evenings; Weekends; Around seasons / holidays.
 - **The "i" says:**
-  - When they actually buy, not when they are free: the Segment's work schedule says when they work.
+  - When they actually buy; the Segment's work schedule says when they work.
   - How they buy, in their words, goes in the Notes.
 - **Connections:** *Read by:* the documents and the export. The habits Notes keep how they buy, in their words.
 
@@ -460,7 +460,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
   - Enjoyment (people only)
 - **The "i" says:**
   - 1 = Minor, 5 = Main.
-  - The results they are after, not what they weigh when choosing (that is "What matters most"). Choose up to three, then rate each.
+  - The results they are after; what they weigh when choosing goes in "What matters most". Choose up to three, then rate each.
   - For example, to learn a new craft, or to win more clients.
   - Accessibility: getting something hard to reach. Development: learning something new. Expression: showing who they are. Revenue: winning customers or income.
   - Compliance: meeting a requirement or staying within the rules, at work or by law. Efficiency: saving time or money.
@@ -516,7 +516,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
   - Image ("What others will think", `what-others-will-think`: the social risk of buying; added 2026-11-08, the options-and-wording research)
 - **The "i" says:**
   - 1 = Minor, 5 = Blocking.
-  - Their doubts about buying from you, not what frustrates them today. Choose up to three, then rate each.
+  - Their doubts about buying from you; today's frustrations have their own question. Choose up to three, then rate each.
   - For example, whether a beginner can keep up, or whether you will still be there after the sale.
   - Credibility: whether you can be trusted. Onboarding: the time to get started. Complexity: how hard it is to use. Fit: whether it suits their need.
   - Support: help after buying. Migration: the work of leaving what they use now. Risk: risk or security. Image: what others will think of them.
@@ -535,7 +535,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
 
 **Wording reviewed (owner, 2026-11-04: "Improve the wording on the profile card"; doc 28, section 4; doc 39).** Built in `ProfileQuestions.ts`, the ids unchanged:
 - A2's "i": "Asked only when the Segment's gender mix is not 3 (balanced); it starts from the mix. Change it freely." (was two points, the second "Nothing reads it but the note", an internal fact).
-- A1's "i": "One age within the Segment's age group: a typical person, not the average." and "If the Segment's age group changes and this age falls outside it, the age is cleared."
+- A1's "i": "One age within the Segment's age group: a typical person, as you picture them." and "If the Segment's age group changes and this age falls outside it, the age is cleared."
 - B1's "i": "Tick up to five things they weigh when choosing, then rate how much each matters." and "Write their interests, lifestyle and hopes in the note." (was "... stay in the note"; the first point replaced 2026-11-05, see B1).
 - C3's and C4's "i": "Write the names of the groups / events in the note." (was "... stay in the note").
 - C4's options in sentence case after the slash: Market / pop-up, Trade fair / exhibition, Workshop / class, Talk / conference.
@@ -597,7 +597,7 @@ The owner asked (2026-11-03) whether the three Needs lists could be choices inst
 - People (B2C): Stylish; Included; Exclusive; Altruistic; Impactful.
 - Business (B2B): Trusted; Influential; Respected; Responsible.
 
-**The "i" says:** what 1 and 5 mean (1 = Mild, 5 = Strong); the feelings (or ways of being seen) that make them buy, not every one they have, up to three, each rated; one example; what each word means ("Rewarded: treated to something special", "Nurtured: looked after", "Delighted: by how it looks", "Nostalgic: reminded of good times", "Fulfilled: growing as a person", "Proud: a sense of self-worth or achievement in what they own or made (Desmet's 25 product emotions, 2012)"; "Confident: sure they made the right choice", "Prosperous: growing in their work", "Optimistic: hopeful about their business"; "Included: part of a group they value", "Exclusive: one of the few with access", "Altruistic: caring for others or the planet", "Impactful: leaving a legacy"; "Influential: well connected", "Respected: valued in their field"); Bain's Elements of Value (HBR, 2016 and 2018). One word each (owner, 2026-11-06), the ids kept.
+**The "i" says:** what 1 and 5 mean (1 = Mild, 5 = Strong); the feelings (or ways of being seen) that decide whether they buy, up to three, each rated; one example; what each word means ("Rewarded: treated to something special", "Nurtured: looked after", "Delighted: by how it looks", "Nostalgic: reminded of good times", "Fulfilled: growing as a person", "Proud: a sense of self-worth or achievement in what they own or made (Desmet's 25 product emotions, 2012)"; "Confident: sure they made the right choice", "Prosperous: growing in their work", "Optimistic: hopeful about their business"; "Included: part of a group they value", "Exclusive: one of the few with access", "Altruistic: caring for others or the planet", "Impactful: leaving a legacy"; "Influential: well connected", "Respected: valued in their field"); Bain's Elements of Value (HBR, 2016 and 2018). One word each (owner, 2026-11-06), the ids kept.
 
 **Asked when:** always. **Connections:** *Comes from:* the Segment's kind (the list). *Read by (built, 2026-11-07):* the Value Proposition tile lists the needs ticked on the Segment's Profiles under Emotional Needs and Social Needs, each once, the strongest first, then the lines of the Notes (doc 42; `segmentNeedTicks`). *Read by (not built yet):* the Value Proposition's open items, their one owner (owner, 2026-11-06) (doc 42, "Unanswered need" and "Emotional and social needs").
 

@@ -350,7 +350,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                     pair
                     fullList
                     label="Who is this Segment's customer?"
-                    info={["The Segment is one group: people, or businesses.", "Choosing one changes the questions asked; answers that no longer apply are removed."]}
+                    info={["The Segment is one group: people, or businesses.", "Choosing one changes the questions asked and removes the answers to questions that drop away."]}
                 >
                     <FittingRadioChoice
                         label="Who is this Segment's customer?"
@@ -958,7 +958,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                 {/* The open items (doc 42, 2): read-only, under the text. */}
                 {openItems.length > 0 && (
                     <div className="legal-entity-org-section legal-entity-org-band">
-                        <FieldRow pair fullList label="Open items" info={["Gaps between what your customers want and what your Offerings give. They are reminders, not errors."]}>
+                        <FieldRow pair fullList label="Open items" info={["Gaps between what your customers want and what your Offerings give. Each one is a reminder to look at."]}>
                             <ListStatic marker="bullet" lines={openItems.map((item, at) => ({ key: item.kind + at, text: item.kind + ": " + item.text }))} />
                         </FieldRow>
                     </div>

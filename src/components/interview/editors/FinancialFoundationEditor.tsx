@@ -882,7 +882,7 @@ export default function FinancialFoundationEditor({
                                             <InfoNote
                                                 label="Operational Contingency Fund"
                                                 points={[
-                                                    "After the launch, each month a share of OpEx is set aside on top of the startup fund, until the fund equals the target reserve months of OpEx. The contribution is a cash set-aside, not an expense. The rates and the target are in the Global Settings."
+                                                    "After the launch, each month a share of OpEx is set aside on top of the startup fund, until the fund equals the target reserve months of OpEx. The contribution is a cash set-aside, held as savings. The rates and the target are in the Global Settings."
                                                 ]}
                                                 fullList
                                             />
@@ -1415,7 +1415,7 @@ export default function FinancialFoundationEditor({
                     { label: "Funding Need", value: format(position.need), info: [DEFINITIONS.need] },
                     { label: "Available Now", value: format(position.availableNow), info: ["Financial resources that have arrived and can be used."] },
                     { label: "Confirmed Future", value: format(position.confirmedFuture), info: ["Confirmed, but not yet available."] },
-                    { label: "Pending", value: format(position.pending), info: ["Expected, not yet confirmed. Not counted in the gap or the runway."] },
+                    { label: "Pending", value: format(position.pending), info: ["Expected and awaiting confirmation; the gap and the runway count it once it is confirmed."] },
                     {
                         label: "Funding Gap",
                         value: format(position.gap),

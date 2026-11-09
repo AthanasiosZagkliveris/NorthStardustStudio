@@ -96,7 +96,7 @@ export default function FinancialPlanSettings({
 
             {row(
                 "Income Tax",
-                ["Income tax on profit. Pass-through businesses (e.g. most sole traders and single-member LLCs) pay it personally, not at business level. For a company, enter the corporate rate; ask your accountant."],
+                ["Income tax on profit. Pass-through businesses (e.g. most sole traders and single-member LLCs) pay it personally, on the owner's own tax return. For a company, enter the corporate rate; ask your accountant."],
                 <>
                     <OptionPicker
                         label="Income tax"

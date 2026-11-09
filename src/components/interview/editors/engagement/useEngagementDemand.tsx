@@ -153,7 +153,7 @@ export function useEngagementDemand(earlier: Earlier) {
 
             /* Why a source is not counted, when it needs saying. */
             const note = excluded
-                ? "Not counted: a client who buys every month stays rather than buying again."
+                ? "Not counted: a client who buys every month keeps buying as a staying client."
                 : !counted && type?.id === "repeat" && calculated
                     ? "Repeat purchases come from the customers the other sources bring: complete one of them first."
                     : "";

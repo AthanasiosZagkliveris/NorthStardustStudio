@@ -18,28 +18,28 @@ Making a clear decision here, even a "pause" or "reject," is what actually saves
 
 The Product Brief is the shared reference that gets everyone on the same page before development starts: what's being built, for whom, and why.
 Describe the product, its target customer, the problem it solves, its value proposition, and how you'll measure success.
-Connect all five cleanly: the target customer's needs, the problem, and the value proposition should all point to the same story, rather than reading as separate facts.
+Connect all five cleanly: the target customer's needs, the problem, and the value proposition should all point to the same story.
 This is the document every team involved in the product should be able to point back to.
 
 ## 04. Product Specification Help
 
 The Product Specification turns your Product Brief into the practical requirements needed to actually build the product.
 List the core features, key requirements, expected deliverables, dependencies, and known constraints.
-Be specific throughout, naming real dependencies like "cloud infrastructure" and "manufacturing partners" and real constraints like "privacy regulations," rather than generic categories.
+Be specific throughout, naming real dependencies like "cloud infrastructure" and "manufacturing partners" and real constraints like "privacy regulations."
 This is what keeps design, engineering, and operations working from the same expectations.
 
 ## 05. Product Roadmap Help
 
 The Product Roadmap lays out a high-level timeline for getting the product from idea to launch.
 Break development into phases, and for each one define the time period, the focus, and the deliverables expected by the end of it.
-Use concrete timeframes, like "Months 4–10" for development, rather than open-ended phases with no end date.
+Use concrete timeframes, like "Months 4–10" for development, each phase with an end date.
 This is what lets teams coordinate and manage expectations around when things will actually be ready.
 
 ## 06. Product Launch Checklist Help
 
 The Product Launch Checklist is your final review before release, covering product, marketing, and sales readiness in one place.
 Confirm each checklist item for product completion, marketing materials, and sales setup, then record a clear yes-or-no launch approval.
-Don't launch until every item across all three categories is genuinely complete, not just mostly done.
+Launch once every item across all three categories is genuinely complete.
 This checklist exists specifically to catch the gaps that get missed when different teams assume someone else has it covered.
 
 ## 07. Product Review Help

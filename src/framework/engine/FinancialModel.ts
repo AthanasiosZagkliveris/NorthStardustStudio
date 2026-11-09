@@ -423,7 +423,7 @@ export function fundingType(id: string) {
 }
 
 export const FUNDING_STATUSES = [
-    { id: "planned", label: "Planned", explanation: "Identified, not yet pursued." },
+    { id: "planned", label: "Planned", explanation: "Identified, waiting to be pursued." },
     { id: "preparing", label: "Preparing", explanation: "An application or proposal is being prepared." },
     { id: "requested", label: "Requested / Applied", explanation: "Asked for; no answer yet." },
     { id: "approved", label: "Approved / Agreed", explanation: "Confirmed, but not all of it has arrived." },

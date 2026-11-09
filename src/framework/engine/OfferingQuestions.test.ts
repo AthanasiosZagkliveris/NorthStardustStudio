@@ -60,6 +60,12 @@ describe("the Value Proposition's draft and open items (doc 42)", () => {
         expect(valuePropositionDraft(segment, offering, answers, { type: "Service" }))
             .toBe("For Busy parents who wait too long and want to grow their income, Quick Book is a live online session that offers speed.");
     });
+    it("ends the draft with what the Offering stands out for: a value a Profile rates Essential that every Competitor is weak on (owner, 2026-11-09)", () => {
+        const answers = offeringShown(segment.offerings[0].questions ?? {}, { type: "Service" });
+        const draft = valuePropositionDraft(segment, segment.offerings[0], answers, { type: "Service" }, [{ ...segment.profiles[0].questions, "b1-rating": ["speed:5"] }]);
+        expect(draft).toBe("For Busy parents who wait too long and want to grow their income, Quick Book is a live online session that offers speed, and it stands out for speed.");
+        expect(draft).not.toMatch(/unlike/i);
+    });
     it("lists what is open: values, needs by id, worries", () => {
         const answers = [offeringShown(segment.offerings[0].questions ?? {}, { type: "Service", worries: ["the-price-or-their-budget", "whether-it-fits-their-needs"] })];
         const kinds = valuePropositionOpenItems(segment, answers).map(item => item.kind + ": " + item.text);

@@ -103,7 +103,7 @@ const STREAM_HELP: Record<"price" | "volume" | "timing", InfoPoint[]> = {
     timing: [
         "Revenue begins after the sales cycle, the time from first contact to a signed sale: for services to businesses it is often 4 to 12 weeks.",
         "One sale often leads to another, such as a build after an audit: start the later stream when the first ones finish.",
-        "Money arrives when the customer pays, not when the sale is made: invoices are often paid 30 days after they are sent, and some later.",
+        "Money arrives when the customer pays, which can be well after the sale: invoices are often paid 30 days after they are sent, and some later.",
         "Ask for deposits on larger projects: part at signing, the rest on completion."
     ]
 };
@@ -169,7 +169,7 @@ const SECTIONS = {
         ],
         info: [
             { title: "Revenue", text: "Money generated through the organisation's Offerings." },
-            "Funding, loans, founder capital, grants and investment are financing, not revenue, and are never counted here.",
+            "Funding, loans, founder capital, grants and investment are financing, and this list counts revenue only.",
             "Revenue may be zero at first. That is a valid model for an organisation under development."
         ] as InfoPoint[]
     },
@@ -547,7 +547,7 @@ export default function FinancialSustainabilityEditor({
                                 </ul>
                                 {entry.variableOverridden && (
                                     <p className="financial-muted">
-                                        The revenue stream's own figure, {format(entry.variable)}, is used instead of the {format(costs.variablePerUnit)} recorded above.
+                                        The revenue stream's own figure, {format(entry.variable)}, applies here and replaces the {format(costs.variablePerUnit)} recorded above.
                                     </p>
                                 )}
 
@@ -675,7 +675,7 @@ export default function FinancialSustainabilityEditor({
                 key={stream.id}
                 kind="Revenue Stream"
                 number={index + 1}
-                name={orphan ? "Offering no longer on the Foundation page" : offeringName(stream)}
+                name={orphan ? "Offering removed from the Foundation page" : offeringName(stream)}
                 open={folds.isOpen(stream.id)}
                 onToggle={() => folds.toggle(stream.id)}
                 disabled={disabled}
@@ -1468,7 +1468,7 @@ export default function FinancialSustainabilityEditor({
                     title="Costs Used"
                     info={[
                         "Read from Financial Foundation, by behaviour.",
-                        "Fixed: the monthly equivalent of every recurring cost, plus loan interest. Loan principal is repayment of borrowed money, not a cost; one-time costs are what the funding is for.",
+                        "Fixed: the monthly equivalent of every recurring cost, plus loan interest. Loan principal is repayment of borrowed money, kept outside the costs; one-time costs are what the funding is for.",
                         "Variable: per-unit and per-project costs linked to each Offering."
                     ]}
                 >
@@ -1494,7 +1494,7 @@ export default function FinancialSustainabilityEditor({
                     <FinancialBlock title="Break-Even Point" info={[
                         "Contribution per unit = price − variable cost per unit.",
                         "Offering break even: the units this Offering alone would need to sell to cover all fixed costs.",
-                        "Organisation break even: the expected revenue mix, scaled until its contribution covers the fixed costs, not the Offerings' figures added together.",
+                        "Organisation break even: the expected revenue mix, scaled as a whole until its contribution covers the fixed costs.",
                         BREAK_EVEN_UNITS_FORMULA,
                         BREAK_EVEN_SOURCE
                     ]}>

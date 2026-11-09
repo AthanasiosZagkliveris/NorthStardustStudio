@@ -453,8 +453,8 @@ export function draftOffered(segment: BusinessCustomerSegmentValue): boolean {
 }
 
 /**
- * The draft sentence for one Offering (doc 42, 1): "For [Segment] who [frustration] and want to [goal], [Offering] is [form] that offers [benefit]. Unlike
- * its competitors, it offers [the clear opening]." The goal and frustration are the highest-rated across the Profiles, in their draft phrases; a blank whose
+ * The draft sentence for one Offering (doc 42, 1): "For [Segment] who [frustration] and want to [goal], [Offering] is [form] that offers [benefit], and
+ * it stands out for [the clear opening]." The goal and frustration are the highest-rated across the Profiles, in their draft phrases; a blank whose
  * answer is missing stays in square brackets; with no clear opening the sentence ends after the benefit. A Segment with an end user reads "For [Segment] whose end users
  * [frustration] and want to [goal]": E1 and E2 are the end user's there (doc 36, 2.1).
  */
@@ -468,9 +468,9 @@ export function valuePropositionDraft(segment: BusinessCustomerSegmentValue, off
     // A Segment with an end user (Proxy or Dual-Intent): the goal and the frustration are the end user's (doc 36, 2.1), so the sentence says whose ("whose end users").
     const sentence = "For " + segment.name.trim() + (context.endsUser ? " whose end users " : " who ") + (frustration ? FRUSTRATION_PHRASES[frustration] ?? "[a frustration]" : "[a frustration]")
         + " and want to " + (goal ? GOAL_PHRASES[goal] ?? "[a goal]" : "[a goal]") + ", " + name + " is " + formWords(offering, answers, context)
-        + " that offers " + (benefit ? valueInSentence(benefit) : "[its main benefit]") + ".";
+        + " that offers " + (benefit ? valueInSentence(benefit) : "[its main benefit]");
     const clear = clearOpenings(profiles, segment.competitors.map(competitor => competitor.questions ?? {}));
-    return clear.length > 0 ? sentence + " Unlike its competitors, it offers " + valueInSentence(clear[0]) + "." : sentence;
+    return sentence + (clear.length > 0 ? ", and it stands out for " + valueInSentence(clear[0]) : "") + ".";
 }
 
 /* ---- The Value Proposition's open items (doc 42, 2) ---- */

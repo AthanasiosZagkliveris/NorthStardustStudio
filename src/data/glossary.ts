@@ -42,7 +42,7 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "competitor",
         term: "Competitor",
-        meaning: "Another business, or another way of solving the same need, that your customers could choose instead of you.",
+        meaning: "Another business, or another way of solving the same need, that your customers could choose to meet it.",
         also: ["competition", "competitive analysis"],
         sources: ["marketResearch"]
     },
@@ -55,7 +55,7 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "value-proposition",
         term: "Value Proposition",
-        meaning: "Why a Segment should buy from you rather than from a competitor: the need you meet, what you do differently and the result the buyer gets.",
+        meaning: "Why a Segment chooses to buy from you: the need you meet, what sets you apart and the result the buyer gets.",
         sources: ["positioningStatement"]
     },
     {
@@ -205,7 +205,7 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "useful-life",
         term: "Useful life",
-        meaning: "The years an asset serves the business before it is worn out, outdated or replaced. Its cost is spread over those years instead of being counted in the year it is bought.",
+        meaning: "The years an asset serves the business before it is worn out, outdated or replaced. Its cost is spread over those years, a share in each year.",
         also: ["depreciation"],
         sources: ["texasAssetClasses"]
     },

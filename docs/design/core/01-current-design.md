@@ -784,7 +784,7 @@ The user never chooses fixed, variable, semi-variable or step.
 |---|---|---|---|
 | F1 | Total Pre-operational Budget | CapEx + Startup Expenses + Pre-Operating Expenses (everything dated before the Opening Date, except opening stock). It is the contingency base. | 30,000 + 5,000 + 9,000 = 44,000. |
 | F2 | Startup Contingency Fund | 10 to 15% of the Total Pre-operational Budget; already held when operations start. | 4,400 at 10%, 6,600 at 15%. |
-| F3 | Operational Contingency Fund | Each month, 3 to 5% of OpEx is added on top of the startup fund until the total equals the target reserve months of OpEx (3 by default, a setting). The contribution is a cash set-aside, not an expense. | OpEx 4,000: target 12,000; startup fund 4,400; at 4% a month 160 is added for 48 months. |
+| F3 | Operational Contingency Fund | Each month, 3 to 5% of OpEx is added on top of the startup fund until the total equals the target reserve months of OpEx (3 by default, a setting). The contribution is a cash set-aside, held as savings. | OpEx 4,000: target 12,000; startup fund 4,400; at 4% a month 160 is added for 48 months. |
 | F4 | Months to reach the target | (target months × monthly OpEx − startup fund) ÷ (rate × monthly OpEx). Zero if the startup fund already equals the target. |  |
 | F5 | Using the fund | A repair or a stock loss is an expense when it happens; the fund pays it, and the contribution restarts until the target is reached again. |  |
 | F6 | Cash to raise before the opening | Total Pre-operational Budget + Startup Contingency Fund + the cash for opening inventory, added as a flat line after the contingency calculation. | 44,000 + 4,400 + 8,000 of opening stock = 56,400. |

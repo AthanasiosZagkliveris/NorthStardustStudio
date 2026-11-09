@@ -118,7 +118,7 @@ export const SECTIONS = {
             "When in the customer journey does the interaction take place? Each stage chosen is answered separately, because the Approach is individual to each."
         ],
         channelAction: [
-            "Recorded against that Channel in 1. Customer Channel, and shown here so the Approach can build on it rather than repeat it."
+            "Recorded against that Channel in 1. Customer Channel, and shown here so the Approach can build on it."
         ],
         approach: [
             "How will you use this interaction to maintain the relationship with the customer?"

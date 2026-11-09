@@ -770,7 +770,7 @@ export function financialForecast(
             "Operating expenses are analysed by nature, from where each cost was recorded.",
             "A grant is other income, whenever it arrives; capital put in is the owners' equity.",
             ...(drawingsTaken
-                ? ["As a " + legalEntity.organisation.legalForm + ", founders' pay is the owner's drawings: taken from profit, not a cost. " +
+                ? ["As a " + legalEntity.organisation.legalForm + ", founders' pay is the owner's drawings: taken from profit, after costs. " +
                     "It is not a line of the profit and loss: it is set against the profit below it, is a financing payment in the cash flow, and reduces equity on the balance sheet."]
                 : []),
             ...(drawingsTaken
@@ -779,7 +779,7 @@ export function financialForecast(
                     : "Profit kept in the business matches Sustainability's revenue less costs, month by month, except where the profit and loss also counts one-time costs, depreciation, grants or loan interest as they fall."]
                 : []),
             "The cash flow is grouped into operating, investing and financing activities (direct method); interest paid is an operating payment.",
-            "Cash below zero is shown as a current liability, Cash shortfall (unfunded): money the plan has not found yet, not an arranged overdraft.",
+            "Cash below zero is shown as a current liability, Cash shortfall (unfunded): money the plan still has to find.",
             "The part of a loan repaid within the next 12 months is a current liability; the rest is non-current.",
             ...(taxRate !== null
                 ? ["Income tax is estimated at a flat " + ratePercent + " of each plan year's profit before tax: none on a loss, and no loss carried forward to a later year. " +

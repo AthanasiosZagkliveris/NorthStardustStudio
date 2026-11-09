@@ -224,7 +224,7 @@ For Internal solution and Status quo the box stays text only: it asks about the 
   - *Words:* where the Segment's buyer is Proxy or Dual-Intent, "How do they do on what matters most to your buyers?": B1 is the buyer's (2026-11-09).
   - *Comes from:* the Profiles' B1 (doc 36), its ticks (the rows) and its ratings (their order; K10's weights). The owner's decision (2026-11-04): Strengths and Weaknesses used the same options, so one rating replaces the two tick lists and a value rated 2 to 4 also counts in the App User's decisions. The Competitive Profile Matrix rates each success factor from major weakness to major strength [FUN-57]; Kotler's customer value analysis rates competing offers on the attributes customers rank as most important [FUN-55]; a five-point rating as Likert's [FUN-61]. The Profiles' B1 sets the order of the rows; no row starts rated.
   - *Read by (built):* K10's options; the Insights draft.
-  - *Read by (built, 2026-11-07):* the Value Proposition draft's "Unlike its competitors": a value a Profile rates Essential that every Competitor of the Segment rates 1 or 2 here (`clearOpenings`; doc 42, 1).
+  - *Read by (built, 2026-11-07):* the Value Proposition draft's "and it stands out for": a value a Profile rates Essential that every Competitor of the Segment rates 1 or 2 here (`clearOpenings`; doc 42, 1).
   - *Read by (not built yet):* ratings of 4 and 5 are listed as the competitor's strengths, and 1 and 2 as its weaknesses (the SWOT, the documents and the exports); 3 is neither. Later, once an Offering exists, the Review (a value customers want that this competitor is rated 1 or 2 on and none of your Offerings delivers).
 
 ## Band. Opportunities and Threats
@@ -313,7 +313,7 @@ The owner decided (2026-11-08, "Move all three") that Positioning's Differentiat
 - **Connections:**
   - *Comes from:* Positioning's relationship, audience, buyer's category, end user and purposes (the order); the stage (the limit); K10's ticks across the Segment's competitors (the start and the first options; 2026-11-09).
   - *Read by (built):* the Offering's O4, whose starting ticks follow it through the value crosswalk (doc 34, 5.2a; doc 43); the Business Plan's "What we know of them" and the export's Segment block, which print it under the Segment.
-  - *Read by (not built yet):* the Value Proposition draft's "Unlike its competitors" (doc 42).
+  - *Read by (not built yet):* the Value Proposition draft's "and it stands out for" (doc 42).
 
 ## As built: the readings chosen (2026-11-04)
 

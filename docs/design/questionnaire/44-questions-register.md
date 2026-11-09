@@ -219,7 +219,7 @@ None.
   - "i":
     - Minors, semi-dependent: Mid and Late Adolescence, with limited buying power; mostly cash, wallets and gift cards.
     - Credit and long contracts are not open to them. Look up the country's online-consent age and its minimum working age.
-    - Choose the group that pays, not the one that uses it.
+    - Choose the group that pays, even when another group uses it.
     - Each age group holds the years from its first number to its last, both included, so no age is in two groups (25–39, then 40–54).
 - **Box 1, 2. What is their highest level of education?**
   - Options: Did not finish secondary school; Secondary school; Vocational / technical diploma; Bachelor's degree; Master's degree; Doctorate.
@@ -256,7 +256,7 @@ None.
 - **Box 1, 7. How are your customers paid?**
   - Options: Fixed salary; Hourly wage; Variable pay.
   - "i":
-    - How steady their pay is, not how much it is (that is the household income below).
+    - How steady their pay is; how much they earn is the household income below.
     - A fixed salary suits regular subscriptions; variable or hourly earners feel sudden cash-flow dips.
     - Fixed salary: Predictable monthly or fortnightly pay
     - Hourly wage: Fluctuating based on scheduled shifts
@@ -266,7 +266,7 @@ None.
   - "i":
     - 1 = Low, 5 = High.
     - Compare with the typical household income in their country: 3 is around the median.
-    - Household income is what the home earns together, not one person's pay.
+    - Household income is what everyone in the home earns together.
 - **Box 1, 9. What is the gender mix of your customers?**
   - Options: the points 1 to 5 (Mostly men to Mostly women).
   - "i":
@@ -326,7 +326,7 @@ None.
   - Options: the points 1 to 5 (Uneasy to Confident).
   - "i":
     - 1 = Uneasy, 5 = Confident.
-    - How easily they use websites, apps and online payment, not whether they own a device.
+    - How easily they use websites, apps and online payment.
 
 ### 3.3 Geographics
 
@@ -398,7 +398,7 @@ None.
   - Options: the points 1 to 5 (Uneasy to Confident).
   - "i":
     - 1 = Uneasy, 5 = Confident.
-    - How easily they use websites, apps and online payment, not whether they own a device.
+    - How easily they use websites, apps and online payment.
 - **Box 4, 2. How do your customers like to socialise?**
   - Options: Mostly online; Online and in person; Mostly in person.
   - "i":
@@ -465,7 +465,7 @@ None.
   - Options: Very small niche, under 1,000; Specialist, 1,000–49,999; Mid-market, 50,000–499,999; Mass market, 500,000 or more.
   - "i":
     - Everyone in the area you serve who could buy it, if every one of them chose you (the total addressable market).
-    - For a Segment of businesses, count the organisations, not the people in them.
+    - For a Segment of businesses, count each organisation once.
 - **Box 5, 2. Is your market growing or shrinking?**
   - Options: the points 1 to 5 (Shrinking to Booming).
   - "i":
@@ -524,7 +524,7 @@ None.
 - **A1. How old is this person?**
   - Options: a number of years, within the Segment's age group.
   - "i":
-    - One age within the Segment's age group: a typical person, not the average.
+    - One age within the Segment's age group: a typical person, as you picture them.
     - If the Segment's age group changes and this age falls outside it, the age is cleared.
 - **A7. Who does this person live with?**
   - Options: Alone; With a partner; With a partner and children; Single parent with children; With parents / relatives; With friends / housemates.
@@ -562,7 +562,7 @@ None.
     - What they weigh when choosing between offers. Tick up to five, then rate how much each matters.
     - For example, a busy parent may weigh Speed and Convenience; a collector, Quality.
     - Affordability: a price they can pay. Convenience: easy to find, buy and use. Reputation: a name they trust. Expertise: deep knowledge.
-    - Personalisation: made for them, not for everyone. Safety / security: low risk, nothing goes wrong. Values: it stands for what they believe in.
+    - Personalisation: made just for them. Safety / security: low risk, nothing goes wrong. Values: it stands for what they believe in.
     - Write their interests, lifestyle and hopes in the note.
 
 ### 4.3 Social & Interest Hubs
@@ -601,7 +601,7 @@ None.
 - **C1. Which devices does this person use?**
   - Options: Smartphone; Laptop / desktop; Tablet; A shared / public device; Other (written in).
   - "i":
-    - The devices they use to find and buy, not those they own.
+    - The devices they use to find and buy.
     - The Segment's choice of where they buy starts this; change it freely.
 - **D1. How does this person compare options?**
   - Options: Your website; Online reviews / ratings; A demo / trial / sample; A quote / proposal; Word of mouth / referrals; Comparison sites; A meeting / call.
@@ -615,7 +615,7 @@ None.
 - **D3. When does this person usually buy?**
   - Options: Weekday daytime; Evenings; Weekends; Around seasons / holidays.
   - "i":
-    - When they actually buy, not when they are free: the Segment's work schedule says when they work.
+    - When they actually buy; the Segment's work schedule says when they work.
     - How they buy, in their words, goes in the Notes.
 
 ### 4.5 Goals & Desires
@@ -628,7 +628,7 @@ None.
   - Options: ticked, then each rated 1 to 5: Accessibility; Development; Expression; Compliance; Revenue; Efficiency; Resolution; Enjoyment.
   - "i":
     - 1 = Minor, 5 = Main.
-    - The results they are after, not what they weigh when choosing (that is "What matters most"). Choose up to three, then rate each.
+    - The results they are after; what they weigh when choosing goes in "What matters most". Choose up to three, then rate each.
     - For example, to learn a new craft, or to win more clients.
     - Accessibility: getting something hard to reach. Development: learning something new. Expression: showing who they are. Revenue: winning customers or income.
     - Compliance: meeting a requirement or staying within the rules, at work or by law. Efficiency: saving time or money.
@@ -661,7 +661,7 @@ None.
   - Options: ticked, then each rated 1 to 5: Price; Credibility; Onboarding; Complexity; Risk; Fit; Support; Migration; Image.
   - "i":
     - 1 = Minor, 5 = Blocking.
-    - Their doubts about buying from you, not what frustrates them today. Choose up to three, then rate each.
+    - Their doubts about buying from you; today's frustrations have their own question. Choose up to three, then rate each.
     - For example, whether a beginner can keep up, or whether you will still be there after the sale.
     - Credibility: whether you can be trusted. Onboarding: the time to get started. Complexity: how hard it is to use. Fit: whether it suits their need.
     - Support: help after buying. Migration: the work of leaving what they use now. Risk: risk or security. Image: what others will think of them.
@@ -681,7 +681,7 @@ None.
   - Options: ticked, then each rated 1 to 5: Organisation; Integration; Connection; Information; Variety.
   - "i":
     - 1 = Mild, 5 = Strong.
-    - The jobs they need done, not every task. Choose up to three, then rate each; write their own tasks in the list below.
+    - The main jobs they need done. Choose up to three, then rate each; write their own tasks in the list below.
     - Organisation: keeps tasks, records or belongings in order. Integration: works with the tools or routines they already use.
     - Connection: helps them reach or work with other people. Variety: gives more options than they had.
     - Information: gives answers or facts they need now (learning is the goal Development).
@@ -690,7 +690,7 @@ None.
   - Options: ticked, then each rated 1 to 5: Calm; Rewarded; Nurtured; Entertained; Attractive; Healthy; Delighted; Nostalgic; Motivated; Hopeful; Fulfilled; Proud.
   - "i":
     - 1 = Mild, 5 = Strong.
-    - The feelings that make them buy, not every one they have. Choose up to three, then rate each.
+    - The feelings that decide whether they buy. Choose up to three, then rate each.
     - For example, calm when a delivery arrives on time, or delighted by how a room looks.
     - Based on: Bain's Elements of Value (HBR, 2016 and 2018).
     - Rewarded: treated to something special. Nurtured: looked after. Delighted: by how it looks. Nostalgic: reminded of good times. Fulfilled: growing as a person.
@@ -699,7 +699,7 @@ None.
   - Options: ticked, then each rated 1 to 5: Confident; Glad to work with you; Prosperous; Optimistic; Inspired.
   - "i":
     - 1 = Mild, 5 = Strong.
-    - The feelings that make them buy, not every one they have. Choose up to three, then rate each.
+    - The feelings that decide whether they buy. Choose up to three, then rate each.
     - For example, sure they chose the right supplier, or glad to work with you again.
     - Based on: Bain's Elements of Value (HBR, 2016 and 2018).
     - Confident: sure they made the right choice. Prosperous: growing in their work. Optimistic: hopeful about their business.
@@ -707,7 +707,7 @@ None.
   - Options: ticked, then each rated 1 to 5: Stylish; Included; Exclusive; Altruistic; Impactful.
   - "i":
     - 1 = Mild, 5 = Strong.
-    - The ways of being seen by others that make them buy, not every one they have. Choose up to three, then rate each.
+    - The ways of being seen by others that decide whether they buy. Choose up to three, then rate each.
     - For example, as stylish when friends visit, or as caring for the planet.
     - Based on: Bain's Elements of Value (HBR, 2016 and 2018).
     - Included: part of a group they value. Exclusive: one of the few with access. Altruistic: caring for others or the planet. Impactful: leaving a legacy.
@@ -715,7 +715,7 @@ None.
   - Options: ticked, then each rated 1 to 5: Trusted; Influential; Respected; Responsible.
   - "i":
     - 1 = Mild, 5 = Strong.
-    - The ways of being seen by others that make them buy, not every one they have. Choose up to three, then rate each.
+    - The ways of being seen by others that decide whether they buy. Choose up to three, then rate each.
     - For example, as someone colleagues trust, or as a responsible business.
     - Based on: Bain's Elements of Value (HBR, 2016 and 2018).
     - Influential: well connected. Respected: valued in their field.
@@ -732,7 +732,7 @@ None.
 - **A1 (end user). How old is the end user?**
   - Options: a number of years, within the Segment's end-user stage.
   - "i":
-    - One age within the Segment's end-user stage: a typical end user, not the average.
+    - One age within the Segment's end-user stage: a typical end user, as you picture them.
     - If the Segment's end-user stage changes and this age falls outside it, the age is cleared.
 - **A7 (end user). Who does the end user live with?**
   - Options: Alone; With a partner; With a partner and children; Single parent with children; With parents / relatives; With friends / housemates.
@@ -744,7 +744,7 @@ None.
   - Options: the points 1 to 5 (Uneasy to Confident).
   - "i":
     - 1 = Uneasy, 5 = Confident.
-    - How easily they use websites, apps and online payment, not whether they own a device.
+    - How easily they use websites, apps and online payment.
     - The Segment's answer for its end users starts this; change it freely.
 - **E4. Outcome for the end user**
   - Options: Enjoyment & fun; Comfort & ease; Safety & care; Learning & growth; Looks & belonging; Practical use.

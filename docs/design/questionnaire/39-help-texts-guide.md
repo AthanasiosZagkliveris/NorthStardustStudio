@@ -57,6 +57,7 @@ By place, the median is 245 characters in a tile dialog, 74 on a floating card (
 4. **Details go in the "i", not in the label or the option.** An option says its few words; what is added in brackets, after a colon or as an example stands in the question's "i", under the option's name (rule of 2026-11-01, doc 35).
 5. **The owner's texts stay, and come first.** A prompt or an instruction written by the owner is the first point, word for word; anything added is a separate point after it.
 6. **One idea per point; a point is a sentence or two.**
+7. **Affirmative, natural voice**: an "i" says what something is and does (rule owned by `standard.md`, section 3).
 
 ### 3.2 The structure of the "i" of a field or question
 
@@ -64,7 +65,7 @@ In this order; a point that has nothing to say is left out.
 
 | # | Point | What it holds | Example |
 |---|---|---|---|
-| 1 | **What it asks** | One sentence: what the question is for, in the user's words (or the owner's prompt) | "How steady their pay is, not how much it is." |
+| 1 | **What it asks** | One sentence: what the question is for, in the user's words (or the owner's prompt) | "How steady their pay is." |
 | 2 | **How to answer** | The rule of the control and what to do when it does not fit | "Choose up to three." / "If they are in more than one place, make another Segment." |
 | 3 | **What it changes now** | One line, only where the answer changes what the user sees | "The age groups offered follow the life stage chosen in Positioning." |
 | 4 | **Option notes** | One line per option that needs one, "Option: meaning", at most six; the ranges, examples and brackets taken out of the options | "Direct Buyers: purchasing exclusively for their own personal use." |
@@ -125,7 +126,7 @@ Words to avoid in an "i": *tile, card, locked, frozen, driver, check, Segment fr
 1. **The size budget** is a point of **at most 160 characters**, for every place.
 2. **When texts are rewritten:** only when their field is next changed, one component at a time; the 31 over-long texts are not rewritten in one pass.
 3. **The avoid list** (an industry code, or a jargon acronym, in the text; the internal words) is built as a check on the walk of doc 22.
-4. **The standard phrases** stand as in 3.4: short, active fragments ("Choose the primary group that pays, not the one that uses it.").
+4. **The standard phrases** stand as in 3.4: short, active fragments ("Choose the group that pays, even when another group uses it.").
 5. **The check lists warnings only; it never fails.** Doc 22 has a *Warnings* section (a point over 160 characters, the same text under several labels, an industry code, a jargon acronym, an internal word), written by `help-texts-doc.mjs`; the docs check does not read it.
 
 Nothing in this document is open except the first rewrite of each text, which waits for its field.

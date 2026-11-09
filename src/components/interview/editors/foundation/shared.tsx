@@ -35,7 +35,7 @@ export const SUBSECTIONS = {
         ],
         // What the "i" of the Segment Description adds to the two instructions (which stand above the line on the page): how the questions of its boxes come and go.
         // (Two points since 2026-11-08: an answer held back while Planning is kept.)
-        questionsNote: "Which choices each box asks follows your Positioning (who buys, their life stage and category) and your stage. An answer no longer asked is removed.",
+        questionsNote: "Which choices each box asks follows your Positioning (who buys, their life stage and category) and your stage. When a question leaves a box, its answer is removed.",
         questionsHeldNote: "Some questions wait until you launch; an answer given to one of them is kept.",
         // What the "i" of each box adds to its prompt: what it asks and what its questions follow.
         boxNotes: {
@@ -57,7 +57,7 @@ export const SUBSECTIONS = {
                 "Socialising, what makes them shop, how they decide and how they share are asked about people; who decides to buy, about businesses."
             ],
             "market-size": [
-                "These answers describe the market the customers belong to, not your own business."
+                "These answers describe the market the customers belong to."
             ],
             user: [
                 "Shown when the buyer buys for someone else (a Proxy or Dual-Intent buyer in Positioning).", "It describes who uses what is bought: their life stage, their school or work, and how comfortable they are online."

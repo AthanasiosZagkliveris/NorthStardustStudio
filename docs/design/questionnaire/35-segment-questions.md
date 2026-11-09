@@ -60,7 +60,7 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
 - **The "i" says:**
   - Minors, semi-dependent: Mid and Late Adolescence, with limited buying power; mostly cash, wallets and gift cards.
   - Credit and long contracts are not open to them. Look up the country's online-consent age and its minimum working age.
-  - Choose the group that pays, not the one that uses it.
+  - Choose the group that pays, even when another group uses it.
   - Each age group holds the years from its first number to its last, both included, so no age is in two groups (25–39, then 40–54).
 - **Connections:**
   - *Comes from:* Early Positioning: the buyer's life stage (the terms offered) and the seller and buyer relationship (people).
@@ -167,7 +167,7 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
   - Hourly wage
   - Variable pay
 - **The "i" says:**
-  - How steady their pay is, not how much it is (that is the household income below).
+  - How steady their pay is; how much they earn is the household income below.
   - A fixed salary suits regular subscriptions; variable or hourly earners feel sudden cash-flow dips.
   - Fixed salary: Predictable monthly or fortnightly pay
   - Hourly wage: Fluctuating based on scheduled shifts
@@ -185,7 +185,7 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
 - **The "i" says:**
   - 1 = Low, 5 = High.
   - Compare with the typical household income in their country: 3 is around the median.
-  - Household income is what the home earns together, not one person's pay.
+  - Household income is what everyone in the home earns together.
 - **Connections:**
   - *Comes from:* This Segment's age (not asked of Minors).
   - *Read by (built):* The Market document and the export.
@@ -350,7 +350,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
 - **Options:** the points 1 to 5.
 - **The "i" says:**
   - 1 = Uneasy, 5 = Confident.
-  - How easily they use websites, apps and online payment, not whether they own a device.
+  - How easily they use websites, apps and online payment.
 - **Connections:**
   - *Comes from:* Nothing.
   - *Read by (built, 2026-11-04):* the Profile's C2, not asked when this is rated 1, and D2's start: 4 or 5 starts "Works it out alone", 1 or 2 "Wants to talk to a person" (doc 36).
@@ -538,7 +538,7 @@ Both.
   - Mass market, 500,000 or more
 - **The "i" says:**
   - Everyone in the area you serve who could buy it, if every one of them chose you (the total addressable market).
-  - For a Segment of businesses, count the organisations, not the people in them.
+  - For a Segment of businesses, count each organisation once.
 - **Connections:**
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export; the Business Plan's Market Analysis is covered once a market question is answered.
@@ -741,7 +741,7 @@ Asked when the Segment's own buyer relationship has a Proxy or Dual-Intent buyer
 - **Options:** the points 1 to 5.
 - **The "i" says:**
   - 1 = Uneasy, 5 = Confident.
-  - How easily they use websites, apps and online payment, not whether they own a device.
+  - How easily they use websites, apps and online payment.
 - **Connections:**
   - *Comes from:* Early Positioning: the buyer's category.
   - *Read by (built):* The Market document and the export.

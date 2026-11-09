@@ -95,7 +95,7 @@ const BUY_TIMES = ["Weekday daytime", "Evenings", "Weekends", "Around seasons / 
 /** The functional jobs (owner, 2026-11-07; L17, doc 34, 5.2c): Bain's functional elements no other question already holds [FUN-48], one word each. */
 const FUNCTIONAL = ["Organisation", "Integration", "Connection", "Information", "Variety"];
 const SOCIAL_BUSINESS = ["As someone others trust", "As well connected", "As more valued in their field", "As a responsible business"];
-const NEEDS_INFO = (what: string, example: string) => ["The " + what + " that make them buy, not every one they have. Choose up to three, then rate each.", example, "Based on: Bain's Elements of Value (HBR, 2016 and 2018)."];
+const NEEDS_INFO = (what: string, example: string) => ["The " + what + " that decide whether they buy. Choose up to three, then rate each.", example, "Based on: Bain's Elements of Value (HBR, 2016 and 2018)."];
 
 const slug = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 /** What an option says (owner, 2026-11-03): similar things are joined with a slash ("Laptop / desktop"), different things with the word "or" ("Win customers or earn more"). The words shown are the ones written, or their entry in WORDS; the id stays the slug of the words it was first written with. */
@@ -109,7 +109,7 @@ const QUESTIONS: readonly ProfileQuestion[] = [
     },
     {
         id: "a1", box: "personal", label: "How old is {s}?", many: false, number: true, options: [],
-        info: ["One age within the Segment's age group: a typical person, not the average.", "If the Segment's age group changes and this age falls outside it, the age is cleared."]
+        info: ["One age within the Segment's age group: a typical person, as you picture them.", "If the Segment's age group changes and this age falls outside it, the age is cleared."]
     },
     {
         id: "a7", box: "personal", label: "Who does {s} live with?", many: false, options: HOUSEHOLDS,
@@ -139,7 +139,7 @@ const QUESTIONS: readonly ProfileQuestion[] = [
         id: "b1", box: "psychographics", label: "What matters most to {o}?", many: true, max: 5, options: list(CARES), rating: { low: "Optional", high: "Essential" },
         info: ["What they weigh when choosing between offers. Tick up to five, then rate how much each matters.", "For example, a busy parent may weigh Speed and Convenience; a collector, Quality.",
             "Affordability: a price they can pay. Convenience: easy to find, buy and use. Reputation: a name they trust. Expertise: deep knowledge.",
-            "Personalisation: made for them, not for everyone. Safety / security: low risk, nothing goes wrong. Values: it stands for what they believe in.", "Write their interests, lifestyle and hopes in the note."]
+            "Personalisation: made just for them. Safety / security: low risk, nothing goes wrong. Values: it stands for what they believe in.", "Write their interests, lifestyle and hopes in the note."]
     },
     {
         id: "c2", box: "hubs", label: "Which social media does {s} use?", many: true,
@@ -160,7 +160,7 @@ const QUESTIONS: readonly ProfileQuestion[] = [
     {
         id: "c1", box: "habits", label: "Which devices does {s} use?", many: true,
         options: [{ id: "phone", label: "Smartphone" }, { id: "computer", label: "Laptop / desktop" }, { id: "tablet", label: "Tablet" }, { id: "shared", label: "A shared / public device" }, OTHER], other: true,
-        info: ["The devices they use to find and buy, not those they own.", "The Segment's choice of where they buy starts this; change it freely."]
+        info: ["The devices they use to find and buy.", "The Segment's choice of where they buy starts this; change it freely."]
     },
     {
         id: "d1", box: "habits", label: "How does {s} compare options?", many: true,
@@ -173,16 +173,16 @@ const QUESTIONS: readonly ProfileQuestion[] = [
         options: [{ id: "alone", label: "Works it out alone" }, { id: "little", label: "Likes a little guidance" }, { id: "person", label: "Wants to talk to a person" }, { id: "formal", label: "Needs a formal demonstration or proposal" }],
         info: ["The help a typical person wants before buying; it can differ from how comfortable the Segment is online."]
     },
-    { id: "d3", box: "habits", label: "When does {s} usually buy?", many: true, options: list(BUY_TIMES), info: ["When they actually buy, not when they are free: the Segment's work schedule says when they work.", "How they buy, in their words, goes in the Notes."] },
-    { id: "e1", box: "goals", label: "What does {s} want to achieve?", many: true, max: 3, options: list(GOALS), rating: { low: "Minor", high: "Main" }, info: ["The results they are after, not what they weigh when choosing (that is \"What matters most\"). Choose up to three, then rate each.", "For example, to learn a new craft, or to win more clients.", "Accessibility: getting something hard to reach. Development: learning something new. Expression: showing who they are. Revenue: winning customers or income.", "Compliance: meeting a requirement or staying within the rules, at work or by law. Efficiency: saving time or money.", "Resolution: getting a specific problem fixed. Enjoyment: having fun or a good time.", "Based on: gains (Value Proposition Canvas)."] },
+    { id: "d3", box: "habits", label: "When does {s} usually buy?", many: true, options: list(BUY_TIMES), info: ["When they actually buy; the Segment's work schedule says when they work.", "How they buy, in their words, goes in the Notes."] },
+    { id: "e1", box: "goals", label: "What does {s} want to achieve?", many: true, max: 3, options: list(GOALS), rating: { low: "Minor", high: "Main" }, info: ["The results they are after; what they weigh when choosing goes in \"What matters most\". Choose up to three, then rate each.", "For example, to learn a new craft, or to win more clients.", "Accessibility: getting something hard to reach. Development: learning something new. Expression: showing who they are. Revenue: winning customers or income.", "Compliance: meeting a requirement or staying within the rules, at work or by law. Efficiency: saving time or money.", "Resolution: getting a specific problem fixed. Enjoyment: having fun or a good time.", "Based on: gains (Value Proposition Canvas)."] },
     { id: "e2", box: "challenges", label: "What frustrates {o} today?", many: true, max: 3, options: list(FRUSTRATIONS), rating: { low: "Mild", high: "Severe" }, info: ["What goes wrong with the way they do it now, before they buy from you. Choose up to three, then rate how much each bothers them.", "For example, the cheap version breaks too soon, or nobody explains how to start.", "Cost: too costly, or unclear prices. Delays: it takes too long. Inconsistency: results vary. Trust: hard to find someone reliable.", "Skills gap: not knowing how, or fearing a mistake. Capacity: no time or staff. Hassle: too complicated, or poor support.", "Based on: pains (Value Proposition Canvas)."] },
     // The Needs (doc 36, section 10): Emotional and Social ticked and rated, by the Segment's kind; Functional stays the numbered list. Each kind's list stays as its note.
-    { id: "functional", box: "needs", label: "What kind of job does {s} need done?", many: true, max: 3, options: list(FUNCTIONAL), rating: { low: "Mild", high: "Strong" }, info: ["The jobs they need done, not every task. Choose up to three, then rate each; write their own tasks in the list below.", "Organisation: keeps tasks, records or belongings in order. Integration: works with the tools or routines they already use.", "Connection: helps them reach or work with other people. Variety: gives more options than they had.", "Information: gives answers or facts they need now (learning is the goal Development).", "Based on: Bain's Elements of Value (HBR, 2016)."] },
+    { id: "functional", box: "needs", label: "What kind of job does {s} need done?", many: true, max: 3, options: list(FUNCTIONAL), rating: { low: "Mild", high: "Strong" }, info: ["The main jobs they need done. Choose up to three, then rate each; write their own tasks in the list below.", "Organisation: keeps tasks, records or belongings in order. Integration: works with the tools or routines they already use.", "Connection: helps them reach or work with other people. Variety: gives more options than they had.", "Information: gives answers or facts they need now (learning is the goal Development).", "Based on: Bain's Elements of Value (HBR, 2016)."] },
     { id: "emotional", box: "needs", label: "How does {s} want to feel?", many: true, max: 3, options: list(EMOTIONAL_PEOPLE), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("feelings", "For example, calm when a delivery arrives on time, or delighted by how a room looks."), "Rewarded: treated to something special. Nurtured: looked after. Delighted: by how it looks. Nostalgic: reminded of good times. Fulfilled: growing as a person.", "Proud: a sense of self-worth or achievement in what they own or made (Desmet's 25 product emotions, 2012)."] },
     { id: "emotional-b2b", box: "needs", label: "How does {s} want to feel?", many: true, max: 3, options: list(EMOTIONAL_BUSINESS), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("feelings", "For example, sure they chose the right supplier, or glad to work with you again."), "Confident: sure they made the right choice. Prosperous: growing in their work. Optimistic: hopeful about their business."] },
     { id: "social", box: "needs", label: "How does {s} want to be seen?", many: true, max: 3, options: list(SOCIAL_PEOPLE), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("ways of being seen by others", "For example, as stylish when friends visit, or as caring for the planet."), "Included: part of a group they value. Exclusive: one of the few with access. Altruistic: caring for others or the planet. Impactful: leaving a legacy."] },
     { id: "social-b2b", box: "needs", label: "How does {s} want to be seen?", many: true, max: 3, options: list(SOCIAL_BUSINESS), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("ways of being seen by others", "For example, as someone colleagues trust, or as a responsible business."), "Influential: well connected. Respected: valued in their field."] },
-    { id: "e3", box: "objections", label: "What might hold {o} back?", many: true, max: 3, options: list(WORRIES), rating: { low: "Minor", high: "Blocking" }, info: ["Their doubts about buying from you, not what frustrates them today. Choose up to three, then rate each.", "For example, whether a beginner can keep up, or whether you will still be there after the sale.", "Credibility: whether you can be trusted. Onboarding: the time to get started. Complexity: how hard it is to use. Fit: whether it suits their need.", "Support: help after buying. Migration: the work of leaving what they use now. Risk: risk or security. Image: what others will think of them.", "Starts with the price where the Segment's household income is rated 1; change it freely."] }
+    { id: "e3", box: "objections", label: "What might hold {o} back?", many: true, max: 3, options: list(WORRIES), rating: { low: "Minor", high: "Blocking" }, info: ["Their doubts about buying from you; today's frustrations have their own question. Choose up to three, then rate each.", "For example, whether a beginner can keep up, or whether you will still be there after the sale.", "Credibility: whether you can be trusted. Onboarding: the time to get started. Complexity: how hard it is to use. Fit: whether it suits their need.", "Support: help after buying. Migration: the work of leaving what they use now. Risk: risk or security. Image: what others will think of them.", "Starts with the price where the Segment's household income is rated 1; change it freely."] }
 ];
 
 export const PROFILE_QUESTIONS = QUESTIONS;
@@ -220,7 +220,7 @@ const OUTCOME = SEGMENT_QUESTIONS.find(question => question.id === "u-outcome");
 const USER_QUESTIONS: readonly ProfileQuestion[] = [
     {
         id: "a1", box: "personal", label: "How old is {s}?", many: false, number: true, options: [],
-        info: ["One age within the Segment's end-user stage: a typical end user, not the average.", "If the Segment's end-user stage changes and this age falls outside it, the age is cleared."]
+        info: ["One age within the Segment's end-user stage: a typical end user, as you picture them.", "If the Segment's end-user stage changes and this age falls outside it, the age is cleared."]
     },
     {
         id: "a7", box: "personal", label: "Who does {s} live with?", many: false, options: HOUSEHOLDS,
@@ -228,7 +228,7 @@ const USER_QUESTIONS: readonly ProfileQuestion[] = [
     },
     {
         id: "comfort", box: "personal", label: "How comfortable is {s} online?", many: false, rating: COMFORT_RATING, options: ratingOptions(COMFORT_RATING),
-        info: ["How easily they use websites, apps and online payment, not whether they own a device.", "The Segment's answer for its end users starts this; change it freely."]
+        info: ["How easily they use websites, apps and online payment.", "The Segment's answer for its end users starts this; change it freely."]
     },
     {
         // Named by the relationship as the rest of the part ("Outcome for the child"; owner, 2026-11-09): profileUserWho.
