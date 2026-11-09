@@ -165,7 +165,9 @@ for (const [theme, width] of RUNS) {
             // a control's boundary: its own line (a box, a list) or its fill, against the ground beside it
             const ground = px(withText, c.x - 4, c.y + c.h / 2);
             const a = c.border.a, line = { r: c.border.r * a + ground.r * (1 - a), g: c.border.g * a + ground.g * (1 - a), b: c.border.b * a + ground.b * (1 - a) };
-            const own = c.bw !== "0px" ? ratio(line, ground) : 0;
+            // (Its edge as drawn: the border, or the 1px tonal step inside it (--cell-step, owner 2026-11-09), read from the screenshot at its top and left edges, the first two pixels in.)
+            const drawn = Math.max(...[0.5, 1.5].flatMap(d => [ratio(px(withText, c.x + d, c.y + c.h / 2), ground), ratio(px(withText, c.x + c.w / 2, c.y + d), px(withText, c.x + c.w / 2, c.y - 4))]));
+            const own = Math.max(c.bw !== "0px" ? ratio(line, ground) : 0, drawn);
             if (own < 3 && !["button"].includes(c.kind)) edges.push(c.kind + " " + c.name + " " + own.toFixed(2));
         }
         if (edges.length) problems.push("control boundary under 3:1 [" + [...new Set(edges)].slice(0, 4).join(" | ") + "]");

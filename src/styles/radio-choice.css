@@ -61,7 +61,7 @@
     border: 1px solid var(--text-muted);
     border-radius: 50%;
 
-    background: var(--bg-surface);
+    background: var(--cell-fill);
 
     box-shadow: var(--cell-inset-recess);
 

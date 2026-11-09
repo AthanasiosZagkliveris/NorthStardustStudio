@@ -77,7 +77,8 @@ describe("the opened cards, their cells and the Back button have no stroke eithe
         expect(css).toMatch(/\.floating-card-back\.floating-card-back:is\(:hover, :focus-visible\) \{[^}]*border-color: transparent;[^}]*background: var\(--plus-fill\);[^}]*color: var\(--plus-ground\);/);
         // The focus ring stays.
         expect(edges).toMatch(/:is\(\.interview-input, \.option-picker-trigger\):focus[^{]*\{[^}]*box-shadow: var\(--cell-inset\), 0 0 0 3px/);
-        expect(global).toMatch(/--cell-inset: inset 2px 2px 3px var\(--cell-light\), inset -2px -2px 3px var\(--cell-shade\);/);
+        // (The 1px tonal step first, then the soft light and shade: owner, 2026-11-09.)
+        expect(global).toMatch(/--cell-inset: inset 1px 1px 0 var\(--cell-edge-light\), inset -1px -1px 0 var\(--cell-edge-dark\), inset 2px 2px 3px var\(--cell-light\), inset -2px -2px 3px var\(--cell-shade\);/);
         expect(global).toMatch(/:root\[data-theme="dark"\] \{[^}]*--cell-light:[^}]*--cell-shade:/);
     });
 
@@ -469,7 +470,7 @@ describe("the cards of a resource group", () => {
 describe("the text and number cells are recessed", () => {
 
     it("has one token for the recess (the inset the other way round), used by the text and number inputs and textareas, not by a picker", () => {
-        expect(global).toMatch(/--cell-inset-recess: inset 2px 2px 3px var\(--cell-shade\), inset -2px -2px 3px var\(--cell-light\);/);
+        expect(global).toMatch(/--cell-inset-recess: var\(--cell-step\), inset 2px 2px 3px var\(--cell-shade\), inset -2px -2px 3px var\(--cell-light\);/);
         expect(edges).toMatch(/:is\(input\.interview-input:not\(\[type=checkbox\]\), textarea\.interview-input\):not\(\.option-picker-trigger\):not\(:focus\):not\(:disabled\) \{[^}]*box-shadow: var\(--cell-inset-recess\);/);
         // The focus ring stays, drawn over the recess; a disabled (frozen) cell is flat (the rule it already had).
         expect(edges).toMatch(/:focus \{[^}]*box-shadow: var\(--cell-inset-recess\), 0 0 0 3px/);

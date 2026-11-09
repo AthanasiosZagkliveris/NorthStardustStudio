@@ -394,7 +394,7 @@
     border: 1px solid var(--line-box);
     border-radius: 12px;
 
-    background: var(--bg-surface);
+    background: var(--cell-fill);
 
     font: inherit;
     font-size: var(--font-body);

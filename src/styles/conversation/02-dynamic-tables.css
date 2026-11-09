@@ -608,7 +608,7 @@
     border:1px solid var(--box-border);
     border-radius:var(--radius-md);
 
-    background:var(--bg-surface);
+    background:var(--cell-fill);
 
 }
 
@@ -833,7 +833,7 @@
     padding:0 calc(var(--size-box-button) + 12px) 0 12px;
     border:1px solid transparent;
     border-radius:var(--radius-md);
-    background:var(--bg-surface);
+    background:var(--cell-fill);
     box-shadow:var(--cell-inset-recess);
     font:inherit;
     font-size:var(--font-body);
