@@ -1011,6 +1011,24 @@
             }
         }
 
+        // 16c. THE ARROWS NEVER MOVE, AND THE TAB'S LIST FLOWS ROUND THEM (docs/ai/layout-rules.md, section 10, "Carousel arrows" and "Page tab"): the two arrows
+        //      stand level with each other, and no line of the page tab lies under an arrow (the line that would reach it continues after it).
+        {
+            const arrows = [...document.querySelectorAll(".page-arrow.carousel-arrow")].filter(visible).filter(arrow => getComputedStyle(arrow).display !== "none");
+            if (arrows.length === 2 && Math.abs(rect(arrows[0]).top - rect(arrows[1]).top) > 1) {
+                fail("the two carousel arrows stand level, at the middle of their layer", arrows[0], { tops: arrows.map(arrow => rect(arrow).top) });
+            }
+            for (const arrow of arrows) {
+                const a = rect(arrow);
+                for (const line of [...document.querySelectorAll(".carousel-rail-tab .bullet-rail-list > li, .carousel-rail-tab .carousel-rail-back")].filter(visible)) {
+                    const l = rect(line);
+                    if (l.left < a.right && l.right > a.left && l.top < a.bottom && l.bottom > a.top) {
+                        fail("no line of the page tab lies under a carousel arrow (it continues after it)", line, { line: [l.left, l.top, l.right, l.bottom], arrow: [a.left, a.top, a.right, a.bottom] });
+                    }
+                }
+            }
+        }
+
         // 16b. THE CAROUSEL ARROWS ARE NEVER COVERED (owner, 2026-11-09: "Where is the left arrow?"): each arrow of the layer opened last is
         //      the topmost thing at its own centre -- not under the page tab (.carousel-rail), however long its list.
         for (const arrow of [...document.querySelectorAll(".page-arrow.carousel-arrow")].filter(visible)) {
