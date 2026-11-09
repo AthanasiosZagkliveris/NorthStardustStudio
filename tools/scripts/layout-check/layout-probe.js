@@ -2685,6 +2685,20 @@
             }
         }
 
+        // 21. ONE QUESTION PER BAND (docs/ai/tile-and-card-pattern.md, "One band pattern"): in a box of bands (the Foundation page's cards and dialogs, on the page or in a dialog) each band
+        // holds one question -- one labelled field row, the outermost in the band -- so the tints alternate question by question. `npm run check:card` measures it on the floating cards too.
+        for (const band of [...document.querySelectorAll(".business-segment-box > .legal-entity-org-section, .business-segment-grid > .legal-entity-field > .legal-entity-org-section")].filter(visible)) {
+            const questions = [...band.querySelectorAll(".legal-entity-pair, .legal-entity-field")].filter(row => {
+                const up = row.parentElement.closest(".legal-entity-pair, .legal-entity-field");
+                // (A field row can be display: contents, no box of its own: its label is what is measured.)
+                const label = row.querySelector(".field-label");
+                return (!up || !band.contains(up)) && label && visible(label);
+            });
+            if (questions.length > 1) {
+                fail("a band holds one question", band, { questions: questions.map(row => row.querySelector(".field-label").textContent.trim().slice(0, 30)) });
+            }
+        }
+
         // A remove x never lies on a cell, and keeps 12px from the cell beside it (it stands in the x column): no text box, picker or text area of the same card overlaps it
         // or ends less than 12px before it on its row.
         for (const remove of [...document.querySelectorAll(".strategy-box-remove, .card-remove")].filter(visible)) {

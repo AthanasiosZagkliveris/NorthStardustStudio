@@ -958,7 +958,7 @@ No questions: the tile shows a draft sentence and the open items, read from the 
 |---|---|---|---|---|---|---|---|---|---|
 | 5 | O2 | `o2` | Can your customers buy it today? | FittingRadioChoice | – | always | from the business stage: Planning, Still being built; Launching to Growing, Yes, now | built | doc 43, O2 |
 | 6 | O3 | `o3` | On what terms do they pay for it? | RadioChoice | – | always | from O1: Online access, a subscription; Project work, a project or contract; An ongoing service, a retainer; a live online session or an in-person service, per session | built | doc 43, O3 |
-| 7 | O3b | `o3t` | When do they pay? | RadioChoice | – | always (the second row of O3's band) | from O3: a subscription or retainer, monthly; a project, a deposit then the rest; one purchase, before they get it | built | doc 43, O3b |
+| 7 | O3b | `o3t` | When do they pay? | RadioChoice | – | always (its own band, straight after O3) | from O3: a subscription or retainer, monthly; a project, a deposit then the rest; one purchase, before they get it | built | doc 43, O3b |
 | 8 | O15 | `o15` | How long until they have it? | FittingRadioChoice | – | always | from O1: a digital file, an app / online tool or online access, Straight away | built | doc 43, O15 |
 | 9 | O6 | `o6` | How do your customers receive it? | BusinessTicks | – | always | from O1, the clearest way only (a physical item: Posted / shipped; a digital file: Sent automatically online; project work: Sent by you online; and so on) | built | doc 43, O6 |
 

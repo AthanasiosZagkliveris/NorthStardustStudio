@@ -195,7 +195,7 @@ const OFFERING_CODES = {
     o1: ["O1", "the Type is chosen (the forms follow it)"],
     o2: ["O2", "always", "from the business stage: Planning, Still being built; Launching to Growing, Yes, now"],
     o3: ["O3", "always", "from O1: Online access, a subscription; Project work, a project or contract; An ongoing service, a retainer; a live online session or an in-person service, per session"],
-    o3t: ["O3b", "always (the second row of O3's band)", "from O3: a subscription or retainer, monthly; a project, a deposit then the rest; one purchase, before they get it"],
+    o3t: ["O3b", "always (its own band, straight after O3)", "from O3: a subscription or retainer, monthly; a project, a deposit then the rest; one purchase, before they get it"],
     o4: ["O4", "always", "from the Segment's Differentiation (K14), then the buyer's outcome saved on Positioning before 2026-11-08, through the value crosswalk (up to three)"],
     o6: ["O6", "always", "from O1, the clearest way only (a physical item: Posted / shipped; a digital file: Sent automatically online; project work: Sent by you online; and so on)"],
     o7: ["O7", "always"],
@@ -450,7 +450,7 @@ function rows(code) {
             source: "`OFFERING_QUESTIONS` and `OFFERING_BOX_QUESTIONS` in `src/framework/engine/OfferingQuestions.ts` (the options, `offeringOptions`); saved under `questions` on the Offering. Under the name the card asks the Type (Product, Service, Hybrid), and the Customer Benefit box opens with the Functional Needs Addressed (ticks of the Profiles' numbered tasks; owner, 2026-11-08), neither of them a coded question",
             boxes: F.SUBSECTIONS.offerings.description.map(part => ({
                 title: part.title,
-                questions: [...(O.OFFERING_BOX_QUESTIONS[part.id] ?? []).flat().map(id => {
+                questions: [...(O.OFFERING_BOX_QUESTIONS[part.id] ?? []).map(id => {
                     const question = O.OFFERING_QUESTIONS.find(entry => entry.id === id);
                     const [code, asked, starts] = OFFERING_CODES[id] ?? missing("Offering", id);
                     const shown = O.offeringOptions(id, id === "o8" ? hybrid : { type: "Hybrid" });

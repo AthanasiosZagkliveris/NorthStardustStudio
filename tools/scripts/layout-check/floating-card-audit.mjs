@@ -2,7 +2,7 @@
  * THE AUDIT OF A FLOATING CARD OF QUESTIONS (docs/ai/tile-and-card-pattern.md, "A floating card of questions"): the Profile card is the model, and a new card of this kind is run
  * through this before it is called done. It opens the card in the running app (a Vite server on BASE_URL, 1420 by default), in light, sepia and dark and at two widths, and checks:
  *   width and reflow; the one content line; bands, lines and rules from side to side; bands flush; rules (the shared double rule between sections, one line between subsections);
- *   one band pattern, by the colours drawn (under a title band the first band untinted, then the tints alternate, the Notes the next tint); heading levels that never skip; no "None of these" in an option; text 4.5:1 and a control's boundary 3:1 (measured on the pixels); targets of 24px; names; console errors.
+ *   one band pattern, by the colours drawn (under a title band the first band untinted, then the tints alternate, the Notes the next tint); one question per band; heading levels that never skip; no "None of these" in an option; text 4.5:1 and a control's boundary 3:1 (measured on the pixels); targets of 24px; names; console errors.
  *
  *   node tools/scripts/layout-check/floating-card-audit.mjs
  *   CARD_PAGE="1. Foundation" CARD_SYSTEM="Business System" CARD_OPEN="The Considered Nester" EXAMPLE=lumen-and-loom-studio node tools/scripts/layout-check/floating-card-audit.mjs
@@ -85,6 +85,11 @@ const structure = () => {
         const what = e => (e.querySelector(".field-label")?.textContent ?? e.textContent).trim().slice(0, 30);
         if (list.length && !clear(list[0])) fail("band pattern", "the first band under a title is tinted: " + what(list[0]));
         for (let i = 1; i < list.length; i++) { if (clear(list[i]) === clear(list[i - 1])) fail("band pattern", "same tint as the band above: " + what(list[i])); }
+        // one question per band: a band holds one question (one labelled field row, the outermost in the band), so the tints alternate question by question
+        for (const band of list) {
+            const questions = [...band.querySelectorAll(".legal-entity-pair, .legal-entity-field")].filter(q => { const up = q.parentElement.closest(".legal-entity-pair, .legal-entity-field"); const label = q.querySelector(".field-label"); return (!up || !band.contains(up)) && label && label.getBoundingClientRect().height > 0; });
+            if (questions.length > 1) fail("one question per band", questions.length + " questions in one band: " + questions.map(q => q.querySelector(".field-label").textContent.trim().slice(0, 30)).join(" | "));
+        }
     }
     // words: no "None of these" (an Other the user writes in). (The word "or" is right between two different things, a slash between similar ones: owner, 2026-11-03, docs/ai/tile-and-card-pattern.md, "Options".)
     const words = [...card.querySelectorAll(".radio-choice-option span, .business-foundation-tick-label")].map(e => e.textContent.trim()).filter(w => /None of these/.test(w));

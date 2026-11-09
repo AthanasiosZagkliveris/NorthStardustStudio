@@ -182,18 +182,19 @@ export function offeringInfo(id: OfferingQuestionId, context: OfferingContext): 
 }
 
 /**
- * The questions of each Description box (doc 43; owner, 2026-11-07): each box asks its questions, one band each, then its optional Notes. A band can hold two
- * rows (O3, the terms, then when they pay).
+ * The questions of each Description box (doc 43; owner, 2026-11-07): each box asks its questions, one band each (one question per band, the tints alternating),
+ * then its optional Notes.
  */
 // (Owner, 2026-11-08, P6 and P7: Function asks O1 alone; Customer Benefit opens with the Functional Needs Addressed (the card draws that band), then O8 and O4; O2 opens
 // Purchase & Delivery, and how long until they have it (O15) comes before how they receive it (O6). The codes stay.)
-export const OFFERING_BOX_QUESTIONS: Readonly<Record<string, readonly (readonly OfferingQuestionId[])[]>> = {
-    function: [["o1"]],
-    benefit: [["o8"], ["o4"]],
-    scope: [["o14"]],
-    delivery: [["o2"], ["o3", "o3t"], ["o15"], ["o6"]],
-    support: [["o7"], ["o17"], ["o16"]],
-    requirements: [["o10"], ["o18"]]
+// (Owner, 2026-11-09: when they pay (O3b) is a band of its own, straight after O3's, no longer a second row in O3's band.)
+export const OFFERING_BOX_QUESTIONS: Readonly<Record<string, readonly OfferingQuestionId[]>> = {
+    function: ["o1"],
+    benefit: ["o8", "o4"],
+    scope: ["o14"],
+    delivery: ["o2", "o3", "o3t", "o15", "o6"],
+    support: ["o7", "o17", "o16"],
+    requirements: ["o10", "o18"]
 };
 
 /**

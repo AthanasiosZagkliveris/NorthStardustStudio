@@ -80,7 +80,7 @@ export function offeringCard(scope: FoundationCardScope, offering: BusinessOffer
         <>
 
             {/* The six Description boxes (doc 43; owner, 2026-11-07), as the Profile's and the Competitor's: each asks its questions, one band each
-                (O3's band holds its two rows), then its optional Notes, the box's saved text. A starting value shows until changed. */}
+                (one question per band, O3b too), then its optional Notes, the box's saved text. A starting value shows until changed. */}
             {(() => {
                 const context = offeringContext(offering);
                 /* The FUNCTIONAL needs typed into this Segment's own Profiles, more than one selectable: tick boxes, because the choice is a set. Functional only: an
@@ -127,8 +127,7 @@ export function offeringCard(scope: FoundationCardScope, offering: BusinessOffer
                     // (Of the end user or the buyer where the buyer is Proxy: offeringWho, 2026-11-09.)
                     const label = offeringWho(id, question.label, context);
                     return (
-                        // (O3's second row stands under the first in one band: nested, the shared 12px between rows.)
-                        <FieldRow key={id} pair fullList nested={id === "o3t"} label={label} info={[...offeringInfo(id, context)]}
+                        <FieldRow key={id} pair fullList label={label} info={[...offeringInfo(id, context)]}
                             labelNote={question.max !== undefined ? <span className="business-foundation-tick-note">{question.max + " max"}</span> : undefined}>
                             {question.many
                                 ? (
@@ -146,14 +145,15 @@ export function offeringCard(scope: FoundationCardScope, offering: BusinessOffer
                 return description(
                     whose,
                     SUBSECTIONS.offerings.description.map(part => {
-                        const bands = (OFFERING_BOX_QUESTIONS[part.id] ?? []).map(band => band.filter(id => offeringAsks(id, context))).filter(band => band.length > 0);
+                        // (One question per band: each asked question is one entry of the box's bands.)
+                        const asked = (OFFERING_BOX_QUESTIONS[part.id] ?? []).filter(id => offeringAsks(id, context));
                         return {
                             ...part,
-                            questions: [...(part.id === "benefit" ? [<Fragment key="needs">{needsBand}</Fragment>] : []), ...bands.map(band => <Fragment key={band.join("-")}>{band.map(ask)}</Fragment>)],
+                            questions: [...(part.id === "benefit" ? [<Fragment key="needs">{needsBand}</Fragment>] : []), ...asked.map(ask)],
                             note: true,
                             placeholder: NOTE_PLACEHOLDERS[part.id],
                             level: 4,
-                            weight: 2 + (bands.flat().length + (part.id === "benefit" ? 1 : 0)) * 4
+                            weight: 2 + (asked.length + (part.id === "benefit" ? 1 : 0)) * 4
                         };
                     }),
                     offering.description,
