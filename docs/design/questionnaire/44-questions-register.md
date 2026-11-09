@@ -184,7 +184,7 @@ None.
 
 | Code | Was | Status | Replaced by | Owner |
 |---|---|---|---|---|
-| 8 | Differentiation (`organisation.differentiation`) | retired | moved to the Competitor card's Insights & Differentiation, once per Segment after its Competitors: K14 (doc 41); the old answer is its start | doc 38, 8 to 10 |
+| 8 | Differentiation (`organisation.differentiation`) | retired | moved to the Segment's own section Differentiation, once per Segment after its Competitors: K14 (doc 41); the old answer is its start | doc 38, 8 to 10 |
 | 9 | Outcome for the buyer (`organisation.outcome`) | retired | moved to the Offering's O4, its one owner, through the crosswalk (doc 34, 5.2a; doc 43); the old answer starts O4's ticks | doc 38, 8 to 10 |
 | 10 | Outcome for the end user (`organisation.outcomeUser`) | retired | moved to the Segment's End user part (End user, 9), then to each Profile's end-user part: E4 (doc 36, 2.1; 2026-11-08); the old answer is its start | doc 38, 8 to 10 |
 
@@ -863,22 +863,24 @@ None.
     - 1 = Threat, 5 = Opportunity.
     - How each change could help or hurt them. The examples of each change, as on your Segment.
 
-### 5.6 Insights & Differentiation
+### 5.6 Insights (K10); then, once per Segment, Differentiation (K14)
 
 | Pos | Code | Saved id | Label | Control | Max | Asked when | Starts | Status | Owner |
 |---|---|---|---|---|---|---|---|---|---|
 | 10 | K10 | `k10` | What could you do differently? | BusinessTicks | 3 | every type, once an opening exists | – | built | doc 41, K10 |
-| 11 | K14 | `differentiation` on the Segment (`questions`) | Differentiation | RadioChoice at 1, BusinessTicks above | 1 / 2 / 2 / any | once per Segment, after its Competitor cards (moved from Positioning 8, 2026-11-08); ordered by Positioning's answers as built | Positioning's answer saved before 2026-11-08 (`organisation.differentiation`), within the stage's limit; a saved answer wins | built | doc 41, K14 |
+| 11 | K14 | `differentiation` on the Segment (`questions`) | How will you stand apart? (Differentiation) | RadioChoice at 1, BusinessTicks above | 1 / 2 / 2 / any | once per Segment, in its own section Differentiation after its Competitor cards (moved from Positioning 8, 2026-11-08); the options K10's ticks argue for first (the crosswalk, doc 41), then Positioning's order as built | Positioning's answer saved before 2026-11-08 (`organisation.differentiation`), else the K10 ticks across the Segment's competitors through the crosswalk (doc 41; 2026-11-09), within the stage's limit; a saved answer wins | built | doc 41, K14 |
 
 - **K10. What could you do differently?**
   - Options: from the answers above (`competitorOpenings`): the openings each answer makes.
   - "i":
     - Openings drawn from what you answered above. Tick the ones you will act on, then write how in the text.
+    - Your ticks here start the Segment's Differentiation, under your Competitors: an opening on price, ease, safety, quality, expertise or service starts its match.
     - (and the values that are hard to beat, from the answers above)
-- **K14. Differentiation**
+- **K14. How will you stand apart? (Differentiation)**
   - Options: Cost-driven; Convenience-driven; Compliance, Risk & Security; Status & Premium; Performance & Innovation; Ecosystem & Integration; Personal Service & Relationship.
   - "i":
     - What the offering does differently from the competitors: where it hits exactly the blind spot they leave. It is about the offering; the result the buyer gets from it is asked on each Offering (what it does best for the customer).
+    - Started from the openings you ticked on your Competitors (What could you do differently?); change it freely.
     - Cost-driven (saving resources): targets the blind spot of expensive competitors with a budget-friendly alternative.
     - Convenience-driven (speed and ease): targets the blind spot of complex or slow solutions.
     - Compliance, Risk & Security: targets the blind spot of uncertified or questionable alternatives.

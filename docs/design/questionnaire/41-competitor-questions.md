@@ -1,6 +1,6 @@
 # 41. The Competitor card: every question and option, as built
 
-Status: **specification**, written 2026-11-03, updated 2026-11-08; built. Every question of the Competitor card (Business System, page 1, tile "Competitors"), in the order it is asked. For each: its control, when it is asked, its options, what its "i" says and what it connects to. **Built (2026-11-04):** the Type, the text boxes kept as notes, and K1 to K10 (`CompetitorQuestions.ts`, the card in `useFoundationSubsections.tsx`). **Built (2026-11-08):** K14, the Differentiation, moved from Positioning (owner, "Move all three"), asked once per Segment after its Competitors and saved on the Segment. **Not built yet:** what reads the answers outside the card (the documents' strengths, weaknesses, opportunities and threats, the Review, Positioning and the Value Proposition).
+Status: **specification**, written 2026-11-03, updated 2026-11-09; built. Every question of the Competitor card (Business System, page 1, tile "Competitors"), in the order it is asked. For each: its control, when it is asked, its options, what its "i" says and what it connects to. **Built (2026-11-04):** the Type, the text boxes kept as notes, and K1 to K10 (`CompetitorQuestions.ts`, the card in `useFoundationSubsections.tsx`). **Built (2026-11-08):** K14, the Differentiation, moved from Positioning (owner, "Move all three"), asked once per Segment after its Competitors and saved on the Segment. **Not built yet:** what reads the answers outside the card (the documents' strengths, weaknesses, opportunities and threats, the Review, Positioning and the Value Proposition).
 
 Related: doc 35 (the Segment, whose answers give K2, K3 and K9 their options and rows), doc 36 (the Profile, whose priorities order K8's rows), doc 38 (Positioning, whose Differentiation moved here as K14 on 2026-11-08), doc 42 (the Value Proposition, which reads K8 and will read K10, not built yet), doc 43 (the Offering, whose Type list K1 shares; a Review check against the Offerings waits until one exists), doc 34 (the list L1 and the value crosswalk, 5.2a), doc 28 (6.6, the design this refines), doc 02 (FUN-47, FUN-50 to FUN-58, the sources of the 2026-11-04 research), `src/framework/engine/AnswerBusinessFoundation.ts` and `src/components/interview/editors/foundation/shared.tsx` (the card today).
 
@@ -12,8 +12,8 @@ The card has these parts, in order:
 - **The Type** (built): Direct competitor, Indirect competitor, Substitute, Internal solution, Status quo. Each type has its explanation in the "i".
 - **Description** (built): the boxes Offerings, Market, Customer Acquisition and Customer Experience. K1 to K7 are asked inside them (built).
 - **Competitors SWOT Analysis** (built): the bands Strengths, Weaknesses, Opportunities and Threats. K8 and K9 are asked inside them (built): K8 is one band across Strengths and Weaknesses, K9 one across Opportunities and Threats.
-- **Insights & Differentiation** (built): a section of its own after the SWOT. K10 is asked above its text (built); the text stays the App User's own conclusion.
-- **Once per Segment, after the Competitors** (built 2026-11-08): K14, the Differentiation, in the Competitors tile's dialog under the Competitors' small tiles (below).
+- **Insights** (built; named "Insights & Differentiation" until 2026-11-09): a section of its own after the SWOT. K10 is asked above its text (built); the text stays the App User's own conclusion.
+- **Differentiation, once per Segment, after the Competitors** (built 2026-11-08; one section of that name since 2026-11-09): K14, in the Competitors tile's dialog under the Competitors' small tiles (below). K10's ticks start it (the crosswalk below).
 
 Each question is asked inside the band of its box, above the box's text, and the text box stays as the note for what the question cannot say. The type renames the boxes as built (`COMPETITOR_TYPE_QUESTIONS`).
 
@@ -222,7 +222,7 @@ For Internal solution and Status quo the box stays text only: it asks about the 
   - Once a row has a band: "The darker the band, the more of your Profiles chose it."
 - **Connections:**
   - *Comes from:* the Profiles' B1 (doc 36), its ticks (the rows) and its ratings (their order; K10's weights). The owner's decision (2026-11-04): Strengths and Weaknesses used the same options, so one rating replaces the two tick lists and a value rated 2 to 4 also counts in the App User's decisions. The Competitive Profile Matrix rates each success factor from major weakness to major strength [FUN-57]; Kotler's customer value analysis rates competing offers on the attributes customers rank as most important [FUN-55]; a five-point rating as Likert's [FUN-61]. The Profiles' B1 sets the order of the rows; no row starts rated.
-  - *Read by (built):* K10's options; the Insights & Differentiation draft.
+  - *Read by (built):* K10's options; the Insights draft.
   - *Read by (built, 2026-11-07):* the Value Proposition draft's "Unlike its competitors": a value a Profile rates Essential that every Competitor of the Segment rates 1 or 2 here (`clearOpenings`; doc 42, 1).
   - *Read by (not built yet):* ratings of 4 and 5 are listed as the competitor's strengths, and 1 and 2 as its weaknesses (the SWOT, the documents and the exports); 3 is neither. Later, once an Offering exists, the Review (a value customers want that this competitor is rated 1 or 2 on and none of your Offerings delivers).
 
@@ -252,7 +252,9 @@ For Internal solution and Status quo the box stays text only: it asks about the 
   - *Read by (built):* K10's options.
   - *Read by (not built yet):* ratings of 1 and 2 are listed as the competitor's threats, and 4 and 5 as its opportunities (the SWOT, the documents and the exports); 3 is neither. The Review.
 
-## Section. Insights & Differentiation
+## Section. Insights
+
+Named "Insights & Differentiation" until 2026-11-09 (Option A): the card's section is "Insights" (K10 and the text, as the Business Plan's table calls it), and the Differentiation is the Segment's own section, K14, once under its Competitors. The export's heading is "Insights" too.
 
 A section of its own after the SWOT, as built: a title band that folds, as the Description and the SWOT do (owner, 2026-11-04), an "i" and one text, which stays the App User's own conclusion. K10 is asked above the text, answered from this card's earlier choices (built).
 - **The question (built):** it follows the type (`COMPETITOR_TYPE_QUESTIONS` in `shared.tsx`). Direct and Indirect competitors use `SUBSECTIONS.competitors.insights`: "What can you learn from competitors to make your offering more distinctive?" Substitute: "What could make customers switch from this alternative to your offering?" Internal solution: "What have you learned from customers solving this themselves, and how could your organisation make it easier, better, faster, or more valuable?" Status quo: "What could trigger customers to change?"
@@ -261,7 +263,7 @@ A section of its own after the SWOT, as built: a title band that folds, as the D
 
 ### K10. What could you do differently?
 
-- **Control:** ticks, up to 3, in the Insights & Differentiation band, above its text box, which is kept as the note.
+- **Control:** ticks, up to 3, in the Insights section's first band (untinted), above its text box, which is kept as the note in the next band.
 - **Asked when:** at least one of its options exists. With no options, only the text shows.
 - **Wording by type:** the same for every type; the options follow the type (below).
 - **Options:** built by the app from this card's answers, each by its rule, and shown only once its source question is answered:
@@ -278,24 +280,37 @@ A section of its own after the SWOT, as built: a title band that folds, as the D
   - By type: a Substitute's options say "this alternative" ("Win over this alternative's unhappy customers"). Internal solution: "Make it easier than doing it themselves". Status quo: from the values K8 rates 1 or 2, "Show what doing nothing costs them in [value]"; from the changes K9 rates 1 or 2, "Use changes in [change] as a reason to act now".
 - **The "i" says:**
   - Openings drawn from what you answered above. Tick the ones you will act on, then write how in the text.
+  - Your ticks here start the Segment's Differentiation, under your Competitors: an opening on price, ease, safety, quality, expertise or service starts its match. (2026-11-09)
   - For each value rated 5: "[name] is hard to beat on [value], so compete elsewhere."
 - **Connections:**
   - *Comes from:* K4, K5, K6, K7, K8 and K9, and the Profiles' B1 (doc 36).
   - *Read by (built):* the draft at the end of the text: "Customers want [value], and [name] falls short there." for a B1 value rated 1 or 2, then "You could [opening]." for each tick ("You could offer better quality."); "Add to text" adds only the lines not already in the text, and is not shown when none is left.
-  - *Read by (not built yet):* the Segment's Differentiation (K14, below: K10's openings could suggest its starting ticks); the Value Proposition (doc 42). Nothing outside the card reads K10 yet.
+  - *Read by (built 2026-11-09):* the Segment's Differentiation (K14, below): the ticks across the Segment's competitors start it and order its options, through the crosswalk (`openingDifferentiation`, `differentiationFromOpenings` in `CompetitorQuestions.ts`).
+  - *Read by (not built yet):* the Value Proposition (doc 42).
 
 ### K14. Differentiation (once per Segment, after its Competitors; moved from Positioning, owner, 2026-11-08)
 
 The owner decided (2026-11-08, "Move all three") that Positioning's Differentiation (doc 38, 8) is answered here, after the competitors: a differentiation is set against the alternatives the customer would otherwise choose (Dunford, *Obviously Awesome*, 2019: the competitive alternatives first, then the unique attributes and the value they enable). A Competitor card is one competitor, so the question is asked **once per Segment**, not on each card: the code K14 is the next free code of this card (K11 to K13 are retired), and the answer is saved on the Segment.
 
-- **Where:** the Competitors tile's dialog of the Segment, under the Competitors' small tiles: a section split by the shared double rule, its title band "Insights & Differentiation", the question in a band under it, as the Segment Description's Profiles section is built. (In the page's column view, the Segment's group "Insights & Differentiation" after the Competitor cards.) Saved as `questions.differentiation` on the Segment (`SegmentQuestions.ts`, box `competitors`).
+- **Where:** the Competitors tile's dialog of the Segment, under the Competitors' small tiles: a section split by the shared double rule, its title band "Differentiation", the question in an untinted band under it, as the Segment Description's Profiles section is built. (In the page's column view, the Segment's group "Differentiation" after the Competitor cards.) Under the title the label is the question, "How will you stand apart?", not the title again; the documents and exports keep the label "Differentiation". Saved as `questions.differentiation` on the Segment (`SegmentQuestions.ts`, box `competitors`).
 - **Control:** a radio while the stage allows one choice, else ticks that lock at the limit with "2 max" beside the label (`FieldRow`, `RadioChoice` or `BusinessTicks`, as on Positioning): Planning 1, Launching 2, Managing 2, Growing free (`choiceLimit`, the outcome's limit). A saved answer over the stage's limit goes back to empty, as on Positioning.
 - **Asked when:** always, once per Segment.
-- **Options:** as built on Positioning: Cost-driven; Convenience-driven; Compliance, Risk & Security; Status & Premium; Performance & Innovation; Ecosystem & Integration; Personal Service & Relationship. Ordered by Positioning's answers as before (doc 31, the owner's tables; `differentiationOptionsFor`): a blank of the business scale's table is not offered, one chosen stays.
-- **Starts:** Positioning's Differentiation saved before 2026-11-08 (`organisation.differentiation`) is the starting value of every Segment's K14, within the stage's limit, until the Segment saves its own; a value saved here wins, even cleared (saved as an empty list). (K10's openings could suggest starting ticks later: not built.)
-- **The "i" says:** as on Positioning (doc 38, 8), its first line now "It is about the offering; the result the buyer gets from it is asked on each Offering (what it does best for the customer).", then the stage's line before the sources.
+- **Options:** as built on Positioning: Cost-driven; Convenience-driven; Compliance, Risk & Security; Status & Premium; Performance & Innovation; Ecosystem & Integration; Personal Service & Relationship. Ordered by Positioning's answers as before (doc 31, the owner's tables; `differentiationOptionsFor`): a blank of the business scale's table is not offered, one chosen stays. The options K10's ticks argue for come first, the most ticked first (the crosswalk below; 2026-11-09).
+- **Starts:** Positioning's Differentiation saved before 2026-11-08 (`organisation.differentiation`) is the starting value of every Segment's K14, within the stage's limit, until the Segment saves its own; a value saved here wins, even cleared (saved as an empty list). Where Positioning saved none, the K10 ticks across the Segment's competitors start it (built 2026-11-09), the most ticked first, within the stage's limit, through the crosswalk:
+
+  | K10 opening (its value or stage) | K14 starts |
+  |---|---|
+  | Offer lower prices; Be known for affordability (`lower-price`) | Cost-driven |
+  | Be faster; Make it more convenient; Be known for speed or convenience (`speed`, `ease-and-convenience`); Make buying easier, Make delivery smoother (stages Purchase, Delivery) | Convenience-driven |
+  | Make it safer; Be known for safety and security (`safety-and-low-risk`) | Compliance, Risk & Security |
+  | Offer better quality; Earn a better reputation; Be known for quality or reputation (`quality-and-results`, `trust-and-reputation`) | Status & Premium |
+  | Offer more expertise; Be known for expertise (`expert-knowledge`) | Performance & Innovation |
+  | Offer a tailored service; Offer better support; Be known for personalisation or support (`a-service-made-for-them`, `good-support`); Give better help after the sale (stage Support & Follow Up) | Personal Service & Relationship |
+
+  None: "Match them on ..." (it keeps level, it does not set apart), shared values, the reach, review, growth and change openings (they say where or when, not how the offering differs), and the status quo's "doing nothing costs them". Ecosystem & Integration has no K10 opening.
+- **The "i" says:** as on Positioning (doc 38, 8), its first line now "It is about the offering; the result the buyer gets from it is asked on each Offering (what it does best for the customer).", then "Started from the openings you ticked on your Competitors (What could you do differently?); change it freely." (2026-11-09), then the stage's line before the sources.
 - **Connections:**
-  - *Comes from:* Positioning's relationship, audience, buyer's category, end user and purposes (the order); the stage (the limit).
+  - *Comes from:* Positioning's relationship, audience, buyer's category, end user and purposes (the order); the stage (the limit); K10's ticks across the Segment's competitors (the start and the first options; 2026-11-09).
   - *Read by (built):* the Offering's O4, whose starting ticks follow it through the value crosswalk (doc 34, 5.2a; doc 43); the Business Plan's "What we know of them" and the export's Segment block, which print it under the Segment.
   - *Read by (not built yet):* the Value Proposition draft's "Unlike its competitors" (doc 42).
 

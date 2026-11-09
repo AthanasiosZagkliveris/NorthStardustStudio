@@ -236,7 +236,7 @@ describe("BusinessFoundationEditor asks the questions that left Positioning", ()
     it("asks the Differentiation once for the Segment, in its Competitors column after the Competitor cards, started from Positioning; a tick is saved on the Segment", () => {
         const saved: { current: unknown } = { current: null };
         const { container } = render(<Held identity={proxy} saved={saved} />);
-        const groups = screen.getAllByRole("group", { name: "Differentiation" });
+        const groups = screen.getAllByRole("group", { name: "How will you stand apart?" });
         expect(groups).toHaveLength(1);
         // (In the Competitors column, after both Competitor cards.)
         const column = container.querySelector(".business-foundation-competitors")!;
@@ -245,11 +245,11 @@ describe("BusinessFoundationEditor asks the questions that left Positioning", ()
         expect(cards.length).toBeGreaterThanOrEqual(2);
         expect(cards[cards.length - 1].compareDocumentPosition(groups[0]) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
         // (Managing: two at most, "2 max"; the Positioning answer is the start, nothing is saved until a tick.)
-        expect((screen.getByRole("checkbox", { name: "Differentiation: Status & Premium" }) as HTMLInputElement).checked).toBe(true);
+        expect((screen.getByRole("checkbox", { name: "How will you stand apart?: Status & Premium" }) as HTMLInputElement).checked).toBe(true);
         expect(asBusinessFoundationValue(saved.current).segments[0].questions.differentiation).toBeUndefined();
-        fireEvent.click(screen.getByRole("checkbox", { name: "Differentiation: Personal Service & Relationship" }));
+        fireEvent.click(screen.getByRole("checkbox", { name: "How will you stand apart?: Personal Service & Relationship" }));
         expect([...asBusinessFoundationValue(saved.current).segments[0].questions.differentiation].sort()).toEqual(["personal", "premium"]);
-        expect((screen.getByRole("checkbox", { name: "Differentiation: Cost-driven" }) as HTMLInputElement).disabled).toBe(true);
+        expect((screen.getByRole("checkbox", { name: "How will you stand apart?: Cost-driven" }) as HTMLInputElement).disabled).toBe(true);
     });
 
     it("asks the end user's outcome in each Profile's end-user part (E4) only where the Segment has an end user, no longer on the Segment", () => {
@@ -298,10 +298,25 @@ describe("BusinessFoundationEditor asks the questions that left Positioning", ()
         expect(screen.queryByLabelText("How old is the end user?")).toBeNull();
     });
 
+    it("starts the Differentiation from the openings ticked on the Competitors where Positioning saved none, and puts them first (doc 41, K14)", () => {
+        function Ticked() {
+            const [value, setValue] = useState<unknown>(() => {
+                const segment = createBusinessCustomerSegment([]);
+                return { ...asBusinessFoundationValue(undefined), segments: [{ ...segment, competitors: [{ ...createBusinessCompetitor(), questions: { k10: ["better:good-support"] } }] }] };
+            });
+            return <BusinessFoundationEditor value={value} onChange={setValue} identity={{ ...proxy, differentiation: [] } as never} />;
+        }
+        render(<Ticked />);
+        const ticks = screen.getAllByRole("checkbox", { name: /^How will you stand apart\?: / });
+        expect(ticks[0].getAttribute("aria-label")).toBe("How will you stand apart?: Personal Service & Relationship");
+        expect((ticks[0] as HTMLInputElement).checked).toBe(true);
+        expect(screen.getByRole("heading", { name: "Differentiation" })).toBeTruthy();
+    });
+
     it("asks one Differentiation as a radio while planning", () => {
         const saved: { current: unknown } = { current: null };
         render(<Held identity={{ ...proxy, stage: "plan" }} saved={saved} />);
-        expect(screen.getByRole("radiogroup", { name: "Differentiation" })).toBeTruthy();
+        expect(screen.getByRole("radiogroup", { name: "How will you stand apart?" })).toBeTruthy();
         fireEvent.click(screen.getByRole("radio", { name: "Cost-driven" }));
         expect(asBusinessFoundationValue(saved.current).segments[0].questions.differentiation).toEqual(["cost"]);
     });

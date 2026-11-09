@@ -166,7 +166,7 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                                     <div className="business-segment-box">
                                         <div className="legal-entity-org-section">
                                             <span className="business-foundation-label-info legal-entity-label-info">
-                                                <FieldLabel className="business-foundation-label" role="heading" aria-level={3}>Insights & Differentiation</FieldLabel>
+                                                <FieldLabel className="business-foundation-label" role="heading" aria-level={3}>Differentiation</FieldLabel>
                                             </span>
                                         </div>
                                         <div className="legal-entity-org-section">

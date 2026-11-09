@@ -67,7 +67,7 @@ const POSITIONING = [
 const POSITIONING_BOXES = { left: "The left column: the relationship, then the consumer buyer (B2C), or the one relationship chosen", right: "The right column: the business buyer (B2B) when both are chosen, then what is offered", under: "Under both columns" };
 /** Positioning's questions that left the tile (owner, 2026-11-08: "Move all three"): their saved keys stay readable, and each old answer starts its new place. */
 const POSITIONING_RETIRED = [
-    ["8", "Differentiation (`organisation.differentiation`)", "moved to the Competitor card's Insights & Differentiation, once per Segment after its Competitors: K14 (doc 41); the old answer is its start"],
+    ["8", "Differentiation (`organisation.differentiation`)", "moved to the Segment's own section Differentiation, once per Segment after its Competitors: K14 (doc 41); the old answer is its start"],
     ["9", "Outcome for the buyer (`organisation.outcome`)", "moved to the Offering's O4, its one owner, through the crosswalk (doc 34, 5.2a; doc 43); the old answer starts O4's ticks"],
     ["10", "Outcome for the end user (`organisation.outcomeUser`)", "moved to the Segment's End user part (End user, 9), then to each Profile's end-user part: E4 (doc 36, 2.1; 2026-11-08); the old answer is its start"]
 ];
@@ -113,7 +113,7 @@ const SEGMENT_CODES = {
     "u-comfort": ["End user, 8", "an end user who is not a Baby"]
 };
 /** The Segment's question asked once in its Competitors column (box `competitors`): listed under the Competitor card, as K14. */
-const SEGMENT_ON_COMPETITOR = { differentiation: ["K14", "once per Segment, after its Competitor cards (moved from Positioning 8, 2026-11-08); ordered by Positioning's answers as built", "Positioning's answer saved before 2026-11-08 (`organisation.differentiation`), within the stage's limit; a saved answer wins"] };
+const SEGMENT_ON_COMPETITOR = { differentiation: ["K14", "once per Segment, in its own section Differentiation after its Competitor cards (moved from Positioning 8, 2026-11-08); the options K10's ticks argue for first (the crosswalk, doc 41), then Positioning's order as built", "Positioning's answer saved before 2026-11-08 (`organisation.differentiation`), else the K10 ticks across the Segment's competitors through the crosswalk (doc 41; 2026-11-09), within the stage's limit; a saved answer wins"] };
 /** The Segment's questions that moved on (owner, 2026-11-08): the saved key stays readable and settled, as the start of its new place. */
 const SEGMENT_RETIRED = [
     { code: "End user, 9", was: "Outcome for the end user (`u-outcome`; Positioning 10 until 2026-11-08)", by: "each Profile's end-user part: E4 (doc 36, 2.1; 2026-11-08); the Segment's saved answer is its start", owner: "doc 35, The end user" }
@@ -388,7 +388,7 @@ function rows(code) {
     {
         const TYPES = ["direct", "indirect", "substitutes", "internal", "status-quo"];
         const typeNames = Object.fromEntries(TYPES.map((id, at) => [id, F.SUBSECTIONS.competitors.type[at].title]));
-        const titles = { ...Object.fromEntries(F.SUBSECTIONS.competitors.description.map(part => [part.id, part.title])), swot: "Competitors SWOT Analysis", insights: "Insights & Differentiation" };
+        const titles = { ...Object.fromEntries(F.SUBSECTIONS.competitors.description.map(part => [part.id, part.title])), swot: "Competitors SWOT Analysis", insights: "Insights (K10); then, once per Segment, Differentiation (K14)" };
         const OPTIONS = {
             k1: list(C.COMPETITOR_OFFER_OPTIONS),
             k2: list(C.COMPETITOR_REACH_OPTIONS),
@@ -421,9 +421,9 @@ function rows(code) {
                 }), ...(box === "insights" ? Object.entries(SEGMENT_ON_COMPETITOR).map(([id, [code, asked, starts]]) => {
                     const question = S.SEGMENT_QUESTIONS.find(entry => entry.id === id) ?? missing("Competitor", id);
                     return {
-                        code, id: "`" + id + "` on the Segment (`questions`)", label: question.label, control: "RadioChoice at 1, BusinessTicks above",
+                        code, id: "`" + id + "` on the Segment (`questions`)", label: "How will you stand apart? (" + question.label + ")", control: "RadioChoice at 1, BusinessTicks above",
                         max: STAGES.map(([stage]) => L.choiceLimit(stage, "outcome") ?? "any").join(" / "), asked, starts, status: "built", owner: "doc 41, " + code,
-                        options: list(L.DIFFERENTIATIONS), info: L.INFO.differentiation.map(point)
+                        options: list(L.DIFFERENTIATIONS), info: [L.INFO.differentiation[0], "Started from the openings you ticked on your Competitors (What could you do differently?); change it freely.", ...L.INFO.differentiation.slice(1)].map(point)
                     };
                 }) : [])]
             })),

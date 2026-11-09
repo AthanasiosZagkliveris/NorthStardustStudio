@@ -541,7 +541,7 @@ function segmentBlocks(segment: BusinessCustomerSegmentValue, index: number, org
             // Two notes since 2026-11-05 (owner): strengths and weaknesses, opportunities and threats.
             ...table(["Strengths and weaknesses", "Opportunities and threats"],
                 [[competitor.strengths, competitor.opportunities]]),
-            ...paragraph(competitor.insights, "Insights & Differentiation")
+            ...paragraph(competitor.insights, "Insights")
         ]),
 
         ...(text(segment.valueProposition) ? [heading("Value Proposition", 2)] : []),

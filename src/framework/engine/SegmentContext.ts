@@ -6,6 +6,7 @@ import { AUDIENCE_WORDS } from "./ActivityClassification.ts";
 import { type SegmentAnswers, type SegmentContext, SEGMENT_QUESTIONS, segmentQuestionAsked, segmentSettle } from "./SegmentQuestions.ts";
 import { choiceLimit } from "./PositioningIds.ts";
 import { withOnlyUserStage } from "./RelationshipFit.ts";
+import { differentiationFromOpenings } from "./CompetitorQuestions.ts";
 
 /** The Identity answers the Segment card reads. Absent: nothing is known, and the card is as it was. */
 export interface SegmentIdentity {
@@ -78,8 +79,9 @@ const POSITIONING_STARTS: readonly { id: string; from: "differentiation" | "outc
  * A SEGMENT'S ANSWERS WITH THE POSITIONING STARTS (owner, 2026-11-08: the Differentiation and the end user's outcome left Positioning for each Segment): where the Segment never answered
  * one (no key saved), the Positioning answer saved before is its starting value, within the stage's limit; a value saved on the Segment wins, even an empty one (cleared). The end user's
  * outcome is started only where the Segment has an end user. What the card shows, and what the documents, the exports and the Offering's O4 read.
+ * Where Positioning saved no Differentiation, the K10 ticks across the Segment's `competitors` start it, through the crosswalk (doc 41, K14; 2026-11-09), within the same limit.
  */
-export function segmentPositioningShown(answers: SegmentAnswers, identity: Pick<SegmentIdentity, "differentiation" | "outcomeUser"> | undefined, context: SegmentContext): SegmentAnswers {
+export function segmentPositioningShown(answers: SegmentAnswers, identity: Pick<SegmentIdentity, "differentiation" | "outcomeUser"> | undefined, context: SegmentContext, competitors: readonly { questions?: Readonly<Record<string, readonly string[]>> }[] = []): SegmentAnswers {
     const shown: SegmentAnswers = { ...answers };
     const limit = choiceLimit(context.stage, "outcome");
     for (const { id, from } of POSITIONING_STARTS) {
@@ -87,7 +89,8 @@ export function segmentPositioningShown(answers: SegmentAnswers, identity: Pick<
         if (!question || id in answers || !segmentQuestionAsked(question, answers, context)) {
             continue;
         }
-        const start = (identity?.[from] ?? []).filter(option => question.options.some(entry => entry.id === option));
+        const saved = (identity?.[from] ?? []).filter(option => question.options.some(entry => entry.id === option));
+        const start = saved.length === 0 && id === "differentiation" ? differentiationFromOpenings(competitors).filter(option => question.options.some(entry => entry.id === option)) : saved;
         if (start.length > 0) {
             shown[id] = limit === null ? start : start.slice(0, limit);
         }
@@ -200,7 +203,7 @@ export const BUSINESS_AUDIENCE = ["solo", "smb", "mid", "enterprise", "local", "
  * The stage is taken as Growing: the kind of area is a check that the stage only holds back, never an answer to drop.
  */
 export function settledSegmentAnswers(
-    segment: { questions: SegmentAnswers; description: Record<string, string> },
+    segment: { questions: SegmentAnswers; description: Record<string, string>; competitors?: readonly { questions?: Readonly<Record<string, readonly string[]>> }[] },
     organisation: { customerType: readonly string[]; marketType: string; audience: readonly string[]; buyerCategory?: readonly string[]; endUser?: readonly string[]; differentiation?: readonly string[]; outcomeUser?: readonly string[] }
 ): SegmentAnswers {
 
@@ -214,6 +217,6 @@ export function settledSegmentAnswers(
     }, segment.description["business-data"] !== undefined);
 
     // (With the Positioning answers saved before 2026-11-08 as the starts of the Differentiation and the end user's outcome: segmentPositioningShown.)
-    return segmentPositioningShown(segmentSettle(segment.questions, context), organisation, context);
+    return segmentPositioningShown(segmentSettle(segment.questions, context), organisation, context, segment.competitors);
 
 }

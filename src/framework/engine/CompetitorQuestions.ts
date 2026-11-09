@@ -105,7 +105,7 @@ export const COMPETITOR_INFO: Record<CompetitorQuestionId, readonly string[]> = 
     ],
     k8: ["Rate each from what their customers say and what you have seen: 1 is a clear weakness, 5 a clear strength."],
     k9: ["How each change could help or hurt them. The examples of each change, as on your Segment."],
-    k10: ["Openings drawn from what you answered above. Tick the ones you will act on, then write how in the text."]
+    k10: ["Openings drawn from what you answered above. Tick the ones you will act on, then write how in the text.", "Your ticks here start the Segment's Differentiation, under your Competitors: an opening on price, ease, safety, quality, expertise or service starts its match."]
 };
 
 /** K8's "i" line for the band (owner, 2026-11-04). */
@@ -683,6 +683,51 @@ export function hardToBeat(name: string, answers: CompetitorAnswers, context?: P
 function listedValues(answers: CompetitorAnswers, context?: Pick<OpeningContext, "profiles">): Partial<Record<string, Point>> {
     const shown = context ? competitorValueRows(context) : COMPETITOR_VALUES;
     return Object.fromEntries(Object.entries(competitorRatings(answers, "k8")).filter(([value]) => shown.some(option => option.id === value))) as Partial<Record<string, Point>>;
+}
+
+/**
+ * K10 → K14, THE CROSSWALK (doc 41; 2026-11-09): which Differentiation an opening argues for. Only an opening that sets the offering apart counts: "Offer ..." / "Be ..." / "Make ..."
+ * (`better:`) and "Be known for ..." (`standout:`) by their value, and the stages that are about ease or help. "Match them on ..." keeps level, the status quo's "doing nothing costs"
+ * argues for acting at all, and the reach, review, growth and change openings say where or when, not how the offering differs: none of them starts a Differentiation.
+ */
+const VALUE_DIFFERENTIATION: Readonly<Record<string, string>> = {
+    "lower-price": "cost",
+    speed: "convenience",
+    "ease-and-convenience": "convenience",
+    "safety-and-low-risk": "compliance",
+    "quality-and-results": "premium",
+    "trust-and-reputation": "premium",
+    "expert-knowledge": "performance",
+    "a-service-made-for-them": "personal",
+    "good-support": "personal"
+};
+const STAGE_DIFFERENTIATION: Readonly<Record<string, string>> = { purchase: "convenience", delivery: "convenience", support: "personal" };
+
+/** The Differentiation (K14's option id) one K10 opening argues for, by the crosswalk; none where it argues for none. */
+export function openingDifferentiation(opening: string): string | undefined {
+    const [kind, value] = [opening.slice(0, opening.indexOf(":")), opening.slice(opening.indexOf(":") + 1)];
+    if (kind === "better" || kind === "standout") {
+        return VALUE_DIFFERENTIATION[value];
+    }
+    return kind === "stage" ? STAGE_DIFFERENTIATION[value] : undefined;
+}
+
+/**
+ * The Differentiations the K10 ticks across a Segment's competitors argue for, the most ticked first (ties in the order first ticked): what starts the Segment's K14 where it has no
+ * answer of its own, and what orders its options.
+ */
+export function differentiationFromOpenings(competitors: readonly { questions?: Readonly<Record<string, readonly string[]>> }[]): string[] {
+    const counts = new Map<string, number>();
+    for (const competitor of competitors) {
+        for (const opening of competitor.questions?.k10 ?? []) {
+            const differentiation = openingDifferentiation(opening);
+            if (differentiation) {
+                counts.set(differentiation, (counts.get(differentiation) ?? 0) + 1);
+            }
+        }
+    }
+    const first = [...counts.keys()];
+    return [...first].sort((a, b) => (counts.get(b) ?? 0) - (counts.get(a) ?? 0) || first.indexOf(a) - first.indexOf(b));
 }
 
 /** K10's options shown (owner, 2026-11-05: thirteen options under "3 max" were too many): the first six, in their order (the values by their score first), and any already ticked. */

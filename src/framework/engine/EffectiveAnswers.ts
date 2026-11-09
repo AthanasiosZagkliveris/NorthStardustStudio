@@ -29,12 +29,12 @@ export function effectiveProfileAnswers(profile: BusinessCustomerProfileValue, s
  */
 export function effectiveProfileUserAnswers(profile: BusinessCustomerProfileValue, segment: BusinessCustomerSegmentValue, identity: SegmentIdentity | undefined): SegmentAnswers {
     const context = segmentContextFor(identity, segmentIsBusiness(segment));
-    return profileUserShown(profile.user?.questions ?? {}, segmentPositioningShown(segment.questions, identity, context), context);
+    return profileUserShown(profile.user?.questions ?? {}, segmentPositioningShown(segment.questions, identity, context, segment.competitors), context);
 }
 
-/** A Segment's answers as its card shows them: its own, with the Positioning answers saved before 2026-11-08 as the starts of its Differentiation and its end user's outcome. */
+/** A Segment's answers as its card shows them: its own, with the Positioning answers saved before 2026-11-08 as the starts of its Differentiation (else its Competitors' K10 ticks) and its end user's outcome. */
 export function effectiveSegmentAnswers(segment: BusinessCustomerSegmentValue, identity: SegmentIdentity | undefined): SegmentAnswers {
-    return segmentPositioningShown(segment.questions, identity, segmentContextFor(identity, segmentIsBusiness(segment)));
+    return segmentPositioningShown(segment.questions, identity, segmentContextFor(identity, segmentIsBusiness(segment)), segment.competitors);
 }
 
 /**

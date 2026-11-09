@@ -17,7 +17,7 @@ import { ratingScaleMeaning } from "../../../controls/RatingScaleEnds.tsx";
 import RatingScaleGroup from "../../../controls/RatingScaleGroup.tsx";
 import TextLink from "../../fields/TextLink.tsx";
 import TextBox from "../../../controls/TextBox.tsx";
-import { type OtherQuestion, competitorOtherAdd, competitorOtherName, competitorOtherRemove, competitorOtherSettle, competitorOtherTick, competitorOthers, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, shownOpenings, COMPETITOR_SUBCHANNELS, COMPETITOR_BAND_LINE, bandTone, COMPETITOR_CHANGES, valueProfiles, draftToAdd, hardToBeat, insightsDraft, reviewPlatformOrder } from "../../../../framework/engine/CompetitorQuestions.ts";
+import { type OtherQuestion, competitorOtherAdd, competitorOtherName, competitorOtherRemove, competitorOtherSettle, competitorOtherTick, competitorOthers, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, shownOpenings, COMPETITOR_SUBCHANNELS, COMPETITOR_BAND_LINE, bandTone, COMPETITOR_CHANGES, valueProfiles, draftToAdd, differentiationFromOpenings, hardToBeat, insightsDraft, reviewPlatformOrder } from "../../../../framework/engine/CompetitorQuestions.ts";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
 import { OFFERING_BOX_QUESTIONS, OFFERING_QUESTIONS, offeringChoose, type OfferingAnswers, type OfferingContext, type OfferingQuestionId, draftOffered, offeringAsks, offeringInfo, offeringOptions, valuePropositionDraft, valuePropositionOpenItems } from "../../../../framework/engine/OfferingQuestions.ts";
 import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveProfileUserAnswers, offeringContextOf, withFieldSet } from "../../../../framework/engine/EffectiveAnswers.ts";
@@ -35,6 +35,9 @@ import { BUSINESS_AUDIENCE, PEOPLE_AUDIENCE, audienceLine, segmentContextFor, se
 import type { useFoundationState } from "./useFoundationState.tsx";
 
 type Earlier = ReturnType<typeof useFoundationState>;
+
+/** K14's "i": how it links to K10 (doc 41). */
+const DIFFERENTIATION_FROM_OPENINGS = "Started from the openings you ticked on your Competitors (What could you do differently?); change it freely.";
 
 /**
  * The exact age of a Profile (A1). What is typed stays in the cell while it is typed: the age is settled against the Segment's age group (an age outside it is cleared), and a first digit
@@ -220,14 +223,19 @@ export function useFoundationSubsections(earlier: Earlier) {
 
         // The questions that left Positioning for the Segment (owner, 2026-11-08): the Differentiation (K14, under the Competitors) and the end user's outcome (End user, 9). The Positioning
         // answer saved before starts each where the Segment has none saved (segmentPositioningShown); the business stage sets their limit, and they keep Positioning's order and "i".
-        const shownAnswers = segmentPositioningShown(segment.questions, identity, asked);
+        // (Where Positioning saved none, the Differentiation starts from the Competitors' K10 ticks, through the crosswalk: doc 41, K14.)
+        const shownAnswers = segmentPositioningShown(segment.questions, identity, asked, segment.competitors);
+        const fromOpenings = differentiationFromOpenings(segment.competitors);
         const positioningOrder = { customerType: identity?.relationships ?? [], audience: identity?.audience ?? [], buyerCategory: identity?.buyerCategory ?? [], endUser: identity?.endUser ?? [], purpose: identity?.purpose ?? [] };
         const stageLimit = choiceLimit(asked.stage, "outcome");
 
         /** One question of a box, as the Positioning card asks one: its label with its "i" (and its limit) over the radio or the ticks, settled against what the other answers and Identity allow. */
         const questionOf = (question: SegmentQuestion) => {
             const chosen = shownAnswers[question.id] ?? [];
-            const options = question.id === "differentiation" ? differentiationOptionsFor(positioningOrder, chosen)
+            // (K14 stands under its section's title, "Differentiation": its label asks the question rather than repeating the title.)
+            const label = question.id === "differentiation" ? "How will you stand apart?" : question.label;
+            // (K14's options: those the K10 ticks argue for first, the most ticked first; then Positioning's order.)
+            const options = question.id === "differentiation" ? [...differentiationOptionsFor(positioningOrder, chosen)].sort((a, b) => (fromOpenings.includes(a.id) ? fromOpenings.indexOf(a.id) : fromOpenings.length) - (fromOpenings.includes(b.id) ? fromOpenings.indexOf(b.id) : fromOpenings.length))
                 : question.id === "u-outcome" ? userOutcomeOptionsFor(positioningOrder)
                     : segmentOptions(question, segment.questions, asked);
             const choose = (next: string[]) => updateSegment(segmentIndex, {
@@ -237,14 +245,14 @@ export function useFoundationSubsections(earlier: Earlier) {
             const max = question.fromPositioning ? stageLimit ?? undefined : question.max;
             const radio = question.fromPositioning && stageLimit === 1 && chosen.length <= 1;
             const info: InfoPoint[] = question.rating ? [ratingScaleMeaning(question.rating), ...question.info]
-                : question.fromPositioning ? withStageLine(question.id === "differentiation" ? POSITIONING_INFO.differentiation : question.info, stageLimitLine(asked.stage, stageLimit))
+                : question.fromPositioning ? withStageLine(question.id === "differentiation" ? [POSITIONING_INFO.differentiation[0], DIFFERENTIATION_FROM_OPENINGS, ...POSITIONING_INFO.differentiation.slice(1)] : question.info, stageLimitLine(asked.stage, stageLimit))
                     : [...question.info];
             return (
                 <FieldRow
                     key={question.id}
                     pair
                     fullList
-                    label={question.label}
+                    label={label}
                     info={info}
                     labelNote={max !== undefined && !radio ? <span className="business-foundation-tick-note">{max + " max"}</span> : undefined}
                 >
@@ -252,7 +260,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                         // A degree is a rating from 1 to 5 (doc 35): its end words over its rounds; pressing the chosen round again clears it.
                         ? (
                             <RatingScale
-                                label={question.label}
+                                label={label}
                                 name={segment.id + "-" + question.id}
                                 disabled={disabled}
                                 value={chosen[0] ? Number(chosen[0]) as Rating : undefined}
@@ -263,15 +271,15 @@ export function useFoundationSubsections(earlier: Earlier) {
                         )
                         : question.many && !radio
                         ? (
-                            <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={question.label}>
-                                <BusinessTicks name={question.label} disabled={disabled} options={options} chosen={chosen} max={max} onChange={choose} />
+                            <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={label}>
+                                <BusinessTicks name={label} disabled={disabled} options={options} chosen={chosen} max={max} onChange={choose} />
                             </div>
                         )
                         : (
                             segmentRowChoice(question, options)
                                 ? (
                                     <FittingRadioChoice
-                                        label={question.label}
+                                        label={label}
                                         group={segment.id + "-" + question.id}
                                         disabled={disabled}
                                         value={chosen[0] ?? ""}
@@ -281,7 +289,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 )
                                 : (
                                     <RadioChoice
-                                        label={question.label}
+                                        label={label}
                                         group={segment.id + "-" + question.id}
                                         className="legal-entity-radio-stack"
                                         disabled={disabled}
@@ -1122,8 +1130,9 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 it is titled like the SWOT rather
                                 than labelled like one more field
                                 inside it. K10 above the text: openings drawn from the answers above (doc 41). */}
+                            {/* "Insights" (2026-11-09): the Differentiation is the Segment's, once, under its Competitors (K14); the Business Plan's table says Insights too. */}
                             {group(
-                                "Insights & Differentiation",
+                                "Insights",
                                 // K10 untinted under the title band, then the Insights text (and its "Add to text") in the note band, the next tint.
                                 band(openings.length > 0 ? question("k10") : null, (
                                     <>
@@ -1142,7 +1151,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                                         )}
                                         <StrategyTextArea
                                             className="interview-input business-foundation-note"
-                                            ariaLabel={whose + " insights & differentiation"}
+                                            ariaLabel={whose + " insights"}
                                             disabled={disabled}
                                             value={competitor.insights}
                                             onChange={(next) => change({ insights: next })}
@@ -1153,7 +1162,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                                     ? SUBSECTIONS.competitors.insights
                                     : [asked.insights],
                                 // A section band as the Description's and the SWOT's (owner, 2026-11-04), with their fold.
-                                groupFold(competitor.id, "Insights & Differentiation", whose)
+                                groupFold(competitor.id, "Insights", whose)
                             )}
 
                         </>
@@ -1163,7 +1172,7 @@ export function useFoundationSubsections(earlier: Earlier) {
 
                 {/* The Differentiation (K14), once for the Segment after its Competitors: a group of the Segment as its Value Proposition is. */}
                 {group(
-                    "Insights & Differentiation",
+                    "Differentiation",
                     <div className="business-foundation-field">
                         {differentiation}
                     </div>

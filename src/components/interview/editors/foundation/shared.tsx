@@ -242,7 +242,7 @@ export interface DescriptionPart {
 export interface CompetitorTypeQuestions {
     /** By part id: a new title and/or question, or null to hide. */
     parts?: Record<string, { title?: string; text?: string } | null>;
-    /** A new question behind Insights & Differentiation. */
+    /** A new question behind Insights. */
     insights?: string;
 }
 
