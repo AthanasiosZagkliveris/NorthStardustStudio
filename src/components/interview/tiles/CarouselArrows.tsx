@@ -204,10 +204,11 @@ export function CarouselArrows({ target, step, hue, back }: { target: RefObject<
         return () => observer?.disconnect();
     }, [target]);
 
-    // THE TAB STANDS AT THE TOP OF ITS LAYER, level with the layer's title, and never hides the arrow: where the arrow stands in the tab's column, the bullets that would lie under it follow below it (a gap the arrow's size is left in the list).
+    // THE TAB STANDS AT THE TOP OF ITS LAYER, level with the layer's title, its list running on with no gap, and never hides an arrow (owner, 2026-11-09: "Why there is
+    // so large gap above the arrow?"): where the tab reaches down to the arrows' level, BOTH arrows stand together just under the tab (12px below its foot), so they stay
+    // level with each other; where that would take them past the window's foot, the tab is held shorter (its list scrolls, Back in view) so they keep 12px under it.
     const railRef = useRef<HTMLElement | null>(null);
-    const [gap, setGap] = useState<{ index: number; size: number } | null>(null);
-    const [arrowOnTab, setArrowOnTab] = useState(false);
+    const [drop, setDrop] = useState<{ top: number; railMax: number | null } | null>(null);
     const itemCount = step.items?.length ?? 0;
     // (The tab measured again whenever it, or the window, changes size: names arriving, fonts loading, the layer moving.)
     const [railSize, setRailSize] = useState(0);
@@ -246,30 +247,22 @@ export function CarouselArrows({ target, step, hue, back }: { target: RefObject<
     useLayoutEffect(() => {
         const rail = railRef.current;
         if (!rail || railTop === null) {
-            setGap(null);
-            setArrowOnTab(false);
+            setDrop(null);
             return;
         }
-        // (Every line of the tab -- the bullets, then Back -- as it stands without the gap: its measured top, less what the gap itself moved it.)
-        const lines = [...rail.querySelectorAll<HTMLElement>("ol > li, .carousel-rail-back")];
-        const from = arrowTop - 22 - 8;
-        const to = arrowTop + 22 + 8;
-        let index = -1;
-        let naturalTop = 0;
-        for (let position = 0; position < lines.length; position += 1) {
-            const box = lines[position].getBoundingClientRect();
-            const top = box.top - (gap && position >= gap.index ? gap.size : 0);
-            if (index < 0 && top + box.height > from) {
-                index = position;
-                naturalTop = top;
-            }
+        // (The tab's foot as it stands with the window's own cap, never with the cap this effect gave it: measured from its top and its natural height.)
+        const natural = Math.min(rail.scrollHeight, Math.max(120, window.innerHeight - railTop - 12));
+        const foot = railTop + natural;
+        const floor = window.innerHeight - 64 - 12 - 22;
+        let next: { top: number; railMax: number | null } | null = null;
+        if (foot + 12 > arrowTop - 22) {
+            const wanted = foot + 12 + 22;
+            next = wanted <= floor ? { top: wanted, railMax: null } : { top: floor, railMax: Math.max(120, floor - 22 - 12 - railTop) };
         }
-        const size = index < 0 ? 0 : Math.max(0, to - naturalTop);
-        const next = index >= 0 && size > 0 ? { index, size } : null;
-        setGap(previous => previous?.index === next?.index && Math.abs((previous?.size ?? 0) - (next?.size ?? 0)) < 0.5 ? previous : next);
-        setArrowOnTab(index >= 0 && naturalTop < to);
+        setDrop(previous => previous?.top === next?.top && previous?.railMax === next?.railMax ? previous : next);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [railTop, arrowTop, itemCount, at?.edge, back, gap?.index, gap?.size, railSize, topmost]);
+    }, [railTop, arrowTop, itemCount, at?.edge, back, railSize, topmost]);
+    const arrowsTop = drop ? drop.top : arrowTop;
 
     if (!at || !topmost) {
         return null;
@@ -277,21 +270,21 @@ export function CarouselArrows({ target, step, hue, back }: { target: RefObject<
     return (
         <>
             <NavArrow
-                className={"page-arrow carousel-arrow" + (arrowOnTab && at.side === "left" ? " carousel-arrow-on-tab" : "")}
+                className="page-arrow carousel-arrow"
                 data-completed={completedLayer(target.current) ? "" : undefined}
                 direction="previous"
                 label={"Previous " + step.what}
                 title={"Previous " + step.what + " (←)"}
-                style={{ left: at.left, top: at.top, "--strategy-theme-hue": hue, ...(at.tab ? { "--tab-edge": at.tab.edge } : {}) } as CSSProperties}
+                style={{ left: at.left, top: arrowsTop, "--strategy-theme-hue": hue, ...(at.tab ? { "--tab-edge": at.tab.edge } : {}) } as CSSProperties}
                 onClick={step.previous}
             />
             <NavArrow
-                className={"page-arrow carousel-arrow" + (arrowOnTab && at.side === "right" ? " carousel-arrow-on-tab" : "")}
+                className="page-arrow carousel-arrow"
                 data-completed={completedLayer(target.current) ? "" : undefined}
                 direction="next"
                 label={"Next " + step.what}
                 title={"Next " + step.what + " (→)"}
-                style={{ right: at.right, top: at.top, "--strategy-theme-hue": hue, ...(at.tab ? { "--tab-edge": at.tab.edge } : {}) } as CSSProperties}
+                style={{ right: at.right, top: arrowsTop, "--strategy-theme-hue": hue, ...(at.tab ? { "--tab-edge": at.tab.edge } : {}) } as CSSProperties}
                 onClick={step.next}
             />
             {step.items && step.items.length > 1 && step.go && (
@@ -300,11 +293,11 @@ export function CarouselArrows({ target, step, hue, back }: { target: RefObject<
                     ref={railRef}
                     className={"carousel-rail" + (step.what === "section" && (at.tab && at.side === "left" ? at.left : at.right) >= 160 ? " carousel-rail-named" : "") + (at.tab ? " carousel-rail-tab" : "") + (at.tab && capped ? " carousel-rail-capped" : "") + (at.tab && at.side === "left" ? " carousel-rail-tab-left" : "")}
                     aria-label={"Go to a " + step.what}
-                    style={{ ...(at.tab && at.side === "left" ? { right: window.innerWidth - at.leftEdge } : { left: at.edge }), top: at.tab ? at.titleTop : at.top + 36, ...(at.tab ? { maxHeight: Math.max(120, window.innerHeight - at.titleTop - 12) } : {}), "--rail-label-room": Math.max(0, (at.tab ? (at.side === "left" ? at.leftEdge : window.innerWidth - at.edge) - 25 : at.right) - 8 - (at.tab ? 0 : 24)) + "px", "--strategy-theme-hue": hue, ...(at.tab ? { "--tab-bg": at.tab.bg, "--tab-edge": at.tab.edge, "--tab-ink": at.tab.ink } : {}) } as unknown as CSSProperties}
+                    style={{ ...(at.tab && at.side === "left" ? { right: window.innerWidth - at.leftEdge } : { left: at.edge }), top: at.tab ? at.titleTop : at.top + 36, ...(at.tab ? { maxHeight: drop?.railMax ?? Math.max(120, window.innerHeight - at.titleTop - 12) } : {}), "--rail-label-room": Math.max(0, (at.tab ? (at.side === "left" ? at.leftEdge : window.innerWidth - at.edge) - 25 : at.right) - 8 - (at.tab ? 0 : 24)) + "px", "--strategy-theme-hue": hue, ...(at.tab ? { "--tab-bg": at.tab.bg, "--tab-edge": at.tab.edge, "--tab-ink": at.tab.ink } : {}) } as unknown as CSSProperties}
                 >
                     <ol className="bullet-rail-list">
                         {step.items.map((item, position) => (
-                            <li key={item.id} style={gap?.index === position ? { marginTop: gap.size } : undefined}>
+                            <li key={item.id}>
                                 <button
                                     type="button"
                                     className={"bullet-rail-item" + (position === step.current ? " active" : "")}
@@ -321,7 +314,7 @@ export function CarouselArrows({ target, step, hue, back }: { target: RefObject<
                     </ol>
                     {/* The way back stands in the tab, after the last option (the dialog's own foot no longer has it while the tab does). */}
                     {back && (
-                        <BackButton className="carousel-rail-back" style={gap && gap.index === itemCount ? { marginTop: 12 + gap.size } : undefined} onClick={back} aria-label="Back" />
+                        <BackButton className="carousel-rail-back" onClick={back} aria-label="Back" />
                     )}
                 </nav>
             )}
