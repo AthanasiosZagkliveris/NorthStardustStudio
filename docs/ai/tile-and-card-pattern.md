@@ -14,7 +14,7 @@ One pattern for every tile, frame and card of the app (Identity, Brand, Business
 
 ## The tile
 - A square in the frame's tint with the box's inset light (top left) and shade (bottom right), the tile corners (`--tile-radius`), and a 110% rise under the pointer, growing inwards.
-- The title: capitals, 18px, semi-bold, letter-spaced, centred, its first line 24px from the tile's top on every tile of every size, underlined by a hairline (40% of the text colour). A title of two lines keeps its first line there; its rule and what follows it stand lower.
+- The title: capitals, 18px, semi-bold, letter-spaced, centred, its first line 24px from the tile's top on every page tile of every size, and 12px on a dialog's small tiles (its cards and sub tiles: owner, 2026-11-09, so four lines of the list fit above the tile's foot), underlined by a hairline (40% of the text colour). A title of two lines keeps its first line there; its rule and what follows it stand lower.
 - What follows the rule: a list or a text, 14px, muted colour, as wide as its longest line and centred as a block, its lines left-aligned.
   - A list of things (founders, resources, registrations, expenses, themes) has a bullet on each line; a list that already numbers its lines (Values, Principles) has none; prose has none; a line that stands alone (a name, a date) is centred; a bold word is a name or a price.
   - Two things on a line (a name and its share) are two columns, the separators in one column. A line between two topics is a hairline.

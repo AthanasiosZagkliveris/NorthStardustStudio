@@ -1431,9 +1431,11 @@
                         fail("a section tile's title is centred across its square", tile, { aside });
                     }
                     // THE TITLE'S FIRST LINE STANDS 24px FROM THE SQUARE'S TOP (+ the tile's 1px edge) on every tile of every size (docs/ai/tile-and-card-pattern.md): a title of two lines keeps its first line there.
+                    // (A dialog's small tiles have it 12px from the top, so four lines of the list fit above the tile's foot: owner, 2026-11-09.)
                     const firstFromTop = titleBox.top - box.top;
-                    if (Math.abs(firstFromTop - 25) > 2.5) {
-                        fail("a tile's title has its first line 24px from the top of the square (whatever the number of lines)", tile, { firstFromTop, wanted: 25, tile: box.height });
+                    const wantedTop = tile.closest(".section-tile-dialog") ? 13 : 25;
+                    if (Math.abs(firstFromTop - wantedTop) > 2.5) {
+                        fail("a tile's title has its first line 24px from the top of the square (12px on a dialog's small tile), whatever the number of lines", tile, { firstFromTop, wanted: wantedTop, tile: box.height });
                     }
                     if (titleBox.top - box.top < 12 - tolerance - 1) {
                         fail("a tile's title is 12px or more from the top of the square", tile, { fromTop: titleBox.top - box.top });

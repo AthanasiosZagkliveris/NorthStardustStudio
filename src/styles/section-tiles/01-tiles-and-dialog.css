@@ -160,6 +160,15 @@
 
 }
 
+/* A DIALOG'S SMALL TILES (the tiles inside a dialog: its cards, its sub tiles) have their title 12px from the top, the least the rule allows
+   (owner, 2026-11-09: the title moves up so four lines of the list fit above the tile's foot -- its dots and its "+"); the list follows
+   12px under the rule, as on every tile. The tile's size, and the page's tiles, are unchanged. */
+.section-tile-dialog .section-tile {
+
+    --tile-title-gap: 12px;
+
+}
+
 /* What the section includes, under the title: small, muted, bulleted (the app's drawn bullet), one
    line each cut by an ellipsis, as many lines as fit and then "+N more" (TileList). */
 .section-tile-list {
