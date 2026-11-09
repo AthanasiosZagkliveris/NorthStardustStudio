@@ -739,7 +739,7 @@ What the app says today, what changes, and what is new. Lists come only from off
 | Element | Wording today (in the app) | Wording from now |
 |---|---|---|
 | The text box label | "Main Activity" | **"Description"** |
-| The text box "i" (`INFO.mainActivity`) | "The work the organisation actually does, described factually. Write it as a registry or a bank would expect to read it. Some countries classify it with an official activity code." | "Who are you, and what do you do? What do you create or provide? Write it as a registry or a bank would expect to read it. Name, country, address and legal form are above." (the page-1 prompts, one existing sentence kept, the code sentence dropped) |
+| The text box "i" (`INFO.mainActivity`) | "The work the organisation actually does, described factually. Write it as a registry or a bank would expect to read it. Some countries classify it with an official activity code." | "Who are you, and what do you do? What do you create or provide? Write it as a registry or a bank would expect to read it." (the page-1 prompts, one existing sentence kept, the code sentence dropped) |
 | The text box placeholder | "What the organisation does, in plain words" | unchanged |
 | The activity-code "i" (`INFO.activityCode`) | "The official code for the organisation's main activity: it classifies what the organisation does. Asked for when the organisation is registered, and on its annual filings where they apply." | The country's sentence of doc 34, 5.8, then "Generated from your choices; you can edit it." |
 | The code label | the country's code name ("SIC code", and so on) | one label per country, at the end of each activity (doc 34, 5.8) |

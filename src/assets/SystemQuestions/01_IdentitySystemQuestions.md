@@ -16,9 +16,9 @@ Thinking Time: About 1–1.5 hr
 
 ### Positioning
 
-- Who is your target audience?
-- Which market or category do you belong to?
-- How are you different from competitors?
+- Who is your target audience: who pays, and who uses it?
+- Why do they buy it: what purpose does it serve?
+- How you stand apart is asked on your Segments, under their Competitors.
 
 ### Mission
 

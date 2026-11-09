@@ -105,7 +105,7 @@ const QUESTIONS: readonly ProfileQuestion[] = [
     {
         id: "a2", box: "personal", label: "What is this person's gender?", many: false,
         options: [{ id: "woman", label: "Woman" }, { id: "man", label: "Man" }, { id: "non-binary", label: "Non-binary" }, { id: "other", label: "Another gender" }],
-        info: ["Asked only when the Segment's gender mix is not 3 (balanced); it starts from the mix. Change it freely."]
+        info: ["Asked when the Segment's gender mix leans one way (any point but 3); it starts from the mix. Change it freely."]
     },
     {
         id: "a1", box: "personal", label: "How old is {s}?", many: false, number: true, options: [],
@@ -133,7 +133,7 @@ const QUESTIONS: readonly ProfileQuestion[] = [
             { id: "use", label: "Uses it" }, { id: "influence", label: "Influences the decision" }, { id: "order", label: "Places the order" },
             { id: "decide", label: "Makes the final decision" }, { id: "gate", label: "Controls who reaches the decision-maker" }
         ],
-        info: ["The five buying-centre roles credited to Webster and Wind (1972).", "\"Uses it\" is the person who uses the offering day to day, who may be neither the one who pays nor the one who decides."]
+        info: ["The five buying-centre roles credited to Webster and Wind (1972).", "\"Uses it\" is the person who uses the offering day to day; the one who pays and the one who decides can be other people."]
     },
     {
         id: "b1", box: "psychographics", label: "What matters most to {o}?", many: true, max: 5, options: list(CARES), rating: { low: "Optional", high: "Essential" },
@@ -144,7 +144,7 @@ const QUESTIONS: readonly ProfileQuestion[] = [
     {
         id: "c2", box: "hubs", label: "Which social media does {s} use?", many: true,
         options: [...["Instagram", "Facebook", "LinkedIn", "YouTube", "TikTok", "Pinterest", "X (Twitter)"].map(label => ({ id: slug(label), label })), OTHER], other: true,
-        info: ["The platforms they actually use, if any.", "Tick Other to write one that is not listed."]
+        info: ["The platforms they actually use, if any.", "Tick Other to write another."]
     },
     {
         id: "c3", box: "hubs", label: "Which communities does {s} belong to?", many: true,
@@ -173,7 +173,7 @@ const QUESTIONS: readonly ProfileQuestion[] = [
         options: [{ id: "alone", label: "Works it out alone" }, { id: "little", label: "Likes a little guidance" }, { id: "person", label: "Wants to talk to a person" }, { id: "formal", label: "Needs a formal demonstration or proposal" }],
         info: ["The help a typical person wants before buying; it can differ from how comfortable the Segment is online."]
     },
-    { id: "d3", box: "habits", label: "When does {s} usually buy?", many: true, options: list(BUY_TIMES), info: ["When they actually buy; the Segment's work schedule says when they work.", "How they buy, in their words, goes in the Notes."] },
+    { id: "d3", box: "habits", label: "When does {s} usually buy?", many: true, options: list(BUY_TIMES), info: ["When they actually buy; the Segment's work schedule says when they work."] },
     { id: "e1", box: "goals", label: "What does {s} want to achieve?", many: true, max: 3, options: list(GOALS), rating: { low: "Minor", high: "Main" }, info: ["The results they are after; what they weigh when choosing goes in \"What matters most\". Choose up to three, then rate each.", "For example, to learn a new craft, or to win more clients.", "Accessibility: getting something hard to reach. Development: learning something new. Expression: showing who they are. Revenue: winning customers or income.", "Compliance: meeting a requirement or staying within the rules, at work or by law. Efficiency: saving time or money.", "Resolution: getting a specific problem fixed. Enjoyment: having fun or a good time.", "Based on: gains (Value Proposition Canvas)."] },
     { id: "e2", box: "challenges", label: "What frustrates {o} today?", many: true, max: 3, options: list(FRUSTRATIONS), rating: { low: "Mild", high: "Severe" }, info: ["What goes wrong with the way they do it now, before they buy from you. Choose up to three, then rate how much each bothers them.", "For example, the cheap version breaks too soon, or nobody explains how to start.", "Cost: too costly, or unclear prices. Delays: it takes too long. Inconsistency: results vary. Trust: hard to find someone reliable.", "Skills gap: not knowing how, or fearing a mistake. Capacity: no time or staff. Hassle: too complicated, or poor support.", "Based on: pains (Value Proposition Canvas)."] },
     // The Needs (doc 36, section 10): Emotional and Social ticked and rated, by the Segment's kind; Functional stays the numbered list. Each kind's list stays as its note.
@@ -224,7 +224,7 @@ const USER_QUESTIONS: readonly ProfileQuestion[] = [
     },
     {
         id: "a7", box: "personal", label: "Who does {s} live with?", many: false, options: HOUSEHOLDS,
-        info: ["Asked of an adult end user, who may not live with the buyer.", "Based on: household types (ONS, Census 2021).", "Children: children living at home. With parents / relatives includes several generations under one roof."]
+        info: ["Asked of an adult end user, who can live apart from the buyer.", "Based on: household types (ONS, Census 2021).", "Children: children living at home. With parents / relatives includes several generations under one roof."]
     },
     {
         id: "comfort", box: "personal", label: "How comfortable is {s} online?", many: false, rating: COMFORT_RATING, options: ratingOptions(COMFORT_RATING),
@@ -409,14 +409,14 @@ export function profileWho(label: string, gender?: string): string {
 
 /** What the note under each box is for: what the questions above it do not ask (the questions already hold the rest). A point is at most 160 characters. */
 export const PROFILE_NOTE_HINTS: Record<ProfileBox, string> = {
-    personal: "The note is for what is not asked above: a name, their job title, where they live. Their age, household and work are asked above.",
-    psychographics: "The note is for what they value, believe in and enjoy, in your words. What matters most when choosing is asked above.",
-    hubs: "The note is for names: the groups, accounts, events and places. Which kinds of platform and event they use is asked above.",
-    habits: "The note is for what the choices above do not hold: how they buy, in their words.",
-    goals: "The note is for what the list above does not say: the details that are theirs.",
-    challenges: "The note is for what the list above does not say: the details that are theirs.",
-    objections: "The note is for what the list above does not say: the details that are theirs.",
-    needs: "What no tick above says, in your words, one line each. The Value Proposition lists these lines."
+    personal: "Use Notes for a name, a job title and where they live.",
+    psychographics: "Use Notes for what they value, believe in and enjoy, in your words.",
+    hubs: "Use Notes for names: their groups, accounts, events and places.",
+    habits: "Use Notes for how they buy, in their words.",
+    goals: "Use Notes for what they want, in their own words.",
+    challenges: "Use Notes for what goes wrong for them, in their words.",
+    objections: "Use Notes for their doubts, in their own words.",
+    needs: "Use Notes for needs in your own words, one a line; the Value Proposition lists these lines."
 };
 
 /** The ages each of the Segment's age terms holds (first number up to, not including, the second). */

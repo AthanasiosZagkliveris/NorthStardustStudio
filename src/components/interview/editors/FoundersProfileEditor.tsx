@@ -56,13 +56,12 @@ const INFO = {
     ],
 
     managementExperience: [
-        "Experience leading people, projects, budgets, businesses, or operations.",
-        "Say how big: how many people, how much money.",
+        "Say how big it was: how many people, how much money and for how long.",
         "It shows they can run the organisation as it grows."
     ],
 
     achievements: [
-        "What was achieved, what was your contribution, and what was the measurable result?",
+        "One achievement a line, with a figure where there is one: sales, customers, savings.",
         "Any business they started before, and how it turned out.",
         "Results are what make a track record believable."
     ],
@@ -74,8 +73,8 @@ const INFO = {
     ],
 
     teamGaps: [
-        "What important capabilities does the team currently lack, and how will they be covered?",
-        "For example: planned hires, advisors, mentors, partners, contractors or external specialists, training.",
+        "The capabilities the plan needs that the team lacks today.",
+        "For each gap, say who covers it and from when.",
         "A gap that is named and covered reads as a strength; one left unnamed reads as a risk."
     ]
 

@@ -59,9 +59,9 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
   - Dependent seniors 75+
 - **The "i" says:**
   - Minors, semi-dependent: Mid and Late Adolescence, with limited buying power; mostly cash, wallets and gift cards.
-  - Credit and long contracts are not open to them. Look up the country's online-consent age and its minimum working age.
+  - Credit and long contracts are for adults. Look up the country's online-consent age and its minimum working age.
   - Choose the group that pays, even when another group uses it.
-  - Each age group holds the years from its first number to its last, both included, so no age is in two groups (25–39, then 40–54).
+  - Each age group holds the years from its first number to its last, both included, so each age is in one group only (25–39, then 40–54).
 - **Connections:**
   - *Comes from:* Early Positioning: the buyer's life stage (the terms offered) and the seller and buyer relationship (people).
   - *Read by (built):* The Market document and the export; the Profile's typical age (A1) is held to this group and cleared when it falls outside it; Minors makes the Profile ask A5 (role in buying) and, when every age chosen is Minors, skips A7 (doc 36).
@@ -200,7 +200,7 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
 - **The "i" says:**
   - 1 = Mostly men, 5 = Mostly women.
   - 1 is 80% or more men, 2 is 60 to 80%, 3 a balanced mix (40 to 60%), 4 is 60 to 80% women, 5 is 80% or more.
-  - Choose 3 when it does not matter for what you sell.
+  - Choose 3 when what you sell suits everyone alike.
 - **Connections:**
   - *Comes from:* Nothing; the seller and buyer relationship (people).
   - *Read by (built):* The Market document and the export.
@@ -430,7 +430,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - (2026-11-08, the options-and-wording research: a routine rebuy and an urgent need are ways of buying none of the three held. With five options and "When they urgently need it" over 24 characters, the choice stands one under the other, not in a row.)
 - **The "i" says:**
   - Their usual way of buying, the one that fits most of them. Reviews read online count as comparing; advice from people they know is a recommendation.
-  - On impulse or when they urgently need it, their Profiles are not asked how they compare options.
+  - On impulse or when they urgently need it, their Profiles skip the question of how they compare options.
   - On impulse: They see it, like it and buy it there and then
   - After comparing options: They weigh prices, features and reviews first
   - On a recommendation: They buy what friends, family or colleagues suggest
@@ -494,7 +494,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
 - **The "i" says:**
   - Digital wallets are for example Apple Pay, Google Pay and PayPal. Buy Now, Pay Later is for example Klarna and Afterpay.
   - Cash is still about one payment in ten in the UK (UK Finance, 2024) [PAY-06].
-  - Invoicing is asked for business customers only. Credit and Buy Now, Pay Later are not open to minors.
+  - Invoice is offered for business customers only. Credit and Buy Now, Pay Later are for adults.
   - Choosing a phone as where they buy starts Digital wallets here; change it freely.
   - Select all that apply.
 - **Connections:**
@@ -622,7 +622,7 @@ Asked when the Segment's own buyer relationship has a Proxy or Dual-Intent buyer
   - Dependent seniors 75+
 - **The "i" says:**
   - Teenager covers Early Adolescence (11 to 13), Mid (13 to 16) and Late (16 to 18).
-  - Each age group holds the years from its first number to its last, both included, so no age is in two groups (25–39, then 40–54).
+  - Each age group holds the years from its first number to its last, both included, so each age is in one group only (25–39, then 40–54).
 - **Connections:**
   - *Comes from:* Early Positioning: the buyer's category (Proxy or Dual-Intent) and the end user's life stage.
   - *Read by (built):* The Market document and the export.
@@ -637,7 +637,8 @@ Asked when the Segment's own buyer relationship has a Proxy or Dual-Intent buyer
   - Primary school
   - Secondary school
 - **The "i" says:**
-  - Asked when the buyer buys for a child: a parent or guardian, a caregiver, a family member, or an institution such as a school. Secondary school is not offered for a Baby or a Child.
+  - Asked when the buyer buys for a child: a parent or guardian, a caregiver, a family member, or an institution such as a school.
+  - Secondary school is offered for a Teenager.
 - **Connections:**
   - *Comes from:* Early Positioning: the buyer and end user relationship; this part's life stage.
   - *Read by (built):* The Market document and the export.

@@ -116,17 +116,17 @@ const SUPPORT_WORRY = "support-after-they-buy";
 /** The questions, in the order doc 43 asks them, with the "i" each carries (what the doc's "i" says that is built). */
 export const OFFERING_QUESTIONS: readonly OfferingQuestion[] = [
     { id: "o1", label: "What form does it take?", many: false, info: ["It refines the Type. For a Hybrid, make one Offering for each form, or choose the main one.", "Online access: a membership area, a course platform or a subscription library."] },
-    { id: "o2", label: "Can your customers buy it today?", many: false, info: ["Where it stands today.", "It starts from your business stage; change it for this Offering."] },
+    { id: "o2", label: "Can your customers buy it today?", many: false, info: ["It starts from your business stage; change it for this Offering."] },
     { id: "o3", label: "On what terms do they pay for it?", many: false, info: ["How often they pay, and on what terms. How they pay (card, invoice) is the Segment's question.",
         "Subscription / membership: regular payments until they cancel. Pay as they go: they pay for what they use.",
         "Per session / per hour: a price for each session or hour. Rent / hire: they pay to use it for a time, then give it back.",
         "Commission on each sale: a share of each sale you make for them. Free to them: someone else pays, such as an advertiser or a funder.",
         "A minimum term: write it in the Notes."] },
-    { id: "o3t", label: "When do they pay?", many: false, info: ["When the money comes in. How they pay (card, invoice) is the Segment's question."] },
+    { id: "o3t", label: "When do they pay?", many: false, info: ["When the money comes in."] },
     { id: "o4", label: "Which of what matters most to your customers does it do best?", many: true, max: 3, info: ["The first you tick is the main benefit. The same list as \"What matters most\" on your Profiles and Competitors, so they can be compared.", "The Segment's Differentiation (under its Competitors) starts the ticks; change them freely."] },
     { id: "o6", label: "How do your customers receive it?", many: true, info: ["How it reaches them once bought: tick each way, as one Offering is often delivered in several.", "Sent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready."] },
     { id: "o7", label: "What help do you give after they buy?", many: true, info: ["The help that comes with it after the sale: tick each kind you give.", "None stands alone: ticking it clears the others."] },
-    { id: "o8", label: "Which of their worries does it answer?", many: true, info: ["The doubts that stop your customers buying from you, as your Profiles say. A worry nothing answers is shown on the Value Proposition.", "Support is answered by the help after they buy, in Support & Communication."] },
+    { id: "o8", label: "Which of their worries does it answer?", many: true, info: ["The doubts that stop your customers buying from you, as your Profiles say. A worry left unanswered shows as an open item on the Value Proposition.", "Support is answered by the help after they buy, in Support & Communication."] },
     { id: "o10", label: "What do your customers need to give you?", many: true, info: ["What you need from them before or during the work. The details go in the Notes.",
         "A place to work: a desk or a room for you to use. Access to their home or site: the work is done there, such as a repair or a fitting.",
         "Their time or attendance: they must take part or be there, such as at a session or a fitting."] },
@@ -135,11 +135,11 @@ export const OFFERING_QUESTIONS: readonly OfferingQuestion[] = [
     { id: "o16", label: "How fast do you reply?", many: false, info: ["How soon your customers hear back. The channels are on the Customer Engagement page."] },
     { id: "o17", label: "What comes after the sale?", many: true, info: ["What else comes with it after the sale; the help you give is the question above.", "None stands alone: ticking it clears the others."] },
     // O18's "i" says the cancellation rule of the Organisation's country only (offeringInfo); this is what it says with no country, or another one.
-    { id: "o18", label: "Which conditions of sale apply?", many: true, info: ["The terms your customers agree to.", "Cancellation rights differ by country; check the rules where you sell.", "A legal minimum age is not ticked here: write an age limit in the Notes."] }
+    { id: "o18", label: "Which conditions of sale apply?", many: true, info: ["The terms your customers agree to.", "Cancellation rights differ by country; check the rules where you sell.", "For an age limit, write it in the Notes."] }
 ];
 
 /** What is not covered by the 14 days in the UK and the EU (the same exceptions in both). */
-const NOT_COVERED = "Not covered: goods made to their specification or personalised, perishable goods, and leisure, catering or accommodation booked for a set date.";
+const NOT_COVERED = "Exceptions: goods made to their specification or personalised, perishable goods, and leisure, catering or accommodation booked for a set date.";
 /** The right to cancel a consumer sale in each of the six countries (doc 43, O18; 2026-11-08): what the "i" says, then its source. */
 const CANCELLING: Readonly<Record<string, { rule: readonly string[]; source: string }>> = {
     GB: {
@@ -169,7 +169,7 @@ const CANCELLING: Readonly<Record<string, { rule: readonly string[]; source: str
 };
 
 /** What O18's "i" says on a business Segment, in place of the consumer rule (phase 5, 2026-11-08). */
-export const BUSINESS_CANCELLING = "Consumer cancellation rights do not apply between businesses; your contract terms decide.";
+export const BUSINESS_CANCELLING = "Between businesses, your contract terms set the cancellation rules.";
 
 /** What a question's "i" says for this Offering: O18 the cancellation rule of the Organisation's country (none between businesses), the others their own. */
 export function offeringInfo(id: OfferingQuestionId, context: OfferingContext): readonly string[] {

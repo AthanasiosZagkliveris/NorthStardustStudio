@@ -66,7 +66,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Asked when:** a Profile of the Segment has answered E3 (doc 36).
 - **Options:** the worries ticked in the Segment's Profiles' E3 (the list L2), in the order of the list.
 - **The "i" says:**
-  - The doubts that stop your customers buying from you, as your Profiles say. A worry nothing answers is shown on the Value Proposition.
+  - The doubts that stop your customers buying from you, as your Profiles say. A worry left unanswered shows as an open item on the Value Proposition.
   - Support is answered by the help after they buy, in Support & Communication. (It said "above" until 2026-11-08: O7 stands in the box below.)
 - **Connections:**
   - *Comes from:* the Profiles' E3.
@@ -157,7 +157,6 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Just an idea
 - **Starts from the business stage** (owner 2026-11-06; `BusinessStage.ts`, from the Opening Date): Planning → "Still being built"; Launching → "Yes, now" (was "Almost ready" until 2026-11-08, the options-and-wording research: a business that is launching sells); Managing or Growing → "Yes, now". Only a starting value: an answer chosen is never overwritten, and every option stays (a growing business can still plan a new Offering, "Just an idea").
 - **The "i" says:**
-  - Where it stands today.
   - It starts from your business stage; change it for this Offering.
 - **Connections:**
   - *Comes from:* the business stage (Organisation: the Opening Date and the Global Settings' durations).
@@ -196,7 +195,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 **O3b. "When do they pay?"** (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments": one commercial decision, terms and timing; built as O3's second row in O3's band, a band of its own since 2026-11-09, as every question: one question per band, the tints alternating). One choice (a radio), straight after the terms; saved as `o3t`; the code stays.
 - **Options:** Before they get it; A deposit, then the rest; When it is done / delivered; In instalments / monthly; On invoice terms (for example 30 days).
 - **Starts from O3 (2026-11-09):** A subscription / membership or A monthly retainer, In instalments / monthly; A project or contract, A deposit, then the rest; One purchase, Before they get it. A saved answer wins.
-- **The "i" says:** When the money comes in. How they pay (card, invoice) is the Segment's question.
+- **The "i" says:** When the money comes in.
 - **Connections:** *Read by (built, 2026-11-09, as a start):* the Revenue stream's "Customer Pays" (its payment timing, Page 5; doc 28, 10.2), on a stream not saved yet. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### O15. How long until they have it?
@@ -303,16 +302,16 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Options** (L24): A minimum order; Trade / account only; Non-refundable once made (unless faulty); Notice to cancel; A booking / cancellation fee.
 - **The "i" says** (built 2026-11-08, the options-and-wording research: only the Organisation's country's rule, `offeringInfo`, the country from the Organisation tile through `OfferingContext.country`):
   - The terms your customers agree to.
-  - **On a business Segment** (the Segment's frame is business, passed as `OfferingContext.frame`; 2026-11-08): "Consumer cancellation rights do not apply between businesses; your contract terms decide." in place of the country's rule and its source.
+  - **On a business Segment** (the Segment's frame is business, passed as `OfferingContext.frame`; 2026-11-08): "Between businesses, your contract terms set the cancellation rules." in place of the country's rule and its source.
   - Otherwise the country's rule, one of:
-    - **United Kingdom (GB):** "In the UK, a consumer can cancel most online, phone and doorstep sales within 14 days (goods: from delivery; services: from the contract)." Then "Not covered: goods made to their specification or personalised, perishable goods, and leisure, catering or accommodation booked for a set date."
+    - **United Kingdom (GB):** "In the UK, a consumer can cancel most online, phone and doorstep sales within 14 days (goods: from delivery; services: from the contract)." Then "Exceptions: goods made to their specification or personalised, perishable goods, and leisure, catering or accommodation booked for a set date."
     - **Ireland (IE):** the same, beginning "In Ireland and the EU, …".
     - **United States (US):** "No general right to cancel. The FTC Cooling-Off Rule gives 3 business days for sales made at the customer's home or at a temporary location." Then "Online, phone and shop sales are not covered. State laws can add more."
     - **Canada (CA):** "Set by each province, with no general right to cancel an online purchase (Ontario: 10 days for door-to-door sales)."
     - **Australia (AU):** "No change-of-mind right for shop or website purchases; 10 business days to cancel an unsolicited sale of $100 or more."
     - **New Zealand (NZ):** "No change-of-mind right; 5 working days to cancel an uninvited direct sale over $100."
     - **No country, or another:** "Cancellation rights differ by country; check the rules where you sell." (no source line)
-  - A legal minimum age is not ticked here: write an age limit in the Notes.
+  - For an age limit, write it in the Notes.
   - The source, last: GB "Based on: the Consumer Contracts Regulations 2013, regulation 28 (UK)." [FUN-74]; IE "Based on: the Consumer Rights Directive 2011/83/EU, Article 16 (EU)." [FUN-75]; US "Based on: the FTC Cooling-Off Rule (US)." [FUN-76]; CA "Based on: Ontario's Consumer Protection Act (CA)." [FUN-77]; AU "Based on: the Australian Consumer Law (ACCC)." [FUN-78]; NZ "Based on: the Fair Trading Act 1986, section 36M (NZ)." [FUN-79].
   - (Each point is within 160 characters, tested.)
 - **Connections:** *Comes from:* the Organisation's country (the "i" only). *Read by:* the export. Sources [FUN-74] to [FUN-79].

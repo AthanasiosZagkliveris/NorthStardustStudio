@@ -358,30 +358,28 @@ export const INFO = {
 
     requirements: [
         "What else the law asks of this organisation, if anything applies: for example a licence, a professional registration, or a named officer.",
-        "Add one if it applies to your activity, your legal form, or where you are registered. If none does, add none."
+        "Add one for each that applies to your activity, your legal form or where you are registered."
     ],
 
     expenses: [
-        "What it costs to register and keep registered: filing, renewal and agent fees. Each pays for one registration.",
-        "Insurance, licences and certificates are recorded in Documents & Rights, on 3. Infrastructure & Capability.",
-        "Add the ones that apply. If there are none, add none."
+        "What it costs to register and keep registered: filing, renewal and agent fees. Each is linked to one registration or requirement.",
+        "Licences, insurance and certificates for an offering are recorded in Documents & Rights, on 3. Infrastructure & Capability."
     ],
 
     mainActivity: [
         "Who are you, and what do you do? What do you create or provide?",
-        "Write it as a registry or a bank would expect to read it.",
-        "Name, country, address and legal form are above."
+        "Write it as a registry or a bank would expect to read it."
     ],
 
     registrationDate: [
         "The day the organisation was registered with the registry of its country.",
-        "It cannot be later than today, nor later than the Opening Date: the business cannot open before the company exists."
+        "It is today or earlier, and on or before the Opening Date: the company exists before the business opens."
     ],
 
     openingDate: [
         "The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it.",
-        "The stage also sets Positioning's name and how many choices each of its questions allows; when the stage changes, an answer that fits only the old stage goes back to empty.",
-        "The days from the plan's start to the day before it are the pre-operational period: every cost is split around it by its own dates."
+        "The stage also sets Positioning's name and how many choices its questions allow; a change of stage empties an answer over the new limit.",
+        "Costs dated before it make the pre-operational budget, on the Financial Foundation."
     ],
 
     businessStage: [
@@ -390,7 +388,7 @@ export const INFO = {
     ],
 
     customerType: [
-        "Who pays: the buyer who approves the budget, who may not be the person who uses it.",
+        "Who pays: the buyer who approves the budget; the person who uses it can be someone else.",
         "The positioning statement is written for the buyers; each distinct group of them may need its own.",
         "B2C (Business-to-Consumer): individuals or consumers who pay for personal or family use.",
         "B2B (Business-to-Business): businesses, companies, freelancers or public bodies.",
@@ -407,7 +405,7 @@ export const INFO = {
     ],
 
     audienceScale: [
-        "Limits the target group to a specific niche, aligning the startup with the corresponding sales cycle and the buyer's daily life.",
+        "How big the businesses you sell to are. Your Segment's size question offers the sizes that go with it.",
         "Solopreneurs & Freelancers: individual professionals (immediate decision, need for low cost or self-service).",
         "Startups & SMBs: small and medium-sized or rapidly growing companies (need for speed, flexibility and an immediate solution).",
         "Mid-Market: medium-sized businesses with structured departments (need for workflows, roles and scale).",
@@ -416,7 +414,7 @@ export const INFO = {
     ],
 
     lifeStage: [
-        "Limits the target group to a specific niche, aligning the startup with the corresponding sales cycle and the buyer's daily life.",
+        "The stage of life of the people who buy. Your Segment's age groups follow it.",
         "Students / Young Adults: they buy for themselves; tech-savvy, low budget, sensitive to trends.",
         "Workers / Professionals: they buy for themselves, with their own income; they seek time savings, convenience or status and decide inside a busy working life.",
         "Seniors: they buy for themselves, often on a fixed income and with time to compare; they look for accessibility, simplicity, trust and health support.",
@@ -451,7 +449,8 @@ export const INFO = {
     ],
 
     buyerUserRelation: [
-        "How is the buyer related to the person who will use it? It shapes the message: a parent is reached by safety and trust, an employer by compliance and duty of care.",
+        "How is the buyer related to the person who will use it?",
+        "It orders the purposes below and your Segment's Differentiation: a parent looks for safety and trust, an employer for compliance and duty of care.",
         "Only the relationships that fit the buyer's category above are offered.",
         "Institution or membership body: a school for its pupils, a care home for its residents, a club or union for its members, a council for its residents."
     ],
@@ -463,7 +462,7 @@ export const INFO = {
     ],
 
     purpose: [
-        "Why the offering is bought: the purpose it serves for the person who gets it. Choose the ones that fit best.",
+        "Why the offering is bought: the purpose it serves for the person who gets it.",
         "Only the purposes that fit your answers above are offered: the primary ones first, then the possible ones."
     ],
 
@@ -475,7 +474,7 @@ export const INFO = {
         "Compliance, Risk & Security: targets the blind spot of uncertified or questionable alternatives.",
         "Status & Premium (exclusivity): targets the blind spot of mass-market or cheap products with top quality and custom service.",
         "Performance & Innovation (product superiority): targets the blind spot of dated or underpowered alternatives with better results and newer methods.",
-        "Ecosystem & Integration (fits what they already use): targets the blind spot of standalone tools that do not connect to the buyer's other systems and workflows.",
+        "Ecosystem & Integration (fits what they already use): targets the blind spot of standalone tools cut off from the buyer's other systems and workflows.",
         "Personal Service & Relationship (customer intimacy): targets the blind spot of impersonal providers with a service shaped around each customer.",
         { title: "Based on", source: SOURCES.strategicPositioning },
         { title: "Also", source: SOURCES.positioningTemplate }
@@ -497,8 +496,8 @@ export const INFO = {
         "Not yet registered: you are planning it. Choose the legal form you intend to use; the date, the registration number and the tax numbers can wait until it is registered."
     ],
     registrationAuthority: [
-        "The body that keeps the public register your organisation is listed on.",
-        "Filled in from the country you chose. Change it to match yours."
+        "The body that keeps the public register your organisation is on; on a further row, the name of that registration.",
+        "Filled in from the country you chose; for another country, write it."
     ],
 
     taxNumber: [
@@ -507,8 +506,8 @@ export const INFO = {
     ],
 
     links: [
-        "Says which registration or requirement this expense pays for. Only one can be chosen.",
-        "Lists what you have already recorded further up the page."
+        "Says which registration or requirement this expense pays for.",
+        "It lists the registration numbers and the requirements recorded under Registrations."
     ]
 
 };

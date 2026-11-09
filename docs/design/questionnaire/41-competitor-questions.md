@@ -141,8 +141,8 @@ This follows the type rules already built for the text boxes: a substitute has n
   - Shops or wholesalers
   - Referrals or affiliates
 - **The "i" says:**
-  - Tick each channel they use to find customers, then which ones: the same lists as your Profiles, so the app can see where your customers are and they are not.
-  - Write their account and shop names in the note. Payment and delivery channels are not listed: they do not reach new customers.
+  - Tick each channel they use to find customers, then which ones. The lists are your Profiles', so the openings below show the channels they leave free.
+  - Write their account and shop names in the note. The list holds the channels that reach new customers.
 - **Kept as:** the channels under `k5`; the sub-channels under `k5-sub`, each "channel:sub" (`social-media:instagram`), kept while their channel is ticked. A channel's rating saved before 2026-11-04 (`k5-rating`) is dropped on the next answer and read by nothing.
 - **Not yet:** the sub-channels in the order of the App User's industry and country, as K6's platforms are: no source by industry was found for social media, communities or events; they stay in the Profile's order.
 - **Connections:**
@@ -163,7 +163,7 @@ This follows the type rules already built for the text boxes: a substitute has n
 - **The "i" says:**
   - 1 = Poor, 5 = Excellent.
   - Tick each place they are reviewed and give their average there, to the nearest star. Most people only use a business with 4 stars or more.
-  - Not listed? Tick Other and write it. Google is where most people read reviews of local businesses (71% in 2026).
+  - For another place, tick Other and write it. Google is where most people read reviews of local businesses (71% in 2026).
   - Then the examples behind the catch-all platforms (`REVIEW_PLATFORM_EXAMPLES`): "Marketplace: where they sell, such as Etsy, Amazon or eBay." "App store: Apple's App Store or Google Play." "Trade directory: Checkatrade or TrustATrader in the UK, Angi or HomeAdvisor in the US, HomeStars in Canada." "Food delivery app: Just Eat or Deliveroo in the UK, Grubhub in the US, SkipTheDishes in Canada, Menulog in Australia."
 - **Connections:**
   - *Comes from:* the Organisation's country and first activity (Legal Entity, `AnswerLegal.ts`), which order the rows. The order by industry and country rests on directory and vendor lists [FUN-64, FUN-65], not on a survey of how many people use each site; the use of Google and Apple Maps and the 4-star threshold rest on BrightLocal's survey of US consumers [FUN-62], Trustpilot in the UK on Littlechild [FUN-63]. The SBA asks what customers and prospects say about competitors [FUN-50].
@@ -218,7 +218,7 @@ For Internal solution and Status quo the box stays text only: it asks about the 
   - Values
 - **The "i" says:**
   - 1 = Weak, 5 = Strong.
-  - Rate each from what their customers say and what you have seen: 1 is a clear weakness, 5 a clear strength.
+  - Rate each from what their customers say and what you have seen.
   - Once a row has a band: "The darker the band, the more of your Profiles chose it."
 - **Connections:**
   - *Words:* where the Segment's buyer is Proxy or Dual-Intent, "How do they do on what matters most to your buyers?": B1 is the buyer's (2026-11-09).
@@ -247,7 +247,7 @@ For Internal solution and Status quo the box stays text only: it asks about the 
   - Environment and climate (added 2026-11-08 with the Segment's option)
 - **The "i" says:**
   - 1 = Threat, 5 = Opportunity.
-  - How each change could help or hurt them. The examples of each change, as on your Segment.
+  - How each change could help or hurt them. The changes and their examples are your Segment's.
 - **Connections:**
   - *Comes from:* the owner's decision (2026-11-04): one rating replaces the two tick lists of changes that help and changes that hurt. The Segment's ticks set the order of the rows; no row starts rated. SWOT's external factors, favourable or unfavourable [FUN-53].
   - *Read by (built):* K10's options.

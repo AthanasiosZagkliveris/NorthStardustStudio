@@ -210,7 +210,7 @@ export const JOB_INFO = [
     "Someone who owns and runs a business: Manager / director. Armed forces: choose the group that fits the role."
 ] as const;
 
-const AGE_NOTE = "Each age group holds the years from its first number to its last, both included, so no age is in two groups (25–39, then 40–54).";
+const AGE_NOTE = "Each age group holds the years from its first number to its last, both included, so each age is in one group only (25–39, then 40–54).";
 
 const RAW_QUESTIONS: readonly SegmentQuestion[] = [
 
@@ -221,7 +221,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         options: BUYER_AGES.map(({ id, label }) => ({ id, label })),
         info: [
             "Minors, semi-dependent: Mid and Late Adolescence, with limited buying power; mostly cash, wallets and gift cards.",
-            "Credit and long contracts are not open to them. Look up the country's online-consent age and its minimum working age.",
+            "Credit and long contracts are for adults. Look up the country's online-consent age and its minimum working age.",
             "Choose the group that pays, even when another group uses it.",
             AGE_NOTE
         ]
@@ -288,7 +288,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     {
         id: "gender", box: "demographics", label: "What is the gender mix of your customers?", many: false,
         rating: GENDER_RATING, options: ratingOptions(GENDER_RATING),
-        info: ["1 is 80% or more men, 2 is 60 to 80%, 3 a balanced mix (40 to 60%), 4 is 60 to 80% women, 5 is 80% or more.", "Choose 3 when it does not matter for what you sell."]
+        info: ["1 is 80% or more men, 2 is 60 to 80%, 3 a balanced mix (40 to 60%), 4 is 60 to 80% women, 5 is 80% or more.", "Choose 3 when what you sell suits everyone alike."]
     },
 
     /* ---- Box 2, Geographics ---- */
@@ -401,7 +401,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "urgent", label: "When they urgently need it: They buy what solves it now" }
         ],
         info: ["Their usual way of buying, the one that fits most of them. Reviews read online count as comparing; advice from people they know is a recommendation.",
-            "On impulse or when they urgently need it, their Profiles are not asked how they compare options."]
+            "On impulse or when they urgently need it, their Profiles skip the question of how they compare options."]
     },
     {
         id: "authorise", name: "Decision", box: "purchasing", label: "Who decides to buy?", many: true,
@@ -436,7 +436,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         info: [
             "Digital wallets are for example Apple Pay, Google Pay and PayPal. Buy Now, Pay Later is for example Klarna and Afterpay.",
             "Cash is still about one payment in ten in the UK (UK Finance, 2024).",
-            "Invoicing is asked for business customers only. Credit and Buy Now, Pay Later are not open to minors.",
+            "Invoice is offered for business customers only. Credit and Buy Now, Pay Later are for adults.",
             "Choosing a phone as where they buy starts Digital wallets here; change it freely.",
             "Select all that apply."
         ]
@@ -513,7 +513,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "primary", label: "Primary school" },
             { id: "secondary", label: "Secondary school" }
         ],
-        info: ["Asked when the buyer buys for a child: a parent or guardian, a caregiver, a family member, or an institution such as a school. Secondary school is not offered for a Baby or a Child."]
+        info: ["Asked when the buyer buys for a child: a parent or guardian, a caregiver, a family member, or an institution such as a school.", "Secondary school is offered for a Teenager."]
     },
     {
         id: "u-work", box: "user", label: "Are your customers working?", many: false,

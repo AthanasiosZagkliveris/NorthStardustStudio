@@ -122,10 +122,10 @@ describe("O2, O3, O10 and O18 from the research (2026-11-08)", () => {
 
     it("says only the Organisation country's cancellation rule in O18's \"i\"", () => {
         const info = (country?: string) => offeringInfo("o18", { type: "Service", country });
-        expect(info()).toEqual(["The terms your customers agree to.", "Cancellation rights differ by country; check the rules where you sell.", "A legal minimum age is not ticked here: write an age limit in the Notes."]);
+        expect(info()).toEqual(["The terms your customers agree to.", "Cancellation rights differ by country; check the rules where you sell.", "For an age limit, write it in the Notes."]);
         expect(info("DE")).toEqual(info());
         expect(info("GB")[1]).toMatch(/^In the UK, a consumer can cancel/);
-        expect(info("GB")[2]).toMatch(/^Not covered: goods made to their specification/);
+        expect(info("GB")[2]).toMatch(/^Exceptions: goods made to their specification/);
         expect(info("GB")[4]).toMatch(/Consumer Contracts Regulations 2013, regulation 28/);
         expect(info("IE")[1]).toMatch(/^In Ireland and the EU/);
         expect(info("IE")[4]).toMatch(/2011\/83\/EU, Article 16/);
@@ -136,7 +136,7 @@ describe("O2, O3, O10 and O18 from the research (2026-11-08)", () => {
         for (const country of ["GB", "IE", "US", "CA", "AU", "NZ"]) {
             const lines = info(country);
             expect(lines[0]).toBe("The terms your customers agree to.");
-            expect(lines).toContain("A legal minimum age is not ticked here: write an age limit in the Notes.");
+            expect(lines).toContain("For an age limit, write it in the Notes.");
             expect(lines[lines.length - 1]).toMatch(/^Based on: /);
             for (const line of lines) {
                 expect(line.length, line).toBeLessThanOrEqual(160);
@@ -200,7 +200,7 @@ describe("O16 and O17 held back while Planning", () => {
 describe("O18 between businesses and O3's order from the settled pay", () => {
     it("says on a business Segment that consumer cancellation rights do not apply, instead of the country's consumer rule", () => {
         const info = offeringInfo("o18", { type: "Service", country: "GB", frame: "business" });
-        expect(info).toContain("Consumer cancellation rights do not apply between businesses; your contract terms decide.");
+        expect(info).toContain("Between businesses, your contract terms set the cancellation rules.");
         expect(info.join(" ")).not.toContain("14 days");
         expect(offeringInfo("o18", { type: "Service", country: "GB", frame: "people" }).join(" ")).toContain("14 days");
     });

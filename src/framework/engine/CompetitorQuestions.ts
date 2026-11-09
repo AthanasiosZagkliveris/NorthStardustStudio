@@ -92,19 +92,19 @@ export const COMPETITOR_INFO: Record<CompetitorQuestionId, readonly string[]> = 
     k3: ["The EU's sizes, as on your Segment. A sole trader is Micro."],
     k4: ["From what you can see: more branches, staff, products or reviews, or fewer."],
     k5: [
-        "Tick each channel they use to find customers, then which ones: the same lists as your Profiles, so the app can see where your customers are and they are not.",
-        "Write their account and shop names in the note. Payment and delivery channels are not listed: they do not reach new customers."
+        "Tick each channel they use to find customers, then which ones. The lists are your Profiles', so the openings below show the channels they leave free.",
+        "Write their account and shop names in the note. The list holds the channels that reach new customers."
     ],
     k6: [
         "Tick each place they are reviewed and give their average there, to the nearest star. Most people only use a business with 4 stars or more.",
-        "Not listed? Tick Other and write it. Google is where most people read reviews of local businesses (71% in 2026)."
+        "For another place, tick Other and write it. Google is where most people read reviews of local businesses (71% in 2026)."
     ],
     k7: [
         "Where their customers are let down along the way, and where it goes smoothly. The values below say what falls short; this says where.",
         "To find out, look at their website and social media, sign up to their newsletter or buy from them once."
     ],
-    k8: ["Rate each from what their customers say and what you have seen: 1 is a clear weakness, 5 a clear strength."],
-    k9: ["How each change could help or hurt them. The examples of each change, as on your Segment."],
+    k8: ["Rate each from what their customers say and what you have seen."],
+    k9: ["How each change could help or hurt them. The changes and their examples are your Segment's."],
     k10: ["Openings drawn from what you answered above. Tick the ones you will act on, then write how in the text.", "Your ticks here start the Segment's Differentiation, under your Competitors: an opening on price, ease, safety, quality, expertise or service starts its match."]
 };
 

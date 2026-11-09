@@ -35,17 +35,16 @@ export const SUBSECTIONS = {
         ],
         // What the "i" of the Segment Description adds to the two instructions (which stand above the line on the page): how the questions of its boxes come and go.
         // (Two points since 2026-11-08: an answer held back while Planning is kept.)
-        questionsNote: "Which choices each box asks follows your Positioning (who buys, their life stage and category) and your stage. When a question leaves a box, its answer is removed.",
+        questionsNote: "The choices in each box follow your Positioning (who buys, their life stage and category) and your stage; a question that leaves a box takes its answer with it.",
         questionsHeldNote: "Some questions wait until you launch; an answer given to one of them is kept.",
         // What the "i" of each box adds to its prompt: what it asks and what its questions follow.
         boxNotes: {
             demographics: [
-                "Asked when the customers are people. The age groups follow the life stage chosen in Positioning.", "Questions that do not apply to minors are not asked of them.",
+                "Asked when the customers are people. The age groups follow the life stage chosen in Positioning.", "Minors are asked only the questions that fit them.",
                 "Choosing an age group starts the work situation with the one that goes with it, which you can change."
             ],
             geographics: [
-                "Where most of your customers are.", "Once you are managing or growing, and for customers in one place or one country: the kind of area they live or work in.",
-                "If your customers are in more than one place, make another Segment."
+                "Where most of your customers are.", "Once you are managing or growing, and for customers in one place or one country: the kind of area they live or work in."
             ],
             "business-data": [
                 "Asked when the customers are businesses; for a business buyer this box comes before Geographics.",
@@ -53,7 +52,6 @@ export const SUBSECTIONS = {
             ],
             // In the order of a purchase (owner, 2026-11-08, P3).
             purchasing: [
-                "In the order they buy: online comfort, socialising, what makes them shop, where they discover, how they decide, where they shop, how they pay, how they share.",
                 "Socialising, what makes them shop, how they decide and how they share are asked about people; who decides to buy, about businesses."
             ],
             "market-size": [
@@ -83,7 +81,7 @@ export const SUBSECTIONS = {
             user: ["The person it is for, who uses it: who they are, what they want from it, what frustrates them and what they need."],
             userDual: ["The people the buyer buys for besides themselves (the buyer uses it too): who they are, what they want from it, what frustrates them and what they need.", "What they want, what frustrates them and what they need are asked of a typical user: the buyer or the others."],
             userPersonal: "Who is the end user, the person it is for?",
-            userPersonalHint: "The note is for what is not asked above: a name, what they do, where they live."
+            userPersonalHint: "Use Notes for a name, what they do and where they live."
         },
         // One list each, with the specification's own explanation
         // on each as its "i". The word "Needs" is dropped from

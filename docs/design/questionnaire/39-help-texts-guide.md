@@ -108,7 +108,7 @@ Words to avoid in an "i": *tile, card, locked, frozen, driver, check, Segment fr
 ### 3.5 Worked examples
 
 **Before** (Demographics, the owner's prompt, as it stood): *"What are their age range, education level, and income range?"*; nothing else.
-**After:** *"What are their age group, education, work situation, household income and gender mix?"* then *"Asked when the customers are people. The age groups offered follow the life stage chosen in Positioning, and the questions that do not apply to minors are not asked of them."* then *"Choosing an age group starts the work situation with the one that goes with it, which you can change."* Three points, the first the prompt, none repeating a label.
+**After:** *"What are their age group, education, work situation, household income and gender mix?"* then *"Asked when the customers are people. The age groups offered follow the life stage chosen in Positioning, and minors are asked only the questions that fit them."* then *"Choosing an age group starts the work situation with the one that goes with it, which you can change."* Three points, the first the prompt, none repeating a label.
 
 **Before** (a long definition, 1,700 characters in one block): the Typography text.
 **After:** the first sentence (what the Text Hierarchy is for) and how to fill it, three points; each level's meaning becomes one line "Level: meaning"; the rest moves to the documents.

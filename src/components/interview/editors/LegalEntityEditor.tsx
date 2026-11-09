@@ -91,7 +91,7 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
     if (organizationOnly) {
         return (
             <div className="column-tile-content legal-entity legal-entity-unframed" data-rail={railId(LEGAL_ENTITY_SECTIONS[0])}>
-                <div className="business-engagement-section-head"><DialogHeading title="Organisation" info={["What the organisation is: its name, where it is, its legal form, what it does and where it stands."]} /></div>
+                <div className="business-engagement-section-head"><DialogHeading title="Organisation" info={["Choose the country first: the legal forms, the registry and the activity codes follow it."]} /></div>
                 <div className="legal-entity-body">{section0}</div>
             </div>
         );
@@ -103,7 +103,7 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
         // (Every dialog of the page opens with the one heading the Business System's do: the title, then its "i".)
         const SECTION_INFO: Record<number, InfoPoint[]> = {
             0: ["What the organisation is in law: its name, what it does, its legal form and where it is."],
-            1: ["Who owns the organisation, and how much of it each founder owns."]
+            1: ["Who the founders are, how much of the organisation each owns, and what each brings to it."]
         };
         const plain = (section: number, body: ReactNode) => (
             <div className="column-tile-content legal-entity legal-entity-unframed" data-rail={rail(section)}>

@@ -19,7 +19,7 @@ Related: doc 37 (the Organisation tile, whose Opening Date sets the stage), doc 
 - **Options:**
   - B2C (Business-to-Consumer)
   - B2B (Business-to-Business)
-- **The "i" says:** Who pays: the buyer who approves the budget, who may not be the person who uses it. The positioning statement is written for the buyers; each distinct group of them may need its own. B2C (Business-to-Consumer): individuals or consumers who pay for personal or family use. B2B (Business-to-Business): businesses, companies, freelancers or public bodies. Based on the positioning statement of the strategy literature. (Public bodies named, owner, 2026-11-08: a public buyer is chosen as B2B, with the scale Enterprise or Public Sector.)
+- **The "i" says:** Who pays: the buyer who approves the budget; the person who uses it can be someone else. The positioning statement is written for the buyers; each distinct group of them may need its own. B2C (Business-to-Consumer): individuals or consumers who pay for personal or family use. B2B (Business-to-Business): businesses, companies, freelancers or public bodies. Based on the positioning statement of the strategy literature. (Public bodies named, owner, 2026-11-08: a public buyer is chosen as B2B, with the scale Enterprise or Public Sector.)
 - **Connections:**
   - *Comes from:* the stage (the limit).
   - *Read by (built):* the Segment card, which asks people's questions for B2C and the business's for B2B (doc 35); every question below; the exports.
@@ -33,7 +33,7 @@ Related: doc 37 (the Organisation tile, whose Opening Date sets the stage), doc 
   - Students / Young Adults
   - Workers / Professionals
   - Seniors
-- **The "i" says:** Limits the target group to a specific niche, aligning the startup with the corresponding sales cycle and the buyer's daily life. Students / Young Adults: they buy for themselves; tech-savvy, low budget, sensitive to trends. Workers / Professionals: they buy for themselves, with their own income; they seek time savings, convenience or status and decide inside a busy working life. Seniors: they buy for themselves, often on a fixed income and with time to compare; they look for accessibility, simplicity, trust and health support. Where a family member buys for them, the buyer's category below is Proxy or Dual-Intent.
+- **The "i" says:** The stage of life of the people who buy. Your Segment's age groups follow it. Students / Young Adults: they buy for themselves; tech-savvy, low budget, sensitive to trends. Workers / Professionals: they buy for themselves, with their own income; they seek time savings, convenience or status and decide inside a busy working life. Seniors: they buy for themselves, often on a fixed income and with time to compare; they look for accessibility, simplicity, trust and health support. Where a family member buys for them, the buyer's category below is Proxy or Dual-Intent.
 - **Connections:**
   - *Comes from:* the relationship.
   - *Read by (built):* the Segment's age group (the terms offered: Students / Young Adults: Minors, semi-dependent and Young adults; Workers / Professionals: Established, Peak, Mature; Seniors: Active Retirees and Dependent seniors); the order of the purposes, differentiations and outcomes.
@@ -56,7 +56,7 @@ Related: doc 37 (the Organisation tile, whose Opening Date sets the stage), doc 
 - **Control:** as question 1 (the audience limit).
 - **Asked when:** the buyer's category is Proxy or Dual-Intent, for that relationship, right after that relationship's buyer's category (the B2B one in the right column when both are chosen).
 - **Options:** a consumer buyer: Parent or guardian; Caregiver; Family member; Spouse or partner; Friend or acquaintance; Commercial & Professional. A business buyer: Employer; Business partner; Business serving clients; Professional intermediary; Sponsor or funder; Institution or membership body (Proxy or Dual-Intent; added 2026-11-09). Only the relationships that can be the chosen category are offered (a friend can only be a Proxy, a spouse or partner only Dual-Intent), and one already chosen stays. **No "Other"** (owner, 2026-11-09, doc 31 decision 39: it recorded nothing the app could use): a saved Other (`rel:otherpersonal`, `rel:otherbusiness`) still reads, shows until it is unticked, and opens the same questions; its tile and export words stay.
-- **The "i" says:** How is the buyer related to the person who will use it? It shapes the message: a parent is reached by safety and trust, an employer by compliance and duty of care. Only the relationships that fit the buyer's category above are offered. Institution or membership body: a school for its pupils, a care home for its residents, a club or union for its members, a council for its residents.
+- **The "i" says:** How is the buyer related to the person who will use it? It orders the purposes below and your Segment's Differentiation: a parent looks for safety and trust, an employer for compliance and duty of care. Only the relationships that fit the buyer's category above are offered. Institution or membership body: a school for its pupils, a care home for its residents, a club or union for its members, a council for its residents.
 - **Connections:**
   - *Comes from:* the buyer's category and the buyer's life stage (a Student or Young Adult buyer is not a Commercial & Professional buyer).
   - *Read by (built):* the end user's life stages offered (the owner's matrix); which relationship questions the Segment's End user part asks (school stage, work status, job level, or the clients' type and size); the order of the purposes and differentiations.
@@ -86,7 +86,7 @@ Related: doc 37 (the Organisation tile, whose Opening Date sets the stage), doc 
   - Startups & SMBs
   - Mid-Market
   - Enterprise or Public Sector
-- **The "i" says:** Limits the target group to a specific niche, aligning the startup with the corresponding sales cycle and the buyer's daily life. Solopreneurs & Freelancers: individual professionals (immediate decision, need for low cost or self-service). Startups & SMBs: small and medium-sized or rapidly growing companies (need for speed, flexibility and an immediate solution). Mid-Market: medium-sized businesses with structured departments (need for workflows, roles and scale). Enterprise or Public Sector: multinationals or public bodies (multi-month sales or tender cycle, need for maximum security).
+- **The "i" says:** How big the businesses you sell to are. Your Segment's size question offers the sizes that go with it. Solopreneurs & Freelancers: individual professionals (immediate decision, need for low cost or self-service). Startups & SMBs: small and medium-sized or rapidly growing companies (need for speed, flexibility and an immediate solution). Mid-Market: medium-sized businesses with structured departments (need for workflows, roles and scale). Enterprise or Public Sector: multinationals or public bodies (multi-month sales or tender cycle, need for maximum security).
 - **Connections:**
   - *Comes from:* the relationship.
   - *Read by (built):* the Segment card (a business scale means a business buyer where no relationship is chosen); the order of the differentiations and of the purposes (the owner's tables).
@@ -96,7 +96,7 @@ Related: doc 37 (the Organisation tile, whose Opening Date sets the stage), doc 
 - **Control:** ticks, up to the stage's limit (the purpose, differentiation and outcome limit), with "2 max" shown where it applies.
 - **Asked when:** always.
 - **Options:** the twelve purposes, ordered by relevance to the answers so far (the owner's tables, doc 31, 10.7): Learning & Development; Health, Care & Wellbeing; Gifting & Appreciation; Entertainment & Enjoyment; Social Connection & Relationships; Productivity & Efficiency; Business Growth & Performance; Creation & Expression; Everyday Needs & Convenience; Protection & Risk Reduction; Compliance & Obligations; Access & Social Support. The ones the tables call generally less directly relevant to the buyer are not offered; one already chosen stays.
-- **The "i" says:** Why the offering is bought: the purpose it serves for the person who gets it. Choose the ones that fit best. Only the purposes that fit your answers above are offered: the primary ones first, then the possible ones.
+- **The "i" says:** Why the offering is bought: the purpose it serves for the person who gets it. Only the purposes that fit your answers above are offered: the primary ones first, then the possible ones.
 - **Connections:**
   - *Comes from:* the relationship, the buyer's category, the buyer and end user relationship, the life stages and the audience scale (the order and the options).
   - *Read by (built):* the order of the differentiations and outcomes; the exports.

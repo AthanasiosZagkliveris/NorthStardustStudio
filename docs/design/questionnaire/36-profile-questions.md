@@ -144,7 +144,7 @@ A typical person of the Segment, asked specifically.
   - Non-binary
   - Another gender
 - **The "i" says:**
-  - Asked only when the Segment's gender mix is not 3 (balanced); it starts from the mix. Change it freely.
+  - Asked when the Segment's gender mix leans one way (any point but 3); it starts from the mix. Change it freely.
 - **Connections:**
   - *Comes from:* the Segment's gender mix. The mix is a rating since 2026-11-04 (doc 35): rated 1 or 2 (mostly or leaning men), A2 **starts** as Man; 4 or 5, as Woman; 3 (balanced) is not asked; a starting value the App User can change; the question stays visible, because a Segment holds up to three Profiles and one of them can be the minority. When the mix is Balanced the question is not asked: gender does not matter for what is sold. The categories follow the Australian standard for sex and gender [SEX-01].
   - *Read by (not built yet):* the Review (a gender that does not fit the mix is noted, never cleared); the equality notice.
@@ -251,7 +251,7 @@ A typical person of the Segment, asked specifically.
   - Controls who reaches the decision-maker
 - **The "i" says:**
   - The five buying-centre roles credited to Webster and Wind (1972) [CHN-02].
-  - "Uses it" is the person who uses the offering day to day, who may be neither the one who pays nor the one who decides.
+  - "Uses it" is the person who uses the offering day to day; the one who pays and the one who decides can be other people.
 - **Connections:**
   - *Comes from:* the Segment's decision authorisation and end-user part. **Starts:** every role where one person decides; on a Proxy Segment, Places the order and Makes the final decision; on a Dual-Intent Segment also Uses it (2026-11-09).
   - *Read by (not built yet):* the Review (nobody makes the final decision); context on the Customer Engagement page. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
@@ -333,7 +333,7 @@ What the Segment cannot say: which social media, which communities, which events
   - Other
 - **The "i" says:**
   - The platforms they actually use, if any.
-  - Tick Other to write one that is not listed.
+  - Tick Other to write another.
 - **Connections:**
   - *Comes from:* the Segment's discovery ways and online comfort.
   - *Read by (not built yet):* the order of the Discover channels (page 2); the Profile's hubs. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
@@ -437,7 +437,6 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
 - **Options** (L25, doc 34): Weekday daytime; Evenings; Weekends; Around seasons / holidays.
 - **The "i" says:**
   - When they actually buy; the Segment's work schedule says when they work.
-  - How they buy, in their words, goes in the Notes.
 - **Connections:** *Read by:* the documents and the export. The habits Notes keep how they buy, in their words.
 
 ## 7. Box E. Motivations
@@ -534,7 +533,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
 - The Emotional and Social needs' notes are the shared Notes (`OptionalNote`, titled "Notes") under their ticks, one line a need, kept as the list the Value Proposition reads; what a tick already says is not repeated there (the examples trimmed). Functional stays the numbered list the Offerings pick from.
 
 **Wording reviewed (owner, 2026-11-04: "Improve the wording on the profile card"; doc 28, section 4; doc 39).** Built in `ProfileQuestions.ts`, the ids unchanged:
-- A2's "i": "Asked only when the Segment's gender mix is not 3 (balanced); it starts from the mix. Change it freely." (was two points, the second "Nothing reads it but the note", an internal fact).
+- A2's "i": "Asked when the Segment's gender mix leans one way (any point but 3); it starts from the mix. Change it freely." (was two points, the second "Nothing reads it but the note", an internal fact).
 - A1's "i": "One age within the Segment's age group: a typical person, as you picture them." and "If the Segment's age group changes and this age falls outside it, the age is cleared."
 - B1's "i": "Tick up to five things they weigh when choosing, then rate how much each matters." and "Write their interests, lifestyle and hopes in the note." (was "... stay in the note"; the first point replaced 2026-11-05, see B1).
 - C3's and C4's "i": "Write the names of the groups / events in the note." (was "... stay in the note").
