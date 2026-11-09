@@ -24,7 +24,9 @@ import {
     competitorValueRows,
     industryOfActivity,
     insightsDraft,
-    reviewPlatformOrder
+    reviewPlatformOrder,
+    differentiationSources,
+    namesInSentence
 } from "./CompetitorQuestions";
 
 const none = { profiles: [], others: [] };
@@ -279,4 +281,18 @@ describe("K3 held back while Planning", () => {
         expect(competitorAsks("direct", "k2", { stage: "plan" })).toBe(true);
         expect(competitorSettle({ k3: ["small"] }, "direct")).toEqual({ k3: ["small"] });
     });
+});
+
+describe("K14's options say which competitors each start came from (owner, 2026-11-09)", () => {
+
+    it("names, in the competitors' order, those whose K10 ticks argue for each Differentiation", () => {
+        const sources = differentiationSources([
+            { name: "Kvadrat", questions: { k10: ["better:lower-price", "standout:good-support"] } },
+            { name: " ", questions: { k10: ["better:lower-price", "reach:online"] } },
+            { name: "Designers Guild", questions: { k10: ["stage:support"] } }
+        ]);
+        expect(sources).toEqual({ cost: ["Kvadrat", "Competitor 2"], personal: ["Kvadrat", "Designers Guild"] });
+        expect([namesInSentence(["A"]), namesInSentence(["A", "B"]), namesInSentence(["A", "B", "C"])]).toEqual(["A", "A and B", "A, B and C"]);
+    });
+
 });

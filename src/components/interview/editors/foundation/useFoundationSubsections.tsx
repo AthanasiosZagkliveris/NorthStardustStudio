@@ -14,7 +14,7 @@ import RatingScale, { type Rating } from "../../../controls/RatingScale.tsx";
 import { ratingScaleMeaning } from "../../../controls/RatingScaleEnds.tsx";
 import RatingScaleGroup from "../../../controls/RatingScaleGroup.tsx";
 import TextLink from "../../fields/TextLink.tsx";
-import { draftToAdd, differentiationFromOpenings } from "../../../../framework/engine/CompetitorQuestions.ts";
+import { draftToAdd, differentiationFromOpenings, differentiationSources, namesInSentence } from "../../../../framework/engine/CompetitorQuestions.ts";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
 import { type OfferingContext, draftOffered, valuePropositionDraft, valuePropositionOpenItems } from "../../../../framework/engine/OfferingQuestions.ts";
 import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveProfileUserAnswers, offeringContextOf, withFieldSet } from "../../../../framework/engine/EffectiveAnswers.ts";
@@ -238,6 +238,9 @@ export function useFoundationSubsections(earlier: Earlier) {
         // (Where Positioning saved none, the Differentiation starts from the Competitors' K10 ticks, through the crosswalk: doc 41, K14.)
         const shownAnswers = segmentPositioningShown(segment.questions, identity, asked, segment.competitors);
         const fromOpenings = differentiationFromOpenings(segment.competitors);
+        // (Beside each Differentiation the K10 ticks argue for, the competitors it came from: owner, 2026-11-09.)
+        const sources = differentiationSources(segment.competitors);
+        const sourceNote = (id: string) => sources[id]?.length ? "from " + namesInSentence(sources[id]) : undefined;
         const positioningOrder = { customerType: identity?.relationships ?? [], audience: identity?.audience ?? [], buyerCategory: identity?.buyerCategory ?? [], endUser: identity?.endUser ?? [], purpose: identity?.purpose ?? [] };
         const stageLimit = choiceLimit(asked.stage, "outcome");
 
@@ -247,9 +250,11 @@ export function useFoundationSubsections(earlier: Earlier) {
             // (K14 stands under its section's title, "Differentiation": its label asks the question rather than repeating the title.)
             const label = question.id === "differentiation" ? "How will you stand apart?" : question.label;
             // (K14's options: those the K10 ticks argue for first, the most ticked first; then Positioning's order.)
-            const options = question.id === "differentiation" ? [...differentiationOptionsFor(positioningOrder, chosen)].sort((a, b) => (fromOpenings.includes(a.id) ? fromOpenings.indexOf(a.id) : fromOpenings.length) - (fromOpenings.includes(b.id) ? fromOpenings.indexOf(b.id) : fromOpenings.length))
+            const options = question.id === "differentiation" ? [...differentiationOptionsFor(positioningOrder, chosen)].sort((a, b) => (fromOpenings.includes(a.id) ? fromOpenings.indexOf(a.id) : fromOpenings.length) - (fromOpenings.includes(b.id) ? fromOpenings.indexOf(b.id) : fromOpenings.length)).map(option => ({ ...option, note: sourceNote(option.id) }))
                 : question.id === "u-outcome" ? userOutcomeOptionsFor(positioningOrder)
                     : segmentOptions(question, segment.questions, asked);
+            // (On a radio, the note stands in the option's words: its accessible name says both.)
+            const radioOptions = (options as readonly { id: string; label: string; note?: string }[]).map(option => option.note ? { ...option, label: <>{option.label}<span className="business-foundation-tick-source">{option.note}</span></>, name: option.label + ", " + option.note } : option);
             const choose = (next: string[]) => updateSegment(segmentIndex, {
                 questions: segmentSettle(segmentChoose(question, segment.questions, next), asked)
             });
@@ -307,7 +312,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                                         disabled={disabled}
                                         value={chosen[0] ?? ""}
                                         onChange={(next) => choose([next])}
-                                        options={options}
+                                        options={radioOptions}
                                     />
                                 )
                         )}

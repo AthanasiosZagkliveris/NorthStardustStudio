@@ -528,6 +528,17 @@ label:has(> input[type="checkbox"]) > :not(input) {
 
 }
 
+/* A line under an option's words, small and muted, wrapping as it needs (K14: the competitors a Differentiation came from; owner, 2026-11-09). */
+.business-foundation-tick-source {
+
+    display: block;
+
+    font-size: var(--font-small);
+
+    color: var(--text-muted);
+
+}
+
 .business-foundation-tick-note {
 
     margin-left: 0;

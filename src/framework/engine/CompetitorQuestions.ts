@@ -757,6 +757,29 @@ export function differentiationFromOpenings(competitors: readonly { questions?: 
     return [...first].sort((a, b) => (counts.get(b) ?? 0) - (counts.get(a) ?? 0) || first.indexOf(a) - first.indexOf(b));
 }
 
+/**
+ * Where each Differentiation the K10 ticks argue for came from (owner, 2026-11-09: K14's options say which competitor each start came from): the names of the
+ * competitors whose ticks argue for it, in the competitors' order ("Competitor N" for one not named yet).
+ */
+export function differentiationSources(competitors: readonly { name?: string; questions?: Readonly<Record<string, readonly string[]>> }[]): Record<string, string[]> {
+    const sources: Record<string, string[]> = {};
+    competitors.forEach((competitor, at) => {
+        const name = (competitor.name ?? "").trim() || "Competitor " + (at + 1);
+        for (const opening of competitor.questions?.k10 ?? []) {
+            const differentiation = openingDifferentiation(opening);
+            if (differentiation && !(sources[differentiation] ??= []).includes(name)) {
+                sources[differentiation].push(name);
+            }
+        }
+    });
+    return sources;
+}
+
+/** Names joined as a sentence says them: "A", "A and B", "A, B and C". */
+export function namesInSentence(names: readonly string[]): string {
+    return names.length <= 1 ? names.join("") : names.slice(0, -1).join(", ") + " and " + names[names.length - 1];
+}
+
 /** K10's options shown (owner, 2026-11-05: thirteen options under "3 max" were too many): the first six, in their order (the values by their score first), and any already ticked. */
 export function shownOpenings(openings: readonly Opening[], ticked: readonly string[], most = 6): Opening[] {
     return openings.filter((opening, at) => at < most || ticked.includes(opening.id));

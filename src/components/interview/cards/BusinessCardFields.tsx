@@ -558,6 +558,8 @@ export interface BusinessTickOption {
     blocked?: string;
     /** Not open yet (a stage's lock): drawn grey and cannot be ticked, with nothing said beside it; one already ticked can still be unticked. */
     locked?: boolean;
+    /** Said beside it, small, the option still open (K14: which competitors it came from). */
+    note?: string;
 }
 
 /**
@@ -646,6 +648,7 @@ export function BusinessTicks({
                                     {": " + option.meaning}
                                 </>
                             )}
+                        {!option.blocked && option.note && <span className="business-foundation-tick-source">{option.note}</span>}
                     </span>
 
                     {option.blocked && <span className="business-foundation-tick-note">{option.blocked}</span>}
