@@ -21,11 +21,12 @@ const TABLES = {
     },
     /**
      * The relationships of a Proxy business buyer: an employer, a professional intermediary, a sponsor or funder, another business relationship (Social Connection, Business Growth and Creation
-     * are not in it), and an institution or membership body (Proxy or Dual-Intent; owner, 2026-11-09: Learning, Health, Compliance and Access primary, the others as the employer's).
+     * are not in it), and an institution or membership body (Proxy or Dual-Intent; owner, 2026-11-09, decision 39 of doc 31: Learning, Health, Compliance and Access primary; Gifting, Everyday Needs and Protection, primary for
+     * the employer, only possible; the others as the employer's).
      */
     businessProxy: {
         columns: ["rel:employer", "rel:intermediary", "rel:sponsor", "rel:otherbusiness", "rel:institution"],
-        rows: ["PSSSP", "PS..P", "PS.SP", "S...S", null, "SS.SS", null, null, "PPPPP", "PPPSP", "PPPSP", "SPPSP"]
+        rows: ["PSSSP", "PS..P", "PS.SS", "S...S", null, "SS.SS", null, null, "PPPPS", "PPPSS", "PPPSP", "SPPSP"]
     },
     /** The audience scale and the buyer's category of a business buyer (the owner's table of 2026-10-30): a solopreneur is direct or other (proxy or dual-intent); the larger scales are direct or dual-intent, or proxy. */
     scale: {

@@ -1,6 +1,6 @@
 # 31. Positioning categories: collected data (owner, 2026-10-27)
 
-Status: **collection**, written 2026-10-27, updated 2026-11-08. The owner's categories for the buyer, the user and the purpose of an offering, written down as given: sections 1 to 8 are the collection (its wording, numbers and order are the owner's; the only edits are the layout of the lists and the spelling of "Seniors"). **This document owns the age terms and the buyer and user relationships.** The first version builds from it the buyer's category, the relationships and the purposes (doc 38) and the age terms of the Segment (doc 35). Section 9 is the register of the decisions taken on the collection.
+Status: **collection**, written 2026-10-27, updated 2026-11-09. The owner's categories for the buyer, the user and the purpose of an offering, written down as given: sections 1 to 8 are the collection (its wording, numbers and order are the owner's; the only edits are the layout of the lists and the spelling of "Seniors"). **This document owns the age terms and the buyer and user relationships.** The first version builds from it the buyer's category, the relationships and the purposes (doc 38) and the age terms of the Segment (doc 35). Section 9 is the register of the decisions taken on the collection.
 
 > **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Doc 33 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, accessibility, caregiving and the rest) is a future feature: doc 33. Age limits are checked on the Offering (O12) and the Review (doc 43, O12) (not built yet). Contents of the documents: `docs/README.md`; index: `docs/index.md`; glossary: `docs/app/glossary.md`.
 
@@ -202,6 +202,7 @@ The decisions of 2026-10-27 to 2026-10-29, one row each, by topic. The rounds of
 | 37 | Every question before the Purpose (including the buyer and user relationship and the user's life stage) is in the left column of the Early Positioning tile | built 2026-10-30 |
 | 38 | Decided 2026-10-30 (the owner: close the open points): (a) a purpose a table does not list is read from the next table (the inheritance rule), so the life-stage table's three missing purposes and the business relationship tables' missing ones are closed as they are; (b) the Outcome lists (buyer, user) are approved as written; (c) the relationships offered for each category are approved as in the table above (a Parent or a Caregiver is offered to both categories); (d) the ● and ○ of the user life stage matrix only hide the blanks, the stages keep their natural order; (e) the master matrix is a reference: its umbrella relationships (Landlord, Personal professional, Employer) and its B2B names are not built, doc 28 keeps its lists; (f) no "Recommended" tag is added: ranking first is the highlight, and no new element is made | decided |
 | 39 | Decided by the owner, 2026-11-09 (the purpose test: an option earns its place only if the founder recognises their customer in it and it changes what the app asks or writes): (a) "Other" is no longer offered in either list (it recorded nothing the app could use); a saved one stays in every table, so it reads, shows until it is unticked and opens the same questions; (b) one business relationship is added, **Institution or membership body** (a school for its pupils, a care home for its residents, a club or union for its members, a council for its residents): Proxy or Dual-Intent; Learning, Health, Compliance and Access primary (10.7); its end users of any life stage, asked of the people it serves (the school stage of a child, the work of an adult; doc 35), named "the person it serves" on the Profile (doc 36); (c) no Donor and no Head office (a head office buying for its staff is an Employer); (d) a Family member buying for a child is asked the child's school stage (a grandparent). Based on: OpenStax, *Principles of Marketing*, 4.2 (doc 32) | built 2026-11-09 |
+| 40 | Decided by the owner, 2026-11-09: (a) the institution or membership body's purposes: only Learning and Development, Health, Care and Wellbeing, Compliance and Obligations, and Access and Social Support are primary; Gifting, Everyday Needs and Protection, which its column had copied as primary from the employer's, are possible (10.7); (b) its differentiation column stays the employer's copy (10.7), as proposed with decision 39 | built 2026-11-09 |
 
 **Closed (built):** the country picker (doc 33, section 3); the four coarse user life stages (built 2026-10-29, decision 23) and the Segment's age terms with their ages (doc 35, Box 1, question 1). (Purpose, Differentiation and Outcome as three questions: settled 2026-10-30, decision 31.) **Decided, not built yet:** the legal ages are checked on the Offering (O12) and the Review (doc 43, O12). **Still open:** the owner's two questions of 10.6.
 
@@ -598,15 +599,15 @@ Example paths from the seller and buyer relationship to the differentiation: B2C
 |---|---|---|---|---|---|
 | Learning and Development | ● | ○ | ○ | ○ | ● |
 | Health, Care and Wellbeing | ● | ○ |  |  | ● |
-| Gifting and Appreciation | ● | ○ |  | ○ | ● |
+| Gifting and Appreciation | ● | ○ |  | ○ | ○ |
 | Entertainment and Enjoyment | ○ |  |  |  | ○ |
 | Productivity and Efficiency | ○ | ○ |  | ○ | ○ |
-| Everyday Needs and Convenience | ● | ● | ● | ● | ● |
-| Protection and Risk Reduction | ● | ● | ● | ○ | ● |
+| Everyday Needs and Convenience | ● | ● | ● | ● | ○ |
+| Protection and Risk Reduction | ● | ● | ● | ○ | ○ |
 | Compliance and Obligations | ● | ● | ● | ○ | ● |
 | Access and Social Support | ○ | ● | ● | ○ | ● |
 
-*(The institution's column: the owner's four primaries (Learning, Health, Compliance, Access; 2026-11-09); the other cells are the employer's, the closest column, as proposed by the assistant and waiting for the owner. It is read for a Proxy or a Dual-Intent institution.)*
+*(The institution's column: the owner's four primaries (Learning, Health, Compliance, Access; 2026-11-09), and only those primary (owner, 2026-11-09, decision 40): Gifting, Everyday Needs and Protection, primary for the employer, are possible; the other cells are the employer's, the closest column. It is read for a Proxy or a Dual-Intent institution.)*
 
 **Relationship logic (the owner's notes):** a business partner or co-owner buys for the operations (Growth, Productivity, Everyday Needs); a business serving its clients is a B2B2C or agency path, where Learning and Development and Entertainment deliver experience to its clients; an employer surfaces workplace enablement (Learning, Health, Gifting); a professional intermediary and a sponsor or funder are gatekeepers (protection, compliance, Access and Social Support).
 
@@ -631,7 +632,7 @@ Example paths from the seller and buyer relationship to the differentiation: B2C
 
 **The differentiation by the business buyer and user relationship (the owner's table, 2026-10-30, six pillars; ranks the Differentiation list, nothing is hidden by it)**
 
-| Differentiation | Business partner or co-owner | Business serving its clients | Employer providing for employees | Professional intermediary | Sponsor or funder | Other business relationship | Institution or membership body (2026-11-09, as the employer) |
+| Differentiation | Business partner or co-owner | Business serving its clients | Employer providing for employees | Professional intermediary | Sponsor or funder | Other business relationship | Institution or membership body (2026-11-09, as the employer; owner, decision 40) |
 |---|---|---|---|---|---|---|---|
 | Cost-driven |  | ○ | ○ |  | ● | ● | ○ |
 | Convenience-driven | ○ | ● | ● | ○ |  | ● | ● |

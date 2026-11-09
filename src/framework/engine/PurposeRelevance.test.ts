@@ -121,7 +121,10 @@ describe("the relevance of a purpose to the buyer (the owner's tables of 2026-10
         for (const category of ["b2b:proxy", "b2b:dual"]) {
             const institution = purposeRelevance({ ...base, categories: [category], relationships: ["rel:institution"] })!;
             expect(institution).toMatchObject({ learning: 2, health: 2, compliance: 2, access: 2, entertainment: 1, productivity: 1 });
+            // Only those four primary (owner, 2026-11-09): Gifting, Everyday Needs and Protection, the employer's primaries, are only possible.
+            expect(institution).toMatchObject({ gifting: 1, everyday: 1, protection: 1 });
         }
+        expect(purposeRelevance({ ...base, categories: ["b2b:proxy"], relationships: ["rel:employer"] })).toMatchObject({ gifting: 2, everyday: 2, protection: 2 });
     });
 
     it("says which differentiations the purposes chosen drive", () => {
