@@ -118,3 +118,18 @@ describe("Landing header Review", () => {
     });
 
 });
+
+describe("Landing user name", () => {
+
+    it("has no label above the box: the words inside it say what is asked and why, and name it for a screen reader", () => {
+
+        render(<MemoryRouter><Landing /></MemoryRouter>);
+
+        const box = screen.getByRole("textbox", { name: "Your name, as it should appear on your documents" });
+        expect(box.getAttribute("placeholder")).toBe("Your name, as it should appear on your documents");
+        expect(document.querySelector(".user-name-label")).toBeNull();
+        expect(screen.queryByText(/^User Name$/i)).toBeNull();
+
+    });
+
+});

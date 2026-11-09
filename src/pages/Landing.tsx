@@ -20,6 +20,9 @@ import "../styles/global.css";
 import "../styles/landing.css";
 import "../styles/system-confirmation.css";
 
+/** The user's name box's words, its placeholder and its accessible name: what is asked and why (it starts the first founder's name, which the documents print). */
+const USER_NAME_WORDS = "Your name, as it should appear on your documents";
+
 export default function Landing() {
 
     const navigate = useNavigate();
@@ -300,16 +303,15 @@ export default function Landing() {
 
       <AppHeader reloadable totalReview onReload={refreshExampleOrganizations} />
 
+      {/* The user's name: the words inside the box alone, no label above it (owner, 2026-11-09: the label and the placeholder said the
+          same). It says why it is asked: it starts the first founder's name on Identity › Legal Entity, which the documents print. */}
       <section className="user-name-section">
-
-          <label className="user-name-label" htmlFor="user-name-input">
-              User Name
-          </label>
 
           <TextBox
               id="user-name-input"
               className="user-name-input"
-              placeholder="Enter your name"
+              placeholder={USER_NAME_WORDS}
+              aria-label={USER_NAME_WORDS}
               value={userName}
               onChange={(event) => setUserName(event.target.value)}
               onKeyDown={(event) => {
