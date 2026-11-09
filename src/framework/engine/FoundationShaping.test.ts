@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { segmentContextFor } from "./SegmentContext";
 import type { SegmentIdentity } from "./SegmentContext";
 import { SEGMENT_QUESTIONS, segmentChoose, segmentOptions, segmentQuestionsOf } from "./SegmentQuestions";
-import { PROFILE_QUESTIONS, profileOptionsShown, profileShown, profileUserName, profileUserWho } from "./ProfileQuestions";
+import { PROFILE_QUESTIONS, PROFILE_USER_QUESTIONS, profileOptionsShown, profileShown, profileUserName, profileUserWho } from "./ProfileQuestions";
 import { OFFERING_QUESTIONS, offeringOptionsWith, offeringShown, offeringWho } from "./OfferingQuestions";
 
 /* Proxy and Dual-Intent tailoring, and earlier answers shaping later ones (2026-11-09; docs 35, 36 and 43): starts and orders only, never locks; a saved answer wins. */
@@ -48,6 +48,13 @@ describe("the words follow who the question is about", () => {
         expect(profileUserName({ relations: ["rel:institution"] })).toBe("the person it serves");
         expect(profileUserName({ relations: ["rel:friend"] })).toBe("the end user");
         expect(profileUserName({ relations: ["rel:parent", "rel:partner"] })).toBe("the end user");
+        // E4 is named as the rest of the end-user part (owner, 2026-11-09); the documents keep "the end user".
+        const e4 = PROFILE_USER_QUESTIONS.find(question => question.id === "outcome")!.label;
+        expect(profileUserWho(e4, profileUserName(proxyParent))).toBe("Outcome for the child");
+        expect(profileUserWho(e4, profileUserName({ relations: ["rel:caregiver"] }))).toBe("Outcome for the person cared for");
+        expect(profileUserWho(e4, profileUserName({ relations: ["rel:institution"] }))).toBe("Outcome for the person it serves");
+        expect(profileUserWho(e4, profileUserName({ relations: ["rel:friend"] }))).toBe("Outcome for the end user");
+        expect(profileUserWho(e4)).toBe("Outcome for the end user");
         expect(profileUserWho("How old is {s}?", "the child")).toBe("How old is the child?");
     });
 });

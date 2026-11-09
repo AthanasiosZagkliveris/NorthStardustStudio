@@ -231,7 +231,8 @@ const USER_QUESTIONS: readonly ProfileQuestion[] = [
         info: ["How easily they use websites, apps and online payment, not whether they own a device.", "The Segment's answer for its end users starts this; change it freely."]
     },
     {
-        id: "outcome", box: "goals", label: OUTCOME?.label ?? "Outcome for the end user", many: true, options: OUTCOME?.options ?? [],
+        // Named by the relationship as the rest of the part ("Outcome for the child"; owner, 2026-11-09): profileUserWho.
+        id: "outcome", box: "goals", label: (OUTCOME?.label ?? "Outcome for the end user").replace("the end user", "{s}"), many: true, options: OUTCOME?.options ?? [],
         info: [
             "What matters most to the end user, apart from the buyer's own reasons for paying: the result the end user gets.",
             ...(OUTCOME?.info.slice(1) ?? []),
