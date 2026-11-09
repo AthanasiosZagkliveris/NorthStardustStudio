@@ -865,7 +865,8 @@ export function useFoundationSubsections(earlier: Earlier) {
             : [];
         const openItems = valuePropositionOpenItems(segment, offeringAnswers, profileAnswers);
 
-        // In the bands every card has (one band pattern, as the Profiles' and the Differentiation's sections): the text untinted, Emotional Needs tinted, Social Needs untinted, Open items tinted.
+        // In the bands every card has (one band pattern, as the Profiles' and the Differentiation's sections): the text untinted, then Emotional Needs and Social Needs side by side,
+        // one tinted band across, then Open items untinted. Where the needs stand one under the other (a dialog under 600px) the run goes on band by band: Social untinted, Open items tinted.
         const valueProposition = group(
             "Value Proposition",
             <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-full">
@@ -937,27 +938,32 @@ export function useFoundationSubsections(earlier: Earlier) {
                         )
                     );
 
-                    // Each list as a field row, as "Open items" below: on the content line, with the shared label line; each in its band.
+                    // The needs side by side (owner, 2026-11-09: "Place needs next to each other."), in the two columns of the Segment's Description (its grid, its 1px divider; one
+                    // under the other only in a dialog under 600px, 13-business-foundation.css): each list a field row in its own band, as "Open items" below, both bands the next tint after the text.
                     return (
-                        <>
-                            <div className="legal-entity-org-section legal-entity-org-band">
-                                <FieldRow pair fullList label="Emotional Needs">
-                                    {entriesOf(segmentNeedTicks(shownAnswers, "emotional"), emotional)}
-                                </FieldRow>
+                        <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-proposition-needs">
+                            <div className="legal-entity-field">
+                                <div className="legal-entity-org-section legal-entity-org-band">
+                                    <FieldRow pair fullList label="Emotional Needs">
+                                        {entriesOf(segmentNeedTicks(shownAnswers, "emotional"), emotional)}
+                                    </FieldRow>
+                                </div>
                             </div>
-                            <div className="legal-entity-org-section">
-                                <FieldRow pair fullList label="Social Needs">
-                                    {entriesOf(segmentNeedTicks(shownAnswers, "social"), social)}
-                                </FieldRow>
+                            <div className="legal-entity-field">
+                                <div className="legal-entity-org-section legal-entity-org-band">
+                                    <FieldRow pair fullList label="Social Needs">
+                                        {entriesOf(segmentNeedTicks(shownAnswers, "social"), social)}
+                                    </FieldRow>
+                                </div>
                             </div>
-                        </>
+                        </div>
                     );
 
                 })()}
 
-                {/* The open items (doc 42, 2): read-only, under the text. */}
+                {/* The open items (doc 42, 2): read-only, under the needs; untinted after the needs' band (tinted where the needs stand one under the other, 13-business-foundation.css). */}
                 {openItems.length > 0 && (
-                    <div className="legal-entity-org-section legal-entity-org-band">
+                    <div className="legal-entity-org-section business-proposition-items">
                         <FieldRow pair fullList label="Open items" info={["Gaps between what your customers want and what your Offerings give. Each one is a reminder to look at."]}>
                             <ListStatic marker="bullet" lines={openItems.map((item, at) => ({ key: item.kind + at, text: item.kind + ": " + item.text }))} />
                         </FieldRow>

@@ -457,3 +457,27 @@ describe("BusinessFoundationEditor holds questions back while Planning", () => {
     });
 
 });
+
+describe("BusinessFoundationEditor Value Proposition layout (owner, 2026-11-09)", () => {
+
+    it("reads the text first, then Emotional and Social Needs side by side, one band each in two columns", () => {
+
+        render(<Harness initial={twoProfiles()} />);
+        const text = screen.getByLabelText("Value Proposition for Segment 1");
+        const needs = document.querySelector<HTMLElement>(".business-proposition-needs");
+        expect(needs).toBeTruthy();
+        // The Segment Description's two-column grid, the text before it.
+        expect(needs!.classList.contains("business-segment-grid")).toBe(true);
+        expect(text.compareDocumentPosition(needs!) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+        const columns = [...needs!.children];
+        expect(columns.map(column => column.className)).toEqual(["legal-entity-field", "legal-entity-field"]);
+        expect(columns.map(column => [...column.querySelectorAll(".field-label")].map(label => label.textContent?.trim()))).toEqual([["Emotional Needs"], ["Social Needs"]]);
+        // One band a column, both the next tint after the untinted text.
+        columns.forEach(column => {
+            expect(column.children).toHaveLength(1);
+            expect(column.children[0].classList.contains("legal-entity-org-band")).toBe(true);
+        });
+
+    });
+
+});

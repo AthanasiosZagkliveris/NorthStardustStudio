@@ -1069,6 +1069,76 @@
 
 }
 
+/* THE VALUE PROPOSITION'S NEEDS SIDE BY SIDE (owner, 2026-11-09: "Place needs next to each other."): Emotional and Social in the Description's two columns (the grid above, its 1px
+   divider), their two bands one tinted band across, as tall as the longer list, flush under the text and over the Open items. The columns follow the dialog's width, as a founder's
+   two-column rows do (the card container, 11-legal-entity.css): side by side wherever the dialog is 600px or wider (656px at every window the app serves, 768 up), one under the other below. */
+.legal-entity-grid-organization.legal-entity-audience.business-segment-grid.business-proposition-needs{
+
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+
+    row-gap:0;
+
+    align-items:stretch;
+
+}
+
+.legal-entity-grid-organization.legal-entity-audience.business-proposition-needs > .legal-entity-field:first-child{
+
+    padding-right:var(--space-cell);
+
+}
+
+.legal-entity-grid-organization.legal-entity-audience.business-proposition-needs > .legal-entity-field + .legal-entity-field{
+
+    padding-left:var(--space-cell);
+
+    border-left:1px solid var(--line-divider);
+
+}
+
+.business-proposition-needs > .legal-entity-field > .legal-entity-org-section{
+
+    flex:1;
+
+}
+
+/* One under the other the run goes on band by band: Social untinted, Open items tinted. */
+@container card (max-width: 599.98px){
+
+    .legal-entity-grid-organization.legal-entity-audience.business-segment-grid.business-proposition-needs{
+
+        grid-template-columns:minmax(0, 1fr);
+
+    }
+
+    .legal-entity-grid-organization.legal-entity-audience.business-proposition-needs > .legal-entity-field:first-child{
+
+        padding-right:0;
+
+    }
+
+    .legal-entity-grid-organization.legal-entity-audience.business-proposition-needs > .legal-entity-field + .legal-entity-field{
+
+        padding-left:0;
+
+        border-left:0;
+
+    }
+
+    .business-proposition-needs > .legal-entity-field + .legal-entity-field > .legal-entity-org-band{
+
+        background:none;
+
+    }
+
+    .business-proposition-needs + .business-proposition-items{
+
+        background:var(--tint-row-band);
+
+    }
+
+}
+
 .business-segment-grid .business-profiles-band{
 
     padding-top:var(--space-field);
