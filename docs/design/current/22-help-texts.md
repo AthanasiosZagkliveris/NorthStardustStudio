@@ -11,13 +11,13 @@ What was covered: every page of the four systems, every master tile opened, the 
 | Category (system / page) | Help texts | Rows | Characters |
 |---|---|---|---|
 | Brand System / main page | 18 | 3 to 77 | 62 to 1740 |
-| Business System / 1. Foundation | 86 | 2 to 68 | 28 to 1727 |
+| Business System / 1. Foundation | 86 | 2 to 72 | 28 to 1799 |
 | Business System / Customer Engagement | 83 | 2 to 65 | 34 to 1487 |
 | Business System / Financial Foundation | 36 | 2 to 28 | 26 to 667 |
 | Business System / Infrastructure | 30 | 2 to 39 | 37 to 936 |
 | Business System / Sustainability | 31 | 2 to 27 | 22 to 767 |
 | Global Settings | 23 | 2 to 40 | 17 to 981 |
-| Identity System / 1. Definition | 16 | 5 to 39 | 87 to 989 |
+| Identity System / 1. Definition | 16 | 5 to 39 | 87 to 968 |
 | Identity System / 2. Legal Entity | 15 | 3 to 19 | 64 to 452 |
 | Strategy System / main page | 11 | 3 to 35 | 51 to 1113 |
 
@@ -25,7 +25,7 @@ What was covered: every page of the four systems, every master tile opened, the 
 
 | Opens in | Help texts | Rows | Characters |
 |---|---|---|---|
-| tile dialog | 100 | 2 to 68 | 37 to 1740 |
+| tile dialog | 100 | 2 to 72 | 37 to 1799 |
 | floating card | 112 | 2 to 77 | 28 to 1740 |
 | page | 114 | 2 to 30 | 22 to 767 |
 | settings page | 23 | 2 to 40 | 17 to 981 |
@@ -36,8 +36,8 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 
 | Kind | Count |
 |---|---|
-| a point over 160 characters | 68 |
-| an internal word (tile, card, locked, frozen, driver) | 49 |
+| a point over 160 characters | 60 |
+| an internal word (tile, card, locked, frozen, driver) | 45 |
 | the same text under several labels | 50 |
 | a jargon acronym | 2 |
 
@@ -51,9 +51,8 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | the same text under 2 labels | Typography & Text Hierarchy | Brand System / main page / Typography &Text HierarchyManr | Typography, Typography & Text Hierarchy |
 | the same text under 2 labels | Competitor | Business System / 1. Foundation / Competitors | Competitor, Competitors |
 | the same text under 2 labels | Competitors | Business System / 1. Foundation / Competitors | Competitor, Competitors |
-| a point over 160 characters (229) | Differentiation | Business System / 1. Foundation / Competitors | What the offering does differently from the competitors: where it hits exactly the blind s |
-| a point over 160 characters (246) | Differentiation | Business System / 1. Foundation / Competitors | Based on: Institute for Strategy and Competitiveness (n.d.) Strategic Positioning. Boston, |
-| a point over 160 characters (243) | Differentiation | Business System / 1. Foundation / Competitors | Also: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketin |
+| a point over 160 characters (246) | How will you stand apart? | Business System / 1. Foundation / Competitors | Based on: Institute for Strategy and Competitiveness (n.d.) Strategic Positioning. Boston, |
+| a point over 160 characters (243) | How will you stand apart? | Business System / 1. Foundation / Competitors | Also: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketin |
 | the same text under 2 labels | Offering | Business System / 1. Foundation / Offerings | Offering, Offerings |
 | the same text under 2 labels | Offerings | Business System / 1. Foundation / Offerings | Offering, Offerings |
 | an internal word (tile, card, locked, frozen, driver) | On what terms do they pay for it? | Business System / 1. Foundation / Offerings | card |
@@ -183,8 +182,6 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | a point over 160 characters (175) | Business stages | Global Settings / the page itself | Planning: How long the planning is meant to take, counted back from the Opening Date (the |
 | a point over 160 characters (165) | Business stages | Global Settings / the page itself | Launching: From the Opening Date: the first customers, the MVP, the proof that the market |
 | a point over 160 characters (197) | Income Tax | Global Settings / the page itself | Income tax on profit. Pass-through businesses (e.g. most sole traders and single-member LL |
-| a point over 160 characters (208) | Opening Date | Global Settings / the page itself | The stage also sets the name of the Positioning tile and how many choices each of its ques |
-| an internal word (tile, card, locked, frozen, driver) | Opening Date | Global Settings / the page itself | tile |
 | a point over 160 characters (183) | Plan Start | Global Settings / the page itself | Worked out: the earlier of the Opening Date's month (set on the Organisation tile) and the |
 | an internal word (tile, card, locked, frozen, driver) | Plan Start | Global Settings / the page itself | tile |
 | a point over 160 characters (165) | Planning duration | Global Settings / the page itself | How long the planning is meant to take, counted back from the Opening Date (the Review say |
@@ -192,19 +189,10 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | the same text under 2 labels | Sales agent or B2B broker commission | Global Settings / the page itself | Affiliate network or influencer commission, Sales agent or B2B broker commission |
 | a point over 160 characters (273) | Useful Life | Global Settings / the page itself | Source: Texas Department of Family and Protective Services (2011) ‘Appendix B: State Prope |
 | a point over 160 characters (227) | Audience Specialisation & Scale | Identity System / 1. Definition / Early Positioning | Based on: U.S. Small Business Administration (n.d.) Market research and competitive analys |
-| a point over 160 characters (166) | Buyer's category | Identity System / 1. Definition / Early Positioning | Proxy Buyers: purchasing exclusively on behalf of someone else. The payer is not the end u |
 | a point over 160 characters (287) | Buyer's category | Identity System / 1. Definition / Early Positioning | Based on: The Open University (n.d.) ‘3.4 Business decision makers’, in Understanding your |
-| a point over 160 characters (185) | Purpose | Identity System / 1. Definition / Early Positioning | Only the purposes that fit your answers above are offered: the primary ones first, then th |
-| a point over 160 characters (326) | Purpose | Identity System / 1. Definition / Early Positioning | Learning & Development. Health, Care & Wellbeing. Gifting & Appreciation. Entertainment & |
-| a point over 160 characters (203) | Seller & Buyer Relationship | Identity System / 1. Definition / Early Positioning | Who pays: focuses on the Economic Buyer who approves the budget, separating them from the |
 | a point over 160 characters (245) | Seller & Buyer Relationship | Identity System / 1. Definition / Early Positioning | Based on: Stayman, D. (2015) ‘How to Write Market Positioning Statements’, eCornell #IMPAC |
 | a point over 160 characters (243) | Seller & Buyer Relationship | Identity System / 1. Definition / Early Positioning | Also: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketin |
 | a jargon acronym | Activities | Identity System / 1. Definition / Organisation | NAICS |
-| a point over 160 characters (208) | Opening Date | Identity System / 1. Definition / Organisation | The stage also sets the name of the Positioning tile and how many choices each of its ques |
-| an internal word (tile, card, locked, frozen, driver) | Opening Date | Identity System / 1. Definition / Organisation | tile |
-| an internal word (tile, card, locked, frozen, driver) | Expenses | Identity System / 2. Legal Entity / Expenses | cards |
-| an internal word (tile, card, locked, frozen, driver) | Expenses | Identity System / 2. Legal Entity / Expenses | cards |
-| a point over 160 characters (195) | Skills, Expertise & Qualifications | Identity System / 2. Legal Entity / Founders & Ownership | Add one entry for each, and choose its type: a skill, professional or technical expertise, |
 | a point over 160 characters (575) | Strategic Compass | Strategy System / main page / Strategic Compass | The Vision is the goal; the Compass is the route.: A future in which every small professio |
 | an internal word (tile, card, locked, frozen, driver) | Strategic Compass | Strategy System / main page / Strategic Compass | locked |
 | a point over 160 characters (175) | Adding Themes | Strategy System / main page / Strategic Period | Revenue & Financial Sustainability: Focus on building sustainable revenue, improving profi |
@@ -285,17 +273,17 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | Competitors | tile dialog | 10 | 3 | 206 | Select 3–5 competitors and analyse them for each Customer Segment. Focus on a relevant product line, pricing tier, or geography. Some questions wait until you l... |
 | Customer Acquisition | floating card | 2 | 1 | 28 | How do they reach customers? |
 | Customer Experience | floating card | 7 | 2 | 137 | What do customers say about their experience? Read their reviews, buy from them or ask for a quote yourself, and ask people who use them. |
-| Differentiation | tile dialog | 68 | 11 | 1727 | What the offering does differently from the competitors: where it hits exactly the blind spot they leave. It is about the offering; the result the buyer gets fr... |
 | How could each change affect them? | floating card | 6 | 2 | 118 | 1 = Threat, 5 = Opportunity. How each change could help or hurt them. The examples of each change, as on your Segment. |
 | How do they do on what matters most to your customers? | floating card | 10 | 3 | 185 | 1 = Weak, 5 = Strong. Rate each from what their customers say and what you have seen: 1 is a clear weakness, 5 a clear strength. The darker the band, the more o... |
 | How do they reach customers? | floating card | 12 | 2 | 284 | Tick each channel they use to find customers, then which ones: the same lists as your Profiles, so the app can see where your customers are and they are not. Wr... |
 | How easy do they make each stage for customers? | floating card | 11 | 3 | 257 | 1 = Hard, 5 = Easy. Where their customers are let down along the way, and where it goes smoothly. The values below say what falls short; this says where. To fin... |
-| Insights & Differentiation | floating card | 5 | 1 | 75 | What can you learn from competitors to make your offering more distinctive? |
+| How will you stand apart? | tile dialog | 72 | 13 | 1799 | What the offering does differently from the competitors: where it hits exactly the blind spot they leave. Started from the openings you ticked on your Competito... |
+| Insights | floating card | 5 | 1 | 75 | What can you learn from competitors to make your offering more distinctive? |
 | Is their business growing? | floating card | 6 | 2 | 103 | 1 = Declining, 5 = Growing. From what you can see: more branches, staff, products or reviews, or fewer. |
 | Market | floating card | 3 | 1 | 59 | Where do they sell, how big are they, and are they growing? |
 | Offerings | floating card | 2 | 1 | 29 | What do they sell or provide? |
 | Type | floating card | 20 | 5 | 390 | Direct competitor: Offers a similar solution to the same need in your area. Indirect competitor: Offers a different solution but solves the same customer proble... |
-| What could you do differently? | floating card | 11 | 2 | 225 | Openings drawn from what you answered above. Tick the ones you will act on, then write how in the text. Freelance automation specialists on marketplaces (Upwork... |
+| What could you do differently? | floating card | 17 | 3 | 385 | Openings drawn from what you answered above. Tick the ones you will act on, then write how in the text. Your ticks here start the Segment's Differentiation, und... |
 | What do they offer? | floating card | 5 | 1 | 88 | The kinds the app uses for Offerings. A product and a service sold together is a Hybrid. |
 | Where are they reviewed, and how are they rated? | floating card | 28 | 7 | 607 | 1 = Poor, 5 = Excellent. Tick each place they are reviewed and give their average there, to the nearest star. Most people only use a business with 4 stars or mo... |
 | Where do they sell? | floating card | 3 | 1 | 67 | The widest area they sell in. Write the places by name in the note. |
@@ -308,7 +296,7 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | Content & Scope | floating card | 3 | 1 | 50 | What does it include, and what are its boundaries? |
 | Customer Benefit | floating card | 3 | 1 | 54 | Which problem does it solve, in your customers' words? |
 | Function | floating card | 3 | 1 | 51 | What does it do, and what result should it deliver? |
-| How do your customers receive it? | floating card | 7 | 2 | 154 | How it reaches them once bought. Sent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready. |
+| How do your customers receive it? | floating card | 10 | 2 | 216 | How it reaches them once bought: tick each way, as one Offering is often delivered in several. Sent automatically online: a download or an email sent by the sho... |
 | How is it offered? | floating card | 10 | 2 | 189 | How it is put together for sale: one range, made to each order, packages, limited runs or extras. Counts and what is included go in the Notes. Based on: the pro... |
 | How long until they have it? | floating card | 3 | 1 | 76 | The time from order to having it. How it reaches them is the question below. |
 | Offering | floating card | 11 | 3 | 217 | Turn customer problems and functional needs into practical product features and solutions. Make sure each one answers your Profiles' needs. Some questions wait ... |
@@ -319,11 +307,11 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | Support & Communication | floating card | 3 | 1 | 38 | What the help and the updates include. |
 | What do your customers need to give you? | floating card | 13 | 3 | 308 | What you need from them before or during the work. The details go in the Notes. A place to work: a desk or a room for you to use. Access to their home or site: ... |
 | What form does it take? | floating card | 8 | 2 | 170 | It refines the Type. For a Hybrid, make one Offering for each form, or choose the main one. Online access: a membership area, a course platform or a subscriptio... |
-| What help do you give after they buy? | floating card | 3 | 1 | 43 | The help that comes with it after the sale. |
+| What help do you give after they buy? | floating card | 6 | 2 | 117 | The help that comes with it after the sale: tick each kind you give. None stands alone: ticking it clears the others. |
 | When do they pay? | floating card | 5 | 1 | 80 | When the money comes in. How they pay (card, invoice) is the Segment's question. |
 | Which conditions of sale apply? | floating card | 9 | 3 | 197 | The terms your customers agree to. Consumer cancellation rights do not apply between businesses; your contract terms decide. A legal minimum age is not ticked h... |
 | Which of their worries does it answer? | floating card | 11 | 2 | 209 | The doubts that stop your customers buying from you, as your Profiles say. A worry nothing answers is shown on the Value Proposition. Support is answered by the... |
-| Which of what matters most to your customers does it do best? | floating card | 13 | 2 | 283 | The first you tick is the main benefit. The same list as "What matters most" on your Profiles and Competitors, so they can be compared. The Segment's Differenti... |
+| Which of what matters most to your customers does it do best? | floating card | 11 | 2 | 227 | The first you tick is the main benefit. The same list as "What matters most" on your Profiles and Competitors, so they can be compared. The Segment's Differenti... |
 
 **Segment Description**
 
@@ -363,9 +351,9 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | What kind of job does this person need done? | floating card | 23 | 6 | 495 | 1 = Mild, 5 = Strong. The jobs they need done, not every task. Choose up to three, then rate each; write their own tasks in the list below. Organisation: keeps ... |
 | What kind of organisation are your customers? | tile dialog | 18 | 5 | 355 | Private business includes co-operatives. A social enterprise belongs here or under non-profit, by how it is owned. Non-profit includes membership and profession... |
 | What matters most to this person? | floating card | 23 | 6 | 540 | 1 = Optional, 5 = Essential. What they weigh when choosing between offers. Tick up to five, then rate how much each matters. For example, a busy parent may weig... |
-| What might hold this person back? | floating card | 27 | 6 | 622 | 1 = Minor, 5 = Blocking. Their doubts about buying from you, not what frustrates them today (the question above). Choose up to three, then rate each. For exampl... |
+| What might hold this person back? | floating card | 26 | 6 | 601 | 1 = Minor, 5 = Blocking. Their doubts about buying from you, not what frustrates them today. Choose up to three, then rate each. For example, whether a beginner... |
 | Where are your customers? | tile dialog | 6 | 1 | 124 | The widest area most of your customers are spread over, now or as you plan it. If it is more than one, make another Segment. |
-| Where do your customers discover new products? | tile dialog | 12 | 3 | 277 | Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn. Seeing it in person / passing by: a shop... |
+| Where do your customers discover new products? | tile dialog | 11 | 3 | 218 | Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn. Seeing it in person / passing by: a shop... |
 | Where do your customers usually shop? | tile dialog | 6 | 1 | 116 | Where most of their purchases start and finish. Choose Both online and in shops when they mix the two about equally. |
 | Which communities does this person belong to? | floating card | 6 | 2 | 78 | Where they ask, read and recommend. Write the names of the groups in the note. |
 | Which devices does this person use? | floating card | 6 | 2 | 127 | The devices they use to find and buy, not those they own. The Segment's choice of where they buy starts this; change it freely. |
@@ -373,7 +361,7 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | Which industry are your customers in? | tile dialog | 13 | 3 | 277 | The industries of the sector chosen, as the official schemes (SIC and NACE, NAICS, ANZSIC) name their sections. Government and public administration includes em... |
 | Which sector are your customers in? | tile dialog | 5 | 1 | 100 | Six classes over the industries below. If they work in more than one industry, make another Segment. |
 | Which social media does this person use? | floating card | 6 | 2 | 84 | The platforms they actually use, if any. Tick Other to write one that is not listed. |
-| Who decides to buy? | tile dialog | 21 | 7 | 421 | Asked for business customers only. Select all that apply. One person decides: The person who uses it has the budget and the final say. The team agrees: The peop... |
+| Who decides to buy? | tile dialog | 19 | 6 | 386 | Select all that apply. One person decides: The person who uses it has the budget and the final say. The team agrees: The people who use it try it and push it up... |
 
 **Value Proposition**
 
@@ -700,7 +688,7 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | Insurance per employee | settings page | 3 | 1 | 51 | An amount a month, for key-person and health cover. |
 | Launching duration | settings page | 7 | 1 | 154 | From the Opening Date: the first customers, the MVP, the proof that the market accepts it. The Early Positioning Statement is proved or changed within it. |
 | Managing duration | settings page | 5 | 1 | 111 | After Launching: stabilising, keeping customers, product-market fit. The Core Market Positioning stands for it. |
-| Opening Date | settings page | 19 | 3 | 455 | The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it. The stage also sets the name of the Positioni... |
+| Opening Date | settings page | 17 | 3 | 398 | The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it. The stage also sets Positioning's name and ho... |
 | Operational Contingency Fund | settings page | 6 | 1 | 136 | A share of a month's OpEx, 3 to 5%, set aside each month after the launch until the target is reached. A cash set-aside, not an expense. |
 | Plan Length | settings page | 6 | 1 | 131 | How far ahead the plan looks. Lenders usually ask for the first year month by month and a profit and loss forecast for three years. |
 | Plan Start | settings page | 12 | 2 | 293 | Month 1 of the financial plan. Every timeline on the Financial Foundation and on Sustainability runs from it. Worked out: the earlier of the Opening Date's mont... |
@@ -718,10 +706,10 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | Label | Opens in | Rows | Points | Characters | Text |
 |---|---|---|---|---|---|
 | Audience Specialisation & Scale | tile dialog | 39 | 7 | 946 | Limits the target group to a specific niche, aligning the startup with the corresponding sales cycle and the buyer's daily life. Solopreneurs & Freelancers: ind... |
-| Buyer's category | tile dialog | 39 | 7 | 971 | What the buyer buys for. It tells the buyer who pays from the person who uses it, whatever the buyer's life stage or scale. Direct Buyers: purchasing exclusivel... |
+| Buyer's category | tile dialog | 39 | 7 | 940 | What the buyer buys for. It tells the buyer who pays from the person who uses it, whatever the buyer's life stage or scale. Direct Buyers: purchasing exclusivel... |
 | Early Positioning | tile dialog | 8 | 3 | 111 | Who is your target audience? Which market or category do you belong to? How are you different from competitors? |
-| Purpose | tile dialog | 32 | 4 | 747 | Why the offering is bought: the purpose it serves for the person who gets it. Choose the ones that fit best. Only the purposes that fit your answers above are o... |
-| Seller & Buyer Relationship | tile dialog | 38 | 6 | 989 | Who pays: focuses on the Economic Buyer who approves the budget, separating them from the end user. The positioning statement is written for the target market, ... |
+| Purpose | tile dialog | 16 | 3 | 341 | Why the offering is bought: the purpose it serves for the person who gets it. Choose the ones that fit best. Only the purposes that fit your answers above are o... |
+| Seller & Buyer Relationship | tile dialog | 38 | 7 | 968 | Who pays: the buyer who approves the budget, who may not be the person who uses it. The positioning statement is written for the buyers; each distinct group of ... |
 
 **Manifesto**
 
@@ -742,7 +730,7 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | Activities | tile dialog | 6 | 1 | 134 | The first is the primary activity; add others, up to four in all. Each one ends in one official code of your country (the NAICS code). |
 | Legal Form | tile dialog | 7 | 2 | 153 | Decides who is liable for the organisation's debts: the organisation, or you personally. Decides how it is taxed, and whether it must hold share capital. |
 | Notes | tile dialog | 9 | 3 | 170 | Who are you, and what do you do? What do you create or provide? Write it as a registry or a bank would expect to read it. Name, country, address and legal form ... |
-| Opening Date | tile dialog | 19 | 3 | 455 | The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it. The stage also sets the name of the Positioni... |
+| Opening Date | tile dialog | 17 | 3 | 398 | The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it. The stage also sets Positioning's name and ho... |
 | Organisation | tile dialog | 5 | 1 | 98 | What the organisation is: its name, where it is, its legal form, what it does and where it stands. |
 
 **Philosophy**
@@ -783,8 +771,8 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 
 | Label | Opens in | Rows | Points | Characters | Text |
 |---|---|---|---|---|---|
-| Expenses | floating card | 11 | 3 | 268 | What it costs to register and keep registered: filing, renewal and agent fees. Each pays for one registration. Insurance, licences and certificates are cards of... |
-| Expenses | tile dialog | 11 | 3 | 268 | What it costs to register and keep registered: filing, renewal and agent fees. Each pays for one registration. Insurance, licences and certificates are cards of... |
+| Expenses | floating card | 12 | 3 | 272 | What it costs to register and keep registered: filing, renewal and agent fees. Each pays for one registration. Insurance, licences and certificates are recorded... |
+| Expenses | tile dialog | 12 | 3 | 272 | What it costs to register and keep registered: filing, renewal and agent fees. Each pays for one registration. Insurance, licences and certificates are recorded... |
 | Linked registration | floating card | 7 | 2 | 143 | Says which registration or requirement this expense pays for. Only one can be chosen. Lists what you have already recorded further up the page. |
 
 **Founders & Ownership**
@@ -796,7 +784,7 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | Management Experience | tile dialog | 9 | 3 | 170 | Experience leading people, projects, budgets, businesses, or operations. Say how big: how many people, how much money. It shows they can run the organisation as... |
 | Relevant Industry Experience | tile dialog | 10 | 3 | 200 | Which relevant companies, sectors, positions, projects or markets have they worked in? Say how long, where it helps. Lenders and investors look for a team that ... |
 | Roles | tile dialog | 10 | 3 | 180 | What does this founder do in the organisation? One role a line: a founder is often several things at once. Lenders and investors look for every key job to have ... |
-| Skills, Expertise & Qualifications | tile dialog | 16 | 3 | 361 | Add one entry for each, and choose its type: a skill, professional or technical expertise, a degree or qualification, a certification, a licence, or a professio... |
+| Skills, Expertise & Qualifications | tile dialog | 11 | 3 | 210 | Add one entry for each, and choose its type. Name what the plan relies on them for: sales, finance, operations, technical. Lenders and investors check that ever... |
 
 **Registrations**
 

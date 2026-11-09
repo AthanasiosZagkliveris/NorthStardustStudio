@@ -242,13 +242,13 @@
    ]
   },
   {
-   "label": "Differentiation",
+   "label": "How will you stand apart?",
    "place": "tile dialog",
-   "text": "What the offering does differently from the competitors: where it hits exactly the blind spot they leave. It is about the offering; the result the buyer gets from it is asked on each Offering (what it does best for the customer).\nCost-driven (saving resources): targets the blind spot of expensive competitors with a budget-friendly alternative.\nConvenience-driven (speed and ease): targets the blind spot of complex or slow solutions.\nCompliance, Risk & Security: targets the blind spot of uncertified or questionable alternatives.\nStatus & Premium (exclusivity): targets the blind spot of mass-market or cheap products with top quality and custom service.\nPerformance & Innovation (product superiority): targets the blind spot of dated or underpowered alternatives with better results and newer methods.\nEcosystem & Integration (fits what they already use): targets the blind spot of standalone tools that do not connect to the buyer's other systems and workflows.\nPersonal Service & Relationship (customer intimacy): targets the blind spot of impersonal providers with a service shaped around each customer.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: Institute for Strategy and Competitiveness (n.d.) Strategic Positioning. Boston, MA: Harvard Business School. Available at: https://www.isc.hbs.edu/strategy/business-strategy/Pages/strategic-positioning.aspx (Accessed: 25 October 2026).\nAlso: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketing. Stanford, CA: Stanford University. Available at: https://web.stanford.edu/class/e145/2007_fall/startup_mktg_details.shtml (Accessed: 25 October 2026).",
-   "lines": 68,
-   "points": 11,
+   "text": "What the offering does differently from the competitors: where it hits exactly the blind spot they leave.\nStarted from the openings you ticked on your Competitors (What could you do differently?); change it freely.\nIt is about the offering; the result the buyer gets from it is asked on each Offering.\nCost-driven (saving resources): targets the blind spot of expensive competitors with a budget-friendly alternative.\nConvenience-driven (speed and ease): targets the blind spot of complex or slow solutions.\nCompliance, Risk & Security: targets the blind spot of uncertified or questionable alternatives.\nStatus & Premium (exclusivity): targets the blind spot of mass-market or cheap products with top quality and custom service.\nPerformance & Innovation (product superiority): targets the blind spot of dated or underpowered alternatives with better results and newer methods.\nEcosystem & Integration (fits what they already use): targets the blind spot of standalone tools that do not connect to the buyer's other systems and workflows.\nPersonal Service & Relationship (customer intimacy): targets the blind spot of impersonal providers with a service shaped around each customer.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: Institute for Strategy and Competitiveness (n.d.) Strategic Positioning. Boston, MA: Harvard Business School. Available at: https://www.isc.hbs.edu/strategy/business-strategy/Pages/strategic-positioning.aspx (Accessed: 25 October 2026).\nAlso: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketing. Stanford, CA: Stanford University. Available at: https://web.stanford.edu/class/e145/2007_fall/startup_mktg_details.shtml (Accessed: 25 October 2026).",
+   "lines": 72,
+   "points": 13,
    "w": 360,
-   "chars": 1727,
+   "chars": 1799,
    "scenes": [
     "Business System / 1. Foundation / tile Competitors",
     "Business System / 1. Foundation / tile Competitors / card 1",
@@ -438,7 +438,7 @@
    ]
   },
   {
-   "label": "Insights & Differentiation",
+   "label": "Insights",
    "place": "floating card",
    "text": "What can you learn from competitors to make your offering more distinctive?",
    "lines": 5,
@@ -453,11 +453,11 @@
   {
    "label": "What could you do differently?",
    "place": "floating card",
-   "text": "Openings drawn from what you answered above. Tick the ones you will act on, then write how in the text.\nFreelance automation specialists on marketplaces (Upwork, Fiverr) is hard to beat on affordability, so compete elsewhere.",
-   "lines": 11,
-   "points": 2,
+   "text": "Openings drawn from what you answered above. Tick the ones you will act on, then write how in the text.\nYour ticks here start the Segment's Differentiation, under your Competitors: an opening on price, ease, safety, quality, expertise or service starts its match.\nFreelance automation specialists on marketplaces (Upwork, Fiverr) is hard to beat on affordability, so compete elsewhere.",
+   "lines": 17,
+   "points": 3,
    "w": 360,
-   "chars": 225,
+   "chars": 385,
    "scenes": [
     "Business System / 1. Foundation / tile Competitors / card 1",
     "Business System / 1. Foundation / tile Competitors / card 2"
@@ -545,11 +545,11 @@
   {
    "label": "Which of what matters most to your customers does it do best?",
    "place": "floating card",
-   "text": "The first you tick is the main benefit. The same list as \"What matters most\" on your Profiles and Competitors, so they can be compared.\nThe Segment's Differentiation (under its Competitors) starts the ticks, and so does the outcome for the buyer you chose before; change them freely.",
-   "lines": 13,
+   "text": "The first you tick is the main benefit. The same list as \"What matters most\" on your Profiles and Competitors, so they can be compared.\nThe Segment's Differentiation (under its Competitors) starts the ticks; change them freely.",
+   "lines": 11,
    "points": 2,
    "w": 360,
-   "chars": 283,
+   "chars": 227,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -649,11 +649,11 @@
   {
    "label": "How do your customers receive it?",
    "place": "floating card",
-   "text": "How it reaches them once bought.\nSent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready.",
-   "lines": 7,
+   "text": "How it reaches them once bought: tick each way, as one Offering is often delivered in several.\nSent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready.",
+   "lines": 10,
    "points": 2,
    "w": 360,
-   "chars": 154,
+   "chars": 216,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -675,11 +675,11 @@
   {
    "label": "What help do you give after they buy?",
    "place": "floating card",
-   "text": "The help that comes with it after the sale.",
-   "lines": 3,
-   "points": 1,
+   "text": "The help that comes with it after the sale: tick each kind you give.\nNone stands alone: ticking it clears the others.",
+   "lines": 6,
+   "points": 2,
    "w": 360,
-   "chars": 43,
+   "chars": 117,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -937,11 +937,11 @@
   {
    "label": "Where do your customers discover new products?",
    "place": "tile dialog",
-   "text": "Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn.\nSeeing it in person / passing by: a shop window, a stall, a sign or a vehicle. Sales calls or tenders: asked for business customers only.\nChoose up to three.",
-   "lines": 12,
+   "text": "Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn.\nSeeing it in person / passing by: a shop window, a stall, a sign or a vehicle.\nChoose up to three.",
+   "lines": 11,
    "points": 3,
    "w": 360,
-   "chars": 277,
+   "chars": 218,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -951,11 +951,11 @@
   {
    "label": "Who decides to buy?",
    "place": "tile dialog",
-   "text": "Asked for business customers only.\nSelect all that apply.\nOne person decides: The person who uses it has the budget and the final say.\nThe team agrees: The people who use it try it and push it upward.\nA manager signs off: Needs formal approval from a manager or executive.\nSeveral departments check: IT or security, legal and finance.\nFormal procurement: A tender or a request for proposals (RFP), with strict compliance.",
-   "lines": 21,
-   "points": 7,
+   "text": "Select all that apply.\nOne person decides: The person who uses it has the budget and the final say.\nThe team agrees: The people who use it try it and push it upward.\nA manager signs off: Needs formal approval from a manager or executive.\nSeveral departments check: IT or security, legal and finance.\nFormal procurement: A tender or a request for proposals (RFP), with strict compliance.",
+   "lines": 19,
+   "points": 6,
    "w": 360,
-   "chars": 421,
+   "chars": 386,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -1253,11 +1253,11 @@
   {
    "label": "What might hold this person back?",
    "place": "floating card",
-   "text": "1 = Minor, 5 = Blocking.\nTheir doubts about buying from you, not what frustrates them today (the question above). Choose up to three, then rate each.\nFor example, whether a beginner can keep up, or whether you will still be there after the sale.\nCredibility: whether you can be trusted. Onboarding: the time to get started. Complexity: how hard it is to use. Fit: whether it suits their need.\nSupport: help after buying. Migration: the work of leaving what they use now. Risk: risk or security. Image: what others will think of them.\nStarts with the price where the Segment's household income is rated 1; change it freely.",
-   "lines": 27,
+   "text": "1 = Minor, 5 = Blocking.\nTheir doubts about buying from you, not what frustrates them today. Choose up to three, then rate each.\nFor example, whether a beginner can keep up, or whether you will still be there after the sale.\nCredibility: whether you can be trusted. Onboarding: the time to get started. Complexity: how hard it is to use. Fit: whether it suits their need.\nSupport: help after buying. Migration: the work of leaving what they use now. Risk: risk or security. Image: what others will think of them.\nStarts with the price where the Segment's household income is rated 1; change it freely.",
+   "lines": 26,
    "points": 6,
    "w": 360,
-   "chars": 622,
+   "chars": 601,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -6115,11 +6115,11 @@
   {
    "label": "Opening Date",
    "place": "settings page",
-   "text": "The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it.\nThe stage also sets the name of the Positioning tile and how many choices each of its questions allows. When a new date moves the business into another stage, an answer that no longer fits goes back to empty.\nThe days from the plan's start to the day before it are the pre-operational period: every cost is split around it by its own dates.",
-   "lines": 19,
+   "text": "The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it.\nThe stage also sets Positioning's name and how many choices each of its questions allows; an answer that no longer fits a new stage goes back to empty.\nThe days from the plan's start to the day before it are the pre-operational period: every cost is split around it by its own dates.",
+   "lines": 17,
    "points": 3,
    "w": 360,
-   "chars": 455,
+   "chars": 398,
    "scenes": [
     "Global Settings"
    ]
@@ -6331,11 +6331,11 @@
   {
    "label": "Seller & Buyer Relationship",
    "place": "tile dialog",
-   "text": "Who pays: focuses on the Economic Buyer who approves the budget, separating them from the end user. The positioning statement is written for the target market, and each distinct segment may need its own.\nB2C (Business-to-Consumer): individuals or consumers who pay for personal or family use.\nB2B (Business-to-Business): businesses, companies, freelancers or public bodies.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: Stayman, D. (2015) ‘How to Write Market Positioning Statements’, eCornell #IMPACT, Cornell University, 20 March. Available at: https://ecornell-impact.cornell.edu/how-to-write-market-positioning-statements/ (Accessed: 25 October 2026).\nAlso: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketing. Stanford, CA: Stanford University. Available at: https://web.stanford.edu/class/e145/2007_fall/startup_mktg_details.shtml (Accessed: 25 October 2026).",
+   "text": "Who pays: the buyer who approves the budget, who may not be the person who uses it.\nThe positioning statement is written for the buyers; each distinct group of them may need its own.\nB2C (Business-to-Consumer): individuals or consumers who pay for personal or family use.\nB2B (Business-to-Business): businesses, companies, freelancers or public bodies.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: Stayman, D. (2015) ‘How to Write Market Positioning Statements’, eCornell #IMPACT, Cornell University, 20 March. Available at: https://ecornell-impact.cornell.edu/how-to-write-market-positioning-statements/ (Accessed: 25 October 2026).\nAlso: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketing. Stanford, CA: Stanford University. Available at: https://web.stanford.edu/class/e145/2007_fall/startup_mktg_details.shtml (Accessed: 25 October 2026).",
    "lines": 38,
-   "points": 6,
+   "points": 7,
    "w": 360,
-   "chars": 989,
+   "chars": 968,
    "scenes": [
     "Identity System / 1. Definition / tile Early Positioning"
    ]
@@ -6355,11 +6355,11 @@
   {
    "label": "Buyer's category",
    "place": "tile dialog",
-   "text": "What the buyer buys for. It tells the buyer who pays from the person who uses it, whatever the buyer's life stage or scale.\nDirect Buyers: purchasing exclusively for their own personal use.\nProxy Buyers: purchasing exclusively on behalf of someone else. The payer is not the end user (a gift, a parent buying for a child, an employer buying for its staff).\nDual-Intent Buyers: purchasing a single offering to be used by themselves and their dependents (a family plan, a shared tier).\nFor Proxy and Dual-Intent Buyers the questions about the end user follow.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: The Open University (n.d.) ‘3.4 Business decision makers’, in Understanding your customers. Milton Keynes: The Open University (OpenLearn). Available at: https://www.open.edu/openlearn/money-business/understanding-your-customers/content-section-3.4 (Accessed: 26 October 2026).",
+   "text": "What the buyer buys for. It tells the buyer who pays from the person who uses it, whatever the buyer's life stage or scale.\nDirect Buyers: purchasing exclusively for their own personal use.\nProxy Buyers: purchasing exclusively on behalf of someone else (a gift, a parent buying for a child, an employer buying for its staff).\nDual-Intent Buyers: purchasing a single offering to be used by themselves and their dependents (a family plan, a shared tier).\nFor Proxy and Dual-Intent Buyers the questions about the end user follow.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: The Open University (n.d.) ‘3.4 Business decision makers’, in Understanding your customers. Milton Keynes: The Open University (OpenLearn). Available at: https://www.open.edu/openlearn/money-business/understanding-your-customers/content-section-3.4 (Accessed: 26 October 2026).",
    "lines": 39,
    "points": 7,
    "w": 360,
-   "chars": 971,
+   "chars": 940,
    "scenes": [
     "Identity System / 1. Definition / tile Early Positioning"
    ]
@@ -6367,11 +6367,11 @@
   {
    "label": "Purpose",
    "place": "tile dialog",
-   "text": "Why the offering is bought: the purpose it serves for the person who gets it. Choose the ones that fit best.\nOnly the purposes that fit your answers above are offered: the primary ones first, then the possible ones. The ones that are generally less directly relevant to that buyer are left out.\nLearning & Development. Health, Care & Wellbeing. Gifting & Appreciation. Entertainment & Enjoyment. Social Connection & Relationships. Productivity & Efficiency. Business Growth & Performance. Creation & Expression. Everyday Needs & Convenience. Protection & Risk Reduction. Compliance & Obligations. Access & Social Support.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.",
-   "lines": 32,
-   "points": 4,
+   "text": "Why the offering is bought: the purpose it serves for the person who gets it. Choose the ones that fit best.\nOnly the purposes that fit your answers above are offered: the primary ones first, then the possible ones.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.",
+   "lines": 16,
+   "points": 3,
    "w": 360,
-   "chars": 747,
+   "chars": 341,
    "scenes": [
     "Identity System / 1. Definition / tile Early Positioning"
    ]
@@ -6427,11 +6427,11 @@
   {
    "label": "Opening Date",
    "place": "tile dialog",
-   "text": "The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it.\nThe stage also sets the name of the Positioning tile and how many choices each of its questions allows. When a new date moves the business into another stage, an answer that no longer fits goes back to empty.\nThe days from the plan's start to the day before it are the pre-operational period: every cost is split around it by its own dates.",
-   "lines": 19,
+   "text": "The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it.\nThe stage also sets Positioning's name and how many choices each of its questions allows; an answer that no longer fits a new stage goes back to empty.\nThe days from the plan's start to the day before it are the pre-operational period: every cost is split around it by its own dates.",
+   "lines": 17,
    "points": 3,
    "w": 360,
-   "chars": 455,
+   "chars": 398,
    "scenes": [
     "Identity System / 1. Definition / tile Organisation"
    ]
@@ -6547,11 +6547,11 @@
   {
    "label": "Expenses",
    "place": "tile dialog",
-   "text": "What it costs to register and keep registered: filing, renewal and agent fees. Each pays for one registration.\nInsurance, licences and certificates are cards of Documents & Rights on 3. Infrastructure & Capability.\nAdd the ones that apply. If there are none, add none.",
-   "lines": 11,
+   "text": "What it costs to register and keep registered: filing, renewal and agent fees. Each pays for one registration.\nInsurance, licences and certificates are recorded in Documents & Rights, on 3. Infrastructure & Capability.\nAdd the ones that apply. If there are none, add none.",
+   "lines": 12,
    "points": 3,
    "w": 360,
-   "chars": 268,
+   "chars": 272,
    "scenes": [
     "Identity System / 2. Legal Entity / tile Expenses",
     "Identity System / 2. Legal Entity / tile Expenses / card 1"
@@ -6560,11 +6560,11 @@
   {
    "label": "Expenses",
    "place": "floating card",
-   "text": "What it costs to register and keep registered: filing, renewal and agent fees. Each pays for one registration.\nInsurance, licences and certificates are cards of Documents & Rights on 3. Infrastructure & Capability.\nAdd the ones that apply. If there are none, add none.",
-   "lines": 11,
+   "text": "What it costs to register and keep registered: filing, renewal and agent fees. Each pays for one registration.\nInsurance, licences and certificates are recorded in Documents & Rights, on 3. Infrastructure & Capability.\nAdd the ones that apply. If there are none, add none.",
+   "lines": 12,
    "points": 3,
    "w": 360,
-   "chars": 268,
+   "chars": 272,
    "scenes": [
     "Identity System / 2. Legal Entity / tile Expenses / card 1"
    ]
@@ -6644,11 +6644,11 @@
   {
    "label": "Skills, Expertise & Qualifications",
    "place": "tile dialog",
-   "text": "Add one entry for each, and choose its type: a skill, professional or technical expertise, a degree or qualification, a certification, a licence, or a professional membership or other credential.\nName what the plan relies on them for: sales, finance, operations, technical.\nLenders and investors check that every capability the plan needs is covered by someone.",
-   "lines": 16,
+   "text": "Add one entry for each, and choose its type.\nName what the plan relies on them for: sales, finance, operations, technical.\nLenders and investors check that every capability the plan needs is covered by someone.",
+   "lines": 11,
    "points": 3,
    "w": 360,
-   "chars": 361,
+   "chars": 210,
    "scenes": [
     "Identity System / 2. Legal Entity / tile Founders & Ownership"
    ]
