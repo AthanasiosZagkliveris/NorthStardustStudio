@@ -8,7 +8,6 @@ import AddButton from "../controls/AddButton.tsx";
 import TickBox from "../controls/TickBox.tsx";
 import RemoveButton from "../controls/RemoveButton.tsx";
 import { useLocation, useNavigate, type NavigateFunction } from "react-router-dom";
-import { useReviewCount } from "../ReviewButton.tsx";
 
 import { NotepadService, type Note, type NoteLink } from "../../services/NotepadService";
 import { UndoService } from "../../services/UndoService";
@@ -100,32 +99,29 @@ export function openWorkbook(navigate: NavigateFunction, location: { pathname: s
 }
 
 /**
- * The header's Workbook button: icon and word (icon alone when narrow), and how many Review items there are to look at (no count when
- * none). It opens the Workbook page; on it, it does nothing. Its icon is the open book (the Landing page's Glossary's), not the Notes'
- * page, so the two tools tell apart when the header shows icons alone.
+ * The header's Workbook button: icon and word (icon alone when narrow), with no count (owner, 2026-11-09). It opens the Workbook page;
+ * on it, it does nothing. Its icon is a closed notebook with a bookmark, its own among the header tools (the reading mode's Sepia is the
+ * open book, the Notes' the page).
  */
 export function WorkbookButton() {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const count = useReviewCount();
-    const words = count ? count + (count === 1 ? " item" : " items") + " to look at" : "nothing open";
     const here = location.pathname === "/workbook";
 
     return (
         <AddButton className="header-tool"
             aria-current={here ? "page" : undefined}
-            aria-label={"Workbook: card notes, review and glossary, " + words}
+            aria-label="Workbook: card notes, review and glossary"
             onClick={() => {
                 if (!here) {
                     openWorkbook(navigate, location);
                 }
             }}>
             <svg className="header-tool-icon" viewBox="0 0 20 20" aria-hidden="true">
-                <path d="M10 5.5C8.5 4.3 6.3 4 3.5 4.2v10.6c2.8-.2 5 .1 6.5 1.3 1.5-1.2 3.7-1.5 6.5-1.3V4.2C13.7 4 11.5 4.3 10 5.5zM10 5.5v10.6" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" />
+                <path d="M5 3.5h10a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H5zM7.5 3.5v13M11 3.5v5l1.5-1.2 1.5 1.2v-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" />
             </svg>
             <span className="header-tool-word">Workbook</span>
-            {count ? <span className="header-tool-count">{count}</span> : null}
         </AddButton>
     );
 

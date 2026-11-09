@@ -172,4 +172,4 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Value Proposition | Business › 1 Foundation › Value Proposition | Doc 42; doc 28, 6.7; page 1 |
 | Values | Identity › 1 Definition and Ethics › Ethics | Doc 1, B.1 |
 | Vision | Identity › 1 Definition and Ethics › Definition | Doc 1, B.1 |
-| Workbook | Header, wherever an Organisation is open (2026-11-09): one button with the Review's count, opening the Workbook page (`/workbook`, laid out as the Glossary page was) with four tabs, Card Notes, Review, Glossary and References; Back or Escape returns | `contents.md` |
+| Workbook | Header, wherever an Organisation is open (2026-11-09): one button, no count, opening the Workbook page (`/workbook`, laid out as the Glossary page was) with four tabs, Card Notes, Review, Glossary and References; Back or Escape returns | `contents.md` |
