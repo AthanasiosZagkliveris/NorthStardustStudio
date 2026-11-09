@@ -1,6 +1,6 @@
-# 45. Purpose & Beliefs: the six texts and their questions, as proposed
+# 45. Purpose & Beliefs: the six texts and their questions
 
-Status: **proposal**, written 2026-11-09, updated 2026-11-09. How the Identity System's six texts (Mission, Vision, Values, Principles, Philosophy, Manifesto) become one chapter, "Purpose & Beliefs", of three pair tiles, and, for each text, the guiding questions, the control, the length, the "i" and the connections. **Nothing of it is built:** the app draws the eight tiles of 8.1 in doc 28; the saved keys stay as they are.
+Status: **specification**, written 2026-11-09, updated 2026-11-09. How the Identity System's six texts (Mission, Vision, Values, Principles, Philosophy, Manifesto) become one chapter, "Purpose & Beliefs", of three pair tiles, and, for each text, the guiding questions, the control, the length, the "i" and the connections. **Built 2026-11-09** as the owner decided (section 6): the chapter, its three pair tiles, the page name and the "i" of the six texts; the saved keys stay as they are. Not built: the Positioning note beside the Mission (section 6, 7) and the codes in the register (section 5).
 
 Related: doc 40 (the form of a tile document), doc 39 (what an "i" says), doc 28 (4.1, the wording rules; 8.1, the page as built; 8.6a, the Review), doc 38 (Positioning, which comes before), doc 44 (the questions register and the code rule), doc 2 (the source rule).
 
@@ -42,13 +42,13 @@ The keys are made from the column titles of `src/assets/SystemAnswers/01_Identit
 | B | Organisation, Positioning, Mission & Vision | **Beliefs**: Values & Principles, Philosophy & Manifesto | None to the data (each tile stays in its own section); departs from the owner's grouping |
 | C (later, only if wanted) | Organisation, Positioning | one master tile **Purpose & Beliefs** opening a dialog with the three pairs as sub tiles (the `view: true` dialog of the Legal Entity tiles) | As A, plus a dialog of sub tiles |
 
-**A pair tile** opens one dialog with two parts, one under the other, each with its own heading and "i" (`DialogHeading`), drawn by the controls they have today; no new component. The tile shows both texts' first lines, as a tile shows one today **[D]**.
+**A pair tile** opens one dialog with two parts, one under the other, each with its own heading and "i" (`DialogHeading`), drawn by the controls they have today; no new component. The tile shows both texts' lines, a hairline between them, as a tile shows one (section 6, 6).
 
-**Names.** The chapter "Purpose & Beliefs"; the tiles "Mission & Vision", "Values & Principles", "Philosophy & Manifesto" (the ampersand as in the app's other pair names, "Founders & Ownership"). The page "Definition and Ethics" (`PageGroups.ts`) needs a new name **[D]**: "Definition and Purpose" is proposed.
+**Names.** The chapter "Purpose & Beliefs"; the tiles "Mission & Vision", "Values & Principles", "Philosophy & Manifesto" (the ampersand as in the app's other pair names, "Founders & Ownership"). The page "Definition and Ethics" (`PageGroups.ts`) is "Definition and Purpose" (section 6, 2).
 
 ## 3. The six texts
 
-Each entry follows doc 40. The "i" follows doc 39, 3.2: the guiding questions first (the owner's prompts, revised as proposed here, **[D]** for the wording), then how to answer, then one example; each point at most 160 characters. The examples use the project's example business Lumen & Loom (a textile maker selling gifts).
+Each entry follows doc 40. The "i" follows doc 39, 3.2: the guiding questions first (the owner's prompts, revised here and approved, section 6, 3; the app says them in its affirmative voice), then how to answer, then one example; each point at most 160 characters. The examples use the project's example business Lumen & Loom (a textile maker selling gifts).
 
 ### 3.1 Mission (proposed code PB1)
 
@@ -58,8 +58,8 @@ Each entry follows doc 40. The "i" follows doc 39, 3.2: the guiding questions fi
 - **Length:** one or two sentences, about 35 words or fewer.
 - **The "i" says:**
   - Who do you serve? What do you do for them? Why does it matter to them?
-  - Say what you do now, not what you hope to become (that is the Vision).
-  - If it could describe a competitor as well, make it more specific.
+  - Say what you do today; the future you aim for belongs in the Vision.
+  - Make it specific enough to describe your business alone.
   - Example: "We weave personalised throws that let people give a gift that lasts."
 - **Connections.** *Comes from:* Positioning (who you sell to, the purpose and the differentiation chosen, the Notes), on the same page above. *Read by (built):* the Business Plan, executive summary, the line "Mission" (`BusinessDocuments.ts`, `executiveSummary`); the Review, "Mission: not answered yet." (`OpenItems.ts`); the library placements. *Read by (not built yet):* the Positioning Notes shown behind an "i" note beside the box, as the Segment shows them ("Your Positioning (Identity)"); a Review note when the Mission names a customer that no Segment describes.
 
@@ -71,8 +71,8 @@ Each entry follows doc 40. The "i" follows doc 39, 3.2: the guiding questions fi
 - **Length:** one sentence, two at most.
 - **The "i" says:**
   - What will be different for your customers when you succeed, and what will the business be by then?
-  - Think five to ten years ahead. Describe the result, not the steps (those are the Strategy).
-  - Example: "Every home in the UK and Ireland has one throw it would never give away."
+  - Think five to ten years ahead. Describe the result; the steps belong in the Strategy.
+  - Example: "Every home in the UK and Ireland has one throw it keeps for life."
 - **Connections.** *Comes from:* the Mission (the same customer, further on). *Read by (built):* the Business Plan, executive summary, the line "Vision"; the Strategy System's Strategic Compass, which shows the Vision beside it (`Conversation.tsx`, `identityVision`, read from section 1); the Review, "Vision: not answered yet." *Read by (not built yet):* none proposed. The time horizon is not asked as a number: the Strategic Period (Strategy) owns the plan's length, and one owner per fact applies.
 
 ### 3.3 Values (proposed code PB3)
@@ -82,7 +82,7 @@ Each entry follows doc 40. The "i" follows doc 39, 3.2: the guiding questions fi
 - **Control:** numbered list, one value a line (as today). **Asked when:** always. **Options:** none.
 - **Length:** three to five lines; each a word or two, then a colon and what it means here.
 - **The "i" says:**
-  - What matters most in how you work? What would you refuse to do, even for a good sale?
+  - What matters most in how you work? What would you hold to, even at the cost of a sale?
   - List three to five, one a line: the value, then what it means here.
   - Example: "Craft: every piece is finished by hand and checked before it leaves."
 - **Connections.** *Comes from:* nothing asked before. *Read by (built):* the Business Plan, company description, "Values and Principles", the sub-heading "Values" (a list); the Review. *Read by (not built yet):* the check of doc 28, 6.1 and rule 22 (the Profile's "what they care about" compared with the positioning and the Values); the Profile's values shown beside the Brand voice tile (doc 28, R23, open).
@@ -100,7 +100,7 @@ Each entry follows doc 40. The "i" follows doc 39, 3.2: the guiding questions fi
 - **Control:** numbered list (as today). **Asked when:** always. **Options:** none.
 - **Length:** three to seven lines; each one rule, beginning "We …".
 - **The "i" says:**
-  - For each value, what do you always do, or never do?
+  - For each value, what do you always do, and what do you always avoid?
   - One rule a line, beginning "We …". A value says what matters; a principle says what you do about it.
   - Example: "We remake any piece with a fault, at no cost, within a year."
 - **Connections.** *Comes from:* the Values (each principle should follow from one). *Read by (built):* the Business Plan, company description, "Values and Principles", the sub-heading "Principles" (a numbered list); the Review. *Read by (not built yet):* none proposed.
@@ -113,7 +113,7 @@ Each entry follows doc 40. The "i" follows doc 39, 3.2: the guiding questions fi
 - **Control:** text box (as today). **Asked when:** always. **Options:** none.
 - **Length:** one short paragraph, three to five sentences.
 - **The "i" says:**
-  - What do you believe about your trade that others in it do not? Why do you work this way?
+  - What do you believe about your trade that sets you apart? Why do you work this way?
   - Explain the belief; the rules it leads to go in Principles.
   - Example: "We believe a thing made slowly is used for longer, so we make fewer and better."
 - **Connections.** *Comes from:* the Values and Principles above. *Read by (built):* the Business Plan, company description, "Values and Principles", the line "Philosophy"; the Review. *Read by (not built yet):* none proposed.
@@ -126,7 +126,7 @@ Each entry follows doc 40. The "i" follows doc 39, 3.2: the guiding questions fi
 - **Length:** four to eight short lines or a short paragraph; each line break is a paragraph in the plan.
 - **The "i" says:**
   - What do you stand for, and what do you stand against?
-  - Write it for your customers, in your own voice. Use your Values; do not copy your Mission.
+  - Write it for your customers, in your own voice. Draw on your Values and say them in fresh words.
   - Example: "We are for things that last. We are against the throwaway gift."
 - **Connections.** *Comes from:* all five texts above (in its own voice). *Read by (built):* the Business Plan, company description, the heading "Manifesto" (`paragraphs`); the Review. *Read by (not built yet):* the Brand System's voice, as a display only (doc 28, 6.1: no text is written into Brand).
 
@@ -163,17 +163,21 @@ The Identity texts have no codes in the register (doc 44 lists the Foundation's 
 | PB5 | Philosophy | section 2, `philosophy` | proposed |
 | PB6 | Manifesto | section 2, `manifesto` | proposed |
 
-The codes follow the pairs' order, not today's tile order. They enter the register (`tools/scripts/docs/questions-register.mjs`) when the chapter is built **[D]**. No structured question is proposed (sections 3.3 and 3.4), so no further code is taken.
+The codes follow the pairs' order, not today's tile order. They enter the register (`tools/scripts/docs/questions-register.mjs`) now that the chapter is built (section 6); they are not in it yet. No structured question is proposed (sections 3.3 and 3.4), so no further code is taken.
 
-## 6. Open questions for the owner
+## 6. The owner's decisions
 
-1. **Layout:** option A (Mission & Vision in the new chapter, drawn across sections), option B (Mission & Vision stays in Definition) or option C later (section 2.2)?
-2. **Names:** "Purpose & Beliefs" for the chapter; and the page, today "Definition and Ethics": "Definition and Purpose", or another?
-3. **The prompts:** the guiding questions of section 3 replace the bullets of `01_IdentitySystemQuestions.md`, which are the owner's texts (doc 39, 3.1, principle 5). Approve, change, or keep the current ones and add the proposals as further points?
-4. **The Vision's horizon:** the current text says "ten years or more"; the guides say five to ten [BDC]. Which?
-5. **The Business Plan's headings:** the plan prints Philosophy under "Values and Principles" and the Manifesto apart. Follow the new pairs (Philosophy beside the Manifesto), or leave the plan as it is?
-6. **A pair tile's face:** both texts' first lines, or only the pair's name and a count of what is written?
-7. **The Positioning beside the Mission:** show the Positioning Notes behind an "i" note by the Mission's box (section 3.1, not built yet)?
+The owner, 2026-11-09 ("Change the 2. Ethics to Purpose & Beliefs, and move there the Mission and Vision. Follow your recommendations."): each open question takes the recommendation of this document.
+
+1. **Layout: option A, built.** Definition keeps Organisation and Positioning; the chapter "Purpose & Beliefs" holds Mission & Vision, Values & Principles, Philosophy & Manifesto, in that order. Mission & Vision draws the two texts saved in Definition (section 1, keys `mission` and `vision`) and marks them with Definition's keys (`AnswerRenderer.tsx`, `pageSections`; `Conversation.tsx`). Three master tiles stand as the 2 x 2 of four with its fourth place empty, the size of every chapter's tiles (layout rules, section 23).
+2. **Names: built.** The chapter "Purpose & Beliefs" (the section's title in `01_IdentitySystemAnswer.md`; its keys are the column titles, unchanged); the page "Definition and Purpose" (`PageGroups.ts`); the tiles "Mission & Vision", "Values & Principles", "Philosophy & Manifesto", each name on a line of its own (a master tile's forced break).
+3. **The prompts: the guiding questions of section 3 replace the bullets, built** (`01_IdentitySystemQuestions.md`), in the app's affirmative voice: where section 3's wording said what not to do, the "i" says what to do (the Mission: "Say what you do today; the future you aim for belongs in the Vision." and "Make it specific enough to describe your business alone."; the Vision: "Describe the result; the steps belong in the Strategy."; the Values: "What would you hold to, even at the cost of a sale?"; the Principles: "what do you always do, and what do you always avoid?"; the Philosophy: "What do you believe about your trade that sets you apart?"; the Manifesto: "Draw on your Values and say them in fresh words."; the Vision's example: "Every home in the UK and Ireland has one throw it keeps for life.").
+4. **The Vision's horizon: five to ten years** [BDC], built in its "i".
+5. **The Business Plan's headings: as they are.** The readers stay untouched (section 1): the plan prints Philosophy under "Values and Principles" and the Manifesto apart. Its reader now finds the four texts by the chapter's new title (`BusinessDocuments.ts`).
+6. **A pair tile's face: both texts' lines, built**, the first's, a hairline, the second's, as a tile shows one text; the list scrolls.
+7. **The Positioning beside the Mission: yes, not built.** It needs a new note beside the Mission's box (section 3.1, "Read by (not built yet)"), a new feature; it waits, with the Review note on a customer no Segment describes.
+
+The codes PB1 to PB6 (section 5) are decided; they are not yet in the register (`tools/scripts/docs/questions-register.mjs`, doc 44).
 
 ## 7. Sources
 

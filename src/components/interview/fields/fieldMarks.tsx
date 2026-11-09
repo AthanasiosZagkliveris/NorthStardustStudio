@@ -155,6 +155,9 @@ function anchorsWithin(element: HTMLElement, rail: HTMLElement | null): string[]
 function markControls(root: HTMLElement, page: FieldPageValue): void {
 
     for (const card of root.querySelectorAll<HTMLElement>(CARDS)) {
+        if (card.closest(".field-page") !== root) {
+            continue;
+        }
         const anchor = (card.dataset.anchor ?? "").split(/\s+/)[0];
         if (!anchor || card.dataset.fieldKey) {
             continue;
@@ -168,6 +171,11 @@ function markControls(root: HTMLElement, page: FieldPageValue): void {
     }
 
     for (const control of root.querySelectorAll<HTMLElement>(ANSWER_CONTROLS)) {
+
+        // (A part drawn from another section's answer has a page of its own inside this one, which marks it: Purpose & Beliefs' Mission & Vision.)
+        if (control.closest(".field-page") !== root) {
+            continue;
+        }
 
         const held = control.closest<HTMLElement>("[data-field-key]");
         // Marked already by its label, and not merely by the card around it.

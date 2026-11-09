@@ -2,7 +2,7 @@
 
 ## 01. Identity System
 
-First, **Definition** sets out what your organization does, its mission, where it stands in the market, and the future it is working towards. Then **Ethics** records your philosophy, your values, the principles you follow, and your manifesto. **Legal Entity** records your legal form, founders and ownership, registration, tax, and running costs, even if you have not registered yet. Finally, **Founders Profile** records who the founders are, their experience and skills, and the gaps in the team and how they are covered. Everything else in the Foundation builds on these answers, so this is the place to start.
+First, **Definition** sets out what your organization does and where it stands in the market. Then **Purpose & Beliefs** records your mission, the future you are working towards, your values, the principles you follow, your philosophy, and your manifesto. **Legal Entity** records your legal form, founders and ownership, registration, tax, and running costs, even if you have not registered yet. Finally, **Founders Profile** records who the founders are, their experience and skills, and the gaps in the team and how they are covered. Everything else in the Foundation builds on these answers, so this is the place to start.
 
 ## 02. Brand System
 

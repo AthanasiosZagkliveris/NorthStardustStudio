@@ -11,6 +11,7 @@ import InterviewProgress, { SHOW_PROGRESS_LINE } from "../components/InterviewPr
 import InterviewSection from "../components/InterviewSection";
 import { groupOf, isCompanion, primaryOf } from "../framework/engine/PageGroups";
 import AnswerRenderer from "../components/interview/editors/AnswerRenderer";
+import type { PageSectionAnswer } from "../components/interview/editors/answer/shared.tsx";
 
 import { InterviewSession } from "../framework/interview";
 import {
@@ -2049,6 +2050,33 @@ export default function Conversation() {
           }
         : undefined;
 
+    /** The other sections of the page a section stands on (PageGroups.ts), each with its saved answer and its saver: a tile of one frame may draw another section's answer (doc 45). */
+    const pageSectionsBeside = (section: typeof currentSection): PageSectionAnswer[] | undefined => {
+        const group = groupOf(groupSystemNumber, section.number);
+        if (!group || group.members.length < 2) {
+            return undefined;
+        }
+        return group.members.filter(number => number !== section.number).flatMap(number => {
+            const other = session.getSections().find(candidate => candidate.number === number);
+            if (!other?.answer) {
+                return [];
+            }
+            const own = number === currentSection.number;
+            return [{
+                number,
+                title: other.title,
+                definition: own ? (effectiveAnswer ?? other.answer) : other.answer,
+                value: own ? effectiveValue : session.getResponse(number),
+                onChange: own
+                    ? (sharedSource ? handleSharedAnswerChange : handleAnswerChange)
+                    : (next: unknown) => {
+                        session.saveResponse(number, next);
+                        persistAndRedraw(session);
+                    }
+            }];
+        });
+    };
+
     /** One section's answer, drawn with its own field keys: the page's own section, or a companion drawn beside it (PageGroups.ts). */
     const renderAnswer = (section: typeof currentSection, answerDefinition: AnswerDefinition | undefined, answerValue: unknown, change: (value: unknown) => void, primary: boolean) => (
                             <FieldPageProvider
@@ -2064,6 +2092,7 @@ export default function Conversation() {
                                 value={answerValue}
                                 onChange={change}
                                 frameTitle={pageGroup && pageGroup.members.length > 1 ? (pageGroup.members.indexOf(section.number) + 1) + ". " + (pageGroup.frameTitles?.[pageGroup.members.indexOf(section.number)] ?? section.title) : pageGroup?.frameTitles?.[0]}
+                                pageSections={pageSectionsBeside(section)}
                                 resolveDynamicOptions={resolveDynamicOptions}
                                 rowSelection={productRegisterRowSelection}
                                 ownerSuggestions={operationsOwnerSuggestions}

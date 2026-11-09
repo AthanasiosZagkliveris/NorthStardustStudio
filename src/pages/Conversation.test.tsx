@@ -155,7 +155,7 @@ describe("Conversation records the last place worked", () => {
         expect(OrganizationService.getLastPlace(organization.id)).toEqual({ systemNumber: 1, sectionIndex: 2 });
         fireEvent.click(screen.getByRole("navigation", { name: "Pages" }).querySelectorAll(".bullet-rail-item")[1]);
 
-        // (The Definition and Ethics page holds the Definition chapter and the Ethics chapter, four tiles each: Philosophy's dialog opens, and the field in it is focused.)
+        // (The Definition and Purpose page holds the Definition chapter and the Purpose & Beliefs chapter: Philosophy & Manifesto's dialog opens, and the field in it is focused.)
         fireEvent.click(screen.getByRole("button", { name: /^Philosophy/ }));
         const card = document.querySelector<HTMLElement>(".column-tile-content[data-rail]")!;
         const field = card.querySelector<HTMLElement>("textarea, input")!;
@@ -184,6 +184,36 @@ describe("Conversation records the last place worked", () => {
         });
 
         expect(screen.getAllByRole("button", { name: /^Organisation/ }).length).toBeGreaterThan(0);
+
+    });
+
+    it("draws Purpose & Beliefs as three pair tiles, Mission & Vision saved in Definition under its own keys (doc 45)", () => {
+
+        const organization = OrganizationService.create("Quillfield");
+        vi.spyOn(OrganizationService, "getSelected").mockReturnValue(organization.id);
+
+        renderIdentity({ targetSectionNumber: 1, resume: {} });
+
+        // The two frames: Definition without Mission and Vision; Purpose & Beliefs with the three pairs, in their order.
+        const heads = [...document.querySelectorAll(".tiles-frame-head")].map(head => head.textContent?.trim());
+        expect(heads).toEqual(["1. Definition", "2. Purpose & Beliefs"]);
+        const frames = [...document.querySelectorAll(".column-tiles-page")];
+        const tilesOf = (frame: Element) => [...frame.querySelectorAll(".section-tile[data-tile]")].map(tile => tile.getAttribute("data-tile"));
+        expect(tilesOf(frames[0])).not.toContain("mission");
+        expect(tilesOf(frames[0])).not.toContain("vision");
+        expect(tilesOf(frames[1])).toEqual(["mission-vision", "values-principles", "philosophy-manifesto"]);
+
+        // The pair's dialog holds both texts, each with its heading; what is written is saved where it always was.
+        fireEvent.click(screen.getByRole("button", { name: /^Mission & Vision/ }));
+        const mission = screen.getByRole("textbox", { name: "Mission" });
+        const vision = screen.getByRole("textbox", { name: "Vision" });
+        fireEvent.change(mission, { target: { value: "We automate small offices." } });
+        fireEvent.change(vision, { target: { value: "Every small office runs itself." } });
+        const saved = OrganizationService.loadSystemState(organization.id, 1) as { responses: Array<{ sectionNumber: number; value: Record<string, unknown> }> };
+        const section = (number: number) => saved.responses.find(response => response.sectionNumber === number)?.value ?? {};
+        expect(section(1).mission).toBe("We automate small offices.");
+        expect(section(1).vision).toBe("Every small office runs itself.");
+        expect(section(2).mission).toBeUndefined();
 
     });
 
@@ -335,7 +365,7 @@ describe("A System's opening screen", () => {
         renderOpening("identity");
 
         expect(Array.from(document.querySelectorAll(".intro-sentence strong")).map(name => name.textContent)).toEqual([
-            "Definition", "Ethics", "Legal Entity", "Founders Profile"
+            "Definition", "Purpose & Beliefs", "Legal Entity", "Founders Profile"
         ]);
         expect(document.querySelector(".intro-sentence")!.textContent).not.toContain("why do we exist");
 

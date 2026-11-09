@@ -1,5 +1,5 @@
 import ChoiceCard from "../../controls/ChoiceCard.tsx";
-import { CSSProperties, useState } from "react";
+import { CSSProperties, Fragment, useState } from "react";
 import CardShell from "../cards/CardShell.tsx";
 import { OptionalNote } from "../cards/BusinessCardFields.tsx";
 import { BUYER_CATEGORIES, BUYER_USER_RELATIONS, USER_LIFE_STAGES, positioningName } from "./legal/shared.tsx";
@@ -7,13 +7,13 @@ import { AUDIENCE_WORDS, CUSTOMER_TYPE_WORDS, PURPOSE_WORDS } from "../../../fra
 import { AnswerType } from "../../../framework/enums/AnswerType.ts";
 import { asLegalEntityValue, isAnswerEmpty } from "../../../framework/engine/AnswerUtils.ts";
 import { useDragToScroll } from "../../../hooks/useDragToScroll.ts";
-import { FieldMark, FieldStatus } from "../fields/fieldMarks.tsx";
+import { FieldMark, FieldPageProvider, FieldStatus, useFieldPage } from "../fields/fieldMarks.tsx";
 import SectionTiles, { DialogHeading, TILE_DIVIDER, type SectionTile } from "../tiles/SectionTiles.tsx";
 import LegalEntityEditor from "./LegalEntityEditor.tsx";
 import { ImprintFields, NumberedTextList } from "../fields/ColumnFields.tsx";
 import { workHue } from "../../../framework/engine/WorkColours.ts";
 
-import { AnswerRendererProps, bindLabelAroundAmpersand, questionLineClass } from "./answer/shared.tsx";
+import { AnswerRendererProps, bindLabelAroundAmpersand, questionLineClass, type PageSectionAnswer } from "./answer/shared.tsx";
 export { questionLineClass } from "./answer/shared.tsx";
 import { useAnswerState } from "./answer/useAnswerState.tsx";
 import type { AnswerScope } from "./answer/scope.ts";
@@ -60,9 +60,13 @@ function MultiPartAnswerRenderer({
 
     businessStage = "plan",
 
-    showInstructions = true
+    showInstructions = true,
+
+    pageSections
 
 }: AnswerRendererProps) {
+
+    const fieldPage = useFieldPage();
 
     const values: Record<string, unknown> =
         value && typeof value === "object" && !Array.isArray(value)
@@ -140,14 +144,14 @@ function MultiPartAnswerRenderer({
 
     }
 
-    // A column page of FOUR columns (Identity's Definition and Ethics, Brand's Ambassador): the page's tile system, 2 x 2, instead of four narrow columns.
+    // A column page of FOUR columns (Identity's Definition and Purpose & Beliefs, Brand's Ambassador): the page's tile system instead of four narrow columns.
     // Each tile carries its title and a line or two of what is in it; pressing it opens the column (its questions and its editor) in the tile's dialog.
     if (definition.columns && parts.length === 4) {
 
         const firstWords = (text: string) => text.replace(/^\s*•\s*/, "").trim().replace(/\s+/g, " ");
-        const snippet = (part: (typeof parts)[number]): string[] => {
-            const answered = typeof values[part.id] === "string"
-                ? (values[part.id] as string).split("\n").map(firstWords).filter(line => line.length > 0).slice(0, 12)
+        const snippet = (part: (typeof parts)[number], from: Record<string, unknown> = values): string[] => {
+            const answered = typeof from[part.id] === "string"
+                ? (from[part.id] as string).split("\n").map(firstWords).filter(line => line.length > 0).slice(0, 12)
                 : [];
             if (answered.length > 0) {
                 return answered;
@@ -212,8 +216,94 @@ function MultiPartAnswerRenderer({
         const positioningItems = positioningGroups.flatMap((words, at) => [...(at > 0 ? [TILE_DIVIDER] : []), ...words]);
         const positioningMarks = positioningItems.map(item => item === TILE_DIVIDER ? undefined : { bullet: true });
 
-        const tiles: SectionTile[] = parts.map(part => part.id === "description" && onChangeLegalEntity ? organizationTile(part) : ({
+        /** The control of a column, drawn with the answer it is saved in (this section's, or another section's of the page). */
+        const columnControl = (part: (typeof parts)[number], from: Record<string, unknown>, save: (next: Record<string, unknown>) => void) => (
+            part.id === "imprint"
+                ? <ImprintFields value={from[part.id]} onChange={(next) => save({ ...from, [part.id]: next })} disabled={disabled} />
+                : part.id === "positioning" && onChangeLegalEntity
+                    // The Early Positioning text under its questions is the shared optional note (the Notes of every card).
+                    ? <OptionalNote label="Notes" fieldId={part.label} ariaLabel="Notes" placeholder="Add a note" value={typeof from[part.id] === "string" ? from[part.id] as string : ""} onChange={(next) => save({ ...from, [part.id]: next })} disabled={disabled} />
+                : part.id === "values" || part.id === "principles"
+                    ? <NumberedTextList label={part.label} value={from[part.id]} onChange={(next) => save({ ...from, [part.id]: next })} disabled={disabled} />
+                    : (
+                        <SingleAnswerRenderer
+                            definition={part.answer}
+                            ariaLabel={part.label}
+                            autoGrow
+                            value={from[part.id]}
+                            onChange={(next) => save({ ...from, [part.id]: next })}
+                            disabled={disabled}
+                            resolveDynamicOptions={resolveDynamicOptions}
+                            rowSelection={rowSelection}
+                            ownerSuggestions={ownerSuggestions}
+                            processLibraryProcesses={processLibraryProcesses}
+                            dynamicOptionsDependency={from}
+                        />
+                    )
+        );
+
+        // PURPOSE & BELIEFS (doc 45): the Identity System's second chapter draws its six texts as three pair tiles, Mission & Vision, Values & Principles,
+        // Philosophy & Manifesto. Mission and Vision are saved in Definition, the page's first section, under their own keys; Definition does not draw them.
+        const holdsPurpose = (candidate: readonly (typeof parts)[number][] | undefined) => !!candidate?.some(part => part.id === "philosophy") && !!candidate?.some(part => part.id === "manifesto");
+        const purposeHere = holdsPurpose(parts);
+        const purposeBeside = !purposeHere && !!pageSections?.some(section => holdsPurpose(section.definition.parts));
+        const definitionBeside = purposeHere ? pageSections?.find(section => section.definition.parts?.some(part => part.id === "mission")) : undefined;
+
+        /** A text of a pair: its column, the answer it is saved in and its saver, and the other section it belongs to (Mission and Vision: Definition). */
+        interface PairText { part: (typeof parts)[number]; from: Record<string, unknown>; save: (next: Record<string, unknown>) => void; elsewhere?: PageSectionAnswer }
+        const ownText = (id: string): PairText[] => parts.filter(part => part.id === id).map(part => ({ part, from: values, save: (next: Record<string, unknown>) => onChange(next) }));
+        const besideText = (id: string): PairText[] => {
+            const section = definitionBeside;
+            const part = section?.definition.parts?.find(candidate => candidate.id === id);
+            if (!section || !part) {
+                return [];
+            }
+            const from = section.value && typeof section.value === "object" && !Array.isArray(section.value) ? section.value as Record<string, unknown> : {};
+            return [{ part, from, save: (next: Record<string, unknown>) => section.onChange(next), elsewhere: section }];
+        };
+        /** A pair tile ("Mission & Vision"): both texts' lines on its face, a hairline between them; its dialog holds the two, one under the other, each with its heading and its "i". */
+        const pairTile = (texts: PairText[]): SectionTile => ({
+            id: texts.map(text => text.part.id).join("-"),
+            // (A master tile of its chapter: one size with every other, whatever their number; layout rules, section 23.)
+            large: true,
+            // (A master tile's title may take a forced break: the pair's names on two lines, each whole; layout rules, "A title with a forced break".)
+            title: texts.map(text => text.part.label).join(" &\n"),
+            rail: texts[0]?.part.id,
+            items: texts.flatMap((text, at) => [...(at > 0 ? [TILE_DIVIDER] : []), ...snippet(text.part, text.from)]),
+            content: () => (
+                <div className="column-tile-content" data-rail={texts[0]?.part.id} role="group" aria-label={texts.map(text => text.part.label).join(" & ")}>
+                    {texts.map((text, at) => {
+                        const block = (
+                            <div className="column-tile-content" data-rail={text.part.id} role="group" aria-label={text.part.label}>
+                                <div className="business-engagement-section-head">
+                                    <DialogHeading title={text.part.label} info={guidance(text.part)} />
+                                </div>
+                                {columnControl(text.part, text.from, text.save)}
+                            </div>
+                        );
+                        return (
+                            <Fragment key={text.part.id}>
+                                {at > 0 && <div className="business-capability-card-rule" role="separator" />}
+                                {/* (Each text is marked with the keys of the section it is saved in, Mission and Vision with Definition's: its notes, its search results and Review's "Go there" find it; the dialog stands outside the page's own marks.) */}
+                                {fieldPage
+                                    ? <FieldPageProvider organizationId={fieldPage.organizationId} systemNumber={fieldPage.systemNumber} sectionNumber={text.elsewhere?.number ?? fieldPage.sectionNumber} pageTitle={fieldPage.pageTitle}>{block}</FieldPageProvider>
+                                    : block}
+                            </Fragment>
+                        );
+                    })}
+                </div>
+            )
+        });
+
+        const tiles: SectionTile[] = purposeHere
+            ? [
+                pairTile([...besideText("mission"), ...besideText("vision"), ...ownText("mission"), ...ownText("vision")]),
+                pairTile([...ownText("values"), ...ownText("principles")]),
+                pairTile([...ownText("philosophy"), ...ownText("manifesto")])
+            ].filter(tile => tile.id.length > 0)
+            : parts.filter(part => !(purposeBeside && (part.id === "mission" || part.id === "vision"))).map(part => part.id === "description" && onChangeLegalEntity ? organizationTile(part) : ({
             id: part.id,
+            large: true,
             // (The Positioning tile is named by the business stage, Early Positioning first; its saved answer keeps the key "positioning".)
             title: part.id === "positioning" ? positioningName(businessStage) : part.label,
             rail: part.id,
@@ -235,28 +325,7 @@ function MultiPartAnswerRenderer({
                             disabled={disabled}
                         />
                     )}
-                    {part.id === "imprint"
-                        ? <ImprintFields value={values[part.id]} onChange={(next) => onChange({ ...values, [part.id]: next })} disabled={disabled} />
-                        : part.id === "positioning" && onChangeLegalEntity
-                            // The Early Positioning text under its questions is the shared optional note (the Notes of every card).
-                            ? <OptionalNote label="Notes" fieldId={part.label} ariaLabel="Notes" placeholder="Add a note" value={typeof values[part.id] === "string" ? values[part.id] as string : ""} onChange={(next) => onChange({ ...values, [part.id]: next })} disabled={disabled} />
-                        : part.id === "values" || part.id === "principles"
-                            ? <NumberedTextList label={part.label} value={values[part.id]} onChange={(next) => onChange({ ...values, [part.id]: next })} disabled={disabled} />
-                            : (
-                                <SingleAnswerRenderer
-                                    definition={part.answer}
-                                    ariaLabel={part.label}
-                                    autoGrow
-                                    value={values[part.id]}
-                                    onChange={(next) => onChange({ ...values, [part.id]: next })}
-                                    disabled={disabled}
-                                    resolveDynamicOptions={resolveDynamicOptions}
-                                    rowSelection={rowSelection}
-                                    ownerSuggestions={ownerSuggestions}
-                                    processLibraryProcesses={processLibraryProcesses}
-                                    dynamicOptionsDependency={values}
-                                />
-                            )}
+                    {columnControl(part, values, (next) => onChange(next))}
                 </div>
             )
         }));
@@ -274,7 +343,7 @@ function MultiPartAnswerRenderer({
                     <div className="card-scroll">
                         <div className="business-capability-section business-capability-tiles-section">
                             {frameTitle ? <div className="business-engagement-section-head tiles-frame-head"><span className="field-group-title business-foundation-subhead">{frameTitle}</span></div> : <div className="business-capability-heading-spacer" aria-hidden="true" />}
-                            <SectionTiles label={parts.map(part => part.label).join(", ")} hue={(parts[0]?.id === "philosophy" ? workHue("decide") : workHue("create"))} tiles={tiles} />
+                            <SectionTiles label={tiles.map(tile => tile.title).join(", ")} hue={(parts[0]?.id === "philosophy" ? workHue("decide") : workHue("create"))} tiles={tiles} />
                         </div>
                     </div>
                 </CardShell>

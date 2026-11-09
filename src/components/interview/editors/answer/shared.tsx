@@ -79,6 +79,15 @@ export function ProfileCardInner({ children }: { children: ReactNode }) {
 
 }
 
+/** Another section of the same page: its number, its title, its answer's definition, its saved answer and its saver. */
+export interface PageSectionAnswer {
+    number: number;
+    title: string;
+    definition: AnswerDefinition;
+    value: unknown;
+    onChange: (value: unknown) => void;
+}
+
 export interface AnswerRendererProps {
 
     definition: AnswerDefinition;
@@ -164,6 +173,13 @@ export interface AnswerRendererProps {
 
     /** The frame's heading, on top of its tiles (a page of several sections: "1. Definition"). */
     frameTitle?: string;
+
+    /**
+     * The other sections of a page of several sections (PageGroups.ts), each with its saved answer and its saver, for a
+     * tile drawn in one frame from another section's answer: Purpose & Beliefs' Mission & Vision, saved in Definition
+     * (doc 45). Each answer keeps its own keys. Ignored by every other page.
+     */
+    pageSections?: readonly PageSectionAnswer[];
 
     /**
      * How many column-layout columns precede this Section's own, so

@@ -1,6 +1,6 @@
 # 1. Identity System — 1. Definition
 
-Status: **current design**, written 2026-10-30, updated 2026-11-02. The master tile "1. Definition" of the page "1. Definition and Ethics" of the Identity System: its layout, its four tiles, how each opens and reacts, and what reads what it holds.
+Status: **current design**, written 2026-10-30, updated 2026-11-09. The master tile "1. Definition" of the page "1. Definition and Purpose" of the Identity System: its layout, its tiles, how each opens and reacts, and what reads what it holds.
 
 Related: doc 37 (the Organisation tile's fields), doc 38 (the Positioning tile's questions), doc 26 (card structure), doc 28 (the design, 8.1 to 8.6), doc 31 (the tables behind the Positioning lists, 10.7), doc 33 (the first version, and the future features in sections 10 to 15), `docs/ai/tile-and-card-pattern.md` (the tile and card pattern), `docs/ai/layout-rules.md` (the measured rules).
 
@@ -23,27 +23,27 @@ Related: doc 37 (the Organisation tile's fields), doc 38 (the Positioning tile's
 
 ## 1. What the master tile is
 
-The Identity System (System 1, Foundation) opens on its page 1, **"1. Definition and Ethics"**. The page holds two **master tiles** (frames), side by side: **1. Definition** and 2. Ethics (Philosophy, Values, Principles, Manifesto; not described here). Page 2 is Legal Entity.
+The Identity System (System 1, Foundation) opens on its page 1, **"1. Definition and Purpose"**. The page holds two **master tiles** (frames), side by side: **1. Definition** and 2. Purpose & Beliefs (Mission & Vision, Values & Principles, Philosophy & Manifesto: doc 45). Page 2 is Legal Entity.
 
-The master tile **1. Definition** holds four tiles, in this order:
+The master tile **1. Definition** holds these tiles, in this order (Mission and Vision are saved here and drawn in 2. Purpose & Beliefs, in its pair tile Mission & Vision, doc 45):
 
 | # | Tile | Holds | Saved in | Opens |
 |---|---|---|---|---|
 | 1 | **Organisation** | Name, country, address, legal form, dates, activities, and the description (Notes) | the Legal Entity answer (`organisation`), the Opening Date in the Global Settings, the description under the key "Description" | dialog with fields |
 | 2 | **Early Positioning** (named by the stage, section 8) | Who the business sells to, why, how it differs, and the result | the Legal Entity answer (`organisation`); its Notes under the key "Positioning" | dialog with choice questions |
-| 3 | **Mission** | One free text | the key "Mission" | dialog with one text box |
-| 4 | **Vision** | One free text | the key "Vision" | dialog with one text box |
+| (3) | **Mission**, drawn in Purpose & Beliefs | One free text | the key "Mission" | the Mission & Vision dialog, its first text |
+| (4) | **Vision**, drawn in Purpose & Beliefs | One free text | the key "Vision" | the Mission & Vision dialog, its second text |
 
 The questions behind the tiles are in `src/assets/SystemQuestions/01_IdentitySystemQuestions.md` (they are what the "i" of Mission and Vision says); the structure is in `src/assets/SystemAnswers/01_IdentitySystemAnswer.md` (a column layout of four free-text columns; the Organisation and Early Positioning tiles replace the text boxes of the first two columns with their own editors). The Identity System has no "Need Help?" text: the guidance is in each tile's "i".
 
 ## 2. The page and its frame
 
-- **Page title:** "1. Identity System — 1. Definition and Ethics", one line, with the System's icon; the page underline carries the frames edge to edge.
-- **The frame** of the master tile: 12px padding, 8px corners, one hairline edge in its hue, its heading "1. DEFINITION" in capitals, centred, 28px semi-bold. The Definition takes the colour of the work "create"; Ethics the colour of "decide" (`WorkColours.ts`). A tile, its dialog and its floating cards take the frame's hue.
-- **The tiles** are four squares in a 2 × 2 grid, one size by the window's width and height, each in the frame's tint with the box's inset light and shade, a 110% rise under the pointer growing inwards (doc 18). A tile's title is in capitals (18px, semi-bold, centred, underlined by a hairline), and below it a list or a text in 14px muted colour:
+- **Page title:** "1. Identity System — 1. Definition and Purpose", one line, with the System's icon; the page underline carries the frames edge to edge.
+- **The frame** of the master tile: 12px padding, 8px corners, one hairline edge in its hue, its heading "1. DEFINITION" in capitals, centred, 28px semi-bold. The Definition takes the colour of the work "create"; Purpose & Beliefs the colour of "decide" (`WorkColours.ts`). A tile, its dialog and its floating cards take the frame's hue.
+- **The tiles** are squares in the 2 × 2 grid of every chapter, one size by the window's width and height (layout rules, section 23), each in the frame's tint with the box's inset light and shade, a 110% rise under the pointer growing inwards (doc 18). A tile's title is in capitals (18px, semi-bold, centred, underlined by a hairline), and below it a list or a text in 14px muted colour:
   - **Organisation:** the name in bold, the legal form, a divider line, then the address (a long address keeps its first lines and joins the last two). Until something is written it shows the first line of what the column asks.
   - **Early Positioning:** four groups, **no subtitles**, a divider line between two groups (the divider lines and the title's line of every tile are one line: 1px, the title ink at 40%), each option on a line of its own with a bullet, in its own words (nothing stands for options left out): the business (the audience and the buyer's category: "Workers / Professionals", "Proxy"), the user (only for a Proxy or Dual-Intent buyer: the relationship and the life stage: "Friend", "Young Adults"), the offering (the purposes and the differentiations) and the outcome (the buyer's and the user's). The words are the card's, shortened to their first part ("Proxy", "Friend"); a group with no answer is left out. **The square holds about six lines**: where there are more, the tile ends at a whole line, as every tile does, and the card has them all.
-  - **Mission, Vision:** the first lines of the text.
+  - **Mission & Vision** (in Purpose & Beliefs): the Mission's lines, a divider line, the Vision's.
 - **At the narrow width** (768px, the smallest the app supports) the frames stack below the window width of 812px; the tiles keep their grid (doc 18, layout rules, "One shape on every page of chapters").
 - **The page's own controls** stand in the header: Reading mode (Auto), Focus, Search (Ctrl+K), Notes, Review (with the number of items), Global Settings, and the organisation's name; the lower left has Back. The **Pages rail** (a navigation named "Pages": Introduction, 1. Definition and Ethics, 2. Legal Entity) with its previous and next arrows moves between the System's pages.
 
@@ -53,8 +53,8 @@ The behaviour is the shared one of `src/components/interview/tiles/SectionTiles.
 
 | The user does | What happens |
 |---|---|
-| Presses a tile | Its **dialog** opens in the place of its master tile, the size of the frame and in its hue; the other master tile (Ethics) is shaded and inert; the page does not scroll |
-| Presses another tile's bullet in the **section rail** ("Go to a section": Organisation, Early Positioning, Mission, Vision) | That tile's dialog opens in place of the open one |
+| Presses a tile | Its **dialog** opens in the place of its master tile, the size of the frame and in its hue; the other master tile (Purpose & Beliefs) is shaded and inert; the page does not scroll |
+| Presses another tile's bullet in the **section rail** ("Go to a section": Organisation, Early Positioning) | That tile's dialog opens in place of the open one |
 | Presses the **Previous section / Next section** arrows, or ← and → | The dialog moves to the previous or next tile of the frame |
 | Presses **Escape**, the **Back** button, or the shaded space | The dialog closes; the page is as it was (the scroll position, the folds); the focus returns to the tile (with a visible ring after the keyboard) |
 | Presses the **"i"** beside the title | A pop-up with what the tile asks (the questions of the column); it closes as every pop-up does (doc 23) |
@@ -111,11 +111,11 @@ The audience scale is **the app user's audience** (the customers of the business
 
 ## 6. The Mission tile
 
-**Dialog:** the title "Mission" with its "i" (what this means: "What is your purpose? What problem are you trying to solve? Why does solving it matter?"), then **one text box** that grows with its text (it opens 12 lines high), no limit on length, no placeholder. **On the page:** the first lines of the text. **Read by:** the Business Plan's summary (a labelled "Mission" line).
+**Drawn in 2. Purpose & Beliefs**, as the first text of the pair tile Mission & Vision (doc 45); saved here. **Dialog:** the heading "Mission" with its "i" (doc 45, 3.1), then **one text box** that grows with its text (it opens 12 lines high), no limit on length, no placeholder. **On the page:** its lines, first on the pair tile. **Read by:** the Business Plan's summary (a labelled "Mission" line).
 
 ## 7. The Vision tile
 
-**Dialog:** the same as Mission, titled "Vision" ("What future are you working towards? What would success look like? Think ten years or more ahead."). **On the page:** the first lines of the text. **Read by:** the Business Plan's summary (a labelled "Vision" line).
+**Drawn in 2. Purpose & Beliefs**, under the Mission in the same dialog, a divider between them (doc 45). **Dialog:** the same as Mission, headed "Vision" (its "i": doc 45, 3.2). **On the page:** its lines, after a divider line on the pair tile. **Read by:** the Business Plan's summary (a labelled "Vision" line).
 
 ## 8. The stage, the Opening Date and what follows them
 
@@ -147,7 +147,7 @@ The business stage (Planning, Launching, Managing, Growing) is **not asked**: it
 
 | What | File |
 |---|---|
-| The page, its four tiles and their dialogs | `src/components/interview/editors/AnswerRenderer.tsx` (the column tiles branch, `organizationTile`) |
+| The page, its tiles and their dialogs; the pair tiles of Purpose & Beliefs (`pairTile`, `pageSections`) | `src/components/interview/editors/AnswerRenderer.tsx` (the column tiles branch, `organizationTile`) |
 | The tile grid, dialogs, arrows and rail | `src/components/interview/tiles/SectionTiles.tsx` |
 | The Organisation and Early Positioning editor | `src/components/interview/editors/LegalEntityEditor.tsx` (`organizationOnly`, `audienceOnly`) |
 | The fields and sections of both | `src/components/interview/editors/legal/useLegalFieldsAndSections.tsx` |
@@ -172,4 +172,4 @@ What other documents describe for this master tile that **is not in the app and 
 8. **The Positioning Notes prompt** is to be shortened (doc 29, the Notes row).
 9. **The master matrix of the owner's example paths** (doc 31, 10.7): its umbrella relationships (Landlord or property manager, Personal professional, Employer for work and life), "Direct Buyer (Self)" as a relationship and its B2B relationship and user names are not built; they were closed as a reference (doc 31, decision 38).
 10. **Marks on the options** (doc 31, decision 38): the ● and ○ of the user's life-stage matrix, and a "Recommended" tag on the differentiations the purposes drive, are not drawn; the options are ordered or hidden only.
-11. **Mission and Vision guidance:** no examples, no length advice and no completeness rule beyond "not empty" are in the app.
+11. **Mission and Vision guidance:** the "i" carries the guiding questions, the length and one example (doc 45); no completeness rule beyond "not empty" is in the app.

@@ -41,7 +41,7 @@ A page of a System can be a **compound page**: several sections drawn as chapter
 
 | System | Page | Chapters (frames) and their Master Tiles |
 |---|---|---|
-| 1. Identity | 1. Definition and Ethics | Chapter 1 Definition: Organisation, Positioning (named by the business stage: Early Positioning, Core Market Positioning, Corporate & Portfolio Positioning), Mission, Vision. Chapter 2 Ethics: Philosophy, Values, Principles, Manifesto. |
+| 1. Identity | 1. Definition and Purpose | Chapter 1 Definition: Organisation, Positioning (named by the business stage: Early Positioning, Core Market Positioning, Corporate & Portfolio Positioning). Chapter 2 Purpose & Beliefs: Mission & Vision (saved in Definition), Values & Principles, Philosophy & Manifesto (doc 45). |
 | 1. Identity | 2. Legal Entity | Founders & Ownership; Capability (Gaps and Cover); Registrations (a dialog of sub tiles: Registration Numbers, Additional Legal Requirements); Expenses (the Legal Entity's expenses). |
 | 2. Brand | Brand System (one page) | Chapter 1 Ambassador: Aesthetics, Body Language, Communication & Voice, Imprint. Chapter 2 Style: Colours, Typography, Text Hierarchy, Icon & Logo, Brand Images (the brand inventory is part of this page). |
 | 3. Business | 1. Foundation | One chapter per Segment: Segment Description (the Segment's questions and its Profiles), Competitors, Value Proposition, Offerings. A Profile, a Competitor and an Offering are cards that open floating. |
@@ -99,7 +99,7 @@ Pages come from `src/assets/SystemAnswers/01..04_*.md`. Each page's `Structure` 
 
 | System | Pages | AnswerType and renderer |
 |---|---|---|
-| 1 Identity | Definition, Ethics | Free Text drawn as column tiles (`AnswerRenderer`, `ColumnFields`, `ColumnHeads`) |
+| 1 Identity | Definition, Purpose & Beliefs | Free Text drawn as column tiles (`AnswerRenderer`, `ColumnFields`, `ColumnHeads`) |
 | 1 Identity | Legal Entity | `LegalEntityEditor` |
 | 1 Identity | Founders Profile | `FoundersProfileEditor` |
 | 2 Brand | Ambassador (with the Imprint field) | Free Text, column tiles |
@@ -157,7 +157,7 @@ A "Chapter" has no named type in the code. Frames are classes:
 
 | Frame | Class and file | Used on |
 |---|---|---|
-| Tiles frame (heading plus tiles) | `.answer-columns … column-tiles-page`, `.tiles-frame-head` (`AnswerRenderer`) | Identity Definition and Ethics, Brand Ambassador |
+| Tiles frame (heading plus tiles) | `.answer-columns … column-tiles-page`, `.tiles-frame-head` (`AnswerRenderer`) | Identity Definition and Purpose & Beliefs, Brand Ambassador |
 | Single wide frame | `column-tiles-page-wide` | Strategy Roadmap |
 | Single frame | `strategy-single-frame` | Strategy 1 |
 | Two section cards | `.business-foundation-card` with `CardTitleHelp` and `.card-scroll` | Business 3 |
@@ -169,7 +169,7 @@ A "Chapter" has no named type in the code. Frames are classes:
 
 | Tile | Holds | Notes |
 |---|---|---|
-| Large column tile | Identity Definition, Ethics, Brand Ambassador; Legal Entity Organisation, Founders & Ownership, Registrations, Expenses | `large: true`; `view: true` gives a dialog of sub tiles |
+| Large column tile | Identity Definition, Purpose & Beliefs (its pair tiles), Brand Ambassador; Legal Entity Organisation, Founders & Ownership, Registrations, Expenses | `large: true`; `view: true` gives a dialog of sub tiles |
 | Brand picture tiles | Colours, Typography & Text Hierarchy, Icon & Logo, Brand Images | `picture` property |
 | Founders Profile tile | Capability and the founder card tiles | `FoundersProfileEditor` |
 | Business Foundation tiles | Segment Description (the Segment card: its five boxes ask choice questions, `SegmentQuestions.ts`, read through `SegmentContext.ts`; a Profiles section with the Profile cards, which ask `ProfileQuestions.ts`), Value Proposition and card boxes (Profile, Competitor, Offering) | `BusinessFoundationEditor`; doc 35 and doc 36 |
@@ -1029,7 +1029,7 @@ Colour = what the user does in the section (work type). The code applies these w
 |---|---|---|
 | 1. Identity |  |  |
 | Definition (Organisation, Early Positioning, Mission, Vision) | Create | Purple |
-| Ethics (Philosophy, Values, Principles, Manifesto) | Decide | Orange |
+| Purpose & Beliefs (Mission & Vision, Values & Principles, Philosophy & Manifesto) | Decide | Orange |
 | Legal Entity | Define | Green |
 | Founders Profile | Define | Green |
 | 2. Brand |  |  |

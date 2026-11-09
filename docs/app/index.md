@@ -9,7 +9,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Item | Where in the app | Described in |
 |---|---|---|
 | Activities (Business) | Business › 3 Infrastructure & Capability › Infrastructure and Offering's Capability › Activities | Page 3; doc 26 |
-| Activities (Organisation) | Identity › 1 Definition and Ethics › Organisation (the activity and its code) | Doc 37; doc 34, 5.7 |
+| Activities (Organisation) | Identity › 1 Definition and Purpose › Organisation (the activity and its code) | Doc 37; doc 34, 5.7 |
 | Ambassador | Brand › Brand System, the first frame: Aesthetics, Body Language, Communication & Voice, Imprint | Doc 1, B.1 |
 | Assets library | Not in the app's build: a gallery of the components, reached only by `npm run dev` (`/library`, `/library/inventory`, `/library/looks`) | Docs 8, 9 |
 
@@ -55,8 +55,8 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Early Positioning (tile) | Identity › 1 Definition and Ethics; named by the business stage (Early, Core Market, Corporate & Portfolio Positioning) | Doc 38; doc 28, 8.2; doc 33 |
-| Ethics | Identity › 1 Definition and Ethics, the second frame: Philosophy, Values, Principles, Manifesto | Doc 1, B.1 |
+| Early Positioning (tile) | Identity › 1 Definition and Purpose; named by the business stage (Early, Core Market, Corporate & Portfolio Positioning) | Doc 38; doc 28, 8.2; doc 33 |
+| Ethics | See Purpose & Beliefs | Doc 45 |
 | Examples | Organisations (home): Lumen & Loom Studio, Quillfield Automation | Doc 25 |
 | Expenses (Legal Entity) | Identity › 2 Legal Entity › Expenses | Doc 26 |
 
@@ -89,7 +89,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Item | Where in the app | Described in |
 |---|---|---|
 | Icon & Logo | Brand › Brand System › Style | Doc 1, B.1 |
-| Identity | System 1: Definition and Ethics, Legal Entity | Doc 1, B.1; doc 28, 8 |
+| Identity | System 1: Definition and Purpose, Legal Entity | Doc 1, B.1; doc 28, 8 |
 | Infrastructure | Business › 3 Infrastructure & Capability, the first card: Founders, Resources, Activities, Partners & Suppliers | Page 3 |
 | Inventory | Business › 3 Infrastructure & Capability › the footer band (a help tile): every card with its cost, as tiles or a table | Page 3; doc 26 |
 
@@ -103,8 +103,8 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Manifesto | Identity › 1 Definition and Ethics › Ethics | Doc 1, B.1 |
-| Mission | Identity › 1 Definition and Ethics › Definition | Doc 1, B.1 |
+| Manifesto | Identity › 1 Definition and Purpose › Purpose & Beliefs › Philosophy & Manifesto | Doc 45, 3.6 |
+| Mission | Identity › 1 Definition and Purpose › Purpose & Beliefs › Mission & Vision (saved in Definition) | Doc 45, 3.1 |
 
 ## N
 
@@ -118,8 +118,8 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 |---|---|---|
 | Offering's Capability | Business › 3 Infrastructure & Capability, the second card: Resources, Activities, Partners & Suppliers, Delivery | Page 3 |
 | Offerings | Business › 1 Foundation › Offerings | Doc 43; doc 28, 6.8; page 1 |
-| Opening Date | Identity › 1 Definition and Ethics › Organisation; it decides the business stage and the plan start | Doc 37; doc 28, 8.2a |
-| Organisation (tile) | Identity › 1 Definition and Ethics › Organisation | Doc 37; doc 28, 8.5 |
+| Opening Date | Identity › 1 Definition and Purpose › Organisation; it decides the business stage and the plan start | Doc 37; doc 28, 8.2a |
+| Organisation (tile) | Identity › 1 Definition and Purpose › Organisation | Doc 37; doc 28, 8.5 |
 | Organisations (home) | The first screen: create, import, export or delete an Organisation; Reload; System Selection; Capability Generator | `contents.md` |
 
 ## P
@@ -127,9 +127,10 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Item | Where in the app | Described in |
 |---|---|---|
 | Partners & Suppliers | Business › 3 Infrastructure & Capability (both cards) | Page 3 |
-| Philosophy | Identity › 1 Definition and Ethics › Ethics | Doc 1, B.1 |
-| Positioning (tile) | Identity › 1 Definition and Ethics; its name follows the business stage (see Early Positioning) | Doc 38 |
-| Principles | Identity › 1 Definition and Ethics › Ethics | Doc 1, B.1 |
+| Philosophy | Identity › 1 Definition and Purpose › Purpose & Beliefs › Philosophy & Manifesto | Doc 45, 3.5 |
+| Positioning (tile) | Identity › 1 Definition and Purpose; its name follows the business stage (see Early Positioning) | Doc 38 |
+| Principles | Identity › 1 Definition and Purpose › Purpose & Beliefs › Values & Principles | Doc 45, 3.4 |
+| Purpose & Beliefs | Identity › 1 Definition and Purpose, the second frame: Mission & Vision, Values & Principles, Philosophy & Manifesto | Doc 45 |
 | Profile | Business › 1 Foundation › Segment Description, the Profiles section under the Segment's boxes (a card that opens floating) | Doc 36; doc 28, 6.4 |
 
 ## R
@@ -170,6 +171,6 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Item | Where in the app | Described in |
 |---|---|---|
 | Value Proposition | Business › 1 Foundation › Value Proposition | Doc 42; doc 28, 6.7; page 1 |
-| Values | Identity › 1 Definition and Ethics › Ethics | Doc 1, B.1 |
-| Vision | Identity › 1 Definition and Ethics › Definition | Doc 1, B.1 |
+| Values | Identity › 1 Definition and Purpose › Purpose & Beliefs › Values & Principles | Doc 45, 3.3 |
+| Vision | Identity › 1 Definition and Purpose › Purpose & Beliefs › Mission & Vision (saved in Definition) | Doc 45, 3.2 |
 | Workbook | Header, wherever an Organisation is open (2026-11-09): one button, no count, opening the Workbook page (`/workbook`, laid out as the Glossary page was) with four tabs, Card Notes, Review, Glossary and References; Back or Escape returns | `contents.md` |

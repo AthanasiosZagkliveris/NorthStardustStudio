@@ -104,7 +104,8 @@ export default function SectionTiles({
     // three large tiles are the 2 x 2 of four, its fourth place empty, so a chapter of three has the tiles of a chapter of four in the same window.)
     const threeLarge = tiles.length === 3 && tiles.every(tile => tile.large);
     const big = !small && (tiles.length === 4 || threeLarge || (tiles.length > 0 && tiles.length <= 2 && tiles.every(tile => tile.large)));
-    const bigRows = tiles.length >= 3 ? 2 : 1;
+    // (The side is the 2 x 2's in every case, so one or two large tiles are the size of four in the same window.)
+    const bigRows = 2;
     useLayoutEffect(() => {
         const box = quadBox.current;
         if (!box || !big) {

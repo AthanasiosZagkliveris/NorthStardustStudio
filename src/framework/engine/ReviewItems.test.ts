@@ -52,6 +52,18 @@ describe("the Review page's items", () => {
         }]);
     });
 
+    test("an empty Mission is said where it is drawn, Purpose & Beliefs, and keeps its saved key in Definition (doc 45)", () => {
+        const sessions = load();
+        const identity = sessions[1]!;
+        identity.saveResponse(1, { ...(identity.getResponse(1) as object), mission: "" });
+        expect(reviewItems({ sessions, titles, organisationName: "Lumen" }).filter(item => item.group === "open")).toEqual([{
+            group: "open",
+            capability: "foundation",
+            text: "1. Identity System → 2. Purpose & Beliefs: Mission: not answered yet.",
+            place: { systemNumber: 1, sectionNumber: 1, key: "1.1:mission" }
+        }]);
+    });
+
     test("income tax, asked above the Financial Foundation's sections, is said as itself", () => {
         const sessions = load();
         const business = sessions[3]!;

@@ -76,7 +76,7 @@ const DESIGN = [
   ["docs/design/questionnaire/42-value-proposition-questions.md", "proposal", "The Value Proposition tile: the draft sentence and the open items, as proposed.", true],
   ["docs/design/questionnaire/43-offering-questions.md", "specification", "The Offering card: every question and option (O1 to O18), built in part.", true],
   ["docs/design/questionnaire/44-questions-register.md", "generated", "The questions register: every question of the Foundation's cards by card and position, with its permanent code, saved id, control, limit, when it is asked, its start, options and \"i\", and the retired codes; generated from the code.", false],
-  ["docs/design/questionnaire/45-purpose-and-beliefs-questions.md", "proposal", "Purpose & Beliefs: the Identity System's Mission, Vision, Values, Principles, Philosophy and Manifesto as three pair tiles, each text with its guiding questions, control, length, \"i\" and connections (proposed codes PB1 to PB6); not built.", true],
+  ["docs/design/questionnaire/45-purpose-and-beliefs-questions.md", "specification", "Purpose & Beliefs: the Identity System's Mission, Vision, Values, Principles, Philosophy and Manifesto as three pair tiles, each text with its guiding questions, control, length, \"i\" and connections (codes PB1 to PB6); built 2026-11-09 with the owner's decisions (section 6).", true],
 ];
 const chapter = (name) => DESIGN.filter(([p]) => p.startsWith("docs/design/" + name + "/"));
 const CURRENT = chapter("current"), LIBRARY = chapter("library"), CORE = chapter("core"), QUESTIONNAIRE = chapter("questionnaire");
