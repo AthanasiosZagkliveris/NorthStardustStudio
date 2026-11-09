@@ -71,7 +71,8 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
         );
     }
     if (asTiles) {
-        const lines = (list: readonly string[], count = 4) => list.map(text => text.trim()).filter(text => text.length > 0).slice(0, count);
+        // (A tile lists every line, no display cap: its list scrolls where they do not all fit, as every tile's list does; layout rules, "Lists on the tiles".)
+        const lines = (list: readonly string[]) => list.map(text => text.trim()).filter(text => text.length > 0);
         const rail = (section: number) => railId(LEGAL_ENTITY_SECTIONS[section]);
         // (Every dialog of the page opens with the one heading the Business System's do: the title, then its "i".)
         const SECTION_INFO: Record<number, InfoPoint[]> = {
@@ -177,10 +178,10 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
             ? { items: [named[0].name.trim()], marks: [{ centre: true }] }
             : {
                 // (A name, then its share after a dash: two columns, the dashes in one.)
-                items: lines(named.map(founder => founder.name.trim() + "\u0001" + (founder.ownership.trim() ? "\u2014 " + founder.ownership.trim() + "%" : "")), 8),
+                items: lines(named.map(founder => founder.name.trim() + "\u0001" + (founder.ownership.trim() ? "\u2014 " + founder.ownership.trim() + "%" : ""))),
                 marks: named.map(() => undefined)
             };
-        const expenseEntries = entity.expenses.filter(expense => expense.name.trim().length > 0).slice(0, 8);
+        const expenseEntries = entity.expenses.filter(expense => expense.name.trim().length > 0);
         // The lines of the Formation's and the Tax's tiles. (They name no card, so they are no links: what a registration is linked to is a circle on the tile.)
         // (Every line, no cap: the tile's list scrolls where they do not all fit, as every tile's list does.)
         const formationEntries = [
@@ -198,9 +199,9 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
                 id: "legal-entity-founders", title: "Founders & Ownership", large: true, rail: rail(1),
                 // (The dialog holds the Ownership, with the founders' profile tiles under it.)
 // (The founders' profiles: each name a link that opens that founder's card in the dialog. Without the Founders Profile saver, as before: the owners with their shares.)
-                items: holdsFounders ? lines(named.map(founder => founder.name.trim()), 8) : foundersListed.items,
-                itemMarks: holdsFounders ? lines(named.map(founder => founder.name.trim()), 8).map(() => ({ bullet: true })) : foundersListed.marks,
-                links: holdsFounders && !soleFounderSettled ? named.slice(0, 8).map(founder => ({ box: "founder-profile-" + founder.id })) : undefined,
+                items: holdsFounders ? lines(named.map(founder => founder.name.trim())) : foundersListed.items,
+                itemMarks: holdsFounders ? lines(named.map(founder => founder.name.trim())).map(() => ({ bullet: true })) : foundersListed.marks,
+                links: holdsFounders && !soleFounderSettled ? named.map(founder => ({ box: "founder-profile-" + founder.id })) : undefined,
                 content: () => holdsFounders && onChangeFoundersProfile
                     ? (
                         <div className="column-tile-content legal-entity legal-entity-unframed" data-rail={rail(1)}>
@@ -233,7 +234,7 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
             },
             ...(holdsFounders && onChangeFoundersProfile ? [{
                 id: "founders-gaps", title: "Capability", large: true, rail: railId(FOUNDERS_PROFILE_SECTIONS[1]),
-                items: lines([...capability.teamGaps.split("\n"), ...capability.teamCover.split("\n")], 8),
+                items: lines([...capability.teamGaps.split("\n"), ...capability.teamCover.split("\n")]),
                 content: () => (
                     <FoundersProfileEditor
                         value={foundersProfile}

@@ -907,6 +907,23 @@ describe("LegalEntityEditor as tiles", () => {
         expect(screen.getByRole("button", { name: "Add Card" })).toBeTruthy();
     });
 
+    it("lists every expense and every founder on their tiles, no display cap (the list scrolls; owner, 2026-11-09)", () => {
+        const many = Array.from({ length: 11 }, (_entry, at) => at + 1);
+        render(<LegalEntityEditor
+            value={asLegalEntityValue({
+                expenses: many.map(at => ({ ...createLegalEntityExpense(), name: "Fee " + at })),
+                founders: many.map(at => ({ ...createLegalEntityFounder(), name: "Founder " + at, ownership: "9" }))
+            })}
+            onChange={() => undefined}
+            asTiles
+            onChangeFoundersProfile={() => undefined}
+        />);
+        // (The list is the tile's links layer, laid over it: every line is there, the list scrolls where they do not all fit.)
+        const lines = [...document.querySelectorAll(".section-tile-list > li")].map(item => item.textContent?.trim() ?? "");
+        expect(many.every(at => lines.includes("Fee " + at))).toBe(true);
+        expect(many.every(at => lines.includes("Founder " + at))).toBe(true);
+    });
+
     it("opens the Registrations as two sub tiles: Registration Numbers (the formation's and the tax's), Additional legal requirements", () => {
         render(<Tiled />);
         fireEvent.click(document.querySelector("[data-tile=legal-entity-registrations]")!);
