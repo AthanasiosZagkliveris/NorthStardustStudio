@@ -42,7 +42,7 @@ The keys are made from the column titles of `src/assets/SystemAnswers/01_Identit
 | B | Organisation, Positioning, Mission & Vision | **Beliefs**: Values & Principles, Philosophy & Manifesto | None to the data (each tile stays in its own section); departs from the owner's grouping |
 | C (later, only if wanted) | Organisation, Positioning | one master tile **Purpose & Beliefs** opening a dialog with the three pairs as sub tiles (the `view: true` dialog of the Legal Entity tiles) | As A, plus a dialog of sub tiles |
 
-**A pair tile** opens one dialog with two parts, one under the other, each with its own heading and "i" (`DialogHeading`), drawn by the controls they have today; no new component. The tile shows both texts' lines, a hairline between them, as a tile shows one (section 6, 6).
+**A pair tile** opens one dialog with its two parts side by side (owner, 2026-11-09: "place them side by side"), in the Organisation's two columns with the 1px divider between them, one under the other where the window is narrow; each with its own heading and "i" (`DialogHeading`), drawn by the controls they have today. Side by side, a principle stands beside the value it keeps; the "i" no longer explains what the pair beside it already shows (the Values' "the value, then what it means here" and the Principles' "A value says what matters; a principle says what you do about it" were cut, 2026-11-09). The tile shows both texts' lines, a hairline between them, as a tile shows one (section 6, 6).
 
 **Names.** The chapter "Purpose & Beliefs"; the tiles "Mission & Vision", "Values & Principles", "Philosophy & Manifesto" (the ampersand as in the app's other pair names, "Founders & Ownership"). The page "Definition and Ethics" (`PageGroups.ts`) is "Definition and Purpose" (section 6, 2).
 
@@ -83,7 +83,7 @@ Each entry follows doc 40. The "i" follows doc 39, 3.2: the guiding questions fi
 - **Length:** three to five lines; each a word or two, then a colon and what it means here.
 - **The "i" says:**
   - What matters most in how you work? What would you hold to, even at the cost of a sale?
-  - List three to five, one a line: the value, then what it means here.
+  - List three to five, one a line, each with what it means here.
   - Example: "Craft: every piece is finished by hand and checked before it leaves."
 - **Connections.** *Comes from:* nothing asked before. *Read by (built):* the Business Plan, company description, "Values and Principles", the sub-heading "Values" (a list); the Review. *Read by (not built yet):* the check of doc 28, 6.1 and rule 22 (the Profile's "what they care about" compared with the positioning and the Values); the Profile's values shown beside the Brand voice tile (doc 28, R23, open).
 - **Would a choice question help? Rejected.** A pick list of common values ("Integrity", "Quality", "Respect") with own words was weighed:
@@ -101,7 +101,7 @@ Each entry follows doc 40. The "i" follows doc 39, 3.2: the guiding questions fi
 - **Length:** three to seven lines; each one rule, beginning "We …".
 - **The "i" says:**
   - For each value, what do you always do, and what do you always avoid?
-  - One rule a line, beginning "We …". A value says what matters; a principle says what you do about it.
+  - One rule a line, beginning "We …".
   - Example: "We remake any piece with a fault, at no cost, within a year."
 - **Connections.** *Comes from:* the Values (each principle should follow from one). *Read by (built):* the Business Plan, company description, "Values and Principles", the sub-heading "Principles" (a numbered list); the Review. *Read by (not built yet):* none proposed.
 - **Would a choice question help? Rejected.** Tying each principle to a value by a picker would add a step and change nothing in the documents; the "i" asks for the link instead.

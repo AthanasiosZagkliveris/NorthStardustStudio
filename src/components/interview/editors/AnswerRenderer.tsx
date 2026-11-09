@@ -267,7 +267,7 @@ function MultiPartAnswerRenderer({
             const from = section.value && typeof section.value === "object" && !Array.isArray(section.value) ? section.value as Record<string, unknown> : {};
             return [{ part, from, save: (next: Record<string, unknown>) => section.onChange(next), elsewhere: section }];
         };
-        /** A pair tile ("Mission & Vision"): both texts' lines on its face, a hairline between them; its dialog holds the two, one under the other, each with its heading and its "i". */
+        /** A pair tile ("Mission & Vision"): both texts' lines on its face, a hairline between them; its dialog holds the two side by side, each with its heading and its "i". */
         const pairTile = (texts: PairText[]): SectionTile => ({
             id: texts.map(text => text.part.id).join("-"),
             // (A master tile of its chapter: one size with every other, whatever their number; layout rules, section 23.)
@@ -277,10 +277,13 @@ function MultiPartAnswerRenderer({
             rail: texts[0]?.part.id,
             items: texts.flatMap((text, at) => [...(at > 0 ? [TILE_DIVIDER] : []), ...snippet(text.part, text.from)]),
             content: () => (
+                // SIDE BY SIDE (owner, 2026-11-09: "place them side by side"): the two texts in the Organisation's two columns, its 1px divider down the middle,
+                // one under the other where the window is narrow (the grid's own rule): a principle beside the value it keeps, the Vision beside the Mission.
                 <div className="column-tile-content" data-rail={texts[0]?.part.id} role="group" aria-label={texts.map(text => text.part.label).join(" & ")}>
-                    {texts.map((text, at) => {
+                <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization purpose-pair">
+                    {texts.map((text) => {
                         const block = (
-                            <div className="column-tile-content" data-rail={text.part.id} role="group" aria-label={text.part.label}>
+                            <div className="column-tile-content legal-entity-field" data-rail={text.part.id} role="group" aria-label={text.part.label}>
                                 <div className="business-engagement-section-head">
                                     <DialogHeading title={text.part.label} info={guidance(text.part)} />
                                 </div>
@@ -289,7 +292,6 @@ function MultiPartAnswerRenderer({
                         );
                         return (
                             <Fragment key={text.part.id}>
-                                {at > 0 && <div className="business-capability-card-rule" role="separator" />}
                                 {/* (Each text is marked with the keys of the section it is saved in, Mission and Vision with Definition's: its notes, its search results and Review's "Go there" find it; the dialog stands outside the page's own marks.) */}
                                 {fieldPage
                                     ? <FieldPageProvider organizationId={fieldPage.organizationId} systemNumber={fieldPage.systemNumber} sectionNumber={text.elsewhere?.number ?? fieldPage.sectionNumber} pageTitle={fieldPage.pageTitle}>{block}</FieldPageProvider>
@@ -297,6 +299,7 @@ function MultiPartAnswerRenderer({
                             </Fragment>
                         );
                     })}
+                </div>
                 </div>
             )
         });

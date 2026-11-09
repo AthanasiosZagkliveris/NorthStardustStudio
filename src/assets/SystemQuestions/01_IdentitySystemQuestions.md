@@ -44,13 +44,13 @@ Thinking Time: About 1–1.5 hr
 ### Values
 
 - What matters most in how you work? What would you hold to, even at the cost of a sale?
-- List three to five, one a line: the value, then what it means here.
+- List three to five, one a line, each with what it means here.
 - Example: "Craft: every piece is finished by hand and checked before it leaves."
 
 ### Principles
 
 - For each value, what do you always do, and what do you always avoid?
-- One rule a line, beginning "We …". A value says what matters; a principle says what you do about it.
+- One rule a line, beginning "We …".
 - Example: "We remake any piece with a fault, at no cost, within a year."
 
 ### Manifesto
