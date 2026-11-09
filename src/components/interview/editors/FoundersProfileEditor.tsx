@@ -478,11 +478,12 @@ export default function FoundersProfileEditor({
 
     }
 
-    const lines = (list: readonly string[], count = 4) => list.map(text => text.trim()).filter(text => text.length > 0).slice(0, count);
+    /** Every line, as written (no display cap: the tile lists them all and scrolls, as the Legal Entity tiles; owner, 2026-11-09). */
+    const lines = (list: readonly string[]) => list.map(text => text.trim()).filter(text => text.length > 0);
     /** What a founder's tile says: the roles, a line, then the skills and degrees (each as written: no kind before it). */
     const founderLines = (founder: FounderProfileValue & { name: string }) => {
-        const skills = lines(founder.skills.map(entry => entry.text), 6);
-        return [...lines(founder.roles, 5), ...(skills.length > 0 ? [TILE_DIVIDER, ...skills] : [])];
+        const skills = lines(founder.skills.map(entry => entry.text));
+        return [...lines(founder.roles), ...(skills.length > 0 ? [TILE_DIVIDER, ...skills] : [])];
     };
     /** The Capability dialog's body: the gaps and how each is covered. (No "i" on its title: it only repeated the Gaps' and the Cover's, doc 39; owner, 2026-11-09.) */
     const capabilityDialog = (
@@ -546,8 +547,8 @@ export default function FoundersProfileEditor({
             ...founders.map((founder, index): SectionTile => {
                 // The roles, a line, then the skills and degrees: two lists, each line with its bullet.
                 // (The skills as the section lists them, each as written: no kind before it.)
-                const skills = lines(founder.skills.map(entry => entry.text), 6);
-                const listed = [...lines(founder.roles, 5), ...(skills.length > 0 ? [TILE_DIVIDER, ...skills] : [])];
+                const skills = lines(founder.skills.map(entry => entry.text));
+                const listed = [...lines(founder.roles), ...(skills.length > 0 ? [TILE_DIVIDER, ...skills] : [])];
                 return {
                 id: "founder-profile-" + founder.id,
                 large: true,
@@ -564,10 +565,10 @@ export default function FoundersProfileEditor({
                 // (Named for what it holds, with no order number: a gaps text and a cover text.)
                 title: "Capability",
                 rail: railId(FOUNDERS_PROFILE_SECTIONS[1]),
-                items: lines([...profile.teamGaps.split("\n"), ...profile.teamCover.split("\n")], 8),
+                items: lines([...profile.teamGaps.split("\n"), ...profile.teamCover.split("\n")]),
                 content: () => (
                     <div className="column-tile-content legal-entity legal-entity-unframed founders-profile" data-rail={railId(FOUNDERS_PROFILE_SECTIONS[1])}>
-                        <div className="business-engagement-section-head"><DialogHeading title="Capability" info={INFO.teamGaps} /></div>
+                        <div className="business-engagement-section-head"><DialogHeading title="Capability" /></div>
                         <div className="legal-entity-body">
                             {field("Gaps", [INFO.teamGaps[0]], (
                                 <StrategyTextArea
