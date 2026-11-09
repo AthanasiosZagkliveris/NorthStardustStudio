@@ -1466,8 +1466,9 @@
 
 }
 
-/* A divider line under the title of each question of the Positioning card, across its column. */
-.legal-entity-audience .legal-entity-label-info{
+/* A divider line under the title of each question of the Positioning card, across its column; and under the Value Proposition's Emotional Needs and Social Needs (owner, 2026-11-09). */
+.legal-entity-audience .legal-entity-label-info,
+.business-proposition-needs .legal-entity-pair > .legal-entity-label{
 
     display:flex;
 
