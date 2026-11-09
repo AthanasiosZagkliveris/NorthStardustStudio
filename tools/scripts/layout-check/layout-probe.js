@@ -384,8 +384,8 @@
             for (const cell of cells) {
                 const control = cell.matches(CONTROL) ? cell : cell.querySelector(CONTROL);
                 // A cell that is a row of its own (the VAT tick and its number, a list of numbers) is checked as one.
-                // (The right column of a grid of bands, the Positioning's and the Organisation's, starts its controls 12px after the middle divider, inside its own padding: declared, 2026-11-09.)
-                if (!control || !visible(control) || cell.classList.contains("business-field-inline") || cell.classList.contains("business-field-side") || cell.classList.contains("legal-entity-field-side") || cell.matches(".business-capability-cost-after:has(> .business-field-side), .legal-entity-tax-row, .legal-entity-registrations, .legal-entity-field-wide:has(.legal-entity-number-row), .legal-entity-field:has(> .numbered-list), .legal-entity-side-row, .founders-profile-row, .legal-entity-audience > .legal-entity-field + .legal-entity-field")) {
+                // (The right column of a grid of bands, the Positioning's and the Organisation's, starts its controls 12px after the middle divider, inside its own padding; a Legal card's row is a band from the card's side, its control inside its padding: declared, 2026-11-09.)
+                if (!control || !visible(control) || cell.classList.contains("business-field-inline") || cell.classList.contains("business-field-side") || cell.classList.contains("legal-entity-field-side") || cell.matches(".business-capability-cost-after:has(> .business-field-side), .legal-entity-tax-row, .legal-entity-registrations, .legal-entity-field-wide:has(.legal-entity-number-row), .legal-entity-field:has(> .numbered-list), .legal-entity-side-row, .founders-profile-row, .legal-entity-audience > .legal-entity-field + .legal-entity-field, .legal-entity-grid-requirement > *, .legal-entity-grid-expense-card > .legal-entity-field-wide")) {
                     continue;
                 }
                 // DECLARED (docs/ai/tile-and-card-pattern.md, "Text holders and side cells"): in a box of bands (the Segment and Profile cards) a label with its cell beside it has the cell at the right end of the band, level with the label; `npm run check:card` measures it.
@@ -793,8 +793,8 @@
                     // (The Profile's Needs are bands of the same grid, outside a box: since their Emotional and Social notes became the shared Notes,
                     // 2026-11-05, a box's text stands over the next band's question as in every box.)
                     // (The Value Proposition's bands, 2026-11-09: a section of bands straight in its full-width grid, as the Needs are in theirs.)
-                    // (The Organisation's and the Positioning's bands, 2026-11-09: their fields and questions are bands of their columns.)
-                    if (item.element.closest(".business-segment-box, .business-segment-grid-single .legal-entity-org-section, .business-segment-grid-full > .legal-entity-field > .legal-entity-org-section, .business-proposition-needs > .legal-entity-field > .legal-entity-org-section, .legal-entity-audience > .legal-entity-field .legal-entity-org-section")) {
+                    // (The Organisation's and the Positioning's bands, 2026-11-09: their fields and questions are bands of their columns; so are the rows of a Legal card.)
+                    if (item.element.closest(".business-segment-box, .business-segment-grid-single .legal-entity-org-section, .business-segment-grid-full > .legal-entity-field > .legal-entity-org-section, .business-proposition-needs > .legal-entity-field > .legal-entity-org-section, .legal-entity-audience > .legal-entity-field .legal-entity-org-section, .floating-card-body .legal-entity-grid-requirement > *, .floating-card-body .legal-entity-grid-expense-card > *")) {
                         continue;
                     }
                     // What stands directly above it, in its column, in the same card.
