@@ -16,7 +16,6 @@ vi.mock("../services/GlossaryService", async (importOriginal) => {
 });
 
 import Workbook, { GLOSSARY_INFO, WorkbookRedirect, letterRanges } from "./Workbook";
-import GlossaryButton from "../components/GlossaryButton";
 import { WorkbookButton } from "../components/notepad/Notepad";
 import { NotepadService } from "../services/NotepadService";
 import { OrganizationService } from "../services/OrganizationService";
@@ -38,14 +37,15 @@ afterEach(cleanup);
 function open() {
     render(
         <MemoryRouter initialEntries={["/assistant"]}>
-            <GlossaryButton />
+            <WorkbookButton total />
             <Routes>
                 <Route path="/assistant" element={<Where name="System Selection" />} />
                 <Route path="/workbook" element={<Workbook />} />
             </Routes>
         </MemoryRouter>
     );
-    act(() => { fireEvent.click(screen.getAllByRole("button", { name: "Glossary and references" })[0]); });
+    act(() => { fireEvent.click(screen.getAllByRole("button", { name: /^Workbook/ })[0]); });
+    act(() => { fireEvent.click(screen.getByRole("tab", { name: "Glossary" })); });
 }
 
 describe("the Glossary", () => {
@@ -176,10 +176,10 @@ describe("the Glossary's titles", () => {
 
 describe("the Workbook, a whole page (owner, 2026-11-09)", () => {
 
-    function openFrom(pathname: string, button: "workbook" | "glossary" = "workbook") {
+    function openFrom(pathname: string, button: "workbook" | "landing" = "workbook") {
         render(
             <MemoryRouter initialEntries={[pathname]}>
-                {button === "workbook" ? <WorkbookButton /> : <GlossaryButton />}
+                <WorkbookButton total={button === "landing"} />
                 <Routes>
                     <Route path="/assistant" element={<Where name="System Selection" />} />
                     <Route path="/conversation" element={<Where name="The interview" />} />
@@ -187,7 +187,7 @@ describe("the Workbook, a whole page (owner, 2026-11-09)", () => {
                 </Routes>
             </MemoryRouter>
         );
-        act(() => { fireEvent.click(screen.getAllByRole("button", { name: button === "workbook" ? /^Workbook/ : "Glossary and references" })[0]); });
+        act(() => { fireEvent.click(screen.getAllByRole("button", { name: /^Workbook/ })[0]); });
     }
 
     it("opens from the header's Workbook on the Card Notes, with the Review, the Glossary and the References as its other tabs", () => {
@@ -207,8 +207,8 @@ describe("the Workbook, a whole page (owner, 2026-11-09)", () => {
         expect(screen.getByRole("tablist", { name: "Workbook" })).toBeTruthy();
     });
 
-    it("opens from the Landing page's Glossary with the Landing's tabs: the total review, the Glossary and the References", () => {
-        openFrom("/assistant", "glossary");
+    it("opens from the Landing page's Workbook (the same button) with the Landing's tabs: the total review, the Glossary and the References", () => {
+        openFrom("/assistant", "landing");
         const tabs = within(screen.getByRole("tablist", { name: "Workbook" })).getAllByRole("tab").map(tab => tab.textContent);
         expect(tabs).toEqual(["Review", "Glossary", "References"]);
         act(() => { fireEvent.click(screen.getByRole("tab", { name: "Review" })); });
@@ -224,7 +224,7 @@ describe("the Workbook, a whole page (owner, 2026-11-09)", () => {
 
     it("filters the total review by Organisation: all ticked at first, one ticked off leaves its review out (owner, 2026-11-09)", () => {
         OrganizationService.create("Quillfield");
-        openFrom("/assistant", "glossary");
+        openFrom("/assistant", "landing");
         act(() => { fireEvent.click(screen.getByRole("tab", { name: "Review" })); });
         const names = () => [...document.querySelectorAll("section.review-organization")].map(section => section.getAttribute("aria-label") ?? "");
         expect(names()).toContain("Lumen");

@@ -74,14 +74,14 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Glossary | Header › Workbook (`/workbook`) › Glossary; also the Landing page's Glossary, Search and `/glossary`: the app's terms and yours, in two colours, under ONE funnel of the two kinds and the letter ranges (about twenty terms a range; one funnel since 2026-11-09); the second tab is References, with a funnel by letter range (A–I, K–Z) | Doc 1, C.2; doc 2, 2.1 |
+| Glossary | Header › Workbook (`/workbook`) › Glossary; also the Landing page's Workbook, Search and `/glossary`: the app's terms and yours, in two colours, under ONE funnel of the two kinds and the letter ranges (about twenty terms a range; one funnel since 2026-11-09); the second tab is References, with a funnel by letter range (A–I, K–Z) | Doc 1, C.2; doc 2, 2.1 |
 | Global Settings | Header › Settings (`/settings`) | Doc 28, 8.2a; doc 1, Part D 6; `contents.md` |
 
 ## H
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Header | Every page with an Organisation open: save status, reading mode, Focus, Search, Workbook (the Workbook page: Card Notes, Review, Glossary, References), Notes (the Notes panel), Settings; the Landing page: reading mode, Reload, Review (every organisation), Glossary | `contents.md` |
+| Header | Every page with an Organisation open: save status, reading mode, Focus, Search, Workbook (the Workbook page: Card Notes, Review, Glossary, References), Notes (the Notes panel), Settings; the Landing page: reading mode, Reload, the same Workbook (Review of every organisation, Glossary, References) | `contents.md` |
 | Help tile | Business › 3 Infrastructure & Capability › the footer band: Inventory and Completed | Page 3; doc 1, C.5 |
 
 ## I
@@ -173,4 +173,4 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Value Proposition | Business › 1 Foundation › Value Proposition | Doc 42; doc 28, 6.7; page 1 |
 | Values | Identity › 1 Definition and Purpose › Purpose & Beliefs › Values & Principles | Doc 45, 3.3 |
 | Vision | Identity › 1 Definition and Purpose › Purpose & Beliefs › Mission & Vision (saved in Definition) | Doc 45, 3.2 |
-| Workbook | Header, wherever an Organisation is open (2026-11-09): one button, no count, opening the Workbook page (`/workbook`, laid out as the Glossary page was) with four tabs, Card Notes, Review, Glossary and References; Back or Escape returns | `contents.md` |
+| Workbook | Header, wherever an Organisation is open (2026-11-09): one button, no count, opening the Workbook page (`/workbook`, laid out as the Glossary page was) with four tabs, Card Notes, Review, Glossary and References; on the Landing page the same button opens it with Review (every organisation), Glossary and References; Back or Escape returns | `contents.md` |

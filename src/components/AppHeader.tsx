@@ -4,8 +4,6 @@ import AddButton from "./controls/AddButton.tsx";
 import SaveStatus from "./SaveStatus";
 import { WorkbookButton, NotepadButton, NotepadPanel, NotepadPicker } from "./notepad/Notepad";
 import FocusModeButton from "./FocusModeButton";
-import GlossaryButton from "./GlossaryButton";
-import ReviewButton from "./ReviewButton";
 import SearchButton from "./SearchButton";
 import SettingsButton from "./SettingsButton";
 import ThemeSwitch from "./ThemeSwitch";
@@ -28,7 +26,7 @@ interface AppHeaderProps {
     focusable?: boolean;
     /** The landing page: a Reload tool beside the theme switch (the app's view is drawn again; the data is kept: it is on disk). */
     reloadable?: boolean;
-    /** The landing page: the Review tool is offered, for every Organization (none is open), and the Glossary. */
+    /** The landing page: the Workbook is offered with the review of every Organization (none is open), the Glossary and the References. */
     totalReview?: boolean;
     /** Called before the reload (the Landing page refreshes the saved examples from the current example files). */
     onReload?: () => void;
@@ -68,11 +66,9 @@ export default function AppHeader({ organizationName, focusable = false, reloada
 
             {/* Search (Ctrl+K), the Workbook (the Card Notes, the Review, the Glossary and the References: one page, /workbook; owner, 2026-11-09) and the person's own notes (the Notes tool, its side panel, as before: "Card Notes and Notes tool are different"): wherever an Organization is open. */}
             {organizationName && <SearchButton />}
-            {organizationName && <WorkbookButton />}
+            {/* The Workbook: the same button on the Landing page (owner, 2026-11-09), there with the review of every Organisation, the Glossary and the References. */}
+            {(organizationName || totalReview) && <WorkbookButton total={!organizationName} />}
             {organizationName && <NotepadButton />}
-            {/* The Landing page: the review of every Organisation and the Glossary (no Organisation is open there, so no Workbook). */}
-            {!organizationName && totalReview && <ReviewButton total />}
-            {!organizationName && totalReview && <GlossaryButton />}
             {organizationName && <SettingsButton />}
             {organizationName && <NotepadPanel />}
             {organizationName && <NotepadPicker />}

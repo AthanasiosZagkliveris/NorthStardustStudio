@@ -101,9 +101,11 @@ export function openWorkbook(navigate: NavigateFunction, location: { pathname: s
 /**
  * The header's Workbook button: icon and word (icon alone when narrow), with no count (owner, 2026-11-09). It opens the Workbook page;
  * on it, it does nothing. Its icon is a closed notebook with a bookmark, its own among the header tools (the reading mode's Sepia is the
- * open book, the Notes' the page).
+ * open book, the Notes' the page). One button for every header (owner, 2026-11-09: "The workbook should exist on landing page"): with
+ * an Organisation open, the Card Notes, Review, Glossary and References; on the Landing page (`total`, no Organisation open), the review
+ * of every Organisation, the Glossary and the References.
  */
-export function WorkbookButton() {
+export function WorkbookButton({ total = false }: { total?: boolean }) {
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -112,10 +114,10 @@ export function WorkbookButton() {
     return (
         <AddButton className="header-tool"
             aria-current={here ? "page" : undefined}
-            aria-label="Workbook: card notes, review and glossary"
+            aria-label={total ? "Workbook: review, glossary and references" : "Workbook: card notes, review and glossary"}
             onClick={() => {
                 if (!here) {
-                    openWorkbook(navigate, location);
+                    openWorkbook(navigate, location, total ? { total: true } : {});
                 }
             }}>
             <svg className="header-tool-icon" viewBox="0 0 20 20" aria-hidden="true">

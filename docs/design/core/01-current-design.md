@@ -117,7 +117,7 @@ Pages come from `src/assets/SystemAnswers/01..04_*.md`. Each page's `Structure` 
 | Element | Contains and does | File | Used on |
 |---|---|---|---|
 | App header | Logo, save status, reading-mode picker, Focus mode, Search, Glossary, Notes, Review, Settings, undo toast, organisation name | `C/AppHeader.tsx` | All pages |
-| Header tools | Icon plus word (the icon alone below 1700px): Search (Ctrl+K), Workbook (no count, a closed notebook icon; 2026-11-09), Notes (with the count of notes), Settings, Focus mode | `SearchButton`, `WorkbookButton`, `NotepadButton` (`notepad/Notepad.tsx`), `SettingsButton`, `FocusModeButton` | With an organisation open; on the Landing page Review (no count, the review of every organisation) and Glossary (`ReviewButton`, `GlossaryButton`), which open the Workbook page |
+| Header tools | Icon plus word (the icon alone below 1700px): Search (Ctrl+K), Workbook (no count, a closed notebook icon; 2026-11-09), Notes (with the count of notes), Settings, Focus mode | `SearchButton`, `WorkbookButton`, `NotepadButton` (`notepad/Notepad.tsx`), `SettingsButton`, `FocusModeButton` | With an organisation open; on the Landing page the same `WorkbookButton` (`total`: the review of every organisation, the Glossary and the References) |
 | Save status | Saved or failed-save hint | `C/SaveStatus.tsx` | Header |
 | Theme switch | Reading mode | `C/ThemeSwitch.tsx` | Header |
 | Footer | Back button | `C/AppFooter.tsx` | Interview, Workbook, Documents, Settings |

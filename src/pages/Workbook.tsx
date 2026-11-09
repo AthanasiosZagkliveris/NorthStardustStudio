@@ -58,9 +58,9 @@ export const GLOSSARY_INFO: Record<"glossary" | "references", string[]> = {
  * Glossary: the shared GlossaryList (every term in one A to Z list, in two colours, under one funnel of the kinds and the letter
  * ranges). References: every source the app cites (Sources.ts), as a Harvard reference list, with a funnel of letter ranges.
  *
- * Opened from the header's Workbook (with an Organisation open), from the Landing page's Review (the total review: every
- * Organisation, `total`, with a funnel of the Organisations) and Glossary -- there no Organisation is open, so the page has the Landing's header and no Card Notes --,
- * and from a Glossary result of the search. Escape, and Back, return to where it was opened from.
+ * Opened from the header's Workbook: with an Organisation open, and on the Landing page (the same button, `total`: the review of every
+ * Organisation, with a funnel of the Organisations; there no Organisation is open, so the page has the Landing's header and the Card Notes,
+ * one Organisation's, are left out), and from a Glossary result of the search. Escape, and Back, return to where it was opened from.
  */
 export default function Workbook() {
 

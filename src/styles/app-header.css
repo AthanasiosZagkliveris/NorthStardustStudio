@@ -167,8 +167,8 @@
 
 }
 
-/* THE HEADER'S TOOLS: Notes (Notepad.tsx) and Review (ReviewButton.tsx),
-   side by side, each an icon and a word (the icon alone in a narrow
+/* THE HEADER'S TOOLS: Notes and the Workbook (Notepad.tsx), Search and
+   Settings, side by side, each an icon and a word (the icon alone in a narrow
    header, the word kept in its name) and, where there is one, a count. */
 
 .header-tool {

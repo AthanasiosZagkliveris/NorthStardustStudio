@@ -4,7 +4,7 @@ import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
 
 // (The Review is the Workbook page's Review tab since 2026-11-09; /review opens it there.)
 import Workbook from "./Workbook";
-import ReviewButton from "../components/ReviewButton";
+import { WorkbookButton } from "../components/notepad/Notepad";
 import { OrganizationService } from "../services/OrganizationService";
 
 /** Where the app is, and how many times it has moved. */
@@ -26,10 +26,10 @@ afterEach(cleanup);
 
 describe("opening Review", () => {
 
-    it("opens from the header and stays; pressing Review again there does nothing", async () => {
+    it("opens from the header Workbook on its Review tab and stays; pressing the Workbook again there does nothing", async () => {
         render(
             <MemoryRouter initialEntries={["/assistant"]}>
-                <ReviewButton />
+                <WorkbookButton />
                 <Routes>
                     <Route path="/assistant" element={<Where name="System Selection" />} />
                     <Route path="/workbook" element={<Workbook />} />
@@ -37,14 +37,15 @@ describe("opening Review", () => {
             </MemoryRouter>
         );
 
-        act(() => { fireEvent.click(screen.getAllByRole("button", { name: /^Review,/ })[0]); });
+        act(() => { fireEvent.click(screen.getAllByRole("button", { name: /^Workbook/ })[0]); });
+        act(() => { fireEvent.click(screen.getByRole("tab", { name: "Review" })); });
         expect(screen.getByRole("heading", { name: "Review" })).toBeTruthy();
 
         // Still there after the page has settled (its effects have run).
         await act(async () => { await new Promise(resolve => setTimeout(resolve, 20)); });
         expect(screen.getByRole("heading", { name: "Review" })).toBeTruthy();
 
-        act(() => { fireEvent.click(screen.getAllByRole("button", { name: /^Review,/ })[0]); });
+        act(() => { fireEvent.click(screen.getAllByRole("button", { name: /^Workbook/ })[0]); });
         expect(screen.getByRole("heading", { name: "Review" })).toBeTruthy();
     });
 
@@ -127,9 +128,9 @@ describe("Review across Organisations", () => {
         OrganizationService.create("Quillfield");
         renderReview({ total: true });
         const header = document.querySelector(".app-header")!;
-        // (No Organisation's tools -- no Search -- and the total Review button, as on the Landing page.)
+        // (No Organisation's tools -- no Search -- and the Workbook, the same button as on the Landing page.)
         expect([...header.querySelectorAll("button")].some(button => /Search/.test(button.getAttribute("aria-label") ?? ""))).toBe(false);
-        expect([...header.querySelectorAll("button")].some(button => /^Review/.test(button.getAttribute("aria-label") ?? ""))).toBe(true);
+        expect([...header.querySelectorAll("button")].some(button => /^Workbook/.test(button.getAttribute("aria-label") ?? ""))).toBe(true);
     });
 
     it("says a count once: a group's count that repeats the Organisation's is left out, and the Capability's sub-head shows only where a group spans several", () => {
