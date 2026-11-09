@@ -738,7 +738,7 @@ drawn only in a dialog that its tile opens.
   - a link either way opens BOTH as floating cards, stacked: the **parent above the child**, 12px apart (each with its own box name above it, the caption of the child 12px over it), on one centre line, the parent's top on the first row's top; whatever was open gives way; Back or
     Escape closes both; if either is gone (the Status changed in the open parent) the pair closes.
   The Workspace is the parent of the same tie but its form is FROZEN: it gets no link line (its own line "Recorded under 2. Activities as ..." stays as it is, in the form); its child links back to it.
-- **Tile grids: ONE SHAPE.** Every set of tiles, subcategory boxes and card boxes takes the same shape
+- **Tile grids: ONE SHAPE.** Every set of tiles, subcategory boxes and fixed card boxes takes the same shape
   (`gridColumns(n)`, mirrored by the probe): **one to three in a single row, exactly four as a 2 x 2 square, five or more
   in TWO rows** (`ceil(n / 2)` across, the last row possibly shorter). On the page the groups are left-aligned, 12px apart every way,
   the tiles square and never stretched, a group too narrow for its row wrapping to fewer across: Infrastructure ›
@@ -752,6 +752,7 @@ drawn only in a dialog that its tile opens.
   the Activities group with five categories or more was a column of two across (three rows) and is now two rows; Offering's
   Capability with seven or more tiles was 3 x 3 and is now 4 x 2 or wider; Offering's two partner kinds in a dialog were a column
   of two and are now a row of two.
+  **A list of cards one adds to is three in a row** (owner, 2026-11-09: "each row should fit 3 tiles like all the other cards"): a dialog's cards with their "+ Add card" (`CardBoxes` with an `add`: Additional Legal Requirements, Expenses, a category's cards ...) stand three across however many there are (`CARD_LIST_COLUMNS`), and the add box takes the next free place, after the last card (a fourth card's row has the add box beside it); fewer across only where the dialog is too narrow for three. The probe checks both. The page's groups of tiles keep the one shape.
   **There is no tail tile.** The grey Completed tile is not part of any group's grid: it is one of the two rectangles of the Inventory and Completed row, in the footer band level with Back (section 12), and the same tile on every page. Infrastructure's three sections keep their heading (number, title, "i") as a PLAIN heading of
   `--section-head-height` (36px) over their tiles: **no fold arrow and no fold behaviour, and no "Expand all"** on them (the
   tiles are the grouping). Offering's Capability holds its tiles directly, under a heading-height **spacer**
@@ -874,8 +875,8 @@ drawn only in a dialog that its tile opens.
   section it stands in (Infrastructure, Offering's Capability, a Customer Channel's teal; a legal expense the Legal Entity's neutral ground). Under the name
   (with its number where the list is numbered: "1. Xero accounting") the lines are the same everywhere: where it belongs (section, group, subgroup), its
   status, its cost and frequency. A small coloured circle per link (Activity, Investigate, Partner, Provider). Hover is the page tile's (lift, glow,
-  transition) at 110%, growing INWARDS from the side of the grid it stands on. Grids start at the left, in the ONE SHAPE of every tile grid ("Tile grids", above: `CardBoxes` gives `TileGrid` the `gridColumns` of its cards; fewer across only where the dialog is too narrow; the Strategy cards' `threeAcross` grids keep their three), 12px apart; the add box ends
-  the flow (half the side, dashed, "Add Resource" / "Add Activity" / "Add Partner" / "Add Provider"). A tile is pressed to open its card FLOATING; Activities
+  transition) at 110%, growing INWARDS from the side of the grid it stands on. Grids start at the left, in the ONE SHAPE of every tile grid ("Tile grids", above: `CardBoxes` gives `TileGrid` three across for a list with an add box (`CARD_LIST_COLUMNS`), else the `gridColumns` of its cards; fewer across only where the dialog is too narrow; the Strategy cards' `threeAcross` grids keep their three), 12px apart; the add box ends
+  the flow, in the next free place, (half the side, dashed, "Add Resource" / "Add Activity" / "Add Partner" / "Add Provider"). A tile is pressed to open its card FLOATING; Activities
   are ordered by dragging one onto another (grab hand; faded while dragged; a dashed edge on the one it is over); a completed activity's tile is the grey.
   A section with no cards opens directly on ONE new blank card, as before. There is no other tile markup or stylesheet for cards: change `CardTile` /
   `card-tile.css` and every grid changes. (`cardBoxLayout` and the 96px floor are gone; the probe's card tile rule checks side, gaps, title size, add box.)

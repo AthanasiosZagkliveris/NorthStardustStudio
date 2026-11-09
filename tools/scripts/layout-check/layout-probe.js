@@ -1607,6 +1607,22 @@
                     if (all.indexOf(add) !== all.length - adds.length) {
                         fail("the add box comes after the last card tile", add, {});
                     }
+                    // A LIST OF CARDS ONE ADDS TO (layout-rules, "Tile grids"; owner, 2026-11-09): three in a row, the add box in the next free place,
+                    // where the grid is wide enough for three at the tile size (a narrower dialog wraps to fewer).
+                    if (boxes.length > 0 && !grid.closest(".strategy-goal-box")) {
+                        const placedAll = [...boxes, add].map(rect);
+                        const across = rules.distinct(placedAll.map(tile => Math.round(tile.left))).length;
+                        const wanted = Math.min(3, placedAll.length);
+                        const fits = wanted * placedAll[0].width + (wanted - 1) * spec.fieldGap <= rect(grid).width + 1;
+                        if (fits && across !== wanted) {
+                            fail("a list of cards with an add box is three in a row", grid, { across, wanted, n: boxes.length });
+                        }
+                        const last = rect(boxes[boxes.length - 1]);
+                        const next = boxes.length % 3 === 0 ? null : last.right + spec.fieldGap;
+                        if (fits && next !== null && (!rules.near(a.left, next, tolerance + 1) || !rules.near(a.top, last.top, tolerance + 1))) {
+                            fail("the add box of a list of cards takes the next free place", add, { left: a.left, top: a.top, expected: [next, last.top] });
+                        }
+                    }
                     if (!/^Add [A-Z]/.test(add.getAttribute("aria-label") || "")) {
                         fail("the add box is named 'Add <Item>' (title case)", add, { label: add.getAttribute("aria-label") });
                     }
