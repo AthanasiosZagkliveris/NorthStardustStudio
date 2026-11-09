@@ -100,9 +100,11 @@ export default function SectionTiles({
     // THE FOUR TILES OF A PAGE CARD (2 x 2) are as large as the card's width allows, but never so large that the card and the footer do not both stand in the
     // window: the side is also held to what the window's height leaves under the card's title (measured at the page's top).
     const quadBox = useRef<HTMLDivElement | null>(null);
-    // (Two large tiles stand side by side, in one row of the same squares.)
-    const big = !small && (tiles.length === 4 || (tiles.length > 0 && tiles.length <= 2 && tiles.every(tile => tile.large)));
-    const bigRows = tiles.length === 4 ? 2 : 1;
+    // (Two large tiles stand side by side, in one row of the same squares. MASTER TILES NEVER CHANGE THEIR SIZES, AND LAYOUT (owner, 2026-11-09; layout rules, section 23):
+    // three large tiles are the 2 x 2 of four, its fourth place empty, so a chapter of three has the tiles of a chapter of four in the same window.)
+    const threeLarge = tiles.length === 3 && tiles.every(tile => tile.large);
+    const big = !small && (tiles.length === 4 || threeLarge || (tiles.length > 0 && tiles.length <= 2 && tiles.every(tile => tile.large)));
+    const bigRows = tiles.length >= 3 ? 2 : 1;
     useLayoutEffect(() => {
         const box = quadBox.current;
         if (!box || !big) {
@@ -152,7 +154,7 @@ export default function SectionTiles({
 
     // The shape counts every tile but the tail one (if any), which is placed beside the last of them.
     const others = tiles.filter(tile => !tile.tail);
-    const shape = gridColumns(others.length);
+    const shape = big && threeLarge ? 2 : gridColumns(others.length);
     const placement = others.length < tiles.length ? tailPlacement(others.length, shape) : null;
     const columns = placement ? placement.columns : shape;
     const rows = placement ? Math.max(placement.row, Math.ceil(others.length / shape)) : Math.ceil(others.length / shape);

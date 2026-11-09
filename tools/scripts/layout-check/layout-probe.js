@@ -1341,6 +1341,33 @@
             }
         }
 
+        // 17a. MASTER TILES NEVER CHANGE THEIR SIZES, AND LAYOUT (owner, 2026-11-09; layout rules, section 23): on a page, every
+        //      master tile of every chapter (the tiles of a .section-tiles-quad: four, three in the 2 x 2 with its fourth place
+        //      empty, two large ones) has one and the same side, min((the box's width - the gap) / 2, its --quad-max-side).
+        {
+            const masters = [...document.querySelectorAll(".section-tiles-quad")]
+                .filter(quad => !quad.closest(".section-tile-dialog, .floating-card-host") && visible(quad));
+            const sides = [];
+            for (const quad of masters) {
+                const style = getComputedStyle(quad);
+                const gap = parseFloat(style.getPropertyValue("--space-card")) || spec.fieldGap;
+                const most = parseFloat(style.getPropertyValue("--quad-max-side")) || Infinity;
+                const inner = quad.clientWidth - (parseFloat(style.paddingLeft) || 0) - (parseFloat(style.paddingRight) || 0);
+                const wanted = Math.min((inner - gap) / 2, most);
+                for (const tile of [...quad.querySelectorAll(".section-tile[data-tile]")].filter(visible)) {
+                    // (offsetWidth: the tile under the pointer is grown on hover, and a rect would read that.)
+                    const side = tile.offsetWidth;
+                    sides.push(side);
+                    if (!rules.near(side, wanted, 1.5)) {
+                        fail("a chapter's master tiles are min((the box's width - the gap) / 2, --quad-max-side) a side, whatever their number", tile, { side, wanted });
+                    }
+                }
+            }
+            if (sides.length > 1 && Math.max(...sides) - Math.min(...sides) > 1.5) {
+                fail("every master tile of every chapter of a page has one side", masters[0], { sides: [...new Set(sides)] });
+            }
+        }
+
         // 17. SECTION TILES (docs/ai/layout-rules.md, "Section tiles and dialog"): every
         //     tile is a true square of the one size -- a third of its group's width less the
         //     two gaps (--section-tile-size, never under --section-tile-min), so three across
