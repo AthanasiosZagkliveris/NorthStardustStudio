@@ -15,8 +15,10 @@ vi.mock("../services/GlossaryService", async (importOriginal) => {
     };
 });
 
-import Glossary, { GLOSSARY_INFO, letterRanges } from "./Glossary";
+import Workbook, { GLOSSARY_INFO, WorkbookRedirect, letterRanges } from "./Workbook";
 import GlossaryButton from "../components/GlossaryButton";
+import { WorkbookButton } from "../components/notepad/Notepad";
+import { NotepadService } from "../services/NotepadService";
 import { OrganizationService } from "../services/OrganizationService";
 import { harvardReference, SOURCES } from "../framework/engine/Sources";
 
@@ -39,7 +41,7 @@ function open() {
             <GlossaryButton />
             <Routes>
                 <Route path="/assistant" element={<Where name="System Selection" />} />
-                <Route path="/glossary" element={<Glossary />} />
+                <Route path="/workbook" element={<Workbook />} />
             </Routes>
         </MemoryRouter>
     );
@@ -167,6 +169,81 @@ describe("the Glossary's titles", () => {
             for (const point of points) {
                 expect(point.length).toBeLessThanOrEqual(160);
             }
+        }
+    });
+
+});
+
+describe("the Workbook, a whole page (owner, 2026-11-09)", () => {
+
+    function openFrom(pathname: string, button: "workbook" | "glossary" = "workbook") {
+        render(
+            <MemoryRouter initialEntries={[pathname]}>
+                {button === "workbook" ? <WorkbookButton /> : <GlossaryButton />}
+                <Routes>
+                    <Route path="/assistant" element={<Where name="System Selection" />} />
+                    <Route path="/conversation" element={<Where name="The interview" />} />
+                    <Route path="/workbook" element={<Workbook />} />
+                </Routes>
+            </MemoryRouter>
+        );
+        act(() => { fireEvent.click(screen.getAllByRole("button", { name: button === "workbook" ? /^Workbook/ : "Glossary and references" })[0]); });
+    }
+
+    it("opens from the header's Workbook on the Notes, with the Review, the Glossary and the References as its other tabs", () => {
+        openFrom("/assistant");
+        const tabs = within(screen.getByRole("tablist", { name: "Workbook" })).getAllByRole("tab").map(tab => tab.textContent);
+        expect(tabs).toEqual(["Notes", "Review", "Glossary", "References"]);
+        expect(screen.getByRole("heading", { name: "Notes" })).toBeTruthy();
+        expect(screen.getByRole("button", { name: "+ Add note" })).toBeTruthy();
+        // No side panel: the notes are on the page.
+        expect(document.querySelector(".notepad-panel")).toBeNull();
+        act(() => { fireEvent.click(screen.getByRole("button", { name: "+ Add note" })); });
+        expect(screen.getAllByRole("textbox", { name: "Note" })).toHaveLength(1);
+        act(() => { fireEvent.click(screen.getByRole("tab", { name: "Review" })); });
+        expect(document.querySelector(".review-organization")).toBeTruthy();
+        // Pressed again on the page: it stays.
+        act(() => { fireEvent.click(screen.getAllByRole("button", { name: /^Workbook/ })[0]); });
+        expect(screen.getByRole("tablist", { name: "Workbook" })).toBeTruthy();
+    });
+
+    it("opens from the Landing page's Glossary with the Landing's tabs: the total review, the Glossary and the References", () => {
+        openFrom("/assistant", "glossary");
+        const tabs = within(screen.getByRole("tablist", { name: "Workbook" })).getAllByRole("tab").map(tab => tab.textContent);
+        expect(tabs).toEqual(["Review", "Glossary", "References"]);
+        act(() => { fireEvent.click(screen.getByRole("tab", { name: "Review" })); });
+        expect(screen.getByRole("heading", { name: "Total review" })).toBeTruthy();
+    });
+
+    it("links a field by going back to the form it was opened from and picking there, in the small panel", () => {
+        const note = NotepadService.addNote(OrganizationService.getSelected()!);
+        openFrom("/conversation");
+        act(() => { fireEvent.click(screen.getByRole("button", { name: "Link a field" })); });
+        expect(screen.getByText("The interview at /conversation")).toBeTruthy();
+        expect(NotepadService.view()).toMatchObject({ open: true, pickingFor: note });
+        act(() => { NotepadService.close(); });
+    });
+
+    it("does not offer to link a field where there is no form to go back to (a \"#\" still links a place)", () => {
+        NotepadService.addNote(OrganizationService.getSelected()!);
+        openFrom("/assistant");
+        expect(screen.getAllByRole("textbox", { name: "Note" })).toHaveLength(1);
+        expect(screen.queryByRole("button", { name: "Link a field" })).toBeNull();
+    });
+
+    it("keeps the old addresses: /glossary and /review open the Workbook on their tab", () => {
+        for (const [path, heading] of [["/glossary", /^Glossary/], ["/review", /^Review$/]] as const) {
+            const view = render(
+                <MemoryRouter initialEntries={[path]}>
+                    <Routes>
+                        <Route path="/glossary" element={<WorkbookRedirect tab="glossary" />} />
+                        <Route path="/review" element={<WorkbookRedirect tab="review" />} />
+                        <Route path="/workbook" element={<Workbook />} />
+                    </Routes>
+                </MemoryRouter>
+            );
+            expect(screen.getByRole("heading", { name: heading })).toBeTruthy();
+            view.unmount();
         }
     });
 

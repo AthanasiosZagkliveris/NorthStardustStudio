@@ -7,12 +7,8 @@ import TextField from "../controls/TextField.tsx";
 import AddButton from "../controls/AddButton.tsx";
 import TickBox from "../controls/TickBox.tsx";
 import RemoveButton from "../controls/RemoveButton.tsx";
-import { useLocation, useNavigate } from "react-router-dom";
-import TabList from "../controls/TabList.tsx";
-import GlossaryList from "../GlossaryList.tsx";
-import OrganizationReview, { goToReviewPlace } from "../OrganizationReview.tsx";
+import { useLocation, useNavigate, type NavigateFunction } from "react-router-dom";
 import { useReviewCount } from "../ReviewButton.tsx";
-import { organizationReview } from "../../services/ReviewService";
 
 import { NotepadService, type Note, type NoteLink } from "../../services/NotepadService";
 import { UndoService } from "../../services/UndoService";
@@ -29,20 +25,21 @@ import "../../styles/notepad.css";
 import TextLink from "../interview/fields/TextLink.tsx";
 
 /*
-    THE WORKBOOK (owner, 2026-11-09: the Notes, the Review and the
-    Glossary under one header button): the header's "Workbook" button,
-    the panel it opens on the right with three tabs -- Notes (the
-    Notepad, NotepadService.ts: the notes and picking a field or card
-    to link), Review (the open Organisation's, OrganizationReview) and
-    Glossary (GlossaryList; the References are on the Glossary page,
-    a link away).
+    THE WORKBOOK'S NOTES (owner, 2026-11-09: the Workbook is a whole
+    page, laid out as the Glossary was, with the tabs Notes, Review,
+    Glossary and References; pages/Workbook.tsx): the header's
+    "Workbook" button, which opens that page; the Notes it shows
+    (WorkbookNotes: the card notes and the notes of each Organisation,
+    NotepadService.ts); and picking a field or card to link.
 
-    The panel slides in from the right OVER the page, between the
-    header and the footer: the page does not narrow or move under it,
-    and stays clickable -- a field is linked by clicking it -- so a
-    click on the page never closes it. It stays open while the person
-    works, from page to page, until closed (its arrow, the Workbook
-    button, or Escape).
+    Picking needs the form in view, so it is the one thing the small
+    panel is still for: "Link a field" on the Workbook page goes back
+    to the page the Workbook was opened from and opens the panel there,
+    on that note, picking. The panel slides in from the right OVER the
+    page, between the header and the footer: the page does not narrow
+    or move under it, and stays clickable -- a field is linked by
+    clicking it -- so a click on the page never closes it (its arrow
+    or Escape does).
 */
 
 /** The notepad's notes and view, kept current. */
@@ -65,18 +62,41 @@ function places(): Promise<Places> {
 }
 
 
-/** The header button: icon and word (icon alone when narrow), and how many Review items there are to look at (no count when none). It opens and closes the Workbook panel. */
+/** Where the Workbook page is opened with: its tab, a note to bring into view, the total review (the Landing page's), a term, and where to go back to. */
+export interface WorkbookState {
+    tab?: "notes" | "review" | "glossary" | "references";
+    note?: string;
+    total?: boolean;
+    term?: string;
+    from?: { pathname: string; state?: unknown };
+}
+
+/** Opens the Workbook page, remembering where it was opened from (on the page itself, the place it was first opened from), so Back and Escape return there. */
+export function openWorkbook(navigate: NavigateFunction, location: { pathname: string; state: unknown }, state: Omit<WorkbookState, "from"> = {}): void {
+    NotepadService.close();
+    const here = location.pathname === "/workbook";
+    const from = here ? (location.state as WorkbookState | null)?.from : { pathname: location.pathname, state: location.state };
+    navigate("/workbook", { state: { ...state, from }, replace: here });
+}
+
+/** The header button: icon and word (icon alone when narrow), and how many Review items there are to look at (no count when none). It opens the Workbook page; on it, it does nothing. */
 export function WorkbookButton() {
 
-    const { view } = useNotepad();
+    const navigate = useNavigate();
+    const location = useLocation();
     const count = useReviewCount();
     const words = count ? count + (count === 1 ? " item" : " items") + " to look at" : "nothing open";
+    const here = location.pathname === "/workbook";
 
     return (
         <AddButton className="header-tool"
-            aria-expanded={view.open}
+            aria-current={here ? "page" : undefined}
             aria-label={"Workbook: notes, review and glossary, " + words}
-            onClick={() => NotepadService.toggle()}>
+            onClick={() => {
+                if (!here) {
+                    openWorkbook(navigate, location);
+                }
+            }}>
             <svg className="header-tool-icon" viewBox="0 0 20 20" aria-hidden="true">
                 <path d="M5 2.5h7.5L16 6v11.5H5z" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
                 <path d="M7.5 9h6M7.5 12h6M7.5 15h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
@@ -87,14 +107,6 @@ export function WorkbookButton() {
     );
 
 }
-
-export type WorkbookTab = "notes" | "review" | "glossary";
-
-const WORKBOOK_TABS: readonly { id: WorkbookTab; label: string }[] = [
-    { id: "notes", label: "Notes" },
-    { id: "review", label: "Review" },
-    { id: "glossary", label: "Glossary" }
-];
 
 /** A box that grows with what is in it, for a note. */
 function NoteText({ note, onKey, textRef }: {
@@ -143,7 +155,14 @@ function hashQuery(box: HTMLTextAreaElement): { query: string; start: number } |
     return match ? { query: match[2], start: before.length - match[2].length - 1 } : null;
 }
 
-function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
+/**
+ * Where a note's "Link a field" works: in the panel (`undefined`: picking starts there, over the form), or on the Workbook page,
+ * which has no form (`linkField` goes back to the page the Workbook was opened from and picks there; null: no form to go back to,
+ * so it is not offered -- a "#" in the text still links a place).
+ */
+type LinkField = ((noteId: string) => void) | null | undefined;
+
+function NoteCard({ note, focused, linkField }: { note: Note; focused: boolean; linkField?: LinkField }) {
 
     const navigate = useNavigate();
     const [suggestions, setSuggestions] = useState<Awaited<ReturnType<Places["findPlaces"]>> | null>(null);
@@ -234,8 +253,8 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
     const linkedKeys = note.links
         .filter(link => link.organizationId === current && link.key)
         .map(link => link.key as string);
-    // Fields can be picked only in the note's own Organization, while it is open.
-    const canPick = !!organizationId && organizationId === current;
+    // Fields can be picked only in the note's own Organization, while it is open (and, on the Workbook page, where there is a form to go back to).
+    const canPick = !!organizationId && organizationId === current && linkField !== null;
     const organizationName = (id: string) => OrganizationService.getSummary(id)?.name ?? "another organisation";
 
     return (
@@ -328,7 +347,7 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
                             type="button"
                             className="notepad-text-button"
                             aria-pressed={picking}
-                            onClick={() => NotepadService.pick(picking ? null : note.id)}
+                            onClick={() => linkField ? linkField(note.id) : NotepadService.pick(picking ? null : note.id)}
                         >
                             {picking ? "Picking: click a field or card" : "Link a field"}
                         </TextLink>
@@ -384,7 +403,7 @@ function noteGroups(notes: Note[]): NoteGroupValue[] {
 }
 
 /** One Organization's notes: open when it is the open one, folded otherwise, with its count. */
-function NoteGroup({ group, focusNoteIds }: { group: NoteGroupValue; focusNoteIds: string[] }) {
+function NoteGroup({ group, focusNoteIds, linkField }: { group: NoteGroupValue; focusNoteIds: string[]; linkField?: LinkField }) {
     const focused = group.notes.some(note => focusNoteIds.includes(note.id));
     const [open, setOpen] = useState(group.current || focused);
     const id = "notepad-group-" + (group.id || "general");
@@ -394,7 +413,7 @@ function NoteGroup({ group, focusNoteIds }: { group: NoteGroupValue; focusNoteId
             {open && (
                 <div className="notepad-group-notes" id={id}>
                     {group.notes.map(note => (
-                        <NoteCard key={note.id} note={note} focused={focusNoteIds.includes(note.id)} />
+                        <NoteCard key={note.id} note={note} focused={focusNoteIds.includes(note.id)} linkField={linkField} />
                     ))}
                 </div>
             )}
@@ -402,52 +421,56 @@ function NoteGroup({ group, focusNoteIds }: { group: NoteGroupValue; focusNoteId
     );
 }
 
-/** The open Organisation's Review, in the panel: the Review page's OrganizationReview; "Go there" opens the place and leaves the panel open. */
-function WorkbookReview() {
+/**
+ * THE NOTES OF THE WORKBOOK PAGE (pages/Workbook.tsx, its Notes tab): "+ Add note" at the end of its row (where the Glossary's funnel
+ * stands), then the card notes and the notes of each Organisation, as the panel shows them. The page has no form, so "Link a field"
+ * goes back to the page the Workbook was opened from (a System's page) and picks there, in the panel; opened from anywhere else, it is
+ * not offered.
+ */
+export function WorkbookNotes({ from, focusNoteIds = [] }: { from?: WorkbookState["from"]; focusNoteIds?: string[] }) {
+
+    const { notes } = useNotepad();
     const navigate = useNavigate();
-    const location = useLocation();
-    const organizationId = OrganizationService.getSelected() ?? "";
-    // (Worked out again as the app moves: an answer given since may close an item.)
-    const items = useMemo(() => organizationId ? organizationReview(organizationId) : [], [organizationId, location.key]);
-    if (!organizationId) {
-        return null;
-    }
+    const section = useRef<HTMLElement | null>(null);
+    // (A System's pages: /introduction and /conversation are both the interview.)
+    const linkField: LinkField = from && (from.pathname === "/conversation" || from.pathname === "/introduction")
+        ? (noteId) => {
+            navigate(from.pathname, { state: from.state });
+            NotepadService.open([noteId]);
+            NotepadService.pick(noteId);
+        }
+        : null;
+
     return (
-        <OrganizationReview
-            name={OrganizationService.getSummary(organizationId)?.name ?? ""}
-            items={items}
-            current
-            onGo={(place) => goToReviewPlace(navigate, organizationId, place)}
-        />
+        <section className="glossary-section workbook-notes" aria-label="Notes" ref={section}>
+            <div className="glossary-bar">
+                <AddButton className="notepad-add"
+                    onClick={() => {
+                        NotepadService.addNote(OrganizationService.getSelected() ?? "");
+                        window.setTimeout(() => section.current?.querySelector<HTMLTextAreaElement>(".notepad-note-text")?.focus(), 0);
+                    }}
+                >
+                    + Add note
+                </AddButton>
+            </div>
+            <div className="notepad-list">
+                <CardNotes />
+                {notes.length === 0
+                    ? <p className="notepad-empty">No notes yet. Add one, and link it to any page, card or field.</p>
+                    : noteGroups(notes).map(group => (
+                        <NoteGroup key={group.id || "general"} group={group} focusNoteIds={focusNoteIds} linkField={linkField} />
+                    ))}
+            </div>
+        </section>
     );
+
 }
 
-/** The Glossary, in the panel: the Glossary page's list and its one funnel; a citation and "References" open the Glossary page. */
-function WorkbookGlossary() {
-    const navigate = useNavigate();
-    const location = useLocation();
-    const from = { pathname: location.pathname, state: location.state };
-    return (
-        <GlossaryList
-            organizationId={OrganizationService.getSelected()}
-            onCitation={(id) => navigate("/glossary", { state: { tab: "references", term: id, from } })}
-            lead={<TextLink className="workbook-references" onClick={() => navigate("/glossary", { state: { tab: "references", from } })}>References</TextLink>}
-        />
-    );
-}
-
-/** The panel: three tabs -- Notes (every note, newest first, by Organization, with its links), Review, Glossary. */
+/** The panel, for picking a field over the form (opened by the Workbook page's "Link a field"): every note, newest first, by Organization, with its links. */
 export function NotepadPanel() {
 
     const { notes, view } = useNotepad();
     const panel = useRef<HTMLElement | null>(null);
-    const [tab, setTab] = useState<WorkbookTab>("notes");
-    // A note asked for (the Calendar, a noted field) shows on the Notes tab.
-    useEffect(() => {
-        if (view.focusNoteIds.length > 0 || view.pickingFor) {
-            setTab("notes");
-        }
-    }, [view.focusNoteIds.join(","), view.pickingFor]);
     // Escape closes it -- and only it: the key goes no further.
     useEffect(() => {
         if (!view.open) {
@@ -468,39 +491,29 @@ export function NotepadPanel() {
     }
 
     return (
-        <aside className="notepad-panel" aria-label="Workbook" ref={panel}>
+        <aside className="notepad-panel" aria-label="Notes" ref={panel}>
 
             <div className="notepad-head">
-                <h2 className="notepad-title">Workbook</h2>
-                {tab === "notes" && (
-                    <AddButton className="notepad-add"
-                        onClick={() => {
-                            NotepadService.addNote(OrganizationService.getSelected() ?? "");
-                            window.setTimeout(() => panel.current?.querySelector<HTMLTextAreaElement>(".notepad-note-text")?.focus(), 0);
-                        }}
-                    >
-                        + Add note
-                    </AddButton>
-                )}
-                <NavArrow direction="next" label="Close the workbook" className="page-arrow notepad-close" onClick={() => NotepadService.close()} />
+                <h2 className="notepad-title">Notes</h2>
+                <AddButton className="notepad-add"
+                    onClick={() => {
+                        NotepadService.addNote(OrganizationService.getSelected() ?? "");
+                        window.setTimeout(() => panel.current?.querySelector<HTMLTextAreaElement>(".notepad-note-text")?.focus(), 0);
+                    }}
+                >
+                    + Add note
+                </AddButton>
+                <NavArrow direction="next" label="Close notes" className="page-arrow notepad-close" onClick={() => NotepadService.close()} />
             </div>
 
-            <TabList label="Notes, review or glossary" tabs={WORKBOOK_TABS} value={tab} onChange={setTab} className="workbook-tabs" />
-
-            {/* ONE scrolling column, padded as every card is: on Notes, the card notes, then the notes of each Organization. */}
+            {/* ONE scrolling column, padded as every card is: the card notes, then the notes of each Organization. */}
             <div className="notepad-list">
-                {tab === "notes" && (
-                    <>
-                        <CardNotes />
-                        {notes.length === 0
-                            ? <p className="notepad-empty">No notes yet. Add one, and link it to any page, card or field.</p>
-                            : noteGroups(notes).map(group => (
-                                <NoteGroup key={group.id || "general"} group={group} focusNoteIds={view.focusNoteIds} />
-                            ))}
-                    </>
-                )}
-                {tab === "review" && <WorkbookReview />}
-                {tab === "glossary" && <WorkbookGlossary />}
+                <CardNotes />
+                {notes.length === 0
+                    ? <p className="notepad-empty">No notes yet. Add one, and link it to any page, card or field.</p>
+                    : noteGroups(notes).map(group => (
+                        <NoteGroup key={group.id || "general"} group={group} focusNoteIds={view.focusNoteIds} />
+                    ))}
             </div>
 
         </aside>

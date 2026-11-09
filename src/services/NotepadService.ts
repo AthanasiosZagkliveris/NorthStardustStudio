@@ -263,14 +263,6 @@ export const NotepadService = {
         setView({ open: false, focusNoteIds: [], pickingFor: null });
     },
 
-    toggle(): void {
-        if (view.open) {
-            NotepadService.close();
-        } else {
-            NotepadService.open();
-        }
-    },
-
     /** Starts (or, with null, ends) picking a field or card for a note. */
     pick(noteId: string | null): void {
         setView({ pickingFor: noteId });

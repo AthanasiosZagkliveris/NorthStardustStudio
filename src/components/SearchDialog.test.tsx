@@ -83,11 +83,11 @@ describe("the search dialog", () => {
         });
     });
 
-    it("opens a Glossary term on the Glossary page, found by its other words too, and Back returns here", () => {
+    it("opens a Glossary term on the Workbook page's Glossary, found by its other words too, and Back returns here", () => {
         render(<SearchDialog organizationId="org-1" onClose={() => undefined} />);
         fireEvent.change(box(), { target: { value: "kind of legal entity" } });
         fireEvent.click(screen.getByRole("option"));
-        expect(navigate).toHaveBeenLastCalledWith("/glossary", {
+        expect(navigate).toHaveBeenLastCalledWith("/workbook", {
             state: { tab: "glossary", term: "legal-form", from: { pathname: "/conversation", state: { page: 1 } } }
         });
     });

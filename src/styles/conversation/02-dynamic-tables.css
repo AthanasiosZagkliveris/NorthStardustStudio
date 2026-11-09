@@ -1128,8 +1128,8 @@
 
 }
 
-/* A date field outside a coloured card (Global Settings, the Notes panel) has no hue to take: its calendar button is the colour every cell has. */
-:is(.settings-page, .notepad-panel) :is(.date-cell, .month-picker){
+/* A date field outside a coloured card (Global Settings, the Notes panel and the Workbook page's notes) has no hue to take: its calendar button is the colour every cell has. */
+:is(.settings-page, .notepad-panel, .workbook-notes) :is(.date-cell, .month-picker){
     --plus-ground: var(--bg-surface);
     --plus-fill: var(--text-default);
 }

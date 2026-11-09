@@ -1,7 +1,8 @@
 /* ==========================================================
-   The Workbook (Notepad.tsx): the header's Workbook button, the panel
-   on the right with its three tabs (Notes, Review, Glossary), the
-   notes' links as chips, and picking a field.
+   The Workbook's notes (Notepad.tsx): the notes on the Workbook
+   page's Notes tab, the small panel on the right that holds them
+   while a field is picked over a form, the notes' links as chips,
+   and picking a field.
 
    The panel lies between the header (80px) and the footer (64px),
    as the Organization rail does on the left, and slides in from the
@@ -9,8 +10,7 @@
 ========================================================== */
 
 :root {
-    /* One width step (L, --control-l) since the Workbook holds the Review and the Glossary too: their lines and its three tabs need it. */
-    --notepad-width: var(--control-l);
+    --notepad-width: 360px;
 }
 
 /* ---------- The panel ---------- */
@@ -594,5 +594,16 @@ html.notepad-picking [data-pick-hover] {
     background: var(--bg-surface);
 
     color: var(--text-default);
+
+}
+
+/* ---------- The notes on the Workbook page ---------- */
+/* (The page scrolls, not the list: the panel's own scrolling column and padding are the panel's.) */
+
+.workbook-notes .notepad-list {
+
+    overflow: visible;
+
+    padding: 0;
 
 }

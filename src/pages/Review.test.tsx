@@ -2,7 +2,8 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
 
-import Review from "./Review";
+// (The Review is the Workbook page's Review tab since 2026-11-09; /review opens it there.)
+import Workbook from "./Workbook";
 import ReviewButton from "../components/ReviewButton";
 import { OrganizationService } from "../services/OrganizationService";
 
@@ -31,7 +32,7 @@ describe("opening Review", () => {
                 <ReviewButton />
                 <Routes>
                     <Route path="/assistant" element={<Where name="System Selection" />} />
-                    <Route path="/review" element={<Review />} />
+                    <Route path="/workbook" element={<Workbook />} />
                 </Routes>
             </MemoryRouter>
         );
@@ -48,13 +49,13 @@ describe("opening Review", () => {
     });
 
     it("returns, on Escape and on Back, to where it was opened from", () => {
-        const opened = [{ pathname: "/review", state: { from: { pathname: "/introduction", state: null } } }];
+        const opened = [{ pathname: "/workbook", state: { tab: "review", from: { pathname: "/introduction", state: null } } }];
 
         const first = render(
             <MemoryRouter initialEntries={opened}>
                 <Routes>
                     <Route path="/introduction" element={<Where name="The interview" />} />
-                    <Route path="/review" element={<Review />} />
+                    <Route path="/workbook" element={<Workbook />} />
                 </Routes>
             </MemoryRouter>
         );
@@ -66,7 +67,7 @@ describe("opening Review", () => {
             <MemoryRouter initialEntries={opened}>
                 <Routes>
                     <Route path="/introduction" element={<Where name="The interview" />} />
-                    <Route path="/review" element={<Review />} />
+                    <Route path="/workbook" element={<Workbook />} />
                 </Routes>
             </MemoryRouter>
         );
@@ -80,9 +81,9 @@ describe("Review across Organisations", () => {
 
     function renderReview(state?: unknown) {
         render(
-            <MemoryRouter initialEntries={[{ pathname: "/review", state }]}>
+            <MemoryRouter initialEntries={[{ pathname: "/workbook", state: { tab: "review", ...(state as object | undefined) } }]}>
                 <Routes>
-                    <Route path="/review" element={<Review />} />
+                    <Route path="/workbook" element={<Workbook />} />
                     <Route path="/introduction" element={<Where name="The interview" />} />
                 </Routes>
             </MemoryRouter>

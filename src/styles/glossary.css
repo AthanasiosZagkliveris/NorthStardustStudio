@@ -1,7 +1,7 @@
 /* ==========================================================
-   Glossary and References (Glossary.tsx): one page, two tabs,
-   laid out as the Review page is -- one column, clear of the
-   fixed header and footer.
+   The Workbook (Workbook.tsx): one page, its tabs Notes, Review,
+   Glossary and References, laid out as the Glossary page was:
+   one column, clear of the fixed header and footer.
 
    Two kinds of term, one colour each: the app's own words in
    the app's blue (--text-primary), YOUR TERMS (the names the
@@ -27,7 +27,7 @@
 
 }
 
-/* The two kinds' colours: on the page, and on the list wherever it stands (the page, the Workbook panel's Glossary). */
+/* The two kinds' colours: on the page, and on the list wherever it stands. */
 .glossary-page,
 .glossary-section{
 

@@ -3,6 +3,7 @@ import AddButton from "./controls/AddButton.tsx";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { OrganizationService } from "../services/OrganizationService";
+import { openWorkbook } from "./notepad/Notepad.tsx";
 
 /**
  * How many items of the open Organisation are still open or worth a second look (null until worked out, and with no Organisation
@@ -42,7 +43,8 @@ export function useReviewCount(total = false): number | null {
 /**
  * The Landing page's Review button (the header's tools of an open Organisation are in the Workbook since 2026-11-09): an icon and a
  * word (the icon alone in a narrow header). No Organisation is open there (`total`): it opens the review of every Organisation, and
- * has no count. It remembers where it was opened from so Back and Escape return there; on the Review page it does nothing.
+ * has no count. It opens the Workbook page on its Review (the total review), remembering where it was opened from so Back and Escape
+ * return there.
  */
 export default function ReviewButton({ total = false }: { total?: boolean }) {
 
@@ -55,14 +57,7 @@ export default function ReviewButton({ total = false }: { total?: boolean }) {
     return (
         <AddButton className="header-tool"
             aria-label={"Review, " + words}
-            aria-current={location.pathname === "/review" ? "page" : undefined}
-            onClick={() => {
-                // Already there: nothing to open.
-                if (location.pathname === "/review") {
-                    return;
-                }
-                navigate("/review", { state: { total: total || undefined, from: { pathname: location.pathname, state: location.state } } });
-            }}>
+            onClick={() => openWorkbook(navigate, location, { tab: "review", total: total || undefined })}>
             <svg className="header-tool-icon" viewBox="0 0 20 20" aria-hidden="true">
                 <path d="M4 5.5h12M4 10h12M4 14.5h7" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                 <path d="M13 14.5l1.5 1.5 3-3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />

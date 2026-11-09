@@ -1,9 +1,10 @@
 /* ==========================================================
-   Review (Review.tsx): what is left to look at across the
-   Foundation, in four groups, each item one sentence and a
-   "Go there". Laid out as the Glossary page is: one column, its
-   width and edges, clear of the fixed header and footer; every
-   gap and corner a token (layout-rules, "The Review page").
+   Review (OrganizationReview.tsx, the Workbook page's Review tab):
+   what is left to look at across the Foundation, in four groups,
+   each item one sentence and a "Go there"; every gap and corner a
+   token (layout-rules, "The Review page"). The page frame below
+   (.review-page, .review-title) is Global Settings' now; the
+   Workbook page is laid out by glossary.css.
 ========================================================== */
 
 .review-page{

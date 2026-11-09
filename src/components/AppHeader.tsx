@@ -66,13 +66,14 @@ export default function AppHeader({ organizationName, focusable = false, reloada
             {/* Focus mode: on an interview page. */}
             {organizationName && focusable && <FocusModeButton />}
 
-            {/* Search (Ctrl+K), and the Workbook (the person's own notes, the Review and the Glossary, one panel: owner, 2026-11-09): wherever an Organization is open. */}
+            {/* Search (Ctrl+K), and the Workbook (the person's own notes, the Review, the Glossary and the References: one page, /workbook; owner, 2026-11-09): wherever an Organization is open. */}
             {organizationName && <SearchButton />}
             {organizationName && <WorkbookButton />}
             {/* The Landing page: the review of every Organisation and the Glossary (no Organisation is open there, so no Workbook). */}
             {!organizationName && totalReview && <ReviewButton total />}
             {!organizationName && totalReview && <GlossaryButton />}
             {organizationName && <SettingsButton />}
+            {/* The small notes panel, for picking a field over a form (the Workbook page's "Link a field"), and the picking itself. */}
             {organizationName && <NotepadPanel />}
             {organizationName && <NotepadPicker />}
 

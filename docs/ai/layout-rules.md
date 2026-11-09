@@ -621,8 +621,9 @@ none).
 
 ### The Review page
 
-The Review (`Review.tsx`, `review.css`) is laid out as the Glossary page:
-one column of the same width and edges (`.review-page` as `.glossary-page`),
+The Review (`OrganizationReview.tsx`, `review.css`; the Workbook page's
+Review tab since 2026-11-09, rule 22.37) stands in the Workbook's
+one column (`.glossary-page`),
 every gap and corner a token (`--gap-24` between the Organisations and
 between the groups, `--space-field` under a head, `--gap-8` in a group,
 `--card-padding` in a row, `--radius-md` on a list). An Organisation's head
@@ -1772,7 +1773,7 @@ The owner's rules of one round, each global: made in a shared component, token o
 
 **Notes, texts and names**
 10. **Four free texts** (short text, list line, note, long text): doc 20 holds the four categories and what the owner decided (a list line is one row by default, every optional text is labelled **Notes**, a long text is eight rows).
-11. **The Notes panel lists every card's Notes** under a funnel that chooses pages; a press opens the card (`CardNotesService`; doc 20).
+11. **The Workbook's Notes (and the Notes panel) list every card's Notes** under a funnel that chooses pages; a press opens the card (`CardNotesService`; doc 20).
 12. **A name takes two rows at most** (`CardNameInput`), then scrolls. **A long name never covers its number**: on a tile or a card's head the number stays and the text slides behind it.
 13. **Every text link is one component** (`TextLink`; the look and the kinds of link are doc 19); a link with the keyboard's focus is bold and underlined but does not slide.
 
@@ -1839,7 +1840,7 @@ The rules are grouped by topic; each is global (a shared component, token or cla
 34. **A card opened from a link is that card alone**: a legal expense opened from a founder's Responsibilities (or from the Inventory) is the one card, over the card it was opened from: not with its requirement, with no arrows and no rail of its own, and the arrows and rail of the card under it are not drawn while it covers them (`.floating-overlay:has(~ .floating-overlay)`).
 35. **Every card is `BusinessCard`**: the Business, Brand, Strategy and Financial cards and the Legal Entity page's (a requirement, an expense, a founder: `legal`, its own box, head and number, "legal-entity-*") are one component with one head (`CardHead`), one name cell (`NameCell`) and one outer box (`CardShell`); the legal one differs by its box's class only.
 36. **A completed card's tile is the completed grey, wherever it stands**: in the Inventory too (`inactive` on the card tile), as the Completed tile's cards and the completed floating card are.
-37. **The Workbook** (2026-11-09): the Notes, the Review and the Glossary are ONE header tool, "Workbook" (`WorkbookButton`, a `header-tool` with the Review's count), that opens the Notes panel (`notepad-panel`, its `NavArrow` and Escape close it), one width step wider (`--control-l`, 420px), with a `TabList` under its head: Notes (the panel's notes as before; "+ Add note" only on this tab; a note asked for, or picking a field, shows this tab), Review (the open Organisation's `OrganizationReview`, the Review page's own) and Glossary (the `GlossaryList` with its one funnel, and a `TextLink` to the References on the Glossary page). The Landing page has Review (every Organisation) and Glossary only. The `/review` and `/glossary` pages stay (Search and "Go there" reach them). The Glossary's funnel is ONE: the kinds of term, then the letter ranges.
+37. **The Workbook is a whole page** (owner, 2026-11-09: "the layout as it was the Glossary, a whole page, not a side panel"): `/workbook` (`pages/Workbook.tsx`), laid out exactly as the Glossary page was (`.glossary-page`: its width, edges and centred heading, the `TabList` under it, the funnel's or the "+ Add note" row at the end of the row under the tabs), with four tabs: **Notes** (`WorkbookNotes`: the card notes and the notes of each Organisation, the panel's own `CardNotes`, `NoteGroup` and note boxes), **Review** (the open Organisation's `OrganizationReview`), **Glossary** (the `GlossaryList` with its ONE funnel: the kinds of term, then the letter ranges) and **References**. The heading is the tab's name, with the "i" on Glossary and References. The header's ONE tool "Workbook" (`WorkbookButton`, a `header-tool` with the Review's count) opens it; Back and Escape return to where it was opened from. The Landing page keeps Review (the total review) and Glossary, which open it with the Landing's header and the tabs Review, Glossary and References. `/glossary` and `/review` open it on their tab (`WorkbookRedirect`); Search's terms and the Calendar's notes open it too. **Picking a field needs the form**: "Link a field" on the page goes back to the System page the Workbook was opened from and opens the small Notes panel there, picking (`notepad-panel`, 360px, its `NavArrow` and Escape close it); opened from anywhere else, "Link a field" is not offered (a "#" in a note still links a place). The panel is for that alone: no header tool opens it.
 
 **Where the rules of the fields are** (labels, cells, gaps): sizes of cells and the closed set of widths, section 4; alignment of labels and cells, section 5; shared components and states (rest, hover, focus, disabled), section 6; lists, grids and card layouts, section 7; dates and formats, section 15; texts and names, section 16; and rules 22.1 to 22.11 above (the one reaction of a cell, the gaps 12 and 6, the one label, the one date and month field). The reactions are tabulated in section 6 (the check) and, by component, in doc 18.
 

@@ -16,9 +16,10 @@ const SystemSelection = lazy(() => import("./pages/SystemSelection"));
 const Conversation = lazy(() => import("./pages/Conversation"));
 const CapabilityGenerator = lazy(() => import("./pages/CapabilityGenerator"));
 const BusinessDocuments = lazy(() => import("./pages/BusinessDocuments"));
-const Review = lazy(() => import("./pages/Review"));
 const GlobalSettings = lazy(() => import("./pages/GlobalSettings"));
-const Glossary = lazy(() => import("./pages/Glossary"));
+const Workbook = lazy(() => import("./pages/Workbook"));
+// (The Glossary's and the Review's old addresses open the Workbook on their tab.)
+const WorkbookRedirect = lazy(() => import("./pages/Workbook").then(module => ({ default: module.WorkbookRedirect })));
 
 // The asset library's gallery: development only (`npm run dev`), absent from the built app.
 // dev-only:start (`npm run export:app` leaves everything between the two markers out of the exported app)
@@ -64,7 +65,7 @@ export default function App() {
 
                 <Route
                     path="/review"
-                    element={<Review />}
+                    element={<WorkbookRedirect tab="review" />}
                 />
 
                 <Route
@@ -74,7 +75,12 @@ export default function App() {
 
                 <Route
                     path="/glossary"
-                    element={<Glossary />}
+                    element={<WorkbookRedirect tab="glossary" />}
+                />
+
+                <Route
+                    path="/workbook"
+                    element={<Workbook />}
                 />
 
                 <Route

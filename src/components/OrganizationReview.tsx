@@ -11,8 +11,8 @@ import { OrganizationService } from "../services/OrganizationService";
 import "../styles/review.css";
 
 /*
-    THE REVIEW OF ONE ORGANISATION, shared by the Review page (Review.tsx: the open Organisation, or every one in the total review)
-    and the Workbook panel's Review tab (Notepad.tsx): its four groups, each by Capability, each item one sentence and a "Go there".
+    THE REVIEW OF ONE ORGANISATION, on the Workbook page's Review tab (Workbook.tsx: the open Organisation, or every one in the
+    total review): its four groups, each by Capability, each item one sentence and a "Go there".
 */
 
 const GROUPS: { id: ReviewGroup; title: string }[] = [

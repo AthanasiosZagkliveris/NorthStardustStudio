@@ -1,4 +1,4 @@
-import { CSSProperties, Fragment, ReactNode, useMemo, useState } from "react";
+import { CSSProperties, Fragment, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import TextLink from "./interview/fields/TextLink";
@@ -9,7 +9,7 @@ import { harvardCitation, SOURCES, type SourceId } from "../framework/engine/Sou
 import { GLOSSARY_KINDS, GlossaryService, type GlossaryKind } from "../services/GlossaryService";
 
 // The funnel (ResponsibilityFilter) is drawn as it is on the System pages.
-// (The sheets in the order the System pages load them, section-tiles.css before conversation.css: the Workbook loads this with the header, first, so its order is the
+// (The sheets in the order the System pages load them, section-tiles.css before conversation.css: whatever loads this first, its order is the
 // app's, and rules of the same weight in the two sheets resolve as on the pages they were written for.)
 import "../styles/section-tiles.css";
 import "../styles/conversation.css";
@@ -97,19 +97,17 @@ export function letterRanges(letters: readonly string[], perRange = REFERENCES_P
 export const anchorOf = (key: string) => "glossary-term-" + key.replace(/[^A-Za-z0-9-]+/g, "-");
 
 /**
- * THE GLOSSARY'S LIST (the Glossary page's first tab, and the Workbook panel's Glossary): every term in one A to Z list, in two
+ * THE GLOSSARY'S LIST (the Workbook page's Glossary tab, pages/Workbook.tsx): every term in one A to Z list, in two
  * colours -- the app's own words in the app's blue, YOUR TERMS (the names you gave your Segments, Profiles, Offerings ...) in
  * terracotta, each of yours with its kind ("Segment") -- under ONE funnel: the kinds of term, then the letter ranges (about twenty
  * terms a range, cut as the References' are). An app term's meaning is followed by its Harvard citations (`onCitation` shows the
  * full reference); one of your terms opens its card.
  */
-export default function GlossaryList({ organizationId, target, onCitation, lead }: {
+export default function GlossaryList({ organizationId, target, onCitation }: {
     organizationId: string | null;
     /** The term asked for (an app term's id, or one of yours by its card id): marked for a moment. */
     target?: string;
     onCitation: (source: SourceId) => void;
-    /** What stands at the start of the funnel's row (the Workbook panel's link to the References). */
-    lead?: ReactNode;
 }) {
 
     const navigate = useNavigate();
@@ -146,7 +144,6 @@ export default function GlossaryList({ organizationId, target, onCitation, lead 
         <section className="glossary-section" aria-label="Glossary" style={{ "--glossary-yours-hue": YOUR_TERMS_HUE } as CSSProperties}>
 
             <div className="glossary-bar">
-                {lead}
                 {/* ONE funnel: the kinds of term, then the letter ranges (where there is more than one); each tick goes to its own set. */}
                 <ResponsibilityFilter
                     off={new Set([...off, ...lettersOff])}

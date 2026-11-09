@@ -107,13 +107,13 @@ describe("Landing header Review", () => {
             <MemoryRouter>
                 <Routes>
                     <Route path="/" element={<Landing />} />
-                    <Route path="/review" element={<Where />} />
+                    <Route path="/workbook" element={<Where />} />
                 </Routes>
             </MemoryRouter>
         );
 
         fireEvent.click(screen.getByRole("button", { name: /^Review/ }));
-        expect(screen.getByText("/review true")).toBeTruthy();
+        expect(screen.getByText("/workbook true")).toBeTruthy();
 
     });
 
