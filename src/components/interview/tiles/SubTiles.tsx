@@ -16,7 +16,7 @@ export interface SubTile {
 
     id: string;
 
-    /** Its name: a sub tile's title is one line (capitals, as every category tile's), or two with the one forced break (a newline) a title may have where one line would be cut. */
+    /** Its name: a sub tile's title is one line (capitals, as every category tile's); a long one is cut with an ellipsis and slides under the pointer, never broken. */
     title: string;
 
     /** What it lists under its name. */

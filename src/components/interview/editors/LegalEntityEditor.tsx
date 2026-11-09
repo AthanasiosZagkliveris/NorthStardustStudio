@@ -263,8 +263,8 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
                                 {
                                     // THE REGISTRATION NUMBERS, ONE TILE (owner, 2026-10-24): the numbers of the registry (formation) and of the tax, under one heading; the Registration Date is on the Organization tile.
                                     id: "registration-numbers",
-                                    // (Two lines, the one forced break a title may have: one line would be cut.)
-                                    title: "Registration\nNumbers",
+                                    // (A sub tile's title is one line, as every tile's: a long one is cut and slides under the pointer, never broken.)
+                                    title: "Registration Numbers",
                                     items: [...formationEntries, ...taxEntries].slice(0, 8),
                                     itemMarks: [...formationEntries, ...taxEntries].slice(0, 8).map((_entry, at) => at === 0 ? { plain: true } : { bullet: true }),
                                     circles: expenseCircles(["formation-registration-number", ...entity.formation.additionalNumbers.map(number => number.id), "tax-consumption-number", ...entity.tax.additionalRegistrations.map(registration => registration.id)]),
@@ -278,8 +278,7 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
                                 },
                                 {
                                     id: "requirements",
-                                    // (The Additional legal requirements in two lines: "ADDITIONAL LEGAL" is wider than the tile, so the title is the name its grid already has, "Legal requirements".)
-                                    title: "Legal\nRequirements",
+                                    title: "Additional Legal Requirements",
                                     // (Every requirement: the list scrolls where they do not all fit, as every tile's list does.)
                                     items: entity.requirements.filter(requirement => requirement.name.trim()).map(requirement => requirement.name.trim()),
                                     itemMarks: entity.requirements.filter(requirement => requirement.name.trim()).map(() => ({ bullet: true })),

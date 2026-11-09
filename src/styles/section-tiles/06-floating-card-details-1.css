@@ -1075,11 +1075,12 @@ body:has([data-pair]) .section-tile-overlay.floating-overlay.business-foundation
 
 }
 
-/* A title with a forced break stands on its lines (Typography & Text Hierarchy, Registration Numbers), growing upward from its rule. Each line is one line, as
-   every title is: a line too long for the tile is cut with an ellipsis (the full title is the tooltip), never broken inside a word. */
+/* A title with a forced break stands on its lines (Typography & Text Hierarchy), growing upward from its rule. */
 .section-tile-title.section-tile-title-broken {
 
-    overflow-wrap: normal;
+    white-space: normal;
+
+    text-overflow: clip;
 
 }
 
