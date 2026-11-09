@@ -1364,3 +1364,17 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     background: var(--tint-row-band);
 
 }
+
+/* THE BRAND'S FLOATING CARDS IN BANDS (owner, 2026-11-09: one style for every card of the Foundation): a colour's, a typeface's and an image's card read their
+   fields on the card's ground (the first band, untinted), then their Notes in the next band, tinted, from side to side of the card, past the x column, down to
+   the card's end. */
+.floating-card-body .brand-style-card > .optional-field:last-child,
+.floating-card-body .brand-style-card > .brand-image-card-body:last-child > .optional-field:last-child {
+
+    margin: calc(var(--space-cell) / -2) calc(-1 * (var(--card-padding) + var(--card-x-column, 44px))) calc(-1 * var(--card-padding)) calc(-1 * var(--card-padding));
+
+    padding: var(--space-cell) calc(var(--card-padding) + var(--card-x-column, 44px)) var(--card-padding) var(--card-padding);
+
+    background: var(--tint-row-band);
+
+}
