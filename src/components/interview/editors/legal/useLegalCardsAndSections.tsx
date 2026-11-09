@@ -506,6 +506,9 @@ export function useLegalCardsAndSections(earlier: Earlier) {
                             <OptionPicker
                                 label={"Expense " + (index + 1) + " frequency"}
                                 options={[...LEGAL_ENTITY_EXPENSE_FREQUENCIES]}
+                                /* As wide as its longest option, from the Date's column (the cost row's Frequency). */
+                                hug
+                                keepWidth
                                 disabled={disabled}
                                 value={expense.frequency}
                                 onChange={(next) => update({

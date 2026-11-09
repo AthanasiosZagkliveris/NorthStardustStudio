@@ -65,6 +65,12 @@ describe("the Legal Entity expense card", () => {
         expect(date.compareDocumentPosition(cost) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     });
 
+    it("draws the Frequency as wide as its longest option, as the cost row's Frequency is", () => {
+        open([{ id: "e", name: "Filing fee" }]);
+        const frequency = screen.getByRole("button", { name: /^Expense 1 frequency/ });
+        expect(frequency.closest(".option-picker")?.getAttribute("data-size")).toBe("hug");
+    });
+
     it("types the Date into the expense", () => {
         const value = open([{ id: "e", name: "Filing fee" }]);
         // (The date cell: typed as the reader's format shows it, taken on leaving the box.)

@@ -746,10 +746,14 @@ body:has(.floating-overlay) .section-tile-overlay:not(.floating-overlay) > .caro
 
 }
 
-/* A legal expense card: Cost | Frequency in one row, the labels above (the other rows span both columns). */
+/* A legal expense card: Cost | Frequency in one row, the labels above (the other rows span both columns), on the side-label rows' columns, as a
+   Business card's cost row: the Cost fills the label column (it ends where the Date's label column ends), the Frequency starts where the Date and
+   the Responsible cells start and is as wide as its longest option. */
 .floating-card-body .legal-entity-grid-card.legal-entity-grid-expense-card {
 
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: var(--card-label-col) minmax(0, 1fr);
+
+    column-gap: var(--side-label-gap);
 
 }
 
