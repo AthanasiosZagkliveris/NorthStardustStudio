@@ -1,0 +1,70 @@
+import { useEffect, type RefObject } from "react";
+
+/**
+ * THE CARD'S END TAKES ITS LAST BAND'S COLOUR (owner, 2026-11-09: "The end of all the cards' colour should follow the last field's colour"; docs/ai/tile-and-card-pattern.md,
+ * "One band pattern"). A card or a dialog whose bands end above its own foot (its padding, the room a dialog keeps under its content) is painted from the foot of its LAST band
+ * down to its end in that band's colour: a tinted last band runs to the card's end, an untinted one leaves the card's own ground. The bands are the `legal-entity-org-section`s;
+ * the last is the one that ends lowest (two side by side end together). The colour drawn is said in `data-end-ground` for the card audit.
+ */
+export function paintCardEnd(card: HTMLElement): void {
+    const box = card.getBoundingClientRect();
+    const bands = [...card.querySelectorAll<HTMLElement>(".legal-entity-org-section")].filter(band => {
+        const r = band.getBoundingClientRect();
+        return r.width > 0 && r.height > 0 && band.closest(".section-tile-dialog, .floating-card-body") === card;
+    });
+    let last: HTMLElement | null = null;
+    let lowest = -Infinity;
+    for (const band of bands) {
+        const bottom = band.getBoundingClientRect().bottom;
+        if (bottom > lowest + 0.5) {
+            lowest = bottom;
+            last = band;
+        }
+    }
+    const ground = last ? getComputedStyle(last).backgroundColor : "";
+    const tinted = !!ground && ground !== "transparent" && !/rgba\([^)]*,\s*0\)$/.test(ground) && !/\/\s*0\)$/.test(ground);
+    // (Measured in the card's own box: where its last band ends, less its top edge.)
+    const from = last ? Math.round((lowest - box.top - card.clientTop) * 10) / 10 : 0;
+    if (!last || !tinted || lowest >= box.bottom - 1) {
+        if (card.dataset.endGround !== undefined) {
+            card.style.backgroundImage = "";
+            delete card.dataset.endGround;
+        }
+        return;
+    }
+    const image = "linear-gradient(to bottom, transparent " + from + "px, " + ground + " " + from + "px)";
+    if (card.style.backgroundImage !== image) {
+        card.style.backgroundImage = image;
+        card.dataset.endGround = ground;
+    }
+}
+
+/** Keeps the end of every card and dialog under `root` in its last band's colour while they change (answers, folds, the window). */
+export function useCardEndGround(root: RefObject<HTMLElement | null>, active = true): void {
+    useEffect(() => {
+        const node = root.current;
+        if (!node || !active) {
+            return;
+        }
+        let frame = 0;
+        const paint = () => {
+            cancelAnimationFrame(frame);
+            frame = requestAnimationFrame(() => {
+                const cards = [...(node.matches(".section-tile-dialog, .floating-card-body") ? [node] : []), ...node.querySelectorAll<HTMLElement>(".section-tile-dialog, .floating-card-body")];
+                cards.forEach(paintCardEnd);
+            });
+        };
+        paint();
+        const resize = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(paint);
+        resize?.observe(node);
+        const mutation = typeof MutationObserver === "undefined" ? null : new MutationObserver(paint);
+        mutation?.observe(node, { childList: true, subtree: true, attributes: true, attributeFilter: ["class", "style", "open", "aria-expanded"] });
+        window.addEventListener("resize", paint);
+        return () => {
+            cancelAnimationFrame(frame);
+            resize?.disconnect();
+            mutation?.disconnect();
+            window.removeEventListener("resize", paint);
+        };
+    }, [root, active]);
+}

@@ -7,6 +7,7 @@ import { consumeKey } from "../fields/consumeKey.ts";
 import InfoNote, { InfoText } from "../fields/InfoNote.tsx";
 import { type SectionTile, type TileAdd, type CrumbNote, type CarouselStep, type FloatingItem, type DialogRail } from "./SectionTileTypes.ts";
 import { dialogFrame } from "./SectionTileGeometry.tsx";
+import { useCardEndGround } from "./cardEndGround.ts";
 import { settlePage, InnerBackContext, CrumbsContext, OpenCardContext, InitialBoxContext, type InnerBackApi, type Crumb } from "./DialogLevels.tsx";
 import { CARD_LEVEL, CarouselArrows } from "./CarouselArrows.tsx";
 
@@ -68,6 +69,8 @@ export function FloatingCards({
 }) {
     const overlay = useRef<HTMLDivElement | null>(null);
     const panel = useRef<HTMLDivElement | null>(null);
+    // (Each card's end takes its last band's colour: cardEndGround.ts.)
+    useCardEndGround(panel);
     const [place, setPlace] = useState<{ left: number; top: number; band: number } | null>(null);
     // THE SHADE OF THE CHAPTER BEHIND: the frame the card stands over (its anchor), as it stands, with its own corners.
     const [shade, setShade] = useState<{ left: number; top: number; width: number; height: number; radius: string } | null>(null);
@@ -341,6 +344,8 @@ export function TileDialog({
 
     const panel = useRef<HTMLDivElement | null>(null);
     const nameId = useId();
+    // (The dialog's end takes its last band's colour: cardEndGround.ts.)
+    useCardEndGround(panel);
 
     // The square between the heading's underline and the footer; measured on opening and
     // whenever the window changes size.

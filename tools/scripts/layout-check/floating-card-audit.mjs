@@ -92,6 +92,17 @@ const structure = () => {
             if (questions.length > 1) fail("one question per band", questions.length + " questions in one band: " + questions.map(q => q.querySelector(".field-label").textContent.trim().slice(0, 30)).join(" | "));
         }
     }
+    // the card's end: its last band's colour runs to the card's end (owner, 2026-11-09; cardEndGround.ts): the last band ends at the card's foot, or the card paints its end in that band's colour (data-end-ground).
+    {
+        const body = document.querySelector(".floating-card-body");
+        const bands = [...body.querySelectorAll(".legal-entity-org-section")].filter(b => b.getBoundingClientRect().height > 0);
+        const last = bands.reduce((low, b) => !low || b.getBoundingClientRect().bottom > low.getBoundingClientRect().bottom + 0.5 ? b : low, null);
+        if (last) {
+            const ground = getComputedStyle(last).backgroundColor, tinted = ground !== "transparent" && !ground.replace(/\s/g, "").endsWith(",0)") && !ground.replace(/\s/g, "").endsWith("/0)");
+            const gap = body.getBoundingClientRect().bottom - last.getBoundingClientRect().bottom;
+            if (tinted && gap > 1 && body.dataset.endGround !== ground) fail("card end", "the end shows another colour under the last band (" + Math.round(gap) + "px)");
+        }
+    }
     // words: no "None of these" (an Other the user writes in). (The word "or" is right between two different things, a slash between similar ones: owner, 2026-11-03, docs/ai/tile-and-card-pattern.md, "Options".)
     const words = [...card.querySelectorAll(".radio-choice-option span, .business-foundation-tick-label")].map(e => e.textContent.trim()).filter(w => /None of these/.test(w));
     if (words.length) fail("option words", words.slice(0, 4).join(" | "));
