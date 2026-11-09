@@ -86,7 +86,7 @@ Related: doc 38 (Early Positioning, the next tile, in the same form), doc 35 (th
 
 - **Control:** a date cell.
 - **Asked when:** always. It can be changed at any time.
-- **The "i" says:** The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it. The stage also sets Positioning's name and how many choices each of its questions allows; an answer that no longer fits a new stage goes back to empty. The days from the plan's start to the day before it are the pre-operational period: every cost is split around it by its own dates.
+- **The "i" says:** The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it. The stage also sets Positioning's name and how many choices each of its questions allows; when the stage changes, an answer that fits only the old stage goes back to empty. The days from the plan's start to the day before it are the pre-operational period: every cost is split around it by its own dates.
 - **Connections:**
   - *Comes from:* nothing (it is saved with the Global Settings).
   - *Read by (built):* the business stage (Planning, Launching, Managing, Growing) and so the name and the limits of Early Positioning (doc 38), the number of Segments, the questions the Segment holds back; the financial plan's pre-operational period; the key dates on the Review and the Calendar.

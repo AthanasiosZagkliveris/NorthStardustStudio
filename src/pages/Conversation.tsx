@@ -1857,7 +1857,7 @@ export default function Conversation() {
         setStrategyPrompt({
             title: "Objectives fall outside this period",
             message:
-                `${formatRangeShort(period)} no longer covers ` +
+                `${formatRangeShort(period)} leaves out ` +
                 `${stranded.length === 1 ? "this Objective" : "these Objectives"}: ` +
                 `${stranded.join("; ")}. Change ` +
                 `${stranded.length === 1 ? "its period" : "their periods"} on the ` +

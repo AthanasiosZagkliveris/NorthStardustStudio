@@ -108,7 +108,7 @@ What the first published version contains and what it leaves for later (33, whic
 | [design/questionnaire/36-profile-questions.md](design/questionnaire/36-profile-questions.md) | specification | The Profile card's questions, built in part: every question and option in order (the specialised needs and the kind of business are not built yet), when it is asked, the starting values, the help, and the layout of the card. | 2026-11-09 |
 | [design/questionnaire/37-organization-fields.md](design/questionnaire/37-organization-fields.md) | specification | The Organisation tile's fields as built: control, when asked, options, the help and the connections. | 2026-11-09 |
 | [design/questionnaire/38-positioning-questions.md](design/questionnaire/38-positioning-questions.md) | specification | The Positioning tile's questions as built, by stage: control, limits, options, the help and the connections. | 2026-11-09 |
-| [design/questionnaire/39-help-texts-guide.md](design/questionnaire/39-help-texts-guide.md) | specification | What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check. | 2026-11-08 |
+| [design/questionnaire/39-help-texts-guide.md](design/questionnaire/39-help-texts-guide.md) | specification | What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check. | 2026-11-09 |
 | [design/questionnaire/40-tile-documents.md](design/questionnaire/40-tile-documents.md) | rules | The form every tile document takes (one for each tile or card), and where each tile stands: which has a document and which does not yet. | 2026-11-09 |
 | [design/questionnaire/41-competitor-questions.md](design/questionnaire/41-competitor-questions.md) | specification | The Competitor card: every question and option, as built (K1 to K10, in the card's order, by the competitor's type). | 2026-11-09 |
 | [design/questionnaire/42-value-proposition-questions.md](design/questionnaire/42-value-proposition-questions.md) | proposal | The Value Proposition tile: the draft sentence and the open items, as proposed. | 2026-11-09 |
@@ -128,7 +128,7 @@ Standing rules, references and playbooks for an AI assistant working on the proj
 | [ai/framework-dsl-grammar.md](ai/framework-dsl-grammar.md) | reference | Grammar of the Markdown that defines a System's content. | 2026-11-03 |
 | [ai/framework-conventions-and-patterns.md](ai/framework-conventions-and-patterns.md) | reference | The architectural patterns and the data model of the framework. | 2026-11-03 |
 | [ai/review-criteria.md](ai/review-criteria.md) | rules | The standard a screen is judged by: criteria by kind (type, spacing, controls, colour, tiles, cards, tables, windows, pages, data), how each is measured, the report. | 2026-11-02 |
-| [ai/review-checklist.md](ai/review-checklist.md) | rules | What to check when reviewing a table, tile, card, page or control, and the proof before saying done. | 2026-11-08 |
+| [ai/review-checklist.md](ai/review-checklist.md) | rules | What to check when reviewing a table, tile, card, page or control, and the proof before saying done. | 2026-11-09 |
 | [ai/code-map.md](ai/code-map.md) | reference | Where things are in src: the folders and what is in each; the rules for a new file. | 2026-11-09 |
 | [ai/layout-rules.md](ai/layout-rules.md) | rules | The measured rulebook of the Foundation pages (tokens, sizes, alignment, interactions) and the layout check. | 2026-11-09 |
 | [ai/tile-and-card-pattern.md](ai/tile-and-card-pattern.md) | rules | How tiles, frames, cards, rails and dialogs are built; the global rules. | 2026-11-09 |
@@ -142,8 +142,8 @@ The pages of the Business System and of the Identity System.
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [specifications/identity-system/README.md](specifications/identity-system/README.md) | specification | The Identity System: index of the pages that have a document of their own. | 2026-11-03 |
-| [specifications/identity-system/page-1-definition.md](specifications/identity-system/page-1-definition.md) | current design | 1. Identity System, 1. Definition: the master tile with its four tiles (Organisation, Early Positioning, Mission, Vision), its layout, reactions and readers, and the extra information that is neither built nor a future feature. | 2026-11-03 |
+| [specifications/identity-system/README.md](specifications/identity-system/README.md) | specification | The Identity System: index of the pages that have a document of their own. | 2026-11-09 |
+| [specifications/identity-system/page-1-definition.md](specifications/identity-system/page-1-definition.md) | current design | 1. Identity System, 1. Definition: the master tile with its four tiles (Organisation, Early Positioning, Mission, Vision), its layout, reactions and readers, and the extra information that is neither built nor a future feature. | 2026-11-09 |
 | [specifications/business-system/README.md](specifications/business-system/README.md) | specification | The Business System: index of the pages and the editor mapping. | 2026-11-09 |
 | [specifications/business-system/page-1-foundation.md](specifications/business-system/page-1-foundation.md) | specification | Page 1: Foundation. | 2026-11-09 |
 | [specifications/business-system/page-2-section-1-channels.md](specifications/business-system/page-2-section-1-channels.md) | specification | Page 2, section 1: the channels. | 2026-11-09 |

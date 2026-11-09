@@ -30,7 +30,7 @@ The Product Development System covers the full journey a product takes, from an 
 
 ## 08. Operations System
 
-The Operations System documents the recurring work that keeps your organization running day to day. It is where you define processes, assign responsibilities, and record the operational details that make daily work consistent instead of improvised each time. Lean on it whenever recurring tasks need structure, or when you want operations to hold up as the organization grows. What you get is a set of operational standards and standard operating procedures that anyone can follow, along with clearly defined responsibilities for who owns what.
+The Operations System documents the recurring work that keeps your organization running day to day. It is where you define processes, assign responsibilities, and record the operational details that make daily work consistent, day after day. Lean on it whenever recurring tasks need structure, or when you want operations to hold up as the organization grows. What you get is a set of operational standards and standard operating procedures that anyone can follow, along with clearly defined responsibilities for who owns what.
 
 ## 09. Innovation System
 
@@ -46,7 +46,7 @@ The Research System keeps your investigations organized, from the first question
 
 ## 12. Knowledge System
 
-The Knowledge System is where hard-won experience gets captured instead of staying in one person's head. It gives you a structure for recording lessons learned, best practices, and answers to the questions that come up again and again, so that knowledge is genuinely reusable across the organization. It earns its keep whenever something worth remembering happens, whether that is a lesson from a project or a practice worth standardizing. What builds up over time is a proper knowledge base, complete with documented lessons and FAQs that save people from solving the same problem twice.
+The Knowledge System is where hard-won experience gets captured and shared across the team. It gives you a structure for recording lessons learned, best practices, and answers to the questions that come up again and again, so that knowledge is genuinely reusable across the organization. It earns its keep whenever something worth remembering happens, whether that is a lesson from a project or a practice worth standardizing. What builds up over time is a proper knowledge base, complete with documented lessons and FAQs that save people from solving the same problem twice.
 
 ## 13. Asset System
 
@@ -54,7 +54,7 @@ The Asset System is your record of the important assets your organization relies
 
 ## 14. Data Governance System
 
-The Data Governance System documents how your organization's data is identified, protected, and looked after throughout its life. It exists to keep that data accurate, consistent, secure, and accessible enough to actually support good decisions. You will want it whenever data ownership needs clarifying, quality needs maintaining, or compliance and security need to be put in writing rather than assumed. Completing it gives you a documented data inventory along with clear frameworks for ownership, quality, security, and ongoing review.
+The Data Governance System documents how your organization's data is identified, protected, and looked after throughout its life. It exists to keep that data accurate, consistent, secure, and accessible enough to actually support good decisions. You will want it whenever data ownership needs clarifying, quality needs maintaining, or compliance and security need to be put in writing. Completing it gives you a documented data inventory along with clear frameworks for ownership, quality, security, and ongoing review.
 
 ## 15. Governance System
 
@@ -62,7 +62,7 @@ The Governance System documents how your organization is actually directed and h
 
 ## 16. People System
 
-The People System covers the entire arc of how people contribute to your organization, from the roles you define to how someone eventually moves on. It documents recruitment, onboarding, development, performance, and collaboration, so managing people follows a consistent approach rather than improvising each time. It is worth working through whenever roles need defining, skills need managing, or team responsibilities feel unclear. By the end, you will have a defined people structure and complete frameworks for recruiting, developing, and evaluating everyone who works with you.
+The People System covers the entire arc of how people contribute to your organization, from the roles you define to how someone eventually moves on. It documents recruitment, onboarding, development, performance, and collaboration, so managing people follows one consistent approach. It is worth working through whenever roles need defining, skills need managing, or team responsibilities feel unclear. By the end, you will have a defined people structure and complete frameworks for recruiting, developing, and evaluating everyone who works with you.
 
 ## 17. Finance System
 
@@ -74,7 +74,7 @@ The Stakeholder System keeps track of everyone who has real influence on your or
 
 ## 19. Publishing System
 
-The Publishing System organizes everything involved in getting content out into the world, from the first idea to final distribution. It sets standards for creating and reviewing content, and keeps a schedule so publishing happens consistently rather than in bursts. Work through it whenever content needs planning, a publishing schedule needs coordinating, or your review process needs tightening up. What you build here is a documented content strategy, a bank of ideas, and clear procedures for creating, reviewing, and distributing everything you publish.
+The Publishing System organizes everything involved in getting content out into the world, from the first idea to final distribution. It sets standards for creating and reviewing content, and keeps a schedule so publishing happens at a steady pace. Work through it whenever content needs planning, a publishing schedule needs coordinating, or your review process needs tightening up. What you build here is a documented content strategy, a bank of ideas, and clear procedures for creating, reviewing, and distributing everything you publish.
 
 ## 20. Website System
 
@@ -86,12 +86,12 @@ The Social Media System brings structure to how your organization shows up acros
 
 ## 22. Metrics & Reporting System
 
-The Metrics & Reporting System is where you decide what actually gets measured across the organization, and how those numbers turn into reports people use. It helps you define meaningful performance indicators, build a reporting schedule, and set up a review process so results get discussed rather than just collected. Make use of it whenever performance needs measuring, indicators need defining, or reporting feels inconsistent from one period to the next. What comes out of it is a set of defined performance areas, real KPIs, and a reporting and review structure that keeps decisions grounded in actual data.
+The Metrics & Reporting System is where you decide what actually gets measured across the organization, and how those numbers turn into reports people use. It helps you define meaningful performance indicators, build a reporting schedule, and set up a review process so results get discussed and acted on. Make use of it whenever performance needs measuring, indicators need defining, or reporting feels inconsistent from one period to the next. What comes out of it is a set of defined performance areas, real KPIs, and a reporting and review structure that keeps decisions grounded in actual data.
 
 ## 23. Quality System
 
-The Quality System documents what "good" actually means across your products, services, and operations, and how you make sure you keep delivering it. It covers setting quality standards, running controls that catch issues early, and reviewing results so problems get addressed rather than repeated. Pull it out whenever standards need defining, quality needs monitoring, or you are formalizing how issues get identified and resolved. Completing it gives you documented standards, a quality control framework, and a review process that turns quality into something you actively manage instead of just hoping for.
+The Quality System documents what "good" actually means across your products, services, and operations, and how you make sure you keep delivering it. It covers setting quality standards, running controls that catch issues early, and reviewing results so problems get addressed once and for all. Pull it out whenever standards need defining, quality needs monitoring, or you are formalizing how issues get identified and resolved. Completing it gives you documented standards, a quality control framework, and a review process that turns quality into something you actively manage.
 
 ## 24. Improvement System
 
-The Improvement System is where every opportunity to get better, wherever it comes from, gets tracked from first idea through to lasting change. It helps you prioritize which improvements matter most, implement the ones you approve, and keep checking afterward that they are still delivering value. Come back to it whenever an improvement opportunity surfaces, or when you want a repeatable process instead of ad hoc fixes. By the end, you will have an improvement register, a prioritization framework, and a monitoring process that keeps your organization getting better on purpose, not by accident.
+The Improvement System is where every opportunity to get better, wherever it comes from, gets tracked from first idea through to lasting change. It helps you prioritize which improvements matter most, implement the ones you approve, and keep checking afterward that they are still delivering value. Come back to it whenever an improvement opportunity surfaces, or when you want a repeatable process for making things better. By the end, you will have an improvement register, a prioritization framework, and a monitoring process that keeps your organization getting better on purpose, not by accident.
