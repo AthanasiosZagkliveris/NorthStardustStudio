@@ -182,16 +182,17 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
             };
         const expenseEntries = entity.expenses.filter(expense => expense.name.trim().length > 0).slice(0, 8);
         // The lines of the Formation's and the Tax's tiles. (They name no card, so they are no links: what a registration is linked to is a circle on the tile.)
+        // (Every line, no cap: the tile's list scrolls where they do not all fit, as every tile's list does.)
         const formationEntries = [
             entity.formation.status === "planned" ? "Planned" : "Registered",
             entity.formation.authority,
             ...entity.formation.additionalNumbers.map(number => number.label)
-        ].filter(text => text.trim().length > 0).slice(0, 6);
+        ].filter(text => text.trim().length > 0);
         const taxEntries = [
             entity.tax.identificationNumber.trim() ? (profile.taxIdName || "Tax ID") + ": " + entity.tax.identificationNumber.trim() : "",
             entity.tax.consumptionTaxStatus === "yes" ? "VAT " + entity.tax.consumptionTaxNumber : "",
             ...entity.tax.additionalRegistrations.map(registration => registration.label)
-        ].filter(text => text.trim().length > 0).slice(0, 6);
+        ].filter(text => text.trim().length > 0);
         const tiles: SectionTile[] = [
             {
                 id: "legal-entity-founders", title: "Founders & Ownership", large: true, rail: rail(1),
@@ -265,8 +266,8 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
                                     id: "registration-numbers",
                                     // (A sub tile's title is one line, as every tile's: a long one is cut and slides under the pointer, never broken.)
                                     title: "Registration Numbers",
-                                    items: [...formationEntries, ...taxEntries].slice(0, 8),
-                                    itemMarks: [...formationEntries, ...taxEntries].slice(0, 8).map((_entry, at) => at === 0 ? { plain: true } : { bullet: true }),
+                                    items: [...formationEntries, ...taxEntries],
+                                    itemMarks: [...formationEntries, ...taxEntries].map((_entry, at) => at === 0 ? { plain: true } : { bullet: true }),
                                     circles: expenseCircles(["formation-registration-number", ...entity.formation.additionalNumbers.map(number => number.id), "tax-consumption-number", ...entity.tax.additionalRegistrations.map(registration => registration.id)]),
                                     content: () => (
                                         <div className="legal-entity-body legal-entity-subview">
