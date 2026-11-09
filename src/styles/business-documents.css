@@ -1,56 +1,16 @@
 /* ==========================================================
    Business Documents -- the Business Plan and the Business
-   Model Canvas, previewed (pages/BusinessDocuments.tsx)
+   Model Canvas, previewed (components/BusinessDocumentsView.tsx, the Workbook's Business Documents)
 ========================================================== */
 
-.business-documents-main{
-
-    flex:1;
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:20px;
-
-    width:100%;
-    max-width:1180px;
-
-    margin:0 auto;
-
-    /* Clears the fixed header above and footer below, as
-       .workspace-main does. */
-    padding:152px 40px 124px;
-
-    box-sizing:border-box;
-
-}
-
-/* Centred like the other workspace pages. The title's rule hangs
-   18px below it (.workspace-title::after), so the line under it
-   starts well clear of that. */
-.business-documents-head{
+/* The Workbook's Business Documents section: its tabs, its actions and the document, one under the other, as the Glossary's parts are. */
+.business-documents{
 
     display:flex;
 
     flex-direction:column;
 
-    align-items:center;
-
-    gap:36px;
-
-    text-align:center;
-
-}
-
-.business-documents-lead{
-
-    margin:0;
-
-    font-size:var(--font-body);
-    line-height:1.5;
-
-    color:var(--text-secondary);
+    gap:var(--gap-24);
 
 }
 
@@ -430,13 +390,6 @@
     .business-canvas-box{
 
         border-radius:0 !important;
-
-    }
-
-    .business-documents-main{
-
-        padding-left:16px;
-        padding-right:16px;
 
     }
 

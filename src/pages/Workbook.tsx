@@ -1,18 +1,20 @@
-import { CSSProperties, useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { CSSProperties, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 import AppFooter from "../components/AppFooter";
 import AppHeader from "../components/AppHeader";
 import InterviewHeader from "../components/interview/editors/InterviewHeader";
-import BulletRail from "../components/interview/rails/BulletRail";
-import InfoNote from "../components/interview/fields/InfoNote";
+import CardShell from "../components/interview/cards/CardShell";
+import { CarouselArrows } from "../components/interview/tiles/CarouselArrows";
+import { DialogHeading } from "../components/interview/tiles/SectionTiles";
+import BusinessDocumentsView from "../components/BusinessDocumentsView";
+import { workHue } from "../framework/engine/WorkColours";
 import ResponsibilityFilter from "../components/interview/fields/ResponsibilityFilter";
 import GlossaryList, { YOUR_TERMS_HUE, anchorOf, letterOf, letterRanges, toggled } from "../components/GlossaryList";
 import OrganizationReview, { goToReviewPlace } from "../components/OrganizationReview";
 import { WorkbookCardNotes, type WorkbookState } from "../components/notepad/Notepad";
 import HarvardReference from "../components/references/HarvardReference";
 import { harvardReference, referenceList } from "../framework/engine/Sources";
-import useRailTab, { type RailTabColours } from "../hooks/useRailTab";
 import { OrganizationService } from "../services/OrganizationService";
 import { organizationReview } from "../services/ReviewService";
 
@@ -21,6 +23,9 @@ import "../styles/workspace.css";
 // The funnel (ResponsibilityFilter) and the "i" note links are drawn as they are on the System pages.
 import "../styles/conversation.css";
 import "../styles/section-tiles.css";
+// (The page card's width, --card-width, and the carousel's tab and bullets are the System pages'.)
+import "../styles/status-shape.css";
+import "../styles/bullet-rail.css";
 import "../styles/glossary.css";
 import "../styles/review.css";
 
@@ -30,20 +35,17 @@ export type { WorkbookState } from "../components/notepad/Notepad";
 
 export type WorkbookTab = NonNullable<WorkbookState["tab"]>;
 
-/**
- * The page tab's colours (useRailTab): the Workbook belongs to no System and has no frame to take them from, so its tab is drawn in the
- * page's own ground with the app's blue for its edge and bullets (the header tools' edge), as tokens, so it follows the reading mode.
- */
-const WORKBOOK_TAB: RailTabColours = { bg: "var(--bg-surface)", edge: "var(--line-primary)", ink: "var(--text-strong)" };
+/** The Workbook's colour: the work done in it is reviewing (WorkColours.ts; docs/design/core/01-current-design.md, part I). */
+const WORKBOOK_HUE = workHue("review");
 
-const TAB_LABELS: Record<WorkbookTab, string> = { "card-notes": "Card Notes", review: "Review", glossary: "Glossary", references: "References" };
+const TAB_LABELS: Record<WorkbookTab, string> = { "card-notes": "Card Notes", review: "Review", glossary: "Glossary", references: "References", documents: "Business Documents" };
 
 /**
  * What the Glossary's and the References' titles' "i" says (doc 39, 3.3: a page title's note, at most three points of at most 160
  * characters; an option's meaning as "Name: meaning"). What the tab is, how to use it, and what its two colours or its style mean:
  * nothing of it repeats the title. (The Card Notes and the Review carry no "i", as before.)
  */
-export const GLOSSARY_INFO: Record<"glossary" | "references", string[]> = {
+export const GLOSSARY_INFO: Record<"glossary" | "references" | "documents", string[]> = {
     glossary: [
         "Every word the app uses and every name you gave, from A to Z. The funnel shows either kind, or both, and the letter ranges.",
         "App terms, in blue: the app's own words, with what each means here and the source it rests on. Press a source to read it in full.",
@@ -53,24 +55,19 @@ export const GLOSSARY_INFO: Record<"glossary" | "references", string[]> = {
         "Every source the app cites, from A to Z. The funnel shows the letter ranges you choose.",
         "Written in the Harvard style: the author and year where a source is cited, and the full reference here.",
         "Each address opens in your browser."
+    ],
+    // (The Business Documents: what they are drawn from is the Plan's own subtitle; how to change them is said here, once.)
+    documents: [
+        "Your Business Plan, Business Model Canvas and Financial Forecast, written from your Foundation answers each time you open them.",
+        "To change a line, change the answer it came from. Export each one as Markdown or PDF, and the Forecast as CSV too."
     ]
 };
 
 /**
- * THE WORKBOOK (owner, 2026-11-09: "the layout as it was the Glossary, a whole page, not a side panel"; then "match the app's page
- * style"): one page in the System pages' shape: the title at the top left over its rule ("Workbook — Glossary", InterviewHeader),
- * and its tabs as the bullets of a page tab at the left (BulletRail in the `.bullet-rails` band, the tab drawn by useRailTab).
- *
- * Card Notes: the Notes text of every card (WorkbookCardNotes, Notepad.tsx; owner, 2026-11-09: "Card Notes and Notes tool are
- * different. Card Notes in the Workbook, Notes Tool as before": the person's own notes are the header's Notes tool, its side panel).
- * Review: the open Organisation's (OrganizationReview).
- * Glossary: the shared GlossaryList (every term in one A to Z list, in two colours, under one funnel of the kinds and the letter
- * ranges). References: every source the app cites (Sources.ts), as a Harvard reference list, with a funnel of letter ranges.
- *
- * Opened from the header's Workbook: with an Organisation open, and on the Landing page (the same button, `total`: the review of every
- * Organisation, with a funnel of the Organisations, and the Glossary with every Organisation's terms; there no Organisation is open, so
- * the page has the Landing's header and the Card Notes, one Organisation's, are left out), and from a Glossary result of the search.
- * Escape, and Back, return to where it was opened from.
+ * THE WORKBOOK (layout rules 22.37): one page, "Workbook" over its rule, its sections in one panel drawn as a dialog of the app, with the carousel
+ * arrows and the tab of bullets: Card Notes (WorkbookCardNotes), Review (OrganizationReview), Glossary (GlossaryList), References (Sources.ts as a
+ * Harvard list) and Business Documents (BusinessDocumentsView). From the Landing page (`total`), the Review of every Organisation, the Glossary
+ * and the References. Escape, and Back, return to where it was opened from.
  */
 export default function Workbook() {
 
@@ -80,7 +77,8 @@ export default function Workbook() {
     const [organizationId] = useState(() => OrganizationService.getSelected());
     // Opened from the Landing page (or with no Organisation): its header, the total review, the Glossary and the References.
     const landing = state.total === true || !organizationId;
-    const tabs = useMemo(() => (landing ? ["review", "glossary", "references"] as const : ["card-notes", "review", "glossary", "references"] as const)
+    // (The Business Documents are one Organisation's, as the Card Notes are: left out on the Landing page.)
+    const tabs = useMemo(() => (landing ? ["review", "glossary", "references"] as const : ["card-notes", "review", "glossary", "references", "documents"] as const)
         .map(id => ({ id: id as WorkbookTab, label: TAB_LABELS[id] })), [landing]);
     const first = (wanted?: WorkbookTab): WorkbookTab => wanted && tabs.some(entry => entry.id === wanted) ? wanted : tabs[0].id;
     const [tab, setTab] = useState<WorkbookTab>(() => first(state.tab));
@@ -153,32 +151,47 @@ export default function Workbook() {
     const glossaryOrganisations = useMemo(() => landing ? OrganizationService.list().map(entry => entry.id) : organizationId ? [organizationId] : [],
         [landing, organizationId]);
 
-    // The page tab, in the Workbook's own colours (it has no frame to take them from).
-    useRailTab(WORKBOOK_TAB);
-
-    // The tab starts 12px under the top of what the page shows under its title (the page tab's rule): the rails' band reads it as
-    // --arrow-level (bullet-rail.css), the level a page arrow sets on a System page, 24px over the rails' row.
-    const [tabLevel, setTabLevel] = useState<number | null>(null);
-    useLayoutEffect(() => {
-        const header = document.querySelector(".workbook .interview-header");
-        if (!header) {
-            return;
-        }
-        const gap = parseFloat(getComputedStyle(header.parentElement as Element).rowGap) || 0;
-        setTabLevel(Math.round(header.getBoundingClientRect().bottom + window.scrollY + gap + 12 - 24));
-    }, [tab]);
-
-    // A bullet of the page tab: that tab, from its top.
+    // A section of the Workbook, from its top: a bullet of its tab, or an arrow.
     const show = (next: WorkbookTab) => {
         setTab(next);
         window.scrollTo?.({ top: 0 });
+    };
+
+    // THE WORKBOOK IS DRAWN AS A DIALOG OF THE APP (owner, 2026-11-09: "Check an app's card (dialog) style. Is missing navigation arrows, proper side gaps,
+    // a proper framing"): its sections in one framed panel (CardShell, as a section dialog), the section's heading in it with its "i", the carousel arrows at
+    // its sides going round the sections, and their bullets in the tab attached to the panel (CarouselArrows, as on every dialog).
+    const panel = useRef<HTMLDivElement | null>(null);
+    // (As a section dialog stands, from under the title's rule down to the footer, 12px clear of it: what is taller scrolls in its body.)
+    const [panelHeight, setPanelHeight] = useState<number | null>(null);
+    useLayoutEffect(() => {
+        const measure = () => {
+            const node = panel.current;
+            const foot = document.querySelector(".workbook .workspace-footer");
+            if (!node || !foot) {
+                return;
+            }
+            const next = Math.max(240, Math.round(foot.getBoundingClientRect().top - 12 - (node.getBoundingClientRect().top + window.scrollY)));
+            setPanelHeight(current => current === next ? current : next);
+        };
+        measure();
+        window.addEventListener("resize", measure);
+        return () => window.removeEventListener("resize", measure);
+    }, []);
+    const at = Math.max(0, tabs.findIndex(entry => entry.id === tab));
+    const step = {
+        what: "section",
+        previous: () => show(tabs[(at - 1 + tabs.length) % tabs.length].id),
+        next: () => show(tabs[(at + 1) % tabs.length].id),
+        items: tabs,
+        current: at,
+        go: (id: string) => show(id as WorkbookTab)
     };
 
     return (
 
         <div
             className="workspace glossary workbook"
-            style={{ "--glossary-yours-hue": YOUR_TERMS_HUE, ...(tabLevel === null ? {} : { "--arrow-level": tabLevel + "px" }) } as CSSProperties}
+            style={{ "--glossary-yours-hue": YOUR_TERMS_HUE } as CSSProperties}
         >
 
             {/* (Opened from the Landing page: its header, not the selected Organisation's.) */}
@@ -186,12 +199,18 @@ export default function Workbook() {
 
             <main className="glossary-page">
 
-                {/* The top of the page as on a System page: "Workbook — Glossary" at the top left, over its rule. */}
-                <InterviewHeader
-                    systemName="Workbook"
-                    pageTitle={title}
-                    note={(tab === "glossary" || tab === "references") && <InfoNote key={tab} label={TAB_LABELS[tab]} points={GLOSSARY_INFO[tab]} />}
-                />
+                {/* The top of the page as on a System page: "Workbook" at the top left, over its rule; the section's name is the panel's heading. */}
+                <InterviewHeader systemName="Workbook" />
+
+                <CardShell ref={panel} className="section-tile-dialog workbook-panel" data-carousel="" style={{ "--strategy-theme-hue": WORKBOOK_HUE, ...(panelHeight === null ? {} : { height: panelHeight }) } as CSSProperties}>
+
+                {/* As a dialog's: the body that holds the heading and the section. */}
+                <div className="section-tile-dialog-body">
+                <div className="column-tile-content workbook-section">
+
+                <div className="business-engagement-section-head" role="heading" aria-level={2}>
+                    <DialogHeading key={tab} title={title} info={tab === "glossary" || tab === "references" || tab === "documents" ? GLOSSARY_INFO[tab] : undefined} />
+                </div>
 
                 {tab === "card-notes" && <WorkbookCardNotes />}
 
@@ -255,15 +274,16 @@ export default function Workbook() {
                     </section>
                 )}
 
+                {tab === "documents" && organizationId && <BusinessDocumentsView organizationId={organizationId} />}
+
+                </div>
+                </div>
+
+                </CardShell>
+
             </main>
 
-            {/* The page tab at the left, as on a System page: one bullet for each tab, the one shown lit (after <main>, so the page's
-                own content comes first in the tab order; the band is fixed, see bullet-rail.css). */}
-            <div className="bullet-rails">
-                <div className="bullet-rails-row">
-                    <BulletRail side="left" label="Workbook" items={tabs} activeId={tab} onSelect={(id) => show(id as WorkbookTab)} />
-                </div>
-            </div>
+            <CarouselArrows target={panel} step={step} hue={WORKBOOK_HUE} />
 
             <AppFooter onBack={back} />
 
@@ -277,7 +297,7 @@ export default function Workbook() {
  * The Glossary's and the Review's old addresses (`/glossary`, `/review`): the Workbook on that tab, with what they were opened with
  * (a term, the References, the total review, where to go back to).
  */
-export function WorkbookRedirect({ tab }: { tab: "glossary" | "review" }) {
+export function WorkbookRedirect({ tab }: { tab: "glossary" | "review" | "documents" }) {
     const location = useLocation();
     const state = (location.state as WorkbookState | null) ?? {};
     return <Navigate to="/workbook" replace state={{ ...state, tab: state.tab ?? tab }} />;

@@ -75,7 +75,7 @@ What you sell, to whom, with what, and whether the money works. Five pages, best
 
 ### 3.5 Business Documents
 
-In the Foundation on System Selection, **Business Documents** writes the **Business Plan**, the **Business Model Canvas** and the **Financial Forecast** (annual, quarterly or monthly) from your answers. Each one downloads as a PDF, and the figures as a CSV file.
+The Foundation's answers write the **Business Plan**, the **Business Model Canvas** and the **Financial Forecast** (annual, quarterly or monthly). They are in the Workbook (section 4.1); the **Business Documents** button of the Foundation on System Selection opens them there. Each downloads as Markdown or PDF, and the Forecast as CSV too.
 
 ## 4. The tools
 
@@ -85,13 +85,14 @@ The tools stand in the header at the top of every page with an Organisation open
 
 Everything you have written and everything the app explains, on one page.
 
-1. Press **Workbook** in the header. The page opens with its title at the top left ("Workbook — Card Notes") and its tabs as bullets in the tab at the left: press a bullet to change tab.
-2. **Card Notes**: the Notes field of every card, page by page. The funnel at the right chooses the pages; press a note to open its card.
-3. **Review**: what still needs your attention: Still open, Worth a second look, Missing from the documents and Key dates. Each item has "Go there", which opens the page or card it is about.
-4. **Glossary**: every term from A to Z: the app's own words in blue, with their meaning and the sources they rest on, and the names you gave (your Segments, Profiles, Offerings and the rest) in terracotta, each with "Open the …". The funnel chooses the kinds of term and the letter ranges.
-5. **References**: every source the app cites, as a Harvard reference list; each address opens in your browser. A citation in the Glossary opens its reference here.
+1. Press **Workbook** in the header. The page opens on its first section, in a framed panel. Go round the sections with the arrows at its sides, or press a bullet in the tab beside it.
+2. **Card Notes**: the Notes field of every card, page by page. The funnel chooses the pages; press a note to open its card.
+3. **Review**: Still open, Worth a second look, Missing from the documents and Key dates. "Go there" opens the page or card an item is about.
+4. **Glossary**: every term from A to Z, the app's words in blue (with their meaning and sources) and the names you gave in terracotta (with "Open the …"). The funnel chooses the kinds and the letter ranges.
+5. **References**: every source the app cites, as a Harvard reference list. A citation in the Glossary opens its reference here.
+6. **Business Documents**: the Business Plan, the Business Model Canvas and the Financial Forecast, a tab each (section 3.5).
 
-On the **Organisations screen**, the same Workbook button covers every Organisation: the Review shows each Organisation's review, the Glossary lists every Organisation's terms with the Organisation named beside each, and the funnels choose the Organisations. Card Notes belong to one Organisation and show inside it.
+On the **Organisations screen** the same button covers every Organisation: their Reviews, their terms in the Glossary (each named with its Organisation) and the References. Card Notes and Business Documents belong to one Organisation and show inside it.
 
 Back or Escape returns you to where you opened the Workbook.
 

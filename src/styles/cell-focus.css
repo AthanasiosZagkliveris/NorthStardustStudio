@@ -190,7 +190,6 @@
 
 /* (On the tinted ground a card has, as the Systems' cells do: a white cell on a white page shows no field.) */
 .settings-page,
-.business-documents,
 .search-dialog {
     background-color: var(--bg-card-tint);
     --info-fill: var(--bg-card-tint);

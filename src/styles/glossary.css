@@ -39,11 +39,28 @@
 
 }
 
-/* THE WORKBOOK'S COLUMN is a System page's card: as wide as the page tab reads it (--card-width, bullet-rail.css: up to 1100px here,
-   the window less a rail gutter on each side below that), its title 24px under the header (the 104px of .conversation-content). */
-.workbook{
+/* THE WORKBOOK'S COLUMN is a System page's card (--card-width, bullet-rail.css: up to 1400px, the window less a rail gutter on each side),
+   its title 24px under the header (the 104px of .conversation-content), its sections in one panel drawn as a dialog (owner, 2026-11-09):
+   the dialog's padding, gap, ground and edge (section-tiles, "The dialog's ground"), the carousel arrows and the tab at its sides. */
+.workbook .workbook-panel{
 
-    --card-width:min(1100px, calc(var(--view-width) - 2 * var(--rail-gutter)));
+    display:flex;
+    flex-direction:column;
+
+    gap:var(--space-field);
+
+    box-sizing:border-box;
+
+    padding:var(--card-padding);
+
+}
+
+.workbook .workbook-section{
+
+    display:flex;
+    flex-direction:column;
+
+    gap:var(--gap-24);
 
 }
 

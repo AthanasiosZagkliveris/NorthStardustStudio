@@ -21,7 +21,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Brand Images | Brand › Brand System › Style | Doc 1, B.1 |
 | Break Even | Business › 5 Sustainability › Break Even | Page 5 |
 | Business | System 3: Foundation, Customer Engagement, Infrastructure & Capability, Financial Foundation, Sustainability | `specifications/business-system/README.md` |
-| Business Documents | System Selection › Foundation › the Business Documents button (`/documents`): Business Plan, Business Model Canvas, Financial Forecast | Doc 1, C.2 and C.11 |
+| Business Documents | Header › Workbook › Business Documents (also System Selection › Foundation › the Business Documents button, and `/documents`): Business Plan, Business Model Canvas, Financial Forecast | Doc 1, C.2 and C.11 |
 | Business stages | Global Settings › Business stages (the four durations); worked out from the Opening Date | Doc 28, 8.2a; doc 37 |
 
 ## C
@@ -81,7 +81,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Header | Every page with an Organisation open: save status, reading mode, Focus, Search, Workbook (the Workbook page: Card Notes, Review, Glossary, References), Notes (the Notes panel), Settings; the Landing page: reading mode, Reload, the same Workbook (Review of every organisation, Glossary, References) | `contents.md` |
+| Header | Every page with an Organisation open: save status, reading mode, Focus, Search, Workbook (the Workbook page), Notes (the Notes panel), Settings; the Landing page: reading mode, Reload, the same Workbook (Review of every organisation, Glossary, References) | `contents.md` |
 | Help tile | Business › 3 Infrastructure & Capability › the footer band: Inventory and Completed | Page 3; doc 1, C.5 |
 
 ## I
@@ -138,7 +138,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Item | Where in the app | Described in |
 |---|---|---|
 | Reading mode | Header: light, sepia, dark, auto | Doc 1, B.2 |
-| References | Header › Workbook › References (the Workbook page's fourth tab): every source the app cites, as a Harvard reference list; the "i" notes cite the same references | Doc 2, 2.1 and 2.2 |
+| References | Header › Workbook › References: every source the app cites, as a Harvard reference list; the "i" notes cite the same references | Doc 2, 2.1 and 2.2 |
 | Registrations | Identity › 2 Legal Entity › Registrations (sub tiles: Registration Numbers, Additional Legal Requirements; each lists what its dialog holds) | Doc 26; layout rules, 13 |
 | Resources | Business › 3 Infrastructure & Capability (both cards) | Page 3 |
 | Revenue | Business › 5 Sustainability › Revenue | Page 5 |
@@ -173,4 +173,4 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Value Proposition | Business › 1 Foundation › Value Proposition | Doc 42; doc 28, 6.7; page 1 |
 | Values | Identity › 1 Definition and Purpose › Purpose & Beliefs › Values & Principles | Doc 45, 3.3 |
 | Vision | Identity › 1 Definition and Purpose › Purpose & Beliefs › Mission & Vision (saved in Definition) | Doc 45, 3.2 |
-| Workbook | Header, wherever an Organisation is open (2026-11-09): one button, no count, opening the Workbook page (`/workbook`, in the shape of a System page: its title at the top left over its rule, its tabs as the bullets of a page tab at the left) with four tabs, Card Notes, Review, Glossary and References; on the Landing page the same button opens it with Review (every organisation), Glossary and References; Back or Escape returns | `contents.md` |
+| Workbook | Header, wherever an Organisation is open, and the Landing page (one button, no count): the Workbook page (`/workbook`), sections Card Notes, Review, Glossary, References and Business Documents; on the Landing page Review (every Organisation), Glossary and References; Back or Escape returns | `contents.md`; layout rules 22.37 |

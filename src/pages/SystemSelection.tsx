@@ -14,6 +14,7 @@ import { getCapabilityDescription } from "../framework/engine/CapabilityDescript
 import AppHeader from "../components/AppHeader";
 import AppFooter from "../components/AppFooter";
 import OrganizationCalendarPanel from "../components/OrganizationCalendarPanel";
+import { openWorkbook } from "../components/notepad/Notepad";
 
 import CapabilityList from "../components/CapabilityList";
 import SystemList from "../components/SystemList";
@@ -295,7 +296,7 @@ export default function SystemSelection() {
                                         Turn the Foundation answers into a Business Plan, a Business Model Canvas and a Financial Forecast.
                                     </p>
                                     <AddButton
-                                        onClick={() => navigate("/documents")}>
+                                        onClick={() => openWorkbook(navigate, location, { tab: "documents" })}>
                                         Business Documents
                                     </AddButton>
                                 </div>

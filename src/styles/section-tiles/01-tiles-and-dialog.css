@@ -389,6 +389,12 @@
 
     padding: var(--card-padding);
 
+}
+
+/* The dialog's ground, edge and shadow: every section dialog's, and the Workbook's panel (a page drawn as one dialog; owner, 2026-11-09). */
+.section-tile-overlay.business-foundation > .section-tile-dialog.business-foundation-card,
+.workbook .workbook-panel.section-tile-dialog.business-foundation-card {
+
     /* (A frame that has text on it is never transparent: the ground is solid, nothing of the page shows through.) */
     background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
 

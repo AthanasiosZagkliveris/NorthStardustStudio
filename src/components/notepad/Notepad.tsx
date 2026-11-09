@@ -85,7 +85,7 @@ export function NotepadButton() {
 
 /** Where the Workbook page is opened with: its tab, the total review (the Landing page's), a term, and where to go back to. */
 export interface WorkbookState {
-    tab?: "card-notes" | "review" | "glossary" | "references";
+    tab?: "card-notes" | "review" | "glossary" | "references" | "documents";
     total?: boolean;
     term?: string;
     from?: { pathname: string; state?: unknown };

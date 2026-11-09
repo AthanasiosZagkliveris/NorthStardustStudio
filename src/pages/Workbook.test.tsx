@@ -35,7 +35,7 @@ beforeEach(() => {
 afterEach(cleanup);
 
 /** A bullet of the Workbook's page tab (its tabs, as on a System page's Pages rail). */
-const railTab = (name: string) => within(screen.getByRole("navigation", { name: "Workbook" })).getByRole("button", { name });
+const railTab = (name: string) => within(screen.getByRole("navigation", { name: "Go to a section" })).getByRole("button", { name });
 
 function open() {
     render(
@@ -55,7 +55,7 @@ describe("the Glossary", () => {
 
     it("lists the app's terms and yours, each kind in its own colour, A to Z", () => {
         open();
-        expect(screen.getByRole("heading", { name: /^Workbook ?— Glossary/ })).toBeTruthy();
+        expect(screen.getByRole("heading", { name: /^Glossary/ })).toBeTruthy();
         // The kinds are named once, in the funnel, and their colours in the title's "i": no legend, and an app term has no tag.
         expect(document.querySelector(".glossary-legend")).toBeNull();
         expect(document.querySelector(".glossary-entry-app .glossary-term-tag")).toBeNull();
@@ -99,7 +99,7 @@ describe("the Glossary", () => {
         open();
         const citation = screen.getAllByRole("button", { name: "(Franklin, Graybeal and Cooper, 2019)" })[0];
         fireEvent.click(citation);
-        expect(screen.getByRole("heading", { name: /^Workbook ?— References/ })).toBeTruthy();
+        expect(screen.getByRole("heading", { name: /^References/ })).toBeTruthy();
         const entry = document.getElementById("reference-breakEvenInDollars");
         expect(entry?.textContent).toBe(harvardReference(SOURCES.breakEvenInDollars));
         expect(entry?.className).toContain("glossary-entry-target");
@@ -196,9 +196,9 @@ describe("the Workbook, a whole page (owner, 2026-11-09)", () => {
     it("opens from the header's Workbook on the Card Notes, with the Review, the Glossary and the References as its other tabs", () => {
         NotepadService.addNote(OrganizationService.getSelected()!);
         openFrom("/assistant");
-        const tabs = within(screen.getByRole("navigation", { name: "Workbook" })).getAllByRole("button").map(tab => tab.textContent);
-        expect(tabs).toEqual(["Card Notes", "Review", "Glossary", "References"]);
-        expect(screen.getByRole("heading", { name: /^Workbook ?— Card Notes$/ })).toBeTruthy();
+        const tabs = within(screen.getByRole("navigation", { name: "Go to a section" })).getAllByRole("button").map(tab => tab.textContent);
+        expect(tabs).toEqual(["Card Notes", "Review", "Glossary", "References", "Business Documents"]);
+        expect(screen.getByRole("heading", { name: /^Card Notes$/ })).toBeTruthy();
         expect(screen.getByText(/^No card notes yet/)).toBeTruthy();
         // The person's own notes are the Notes tool's (owner, 2026-11-09: "Card Notes and Notes tool are different"), not the page's.
         expect(screen.queryByRole("button", { name: "+ Add note" })).toBeNull();
@@ -207,15 +207,15 @@ describe("the Workbook, a whole page (owner, 2026-11-09)", () => {
         expect(document.querySelector(".review-organization")).toBeTruthy();
         // Pressed again on the page: it stays.
         act(() => { fireEvent.click(screen.getAllByRole("button", { name: /^Workbook/ })[0]); });
-        expect(screen.getByRole("navigation", { name: "Workbook" })).toBeTruthy();
+        expect(screen.getByRole("navigation", { name: "Go to a section" })).toBeTruthy();
     });
 
     it("opens from the Landing page's Workbook (the same button) with the Landing's tabs: the total review, the Glossary and the References", () => {
         openFrom("/assistant", "landing");
-        const tabs = within(screen.getByRole("navigation", { name: "Workbook" })).getAllByRole("button").map(tab => tab.textContent);
+        const tabs = within(screen.getByRole("navigation", { name: "Go to a section" })).getAllByRole("button").map(tab => tab.textContent);
         expect(tabs).toEqual(["Review", "Glossary", "References"]);
         act(() => { fireEvent.click(railTab("Review")); });
-        expect(screen.getByRole("heading", { name: /^Workbook ?— Total review$/ })).toBeTruthy();
+        expect(screen.getByRole("heading", { name: /^Total review$/ })).toBeTruthy();
     });
 
     it("leaves the Notes tool as it was: opening the Workbook does not close its side panel", () => {
@@ -247,19 +247,20 @@ describe("the Workbook, a whole page (owner, 2026-11-09)", () => {
         expect(screen.queryByRole("button", { name: "Choose which Organisations show" })).toBeNull();
     });
 
-    it("stands in the System pages' shape: the title over its rule at the top, the tabs as the bullets of the page tab (owner, 2026-11-09)", async () => {
+    it("is drawn as a dialog of the app: the title over its rule, the sections in one framed panel with arrows and a tab of bullets (owner, 2026-11-09)", async () => {
         openFrom("/assistant");
+        expect(screen.getByRole("heading", { level: 1, name: "Workbook" })).toBeTruthy();
         expect(document.querySelector(".workbook .interview-header .interview-divider")).toBeTruthy();
-        expect(document.querySelector("[role=tablist]")).toBeNull();
-        const rail = screen.getByRole("navigation", { name: "Workbook" });
-        expect(rail.closest(".bullet-rails")).toBeTruthy();
+        expect(document.querySelector(".workbook .workbook-panel.section-tile-dialog .section-tile-dialog-body")).toBeTruthy();
+        const rail = screen.getByRole("navigation", { name: "Go to a section" });
         expect(rail.querySelector(".bullet-rail-item.active")?.textContent).toBe("Card Notes");
-        // The tab in the Workbook's own colours (it has no frame to take them from), set on the next frame.
-        await act(async () => { await new Promise(resolve => setTimeout(resolve, 50)); });
-        expect(document.documentElement.style.getPropertyValue("--rail-left-edge")).toBe("var(--line-primary)");
+        act(() => { fireEvent.click(screen.getByRole("button", { name: "Next section" })); });
+        expect(screen.getByRole("heading", { level: 2, name: /^Review/ })).toBeTruthy();
+        act(() => { fireEvent.click(screen.getByRole("button", { name: "Previous section" })); });
+        expect(screen.getByRole("heading", { level: 2, name: /^Card Notes/ })).toBeTruthy();
         act(() => { fireEvent.click(railTab("Glossary")); });
         expect(rail.querySelector(".bullet-rail-item.active")?.textContent).toBe("Glossary");
-        expect(screen.getByRole("heading", { name: /^Workbook ?— Glossary/ })).toBeTruthy();
+        expect(screen.getByRole("heading", { name: /^Glossary/ })).toBeTruthy();
     });
 
     it("lists every Organisation's terms in the Landing page's Glossary, each named, under the one funnel", () => {
@@ -283,13 +284,14 @@ describe("the Workbook, a whole page (owner, 2026-11-09)", () => {
         expect(screen.queryByRole("checkbox", { name: "Quillfield" })).toBeNull();
     });
 
-    it("keeps the old addresses: /glossary and /review open the Workbook on their tab", () => {
-        for (const [path, heading] of [["/glossary", /^Workbook ?— Glossary/], ["/review", /^Workbook ?— Review$/]] as const) {
+    it("keeps the old addresses: /glossary, /review and /documents open the Workbook on their section", () => {
+        for (const [path, heading] of [["/glossary", /^Glossary/], ["/review", /^Review$/], ["/documents", /^Business Documents/]] as const) {
             const view = render(
                 <MemoryRouter initialEntries={[path]}>
                     <Routes>
                         <Route path="/glossary" element={<WorkbookRedirect tab="glossary" />} />
                         <Route path="/review" element={<WorkbookRedirect tab="review" />} />
+                        <Route path="/documents" element={<WorkbookRedirect tab="documents" />} />
                         <Route path="/workbook" element={<Workbook />} />
                     </Routes>
                 </MemoryRouter>

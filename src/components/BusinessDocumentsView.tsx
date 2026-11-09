@@ -1,10 +1,8 @@
-import TabList from "../components/controls/TabList.tsx";
-import { useEffect, useMemo, useState } from "react";
-import AddButton from "../components/controls/AddButton.tsx";
-import { useNavigate } from "react-router-dom";
+import TabList from "./controls/TabList.tsx";
+import { useMemo, useState } from "react";
+import AddButton from "./controls/AddButton.tsx";
 
-import AppFooter from "../components/AppFooter";
-import AppHeader from "../components/AppHeader";
+
 
 import { ReviewManager } from "../framework/application/ReviewManager.ts";
 import {
@@ -22,15 +20,13 @@ import {
     forecastCsv,
     forecastView
 } from "../framework/engine/FinancialForecast.ts";
-import OptionPicker from "../components/interview/fields/OptionPicker.tsx";
+import OptionPicker from "./interview/fields/OptionPicker.tsx";
 import { contentSectionsHtml, documentMetaHtml } from "../framework/engine/PdfExporter.ts";
 import { OrganizationService } from "../services/OrganizationService";
 import { asGlobalSettings } from "../framework/engine/GlobalSettings";
 import { StorageService } from "../services/StorageService.ts";
 import { systems } from "../data/systems.ts";
 
-import "../styles/global.css";
-import "../styles/workspace.css";
 import "../styles/business-documents.css";
 
 const reviewManager = new ReviewManager();
@@ -59,27 +55,16 @@ function download(text: string, filename: string, type: string) {
 }
 
 /**
- * The documents the Foundation capability adds up to -- the Business
- * Plan and the Business Model Canvas -- previewed and exported.
- *
- * Built on every visit from what is saved (see BusinessDocuments.ts),
- * so they are never out of date and never edited here: to change a
+ * THE BUSINESS DOCUMENTS, a section of the Workbook (owner, 2026-11-09: "Place the Business Documents in the Workbook, and its sections as subsections"):
+ * what the Foundation capability adds up to -- the Business Plan, the Business Model Canvas and the Financial Forecast, its three subsections (a tab each) --
+ * previewed and exported. Built on every visit from what is saved (BusinessDocuments.ts), so they are never out of date and never edited here: to change a
  * line, change the answer it came from.
  */
-export default function BusinessDocuments() {
+export default function BusinessDocumentsView({ organizationId }: { organizationId: string }) {
 
-    const navigate = useNavigate();
-
-    const [organizationId] = useState(() => OrganizationService.getSelected());
     const [documentId, setDocumentId] = useState<DocumentId>("plan");
     const [period, setPeriod] = useState<ForecastPeriod>("annual");
     const [untilYear, setUntilYear] = useState<number | null>(null);
-
-    useEffect(() => {
-        if (!organizationId) {
-            navigate("/");
-        }
-    }, [organizationId, navigate]);
 
     const loaded = useMemo(() => {
 
@@ -156,19 +141,7 @@ export default function BusinessDocuments() {
         loaded.sessions.brand ?? loaded.sessions.strategy ?? null;
 
     return (
-        <div className="workspace business-documents">
-
-            <AppHeader organizationName={organizationId ? OrganizationService.getSummary(organizationId)?.name ?? "" : ""} />
-
-            <main className="business-documents-main">
-
-                <div className="business-documents-head">
-                    <h1 className="workspace-title">Business Documents</h1>
-                    <p className="business-documents-lead">
-                        Built from the Foundation capability: Identity, Brand, Business and Strategy.
-                        To change a line, change the answer it came from.
-                    </p>
-                </div>
+        <section className="business-documents" aria-label="Business Documents">
 
                 {loaded.unfinished.length > 0 && (
                     <p className="business-documents-note" role="status">
@@ -375,11 +348,7 @@ export default function BusinessDocuments() {
                     </article>
                 )}
 
-            </main>
-
-            <AppFooter onBack={() => navigate("/assistant", { state: { capability: "foundation" } })} />
-
-        </div>
+        </section>
     );
 
 }
