@@ -2,7 +2,7 @@ import { CSSProperties, ReactNode } from "react";
 import CardShell from "../cards/CardShell.tsx";
 import { legalExpenseMissing, legalRequirementMissing } from "../../../framework/engine/SystemCardCompleteness.ts";
 import type { FloorLink } from "../tiles/capabilityFloor.ts";
-import SectionTiles, { DialogHeading, type SectionTile, type TileLink } from "../tiles/SectionTiles.tsx";
+import SectionTiles, { DialogHeading, type SectionTile } from "../tiles/SectionTiles.tsx";
 import CardBoxes, { type CardBox, type CardBoxAdd } from "../cards/CardBoxes.tsx";
 import SubTiles from "../tiles/SubTiles.tsx";
 import FoundersProfileEditor from "./FoundersProfileEditor.tsx";
@@ -181,22 +181,17 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
                 marks: named.map(() => undefined)
             };
         const expenseEntries = entity.expenses.filter(expense => expense.name.trim().length > 0).slice(0, 8);
-        /** The link of a line that names a registration: the first expense linked to it (a press opens that expense's card). */
-        const expenseLink = (targetId: string): TileLink | undefined => {
-            const expense = entity.expenses.find(candidate => candidate.links.includes(targetId));
-            return expense ? { card: expense.id } : undefined;
-        };
-        // The lines of the Formation's and the Tax's tiles, each with the registration it names (the expense linked to it gives the line its link).
+        // The lines of the Formation's and the Tax's tiles. (They name no card, so they are no links: what a registration is linked to is a circle on the tile.)
         const formationEntries = [
-            { text: entity.formation.status === "planned" ? "Planned" : "Registered", target: "formation-registration-number" },
-            { text: entity.formation.authority, target: "" },
-            ...entity.formation.additionalNumbers.map(number => ({ text: number.label, target: number.id }))
-        ].filter(entry => entry.text.trim().length > 0).slice(0, 6);
+            entity.formation.status === "planned" ? "Planned" : "Registered",
+            entity.formation.authority,
+            ...entity.formation.additionalNumbers.map(number => number.label)
+        ].filter(text => text.trim().length > 0).slice(0, 6);
         const taxEntries = [
-            { text: entity.tax.identificationNumber.trim() ? (profile.taxIdName || "Tax ID") + ": " + entity.tax.identificationNumber.trim() : "", target: "" },
-            { text: entity.tax.consumptionTaxStatus === "yes" ? "VAT " + entity.tax.consumptionTaxNumber : "", target: "tax-consumption-number" },
-            ...entity.tax.additionalRegistrations.map(registration => ({ text: registration.label, target: registration.id }))
-        ].filter(entry => entry.text.trim().length > 0).slice(0, 6);
+            entity.tax.identificationNumber.trim() ? (profile.taxIdName || "Tax ID") + ": " + entity.tax.identificationNumber.trim() : "",
+            entity.tax.consumptionTaxStatus === "yes" ? "VAT " + entity.tax.consumptionTaxNumber : "",
+            ...entity.tax.additionalRegistrations.map(registration => registration.label)
+        ].filter(text => text.trim().length > 0).slice(0, 6);
         const tiles: SectionTile[] = [
             {
                 id: "legal-entity-founders", title: "Founders & Ownership", large: true, rail: rail(1),
@@ -268,10 +263,10 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
                                 {
                                     // THE REGISTRATION NUMBERS, ONE TILE (owner, 2026-10-24): the numbers of the registry (formation) and of the tax, under one heading; the Registration Date is on the Organization tile.
                                     id: "registration-numbers",
-                                    title: "Registration Numbers",
-                                    items: [...formationEntries, ...taxEntries].slice(0, 8).map(entry => entry.text),
+                                    // (Two lines, the one forced break a title may have: one line would be cut.)
+                                    title: "Registration\nNumbers",
+                                    items: [...formationEntries, ...taxEntries].slice(0, 8),
                                     itemMarks: [...formationEntries, ...taxEntries].slice(0, 8).map((_entry, at) => at === 0 ? { plain: true } : { bullet: true }),
-                                    links: [...formationEntries, ...taxEntries].slice(0, 8).map(entry => expenseLink(entry.target)),
                                     circles: expenseCircles(["formation-registration-number", ...entity.formation.additionalNumbers.map(number => number.id), "tax-consumption-number", ...entity.tax.additionalRegistrations.map(registration => registration.id)]),
                                     content: () => (
                                         <div className="legal-entity-body legal-entity-subview">
@@ -283,10 +278,12 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
                                 },
                                 {
                                     id: "requirements",
-                                    title: "Additional legal requirements",
-                                    items: entity.requirements.filter(requirement => requirement.name.trim()).slice(0, 6).map(requirement => requirement.name.trim()),
-                                    itemMarks: entity.requirements.filter(requirement => requirement.name.trim()).slice(0, 6).map(() => ({ bullet: true })),
-                                    links: entity.requirements.filter(requirement => requirement.name.trim()).slice(0, 6).map(requirement => ({ card: requirement.id })),
+                                    // (The Additional legal requirements in two lines: "ADDITIONAL LEGAL" is wider than the tile, so the title is the name its grid already has, "Legal requirements".)
+                                    title: "Legal\nRequirements",
+                                    // (Every requirement: the list scrolls where they do not all fit, as every tile's list does.)
+                                    items: entity.requirements.filter(requirement => requirement.name.trim()).map(requirement => requirement.name.trim()),
+                                    itemMarks: entity.requirements.filter(requirement => requirement.name.trim()).map(() => ({ bullet: true })),
+                                    links: entity.requirements.filter(requirement => requirement.name.trim()).map(requirement => ({ card: requirement.id })),
                                     circles: expenseCircles(entity.requirements.map(requirement => requirement.id)),
                                     add: addOf("requirement"),
                                     content: () => <CardBoxes items={requirementBoxes} label="Legal requirements" what="Requirement" add={addOf("requirement")} autoStart={false} />

@@ -1,7 +1,7 @@
 import { ReactNode, useContext, useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 import { freshCards } from "./freshCards.ts";
-import { OpenCardContext, type ItemMark } from "../tiles/SectionTiles.tsx";
+import { OpenCardContext, gridColumns, type ItemMark } from "../tiles/SectionTiles.tsx";
 import CardTile, { inwardOrigin } from "../tiles/CardTile.tsx";
 import TileGrid from "../tiles/TileGrid.tsx";
 import { AddTile } from "../tiles/SectionView.tsx";
@@ -179,7 +179,8 @@ export default function CardBoxes({
     }, []);
 
     return (
-        <TileGrid label={label} className={className} threeAcross={threeAcross}>
+        // (The one shape of every grid: 1 to 3 in a row, 4 as a 2 x 2 square, 5 or more in two rows; the Add Card in the last column.)
+        <TileGrid label={label} className={className} threeAcross={threeAcross} columns={threeAcross ? undefined : gridColumns(items.length)}>
             {({ across }) => (
             <>
                 {items.map((item, index) => {

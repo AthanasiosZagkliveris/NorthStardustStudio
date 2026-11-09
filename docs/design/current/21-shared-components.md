@@ -129,7 +129,7 @@ A rating beats ticks where a thing has degrees and the middle counts (a value do
 |---|---|---|
 | `CardHead`, `NameCell`, `CardShell` | `interview/cards/` | The head of a folding card (fold arrow, number, mark, name, actions, summary), the name in it (asked, a link, or text), and the outer box of every card and section panel. |
 | `BusinessCard` | `interview/cards/BusinessCardFields.tsx` | The shared card; with `legal` it draws the Legal Entity page's requirement, expense and founder cards (the CSS of the two stays separate on purpose: merging it moved the number and the glass ground). |
-| `Tile`, `TileGrid`, `TileParts` | `interview/tiles/` | Every tile, every tile grid (the Inventory's is `bare`), and the shared parts: links layer, "+", hover origin. |
+| `Tile`, `TileGrid`, `TileParts` | `interview/tiles/` | Every tile, every tile grid (the Inventory's is `bare`), and the shared parts: links layer, "+", hover origin. `CardBoxes` gives its grid the one shape (`gridColumns`: 1 to 3 in a row, 4 as 2 x 2, 5 or more in two rows) unless it is `threeAcross`; `SubTiles` keeps a tile's list clear of its "+" and circles and takes a title with a forced break (2026-11-09). |
 | `FieldRow`, `FieldHead` | `interview/fields/FieldRow.tsx` | A label with its control as a cell of the Legal Entity grid; `FieldHead` draws the label with "i", mark and status line for the Business fields too. |
 | `DatePopup`, `CalendarIcon`, `ListStatic` | `interview/fields/` | The popup of the date cell and the month picker (`useDatePopup`); the calendar symbol that takes the place of the dropdown arrow in a date cell (`DateCellInput`, `MonthYearPicker`); the read-only numbered or bulleted list. |
 

@@ -124,7 +124,8 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
                     slot.style.setProperty("--tile-lift", corrected);
                 }
             }
-            node.title = node.textContent ?? "";
+            // (A title with a forced break says itself on one line: a space where its lines meet.)
+            node.title = [...node.childNodes].map(part => part.nodeName === "BR" ? " " : part.textContent ?? "").join("");
         };
         apply();
         if (typeof ResizeObserver === "undefined") {
