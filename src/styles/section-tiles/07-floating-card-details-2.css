@@ -756,6 +756,14 @@ body:has(.floating-overlay) .section-tile-overlay:not(.floating-overlay) > .caro
 
 }
 
+/* Its Responsible row on the same columns (owner, 2026-11-09: "the cells well aligned"): the tick and its words in the Date's column, the picker from
+   the Cost's left edge to the Frequency's right edge. */
+.floating-card-body .legal-entity-grid-card.legal-entity-grid-expense-card > .business-field-inline.business-field-inline {
+
+    --side-label-short: var(--control-date);
+
+}
+
 .floating-card-body .legal-entity-grid-card > .legal-entity-field.legal-entity-field-side {
 
     grid-template-columns: var(--card-label-col) minmax(0, 1fr);
