@@ -179,7 +179,7 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
     }
     /**
      * A named group of fields inside a card -- the treatment
-     * "Competitors SWOT Analysis" already had. Its title is a
+     * "SWOT Analysis" already had. Its title is a
      * subhead rather than a field label, so several fields can
      * belong to it and read as one piece of work.
      */

@@ -388,7 +388,7 @@ function rows(code) {
     {
         const TYPES = ["direct", "indirect", "substitutes", "internal", "status-quo"];
         const typeNames = Object.fromEntries(TYPES.map((id, at) => [id, F.SUBSECTIONS.competitors.type[at].title]));
-        const titles = { ...Object.fromEntries(F.SUBSECTIONS.competitors.description.map(part => [part.id, part.title])), swot: "Competitors SWOT Analysis", insights: "Insights (K10); then, once per Segment, Differentiation (K14)" };
+        const titles = { ...Object.fromEntries(F.SUBSECTIONS.competitors.description.map(part => [part.id, part.title])), swot: "SWOT Analysis", insights: "Insights (K10); then, once per Segment, Differentiation (K14)" };
         const OPTIONS = {
             k1: list(C.COMPETITOR_OFFER_OPTIONS),
             k2: list(C.COMPETITOR_REACH_OPTIONS),

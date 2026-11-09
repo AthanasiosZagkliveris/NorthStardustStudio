@@ -319,7 +319,7 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
             true
         )}
 
-        {group("Competitors SWOT Analysis", <>
+        {group("SWOT Analysis", <>
 
         {/* K8, one band over Strengths and Weaknesses; K9, one over Opportunities and Threats (doc 41): the built boxes stay as the notes. */}
         {/* One Notes under each rating (owner, 2026-11-05): what no rating says, kept under `strengths` and `opportunities`. */}
@@ -347,7 +347,7 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
             />
         ))}
 
-        </>, undefined, groupFold(competitor.id, "Competitors SWOT Analysis", whose))}
+        </>, undefined, groupFold(competitor.id, "SWOT Analysis", whose))}
 
         {/* What the SWOT above it was for, so
             it is titled like the SWOT rather

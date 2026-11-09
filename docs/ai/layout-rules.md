@@ -137,7 +137,7 @@ The numbers in this table are read from the stylesheets and kept equal to them (
 - A folded card's one-line summary sits under the name, from the name's x
   (a Profile card shows none: number, name and x only).
 - **A group that folds inside a card** (a Profile's Description,
-  Motivations and Needs; a Competitor's Description and Competitors SWOT
+  Motivations and Needs; a Competitor's Description and SWOT
   Analysis; an Offering's Description and Terms & Service): the app's fold arrow before its
   title, hanging in the card's arrow column (the title stays at the
   body's edge), the row the arrow's 36px high; open until folded, and

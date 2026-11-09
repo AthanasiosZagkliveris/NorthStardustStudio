@@ -11,7 +11,7 @@ The card has these parts, in order:
 - **The head:** the number, the name cell and the one x (built).
 - **The Type** (built): Direct competitor, Indirect competitor, Substitute, Internal solution, Status quo. Each type has its explanation in the "i".
 - **Description** (built): the boxes Offerings, Market, Customer Acquisition and Customer Experience. K1 to K7 are asked inside them (built).
-- **Competitors SWOT Analysis** (built): the bands Strengths, Weaknesses, Opportunities and Threats. K8 and K9 are asked inside them (built): K8 is one band across Strengths and Weaknesses, K9 one across Opportunities and Threats.
+- **SWOT Analysis** (built): the bands Strengths, Weaknesses, Opportunities and Threats. K8 and K9 are asked inside them (built): K8 is one band across Strengths and Weaknesses, K9 one across Opportunities and Threats.
 - **Insights** (built; named "Insights & Differentiation" until 2026-11-09): a section of its own after the SWOT. K10 is asked above its text (built); the text stays the App User's own conclusion.
 - **Differentiation, once per Segment, after the Competitors** (built 2026-11-08; one section of that name since 2026-11-09): K14, in the Competitors tile's dialog under the Competitors' small tiles (below). K10's ticks start it (the crosswalk below).
 

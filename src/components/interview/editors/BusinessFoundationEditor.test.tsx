@@ -400,6 +400,16 @@ describe("BusinessFoundationEditor's Offering card order", () => {
         expect(offering.description).toEqual({ delivery: "Booked by phone", function: "Lessons" });
     });
 
+    /* Owner, 2026-11-09: the Competitor's section is "SWOT Analysis". */
+    it("titles the Competitor's SWOT section SWOT Analysis", () => {
+        const segment = createBusinessCustomerSegment([]);
+        render(<Harness initial={{ ...asBusinessFoundationValue(undefined), segments: [{ ...segment, competitors: [{ ...createBusinessCompetitor(), name: "Rival", type: "direct" }] }] }} />);
+        fireEvent.click(toggles(/Competitor 1$/)[0]);
+        const titles = screen.getAllByRole("heading").map(heading => (heading.textContent ?? "").replace(/\s/g, " ").replace(/i$/, "").trim());
+        expect(titles).toContain("SWOT Analysis");
+        expect(titles).not.toContain("Competitors SWOT Analysis");
+    });
+
 });
 
 /* Phase 5, P5 (owner, 2026-11-08): questions held back while Planning; a saved answer survives a stage change back and forth. */
