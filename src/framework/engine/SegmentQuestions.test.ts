@@ -116,7 +116,9 @@ describe("the Segment's questions", () => {
         const started = (age: string, before: SegmentAnswers = {}) => segmentChoose(question("age"), before, [age]);
         expect(started("minor").work).toEqual(["notworking"]);
         expect(started("minor").work2).toEqual(["student"]);
-        expect(started("young").work2).toEqual(["student"]);
+        // Young adults 18–24 start nothing (owner, 2026-11-09; BLS: 67.5% of 20 to 24 year-olds employed).
+        expect(started("young").work).toBeUndefined();
+        expect(started("young").work2).toBeUndefined();
         expect(started("peak").work).toEqual(["working"]);
         expect(started("peak").work2).toBeUndefined();
         expect(started("active").work2).toEqual(["retired"]);

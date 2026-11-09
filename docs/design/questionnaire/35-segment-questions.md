@@ -99,7 +99,7 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
   - No opens a second question about why they are not working.
   - Choosing an age group starts this with the one that goes with it; change it freely.
 - **Connections:**
-  - *Comes from:* This Segment's age: choosing the age term starts it.
+  - *Comes from:* This Segment's age: choosing the age term starts it. **Starts:** Established, Peak and Mature adults start Yes; Minors start No, with Student; Active Retirees and Dependent seniors No, with Retired. Young adults 18–24 start nothing (owner, 2026-11-09: most of them work; BLS, *Employment status of the civilian noninstitutional population by age*, 67.5% of 20 to 24 year-olds employed). A saved answer wins.
   - *Read by (built):* The Market document and the export; the Profile asks A3 (job) when this is Yes (doc 36).
 
 ### 4. Why are your customers not working?

@@ -861,13 +861,14 @@ export function segmentChoose(question: SegmentQuestion, answers: SegmentAnswers
     }
 
     // A starting value the user confirms: the work situation that goes with the age term, where none is chosen yet.
+    // Young adults 18–24 start nothing (owner, 2026-11-09): most of them work (BLS: 67.5% of 20 to 24 year-olds employed), so "No / Student" was a wrong start.
     if (question.id === "age" && chosen.length > 0 && !settled.work) {
         const age = chosen[0];
         if (age === "established" || age === "peak" || age === "mature") {
             settled.work = ["working"];
-        } else {
+        } else if (age === "minor" || age === "active" || age === "dependent") {
             settled.work = ["notworking"];
-            settled.work2 = [age === "active" || age === "dependent" ? "retired" : "student"];
+            settled.work2 = [age === "minor" ? "student" : "retired"];
         }
     }
 
