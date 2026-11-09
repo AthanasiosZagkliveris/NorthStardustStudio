@@ -1011,6 +1011,17 @@
             }
         }
 
+        // 16b. THE CAROUSEL ARROWS ARE NEVER COVERED (owner, 2026-11-09: "Where is the left arrow?"): each arrow of the layer opened last is
+        //      the topmost thing at its own centre -- not under the page tab (.carousel-rail), however long its list.
+        for (const arrow of [...document.querySelectorAll(".page-arrow.carousel-arrow")].filter(visible)) {
+            if (getComputedStyle(arrow).display === "none" || getComputedStyle(arrow).visibility === "hidden") continue;
+            const box = rect(arrow);
+            const top = document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2);
+            if (top && top !== arrow && !arrow.contains(top)) {
+                fail("a carousel arrow is never covered", arrow, { direction: arrow.getAttribute("data-direction"), covering: (top.className && top.className.baseVal !== undefined ? top.className.baseVal : top.className) || top.tagName });
+            }
+        }
+
         // 16a. The page grids (answer columns, Brand's columns, Legal Entity's
         //      section boxes): columns, rows and stacked boxes all 12px apart
         //      (--space-column / --space-field / --space-card), never 24px.

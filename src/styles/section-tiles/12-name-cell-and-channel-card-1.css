@@ -1115,7 +1115,8 @@ body:has(.floating-overlay) .section-tile-dialog .section-tile-back {
 /* THE PAGE TAB STANDS AT THE TOP OF ITS LAYER, its top level with the layer's title; the arrow is above it (never hidden), and where it stands in the tab, the arrow alone takes the bullets' tint, so it reads against the tab's own ground. */
 .page-arrow.carousel-arrow {
 
-    z-index: 6;
+    /* Above the tab (.carousel-rail, z-index 8, 11-segment-card-3.css): where the tab shows its names it reaches under the arrow, and the gap it leaves in its list is the arrow's place (owner, 2026-11-09: "Where is the left arrow?"). */
+    z-index: 9;
 
 }
 
