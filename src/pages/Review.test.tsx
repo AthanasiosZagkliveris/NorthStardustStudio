@@ -122,4 +122,26 @@ describe("Review across Organisations", () => {
         expect(screen.getByText("The interview at /introduction")).toBeTruthy();
     });
 
+    it("the total review has the Landing page's header, not the selected Organisation's", () => {
+        OrganizationService.create("Quillfield");
+        renderReview({ total: true });
+        const header = document.querySelector(".app-header")!;
+        // (No Organisation's tools -- no Search -- and the total Review button, as on the Landing page.)
+        expect([...header.querySelectorAll("button")].some(button => /Search/.test(button.getAttribute("aria-label") ?? ""))).toBe(false);
+        expect([...header.querySelectorAll("button")].some(button => /^Review/.test(button.getAttribute("aria-label") ?? ""))).toBe(true);
+    });
+
+    it("says a count once: a group's count that repeats the Organisation's is left out, and the Capability's sub-head shows only where a group spans several", () => {
+        renderReview();
+        const groups = [...document.querySelectorAll(".review-group")].filter(group => group.getAttribute("aria-label") !== "Key dates");
+        expect(groups.length).toBeGreaterThan(0);
+        if (groups.length === 1) {
+            expect(groups[0].querySelector(".fold-head-count")).toBeNull();
+        }
+        for (const group of document.querySelectorAll(".review-group")) {
+            const capabilities = group.querySelectorAll(".review-capability").length;
+            expect(group.querySelectorAll(".review-capability-title").length).toBe(capabilities > 1 ? capabilities : 0);
+        }
+    });
+
 });

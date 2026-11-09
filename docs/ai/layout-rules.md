@@ -619,6 +619,22 @@ placeholder the lines expected in the country's words ("Street", "City",
 "Postcode" / "ZIP Code" / "PLZ"; no postal line where addresses carry
 none).
 
+### The Review page
+
+The Review (`Review.tsx`, `review.css`) is laid out as the Glossary page:
+one column of the same width and edges (`.review-page` as `.glossary-page`),
+every gap and corner a token (`--gap-24` between the Organisations and
+between the groups, `--space-field` under a head, `--gap-8` in a group,
+`--card-padding` in a row, `--radius-md` on a list). An Organisation's head
+and a group's head are both the shared `FoldHead` with no arrow, so there
+is ONE count style (`.fold-head-count`); a group's count that only repeats
+the Organisation's (the one group counted; the key dates are never counted)
+is left out. A Capability's sub-head stands only where a group spans more
+than one Capability. The total review (the Landing page's Review) is the
+Landing page's: its header carries no Organisation's name or tools, only
+the total Review button, whatever Organisation was selected last. The
+items' wording and paths are as built (the owner's choice, still open).
+
 ---
 
 ## 8. Section tiles and dialog

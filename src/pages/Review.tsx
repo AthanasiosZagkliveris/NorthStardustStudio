@@ -102,7 +102,8 @@ export default function Review() {
 
         <div className="workspace review">
 
-            <AppHeader organizationName={organizationId ? OrganizationService.getSummary(organizationId)?.name ?? "" : ""} />
+            {/* (The total review is the Landing page's: no Organisation is open there, so its header is the Landing's, not the selected one's.) */}
+            <AppHeader organizationName={!total && organizationId ? OrganizationService.getSummary(organizationId)?.name ?? "" : ""} totalReview={total} />
 
             <main className="review-page">
 
@@ -147,6 +148,9 @@ function OrganizationReview({ name, items, current, onGo }: {
     // (The key dates are milestones, not things to do: they are not in the count of what is left to look at.)
     const toLookAt = items.filter(item => item.group !== "key-dates");
     const id = "review-organization-" + name.replace(/[^A-Za-z0-9]+/g, "-");
+    const shownGroups = GROUPS.filter(group => byGroup(group.id).length > 0);
+    // (A group's count that only says the Organisation's again -- the one group counted -- is not shown: one count, said once.)
+    const counted = shownGroups.filter(group => group.id !== "key-dates");
 
     return (
         <section className="review-organization" aria-label={name}>
@@ -169,17 +173,26 @@ function OrganizationReview({ name, items, current, onGo }: {
                         <p className="review-empty">Nothing is open.</p>
                     )}
 
-                    {GROUPS.filter(group => byGroup(group.id).length > 0).map(group => (
+                    {shownGroups.map(group => {
+                        // (The Capability's sub-head only where the group spans more than one Capability: one would only repeat what the group holds.)
+                        const spanned = capabilities.filter(capability => byGroup(group.id).some(item => (item.capability ?? "foundation") === capability.id));
+                        return (
                         <section className="review-group" key={group.id} aria-label={group.title}>
+                            {/* The group's head is the Organisation's own head (FoldHead, no arrow), its count in the one count style. */}
                             <h3 className="review-group-title">
-                                {group.title}
-                                <span className="review-group-count">{byGroup(group.id).length}</span>
+                                <FoldHead
+                                    open
+                                    label={group.title}
+                                    name={group.title}
+                                    count={counted.length === 1 && counted[0].id === group.id ? undefined : String(byGroup(group.id).length)}
+                                    onToggle={() => undefined}
+                                    folds={false}
+                                />
                             </h3>
-                            {capabilities
-                                .filter(capability => byGroup(group.id).some(item => (item.capability ?? "foundation") === capability.id))
+                            {spanned
                                 .map(capability => (
                                     <div className="review-capability" key={capability.id}>
-                                        <h4 className="review-capability-title">{capability.title}</h4>
+                                        {spanned.length > 1 && <h4 className="review-capability-title">{capability.title}</h4>}
                                         <ul className="review-list">
                                             {byGroup(group.id).filter(item => (item.capability ?? "foundation") === capability.id).map((item, index) => (
                                                 <li className={"review-item" + (item.when === "past" ? " review-item-past" : "")} key={group.id + index}>
@@ -195,7 +208,8 @@ function OrganizationReview({ name, items, current, onGo }: {
                                     </div>
                                 ))}
                         </section>
-                    ))}
+                        );
+                    })}
 
                 </div>
             )}
