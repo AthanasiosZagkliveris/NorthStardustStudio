@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import TextLink from "./interview/fields/TextLink";
 import ResponsibilityFilter from "./interview/fields/ResponsibilityFilter";
+import WorkbookTools from "./WorkbookTools";
 import { openCard } from "./notepad/notepadPlaces";
 import { PALETTE } from "../framework/engine/Palette";
 import { harvardCitation, SOURCES, type SourceId } from "../framework/engine/Sources";
@@ -161,7 +162,7 @@ export default function GlossaryList({ organizationIds, target, onCitation }: {
     return (
         <section className="glossary-section" aria-label="Glossary" style={{ "--glossary-yours-hue": YOUR_TERMS_HUE } as CSSProperties}>
 
-            <div className="glossary-bar">
+            <WorkbookTools>
                 {/* ONE funnel: the kinds of term, then the Organisations (on the Landing page, two or more), then the letter ranges (where
                     there is more than one); each tick goes to its own set. */}
                 <ResponsibilityFilter
@@ -174,7 +175,7 @@ export default function GlossaryList({ organizationIds, target, onCitation }: {
                             ? setOrganisationsOff(current => toggled(current, option))
                             : setLettersOff(current => toggled(current, option))}
                 />
-            </div>
+            </WorkbookTools>
 
             {shown.length === 0 && <p className="glossary-empty">No terms to show: the funnel leaves them all out.</p>}
 

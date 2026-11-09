@@ -1,6 +1,9 @@
 import TabList from "./controls/TabList.tsx";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import AddButton from "./controls/AddButton.tsx";
+import MenuOption from "./controls/MenuOption.tsx";
+import { usePopupDismiss } from "./controls/PopupPanel.tsx";
+import WorkbookTools from "./WorkbookTools.tsx";
 
 
 
@@ -52,6 +55,38 @@ function download(text: string, filename: string, type: string) {
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
+}
+
+/** On screen, a cover line that only says again the name in the title ("Organisation: …") is left out; the exports print the cover as it is. */
+function onScreen(content: ExportContent): ExportContent {
+    return { ...content, documentMeta: content.documentMeta?.filter(line => !(line.startsWith("Organisation: ") && (content.documentTitle ?? "").includes(line.slice("Organisation: ".length)))) };
+}
+
+/**
+ * THE EXPORT OF A DOCUMENT: one button with its symbol and the word, opening a menu of the formats (the sort menu's look, MenuOption); a format
+ * pressed is downloaded and the menu closes.
+ */
+function ExportMenu({ what, options, disabled }: { what: string; options: { label: string; run: () => void }[]; disabled?: boolean }) {
+    const [open, setOpen] = useState(false);
+    const box = useRef<HTMLDivElement | null>(null);
+    usePopupDismiss(open, [box], () => setOpen(false));
+    return (
+        <div className="strategy-sort" ref={box}>
+            <AddButton className="header-tool" aria-label={"Export the " + what} aria-haspopup="menu" aria-expanded={open} disabled={disabled} onClick={() => setOpen(current => !current)}>
+                <svg className="header-tool-icon" viewBox="0 0 20 20" aria-hidden="true">
+                    <path d="M10 3.5v9M6.5 9 10 12.5 13.5 9M4 13.5v2a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-2" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" />
+                </svg>
+                <span className="header-tool-word">Export</span>
+            </AddButton>
+            {open && (
+                <div className="strategy-sort-menu" role="menu" aria-label={"Export the " + what + " as"}>
+                    {options.map(option => (
+                        <MenuOption key={option.label} onClick={() => { setOpen(false); option.run(); }}>{option.label}</MenuOption>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
 }
 
 /**
@@ -178,39 +213,22 @@ export default function BusinessDocumentsView({ organizationId }: { organization
                                 onChange={(next) => setUntilYear(Number(next.split(" ")[1]) || planYearCount)}
                             />
                         </div>
-                        <AddButton
-                            onClick={exportCsv}>
-                            Export CSV
-                        </AddButton>
-                        <AddButton
-                            disabled={!anySession}
-                            onClick={() => anySession && reviewManager.exportMarkdown(anySession, "Foundation",
-                                businessForecastContent(loaded.sessions, period, lastYear))}>
-                            Export Markdown
-                        </AddButton>
-                        <AddButton
-                            disabled={!anySession}
-                            onClick={() => anySession && reviewManager.exportPdf(anySession, "Foundation",
-                                businessForecastContent(loaded.sessions, period, lastYear))}>
-                            Export PDF
-                        </AddButton>
                     </div>
                 )}
 
-                {documentId !== "forecast" && (
-                <div className="business-documents-actions">
-                    <AddButton
+                {/* ONE EXPORT (owner, 2026-11-09: "a single button, with CSV, MD and PDF drop down options. It should have its symbol too"), in the Workbook's
+                    title row with the other buttons (WorkbookTools): the formats the document has, the Forecast's CSV too. */}
+                <WorkbookTools>
+                    <ExportMenu
+                        what={documentId === "plan" ? "Business Plan" : documentId === "canvas" ? "Business Model Canvas" : "Financial Forecast"}
                         disabled={!anySession}
-                        onClick={() => anySession && reviewManager.exportMarkdown(anySession, "Foundation", content)}>
-                        Export Markdown
-                    </AddButton>
-                    <AddButton
-                        disabled={!anySession}
-                        onClick={() => anySession && reviewManager.exportPdf(anySession, "Foundation", content)}>
-                        Export PDF
-                    </AddButton>
-                </div>
-                )}
+                        options={[
+                            ...(documentId === "forecast" ? [{ label: "CSV", run: exportCsv }] : []),
+                            { label: "Markdown", run: () => anySession && reviewManager.exportMarkdown(anySession, "Foundation", documentId === "forecast" ? businessForecastContent(loaded.sessions, period, lastYear) : content) },
+                            { label: "PDF", run: () => anySession && reviewManager.exportPdf(anySession, "Foundation", documentId === "forecast" ? businessForecastContent(loaded.sessions, period, lastYear) : content) }
+                        ]}
+                    />
+                </WorkbookTools>
 
                 {documentId === "canvas" && (
                     <div className="business-canvas-head">
@@ -283,9 +301,11 @@ export default function BusinessDocumentsView({ organizationId }: { organization
                                                 <th
                                                     scope="col"
                                                     key={column}
+                                                    title={column}
                                                     className={table.subtotalColumns.includes(index) ? "business-forecast-subtotal" : undefined}
                                                 >
-                                                    {column}
+                                                    {/* A plan year by its number: its months are said once, in the note above and in the tooltip (owner, 2026-11-09). */}
+                                                    {column.replace(/ \(.*\)$/, "")}
                                                 </th>
                                             ))}
                                         </tr>
@@ -344,7 +364,7 @@ export default function BusinessDocumentsView({ organizationId }: { organization
                         <h2 className="business-document-title">{content.documentTitle}</h2>
                         {content.documentSubtitle && <p className="business-document-subtitle">{content.documentSubtitle}</p>}
                         {/* The same escaped HTML the PDF prints, its sections h3s under this h2. */}
-                        <div dangerouslySetInnerHTML={{ __html: documentMetaHtml(content) + contentSectionsHtml(content, 3) }} />
+                        <div dangerouslySetInnerHTML={{ __html: documentMetaHtml(onScreen(content)) + contentSectionsHtml(content, 3) }} />
                     </article>
                 )}
 

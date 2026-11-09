@@ -27,8 +27,14 @@ interface InterviewHeaderProps {
      */
     pageTitleCapitals?: boolean;
 
-    /** What stands after the title, inside the heading (the Workbook's "i" on its Glossary and References). */
+    /** What stands after the title, inside the heading. */
     note?: ReactNode;
+
+    /** The icon before the title on a page that belongs to no System (the Workbook's), drawn as a System's is. */
+    icon?: string;
+
+    /** What stands at the right end of the title's row (the Workbook's section buttons), on the title's line. */
+    actions?: ReactNode;
 }
 
 export default function InterviewHeader({
@@ -37,11 +43,13 @@ export default function InterviewHeader({
     capabilityId,
     pageTitle,
     pageTitleCapitals = false,
-    note
+    note,
+    icon: ownIcon,
+    actions
 }: InterviewHeaderProps) {
 
     const color = getCapabilityColor(capabilityId);
-    const icon = systemNumber ? getSystemIcon(Number(systemNumber)) : undefined;
+    const icon = ownIcon ?? (systemNumber ? getSystemIcon(Number(systemNumber)) : undefined);
 
     return (
 
@@ -69,6 +77,8 @@ export default function InterviewHeader({
                     )}
                     {note}
                 </h1>
+
+                {actions}
 
             </div>
 

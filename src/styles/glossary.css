@@ -80,6 +80,17 @@
 }
 
 /* The funnel, alone at the end of its row: ONE on each tab (the Glossary's chooses the kinds of term and the letter ranges, the References' the letter ranges; the title's "i" names the two colours). */
+/* THE WORKBOOK'S SECTION BUTTONS stand at the right end of its title's row (WorkbookTools; layout rules 22.37), 12px apart, on the title's line. */
+.interview-header .workbook-tools{
+
+    display:flex;
+    align-items:center;
+    gap:var(--gap-12);
+
+    margin-left:auto;
+
+}
+
 .glossary-bar{
 
     display:flex;
@@ -91,14 +102,16 @@
 
 }
 
-.glossary-bar .funnel-box{
+.glossary-bar .funnel-box,
+.workbook-tools .funnel-box{
 
     --plus-ground: var(--bg-surface);
     --plus-fill: var(--text-primary);
 
 }
 
-.glossary-bar .responsibility-filter-panel{
+.glossary-bar .responsibility-filter-panel,
+.workbook-tools .responsibility-filter-panel{
 
     border:1px solid var(--line-box);
 

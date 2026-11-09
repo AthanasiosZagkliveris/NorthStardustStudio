@@ -81,7 +81,8 @@ describe("the Glossary", () => {
 
     it("has ONE funnel: the kinds of term first, then the letter ranges", () => {
         open();
-        expect(document.querySelectorAll(".glossary-bar .funnel-box, .glossary-bar [aria-label^='Choose']")).toHaveLength(1);
+        // (In the title's row, with the section's other buttons: WorkbookTools.)
+        expect(document.querySelectorAll(".interview-header .workbook-tools .funnel-box, .interview-header .workbook-tools [aria-label^='Choose']")).toHaveLength(1);
         fireEvent.click(screen.getByRole("button", { name: "Choose which terms show" }));
         const options = screen.getAllByRole("checkbox").map(box => box.getAttribute("aria-label") ?? box.closest("label")?.textContent ?? "");
         expect(options.slice(0, 2).join("|")).toMatch(/App terms.*\|.*Your terms/);

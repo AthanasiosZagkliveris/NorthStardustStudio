@@ -91,7 +91,7 @@ export function titleTopOf(node: HTMLElement, sample?: { current: { y: number; t
 }
 
 
-export function CarouselArrows({ target, step, hue, back }: { target: RefObject<HTMLElement | null>; step: CarouselStep; hue: number; back?: () => void }) {
+export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { target: RefObject<HTMLElement | null>; step: CarouselStep; hue: number; back?: () => void; /** The tab's side where the layer is as wide as the page (the Workbook's panel: at the left, as a System page's page tab). */ side?: "left" | "right" }) {
     const [at, setAt] = useState<{ left: number; right: number; top: number; edge: number; leftEdge: number; side: "left" | "right"; titleTop: number; tab: { bg: string; edge: string; ink: string } | null } | null>(null);
 
     // The tab's colours follow the reading mode (light, sepia, dark, auto) while the layer stays open: measured again when it changes.
@@ -132,7 +132,7 @@ export function CarouselArrows({ target, step, hue, back }: { target: RefObject<
         const headerBottom = Math.max(0, document.querySelector(".app-header")?.getBoundingClientRect().bottom ?? 0);
         const titleTop = Math.max(headerBottom + 12, Math.min(titleTopOf(node, restSample), window.innerHeight - 160));
         // (The tab stands on the side of the layer that is nearer its end of the page: a layer in the left half has it at its left, one in the right half at its right.)
-        const side: "left" | "right" = box.left + box.width / 2 < window.innerWidth / 2 ? "left" : "right";
+        const side: "left" | "right" = fixedSide ?? (box.left + box.width / 2 < window.innerWidth / 2 ? "left" : "right");
         setAt(previous => previous && Math.abs(previous.left - left) < 0.5 && Math.abs(previous.right - right) < 0.5 && Math.abs(previous.top - top) < 0.5 && Math.abs(previous.titleTop - titleTop) < 0.5 && previous.side === side && Math.abs(previous.leftEdge - box.left) < 0.5 && previous.tab?.bg === tab?.bg && previous.tab?.edge === tab?.edge && previous.tab?.ink === tab?.ink ? previous : { left, right, top, edge: box.right, leftEdge: box.left, side, titleTop, tab });
     });
 

@@ -90,7 +90,7 @@ Everything you have written and everything the app explains, on one page.
 3. **Review**: Still open, Worth a second look, Missing from the documents and Key dates. "Go there" opens the page or card an item is about.
 4. **Glossary**: every term from A to Z, the app's words in blue (with their meaning and sources) and the names you gave in terracotta (with "Open the …"). The funnel chooses the kinds and the letter ranges.
 5. **References**: every source the app cites, as a Harvard reference list. A citation in the Glossary opens its reference here.
-6. **Business Documents**: the Business Plan, the Business Model Canvas and the Financial Forecast, a tab each (section 3.5).
+6. **Business Documents**: the Business Plan, the Business Model Canvas and the Financial Forecast, a tab each (section 3.5). **Export**, at the right of the title, downloads the one shown.
 
 On the **Organisations screen** the same button covers every Organisation: their Reviews, their terms in the Glossary (each named with its Organisation) and the References. Card Notes and Business Documents belong to one Organisation and show inside it.
 

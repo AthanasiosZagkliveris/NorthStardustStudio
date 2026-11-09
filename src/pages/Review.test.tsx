@@ -94,13 +94,12 @@ describe("Review across Organisations", () => {
         );
     }
 
-    it("shows only the open Organisation, open, with no fold arrow (owner, 2026-11-05)", () => {
+    it("shows only the open Organisation, open, with no heading of its name: the header says it (owner, 2026-11-05 and 2026-11-09)", () => {
         OrganizationService.create("Quillfield");
         renderReview();
 
         expect(document.querySelectorAll(".review-organization-title .strategy-box-toggle")).toHaveLength(0);
-        const heads = [...document.querySelectorAll(".review-organization-title .fold-head")];
-        expect(heads.map(head => head.querySelector(".fold-head-name")?.textContent)).toEqual(["Lumen"]);
+        expect(document.querySelectorAll(".review-organization-title")).toHaveLength(0);
         expect(document.querySelectorAll(".review-organization-body")).toHaveLength(1);
         expect(screen.getByRole("heading", { name: /^Review$/ })).toBeTruthy();
     });

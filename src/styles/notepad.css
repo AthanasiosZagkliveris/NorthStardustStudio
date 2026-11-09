@@ -463,15 +463,17 @@ html.notepad-picking [data-pick-hover] {
 
 
 /* THE CARD NOTES (Notepad.tsx, WorkbookCardNotes: the Workbook page's Card Notes tab): one note-box for each card -- its name, its page, its text -- under the page's funnel (the
-   Glossary's bar). A box is a note's box (12px padding, a note's corners and ground), its three lines 6px apart, set as a note's text is (the body size, no tracking). The pointer on a
+   Glossary's bar). A box is a note's box (12px padding, a note's corners and ground), the name and its page on one line (12px apart, the page wrapping where there is no room), the text under them 6px down, set as a note's text is (the body size, no tracking). The pointer on a
    box is the glow; the keyboard's focus, the ring. */
 
 .notepad-card-note {
 
+    /* The name and its page on one line where there is room (owner, 2026-11-09: "place the names and sections next to each other"), the page wrapping under
+       the name where there is not; the text on a line of its own. */
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--gap-6);
+    flex-flow: row wrap;
+    align-items: baseline;
+    gap: var(--gap-6) var(--gap-12);
 
     box-sizing: border-box;
     width: 100%;
@@ -525,6 +527,8 @@ html.notepad-picking [data-pick-hover] {
 }
 
 .notepad-card-note-text {
+
+    flex-basis: 100%;
 
     display: -webkit-box;
     -webkit-box-orient: vertical;

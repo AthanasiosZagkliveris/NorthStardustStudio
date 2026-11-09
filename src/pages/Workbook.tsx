@@ -10,6 +10,8 @@ import { DialogHeading } from "../components/interview/tiles/SectionTiles";
 import BusinessDocumentsView from "../components/BusinessDocumentsView";
 import { workHue } from "../framework/engine/WorkColours";
 import ResponsibilityFilter from "../components/interview/fields/ResponsibilityFilter";
+import WorkbookTools, { WorkbookToolsSlot } from "../components/WorkbookTools";
+import workbookIcon from "../assets/workbook-icon.svg";
 import GlossaryList, { YOUR_TERMS_HUE, anchorOf, letterOf, letterRanges, toggled } from "../components/GlossaryList";
 import OrganizationReview, { goToReviewPlace } from "../components/OrganizationReview";
 import { WorkbookCardNotes, type WorkbookState } from "../components/notepad/Notepad";
@@ -161,6 +163,8 @@ export default function Workbook() {
     // a proper framing"): its sections in one framed panel (CardShell, as a section dialog), the section's heading in it with its "i", the carousel arrows at
     // its sides going round the sections, and their bullets in the tab attached to the panel (CarouselArrows, as on every dialog).
     const panel = useRef<HTMLDivElement | null>(null);
+    // (The row of the title holds the section's buttons at its right end: WorkbookTools.)
+    const [toolsSlot, setToolsSlot] = useState<HTMLElement | null>(null);
     // (As a section dialog stands, from under the title's rule down to the footer, 12px clear of it: what is taller scrolls in its body.)
     const [panelHeight, setPanelHeight] = useState<number | null>(null);
     useLayoutEffect(() => {
@@ -200,7 +204,9 @@ export default function Workbook() {
             <main className="glossary-page">
 
                 {/* The top of the page as on a System page: "Workbook" at the top left, over its rule; the section's name is the panel's heading. */}
-                <InterviewHeader systemName="Workbook" />
+                <InterviewHeader systemName="Workbook" icon={workbookIcon} actions={<div className="workbook-tools" ref={setToolsSlot} />} />
+
+                <WorkbookToolsSlot.Provider value={toolsSlot}>
 
                 <CardShell ref={panel} className="section-tile-dialog workbook-panel" data-carousel="" style={{ "--strategy-theme-hue": WORKBOOK_HUE, ...(panelHeight === null ? {} : { height: panelHeight }) } as CSSProperties}>
 
@@ -215,14 +221,14 @@ export default function Workbook() {
                 {tab === "card-notes" && <WorkbookCardNotes />}
 
                 {tab === "review" && organisationFunnel && (
-                    <div className="glossary-bar">
+                    <WorkbookTools>
                         <ResponsibilityFilter
                             off={organisationsOff}
                             options={[...new Set(reviews.map(section => section.name))]}
                             label="Choose which Organisations show"
                             onToggle={(option) => setOrganisationsOff(current => toggled(current, option))}
                         />
-                    </div>
+                    </WorkbookTools>
                 )}
 
                 {tab === "review" && reviews.length > 0 && reviewsShown.length === 0 && <p className="glossary-empty">No Organisations to show: the funnel leaves them all out.</p>}
@@ -233,6 +239,7 @@ export default function Workbook() {
                         name={section.name}
                         items={section.items}
                         current={!landing}
+                        named={landing}
                         onGo={(place) => goToReviewPlace(navigate, section.id, place)}
                     />
                 ))}
@@ -253,14 +260,14 @@ export default function Workbook() {
                 {tab === "references" && (
                     <section className="glossary-section" aria-label="References">
 
-                        <div className="glossary-bar">
+                        <WorkbookTools>
                             <ResponsibilityFilter
                                 off={lettersOff}
                                 options={ranges.map(range => range.label)}
                                 label="Choose which letter ranges show"
                                 onToggle={(option) => setLettersOff(current => toggled(current, option))}
                             />
-                        </div>
+                        </WorkbookTools>
 
                         {referencesShown.length === 0 && <p className="glossary-empty">No references to show: the funnel leaves them all out.</p>}
 
@@ -281,9 +288,11 @@ export default function Workbook() {
 
                 </CardShell>
 
+                </WorkbookToolsSlot.Provider>
+
             </main>
 
-            <CarouselArrows target={panel} step={step} hue={WORKBOOK_HUE} />
+            <CarouselArrows target={panel} step={step} hue={WORKBOOK_HUE} side="left" />
 
             <AppFooter onBack={back} />
 

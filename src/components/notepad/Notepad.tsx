@@ -15,6 +15,7 @@ import { markFieldsHot } from "./NotedHover";
 import { OrganizationService } from "../../services/OrganizationService";
 import { CardNotesService } from "../../services/CardNotesService";
 import ResponsibilityFilter from "../interview/fields/ResponsibilityFilter.tsx";
+import WorkbookTools from "../WorkbookTools.tsx";
 import { parseFieldKey, registeredFields } from "../../framework/engine/FieldKeys";
 import { consumeKey } from "../interview/fields/consumeKey";
 import DateCellInput, { isoToDisplay } from "../interview/fields/DateCellInput";
@@ -655,14 +656,14 @@ export function WorkbookCardNotes() {
     return (
         <section className="glossary-section workbook-card-notes" aria-label="Card Notes">
             {pages.length > 1 && (
-                <div className="glossary-bar">
+                <WorkbookTools>
                     <ResponsibilityFilter
                         off={off}
                         options={pages}
                         label="Choose the pages whose card notes show"
                         onToggle={(page) => setOff(current => { const next = new Set(current); if (!next.delete(page)) { next.add(page); } return next; })}
                     />
-                </div>
+                </WorkbookTools>
             )}
             {all.length === 0 && <p className="glossary-empty">No card notes yet. The Notes you write on a card show here, by page.</p>}
             {all.length > 0 && shown.length === 0 && <p className="glossary-empty">No card notes to show: the funnel leaves them all out.</p>}

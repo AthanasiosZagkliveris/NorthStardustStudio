@@ -46,8 +46,10 @@ export function goToReviewPlace(navigate: NavigateFunction, owner: string, place
  * Every Organization is shown open, with how much it has to look at (owner,
  * 2026-11-05: the Review needs no fold arrow).
  */
-export default function OrganizationReview({ name, items, current, onGo }: {
+export default function OrganizationReview({ name, items, current, onGo, named = true }: {
     name: string;
+    /** Its name as a heading: left out inside an Organisation, whose name the header already says (owner, 2026-11-09: "no need to repeat the organisation name"). */
+    named?: boolean;
     items: ReviewItem[];
     current: boolean;
     onGo: (place: ReviewPlace) => void;
@@ -67,16 +69,18 @@ export default function OrganizationReview({ name, items, current, onGo }: {
     return (
         <section className="review-organization" aria-label={name}>
 
-            <h2 className="review-organization-title">
-                <FoldHead
-                    open={open}
-                    label={name}
-                    name={name}
-                    count={toLookAt.length === 0 ? "Nothing open" : String(toLookAt.length)}
-                    onToggle={() => undefined}
-                    folds={false}
-                />
-            </h2>
+            {named && (
+                <h2 className="review-organization-title">
+                    <FoldHead
+                        open={open}
+                        label={name}
+                        name={name}
+                        count={toLookAt.length === 0 ? "Nothing open" : String(toLookAt.length)}
+                        onToggle={() => undefined}
+                        folds={false}
+                    />
+                </h2>
+            )}
 
             {open && (
                 <div className="review-organization-body" id={id}>
