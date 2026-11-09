@@ -47,7 +47,7 @@ export function offeringContextOf(offering: BusinessOfferingValue, segment: Busi
     const context = segmentContextFor(identity, segmentIsBusiness(segment));
     // The pay O3's order reads is the Segment's settled answer (a stale invoice on a people Segment is not counted; phase 5, 2026-11-08); the frame tells O18's "i" a business Segment.
     const pay = segmentSettle(segment.questions, context).pay ?? [];
-    return { type: offering.category, stage: identity?.stage, differentiation, outcome: identity?.outcome ?? [], pay, worries, country: identity?.country, frame: context.frame, ...(context.endsUser ? { endsUser: true } : {}) };
+    return { type: offering.category, stage: identity?.stage, differentiation, outcome: identity?.outcome ?? [], pay, worries, country: identity?.country, frame: context.frame, ...(context.endsUser ? { endsUser: true } : {}), ...(context.dual ? { dual: true } : {}) };
 }
 
 /** An Offering's answers as its card shows them: its own, with each start for a question it never answered. */

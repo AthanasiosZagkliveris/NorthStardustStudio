@@ -177,11 +177,14 @@ export function segmentContextFor(identity: SegmentIdentity | undefined, busines
     const models = frame === "people" ? ["b2c"] : ["b2b", "b2g", "g2b"];
     const categories = identity?.buyerCategory ?? [];
     const endsUser = (identity?.relationships ?? []).some(model => models.includes(model) && (categories.includes(model + ":proxy") || categories.includes(model + ":dual")));
+    // (Dual-Intent: the buyer also uses it, so the end user's part is the others who use it; 2026-11-09.)
+    const dual = (identity?.relationships ?? []).some(model => models.includes(model) && categories.includes(model + ":dual"));
 
     return {
         ...context,
         frame,
         endsUser,
+        ...(dual ? { dual } : {}),
         relations: context.relations.filter(id => BUSINESS_RELATIONS.includes(id) === (frame === "business")),
         // (The user's life stage is asked of a consumer buyer only.)
         userStages: frame === "people" ? context.userStages : []

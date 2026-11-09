@@ -121,6 +121,11 @@ Payment-related items (how they pay, the household income, who authorises the pu
 
 **The readers (built).** The export prints the Profile in its two parts ("The buyer", then "The end user", each with its answers and its Notes); the Business Plan's Customer Profiles table heads its columns "End user's goals", "End user's challenges" and "End user's needs" for such a Segment; the Value Proposition's draft reads "For [Segment] whose end users [frustration] and want to [goal], …" (doc 42, 1); its open items read the buyer's B1 and E3 and the end user's tasks, as before; the Competitor's K8, K10 and the Review's clear opening read B1, the buyer's; the Offering's O8 reads E3, the buyer's (`effectiveProfileAnswers`, `effectiveProfileUserAnswers`, `profilePartOf` in `ProfileQuestions.ts`).
 
+**Naming, Dual-Intent and a minor end user (2026-11-09; built).**
+- *The end user named.* The end user's part names the end user from the Segment's relationship (Positioning's End User) where one name fits every relationship chosen: Parent or guardian, "the child"; Spouse or partner, "the partner"; Caregiver, "the person cared for"; Employer, "the employee"; Business serving clients, "the client"; an Institution, "the person it serves", once Positioning offers it; otherwise "the end user" ("How old is the child?"). The section title stays "The end user" for a Proxy buyer. The documents keep "the end user" (`profileUserName`, `profileUserWho`).
+- *Dual-Intent.* The buyer uses it too, so the sections are titled **"The buyer (who also uses it)"** and **"The others who use it"**. E1, E2 and the Needs stay asked once, in the second part, of **"a typical user"** (the buyer or the others: "What does a typical user want to achieve?"); its "i" says so. The end user's own questions (A1, A7, A8, E4) are of the others, named by the relationship. No question is asked twice. A5 starts with Uses it, Places the order and Makes the final decision.
+- *A minor end user of a Proxy buyer* (End user, 1: Baby, Child or Teenager; or only Minors chosen in Positioning while that is not answered): E1 and E2 stay asked, their lists tailored: E1 without Revenue, Compliance and Efficiency (an adult's goals), E2 without Cost (the buyer's, asked as E3's Price). The social need (N4) stays asked: a Baby or Child is offered Stylish and Included only (Exclusive, Altruistic and Impactful are an older person's); a Teenager all but Impactful (a legacy). A tick saved before stays shown until unticked (`profileOptionsShown`).
+
 **Decided for the owner (2026-11-08), to confirm.** A2 is the buyer's only (no end-user gender: the Segment holds no end users' gender mix). C1 to C4 are the buyer's. E2 is the end user's although Cost may be felt by the buyer (the rule: what goes wrong with the way they do it now, for the person who uses it). A business Segment's end user keeps the business Needs lists (N3, N5) and is not offered E1's Enjoyment, as every Profile of a business Segment; whether staff should be offered the people's lists is left open. The Segment's Box 4 (online comfort) stays the buyers'.
 
 ## 3. Box A. Specific Personal Information
@@ -164,6 +169,7 @@ A typical person of the Segment, asked specifically.
 
 - **Control:** one choice (a radio).
 - **Asked when:** the Segment's buyer is people (B2C), and not where the Segment's age group is only Minors; on a Proxy or Dual-Intent Segment, of the buyer (the buyer's household), and again of an adult end user in the end user's part, A7 (end user) (2.4).
+- **Order (2026-11-09; an order, never a lock):** the buyer's households of the relationship first: Parent or guardian, With a partner and children and Single parent with children; Spouse or partner, With a partner and With a partner and children (`profileOptionsShown`).
 - **Options** (the ONS household types, Census 2021, household composition 8a, in plain words) [DEM-14]:
   - Alone
   - With a partner
@@ -247,7 +253,7 @@ A typical person of the Segment, asked specifically.
   - The five buying-centre roles credited to Webster and Wind (1972) [CHN-02].
   - "Uses it" is the person who uses the offering day to day, who may be neither the one who pays nor the one who decides.
 - **Connections:**
-  - *Comes from:* the Segment's decision authorisation and end-user part.
+  - *Comes from:* the Segment's decision authorisation and end-user part. **Starts:** every role where one person decides; on a Proxy Segment, Places the order and Makes the final decision; on a Dual-Intent Segment also Uses it (2026-11-09).
   - *Read by (not built yet):* the Review (nobody makes the final decision); context on the Customer Engagement page. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### A6. Specialised needs
@@ -420,7 +426,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
 - **The "i" says:**
   - The help a typical person wants before buying; it can differ from how comfortable the Segment is online.
 - **Connections:**
-  - *Comes from:* the Segment's online comfort.
+  - *Comes from:* the Segment's online comfort. **Starts:** Formal procurement (Segment, Box 4, 9) starts Needs a formal demonstration or proposal; else the online comfort (4 or 5, Works it out alone; 1 or 2, Wants to talk to a person); else, with no other start, D1 (2026-11-09): A demo / trial / sample or A quote / proposal starts Needs a formal demonstration or proposal, A meeting / call Wants to talk to a person. A saved answer wins.
   - *Read by (not built yet):* the relationship type suggested on page 2; the Review (against the help the Offering gives). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### D3. When does this person usually buy?
@@ -514,6 +520,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
   - Credibility: whether you can be trusted. Onboarding: the time to get started. Complexity: how hard it is to use. Fit: whether it suits their need.
   - Support: help after buying. Migration: the work of leaving what they use now. Risk: risk or security. Image: what others will think of them.
   - Starts with the price where the Segment's household income is rated 1; change it freely.
+- **Order (2026-11-09; an order, never a lock):** the worries B1's ticks point to come first, the highest rated value first: Affordability, Price; Reputation, Credibility; Safety / security, Risk; Support, Support (`profileOptionsShown`).
 - **Asked when:** always. *Read by (built, 2026-11-07):* the Offering's O8 offers the worries ticked here, so it ticks those it answers (doc 43); the Value Proposition's open item "Worry left open" (doc 42, 2). *Read by (not built yet):* the Evaluation actions suggested on page 2. *Comes from:* the Segment's household income (the starting value). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 

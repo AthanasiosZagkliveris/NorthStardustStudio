@@ -23,6 +23,8 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Saved text of the boxes is kept: it is the Notes. A question no longer asked, or an option no longer offered, loses its answer; a starting value (O2, O4, O6) shows until that field is changed (another answer does not fix it), and the Business Plan, the export and the Value Proposition read it too (built 2026-11-08).
   - The Business Plan's Offerings table reads "What it does" from the Function Notes, else the form (O1), and "Customer benefit" from the Customer Benefit Notes, else what it does best (O4); the export prints every answer with its question.
 
+**Who it is about, where the buyer is Proxy (2026-11-09; `offeringWho`):** how it reaches them, how long until they have it and what they give you are the end user's: O6 "How do your end users receive it?", O15 "How long until your end users have it?", O10 "What do your end users need to give you?"; the terms are the buyer's: O3 "On what terms do your buyers pay for it?", O3b "When do your buyers pay?". A Dual-Intent buyer uses it too, so the card keeps "your customers" and "they" there. The documents keep the words as written.
+
 **One term per subject (owner, 2026-11-08, P10):** the card says "your customers" for the customers everywhere (O2, O4, O6, O10, the "i" of O16 and O18), never "the customer" or a bare "customers"; the legal rules quoted in O18's "i" keep their own words ("a consumer").
 
 **The rules of the card** are the Segment's (doc 35):
@@ -185,12 +187,14 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Commission on each sale: a share of each sale you make for them. Free to them: someone else pays, such as an advertiser or a funder.
   - A minimum term: write it in the Notes.
 - **Connections:**
+  - **Starts from O1 (2026-11-09):** Online access, A subscription / membership; Project work, A project or contract; An ongoing service, A monthly retainer; A live online session or An in-person service, Per session / per hour; the others start nothing. A saved answer wins.
   - *Comes from:* the Segment's "How do your customers pay?" (doc 35, Box 4, question 8). Invoice, bank transfer or purchase order puts A project or contract first, as an order only (found by its id, so the options added do not move it). It reads the Segment's **settled** answer (`segmentSettle`, in `offeringContextOf`; 2026-11-08): an invoice saved on a people Segment, where invoicing is not offered, no longer puts it first.
   - *Read by (built, 2026-11-09, as starts):* Demand's "Customers Buy" (Page 2), Delivery's "Delivered" (Page 3) and the Revenue stream's "Charged" (Page 5) start from it on a card those pages have not saved yet (`offeringStarts`, EffectiveAnswers.ts); a one-off term (One purchase, Per session / per hour, Rent / hire, Commission on each sale, A project or contract) is one sale at a time and per unit, a recurring one (A subscription / membership, A monthly retainer, Pay as they go, A licence) every month; Free to them starts nothing. The mapping, with Charged's, is the map's. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
   - *Read by (built, 2026-11-09):* the Review: an Offering with no answer here is an open item ("[Offering]: the terms they pay on: not chosen yet.", `OpenItems.ts`). *Not built yet:* the Review's rule 14 (doc 28, 11.5).
 
 **O3b. O3, second row: "When do they pay?"** (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments": one commercial decision, terms and timing, in one band). One choice (a radio), under the terms, in the same band; saved as `o3t`.
 - **Options:** Before they get it; A deposit, then the rest; When it is done / delivered; In instalments / monthly; On invoice terms (for example 30 days).
+- **Starts from O3 (2026-11-09):** A subscription / membership or A monthly retainer, In instalments / monthly; A project or contract, A deposit, then the rest; One purchase, Before they get it. A saved answer wins.
 - **The "i" says:** When the money comes in. How they pay (card, invoice) is the Segment's question.
 - **Connections:** *Read by (built, 2026-11-09, as a start):* the Revenue stream's "Customer Pays" (its payment timing, Page 5; doc 28, 10.2), on a stream not saved yet. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
@@ -200,6 +204,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Control:** one choice (a radio).
 - **Asked when:** always.
 - **Options** (L20): Straight away; Within a week; One to four weeks; One to three months; Longer.
+- **Starts from O1 (2026-11-09):** A digital file, An app / online tool or Online access, Straight away. A saved answer wins.
 - **The "i" says:**
   - The time from order to having it. How it reaches them is the question below (O6 follows O15 since 2026-11-08).
 - **Connections:** *Read by:* the export; *(built, 2026-11-09, as a start)* the Delivery card's Calendar Time (Page 3, weeks), for an Offering delivered per unit, on a Delivery not saved yet: the band's upper end (1, 4 or 13 weeks; Straight away and Longer start nothing). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
@@ -220,7 +225,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - How it reaches them once bought: tick each way, as one Offering is often delivered in several.
   - Sent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready.
 - **Connections:**
-  - *Comes from:* O1, the starting value: a physical item → Posted / shipped to them; a digital file → Sent automatically online; a live online session → In a live online session; an app / online tool → Ongoing online access; online access → Ongoing online access; an in-person service → In person.
+  - *Comes from:* O1, the starting value, the clearest way only (ticks since 2026-11-09: the others are ticked by hand, such as In person or They collect it for a physical item sold in a shop or café): a physical item → Posted / shipped to them; a digital file → Sent automatically online; a live online session → In a live online session; an app / online tool → Ongoing online access; online access → Ongoing online access; an in-person service → In person; project work → Sent by you online (2026-11-09); an ongoing service → none.
   - *Read by (not built yet):* the Delivery stage's proposed channels (doc 28, 7.4); the Review (the Segment's "Rural / remote", doc 35 Box 2 question 2, with In person or Posted / shipped: a delivery-cost check, rule 17). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ## Box. Support & Communication
@@ -248,6 +253,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Control:** ticks, as many as apply; "None" stands alone.
 - **Asked when:** always. **Held back while Planning (owner, 2026-11-08, P5):** not asked while the business stage is Planning (the stage from the Opening Date; no date is Planning), asked from Launching; a saved answer is kept, not removed (the settling keeps an answer held back only by the stage), and the documents still print it.
 - **Options** (L23): Guarantee / warranty; Repairs; Updates; Training; Replacements / refills; None.
+- **Starts from O7 (2026-11-09):** O7 None starts None. A saved answer wins.
 - **The "i" says:**
   - What the help after the sale includes. How much help there is, is the question above.
   - None stands alone: ticking it clears the others.
@@ -280,6 +286,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Access to their home or site (`home`; added 2026-11-08, the options-and-wording research)
   - Their time or attendance (`attendance`; added 2026-11-08)
   - ("To meet certain conditions" left on 2026-11-07, owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments": the conditions of sale are O18.)
+- **Order from O1 (2026-11-09; an order, never a lock):** An in-person service puts Access to their home or site first; A live online session, Their time or attendance (`offeringOptionsWith`).
 - **The "i" says:**
   - What you need from them before or during the work. The details go in the Notes.
   - A place to work: a desk or a room for you to use. Access to their home or site: the work is done there, such as a repair or a fitting.

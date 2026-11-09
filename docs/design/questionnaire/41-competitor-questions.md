@@ -221,6 +221,7 @@ For Internal solution and Status quo the box stays text only: it asks about the 
   - Rate each from what their customers say and what you have seen: 1 is a clear weakness, 5 a clear strength.
   - Once a row has a band: "The darker the band, the more of your Profiles chose it."
 - **Connections:**
+  - *Words:* where the Segment's buyer is Proxy or Dual-Intent, "How do they do on what matters most to your buyers?": B1 is the buyer's (2026-11-09).
   - *Comes from:* the Profiles' B1 (doc 36), its ticks (the rows) and its ratings (their order; K10's weights). The owner's decision (2026-11-04): Strengths and Weaknesses used the same options, so one rating replaces the two tick lists and a value rated 2 to 4 also counts in the App User's decisions. The Competitive Profile Matrix rates each success factor from major weakness to major strength [FUN-57]; Kotler's customer value analysis rates competing offers on the attributes customers rank as most important [FUN-55]; a five-point rating as Likert's [FUN-61]. The Profiles' B1 sets the order of the rows; no row starts rated.
   - *Read by (built):* K10's options; the Insights draft.
   - *Read by (built, 2026-11-07):* the Value Proposition draft's "Unlike its competitors": a value a Profile rates Essential that every Competitor of the Segment rates 1 or 2 here (`clearOpenings`; doc 42, 1).

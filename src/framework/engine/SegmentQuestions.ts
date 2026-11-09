@@ -53,6 +53,8 @@ export interface SegmentContext {
     lifeStages: readonly string[];
     /** Whether the buyer is a Proxy or Dual-Intent buyer, so the user is described too. */
     endsUser: boolean;
+    /** Whether that buyer is Dual-Intent: the buyer also uses it, so the end user's part is the others who use it (2026-11-09). */
+    dual?: boolean;
     /** The user's life stages chosen in Positioning (age:minor, age:young, age:adult, age:senior). */
     userStages: readonly string[];
     /** The buyer and user relationships chosen in Positioning (rel:parent and so on). */
@@ -726,6 +728,14 @@ export function segmentOptions(question: SegmentQuestion, answers: SegmentAnswer
             const sizes = scales.flatMap(id => id === "enterprise" && has(answers, "orgtype", "public") ? ORG_SIZES.map(size => size.id) : SIZES_OF_SCALE[id] ?? []);
             return question.options.filter(option => keep(option, scales.length === 0 || sizes.length === 0 || sizes.includes(option.id)));
         }
+        case "path": {
+            // ORDERED BY WHAT MAKES THEM GO SHOPPING (Box 4, 5; 2026-11-09), never locked: boredom or a friend or creator puts On impulse first; a need or problem, When they
+            // urgently need it and After comparing options.
+            const trigger = answers.trigger ?? [];
+            const first = [...(trigger.includes("boredom") || trigger.includes("proof") ? ["impulse"] : []), ...(trigger.includes("need") ? ["urgent", "researcher"] : [])];
+            const rank = (id: string) => first.includes(id) ? first.indexOf(id) : first.length;
+            return [...question.options].sort((a, b) => rank(a.id) - rank(b.id));
+        }
         case "authorise":
             // A self-employed customer, or one who is only a freelancer, decides alone.
             return question.options.filter(option => keep(option, !(has(answers, "orgtype", "self") || onlySolo(context)) || option.id === "solo"));
@@ -799,7 +809,8 @@ export function segmentQuestionsOf(box: SegmentBox, answers: SegmentAnswers, con
  * end user says "your end users". The questions are written for customers; the documents and the answers' lines keep that word.
  */
 export function segmentWho(label: string, box: SegmentBox, context: SegmentContext): string {
-    return context.endsUser ? label.replace(/your customers/g, box === "user" ? "your end users" : "your buyers") : label;
+    // ("How many potential customers are there?": the buyers too, as the rest of the buyer's boxes, 2026-11-09.)
+    return context.endsUser ? label.replace(/your customers/g, box === "user" ? "your end users" : "your buyers").replace(/potential customers/g, box === "user" ? "potential end users" : "potential buyers") : label;
 }
 
 /** The answers after one question's choice changed: "They don't typically share" and the other ways exclude each other; ticks stay within their limit. */
@@ -825,6 +836,16 @@ export function segmentChoose(question: SegmentQuestion, answers: SegmentAnswers
         settled[question.id] = chosen;
     } else {
         delete settled[question.id];
+    }
+
+    // A starting value the user can change (2026-11-09): Who decides to buy (Box 4, 9) from the kind and size of organisation (Box 3, 1 and 2), where it is not answered yet: a public
+    // body or a large organisation buys by Formal procurement; a micro or self-employed one, One person decides.
+    if ((question.id === "orgtype" || question.id === "size") && !settled.authorise) {
+        const formal = has(settled, "orgtype", "public") || has(settled, "size", "large");
+        const alone = has(settled, "orgtype", "self") || has(settled, "size", "micro");
+        if (formal || alone) {
+            settled.authorise = [formal ? "procurement" : "solo"];
+        }
     }
 
     // A starting value the user can change (owner, 2026-11-01): Digital wallets, where they buy on a phone and no way of paying is chosen yet.

@@ -242,10 +242,28 @@ const USER_QUESTIONS: readonly ProfileQuestion[] = [
 
 export const PROFILE_USER_QUESTIONS = USER_QUESTIONS;
 
-/** A question of the end user's part, written of the end user ("How old is the end user?"). */
-export function profileUserWho(label: string): string {
-    return label.replace(/{s}|{o}/g, "the end user").replace(/{p}/g, "the end user's");
+/** A question of the end user's part, written of the end user ("How old is the end user?"), or of the end user named by the relationship ("How old is the child?": profileUserName). */
+export function profileUserWho(label: string, name = "the end user"): string {
+    return label.replace(/{s}|{o}/g, name).replace(/{p}/g, name + "'s");
 }
+
+/** The end user named by the Segment's relationship (Positioning's End User; 2026-11-09). */
+const USER_NAMES: Readonly<Record<string, string>> = {
+    "rel:parent": "the child", "rel:partner": "the partner", "rel:caregiver": "the person cared for", "rel:employer": "the employee", "rel:serving": "the client"
+    // (An institution buying for the people it serves, "the person it serves", once Positioning offers it: not yet a relationship.)
+};
+
+/**
+ * How the end user's part names the end user (2026-11-09): from the relationship where one name fits every relationship chosen (Parent or guardian, the child; Spouse or partner,
+ * the partner; Caregiver, the person cared for; Employer, the employee; Business serving clients, the client), else "the end user".
+ */
+export function profileUserName(context: Pick<SegmentContext, "relations">): string {
+    const names = [...new Set(context.relations.map(id => USER_NAMES[id] ?? "the end user"))];
+    return names.length === 1 ? names[0] : "the end user";
+}
+
+/** Who a Dual-Intent Segment's end-user part asks E1, E2 and the Needs about: the buyer uses it too, so a typical user, the buyer or the others (2026-11-09). */
+export const DUAL_USER = "a typical user";
 
 /** The ages each of the Segment's end-user stages holds (first number up to, not including, the second). */
 const USER_AGE_RANGES: Record<string, [number, number]> = {
@@ -474,6 +492,54 @@ export function profileOptionsOf(question: ProfileQuestion, context: SegmentCont
             : question.options;
 }
 
+/** E1's goals and E2's frustrations a minor end user is not offered (2026-11-09): Revenue, Compliance and Efficiency are an adult's goals; Cost is the buyer's (E3's Price). */
+const NOT_FOR_MINORS: Readonly<Record<string, readonly string[]>> = { e1: ["win-customers-or-earn-more", "meet-a-requirement", "save-time-money"], e2: ["it-costs-too-much"] };
+/** How a baby or a child wants to be seen (2026-11-09): with friends and in style; being one of the few, caring for the planet or leaving a legacy are an older person's. */
+const SEEN_BY_A_CHILD = ["as-having-good-taste-style", "as-part-of-a-group-they-value"];
+/** How a teenager wants to be seen: all but leaving something for their family, a legacy. */
+const NOT_SEEN_BY_A_TEEN = ["as-leaving-something-for-their-family"];
+/** Who the buyer lives with, put first by the relationship (A7; 2026-11-09): a parent with a partner and children or a single parent; a partner with a partner. */
+const HOUSEHOLD_FIRST: Readonly<Record<string, readonly string[]>> = { "rel:parent": ["family", "single-parent"], "rel:partner": ["partner", "family"] };
+/** The worries (E3) the values a Profile ticks in B1 put first (2026-11-09): Affordability, Price; Reputation, Credibility; Safety / security, Risk; Support, Support. */
+const VALUE_WORRY: Readonly<Record<string, string>> = {
+    "lower-price": "the-price-or-their-budget", "trust-and-reputation": "whether-they-can-trust-you", "safety-and-low-risk": "risk-or-security", "good-support": "support-after-they-buy"
+};
+
+/** Whether the Segment's end user is a minor of a Proxy buyer: a baby, a child or a teenager (End user, 1), or only minors chosen in Positioning where that is not answered. */
+export function profileMinorUser(segment: SegmentAnswers, context: SegmentContext): "baby" | "child" | "teen" | "" {
+    if (!context.endsUser || context.dual) {
+        return "";
+    }
+    const age = (segment["u-age"] ?? [])[0];
+    if (age === "baby" || age === "child" || age === "teen") {
+        return age;
+    }
+    return !age && context.userStages.length > 0 && context.userStages.every(stage => stage === "age:minor") ? "teen" : "";
+}
+
+/**
+ * A question's options as the Profile card shows them (2026-11-09), from the options profileQuestionsOf gives: a minor end user of a Proxy buyer is not offered an adult's goals
+ * (E1) nor the cost (E2), and a baby or child only the ways of being seen that fit one (the social need), a teenager all but a legacy; the buyer's household (A7) puts the
+ * relationship's households first; the worries (E3) put first those the values ticked in B1 point to, the highest rated first. Never a lock: a saved tick not offered stays shown.
+ */
+export function profileOptionsShown(question: ProfileQuestion, segment: SegmentAnswers, context: SegmentContext, answers: SegmentAnswers): ProfileQuestion["options"] {
+    const chosen = answers[question.id] ?? [];
+    const minor = profileMinorUser(segment, context);
+    const unfit = question.id === "social" ? question.options.map(option => option.id).filter(id => minor === "teen" ? NOT_SEEN_BY_A_TEEN.includes(id) : !SEEN_BY_A_CHILD.includes(id)) : [];
+    const hidden = minor ? [...(NOT_FOR_MINORS[question.id] ?? []), ...unfit] : [];
+    const options = question.options.filter(option => !hidden.includes(option.id) || chosen.includes(option.id));
+    let first: string[] = [];
+    if (question.id === "a7") {
+        first = [...new Set(context.relations.flatMap(id => HOUSEHOLD_FIRST[id] ?? []))];
+    } else if (question.id === "e3") {
+        const b1 = QUESTIONS.find(entry => entry.id === "b1")!;
+        const ratings = profileRatings(answers, b1);
+        first = [...(answers.b1 ?? [])].sort((a, b) => (ratings[b] ?? 0) - (ratings[a] ?? 0)).map(value => VALUE_WORRY[value]).filter((id): id is string => !!id);
+    }
+    const rank = (id: string) => first.includes(id) ? first.indexOf(id) : first.length;
+    return first.length > 0 ? [...options].sort((a, b) => rank(a.id) - rank(b.id)) : options;
+}
+
 /** What the Segment sets for a question that is not shown, or starts for one that is (the user can change a start). */
 function startOf(question: ProfileQuestion, segment: SegmentAnswers, context: SegmentContext, answers: SegmentAnswers = {}): string[] | undefined {
     const first = (ids: readonly string[] | undefined) => ids?.[0];
@@ -487,7 +553,8 @@ function startOf(question: ProfileQuestion, segment: SegmentAnswers, context: Se
                 return ["use", "influence", "order", "decide", "gate"];
             }
             if (context.endsUser) {
-                return ["order", "decide"];
+                // A Dual-Intent buyer also uses it (2026-11-09).
+                return context.dual ? ["use", "order", "decide"] : ["order", "decide"];
             }
             const level = answers.a3b?.[0];
             return level === "owner" || level === "executive" ? ["decide"] : level === "specialist" ? ["use"] : undefined;
@@ -506,7 +573,12 @@ function startOf(question: ProfileQuestion, segment: SegmentAnswers, context: Se
             }
             const comfort = first(segment.comfort);
             // The online comfort, a rating: 4 or 5 starts Works it out alone, 1 or 2 Wants to talk to a person.
-            return comfort === "4" || comfort === "5" ? ["alone"] : comfort === "1" || comfort === "2" ? ["person"] : undefined;
+            if (comfort === "4" || comfort === "5" || comfort === "1" || comfort === "2") {
+                return comfort === "4" || comfort === "5" ? ["alone"] : ["person"];
+            }
+            // With no other start, how they compare options (D1; 2026-11-09): a demo, trial or sample, or a quote or proposal, needs a formal one; a meeting or call, a person.
+            const compare = answers.d1 ?? [];
+            return compare.includes("a-demo-trial-or-sample") || compare.includes("a-quote-or-proposal") ? ["formal"] : compare.includes("a-meeting-or-call") ? ["person"] : undefined;
         }
         case "e3":
             // The household income, a rating: 1 (low) starts the worry about price.

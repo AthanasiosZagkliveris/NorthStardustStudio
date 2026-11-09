@@ -81,7 +81,7 @@ export const SUBSECTIONS = {
         profileParts: {
             buyer: ["The person who chooses and pays: what matters to them when choosing, where they find you, how they compare and what might hold them back."],
             user: ["The person it is for, who uses it: who they are, what they want from it, what frustrates them and what they need."],
-            userDual: ["The people the buyer buys for besides themselves (the buyer uses it too): who they are, what they want from it, what frustrates them and what they need."],
+            userDual: ["The people the buyer buys for besides themselves (the buyer uses it too): who they are, what they want from it, what frustrates them and what they need.", "What they want, what frustrates them and what they need are asked of a typical user: the buyer or the others."],
             userPersonal: "Who is the end user, the person it is for?",
             userPersonalHint: "The note is for what is not asked above: a name, what they do, where they live."
         },

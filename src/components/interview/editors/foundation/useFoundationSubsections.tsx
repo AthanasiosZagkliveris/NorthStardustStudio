@@ -19,10 +19,10 @@ import TextLink from "../../fields/TextLink.tsx";
 import TextBox from "../../../controls/TextBox.tsx";
 import { type OtherQuestion, competitorOtherAdd, competitorOtherName, competitorOtherRemove, competitorOtherSettle, competitorOtherTick, competitorOthers, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, shownOpenings, COMPETITOR_SUBCHANNELS, COMPETITOR_BAND_LINE, bandTone, COMPETITOR_CHANGES, valueProfiles, draftToAdd, differentiationFromOpenings, hardToBeat, insightsDraft, reviewPlatformOrder } from "../../../../framework/engine/CompetitorQuestions.ts";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
-import { OFFERING_BOX_QUESTIONS, OFFERING_QUESTIONS, offeringChoose, type OfferingAnswers, type OfferingContext, type OfferingQuestionId, draftOffered, offeringAsks, offeringInfo, offeringOptionsWith, valuePropositionDraft, valuePropositionOpenItems } from "../../../../framework/engine/OfferingQuestions.ts";
+import { OFFERING_BOX_QUESTIONS, OFFERING_QUESTIONS, offeringChoose, type OfferingAnswers, type OfferingContext, type OfferingQuestionId, draftOffered, offeringAsks, offeringInfo, offeringOptionsWith, offeringWho, valuePropositionDraft, valuePropositionOpenItems } from "../../../../framework/engine/OfferingQuestions.ts";
 import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveProfileUserAnswers, offeringContextOf, withFieldSet } from "../../../../framework/engine/EffectiveAnswers.ts";
 import NumberCell from "../../../controls/NumberCell.tsx";
-import { type ProfileBox, type ProfilePart, type ProfileQuestion, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileOutcomeLimit, profileRate, profileRatings, profileWho, profileQuestionsOf, profileSettle, profileUserAgeRange, profileUserQuestionsOf, profileUserSettle, profileUserWho, proposedBusinessProfiles, segmentNeedTicks } from "../../../../framework/engine/ProfileQuestions.ts";
+import { type ProfileBox, type ProfilePart, type ProfileQuestion, DUAL_USER, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileOutcomeLimit, profileRate, profileRatings, profileWho, profileQuestionsOf, profileSettle, profileUserAgeRange, profileUserQuestionsOf, profileUserSettle, profileUserWho, profileUserName, profileOptionsShown, proposedBusinessProfiles, segmentNeedTicks } from "../../../../framework/engine/ProfileQuestions.ts";
 import { type SegmentBox, type SegmentQuestion, SEGMENT_QUESTIONS, segmentChoose, segmentOptions, segmentQuestionsOf, segmentRowChoice, segmentSettle, segmentSettledNotes } from "../../../../framework/engine/SegmentQuestions.ts";
 import { INFO as POSITIONING_INFO, choiceLimit, differentiationOptionsFor, stageLimitLine, userOutcomeOptionsFor, withStageLine } from "../legal/shared.tsx";
 import { summaryText } from "../../cards/cardSummary.ts";
@@ -220,6 +220,8 @@ export function useFoundationSubsections(earlier: Earlier) {
         // asks it without the tick; otherwise (nothing chosen, or several) every box stands, as before. The audience chosen in Identity is added to the "i" of the box it belongs to.
         const frame = segmentFrame(identity);
         const asked = segmentContextFor(identity, segment.description[OPTIONAL_DESCRIPTION_PART] !== undefined);
+        // (The Competitor cards name their type's own `asked`: the Segment's end user is read through this.)
+        const segmentEndsUser = asked.endsUser;
 
         // The questions that left Positioning for the Segment (owner, 2026-11-08): the Differentiation (K14, under the Competitors) and the end user's outcome (End user, 9). The Positioning
         // answer saved before starts each where the Segment has none saved (segmentPositioningShown); the business stage sets their limit, and they keep Positioning's order and "i".
@@ -396,7 +398,8 @@ export function useFoundationSubsections(earlier: Earlier) {
             const own = part === "own";
             // (The end user's A1 and A7 stand on the same card as the buyer's: their names differ.)
             const group = profile.id + (own ? "-user-" : "-") + question.id;
-            const label = part === "buyer" ? profileWho(question.label, shown.a2?.[0]) : profileUserWho(question.label);
+            // (The end user's part names the end user by the relationship, "the child"; a Dual-Intent Segment asks E1, E2 and the Needs of a typical user, the buyer using it too: 2026-11-09.)
+            const label = part === "buyer" ? profileWho(question.label, shown.a2?.[0]) : profileUserWho(question.label, part === "user" && asked.dual ? DUAL_USER : profileUserName(asked));
             const ageRange = question.number ? (own ? profileUserAgeRange(segment.questions, asked) : profileAgeRange(segment.questions)) : null;
             const chosen = shown[question.id] ?? [];
             // Only this field is saved (with its ratings and Other); every other field keeps following its start (docs 36 and 43; owner, 2026-11-08).
@@ -411,7 +414,8 @@ export function useFoundationSubsections(earlier: Earlier) {
             const stageMax = outcome ? profileOutcomeLimit(asked) ?? undefined : undefined;
             const max = outcome ? stageMax : question.max;
             const radio = outcome && stageMax === 1 && chosen.length <= 1;
-            const options = (outcome ? userOutcomeOptionsFor(positioningOrder) : question.options).map(option => ({ ...option }));
+            // (Tailored and ordered by the answers, never locked: a minor end user's goals and frustrations, the household by the relationship, the worries by B1; profileOptionsShown.)
+            const options = (outcome ? userOutcomeOptionsFor(positioningOrder) : own ? question.options : profileOptionsShown(question, segment.questions, asked, shown)).map(option => ({ ...option }));
             const info: InfoPoint[] = question.rating ? [ratingScaleMeaning(question.rating), ...question.info]
                 : outcome ? withStageLine(question.info, stageLimitLine(asked.stage, stageMax ?? null))
                     : [...question.info];
@@ -639,7 +643,7 @@ export function useFoundationSubsections(earlier: Earlier) {
          * sections in the one card, the buyer's and the end user's, each a section as the Description is, its boxes the Profile's boxes with their Notes. The buyer, who chooses and
          * pays: the Description's four boxes and Objections. The end user, who it is for: its own Personal box, Goals & Desires (E4, then E1), Challenges & Problems (E2) and Needs.
          */
-        const dual = (identity?.buyerCategory ?? []).some(id => id.endsWith(":dual") && (asked.frame === "business") !== id.startsWith("b2c:"));
+        const dual = asked.dual === true;
         const twoParts = (profile: BusinessCustomerProfileValue, profileIndex: number) => {
             const path = segmentPath + ", Profile " + (profileIndex + 1);
             const shown = effectiveProfileAnswers(profile, segment, identity);
@@ -665,9 +669,9 @@ export function useFoundationSubsections(earlier: Earlier) {
             ];
             return (
                 <>
-                    {description(path, buyer, profile.description, (next) => updateProfile(segmentIndex, profileIndex, { description: next }), true, undefined, groupFold(profile.id, "The buyer", path), true, "The buyer", parts.buyer)}
+                    {description(path, buyer, profile.description, (next) => updateProfile(segmentIndex, profileIndex, { description: next }), true, undefined, groupFold(profile.id, "The buyer", path), true, dual ? "The buyer (who also uses it)" : "The buyer", parts.buyer)}
                     <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double business-profile-section-rule" role="separator" />
-                    {description(path + ", end user", user, {}, () => undefined, true, undefined, groupFold(profile.id, "The end user", path), true, "The end user", dual ? parts.userDual : parts.user)}
+                    {description(path + ", end user", user, {}, () => undefined, true, undefined, groupFold(profile.id, "The end user", path), true, dual ? "The others who use it" : "The end user", dual ? parts.userDual : parts.user)}
                 </>
             );
         };
@@ -829,7 +833,8 @@ export function useFoundationSubsections(earlier: Earlier) {
                     const answers: CompetitorAnswers = competitor.questions ?? {};
                     // A change of answers is settled against the type: a question it does not ask, an option or a row not offered, loses its answer.
                     const write = (next: CompetitorAnswers) => change({ questions: competitorSettle(next, competitor.type) });
-                    const words = (id: CompetitorQuestionId) => competitorWording(competitor.type, id);
+                    // (K8 reads the buyer's B1: "your buyers" where the Segment has an end user, 2026-11-09.)
+                    const words = (id: CompetitorQuestionId) => id === "k8" && segmentEndsUser ? competitorWording(competitor.type, id).replace("your customers", "your buyers") : competitorWording(competitor.type, id);
                     // A radio of short options stands in one row, as on the Segment and the Profile.
                     const radio = (id: CompetitorQuestionId, options: readonly { id: string; label: string }[]) => segmentRowChoice({ id, label: words(id), box: "demographics", many: false, options } as unknown as SegmentQuestion, options.map(option => ({ ...option })))
                         ? <FittingRadioChoice label={words(id)} group={competitor.id + "-" + id} disabled={disabled} value={answers[id]?.[0] ?? ""} onChange={(next) => write({ ...answers, [id]: [next] })} options={options.map(option => ({ ...option }))} />
@@ -1434,21 +1439,23 @@ export function useFoundationSubsections(earlier: Earlier) {
                                     const question = OFFERING_QUESTIONS.find(entry => entry.id === id)!;
                                     const chosen = shown[id] ?? [];
                                     // (A retired option still saved shows until it is unticked: offeringOptionsWith.)
-                                    const options = offeringOptionsWith(id, context, chosen).map(option => ({ ...option }));
+                                    const options = offeringOptionsWith(id, context, chosen, shown).map(option => ({ ...option }));
+                                    // (Of the end user or the buyer where the buyer is Proxy: offeringWho, 2026-11-09.)
+                                    const label = offeringWho(id, question.label, context);
                                     return (
                                         // (O3's second row stands under the first in one band: nested, the shared 12px between rows.)
-                                        <FieldRow key={id} pair fullList nested={id === "o3t"} label={question.label} info={[...offeringInfo(id, context)]}
+                                        <FieldRow key={id} pair fullList nested={id === "o3t"} label={label} info={[...offeringInfo(id, context)]}
                                             labelNote={question.max !== undefined ? <span className="business-foundation-tick-note">{question.max + " max"}</span> : undefined}>
                                             {question.many
                                                 ? (
-                                                    <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={question.label}>
-                                                        <BusinessTicks name={whose + " " + question.label} disabled={disabled} options={options} chosen={chosen} max={question.max} onChange={(next) => write(id, next)} />
+                                                    <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={label}>
+                                                        <BusinessTicks name={whose + " " + label} disabled={disabled} options={options} chosen={chosen} max={question.max} onChange={(next) => write(id, next)} />
                                                     </div>
                                                 )
                                                 // A radio of short options stands in one row, as on the Segment and the Profile.
                                                 : segmentRowChoice({ ...question, box: "demographics" } as unknown as SegmentQuestion, options)
-                                                    ? <FittingRadioChoice label={question.label} group={offering.id + "-" + id} disabled={disabled} value={chosen[0] ?? ""} onChange={(next) => write(id, [next])} options={options} />
-                                                    : <RadioChoice label={question.label} group={offering.id + "-" + id} className="legal-entity-radio-stack" disabled={disabled} value={chosen[0] ?? ""} onChange={(next) => write(id, [next])} options={options} />}
+                                                    ? <FittingRadioChoice label={label} group={offering.id + "-" + id} disabled={disabled} value={chosen[0] ?? ""} onChange={(next) => write(id, [next])} options={options} />
+                                                    : <RadioChoice label={label} group={offering.id + "-" + id} className="legal-entity-radio-stack" disabled={disabled} value={chosen[0] ?? ""} onChange={(next) => write(id, [next])} options={options} />}
                                         </FieldRow>
                                     );
                                 };

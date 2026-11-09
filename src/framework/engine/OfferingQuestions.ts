@@ -42,6 +42,8 @@ export interface OfferingContext {
     frame?: "people" | "business" | "open";
     /** The Segment has an end user (its buyer is Proxy or Dual-Intent): the draft's goal and frustration are the end user's (doc 36, 2.1; doc 42, 1). */
     endsUser?: boolean;
+    /** That buyer is Dual-Intent (uses it too): the card keeps "your customers" (2026-11-09; offeringWho). */
+    dual?: boolean;
 }
 
 const PRODUCT_FORMS: readonly SegmentOption[] = [
@@ -251,11 +253,36 @@ export function offeringOptions(id: OfferingQuestionId, context: OfferingContext
     }
 }
 
-/** A question's options as the card shows them: those offered, then a retired option still saved (OFFERING_RETIRED), so it shows until it is unticked. */
-export function offeringOptionsWith(id: OfferingQuestionId, context: OfferingContext, chosen: readonly string[] = []): readonly SegmentOption[] {
-    const offered = offeringOptions(id, context);
+/** What O10 puts first by the form (O1; 2026-11-09), an order, never a lock: an in-person service, Access to their home or site; a live online session, Their time or attendance. */
+const PROVIDE_FIRST: Readonly<Record<string, string>> = { inperson: "home", live: "attendance" };
+
+/**
+ * A question's options as the card shows them: those offered, in the order the answers above give (O10 by O1, `answers`), then a retired option still saved (OFFERING_RETIRED),
+ * so it shows until it is unticked.
+ */
+export function offeringOptionsWith(id: OfferingQuestionId, context: OfferingContext, chosen: readonly string[] = [], answers: OfferingAnswers = {}): readonly SegmentOption[] {
+    const listed = offeringOptions(id, context);
+    const first = id === "o10" ? PROVIDE_FIRST[answers.o1?.[0] ?? ""] : undefined;
+    const offered = first ? [...listed.filter(option => option.id === first), ...listed.filter(option => option.id !== first)] : listed;
     const retired = (OFFERING_RETIRED[id] ?? []).filter(option => chosen.includes(option.id));
     return retired.length > 0 ? [...offered, ...retired] : offered;
+}
+
+/**
+ * Who a question is about on a Segment whose buyer is Proxy (2026-11-09): how it reaches them (O6), how long until they have it (O15) and what they give you (O10) are the end user's;
+ * the terms and when they pay (O3, O3b) the buyer's. A Direct or Dual-Intent buyer (who uses it too) keeps the words as written. The documents keep them as written.
+ */
+export function offeringWho(id: OfferingQuestionId, label: string, context: Pick<OfferingContext, "endsUser" | "dual">): string {
+    if (!context.endsUser || context.dual) {
+        return label;
+    }
+    switch (id) {
+        case "o6": case "o10": return label.replace("your customers", "your end users");
+        case "o15": return label.replace("until they have", "until your end users have");
+        case "o3": return label.replace("do they pay", "do your buyers pay");
+        case "o3t": return label.replace("do they pay", "do your buyers pay");
+        default: return label;
+    }
 }
 
 /** Positioning's differentiation, through the value crosswalk (doc 34, 5.2a), as O4's starting ticks (at most three). */
@@ -282,11 +309,18 @@ const OUTCOME_CROSSWALK: Record<string, readonly string[]> = {
 };
 // (Launching starts "Yes, now", 2026-11-08: a business that is launching sells.)
 const STAGE_START: Record<string, string> = { plan: "building", launch: "now", manage: "now", grow: "now" };
-const RECEIVE_START: Record<string, string> = { physical: "shipped", digital: "auto", app: "access", access: "access", live: "live", inperson: "inperson" };
+// (O6 is ticks since 2026-11-09: the clearest way only, the others ticked by hand. Project work, sent by you; an ongoing service, none.)
+const RECEIVE_START: Record<string, string> = { physical: "shipped", digital: "auto", app: "access", access: "access", live: "live", inperson: "inperson", project: "byyou" };
+/** O1 → O15 (2026-11-09): a digital file, an app or online access is theirs straight away. */
+const LEAD_TIME_START: Record<string, string> = { digital: "now", app: "now", access: "now" };
+/** O1 → O3 (2026-11-09): online access by subscription; project work as a project or contract; an ongoing service on a retainer; a session, live or in person, per session. */
+const TERMS_START: Record<string, string> = { access: "subscription", project: "project", ongoing: "retainer", live: "session", inperson: "session" };
+/** O3 → O3b (2026-11-09): a subscription or retainer monthly; a project a deposit, then the rest; one purchase before they get it. */
+const PAY_WHEN_START: Record<string, string> = { subscription: "monthly", retainer: "monthly", project: "deposit", once: "before" };
 
 /**
  * The answers as the card shows them: those saved, then a starting value where a question has none (doc 43: O2 from the business stage, O4 from the
- * Segment's differentiation and the buyer's outcome saved before, O6 from O1), never over an answer chosen; an answer to a question not asked, or an option not offered, is dropped.
+ * Segment's differentiation and the buyer's outcome saved before, O6, O15 and O3 from O1, O3b from O3, O17 from O7's None), never over an answer chosen; an answer to a question not asked, or an option not offered, is dropped.
  */
 export function offeringShown(saved: OfferingAnswers, context: OfferingContext): OfferingAnswers {
     const shown: OfferingAnswers = {};
@@ -315,6 +349,20 @@ export function offeringShown(saved: OfferingAnswers, context: OfferingContext):
     }
     if (!saved.o6 && shown.o1 && RECEIVE_START[shown.o1[0]]) {
         shown.o6 = [RECEIVE_START[shown.o1[0]]];
+    }
+    // The starts of 2026-11-09 (doc 43): never over a saved answer, each from the answer shown above it.
+    if (!saved.o15 && shown.o1 && LEAD_TIME_START[shown.o1[0]]) {
+        shown.o15 = [LEAD_TIME_START[shown.o1[0]]];
+    }
+    if (!saved.o3 && shown.o1 && TERMS_START[shown.o1[0]]) {
+        shown.o3 = [TERMS_START[shown.o1[0]]];
+    }
+    if (!saved.o3t && shown.o3 && PAY_WHEN_START[shown.o3[0]]) {
+        shown.o3t = [PAY_WHEN_START[shown.o3[0]]];
+    }
+    // None of help after the sale (O7) starts None of what comes after it (O17).
+    if (!saved.o17 && shown.o7?.length === 1 && shown.o7[0] === "none") {
+        shown.o17 = ["none"];
     }
     return shown;
 }

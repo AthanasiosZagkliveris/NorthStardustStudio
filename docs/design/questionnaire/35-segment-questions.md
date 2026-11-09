@@ -1,6 +1,6 @@
 # 35. The Segment's questions: every question and option as built
 
-Status: **specification**, written 2026-11-01, updated 2026-11-08. Every question of the Segment card in the order it is asked, with its control, when it is asked, its options and what its "i" says. Since 2026-11-08 (owner, "Move all three") the end user's outcome was asked here (The end user, 9); the same day it moved on to each Profile's end-user part (doc 36, 2.1, E4: owner, 2026-11-08, "If the buyer is proxy, the profile should contain questions for both buyer and end user."), where the answer saved here is its start. The Segment holds its Differentiation, asked once under its Competitors (doc 41, K14). **Who the questions are about:** the questions are written for "your customers" (a direct buyer); when the buyer is a Proxy or Dual-Intent buyer, the buyer's boxes say "your buyers" and the end user's box says "your end users" (`segmentWho`).
+Status: **specification**, written 2026-11-01, updated 2026-11-09. Every question of the Segment card in the order it is asked, with its control, when it is asked, its options and what its "i" says. Since 2026-11-08 (owner, "Move all three") the end user's outcome was asked here (The end user, 9); the same day it moved on to each Profile's end-user part (doc 36, 2.1, E4: owner, 2026-11-08, "If the buyer is proxy, the profile should contain questions for both buyer and end user."), where the answer saved here is its start. The Segment holds its Differentiation, asked once under its Competitors (doc 41, K14). **Who the questions are about:** the questions are written for "your customers" (a direct buyer); when the buyer is a Proxy or Dual-Intent buyer, the buyer's boxes say "your buyers" and the end user's box says "your end users" (`segmentWho`).
 
 Related: doc 36 (the Profile's questions, in the same form), doc 28 (6.3a, the Segment card in the specification), doc 31 (the age terms), doc 33 (the first version; its section 15 holds the thoughts), `src/framework/engine/SegmentQuestions.ts` (where these words are kept; where the two differ, the code is right).
 
@@ -439,6 +439,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - When they urgently need it: They buy what solves it now
 - **Connections:**
   - *Comes from:* Early Positioning: the relationship (people).
+  - *Comes from (an order, 2026-11-09):* What makes them go shopping (Box 4, 5): Boredom or entertainment, or Seeing a friend or creator use it, puts On impulse first; A need / problem to solve puts When they urgently need it and After comparing options first. Never a lock.
   - *Read by (built):* The Market document and the export; the Profile's D1 is not asked on "On impulse" or "When they urgently need it" (neither compares first), is asked with no start on "Out of habit", and otherwise starts from this answer (doc 36).
   - *Read by (not built yet):* The customer journey (consideration). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
@@ -461,7 +462,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - Several departments check: IT or security, legal and finance.
   - Formal procurement: A tender or a request for proposals (RFP), with strict compliance.
 - **Connections:**
-  - *Comes from:* Early Positioning: the relationship (business).
+  - *Comes from:* Early Positioning: the relationship (business). **Starts (2026-11-09):** where it is not answered yet, choosing a Public body (Box 3, 1) or Large (Box 3, 2) sets Formal procurement, and Micro or Self-employed sets One person decides; change it freely (a saved answer wins).
   - *Read by (built):* The Market document and the export; the Profile's role in buying (A5 starts with every role where one person decides) and the proposed B2B Profiles by buying role (doc 36, 2); Formal procurement starts the Profile's D2 at "formal" (doc 36).
   - *Read by (not built yet):* the tender row (a formal procurement loop). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
@@ -527,6 +528,8 @@ The buyer is a business, or the Segment is of businesses where both relationship
 Both.
 
 ### 1. How many potential customers are there?
+
+*Where the Segment's buyer is Proxy or Dual-Intent, "How many potential buyers are there?", as the rest of the buyer's boxes (`segmentWho`; 2026-11-09).*
 
 - **Control:** one choice (a radio).
 - **Asked when:** Always.

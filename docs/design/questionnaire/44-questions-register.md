@@ -387,8 +387,8 @@ None.
 | 26 | Box 4, 2 | `social` | How do your customers like to socialise? | FittingRadioChoice | – | the buyer is people | – | built | doc 35, Box 4 |
 | 27 | Box 4, 5 | `trigger` | What makes your customers go shopping? | BusinessTicks | 2 | the buyer is people | – | built | doc 35, Box 4 |
 | 28 | Box 4, 3 | `discover` | Where do your customers discover new products? | BusinessTicks | 3 | always (Sales calls or tenders for a business only) | – | built | doc 35, Box 4 |
-| 29 | Box 4, 6 | `path` | How do your customers usually decide to buy? | RadioChoice | – | the buyer is people | – | built | doc 35, Box 4 |
-| 30 | Box 4, 9 | `authorise` | Who decides to buy? | BusinessTicks | – | the buyer is a business; answered (not shown) for a self-employed customer | – | built | doc 35, Box 4 |
+| 29 | Box 4, 6 | `path` | How do your customers usually decide to buy? | RadioChoice | – | the buyer is people; ordered by Box 4, 5 (boredom or a friend or creator: On impulse first; a need: When they urgently need it and After comparing options first) | – | built | doc 35, Box 4 |
+| 30 | Box 4, 9 | `authorise` | Who decides to buy? | BusinessTicks | – | the buyer is a business; answered (not shown) for a self-employed customer | where not answered, a Public body (Box 3, 1) or Large (Box 3, 2) sets Formal procurement, Micro or Self-employed One person decides | built | doc 35, Box 4 |
 | 31 | Box 4, 7 | `setting` | Where do your customers usually shop? | FittingRadioChoice | – | always | – | built | doc 35, Box 4 |
 | 32 | Box 4, 8 | `pay` | How do your customers pay? | BusinessTicks | – | always | Digital wallets where they shop on a phone and no way of paying is chosen | built | doc 35, Box 4 |
 | 33 | Box 4, 4 | `share` | How do your customers share what they like? | BusinessTicks | – | the buyer is people; held back while Planning (owner, 2026-11-08), its saved answer kept | – | built | doc 35, Box 4 |
@@ -456,7 +456,7 @@ None.
 
 | Pos | Code | Saved id | Label | Control | Max | Asked when | Starts | Status | Owner |
 |---|---|---|---|---|---|---|---|---|---|
-| 34 | Box 5, 1 | `tam` | How many potential customers are there? | RadioChoice | – | always | – | built | doc 35, Box 5 |
+| 34 | Box 5, 1 | `tam` | How many potential customers are there? | RadioChoice | – | always; "potential buyers" where the buyer is Proxy or Dual-Intent | – | built | doc 35, Box 5 |
 | 35 | Box 5, 2 | `trajectory` | Is your market growing or shrinking? | RatingScale | – | always | – | built | doc 35, Box 5 |
 | 36 | Box 5, 3 | `trends` | What is changing most for your customers? | BusinessTicks | 2 | always | – | built | doc 35, Box 5 |
 | 37 | Box 5, 4 | `competition` | How crowded is your market? | RatingScale | – | always | – | built | doc 35, Box 5 |
@@ -506,11 +506,11 @@ None.
 |---|---|---|---|---|---|---|---|---|---|
 | 1 | A2 | `a2` | What is this person's gender? | FittingRadioChoice | – | a people Segment whose gender mix is answered and is not 3 (balanced) | Man where the Segment's gender mix is 1 or 2, Woman where it is 4 or 5 | built | doc 36, A2 |
 | 2 | A1 | `a1` | How old is this person? | NumberCell | – | always (held to the Segment's age group) | – | built | doc 36, A1 |
-| 3 | A7 | `a7` | Who does this person live with? | RadioChoice | – | a people Segment, unless its age group is only Minors | – | built | doc 36, A7 |
+| 3 | A7 | `a7` | Who does this person live with? | RadioChoice | – | a people Segment, unless its age group is only Minors; ordered by the relationship (Parent or guardian: with a partner and children, single parent first; Spouse or partner: with a partner first) | – | built | doc 36, A7 |
 | 4 | A3 | `a3` | What kind of work does this person do? | RadioChoice | – | a people Segment whose customers are working (Box 1, 3 is Yes) | – | built | doc 36, A3 |
 | 4 | A3b | `a3b` | What is this person's job level? | RadioChoice | – | a business Segment, unless its customers are self-employed (then set to Owner / partner, not shown) | – | built | doc 36, A3b |
 | – | A4 | – | Which kind of business is it? | one choice | – | a business Segment whose industry is answered | – | not built | doc 36, A4 |
-| 5 | A5 | `a5` | What is this person's role in buying? | BusinessTicks | – | a business Segment, a Segment with an end user, or an age group with Minors | all five where One person decides; with an end user, Places the order and Makes the final decision; else from the job level | built | doc 36, A5 |
+| 5 | A5 | `a5` | What is this person's role in buying? | BusinessTicks | – | a business Segment, a Segment with an end user, or an age group with Minors | all five where One person decides; with an end user, Places the order and Makes the final decision (Dual-Intent: and Uses it); else from the job level | built | doc 36, A5 |
 | – | A6 | – | Specialised needs: the optional tick "Add specialised accessibility or caregiving profiles", which opens A6a to A6d | tick | – | always (optional) | – | not built | doc 36, A6 |
 | – | A6a | – | Do they have specific accessibility or user needs? | one choice | – | the A6 tick is ticked | – | not built | doc 36, A6 |
 | – | A6b | – | What is their primary functional limitation category? | ticks | – | A6a is temporary or permanent | – | not built | doc 36, A6 |
@@ -595,7 +595,7 @@ None.
 |---|---|---|---|---|---|---|---|---|---|
 | 10 | C1 | `c1` | Which devices does this person use? | BusinessTicks (ends in Other, written in) | – | always | from where the Segment shops: a phone, a computer, or both | built | doc 36, C1 |
 | 11 | D1 | `d1` | How does this person compare options? | BusinessTicks | – | unless the Segment buys on impulse or when it urgently needs it | from the Segment's path: comparing options (reviews), a recommendation (what others recommend) | built | doc 36, D1 |
-| 12 | D2 | `d2` | How much help does this person want before buying? | RadioChoice | – | always | a formal proposal where the decision has formal procurement; else from online comfort (4 or 5 alone, 1 or 2 a person) | built | doc 36, D2 |
+| 12 | D2 | `d2` | How much help does this person want before buying? | RadioChoice | – | always | a formal proposal where the decision has formal procurement; else from online comfort (4 or 5 alone, 1 or 2 a person); else from D1 (a demo or a quote: formal; a meeting or call: a person) | built | doc 36, D2 |
 | 13 | D3 | `d3` | When does this person usually buy? | BusinessTicks | – | a people Segment | – | built | doc 36, D3 |
 
 - **C1. Which devices does this person use?**
@@ -622,7 +622,7 @@ None.
 
 | Pos | Code | Saved id | Label | Control | Max | Asked when | Starts | Status | Owner |
 |---|---|---|---|---|---|---|---|---|---|
-| 14 | E1 | `e1` | What does this person want to achieve? | RatingScaleGroup (selectable) | 3 | always; in the end user's part where the Segment has an end user | – | built | doc 36, E1 |
+| 14 | E1 | `e1` | What does this person want to achieve? | RatingScaleGroup (selectable) | 3 | always; in the end user's part where the Segment has an end user (Dual-Intent: of a typical user); a minor end user of a Proxy buyer is not offered Revenue, Compliance or Efficiency | – | built | doc 36, E1 |
 
 - **E1. What does this person want to achieve?**
   - Options: ticked, then each rated 1 to 5: Accessibility; Development; Expression; Compliance; Revenue; Efficiency; Resolution; Enjoyment.
@@ -639,7 +639,7 @@ None.
 
 | Pos | Code | Saved id | Label | Control | Max | Asked when | Starts | Status | Owner |
 |---|---|---|---|---|---|---|---|---|---|
-| 15 | E2 | `e2` | What frustrates this person today? | RatingScaleGroup (selectable) | 3 | always; in the end user's part where the Segment has an end user | – | built | doc 36, E2 |
+| 15 | E2 | `e2` | What frustrates this person today? | RatingScaleGroup (selectable) | 3 | always; in the end user's part where the Segment has an end user (Dual-Intent: of a typical user); a minor end user of a Proxy buyer is not offered Cost | – | built | doc 36, E2 |
 
 - **E2. What frustrates this person today?**
   - Options: ticked, then each rated 1 to 5: Cost; Delays; Hassle; Inconsistency; Trust; Skills gap; Capacity.
@@ -655,7 +655,7 @@ None.
 
 | Pos | Code | Saved id | Label | Control | Max | Asked when | Starts | Status | Owner |
 |---|---|---|---|---|---|---|---|---|---|
-| 16 | E3 | `e3` | What might hold this person back? | RatingScaleGroup (selectable) | 3 | always | Price where the Segment's household income is rated 1 | built | doc 36, E3 |
+| 16 | E3 | `e3` | What might hold this person back? | RatingScaleGroup (selectable) | 3 | always; ordered by B1 (Affordability: Price; Reputation: Credibility; Safety / security: Risk; Support: Support) | Price where the Segment's household income is rated 1 | built | doc 36, E3 |
 
 - **E3. What might hold this person back?**
   - Options: ticked, then each rated 1 to 5: Price; Credibility; Onboarding; Complexity; Risk; Fit; Support; Migration; Image.
@@ -674,7 +674,7 @@ None.
 | 17 | N1 | `functional` | What kind of job does this person need done? | RatingScaleGroup (selectable) | 3 | always (above the numbered list "Their own tasks"); in the end user's part where the Segment has an end user | – | built | doc 36, 10 |
 | 18 | N2 | `emotional` | How does this person want to feel? | RatingScaleGroup (selectable) | 3 | a people Segment; in the end user's part where it has one | – | built | doc 36, 10 |
 | 18 | N3 | `emotional-b2b` | How does this person want to feel? | RatingScaleGroup (selectable) | 3 | a business Segment; in the end user's part where it has one | – | built | doc 36, 10 |
-| 19 | N4 | `social` | How does this person want to be seen? | RatingScaleGroup (selectable) | 3 | a people Segment; in the end user's part where it has one | – | built | doc 36, 10 |
+| 19 | N4 | `social` | How does this person want to be seen? | RatingScaleGroup (selectable) | 3 | a people Segment; in the end user's part where it has one; a Baby or Child end user of a Proxy buyer is offered Stylish and Included only, a Teenager all but Impactful | – | built | doc 36, 10 |
 | 19 | N5 | `social-b2b` | How does this person want to be seen? | RatingScaleGroup (selectable) | 3 | a business Segment; in the end user's part where it has one | – | built | doc 36, 10 |
 
 - **N1. What kind of job does this person need done?**
@@ -956,10 +956,10 @@ No questions: the tile shows a draft sentence and the open items, read from the 
 | Pos | Code | Saved id | Label | Control | Max | Asked when | Starts | Status | Owner |
 |---|---|---|---|---|---|---|---|---|---|
 | 5 | O2 | `o2` | Can your customers buy it today? | FittingRadioChoice | – | always | from the business stage: Planning, Still being built; Launching to Growing, Yes, now | built | doc 43, O2 |
-| 6 | O3 | `o3` | On what terms do they pay for it? | RadioChoice | – | always | – | built | doc 43, O3 |
-| 7 | O3b | `o3t` | When do they pay? | RadioChoice | – | always (the second row of O3's band) | – | built | doc 43, O3b |
-| 8 | O15 | `o15` | How long until they have it? | FittingRadioChoice | – | always | – | built | doc 43, O15 |
-| 9 | O6 | `o6` | How do your customers receive it? | BusinessTicks | – | always | from O1 (a physical item: Posted / shipped; a digital file: Sent automatically online; and so on) | built | doc 43, O6 |
+| 6 | O3 | `o3` | On what terms do they pay for it? | RadioChoice | – | always | from O1: Online access, a subscription; Project work, a project or contract; An ongoing service, a retainer; a live online session or an in-person service, per session | built | doc 43, O3 |
+| 7 | O3b | `o3t` | When do they pay? | RadioChoice | – | always (the second row of O3's band) | from O3: a subscription or retainer, monthly; a project, a deposit then the rest; one purchase, before they get it | built | doc 43, O3b |
+| 8 | O15 | `o15` | How long until they have it? | FittingRadioChoice | – | always | from O1: a digital file, an app / online tool or online access, Straight away | built | doc 43, O15 |
+| 9 | O6 | `o6` | How do your customers receive it? | BusinessTicks | – | always | from O1, the clearest way only (a physical item: Posted / shipped; a digital file: Sent automatically online; project work: Sent by you online; and so on) | built | doc 43, O6 |
 
 - **O2. Can your customers buy it today?**
   - Options: Yes, now; Almost ready; In a trial / beta; Still being built; Just an idea.
@@ -993,7 +993,7 @@ No questions: the tile shows a draft sentence and the open items, read from the 
 | Pos | Code | Saved id | Label | Control | Max | Asked when | Starts | Status | Owner |
 |---|---|---|---|---|---|---|---|---|---|
 | 10 | O7 | `o7` | What help do you give after they buy? | BusinessTicks | – | always | – | built | doc 43, O7 |
-| 11 | O17 | `o17` | What comes after the sale? | BusinessTicks | – | always from Launching; held back while Planning (owner, 2026-11-08), its saved answer kept | – | built | doc 43, O17 |
+| 11 | O17 | `o17` | What comes after the sale? | BusinessTicks | – | always from Launching; held back while Planning (owner, 2026-11-08), its saved answer kept | None where O7 is None | built | doc 43, O17 |
 | 12 | O16 | `o16` | How fast do you reply? | FittingRadioChoice | – | always from Launching; held back while Planning (owner, 2026-11-08), its saved answer kept | – | built | doc 43, O16 |
 
 - **O7. What help do you give after they buy?**
@@ -1015,7 +1015,7 @@ No questions: the tile shows a draft sentence and the open items, read from the 
 
 | Pos | Code | Saved id | Label | Control | Max | Asked when | Starts | Status | Owner |
 |---|---|---|---|---|---|---|---|---|---|
-| 13 | O10 | `o10` | What do your customers need to give you? | BusinessTicks | – | the Type is Service or Hybrid | – | built | doc 43, O10 |
+| 13 | O10 | `o10` | What do your customers need to give you? | BusinessTicks | – | the Type is Service or Hybrid; ordered by O1 (an in-person service: Access to their home or site first; a live online session: Their time or attendance first) | – | built | doc 43, O10 |
 | 14 | O18 | `o18` | Which conditions of sale apply? | BusinessTicks | – | always | – | built | doc 43, O18 |
 | – | O12 | – | Is a minimum age to buy it set by law? | none | – | no longer a question: a derived Review item from the activities and the country (proposed, owner 2026-11-06) | – | not built | doc 43, O12 |
 

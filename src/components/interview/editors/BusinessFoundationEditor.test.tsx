@@ -277,17 +277,19 @@ describe("BusinessFoundationEditor asks the questions that left Positioning", ()
     it("splits a Proxy or Dual-Intent Segment's Profile into the buyer and the end user; a Direct Segment's keeps its three sections", () => {
         const saved: { current: unknown } = { current: null };
         const heads = () => screen.getAllByRole("heading", { level: 3 }).map(heading => (heading.textContent ?? "").trim().replace(/i$/, ""))  /* (an "i" after a title reads as its letter) */;
-        for (const category of ["b2c:proxy", "b2c:dual"]) {
+        // (The end user is named by the relationship, a parent's "the child"; a Dual-Intent buyer uses it too: its parts are the buyer who also uses it and the others, and E1, E2
+        // and the Needs are asked of a typical user: 2026-11-09.)
+        for (const [category, buyer, user, who] of [["b2c:proxy", "The buyer", "The end user", "the child"], ["b2c:dual", "The buyer (who also uses it)", "The others who use it", "a typical user"]]) {
             render(<Held identity={{ ...proxy, buyerCategory: [category] }} saved={saved} />);
             fireEvent.click(toggles(/Profile 1$/)[0]);
-            expect(heads()).toEqual(expect.arrayContaining(["The buyer", "The end user"]));
+            expect(heads()).toEqual(expect.arrayContaining([buyer, user]));
             expect(heads()).not.toContain("Motivations");
             // The buyer: what matters when choosing (B1), the worries (E3); the end user: the age within the end-user stage (a Child: 3 to 10), the goals and frustrations.
             expect(screen.getByRole("group", { name: "What matters most to this person?" })).toBeTruthy();
-            expect(screen.getByRole("group", { name: "What does the end user want to achieve?" })).toBeTruthy();
-            expect(screen.getByRole("group", { name: "What frustrates the end user today?" })).toBeTruthy();
+            expect(screen.getByRole("group", { name: "What does " + who + " want to achieve?" })).toBeTruthy();
+            expect(screen.getByRole("group", { name: "What frustrates " + who + " today?" })).toBeTruthy();
             expect(screen.queryByRole("group", { name: "What does this person want to achieve?" })).toBeNull();
-            expect(screen.getByLabelText("How old is the end user?")).toBeTruthy();
+            expect(screen.getByLabelText("How old is the child?")).toBeTruthy();
             cleanup();
         }
         render(<Held identity={{ ...proxy, buyerCategory: ["b2c:direct"], endUser: [] }} saved={saved} />);
