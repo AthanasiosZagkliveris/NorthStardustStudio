@@ -11,14 +11,14 @@
           "value": {
             "description": "Lumen & Loom Studio Ltd is a London-based textile design studio, founded in 2026 by Maya Chen, Oliver Grant and Priya Shah and based at a shared workshop in Hackney Wick, East London. We design and handweave sustainable home textiles (cushions, throws, table linen and wall hangings) from British wool, organic cotton and recycled yarns. Alongside our own collection we run small-group weaving workshops and take bespoke commissions for interior designers and boutique hotels.",
             "mission": "To bring slow, handmade craft back into everyday homes: making beautiful, durable textiles from responsibly sourced materials, paying fair prices along our supply chain, and teaching people the skills to make and repair for themselves.",
-            "positioning": "For design-conscious Londoners and interior professionals who want homeware with a story, Lumen & Loom is an independent textile studio that makes every piece by hand in London from traceable, low-impact yarns. Unlike mass-market homeware brands, each piece is made in small batches, can be repaired for life, and comes with the name of the weaver who made it. Unlike other makers, we also open our studio: customers can learn to weave with us. ",
+            "positioning": "For design-conscious Londoners and interior professionals who want homeware with a story, Lumen & Loom is an independent textile studio that makes every piece by hand in London from traceable, low-impact yarns. Each piece is made in a small batch, can be repaired for life, and comes with the name of the weaver who made it, and our studio is open: customers can learn to weave with us. ",
             "vision": "By 2030, to be London's best-known independent weaving studio: a self-sustaining team of eight makers, a collection stocked by twenty UK independent retailers, a waiting list for our workshops, and a verified low-carbon supply chain from sheep to sofa."
           }
         },
         {
           "sectionNumber": 2,
           "value": {
-            "philosophy": "We believe the things we live with shape how we live. Fast, disposable homeware teaches us to replace rather than care; a well-made textile, repaired and kept for decades, teaches the opposite. Our work is a small, practical argument for slowness: fewer, better things, made close to home by people you can meet.",
+            "philosophy": "We believe the things we live with shape how we live. A well-made textile, repaired and kept for decades, teaches us to care for what we own. Our work is a small, practical argument for slowness: fewer, better things, made close to home by people you can meet.",
             "values": "1. Craft over speed\n2. Honesty about materials and prices\n3. Care for people and planet\n4. Openness: share skills, not secrets\n5. Community before scale",
             "principles": "1. Every yarn we use is traceable to its farm or mill.\n2. We pay our makers and suppliers a London Living Wage or better.\n3. We repair anything we have made, for life.\n4. We never discount to clear stock; we make to order instead.\n5. We decide by consensus of the three founders on anything that affects people or materials.",
             "manifesto": "We stand for things made slowly and kept for a lifetime. We stand for knowing who made your cushion and where the wool came from. We stand against throwaway homeware, hidden supply chains and craft reduced to a style. Come and see how it's made. Better still, come and make it with us."
@@ -330,7 +330,7 @@
           "sectionNumber": 1,
           "value": {
             "aesthetics": "A maker in their thirties in a well-worn oatmeal linen apron over undyed wool knitwear, sleeves pushed up. Natural fibres only, in cream, clay, moss green and indigo. Short nails, a little lanolin on the hands, a faint smell of wool and cedar. Always framed by the studio: north light through tall windows, looms in the background, spools of yarn on open shelves.",
-            "attitude-body-language": "Relaxed and grounded. Stands side-on to you at the loom rather than across a counter, inviting you in. Slow, deliberate hand movements; hands often in frame, touching the cloth. Warm eye contact and an easy smile; comfortable with pauses. Never hurried, never selling.",
+            "attitude-body-language": "Relaxed and grounded. Stands side-on to you at the loom, inviting you in. Slow, deliberate hand movements; hands often in frame, touching the cloth. Warm eye contact and an easy smile; comfortable with pauses. Never hurried, never selling.",
             "communication-voice": "Calm, mid-low pitch, unhurried pace. Speaks plainly and specifically, naming the farm, the yarn weight and the hours a piece took, and explains craft terms the first time they come up. Short sentences, British spelling, gentle humour, no hype words (no 'luxury', no 'curated'). Asks questions and listens.",
             "imprint": "First impression: 'these people really know what they're doing, and they're kind.' Lasting impression: a feeling of calm and of having learned something, and the urge to touch the cloth. People should leave wanting to keep what they buy for decades, and to come back and make something themselves."
           }
@@ -817,7 +817,7 @@
                     }
                   }
                 ],
-                "valueProposition": "For Londoners who want a calm, personal home without the throwaway cycle, Lumen & Loom makes handwoven cushions, throws and linens in Hackney from traceable British wool and organic cotton. Each piece is signed by its maker and repaired for life, and we teach you to weave your own. Unlike high-street and lifestyle brands, you know exactly who made it, where the yarn came from, and that it will last.",
+                "valueProposition": "For Londoners who want a calm, personal home without the throwaway cycle, Lumen & Loom makes handwoven cushions, throws and linens in Hackney from traceable British wool and organic cotton. Each piece is signed by its maker and repaired for life, and we teach you to weave your own. You know exactly who made it, where the yarn came from, and that it will last.",
                 "competitors": [
                   {
                     "id": "competitor-bojhioje",
@@ -833,7 +833,7 @@
                     "weaknesses": "",
                     "opportunities": "Opportunities: Most do not run workshops or sell to trade.\nThreats: Price undercutting; Etsy algorithm favours volume sellers.",
                     "threats": "",
-                    "insights": "We compete on consistency, traceable materials, lifetime repair and the studio experience rather than on price.",
+                    "insights": "We compete on consistency, traceable materials, lifetime repair and the studio experience.",
                     "questions": {
                       "k1": [
                         "Product"
@@ -971,7 +971,7 @@
                     "description": {
                       "market": "Mass market, all ages and incomes.",
                       "experience": "Self-service, in store and online.",
-                      "offerings": "Buying cheap mass-produced cushions and throws and replacing them every year or two instead of investing in one handmade piece."
+                      "offerings": "Buying cheap mass-produced cushions and throws and replacing them every year or two."
                     },
                     "strengths": "Weaknesses: Environmental cost.",
                     "weaknesses": "",
@@ -1327,7 +1327,7 @@
                     }
                   }
                 ],
-                "valueProposition": "For interior designers and boutique hotels who want a local, sustainable signature in every project, Lumen & Loom weaves bespoke textiles to specification in London, with samples in a week, fixed lead times and a documentation pack covering materials, carbon and fire compliance. Unlike contract mills, we make small runs and one-offs; unlike solo makers, we deliver on time.",
+                "valueProposition": "For interior designers and boutique hotels who want a local, sustainable signature in every project, Lumen & Loom weaves bespoke textiles to specification in London, with samples in a week, fixed lead times and a documentation pack covering materials, carbon and fire compliance. We make small runs and one-offs, and we deliver on time.",
                 "competitors": [
                   {
                     "id": "competitor-ke6xsdjg",
