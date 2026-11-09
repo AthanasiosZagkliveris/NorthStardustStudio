@@ -444,7 +444,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
 
 ### 9. Who decides to buy?
 
-- **Control:** ticks, as many as apply.
+- **Control:** ticks, as many as apply. **Decided (owner, 2026-11-09):** it stays ticks, not one choice.
 - **Asked when:** The buyer is a business. For a self-employed customer (chosen, or because only freelancers were chosen in Positioning) only "One person decides" is offered, so it is answered and not shown.
 - **Options:**
   - One person decides: The person who uses it has the budget and the final say.

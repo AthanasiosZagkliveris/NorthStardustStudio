@@ -1,12 +1,14 @@
 # 5. What has not been done yet
 
-Status: **living list**, written 2026-10-14, updated 2026-11-02. Remove an item when it is done and record it in the log (`04-log.md`). Everything here is a plan or a proposal unless it says "decided". Nothing in section 5.3 is built, and of section 5.5 only what a row says is built.
+Status: **living list**, written 2026-10-14, updated 2026-11-09. Remove an item when it is done and record it in the log (`04-log.md`). Everything here is a plan or a proposal unless it says "decided". Nothing in section 5.3 is built, and of section 5.5 only what a row says is built.
 
 ## Open now
 
 **The questionnaire build**: built are the Segment card's questions (doc 35), the Profile card's questions A1 to A3, A5, B1, C1 to C4, D1, D2 and E1 to E3 (doc 36), and the Organisation and Positioning tiles (docs 37 and 38). Not built: the Profile's A4 (kind of business) and A6 (specialised needs), the proposed Profiles and the user's own Profile (the second Profile of a Proxy or Dual-Intent Segment), and every read of the Segment's and Profile's answers listed as "Read by (not built yet)" in docs 35 and 36. What else is left of the first version is doc 33; where each tile stands is doc 40. The help texts follow doc 39 (a proposal: only its size budget is built).
 
 **The release**: `chore/light-cleanup` is merged into `main` (log, 2026-10-22). Next: the Tile System (5.3), then Batches D and E (5.4), then the extraction (5.7).
+
+**On hold (owner, 2026-11-09)**: P2, the Profile's Needs before its Motivations; P4, the Segment's Box 4 (Purchasing Power & Behaviour) split in two; a full third example Organisation. None is built; each waits for the owner's word.
 
 **Waiting for the owner**: the proposals in `17-frequency-options.md` (frequency groups); the generated cards' inputs beyond "adding, not removing"; the open decisions of 5.8; the sizes and gaps that are not on a step (5.6).
 

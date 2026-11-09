@@ -10,7 +10,7 @@ Status: **rules**, written 2026-10-29. How a document in `docs/` is named, numbe
 | `docs/design/core/` | The current design of the Foundation, the sources, the research, the log, the open list, the generated catalogue (documents 1 to 7) | `NN-name.md` |
 | `docs/design/library/` | The assets library, its generated lists and logs (8 to 15) | `NN-name.md` |
 | `docs/design/current/` | What the app is today in detail: texts, reactions, components, pop-ups, tooltips, folders, card structure (16 to 26) | `NN-name.md` |
-| `docs/design/questionnaire/` | The first version, its future features, the questions, the lists, the research, the questions register (27 to 44) | `NN-name.md` |
+| `docs/design/questionnaire/` | The first version, its future features, the questions, the lists, the research, the questions register (27 to 45) | `NN-name.md` |
 | `docs/ai/` | Rules, references and playbooks for an AI assistant | plain names |
 | `docs/specifications/business-system/` | The pages of the Business System | `page-N-name.md` |
 | `docs/specifications/identity-system/` | The pages of the Identity System that have a document of their own | `page-N-name.md` |

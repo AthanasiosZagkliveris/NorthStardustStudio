@@ -1,6 +1,6 @@
 # 40. The tile documents: the form, and where each tile stands
 
-Status: **rules**, written 2026-11-01, updated 2026-11-08. The form every document about a tile or a card takes (so that one can be read like the others), the list of the tiles and the document each one has, and what is still missing.
+Status: **rules**, written 2026-11-01, updated 2026-11-09. The form every document about a tile or a card takes (so that one can be read like the others), the list of the tiles and the document each one has, and what is still missing.
 
 Related: doc 35 (the Segment), doc 36 (the Profile), doc 37 (the Organisation), doc 38 (Positioning), doc 39 (what an "i" says), doc 44 (the questions register: every question by card and position, with its code), doc 28 (the design these documents refine), doc 21 (the shared components).
 
@@ -30,7 +30,7 @@ A tile document is **one document for one tile or card**, in this order:
 |---|---|---|
 | Identity 1: Organisation | 37 | built (specification) |
 | Identity 1: Early Positioning (Core Market, Corporate and Portfolio by stage) | 38 | built (specification) |
-| Identity 1: Mission, Vision, Values and the others | none | not yet |
+| Identity 1: Purpose & Beliefs (Mission, Vision, Philosophy, Values, Principles, Manifesto) | 45 | proposal |
 | Identity 2: Legal Entity (Founders & Ownership, Capability, Registrations, Expenses) | none (doc 26) | not yet |
 | Brand: Ambassador and Style (the nine tiles) | none | not yet |
 | Business 1: Segment Description | 35 | built (specification) |
