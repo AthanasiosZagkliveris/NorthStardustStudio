@@ -455,7 +455,7 @@ export function useLegalCardsAndSections(earlier: Earlier) {
                     {open && (
                     <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-expense legal-entity-grid-card legal-entity-grid-expense-card">
 
-                        {/* The Date straight after the name: it places the cost in a month of the cash flow. */}
+                        {/* The Date straight after the name: it places the cost in a month of the cash flow. Its label over its cell, one row with the Cost and the Frequency (owner, 2026-11-09). */}
                         {field(
                             "Date",
                             <DateCellInput
@@ -470,12 +470,7 @@ export function useLegalCardsAndSections(earlier: Earlier) {
                                             : candidate
                                     )
                                 })}
-                            />,
-                            false,
-                            undefined,
-                            undefined,
-                            undefined,
-                            true
+                            />
                         )}
 
                         {field(
@@ -506,7 +501,7 @@ export function useLegalCardsAndSections(earlier: Earlier) {
                             <OptionPicker
                                 label={"Expense " + (index + 1) + " frequency"}
                                 options={[...LEGAL_ENTITY_EXPENSE_FREQUENCIES]}
-                                /* As wide as its longest option, from the Date's column (the cost row's Frequency). */
+                                /* As wide as its longest option: the row's third cell, after the Date and the Cost. */
                                 hug
                                 keepWidth
                                 disabled={disabled}
