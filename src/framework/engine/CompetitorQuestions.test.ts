@@ -84,10 +84,22 @@ describe("the review platforms in the order of the App User's industry and count
     it("puts Google and Facebook first, then the industry's, then the country's; the rest after them", () => {
         expect(ids(reviewPlatformOrder("GB", "13921").first)).toEqual(["google", "facebook", "marketplace", "trustpilot"]);
         expect(ids(reviewPlatformOrder("US", "511210").first)).toEqual(["google", "facebook", "g2", "capterra", "app-store", "apple-maps", "yelp", "bbb"]);
-        expect(ids(reviewPlatformOrder("AU", "4511").first)).toEqual(["google", "facebook", "tripadvisor", "booking", "airbnb", "opentable", "food-delivery", "trustpilot", "productreview"]);
+        expect(ids(reviewPlatformOrder("AU", "4511").first)).toEqual(["google", "facebook", "opentable", "food-delivery", "tripadvisor", "trustpilot", "productreview"]);
         // Outside the six countries: Trustpilot; Japan's restaurants: Tabelog.
-        expect(ids(reviewPlatformOrder("JP", "5610").first)).toEqual(["google", "facebook", "tripadvisor", "booking", "airbnb", "opentable", "food-delivery", "tabelog", "trustpilot"]);
+        expect(ids(reviewPlatformOrder("JP", "5610").first)).toEqual(["google", "facebook", "opentable", "food-delivery", "tripadvisor", "tabelog", "trustpilot"]);
         expect(ids(reviewPlatformOrder("DE", "6201").first)).toEqual(["google", "facebook", "g2", "capterra", "app-store", "omr", "trustpilot"]);
+        // Hospitality by the activity code (owner, 2026-11-09): a café (food and drink) against a hotel (accommodation), in each scheme.
+        const food = ["google", "facebook", "opentable", "food-delivery", "tripadvisor"];
+        const rooms = ["google", "facebook", "booking", "airbnb", "tripadvisor"];
+        expect(ids(reviewPlatformOrder("GB", "56102").first)).toEqual([...food, "trustpilot"]);
+        expect(ids(reviewPlatformOrder("GB", "55100").first)).toEqual([...rooms, "trustpilot"]);
+        expect(ids(reviewPlatformOrder("IE", "5630").first)).toEqual([...food, "trustpilot"]);
+        expect(ids(reviewPlatformOrder("US", "722515").first)).toEqual([...food, "apple-maps", "yelp", "bbb"]);
+        expect(ids(reviewPlatformOrder("CA", "721111").first)).toEqual([...rooms, "yelp", "bbb"]);
+        expect(ids(reviewPlatformOrder("NZ", "H440000").first)).toEqual([...rooms, "trustpilot"]);
+        expect(ids(reviewPlatformOrder("GB", "55100").rest)).toContain("opentable");
+        // The kind not known from the code (NAICS 72 alone): every hospitality platform, in the list's order.
+        expect(ids(reviewPlatformOrder("US", "72").first)).toEqual(["google", "facebook", "tripadvisor", "booking", "airbnb", "opentable", "food-delivery", "apple-maps", "yelp", "bbb"]);
         // Nothing known: the two first, the rest after them.
         const unknown = reviewPlatformOrder("", "");
         expect(ids(unknown.first)).toEqual(["google", "facebook"]);

@@ -119,6 +119,8 @@ The rows of the Competitor's K6 (doc 41; built 2026-11-04, `reviewPlatformOrder`
 | OMR Reviews | Software, IT, media and telecoms (`software`), in Germany only | Germany (DE) | [FUN-65] |
 | Tabelog | Hospitality (`hospitality`), in Japan only | Japan (JP) | [FUN-65] |
 
+**Hospitality by the kind of place (owner, 2026-11-09).** The activity code splits Hospitality in two, so a café is not offered Booking.com and Airbnb before the restaurant sites: food and drink (NACE and ISIC division 56, as the UK's and Ireland's codes; NAICS 722 in the US and Canada; ANZSIC 45 in Australia and New Zealand) puts OpenTable, Food delivery app and Tripadvisor first (and Tabelog in Japan); accommodation (division 55; NAICS 721; ANZSIC 44) puts Booking.com, Airbnb and Tripadvisor first. The other kind's platforms come after, with the rest. Where the code does not say which (NAICS 72 alone), every Hospitality platform comes first, in the table's order (`hospitalityOfActivity`, `CompetitorQuestions.ts`).
+
 An industry with no row here (farming, mining, energy, transport, finance, real estate, administrative services, government, education, health, other services) shows only Google and Facebook, then its country's platforms.
 
 #### 5.2c Functional jobs (L17): what each means, and what was left out

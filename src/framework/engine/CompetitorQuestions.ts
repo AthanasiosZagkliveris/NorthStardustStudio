@@ -278,12 +278,39 @@ export function industryOfActivity(country: string, code: string): string | unde
     return industryOfDivision(scheme, division);
 }
 
-/** K6's rows in their order (doc 34, 5.2b): Google and Facebook, the industry's, the country's; any other platform is shown only where it was ticked before. A platform is never shown twice. */
+/** Hospitality's platforms by the kind of place (owner, 2026-11-09; doc 34, 5.2b), in their order: food and drink, or accommodation. */
+const HOSPITALITY_FIRST: Record<"food" | "accommodation", readonly string[]> = {
+    food: ["opentable", "food-delivery", "tripadvisor", "tabelog"],
+    accommodation: ["booking", "airbnb", "tripadvisor"]
+};
+
+/** A hospitality activity's kind from its code, as `industryOfActivity` reads the scheme: food and drink is NACE/ISIC (and the UK's and Ireland's SIC) division 56,
+    NAICS 722, ANZSIC 45; accommodation is division 55, NAICS 721, ANZSIC 44. Undefined where the code does not say (not hospitality, or NAICS 72 alone). */
+export function hospitalityOfActivity(country: string, code: string): "food" | "accommodation" | undefined {
+    const digits = (code ?? "").replace(/[^0-9]/g, "");
+    const key = schemeKeyOf(country);
+    if (key === "us" || key === "ca") {
+        const group = digits.slice(0, 3);
+        return group === "722" ? "food" : group === "721" ? "accommodation" : undefined;
+    }
+    const division = digits.slice(0, 2);
+    if (key === "au" || key === "nz") {
+        return division === "45" ? "food" : division === "44" ? "accommodation" : undefined;
+    }
+    return division === "56" ? "food" : division === "55" ? "accommodation" : undefined;
+}
+
+/** K6's rows in their order (doc 34, 5.2b): Google and Facebook, the industry's, the country's; any other platform is shown only where it was ticked before. A platform is never shown twice.
+    Hospitality is split by the activity code (owner, 2026-11-09): food and drink puts OpenTable, Food delivery app and Tripadvisor first; accommodation Booking.com, Airbnb and Tripadvisor. */
 export function reviewPlatformOrder(country: string, activityCode: string): { first: readonly ReviewPlatform[]; rest: readonly ReviewPlatform[] } {
     const industry = industryOfActivity(country, activityCode);
     const place = country && !SIX.includes(country) ? "other" : country;
     const core = REVIEW_PLATFORMS.filter(platform => platform.id === "google" || platform.id === "facebook");
-    const byIndustry = REVIEW_PLATFORMS.filter(platform => industry && platform.industries?.includes(industry) && (!platform.onlyIn || platform.onlyIn.includes(country)));
+    const kind = industry === "hospitality" ? hospitalityOfActivity(country, activityCode) : undefined;
+    const ofIndustry = (platform: ReviewPlatform) => industry && platform.industries?.includes(industry) && (!platform.onlyIn || platform.onlyIn.includes(country));
+    const byIndustry = kind
+        ? HOSPITALITY_FIRST[kind].map(id => REVIEW_PLATFORMS.find(platform => platform.id === id)!).filter(ofIndustry)
+        : REVIEW_PLATFORMS.filter(ofIndustry);
     const byCountry = REVIEW_PLATFORMS.filter(platform => place && (platform.countries?.includes(place) || platform.countries?.includes(country)));
     const first: ReviewPlatform[] = [];
     for (const platform of [...core, ...byIndustry, ...byCountry]) {
