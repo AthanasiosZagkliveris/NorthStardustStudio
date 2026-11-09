@@ -87,6 +87,15 @@ describe("the Segment's questions", () => {
         expect(ids(segmentQuestionsOf("user", { "u-orgtype": ["self"] }, serving))).toEqual(["u-age", "u-orgtype", "u-comfort"]);
         const employer = { ...OPEN, endsUser: true, relations: ["rel:employer", "rel:friend"] };
         expect(ids(segmentQuestionsOf("user", {}, employer))).toEqual(["u-age", "u-work", "u-job", "u-comfort"]);
+        // A family member buying for a child is asked the school stage (a grandparent; 2026-11-09).
+        const family = { ...OPEN, endsUser: true, relations: ["rel:family"] };
+        expect(ids(segmentQuestionsOf("user", { "u-age": ["child"] }, family))).toEqual(["u-age", "u-school", "u-comfort"]);
+        // An institution's end users are the people it serves, of any age: the school stage for a child, work for an adult, never its clients' organisation.
+        const institution = { ...OPEN, frame: "business" as const, endsUser: true, relations: ["rel:institution"] };
+        expect(ids(segmentOptions(question("u-age"), {}, institution))).toContain("baby");
+        expect(ids(segmentOptions(question("u-age"), {}, institution))).toContain("dependent");
+        expect(ids(segmentQuestionsOf("user", { "u-age": ["child"] }, institution))).toEqual(["u-age", "u-school", "u-comfort"]);
+        expect(ids(segmentQuestionsOf("user", { "u-age": ["active"] }, institution))).toEqual(["u-age", "u-work", "u-comfort"]);
     });
 
     it("settles the answers: what is no longer asked, or no longer offered, goes", () => {

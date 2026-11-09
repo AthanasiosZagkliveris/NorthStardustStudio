@@ -64,6 +64,10 @@ describe("the buyer the Segment card follows", () => {
         // A consumer's end user can still be a child.
         const child = segmentContextFor({ relationships: ["b2c"], marketType: "single", audience: ["adult"], buyerCategory: ["b2c:proxy"], endUser: ["rel:family"] }, false);
         expect(segmentOptions(SEGMENT_QUESTIONS.find(question => question.id === "u-age")!, {}, child).map(option => option.id)).toContain("baby");
+        // The people an institution or membership body serves are of any age (a school's pupils, a care home's residents; owner, 2026-11-09).
+        const served = segmentContextFor({ relationships: ["b2b"], marketType: "single", audience: ["mid"], buyerCategory: ["b2b:proxy"], endUser: ["rel:institution"] }, true);
+        expect(served).toMatchObject({ frame: "business", relations: ["rel:institution"] });
+        expect(segmentOptions(SEGMENT_QUESTIONS.find(question => question.id === "u-age")!, {}, served).map(option => option.id)).toEqual(["baby", "child", "teen", "young", "established", "peak", "mature", "active", "dependent"]);
     });
 
     it("takes the user's life stage that fits where only one does, even if it was never saved", () => {

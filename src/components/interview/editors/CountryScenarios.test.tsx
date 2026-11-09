@@ -65,8 +65,9 @@ interface Scenario {
     organisation: Record<string, unknown>;
 }
 
-const B2C_RELATIONS = Object.keys(RELATIONSHIP_FITS).filter(id => ["rel:parent", "rel:caregiver", "rel:family", "rel:partner", "rel:friend", "rel:commercial", "rel:otherpersonal"].includes(id));
-const B2B_RELATIONS = Object.keys(RELATIONSHIP_FITS).filter(id => ["rel:employer", "rel:copartner", "rel:serving", "rel:intermediary", "rel:sponsor", "rel:otherbusiness"].includes(id));
+// (The relationships offered: an "Other" is no longer offered, owner 2026-11-09.)
+const B2C_RELATIONS = Object.keys(RELATIONSHIP_FITS).filter(id => ["rel:parent", "rel:caregiver", "rel:family", "rel:partner", "rel:friend", "rel:commercial"].includes(id));
+const B2B_RELATIONS = Object.keys(RELATIONSHIP_FITS).filter(id => ["rel:employer", "rel:copartner", "rel:serving", "rel:intermediary", "rel:sponsor", "rel:institution"].includes(id));
 const USER_STAGES = ["age:minor", "age:young", "age:adult", "age:senior"];
 
 /** The Positioning answers of one random business, valid by construction (the rules of the lists are applied as the editor applies them). */

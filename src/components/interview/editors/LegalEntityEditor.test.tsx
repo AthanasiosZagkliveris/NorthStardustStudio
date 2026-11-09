@@ -951,19 +951,28 @@ describe("LegalEntityEditor Early Positioning: the buyer's category and the End 
         render(<Model model="b2c" />);
         // A Proxy Buyer buys for the other: not a spouse or partner (a shared purchase).
         fireEvent.click(screen.getByRole("radio", { name: "Proxy Buyers" }));
-        expect(relations()).toEqual(["Parent or guardian", "Caregiver", "Family member", "Friend or acquaintance", "Commercial & Professional", "Other"]);
+        expect(relations()).toEqual(["Parent or guardian", "Caregiver", "Family member", "Friend or acquaintance", "Commercial & Professional"]);
         expect(screen.getByRole("radiogroup", { name: "End User's Life-Stage" }).querySelectorAll("input").length).toBe(4);
         // A Dual-Intent Buyer shares the purchase: not a friend or a commercial and professional buyer.
         fireEvent.click(screen.getByRole("radio", { name: "Dual-Intent Buyers" }));
-        expect(relations()).toEqual(["Parent or guardian", "Caregiver", "Family member", "Spouse or partner", "Other"]);
+        expect(relations()).toEqual(["Parent or guardian", "Caregiver", "Family member", "Spouse or partner"]);
         cleanup();
 
         render(<Model model="b2b" />);
         fireEvent.click(screen.getByRole("radio", { name: "Proxy Buyers" }));
-        expect(relations()).toEqual(["Employer", "Professional intermediary", "Sponsor or funder", "Other"]);
+        expect(relations()).toEqual(["Employer", "Professional intermediary", "Sponsor or funder", "Institution or membership body"]);
         expect(screen.queryByRole("radiogroup", { name: "End User's Life-Stage" })).toBeNull();
         fireEvent.click(screen.getByRole("radio", { name: "Dual-Intent Buyers" }));
-        expect(relations()).toEqual(["Business partner", "Business serving clients"]);
+        expect(relations()).toEqual(["Business partner", "Business serving clients", "Institution or membership body"]);
+
+    });
+
+    it("offers no Other relationship, but shows a saved one until it is unticked (owner, 2026-11-09)", () => {
+
+        const relations = () => [...screen.getByRole("radiogroup", { name: "Buyer & End User relationship" }).querySelectorAll("label")].map(label => label.textContent);
+        const saved = asLegalEntityValue({ organisation: { customerType: ["b2b"], buyerCategory: ["b2b:proxy"], endUser: ["rel:otherbusiness"], businessStage: "plan" } });
+        render(<LegalEntityEditor value={saved} businessStage={stageKey("plan")} audienceOnly onChange={() => undefined} />);
+        expect(relations()).toEqual(["Employer", "Professional intermediary", "Sponsor or funder", "Institution or membership body", "Other"]);
 
     });
 

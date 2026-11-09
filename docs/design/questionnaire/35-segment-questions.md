@@ -611,7 +611,7 @@ Asked when the Segment's own buyer relationship has a Proxy or Dual-Intent buyer
 ### 1. How old are your customers?
 
 - **Control:** one choice (a radio).
-- **Asked when:** The Segment's buyer relationship has a Proxy or Dual-Intent buyer. The terms follow the end user's life stage chosen in Positioning: Minors: Baby, Child, Teenager; Young Adults: Young adult; Adults: Established, Peak, Mature; Seniors: Active Retirees, Dependent seniors. A business Segment's end user (staff, a partner, clients) is offered the working-age terms only, Young adult to Mature (owner, 2026-11-08: no minors; phase 5, the same day: no Active Retirees or Dependent seniors either; a retiree's term saved before is removed on the next choice). Not shown when only one term is left.
+- **Asked when:** The Segment's buyer relationship has a Proxy or Dual-Intent buyer. The terms follow the end user's life stage chosen in Positioning: Minors: Baby, Child, Teenager; Young Adults: Young adult; Adults: Established, Peak, Mature; Seniors: Active Retirees, Dependent seniors. A business Segment's end user (staff, a partner, clients) is offered the working-age terms only, Young adult to Mature (owner, 2026-11-08: no minors; phase 5, the same day: no Active Retirees or Dependent seniors either; a retiree's term saved before is removed on the next choice); the people an Institution or membership body serves are offered every term (owner, 2026-11-09: a school serves minors, a care home seniors). Not shown when only one term is left.
 - **Options:**
   - Baby 0–2
   - Child 3–10
@@ -633,13 +633,13 @@ Asked when the Segment's own buyer relationship has a Proxy or Dual-Intent buyer
 ### 2. Which school stage are your customers in?
 
 - **Control:** one choice (a radio).
-- **Asked when:** As the end user's life stage, and the relationship is Parent or guardian, or Caregiver. "Secondary school" is not offered when the end user is a Baby or a Child; one already chosen goes when the life stage changes. Not asked of an end user of 18 or more. A Baby: Early years only (set, not shown); a Child: Early years or Primary school; a Teenager: Secondary school only (set, not shown).
+- **Asked when:** As the end user's life stage, and the relationship is Parent or guardian, Caregiver, Family member (a grandparent buying for a child; owner, 2026-11-09) or Institution or membership body (a school for its pupils; 2026-11-09). "Secondary school" is not offered when the end user is a Baby or a Child; one already chosen goes when the life stage changes. Not asked of an end user of 18 or more. A Baby: Early years only (set, not shown); a Child: Early years or Primary school; a Teenager: Secondary school only (set, not shown).
 - **Options:**
   - Early years
   - Primary school
   - Secondary school
 - **The "i" says:**
-  - Asked of a parent or guardian, and of a caregiver, who buy for a child. Secondary school is not offered for a Baby or a Child.
+  - Asked when the buyer buys for a child: a parent or guardian, a caregiver, a family member, or an institution such as a school. Secondary school is not offered for a Baby or a Child.
 - **Connections:**
   - *Comes from:* Early Positioning: the buyer and end user relationship; this part's life stage.
   - *Read by (built):* The Market document and the export.
@@ -648,12 +648,12 @@ Asked when the Segment's own buyer relationship has a Proxy or Dual-Intent buyer
 ### 3. Are your customers working?
 
 - **Control:** one choice (a radio).
-- **Asked when:** As the end user's life stage, and the relationship is Family member, Spouse or partner, Friend or acquaintance, Commercial & Professional, Other (personal) or Sponsor or funder. Not asked of a Baby or a Child.
+- **Asked when:** As the end user's life stage, and the relationship is Family member, Spouse or partner, Friend or acquaintance, Commercial & Professional, Other (personal, a saved answer only since 2026-11-09), Sponsor or funder, or Institution or membership body (its adults; 2026-11-09; never its clients' type or size, which are a business serving clients'). Not asked of a Baby or a Child.
 - **Options:**
   - Yes
   - No
 - **The "i" says:**
-  - The same question as for the buyer, asked of the end user: an adult the buyer is related to, or sponsors.
+  - The same question as for the buyer, asked of the end user: an adult the buyer is related to, sponsors or serves.
   - Yes includes working full-time, part-time, on contract or self-employed.
   - No opens a second question about why they are not working.
 - **Connections:**

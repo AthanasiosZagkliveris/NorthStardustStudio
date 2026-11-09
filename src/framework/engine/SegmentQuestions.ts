@@ -513,12 +513,12 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "primary", label: "Primary school" },
             { id: "secondary", label: "Secondary school" }
         ],
-        info: ["Asked of a parent or guardian, and of a caregiver, who buy for a child. Secondary school is not offered for a Baby or a Child."]
+        info: ["Asked when the buyer buys for a child: a parent or guardian, a caregiver, a family member, or an institution such as a school. Secondary school is not offered for a Baby or a Child."]
     },
     {
         id: "u-work", box: "user", label: "Are your customers working?", many: false,
         options: WORKING,
-        info: ["The same question as for the buyer, asked of the end user: an adult the buyer is related to, or sponsors.", ...WORKING_INFO]
+        info: ["The same question as for the buyer, asked of the end user: an adult the buyer is related to, sponsors or serves.", ...WORKING_INFO]
     },
     {
         id: "u-work2", box: "user", label: "Why are your customers not working?", many: false,
@@ -615,8 +615,14 @@ function retiredByAge(answers: SegmentAnswers): boolean {
 /** The user's age terms from 18 on: no school stage is asked of them. */
 const ADULT_USER_AGES = ["young", "established", "peak", "mature", "active", "dependent"];
 
-const PERSONAL = ["rel:parent", "rel:caregiver"];
-const ADULT_PERSONAL = ["rel:family", "rel:partner", "rel:friend", "rel:otherpersonal", "rel:commercial", "rel:sponsor"];
+/** The relationships whose end user may be at school: a parent, a caregiver, a family member (a grandparent buying for a child) and an institution (a school for its pupils; 2026-11-09). */
+const PERSONAL = ["rel:parent", "rel:caregiver", "rel:family", "rel:institution"];
+const ADULT_PERSONAL = ["rel:family", "rel:partner", "rel:friend", "rel:otherpersonal", "rel:commercial", "rel:sponsor", "rel:institution"];
+
+/** Whether the end users are the people an institution or membership body serves: of any age, a business buyer's though they are (owner, 2026-11-09). */
+export function segmentServesPeople(context: Pick<SegmentContext, "relations">): boolean {
+    return context.relations.includes("rel:institution");
+}
 const JOB = ["rel:employer", "rel:copartner", "rel:otherbusiness"];
 const CLIENTS = ["rel:serving", "rel:intermediary"];
 
@@ -760,7 +766,8 @@ export function segmentOptions(question: SegmentQuestion, answers: SegmentAnswer
                             : true));
         case "u-age":
             // A business Segment's end user (staff, a partner, clients) is of working age: no age under 18 (owner, 2026-11-08) and no retiree (phase 5, 2026-11-08), Young adult to Mature.
-            return USER_AGES.filter(option => keep(option, !(context.frame === "business" && (option.stage === "age:minor" || option.stage === "age:senior"))
+            // The people an institution serves are of any age (a school's pupils, a care home's residents; 2026-11-09).
+            return USER_AGES.filter(option => keep(option, !(context.frame === "business" && !segmentServesPeople(context) && (option.stage === "age:minor" || option.stage === "age:senior"))
                 && (context.userStages.length === 0 || context.userStages.includes(option.stage))))
                 .map(({ id, label }) => ({ id, label }));
         default:

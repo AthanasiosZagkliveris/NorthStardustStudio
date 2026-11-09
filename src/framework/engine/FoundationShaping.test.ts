@@ -40,6 +40,7 @@ describe("the words follow who the question is about", () => {
         expect(profileUserName({ relations: ["rel:caregiver"] })).toBe("the person cared for");
         expect(profileUserName({ relations: ["rel:employer"] })).toBe("the employee");
         expect(profileUserName({ relations: ["rel:serving"] })).toBe("the client");
+        expect(profileUserName({ relations: ["rel:institution"] })).toBe("the person it serves");
         expect(profileUserName({ relations: ["rel:friend"] })).toBe("the end user");
         expect(profileUserName({ relations: ["rel:parent", "rel:partner"] })).toBe("the end user");
         expect(profileUserWho("How old is {s}?", "the child")).toBe("How old is the child?");

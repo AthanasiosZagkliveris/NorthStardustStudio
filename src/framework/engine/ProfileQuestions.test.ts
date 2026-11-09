@@ -340,6 +340,9 @@ describe("a Proxy or Dual-Intent Segment's Profile holds the buyer and the end u
         expect(asked("comfort", "teen")).toBe(true);
         // The end user's age is held to the end-user stage, not the buyer's age group.
         expect(profileUserAgeRange({ "u-age": ["child"], age: ["peak"] })).toEqual([3, 11]);
+        // A business buyer's staff are of working age; the people an institution serves keep their stage's ages (2026-11-09).
+        expect(profileUserAgeRange({ "u-age": ["child"] }, { frame: "business", relations: ["rel:employer"] })).toEqual([18, 65]);
+        expect(profileUserAgeRange({ "u-age": ["child"] }, { frame: "business", relations: ["rel:institution"] })).toEqual([3, 11]);
         expect(profileUserSettle({ a1: ["8"] }, { "u-age": ["child"], age: ["peak"] }, context)).toEqual({ a1: ["8"] });
         expect(profileUserSettle({ a1: ["45"] }, { "u-age": ["child"], age: ["peak"] }, context)).toEqual({});
     });

@@ -27,7 +27,7 @@ import { orderedByRelevance, purposeRelevance } from "../../../../framework/engi
 import { categoryOfModel, relationshipFits, relationshipFitsBuyerStage, relationshipFitsUserStages, userStageFits } from "../../../../framework/engine/RelationshipFit.ts";
 import DateCellInput from "../../fields/DateCellInput.tsx";
 import { todayIsoDate } from "../../../../framework/engine/AnswerUtils.ts";
-import { AUDIENCE_SCALES, BUYER_CATEGORIES, BUYER_USER_RELATIONS, FIRST_VERSION_CUSTOMER_TYPES, INFO, LIFE_STAGES, PURPOSES, USER_LIFE_STAGES, choiceLimit, stageLimitLine, withStageLine, LEGAL_FORM_OTHER, activitiesInfo, formationIssues, MAX_OTHER_NUMBER_LENGTH, OTHER_OPTION, TOTAL_OWNERSHIP_HELP, savedOther, shownOther } from "./shared.tsx";
+import { AUDIENCE_SCALES, BUYER_CATEGORIES, BUYER_USER_RELATIONS, FIRST_VERSION_CUSTOMER_TYPES, INFO, LIFE_STAGES, PURPOSES, RELATIONS_NOT_OFFERED, USER_LIFE_STAGES, choiceLimit, stageLimitLine, withStageLine, LEGAL_FORM_OTHER, activitiesInfo, formationIssues, MAX_OTHER_NUMBER_LENGTH, OTHER_OPTION, TOTAL_OWNERSHIP_HELP, savedOther, shownOther } from "./shared.tsx";
 import type { useLegalState } from "./useLegalState.tsx";
 
 type Earlier = ReturnType<typeof useLegalState>;
@@ -185,8 +185,8 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
     /** The End User ids of a model's questions. */
     const endUserIdsOf = (model: string) => model === "b2c" ? [...idsOf(BUYER_USER_RELATIONS.b2c), ...idsOf(USER_LIFE_STAGES)] : idsOf(BUYER_USER_RELATIONS.b2b);
     const suffix = (model: string) => models.length > 1 ? " (" + SIDE_NAMES[model] + ")" : "";
-    /** The buyer and user relationships a model offers: only those that can be the buyer's category (fewer options help); one already chosen stays. */
-    const relationOptions = (model: "b2c" | "b2b") => BUYER_USER_RELATIONS[model].filter(option => (relationshipFits(option.id, categoryOfModel(entity.organisation.buyerCategory, model)) && relationshipFitsBuyerStage(option.id, entity.organisation.audience) && relationshipFitsUserStages(option.id, entity.organisation.audience, entity.organisation.endUser)) || entity.organisation.endUser.includes(option.id));
+    /** The buyer and user relationships a model offers: only those that can be the buyer's category (fewer options help), never an "Other" (RELATIONS_NOT_OFFERED); one already chosen stays. */
+    const relationOptions = (model: "b2c" | "b2b") => BUYER_USER_RELATIONS[model].filter(option => (!RELATIONS_NOT_OFFERED.includes(option.id) && relationshipFits(option.id, categoryOfModel(entity.organisation.buyerCategory, model)) && relationshipFitsBuyerStage(option.id, entity.organisation.audience) && relationshipFitsUserStages(option.id, entity.organisation.audience, entity.organisation.endUser)) || entity.organisation.endUser.includes(option.id));
 
     /** One question: a radio where one choice is allowed (and at most one is held), else ticks that lock at the limit. */
     function choice(

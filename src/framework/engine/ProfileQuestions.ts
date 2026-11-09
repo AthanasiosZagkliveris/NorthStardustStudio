@@ -1,4 +1,4 @@
-import { JOB_INFO, JOB_LEVELS, JOB_RENAMED, SEGMENT_QUESTIONS, ratingOptions, ratingWords, type SegmentAnswers, type SegmentContext, type SegmentOption } from "./SegmentQuestions.ts";
+import { JOB_INFO, JOB_LEVELS, JOB_RENAMED, SEGMENT_QUESTIONS, ratingOptions, ratingWords, segmentServesPeople, type SegmentAnswers, type SegmentContext, type SegmentOption } from "./SegmentQuestions.ts";
 import { choiceLimit } from "./PositioningIds.ts";
 
 /**
@@ -249,13 +249,12 @@ export function profileUserWho(label: string, name = "the end user"): string {
 
 /** The end user named by the Segment's relationship (Positioning's End User; 2026-11-09). */
 const USER_NAMES: Readonly<Record<string, string>> = {
-    "rel:parent": "the child", "rel:partner": "the partner", "rel:caregiver": "the person cared for", "rel:employer": "the employee", "rel:serving": "the client"
-    // (An institution buying for the people it serves, "the person it serves", once Positioning offers it: not yet a relationship.)
+    "rel:parent": "the child", "rel:partner": "the partner", "rel:caregiver": "the person cared for", "rel:employer": "the employee", "rel:serving": "the client", "rel:institution": "the person it serves"
 };
 
 /**
  * How the end user's part names the end user (2026-11-09): from the relationship where one name fits every relationship chosen (Parent or guardian, the child; Spouse or partner,
- * the partner; Caregiver, the person cared for; Employer, the employee; Business serving clients, the client), else "the end user".
+ * the partner; Caregiver, the person cared for; Employer, the employee; Business serving clients, the client; Institution or membership body, the person it serves), else "the end user".
  */
 export function profileUserName(context: Pick<SegmentContext, "relations">): string {
     const names = [...new Set(context.relations.map(id => USER_NAMES[id] ?? "the end user"))];
@@ -276,11 +275,11 @@ const WORKING_USER_AGES = ["young", "established", "peak", "mature"];
 
 /**
  * The range of years the Segment's end-user stage allows (End user, 1), or null where none is chosen. A business Segment's end user is of working age: its range is the stage's where
- * that is a working stage, else 18 to 64 (a retiree's stage saved before is not offered there).
+ * that is a working stage, else 18 to 64 (a retiree's stage saved before is not offered there). The people an institution serves are of any age, so their range is the stage's.
  */
-export function profileUserAgeRange(segment: SegmentAnswers, context?: Pick<SegmentContext, "frame">): [number, number] | null {
+export function profileUserAgeRange(segment: SegmentAnswers, context?: Pick<SegmentContext, "frame" | "relations">): [number, number] | null {
     const stage = (segment["u-age"] ?? [])[0];
-    if (context?.frame === "business" && !WORKING_USER_AGES.includes(stage)) {
+    if (context?.frame === "business" && !segmentServesPeople(context) && !WORKING_USER_AGES.includes(stage)) {
         return [18, 65];
     }
     return USER_AGE_RANGES[stage] ?? null;

@@ -193,7 +193,7 @@ export function segmentContextFor(identity: SegmentIdentity | undefined, busines
 }
 
 /** The buyer and user relationships of a business buyer (Positioning's End User); the others are a consumer buyer's. */
-const BUSINESS_RELATIONS = ["rel:employer", "rel:copartner", "rel:serving", "rel:intermediary", "rel:sponsor", "rel:otherbusiness"];
+const BUSINESS_RELATIONS = ["rel:employer", "rel:copartner", "rel:serving", "rel:intermediary", "rel:sponsor", "rel:institution", "rel:otherbusiness"];
 
 /** The audience ids of a buyer who is a person, and of a business or public buyer. */
 export const PEOPLE_AUDIENCE = ["young", "adult", "senior"];

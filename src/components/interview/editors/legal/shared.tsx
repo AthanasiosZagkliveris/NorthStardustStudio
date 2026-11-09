@@ -128,7 +128,10 @@ export const BUYER_CATEGORIES = [
     { id: "dual", label: "Dual-Intent Buyers" }
 ] as const;
 
-/** The End User, asked when the buyer's category is Proxy or Dual-Intent: the buyer and user relationship of the model, and (a consumer buyer) the user's life stage. */
+/**
+ * The End User, asked when the buyer's category is Proxy or Dual-Intent: the buyer and user relationship of the model, and (a consumer buyer) the user's life stage. The two "Other" rows are
+ * no longer offered (owner, 2026-11-09: they record nothing the app can use); they stay in the lists so that a saved one still reads, shows until it is unticked and opens the same questions.
+ */
 export const BUYER_USER_RELATIONS = {
     b2c: [
         { id: "rel:parent", label: "Parent or guardian" },
@@ -145,9 +148,12 @@ export const BUYER_USER_RELATIONS = {
         { id: "rel:serving", label: "Business serving clients" },
         { id: "rel:intermediary", label: "Professional intermediary" },
         { id: "rel:sponsor", label: "Sponsor or funder" },
+        { id: "rel:institution", label: "Institution or membership body" },
         { id: "rel:otherbusiness", label: "Other" }
     ]
 } as const;
+/** The relationships kept for a saved answer only, never offered to a new choice (owner, 2026-11-09). */
+export const RELATIONS_NOT_OFFERED: readonly string[] = ["rel:otherpersonal", "rel:otherbusiness"];
 export const USER_LIFE_STAGES = [
     { id: "age:minor", label: "Minors" },
     { id: "age:young", label: "Young Adults" },
@@ -445,7 +451,8 @@ export const INFO = {
 
     buyerUserRelation: [
         "How is the buyer related to the person who will use it? It shapes the message: a parent is reached by safety and trust, an employer by compliance and duty of care.",
-        "The relationship suggests the category above; the buyer's own answer decides it."
+        "The relationship suggests the category above; the buyer's own answer decides it.",
+        "Institution or membership body: a school for its pupils, a care home for its residents, a club or union for its members, a council for its residents."
     ],
 
     userLifeStage: [

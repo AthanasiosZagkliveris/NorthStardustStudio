@@ -19,10 +19,13 @@ const TABLES = {
         columns: ["rel:copartner", "rel:serving"],
         rows: ["SP", "..", "..", "SP", "SS", "PP", "PP", "SS", "PP", "SS", "SS", null]
     },
-    /** The four relationships of a Proxy business buyer: an employer, a professional intermediary, a sponsor or funder, another business relationship (Social Connection, Business Growth and Creation are not in it). */
+    /**
+     * The relationships of a Proxy business buyer: an employer, a professional intermediary, a sponsor or funder, another business relationship (Social Connection, Business Growth and Creation
+     * are not in it), and an institution or membership body (Proxy or Dual-Intent; owner, 2026-11-09: Learning, Health, Compliance and Access primary, the others as the employer's).
+     */
     businessProxy: {
-        columns: ["rel:employer", "rel:intermediary", "rel:sponsor", "rel:otherbusiness"],
-        rows: ["PSSS", "PS..", "PS.S", "S...", null, "SS.S", null, null, "PPPP", "PPPS", "PPPS", "SPPS"]
+        columns: ["rel:employer", "rel:intermediary", "rel:sponsor", "rel:otherbusiness", "rel:institution"],
+        rows: ["PSSSP", "PS..P", "PS.SP", "S...S", null, "SS.SS", null, null, "PPPPP", "PPPSP", "PPPSP", "SPPSP"]
     },
     /** The audience scale and the buyer's category of a business buyer (the owner's table of 2026-10-30): a solopreneur is direct or other (proxy or dual-intent); the larger scales are direct or dual-intent, or proxy. */
     scale: {
@@ -108,9 +111,9 @@ export function differentiationByPurpose(purposes: readonly string[]): Record<st
     return out;
 }
 
-/** How strongly each business buyer and user relationship drives each differentiation (cost, convenience, compliance, premium, performance, ecosystem; the owner's table of 2026-10-30; personal, added 2026-11-08, possible for every relationship): columns in the order of BUSINESS_RELATIONSHIPS. */
-const BUSINESS_RELATIONSHIPS = ["rel:copartner", "rel:serving", "rel:employer", "rel:intermediary", "rel:sponsor", "rel:otherbusiness"];
-const RELATIONSHIP_DRIVES = [".SS.PP", "SPPS.P", "S.PPPS", "PP....", "PS.P..", "PPPSSS", "SSSSSS"];
+/** How strongly each business buyer and user relationship drives each differentiation (cost, convenience, compliance, premium, performance, ecosystem; the owner's table of 2026-10-30; personal, added 2026-11-08, possible for every relationship; an institution or membership body, 2026-11-09, as the employer): columns in the order of BUSINESS_RELATIONSHIPS. */
+const BUSINESS_RELATIONSHIPS = ["rel:copartner", "rel:serving", "rel:employer", "rel:intermediary", "rel:sponsor", "rel:otherbusiness", "rel:institution"];
+const RELATIONSHIP_DRIVES = [".SS.PPS", "SPPS.PP", "S.PPPSP", "PP.....", "PS.P...", "PPPSSSP", "SSSSSSS"];
 
 /** The relevance of each differentiation (2 primary, 1 secondary, 0 none) for the business relationships chosen, by differentiation id: the strongest of those chosen; null where none is chosen. */
 export function differentiationByRelationship(relationships: readonly string[]): Record<string, number> | null {

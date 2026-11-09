@@ -117,6 +117,11 @@ describe("the relevance of a purpose to the buyer (the owner's tables of 2026-10
         const serving = purposeRelevance({ models: ["b2b"], categories: ["b2b:dual"], relationships: ["rel:serving"] })!;
         expect(serving).toMatchObject({ learning: 2, entertainment: 2, health: 0 });
         expect(purposeOrderAbout({ models: ["b2b"], categories: ["b2b:dual"], relationships: ["rel:serving"] })).toBe("the buyer and user relationship");
+        // An institution or membership body (owner, 2026-11-09): Learning, Health, Compliance and Access primary, as Proxy or Dual-Intent.
+        for (const category of ["b2b:proxy", "b2b:dual"]) {
+            const institution = purposeRelevance({ ...base, categories: [category], relationships: ["rel:institution"] })!;
+            expect(institution).toMatchObject({ learning: 2, health: 2, compliance: 2, access: 2, entertainment: 1, productivity: 1 });
+        }
     });
 
     it("says which differentiations the purposes chosen drive", () => {
@@ -133,6 +138,7 @@ describe("the relevance of a purpose to the buyer (the owner's tables of 2026-10
         expect(differentiationByRelationship(["rel:employer"])).toEqual({ cost: 1, convenience: 2, compliance: 2, premium: 0, performance: 0, ecosystem: 2, personal: 1 });
         expect(differentiationByRelationship(["rel:sponsor"])).toEqual({ cost: 2, convenience: 0, compliance: 2, premium: 0, performance: 0, ecosystem: 1, personal: 1 });
         expect(differentiationByRelationship(["rel:otherbusiness"])).toEqual({ cost: 2, convenience: 2, compliance: 1, premium: 0, performance: 0, ecosystem: 1, personal: 1 });
+        expect(differentiationByRelationship(["rel:institution"])).toEqual(differentiationByRelationship(["rel:employer"]));
     });
 
     it("says which outcomes the purposes chosen drive: the buyer's, by the category, and the user's", () => {

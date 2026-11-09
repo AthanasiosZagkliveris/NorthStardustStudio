@@ -113,7 +113,7 @@ export const END_USER_WORDS: Record<string, string> = {
     "rel:parent": "Buyer is the parent or guardian", "rel:caregiver": "Buyer is the caregiver", "rel:family": "Buyer is a family member",
     "rel:partner": "Buyer is the spouse or partner", "rel:friend": "Buyer is a friend or acquaintance", "rel:commercial": "Buyer is in a commercial or professional relationship with the user", "rel:otherpersonal": "Buyer has another personal relationship with the user",
     "rel:employer": "Buyer is the employer", "rel:copartner": "Buyer is a business partner", "rel:serving": "Buyer is a business serving clients",
-    "rel:intermediary": "Buyer is a professional intermediary", "rel:sponsor": "Buyer is a sponsor or funder", "rel:otherbusiness": "Buyer has another business relationship with the user",
+    "rel:intermediary": "Buyer is a professional intermediary", "rel:sponsor": "Buyer is a sponsor or funder", "rel:institution": "Buyer is an institution buying for the people it serves","rel:otherbusiness": "Buyer has another business relationship with the user",
     "age:minor": "User: minors", "age:young": "User: young adults", "age:adult": "User: adults", "age:senior": "User: seniors"
 };
 /** The purposes of the offering, by id. */
