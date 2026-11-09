@@ -1016,7 +1016,7 @@
         //      (The Inventory and Completed row's rectangles are no tiles of a grid: section 12.)
         for (const tile of [...document.querySelectorAll(".section-tile")].filter(visible)) {
             if (tile.closest(".section-tiles-completed")) continue;
-            // (The Strategic Period's Roadmap draws its Objectives as timeline bars, as long as their period: a declared exception, the owner's to decide.)
+            // (The Strategic Period's Roadmap draws its Objectives as timeline bars, as long as their period: the decided exception, Thanos, 2026-11-09: they stay timeline bars.)
             if (tile.closest(".strategy-period-roadmap")) continue;
             if (Math.abs(tile.offsetWidth - tile.offsetHeight) > 1) {
                 fail("every tile is a square, at every width", tile, { width: tile.offsetWidth, height: tile.offsetHeight });
