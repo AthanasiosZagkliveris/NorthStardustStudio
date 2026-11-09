@@ -939,7 +939,12 @@
 
 }
 
-.business-segment-grid .business-segment-box > .legal-entity-org-section:first-child .info-note-button{
+/* (On a coloured card the "i" draws itself from the pair set on the button, page-3-edges.css: the dark band sets that pair here, so its letter and ring stay the light ink, 3:1 and more.) */
+.business-segment-grid:not(.business-segment-grid-single) .business-segment-box > .legal-entity-org-section:first-child .info-note > .info-note-button.info-note-button{
+
+    --info-fill:var(--bg-primary);
+
+    --info-ink:var(--text-on-fill);
 
     border-color:var(--text-on-fill);
 
@@ -1101,7 +1106,12 @@
 
 }
 
-.floating-card-body .column-tile-content > .business-foundation-card > .business-group-fold-head .info-note-button{
+.floating-card-body .column-tile-content > .business-foundation-card > .business-group-fold-head .info-note > .info-note-button.info-note-button{
+
+    /* (The pair the coloured card's "i" is drawn from, set on the button: page-3-edges.css.) */
+    --info-fill:var(--bg-primary);
+
+    --info-ink:var(--text-on-fill);
 
     border-color:var(--text-on-fill);
 
