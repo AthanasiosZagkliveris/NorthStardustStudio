@@ -707,6 +707,9 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                 would turn capital on every time someone
                 asked what capital means.
             */}
+            {/* ONE STYLE FOR EVERY CARD OF THE FOUNDATION (owner, 2026-11-09): the dialog's parts in bands, as the Organisation's fields: the capital's tick untinted, the owners' table tinted, the totals untinted. */}
+            <div className="legal-entity-audience legal-entity-founders-bands">
+            <div className="legal-entity-org-section">
             <div className="legal-entity-switch-row">
 
                 <TickField className="legal-entity-switch" disabled={disabled} checked={entity.capitalApplies} onChange={(event) => update({
@@ -721,6 +724,9 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
 
             </div>
 
+            </div>
+            {/* (The owners' table and its "+ Add founder": the next band, tinted.) */}
+            <div className="legal-entity-org-section legal-entity-org-band legal-entity-founders-band">
             <div
                 className={
                     "legal-entity-founders" +
@@ -873,6 +879,9 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                 </AddButton>
             )}
 
+            </div>
+            {/* (The totals: the next band, untinted.) */}
+            <div className="legal-entity-org-section legal-entity-founders-totals-band">
             {/* Nothing to total where neither is asked. */}
             {(!soleFounderSettled || entity.capitalApplies) && (
                 <div className="legal-entity-totals">
@@ -956,6 +965,8 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
 
                 </div>
             )}
+            </div>
+            </div>
 
         </>
     ),

@@ -1598,3 +1598,23 @@
     padding-right:calc(var(--space-cell) + 32px + var(--gap-8));
 
 }
+
+/* THE FOUNDERS & OWNERSHIP DIALOG IN BANDS (owner, 2026-11-09): the capital's tick, the owners' table with its "+ Add founder", the totals: one band each, from
+   side to side of the dialog, the table's band tinted; inside a band its parts keep their own rhythm (12px). */
+.legal-entity-founders-bands{
+
+    display:flex;
+    flex-direction:column;
+
+}
+
+.legal-entity-founders-bands > .legal-entity-org-section{
+
+    display:flex;
+    flex-direction:column;
+
+    gap:var(--space-field);
+
+    padding-top:var(--space-cell);
+
+}
