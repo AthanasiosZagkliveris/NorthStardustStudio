@@ -64,10 +64,9 @@
 
 .notepad-head {
 
-    /* "Notes" and its closing arrow on the first row, "+ Add note" under them, at the label's left edge. */
+    /* "Notes" with its closing arrow beside it, the dividing line under them; "+ Add note" is the list's first line, at the label's left edge. */
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: var(--gap-8);
 
     padding: 16px 16px 12px;
@@ -76,11 +75,9 @@
 
 }
 
-.notepad-title-row {
+.notepad-add {
 
-    display: flex;
-    align-items: center;
-    gap: var(--gap-8);
+    align-self: flex-start;
 
 }
 

@@ -462,12 +462,13 @@ export function NotepadPanel() {
     return (
         <aside className="notepad-panel" aria-label="Notes" ref={panel}>
 
-            {/* The head (owner, 2026-11-09): "Notes" with the closing arrow beside it, then "+ Add note" under the label. */}
+            {/* The head (owner, 2026-11-09): "Notes" with the closing arrow beside it, and the dividing line under them; "+ Add note" first under the line. */}
             <div className="notepad-head">
-                <div className="notepad-title-row">
-                    <h2 className="notepad-title">Notes</h2>
-                    <NavArrow direction="next" label="Close notes" className="page-arrow notepad-close" onClick={() => NotepadService.close()} />
-                </div>
+                <h2 className="notepad-title">Notes</h2>
+                <NavArrow direction="next" label="Close notes" className="page-arrow notepad-close" onClick={() => NotepadService.close()} />
+            </div>
+
+            <div className="notepad-list">
                 <AddButton className="notepad-add"
                     onClick={() => {
                         NotepadService.addNote(OrganizationService.getSelected() ?? "");
@@ -476,11 +477,6 @@ export function NotepadPanel() {
                 >
                     + Add note
                 </AddButton>
-            </div>
-
-            {/* ONE scrolling column, padded as every card is. The open Organisation's notes stand directly, with no heading (its name is the header's;
-                owner, 2026-11-09); another Organisation's notes, and the General ones, keep their folding group with its name and count. */}
-            <div className="notepad-list">
                 {notes.length === 0
                     ? <p className="notepad-empty">No notes yet. Add one, and link it to any page, card or field.</p>
                     : noteGroups(notes).map(group => group.current ? (
