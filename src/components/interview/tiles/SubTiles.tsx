@@ -1,4 +1,5 @@
 import { ReactNode, useContext, useState } from "react";
+import DialogSectionBand from "./DialogSectionBand.tsx";
 
 import Tile from "./Tile.tsx";
 import TileGrid from "./TileGrid.tsx";
@@ -44,7 +45,7 @@ export interface SubTile {
  * THE SECTIONS OF A DIALOG AS TILES (the Business System's category tiles, one level in): the dialog's grid shows a tile for each section; pressing one opens
  * that section in the dialog, with its name after the dialog's title and Back returning to the grid. Its lines may be links to cards.
  */
-export default function SubTiles({ tiles, label, header }: { tiles: readonly SubTile[]; label: string; /** What stands above the tiles (the dialog's own content: the Founders & Ownership's owners), only while the grid shows, not while a tile is open. */ header?: ReactNode }) {
+export default function SubTiles({ tiles, label, header, tilesTitle }: { tiles: readonly SubTile[]; label: string; /** What stands above the tiles (the dialog's own content: the Founders & Ownership's owners), only while the grid shows, not while a tile is open. */ header?: ReactNode; /** A title over the tiles, as a section of the dialog (DialogSectionBand): the founders' Profiles. */ tilesTitle?: string }) {
 
     const initial = useContext(InitialBoxContext);
     // ("@last": the dialog was entered from the tile after it by the carousel's left arrow, so it opens on its last section.)
@@ -73,7 +74,8 @@ export default function SubTiles({ tiles, label, header }: { tiles: readonly Sub
         <>
         {header}
         {/* A divider line between the dialog's own content and its tiles, 12px either side of it. */}
-        {header && tiles.length > 0 && <div className="business-capability-card-rule sub-tiles-rule" role="separator" />}
+        {header && tiles.length > 0 && !tilesTitle && <div className="business-capability-card-rule sub-tiles-rule" role="separator" />}
+        {(() => { const grid = (
         <TileGrid label={label}>
             {({ across }) => (
             <>
@@ -113,6 +115,7 @@ export default function SubTiles({ tiles, label, header }: { tiles: readonly Sub
     </>
     )}
         </TileGrid>
+        ); return tilesTitle && tiles.length > 0 ? <DialogSectionBand title={tilesTitle} tiles>{grid}</DialogSectionBand> : grid; })()}
         </>
     );
 

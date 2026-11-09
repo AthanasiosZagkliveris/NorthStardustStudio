@@ -1014,7 +1014,13 @@ body:has(.floating-overlay) .section-tile-dialog .section-tile-back {
 /* GLOBAL: A STATUS PILL (Total Ownership: short / met / over) has no fill of its own, like a wired button at rest: it takes the ground behind it; its state is told by its line and its ink. */
 .legal-entity-total:is(.legal-entity-total-short, .legal-entity-total-met, .legal-entity-total-over) {
     background: transparent !important;
+    /* A soft glow in the pill's own line colour, a further sign of its state (owner, 2026-11-09): green when met, red when short or over. */
+    box-shadow: 0 0 10px 2px color-mix(in srgb, var(--total-glow) 45%, transparent);
 }
+
+.legal-entity-total.legal-entity-total-met { --total-glow: var(--line-met); }
+.legal-entity-total.legal-entity-total-short { --total-glow: var(--line-short); }
+.legal-entity-total.legal-entity-total-over { --total-glow: var(--line-danger); }
 
 /* THE CUSTOMER RELATIONSHIP'S FIRST ROW: [Relationship Type: label over a cell as wide as its longest option] [Purpose: its label, then its cell beside it] [x], all on the cells' top line, 12px apart; the x in its own column, 12px from the block's edge. */
 .business-relationship-block .business-relationship-type-row {

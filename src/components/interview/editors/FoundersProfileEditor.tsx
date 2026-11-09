@@ -537,7 +537,7 @@ export default function FoundersProfileEditor({
                 };
             })
         ];
-        return <SubTiles label="Founders & Ownership" tiles={tiles} header={subTilesWith} />;
+        return <SubTiles label="Founders & Ownership" tiles={tiles} header={subTilesWith} tilesTitle="Profiles" />;
     }
 
     /* THE PAGE AS TILES: each founder is a tile (the name, the roles), and the capability gaps another. A tile opens its card in its dialog. */

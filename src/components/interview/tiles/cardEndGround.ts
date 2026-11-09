@@ -28,13 +28,34 @@ export function paintCardEnd(card: HTMLElement): void {
     if (!last || !tinted || lowest >= box.bottom - 1) {
         if (card.dataset.endGround !== undefined) {
             card.style.backgroundImage = "";
+            card.style.backgroundPosition = "";
+            card.style.backgroundSize = "";
+            card.style.backgroundRepeat = "";
             delete card.dataset.endGround;
         }
         return;
     }
-    const image = "linear-gradient(to bottom, transparent " + from + "px, " + ground + " " + from + "px)";
+    // A vertical divider that ends with the last band (the right column's own left border, as the Value Proposition's needs) runs on to the card's end, through
+    // the colour it divides (owner, 2026-11-09: "the vertical divide lines should reach ... the end of its sections (and colour varied part)").
+    const dividers = [...card.querySelectorAll<HTMLElement>(".legal-entity-field + .legal-entity-field")].filter(field => {
+        const r = field.getBoundingClientRect();
+        return parseFloat(getComputedStyle(field).borderLeftWidth) >= 1 && Math.abs(r.bottom - lowest) <= 1 && field.closest(".section-tile-dialog, .floating-card-body") === card;
+    });
+    const layers = ["linear-gradient(to bottom, transparent " + from + "px, " + ground + " " + from + "px)"];
+    const positions = ["0 0"];
+    const sizes = ["auto"];
+    for (const divider of dividers) {
+        const colour = getComputedStyle(divider).borderLeftColor;
+        layers.unshift("linear-gradient(" + colour + ", " + colour + ")");
+        positions.unshift(Math.round((divider.getBoundingClientRect().left - box.left - card.clientLeft) * 10) / 10 + "px " + from + "px");
+        sizes.unshift("1px calc(100% - " + from + "px)");
+    }
+    const image = layers.join(", ");
     if (card.style.backgroundImage !== image) {
         card.style.backgroundImage = image;
+        card.style.backgroundPosition = positions.join(", ");
+        card.style.backgroundSize = sizes.join(", ");
+        card.style.backgroundRepeat = "no-repeat";
         card.dataset.endGround = ground;
     }
 }

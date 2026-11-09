@@ -1,5 +1,4 @@
 import TextBox from "../../controls/TextBox.tsx";
-import FieldLabel from "../../controls/FieldLabel.tsx";
 import { CSSProperties, ReactNode, useRef } from "react";
 import CardShell from "../cards/CardShell.tsx";
 import CardHead from "../cards/CardHead.tsx";
@@ -7,6 +6,7 @@ import NameCell from "../cards/NameCell.tsx";
 import { cardNameMissing } from "../../../framework/engine/SystemCardCompleteness.ts";
 import { workHue } from "../../../framework/engine/WorkColours.ts";
 import CardBoxes, { type CardBox } from "../cards/CardBoxes.tsx";
+import DialogSectionBand from "../tiles/DialogSectionBand.tsx";
 import SectionTiles, { DialogHeading, useTitleSlide, type SectionTile, type TileAdd } from "../tiles/SectionTiles.tsx";
 import { BUSINESS_COMPETITOR_TYPES, BUSINESS_FOUNDATION_SUBSECTIONS, BusinessCustomerSegmentValue, createBusinessCompetitor, createBusinessCustomerProfile, createBusinessCustomerSegment, createBusinessOffering, segmentHue } from "../../../framework/engine/AnswerUtils.ts";
 import FoldAllToggle from "../fields/FoldAllToggle.tsx";
@@ -160,21 +160,9 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                             <CardBoxes items={boxesOf(segment, kind)} label={title} what={NOUN[kind]} add={add} autoStart={false} />
                             {/* THE DIFFERENTIATION (doc 41, K14; owner, 2026-11-08): once for the Segment, under its Competitors' tiles, a section of the dialog as the Segment
                                 Description's Profiles are: split by the shared double rule, its title a band on the primary fill, its question in a band under it. */}
-                            <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-full">
-                                <div className="legal-entity-field">
-                                    <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double" role="separator" />
-                                    <div className="business-segment-box">
-                                        <div className="legal-entity-org-section">
-                                            <span className="business-foundation-label-info legal-entity-label-info">
-                                                <FieldLabel className="business-foundation-label" role="heading" aria-level={3}>Differentiation</FieldLabel>
-                                            </span>
-                                        </div>
-                                        <div className="legal-entity-org-section">
-                                            {subsectionsFor(segment, index).differentiation}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <DialogSectionBand title="Differentiation">
+                                {subsectionsFor(segment, index).differentiation}
+                            </DialogSectionBand>
                         </>
                     ) : <CardBoxes items={boxesOf(segment, kind)} label={title} what={NOUN[kind]} add={add} autoStart={false} />)
                 };
@@ -202,28 +190,16 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                     content: () => dialog(0, "Segment Description", (
                         <>
                             <div className="business-foundation-description" data-rail={rail(0)}>{subsectionsFor(segment, index).segmentDescription}</div>
-                            {/* PROFILES is a section of the Segment card as its boxes are: split from them by the shared double rule, its title a band on the primary fill, its tiles in a band under it. */}
-                            <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-full">
-                                <div className="legal-entity-field">
-                                    <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double" role="separator" />
-                                    <div className="business-segment-box">
-                                        <div className="legal-entity-org-section">
-                                            <span className="business-foundation-label-info legal-entity-label-info">
-                                                <FieldLabel className="business-foundation-label" role="heading" aria-level={3}>Profiles</FieldLabel>
-                                            </span>
-                                        </div>
-                                        <div className="legal-entity-org-section business-profiles-band">
-                                            <CardBoxes
-                                                items={boxesOf(segment, "profiles")}
-                                                label="Profiles"
-                                                what="Profile"
-                                                add={profileAdd}
-                                                autoStart={false}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            {/* PROFILES is a section of the Segment card as its boxes are (DialogSectionBand). */}
+                            <DialogSectionBand title="Profiles" tiles>
+                                <CardBoxes
+                                    items={boxesOf(segment, "profiles")}
+                                    label="Profiles"
+                                    what="Profile"
+                                    add={profileAdd}
+                                    autoStart={false}
+                                />
+                            </DialogSectionBand>
                         </>
                     ))
                 },

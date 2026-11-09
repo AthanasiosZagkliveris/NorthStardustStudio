@@ -459,7 +459,10 @@
 }
 
 /* The only part that scrolls. Its padding gives the focus rings of the
-   first and last controls room; the negative margin takes it back. */
+   first and last controls room; the negative margin takes it back. At its
+   sides it reaches the dialog's own sides (the card padding), so a rule, a
+   band or a tint that runs from side to side is not clipped by the scroller
+   (owner, 2026-11-09: "horizontal divide lines from side to side"). */
 .section-tile-dialog-body {
 
     display: flex;
@@ -472,8 +475,8 @@
 
     min-height: 0;
 
-    margin: -6px;
-    padding: 6px;
+    margin: -6px calc(-1 * var(--card-padding));
+    padding: 6px var(--card-padding);
 
     overflow-y: auto;
 
