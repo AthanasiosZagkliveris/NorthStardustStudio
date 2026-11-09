@@ -146,10 +146,10 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
 
 /**
  * WHAT A SECTION INCLUDES, under its tile's title (docs/ai/layout-rules.md, "Tile anatomy"): a
- * bulleted list in small muted text, one line per item cut by an ellipsis, as many lines as the room
- * under the title holds (measured) and then "+N more" as the last line. On a page tile the items that lead
+ * bulleted list in small muted text, one line per item cut by an ellipsis; it holds every item and scrolls
+ * (a thin themed scrollbar) where they are more than the room under the title. On a page tile the items that lead
  * somewhere are real controls (`links`: a button each, underlined under the pointer and the focus, opening
- * that card alone or the section on that subcategory; "+N more" opens the section); the list of a tile
+ * that card alone or the section on that subcategory); the list of a tile
  * without links is decoration -- it says again what the tile's accessible name says -- and hidden from
  * assistive technology.
  */

@@ -175,7 +175,7 @@ const PROFILE_RETIRED = [
 const PROFILE_BOX_TITLES = { goals: "Goals & Desires", challenges: "Challenges & Problems", objections: "Objections", needs: "Needs" };
 const PROFILE_SECTION = { personal: "3", psychographics: "4", hubs: "5", habits: "6", goals: "7", challenges: "7", objections: "7", needs: "10" };
 
-/** The Competitor (doc 41): the box of each question (as the card asks them: `PART_QUESTIONS` in `useFoundationSubsections.tsx`), the code is the id in capitals. */
+/** The Competitor (doc 41): the box of each question (as the card asks them: `PART_QUESTIONS` in `CompetitorCard.tsx`), the code is the id in capitals. */
 const COMPETITOR_BOXES = [
     ["offerings", ["k1"]], ["market", ["k2", "k3", "k4"]], ["acquisition", ["k5"]], ["experience", ["k6", "k7"]],
     ["swot", ["k8", "k9"]], ["insights", ["k10"]]
@@ -403,7 +403,7 @@ function rows(code) {
         };
         cards.push({
             title: "Competitor", where: "Business System, page 1, a Competitor of a Segment", owner: "41",
-            source: "`CompetitorQuestions.ts` (the words by type, `competitorWording`; who is asked, `competitorAsks`; the options and the \"i\", `COMPETITOR_INFO`); the box of each question and its control as the card asks them (`useFoundationSubsections.tsx`, kept in this script); saved under `questions` on the Competitor",
+            source: "`CompetitorQuestions.ts` (the words by type, `competitorWording`; who is asked, `competitorAsks`; the options and the \"i\", `COMPETITOR_INFO`); the box of each question and its control as the card asks them (`CompetitorCard.tsx`, kept in this script); saved under `questions` on the Competitor",
             boxes: COMPETITOR_BOXES.map(([box, ids]) => ({
                 title: titles[box],
                 questions: [...ids.map(id => {

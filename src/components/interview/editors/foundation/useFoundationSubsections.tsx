@@ -3,38 +3,61 @@
  * One part of BusinessFoundationEditor (see BusinessFoundationEditor.tsx): what it needs of the parts before it comes in as `earlier`; what the parts after it need goes out.
  */
 import ListStatic from "../../fields/ListStatic.tsx";
-import TickField from "../../../controls/TickField.tsx";
-import AddButton from "../../../controls/AddButton.tsx";
 import { Fragment, ReactNode, useState } from "react";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
-import { BUSINESS_COMPETITOR_TYPES, BUSINESS_OFFERING_CATEGORIES, BusinessCompetitorValue, BusinessCustomerProfileValue, BusinessCustomerSegmentValue, BusinessOfferingValue, businessSegmentNeeds, businessSegmentFunctionalItems, functionalNeedIds, reconcileLineIds, createBusinessCompetitor, createBusinessCustomerProfile, createBusinessOffering } from "../../../../framework/engine/AnswerUtils.ts";
+import { BusinessCustomerProfileValue, BusinessCustomerSegmentValue, BusinessOfferingValue, businessSegmentNeeds, businessSegmentFunctionalItems, functionalNeedIds, reconcileLineIds, createBusinessCompetitor, createBusinessCustomerProfile, createBusinessOffering } from "../../../../framework/engine/AnswerUtils.ts";
 import { randomId } from "../../../../framework/engine/Readers.ts";
 import FieldRow from "../../fields/FieldRow.tsx";
-import { BusinessAddButton, BusinessCard, BusinessEmpty, BusinessRemove, BusinessStep, BusinessTicks, OptionalNote } from "../../cards/BusinessCardFields.tsx";
+import { BusinessAddButton, BusinessCard, BusinessEmpty, BusinessRemove, BusinessTicks, OptionalNote } from "../../cards/BusinessCardFields.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import RatingScale, { type Rating } from "../../../controls/RatingScale.tsx";
 import { ratingScaleMeaning } from "../../../controls/RatingScaleEnds.tsx";
 import RatingScaleGroup from "../../../controls/RatingScaleGroup.tsx";
 import TextLink from "../../fields/TextLink.tsx";
-import TextBox from "../../../controls/TextBox.tsx";
-import { type OtherQuestion, competitorOtherAdd, competitorOtherName, competitorOtherRemove, competitorOtherSettle, competitorOtherTick, competitorOthers, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, shownOpenings, COMPETITOR_SUBCHANNELS, COMPETITOR_BAND_LINE, bandTone, COMPETITOR_CHANGES, valueProfiles, draftToAdd, differentiationFromOpenings, hardToBeat, insightsDraft, reviewPlatformOrder } from "../../../../framework/engine/CompetitorQuestions.ts";
+import { draftToAdd, differentiationFromOpenings } from "../../../../framework/engine/CompetitorQuestions.ts";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
-import { OFFERING_BOX_QUESTIONS, OFFERING_QUESTIONS, offeringChoose, type OfferingAnswers, type OfferingContext, type OfferingQuestionId, draftOffered, offeringAsks, offeringInfo, offeringOptionsWith, offeringWho, valuePropositionDraft, valuePropositionOpenItems } from "../../../../framework/engine/OfferingQuestions.ts";
+import { type OfferingContext, draftOffered, valuePropositionDraft, valuePropositionOpenItems } from "../../../../framework/engine/OfferingQuestions.ts";
 import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveProfileUserAnswers, offeringContextOf, withFieldSet } from "../../../../framework/engine/EffectiveAnswers.ts";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import { type ProfileBox, type ProfilePart, type ProfileQuestion, DUAL_USER, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileOutcomeLimit, profileRate, profileRatings, profileWho, profileQuestionsOf, profileSettle, profileUserAgeRange, profileUserQuestionsOf, profileUserSettle, profileUserWho, profileUserName, profileOptionsShown, proposedBusinessProfiles, segmentNeedTicks } from "../../../../framework/engine/ProfileQuestions.ts";
 import { type SegmentBox, type SegmentQuestion, SEGMENT_QUESTIONS, segmentChoose, segmentOptions, segmentQuestionsOf, segmentRowChoice, segmentSettle, segmentSettledNotes } from "../../../../framework/engine/SegmentQuestions.ts";
 import { INFO as POSITIONING_INFO, choiceLimit, differentiationOptionsFor, stageLimitLine, userOutcomeOptionsFor, withStageLine } from "../legal/shared.tsx";
-import { summaryText } from "../../cards/cardSummary.ts";
 import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
 import NumberedListInput from "../../fields/NumberedListInput.tsx";
-import OptionPicker from "../../fields/OptionPicker.tsx";
 import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
-import { BusinessNeedKind, CATEGORY_OTHER, COMPETITOR_TYPE_QUESTIONS, DescriptionPart, NOTE_PLACEHOLDERS, OPTIONAL_DESCRIPTION_PART, SUBSECTIONS, competitorParts, otherProfileNeeds } from "./shared.tsx";
+import { BusinessNeedKind, DescriptionPart, NOTE_PLACEHOLDERS, OPTIONAL_DESCRIPTION_PART, SUBSECTIONS, SingleColumn, otherProfileNeeds } from "./shared.tsx";
 import { BUSINESS_AUDIENCE, PEOPLE_AUDIENCE, audienceLine, segmentContextFor, segmentFrame, segmentPositioningShown } from "./identityLink.ts";
 import type { useFoundationState } from "./useFoundationState.tsx";
+import { competitorCard } from "./CompetitorCard.tsx";
+import { offeringCard } from "./OfferingCard.tsx";
 
 type Earlier = ReturnType<typeof useFoundationState>;
+
+/** The head of one Profile, Competitor or Offering card (see `card` below). */
+export interface FoundationCardHead {
+    kind: string;
+    number: number;
+    name: string;
+    onName: (next: string) => void;
+    key: string;
+    actions?: ReactNode;
+    /** "Segment 2": which Segment the card belongs to. */
+    ariaPrefix?: string;
+    /** The one line shown in the head while the card is folded. */
+    summary?: string;
+    /** A field under the name, from the name box's edge (see BusinessCard). */
+    headRow?: ReactNode;
+}
+
+/** What a Competitor's or an Offering's card reads of its Segment and of the page (CompetitorCard.tsx, OfferingCard.tsx). */
+export interface FoundationCardScope extends Pick<Earlier, "description" | "disabled" | "group" | "groupFold" | "identity" | "labelled" | "updateSegment"> {
+    card: (head: FoundationCardHead, children: ReactNode) => ReactNode;
+    remove: (what: string, onRemove: () => void) => ReactNode;
+    segment: BusinessCustomerSegmentValue;
+    segmentEndsUser: boolean;
+    segmentIndex: number;
+    segmentPath: string;
+}
 
 /** K14's "i": how it links to K10 (doc 41). */
 const DIFFERENTIATION_FROM_OPENINGS = "Started from the openings you ticked on your Competitors (What could you do differently?); change it freely.";
@@ -101,20 +124,7 @@ export function useFoundationSubsections(earlier: Earlier) {
             ariaPrefix,
             summary,
             headRow
-        }: {
-            kind: string;
-            number: number;
-            name: string;
-            onName: (next: string) => void;
-            key: string;
-            actions?: ReactNode;
-            /** "Segment 2": which Segment the card belongs to. */
-            ariaPrefix?: string;
-            /** The one line shown in the head while the card is folded. */
-            summary?: string;
-            /** A field under the name, from the name box's edge (see BusinessCard). */
-            headRow?: ReactNode;
-        },
+        }: FoundationCardHead,
         children: ReactNode
     ) {
 
@@ -532,8 +542,7 @@ export function useFoundationSubsections(earlier: Earlier) {
             ];
             const shown = effectiveProfileAnswers(profile, segment, identity);
             return (
-                <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-single">
-                    <div className="legal-entity-field">
+                <SingleColumn>
                         {boxes.map((entry, at) => (
                             <Fragment key={entry.box}>
                                 {at > 0 && <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double" role="separator" />}
@@ -566,8 +575,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 </div>
                             </Fragment>
                         ))}
-                    </div>
-                </div>
+                </SingleColumn>
             );
         };
 
@@ -749,11 +757,9 @@ export function useFoundationSubsections(earlier: Earlier) {
                         <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double business-profile-section-rule" role="separator" />
 
                         {group("Needs", (
-                            <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-single">
-                                <div className="legal-entity-field">
-                                    {needsBands(profile, profileIndex, false)}
-                                </div>
-                            </div>
+                            <SingleColumn>
+                                {needsBands(profile, profileIndex, false)}
+                            </SingleColumn>
                         ), NEEDS_INFO, groupFold(profile.id, "Needs", segmentPath + ", Profile " + (profileIndex + 1)))}
 
                     </>
@@ -796,8 +802,8 @@ export function useFoundationSubsections(earlier: Earlier) {
 
         /* ---- 2. The competitors facing this Segment ---- */
 
-        /** Which of the card's questions each box of its Description asks (doc 41): K1 in Offerings, K2 to K4 in Market, K5 in Customer Acquisition, K6 and K7 in Customer Experience. */
-        const PART_QUESTIONS: Record<string, CompetitorQuestionId[]> = { offerings: ["k1"], market: ["k2", "k3", "k4"], acquisition: ["k5"], experience: ["k6", "k7"] };
+        /** What a Competitor's and an Offering's card read of this Segment and of the page (CompetitorCard.tsx, OfferingCard.tsx). */
+        const scope: FoundationCardScope = { card, description, disabled, group, groupFold, identity, labelled, remove, segment, segmentEndsUser, segmentIndex, segmentPath, updateSegment };
         /**
          * THE DIFFERENTIATION (doc 41, K14; owner, 2026-11-08: "Move all three"): once for the Segment, after its Competitors, since what the offering does differently is set against all
          * of them (Dunford, Obviously Awesome). A question of the Segment, drawn as the Segment's are; the Competitors' dialog stands it under their tiles, the column under their cards.
@@ -808,372 +814,7 @@ export function useFoundationSubsections(earlier: Earlier) {
         const competitors = (
             <>
 
-                {segment.competitors.map((competitor, index) => {
-
-                    const change = (
-                        patch: Partial<BusinessCompetitorValue>
-                    ) => updateSegment(segmentIndex, {
-                        competitors: segment.competitors.map(
-                            (candidate, position) => position === index
-                                ? { ...candidate, ...patch }
-                                : candidate
-                        )
-                    });
-
-                    const chosen = BUSINESS_COMPETITOR_TYPES.find(
-                        type => type.id === competitor.type
-                    );
-
-                    // What this type changes about the questions,
-                    // if anything.
-                    const asked = COMPETITOR_TYPE_QUESTIONS[competitor.type] ?? {};
-
-                    /* ---- The card's questions (doc 41): K1 to K10, each in its box or band ---- */
-                    const whose = segmentPath + ", Competitor " + (index + 1);
-                    const answers: CompetitorAnswers = competitor.questions ?? {};
-                    // A change of answers is settled against the type: a question it does not ask, an option or a row not offered, loses its answer.
-                    const write = (next: CompetitorAnswers) => change({ questions: competitorSettle(next, competitor.type) });
-                    // (K8 reads the buyer's B1: "your buyers" where the Segment has an end user, 2026-11-09.)
-                    const words = (id: CompetitorQuestionId) => id === "k8" && segmentEndsUser ? competitorWording(competitor.type, id).replace("your customers", "your buyers") : competitorWording(competitor.type, id);
-                    // A radio of short options stands in one row, as on the Segment and the Profile.
-                    const radio = (id: CompetitorQuestionId, options: readonly { id: string; label: string }[]) => segmentRowChoice({ id, label: words(id), box: "demographics", many: false, options } as unknown as SegmentQuestion, options.map(option => ({ ...option })))
-                        ? <FittingRadioChoice label={words(id)} group={competitor.id + "-" + id} disabled={disabled} value={answers[id]?.[0] ?? ""} onChange={(next) => write({ ...answers, [id]: [next] })} options={options.map(option => ({ ...option }))} />
-                        : <RadioChoice label={words(id)} group={competitor.id + "-" + id} className="legal-entity-radio-stack" disabled={disabled} value={answers[id]?.[0] ?? ""} onChange={(next) => write({ ...answers, [id]: [next] })} options={options} />;
-                    const rated = (id: "k6" | "k7" | "k8" | "k9", rows: readonly { id: string; label: ReactNode; name?: string; below?: ReactNode; fixed?: boolean }[], extra: Partial<Parameters<typeof RatingScaleGroup>[0]> = {}) => (
-                        <RatingScaleGroup
-                            label={words(id)}
-                            name={competitor.id + "-" + id}
-                            rows={rows}
-                            values={competitorRatings(answers, id)}
-                            onChange={(row, next) => write(competitorRate(answers, id, row, next))}
-                            lowLabel={COMPETITOR_RATINGS[id].low}
-                            highLabel={COMPETITOR_RATINGS[id].high}
-                            disabled={disabled}
-                            {...extra}
-                        />
-                    );
-                    // Other (K6; owner 2026-11-04): ticked, a row to write in, rated as the listed ones; a name that means a listed item becomes it.
-                    const otherRows = (id: OtherQuestion) => competitorOthers(answers, id).map((name, at) => ({
-                        id: "other-" + at,
-                        name: name.trim() || "Other " + (at + 1),
-                        fixed: true,
-                        label: (
-                            <TextBox
-                                className="interview-input business-competitor-other"
-                                aria-label={words(id) + ", other " + (at + 1)}
-                                placeholder="Where else are they reviewed?"
-                                disabled={disabled}
-                                value={name}
-                                onChange={(event) => write(competitorOtherName(answers, id, at, event.target.value))}
-                                onBlur={() => {
-                                    const done = competitorOtherSettle(answers, id, at);
-                                    if (done !== answers) {
-                                        write(done);
-                                    } else if (!name.trim() && competitorOthers(answers, id).length > 1) {
-                                        write(competitorOtherRemove(answers, id, at));
-                                    }
-                                }}
-                            />
-                        )
-                    }));
-                    const otherTick = (id: OtherQuestion) => (
-                        <div className="business-competitor-other-row">
-                            <TickField className="business-foundation-tick business-foundation-tick-inline" disabled={disabled} checked={competitorOthers(answers, id).length > 0} onChange={(event) => write(competitorOtherTick(answers, id, event.currentTarget.checked))}>
-                                Other
-                            </TickField>
-                            {competitorOthers(answers, id).length > 0 && (
-                                <TextLink className="business-competitor-add-other" disabled={disabled} onClick={() => write(competitorOtherAdd(answers, id))}>Add another</TextLink>
-                            )}
-                        </div>
-                    );
-                    // K6: the platforms in the order of the App User's industry and country (L18); a platform ticked before stays shown.
-                    const platforms = reviewPlatformOrder(identity?.country ?? "", identity?.activityCode ?? "");
-                    const platformRows = [...platforms.first, ...platforms.rest.filter(platform => (answers.k6 ?? []).includes(platform.id))];
-                    const context = { profiles: segment.profiles.map(profile => profile.questions ?? {}), others: segment.competitors.filter(other => other.id !== competitor.id).map(other => other.questions ?? {}) };
-                    // K8 (doc 41; owner, 2026-11-04): every value, the Profiles' highest rated first, each chosen value with a band of one colour, darker the more
-                    // Profiles chose it (bandTone: the count only).
-                    const valueRows = competitorValueRows(context).map(value => ({ ...value, tone: bandTone(valueProfiles(value.id, context)) }));
-                    const valuesBanded = valueRows.some(row => row.tone > 0);
-                    // K9: the Segment's changes, those it ticks first (no band: no Segment or Profile answer chooses a change directly; owner, 2026-11-04).
-                    const ticked = segment.questions.trends ?? [];
-                    const changeRows = [...COMPETITOR_CHANGES.filter(entry => ticked.includes(entry.id)), ...COMPETITOR_CHANGES.filter(entry => !ticked.includes(entry.id))];
-                    // K10: the openings, from the answers above; a tick no longer offered goes.
-                    const openings = competitorOpenings(answers, competitor.type, context);
-                    const openingTicks = (answers.k10 ?? []).filter(id => openings.some(opening => opening.id === id));
-                    const draft = insightsDraft(competitor.name, { ...answers, k10: openingTicks }, { ...context, names: segment.competitors.map(other => ({ name: other.name, answers: other.questions ?? {} })) }, openings);
-                    const controls: Record<CompetitorQuestionId, () => ReactNode> = {
-                        k1: () => <FittingRadioChoice label={words("k1")} group={competitor.id + "-k1"} disabled={disabled} value={answers.k1?.[0] ?? ""} onChange={(next) => write({ ...answers, k1: [next] })} options={COMPETITOR_OFFER_OPTIONS} />,
-                        k2: () => radio("k2", COMPETITOR_REACH_OPTIONS),
-                        k3: () => radio("k3", COMPETITOR_SIZE_OPTIONS),
-                        k4: () => (
-                            <RatingScale
-                                label={words("k4")}
-                                name={competitor.id + "-k4"}
-                                disabled={disabled}
-                                value={answers.k4?.[0] ? Number(answers.k4[0]) as Rating : undefined}
-                                onChange={(next) => write(next ? { ...answers, k4: [String(next)] } : Object.fromEntries(Object.entries(answers).filter(([key]) => key !== "k4")))}
-                                lowLabel={COMPETITOR_RATINGS.k4.low}
-                                highLabel={COMPETITOR_RATINGS.k4.high}
-                            />
-                        ),
-                        // K5 (owner, 2026-11-04): each channel a tick in the left half; once ticked, a dropdown of its sub-channels in the right half (the Rating
-                        // Scale's horizontal rule), the "+" in the card's x column adding one more row under it, each added row with its x. The lists are the
-                        // Profile's own (C2 to C4), so they compare with the customers; a sub-channel chosen in one row is not offered in another.
-                        k5: () => {
-                            const channels = answers.k5 ?? [];
-                            const subsOf = (channel: string) => (answers["k5-sub"] ?? []).filter(entry => entry.startsWith(channel + ":")).map(entry => entry.slice(channel.length + 1));
-                            const setSubs = (channel: string, list: readonly string[]) => write({ ...answers, "k5-sub": [...(answers["k5-sub"] ?? []).filter(entry => !entry.startsWith(channel + ":")), ...list.filter(Boolean).map(id => channel + ":" + id)] });
-                            return (
-                                <div className="business-competitor-channels" role="group" aria-label={words("k5")}>
-                                    {COMPETITOR_CHANNEL_OPTIONS.map(channel => {
-                                        const on = channels.includes(channel.id);
-                                        const list = on ? COMPETITOR_SUBCHANNELS[channel.id] : undefined;
-                                        const chosen = subsOf(channel.id);
-                                        // One dropdown to start with; each chosen sub-channel keeps its row.
-                                        const rows = chosen.length > 0 ? chosen : [""];
-                                        const picker = (id: string, at: number) => list && (
-                                            <OptionPicker
-                                                label={channel.label + ", which one" + (rows.length > 1 ? " " + (at + 1) : "")}
-                                                options={list.filter(option => option.id === id || !chosen.includes(option.id)).map(option => option.label)}
-                                                disabled={disabled}
-                                                value={list.find(option => option.id === id)?.label ?? ""}
-                                                onChange={(next) => {
-                                                    const picked = list.find(option => option.label === next)?.id;
-                                                    if (picked) {
-                                                        setSubs(channel.id, rows.map((entry, position) => position === at ? picked : entry));
-                                                    }
-                                                }}
-                                            />
-                                        );
-                                        return (
-                                            <Fragment key={channel.id}>
-                                                <TickField
-                                                    className="business-foundation-tick business-competitor-channel"
-                                                    aria-label={words("k5") + ": " + channel.label}
-                                                    disabled={disabled}
-                                                    checked={on}
-                                                    onChange={(event) => write({ ...answers, k5: event.currentTarget.checked ? COMPETITOR_CHANNEL_OPTIONS.map(option => option.id).filter(id => id === channel.id || channels.includes(id)) : channels.filter(id => id !== channel.id) })}
-                                                >
-                                                    <span className="business-foundation-tick-label">{channel.label}</span>
-                                                </TickField>
-                                                {list && (
-                                                    <>
-                                                        <div className="business-competitor-subchannel">{picker(rows[0], 0)}</div>
-                                                        <div className="business-competitor-subchannel-step">
-                                                            {chosen.length > 0 && chosen.length < list.length && (
-                                                                <AddButton shape="box" small aria-label={"Add another " + channel.label + " choice"} disabled={disabled} onClick={() => {
-                                                                    const free = list.find(option => !chosen.includes(option.id));
-                                                                    if (free) {
-                                                                        setSubs(channel.id, [...chosen, free.id]);
-                                                                    }
-                                                                }} />
-                                                            )}
-                                                        </div>
-                                                        {rows.slice(1).map((id, index) => (
-                                                            <Fragment key={channel.id + "-" + id}>
-                                                                <div className="business-competitor-subchannel">{picker(id, index + 1)}</div>
-                                                                <div className="business-competitor-subchannel-step">
-                                                                    <BusinessStep kind="remove" what={channel.label + " choice"} disabled={disabled} onClick={() => setSubs(channel.id, chosen.filter((_entry, position) => position !== index + 1))} />
-                                                                </div>
-                                                            </Fragment>
-                                                        ))}
-                                                    </>
-                                                )}
-                                            </Fragment>
-                                        );
-                                    })}
-                                </div>
-                            );
-                        },
-                        k6: () => (
-                            <>
-                                {rated("k6", [...platformRows, ...otherRows("k6")], {
-                                    selectable: true,
-                                    selected: answers.k6 ?? [],
-                                    onSelect: (row, on) => write({ ...answers, k6: on ? [...(answers.k6 ?? []), row] : (answers.k6 ?? []).filter(entry => entry !== row) })
-                                })}
-                                {otherTick("k6")}
-                            </>
-                        ),
-                        k7: () => rated("k7", COMPETITOR_STAGES),
-                        k8: () => rated("k8", valueRows),
-                        k9: () => rated("k9", changeRows),
-                        k10: () => (
-                            <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={words("k10")}>
-                                <BusinessTicks name={words("k10")} disabled={disabled} options={shownOpenings(openings, openingTicks)} chosen={openingTicks} max={3} onChange={(next) => write({ ...answers, k10: next })} />
-                            </div>
-                        )
-                    };
-                    const INFO: Partial<Record<CompetitorQuestionId, readonly string[]>> = {
-                        k6: [...COMPETITOR_INFO.k6, ...REVIEW_PLATFORM_EXAMPLES],
-                        k8: valuesBanded ? [...COMPETITOR_INFO.k8, COMPETITOR_BAND_LINE] : COMPETITOR_INFO.k8,
-                        k10: [...COMPETITOR_INFO.k10, ...hardToBeat(competitor.name, answers, context)]
-                    };
-                    /** One question: its words (by type) with its "i" (and its limit) over its control. */
-                    const question = (id: CompetitorQuestionId) => (
-                        <FieldRow
-                            key={id}
-                            pair
-                            fullList
-                            label={words(id)}
-                            info={[...(id in COMPETITOR_RATINGS ? [ratingScaleMeaning(COMPETITOR_RATINGS[id as keyof typeof COMPETITOR_RATINGS])] : []), ...(INFO[id] ?? COMPETITOR_INFO[id])]}
-                            labelNote={id === "k10" ? <span className="business-foundation-tick-note">3 max</span> : undefined}
-                        >
-                            {controls[id]()}
-                        </FieldRow>
-                    );
-                    /**
-                     * A question standing alone in a group (K8 to K10): its bands straight under the group's title band, as the Profile's Needs are (one band pattern on every card: the first
-                     * band untinted, the next tinted, the Notes the next tint). Not in a box: a box's first band is its own title band.
-                     */
-                    const band = (content: ReactNode | null, note?: ReactNode) => (
-                        <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-single">
-                            <div className="legal-entity-field">
-                                {content && <div className="legal-entity-org-section">{content}</div>}
-                                {note && <div className={"legal-entity-org-section business-note-band" + (content ? " legal-entity-org-band" : "")}>{note}</div>}
-                            </div>
-                        </div>
-                    );
-
-                    return card(
-                        {
-                            kind: "Competitor",
-                            ariaPrefix: segmentPath,
-                            number: index + 1,
-                            name: competitor.name,
-                            onName: (next) => change({ name: next }),
-                            key: competitor.id,
-                            summary: summaryText(
-                                chosen?.label
-                            ),
-                            // The five Types, each shown with the explanation the specification gives it. Under the name, from its box's edge.
-                            headRow: labelled(
-                                "Type",
-                                <OptionPicker
-                                    label={segmentPath + ", Competitor " + (index + 1) + " type"}
-                                    hug
-                                    options={BUSINESS_COMPETITOR_TYPES.map(
-                                        type => type.label
-                                    )}
-                                    disabled={disabled}
-                                    value={chosen ? chosen.label : ""}
-                                    onChange={(next) => change({
-                                        type: BUSINESS_COMPETITOR_TYPES.find(
-                                            type => type.label === next
-                                        )?.id ?? ""
-                                    })}
-                                />,
-                                SUBSECTIONS.competitors.type
-                            ),
-                            actions: segment.competitors.length > 1 &&
-                                remove(
-                                    "Competitor " + (index + 1),
-                                    () => updateSegment(segmentIndex, {
-                                        competitors: segment.competitors.filter(
-                                            (_candidate, position) =>
-                                                position !== index
-                                        )
-                                    })
-                                )
-                        },
-                        <>
-
-                            {/* What this TYPE of competitor is asked (doc 41, K1 to K7, COMPETITOR_TYPE_QUESTIONS for the boxes): each box asks its questions as bands and keeps its built text as the note. */}
-                            {description(
-                                whose,
-                                competitorParts(competitor.type).map(part => {
-                                    const questions = (PART_QUESTIONS[part.id] ?? []).filter(id => competitorAsks(competitor.type, id, { stage: identity?.stage })).map(question);
-                                    return {
-                                        ...part,
-                                        extra: part.id === "experience" ? [COMPETITOR_EXPERIENCE_HOW] : part.extra,
-                                        questions,
-                                        note: true,
-                                        placeholder: NOTE_PLACEHOLDERS[part.id],
-                                        level: 4,
-                                        weight: 2 + questions.length * 4
-                                    };
-                                }),
-                                competitor.description,
-                                (next) => change({ description: next }),
-                                true,
-                                undefined,
-                                groupFold(competitor.id, "Description", whose),
-                                true
-                            )}
-
-                            {group("Competitors SWOT Analysis", <>
-
-                            {/* K8, one band over Strengths and Weaknesses; K9, one over Opportunities and Threats (doc 41): the built boxes stay as the notes. */}
-                            {/* One Notes under each rating (owner, 2026-11-05): what no rating says, kept under `strengths` and `opportunities`. */}
-                            {band(question("k8"), (
-                                <OptionalNote
-                                    label="Notes"
-                                    fieldId="strengths and weaknesses notes"
-                                    ariaLabel={whose + " strengths and weaknesses notes"}
-                                    placeholder={NOTE_PLACEHOLDERS.strengths ?? "Add a note"}
-                                    disabled={disabled}
-                                    value={competitor.strengths}
-                                    onChange={(next) => change({ strengths: next })}
-                                />
-                            ))}
-
-                            {band(question("k9"), (
-                                <OptionalNote
-                                    label="Notes"
-                                    fieldId="opportunities and threats notes"
-                                    ariaLabel={whose + " opportunities and threats notes"}
-                                    placeholder={NOTE_PLACEHOLDERS.opportunities ?? "Add a note"}
-                                    disabled={disabled}
-                                    value={competitor.opportunities}
-                                    onChange={(next) => change({ opportunities: next })}
-                                />
-                            ))}
-
-                            </>, undefined, groupFold(competitor.id, "Competitors SWOT Analysis", whose))}
-
-                            {/* What the SWOT above it was for, so
-                                it is titled like the SWOT rather
-                                than labelled like one more field
-                                inside it. K10 above the text: openings drawn from the answers above (doc 41). */}
-                            {/* "Insights" (2026-11-09): the Differentiation is the Segment's, once, under its Competitors (K14); the Business Plan's table says Insights too. */}
-                            {group(
-                                "Insights",
-                                // K10 untinted under the title band, then the Insights text (and its "Add to text") in the note band, the next tint.
-                                band(openings.length > 0 ? question("k10") : null, (
-                                    <>
-                                        {/* Only the sentences not already in the text; nothing new, no link. */}
-                                        {draftToAdd(competitor.insights, draft) && (
-                                            <TextLink
-                                                className="business-competitor-draft"
-                                                disabled={disabled}
-                                                onClick={() => {
-                                                    const adding = draftToAdd(competitor.insights, draft);
-                                                    change({ insights: competitor.insights.trim() ? competitor.insights.replace(/\s+$/, "") + "\n\n" + adding : adding });
-                                                }}
-                                            >
-                                                Add to text
-                                            </TextLink>
-                                        )}
-                                        <StrategyTextArea
-                                            className="interview-input business-foundation-note"
-                                            ariaLabel={whose + " insights"}
-                                            disabled={disabled}
-                                            value={competitor.insights}
-                                            onChange={(next) => change({ insights: next })}
-                                        />
-                                    </>
-                                )),
-                                asked.insights === undefined
-                                    ? SUBSECTIONS.competitors.insights
-                                    : [asked.insights],
-                                // A section band as the Description's and the SWOT's (owner, 2026-11-04), with their fold.
-                                groupFold(competitor.id, "Insights", whose)
-                            )}
-
-                        </>
-                    );
-
-                })}
+                {segment.competitors.map((competitor, index) => competitorCard(scope, competitor, index))}
 
                 {/* The Differentiation (K14), once for the Segment after its Competitors: a group of the Segment as its Value Proposition is. */}
                 {group(
@@ -1335,156 +976,7 @@ export function useFoundationSubsections(earlier: Earlier) {
         const offerings = (
             <>
 
-                {segment.offerings.map((offering, index) => {
-
-                    const change = (
-                        patch: Partial<BusinessOfferingValue>
-                    ) => updateSegment(segmentIndex, {
-                        offerings: segment.offerings.map(
-                            (candidate, position) => position === index
-                                ? { ...candidate, ...patch }
-                                : candidate
-                        )
-                    });
-
-                    return card(
-                        {
-                            kind: "Offering",
-                            ariaPrefix: segmentPath,
-                            number: index + 1,
-                            name: offering.name,
-                            onName: (next) => change({ name: next }),
-                            key: offering.id,
-                            summary: summaryText(
-                                offering.category === CATEGORY_OTHER
-                                    ? offering.categoryOther
-                                    : offering.category,
-                                (() => {
-                                    // The items ticked, each once (the same words on two Profiles are one item, ticked by both ids).
-                                    const count = needs.filter(item => item.ids.some(id => offering.needsAddressed.includes(id))).length;
-                                    return count ? count + (count === 1 ? " need" : " needs") : "";
-                                })()
-                            ),
-                            // What kind of thing it is, before what it is for: an Offering is a product, a service or both, and that frames everything asked after it. Under the name, from its box's edge.
-                            headRow: labelled(
-                                "Type",
-                                <OptionPicker
-                                    label={segmentPath + ", Offering " + (index + 1) + " type"}
-                                    hug
-                                    options={offering.category === CATEGORY_OTHER ? [...BUSINESS_OFFERING_CATEGORIES, CATEGORY_OTHER] : [...BUSINESS_OFFERING_CATEGORIES]}
-                                    disabled={disabled}
-                                    value={offering.category}
-                                    onChange={(next) => change({
-                                        category: next,
-                                        categoryOther: next === CATEGORY_OTHER
-                                            ? offering.categoryOther
-                                            : ""
-                                    })}
-                                />
-                            ),
-                            actions: segment.offerings.length > 1 &&
-                                remove(
-                                    "Offering " + (index + 1),
-                                    () => updateSegment(segmentIndex, {
-                                        offerings: segment.offerings.filter(
-                                            (_candidate, position) =>
-                                                position !== index
-                                        )
-                                    })
-                                )
-                        },
-                        <>
-
-                            {/* The six Description boxes (doc 43; owner, 2026-11-07), as the Profile's and the Competitor's: each asks its questions, one band each
-                                (O3's band holds its two rows), then its optional Notes, the box's saved text. A starting value shows until changed. */}
-                            {(() => {
-                                const context = offeringContext(offering);
-                                /* The FUNCTIONAL needs typed into this Segment's own Profiles, more than one selectable: tick boxes, because the choice is a set. Functional only: an
-                                   Offering is the practical thing that gets a job done; how the customer wants to feel about it, and to be seen for it, is what the Value Proposition
-                                   answers, and those two are shown there. Its band opens the Customer Benefit box, before O8 and O4 (owner, 2026-11-08, P6). */
-                                const needsBand = (
-                                    <FieldRow pair fullList label="Functional Needs Addressed">
-                                        {needs.length === 0 ? (
-                                            <BusinessEmpty>
-                                                Add Functional Needs to a Customer
-                                                Profile first, then choose them here.
-                                            </BusinessEmpty>
-                                        ) : (
-                                            <div className="radio-choice legal-entity-radio-stack" role="group" aria-label="Functional Needs Addressed">
-                                                {/* Ticked by the items' ids (owner, 2026-11-07), so editing an item's words on the Profile keeps the tick. */}
-                                                <BusinessTicks
-                                                    name={segmentPath + ", Offering " + (index + 1) + " Functional Needs Addressed"}
-                                                    disabled={disabled}
-                                                    options={needs.map(item => ({ id: item.ids[0], label: item.text }))}
-                                                    chosen={needs.filter(item => item.ids.some(id => offering.needsAddressed.includes(id))).map(item => item.ids[0])}
-                                                    onChange={(next) => {
-                                                        const itemIds = new Set(needs.flatMap(item => item.ids));
-                                                        change({
-                                                            needsAddressed: [
-                                                                ...offering.needsAddressed.filter(entry => !itemIds.has(entry)),
-                                                                ...needs.filter(item => next.includes(item.ids[0])).flatMap(item => item.ids)
-                                                            ]
-                                                        });
-                                                    }}
-                                                />
-                                            </div>
-                                        )}
-                                    </FieldRow>
-                                );
-                                const shown = offeringAnswers[index];
-                                const whose = segmentPath + ", Offering " + (index + 1);
-                                // Only the question answered is saved; the others keep following their starts (owner, 2026-11-08).
-                                const write = (id: OfferingQuestionId, next: string[]) => change({ questions: { ...(offering.questions ?? {}), [id]: offeringChoose(id, shown[id] ?? [], next) } as OfferingAnswers });
-                                const ask = (id: OfferingQuestionId) => {
-                                    const question = OFFERING_QUESTIONS.find(entry => entry.id === id)!;
-                                    const chosen = shown[id] ?? [];
-                                    // (A retired option still saved shows until it is unticked: offeringOptionsWith.)
-                                    const options = offeringOptionsWith(id, context, chosen, shown).map(option => ({ ...option }));
-                                    // (Of the end user or the buyer where the buyer is Proxy: offeringWho, 2026-11-09.)
-                                    const label = offeringWho(id, question.label, context);
-                                    return (
-                                        // (O3's second row stands under the first in one band: nested, the shared 12px between rows.)
-                                        <FieldRow key={id} pair fullList nested={id === "o3t"} label={label} info={[...offeringInfo(id, context)]}
-                                            labelNote={question.max !== undefined ? <span className="business-foundation-tick-note">{question.max + " max"}</span> : undefined}>
-                                            {question.many
-                                                ? (
-                                                    <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={label}>
-                                                        <BusinessTicks name={whose + " " + label} disabled={disabled} options={options} chosen={chosen} max={question.max} onChange={(next) => write(id, next)} />
-                                                    </div>
-                                                )
-                                                // A radio of short options stands in one row, as on the Segment and the Profile.
-                                                : segmentRowChoice({ ...question, box: "demographics" } as unknown as SegmentQuestion, options)
-                                                    ? <FittingRadioChoice label={label} group={offering.id + "-" + id} disabled={disabled} value={chosen[0] ?? ""} onChange={(next) => write(id, [next])} options={options} />
-                                                    : <RadioChoice label={label} group={offering.id + "-" + id} className="legal-entity-radio-stack" disabled={disabled} value={chosen[0] ?? ""} onChange={(next) => write(id, [next])} options={options} />}
-                                        </FieldRow>
-                                    );
-                                };
-                                return description(
-                                    whose,
-                                    SUBSECTIONS.offerings.description.map(part => {
-                                        const bands = (OFFERING_BOX_QUESTIONS[part.id] ?? []).map(band => band.filter(id => offeringAsks(id, context))).filter(band => band.length > 0);
-                                        return {
-                                            ...part,
-                                            questions: [...(part.id === "benefit" ? [<Fragment key="needs">{needsBand}</Fragment>] : []), ...bands.map(band => <Fragment key={band.join("-")}>{band.map(ask)}</Fragment>)],
-                                            note: true,
-                                            placeholder: NOTE_PLACEHOLDERS[part.id],
-                                            level: 4,
-                                            weight: 2 + (bands.flat().length + (part.id === "benefit" ? 1 : 0)) * 4
-                                        };
-                                    }),
-                                    offering.description,
-                                    (next) => change({ description: next }),
-                                    true,
-                                    undefined,
-                                    groupFold(offering.id, "Description", whose),
-                                    true
-                                );
-                            })()}
-
-                        </>
-                    );
-
-                })}
+                {segment.offerings.map((offering, index) => offeringCard(scope, offering, index, { needs, offeringContext, offeringAnswers }))}
 
                 {addButton("Offering", () => {
                     const offering = createBusinessOffering();

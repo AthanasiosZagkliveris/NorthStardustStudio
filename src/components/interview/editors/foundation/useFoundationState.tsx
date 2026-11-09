@@ -12,7 +12,7 @@ import { FieldMark, FieldStatus } from "../../fields/fieldMarks.tsx";
 import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import { useItemFolds } from "../../fields/useItemFolds.ts";
 import { toggledIn } from "../../fields/toggledIn.ts";
-import { BusinessFoundationEditorProps, DescriptionPart, OPTIONAL_DESCRIPTION_PART } from "./shared.tsx";
+import { BusinessFoundationEditorProps, DescriptionPart, OPTIONAL_DESCRIPTION_PART, SingleColumn } from "./shared.tsx";
 import { createBusinessCustomerSegment, segmentHue } from "../../../../framework/engine/AnswerUtils.ts";
 import { segmentSettle } from "../../../../framework/engine/SegmentQuestions.ts";
 import { segmentContextFor } from "../../../../framework/engine/SegmentContext.ts";
@@ -409,11 +409,7 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
         const rightBoxes = parts.filter(part => !leftSet.has(part.id));
 
         const boxes = split && oneColumn && parts.some(part => part.questions)
-            ? (
-                <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-single">
-                    <div className="legal-entity-field">{column(parts)}</div>
-                </div>
-            )
+            ? <SingleColumn>{column(parts)}</SingleColumn>
             : split && parts.some(part => part.questions)
             ? (
                 <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid">

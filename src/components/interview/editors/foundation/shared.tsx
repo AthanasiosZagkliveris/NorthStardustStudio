@@ -429,3 +429,15 @@ export interface BusinessFoundationEditorProps {
     frameTitle?: string;
 
 }
+
+/**
+ * ONE COLUMN OF BANDS, the width of the card (2026-11-09: one helper for what four places wrote out): a Description in one column, a Profile's Motivations and Needs, a Competitor's
+ * question standing alone in a group (K8 to K10). Only the layout; the bands inside are the caller's.
+ */
+export function SingleColumn({ children }: { children: ReactNode }) {
+    return (
+        <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-single">
+            <div className="legal-entity-field">{children}</div>
+        </div>
+    );
+}
