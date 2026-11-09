@@ -230,11 +230,25 @@
   {
    "label": "Competitors",
    "place": "tile dialog",
-   "text": "Select 3–5 competitors and analyse them for each Customer Segment.\nFocus on a relevant product line, pricing tier, or geography.",
-   "lines": 6,
-   "points": 2,
+   "text": "Select 3–5 competitors and analyse them for each Customer Segment.\nFocus on a relevant product line, pricing tier, or geography.\nSome questions wait until you launch; an answer given to one of them is kept.",
+   "lines": 10,
+   "points": 3,
    "w": 360,
-   "chars": 128,
+   "chars": 206,
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors",
+    "Business System / 1. Foundation / tile Competitors / card 1",
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "label": "Differentiation",
+   "place": "tile dialog",
+   "text": "What the offering does differently from the competitors: where it hits exactly the blind spot they leave. It is about the offering; the result the buyer gets from it is asked on each Offering (what it does best for the customer).\nCost-driven (saving resources): targets the blind spot of expensive competitors with a budget-friendly alternative.\nConvenience-driven (speed and ease): targets the blind spot of complex or slow solutions.\nCompliance, Risk & Security: targets the blind spot of uncertified or questionable alternatives.\nStatus & Premium (exclusivity): targets the blind spot of mass-market or cheap products with top quality and custom service.\nPerformance & Innovation (product superiority): targets the blind spot of dated or underpowered alternatives with better results and newer methods.\nEcosystem & Integration (fits what they already use): targets the blind spot of standalone tools that do not connect to the buyer's other systems and workflows.\nPersonal Service & Relationship (customer intimacy): targets the blind spot of impersonal providers with a service shaped around each customer.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: Institute for Strategy and Competitiveness (n.d.) Strategic Positioning. Boston, MA: Harvard Business School. Available at: https://www.isc.hbs.edu/strategy/business-strategy/Pages/strategic-positioning.aspx (Accessed: 25 October 2026).\nAlso: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketing. Stanford, CA: Stanford University. Available at: https://web.stanford.edu/class/e145/2007_fall/startup_mktg_details.shtml (Accessed: 25 October 2026).",
+   "lines": 68,
+   "points": 11,
+   "w": 360,
+   "chars": 1727,
    "scenes": [
     "Business System / 1. Foundation / tile Competitors",
     "Business System / 1. Foundation / tile Competitors / card 1",
@@ -244,11 +258,11 @@
   {
    "label": "Competitor",
    "place": "floating card",
-   "text": "Select 3–5 competitors and analyse them for each Customer Segment.\nFocus on a relevant product line, pricing tier, or geography.",
-   "lines": 6,
-   "points": 2,
+   "text": "Select 3–5 competitors and analyse them for each Customer Segment.\nFocus on a relevant product line, pricing tier, or geography.\nSome questions wait until you launch; an answer given to one of them is kept.",
+   "lines": 10,
+   "points": 3,
    "w": 360,
-   "chars": 128,
+   "chars": 206,
    "scenes": [
     "Business System / 1. Foundation / tile Competitors / card 1",
     "Business System / 1. Foundation / tile Competitors / card 2"
@@ -296,11 +310,11 @@
   {
    "label": "Market",
    "place": "floating card",
-   "text": "Which areas and industries do they serve?",
+   "text": "Where do they sell, how big are they, and are they growing?",
    "lines": 3,
    "points": 1,
    "w": 360,
-   "chars": 41,
+   "chars": 59,
    "scenes": [
     "Business System / 1. Foundation / tile Competitors / card 1",
     "Business System / 1. Foundation / tile Competitors / card 2"
@@ -309,24 +323,11 @@
   {
    "label": "Where do they sell?",
    "place": "floating card",
-   "text": "The widest area they sell in. Write the industries they serve in the note.",
+   "text": "The widest area they sell in. Write the places by name in the note.",
    "lines": 3,
    "points": 1,
    "w": 360,
-   "chars": 74,
-   "scenes": [
-    "Business System / 1. Foundation / tile Competitors / card 1",
-    "Business System / 1. Foundation / tile Competitors / card 2"
-   ]
-  },
-  {
-   "label": "How big is their organisation?",
-   "place": "floating card",
-   "text": "The EU's sizes, as on your Segment. A sole trader is Micro.",
-   "lines": 3,
-   "points": 1,
-   "w": 360,
-   "chars": 59,
+   "chars": 67,
    "scenes": [
     "Business System / 1. Foundation / tile Competitors / card 1",
     "Business System / 1. Foundation / tile Competitors / card 2"
@@ -411,7 +412,7 @@
    ]
   },
   {
-   "label": "How do they do on what customers value?",
+   "label": "How do they do on what matters most to your customers?",
    "place": "floating card",
    "text": "1 = Weak, 5 = Strong.\nRate each from what their customers say and what you have seen: 1 is a clear weakness, 5 a clear strength.\nThe darker the band, the more of your Profiles chose it.",
    "lines": 10,
@@ -465,11 +466,11 @@
   {
    "label": "Offerings",
    "place": "tile dialog",
-   "text": "Turn customer problems and functional needs into practical product features and solutions.\nEnsure every feature supports the Value Proposition.",
-   "lines": 7,
-   "points": 2,
+   "text": "Turn customer problems and functional needs into practical product features and solutions.\nMake sure each one answers your Profiles' needs.\nSome questions wait until you launch; an answer given to one of them is kept.",
+   "lines": 11,
+   "points": 3,
    "w": 360,
-   "chars": 143,
+   "chars": 217,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings",
     "Business System / 1. Foundation / tile Offerings / card 1",
@@ -479,11 +480,11 @@
   {
    "label": "Offering",
    "place": "floating card",
-   "text": "Turn customer problems and functional needs into practical product features and solutions.\nEnsure every feature supports the Value Proposition.",
-   "lines": 7,
-   "points": 2,
+   "text": "Turn customer problems and functional needs into practical product features and solutions.\nMake sure each one answers your Profiles' needs.\nSome questions wait until you launch; an answer given to one of them is kept.",
+   "lines": 11,
+   "points": 3,
    "w": 360,
-   "chars": 143,
+   "chars": 217,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -516,19 +517,6 @@
    ]
   },
   {
-   "label": "Can customers buy it today?",
-   "place": "floating card",
-   "text": "Where it stands today.\nIt starts from your business stage; change it for this Offering.",
-   "lines": 5,
-   "points": 2,
-   "w": 360,
-   "chars": 87,
-   "scenes": [
-    "Business System / 1. Foundation / tile Offerings / card 1",
-    "Business System / 1. Foundation / tile Offerings / card 2"
-   ]
-  },
-  {
    "label": "Customer Benefit",
    "place": "floating card",
    "text": "Which problem does it solve, in your customers' words?",
@@ -542,26 +530,26 @@
    ]
   },
   {
-   "label": "What does it do best for the customer?",
+   "label": "Which of their worries does it answer?",
    "place": "floating card",
-   "text": "The first you tick is the main benefit. The same list as \"What matters most\" on your Profiles and Competitors, so they can be compared.\nYour Positioning's Differentiation starts the ticks; change them freely.",
-   "lines": 10,
+   "text": "The doubts that stop your customers buying from you, as your Profiles say. A worry nothing answers is shown on the Value Proposition.\nSupport is answered by the help after they buy, in Support & Communication.",
+   "lines": 11,
    "points": 2,
    "w": 360,
-   "chars": 208,
+   "chars": 209,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
    ]
   },
   {
-   "label": "Which of their worries does it answer?",
+   "label": "Which of what matters most to your customers does it do best?",
    "place": "floating card",
-   "text": "The doubts that stop your customers buying from you, as your Profiles say. A worry nothing answers is shown on the Value Proposition.\nSupport is answered by the help after they buy, above.",
-   "lines": 10,
+   "text": "The first you tick is the main benefit. The same list as \"What matters most\" on your Profiles and Competitors, so they can be compared.\nThe Segment's Differentiation (under its Competitors) starts the ticks, and so does the outcome for the buyer you chose before; change them freely.",
+   "lines": 13,
    "points": 2,
    "w": 360,
-   "chars": 188,
+   "chars": 283,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -607,13 +595,26 @@
    ]
   },
   {
+   "label": "Can your customers buy it today?",
+   "place": "floating card",
+   "text": "Where it stands today.\nIt starts from your business stage; change it for this Offering.",
+   "lines": 5,
+   "points": 2,
+   "w": 360,
+   "chars": 87,
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1",
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
    "label": "On what terms do they pay for it?",
    "place": "floating card",
-   "text": "How often they pay, and on what terms. How they pay (card, invoice) is the Segment's question.\nSubscription: regular payments until they cancel. Pay as they go: they pay for what they use.\nA minimum term: write it in the Notes.",
-   "lines": 11,
-   "points": 3,
+   "text": "How often they pay, and on what terms. How they pay (card, invoice) is the Segment's question.\nSubscription / membership: regular payments until they cancel. Pay as they go: they pay for what they use.\nPer session / per hour: a price for each session or hour. Rent / hire: they pay to use it for a time, then give it back.\nCommission on each sale: a share of each sale you make for them. Free to them: someone else pays, such as an advertiser or a funder.\nA minimum term: write it in the Notes.",
+   "lines": 21,
+   "points": 5,
    "w": 360,
-   "chars": 227,
+   "chars": 494,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -633,26 +634,26 @@
    ]
   },
   {
-   "label": "How does the customer receive it?",
+   "label": "How long until they have it?",
    "place": "floating card",
-   "text": "How it reaches them once bought.\nSent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready.",
-   "lines": 7,
-   "points": 2,
+   "text": "The time from order to having it. How it reaches them is the question below.",
+   "lines": 3,
+   "points": 1,
    "w": 360,
-   "chars": 154,
+   "chars": 76,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
    ]
   },
   {
-   "label": "How long until they have it?",
+   "label": "How do your customers receive it?",
    "place": "floating card",
-   "text": "The time from order to having it. How it reaches them is the question above.",
-   "lines": 3,
-   "points": 1,
+   "text": "How it reaches them once bought.\nSent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready.",
+   "lines": 7,
+   "points": 2,
    "w": 360,
-   "chars": 76,
+   "chars": 154,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -685,32 +686,6 @@
    ]
   },
   {
-   "label": "What comes after the sale?",
-   "place": "floating card",
-   "text": "What the help after the sale includes. How much help there is, is the question above.\nNone stands alone: ticking it clears the others.",
-   "lines": 7,
-   "points": 2,
-   "w": 360,
-   "chars": 134,
-   "scenes": [
-    "Business System / 1. Foundation / tile Offerings / card 1",
-    "Business System / 1. Foundation / tile Offerings / card 2"
-   ]
-  },
-  {
-   "label": "How fast do you reply?",
-   "place": "floating card",
-   "text": "How soon a customer hears back. The channels are on the Customer Engagement page.",
-   "lines": 5,
-   "points": 1,
-   "w": 360,
-   "chars": 81,
-   "scenes": [
-    "Business System / 1. Foundation / tile Offerings / card 1",
-    "Business System / 1. Foundation / tile Offerings / card 2"
-   ]
-  },
-  {
    "label": "Requirements & Conditions",
    "place": "floating card",
    "text": "The details of what they give you, and the conditions that apply.",
@@ -724,13 +699,13 @@
    ]
   },
   {
-   "label": "What does the customer need to give you?",
+   "label": "What do your customers need to give you?",
    "place": "floating card",
-   "text": "What you need from them before or during the work. The details go in the Notes.",
-   "lines": 5,
-   "points": 1,
+   "text": "What you need from them before or during the work. The details go in the Notes.\nA place to work: a desk or a room for you to use. Access to their home or site: the work is done there, such as a repair or a fitting.\nTheir time or attendance: they must take part or be there, such as at a session or a fitting.",
+   "lines": 13,
+   "points": 3,
    "w": 360,
-   "chars": 79,
+   "chars": 308,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -739,11 +714,11 @@
   {
    "label": "Which conditions of sale apply?",
    "place": "floating card",
-   "text": "The terms a customer agrees to. In the UK and the EU, most online and distance sales can be cancelled within 14 days; goods made to their specification are an exception. Elsewhere, check your country's rules.\nBased on: the Consumer Contracts Regulations 2013 (UK). A legal minimum age is not ticked here: write an age limit in the Notes.",
-   "lines": 14,
-   "points": 2,
+   "text": "The terms your customers agree to.\nConsumer cancellation rights do not apply between businesses; your contract terms decide.\nA legal minimum age is not ticked here: write an age limit in the Notes.",
+   "lines": 9,
+   "points": 3,
    "w": 360,
-   "chars": 337,
+   "chars": 197,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -752,11 +727,11 @@
   {
    "label": "Segment Description",
    "place": "tile dialog",
-   "text": "Divide your Target Audience into segments, starting with the groups worth most or easiest to reach.\nHow many follows your stage: one while planning or launching, up to two while managing, any number while growing.\nDefine up to 3 customer profiles, including their problems, needs, and the best approach for reaching them.\nWhich choices each box asks follows your Positioning (who buys, their life stage and category) and your stage. An answer no longer asked is removed.",
-   "lines": 21,
-   "points": 4,
+   "text": "Divide your Target Audience into segments, starting with the groups worth most or easiest to reach.\nHow many follows your stage: one while planning or launching, up to two while managing, any number while growing.\nDefine up to 3 customer profiles, including their problems, needs, and the best approach for reaching them.\nWhich choices each box asks follows your Positioning (who buys, their life stage and category) and your stage. An answer no longer asked is removed.\nSome questions wait until you launch; an answer given to one of them is kept.",
+   "lines": 25,
+   "points": 5,
    "w": 360,
-   "chars": 470,
+   "chars": 548,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -794,11 +769,11 @@
   {
    "label": "How big are your customers' organisations?",
    "place": "tile dialog",
-   "text": "The EU's definition of small and medium-sized enterprises: micro under 10 employees, small under 50, medium-sized under 250.\nCountries define them a little differently; the United States and Canada use other limits.\nThe sizes follow the scale chosen in Positioning.",
-   "lines": 12,
-   "points": 3,
+   "text": "The EU's definition of small and medium-sized enterprises: micro under 10 employees, small under 50, medium-sized under 250.\nCountries define them a little differently; the United States and Canada use other limits.\nThe sizes follow the scale chosen in Positioning.\nA public body can be of any size, so every size is offered for one.",
+   "lines": 15,
+   "points": 4,
    "w": 360,
-   "chars": 265,
+   "chars": 333,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -878,11 +853,11 @@
   {
    "label": "What is changing most for your customers?",
    "place": "tile dialog",
-   "text": "The changes that affect your customers most. Choose up to two.\nEach Competitor is rated on how every one of these could affect it, the ones ticked here first.\nTechnology: Automation, AI, old systems being replaced\nRules and law: New compliance, tax changes, environmental mandates\nThe economy: Inflation, budget cuts, shifts in spending power\nSociety and lifestyle: Remote work, sustainability, changing habits\nSupply and delivery: Material shortages, logistics costs, local sourcing",
-   "lines": 22,
-   "points": 7,
+   "text": "The changes that affect your customers most. Choose up to two.\nEach Competitor is rated on how every one of these could affect it, the ones ticked here first.\nTechnology: Automation, AI, old systems being replaced\nRules and law: New compliance, tax changes\nThe economy: Inflation, budget cuts, shifts in spending power\nSociety and lifestyle: Remote work, changing habits\nSupply and delivery: Material shortages, logistics costs, local sourcing\nEnvironment and climate: Extreme weather, sustainability, environmental mandates",
+   "lines": 26,
+   "points": 8,
    "w": 360,
-   "chars": 483,
+   "chars": 524,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -934,11 +909,11 @@
   {
    "label": "Purchasing Power & Behaviour",
    "place": "tile dialog",
-   "text": "How do they find, choose, buy and pay, and who decides?\nFor every customer: online comfort, where they discover new products, where they shop, how they pay.\nFor people: how they socialise and share, what makes them shop and how they decide. For businesses: who decides to buy.",
-   "lines": 12,
+   "text": "How do they find, choose, buy and pay, and who decides?\nIn the order they buy: online comfort, socialising, what makes them shop, where they discover, how they decide, where they shop, how they pay, how they share.\nSocialising, what makes them shop, how they decide and how they share are asked about people; who decides to buy, about businesses.",
+   "lines": 15,
    "points": 3,
    "w": 360,
-   "chars": 276,
+   "chars": 346,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -962,11 +937,25 @@
   {
    "label": "Where do your customers discover new products?",
    "place": "tile dialog",
-   "text": "Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn.\nChoose up to three.",
-   "lines": 7,
-   "points": 2,
+   "text": "Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn.\nSeeing it in person / passing by: a shop window, a stall, a sign or a vehicle. Sales calls or tenders: asked for business customers only.\nChoose up to three.",
+   "lines": 12,
+   "points": 3,
    "w": 360,
-   "chars": 139,
+   "chars": 277,
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description",
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "label": "Who decides to buy?",
+   "place": "tile dialog",
+   "text": "Asked for business customers only.\nSelect all that apply.\nOne person decides: The person who uses it has the budget and the final say.\nThe team agrees: The people who use it try it and push it upward.\nA manager signs off: Needs formal approval from a manager or executive.\nSeveral departments check: IT or security, legal and finance.\nFormal procurement: A tender or a request for proposals (RFP), with strict compliance.",
+   "lines": 21,
+   "points": 7,
+   "w": 360,
+   "chars": 421,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -1002,27 +991,13 @@
    ]
   },
   {
-   "label": "Who decides to buy?",
-   "place": "tile dialog",
-   "text": "Asked for business customers only.\nSelect all that apply.\nOne person decides: The person who uses it has the budget and the final say.\nThe team agrees: The people who use it try it and push it upward.\nA manager signs off: Needs formal approval from a manager or executive.\nSeveral departments check: IT or security, legal and finance.\nFormal procurement: A tender or a request for proposals (RFP), with strict compliance.",
-   "lines": 21,
-   "points": 7,
-   "w": 360,
-   "chars": 421,
-   "scenes": [
-    "Business System / 1. Foundation / tile Segment Description",
-    "Business System / 1. Foundation / tile Segment Description / card 1",
-    "Business System / 1. Foundation / tile Segment Description / card 2"
-   ]
-  },
-  {
    "label": "Profile",
    "place": "floating card",
-   "text": "Divide your Target Audience into segments, starting with the groups worth most or easiest to reach.\nHow many follows your stage: one while planning or launching, up to two while managing, any number while growing.\nDefine up to 3 customer profiles, including their problems, needs, and the best approach for reaching them.\nWhich choices each box asks follows your Positioning (who buys, their life stage and category) and your stage. An answer no longer asked is removed.",
-   "lines": 21,
-   "points": 4,
+   "text": "Divide your Target Audience into segments, starting with the groups worth most or easiest to reach.\nHow many follows your stage: one while planning or launching, up to two while managing, any number while growing.\nDefine up to 3 customer profiles, including their problems, needs, and the best approach for reaching them.\nWhich choices each box asks follows your Positioning (who buys, their life stage and category) and your stage. An answer no longer asked is removed.\nSome questions wait until you launch; an answer given to one of them is kept.",
+   "lines": 25,
+   "points": 5,
    "w": 360,
-   "chars": 470,
+   "chars": 548,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -1120,19 +1095,6 @@
    ]
   },
   {
-   "label": "Which devices does this person use?",
-   "place": "floating card",
-   "text": "The devices they use to find and buy, not those they own.\nThe Segment's choice of where they buy starts this; change it freely.",
-   "lines": 6,
-   "points": 2,
-   "w": 360,
-   "chars": 127,
-   "scenes": [
-    "Business System / 1. Foundation / tile Segment Description / card 1",
-    "Business System / 1. Foundation / tile Segment Description / card 2"
-   ]
-  },
-  {
    "label": "Which social media does this person use?",
    "place": "floating card",
    "text": "The platforms they actually use, if any.\nTick Other to write one that is not listed.",
@@ -1159,6 +1121,19 @@
    ]
   },
   {
+   "label": "Which events does this person attend?",
+   "place": "floating card",
+   "text": "The kinds of events a typical person of the Segment goes to.\nWrite the names of the events in the note.",
+   "lines": 6,
+   "points": 2,
+   "w": 360,
+   "chars": 103,
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
    "label": "Information & Shopping Habits",
    "place": "floating card",
    "text": "How do they find, learn about, compare and buy products or services?\nThe note is for what the choices above do not hold: how they buy, in their words.",
@@ -1166,6 +1141,19 @@
    "points": 2,
    "w": 360,
    "chars": 150,
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "label": "Which devices does this person use?",
+   "place": "floating card",
+   "text": "The devices they use to find and buy, not those they own.\nThe Segment's choice of where they buy starts this; change it freely.",
+   "lines": 6,
+   "points": 2,
+   "w": 360,
+   "chars": 127,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -1213,11 +1201,11 @@
   {
    "label": "What does this person want to achieve?",
    "place": "floating card",
-   "text": "1 = Minor, 5 = Main.\nThe results they are after, not what they weigh when choosing (that is \"What matters most\"). Choose up to three, then rate each.\nFor example, to learn a new craft, or to win more clients.\nAccessibility: getting something hard to reach. Development: learning something new. Expression: showing who they are. Revenue: winning customers or income.\nCompliance: meeting a requirement, at work or by law. Governance: staying within the rules.\nBased on: gains (Value Proposition Canvas).",
-   "lines": 24,
-   "points": 6,
+   "text": "1 = Minor, 5 = Main.\nThe results they are after, not what they weigh when choosing (that is \"What matters most\"). Choose up to three, then rate each.\nFor example, to learn a new craft, or to win more clients.\nAccessibility: getting something hard to reach. Development: learning something new. Expression: showing who they are. Revenue: winning customers or income.\nCompliance: meeting a requirement or staying within the rules, at work or by law. Efficiency: saving time or money.\nResolution: getting a specific problem fixed. Enjoyment: having fun or a good time.\nBased on: gains (Value Proposition Canvas).",
+   "lines": 29,
+   "points": 7,
    "w": 360,
-   "chars": 501,
+   "chars": 609,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -1239,11 +1227,11 @@
   {
    "label": "What frustrates this person today?",
    "place": "floating card",
-   "text": "1 = Mild, 5 = Severe.\nWhat goes wrong with the way they do it now, before they buy from you. Choose up to three, then rate how much each bothers them.\nFor example, the cheap version breaks too soon, or nobody explains how to start.\nCost: too costly, or unclear prices. Delays: it takes too long. Inconsistency: results vary. Trust: hard to find someone reliable.\nInsecurity: not knowing how, or fearing a mistake. Capacity: no time or staff. Complexity: too complicated, or poor support.\nBased on: pains (Value Proposition Canvas).",
+   "text": "1 = Mild, 5 = Severe.\nWhat goes wrong with the way they do it now, before they buy from you. Choose up to three, then rate how much each bothers them.\nFor example, the cheap version breaks too soon, or nobody explains how to start.\nCost: too costly, or unclear prices. Delays: it takes too long. Inconsistency: results vary. Trust: hard to find someone reliable.\nSkills gap: not knowing how, or fearing a mistake. Capacity: no time or staff. Hassle: too complicated, or poor support.\nBased on: pains (Value Proposition Canvas).",
    "lines": 24,
    "points": 6,
    "w": 360,
-   "chars": 531,
+   "chars": 527,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -1265,11 +1253,11 @@
   {
    "label": "What might hold this person back?",
    "place": "floating card",
-   "text": "1 = Minor, 5 = Blocking.\nTheir doubts about buying from you, not what frustrates them today (the question above). Choose up to three, then rate each.\nFor example, whether a beginner can keep up, or whether you will still be there after the sale.\nCredibility: whether you can be trusted. Onboarding: the time to get started. Complexity: how hard it is to use. Fit: whether it suits their need.\nSupport: help after buying. Migration: the work of leaving what they use now. Risk: risk or security.\nStarts with the price where the Segment's household income is rated 1; change it freely.",
-   "lines": 25,
+   "text": "1 = Minor, 5 = Blocking.\nTheir doubts about buying from you, not what frustrates them today (the question above). Choose up to three, then rate each.\nFor example, whether a beginner can keep up, or whether you will still be there after the sale.\nCredibility: whether you can be trusted. Onboarding: the time to get started. Complexity: how hard it is to use. Fit: whether it suits their need.\nSupport: help after buying. Migration: the work of leaving what they use now. Risk: risk or security. Image: what others will think of them.\nStarts with the price where the Segment's household income is rated 1; change it freely.",
+   "lines": 27,
    "points": 6,
    "w": 360,
-   "chars": 583,
+   "chars": 622,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -5593,11 +5581,11 @@
   {
    "label": "Suppliers",
    "place": "tile dialog",
-   "text": "Producers & Wholesalers: Producers and wholesalers that sell the materials and parts in the product, e.g. Wool mill, Box maker, Fabric importer, Flour miller.\nLogistics & Fulfilment: Carriers and warehouses that deliver orders to buyers, e.g. Courier, National post, Fulfilment centre, Freight forwarder.\nContractors & Advisers: Outsourced specialists who do part of an offering's job or guide it, e.g. Dye works, Freelance developer, Product-safety adviser, Electrician.\nAgencies & Influencers: Firms and creators paid to spread the word, e.g. Marketing agency, Instagram creator, Poster press, Podcast sponsor.\nVenues & Organisers: Hosts of the places and events where you sell, e.g. Fair organiser, Exhibition hall, Show promoter.\nLandlords, Leasing & Warehouses: Owners of premises used for making or storing stock, and lessors of vehicles, e.g. Estate owner, Depot firm, Chilled-storage outfit, Van leasing specialist.\nPlatforms & Payments: Intermediaries between you and the customer who charge a fee, e.g. Online marketplace, Payment processor, App store, Reservation portal.",
-   "lines": 45,
-   "points": 7,
+   "text": "Producers & Wholesalers: Producers and wholesalers that sell the materials and parts in the product, e.g. Wool mill, Box maker, Fabric importer, Flour miller.\nContractors & Advisers: Outsourced specialists who do part of an offering's job or guide it, e.g. Dye works, Freelance developer, Product-safety adviser, Electrician.\nAgencies & Influencers: Firms and creators paid to spread the word, e.g. Marketing agency, Instagram creator, Poster press, Podcast sponsor.\nVenues & Organisers: Hosts of the places and events where you sell, e.g. Fair organiser, Exhibition hall, Show promoter.\nLandlords, Leasing & Warehouses: Owners of premises used for making or storing stock, and lessors of vehicles, e.g. Estate owner, Depot firm, Chilled-storage outfit, Van leasing specialist.\nPlatforms & Payments: Intermediaries between you and the customer who charge a fee, e.g. Online marketplace, Payment processor, App store, Reservation portal.",
+   "lines": 39,
+   "points": 6,
    "w": 360,
-   "chars": 1082,
+   "chars": 936,
    "scenes": [
     "Business System / Infrastructure / tile Partners & Suppliers / card 2"
    ]
@@ -6343,11 +6331,11 @@
   {
    "label": "Seller & Buyer Relationship",
    "place": "tile dialog",
-   "text": "Who pays: focuses on the Economic Buyer who approves the budget, separating them from the end user. The positioning statement is written for the target market, and each distinct segment may need its own.\nB2C (Business-to-Consumer): individuals or consumers who pay for personal or family use.\nB2B (Business-to-Business): businesses, companies or freelancers.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: Stayman, D. (2015) ‘How to Write Market Positioning Statements’, eCornell #IMPACT, Cornell University, 20 March. Available at: https://ecornell-impact.cornell.edu/how-to-write-market-positioning-statements/ (Accessed: 25 October 2026).\nAlso: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketing. Stanford, CA: Stanford University. Available at: https://web.stanford.edu/class/e145/2007_fall/startup_mktg_details.shtml (Accessed: 25 October 2026).",
+   "text": "Who pays: focuses on the Economic Buyer who approves the budget, separating them from the end user. The positioning statement is written for the target market, and each distinct segment may need its own.\nB2C (Business-to-Consumer): individuals or consumers who pay for personal or family use.\nB2B (Business-to-Business): businesses, companies, freelancers or public bodies.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: Stayman, D. (2015) ‘How to Write Market Positioning Statements’, eCornell #IMPACT, Cornell University, 20 March. Available at: https://ecornell-impact.cornell.edu/how-to-write-market-positioning-statements/ (Accessed: 25 October 2026).\nAlso: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketing. Stanford, CA: Stanford University. Available at: https://web.stanford.edu/class/e145/2007_fall/startup_mktg_details.shtml (Accessed: 25 October 2026).",
    "lines": 38,
    "points": 6,
    "w": 360,
-   "chars": 974,
+   "chars": 989,
    "scenes": [
     "Identity System / 1. Definition / tile Early Positioning"
    ]
@@ -6384,30 +6372,6 @@
    "points": 4,
    "w": 360,
    "chars": 747,
-   "scenes": [
-    "Identity System / 1. Definition / tile Early Positioning"
-   ]
-  },
-  {
-   "label": "Differentiation",
-   "place": "tile dialog",
-   "text": "What the offering does differently from the competitors: where it hits exactly the blind spot they leave. It is about the offering; the result the buyer gets from it is the outcome, asked next.\nCost-driven (saving resources): targets the blind spot of expensive competitors with a budget-friendly alternative.\nConvenience-driven (speed and ease): targets the blind spot of complex or slow solutions.\nCompliance, Risk & Security: targets the blind spot of uncertified or questionable alternatives.\nStatus & Premium (exclusivity): targets the blind spot of mass-market or cheap products with top quality and custom service.\nPerformance & Innovation (product superiority): targets the blind spot of dated or underpowered alternatives with better results and newer methods.\nEcosystem & Integration (fits what they already use): targets the blind spot of standalone tools that do not connect to the buyer's other systems and workflows.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: Institute for Strategy and Competitiveness (n.d.) Strategic Positioning. Boston, MA: Harvard Business School. Available at: https://www.isc.hbs.edu/strategy/business-strategy/Pages/strategic-positioning.aspx (Accessed: 25 October 2026).\nAlso: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketing. Stanford, CA: Stanford University. Available at: https://web.stanford.edu/class/e145/2007_fall/startup_mktg_details.shtml (Accessed: 25 October 2026).",
-   "lines": 60,
-   "points": 10,
-   "w": 360,
-   "chars": 1547,
-   "scenes": [
-    "Identity System / 1. Definition / tile Early Positioning"
-   ]
-  },
-  {
-   "label": "Outcome",
-   "place": "tile dialog",
-   "text": "The measurable result the buyer gets from the offering (outcome or return): what the buyer is paying for.\nLower costs: an immediate reduction in operating costs. Time saved: the execution time of a process cut to almost nothing, or the workflow drastically simplified. Legal & data-protection cover: absolute legal coverage and no risk of fines. Higher quality & prestige: top quality, custom service and an upgrade of the buyer's prestige.\nFor a Proxy or Dual-Intent Buyer the end user has an outcome of their own, asked next.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: Institute for Strategy and Competitiveness (n.d.) Strategic Positioning. Boston, MA: Harvard Business School. Available at: https://www.isc.hbs.edu/strategy/business-strategy/Pages/strategic-positioning.aspx (Accessed: 25 October 2026).\nAlso: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketing. Stanford, CA: Stanford University. Available at: https://web.stanford.edu/class/e145/2007_fall/startup_mktg_details.shtml (Accessed: 25 October 2026).",
-   "lines": 42,
-   "points": 6,
-   "w": 360,
-   "chars": 1144,
    "scenes": [
     "Identity System / 1. Definition / tile Early Positioning"
    ]

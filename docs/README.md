@@ -1,6 +1,6 @@
 # The documents of NorthStardustStudio
 
-Status: **index**, updated 2026-11-08. One line per document: where it is, what kind it is, what it holds, when it last changed (the date of its last commit).
+Status: **index**, updated 2026-11-09. One line per document: where it is, what kind it is, what it holds, when it last changed (the date of its last commit).
 
 ## How the documents are kept
 
@@ -129,7 +129,7 @@ Standing rules, references and playbooks for an AI assistant working on the proj
 | [ai/review-criteria.md](ai/review-criteria.md) | rules | The standard a screen is judged by: criteria by kind (type, spacing, controls, colour, tiles, cards, tables, windows, pages, data), how each is measured, the report. | 2026-11-02 |
 | [ai/review-checklist.md](ai/review-checklist.md) | rules | What to check when reviewing a table, tile, card, page or control, and the proof before saying done. | 2026-11-08 |
 | [ai/code-map.md](ai/code-map.md) | reference | Where things are in src: the folders and what is in each; the rules for a new file. | 2026-11-04 |
-| [ai/layout-rules.md](ai/layout-rules.md) | rules | The measured rulebook of the Foundation pages (tokens, sizes, alignment, interactions) and the layout check. | 2026-11-07 |
+| [ai/layout-rules.md](ai/layout-rules.md) | rules | The measured rulebook of the Foundation pages (tokens, sizes, alignment, interactions) and the layout check. | 2026-11-09 |
 | [ai/tile-and-card-pattern.md](ai/tile-and-card-pattern.md) | rules | How tiles, frames, cards, rails and dialogs are built; the global rules. | 2026-11-03 |
 | [ai/card-kinds.md](ai/card-kinds.md) | reference | The kinds of card, where each one's code is, how its head is built. | 2026-11-03 |
 | [ai/customer-engagement-layout.md](ai/customer-engagement-layout.md) | rules | Layout of the Customer Engagement tables, the channel resources and the action markers. | 2026-11-02 |
