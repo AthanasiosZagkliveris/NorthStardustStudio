@@ -204,14 +204,11 @@ export function CarouselArrows({ target, step, hue, back }: { target: RefObject<
         return () => observer?.disconnect();
     }, [target]);
 
-    // THE TAB STANDS AT THE TOP OF ITS LAYER, level with the layer's title, its list running on with no gap, and never hides an arrow (owner, 2026-11-09: "Why there is
-    // so large gap above the arrow?"): where the tab reaches down to the arrows' level, BOTH arrows stand together just under the tab (12px below its foot), so they stay
-    // level with each other; where that would take them past the window's foot, the tab is held shorter (its list scrolls, Back in view) so they keep 12px under it.
+    // THE TAB STANDS AT THE TOP OF ITS LAYER, level with the layer's title, its list running on with no gap. THE ARROWS NEVER MOVE (owner, 2026-11-09: "why did you move
+    // the arrows?"): both stand at the middle of the layer, over the tab (z-index), whatever the tab's length.
     const railRef = useRef<HTMLElement | null>(null);
-    const [drop, setDrop] = useState<{ top: number; railMax: number | null } | null>(null);
-    const itemCount = step.items?.length ?? 0;
     // (The tab measured again whenever it, or the window, changes size: names arriving, fonts loading, the layer moving.)
-    const [railSize, setRailSize] = useState(0);
+    const [, setRailSize] = useState(0);
     // Whether the tab's bullets do not fit the height the window leaves it (they then scroll, with the Back in view).
     const [capped, setCapped] = useState(false);
     useLayoutEffect(() => {
@@ -242,27 +239,7 @@ export function CarouselArrows({ target, step, hue, back }: { target: RefObject<
             observer?.disconnect();
         };
     }, [at?.edge, at?.tab, topmost]);
-    const railTop = at?.tab ? at.titleTop : null;
-    const arrowTop = at?.top ?? 0;
-    useLayoutEffect(() => {
-        const rail = railRef.current;
-        if (!rail || railTop === null) {
-            setDrop(null);
-            return;
-        }
-        // (The tab's foot as it stands with the window's own cap, never with the cap this effect gave it: measured from its top and its natural height.)
-        const natural = Math.min(rail.scrollHeight, Math.max(120, window.innerHeight - railTop - 12));
-        const foot = railTop + natural;
-        const floor = window.innerHeight - 64 - 12 - 22;
-        let next: { top: number; railMax: number | null } | null = null;
-        if (foot + 12 > arrowTop - 22) {
-            const wanted = foot + 12 + 22;
-            next = wanted <= floor ? { top: wanted, railMax: null } : { top: floor, railMax: Math.max(120, floor - 22 - 12 - railTop) };
-        }
-        setDrop(previous => previous?.top === next?.top && previous?.railMax === next?.railMax ? previous : next);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [railTop, arrowTop, itemCount, at?.edge, back, railSize, topmost]);
-    const arrowsTop = drop ? drop.top : arrowTop;
+    const arrowsTop = at?.top ?? 0;
 
     if (!at || !topmost) {
         return null;
@@ -293,7 +270,7 @@ export function CarouselArrows({ target, step, hue, back }: { target: RefObject<
                     ref={railRef}
                     className={"carousel-rail" + (step.what === "section" && (at.tab && at.side === "left" ? at.left : at.right) >= 160 ? " carousel-rail-named" : "") + (at.tab ? " carousel-rail-tab" : "") + (at.tab && capped ? " carousel-rail-capped" : "") + (at.tab && at.side === "left" ? " carousel-rail-tab-left" : "")}
                     aria-label={"Go to a " + step.what}
-                    style={{ ...(at.tab && at.side === "left" ? { right: window.innerWidth - at.leftEdge } : { left: at.edge }), top: at.tab ? at.titleTop : at.top + 36, ...(at.tab ? { maxHeight: drop?.railMax ?? Math.max(120, window.innerHeight - at.titleTop - 12) } : {}), "--rail-label-room": Math.max(0, (at.tab ? (at.side === "left" ? at.leftEdge : window.innerWidth - at.edge) - 25 : at.right) - 8 - (at.tab ? 0 : 24)) + "px", "--strategy-theme-hue": hue, ...(at.tab ? { "--tab-bg": at.tab.bg, "--tab-edge": at.tab.edge, "--tab-ink": at.tab.ink } : {}) } as unknown as CSSProperties}
+                    style={{ ...(at.tab && at.side === "left" ? { right: window.innerWidth - at.leftEdge } : { left: at.edge }), top: at.tab ? at.titleTop : at.top + 36, ...(at.tab ? { maxHeight: Math.max(120, window.innerHeight - at.titleTop - 12) } : {}), "--rail-label-room": Math.max(0, (at.tab ? (at.side === "left" ? at.leftEdge : window.innerWidth - at.edge) - 25 : at.right) - 8 - (at.tab ? 0 : 24)) + "px", "--strategy-theme-hue": hue, ...(at.tab ? { "--tab-bg": at.tab.bg, "--tab-edge": at.tab.edge, "--tab-ink": at.tab.ink } : {}) } as unknown as CSSProperties}
                 >
                     <ol className="bullet-rail-list">
                         {step.items.map((item, position) => (
