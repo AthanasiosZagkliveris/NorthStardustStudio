@@ -245,7 +245,7 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 | Financial costs ledger | `FinancialFoundationEditor` | Business 4 |
 | Figure table | `FigureTable` (`FinancialParts.tsx`) | Business 4 and 5 |
 | Settings tables (Assets, Channel Fee) | `GlobalSettings.tsx` | Settings |
-| Forecast table | `BusinessDocuments.tsx` | Documents |
+| Forecast table | `BusinessDocumentsView.tsx` | Workbook, Business Documents |
 
 ### C.9 Layer H: panels, popups, menus, tooltips and info notes
 
@@ -279,7 +279,7 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 
 | Output | Source |
 |---|---|
-| Business Plan, Business Model Canvas, Financial Forecast (annual, quarterly, monthly), with CSV and PDF | `pages/BusinessDocuments.tsx`, `engine/BusinessDocuments.ts`, `FinancialForecast.ts` |
+| Business Plan, Business Model Canvas, Financial Forecast (annual, quarterly, monthly), with CSV and PDF | `components/BusinessDocumentsView.tsx`, `engine/BusinessDocuments.ts`, `FinancialForecast.ts` |
 | Export (Markdown and PDF) | `ExportContentBuilder.ts`, `MarkdownExporter.ts`, `PdfExporter.ts`, `ExportRenderers.ts` |
 | Calendar items from card dates (Key dates: plan start, registration, opening, the end of each stage's window; Warranty ends, Payment due, Contract or supply ends, Activity deadline, Legal fee, Starts, Activity starts, Founder starts) | `CalendarCardDates.ts`, `CalendarTaskService.ts` |
 | Charts | `CashTimelineChart` (`FinancialParts.tsx`); Strategic Roadmap (`StrategicRoadmapEditor`, `roadmapZoom.ts`, `roadmapTooltip.ts`) |
