@@ -2751,6 +2751,28 @@
             root.__layoutProbe.openSide = tile.getBoundingClientRect().width;
             tile.click();
             await pause(settle);
+            // WAIT FOR WHAT OPENS, THEN RETRY ONCE (2026-11-09): a faded tile (a channel the Segment does not use yet) makes its channel and opens the new card
+            // only after a timer, and on a busy page the dialog's or card's transition can outlast the settle, so the check failed "no dialog" on a different
+            // tile from run to run (Quillfield's Customer Engagement). It waits up to 1.5s for a dialog or a floating card; if neither came, it presses the
+            // tile once more (found again by its title: the press may have redrawn the tiles) and waits again; then the transition is given its settle.
+            const openedNow = () => !!(document.querySelector(".section-tile-dialog") || document.querySelector(".floating-card-host"));
+            const waitOpened = async (limit) => {
+                for (let waited = 0; waited < limit && !openedNow(); waited += 50) {
+                    await pause(50);
+                }
+                return openedNow();
+            };
+            if (!openedNow()) {
+                if (!(await waitOpened(1500))) {
+                    const again = [...document.querySelectorAll(".section-tile")].filter(visible)
+                        .find(other => (other.querySelector(".section-tile-title") || other).textContent.trim().replace(/ /g, " ") === title) ?? (tile.isConnected ? tile : null);
+                    if (again) {
+                        again.click();
+                        await waitOpened(1500);
+                    }
+                }
+                await pause(settle);
+            }
             stats.dialogs++;
             const dialog = document.querySelector(".section-tile-dialog");
             // A TILE THAT HOLDS ONE CARD (or none: a blank one is made) opens that card ALONE, floating on its section part (the Workspace: its form, over its
