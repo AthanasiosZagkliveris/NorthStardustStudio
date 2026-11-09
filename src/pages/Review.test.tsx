@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
 
 // (The Review is the Workbook page's Review tab since 2026-11-09; /review opens it there.)
@@ -24,6 +24,9 @@ beforeEach(() => {
 
 afterEach(cleanup);
 
+/** A bullet of the Workbook's page tab (its tabs, as on a System page's Pages rail). */
+const railTab = (name: string) => within(screen.getByRole("navigation", { name: "Workbook" })).getByRole("button", { name });
+
 describe("opening Review", () => {
 
     it("opens from the header Workbook on its Review tab and stays; pressing the Workbook again there does nothing", async () => {
@@ -38,15 +41,15 @@ describe("opening Review", () => {
         );
 
         act(() => { fireEvent.click(screen.getAllByRole("button", { name: /^Workbook/ })[0]); });
-        act(() => { fireEvent.click(screen.getByRole("tab", { name: "Review" })); });
-        expect(screen.getByRole("heading", { name: "Review" })).toBeTruthy();
+        act(() => { fireEvent.click(railTab("Review")); });
+        expect(screen.getByRole("heading", { name: /^Workbook ?— Review$/ })).toBeTruthy();
 
         // Still there after the page has settled (its effects have run).
         await act(async () => { await new Promise(resolve => setTimeout(resolve, 20)); });
-        expect(screen.getByRole("heading", { name: "Review" })).toBeTruthy();
+        expect(screen.getByRole("heading", { name: /^Workbook ?— Review$/ })).toBeTruthy();
 
         act(() => { fireEvent.click(screen.getAllByRole("button", { name: /^Workbook/ })[0]); });
-        expect(screen.getByRole("heading", { name: "Review" })).toBeTruthy();
+        expect(screen.getByRole("heading", { name: /^Workbook ?— Review$/ })).toBeTruthy();
     });
 
     it("returns, on Escape and on Back, to where it was opened from", () => {
@@ -99,7 +102,7 @@ describe("Review across Organisations", () => {
         const heads = [...document.querySelectorAll(".review-organization-title .fold-head")];
         expect(heads.map(head => head.querySelector(".fold-head-name")?.textContent)).toEqual(["Lumen"]);
         expect(document.querySelectorAll(".review-organization-body")).toHaveLength(1);
-        expect(screen.getByRole("heading", { name: "Review" })).toBeTruthy();
+        expect(screen.getByRole("heading", { name: /^Workbook ?— Review$/ })).toBeTruthy();
     });
 
     it("the total review has every Organisation, each open with its count; Go there selects the other one first", () => {
@@ -108,7 +111,7 @@ describe("Review across Organisations", () => {
 
         renderReview({ total: true });
 
-        expect(screen.getByRole("heading", { name: "Total review" })).toBeTruthy();
+        expect(screen.getByRole("heading", { name: /^Workbook ?— Total review$/ })).toBeTruthy();
         const heads = [...document.querySelectorAll(".review-organization-title .fold-head")];
         expect(heads.map(head => head.querySelector(".fold-head-name")?.textContent)).toEqual(["Lumen", "Quillfield"]);
         // No arrows: every Organisation is open.

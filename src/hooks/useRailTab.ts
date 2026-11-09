@@ -7,6 +7,8 @@ import { useEffect } from "react";
  * The rails stand outside the page's cards, so they cannot inherit a card's colours: this reads them from the first frame (for the left tab) and the last frame (for
  * the right one) of the page as drawn, and sets them on the root: --rail-left-bg / -edge / -ink, --rail-right-bg / -edge / -ink. A page without a frame sets none, and
  * its rails stay as they were, without a tab.
+ *
+ * A page with no frame of its own (the Workbook) passes its tab's colours (`colours`, written as tokens, so they follow the reading mode).
  */
 const FRAME = ".conversation-card .business-foundation-card:not(.section-tile-dialog)";
 const HEAD = ".answer-column-label, .tiles-frame-head .field-group-title, .business-foundation-subhead, .field-group-title";
@@ -30,17 +32,19 @@ function colourOf(frame: Element): { bg: string; edge: string; ink: string } | n
     };
 }
 
-export default function useRailTab() {
+export type RailTabColours = { bg: string; edge: string; ink: string };
+
+export default function useRailTab(colours?: RailTabColours) {
 
     useEffect(() => {
 
         const root = document.documentElement;
         let frame = 0;
 
-        function set(side: "left" | "right", colours: { bg: string; edge: string; ink: string } | null) {
+        function set(side: "left" | "right", tab: RailTabColours | null) {
             NAMES.forEach(name => {
-                if (colours) {
-                    root.style.setProperty("--rail-" + side + "-" + name, colours[name]);
+                if (tab) {
+                    root.style.setProperty("--rail-" + side + "-" + name, tab[name]);
                 } else {
                     root.style.removeProperty("--rail-" + side + "-" + name);
                 }
@@ -49,6 +53,11 @@ export default function useRailTab() {
 
         function read() {
             frame = 0;
+            if (colours) {
+                set("left", colours);
+                set("right", colours);
+                return;
+            }
             const frames = [...document.querySelectorAll(FRAME)].filter(candidate => candidate.getBoundingClientRect().width > 300);
             set("left", frames.length > 0 ? colourOf(frames[0]) : null);
             set("right", frames.length > 0 ? colourOf(frames[frames.length - 1]) : null);
@@ -78,6 +87,6 @@ export default function useRailTab() {
             set("right", null);
         };
 
-    }, []);
+    }, [colours]);
 
 }

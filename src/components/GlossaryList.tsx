@@ -7,6 +7,7 @@ import { openCard } from "./notepad/notepadPlaces";
 import { PALETTE } from "../framework/engine/Palette";
 import { harvardCitation, SOURCES, type SourceId } from "../framework/engine/Sources";
 import { GLOSSARY_KINDS, GlossaryService, type GlossaryKind } from "../services/GlossaryService";
+import { OrganizationService } from "../services/OrganizationService";
 
 // The funnel (ResponsibilityFilter) is drawn as it is on the System pages.
 // (The sheets in the order the System pages load them, section-tiles.css before conversation.css: whatever loads this first, its order is the
@@ -27,6 +28,10 @@ interface Entry {
     tag: string;
     meaning: string;
     sources: readonly SourceId[];
+    /** The Organisation a term of yours belongs to, where the list holds the terms of more than one (the Landing page's Workbook). */
+    owner?: string;
+    /** That Organisation's name beside the kind ("Offering of Quillfield Automation"); an Organisation's own name needs none. */
+    organisation?: string;
     open?: () => void;
 }
 
@@ -101,10 +106,12 @@ export const anchorOf = (key: string) => "glossary-term-" + key.replace(/[^A-Za-
  * colours -- the app's own words in the app's blue, YOUR TERMS (the names you gave your Segments, Profiles, Offerings ...) in
  * terracotta, each of yours with its kind ("Segment") -- under ONE funnel: the kinds of term, then the letter ranges (about twenty
  * terms a range, cut as the References' are). An app term's meaning is followed by its Harvard citations (`onCitation` shows the
- * full reference); one of your terms opens its card.
+ * full reference); one of your terms opens its card. Your terms are the open Organisation's, or, on the Landing page's Workbook, every
+ * Organisation's, each with its Organisation's name beside its kind.
  */
-export default function GlossaryList({ organizationId, target, onCitation }: {
-    organizationId: string | null;
+export default function GlossaryList({ organizationIds, target, onCitation }: {
+    /** Whose terms are yours: the open Organisation, or every Organisation (the Landing page). */
+    organizationIds: readonly string[];
     /** The term asked for (an app term's id, or one of yours by its card id): marked for a moment. */
     target?: string;
     onCitation: (source: SourceId) => void;
@@ -114,44 +121,58 @@ export default function GlossaryList({ organizationId, target, onCitation }: {
     const [off, setOff] = useState<ReadonlySet<string>>(new Set());
     // The Glossary's own letter ranges (owner, 2026-11-05: "add a letter range filter similarly to the references").
     const [lettersOff, setLettersOff] = useState<ReadonlySet<string>>(new Set());
+    // On the Landing page's Workbook (two Organisations or more): the Organisations whose terms are ticked off, by name.
+    const [organisationsOff, setOrganisationsOff] = useState<ReadonlySet<string>>(new Set());
 
     const entries = useMemo<Entry[]>(() => {
         const app: Entry[] = GlossaryService.appTerms().map(term => ({
             key: term.id, kind: "app", term: term.term, tag: "App term", meaning: term.meaning, sources: term.sources ?? []
         }));
-        const yours: Entry[] = organizationId
-            ? GlossaryService.userTerms(organizationId).map(term => ({
-                key: term.cardId || "organisation",
-                kind: "yours",
+        const several = organizationIds.length > 1;
+        const yours: Entry[] = organizationIds.flatMap(organizationId => {
+            const name = OrganizationService.getSummary(organizationId)?.name ?? "";
+            return GlossaryService.userTerms(organizationId).map(term => ({
+                key: (several ? organizationId + "-" : "") + (term.cardId || "organisation"),
+                kind: "yours" as const,
                 term: term.name,
                 tag: term.kind,
                 meaning: term.description,
                 sources: [],
+                // (An Organisation's own name needs no second mention of it.)
+                owner: several ? name : undefined,
+                organisation: several && term.kind !== "Organisation" ? name : undefined,
                 open: () => openCard(navigate, organizationId, term.systemNumber, term.sectionNumber, term.cardId)
-            }))
-            : [];
+            }));
+        });
         return [...app, ...yours].sort((one, other) => one.term.localeCompare(other.term, "en-GB", { sensitivity: "base" }));
-    }, [organizationId, navigate]);
+    }, [organizationIds, navigate]);
 
     const kinds = GLOSSARY_KINDS.map(kind => kind.label);
+    const organisations = organizationIds.length > 1
+        ? [...new Set(organizationIds.map(id => OrganizationService.getSummary(id)?.name ?? "").filter(name => name !== ""))]
+        : [];
     // The terms' letter ranges, cut from all the terms as the References' are (about twenty a range).
     const ranges = useMemo(() => letterRanges(entries.map(entry => letterOf(entry.term))), [entries]);
     const rangeOf = (letter: string) => ranges.find(range => range.letters.includes(letter))?.label ?? "";
-    const shown = entries.filter(entry => !off.has(GLOSSARY_KINDS.find(kind => kind.id === entry.kind)!.label) && !lettersOff.has(rangeOf(letterOf(entry.term))));
+    const shown = entries.filter(entry => !off.has(GLOSSARY_KINDS.find(kind => kind.id === entry.kind)!.label) && !lettersOff.has(rangeOf(letterOf(entry.term)))
+        && !(entry.owner && organisationsOff.has(entry.owner)));
     const letters = [...new Set(shown.map(entry => letterOf(entry.term)))];
 
     return (
         <section className="glossary-section" aria-label="Glossary" style={{ "--glossary-yours-hue": YOUR_TERMS_HUE } as CSSProperties}>
 
             <div className="glossary-bar">
-                {/* ONE funnel: the kinds of term, then the letter ranges (where there is more than one); each tick goes to its own set. */}
+                {/* ONE funnel: the kinds of term, then the Organisations (on the Landing page, two or more), then the letter ranges (where
+                    there is more than one); each tick goes to its own set. */}
                 <ResponsibilityFilter
-                    off={new Set([...off, ...lettersOff])}
-                    options={[...kinds, ...(ranges.length > 1 ? ranges.map(range => range.label) : [])]}
+                    off={new Set([...off, ...organisationsOff, ...lettersOff])}
+                    options={[...kinds, ...organisations, ...(ranges.length > 1 ? ranges.map(range => range.label) : [])]}
                     label="Choose which terms show"
                     onToggle={(option) => kinds.includes(option)
                         ? setOff(current => toggled(current, option))
-                        : setLettersOff(current => toggled(current, option))}
+                        : organisations.includes(option)
+                            ? setOrganisationsOff(current => toggled(current, option))
+                            : setLettersOff(current => toggled(current, option))}
                 />
             </div>
 
@@ -170,7 +191,7 @@ export default function GlossaryList({ organizationId, target, onCitation }: {
                                 <dt className="glossary-term">
                                     <span className="glossary-term-name">{entry.term}</span>
                                     {/* Only your terms say what they are ("Segment"); an app term is told by its colour and by having no tag. */}
-                                    {entry.kind === "yours" && <span className="glossary-term-tag">{entry.tag}</span>}
+                                    {entry.kind === "yours" && <span className="glossary-term-tag">{entry.organisation ? entry.tag + " of " + entry.organisation : entry.tag}</span>}
                                 </dt>
                                 <dd className="glossary-meaning">
                                     {entry.meaning}

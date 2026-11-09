@@ -1,7 +1,9 @@
 /* ==========================================================
    The Workbook (Workbook.tsx): one page, its tabs Card Notes, Review,
-   Glossary and References, laid out as the Glossary page was:
-   one column, clear of the fixed header and footer.
+   Glossary and References, in the System pages' shape: the title at
+   the top left over its rule (InterviewHeader), the tabs as the
+   bullets of the page tab at the left (BulletRail), one column clear
+   of the fixed header and footer.
 
    Two kinds of term, one colour each: the app's own words in
    the app's blue (--text-primary), YOUR TERMS (the names the
@@ -37,9 +39,18 @@
 
 }
 
-.glossary-title{
+/* THE WORKBOOK'S COLUMN is a System page's card: as wide as the page tab reads it (--card-width, bullet-rail.css: up to 1100px here,
+   the window less a rail gutter on each side below that), its title 24px under the header (the 104px of .conversation-content). */
+.workbook{
 
-    align-self:center;
+    --card-width:min(1100px, calc(var(--view-width) - 2 * var(--rail-gutter)));
+
+}
+
+.workbook .glossary-page{
+
+    max-width:var(--card-width);
+    padding:104px 0 96px;
 
 }
 

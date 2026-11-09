@@ -1,8 +1,11 @@
+import type { ReactNode } from "react";
+
 import { getCapabilityColor } from "../../../data/capabilities";
 import { getSystemIcon } from "../../../data/systemIcons";
 
 interface InterviewHeaderProps {
-    systemNumber: string;
+    /** Left out on a page that belongs to no System (the Workbook): its title is the name alone. */
+    systemNumber?: string;
     systemName: string;
     capabilityId?: string;
 
@@ -23,6 +26,9 @@ interface InterviewHeaderProps {
      * "Introduction", not a spelled-out word.
      */
     pageTitleCapitals?: boolean;
+
+    /** What stands after the title, inside the heading (the Workbook's "i" on its Glossary and References). */
+    note?: ReactNode;
 }
 
 export default function InterviewHeader({
@@ -30,11 +36,12 @@ export default function InterviewHeader({
     systemName,
     capabilityId,
     pageTitle,
-    pageTitleCapitals = false
+    pageTitleCapitals = false,
+    note
 }: InterviewHeaderProps) {
 
     const color = getCapabilityColor(capabilityId);
-    const icon = getSystemIcon(Number(systemNumber));
+    const icon = systemNumber ? getSystemIcon(Number(systemNumber)) : undefined;
 
     return (
 
@@ -54,12 +61,13 @@ export default function InterviewHeader({
                 )}
 
                 <h1>
-                    {systemNumber}. {systemName}
+                    {systemNumber ? `${systemNumber}. ${systemName}` : systemName}
                     {pageTitle && (
                         <span className={"interview-header-page-title" + (pageTitleCapitals ? " interview-header-page-title-capitals" : "")}>
                             {` — ${pageTitle}`}
                         </span>
                     )}
+                    {note}
                 </h1>
 
             </div>

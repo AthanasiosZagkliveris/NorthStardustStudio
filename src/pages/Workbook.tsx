@@ -1,9 +1,10 @@
-import { CSSProperties, useEffect, useMemo, useState } from "react";
+import { CSSProperties, useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 import AppFooter from "../components/AppFooter";
 import AppHeader from "../components/AppHeader";
-import TabList from "../components/controls/TabList";
+import InterviewHeader from "../components/interview/editors/InterviewHeader";
+import BulletRail from "../components/interview/rails/BulletRail";
 import InfoNote from "../components/interview/fields/InfoNote";
 import ResponsibilityFilter from "../components/interview/fields/ResponsibilityFilter";
 import GlossaryList, { YOUR_TERMS_HUE, anchorOf, letterOf, letterRanges, toggled } from "../components/GlossaryList";
@@ -11,6 +12,7 @@ import OrganizationReview, { goToReviewPlace } from "../components/OrganizationR
 import { WorkbookCardNotes, type WorkbookState } from "../components/notepad/Notepad";
 import HarvardReference from "../components/references/HarvardReference";
 import { harvardReference, referenceList } from "../framework/engine/Sources";
+import useRailTab, { type RailTabColours } from "../hooks/useRailTab";
 import { OrganizationService } from "../services/OrganizationService";
 import { organizationReview } from "../services/ReviewService";
 
@@ -27,6 +29,12 @@ export { letterRanges, REFERENCES_PER_RANGE, type LetterRange } from "../compone
 export type { WorkbookState } from "../components/notepad/Notepad";
 
 export type WorkbookTab = NonNullable<WorkbookState["tab"]>;
+
+/**
+ * The page tab's colours (useRailTab): the Workbook belongs to no System and has no frame to take them from, so its tab is drawn in the
+ * page's own ground with the app's blue for its edge and bullets (the header tools' edge), as tokens, so it follows the reading mode.
+ */
+const WORKBOOK_TAB: RailTabColours = { bg: "var(--bg-surface)", edge: "var(--line-primary)", ink: "var(--text-strong)" };
 
 const TAB_LABELS: Record<WorkbookTab, string> = { "card-notes": "Card Notes", review: "Review", glossary: "Glossary", references: "References" };
 
@@ -49,8 +57,9 @@ export const GLOSSARY_INFO: Record<"glossary" | "references", string[]> = {
 };
 
 /**
- * THE WORKBOOK (owner, 2026-11-09: "the layout as it was the Glossary, a whole page, not a side panel"): one page, laid out as the
- * Glossary page was (its width, edges, heading and TabList), with four tabs.
+ * THE WORKBOOK (owner, 2026-11-09: "the layout as it was the Glossary, a whole page, not a side panel"; then "match the app's page
+ * style"): one page in the System pages' shape: the title at the top left over its rule ("Workbook — Glossary", InterviewHeader),
+ * and its tabs as the bullets of a page tab at the left (BulletRail in the `.bullet-rails` band, the tab drawn by useRailTab).
  *
  * Card Notes: the Notes text of every card (WorkbookCardNotes, Notepad.tsx; owner, 2026-11-09: "Card Notes and Notes tool are
  * different. Card Notes in the Workbook, Notes Tool as before": the person's own notes are the header's Notes tool, its side panel).
@@ -59,8 +68,9 @@ export const GLOSSARY_INFO: Record<"glossary" | "references", string[]> = {
  * ranges). References: every source the app cites (Sources.ts), as a Harvard reference list, with a funnel of letter ranges.
  *
  * Opened from the header's Workbook: with an Organisation open, and on the Landing page (the same button, `total`: the review of every
- * Organisation, with a funnel of the Organisations; there no Organisation is open, so the page has the Landing's header and the Card Notes,
- * one Organisation's, are left out), and from a Glossary result of the search. Escape, and Back, return to where it was opened from.
+ * Organisation, with a funnel of the Organisations, and the Glossary with every Organisation's terms; there no Organisation is open, so
+ * the page has the Landing's header and the Card Notes, one Organisation's, are left out), and from a Glossary result of the search.
+ * Escape, and Back, return to where it was opened from.
  */
 export default function Workbook() {
 
@@ -139,21 +149,49 @@ export default function Workbook() {
 
     const title = tab === "review" && landing ? "Total review" : TAB_LABELS[tab];
 
+    // Whose terms the Glossary lists: the open Organisation's, or on the Landing page every Organisation's.
+    const glossaryOrganisations = useMemo(() => landing ? OrganizationService.list().map(entry => entry.id) : organizationId ? [organizationId] : [],
+        [landing, organizationId]);
+
+    // The page tab, in the Workbook's own colours (it has no frame to take them from).
+    useRailTab(WORKBOOK_TAB);
+
+    // The tab starts 12px under the top of what the page shows under its title (the page tab's rule): the rails' band reads it as
+    // --arrow-level (bullet-rail.css), the level a page arrow sets on a System page, 24px over the rails' row.
+    const [tabLevel, setTabLevel] = useState<number | null>(null);
+    useLayoutEffect(() => {
+        const header = document.querySelector(".workbook .interview-header");
+        if (!header) {
+            return;
+        }
+        const gap = parseFloat(getComputedStyle(header.parentElement as Element).rowGap) || 0;
+        setTabLevel(Math.round(header.getBoundingClientRect().bottom + window.scrollY + gap + 12 - 24));
+    }, [tab]);
+
+    // A bullet of the page tab: that tab, from its top.
+    const show = (next: WorkbookTab) => {
+        setTab(next);
+        window.scrollTo?.({ top: 0 });
+    };
+
     return (
 
-        <div className="workspace glossary workbook" style={{ "--glossary-yours-hue": YOUR_TERMS_HUE } as CSSProperties}>
+        <div
+            className="workspace glossary workbook"
+            style={{ "--glossary-yours-hue": YOUR_TERMS_HUE, ...(tabLevel === null ? {} : { "--arrow-level": tabLevel + "px" }) } as CSSProperties}
+        >
 
             {/* (Opened from the Landing page: its header, not the selected Organisation's.) */}
             <AppHeader organizationName={!landing && organizationId ? OrganizationService.getSummary(organizationId)?.name ?? "" : ""} totalReview={landing} />
 
             <main className="glossary-page">
 
-                <h1 className="workspace-title glossary-title">
-                    {title}
-                    {(tab === "glossary" || tab === "references") && <InfoNote key={tab} label={TAB_LABELS[tab]} points={GLOSSARY_INFO[tab]} />}
-                </h1>
-
-                <TabList label="Workbook" tabs={tabs} value={tab} onChange={setTab} className="glossary-tabs" />
+                {/* The top of the page as on a System page: "Workbook — Glossary" at the top left, over its rule. */}
+                <InterviewHeader
+                    systemName="Workbook"
+                    pageTitle={title}
+                    note={(tab === "glossary" || tab === "references") && <InfoNote key={tab} label={TAB_LABELS[tab]} points={GLOSSARY_INFO[tab]} />}
+                />
 
                 {tab === "card-notes" && <WorkbookCardNotes />}
 
@@ -183,7 +221,7 @@ export default function Workbook() {
                 {tab === "glossary" && (
                     <GlossaryList
                         key={location.key}
-                        organizationId={organizationId}
+                        organizationIds={glossaryOrganisations}
                         target={target}
                         onCitation={(id) => {
                             setTab("references");
@@ -218,6 +256,14 @@ export default function Workbook() {
                 )}
 
             </main>
+
+            {/* The page tab at the left, as on a System page: one bullet for each tab, the one shown lit (after <main>, so the page's
+                own content comes first in the tab order; the band is fixed, see bullet-rail.css). */}
+            <div className="bullet-rails">
+                <div className="bullet-rails-row">
+                    <BulletRail side="left" label="Workbook" items={tabs} activeId={tab} onSelect={(id) => show(id as WorkbookTab)} />
+                </div>
+            </div>
 
             <AppFooter onBack={back} />
 
