@@ -989,6 +989,28 @@
             }
         }
 
+        // 16. FOCUS MODE NEVER NARROWS THE PAGE (owner, 2026-11-09: "the focus mode has smaller tiles / interface than the regular mode"):
+        //     the page's card measured with and without html.focus-mode; in focus it is at least as wide.
+        {
+            const card = document.querySelector(".conversation-card");
+            const html = document.documentElement;
+            if (card && visible(card)) {
+                const was = html.classList.contains("focus-mode");
+                // (The page's scroll is kept: the header's band goes in focus, and the window must not move under the checks after this one.)
+                const scrolled = [window.scrollX, window.scrollY];
+                html.classList.remove("focus-mode");
+                const regular = card.getBoundingClientRect().width;
+                html.classList.add("focus-mode");
+                const focused = card.getBoundingClientRect().width;
+                html.classList.toggle("focus-mode", was);
+                card.getBoundingClientRect();
+                window.scrollTo(scrolled[0], scrolled[1]);
+                if (focused + 0.5 < regular) {
+                    fail("focus mode keeps the page at least as wide as the regular view", card, { regular, focused });
+                }
+            }
+        }
+
         // 16a. The page grids (answer columns, Brand's columns, Legal Entity's
         //      section boxes): columns, rows and stacked boxes all 12px apart
         //      (--space-column / --space-field / --space-card), never 24px.
