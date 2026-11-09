@@ -6,6 +6,7 @@ Every change of the tables, that is, of the structure of the app: a placement pl
 
 | Id | Date | Change | Where | Asset | Not in the library | What | Note |
 |---|---|---|---|---|---|---|---|
+| A0319 | 2026-11-09 | edited | F F131 |  |  | row changed: name |  |
 | A0318 | 2026-10-30 | removed | F F202 |  |  | row removed |  |
 | A0317 | 2026-10-30 | removed | F F201 |  |  | row removed |  |
 | A0316 | 2026-10-30 | removed | F F200 |  |  | row removed |  |

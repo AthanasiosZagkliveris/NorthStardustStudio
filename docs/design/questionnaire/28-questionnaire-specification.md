@@ -325,7 +325,7 @@ Questions asked only at the Profile, with no Segment range: P9 to P22 (doc 36, b
 | Description: **What customers say** | **K6** (K5 is not asked) |
 | SWOT **Strengths**, **Weaknesses** | **K2, K3** plus the note |
 | SWOT **Opportunities**, **Threats** | **removed from the card** (owner, 2026-11-03): a competitor is assessed by its strengths and weaknesses [FUN-47]; opportunities and threats are the business's own and belong to the Strategy System's SWOT ("outside, in your market"). Text already saved is kept and shown read-only until the user moves it (K7 and K8 are not asked) |
-| **Insights & Differentiation** | stays text; a **draft** is proposed from K2, K3 and O4 |
+| **Insights** (named "Insights & Differentiation" until 2026-11-09) | stays text; a **draft** is proposed from K2, K3 and O4 |
 
 | Id | Question (plain) | Component | Options | Tier | Reads it |
 |---|---|---|---|---|---|
