@@ -1,6 +1,6 @@
 # 1. Current design of the Foundation capability
 
-Status: **current design**, written 2026-10-14, updated 2026-11-02. It is the single description of what the Foundation capability (Identity, Brand, Business and Strategy Systems) is and what has been decided for it. Where the code and this document disagree, the code is right.
+Status: **current design**, written 2026-10-14, updated 2026-11-09. It is the single description of what the Foundation capability (Identity, Brand, Business and Strategy Systems) is and what has been decided for it. Where the code and this document disagree, the code is right.
 
 Part F is document 26 (card structure). The catalogue tool (`tools/scripts/catalogue/load.mjs`) reads it from there, taking the headings with " > " and the numbered table rows between the headings of Part F and Part G, and the structure tables (document 7) and the catalogue record (document 6) are generated from it: its headings and row format stay as they are.
 
@@ -29,7 +29,7 @@ The app does six things (the owner's description):
 | 1 | **Requests specific information** by different methods (text, multiple choice, filling a field, numbers and so on), with the necessary help | Questions per System and page; field types; help notes ("i"); limits on numbers |
 | 2 | **Stores and connects** this information with the relevant parts, and creates further requests accordingly | Answers saved per organisation; cards linked by choice; generated cards (channel expenses, insurance); frozen answers that wait for the one they depend on |
 | 3 | **Calculates** the inputs, records and presents the results in different forms (tables, diagrams, per time schedule, per category) | Demand and capacity, costs by nature, Funding Need, Financial Position, Break Even, forecast statements, Calendar, the Inventory view |
-| 4 | **Proves and validates** the results | Completeness rules and open items, the Review page, capacity check, date checks, Stress Test, "What It Would Take" |
+| 4 | **Proves and validates** the results | Completeness rules and open items, the Review (the Workbook's), capacity check, date checks, Stress Test, "What It Would Take" |
 | 5 | **Helps the user** with different methods | Help and instructions, resources, pre-filled information (from connected or existing data); Note and Calendar tools; messages, errors, reminders, confirmations, limits; smart navigation (rails of page, tile and card; arrows; clear requests) |
 | 6 | **Generates and exports Business Documents** | Business Plan, Business Model Canvas, Forecast; PDF and Markdown |
 
@@ -116,7 +116,7 @@ Pages come from `src/assets/SystemAnswers/01..04_*.md`. Each page's `Structure` 
 
 | Element | Contains and does | File | Used on |
 |---|---|---|---|
-| App header | Logo, save status, reading-mode picker, Focus mode, Search, Glossary, Notes, Review, Settings, undo toast, organisation name | `C/AppHeader.tsx` | All pages |
+| App header | Logo, save status, reading-mode picker, Focus mode, Search, Workbook, Notes, Settings, undo toast, organisation name | `C/AppHeader.tsx` | All pages |
 | Header tools | Icon plus word (the icon alone below 1700px): Search (Ctrl+K), Workbook (no count, a closed notebook icon; 2026-11-09), Notes (with the count of notes), Settings, Focus mode | `SearchButton`, `WorkbookButton`, `NotepadButton` (`notepad/Notepad.tsx`), `SettingsButton`, `FocusModeButton` | With an organisation open; on the Landing page the same `WorkbookButton` (`total`: the review of every organisation, the Glossary and the References) |
 | Save status | Saved or failed-save hint | `C/SaveStatus.tsx` | Header |
 | Theme switch | Reading mode | `C/ThemeSwitch.tsx` | Header |
@@ -127,7 +127,7 @@ Pages come from `src/assets/SystemAnswers/01..04_*.md`. Each page's `Structure` 
 | Notepad panel | Right slide-in, opened by the header's Notes (as before the Workbook, 2026-11-09); notes linked to fields or cards; "pick" banner; empty state; marks on linked fields | `C/notepad/Notepad.tsx`, `NotedHover.tsx` | All pages with an organisation |
 | Search dialog | Results in four groups (Pages, Fields, Glossary, Your answers) open a System, page, field (card unfolded), a term on the Workbook page's Glossary, or an answer | `C/SearchDialog.tsx`, `services/SearchService.ts` | Header |
 | Undo toast | One toast for the app, after a removal | `C/UndoToast.tsx`, `services/UndoService.ts` | Header |
-| Workbook page | One page laid out as the Glossary page was (2026-11-09), four tabs: Card Notes (every card's Notes text, `WorkbookCardNotes`), Review, Glossary, References; from the Landing page, the total review, the Glossary and the References. Review: four groups (Still open, Worth a second look, Missing from the documents, Key dates), each item with "Go there"; it shows the open organisation only, or every organisation (each in its own section) when opened from the Landing page; each organisation always open, its head with no fold arrow (owner, 2026-11-05); Worth a second look also names a value every Competitor of a Segment is weak on that its Profiles rate Essential (2026-11-06, doc 41). Glossary: every term A to Z, the app's own terms (`data/glossary.ts`) in the app's blue and the user's own (the names of their Segments, Profiles, Competitors, Offerings, Founders, Partners and suppliers, Themes, Objectives and the Organisation, `services/GlossaryService.ts`) in terracotta (no legend on the page and no tag on an app term: one of yours names its kind, "Segment"; the funnel names the two kinds and the title's "i" their colours), ONE funnel of the two kinds and the letter ranges cut as the References' are (2026-11-05; one funnel 2026-11-09), an app term's Harvard citations (each opens its reference), "Open the ..." on the user's terms. References: every source of `Sources.ts` as a Harvard reference list, with a funnel of letter ranges cut from the list (`letterRanges`: about 20 references a range, a letter never split, the first from A and the last to Z; today A–I and K–Z) | `pages/Workbook.tsx`, `C/notepad/Notepad.tsx`, `C/OrganizationReview.tsx`, `C/GlossaryList.tsx`, `C/references/HarvardReference.tsx` | `/workbook` (`/glossary` and `/review` open it on their tab) |
+| Workbook page | One page in the shape of a System page: its title at the top left over its rule ("Workbook — Card Notes", `InterviewHeader`) and its tabs as the bullets of a page tab at the left (`BulletRail`; `useRailTab` in the Workbook's own colours); four tabs: Card Notes (every card's Notes text, `WorkbookCardNotes`), Review, Glossary, References; from the Landing page, the total review, the Glossary (every organisation's terms, each named with its organisation, the organisations in its one funnel) and the References. Review: four groups (Still open, Worth a second look, Missing from the documents, Key dates), each item with "Go there"; it shows the open organisation only, or every organisation (each in its own section) when opened from the Landing page; each organisation always open, its head with no fold arrow (owner, 2026-11-05); Worth a second look also names a value every Competitor of a Segment is weak on that its Profiles rate Essential (2026-11-06, doc 41). Glossary: every term A to Z, the app's own terms (`data/glossary.ts`) in the app's blue and the user's own (the names of their Segments, Profiles, Competitors, Offerings, Founders, Partners and suppliers, Themes, Objectives and the Organisation, `services/GlossaryService.ts`) in terracotta (no legend on the page and no tag on an app term: one of yours names its kind, "Segment"; the funnel names the two kinds and the title's "i" their colours), ONE funnel of the two kinds and the letter ranges cut as the References' are (2026-11-05; one funnel 2026-11-09), an app term's Harvard citations (each opens its reference), "Open the ..." on the user's terms. References: every source of `Sources.ts` as a Harvard reference list, with a funnel of letter ranges cut from the list (`letterRanges`: about 20 references a range, a letter never split, the first from A and the last to Z; today A–I and K–Z) | `pages/Workbook.tsx`, `C/notepad/Notepad.tsx`, `C/OrganizationReview.tsx`, `C/GlossaryList.tsx`, `C/references/HarvardReference.tsx` | `/workbook` (`/glossary` and `/review` open it on their tab) |
 | Global Settings page | Financial plan, Business stages, Pay and tax, Assets (useful life, amortisation), Rates, Reserve, Channel Fee Table | `pages/GlobalSettings.tsx`, `FinancialPlanSettings.tsx` | `/settings` |
 | Business Documents page | Tabs (Business Plan, Business Model Canvas, Financial Forecast), period picker, downloads | `pages/BusinessDocuments.tsx` | `/documents` |
 | Confirmation dialog | Overlay, title, message, action buttons | Markup repeated in `Conversation.tsx`, `Landing.tsx` and others (6 uses; no shared component) | Delete, strategy prompt, export steps |
@@ -267,7 +267,7 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 | Empty states | `section-tile-empty`, `strategy-empty-note`, `legal-entity-empty-note`, `BusinessEmpty`, `review-empty`, `search-empty`, `notepad-empty`, `option-picker-empty`, `roadmap-empty-row` and others |
 | Missing or incomplete | Red glowing tile, `missingWords`, `incompleteTitle`, `capability-overview-incomplete` |
 | Alerts | `legal-entity-total-alert`, `settings-alarm`, `brand-inventory-error`, the `FrozenUntil` hint |
-| Open items | Review page, `OpenItems.ts`, `ReviewItems.ts` |
+| Open items | The Workbook's Review, `OpenItems.ts`, `ReviewItems.ts` |
 | Signals | `SignalList` (risk, caution, good, info) |
 | Isolation notes | `IsolationNote` |
 | Limits | The 3-point cap on info notes; the open-founder cap; "Already uses this subchannel" |
@@ -683,7 +683,7 @@ The engine reads a card from the top. At each step it asks one question. Where t
 
 | Step | Question | Rules | If yes |
 |---|---|---|---|
-| 0 | Is the card complete: status Costs or Buy, a price, valid dates, and a linked offering for a card of the Offering place? | V1 to V8, V10 to V14 | No: it is excluded from every total, shows the red glow, and is listed on the Review page. Evaluation stops. |
+| 0 | Is the card complete: status Costs or Buy, a price, valid dates, and a linked offering for a card of the Offering place? | V1 to V8, V10 to V14 | No: it is excluded from every total, shows the red glow, and is listed in the Workbook's Review. Evaluation stops. |
 | 1 | Does a billing type or cost option lock the driver? | V9 | Yes: Percentage gives % of Rev, Fixed amount gives Monthly or Annually, Lump sum gives One-time. |
 | 2 | Is the billing type Percentage? | C5 | Yes: a calculated COGS line, whatever the date. Evaluation stops. |
 | 3 | Is it a stock loss, or (in a later batch, with actual data) a repair? | C11, C12 | Yes: drawn from the Contingency Fund; not in the forecast. Evaluation stops. |
@@ -793,7 +793,7 @@ The user never chooses fixed, variable, semi-variable or step.
 
 | No. | When | Result |
 |---|---|---|
-| V1 | A card has no price at status Costs | Incomplete: red glow, left out of every total, listed on the Review page. |
+| V1 | A card has no price at status Costs | Incomplete: red glow, left out of every total, listed in the Workbook's Review. |
 | V2 | A card has no Start date | The card cannot be completed. |
 | V3 | End date before start date | Not accepted. |
 | V4 | The status Rent on a space or vehicle card, or Partners & Suppliers, with no name chosen | The card cannot be completed: the supplier holds the rent or the lease. |

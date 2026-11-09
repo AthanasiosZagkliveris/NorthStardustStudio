@@ -53,7 +53,7 @@ Eleven of thirteen chapters are drawn as tiles. The rest:
 
 The briefs (in `docs/archive/plans/`; they are not finished work, only kept there) say D and E wait until the structure is stable; it is, and the order is decided (after the Tile System). What they ask for is checked below against the code.
 
-**Already built** (the briefs asked to reuse them): `FieldKey`, `openField`, the field status line (with the unused "Changed in … · Reset" parts), the Review page, the Notepad, the undo toast, search, and `Sources.ts`. **Absent:** `planOutcomes`, scenarios, duplicate organisation and card, the Compare route, the lender check, the One-Pager, the glossary.
+**Already built** (the briefs asked to reuse them): `FieldKey`, `openField`, the field status line (with the unused "Changed in … · Reset" parts), the Workbook (its Review and its Glossary), the Notepad (the Notes tool), the undo toast, search, and `Sources.ts`. **Absent:** `planOutcomes`, scenarios, duplicate organisation and card, the Compare route, the lender check, the One-Pager.
 
 | Item | State | Outdated in the brief | Effort |
 |---|---|---|---|
@@ -88,7 +88,7 @@ From the analysis in document 3, R10. Each requirement has an id, a priority (**
 | **1. Requests information** by text, choice, field, number, with help | Field types on all pages; help notes; limits on numbers | F1–F4, C1, C4, I4–I5 (more choices instead of free text) |
 | **2. Stores and connects it** and creates further requests from it | Answers saved per organisation; cards link by id (resources, activities, offerings); generated cards (channel expenses, insurance) | F1, F6, C2, C11, C16 (links by id), I1 (Delivery Team shown on Delivery) |
 | **3. Calculates, records, presents** (tables, diagrams, by time and category) | Demand, capacity, costs by nature, Funding Need, Break Even, forecast, Calendar, Inventory | C14 (spend by channel), I7–I9, A6, T1–T2 (tiles for the Financial pages), D4 Compare |
-| **4. Proves and validates** | Completeness rules, open items, Review page, capacity check, date checks, Stress Test, "What It Would Take" | A5, F7, C9, E2 (Lender check), planOutcomes |
+| **4. Proves and validates** | Completeness rules, open items, the Workbook's Review, capacity check, date checks, Stress Test, "What It Would Take" | A5, F7, C9, E2 (Lender check), planOutcomes |
 | **5. Helps** (instructions, resources, pre-filled data; Note and Calendar; messages, errors, reminders, limits; smart navigation) | InfoNote, Notepad, Calendar, Search, rails, arrows, Undo | A6, E4 (Glossary), C5 (proposals) |
 | **6. Generates and exports Business Documents** | Business Plan, Canvas, Forecast; PDF and Markdown | E3 (One-Pager) |
 
