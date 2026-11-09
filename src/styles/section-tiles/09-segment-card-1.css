@@ -238,17 +238,23 @@
 
 }
 
+/* The title ends 12px before the x (the x's 4px from the edge, its 32px, the 12px gap), on both sides so it stays centred. */
 .business-foundation-frame-head {
 
-    padding-inline: 40px;
+    padding-inline: calc(4px + var(--size-box-button) + var(--gap-12));
 
 }
 
+/* A title as every tile title is (layout rules, section 9, "Tile title"): one line, cut by an ellipsis, sliding under the pointer (useTitleSlide), the full name its tooltip. */
 .business-foundation-frame-head .business-foundation-frame-name {
 
     flex: 1 1 0;
 
     width: 100%;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 
 }
 

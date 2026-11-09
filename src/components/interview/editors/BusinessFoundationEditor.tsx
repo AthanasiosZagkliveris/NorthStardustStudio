@@ -1,13 +1,13 @@
 import TextBox from "../../controls/TextBox.tsx";
 import FieldLabel from "../../controls/FieldLabel.tsx";
-import { CSSProperties, ReactNode } from "react";
+import { CSSProperties, ReactNode, useRef } from "react";
 import CardShell from "../cards/CardShell.tsx";
 import CardHead from "../cards/CardHead.tsx";
 import NameCell from "../cards/NameCell.tsx";
 import { cardNameMissing } from "../../../framework/engine/SystemCardCompleteness.ts";
 import { workHue } from "../../../framework/engine/WorkColours.ts";
 import CardBoxes, { type CardBox } from "../cards/CardBoxes.tsx";
-import SectionTiles, { DialogHeading, type SectionTile, type TileAdd } from "../tiles/SectionTiles.tsx";
+import SectionTiles, { DialogHeading, useTitleSlide, type SectionTile, type TileAdd } from "../tiles/SectionTiles.tsx";
 import { BUSINESS_COMPETITOR_TYPES, BUSINESS_FOUNDATION_SUBSECTIONS, BusinessCustomerSegmentValue, createBusinessCompetitor, createBusinessCustomerProfile, createBusinessCustomerSegment, createBusinessOffering, segmentHue } from "../../../framework/engine/AnswerUtils.ts";
 import FoldAllToggle from "../fields/FoldAllToggle.tsx";
 import InfoNote, { InfoPoint, InfoText } from "../fields/InfoNote.tsx";
@@ -264,13 +264,11 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                                     <div className="business-engagement-section-head tiles-frame-head business-foundation-frame-head">
                                         <span className="field-group-title business-foundation-subhead business-foundation-frame-title">
                                             {foundation.segments.length > 1 && <span className="business-foundation-frame-number">{(index + 1) + "."}</span>}
-                                            <TextBox
-                                                className="business-foundation-frame-name"
-                                                aria-label={"Segment " + (index + 1) + " name"}
-                                                placeholder="Segment name"
+                                            <SegmentName
+                                                number={index + 1}
                                                 disabled={disabled}
                                                 value={segment.name}
-                                                onChange={(event) => updateSegment(index, { name: event.target.value })}
+                                                onChange={(name) => updateSegment(index, { name })}
                                             />
                                         </span>
                                         {foundation.segments.length > 1 && remove(
@@ -561,4 +559,24 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
 
     );
 
+}
+
+/**
+ * A SEGMENT'S NAME, its frame's title, written right there: a title as every tile title is (layout rules, section 9, "Tile title"): one line, cut by an ellipsis before the x, sliding to its end under the pointer (`useTitleSlide`), the full name its tooltip.
+ */
+function SegmentName({ number, value, disabled, onChange }: { number: number; value: string; disabled: boolean; onChange: (name: string) => void }) {
+    const name = useRef<HTMLInputElement | null>(null);
+    useTitleSlide(name);
+    return (
+        <TextBox
+            ref={name}
+            className="business-foundation-frame-name"
+            aria-label={"Segment " + number + " name"}
+            title={value.trim() || undefined}
+            placeholder="Segment name"
+            disabled={disabled}
+            value={value}
+            onChange={(event) => onChange(event.target.value)}
+        />
+    );
 }

@@ -4,6 +4,7 @@ import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import BusinessFoundationEditor from "./BusinessFoundationEditor";
 import { toggles } from "../../../test/interviewTestUtils";
+import { stylesheet } from "../../../test/stylesheet";
 import {
     asBusinessFoundationValue,
     BUSINESS_FOUNDATION_SUBSECTIONS,
@@ -480,6 +481,28 @@ describe("BusinessFoundationEditor Value Proposition layout (owner, 2026-11-09)"
             const parts = [...column.querySelectorAll("ol, .business-proposition-notes-label, ul")].map(part => part.tagName === "OL" ? "needs" : part.tagName === "UL" ? "notes" : "label");
             expect(["", "needs", "label,notes", "needs,label,notes"]).toContain(parts.join(","));
         });
+
+    });
+
+});
+
+describe("BusinessFoundationEditor's Segment title (layout rules, section 9, \"Tile title\")", () => {
+
+    it("carries the full name as its tooltip, and is one line cut by an ellipsis that ends 12px before the x", () => {
+
+        const long = "Conscious London Homemakers and their friends";
+        render(<BusinessFoundationEditor asTiles onChange={() => undefined} value={{
+            ...asBusinessFoundationValue(undefined),
+            segments: [{ ...createBusinessCustomerSegment([]), name: long }, createBusinessCustomerSegment([])]
+        }} />);
+
+        const name = screen.getByRole("textbox", { name: "Segment 1 name" });
+        expect(name.getAttribute("title")).toBe(long);
+        expect(screen.getByRole("textbox", { name: "Segment 2 name" }).hasAttribute("title")).toBe(false);
+
+        const css = stylesheet("section-tiles/09-segment-card-1.css");
+        expect(css).toContain(".business-foundation-frame-head { padding-inline: calc(4px + var(--size-box-button) + var(--gap-12)); }");
+        expect(css).toContain("overflow: hidden; white-space: nowrap; text-overflow: ellipsis;");
 
     });
 

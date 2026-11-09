@@ -35,7 +35,8 @@ export function useTitleSlide(ref: RefObject<HTMLElement | null>) {
     useEffect(() => {
         // (A numbered title slides its TEXT: the order number stays where it stands and the text goes behind it.)
         const node = ref.current?.querySelector<HTMLElement>(".section-tile-title-text") ?? ref.current;
-        const host = node?.closest<HTMLElement>(".section-tile-slot") ?? node?.closest<HTMLElement>("button, .section-tile");
+        // (A title one types in -- a frame's name -- is its own host.)
+        const host = node?.closest<HTMLElement>(".section-tile-slot") ?? node?.closest<HTMLElement>("button, .section-tile") ?? (node instanceof HTMLInputElement ? node : null);
         if (!node || !host || typeof requestAnimationFrame === "undefined") {
             return;
         }
@@ -66,6 +67,10 @@ export function useTitleSlide(ref: RefObject<HTMLElement | null>) {
             frame = requestAnimationFrame(step);
         };
         const enter = () => {
+            // (A title being typed in stays where the cursor puts it.)
+            if (node === document.activeElement) {
+                return;
+            }
             const room = node.scrollWidth - node.clientWidth;
             if (room > 1) {
                 node.style.textOverflow = "clip";
@@ -73,13 +78,21 @@ export function useTitleSlide(ref: RefObject<HTMLElement | null>) {
                 slideTo(Math.ceil(node.scrollWidth - node.clientWidth));
             }
         };
-        const leave = () => slideTo(0);
+        const leave = () => {
+            if (node !== document.activeElement) {
+                slideTo(0);
+            }
+        };
         host.addEventListener("pointerenter", enter);
         host.addEventListener("pointerleave", leave);
+        // (Left after typing, it goes home: the start of the name and its ellipsis.)
+        const home = () => slideTo(0);
+        node.addEventListener("blur", home);
         return () => {
             cancelAnimationFrame(frame);
             host.removeEventListener("pointerenter", enter);
             host.removeEventListener("pointerleave", leave);
+            node.removeEventListener("blur", home);
             node.scrollLeft = 0;
             node.style.textOverflow = "";
         };
