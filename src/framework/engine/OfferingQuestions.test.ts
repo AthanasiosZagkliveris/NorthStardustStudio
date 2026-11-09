@@ -185,6 +185,9 @@ describe("O16 and O17 held back while Planning", () => {
         expect(offeringAsks("o17", { type: "Service", stage: "launch" })).toBe(true);
         expect(offeringShown({ o16: ["sameday"], o17: ["updates"] }, { type: "Service", stage: "plan" })).toEqual(expect.objectContaining({ o16: ["sameday"], o17: ["updates"] }));
     });
+    it("names O17's repairs option \"Repairs / maintenance\", its id unchanged (owner, 2026-11-09)", () => {
+        expect(offeringOptions("o17", { type: "Service", stage: "launch" }).find(option => option.id === "repairs")?.label).toBe("Repairs / maintenance");
+    });
 });
 
 /* Phase 5, three small fixes (2026-11-08). */

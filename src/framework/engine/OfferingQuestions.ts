@@ -101,7 +101,7 @@ const REPLY: readonly SegmentOption[] = [
     { id: "sameday", label: "The same day" }, { id: "oneday", label: "Within one working day" }, { id: "fewdays", label: "Within a few days" }, { id: "none", label: "No set time" }
 ];
 const AFTER_SALE: readonly SegmentOption[] = [
-    { id: "guarantee", label: "Guarantee / warranty" }, { id: "repairs", label: "Repairs" }, { id: "updates", label: "Updates" }, { id: "training", label: "Training" },
+    { id: "guarantee", label: "Guarantee / warranty" }, { id: "repairs", label: "Repairs / maintenance" }, { id: "updates", label: "Updates" }, { id: "training", label: "Training" },
     { id: "replacements", label: "Replacements / refills" }, { id: "none", label: "None" }
 ];
 const CONDITIONS: readonly SegmentOption[] = [

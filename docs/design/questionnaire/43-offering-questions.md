@@ -252,7 +252,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 *Added (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments").* Box: Support & Communication, under O7.
 - **Control:** ticks, as many as apply; "None" stands alone.
 - **Asked when:** always. **Held back while Planning (owner, 2026-11-08, P5):** not asked while the business stage is Planning (the stage from the Opening Date; no date is Planning), asked from Launching; a saved answer is kept, not removed (the settling keeps an answer held back only by the stage), and the documents still print it.
-- **Options** (L23): Guarantee / warranty; Repairs; Updates; Training; Replacements / refills; None.
+- **Options** (L23): Guarantee / warranty; Repairs / maintenance; Updates; Training; Replacements / refills; None.
 - **Starts from O7 (2026-11-09):** O7 None starts None. A saved answer wins.
 - **The "i" says:**
   - What else comes with it after the sale; the help you give is the question above.

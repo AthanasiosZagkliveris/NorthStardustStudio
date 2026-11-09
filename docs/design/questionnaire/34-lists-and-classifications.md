@@ -63,7 +63,7 @@ Each list is one definition used wherever its id appears.
 | L20 | **Time until they have it** (5) | Straight away; Within a week; One to four weeks; One to three months; Longer | doc 43, O15 (added 2026-11-07) |
 | L21 | **When they pay** (5) | Before they get it; A deposit, then the rest; When it is done / delivered; In instalments / monthly; On invoice terms (for example 30 days) | doc 43, O3b (added 2026-11-07) |
 | L22 | **Reply time** (4) | The same day; Within one working day; Within a few days; No set time | doc 43, O16 (added 2026-11-07) |
-| L23 | **After the sale** (6) | Guarantee / warranty; Repairs; Updates; Training; Replacements / refills; None | doc 43, O17 (added 2026-11-07) |
+| L23 | **After the sale** (6) | Guarantee / warranty; Repairs / maintenance; Updates; Training; Replacements / refills; None | doc 43, O17 (added 2026-11-07) |
 | L24 | **Conditions of sale** (5) | A minimum order; Trade / account only; Non-refundable once made (unless faulty); Notice to cancel; A booking / cancellation fee (no age limit: O12 derives it) | doc 43, O18 (added 2026-11-07; the Consumer Contracts Regulations 2013 [FUN-74]) |
 | L25 | **When they buy** (4) | Weekday daytime; Evenings; Weekends; Around seasons / holidays | doc 36, D3 (added 2026-11-07) |
 
