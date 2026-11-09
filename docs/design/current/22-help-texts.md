@@ -727,8 +727,8 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 
 | Label | Opens in | Rows | Points | Characters | Text |
 |---|---|---|---|---|---|
-| Principles | tile dialog | 11 | 3 | 241 | For each value, what do you always do, and what do you always avoid? One rule a line, beginning "We …". A value says what matters; a principle says what you do ... |
-| Values | tile dialog | 11 | 3 | 234 | What matters most in how you work? What would you hold to, even at the cost of a sale? List three to five, one a line: the value, then what it means here. Examp... |
+| Principles | tile dialog | 9 | 3 | 175 | For each value, what do you always do, and what do you always avoid? One rule a line, beginning "We …". Example: "We remake any piece with a fault, at no cost, ... |
+| Values | tile dialog | 11 | 3 | 228 | What matters most in how you work? What would you hold to, even at the cost of a sale? List three to five, one a line, each with what it means here. Example: "C... |
 
 ### Identity System / 2. Legal Entity
 

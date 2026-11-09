@@ -6337,11 +6337,11 @@
   {
    "label": "Values",
    "place": "tile dialog",
-   "text": "What matters most in how you work? What would you hold to, even at the cost of a sale?\nList three to five, one a line: the value, then what it means here.\nExample: \"Craft: every piece is finished by hand and checked before it leaves.\"",
+   "text": "What matters most in how you work? What would you hold to, even at the cost of a sale?\nList three to five, one a line, each with what it means here.\nExample: \"Craft: every piece is finished by hand and checked before it leaves.\"",
    "lines": 11,
    "points": 3,
    "w": 360,
-   "chars": 234,
+   "chars": 228,
    "scenes": [
     "Identity System / 1. Definition / tile Values &Principles"
    ]
@@ -6349,11 +6349,11 @@
   {
    "label": "Principles",
    "place": "tile dialog",
-   "text": "For each value, what do you always do, and what do you always avoid?\nOne rule a line, beginning \"We …\". A value says what matters; a principle says what you do about it.\nExample: \"We remake any piece with a fault, at no cost, within a year.\"",
-   "lines": 11,
+   "text": "For each value, what do you always do, and what do you always avoid?\nOne rule a line, beginning \"We …\".\nExample: \"We remake any piece with a fault, at no cost, within a year.\"",
+   "lines": 9,
    "points": 3,
    "w": 360,
-   "chars": 241,
+   "chars": 175,
    "scenes": [
     "Identity System / 1. Definition / tile Values &Principles"
    ]
