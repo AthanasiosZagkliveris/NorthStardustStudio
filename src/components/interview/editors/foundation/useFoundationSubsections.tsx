@@ -5,7 +5,7 @@
 import ListStatic from "../../fields/ListStatic.tsx";
 import { Fragment, ReactNode, useState } from "react";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
-import { BusinessCustomerProfileValue, BusinessCustomerSegmentValue, BusinessOfferingValue, businessSegmentNeeds, businessSegmentFunctionalItems, functionalNeedIds, reconcileLineIds, createBusinessCompetitor, createBusinessCustomerProfile, createBusinessOffering } from "../../../../framework/engine/AnswerUtils.ts";
+import { BusinessCustomerProfileValue, BusinessCustomerSegmentValue, BusinessOfferingValue, businessSegmentFunctionalItems, functionalNeedIds, reconcileLineIds, createBusinessCompetitor, createBusinessCustomerProfile, createBusinessOffering } from "../../../../framework/engine/AnswerUtils.ts";
 import { randomId } from "../../../../framework/engine/Readers.ts";
 import FieldRow from "../../fields/FieldRow.tsx";
 import { BusinessAddButton, BusinessCard, BusinessEmpty, BusinessRemove, BusinessTicks, OptionalNote } from "../../cards/BusinessCardFields.tsx";
@@ -911,8 +911,6 @@ export function useFoundationSubsections(earlier: Earlier) {
                     nothing here can be typed in or ticked. */}
                 {(() => {
 
-                    const emotional = businessSegmentNeeds(segment, "emotional");
-                    const social = businessSegmentNeeds(segment, "social");
 
                     /* Both headings stand whether or not anything
                        has been written under them. They say what
@@ -923,21 +921,42 @@ export function useFoundationSubsections(earlier: Earlier) {
                        than growing a new section part way
                        through. */
 
-                    // ONE LIST of the Segment's needs (owner, 2026-11-09: "The Needs should be as a list"), ranked as a Value Proposition Canvas ranks a customer's gains: the needs
-                    // ticked on the Profiles, strongest first (owner, 2026-11-07), then the lines of their Notes, what no tick says; one bullet each, a line said twice shown once.
+                    // THE NEEDS, THEN THE NOTES, APART (owner, 2026-11-09: "Needs and notes should not have a common numbered sequence. Either the notes go under the related
+                    // needs, or they are placed separately"): the needs ticked on the Profiles, numbered, strongest first (owner, 2026-11-07); under them, "From the Profiles' Notes"
+                    // in the label's style, then each line of the Profiles' Notes as a bullet followed by its Profile's name, small and muted; a line written twice shows once, with both names.
                     const shownAnswers = segment.profiles.map(profile => effectiveProfileAnswers(profile, segment, identity));
-                    const entriesOf = (ticks: string[], notes: string[]) => {
-                        const seen = new Set<string>();
-                        const lines = [...ticks, ...notes].filter(line => {
-                            const key = line.trim().toLowerCase();
-                            if (key === "" || seen.has(key)) {
-                                return false;
+                    const notesOf = (kind: "emotional" | "social") => {
+                        const lines: { text: string; names: string[] }[] = [];
+                        segment.profiles.forEach((profile, at) => {
+                            const name = profile.name.trim() || "Profile " + (at + 1);
+                            for (const need of profile.needs[kind]) {
+                                const text = need.trim();
+                                const same = lines.find(line => line.text.toLocaleLowerCase() === text.toLocaleLowerCase());
+                                if (text === "") {
+                                    continue;
+                                }
+                                if (same) {
+                                    if (!same.names.includes(name)) {
+                                        same.names.push(name);
+                                    }
+                                } else {
+                                    lines.push({ text, names: [name] });
+                                }
                             }
-                            seen.add(key);
-                            return true;
                         });
-                        return lines.length > 0 ? (
-                            <ListStatic marker="bullet" lines={lines.map(line => ({ key: line, text: line }))} />
+                        return lines;
+                    };
+                    const entriesOf = (ticks: string[], notes: { text: string; names: string[] }[]) => {
+                        return ticks.length + notes.length > 0 ? (
+                            <div>
+                                {ticks.length > 0 && <ListStatic lines={ticks.map(tick => ({ key: tick, text: tick }))} />}
+                                {notes.length > 0 && (
+                                    <>
+                                        <span className="field-label business-proposition-notes-label">From the Profiles' Notes</span>
+                                        <ListStatic marker="bullet" label="From the Profiles' Notes" lines={notes.map(note => ({ key: note.text, text: <>{note.text}<span className="business-proposition-note-profile">{note.names.join(", ")}</span></> }))} />
+                                    </>
+                                )}
+                            </div>
                         ) : (
                             <BusinessEmpty>
                                 None recorded.
@@ -952,14 +971,14 @@ export function useFoundationSubsections(earlier: Earlier) {
                             <div className="legal-entity-field">
                                 <div className="legal-entity-org-section legal-entity-org-band">
                                     <FieldRow pair fullList label="Emotional Needs">
-                                        {entriesOf(segmentNeedTicks(shownAnswers, "emotional"), emotional)}
+                                        {entriesOf(segmentNeedTicks(shownAnswers, "emotional"), notesOf("emotional"))}
                                     </FieldRow>
                                 </div>
                             </div>
                             <div className="legal-entity-field">
                                 <div className="legal-entity-org-section legal-entity-org-band">
                                     <FieldRow pair fullList label="Social Needs">
-                                        {entriesOf(segmentNeedTicks(shownAnswers, "social"), social)}
+                                        {entriesOf(segmentNeedTicks(shownAnswers, "social"), notesOf("social"))}
                                     </FieldRow>
                                 </div>
                             </div>

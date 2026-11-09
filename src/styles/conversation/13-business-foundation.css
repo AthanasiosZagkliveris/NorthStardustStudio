@@ -1453,3 +1453,29 @@
     justify-content:flex-start;
 
 }
+
+/* The Value Proposition's notes stand apart from the numbered needs (owner, 2026-11-09): their label 12px under the needs, in the field label's own style,
+   and each note's Profile after it, small and muted. */
+.business-proposition-notes-label{
+
+    display:block;
+
+    margin-top:var(--space-card);
+
+}
+
+.business-proposition-notes-label:first-child{
+
+    margin-top:0;
+
+}
+
+.business-proposition-note-profile{
+
+    margin-left:var(--gap-6);
+
+    font-size:var(--font-small);
+
+    color:var(--text-muted);
+
+}

@@ -476,8 +476,9 @@ describe("BusinessFoundationEditor Value Proposition layout (owner, 2026-11-09)"
         columns.forEach(column => {
             expect(column.children).toHaveLength(1);
             expect(column.children[0].classList.contains("legal-entity-org-band")).toBe(true);
-            // (The needs are ONE list a column, one bullet style: owner, 2026-11-09, "The Needs should be as a list".)
-            expect(column.querySelectorAll("ol, ul").length).toBeLessThanOrEqual(1);
+            // (The needs and the notes stand apart, owner, 2026-11-09: at most one numbered list of ticks, then the notes' label and one bullet list, in that order.)
+            const parts = [...column.querySelectorAll("ol, .business-proposition-notes-label, ul")].map(part => part.tagName === "OL" ? "needs" : part.tagName === "UL" ? "notes" : "label");
+            expect(["", "needs", "label,notes", "needs,label,notes"]).toContain(parts.join(","));
         });
 
     });
