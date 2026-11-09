@@ -222,6 +222,28 @@ describe("the Workbook, a whole page (owner, 2026-11-09)", () => {
         act(() => { NotepadService.close(); });
     });
 
+    it("filters the total review by Organisation: all ticked at first, one ticked off leaves its review out (owner, 2026-11-09)", () => {
+        OrganizationService.create("Quillfield");
+        openFrom("/assistant", "glossary");
+        act(() => { fireEvent.click(screen.getByRole("tab", { name: "Review" })); });
+        const names = () => [...document.querySelectorAll("section.review-organization")].map(section => section.getAttribute("aria-label") ?? "");
+        expect(names()).toContain("Lumen");
+        expect(names()).toContain("Quillfield");
+        act(() => { fireEvent.click(screen.getByRole("button", { name: "Choose which Organisations show" })); });
+        expect(screen.getByRole("checkbox", { name: "Lumen" })).toHaveProperty("checked", true);
+        expect(screen.getByRole("checkbox", { name: "Quillfield" })).toHaveProperty("checked", true);
+        act(() => { fireEvent.click(screen.getByRole("checkbox", { name: "Lumen" })); });
+        expect(names()).toEqual(["Quillfield"]);
+        act(() => { fireEvent.click(screen.getByRole("checkbox", { name: "Quillfield" })); });
+        expect(screen.getByText("No Organisations to show: the funnel leaves them all out.")).toBeTruthy();
+    });
+
+    it("has no Organisation funnel on one Organisation's review (the header's Workbook)", () => {
+        openFrom("/assistant");
+        act(() => { fireEvent.click(screen.getByRole("tab", { name: "Review" })); });
+        expect(screen.queryByRole("button", { name: "Choose which Organisations show" })).toBeNull();
+    });
+
     it("keeps the old addresses: /glossary and /review open the Workbook on their tab", () => {
         for (const [path, heading] of [["/glossary", /^Glossary/], ["/review", /^Review$/]] as const) {
             const view = render(

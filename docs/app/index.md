@@ -141,7 +141,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Registrations | Identity › 2 Legal Entity › Registrations | Doc 26 |
 | Resources | Business › 3 Infrastructure & Capability (both cards) | Page 3 |
 | Revenue | Business › 5 Sustainability › Revenue | Page 5 |
-| Review | Header › Workbook › Review (`/review` opens it there): Still open, Worth a second look, Key dates, Missing from the documents; on the Organisations screen, every organisation | Doc 1, C.2 |
+| Review | Header › Workbook › Review (`/review` opens it there): Still open, Worth a second look, Key dates, Missing from the documents; on the Organisations screen, every organisation, with a funnel of the Organisations | Doc 1, C.2 |
 | Roadmap | Strategy › Situation & Direction › Strategic Period (the Roadmap tile) | Doc 1, B.1 |
 
 ## S

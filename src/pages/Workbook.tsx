@@ -59,7 +59,7 @@ export const GLOSSARY_INFO: Record<"glossary" | "references", string[]> = {
  * ranges). References: every source the app cites (Sources.ts), as a Harvard reference list, with a funnel of letter ranges.
  *
  * Opened from the header's Workbook (with an Organisation open), from the Landing page's Review (the total review: every
- * Organisation, `total`) and Glossary -- there no Organisation is open, so the page has the Landing's header and no Card Notes --,
+ * Organisation, `total`, with a funnel of the Organisations) and Glossary -- there no Organisation is open, so the page has the Landing's header and no Card Notes --,
  * and from a Glossary result of the search. Escape, and Back, return to where it was opened from.
  */
 export default function Workbook() {
@@ -75,6 +75,8 @@ export default function Workbook() {
     const first = (wanted?: WorkbookTab): WorkbookTab => wanted && tabs.some(entry => entry.id === wanted) ? wanted : tabs[0].id;
     const [tab, setTab] = useState<WorkbookTab>(() => first(state.tab));
     const [lettersOff, setLettersOff] = useState<ReadonlySet<string>>(new Set());
+    // The total review's funnel: the Organisations ticked off (by name; every one shows at first).
+    const [organisationsOff, setOrganisationsOff] = useState<ReadonlySet<string>>(new Set());
     const [target, setTarget] = useState<string | undefined>(state.term);
 
     const back = useMemo(() => () => {
@@ -131,6 +133,9 @@ export default function Workbook() {
         const shown = landing ? all : all.filter(entry => entry.id === organizationId);
         return shown.map(entry => ({ id: entry.id, name: entry.name, items: organizationReview(entry.id) }));
     }, [tab, organizationId, landing, location.key]);
+    // The total review (the Landing page's) has a funnel of the Organisations, as the Glossary's (owner, 2026-11-09), where there are two or more.
+    const organisationFunnel = landing && reviews.length > 1;
+    const reviewsShown = reviews.filter(section => !organisationsOff.has(section.name));
 
     const title = tab === "review" && landing ? "Total review" : TAB_LABELS[tab];
 
@@ -152,7 +157,20 @@ export default function Workbook() {
 
                 {tab === "card-notes" && <WorkbookCardNotes />}
 
-                {tab === "review" && reviews.map(section => (
+                {tab === "review" && organisationFunnel && (
+                    <div className="glossary-bar">
+                        <ResponsibilityFilter
+                            off={organisationsOff}
+                            options={[...new Set(reviews.map(section => section.name))]}
+                            label="Choose which Organisations show"
+                            onToggle={(option) => setOrganisationsOff(current => toggled(current, option))}
+                        />
+                    </div>
+                )}
+
+                {tab === "review" && reviews.length > 0 && reviewsShown.length === 0 && <p className="glossary-empty">No Organisations to show: the funnel leaves them all out.</p>}
+
+                {tab === "review" && reviewsShown.map(section => (
                     <OrganizationReview
                         key={section.id}
                         name={section.name}
