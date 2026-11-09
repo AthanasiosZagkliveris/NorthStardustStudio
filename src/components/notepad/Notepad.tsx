@@ -25,21 +25,22 @@ import "../../styles/notepad.css";
 import TextLink from "../interview/fields/TextLink.tsx";
 
 /*
-    THE WORKBOOK'S NOTES (owner, 2026-11-09: the Workbook is a whole
-    page, laid out as the Glossary was, with the tabs Notes, Review,
-    Glossary and References; pages/Workbook.tsx): the header's
-    "Workbook" button, which opens that page; the Notes it shows
-    (WorkbookNotes: the card notes and the notes of each Organisation,
-    NotepadService.ts); and picking a field or card to link.
+    THE NOTEPAD (NotepadService.ts): the header's "Notes" button, the
+    panel it opens on the right, and picking a field or card to link.
 
-    Picking needs the form in view, so it is the one thing the small
-    panel is still for: "Link a field" on the Workbook page goes back
-    to the page the Workbook was opened from and opens the panel there,
-    on that note, picking. The panel slides in from the right OVER the
-    page, between the header and the footer: the page does not narrow
-    or move under it, and stays clickable -- a field is linked by
-    clicking it -- so a click on the page never closes it (its arrow
-    or Escape does).
+    The panel slides in from the right OVER the page, between the
+    header and the footer: the page does not narrow or move under it,
+    and stays clickable -- a field is linked by clicking it -- so a
+    click on the page never closes it. It stays open while the person
+    works, from page to page, until closed (its arrow, the Notes
+    button, or Escape).
+
+    THE WORKBOOK (owner, 2026-11-09: "Card Notes and Notes tool are
+    different. Card Notes in the Workbook, Notes Tool as before"): the
+    header's "Workbook" button opens the Workbook page
+    (pages/Workbook.tsx), whose first tab is the Card Notes
+    (WorkbookCardNotes: the Notes text of every card); the person's
+    own notes stay here, in the Notes tool.
 */
 
 /** The notepad's notes and view, kept current. */
@@ -62,10 +63,30 @@ function places(): Promise<Places> {
 }
 
 
-/** Where the Workbook page is opened with: its tab, a note to bring into view, the total review (the Landing page's), a term, and where to go back to. */
+/** The header button: icon and word (icon alone when narrow), and how many notes there are. */
+export function NotepadButton() {
+
+    const { notes, view } = useNotepad();
+
+    return (
+        <AddButton className="header-tool"
+            aria-expanded={view.open}
+            aria-label={"Notes, " + notes.length + (notes.length === 1 ? " note" : " notes")}
+            onClick={() => NotepadService.toggle()}>
+            <svg className="header-tool-icon" viewBox="0 0 20 20" aria-hidden="true">
+                <path d="M5 2.5h7.5L16 6v11.5H5z" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+                <path d="M7.5 9h6M7.5 12h6M7.5 15h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            </svg>
+            <span className="header-tool-word">Notes</span>
+            {notes.length > 0 && <span className="header-tool-count">{notes.length}</span>}
+        </AddButton>
+    );
+
+}
+
+/** Where the Workbook page is opened with: its tab, the total review (the Landing page's), a term, and where to go back to. */
 export interface WorkbookState {
-    tab?: "notes" | "review" | "glossary" | "references";
-    note?: string;
+    tab?: "card-notes" | "review" | "glossary" | "references";
     total?: boolean;
     term?: string;
     from?: { pathname: string; state?: unknown };
@@ -73,13 +94,16 @@ export interface WorkbookState {
 
 /** Opens the Workbook page, remembering where it was opened from (on the page itself, the place it was first opened from), so Back and Escape return there. */
 export function openWorkbook(navigate: NavigateFunction, location: { pathname: string; state: unknown }, state: Omit<WorkbookState, "from"> = {}): void {
-    NotepadService.close();
     const here = location.pathname === "/workbook";
     const from = here ? (location.state as WorkbookState | null)?.from : { pathname: location.pathname, state: location.state };
     navigate("/workbook", { state: { ...state, from }, replace: here });
 }
 
-/** The header button: icon and word (icon alone when narrow), and how many Review items there are to look at (no count when none). It opens the Workbook page; on it, it does nothing. */
+/**
+ * The header's Workbook button: icon and word (icon alone when narrow), and how many Review items there are to look at (no count when
+ * none). It opens the Workbook page; on it, it does nothing. Its icon is the open book (the Landing page's Glossary's), not the Notes'
+ * page, so the two tools tell apart when the header shows icons alone.
+ */
 export function WorkbookButton() {
 
     const navigate = useNavigate();
@@ -91,15 +115,14 @@ export function WorkbookButton() {
     return (
         <AddButton className="header-tool"
             aria-current={here ? "page" : undefined}
-            aria-label={"Workbook: notes, review and glossary, " + words}
+            aria-label={"Workbook: card notes, review and glossary, " + words}
             onClick={() => {
                 if (!here) {
                     openWorkbook(navigate, location);
                 }
             }}>
             <svg className="header-tool-icon" viewBox="0 0 20 20" aria-hidden="true">
-                <path d="M5 2.5h7.5L16 6v11.5H5z" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-                <path d="M7.5 9h6M7.5 12h6M7.5 15h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                <path d="M10 5.5C8.5 4.3 6.3 4 3.5 4.2v10.6c2.8-.2 5 .1 6.5 1.3 1.5-1.2 3.7-1.5 6.5-1.3V4.2C13.7 4 11.5 4.3 10 5.5zM10 5.5v10.6" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" />
             </svg>
             <span className="header-tool-word">Workbook</span>
             {count ? <span className="header-tool-count">{count}</span> : null}
@@ -155,14 +178,7 @@ function hashQuery(box: HTMLTextAreaElement): { query: string; start: number } |
     return match ? { query: match[2], start: before.length - match[2].length - 1 } : null;
 }
 
-/**
- * Where a note's "Link a field" works: in the panel (`undefined`: picking starts there, over the form), or on the Workbook page,
- * which has no form (`linkField` goes back to the page the Workbook was opened from and picks there; null: no form to go back to,
- * so it is not offered -- a "#" in the text still links a place).
- */
-type LinkField = ((noteId: string) => void) | null | undefined;
-
-function NoteCard({ note, focused, linkField }: { note: Note; focused: boolean; linkField?: LinkField }) {
+function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
 
     const navigate = useNavigate();
     const [suggestions, setSuggestions] = useState<Awaited<ReturnType<Places["findPlaces"]>> | null>(null);
@@ -253,8 +269,8 @@ function NoteCard({ note, focused, linkField }: { note: Note; focused: boolean; 
     const linkedKeys = note.links
         .filter(link => link.organizationId === current && link.key)
         .map(link => link.key as string);
-    // Fields can be picked only in the note's own Organization, while it is open (and, on the Workbook page, where there is a form to go back to).
-    const canPick = !!organizationId && organizationId === current && linkField !== null;
+    // Fields can be picked only in the note's own Organization, while it is open.
+    const canPick = !!organizationId && organizationId === current;
     const organizationName = (id: string) => OrganizationService.getSummary(id)?.name ?? "another organisation";
 
     return (
@@ -347,7 +363,7 @@ function NoteCard({ note, focused, linkField }: { note: Note; focused: boolean; 
                             type="button"
                             className="notepad-text-button"
                             aria-pressed={picking}
-                            onClick={() => linkField ? linkField(note.id) : NotepadService.pick(picking ? null : note.id)}
+                            onClick={() => NotepadService.pick(picking ? null : note.id)}
                         >
                             {picking ? "Picking: click a field or card" : "Link a field"}
                         </TextLink>
@@ -403,7 +419,7 @@ function noteGroups(notes: Note[]): NoteGroupValue[] {
 }
 
 /** One Organization's notes: open when it is the open one, folded otherwise, with its count. */
-function NoteGroup({ group, focusNoteIds, linkField }: { group: NoteGroupValue; focusNoteIds: string[]; linkField?: LinkField }) {
+function NoteGroup({ group, focusNoteIds }: { group: NoteGroupValue; focusNoteIds: string[] }) {
     const focused = group.notes.some(note => focusNoteIds.includes(note.id));
     const [open, setOpen] = useState(group.current || focused);
     const id = "notepad-group-" + (group.id || "general");
@@ -413,7 +429,7 @@ function NoteGroup({ group, focusNoteIds, linkField }: { group: NoteGroupValue; 
             {open && (
                 <div className="notepad-group-notes" id={id}>
                     {group.notes.map(note => (
-                        <NoteCard key={note.id} note={note} focused={focusNoteIds.includes(note.id)} linkField={linkField} />
+                        <NoteCard key={note.id} note={note} focused={focusNoteIds.includes(note.id)} />
                     ))}
                 </div>
             )}
@@ -421,52 +437,7 @@ function NoteGroup({ group, focusNoteIds, linkField }: { group: NoteGroupValue; 
     );
 }
 
-/**
- * THE NOTES OF THE WORKBOOK PAGE (pages/Workbook.tsx, its Notes tab): "+ Add note" at the end of its row (where the Glossary's funnel
- * stands), then the card notes and the notes of each Organisation, as the panel shows them. The page has no form, so "Link a field"
- * goes back to the page the Workbook was opened from (a System's page) and picks there, in the panel; opened from anywhere else, it is
- * not offered.
- */
-export function WorkbookNotes({ from, focusNoteIds = [] }: { from?: WorkbookState["from"]; focusNoteIds?: string[] }) {
-
-    const { notes } = useNotepad();
-    const navigate = useNavigate();
-    const section = useRef<HTMLElement | null>(null);
-    // (A System's pages: /introduction and /conversation are both the interview.)
-    const linkField: LinkField = from && (from.pathname === "/conversation" || from.pathname === "/introduction")
-        ? (noteId) => {
-            navigate(from.pathname, { state: from.state });
-            NotepadService.open([noteId]);
-            NotepadService.pick(noteId);
-        }
-        : null;
-
-    return (
-        <section className="glossary-section workbook-notes" aria-label="Notes" ref={section}>
-            <div className="glossary-bar">
-                <AddButton className="notepad-add"
-                    onClick={() => {
-                        NotepadService.addNote(OrganizationService.getSelected() ?? "");
-                        window.setTimeout(() => section.current?.querySelector<HTMLTextAreaElement>(".notepad-note-text")?.focus(), 0);
-                    }}
-                >
-                    + Add note
-                </AddButton>
-            </div>
-            <div className="notepad-list">
-                <CardNotes />
-                {notes.length === 0
-                    ? <p className="notepad-empty">No notes yet. Add one, and link it to any page, card or field.</p>
-                    : noteGroups(notes).map(group => (
-                        <NoteGroup key={group.id || "general"} group={group} focusNoteIds={focusNoteIds} linkField={linkField} />
-                    ))}
-            </div>
-        </section>
-    );
-
-}
-
-/** The panel, for picking a field over the form (opened by the Workbook page's "Link a field"): every note, newest first, by Organization, with its links. */
+/** The panel: every note, newest first, by Organization, with its links (the Card Notes are the Workbook page's, WorkbookCardNotes). */
 export function NotepadPanel() {
 
     const { notes, view } = useNotepad();
@@ -506,9 +477,8 @@ export function NotepadPanel() {
                 <NavArrow direction="next" label="Close notes" className="page-arrow notepad-close" onClick={() => NotepadService.close()} />
             </div>
 
-            {/* ONE scrolling column, padded as every card is: the card notes, then the notes of each Organization. */}
+            {/* ONE scrolling column, padded as every card is: the notes of each Organization. */}
             <div className="notepad-list">
-                <CardNotes />
                 {notes.length === 0
                     ? <p className="notepad-empty">No notes yet. Add one, and link it to any page, card or field.</p>
                     : noteGroups(notes).map(group => (
@@ -660,37 +630,34 @@ export function NotepadPicker() {
 }
 
 /**
- * THE CARD NOTES: the Notes text of every card of the organization, one row each (the card's name, the page it stands on, the text), under a funnel that chooses
- * which pages to show. A press opens the card on its page.
+ * THE CARD NOTES (the Workbook page's first tab, owner 2026-11-09): the Notes text of every card of the open Organisation, one row each
+ * (the card's name, the page it stands on, the text), under a funnel that chooses which pages show (at the end of the row under the
+ * tabs, where the Glossary's funnel stands; only where there is more than one page). A press opens the card on its page.
  */
-function CardNotes() {
+export function WorkbookCardNotes() {
 
     const organizationId = OrganizationService.getSelected() ?? "";
     const navigate = useNavigate();
-    const [open, setOpen] = useState(false);
     const [off, setOff] = useState<ReadonlySet<string>>(new Set());
-    const all = useMemo(() => organizationId ? CardNotesService.collect(organizationId) : [], [organizationId, open]);
+    const all = useMemo(() => organizationId ? CardNotesService.collect(organizationId) : [], [organizationId]);
     const pages = [...new Set(all.map(note => note.page))];
     const shown = all.filter(note => !off.has(note.page));
 
-    if (all.length === 0) {
-        return null;
-    }
-
     return (
-        <section className="notepad-group notepad-card-notes" aria-label="Card notes">
-            <div className="notepad-card-notes-head">
-                <FoldHead className="notepad-group-head" open={open} label="Card notes" name="Card notes" count={shown.length} onToggle={() => setOpen(current => !current)} />
-                {open && pages.length > 1 && (
+        <section className="glossary-section workbook-card-notes" aria-label="Card Notes">
+            {pages.length > 1 && (
+                <div className="glossary-bar">
                     <ResponsibilityFilter
                         off={off}
                         options={pages}
                         label="Choose the pages whose card notes show"
                         onToggle={(page) => setOff(current => { const next = new Set(current); if (!next.delete(page)) { next.add(page); } return next; })}
                     />
-                )}
-            </div>
-            {open && (
+                </div>
+            )}
+            {all.length === 0 && <p className="glossary-empty">No card notes yet. The Notes you write on a card show here, by page.</p>}
+            {all.length > 0 && shown.length === 0 && <p className="glossary-empty">No card notes to show: the funnel leaves them all out.</p>}
+            {shown.length > 0 && (
                 <div className="notepad-group-notes">
                     {shown.map(note => (
                         <button

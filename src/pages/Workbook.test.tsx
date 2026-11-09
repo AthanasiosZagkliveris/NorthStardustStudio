@@ -190,16 +190,16 @@ describe("the Workbook, a whole page (owner, 2026-11-09)", () => {
         act(() => { fireEvent.click(screen.getAllByRole("button", { name: button === "workbook" ? /^Workbook/ : "Glossary and references" })[0]); });
     }
 
-    it("opens from the header's Workbook on the Notes, with the Review, the Glossary and the References as its other tabs", () => {
+    it("opens from the header's Workbook on the Card Notes, with the Review, the Glossary and the References as its other tabs", () => {
+        NotepadService.addNote(OrganizationService.getSelected()!);
         openFrom("/assistant");
         const tabs = within(screen.getByRole("tablist", { name: "Workbook" })).getAllByRole("tab").map(tab => tab.textContent);
-        expect(tabs).toEqual(["Notes", "Review", "Glossary", "References"]);
-        expect(screen.getByRole("heading", { name: "Notes" })).toBeTruthy();
-        expect(screen.getByRole("button", { name: "+ Add note" })).toBeTruthy();
-        // No side panel: the notes are on the page.
-        expect(document.querySelector(".notepad-panel")).toBeNull();
-        act(() => { fireEvent.click(screen.getByRole("button", { name: "+ Add note" })); });
-        expect(screen.getAllByRole("textbox", { name: "Note" })).toHaveLength(1);
+        expect(tabs).toEqual(["Card Notes", "Review", "Glossary", "References"]);
+        expect(screen.getByRole("heading", { name: "Card Notes" })).toBeTruthy();
+        expect(screen.getByText(/^No card notes yet/)).toBeTruthy();
+        // The person's own notes are the Notes tool's (owner, 2026-11-09: "Card Notes and Notes tool are different"), not the page's.
+        expect(screen.queryByRole("button", { name: "+ Add note" })).toBeNull();
+        expect(screen.queryByRole("textbox", { name: "Note" })).toBeNull();
         act(() => { fireEvent.click(screen.getByRole("tab", { name: "Review" })); });
         expect(document.querySelector(".review-organization")).toBeTruthy();
         // Pressed again on the page: it stays.
@@ -215,20 +215,11 @@ describe("the Workbook, a whole page (owner, 2026-11-09)", () => {
         expect(screen.getByRole("heading", { name: "Total review" })).toBeTruthy();
     });
 
-    it("links a field by going back to the form it was opened from and picking there, in the small panel", () => {
-        const note = NotepadService.addNote(OrganizationService.getSelected()!);
-        openFrom("/conversation");
-        act(() => { fireEvent.click(screen.getByRole("button", { name: "Link a field" })); });
-        expect(screen.getByText("The interview at /conversation")).toBeTruthy();
-        expect(NotepadService.view()).toMatchObject({ open: true, pickingFor: note });
-        act(() => { NotepadService.close(); });
-    });
-
-    it("does not offer to link a field where there is no form to go back to (a \"#\" still links a place)", () => {
-        NotepadService.addNote(OrganizationService.getSelected()!);
+    it("leaves the Notes tool as it was: opening the Workbook does not close its side panel", () => {
+        act(() => { NotepadService.open(); });
         openFrom("/assistant");
-        expect(screen.getAllByRole("textbox", { name: "Note" })).toHaveLength(1);
-        expect(screen.queryByRole("button", { name: "Link a field" })).toBeNull();
+        expect(NotepadService.view().open).toBe(true);
+        act(() => { NotepadService.close(); });
     });
 
     it("keeps the old addresses: /glossary and /review open the Workbook on their tab", () => {

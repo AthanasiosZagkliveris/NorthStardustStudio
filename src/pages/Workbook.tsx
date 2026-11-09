@@ -8,8 +8,7 @@ import InfoNote from "../components/interview/fields/InfoNote";
 import ResponsibilityFilter from "../components/interview/fields/ResponsibilityFilter";
 import GlossaryList, { YOUR_TERMS_HUE, anchorOf, letterOf, letterRanges, toggled } from "../components/GlossaryList";
 import OrganizationReview, { goToReviewPlace } from "../components/OrganizationReview";
-import { NotepadService } from "../services/NotepadService";
-import { WorkbookNotes, type WorkbookState } from "../components/notepad/Notepad";
+import { WorkbookCardNotes, type WorkbookState } from "../components/notepad/Notepad";
 import HarvardReference from "../components/references/HarvardReference";
 import { harvardReference, referenceList } from "../framework/engine/Sources";
 import { OrganizationService } from "../services/OrganizationService";
@@ -29,12 +28,12 @@ export type { WorkbookState } from "../components/notepad/Notepad";
 
 export type WorkbookTab = NonNullable<WorkbookState["tab"]>;
 
-const TAB_LABELS: Record<WorkbookTab, string> = { notes: "Notes", review: "Review", glossary: "Glossary", references: "References" };
+const TAB_LABELS: Record<WorkbookTab, string> = { "card-notes": "Card Notes", review: "Review", glossary: "Glossary", references: "References" };
 
 /**
  * What the Glossary's and the References' titles' "i" says (doc 39, 3.3: a page title's note, at most three points of at most 160
  * characters; an option's meaning as "Name: meaning"). What the tab is, how to use it, and what its two colours or its style mean:
- * nothing of it repeats the title. (The Notes and the Review carry no "i", as before.)
+ * nothing of it repeats the title. (The Card Notes and the Review carry no "i", as before.)
  */
 export const GLOSSARY_INFO: Record<"glossary" | "references", string[]> = {
     glossary: [
@@ -53,13 +52,15 @@ export const GLOSSARY_INFO: Record<"glossary" | "references", string[]> = {
  * THE WORKBOOK (owner, 2026-11-09: "the layout as it was the Glossary, a whole page, not a side panel"): one page, laid out as the
  * Glossary page was (its width, edges, heading and TabList), with four tabs.
  *
- * Notes: the person's own notes and the card notes (WorkbookNotes, Notepad.tsx). Review: the open Organisation's (OrganizationReview).
+ * Card Notes: the Notes text of every card (WorkbookCardNotes, Notepad.tsx; owner, 2026-11-09: "Card Notes and Notes tool are
+ * different. Card Notes in the Workbook, Notes Tool as before": the person's own notes are the header's Notes tool, its side panel).
+ * Review: the open Organisation's (OrganizationReview).
  * Glossary: the shared GlossaryList (every term in one A to Z list, in two colours, under one funnel of the kinds and the letter
  * ranges). References: every source the app cites (Sources.ts), as a Harvard reference list, with a funnel of letter ranges.
  *
  * Opened from the header's Workbook (with an Organisation open), from the Landing page's Review (the total review: every
- * Organisation, `total`) and Glossary -- there no Organisation is open, so the page has the Landing's header and no Notes --, from a
- * Glossary result of the search and from the Calendar's notes. Escape, and Back, return to where it was opened from.
+ * Organisation, `total`) and Glossary -- there no Organisation is open, so the page has the Landing's header and no Card Notes --,
+ * and from a Glossary result of the search. Escape, and Back, return to where it was opened from.
  */
 export default function Workbook() {
 
@@ -69,7 +70,7 @@ export default function Workbook() {
     const [organizationId] = useState(() => OrganizationService.getSelected());
     // Opened from the Landing page (or with no Organisation): its header, the total review, the Glossary and the References.
     const landing = state.total === true || !organizationId;
-    const tabs = useMemo(() => (landing ? ["review", "glossary", "references"] as const : ["notes", "review", "glossary", "references"] as const)
+    const tabs = useMemo(() => (landing ? ["review", "glossary", "references"] as const : ["card-notes", "review", "glossary", "references"] as const)
         .map(id => ({ id: id as WorkbookTab, label: TAB_LABELS[id] })), [landing]);
     const first = (wanted?: WorkbookTab): WorkbookTab => wanted && tabs.some(entry => entry.id === wanted) ? wanted : tabs[0].id;
     const [tab, setTab] = useState<WorkbookTab>(() => first(state.tab));
@@ -83,9 +84,6 @@ export default function Workbook() {
             navigate(landing ? "/" : "/assistant", landing ? undefined : { state: { capability: "foundation" } });
         }
     }, [state.from, landing, navigate]);
-
-    // (The page holds the notes: the small panel, there for picking a field over a form, is put away.)
-    useEffect(() => { NotepadService.close(); }, []);
 
     useEffect(() => {
         const onKey = (event: KeyboardEvent) => {
@@ -152,7 +150,7 @@ export default function Workbook() {
 
                 <TabList label="Workbook" tabs={tabs} value={tab} onChange={setTab} className="glossary-tabs" />
 
-                {tab === "notes" && <WorkbookNotes from={state.from} focusNoteIds={state.note ? [state.note] : []} />}
+                {tab === "card-notes" && <WorkbookCardNotes />}
 
                 {tab === "review" && reviews.map(section => (
                     <OrganizationReview

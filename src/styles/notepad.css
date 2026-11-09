@@ -1,8 +1,7 @@
 /* ==========================================================
-   The Workbook's notes (Notepad.tsx): the notes on the Workbook
-   page's Notes tab, the small panel on the right that holds them
-   while a field is picked over a form, the notes' links as chips,
-   and picking a field.
+   The Notepad (Notepad.tsx): the header's Notes button, the panel
+   on the right, the links as chips, and picking a field; and the
+   Card Notes' rows on the Workbook page (WorkbookCardNotes).
 
    The panel lies between the header (80px) and the footer (64px),
    as the Organization rail does on the left, and slides in from the
@@ -456,39 +455,9 @@ html.notepad-picking [data-pick-hover] {
 /* The fold arrow that slides the notes away is as large as the page's other fold arrows. */
 
 
-/* THE CARD NOTES (Notepad.tsx, CardNotes): a group like the Organization's, then one note-box for each card -- its name, its page, its text. The panel's one column is padded 16px; a
-   head is its fold arrow, its name, its count and the funnel on one line (12px apart, the funnel ending where the boxes end); a box is a note's box (12px padding, a note's corners and
-   ground), its three lines 6px apart, set as a note's text is (the body size, no tracking). The pointer on a box is the glow; the keyboard's focus, the ring. */
-/* The funnel in the panel has no card hue to take its tone from (the hue 0 it would fall back to is red): it is the neutral one, the text colour on the panel's ground. */
-.notepad-card-notes-head .funnel-box {
-
-    --plus-ground: var(--bg-surface);
-    --plus-fill: var(--text-primary);
-
-}
-
-.notepad-card-notes-head {
-
-    display: flex;
-    align-items: center;
-    gap: var(--gap-12);
-    min-width: 0;
-
-}
-
-.notepad-card-notes-head > .notepad-group-head {
-
-    flex: 1 1 0;
-    min-width: 0;
-
-}
-
-.notepad-card-notes-head > .responsibility-filter {
-
-    flex: none;
-    margin-left: 0;
-
-}
+/* THE CARD NOTES (Notepad.tsx, WorkbookCardNotes: the Workbook page's Card Notes tab): one note-box for each card -- its name, its page, its text -- under the page's funnel (the
+   Glossary's bar). A box is a note's box (12px padding, a note's corners and ground), its three lines 6px apart, set as a note's text is (the body size, no tracking). The pointer on a
+   box is the glow; the keyboard's focus, the ring. */
 
 .notepad-card-note {
 
@@ -583,27 +552,5 @@ html.notepad-picking [data-pick-hover] {
 
     max-width: 100%;
     flex-wrap: wrap;
-
-}
-
-/* THE FUNNEL'S LIST in the Notes panel is the panel's own colour (neutral surface, line and ink), not the hue of the page behind it. */
-.notepad-card-notes-head .responsibility-filter-panel {
-
-    border: 1px solid var(--line-box);
-
-    background: var(--bg-surface);
-
-    color: var(--text-default);
-
-}
-
-/* ---------- The notes on the Workbook page ---------- */
-/* (The page scrolls, not the list: the panel's own scrolling column and padding are the panel's.) */
-
-.workbook-notes .notepad-list {
-
-    overflow: visible;
-
-    padding: 0;
 
 }

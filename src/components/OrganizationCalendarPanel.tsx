@@ -7,8 +7,7 @@ import RadioChoice from "./controls/RadioChoice.tsx";
 import TextLink from "./interview/fields/TextLink.tsx";
 import NavArrow from "./controls/NavArrow.tsx";
 import { CalendarTaskAnnotation, OrganizationService } from "../services/OrganizationService";
-import { useLocation, useNavigate } from "react-router-dom";
-import { openWorkbook } from "./notepad/Notepad.tsx";
+import { NotepadService } from "../services/NotepadService";
 import { CalendarTask, getCalendarTasks } from "../services/CalendarTaskService";
 import { DateFormat, PreferencesService } from "../services/PreferencesService.ts";
 import { isoToDisplay } from "./interview/fields/DateCellInput.tsx";
@@ -256,9 +255,6 @@ export default function OrganizationCalendarPanel({
 }: OrganizationCalendarPanelProps) {
 
     const [activeTab, setActiveTab] = useState<RailTab>(null);
-    // (A note of the Calendar opens on the Workbook page, its Notes tab.)
-    const navigate = useNavigate();
-    const location = useLocation();
 
     const panelRef = useRef<HTMLDivElement | null>(null);
 
@@ -749,7 +745,7 @@ export default function OrganizationCalendarPanel({
                                     <span className="org-calendar-agenda-date">{isoToDisplay(task.date, dateFormat)}</span>
                                     {task.label && <span className="org-calendar-task-kind">{task.label}</span>}
                                     {task.noteId
-                                        ? <TextLink className="org-calendar-task-link" onClick={() => openWorkbook(navigate, location, { tab: "notes", note: task.noteId as string })}>{task.name}</TextLink>
+                                        ? <TextLink className="org-calendar-task-link" onClick={() => NotepadService.open([task.noteId as string])}>{task.name}</TextLink>
                                         : onOpenTask
                                             ? <TextLink className="org-calendar-task-link" title={task.originLabel + " " + task.sectionTitle} onClick={() => onOpenTask(task.systemNumber, task.sectionNumber)}>{task.name ?? task.description}</TextLink>
                                             : <span className="org-calendar-agenda-text">{task.name ?? task.description}</span>}
@@ -799,7 +795,7 @@ export default function OrganizationCalendarPanel({
                                                 ? (
                                                     <TextLink
                                                         className="org-calendar-task-link"
-                                                        onClick={() => openWorkbook(navigate, location, { tab: "notes", note: task.noteId as string })}
+                                                        onClick={() => NotepadService.open([task.noteId as string])}
                                                     >
                                                         {task.name}
                                                     </TextLink>

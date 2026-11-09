@@ -33,7 +33,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Capability (founders) | Identity › 2 Legal Entity › Capability | Doc 28, 9; doc 26 |
 | Capability Generator | Organisations (home) › the Capability Generator button; an unfinished page (a text box, and "Analyse Capability" does nothing yet) | `contents.md` |
 | Capital & Funding | Business › 4 Financial Foundation › Capital & Funding | Page 4 |
-| Card notes | Header › Workbook (`/workbook`) › Notes › Card notes | `contents.md` |
+| Card notes | Header › Workbook (`/workbook`) › Card Notes | `contents.md` |
 | Channel Fee Table | Global Settings › Channel Fee Table | Doc 1, Part D 6 |
 | Channels | Business › 2 Customer Engagement › Customer Channel | Page 2, section 1 |
 | Colours | Brand › Brand System › Style | Doc 1, B.1 |
@@ -81,7 +81,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Header | Every page with an Organisation open: save status, reading mode, Focus, Search, Workbook (the Workbook page: Notes, Review, Glossary, References), Settings; the Landing page: reading mode, Reload, Review (every organisation), Glossary | `contents.md` |
+| Header | Every page with an Organisation open: save status, reading mode, Focus, Search, Workbook (the Workbook page: Card Notes, Review, Glossary, References), Notes (the Notes panel), Settings; the Landing page: reading mode, Reload, Review (every organisation), Glossary | `contents.md` |
 | Help tile | Business › 3 Infrastructure & Capability › the footer band: Inventory and Completed | Page 3; doc 1, C.5 |
 
 ## I
@@ -110,7 +110,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Notes | Header › Workbook (`/workbook`) › Notes (the user's own notes, and Card notes; "Link a field" picks it on the System page in a small panel) | `contents.md` |
+| Notes | Header › Notes (the user's own notes, in the panel on the right; "Link a field" picks a field on the page; the card notes are the Workbook's Card Notes) | `contents.md` |
 
 ## O
 
@@ -172,4 +172,4 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Value Proposition | Business › 1 Foundation › Value Proposition | Doc 42; doc 28, 6.7; page 1 |
 | Values | Identity › 1 Definition and Ethics › Ethics | Doc 1, B.1 |
 | Vision | Identity › 1 Definition and Ethics › Definition | Doc 1, B.1 |
-| Workbook | Header, wherever an Organisation is open (2026-11-09): one button with the Review's count, opening the Workbook page (`/workbook`, laid out as the Glossary page was) with four tabs, Notes, Review, Glossary and References; Back or Escape returns | `contents.md` |
+| Workbook | Header, wherever an Organisation is open (2026-11-09): one button with the Review's count, opening the Workbook page (`/workbook`, laid out as the Glossary page was) with four tabs, Card Notes, Review, Glossary and References; Back or Escape returns | `contents.md` |

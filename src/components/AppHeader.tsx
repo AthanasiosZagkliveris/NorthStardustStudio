@@ -2,7 +2,7 @@ import logo from "../assets/NORTH STARDUST Organization Framework.svg";
 
 import AddButton from "./controls/AddButton.tsx";
 import SaveStatus from "./SaveStatus";
-import { WorkbookButton, NotepadPanel, NotepadPicker } from "./notepad/Notepad";
+import { WorkbookButton, NotepadButton, NotepadPanel, NotepadPicker } from "./notepad/Notepad";
 import FocusModeButton from "./FocusModeButton";
 import GlossaryButton from "./GlossaryButton";
 import ReviewButton from "./ReviewButton";
@@ -66,14 +66,14 @@ export default function AppHeader({ organizationName, focusable = false, reloada
             {/* Focus mode: on an interview page. */}
             {organizationName && focusable && <FocusModeButton />}
 
-            {/* Search (Ctrl+K), and the Workbook (the person's own notes, the Review, the Glossary and the References: one page, /workbook; owner, 2026-11-09): wherever an Organization is open. */}
+            {/* Search (Ctrl+K), the Workbook (the Card Notes, the Review, the Glossary and the References: one page, /workbook; owner, 2026-11-09) and the person's own notes (the Notes tool, its side panel, as before: "Card Notes and Notes tool are different"): wherever an Organization is open. */}
             {organizationName && <SearchButton />}
             {organizationName && <WorkbookButton />}
+            {organizationName && <NotepadButton />}
             {/* The Landing page: the review of every Organisation and the Glossary (no Organisation is open there, so no Workbook). */}
             {!organizationName && totalReview && <ReviewButton total />}
             {!organizationName && totalReview && <GlossaryButton />}
             {organizationName && <SettingsButton />}
-            {/* The small notes panel, for picking a field over a form (the Workbook page's "Link a field"), and the picking itself. */}
             {organizationName && <NotepadPanel />}
             {organizationName && <NotepadPicker />}
 
