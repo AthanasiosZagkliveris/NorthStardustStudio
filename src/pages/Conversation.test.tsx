@@ -187,6 +187,30 @@ describe("Conversation records the last place worked", () => {
 
     });
 
+    it("draws Founders & Ownership on Definition, saved in the Legal Entity's answer as before (owner, 2026-11-09)", () => {
+
+        const organization = OrganizationService.create("Quillfield");
+        vi.spyOn(OrganizationService, "getSelected").mockReturnValue(organization.id);
+
+        renderIdentity({ targetSectionNumber: 1, resume: {} });
+
+        const tilesOf = (frame: Element) => [...frame.querySelectorAll(".section-tile[data-tile]")].map(tile => tile.getAttribute("data-tile"));
+        expect(tilesOf(document.querySelectorAll(".column-tiles-page")[0])).toEqual(["organization", "positioning", "legal-entity-founders"]);
+
+        // Its dialog is the Ownership; a founder named there is saved in the Legal Entity section (3), not in Definition.
+        fireEvent.click(screen.getByRole("button", { name: /^Founders & Ownership/ }));
+        fireEvent.change(document.querySelector<HTMLElement>(".section-tile-dialog textarea, .section-tile-dialog input[type=text]")!, { target: { value: "Jordan Ellis" } });
+        const saved = OrganizationService.loadSystemState(organization.id, 1) as { responses: Array<{ sectionNumber: number; value: Record<string, unknown> }> };
+        const section = (number: number) => saved.responses.find(response => response.sectionNumber === number)?.value ?? {};
+        expect(JSON.stringify(section(3).founders)).toContain("Jordan Ellis");
+        expect(section(1).founders).toBeUndefined();
+
+        // The Legal Entity page no longer draws it.
+        fireEvent.click(screen.getByRole("button", { name: "Next page" }));
+        expect(document.querySelector("[data-tile=legal-entity-founders]")).toBeNull();
+
+    });
+
     it("draws Purpose & Beliefs as three pair tiles, Mission & Vision saved in Definition under its own keys (doc 45)", () => {
 
         const organization = OrganizationService.create("Quillfield");
@@ -233,8 +257,8 @@ describe("Conversation records the last place worked", () => {
         fireEvent.keyDown(document.body, { key: "ArrowRight" });
         expect(current()).toMatch(/^2. /);
 
-        // Not while typing (page 2 holds the Legal Entity, tiles: open the first, which holds boxes).
-        fireEvent.click(screen.getByRole("button", { name: /^Founders & Ownership/ }));
+        // Not while typing (page 2 holds the Legal Entity, tiles: open the Capability, which holds boxes).
+        fireEvent.click(screen.getByRole("button", { name: /^Capability/ }));
         const box = document.querySelector<HTMLElement>("textarea, input")!;
         fireEvent.keyDown(box, { key: "ArrowLeft" });
         expect(current()).toMatch(/^2. /);

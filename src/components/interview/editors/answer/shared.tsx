@@ -181,6 +181,9 @@ export interface AnswerRendererProps {
      */
     pageSections?: readonly PageSectionAnswer[];
 
+    /** The Identity System's Legal Entity section's number: the Founders & Ownership tile drawn on Definition keeps that section's field keys. */
+    legalEntitySectionNumber?: number;
+
     /**
      * How many column-layout columns precede this Section's own, so
      * a Section's columns can be numbered continuously across the

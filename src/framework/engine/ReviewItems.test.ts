@@ -64,6 +64,20 @@ describe("the Review page's items", () => {
         }]);
     });
 
+    test("no founder named is said on Definition, where Founders & Ownership is drawn, and opens that page (2026-11-09)", () => {
+        const sessions = load();
+        const identity = sessions[1]!;
+        const legal = pageOf(identity, AnswerType.LegalEntity);
+        identity.saveResponse(legal.number, { ...(identity.getResponse(legal.number) as object), founders: [] });
+        const founders = reviewItems({ sessions, titles, organisationName: "Lumen" }).filter(item => item.text.includes("a founder's name"));
+        expect(founders).toEqual([{
+            group: "open",
+            capability: "foundation",
+            text: "1. Identity System → 1. Definition: Founders & Ownership: a founder's name.",
+            place: { systemNumber: 1, sectionNumber: 1, anchors: ["legal-section-1"] }
+        }]);
+    });
+
     test("income tax, asked above the Financial Foundation's sections, is said as itself", () => {
         const sessions = load();
         const business = sessions[3]!;

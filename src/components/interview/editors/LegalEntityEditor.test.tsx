@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
 import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 
-import LegalEntityEditor from "./LegalEntityEditor";
+import LegalEntityEditor, { foundersTileFace } from "./LegalEntityEditor";
 import { differentiationOptionsFor, positioningName, userOutcomeOptionsFor } from "./legal/shared.tsx";
 import { typeInto } from "../../../test/interviewTestUtils";
 import { asLegalEntityValue, createLegalEntityExpense, createLegalEntityFounder, createLegalEntityRequirement, legalEntitySectionsEmpty } from "../../../framework/engine/AnswerUtils";
@@ -860,10 +860,10 @@ describe("LegalEntityEditor as tiles", () => {
         return <LegalEntityEditor value={value} onChange={setValue} asTiles />;
     }
 
-    it("is three large tiles: Founders & Ownership, Registrations and Expenses (the Organisation is a tile of page 1)", () => {
+    it("is Registrations and Expenses (the Organisation and Founders & Ownership are tiles of page 1, Definition; owner, 2026-11-09)", () => {
         render(<Tiled />);
         expect([...document.querySelectorAll(".section-tile")].map(tile => tile.getAttribute("data-tile"))).toEqual([
-            "legal-entity-founders", "legal-entity-registrations", "legal-entity-expenses"
+            "legal-entity-registrations", "legal-entity-expenses"
         ]);
     });
 
@@ -874,10 +874,10 @@ describe("LegalEntityEditor as tiles", () => {
                 organisation: { country: "US", legalForm: "Sole Proprietorship" },
                 founders: [{ ...createLegalEntityFounder(), name: "Jordan Ellis", ownership: "100" }]
             }));
-            return <><LegalEntityEditor value={value} onChange={setValue} asTiles onChangeFoundersProfile={() => undefined} /><output data-testid="capital">{String(asLegalEntityValue(value).capitalApplies) + ":" + asLegalEntityValue(value).founders[0].capital}</output></>;
+            return <><LegalEntityEditor value={value} onChange={setValue} asTiles foundersOnly onChangeFoundersProfile={() => undefined} /><output data-testid="capital">{String(asLegalEntityValue(value).capitalApplies) + ":" + asLegalEntityValue(value).founders[0].capital}</output></>;
         }
+        // (The Founders & Ownership dialog, as the Definition's tile opens it.)
         render(<Sole />);
-        fireEvent.click(document.querySelector("[data-tile=legal-entity-founders]")!);
 
         expect((screen.getByRole("textbox", { name: "Founder 1 name" }) as HTMLTextAreaElement).value).toBe("Jordan Ellis");
         // (No number before the name, no ownership table, no "founders contribute capital" tick: one owner, the whole of it.)
@@ -923,7 +923,8 @@ describe("LegalEntityEditor as tiles", () => {
         // (The list is the tile's links layer, laid over it: every line is there, the list scrolls where they do not all fit.)
         const lines = [...document.querySelectorAll(".section-tile-list > li")].map(item => item.textContent?.trim() ?? "");
         expect(many.every(at => lines.includes("Fee " + at))).toBe(true);
-        expect(many.every(at => lines.includes("Founder " + at))).toBe(true);
+        // (The founders are on the Founders & Ownership tile, drawn on 1. Definition: its face lists every founder.)
+        expect(many.every(at => (foundersTileFace(asLegalEntityValue({ founders: many.map(at => ({ ...createLegalEntityFounder(), name: "Founder " + at, ownership: "9" })) }), true).items ?? []).includes("Founder " + at))).toBe(true);
     });
 
     it("opens the Registrations as two sub tiles: Registration Numbers (the formation's and the tax's), Additional legal requirements", () => {

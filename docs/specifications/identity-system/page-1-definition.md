@@ -31,6 +31,7 @@ The master tile **1. Definition** holds these tiles, in this order (Mission and 
 |---|---|---|---|---|
 | 1 | **Organisation** | Name, country, address, legal form, dates, activities, and the description (Notes) | the Legal Entity answer (`organisation`), the Opening Date in the Global Settings, the description under the key "Description" | dialog with fields |
 | 2 | **Early Positioning** (named by the stage, section 8) | Who the business sells to, why, how it differs, and the result | the Legal Entity answer (`organisation`); its Notes under the key "Positioning" | dialog with choice questions |
+| 3 | **Founders & Ownership** (owner, 2026-11-09) | The owners, their shares and capital, and a tile for each founder's profile | the Legal Entity answer (`founders`) and the Founders Profile; its fields keep the Legal Entity's keys | dialog: the Ownership, then the founders' tiles (a one-owner form: the founder's card) |
 | (3) | **Mission**, drawn in Purpose & Beliefs | One free text | the key "Mission" | the Mission & Vision dialog, its first text |
 | (4) | **Vision**, drawn in Purpose & Beliefs | One free text | the key "Vision" | the Mission & Vision dialog, its second text |
 
@@ -43,6 +44,7 @@ The questions behind the tiles are in `src/assets/SystemQuestions/01_IdentitySys
 - **The tiles** are squares in the 2 × 2 grid of every chapter, one size by the window's width and height (layout rules, section 23), each in the frame's tint with the box's inset light and shade, a 110% rise under the pointer growing inwards (doc 18). A tile's title is in capitals (18px, semi-bold, centred, underlined by a hairline), and below it a list or a text in 14px muted colour:
   - **Organisation:** the name in bold, the legal form, a divider line, then the address (a long address keeps its first lines and joins the last two). Until something is written it shows the first line of what the column asks.
   - **Early Positioning:** four groups, **no subtitles**, a divider line between two groups (the divider lines and the title's line of every tile are one line: 1px, the title ink at 40%), each option on a line of its own with a bullet, in its own words (nothing stands for options left out): the business (the audience and the buyer's category: "Workers / Professionals", "Proxy"), the user (only for a Proxy or Dual-Intent buyer: the relationship and the life stage: "Friend", "Young Adults"), the offering (the purposes and the differentiations) and the outcome (the buyer's and the user's). The words are the card's, shortened to their first part ("Proxy", "Friend"); a group with no answer is left out. **The square holds about six lines**: where there are more, the tile ends at a whole line, as every tile does, and the card has them all.
+  - **Founders & Ownership:** the founders' names with bullets, each a link to that founder's card in the dialog (a one-owner form: no links).
   - **Mission & Vision** (in Purpose & Beliefs): the Mission's lines, a divider line, the Vision's.
 - **At the narrow width** (768px, the smallest the app supports) the frames stack below the window width of 812px; the tiles keep their grid (doc 18, layout rules, "One shape on every page of chapters").
 - **The page's own controls** stand in the header: Reading mode (Auto), Focus, Search (Ctrl+K), Notes, Review (with the number of items), Global Settings, and the organisation's name; the lower left has Back. The **Pages rail** (a navigation named "Pages": Introduction, 1. Definition and Ethics, 2. Legal Entity) with its previous and next arrows moves between the System's pages.
@@ -54,7 +56,7 @@ The behaviour is the shared one of `src/components/interview/tiles/SectionTiles.
 | The user does | What happens |
 |---|---|
 | Presses a tile | Its **dialog** opens in the place of its master tile, the size of the frame and in its hue; the other master tile (Purpose & Beliefs) is shaded and inert; the page does not scroll |
-| Presses another tile's bullet in the **section rail** ("Go to a section": Organisation, Early Positioning) | That tile's dialog opens in place of the open one |
+| Presses another tile's bullet in the **section rail** ("Go to a section": Organisation, Early Positioning, Founders & Ownership) | That tile's dialog opens in place of the open one |
 | Presses the **Previous section / Next section** arrows, or ← and → | The dialog moves to the previous or next tile of the frame |
 | Presses **Escape**, the **Back** button, or the shaded space | The dialog closes; the page is as it was (the scroll position, the folds); the focus returns to the tile (with a visible ring after the keyboard) |
 | Presses the **"i"** beside the title | A pop-up with what the tile asks (the questions of the column); it closes as every pop-up does (doc 23) |

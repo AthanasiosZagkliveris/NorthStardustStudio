@@ -9,7 +9,9 @@ import { asLegalEntityValue, isAnswerEmpty } from "../../../framework/engine/Ans
 import { useDragToScroll } from "../../../hooks/useDragToScroll.ts";
 import { FieldMark, FieldPageProvider, FieldStatus, useFieldPage } from "../fields/fieldMarks.tsx";
 import SectionTiles, { DialogHeading, TILE_DIVIDER, type SectionTile } from "../tiles/SectionTiles.tsx";
-import LegalEntityEditor from "./LegalEntityEditor.tsx";
+import LegalEntityEditor, { foundersTileFace } from "./LegalEntityEditor.tsx";
+import { railId } from "../rails/railItems.ts";
+import { LEGAL_ENTITY_SECTIONS } from "../../../framework/engine/AnswerUtils.ts";
 import { ImprintFields, NumberedTextList } from "../fields/ColumnFields.tsx";
 import { workHue } from "../../../framework/engine/WorkColours.ts";
 
@@ -62,7 +64,11 @@ function MultiPartAnswerRenderer({
 
     showInstructions = true,
 
-    pageSections
+    pageSections,
+
+    onChangeFoundersProfile,
+
+    legalEntitySectionNumber
 
 }: AnswerRendererProps) {
 
@@ -329,6 +335,33 @@ function MultiPartAnswerRenderer({
                 </div>
             )
         }));
+
+        // THE FOUNDERS & OWNERSHIP TILE stands on the Identity System's Definition, after the Positioning (owner, 2026-11-09: moved from the Legal
+        // Entity). Its answer is still the Legal Entity's and the Founders Profile's, and its fields keep that section's keys (a field page of its own).
+        if (onChangeLegalEntity && onChangeFoundersProfile && parts.some(part => part.id === "description") && parts.some(part => part.id === "positioning")) {
+            const founders = (
+                <LegalEntityEditor
+                    value={legalEntity}
+                    foundersProfile={foundersProfile}
+                    onChangeFoundersProfile={onChangeFoundersProfile}
+                    asTiles
+                    foundersOnly
+                    onChange={(next) => onChangeLegalEntity(next)}
+                    disabled={disabled}
+                />
+            );
+            tiles.push({
+                id: "legal-entity-founders",
+                title: "Founders & Ownership",
+                large: true,
+                rail: railId(LEGAL_ENTITY_SECTIONS[1]),
+                anchor: "legal-section-1",
+                ...foundersTileFace(legalEntity, true),
+                content: () => fieldPage && legalEntitySectionNumber !== undefined
+                    ? <FieldPageProvider organizationId={fieldPage.organizationId} systemNumber={fieldPage.systemNumber} sectionNumber={legalEntitySectionNumber} pageTitle={fieldPage.pageTitle}>{founders}</FieldPageProvider>
+                    : founders
+            });
+        }
 
         return (
             <div

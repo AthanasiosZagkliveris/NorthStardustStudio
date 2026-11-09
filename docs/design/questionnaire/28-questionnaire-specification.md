@@ -439,7 +439,7 @@ Rows are no longer typed from a source list: **one row is proposed for each Disc
 
 ### 8.1 What exists (as built, 2026-10-25)
 
-**Page 1, "Definition and Purpose".** Chapter Definition: **Organisation** (first tile), **Early Positioning** (the Positioning tile; its name follows the business stage, 8.2). Chapter Purpose & Beliefs (doc 45): **Mission & Vision** (the two texts saved in Definition), Values & Principles, Philosophy & Manifesto. **Page 2, "Legal Entity":** Founders & Ownership (founder tiles inside), Capability, Registrations, Expenses.
+**Page 1, "Definition and Purpose".** Chapter Definition: **Organisation** (first tile), **Early Positioning** (the Positioning tile; its name follows the business stage, 8.2), **Founders & Ownership** (founder tiles inside; saved in the Legal Entity, owner 2026-11-09). Chapter Purpose & Beliefs (doc 45): **Mission & Vision** (the two texts saved in Definition), Values & Principles, Philosophy & Manifesto. **Page 2, "Legal Entity":** Capability, Registrations, Expenses.
 
 **Prose only:** the six texts of Purpose & Beliefs. The Positioning tile has four choice questions, the End User questions (asked only for one audience) and a Notes box (8.2). The Organisation tile holds the facts of the organisation (8.5).
 
@@ -757,7 +757,7 @@ What the app says today, what changes, and what is new. Lists come only from off
 
 | Place | Holds |
 |---|---|
-| Identity 2 › Legal Entity › Founders & Ownership | a table: name; ownership %; capital; totals; one-founder organisations hide ownership and the add and remove buttons |
+| Identity 1 › Definition › Founders & Ownership (saved in the Legal Entity) | a table: name; ownership %; capital; totals; one-founder organisations hide ownership and the add and remove buttons |
 | Identity 2 › Founders & Capability | one tile per founder (roles; industry experience; management experience; key achievements; skills with a type: Skill, Professional / Technical Expertise, Degree / Qualification, Certification, Licence, Membership / Other Credential) and a Capability tile (two free-text boxes) |
 | Business 3 › Infrastructure › Founders | pay, frequency (Weekly, Monthly, Annually), working hours, delivery hours, start date, allowance, commission, bonus; name, id and roles are overwritten from Identity |
 

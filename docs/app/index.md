@@ -67,7 +67,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Financial Foundation | Business, page 4 | Page 4 |
 | Financial Position | Business › 4 Financial Foundation › Financial Position | Page 4 |
 | Focus (reading aid) | Header, on a System's pages | `contents.md` |
-| Founders | Identity › 2 Legal Entity › Founders & Ownership; Business › 3 Infrastructure & Capability › Infrastructure › Founders | Doc 28, 9; page 3 |
+| Founders | Identity › 1 Definition and Purpose › Founders & Ownership (saved in the Legal Entity); Business › 3 Infrastructure & Capability › Infrastructure › Founders | Doc 28, 9; page 3 |
 | Funding Need | Business › 4 Financial Foundation › Funding Need | Page 4 |
 
 ## G

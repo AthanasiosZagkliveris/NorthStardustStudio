@@ -181,7 +181,8 @@ export function openItemsOf(
                     items.push({ text: at.replace(/ → [^→]*$/, " → 1. Definition") + ": Organisation: " + list(missing) + ".", place: { systemNumber, sectionNumber: 1, key: fieldKey({ systemNumber, sectionNumber: 1, path: ["description"] }) } });
                 }
                 if (!entity.founders.some(founder => !blank(founder.name))) {
-                    sectionItem(LEGAL_ENTITY_SECTIONS[1], "a founder's name", ["legal-section-1"]);
+                    // (Founders & Ownership is a tile of the Identity System's Definition, page 1, since 2026-11-09: the item says it there and opens that page.)
+                    items.push({ text: at.replace(/ → [^→]*$/, " → 1. Definition") + ": " + LEGAL_ENTITY_SECTIONS[1] + ": a founder's name.", place: { systemNumber, sectionNumber: 1, anchors: ["legal-section-1"] } });
                 }
                 const planned = entity.formation.status === "planned";
                 const formation = [

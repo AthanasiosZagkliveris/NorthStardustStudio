@@ -41,8 +41,8 @@ A page of a System can be a **compound page**: several sections drawn as chapter
 
 | System | Page | Chapters (frames) and their Master Tiles |
 |---|---|---|
-| 1. Identity | 1. Definition and Purpose | Chapter 1 Definition: Organisation, Positioning (named by the business stage: Early Positioning, Core Market Positioning, Corporate & Portfolio Positioning). Chapter 2 Purpose & Beliefs: Mission & Vision (saved in Definition), Values & Principles, Philosophy & Manifesto (doc 45). |
-| 1. Identity | 2. Legal Entity | Founders & Ownership; Capability (Gaps and Cover); Registrations (a dialog of sub tiles: Registration Numbers, Additional Legal Requirements); Expenses (the Legal Entity's expenses). |
+| 1. Identity | 1. Definition and Purpose | Chapter 1 Definition: Organisation, Positioning (named by the business stage: Early Positioning, Core Market Positioning, Corporate & Portfolio Positioning), Founders & Ownership (saved in the Legal Entity). Chapter 2 Purpose & Beliefs: Mission & Vision (saved in Definition), Values & Principles, Philosophy & Manifesto (doc 45). |
+| 1. Identity | 2. Legal Entity | Capability (Gaps and Cover); Registrations (a dialog of sub tiles: Registration Numbers, Additional Legal Requirements); Expenses (the Legal Entity's expenses). |
 | 2. Brand | Brand System (one page) | Chapter 1 Ambassador: Aesthetics, Body Language, Communication & Voice, Imprint. Chapter 2 Style: Colours, Typography, Text Hierarchy, Icon & Logo, Brand Images (the brand inventory is part of this page). |
 | 3. Business | 1. Foundation | One chapter per Segment: Segment Description (the Segment's questions and its Profiles), Competitors, Value Proposition, Offerings. A Profile, a Competitor and an Offering are cards that open floating. |
 | 3. Business | 2. Customer Engagement | Customer Channel (tiles per Segment); Customer Relationship; Demand & Conversion (these two still folding sections, see document 5). |
@@ -169,7 +169,7 @@ A "Chapter" has no named type in the code. Frames are classes:
 
 | Tile | Holds | Notes |
 |---|---|---|
-| Large column tile | Identity Definition, Purpose & Beliefs (its pair tiles), Brand Ambassador; Legal Entity Organisation, Founders & Ownership, Registrations, Expenses | `large: true`; `view: true` gives a dialog of sub tiles |
+| Large column tile | Identity Definition, Purpose & Beliefs (its pair tiles), Brand Ambassador; Definition's Organisation and Founders & Ownership; Legal Entity Capability, Registrations, Expenses | `large: true`; `view: true` gives a dialog of sub tiles |
 | Brand picture tiles | Colours, Typography & Text Hierarchy, Icon & Logo, Brand Images | `picture` property |
 | Founders Profile tile | Capability and the founder card tiles | `FoundersProfileEditor` |
 | Business Foundation tiles | Segment Description (the Segment card: its five boxes ask choice questions, `SegmentQuestions.ts`, read through `SegmentContext.ts`; a Profiles section with the Profile cards, which ask `ProfileQuestions.ts`), Value Proposition and card boxes (Profile, Competitor, Offering) | `BusinessFoundationEditor`; doc 35 and doc 36 |

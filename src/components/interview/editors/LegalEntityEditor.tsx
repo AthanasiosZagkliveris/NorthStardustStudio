@@ -8,7 +8,7 @@ import SubTiles from "../tiles/SubTiles.tsx";
 import FoundersProfileEditor from "./FoundersProfileEditor.tsx";
 import { workHue } from "../../../framework/engine/WorkColours.ts";
 import { FOUNDERS_PROFILE_SECTIONS, LEGAL_ENTITY_SECTIONS, LegalEntityValue, asFoundersProfileValue, asLegalEntityValue, createLegalEntityExpense, createLegalEntityRequirement } from "../../../framework/engine/AnswerUtils.ts";
-import { LEGAL_REQUIREMENT_TYPES, registrationAuthorityFor } from "../../../framework/engine/LegalEntityJurisdictions.ts";
+import { LEGAL_REQUIREMENT_TYPES, legalFormOptions, registrationAuthorityFor } from "../../../framework/engine/LegalEntityJurisdictions.ts";
 import { moneyText } from "../../../framework/engine/ExportRenderers.ts";
 import { railId } from "../rails/railItems.ts";
 import { InfoPoint } from "../fields/InfoNote.tsx";
@@ -42,11 +42,37 @@ import { useLegalCardsAndSections } from "./legal/useLegalCardsAndSections.tsx";
  * on screen, which is what keeps a page this long readable for the
  * many organizations that need only the first half of it.
  */
+/**
+ * THE FOUNDERS & OWNERSHIP TILE'S FACE (a master tile of 1. Definition, the Identity System's page 1, since 2026-11-09; its answer is still the
+ * Legal Entity's): with the Founders Profile's saver, the founders' names, each a link to the founder's card in its dialog (a one-owner form
+ * has no such cards); without it, the owners with their shares.
+ */
+export function foundersTileFace(value: unknown, holdsFounders: boolean): Pick<SectionTile, "items" | "itemMarks" | "links"> {
+    const entity = asLegalEntityValue(value);
+    const lines = (list: readonly string[]) => list.map(text => text.trim()).filter(text => text.length > 0);
+    const named = entity.founders.filter(founder => founder.name.trim());
+    const soleFounderSettled = legalFormOptions(entity.organisation.country, entity.organisation.subdivision)
+        .find(form => form.label === entity.organisation.legalForm)?.soleFounder === true && entity.founders.length === 1;
+    if (holdsFounders) {
+        const names = lines(named.map(founder => founder.name.trim()));
+        return {
+            items: names,
+            itemMarks: names.map(() => ({ bullet: true })),
+            links: soleFounderSettled ? undefined : named.map(founder => ({ box: "founder-profile-" + founder.id }))
+        };
+    }
+    return named.length === 1
+        ? { items: [named[0].name.trim()], itemMarks: [{ centre: true }] }
+        // (A name, then its share after a dash: two columns, the dashes in one.)
+        : { items: lines(named.map(founder => founder.name.trim() + "\u0001" + (founder.ownership.trim() ? "\u2014 " + founder.ownership.trim() + "%" : ""))), itemMarks: named.map(() => undefined) };
+}
+
 export default function LegalEntityEditor(props: LegalEntityEditorProps) {
 
     const part1 = useLegalState(props);
     const part2 = { ...part1, ...useLegalFieldsAndSections({ ...part1 }) };
     const part3 = { ...part1, ...part2, ...useLegalCardsAndSections({ ...part1, ...part2 }) };
+    const foundersOnly = props.foundersOnly === true;
     const { amountLabel, chosenSubdivision, countryChosen, profiled, soleFounderSettled, updateFounder, foundersProfile, onChangeFoundersProfile, organizationOnly, audienceOnly, audience, asTiles, cardsOnly, columnsDivider, currency, disabled, entity, expenseCard, frameTitle, latest, linkTargets, profile, requirementCard, section0, section1, section2, section3, section4, section5, showInstructions, update } = part3;
 
     /* THE PAGE AS TILES (the page's tile system), one for each of its six sections. A tile opens its section in its dialog: Organization and Founders & Ownership with no
@@ -170,17 +196,9 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
             const expense = entity.expenses.findIndex(candidate => candidate.id === id);
             return expense >= 0 ? floating(expenseCard(entity.expenses[expense], expense, true)) : null;
         };
-        const named = entity.founders.filter(founder => founder.name.trim());
         /** The page holds the founders' tiles and the Capability tile (a page of the Identity System that is given the Founders Profile's saver). */
         const holdsFounders = onChangeFoundersProfile !== undefined;
         const capability = asFoundersProfileValue(foundersProfile);
-        const foundersListed = named.length === 1
-            ? { items: [named[0].name.trim()], marks: [{ centre: true }] }
-            : {
-                // (A name, then its share after a dash: two columns, the dashes in one.)
-                items: lines(named.map(founder => founder.name.trim() + "\u0001" + (founder.ownership.trim() ? "\u2014 " + founder.ownership.trim() + "%" : ""))),
-                marks: named.map(() => undefined)
-            };
         const expenseEntries = entity.expenses.filter(expense => expense.name.trim().length > 0);
         // The lines of the Formation's and the Tax's tiles. (They name no card, so they are no links: what a registration is linked to is a circle on the tile.)
         // (Every line, no cap: the tile's list scrolls where they do not all fit, as every tile's list does.)
@@ -199,14 +217,12 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
             consumptionAsked && entity.tax.consumptionTaxStatus === "yes" ? entry(profile.consumptionTax, entity.tax.consumptionTaxNumber) : "",
             ...entity.tax.additionalRegistrations.map(registration => entry(registration.label, registration.number))
         ].filter(text => text.length > 0);
-        const tiles: SectionTile[] = [
-            {
-                id: "legal-entity-founders", title: "Founders & Ownership", large: true, rail: rail(1),
-                // (The dialog holds the Ownership, with the founders' profile tiles under it.)
-// (The founders' profiles: each name a link that opens that founder's card in the dialog. Without the Founders Profile saver, as before: the owners with their shares.)
-                items: holdsFounders ? lines(named.map(founder => founder.name.trim())) : foundersListed.items,
-                itemMarks: holdsFounders ? lines(named.map(founder => founder.name.trim())).map(() => ({ bullet: true })) : foundersListed.marks,
-                links: holdsFounders && !soleFounderSettled ? named.map(founder => ({ box: "founder-profile-" + founder.id })) : undefined,
+        // THE FOUNDERS & OWNERSHIP TILE stands on 1. Definition (owner, 2026-11-09): the Definition draws it (AnswerRenderer) with this dialog
+        // (`foundersOnly`); its face is `foundersTileFace`. It is no tile of the Legal Entity page.
+        // (The dialog holds the Ownership, with the founders' profile tiles under it; without the Founders Profile saver, the Ownership alone.)
+        const foundersTile: SectionTile = {
+                id: "legal-entity-founders", title: "Founders & Ownership", large: true, rail: rail(1), anchor: "legal-section-1",
+                ...foundersTileFace(entity, holdsFounders),
                 content: () => holdsFounders && onChangeFoundersProfile
                     ? (
                         <div className="column-tile-content legal-entity legal-entity-unframed" data-rail={rail(1)}>
@@ -236,7 +252,11 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
                         </div>
                     )
                     : plain(1, section1)
-            },
+        };
+        if (foundersOnly) {
+            return <>{foundersTile.content()}</>;
+        }
+        const tiles: SectionTile[] = [
             ...(holdsFounders && onChangeFoundersProfile ? [{
                 id: "founders-gaps", title: "Capability", large: true, rail: railId(FOUNDERS_PROFILE_SECTIONS[1]),
                 items: lines([...capability.teamGaps.split("\n"), ...capability.teamCover.split("\n")]),

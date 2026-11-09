@@ -545,6 +545,8 @@ export interface LegalEntityEditorProps {
 
     /** Only the Organization's dialog (the Organization tile of page 1, Definition): its fields, drawn as the tile's dialog body. */
     organizationOnly?: boolean;
+    /** Only the Founders & Ownership tile's dialog (the tile stands on 1. Definition; its answer is this page's). */
+    foundersOnly?: boolean;
 
     /** Only the Positioning questions (market structure, seller and buyer relationship, audience, outcome): the body of the Positioning tile's dialog, above its Notes (design document 28, 8.2). */
     audienceOnly?: boolean;

@@ -606,7 +606,7 @@ export default function FoundersProfileEditor({
                         <div className="business-capability-section business-capability-tiles-section">
                             {frameTitle ? <div className="business-engagement-section-head tiles-frame-head"><span className="field-group-title business-foundation-subhead">{frameTitle}</span></div> : <div className="business-capability-heading-spacer" aria-hidden="true" />}
                             {founders.length === 0 && (
-                                <p className="legal-entity-empty-note">Add founders under 1. Identity System → 3. Legal Entity → 2. Founders & Ownership and they appear here.</p>
+                                <p className="legal-entity-empty-note">Add founders under 1. Identity System → 1. Definition → Founders & Ownership and they appear here.</p>
                             )}
                             <SectionTiles label="Founders Profile" hue={workHue("define")} tiles={tiles} />
                         </div>
@@ -665,10 +665,10 @@ export default function FoundersProfileEditor({
                                             className="business-engagement-link"
                                             onClick={() => onOpenLegalEntity(["legal-section-1"])}
                                         >
-                                            1. Identity System → 3. Legal Entity → 2. Founders & Ownership
+                                            1. Identity System → 1. Definition → Founders & Ownership
                                         </TextLink>
                                     )
-                                    : "1. Identity System → 3. Legal Entity → 2. Founders & Ownership"}
+                                    : "1. Identity System → 1. Definition → Founders & Ownership"}
                                 {" "}and they appear here.
                             </p>
                         )

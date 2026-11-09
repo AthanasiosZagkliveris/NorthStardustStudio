@@ -1726,8 +1726,10 @@ export default function Conversation() {
             if (organizationId) {
                 persistAndRedraw(session);
             }
+            // (The Founders & Ownership tile stands on the Definition, the Identity System's first section, since 2026-11-09.)
+            const onDefinition = path?.[0] === "legal-section-1";
             navigate("/introduction", {
-                state: { system: identitySystem, targetSectionNumber: legalEntitySection.number }
+                state: { system: identitySystem, targetSectionNumber: onDefinition ? frameworkRegistry.getFramework(identitySystem.id).sections[0].number : legalEntitySection.number }
             });
             if (path && path.length > 0) {
                 jumpTo(path);
@@ -2093,6 +2095,7 @@ export default function Conversation() {
                                 onChange={change}
                                 frameTitle={pageGroup && pageGroup.members.length > 1 ? (pageGroup.members.indexOf(section.number) + 1) + ". " + (pageGroup.frameTitles?.[pageGroup.members.indexOf(section.number)] ?? section.title) : pageGroup?.frameTitles?.[0]}
                                 pageSections={pageSectionsBeside(section)}
+                                legalEntitySectionNumber={legalEntitySection?.number}
                                 resolveDynamicOptions={resolveDynamicOptions}
                                 rowSelection={productRegisterRowSelection}
                                 ownerSuggestions={operationsOwnerSuggestions}

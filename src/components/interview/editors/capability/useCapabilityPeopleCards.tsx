@@ -730,7 +730,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
             current,
             onNext,
             "Select",
-            "Add a founder under 1. Identity System → 3. Legal Entity → 2. Founders & Ownership.",
+            "Add a founder under 1. Identity System → 1. Definition → Founders & Ownership.",
             info,
             what ? what + " responsible" : undefined,
             !side,
