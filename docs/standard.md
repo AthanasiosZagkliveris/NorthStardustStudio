@@ -1,12 +1,13 @@
 # The standard of the documents
 
-Status: **rules**, written 2026-10-29. How a document in `docs/` is named, numbered, headed, written and kept. The check `npm run docs:standard` enforces the parts that can be checked (marked **checked**). The contents of the documents are in `README.md`; the alphabetical index is `index.md`.
+Status: **rules**, written 2026-10-29, updated 2026-11-09. How a document in `docs/` is named, numbered, headed, written and kept. The check `npm run docs:standard` enforces the parts that can be checked (marked **checked**). The contents of the documents are in `README.md`; the alphabetical index is `index.md`.
 
 ## 1. Where a document goes
 
 | Folder | Holds | Naming |
 |---|---|---|
 | `docs/app/` | The app: contents, index of its places, glossary | plain names |
+| `docs/guide/` | The user guide: how a founder uses the app, step by step | plain names |
 | `docs/design/core/` | The current design of the Foundation, the sources, the research, the log, the open list, the generated catalogue (documents 1 to 7) | `NN-name.md` |
 | `docs/design/library/` | The assets library, its generated lists and logs (8 to 15) | `NN-name.md` |
 | `docs/design/current/` | What the app is today in detail: texts, reactions, components, pop-ups, tooltips, folders, card structure (16 to 26) | `NN-name.md` |

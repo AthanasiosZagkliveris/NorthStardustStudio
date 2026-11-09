@@ -101,6 +101,9 @@ Status: **index**, updated 2026-11-09, written by `npm run docs:index` (the subj
 - **Tile and card pattern**: [tile-and-card-pattern](ai/tile-and-card-pattern.md)
 - **Tile documents (the form and the list)**: [40](design/questionnaire/40-tile-documents.md)
 - **Tooltips**: [24](design/current/24-tooltips.md)
+## U
+
+- **User guide (how to use the app)**: [guide/user-guide](guide/user-guide.md)
 ## V
 
 - **Value Proposition**: [42 (proposal)](design/questionnaire/42-value-proposition-questions.md); [28 section 6.7](design/questionnaire/28-questionnaire-specification.md)

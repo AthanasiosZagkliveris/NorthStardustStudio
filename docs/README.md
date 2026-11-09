@@ -22,6 +22,7 @@ Status: **index**, updated 2026-11-09. One line per document: where it is, what 
 7. [Rules for the assistant](#7-rules-for-the-assistant-ai)
 8. [The specifications](#8-the-specifications-specifications)
 9. [The archive](#9-the-archive-archive)
+10. [The user guide](#10-the-user-guide-guide)
 
 The documents are numbered in the order of the chapters (the number is in the file name and the title, and it is how they cite one another: "doc 28"). The alphabetical index of the subjects is [index.md](index.md); the index of the places in the app is [app/index.md](app/index.md); the terms are in [app/glossary.md](app/glossary.md).
 
@@ -169,4 +170,12 @@ Documents that are finished or replaced; each is kept for its information.
 | [archive/proposals/segment-questions-g-list-2026-10-23.md](archive/proposals/segment-questions-g-list-2026-10-23.md) | archive | The Segment card's earlier design (the G-list of 2026-10-23, ids G1 to G25); the questions as built are doc 35. | 2026-11-03 |
 | [archive/proposals/segment-by-selection-proposal.md](archive/proposals/segment-by-selection-proposal.md) | archive | Proposal: building a Customer Segment by selection (not built). | 2026-11-03 |
 | [archive/proposals/shared-workspace.md](archive/proposals/shared-workspace.md) | archive | Proposal: Shared Workspace, working together without a server (not built). | 2026-11-03 |
+
+## 10. The user guide (`guide/`)
+
+How a founder uses the app, step by step.
+
+| Document | Kind | What it holds | Updated |
+|---|---|---|---|
+| [guide/user-guide.md](guide/user-guide.md) | playbook | The user guide: how a founder uses the app step by step: the Organisations screen, the Foundation with its Identity and Business Systems, and the tools (Workbook, Notes, Search, Settings, Focus, the reading modes, the Calendar). | 2026-11-09 |
 
