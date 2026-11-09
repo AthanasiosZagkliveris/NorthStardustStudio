@@ -442,6 +442,7 @@ function rows(code) {
             : id === "o3" ? list(O.offeringOptions("o3", {})) + " (A project or contract first where the Segment pays by invoice)"
                 : id === "o8" ? "from the Profiles' E3 ticks (Support left out: O7 answers it): " + list(O.offeringOptions("o8", hybrid))
                     : id === "o4" ? list(O.offeringOptions("o4", {})) + " (the list of B1 and K8)"
+                        : id === "o7" ? list(O.offeringOptions("o7", {})) + " (None stands alone; It depends on the plan no longer offered since 2026-11-09, a saved one shown until unticked)"
                         : list(O.offeringOptions(id, {}));
         const notBuilt = OFFERING_NOT_BUILT.map(([code, label, asked]) => ({ code, id: "–", label, control: "none", max: "", asked, starts: "", status: "not built", owner: "doc 43, " + code, unplaced: true }));
         cards.push({

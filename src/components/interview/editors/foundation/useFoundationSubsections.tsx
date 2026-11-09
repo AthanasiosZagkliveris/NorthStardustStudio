@@ -19,7 +19,7 @@ import TextLink from "../../fields/TextLink.tsx";
 import TextBox from "../../../controls/TextBox.tsx";
 import { type OtherQuestion, competitorOtherAdd, competitorOtherName, competitorOtherRemove, competitorOtherSettle, competitorOtherTick, competitorOthers, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, shownOpenings, COMPETITOR_SUBCHANNELS, COMPETITOR_BAND_LINE, bandTone, COMPETITOR_CHANGES, valueProfiles, draftToAdd, differentiationFromOpenings, hardToBeat, insightsDraft, reviewPlatformOrder } from "../../../../framework/engine/CompetitorQuestions.ts";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
-import { OFFERING_BOX_QUESTIONS, OFFERING_QUESTIONS, offeringChoose, type OfferingAnswers, type OfferingContext, type OfferingQuestionId, draftOffered, offeringAsks, offeringInfo, offeringOptions, valuePropositionDraft, valuePropositionOpenItems } from "../../../../framework/engine/OfferingQuestions.ts";
+import { OFFERING_BOX_QUESTIONS, OFFERING_QUESTIONS, offeringChoose, type OfferingAnswers, type OfferingContext, type OfferingQuestionId, draftOffered, offeringAsks, offeringInfo, offeringOptionsWith, valuePropositionDraft, valuePropositionOpenItems } from "../../../../framework/engine/OfferingQuestions.ts";
 import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveProfileUserAnswers, offeringContextOf, withFieldSet } from "../../../../framework/engine/EffectiveAnswers.ts";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import { type ProfileBox, type ProfilePart, type ProfileQuestion, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileOutcomeLimit, profileRate, profileRatings, profileWho, profileQuestionsOf, profileSettle, profileUserAgeRange, profileUserQuestionsOf, profileUserSettle, profileUserWho, proposedBusinessProfiles, segmentNeedTicks } from "../../../../framework/engine/ProfileQuestions.ts";
@@ -1432,8 +1432,9 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 const write = (id: OfferingQuestionId, next: string[]) => change({ questions: { ...(offering.questions ?? {}), [id]: offeringChoose(id, shown[id] ?? [], next) } as OfferingAnswers });
                                 const ask = (id: OfferingQuestionId) => {
                                     const question = OFFERING_QUESTIONS.find(entry => entry.id === id)!;
-                                    const options = offeringOptions(id, context).map(option => ({ ...option }));
                                     const chosen = shown[id] ?? [];
+                                    // (A retired option still saved shows until it is unticked: offeringOptionsWith.)
+                                    const options = offeringOptionsWith(id, context, chosen).map(option => ({ ...option }));
                                     return (
                                         // (O3's second row stands under the first in one band: nested, the shared 12px between rows.)
                                         <FieldRow key={id} pair fullList nested={id === "o3t"} label={question.label} info={[...offeringInfo(id, context)]}

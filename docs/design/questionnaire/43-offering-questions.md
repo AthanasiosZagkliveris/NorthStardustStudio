@@ -206,7 +206,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 
 ### O6. How do your customers receive it?
 
-- **Control:** one choice (a radio).
+- **Control:** ticks, as many as apply, no limit (2026-11-09; a radio until then): one Offering is often delivered several ways (posted or collected; in person or online). A single answer saved before reads as one tick.
 - **Asked when:** always.
 - **Options:**
   - Sent automatically online
@@ -217,7 +217,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - They collect it
   - Ongoing online access
 - **The "i" says:**
-  - How it reaches them once bought.
+  - How it reaches them once bought: tick each way, as one Offering is often delivered in several.
   - Sent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready.
 - **Connections:**
   - *Comes from:* O1, the starting value: a physical item → Posted / shipped to them; a digital file → Sent automatically online; a live online session → In a live online session; an app / online tool → Ongoing online access; online access → Ongoing online access; an in-person service → In person.
@@ -227,7 +227,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 
 ### O7. What help do you give after they buy?
 
-- **Control:** one choice (a radio).
+- **Control:** ticks, as many as apply, no limit; "None" stands alone, as in O17 (`offeringChoose`) (2026-11-09; a radio until then): an Offering often comes with guides and personal help both. A single answer saved before reads as one tick.
 - **Asked when:** always.
 - **Options:**
   - None
@@ -235,11 +235,12 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Automatic help, such as chat or emails
   - Personal help when needed
   - A dedicated person or team
-  - It depends on the plan
+  - ("It depends on the plan" is no longer offered, 2026-11-09: with ticks, each kind of help given is ticked, and the plans are O14's Packages / tiers. A saved one stays shown, and printed, until it is unticked: `OFFERING_RETIRED`, `offeringOptionsWith`; it still answers the Support worry.)
 - **The "i" says:**
-  - The help that comes with it after the sale.
+  - The help that comes with it after the sale: tick each kind you give.
+  - None stands alone: ticking it clears the others.
 - **Connections:**
-  - *Read by (not built yet):* the relationship type's starting value and the Support & Follow Up channels on page 2 (doc 28, 7.4); the Review against the Profiles' D2 (doc 36): "wants to talk to a person" while the help is None or Guides and how-tos (rule 10). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (built):* O8 and the Value Proposition's open item "Worry left open": any tick but None answers the Profiles' worry Support (after they buy), so O8 does not offer it. *Read by (not built yet):* the relationship type's starting value and the Support & Follow Up channels on page 2 (doc 28, 7.4); the Review against the Profiles' D2 (doc 36): "wants to talk to a person" while the help is None or Guides and how-tos (rule 10). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### O17. What comes after the sale?
 

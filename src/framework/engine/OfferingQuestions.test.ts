@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { asBusinessFoundationValue } from "./AnswerBusinessFoundation";
 import { OUTCOME_IDS } from "./PositioningIds";
 import { offeringContextOf } from "./EffectiveAnswers";
-import { OFFERING_BOX_QUESTIONS, asOfferingAnswers, draftOffered, highestRated, offeringAsks, offeringInfo, offeringOptions, offeringShown, valueMismatch, valuePropositionDraft, valuePropositionOpenItems } from "./OfferingQuestions";
+import { OFFERING_BOX_QUESTIONS, OFFERING_QUESTIONS, asOfferingAnswers, draftOffered, highestRated, offeringAnswerLines, offeringAsks, offeringChoose, offeringInfo, offeringOptions, offeringOptionsWith, offeringShown, valueMismatch, valuePropositionDraft, valuePropositionOpenItems } from "./OfferingQuestions";
 
 const segment = asBusinessFoundationValue({
     segments: [{
@@ -202,5 +202,41 @@ describe("O18 between businesses and O3's order from the settled pay", () => {
         expect(context.pay).toEqual(["card"]);
         expect(context.frame).toBe("people");
         expect(offeringOptions("o3", context)[0].id).not.toBe("project");
+    });
+});
+
+describe("O6 and O7 are ticks (2026-11-09: one Offering is often delivered several ways, and given several kinds of help)", () => {
+    it("asks both as ticks with no limit, and reads a saved single answer as one tick", () => {
+        for (const id of ["o6", "o7"]) {
+            const question = OFFERING_QUESTIONS.find(entry => entry.id === id)!;
+            expect(question.many).toBe(true);
+            expect(question.max).toBeUndefined();
+        }
+        expect(offeringShown({ o6: ["collect"], o7: ["guides"] }, { type: "Product" })).toMatchObject({ o6: ["collect"], o7: ["guides"] });
+        expect(offeringShown({ o6: ["collect", "shipped"] }, { type: "Product" }).o6).toEqual(["collect", "shipped"]);
+    });
+
+    it("lets None stand alone in O7, as in O17", () => {
+        expect(offeringChoose("o7", ["guides"], ["guides", "none"])).toEqual(["none"]);
+        expect(offeringChoose("o7", ["none"], ["none", "personal"])).toEqual(["personal"]);
+        expect(offeringChoose("o7", ["guides"], ["guides", "personal"])).toEqual(["guides", "personal"]);
+    });
+
+    it("no longer offers It depends on the plan, but keeps a saved one shown and printed until it is unticked", () => {
+        expect(offeringOptions("o7", { type: "Service" }).map(option => option.id)).not.toContain("plan");
+        expect(offeringOptionsWith("o7", { type: "Service" }, ["plan"]).map(option => option.id)).toContain("plan");
+        const shown = offeringShown({ o7: ["plan"] }, { type: "Service" });
+        expect(shown.o7).toEqual(["plan"]);
+        expect(offeringAnswerLines(shown, { type: "Service" })).toContainEqual({ label: "What help do you give after they buy?", value: "It depends on the plan" });
+    });
+
+    it("counts any help but None as answering the Support worry", () => {
+        const support = asBusinessFoundationValue({ segments: [{ id: "s", name: "S", profiles: [{ id: "p", name: "A", questions: { e3: ["support-after-they-buy"] } }], offerings: [{ id: "o", name: "O", category: "Service" }] }] }).segments[0];
+        const open = (o7: string[]) => valuePropositionOpenItems(support, [{ o7 }]).filter(item => item.kind === "Worry left open").length;
+        expect(open(["none"])).toBe(1);
+        expect(open(["guides", "personal"])).toBe(0);
+        expect(open(["plan"])).toBe(0);
+        // (O8 never offers Support: O7 answers it.)
+        expect(offeringAsks("o8", { type: "Service", worries: ["support-after-they-buy"] })).toBe(false);
     });
 });

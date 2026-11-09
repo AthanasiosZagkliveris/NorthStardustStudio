@@ -67,8 +67,13 @@ const RECEIVE: readonly SegmentOption[] = [
 ];
 const HELP: readonly SegmentOption[] = [
     { id: "none", label: "None" }, { id: "guides", label: "Guides and how-tos" }, { id: "auto", label: "Automatic help, such as chat or emails" },
-    { id: "personal", label: "Personal help when needed" }, { id: "dedicated", label: "A dedicated person or team" }, { id: "plan", label: "It depends on the plan" }
+    { id: "personal", label: "Personal help when needed" }, { id: "dedicated", label: "A dedicated person or team" }
 ];
+/**
+ * Options no longer offered whose saved answer still shows (and prints) until it is unticked: O7's "It depends on the plan" (2026-11-09: O7 became ticks, so the plans' different help
+ * is ticked as each kind given, and the plans themselves are O14's packages).
+ */
+const OFFERING_RETIRED: Readonly<Partial<Record<OfferingQuestionId, readonly SegmentOption[]>>> = { o7: [{ id: "plan", label: "It depends on the plan" }] };
 /** L11 as doc 43 lists it for O10. */
 const PROVIDE: readonly SegmentOption[] = [
     { id: "access", label: "Access to their systems or information" }, { id: "brief", label: "A clear brief" }, { id: "approval", label: "Approval within an agreed time" },
@@ -117,8 +122,8 @@ export const OFFERING_QUESTIONS: readonly OfferingQuestion[] = [
         "A minimum term: write it in the Notes."] },
     { id: "o3t", label: "When do they pay?", many: false, info: ["When the money comes in. How they pay (card, invoice) is the Segment's question."] },
     { id: "o4", label: "Which of what matters most to your customers does it do best?", many: true, max: 3, info: ["The first you tick is the main benefit. The same list as \"What matters most\" on your Profiles and Competitors, so they can be compared.", "The Segment's Differentiation (under its Competitors) starts the ticks, and so does the outcome for the buyer you chose before; change them freely."] },
-    { id: "o6", label: "How do your customers receive it?", many: false, info: ["How it reaches them once bought.", "Sent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready."] },
-    { id: "o7", label: "What help do you give after they buy?", many: false, info: ["The help that comes with it after the sale."] },
+    { id: "o6", label: "How do your customers receive it?", many: true, info: ["How it reaches them once bought: tick each way, as one Offering is often delivered in several.", "Sent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready."] },
+    { id: "o7", label: "What help do you give after they buy?", many: true, info: ["The help that comes with it after the sale: tick each kind you give.", "None stands alone: ticking it clears the others."] },
     { id: "o8", label: "Which of their worries does it answer?", many: true, info: ["The doubts that stop your customers buying from you, as your Profiles say. A worry nothing answers is shown on the Value Proposition.", "Support is answered by the help after they buy, in Support & Communication."] },
     { id: "o10", label: "What do your customers need to give you?", many: true, info: ["What you need from them before or during the work. The details go in the Notes.",
         "A place to work: a desk or a room for you to use. Access to their home or site: the work is done there, such as a repair or a fitting.",
@@ -190,14 +195,14 @@ export const OFFERING_BOX_QUESTIONS: Readonly<Record<string, readonly (readonly 
 };
 
 /**
- * A choice of ticks, where "None" stands alone (O17): ticking None clears the others, ticking another clears None. O4 keeps the order they were ticked in, so the
+ * A choice of ticks, where "None" stands alone (O7 and O17): ticking None clears the others, ticking another clears None. O4 keeps the order they were ticked in, so the
  * first ticked is the main benefit (doc 43, O4): a tick kept stays where it was, a new one goes last.
  */
 export function offeringChoose(id: OfferingQuestionId, chosen: readonly string[], next: readonly string[]): string[] {
     if (id === "o4") {
         return [...chosen.filter(entry => next.includes(entry)), ...next.filter(entry => !chosen.includes(entry))];
     }
-    if (id !== "o17") {
+    if (id !== "o17" && id !== "o7") {
         return [...next];
     }
     const added = next.filter(entry => !chosen.includes(entry));
@@ -246,6 +251,13 @@ export function offeringOptions(id: OfferingQuestionId, context: OfferingContext
     }
 }
 
+/** A question's options as the card shows them: those offered, then a retired option still saved (OFFERING_RETIRED), so it shows until it is unticked. */
+export function offeringOptionsWith(id: OfferingQuestionId, context: OfferingContext, chosen: readonly string[] = []): readonly SegmentOption[] {
+    const offered = offeringOptions(id, context);
+    const retired = (OFFERING_RETIRED[id] ?? []).filter(option => chosen.includes(option.id));
+    return retired.length > 0 ? [...offered, ...retired] : offered;
+}
+
 /** Positioning's differentiation, through the value crosswalk (doc 34, 5.2a), as O4's starting ticks (at most three). */
 const CROSSWALK: Record<string, readonly string[]> = {
     cost: ["lower-price"],
@@ -284,7 +296,8 @@ export function offeringShown(saved: OfferingAnswers, context: OfferingContext):
         if (!offeringAsks(question.id, context) && !heldBack) {
             continue;
         }
-        const offered = offeringOptions(question.id, context).map(option => option.id);
+        // (A retired option saved stays: OFFERING_RETIRED.)
+        const offered = [...offeringOptions(question.id, context), ...(OFFERING_RETIRED[question.id] ?? [])].map(option => option.id);
         // A merged option is read as the one kept (OFFERING_MERGED), so an answer saved before the merge still shows.
         const kept = [...new Set((saved[question.id] ?? []).map(id => OFFERING_MERGED[question.id]?.[id] ?? id))].filter(id => offered.includes(id));
         if (kept.length > 0) {
@@ -330,7 +343,7 @@ export function asOfferingAnswers(source: unknown): OfferingAnswers {
 export function offeringAnswerLines(answers: OfferingAnswers, context: OfferingContext): { label: string; value: string }[] {
     return OFFERING_QUESTIONS.filter(question => (answers[question.id] ?? []).length > 0).map(question => ({
         label: question.label,
-        value: (answers[question.id] ?? []).map(id => offeringOptions(question.id, { ...context, worries: WORRIES.map(option => option.id) }).find(option => option.id === id)?.label ?? id).join("; ")
+        value: (answers[question.id] ?? []).map(id => offeringOptionsWith(question.id, { ...context, worries: WORRIES.map(option => option.id) }, answers[question.id]).find(option => option.id === id)?.label ?? id).join("; ")
     }));
 }
 
