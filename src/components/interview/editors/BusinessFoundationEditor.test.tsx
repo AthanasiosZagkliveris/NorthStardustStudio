@@ -371,6 +371,35 @@ describe("BusinessFoundationEditor's Offering card order", () => {
         expect(delivery.findIndex(band => band.includes("How long until they have it?"))).toBeLessThan(delivery.findIndex(band => band.includes("receive it?")));
     });
 
+    /* Owner, 2026-11-09: two sections, as the Profile's; the questions and the saved keys stay. */
+    it("draws two sections, Description (Function, Customer Benefit, Content & Scope) and Terms & Service (the other three boxes), and keeps the Notes in the one Description", () => {
+        const segment = createBusinessCustomerSegment([]);
+        const saved: { current: unknown } = { current: null };
+        function Saved() {
+            const [value, setValue] = useState<unknown>({ ...asBusinessFoundationValue(undefined), segments: [{ ...segment, offerings: [{ ...createBusinessOffering(), name: "Tutoring", category: "Service", description: { delivery: "Booked online", function: "Lessons" } }] }] });
+            saved.current = value;
+            return <BusinessFoundationEditor value={value} onChange={setValue} />;
+        }
+        render(<Saved />);
+        fireEvent.click(toggles(/Offering 1$/)[0]);
+        const titles = screen.getAllByRole("heading").map(heading => (heading.textContent ?? "").replace(/\s/g, " ").replace(/i$/, "").trim());
+        // (The Offering's "Description" is the last one: the Segment's own stands above it.)
+        const at = (title: string) => titles.lastIndexOf(title);
+        const terms = at("Terms & Service");
+        expect(terms).toBeGreaterThan(at("Description"));
+        for (const box of ["Function", "Customer Benefit", "Content & Scope"]) {
+            expect(at(box)).toBeGreaterThan(at("Description"));
+            expect(at(box)).toBeLessThan(terms);
+        }
+        for (const box of ["Purchase & Delivery", "Support & Communication", "Requirements & Conditions"]) {
+            expect(at(box)).toBeGreaterThan(terms);
+        }
+        expect((screen.getByLabelText(/Purchase & Delivery notes$/) as HTMLTextAreaElement).value).toBe("Booked online");
+        fireEvent.change(screen.getByLabelText(/Purchase & Delivery notes$/), { target: { value: "Booked by phone" } });
+        const offering = (saved.current as { segments: { offerings: { description: Record<string, string> }[] }[] }).segments[0].offerings[0];
+        expect(offering.description).toEqual({ delivery: "Booked by phone", function: "Lessons" });
+    });
+
 });
 
 /* Phase 5, P5 (owner, 2026-11-08): questions held back while Planning; a saved answer survives a stage change back and forth. */

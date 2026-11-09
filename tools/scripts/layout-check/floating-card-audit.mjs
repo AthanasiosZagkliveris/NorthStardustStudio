@@ -23,7 +23,8 @@ const CARDS = [
     { open: "The Considered Nester", file: new URL("../../../src/data/examples/lumen-and-loom-studio.json", import.meta.url) },
     // The Competitor and the Offering cards of the same Segment: the one band pattern holds on every card of the Foundation page.
     { open: "Independent weavers on Etsy & at craft markets", file: new URL("../../../src/data/examples/lumen-and-loom-studio.json", import.meta.url) },
-    { open: "Handwoven Homeware Collection", file: new URL("../../../src/data/examples/lumen-and-loom-studio.json", import.meta.url) },
+    // (The Offering's two sections, owner, 2026-11-09.)
+    { open: "Handwoven Homeware Collection", file: new URL("../../../src/data/examples/lumen-and-loom-studio.json", import.meta.url), parts: ["Description", "Terms & Service"] },
     { open: "The Worried Working Parent", file: new URL("./fixtures/proxy-tutoring.json", import.meta.url), parts: ["The buyer", "The end user"] }
 ];
 const chosen = process.env.CARD_OPEN || process.env.EXAMPLE
@@ -128,7 +129,7 @@ for (const [theme, width] of RUNS) {
     for (let r = 0; r < 3; r++) { for (const bt of await page.getByRole("button", { name: /^(Expand all|Maximize)/ }).all()) { try { await bt.click({ timeout: 400 }); } catch {} } await page.waitForTimeout(250); }
     await page.locator("text=" + OPEN).first().evaluate(n => n.click()); await page.waitForTimeout(3500);
     const problems = await page.evaluate(structure);
-    const heads = await page.evaluate(() => [...document.querySelectorAll(".floating-card-body [role=heading]")].map(h => h.textContent.trim().replace(/i$/, "").trim()));
+    const heads = await page.evaluate(() => [...document.querySelectorAll(".floating-card-body [role=heading]")].map(h => h.textContent.replace(/\s+/g, " ").trim().replace(/i$/, "").trim()));
     const missing = parts.filter(part => !heads.includes(part));
     if (missing.length) problems.push("parts [missing: " + missing.join(", ") + "]");
     if (!problems.some(p => p.startsWith("card "))) {

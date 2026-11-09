@@ -145,7 +145,10 @@ export const SUBSECTIONS = {
         description: [
             { id: "function", title: "Function", text: "What does it do, and what result should it deliver?" },
             { id: "benefit", title: "Customer Benefit", text: "Which problem does it solve, in your customers' words?" },
-            { id: "scope", title: "Content & Scope", text: "What does it include, and what are its boundaries?" },
+            { id: "scope", title: "Content & Scope", text: "What does it include, and what are its boundaries?" }
+        ],
+        // The second section of the card, "Terms & Service" (owner, 2026-11-09): how it is bought and delivered, the help given, and what the customers give and agree to.
+        terms: [
             { id: "delivery", title: "Purchase & Delivery", text: "The steps from order to delivery: prices, deposits, timings." },
             { id: "support", title: "Support & Communication", text: "What the help and the updates include." },
             { id: "requirements", title: "Requirements & Conditions", text: "The details of what they give you, and the conditions that apply." }

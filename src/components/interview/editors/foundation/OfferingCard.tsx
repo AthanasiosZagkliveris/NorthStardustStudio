@@ -1,5 +1,5 @@
 /**
- * ONE OFFERING CARD (doc 43): its Type, then its six Description boxes, each asking its questions in bands over its Notes.
+ * ONE OFFERING CARD (doc 43): its Type, then its six boxes in two sections (Description; Terms & Service), each box asking its questions in bands over its Notes.
  * One part of useFoundationSubsections (moved out whole on 2026-11-09, no change of behaviour): what it reads of the Segment and of the page comes in as `scope`.
  */
 import { Fragment, ReactNode } from "react";
@@ -142,26 +142,27 @@ export function offeringCard(scope: FoundationCardScope, offering: BusinessOffer
                         </FieldRow>
                     );
                 };
-                return description(
-                    whose,
-                    SUBSECTIONS.offerings.description.map(part => {
-                        // (One question per band: each asked question is one entry of the box's bands.)
-                        const asked = (OFFERING_BOX_QUESTIONS[part.id] ?? []).filter(id => offeringAsks(id, context));
-                        return {
-                            ...part,
-                            questions: [...(part.id === "benefit" ? [<Fragment key="needs">{needsBand}</Fragment>] : []), ...asked.map(ask)],
-                            note: true,
-                            placeholder: NOTE_PLACEHOLDERS[part.id],
-                            level: 4,
-                            weight: 2 + (asked.length + (part.id === "benefit" ? 1 : 0)) * 4
-                        };
-                    }),
-                    offering.description,
-                    (next) => change({ description: next }),
-                    true,
-                    undefined,
-                    groupFold(offering.id, "Description", whose),
-                    true
+                // The boxes of one section, each asking its questions (one question per band), then its Notes, the box's saved text.
+                const parts = (list: typeof SUBSECTIONS.offerings.description) => list.map(part => {
+                    // (One question per band: each asked question is one entry of the box's bands.)
+                    const asked = (OFFERING_BOX_QUESTIONS[part.id] ?? []).filter(id => offeringAsks(id, context));
+                    return {
+                        ...part,
+                        questions: [...(part.id === "benefit" ? [<Fragment key="needs">{needsBand}</Fragment>] : []), ...asked.map(ask)],
+                        note: true,
+                        placeholder: NOTE_PLACEHOLDERS[part.id],
+                        level: 4,
+                        weight: 2 + (asked.length + (part.id === "benefit" ? 1 : 0)) * 4
+                    };
+                });
+                // Two sections, as the Profile's (owner, 2026-11-09): Description (Function, Customer Benefit, Content & Scope) and Terms & Service (Purchase & Delivery,
+                // Support & Communication, Requirements & Conditions), the shared double rule between them; both keep their text in the Offering's one Description.
+                return (
+                    <>
+                        {description(whose, parts(SUBSECTIONS.offerings.description), offering.description, (next) => change({ description: next }), true, undefined, groupFold(offering.id, "Description", whose), true)}
+                        <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double business-profile-section-rule" role="separator" />
+                        {description(whose, parts(SUBSECTIONS.offerings.terms), offering.description, (next) => change({ description: next }), true, undefined, groupFold(offering.id, "Terms & Service", whose), true, "Terms & Service")}
+                    </>
                 );
             })()}
 
