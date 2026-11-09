@@ -6,6 +6,8 @@ import LegalEntityEditor from "./LegalEntityEditor";
 import { differentiationOptionsFor, positioningName, userOutcomeOptionsFor } from "./legal/shared.tsx";
 import { typeInto } from "../../../test/interviewTestUtils";
 import { asLegalEntityValue, createLegalEntityExpense, createLegalEntityFounder, createLegalEntityRequirement, legalEntitySectionsEmpty } from "../../../framework/engine/AnswerUtils";
+import lumenText from "../../../data/examples/lumen-and-loom-studio.json?raw";
+import quillText from "../../../data/examples/quillfield-automation-llc.json?raw";
 
 function Harness() {
     const [value, setValue] = useState<unknown>({
@@ -930,6 +932,33 @@ describe("LegalEntityEditor as tiles", () => {
         expect([...document.querySelectorAll(".section-tile-dialog .section-tile")].map(tile => tile.getAttribute("data-tile"))).toEqual(["registration-numbers", "requirements"]);
         fireEvent.click(document.querySelector("[data-tile=requirements]")!);
         expect(screen.getByRole("button", { name: "Add Card" })).toBeTruthy();
+    });
+
+    it.each([
+        ["Lumen & Loom (UK)", lumenText, [
+            "Companies House: 16234587", "UK Trade Mark (LUMEN & LOOM): UK00004012345", "Tax Identification Number (UTR): 3456789012", "VAT: GB 412 3456 78", "PAYE Employer Reference: 120/AB45678"
+        ]],
+        ["Quillfield (US)", quillText, [
+            "New York Department of State: KC-2026-0817", "Tax Identification Number (EIN): 93-4567812"
+        ]]
+    ])("%s: the Registrations tiles list what their dialogs hold, in the dialogs' order and words, with no status line", (_name, text, numbers) => {
+        const saved = (JSON.parse(text) as { systems: Record<string, { responses: Array<{ value?: { formation?: unknown } }> }> }).systems["1"].responses.find(response => response.value?.formation)!.value;
+        function Example() {
+            const [value, setValue] = useState<unknown>(saved);
+            return <LegalEntityEditor value={value} onChange={setValue} asTiles />;
+        }
+        render(<Example />);
+        // (A tile's list is its links layer, laid over it in the tile's slot.)
+        const linesOf = (tile: string) => { let at = document.querySelector(`[data-tile=${tile}]`)?.parentElement ?? null; while (at && !at.querySelector(".section-tile-list > li")) { at = at.parentElement; } return [...(at?.querySelectorAll(".section-tile-list") ?? [])].slice(0, 1).flatMap(list => [...list.querySelectorAll(":scope > li")]).map(item => item.textContent?.trim() ?? ""); };
+        expect(linesOf("legal-entity-registrations")).toEqual(["Registration Numbers", "Additional Legal Requirements"]);
+        fireEvent.click(document.querySelector("[data-tile=legal-entity-registrations]")!);
+        expect(linesOf("registration-numbers")).toEqual(numbers);
+        const requirements = asLegalEntityValue(saved).requirements.map(requirement => requirement.name);
+        expect(linesOf("requirements")).toEqual(requirements);
+        // (The dialog holds the same: the registry and the tax number as written there.)
+        fireEvent.click(document.querySelector("[data-tile=registration-numbers]")!);
+        expect((screen.getByRole("textbox", { name: "Registration Number" }) as HTMLInputElement).value).toBe(numbers[0].split(": ")[1]);
+        expect(screen.getByLabelText("Registration Authority").textContent).toBe(numbers[0].split(": ")[0]);
     });
 
 });

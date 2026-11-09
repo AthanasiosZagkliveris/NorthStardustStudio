@@ -138,7 +138,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 |---|---|---|
 | Reading mode | Header: light, sepia, dark, auto | Doc 1, B.2 |
 | References | Header › Workbook › References (the Workbook page's fourth tab): every source the app cites, as a Harvard reference list; the "i" notes cite the same references | Doc 2, 2.1 and 2.2 |
-| Registrations | Identity › 2 Legal Entity › Registrations | Doc 26 |
+| Registrations | Identity › 2 Legal Entity › Registrations (sub tiles: Registration Numbers, Additional Legal Requirements; each lists what its dialog holds) | Doc 26; layout rules, 13 |
 | Resources | Business › 3 Infrastructure & Capability (both cards) | Page 3 |
 | Revenue | Business › 5 Sustainability › Revenue | Page 5 |
 | Review | Header › Workbook › Review (`/review` opens it there): Still open, Worth a second look, Key dates, Missing from the documents; on the Organisations screen, every organisation, with a funnel of the Organisations | Doc 1, C.2 |
