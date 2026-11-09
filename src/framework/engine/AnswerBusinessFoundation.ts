@@ -1083,6 +1083,19 @@ export const BUSINESS_CHANNEL_CATEGORIES = [
     }
 ] as const;
 
+/**
+ * The channels that serve a physical item only (doc 28, 11.7): Physical Delivery and Retail & Wholesale. While no Offering on Page 1 has a physical item
+ * (noPhysicalOffering, EffectiveAnswers.ts), Page 2 hides each of them that holds no subchannel, as Page 3 hides its physical categories: hidden, never deleted,
+ * and shown again when an Offering's Type or form (O1) changes.
+ */
+export const PHYSICAL_CHANNEL_CATEGORY_IDS: readonly string[] = ["physical-delivery", "retail-wholesale"];
+
+/** Whether Page 2 hides a channel category: it serves a physical item only, no Offering has one, and the Segment has no channel under it. */
+export function channelCategoryHidden(label: string, noPhysical: boolean, usedLabels: readonly string[]): boolean {
+    const category = BUSINESS_CHANNEL_CATEGORIES.find(entry => entry.label === label);
+    return noPhysical && category !== undefined && PHYSICAL_CHANNEL_CATEGORY_IDS.includes(category.id) && !usedLabels.includes(label);
+}
+
 /** A point of help: a name and what it means. */
 export interface ChannelHelpPoint {
     title: string;

@@ -200,6 +200,8 @@ Use, in this fixed order (as built):
 12. Referral & Affiliates (Referral Partner, Affiliate, Influencer / Ambassador, Customer Referral)
 13. Other
 
+**Without a physical item** (doc 28, 11.7; built 2026-11-09): while Page 1 has Offerings and none of them has a physical item (each a Service, or its form, O1, one with none), Physical Delivery and Retail & Wholesale are not offered: not as faded tiles, not in the Channel list. A Segment that already has a channel under one keeps it, shown as before; nothing is deleted, and both are offered again when an Offering's Type or form changes (`channelCategoryHidden`, `noPhysicalOffering`).
+
 Each category lists its own channels as presets (for example Social Media: Instagram, Facebook, LinkedIn, YouTube, TikTok, Pinterest, X) and ends in **Other**, which takes a name typed by the user. The earlier category "File Delivery / Client Portal" is now **File Delivery**. As built, each category offers only the Journey Stages that fit it: Social Media and Community, Discover, Evaluation, Support & Follow Up; Marketplace and Retail & Wholesale, Discover, Evaluation, Purchase, Delivery; In Person, Discover, Evaluation, Delivery, Support & Follow Up; Email and Online / Live, Evaluation, Delivery, Support & Follow Up; Referral & Affiliates, Discover, Evaluation, Purchase; Direct Payment, Purchase; File Delivery and Physical Delivery, Delivery; Website and Other, all five.
 
 Do not allow unlimited custom categories unless explicitly required by the implementation.

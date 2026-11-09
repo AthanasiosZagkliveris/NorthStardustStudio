@@ -4,7 +4,7 @@
  */
 import { CSSProperties } from "react";
 import CardShell from "../../cards/CardShell.tsx";
-import { BUSINESS_CHANNEL_ALL_OFFERINGS, BUSINESS_CHANNEL_CATEGORIES, BUSINESS_CHANNEL_OTHER, BUSINESS_RELATIONSHIP_TYPES, BusinessChannelValue, BusinessCustomerSegmentValue, channelCategoryHelp, businessProfileOfferings, businessRelationshipInteractions, createBusinessChannel, segmentHue } from "../../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_CHANNEL_ALL_OFFERINGS, BUSINESS_CHANNEL_CATEGORIES, BUSINESS_CHANNEL_OTHER, BUSINESS_RELATIONSHIP_TYPES, BusinessChannelValue, BusinessCustomerSegmentValue, channelCategoryHelp, channelCategoryHidden, businessProfileOfferings, businessRelationshipInteractions, createBusinessChannel, segmentHue } from "../../../../framework/engine/AnswerUtils.ts";
 import { BusinessAddButton, BusinessEmpty, BusinessNote, BusinessStep, BusinessTicks } from "../../cards/BusinessCardFields.tsx";
 import { summaryText } from "../../cards/cardSummary.ts";
 import InfoNote, { InfoText } from "../../fields/InfoNote.tsx";
@@ -22,7 +22,7 @@ type Earlier = ReturnType<typeof useEngagementState> & ReturnType<typeof useEnga
 
 export function useEngagementRelationships(earlier: Earlier) {
 
-    const { channelCategoryFoldKey, channelTileId, channelsFor, disabled, folds, foundationLink, interactionOf, offeringRelationshipsOf, segmentOf, typeOf, updateInteraction, updateOfferingRelationships, updateSegment, updateType } = earlier;
+    const { channelCategoryFoldKey, channelTileId, channelsFor, disabled, folds, noPhysical, foundationLink, interactionOf, offeringRelationshipsOf, segmentOf, typeOf, updateInteraction, updateOfferingRelationships, updateSegment, updateType } = earlier;
 
     /**
      * 1. CUSTOMER CHANNEL AS TILES: a tile for each channel (the group of subchannels under one category), listing its subchannels; pressing it opens that channel's
@@ -157,6 +157,8 @@ export function useEngagementRelationships(earlier: Earlier) {
         // The channels the page offers that this Segment does not use yet: tiles, faded; pressing one makes it (and opens it).
         const unused: SectionTile[] = BUSINESS_CHANNEL_CATEGORIES
             .filter(category => category.label !== BUSINESS_CHANNEL_OTHER && !groups.some(group => group.label === category.label))
+            // (Physical Delivery and Retail & Wholesale are not offered while no Offering has a physical item: doc 28, 11.7.)
+            .filter(category => !channelCategoryHidden(category.label, noPhysical, groups.map(group => group.label)))
             .map(category => ({
                 id: channelTileId(segment.id, "inactive-" + category.id),
                 title: category.label,

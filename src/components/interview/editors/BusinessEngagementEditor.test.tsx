@@ -15,6 +15,7 @@ import {
     BUSINESS_JOURNEY_STAGES,
     asBusinessEngagementValue,
     asBusinessFoundationValue,
+    channelCategoryHidden,
     createBusinessChannel,
     createBusinessCustomerSegment,
     createBusinessOffering,
@@ -446,6 +447,50 @@ describe("BusinessEngagementEditor starts from Page 1 (phase 5f, 2026-11-09)", (
         render(<StartHarness saved />);
         expandAll("Expand all offerings");
         expect(screen.getByRole("button", { name: "How customers buy Retainer: One sale at a time" })).toBeTruthy();
+    });
+
+});
+
+describe("BusinessEngagementEditor without a physical item (doc 28, 11.7)", () => {
+
+    /** The channel tiles of one Segment whose Offerings are of these Types, with these channels already made. */
+    function tileTitles(types: string[], channels: string[] = []) {
+        const segment = createBusinessCustomerSegment([]);
+        const foundation = {
+            ...asBusinessFoundationValue(undefined),
+            segments: [{ ...segment, name: "Firms", offerings: types.map((category, at) => ({ ...createBusinessOffering(), name: "Offering " + (at + 1), category })) }]
+        };
+        const engagement = {
+            ...asBusinessEngagementValue(undefined),
+            segments: [{ ...createBusinessSegmentEngagement(segment.id), channels: channels.map(category => ({ ...createBusinessChannel(), category, name: "Shop" })) }]
+        };
+        render(<BusinessEngagementEditor value={engagement} onChange={() => undefined} foundation={foundation} asTiles />);
+        const titles = [...document.querySelectorAll(".section-tile .section-tile-title")].map(title => (title.textContent ?? "").replace(/\s+/g, " "));
+        cleanup();
+        return titles;
+    }
+
+    it("hides the Physical Delivery and Retail & Wholesale channels while no Offering is physical, as Page 3 hides its physical categories", () => {
+        const services = tileTitles(["Service", "Service"]);
+        expect(services).not.toContain("Physical Delivery");
+        expect(services).not.toContain("Retail & Wholesale");
+        expect(services).toContain("Website");
+        // (A Product or Hybrid Offering brings them back: hidden, never deleted.)
+        for (const types of [["Service", "Product"], ["Hybrid"]]) {
+            expect(tileTitles(types)).toEqual(expect.arrayContaining(["Physical Delivery", "Retail & Wholesale"]));
+        }
+        // (A channel already made stays shown.)
+        const kept = tileTitles(["Service"], ["Retail & Wholesale"]);
+        expect(kept).toContain("Retail & Wholesale");
+        expect(kept).not.toContain("Physical Delivery");
+    });
+
+    it("says which channel categories are hidden: only the two physical ones, only with no physical item, only while unused", () => {
+        expect(channelCategoryHidden("Physical Delivery", true, [])).toBe(true);
+        expect(channelCategoryHidden("Retail & Wholesale", true, [])).toBe(true);
+        expect(channelCategoryHidden("Retail & Wholesale", true, ["Retail & Wholesale"])).toBe(false);
+        expect(channelCategoryHidden("Physical Delivery", false, [])).toBe(false);
+        expect(channelCategoryHidden("Website", true, [])).toBe(false);
     });
 
 });

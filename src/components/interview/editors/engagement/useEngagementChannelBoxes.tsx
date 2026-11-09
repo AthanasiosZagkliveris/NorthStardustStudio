@@ -4,7 +4,7 @@
  */
 import { Fragment, ReactNode } from "react";
 import AddButton from "../../../controls/AddButton.tsx";
-import { BUSINESS_CHANNEL_ALL_OFFERINGS, BUSINESS_CHANNEL_CATEGORIES, BUSINESS_CHANNEL_OTHER, BUSINESS_ENGAGEMENT_SECTIONS, BUSINESS_JOURNEY_STAGES, BusinessChannelValue, BusinessCustomerSegmentValue, businessChannelNamePlaceholder, channelCategoryHelp, channelOptionHelp, createBusinessChannel } from "../../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_CHANNEL_ALL_OFFERINGS, BUSINESS_CHANNEL_CATEGORIES, BUSINESS_CHANNEL_OTHER, BUSINESS_ENGAGEMENT_SECTIONS, BUSINESS_JOURNEY_STAGES, BusinessChannelValue, BusinessCustomerSegmentValue, businessChannelNamePlaceholder, channelCategoryHelp, channelCategoryHidden, channelOptionHelp, createBusinessChannel } from "../../../../framework/engine/AnswerUtils.ts";
 import { BusinessAddButton, BusinessEmpty, OptionalField, BusinessRemove, BusinessStep, BusinessTicks, uniqueChoices } from "../../cards/BusinessCardFields.tsx";
 import InfoNote, { InfoText } from "../../fields/InfoNote.tsx";
 import NumberedListInput from "../../fields/NumberedListInput.tsx";
@@ -24,7 +24,7 @@ type Earlier = ReturnType<typeof useEngagementState>;
 
 export function useEngagementChannelBoxes(earlier: Earlier) {
 
-    const { cards, channelActions, channelCategoryFoldKey, channelResources, collapsed, currency, disabled, engagement, folds, isolatingSegment, offeringsOfMadeCards, onOpenCapability, onOpenFoundation, openAction, relatedStages, segmentOf, segments, setLit, toggle, updateChannel, updateSegment } = earlier;
+    const { cards, channelActions, channelCategoryFoldKey, channelResources, collapsed, currency, disabled, engagement, folds, isolatingSegment, noPhysical, offeringsOfMadeCards, onOpenCapability, onOpenFoundation, openAction, relatedStages, segmentOf, segments, setLit, toggle, updateChannel, updateSegment } = earlier;
 
     /** The card on Page 1 with this id, and the Segment it is in. */
     function foundationPath(id: string): string[] {
@@ -634,6 +634,8 @@ export function useEngagementChannelBoxes(earlier: Earlier) {
                                                                 other.label === category.label
                                                             )
                                                         )
+                                                        // (Physical Delivery and Retail & Wholesale are not offered while no Offering has a physical item: doc 28, 11.7.)
+                                                        .filter(category => !channelCategoryHidden(category.label, noPhysical, groups.map(other => other.label)))
                                                         .map(category => category.label),
                                                     BUSINESS_CHANNEL_OTHER
                                                 ]}
