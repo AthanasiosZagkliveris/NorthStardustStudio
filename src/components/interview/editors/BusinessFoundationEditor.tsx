@@ -169,7 +169,7 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                                                 <FieldLabel className="business-foundation-label" role="heading" aria-level={3}>Insights & Differentiation</FieldLabel>
                                             </span>
                                         </div>
-                                        <div className="legal-entity-org-section legal-entity-org-band">
+                                        <div className="legal-entity-org-section">
                                             {subsectionsFor(segment, index).differentiation}
                                         </div>
                                     </div>

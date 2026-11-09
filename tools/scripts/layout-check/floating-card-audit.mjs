@@ -2,12 +2,12 @@
  * THE AUDIT OF A FLOATING CARD OF QUESTIONS (docs/ai/tile-and-card-pattern.md, "A floating card of questions"): the Profile card is the model, and a new card of this kind is run
  * through this before it is called done. It opens the card in the running app (a Vite server on BASE_URL, 1420 by default), in light, sepia and dark and at two widths, and checks:
  *   width and reflow; the one content line; bands, lines and rules from side to side; bands flush; rules (the shared double rule between sections, one line between subsections);
- *   heading levels that never skip; no "None of these" in an option; text 4.5:1 and a control's boundary 3:1 (measured on the pixels); targets of 24px; names; console errors.
+ *   one band pattern, by the colours drawn (under a title band the first band untinted, then the tints alternate, the Notes the next tint); heading levels that never skip; no "None of these" in an option; text 4.5:1 and a control's boundary 3:1 (measured on the pixels); targets of 24px; names; console errors.
  *
  *   node tools/scripts/layout-check/floating-card-audit.mjs
  *   CARD_PAGE="1. Foundation" CARD_SYSTEM="Business System" CARD_OPEN="The Considered Nester" EXAMPLE=lumen-and-loom-studio node tools/scripts/layout-check/floating-card-audit.mjs
  *
- * With no CARD_OPEN or EXAMPLE it audits each card of CARDS in turn: the Considered Nester of the Lumen example (src/data/examples), and the Profile of the check-only fixture
+ * With no CARD_OPEN or EXAMPLE it audits each card of CARDS in turn: the Considered Nester, a Competitor and an Offering of the Lumen example (src/data/examples), and the Profile of the check-only fixture
  * fixtures/proxy-tutoring.json (a parent buying tutoring for a child: B2C Proxy), the two-part Profile, whose "The buyer" and "The end user" sections it also requires.
  * It lists what fails and exits 1 if anything does.
  */
@@ -21,6 +21,9 @@ const PAGE = process.env.CARD_PAGE ?? "1. Foundation";
 /** The cards audited by default: an example's card, then a fixture's (./fixtures, never one of the examples: no test reads it). `parts`: the section headings the card must show. */
 const CARDS = [
     { open: "The Considered Nester", file: new URL("../../../src/data/examples/lumen-and-loom-studio.json", import.meta.url) },
+    // The Competitor and the Offering cards of the same Segment: the one band pattern holds on every card of the Foundation page.
+    { open: "Independent weavers on Etsy & at craft markets", file: new URL("../../../src/data/examples/lumen-and-loom-studio.json", import.meta.url) },
+    { open: "Handwoven Homeware Collection", file: new URL("../../../src/data/examples/lumen-and-loom-studio.json", import.meta.url) },
     { open: "The Worried Working Parent", file: new URL("./fixtures/proxy-tutoring.json", import.meta.url), parts: ["The buyer", "The end user"] }
 ];
 const chosen = process.env.CARD_OPEN || process.env.EXAMPLE
@@ -72,7 +75,17 @@ const structure = () => {
     // a cell beside its label has equal room above and below
     for (const cell of card.querySelectorAll(".business-profile-age")) { const a = cell.getBoundingClientRect(), b = cell.closest(".legal-entity-org-section").getBoundingClientRect(); if (Math.round(a.top - b.top) !== Math.round(b.bottom - a.bottom)) fail("cell room", Math.round(a.top - b.top) + " above, " + Math.round(b.bottom - a.bottom) + " below"); if (Math.abs(a.width - a.height) > 1) fail("cell square", Math.round(a.width) + "x" + Math.round(a.height)); }
     // notes: a band of its own, the next tint, a field gap above
-    for (const n of card.querySelectorAll(".business-note-band")) { if (n.classList.contains("legal-entity-org-band") === n.previousElementSibling.classList.contains("legal-entity-org-band")) fail("notes tint", "same tint as the band above"); if (getComputedStyle(n).paddingTop !== "12px") fail("notes gap", getComputedStyle(n).paddingTop); }
+    for (const n of card.querySelectorAll(".business-note-band")) { if (getComputedStyle(n).paddingTop !== "12px") fail("notes gap", getComputedStyle(n).paddingTop); }
+    // one band pattern, by the colours drawn (not the classes, which a rule can restyle): under a title band (a box's first band, or a section's head) the first band is untinted,
+    // then each band the other tint from the one above it (the Notes included, the next tint)
+    const clear = e => { const c = getComputedStyle(e).backgroundColor; return c === "transparent" || /^rgba\(.*, 0\)$/.test(c) || / \/ 0\)$/.test(c); };
+    for (const run of card.querySelectorAll(".business-segment-box, .business-segment-grid > .legal-entity-field")) {
+        const bands = [...run.children].filter(k => k.classList.contains("legal-entity-org-section") && k.getBoundingClientRect().height > 0);
+        const list = run.classList.contains("business-segment-box") ? bands.slice(1) : bands;
+        const what = e => (e.querySelector(".field-label")?.textContent ?? e.textContent).trim().slice(0, 30);
+        if (list.length && !clear(list[0])) fail("band pattern", "the first band under a title is tinted: " + what(list[0]));
+        for (let i = 1; i < list.length; i++) { if (clear(list[i]) === clear(list[i - 1])) fail("band pattern", "same tint as the band above: " + what(list[i])); }
+    }
     // words: no "None of these" (an Other the user writes in). (The word "or" is right between two different things, a slash between similar ones: owner, 2026-11-03, docs/ai/tile-and-card-pattern.md, "Options".)
     const words = [...card.querySelectorAll(".radio-choice-option span, .business-foundation-tick-label")].map(e => e.textContent.trim()).filter(w => /None of these/.test(w));
     if (words.length) fail("option words", words.slice(0, 4).join(" | "));

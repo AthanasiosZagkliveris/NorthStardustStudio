@@ -561,8 +561,8 @@ export function useFoundationSubsections(earlier: Earlier) {
 
         /**
          * The bands of a Profile's Needs: Functional (the jobs ticked and rated, then the numbered list of their own tasks), Emotional and Social (ticked and rated, then their Notes).
-         * In the Needs section of a Direct Segment's Profile the ticks are tinted; in the end user's Needs box (doc 36, 2.1) the bands run on from its title band, so the tints
-         * alternate the other way, as every box's do, and the questions are written of the end user.
+         * One band pattern everywhere (the Needs section of a Direct Segment's Profile and the end user's Needs box, doc 36, 2.1): under the title band the ticks untinted, their Notes
+         * (or own tasks) the next tint. In the end user's box the questions are written of the end user.
          */
         const NEEDS_INFO = ["Functional: tick and rate up to three jobs, then write their own tasks, one numbered line each; the Offerings choose from these lines.", "Emotional and Social: tick and rate up to three each, then add Notes."];
         const needsBands = (profile: BusinessCustomerProfileValue, profileIndex: number, inBox: boolean) => SUBSECTIONS.segments.needs.map((kind, at) => {
@@ -575,14 +575,14 @@ export function useFoundationSubsections(earlier: Earlier) {
             // the Offerings pick from.
             choices ? (
                 <Fragment key={kind.id}>
-                    {/* The tints run on across every band (Functional, then each kind's ticks and its Notes): in the Needs section the ticks tinted, the Notes not; in a box the other way. */}
-                    <div className={"legal-entity-org-section" + (inBox ? "" : " legal-entity-org-band")}>
+                    {/* The tints run on across every band (Functional, then each kind's ticks and its Notes), one rule everywhere: under a title band the ticks untinted, their Notes (or own tasks) the next tint. */}
+                    <div className="legal-entity-org-section">
                         {profileQuestionOf(profile, profileIndex, shown, choices, inBox ? "user" : "buyer")}
                     </div>
                     {kind.id === "functional" ? (
                         // Functional (owner, 2026-11-07): the jobs ticked and rated above, the customer's own tasks in the numbered list below,
                         // as built; each line keeps its id, so an Offering's tick follows the line through edits.
-                        <div className={"legal-entity-org-section" + (inBox ? " legal-entity-org-band" : "")}>
+                        <div className="legal-entity-org-section legal-entity-org-band">
                             <FieldRow pair fullList label="Their own tasks" info={[kind.text]}>
                                 <NumberedListInput
                                     label={kind.title + " needs for " + segmentPath + ", Profile " + (profileIndex + 1)}
@@ -595,7 +595,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                             </FieldRow>
                         </div>
                     ) : (
-                    <div className={"legal-entity-org-section business-note-band" + (inBox ? " legal-entity-org-band" : "")}>
+                    <div className="legal-entity-org-section business-note-band legal-entity-org-band">
                         <OptionalNote
                             label="Notes"
                             fieldId={kind.title + " notes"}
@@ -1009,14 +1009,15 @@ export function useFoundationSubsections(earlier: Earlier) {
                             {controls[id]()}
                         </FieldRow>
                     );
-                    /** A question standing alone in a group (K8 to K10): a band as the boxes' questions are, in the same wrapper as the Profile's Motivations, with its Notes in the note band under it. */
-                    const band = (content: ReactNode, note?: ReactNode) => (
+                    /**
+                     * A question standing alone in a group (K8 to K10): its bands straight under the group's title band, as the Profile's Needs are (one band pattern on every card: the first
+                     * band untinted, the next tinted, the Notes the next tint). Not in a box: a box's first band is its own title band.
+                     */
+                    const band = (content: ReactNode | null, note?: ReactNode) => (
                         <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-single">
                             <div className="legal-entity-field">
-                                <div className="business-segment-box">
-                                    <div className="legal-entity-org-section">{content}</div>
-                                    {note && <div className="legal-entity-org-section business-note-band legal-entity-org-band">{note}</div>}
-                                </div>
+                                {content && <div className="legal-entity-org-section">{content}</div>}
+                                {note && <div className={"legal-entity-org-section business-note-band" + (content ? " legal-entity-org-band" : "")}>{note}</div>}
                             </div>
                         </div>
                     );
@@ -1123,29 +1124,31 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 inside it. K10 above the text: openings drawn from the answers above (doc 41). */}
                             {group(
                                 "Insights & Differentiation",
-                                <>
-                                    {openings.length > 0 && band(question("k10"))}
-                                    {/* Only the sentences not already in the text; nothing new, no link. */}
-                                    {draftToAdd(competitor.insights, draft) && (
-                                        <TextLink
-                                            className="business-competitor-draft"
+                                // K10 untinted under the title band, then the Insights text (and its "Add to text") in the note band, the next tint.
+                                band(openings.length > 0 ? question("k10") : null, (
+                                    <>
+                                        {/* Only the sentences not already in the text; nothing new, no link. */}
+                                        {draftToAdd(competitor.insights, draft) && (
+                                            <TextLink
+                                                className="business-competitor-draft"
+                                                disabled={disabled}
+                                                onClick={() => {
+                                                    const adding = draftToAdd(competitor.insights, draft);
+                                                    change({ insights: competitor.insights.trim() ? competitor.insights.replace(/\s+$/, "") + "\n\n" + adding : adding });
+                                                }}
+                                            >
+                                                Add to text
+                                            </TextLink>
+                                        )}
+                                        <StrategyTextArea
+                                            className="interview-input business-foundation-note"
+                                            ariaLabel={whose + " insights & differentiation"}
                                             disabled={disabled}
-                                            onClick={() => {
-                                                const adding = draftToAdd(competitor.insights, draft);
-                                                change({ insights: competitor.insights.trim() ? competitor.insights.replace(/\s+$/, "") + "\n\n" + adding : adding });
-                                            }}
-                                        >
-                                            Add to text
-                                        </TextLink>
-                                    )}
-                                    <StrategyTextArea
-                                        className="interview-input business-foundation-note"
-                                        ariaLabel={whose + " insights & differentiation"}
-                                        disabled={disabled}
-                                        value={competitor.insights}
-                                        onChange={(next) => change({ insights: next })}
-                                    />
-                                </>,
+                                            value={competitor.insights}
+                                            onChange={(next) => change({ insights: next })}
+                                        />
+                                    </>
+                                )),
                                 asked.insights === undefined
                                     ? SUBSECTIONS.competitors.insights
                                     : [asked.insights],
@@ -1207,9 +1210,12 @@ export function useFoundationSubsections(earlier: Earlier) {
             : [];
         const openItems = valuePropositionOpenItems(segment, offeringAnswers, profileAnswers);
 
+        // In the bands every card has (one band pattern, as the Profiles' and the Differentiation's sections): the text untinted, Emotional Needs tinted, Social Needs untinted, Open items tinted.
         const valueProposition = group(
             "Value Proposition",
-            <div className="business-foundation-field">
+            <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-full">
+            <div className="legal-entity-field">
+            <div className="legal-entity-org-section business-foundation-field">
 
                 {drafts.map(({ offering, draft }) => (
                     <TextLink
@@ -1237,6 +1243,8 @@ export function useFoundationSubsections(earlier: Earlier) {
                         valueProposition: next
                     })}
                 />
+
+            </div>
 
                 {/* The two kinds of need this answer is the one
                     answer for: "Identify how the Value Proposition
@@ -1274,15 +1282,19 @@ export function useFoundationSubsections(earlier: Earlier) {
                         )
                     );
 
-                    // Each list as a field row, as "Open items" below: on the content line, with the shared label line.
+                    // Each list as a field row, as "Open items" below: on the content line, with the shared label line; each in its band.
                     return (
                         <>
-                            <FieldRow pair fullList nested label="Emotional Needs">
-                                {entriesOf(segmentNeedTicks(shownAnswers, "emotional"), emotional)}
-                            </FieldRow>
-                            <FieldRow pair fullList label="Social Needs">
-                                {entriesOf(segmentNeedTicks(shownAnswers, "social"), social)}
-                            </FieldRow>
+                            <div className="legal-entity-org-section legal-entity-org-band">
+                                <FieldRow pair fullList label="Emotional Needs">
+                                    {entriesOf(segmentNeedTicks(shownAnswers, "emotional"), emotional)}
+                                </FieldRow>
+                            </div>
+                            <div className="legal-entity-org-section">
+                                <FieldRow pair fullList label="Social Needs">
+                                    {entriesOf(segmentNeedTicks(shownAnswers, "social"), social)}
+                                </FieldRow>
+                            </div>
                         </>
                     );
 
@@ -1290,11 +1302,14 @@ export function useFoundationSubsections(earlier: Earlier) {
 
                 {/* The open items (doc 42, 2): read-only, under the text. */}
                 {openItems.length > 0 && (
-                    <FieldRow pair fullList label="Open items" info={["Gaps between what your customers want and what your Offerings give. They are reminders, not errors."]}>
-                        <ListStatic marker="bullet" lines={openItems.map((item, at) => ({ key: item.kind + at, text: item.kind + ": " + item.text }))} />
-                    </FieldRow>
+                    <div className="legal-entity-org-section legal-entity-org-band">
+                        <FieldRow pair fullList label="Open items" info={["Gaps between what your customers want and what your Offerings give. They are reminders, not errors."]}>
+                            <ListStatic marker="bullet" lines={openItems.map((item, at) => ({ key: item.kind + at, text: item.kind + ": " + item.text }))} />
+                        </FieldRow>
+                    </div>
                 )}
 
+            </div>
             </div>,
             [...SUBSECTIONS.valueProposition.note, "Add a draft: a starting sentence made from your answers on this page. It is yours once added: change it freely.", "Based on: Moore's positioning template, and the pains and gains of the Value Proposition Canvas."]
         );
