@@ -1011,6 +1011,18 @@
             }
         }
 
+        // 16d. EVERY TILE IS A SQUARE, AT EVERY WIDTH (docs/ai/layout-rules.md, section 23; owner, 2026-11-09: "Does not matter the screen's width, the tiles
+        //      should always be squares"): a master tile on a page, a sub tile, a card tile and an add box inside a dialog; width equals height within 1px.
+        //      (The Inventory and Completed row's rectangles are no tiles of a grid: section 12.)
+        for (const tile of [...document.querySelectorAll(".section-tile")].filter(visible)) {
+            if (tile.closest(".section-tiles-completed")) continue;
+            // (The Strategic Period's Roadmap draws its Objectives as timeline bars, as long as their period: a declared exception, the owner's to decide.)
+            if (tile.closest(".strategy-period-roadmap")) continue;
+            if (Math.abs(tile.offsetWidth - tile.offsetHeight) > 1) {
+                fail("every tile is a square, at every width", tile, { width: tile.offsetWidth, height: tile.offsetHeight });
+            }
+        }
+
         // 16c. THE ARROWS NEVER MOVE, AND THE TAB'S LIST FLOWS ROUND THEM (docs/ai/layout-rules.md, section 10, "Carousel arrows" and "Page tab"): the two arrows
         //      stand level with each other, and no line of the page tab lies under an arrow (the line that would reach it continues after it).
         {
