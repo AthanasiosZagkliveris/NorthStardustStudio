@@ -270,7 +270,7 @@ describe("a dated note", () => {
 
 describe("notes by Organisation", () => {
 
-    it("belong to the Organisation they were written in; the open one first and open, the others folded with their counts, General last", () => {
+    it("belong to the Organisation they were written in; the open one's first, directly, with no heading (its name is the header's), the others folded with their counts, General last", () => {
         const lumen = OrganizationService.create("Lumen");
         const quill = OrganizationService.create("Quillfield");
         OrganizationService.setSelected(lumen.id);
@@ -282,12 +282,12 @@ describe("notes by Organisation", () => {
         act(() => { NotepadService.open(); });
 
         const heads = screen.getAllByRole("button", { name: /(Minimise|Maximise) (Lumen|Quillfield|General)/ });
-        expect(heads.map(head => head.closest(".fold-head")?.querySelector(".fold-head-name")?.textContent! + head.closest(".fold-head")?.querySelector(".fold-head-count")?.textContent)).toEqual(["Lumen1", "Quillfield1", "General1"]);
-        expect(heads.map(head => head.getAttribute("aria-expanded"))).toEqual(["true", "false", "false"]);
+        expect(heads.map(head => head.closest(".fold-head")?.querySelector(".fold-head-name")?.textContent! + head.closest(".fold-head")?.querySelector(".fold-head-count")?.textContent)).toEqual(["Quillfield1", "General1"]);
+        expect(heads.map(head => head.getAttribute("aria-expanded"))).toEqual(["false", "false"]);
         expect((screen.getAllByRole("textbox", { name: "Note" }) as HTMLTextAreaElement[]).map(box => box.value)).toEqual(["About Lumen"]);
 
         // Only a note of the open Organization can pick a field on its pages.
-        act(() => { fireEvent.click(heads[1]); });
+        act(() => { fireEvent.click(heads[0]); });
         expect(screen.getAllByRole("button", { name: "Link a field" })).toHaveLength(1);
     });
 

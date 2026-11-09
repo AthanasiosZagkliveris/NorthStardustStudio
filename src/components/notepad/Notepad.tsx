@@ -462,8 +462,12 @@ export function NotepadPanel() {
     return (
         <aside className="notepad-panel" aria-label="Notes" ref={panel}>
 
+            {/* The head (owner, 2026-11-09): "Notes" with the closing arrow beside it, then "+ Add note" under the label. */}
             <div className="notepad-head">
-                <h2 className="notepad-title">Notes</h2>
+                <div className="notepad-title-row">
+                    <h2 className="notepad-title">Notes</h2>
+                    <NavArrow direction="next" label="Close notes" className="page-arrow notepad-close" onClick={() => NotepadService.close()} />
+                </div>
                 <AddButton className="notepad-add"
                     onClick={() => {
                         NotepadService.addNote(OrganizationService.getSelected() ?? "");
@@ -472,14 +476,20 @@ export function NotepadPanel() {
                 >
                     + Add note
                 </AddButton>
-                <NavArrow direction="next" label="Close notes" className="page-arrow notepad-close" onClick={() => NotepadService.close()} />
             </div>
 
-            {/* ONE scrolling column, padded as every card is: the notes of each Organization. */}
+            {/* ONE scrolling column, padded as every card is. The open Organisation's notes stand directly, with no heading (its name is the header's;
+                owner, 2026-11-09); another Organisation's notes, and the General ones, keep their folding group with its name and count. */}
             <div className="notepad-list">
                 {notes.length === 0
                     ? <p className="notepad-empty">No notes yet. Add one, and link it to any page, card or field.</p>
-                    : noteGroups(notes).map(group => (
+                    : noteGroups(notes).map(group => group.current ? (
+                        <div key={group.id} className="notepad-group-notes" aria-label={"Notes of " + group.name}>
+                            {group.notes.map(note => (
+                                <NoteCard key={note.id} note={note} focused={view.focusNoteIds.includes(note.id)} />
+                            ))}
+                        </div>
+                    ) : (
                         <NoteGroup key={group.id || "general"} group={group} focusNoteIds={view.focusNoteIds} />
                     ))}
             </div>
