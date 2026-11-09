@@ -476,6 +476,8 @@ describe("BusinessFoundationEditor Value Proposition layout (owner, 2026-11-09)"
         columns.forEach(column => {
             expect(column.children).toHaveLength(1);
             expect(column.children[0].classList.contains("legal-entity-org-band")).toBe(true);
+            // (The needs are ONE list a column, one bullet style: owner, 2026-11-09, "The Needs should be as a list".)
+            expect(column.querySelectorAll("ol, ul").length).toBeLessThanOrEqual(1);
         });
 
     });

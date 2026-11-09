@@ -923,20 +923,27 @@ export function useFoundationSubsections(earlier: Earlier) {
                        than growing a new section part way
                        through. */
 
-                    // The needs ticked on the Profiles, strongest first (owner, 2026-11-07), numbered; then the lines of their Notes, what no tick says, as bullets.
+                    // ONE LIST of the Segment's needs (owner, 2026-11-09: "The Needs should be as a list"), ranked as a Value Proposition Canvas ranks a customer's gains: the needs
+                    // ticked on the Profiles, strongest first (owner, 2026-11-07), then the lines of their Notes, what no tick says; one bullet each, a line said twice shown once.
                     const shownAnswers = segment.profiles.map(profile => effectiveProfileAnswers(profile, segment, identity));
-                    const entriesOf = (ticks: string[], notes: string[]) => (
-                        ticks.length + notes.length > 0 ? (
-                            <div>
-                                {ticks.length > 0 && <ListStatic lines={ticks.map(tick => ({ key: tick, text: tick }))} />}
-                                {notes.length > 0 && <ListStatic marker="bullet" lines={notes.map(note => ({ key: note, text: note }))} />}
-                            </div>
+                    const entriesOf = (ticks: string[], notes: string[]) => {
+                        const seen = new Set<string>();
+                        const lines = [...ticks, ...notes].filter(line => {
+                            const key = line.trim().toLowerCase();
+                            if (key === "" || seen.has(key)) {
+                                return false;
+                            }
+                            seen.add(key);
+                            return true;
+                        });
+                        return lines.length > 0 ? (
+                            <ListStatic marker="bullet" lines={lines.map(line => ({ key: line, text: line }))} />
                         ) : (
                             <BusinessEmpty>
                                 None recorded.
                             </BusinessEmpty>
-                        )
-                    );
+                        );
+                    };
 
                     // The needs side by side (owner, 2026-11-09: "Place needs next to each other."), in the two columns of the Segment's Description (its grid, its 1px divider; one
                     // under the other only in a dialog under 600px, 13-business-foundation.css): each list a field row in its own band, as "Open items" below, both bands the next tint after the text.
