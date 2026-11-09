@@ -9,7 +9,7 @@ import TickBox from "../controls/TickBox.tsx";
 import RemoveButton from "../controls/RemoveButton.tsx";
 import { useLocation, useNavigate, type NavigateFunction } from "react-router-dom";
 
-import { NotepadService, type Note, type NoteLink } from "../../services/NotepadService";
+import { NotepadService, noteIsBlank, type Note, type NoteLink } from "../../services/NotepadService";
 import { UndoService } from "../../services/UndoService";
 import { markFieldsHot } from "./NotedHover";
 import { OrganizationService } from "../../services/OrganizationService";
@@ -283,6 +283,11 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
             onBlur={(event) => {
                 if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
                     markFieldsHot([]);
+                    // An empty note is taken away when it is left (owner, 2026-11-09: "empty notes should be removed"); never while it is picking a field.
+                    const now = NotepadService.notes().find(entry => entry.id === note.id);
+                    if (now && noteIsBlank(now) && NotepadService.view().pickingFor !== note.id) {
+                        NotepadService.removeNote(note.id);
+                    }
                 }
             }}
         >

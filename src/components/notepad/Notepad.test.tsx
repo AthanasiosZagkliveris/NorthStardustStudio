@@ -366,3 +366,35 @@ describe("the Notepad panel", () => {
     });
 
 });
+
+describe("an empty note (owner, 2026-11-09: \"empty notes should be removed\")", () => {
+
+    it("goes when it is left, when the panel closes and when the notes are read; a note with text, a link or a date stays", () => {
+        OrganizationService.setSelected(OrganizationService.create("Lumen").id);
+        render(<MemoryRouter><NotepadPanel /></MemoryRouter>);
+        act(() => { NotepadService.open(); });
+        act(() => { fireEvent.click(screen.getByRole("button", { name: /Add note/ })); });
+        const box = screen.getByRole("textbox", { name: "Note" });
+        // (While it is being written it stays.)
+        expect(NotepadService.count()).toBe(1);
+        act(() => { fireEvent.blur(box, { relatedTarget: document.body }); });
+        expect(NotepadService.count()).toBe(0);
+
+        const written = NotepadService.addNote("");
+        NotepadService.setText(written, "Kept");
+        const dated = NotepadService.addNote("");
+        NotepadService.setDate(dated, "2026-11-20");
+        NotepadService.addNote("");
+        act(() => { NotepadService.close(); });
+        expect(NotepadService.notes().map(note => note.id).sort()).toEqual([written, dated].sort());
+
+        // Saved empty notes are taken away when the notes are read again.
+        localStorage.setItem(notepadStorageKey(DEFAULT_PROFILE), JSON.stringify({ version: 1, notes: [
+            { id: "n1", organizationId: "", text: "", links: [], createdAt: 1 },
+            { id: "n2", organizationId: "", text: "A thought", links: [], createdAt: 2 }
+        ] }));
+        NotepadService.use(LocalNotepadStore);
+        expect(NotepadService.notes().map(note => note.id)).toEqual(["n2"]);
+    });
+
+});
