@@ -68,7 +68,7 @@ const INFO = {
     ],
 
     skills: [
-        "Add one entry for each, and choose its type: a skill, professional or technical expertise, a degree or qualification, a certification, a licence, or a professional membership or other credential.",
+        "Add one entry for each, and choose its type.",
         "Name what the plan relies on them for: sales, finance, operations, technical.",
         "Lenders and investors check that every capability the plan needs is covered by someone."
     ],

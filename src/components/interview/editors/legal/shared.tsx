@@ -363,7 +363,7 @@ export const INFO = {
 
     expenses: [
         "What it costs to register and keep registered: filing, renewal and agent fees. Each pays for one registration.",
-        "Insurance, licences and certificates are cards of Documents & Rights on 3. Infrastructure & Capability.",
+        "Insurance, licences and certificates are recorded in Documents & Rights, on 3. Infrastructure & Capability.",
         "Add the ones that apply. If there are none, add none."
     ],
 
@@ -374,15 +374,14 @@ export const INFO = {
     ],
 
     registrationDate: [
-        "The day the organisation was registered with the registry of its country. It is its own date: it does not depend on the registration number, and the number does not depend on it.",
+        "The day the organisation was registered with the registry of its country.",
         "It cannot be later than today, nor later than the Opening Date: the business cannot open before the company exists."
     ],
 
     openingDate: [
         "The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it.",
-        "The stage also sets the name of the Positioning tile and how many choices each of its questions allows. When a new date moves the business into another stage, an answer that no longer fits goes back to empty.",
-        "The days from the plan's start to the day before it are the pre-operational period: every cost is split around it by its own dates.",
-        "You can change it at any time."
+        "The stage also sets Positioning's name and how many choices each of its questions allows; an answer that no longer fits a new stage goes back to empty.",
+        "The days from the plan's start to the day before it are the pre-operational period: every cost is split around it by its own dates."
     ],
 
     businessStage: [
@@ -391,7 +390,8 @@ export const INFO = {
     ],
 
     customerType: [
-        "Who pays: focuses on the Economic Buyer who approves the budget, separating them from the end user. The positioning statement is written for the target market, and each distinct segment may need its own.",
+        "Who pays: the buyer who approves the budget, who may not be the person who uses it.",
+        "The positioning statement is written for the buyers; each distinct group of them may need its own.",
         "B2C (Business-to-Consumer): individuals or consumers who pay for personal or family use.",
         "B2B (Business-to-Business): businesses, companies, freelancers or public bodies.",
         { title: "Based on", source: SOURCES.positioningStatement },
@@ -419,7 +419,8 @@ export const INFO = {
         "Limits the target group to a specific niche, aligning the startup with the corresponding sales cycle and the buyer's daily life.",
         "Students / Young Adults: they buy for themselves; tech-savvy, low budget, sensitive to trends.",
         "Workers / Professionals: they buy for themselves, with their own income; they seek time savings, convenience or status and decide inside a busy working life.",
-        "Seniors: they buy for themselves, often with a fixed income and more time to compare; needs for accessibility, simplicity, trust and health support; a family member may help decide (then the buyer's category below is Proxy or Dual-Intent).",
+        "Seniors: they buy for themselves, often on a fixed income and with time to compare; they look for accessibility, simplicity, trust and health support.",
+        "Where a family member buys for them, the buyer's category below is Proxy or Dual-Intent.",
         { title: "Based on", source: SOURCES.marketResearch },
         { title: "Also", source: SOURCES.brandPositioningStatement }
     ],
@@ -443,7 +444,7 @@ export const INFO = {
     buyerCategory: [
         "What the buyer buys for. It tells the buyer who pays from the person who uses it, whatever the buyer's life stage or scale.",
         "Direct Buyers: purchasing exclusively for their own personal use.",
-        "Proxy Buyers: purchasing exclusively on behalf of someone else. The payer is not the end user (a gift, a parent buying for a child, an employer buying for its staff).",
+        "Proxy Buyers: purchasing exclusively on behalf of someone else (a gift, a parent buying for a child, an employer buying for its staff).",
         "Dual-Intent Buyers: purchasing a single offering to be used by themselves and their dependents (a family plan, a shared tier).",
         "For Proxy and Dual-Intent Buyers the questions about the end user follow.",
         { title: "Based on", source: SOURCES.buyingRoles }
@@ -451,23 +452,24 @@ export const INFO = {
 
     buyerUserRelation: [
         "How is the buyer related to the person who will use it? It shapes the message: a parent is reached by safety and trust, an employer by compliance and duty of care.",
-        "The relationship suggests the category above; the buyer's own answer decides it.",
+        "Only the relationships that fit the buyer's category above are offered.",
         "Institution or membership body: a school for its pupils, a care home for its residents, a club or union for its members, a council for its residents."
     ],
 
     userLifeStage: [
         "The life stage of the person who will use it. A broad group is enough to give the end user's Profile its first shape; the exact age comes later, on the Profile.",
-        "Minors: under 18 (online services and some goods have extra rules that differ by country: see the minimum ages in the documentation). Young Adults: 18 to 24. Adults: 25 to 64. Seniors: 65 and over. The Segment's Description then asks the end user's stage within it (Baby, Child, Teenager, Established, Peak and so on)."
+        "Minors: under 18; some goods and online services have extra rules for them. Young Adults: 18 to 24. Adults: 25 to 64. Seniors: 65 and over.",
+        "The Segment then asks the end user's stage within it (Baby, Child, Teenager and so on)."
     ],
 
     purpose: [
         "Why the offering is bought: the purpose it serves for the person who gets it. Choose the ones that fit best.",
-        "Only the purposes that fit your answers above are offered: the primary ones first, then the possible ones. The ones that are generally less directly relevant to that buyer are left out.",
-        "Learning & Development. Health, Care & Wellbeing. Gifting & Appreciation. Entertainment & Enjoyment. Social Connection & Relationships. Productivity & Efficiency. Business Growth & Performance. Creation & Expression. Everyday Needs & Convenience. Protection & Risk Reduction. Compliance & Obligations. Access & Social Support."
+        "Only the purposes that fit your answers above are offered: the primary ones first, then the possible ones."
     ],
 
     differentiation: [
-        "What the offering does differently from the competitors: where it hits exactly the blind spot they leave. It is about the offering; the result the buyer gets from it is asked on each Offering (what it does best for the customer).",
+        "What the offering does differently from the competitors: where it hits exactly the blind spot they leave.",
+        "It is about the offering; the result the buyer gets from it is asked on each Offering.",
         "Cost-driven (saving resources): targets the blind spot of expensive competitors with a budget-friendly alternative.",
         "Convenience-driven (speed and ease): targets the blind spot of complex or slow solutions.",
         "Compliance, Risk & Security: targets the blind spot of uncertified or questionable alternatives.",

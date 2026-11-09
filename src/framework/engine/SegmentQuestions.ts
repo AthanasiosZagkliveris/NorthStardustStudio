@@ -307,7 +307,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     {
         id: "area", box: "geographics", label: "Where do your customers live or work?", many: false,
         rating: AREA_RATING, options: ratingOptions(AREA_RATING),
-        info: ["1 is countryside or remote places, 3 the suburbs and towns around a city, 5 a city centre.", "Asked once the business is managing or growing, and only for customers in one place or one country."]
+        info: ["1 is countryside or remote places, 3 the suburbs and towns around a city, 5 a city centre."]
     },
 
     /* ---- Box 3, Business Data ---- */
@@ -386,7 +386,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         ],
         info: [
             "Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn.",
-            "Seeing it in person / passing by: a shop window, a stall, a sign or a vehicle. Sales calls or tenders: asked for business customers only.",
+            "Seeing it in person / passing by: a shop window, a stall, a sign or a vehicle.",
             "Choose up to three."
         ]
     },
@@ -412,7 +412,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "multi", label: "Several departments check: IT or security, legal and finance." },
             { id: "procurement", label: "Formal procurement: A tender or a request for proposals (RFP), with strict compliance." }
         ],
-        info: ["Asked for business customers only.", "Select all that apply."]
+        info: ["Select all that apply."]
     },
     {
         id: "setting", box: "purchasing", label: "Where do your customers usually shop?", many: false,

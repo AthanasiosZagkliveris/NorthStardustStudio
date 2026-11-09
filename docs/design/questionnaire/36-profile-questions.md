@@ -515,7 +515,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
   - Image ("What others will think", `what-others-will-think`: the social risk of buying; added 2026-11-08, the options-and-wording research)
 - **The "i" says:**
   - 1 = Minor, 5 = Blocking.
-  - Their doubts about buying from you, not what frustrates them today (the question above). Choose up to three, then rate each.
+  - Their doubts about buying from you, not what frustrates them today. Choose up to three, then rate each.
   - For example, whether a beginner can keep up, or whether you will still be there after the sale.
   - Credibility: whether you can be trusted. Onboarding: the time to get started. Complexity: how hard it is to use. Fit: whether it suits their need.
   - Support: help after buying. Migration: the work of leaving what they use now. Risk: risk or security. Image: what others will think of them.

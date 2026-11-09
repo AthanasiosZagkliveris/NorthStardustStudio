@@ -238,7 +238,6 @@ Both.
 - **The "i" says:**
   - 1 = Rural, 5 = Urban.
   - 1 is countryside or remote places, 3 the suburbs and towns around a city, 5 a city centre.
-  - Asked once the business is managing or growing, and only for customers in one place or one country.
 - **Connections:**
   - *Comes from:* This Segment's reach, and the business stage (Organisation: the Opening Date).
   - *Read by (built):* The Market document and the export.
@@ -410,7 +409,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - (The last four added 2026-11-08, the options-and-wording research. Checked for overlap first: none repeats an option here, and the Profile's D1 asks how they compare options, not where they first hear of one, so nothing was merged. Profile C4 asks which events a typical person attends; this asks whether events are where the Segment discovers products.)
 - **The "i" says:**
   - Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn.
-  - Seeing it in person / passing by: a shop window, a stall, a sign or a vehicle. Sales calls or tenders: asked for business customers only.
+  - Seeing it in person / passing by: a shop window, a stall, a sign or a vehicle.
   - Choose up to three.
 - **Connections:**
   - *Comes from:* Nothing.
@@ -454,7 +453,6 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - Several departments check: IT or security, legal and finance.
   - Formal procurement: A tender or a request for proposals (RFP), with strict compliance.
 - **The "i" says:**
-  - Asked for business customers only.
   - Select all that apply.
   - One person decides: The person who uses it has the budget and the final say.
   - The team agrees: The people who use it try it and push it upward.

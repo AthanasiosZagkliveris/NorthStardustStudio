@@ -60,7 +60,7 @@ export const SUBSECTIONS = {
                 "These answers describe the market the customers belong to, not your own business."
             ],
             user: [
-                "Shown when the buyer buys for someone else (a Proxy or Dual-Intent buyer in Positioning).", "It describes who uses what is bought: their life stage, how they relate to the buyer, how comfortable they are online."
+                "Shown when the buyer buys for someone else (a Proxy or Dual-Intent buyer in Positioning).", "It describes who uses what is bought: their life stage, their school or work, and how comfortable they are online."
             ]
         } as Record<string, string[]>,
         profileDescription: [

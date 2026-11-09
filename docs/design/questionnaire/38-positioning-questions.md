@@ -19,7 +19,7 @@ Related: doc 37 (the Organisation tile, whose Opening Date sets the stage), doc 
 - **Options:**
   - B2C (Business-to-Consumer)
   - B2B (Business-to-Business)
-- **The "i" says:** Who pays: focuses on the Economic Buyer who approves the budget, separating them from the end user. The positioning statement is written for the target market, and each distinct segment may need its own. B2C (Business-to-Consumer): individuals or consumers who pay for personal or family use. B2B (Business-to-Business): businesses, companies, freelancers or public bodies. Based on the positioning statement of the strategy literature. (Public bodies named, owner, 2026-11-08: a public buyer is chosen as B2B, with the scale Enterprise or Public Sector.)
+- **The "i" says:** Who pays: the buyer who approves the budget, who may not be the person who uses it. The positioning statement is written for the buyers; each distinct group of them may need its own. B2C (Business-to-Consumer): individuals or consumers who pay for personal or family use. B2B (Business-to-Business): businesses, companies, freelancers or public bodies. Based on the positioning statement of the strategy literature. (Public bodies named, owner, 2026-11-08: a public buyer is chosen as B2B, with the scale Enterprise or Public Sector.)
 - **Connections:**
   - *Comes from:* the stage (the limit).
   - *Read by (built):* the Segment card, which asks people's questions for B2C and the business's for B2B (doc 35); every question below; the exports.
@@ -33,7 +33,7 @@ Related: doc 37 (the Organisation tile, whose Opening Date sets the stage), doc 
   - Students / Young Adults
   - Workers / Professionals
   - Seniors
-- **The "i" says:** Limits the target group to a specific niche, aligning the startup with the corresponding sales cycle and the buyer's daily life. Students / Young Adults: they buy for themselves; tech-savvy, low budget, sensitive to trends. Workers / Professionals: they buy for themselves, with their own income; they seek time savings, convenience or status and decide inside a busy working life. Seniors: they buy for themselves, often with a fixed income and more time to compare; needs for accessibility, simplicity, trust and health support; a family member may help decide (then the buyer's category below is Proxy or Dual-Intent).
+- **The "i" says:** Limits the target group to a specific niche, aligning the startup with the corresponding sales cycle and the buyer's daily life. Students / Young Adults: they buy for themselves; tech-savvy, low budget, sensitive to trends. Workers / Professionals: they buy for themselves, with their own income; they seek time savings, convenience or status and decide inside a busy working life. Seniors: they buy for themselves, often on a fixed income and with time to compare; they look for accessibility, simplicity, trust and health support. Where a family member buys for them, the buyer's category below is Proxy or Dual-Intent.
 - **Connections:**
   - *Comes from:* the relationship.
   - *Read by (built):* the Segment's age group (the terms offered: Students / Young Adults: Minors, semi-dependent and Young adults; Workers / Professionals: Established, Peak, Mature; Seniors: Active Retirees and Dependent seniors); the order of the purposes, differentiations and outcomes.
@@ -46,7 +46,7 @@ Related: doc 37 (the Organisation tile, whose Opening Date sets the stage), doc 
   - Direct Buyers
   - Proxy Buyers
   - Dual-Intent Buyers
-- **The "i" says:** What the buyer buys for. It tells the buyer who pays from the person who uses it, whatever the buyer's life stage or scale. Direct Buyers: purchasing exclusively for their own personal use. Proxy Buyers: purchasing exclusively on behalf of someone else; the payer is not the end user (a gift, a parent buying for a child, an employer buying for its staff). Dual-Intent Buyers: purchasing a single offering to be used by themselves and their dependents (a family plan, a shared tier). For Proxy and Dual-Intent Buyers the questions about the end user follow. Based on the buying roles of the marketing literature.
+- **The "i" says:** What the buyer buys for. It tells the buyer who pays from the person who uses it, whatever the buyer's life stage or scale. Direct Buyers: purchasing exclusively for their own personal use. Proxy Buyers: purchasing exclusively on behalf of someone else (a gift, a parent buying for a child, an employer buying for its staff). Dual-Intent Buyers: purchasing a single offering to be used by themselves and their dependents (a family plan, a shared tier). For Proxy and Dual-Intent Buyers the questions about the end user follow. Based on the buying roles of the marketing literature.
 - **Connections:**
   - *Comes from:* the relationship.
   - *Read by (built):* the end-user questions below (asked for Proxy and Dual-Intent only); the Segment card's End user part; the order of the purposes and outcomes.
@@ -56,7 +56,7 @@ Related: doc 37 (the Organisation tile, whose Opening Date sets the stage), doc 
 - **Control:** as question 1 (the audience limit).
 - **Asked when:** the buyer's category is Proxy or Dual-Intent, for that relationship, right after that relationship's buyer's category (the B2B one in the right column when both are chosen).
 - **Options:** a consumer buyer: Parent or guardian; Caregiver; Family member; Spouse or partner; Friend or acquaintance; Commercial & Professional. A business buyer: Employer; Business partner; Business serving clients; Professional intermediary; Sponsor or funder; Institution or membership body (Proxy or Dual-Intent; added 2026-11-09). Only the relationships that can be the chosen category are offered (a friend can only be a Proxy, a spouse or partner only Dual-Intent), and one already chosen stays. **No "Other"** (owner, 2026-11-09, doc 31 decision 39: it recorded nothing the app could use): a saved Other (`rel:otherpersonal`, `rel:otherbusiness`) still reads, shows until it is unticked, and opens the same questions; its tile and export words stay.
-- **The "i" says:** How is the buyer related to the person who will use it? It shapes the message: a parent is reached by safety and trust, an employer by compliance and duty of care. The relationship suggests the category above; the buyer's own answer decides it. Institution or membership body: a school for its pupils, a care home for its residents, a club or union for its members, a council for its residents.
+- **The "i" says:** How is the buyer related to the person who will use it? It shapes the message: a parent is reached by safety and trust, an employer by compliance and duty of care. Only the relationships that fit the buyer's category above are offered. Institution or membership body: a school for its pupils, a care home for its residents, a club or union for its members, a council for its residents.
 - **Connections:**
   - *Comes from:* the buyer's category and the buyer's life stage (a Student or Young Adult buyer is not a Commercial & Professional buyer).
   - *Read by (built):* the end user's life stages offered (the owner's matrix); which relationship questions the Segment's End user part asks (school stage, work status, job level, or the clients' type and size); the order of the purposes and differentiations.
@@ -70,7 +70,7 @@ Related: doc 37 (the Organisation tile, whose Opening Date sets the stage), doc 
   - Young Adults
   - Adults
   - Seniors
-- **The "i" says:** The life stage of the person who will use it. A broad group is enough to give the end user's Profile its first shape; the exact age comes later, on the Profile. Minors: under 18 (online services and some goods have extra rules that differ by country: see the minimum ages in the documentation). Young Adults: 18 to 24. Adults: 25 to 64. Seniors: 65 and over. The Segment's Description then asks the end user's stage within it (Baby, Child, Teenager, Established, Peak and so on).
+- **The "i" says:** The life stage of the person who will use it. A broad group is enough to give the end user's Profile its first shape; the exact age comes later, on the Profile. Minors: under 18; some goods and online services have extra rules for them. Young Adults: 18 to 24. Adults: 25 to 64. Seniors: 65 and over. The Segment then asks the end user's stage within it (Baby, Child, Teenager and so on).
 - **Connections:**
   - *Comes from:* the relationship and the buyer's life stage (a stage the combination leaves blank is not offered).
   - *Read by (built):* the Segment's End user part (the terms offered); the order of the differentiations and outcomes.

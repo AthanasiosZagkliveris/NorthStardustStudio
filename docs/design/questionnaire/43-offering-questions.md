@@ -94,7 +94,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Values
 - **The "i" says:**
   - The first you tick is the main benefit. The same list as "What matters most" on your Profiles and Competitors, so they can be compared.
-  - The Segment's Differentiation (under its Competitors) starts the ticks, and so does the outcome for the buyer you chose before; change them freely.
+  - The Segment's Differentiation (under its Competitors) starts the ticks; change them freely.
 - **Connections:**
   - *Comes from:* the Segment's own Differentiation (K14, doc 41; Positioning's, saved before 2026-11-08, where the Segment saved none), then the buyer's outcome saved on Positioning before 2026-11-08, through the value crosswalk (doc 34, 5.2a), as starting ticks (at most three). All seven differentiations start ticks: Performance & Innovation starts Quality and Expertise, Ecosystem & Integration starts Convenience (owner, 2026-11-08); Personal Service & Relationship starts Personalisation and Support (2026-11-08).
   - *Owns the buyer's outcome* (owner, 2026-11-08, "Move all three"): Positioning's question 9 (doc 38) left the tile and is not asked twice; O4 is its one owner. Each of its four options has its value in L1 already (Lower costs: Affordability; Time saved: Speed, Convenience; Legal & data-protection cover: Safety / security, Reputation; Higher quality & prestige: Quality, Values), so no option was added; a saved `organisation.outcome` starts the ticks after the Differentiation's (`OUTCOME_CROSSWALK`, `OfferingQuestions.ts`).
@@ -255,7 +255,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Options** (L23): Guarantee / warranty; Repairs; Updates; Training; Replacements / refills; None.
 - **Starts from O7 (2026-11-09):** O7 None starts None. A saved answer wins.
 - **The "i" says:**
-  - What the help after the sale includes. How much help there is, is the question above.
+  - What else comes with it after the sale; the help you give is the question above.
   - None stands alone: ticking it clears the others.
 - **Connections:** *Read by:* the export.
 
