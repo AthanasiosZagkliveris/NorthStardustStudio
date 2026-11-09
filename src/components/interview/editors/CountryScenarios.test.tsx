@@ -201,9 +201,10 @@ describe.each(["GB", "IE", "US", "CA", "AU", "NZ"])("ten scenarios for %s, three
             // life stage). (The differentiations and the outcomes are asked on the Business System since 2026-11-08: not here.)
             const expected = 1 + 1 + 1 + value.organisation.purpose.length + value.organisation.endUser.length;
             expect(checked.length, where + ": " + checked.join(" | ")).toBe(expected);
-            // (The groups are told apart by double divider lines, no subtitles: one between the Business and the User where there is a user; the Outcome's left with it.)
+            // (The groups are told apart by double divider lines, no subtitles: one between the Seller & Buyer Relationship and its relationship's group, and with both
+            // relationships one more, between the business buyer's group and the Purpose (owner, 2026-11-09: grouped by relationship).)
             const user = !value.organisation.buyerCategory[0].endsWith("direct");
-            expect(container.querySelectorAll(".business-capability-card-rule-double").length, where).toBe(user ? 1 : 0);
+            expect(container.querySelectorAll(".business-capability-card-rule-double").length, where).toBe(value.organisation.customerType.length > 1 ? 2 : 1);
             expect(container.textContent?.includes("Buyer & End User relationship"), where).toBe(user);
             unmount();
         }
