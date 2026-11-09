@@ -484,10 +484,10 @@ export default function FoundersProfileEditor({
         const skills = lines(founder.skills.map(entry => entry.text), 6);
         return [...lines(founder.roles, 5), ...(skills.length > 0 ? [TILE_DIVIDER, ...skills] : [])];
     };
-    /** The Capability dialog's body: the gaps and how each is covered. */
+    /** The Capability dialog's body: the gaps and how each is covered. (No "i" on its title: it only repeated the Gaps' and the Cover's, doc 39; owner, 2026-11-09.) */
     const capabilityDialog = (
         <div className="column-tile-content legal-entity legal-entity-unframed founders-profile" data-rail={railId(FOUNDERS_PROFILE_SECTIONS[1])}>
-            <div className="business-engagement-section-head"><DialogHeading title="Capability" info={INFO.teamGaps} /></div>
+            <div className="business-engagement-section-head"><DialogHeading title="Capability" /></div>
             <div className="legal-entity-body">
                 {field("Gaps", [INFO.teamGaps[0]], (
                     <StrategyTextArea
