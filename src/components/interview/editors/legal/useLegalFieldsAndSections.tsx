@@ -404,7 +404,9 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
     const section0 = (
     subsection(0, (
         <div className="legal-entity-org-body">
-        <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization">
+        {/* ONE STYLE FOR EVERY CARD OF THE FOUNDATION (owner, 2026-11-09): the fields stand in bands, as the Positioning's questions do (`legal-entity-audience`):
+            the first band of each column untinted, then they alternate with the 6% tint (tile and card pattern, "One band pattern"). */}
+        <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience legal-entity-org-fields">
 
             {/*
                 Two columns on the card's two-column grid (design
@@ -429,7 +431,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                 )}
                 </div>
 
-                <div className="legal-entity-org-section legal-entity-org-country">
+                <div className="legal-entity-org-section legal-entity-org-country legal-entity-org-band">
                 {/* The country first: it decides the registry, the tax, the
                     legal forms and the classification of the activities. */}
                 {labelled(
@@ -584,7 +586,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                 {/* The two dates of the opening, side by side: when the organization was registered (its own date, whether or not a registration number is given), and the day the business opens. */}
                 <div className="legal-entity-org-dates">
                 {registrationDateShown && (
-                <div className="legal-entity-org-section legal-entity-org-registration">
+                <div className="legal-entity-org-section legal-entity-org-registration legal-entity-org-band">
                     {labelled(
                         "Registration Date",
                         <DateCellInput
@@ -618,7 +620,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                 ))}
 
                 {/* Remounted when the country changes: a change of country empties every activity. */}
-                <div className="legal-entity-org-section legal-entity-org-activities">
+                <div className="legal-entity-org-section legal-entity-org-activities legal-entity-org-band">
                 {/* Frozen until a country is chosen: the classification the cascade follows is the country's. */}
                 <FrozenUntil answered={countryChosen} hint={waitingHint("country")}>
                 {labelled(

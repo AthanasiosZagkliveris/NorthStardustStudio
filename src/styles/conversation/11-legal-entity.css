@@ -1556,3 +1556,45 @@
     padding-top:var(--space-field);
 
 }
+
+/* THE ORGANISATION'S FIELDS IN BANDS (owner, 2026-11-09: one style for every card of the Foundation): the Positioning's bands, with what a field is: two equal
+   columns; a label over a text holder or a single cell has no line under it (tile and card pattern, "Text holders and side cells"); the bands of the two columns
+   end together at the line over the Notes. */
+.legal-entity-grid-organization.legal-entity-audience.legal-entity-org-fields{
+
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+
+}
+
+.legal-entity-org-fields .legal-entity-label-info{
+
+    border-bottom:0;
+
+    /* (No line, so no room kept for one: a label with an "i" is as tall as one without, and the rows of the two columns fall on the same lines.) */
+    min-height:0;
+
+    padding-bottom:0;
+
+}
+
+.legal-entity-org-fields > .legal-entity-field > .legal-entity-org-section:last-child{
+
+    flex:1 1 auto;
+
+}
+
+/* The two dates are two bands: their wrapper takes no room of its own (no gap, no inset), each date's band runs to the column's edges and keeps the room
+   before the x column inside it. */
+.legal-entity-org-fields .legal-entity-org-dates{
+
+    gap:0;
+
+    padding-right:0;
+
+}
+
+.legal-entity-org-fields .legal-entity-org-dates > .legal-entity-org-section{
+
+    padding-right:calc(var(--space-cell) + 32px + var(--gap-8));
+
+}
