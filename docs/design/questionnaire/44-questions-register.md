@@ -99,16 +99,15 @@ None.
 
 *Identity System, page 1, the tile named by the stage: Early Positioning (Planning, Launching), Core Market Positioning (Managing), Corporate & Portfolio Positioning (Growing). Owner: doc 38.* From the order of `useLegalFieldsAndSections.tsx` (kept in this script); the options, the limits (`choiceLimit`) and the "i" texts from `legal/shared.tsx`. Max is by stage: Planning / Launching / Managing / Growing. Every "i" also carries the stage's line ("At this stage (Planning): choose one. …").
 
-### 2.1 The left column: the customers
+### 2.1 The left column: the relationship, then the consumer buyer (B2C), or the one relationship chosen
 
 | Pos | Code | Saved id | Label | Control | Max | Asked when | Starts | Status | Owner |
 |---|---|---|---|---|---|---|---|---|---|
 | 1 | 1 | `organisation.customerType` | Seller & Buyer Relationship | RadioChoice at 1, BusinessTicks above | 1 / 1 / 2 / any | always | – | built | doc 38, 1 |
-| 2 | 2 | `organisation.audience` (solo, smb, mid, enterprise) | Audience Specialisation & Scale | RadioChoice at 1, BusinessTicks above | 1 / 1 / 2 / any | B2B is chosen; frozen until a relationship is chosen | – | built | doc 38, 2 |
-| 3 | 3 | `organisation.audience` (young, adult, senior) | Buyer's Life-Stage | RadioChoice at 1, BusinessTicks above | 1 / 1 / 2 / any | B2C is chosen | – | built | doc 38, 3 |
-| 4 | 4 | `organisation.buyerCategory` (b2c:… and b2b:…) | Buyer's category (with "(B2C)" or "(B2B)" when both are chosen) | RadioChoice | 1 | once for each relationship chosen | – | built | doc 38, 4 |
-| 5 | 5 | `organisation.endUser` (rel:…) | Buyer & End User relationship | RadioChoice at 1, BusinessTicks above | 1 / 1 / 2 / any | the buyer's category is Proxy or Dual-Intent, for that relationship | – | built | doc 38, 5 |
-| 6 | 6 | `organisation.endUser` (age:…) | End User's Life-Stage | RadioChoice at 1, BusinessTicks above | 1 / 1 / 2 / any | B2C with a Proxy or Dual-Intent buyer, and more than one life stage fits (else set, not shown) | – | built | doc 38, 6 |
+| 2 | 3 | `organisation.audience` (young, adult, senior) | Buyer's Life-Stage | RadioChoice at 1, BusinessTicks above | 1 / 1 / 2 / any | B2C is chosen (the first of the consumer buyer's questions) | – | built | doc 38, 3 |
+| 3 | 4 | `organisation.buyerCategory` (b2c:… and b2b:…) | Buyer's category (with "(B2C)" or "(B2B)" when both are chosen) | RadioChoice | 1 | once for each relationship chosen, in that relationship's group (the business buyer's in the right column when both are chosen) | – | built | doc 38, 4 |
+| 4 | 5 | `organisation.endUser` (rel:…) | Buyer & End User relationship | RadioChoice at 1, BusinessTicks above | 1 / 1 / 2 / any | the buyer's category is Proxy or Dual-Intent, for that relationship, in its group (the business buyer's in the right column when both are chosen) | – | built | doc 38, 5 |
+| 5 | 6 | `organisation.endUser` (age:…) | End User's Life-Stage | RadioChoice at 1, BusinessTicks above | 1 / 1 / 2 / any | B2C with a Proxy or Dual-Intent buyer, and more than one life stage fits (else set, not shown) | – | built | doc 38, 6 |
 
 - **1. Seller & Buyer Relationship**
   - Options: B2C (Business-to-Consumer); B2B (Business-to-Business).
@@ -118,15 +117,6 @@ None.
     - B2B (Business-to-Business): businesses, companies, freelancers or public bodies.
     - Based on: Stayman, D. (2015) How to Write Market Positioning Statements
     - Also: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketing
-- **2. Audience Specialisation & Scale**
-  - Options: Solopreneurs & Freelancers; Startups & SMBs; Mid-Market; Enterprise or Public Sector.
-  - "i":
-    - Limits the target group to a specific niche, aligning the startup with the corresponding sales cycle and the buyer's daily life.
-    - Solopreneurs & Freelancers: individual professionals (immediate decision, need for low cost or self-service).
-    - Startups & SMBs: small and medium-sized or rapidly growing companies (need for speed, flexibility and an immediate solution).
-    - Mid-Market: medium-sized businesses with structured departments (need for workflows, roles and scale).
-    - Enterprise or Public Sector: multinationals or public bodies (multi-month sales or tender cycle, need for maximum security).
-    - Based on: U.S. Small Business Administration (n.d.) Market research and competitive analysis
 - **3. Buyer's Life-Stage**
   - Options: Students / Young Adults; Workers / Professionals; Seniors.
   - "i":
@@ -156,12 +146,22 @@ None.
     - The life stage of the person who will use it. A broad group is enough to give the end user's Profile its first shape; the exact age comes later, on the Profile.
     - Minors: under 18 (online services and some goods have extra rules that differ by country: see the minimum ages in the documentation). Young Adults: 18 to 24. Adults: 25 to 64. Seniors: 65 and over. The Segment's Description then asks the end user's stage within it (Baby, Child, Teenager, Established, Peak and so on).
 
-### 2.2 The right column: what is offered
+### 2.2 The right column: the business buyer (B2B) when both are chosen, then what is offered
 
 | Pos | Code | Saved id | Label | Control | Max | Asked when | Starts | Status | Owner |
 |---|---|---|---|---|---|---|---|---|---|
+| 6 | 2 | `organisation.audience` (solo, smb, mid, enterprise) | Audience Specialisation & Scale | RadioChoice at 1, BusinessTicks above | 1 / 1 / 2 / any | B2B is chosen: the first of the business buyer's questions, in the right column when both are chosen, else in the left under question 1 (frozen there until a relationship is chosen) | – | built | doc 38, 2 |
 | 7 | 7 | `organisation.purpose` | Purpose | RadioChoice at 1, BusinessTicks above | 1 / 2 / 2 / any | always; only the purposes that fit the answers above are offered | – | built | doc 38, 7 |
 
+- **2. Audience Specialisation & Scale**
+  - Options: Solopreneurs & Freelancers; Startups & SMBs; Mid-Market; Enterprise or Public Sector.
+  - "i":
+    - Limits the target group to a specific niche, aligning the startup with the corresponding sales cycle and the buyer's daily life.
+    - Solopreneurs & Freelancers: individual professionals (immediate decision, need for low cost or self-service).
+    - Startups & SMBs: small and medium-sized or rapidly growing companies (need for speed, flexibility and an immediate solution).
+    - Mid-Market: medium-sized businesses with structured departments (need for workflows, roles and scale).
+    - Enterprise or Public Sector: multinationals or public bodies (multi-month sales or tender cycle, need for maximum security).
+    - Based on: U.S. Small Business Administration (n.d.) Market research and competitive analysis
 - **7. Purpose**
   - Options: Learning & Development; Health, Care & Wellbeing; Gifting & Appreciation; Entertainment & Enjoyment; Social Connection & Relationships; Productivity & Efficiency; Business Growth & Performance; Creation & Expression; Everyday Needs & Convenience; Protection & Risk Reduction; Compliance & Obligations; Access & Social Support.
   - "i":

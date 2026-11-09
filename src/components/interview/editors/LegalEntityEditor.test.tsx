@@ -1077,6 +1077,23 @@ describe("LegalEntityEditor Early Positioning: the two columns and the order of 
 
     });
 
+    it("groups the questions by relationship with both chosen: the consumer buyer's on the left under the first question, the business buyer's on the right above the purpose", () => {
+
+        function Both() {
+            const [value, setValue] = useState<unknown>(asLegalEntityValue({ organisation: { customerType: ["b2c", "b2b"], businessStage: "manage", buyerCategory: ["b2c:proxy", "b2b:proxy"] } }));
+            return <LegalEntityEditor value={value} businessStage="manage" audienceOnly onChange={setValue} />;
+        }
+        const { container } = render(<Both />);
+        const [left, right] = [...container.querySelectorAll(".legal-entity-audience > .legal-entity-field")];
+        const names = (column: Element) => [...column.querySelectorAll("[role=radiogroup], [role=group]")].map(group => group.getAttribute("aria-label"));
+        expect(names(left)).toEqual(["Seller & Buyer Relationship", "Buyer's Life-Stage", "Buyer's category (B2C)", "Buyer & End User relationship (B2C)", "End User's Life-Stage"]);
+        expect(names(right)).toEqual(["Audience Specialisation & Scale", "Buyer's category (B2B)", "Buyer & End User relationship (B2B)", "Purpose"]);
+        // (A double rule between one group and the next in a column.)
+        expect(left.querySelectorAll(".business-capability-card-rule-double")).toHaveLength(1);
+        expect(right.querySelectorAll(".business-capability-card-rule-double")).toHaveLength(1);
+
+    });
+
     it("keeps the order of the end user's outcomes and of the differentiations for the Segment, where they are asked now: the purposes chosen first", () => {
 
         const order = { customerType: ["b2c"], audience: [] as string[], buyerCategory: ["b2c:proxy"], endUser: [] as string[], purpose: ["protection"] };

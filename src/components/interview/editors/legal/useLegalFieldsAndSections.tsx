@@ -256,126 +256,146 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
     const bandsAt = { left: 0, right: 0 };
     const band = (column: "left" | "right") => (bandsAt[column]++ % 2 === 1 ? " legal-entity-org-band" : "");
     const purposeOptions = orderedByRelevance(PURPOSES, relevance).filter(option => relevance === null || relevance[option.id] > 0 || entity.organisation.purpose.includes(option.id));
-    // The left column asks every question before the purpose: the relationship, and for each relationship its audience, its buyer's category and, for a Proxy or Dual-Intent buyer, the buyer and user relationship and (consumer) the user's life stage. The right column asks the purpose, the differentiation and the outcomes.
+    // THE QUESTIONS GROUPED BY RELATIONSHIP (owner, 2026-11-09): the Seller & Buyer Relationship first; then each relationship's questions together, in the order they follow
+    // from one another -- a consumer buyer (B2C): the buyer's life stage, the buyer's category, the buyer and end user relationship, the end user's life stage; a business
+    // buyer (B2B): the scale, the buyer's category, the buyer and end user relationship. With both chosen the consumer's group stands on the left under the first question
+    // and the business's on the right above the purpose, so the two columns hold about as much; with one, its group is on the left and the purpose alone on the right.
+    // A double rule stands between one group and the next in a column. (Before any relationship is chosen the business's scale stands frozen under the first question.)
+    type AudienceSet = (typeof audienceSets)[number];
+    const audienceQuestion = (set: AudienceSet, column: "left" | "right") => (
+        <div key={set.group} className={"legal-entity-org-section legal-entity-org-audience" + band(column)}>
+        {choice(
+            set.label,
+            set.group,
+            set.options,
+            chosenOf(entity.organisation.audience, set.options),
+            choiceLimit(stage, "audience"),
+            (next) => updateOrganisation({ audience: [...entity.organisation.audience.filter(id => !idsOf(set.options).includes(id)), ...next] }),
+            set.info,
+            { answered: modelChosen, hint: "Choose a seller and buyer relationship first." }
+        )}
+        </div>
+    );
+    const categoryQuestion = (set: AudienceSet, column: "left" | "right") => (
+        <div key={set.group + "-category"} className={"legal-entity-org-section legal-entity-org-audience" + band(column)}>
+        {choice(
+            "Buyer's category" + suffix(set.model),
+            "legal-entity-buyer-category-" + set.model,
+            categoryOptions(set.model),
+            categoryOf(set.model) ? [categoryOf(set.model)] : [],
+            1,
+            (next) => {
+                const categories = [...entity.organisation.buyerCategory.filter(id => !id.startsWith(set.model + ":")), ...next];
+                // (The End User is asked for Proxy and Dual-Intent Buyers only: its answers go with that choice.)
+                // (A relationship that cannot be the new category goes with it. The end user's outcome saved here before 2026-11-08 stays: it starts the Segment's own.)
+                const category = categoryOfModel(categories, set.model);
+                updateOrganisation({
+                    buyerCategory: categories,
+                    endUser: entity.organisation.endUser.filter(id => !endUserIdsOf(set.model).includes(id) || (category !== "" && relationshipFits(id, category)))
+                });
+            },
+            INFO.buyerCategory
+        )}
+        </div>
+    );
+    const relationQuestion = (set: AudienceSet, column: "left" | "right") => (
+        <div key={set.group + "-relation"} className={"legal-entity-org-section legal-entity-org-audience legal-entity-org-enduser" + band(column)}>
+        {choice(
+            "Buyer & End User relationship" + suffix(set.model),
+            "legal-entity-enduser-relation-" + set.model,
+            relationOptions(set.model),
+            chosenOf(entity.organisation.endUser, BUYER_USER_RELATIONS[set.model]),
+            choiceLimit(stage, "audience"),
+            (next) => {
+                // (A parent or legal guardian has a minor or a young adult as the user: an adult or a senior already chosen goes.)
+                const endUser = [...entity.organisation.endUser.filter(id => !idsOf(BUYER_USER_RELATIONS[set.model]).includes(id)), ...next];
+                updateOrganisation({ endUser: endUser.filter(id => userStageFits(endUser, id, entity.organisation.audience)) });
+            },
+            INFO.buyerUserRelation
+        )}
+        </div>
+    );
+    const userStages = USER_LIFE_STAGES.filter(option => userStageFits(entity.organisation.endUser, option.id, entity.organisation.audience));
+    const userStageQuestion = (column: "left" | "right") => (
+        <div key="legal-entity-enduser-life" className={"legal-entity-org-section legal-entity-org-audience legal-entity-org-enduser" + band(column)}>
+        {choice(
+            "End User's Life-Stage",
+            "legal-entity-enduser-life",
+            userStages,
+            chosenOf(entity.organisation.endUser, USER_LIFE_STAGES),
+            choiceLimit(stage, "audience"),
+            (next) => updateOrganisation({ endUser: [...entity.organisation.endUser.filter(id => !idsOf(USER_LIFE_STAGES).includes(id)), ...next] }),
+            INFO.userLifeStage
+        )}
+        </div>
+    );
+    /** One relationship's questions, in their order: its audience, its buyer's category and, for a Proxy or Dual-Intent buyer, the buyer and user relationship and (consumer) the user's life stage. */
+    const groupOf = (set: AudienceSet, column: "left" | "right") => (
+        <div key={set.group} className="legal-entity-org-set" data-relationship={set.model}>
+            {audienceQuestion(set, column)}
+            {models.includes(set.model) && categoryQuestion(set, column)}
+            {models.includes(set.model) && endsUser(set.model) && relationQuestion(set, column)}
+            {/* (Where only one life stage fits, it is set and the question is not drawn.) */}
+            {set.model === "b2c" && models.includes("b2c") && endsUser("b2c") && userStages.length !== 1 && userStageQuestion(column)}
+        </div>
+    );
+    const doubleRule = (key: string) => <div key={key} className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double" role="separator" />;
+    const consumerSet = audienceSets.find(set => set.model === "b2c")!;
+    const businessSet = audienceSets.find(set => set.model === "b2b")!;
+    const both = models.includes("b2c") && models.includes("b2b");
+    // (The left column's groups: the consumer's with both; else the one relationship's -- or, before any is chosen, the business's frozen scale.)
+    const leftSets = both ? [consumerSet] : audienceSets.filter(set => audienceShown(set, models));
+    const relationshipQuestion = (
+        <div className={"legal-entity-org-section legal-entity-org-customer" + band("left")}>
+        {choice(
+            "Seller & Buyer Relationship",
+            "legal-entity-customer-type",
+            FIRST_VERSION_CUSTOMER_TYPES,
+            models,
+            choiceLimit(stage, "relationship"),
+            // (Another set of models asks other questions: the answers of the questions no longer asked go.)
+            (next) => updateOrganisation({
+                customerType: next,
+                audience: kept(entity.organisation.audience, audienceSets, index => audienceShown(audienceSets[index], next)),
+                buyerCategory: entity.organisation.buyerCategory.filter(id => next.includes(id.split(":")[0])),
+                endUser: entity.organisation.endUser.filter(id => ["b2c", "b2b"].every(model => next.includes(model) || !endUserIdsOf(model).includes(id)))
+            }),
+            INFO.customerType
+        )}
+        </div>
+    );
+    const leftColumn = leftSets.flatMap(set => [doubleRule("rule-" + set.model), groupOf(set, "left")]);
+    const rightGroup = both ? [groupOf(businessSet, "right"), doubleRule("rule-purpose")] : [];
+    const purposeQuestion = (
+        <div className={"legal-entity-org-section legal-entity-org-outcome" + band("right")}>
+        {choice(
+            "Purpose",
+            "legal-entity-purpose",
+            purposeOptions,
+            entity.organisation.purpose,
+            choiceLimit(stage, "outcome"),
+            (next) => updateOrganisation({ purpose: next }),
+            INFO.purpose
+        )}
+        </div>
+    );
     const audience = (
-        <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience">
+        <div className={"legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience" + (both ? " legal-entity-audience-both" : "")}>
 
             <div className="legal-entity-field">
 
-                <div className={"legal-entity-org-section legal-entity-org-customer" + band("left")}>
-                {choice(
-                    "Seller & Buyer Relationship",
-                    "legal-entity-customer-type",
-                    FIRST_VERSION_CUSTOMER_TYPES,
-                    models,
-                    choiceLimit(stage, "relationship"),
-                    // (Another set of models asks other questions: the answers of the questions no longer asked go.)
-                    (next) => updateOrganisation({
-                        customerType: next,
-                        audience: kept(entity.organisation.audience, audienceSets, index => audienceShown(audienceSets[index], next)),
-                        buyerCategory: entity.organisation.buyerCategory.filter(id => next.includes(id.split(":")[0])),
-                        endUser: entity.organisation.endUser.filter(id => ["b2c", "b2b"].every(model => next.includes(model) || !endUserIdsOf(model).includes(id)))
-                    }),
-                    INFO.customerType
-                )}
-                </div>
+                {relationshipQuestion}
 
-                {audienceSets.filter(set => audienceShown(set, models)).map(set => (
-                    <div key={set.group} className="legal-entity-org-set">
-                    <div className={"legal-entity-org-section legal-entity-org-audience" + band("left")}>
-                    {choice(
-                        set.label,
-                        set.group,
-                        set.options,
-                        chosenOf(entity.organisation.audience, set.options),
-                        choiceLimit(stage, "audience"),
-                        (next) => updateOrganisation({ audience: [...entity.organisation.audience.filter(id => !idsOf(set.options).includes(id)), ...next] }),
-                        set.info,
-                        { answered: modelChosen, hint: "Choose a seller and buyer relationship first." }
-                    )}
-                    </div>
-
-                    {models.includes(set.model) && (
-                        <div className={"legal-entity-org-section legal-entity-org-audience" + band("left")}>
-                        {choice(
-                            "Buyer's category" + suffix(set.model),
-                            "legal-entity-buyer-category-" + set.model,
-                            categoryOptions(set.model),
-                            categoryOf(set.model) ? [categoryOf(set.model)] : [],
-                            1,
-                            (next) => {
-                                const categories = [...entity.organisation.buyerCategory.filter(id => !id.startsWith(set.model + ":")), ...next];
-                                // (The End User is asked for Proxy and Dual-Intent Buyers only: its answers go with that choice.)
-                                // (A relationship that cannot be the new category goes with it. The end user's outcome saved here before 2026-11-08 stays: it starts the Segment's own.)
-                                const category = categoryOfModel(categories, set.model);
-                                updateOrganisation({
-                                    buyerCategory: categories,
-                                    endUser: entity.organisation.endUser.filter(id => !endUserIdsOf(set.model).includes(id) || (category !== "" && relationshipFits(id, category)))
-                                });
-                            },
-                            INFO.buyerCategory
-                        )}
-                        </div>
-                    )}
-                    </div>
-                ))}
-
-                {/* THE USER (a Proxy or Dual-Intent buyer's): the buyer and user relationship and, for a consumer, the user's life stage, under a double divider line (the Business is above it; the page's tile names the groups). */}
-                {audienceSets.some(set => models.includes(set.model) && endsUser(set.model)) && (
-                    <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double" role="separator" />
-                )}
-                {audienceSets.filter(set => models.includes(set.model) && endsUser(set.model)).map(set => (
-                    <div key={set.group} className="legal-entity-org-set">
-                    <div className={"legal-entity-org-section legal-entity-org-audience legal-entity-org-enduser" + band("left")}>
-                    {choice(
-                        "Buyer & End User relationship" + suffix(set.model),
-                        "legal-entity-enduser-relation-" + set.model,
-                        relationOptions(set.model),
-                        chosenOf(entity.organisation.endUser, BUYER_USER_RELATIONS[set.model]),
-                        choiceLimit(stage, "audience"),
-                        (next) => {
-                            // (A parent or legal guardian has a minor or a young adult as the user: an adult or a senior already chosen goes.)
-                            const endUser = [...entity.organisation.endUser.filter(id => !idsOf(BUYER_USER_RELATIONS[set.model]).includes(id)), ...next];
-                            updateOrganisation({ endUser: endUser.filter(id => userStageFits(endUser, id, entity.organisation.audience)) });
-                        },
-                        INFO.buyerUserRelation
-                    )}
-                    </div>
-
-                    {/* (Where only one life stage fits, it is set and the question is not drawn.) */}
-                    {set.model === "b2c" && USER_LIFE_STAGES.filter(option => userStageFits(entity.organisation.endUser, option.id, entity.organisation.audience)).length !== 1 && (
-                        <div className={"legal-entity-org-section legal-entity-org-audience legal-entity-org-enduser" + band("left")}>
-                        {choice(
-                            "End User's Life-Stage",
-                            "legal-entity-enduser-life",
-                            USER_LIFE_STAGES.filter(option => userStageFits(entity.organisation.endUser, option.id, entity.organisation.audience)),
-                            chosenOf(entity.organisation.endUser, USER_LIFE_STAGES),
-                            choiceLimit(stage, "audience"),
-                            (next) => updateOrganisation({ endUser: [...entity.organisation.endUser.filter(id => !idsOf(USER_LIFE_STAGES).includes(id)), ...next] }),
-                            INFO.userLifeStage
-                        )}
-                        </div>
-                    )}
-                    </div>
-                ))}
+                {leftColumn}
 
             </div>
 
             <div className="legal-entity-field legal-entity-questions">
 
-                {/* THE OFFERING: its purpose. (The Differentiation and the Outcomes are asked on the Business System since 2026-11-08: docs 41, 43 and 35.) */}
+                {rightGroup}
 
-                <div className={"legal-entity-org-section legal-entity-org-outcome" + band("right")}>
-                {choice(
-                    "Purpose",
-                    "legal-entity-purpose",
-                    purposeOptions,
-                    entity.organisation.purpose,
-                    choiceLimit(stage, "outcome"),
-                    (next) => updateOrganisation({ purpose: next }),
-                    INFO.purpose
-                )}
-                </div>
+                {/* THE OFFERING: its purpose. (The Differentiation and the Outcomes are asked on the Business System since 2026-11-08: docs 41, 43 and 35.) */}
+                {purposeQuestion}
 
             </div>
 

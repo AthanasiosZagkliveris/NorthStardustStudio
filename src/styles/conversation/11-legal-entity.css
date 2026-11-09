@@ -107,6 +107,13 @@
 
 }
 
+/* With both B2C and B2B chosen each column holds one relationship's questions (the consumer's on the left, the business's on the right): two equal columns, as the Segment card's, so neither column's options wrap where the other's do not. */
+.legal-entity-grid-organization.legal-entity-audience.legal-entity-audience-both{
+
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+
+}
+
 .legal-entity-grid-organization.legal-entity-audience::before{
 
     display:none;
@@ -130,7 +137,8 @@
 @media (max-width: 900px){
 
     .legal-entity-grid,
-    .legal-entity-grid-organization.legal-entity-audience{
+    .legal-entity-grid-organization.legal-entity-audience,
+    .legal-entity-grid-organization.legal-entity-audience.legal-entity-audience-both{
 
         grid-template-columns:minmax(0, 1fr);
 

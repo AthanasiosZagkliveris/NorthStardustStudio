@@ -1,16 +1,16 @@
 # 38. The Positioning tile: every question and option, as built
 
-Status: **specification**, written 2026-11-01, updated 2026-11-08. Every question of the Positioning tile (Identity System, page 1) in the order it is asked, with its control, when it is asked, its options, what its "i" says and what it connects to. Questions 8 to 10 (the Differentiation and the two outcomes) moved to the Business System's Foundation cards on 2026-11-08 (owner, "Move all three"): K14 after the Competitors (doc 41), the Offering's O4 (doc 43) and the Segment's End user, 9 (doc 35); their sections below say where, and their codes stay retired (doc 44).
+Status: **specification**, written 2026-11-01, updated 2026-11-09. Every question of the Positioning tile (Identity System, page 1) in the order it is asked, with its control, when it is asked, its options, what its "i" says and what it connects to. Questions 8 to 10 (the Differentiation and the two outcomes) moved to the Business System's Foundation cards on 2026-11-08 (owner, "Move all three"): K14 after the Competitors (doc 41), the Offering's O4 (doc 43) and the Segment's End user, 9 (doc 35); their sections below say where, and their codes stay retired (doc 44).
 
 Related: doc 37 (the Organisation tile, whose Opening Date sets the stage), doc 35 (the Segment's questions, which read these answers), doc 33 (the first version: single-sided, B2C and B2B), doc 31 (the age terms, the relationships and the relevance tables), doc 28 (8.2, the design), `src/components/interview/editors/legal/` and `src/framework/engine/PositioningIds.ts`.
 
-**The tile** is named by the business stage: **Early Positioning** (Planning and Launching), **Core Market Positioning** (Managing), **Corporate & Portfolio Positioning** (Growing); the saved key stays `positioning`. It has two columns with a divider: on the left, who the customers are (the relationship, the audience, the buyer's category, the end user); on the right, what is offered (the purpose; the differentiation and the outcomes moved to the Business System on 2026-11-08); the Notes, the positioning statement, stand under both. The tile's lines say the customers, the end user and the purposes. The questions are bands, as on the Segment card. A question with a limit shows it beside its label ("2 max") and locks the other options at the limit, with no warning.
+**The tile** is named by the business stage: **Early Positioning** (Planning and Launching), **Core Market Positioning** (Managing), **Corporate & Portfolio Positioning** (Growing); the saved key stays `positioning`. It has two columns with a divider, and its questions are grouped by relationship (owner, 2026-11-09): question 1, the Seller & Buyer Relationship, stands first, on the left; then each relationship chosen asks its own questions together, in the order they follow from one another: a consumer buyer (B2C) 3, 4, 5, 6 (the buyer's life stage, the buyer's category, the buyer and end user relationship, the end user's life stage), a business buyer (B2B) 2, 4, 5 (the scale, the buyer's category, the buyer and end user relationship). With both chosen, the consumer's group stands on the left under question 1 and the business's on the right above the purpose, and the two columns are equal, so they hold about as much; with one, its group stands on the left and the purpose alone on the right (the left column as wide as its longest option). A double rule stands between one group and the next in a column. The codes stay as they were (doc 44): only their order changed. On the right, what is offered (the purpose; the differentiation and the outcomes moved to the Business System on 2026-11-08); the Notes, the positioning statement, stand under both. The tile's lines say the customers, the end user and the purposes. The questions are bands, as on the Segment card. A question with a limit shows it beside its label ("2 max") and locks the other options at the limit, with no warning.
 
 **The stage sets how many choices a question allows** (the owner's matrix, doc 28, 8.2): Planning: one in every question. Launching: one, except two in the purpose (and in the differentiation and the end user's outcome, which keep this limit where they are asked now). Managing: two in each. Growing: free. A question of one choice is a radio; a question of several is ticks. When a new Opening Date moves the business into another stage, an answer that no longer fits goes back to empty, and a question that fits keeps its answers. Every question's "i" carries the stage's line, before its sources, in the stage's words, for example: "At this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty."
 
 **Connections** are named as in doc 35: *Comes from* is what a question takes from another answer; *Read by* is what reads it, built and not built yet. Built for all of them: the exports list the answers in words (the Differentiation and the end user's outcome under each Segment since 2026-11-08).
 
-## 1. The left column: the customers
+## 1. The left column: the relationship, then the consumer buyer (B2C)
 
 ### 1. Seller & Buyer Relationship
 
@@ -25,24 +25,10 @@ Related: doc 37 (the Organisation tile, whose Opening Date sets the stage), doc 
   - *Read by (built):* the Segment card, which asks people's questions for B2C and the business's for B2B (doc 35); every question below; the exports.
   - *Not built yet:* B2G and G2B and the multi-sided market are built and hidden (doc 33); an older answer that holds them is read without them.
 
-### 2. Audience Specialisation & Scale (a business buyer)
-
-- **Control:** as question 1 (the audience limit follows the stage).
-- **Asked when:** B2B is chosen. Before any relationship is chosen it stands frozen, with the hint "Choose a seller and buyer relationship first."
-- **Options:**
-  - Solopreneurs & Freelancers
-  - Startups & SMBs
-  - Mid-Market
-  - Enterprise or Public Sector
-- **The "i" says:** Limits the target group to a specific niche, aligning the startup with the corresponding sales cycle and the buyer's daily life. Solopreneurs & Freelancers: individual professionals (immediate decision, need for low cost or self-service). Startups & SMBs: small and medium-sized or rapidly growing companies (need for speed, flexibility and an immediate solution). Mid-Market: medium-sized businesses with structured departments (need for workflows, roles and scale). Enterprise or Public Sector: multinationals or public bodies (multi-month sales or tender cycle, need for maximum security).
-- **Connections:**
-  - *Comes from:* the relationship.
-  - *Read by (built):* the Segment card (a business scale means a business buyer where no relationship is chosen); the order of the differentiations and of the purposes (the owner's tables).
-
 ### 3. Buyer's Life-Stage (a consumer buyer)
 
 - **Control:** as question 2.
-- **Asked when:** B2C is chosen: it appears then, and is not shown frozen before a relationship is chosen (only question 2 is).
+- **Asked when:** B2C is chosen: the first of the consumer buyer's questions, on the left under question 1. It is not shown frozen before a relationship is chosen (only question 2 is).
 - **Options:**
   - Students / Young Adults
   - Workers / Professionals
@@ -54,7 +40,7 @@ Related: doc 37 (the Organisation tile, whose Opening Date sets the stage), doc 
 
 ### 4. Buyer's category
 
-- **Control:** a radio, for each relationship chosen (the label gets "(B2C)" or "(B2B)" when both are).
+- **Control:** a radio, for each relationship chosen, in that relationship's group: after the life stage for a consumer buyer, after the scale for a business buyer (the label gets "(B2C)" or "(B2B)" when both are, and the B2B one stands in the right column).
 - **Asked when:** a relationship is chosen.
 - **Options:**
   - Direct Buyers
@@ -68,7 +54,7 @@ Related: doc 37 (the Organisation tile, whose Opening Date sets the stage), doc 
 ### 5. Buyer & End User relationship
 
 - **Control:** as question 1 (the audience limit).
-- **Asked when:** the buyer's category is Proxy or Dual-Intent, for that relationship (a double rule stands above the end user's questions).
+- **Asked when:** the buyer's category is Proxy or Dual-Intent, for that relationship, right after that relationship's buyer's category (the B2B one in the right column when both are chosen).
 - **Options:** a consumer buyer: Parent or guardian; Caregiver; Family member; Spouse or partner; Friend or acquaintance; Commercial & Professional; Other. A business buyer: Employer; Business partner; Business serving clients; Professional intermediary; Sponsor or funder; Other. Only the relationships that can be the chosen category are offered (a friend can only be a Proxy, a spouse or partner only Dual-Intent), and one already chosen stays.
 - **The "i" says:** How is the buyer related to the person who will use it? It shapes the message: a parent is reached by safety and trust, an employer by compliance and duty of care. The relationship suggests the category above; the buyer's own answer decides it.
 - **Connections:**
@@ -78,7 +64,7 @@ Related: doc 37 (the Organisation tile, whose Opening Date sets the stage), doc 
 ### 6. End User's Life-Stage (a consumer buyer)
 
 - **Control:** as question 1.
-- **Asked when:** B2C and a Proxy or Dual-Intent buyer, and more than one life stage fits. Where only one fits (a Parent of a Students / Young Adults buyer's dependent: Minors) it is set and the question is not drawn (owner, 2026-11-01).
+- **Asked when:** B2C and a Proxy or Dual-Intent buyer, and more than one life stage fits: the last of the consumer buyer's questions. Where only one fits (a Parent of a Students / Young Adults buyer's dependent: Minors) it is set and the question is not drawn (owner, 2026-11-01).
 - **Options:**
   - Minors
   - Young Adults
@@ -89,7 +75,21 @@ Related: doc 37 (the Organisation tile, whose Opening Date sets the stage), doc 
   - *Comes from:* the relationship and the buyer's life stage (a stage the combination leaves blank is not offered).
   - *Read by (built):* the Segment's End user part (the terms offered); the order of the differentiations and outcomes.
 
-## 2. The right column: what is offered
+## 2. The right column: the business buyer (B2B), then what is offered
+
+### 2. Audience Specialisation & Scale (a business buyer)
+
+- **Control:** as question 1 (the audience limit follows the stage).
+- **Asked when:** B2B is chosen: the first of the business buyer's questions, at the top of the right column when B2C is chosen too, else on the left under question 1. Before any relationship is chosen it stands frozen there, under question 1, with the hint "Choose a seller and buyer relationship first."
+- **Options:**
+  - Solopreneurs & Freelancers
+  - Startups & SMBs
+  - Mid-Market
+  - Enterprise or Public Sector
+- **The "i" says:** Limits the target group to a specific niche, aligning the startup with the corresponding sales cycle and the buyer's daily life. Solopreneurs & Freelancers: individual professionals (immediate decision, need for low cost or self-service). Startups & SMBs: small and medium-sized or rapidly growing companies (need for speed, flexibility and an immediate solution). Mid-Market: medium-sized businesses with structured departments (need for workflows, roles and scale). Enterprise or Public Sector: multinationals or public bodies (multi-month sales or tender cycle, need for maximum security).
+- **Connections:**
+  - *Comes from:* the relationship.
+  - *Read by (built):* the Segment card (a business scale means a business buyer where no relationship is chosen); the order of the differentiations and of the purposes (the owner's tables).
 
 ### 7. Purpose
 

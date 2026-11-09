@@ -56,15 +56,15 @@ const ORGANISATION_BOXES = { left: "The left column: where the organisation is",
 
 const POSITIONING = [
     { box: "left", code: "1", id: "organisation.customerType", label: "Seller & Buyer Relationship", options: "FIRST_VERSION_CUSTOMER_TYPES", limit: "relationship", info: "customerType", asked: "always" },
-    { box: "left", code: "2", id: "`organisation.audience` (solo, smb, mid, enterprise)", label: "Audience Specialisation & Scale", options: "AUDIENCE_SCALES", limit: "audience", info: "audienceScale", asked: "B2B is chosen; frozen until a relationship is chosen" },
-    { box: "left", code: "3", id: "`organisation.audience` (young, adult, senior)", label: "Buyer's Life-Stage", options: "LIFE_STAGES", limit: "audience", info: "lifeStage", asked: "B2C is chosen" },
-    { box: "left", code: "4", id: "`organisation.buyerCategory` (b2c:… and b2b:…)", label: "Buyer's category (with \"(B2C)\" or \"(B2B)\" when both are chosen)", options: "BUYER_CATEGORIES", limit: "one", info: "buyerCategory", asked: "once for each relationship chosen" },
-    { box: "left", code: "5", id: "`organisation.endUser` (rel:…)", label: "Buyer & End User relationship", options: "BUYER_USER_RELATIONS", limit: "audience", info: "buyerUserRelation", asked: "the buyer's category is Proxy or Dual-Intent, for that relationship" },
+    { box: "left", code: "3", id: "`organisation.audience` (young, adult, senior)", label: "Buyer's Life-Stage", options: "LIFE_STAGES", limit: "audience", info: "lifeStage", asked: "B2C is chosen (the first of the consumer buyer's questions)" },
+    { box: "left", code: "4", id: "`organisation.buyerCategory` (b2c:… and b2b:…)", label: "Buyer's category (with \"(B2C)\" or \"(B2B)\" when both are chosen)", options: "BUYER_CATEGORIES", limit: "one", info: "buyerCategory", asked: "once for each relationship chosen, in that relationship's group (the business buyer's in the right column when both are chosen)" },
+    { box: "left", code: "5", id: "`organisation.endUser` (rel:…)", label: "Buyer & End User relationship", options: "BUYER_USER_RELATIONS", limit: "audience", info: "buyerUserRelation", asked: "the buyer's category is Proxy or Dual-Intent, for that relationship, in its group (the business buyer's in the right column when both are chosen)" },
     { box: "left", code: "6", id: "`organisation.endUser` (age:…)", label: "End User's Life-Stage", options: "USER_LIFE_STAGES", limit: "audience", info: "userLifeStage", asked: "B2C with a Proxy or Dual-Intent buyer, and more than one life stage fits (else set, not shown)" },
+    { box: "right", code: "2", id: "`organisation.audience` (solo, smb, mid, enterprise)", label: "Audience Specialisation & Scale", options: "AUDIENCE_SCALES", limit: "audience", info: "audienceScale", asked: "B2B is chosen: the first of the business buyer's questions, in the right column when both are chosen, else in the left under question 1 (frozen there until a relationship is chosen)" },
     { box: "right", code: "7", id: "organisation.purpose", label: "Purpose", options: "PURPOSES", limit: "outcome", info: "purpose", asked: "always; only the purposes that fit the answers above are offered" },
     { box: "under", code: "11", id: "the part's answer, key `positioning`", label: "Notes", options: null, limit: "note", info: null, asked: "always (optional)" }
 ];
-const POSITIONING_BOXES = { left: "The left column: the customers", right: "The right column: what is offered", under: "Under both columns" };
+const POSITIONING_BOXES = { left: "The left column: the relationship, then the consumer buyer (B2C), or the one relationship chosen", right: "The right column: the business buyer (B2B) when both are chosen, then what is offered", under: "Under both columns" };
 /** Positioning's questions that left the tile (owner, 2026-11-08: "Move all three"): their saved keys stay readable, and each old answer starts its new place. */
 const POSITIONING_RETIRED = [
     ["8", "Differentiation (`organisation.differentiation`)", "moved to the Competitor card's Insights & Differentiation, once per Segment after its Competitors: K14 (doc 41); the old answer is its start"],
