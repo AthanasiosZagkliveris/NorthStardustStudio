@@ -9,8 +9,10 @@ import { harvardCitation, SOURCES, type SourceId } from "../framework/engine/Sou
 import { GLOSSARY_KINDS, GlossaryService, type GlossaryKind } from "../services/GlossaryService";
 
 // The funnel (ResponsibilityFilter) is drawn as it is on the System pages.
-import "../styles/conversation.css";
+// (The sheets in the order the System pages load them, section-tiles.css before conversation.css: the Workbook loads this with the header, first, so its order is the
+// app's, and rules of the same weight in the two sheets resolve as on the pages they were written for.)
 import "../styles/section-tiles.css";
+import "../styles/conversation.css";
 import "../styles/glossary.css";
 
 /** Your terms are drawn in this palette hue, the app's in the app's own blue: one colour for each kind (glossary.css). */
