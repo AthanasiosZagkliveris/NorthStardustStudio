@@ -57,6 +57,20 @@ html {
 
 }
 
+/* WHERE A BAR IS SHOWN (the Inventory, the Forecast's table), the pointer over it is an open hand and, while it holds the bar, a closed one (owner,
+   2026-11-10: "make the cursor as grabbing hand, so it would work as an indicator"): ScrollbarGrab.tsx marks the box whose bar is under the pointer. */
+[data-on-scrollbar] {
+
+  cursor: grab;
+
+}
+
+[data-scrollbar-grabbing] {
+
+  cursor: grabbing;
+
+}
+
 html,
 body,
 #root {

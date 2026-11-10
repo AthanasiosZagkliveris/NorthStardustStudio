@@ -462,7 +462,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
             {shown.length === 0 && <p className="capability-overview-empty">Nothing matches.</p>}
 
             {view === "tiles" && shown.length > 0 && (
-                <TileGrid label="Inventory" bare>
+                <TileGrid label="Inventory" bare fill>
                     {({ across }) => shown.map((row, index) => {
                         // (A tile's circle isolates that tile and what it is connected to; any isolation by the legend's circles goes, so the two never add up.)
                         const onFocus = () => {

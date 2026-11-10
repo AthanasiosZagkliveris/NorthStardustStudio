@@ -1666,8 +1666,16 @@
                 // (The tile of every dialog is the one a page card of three across would have; the four tiles of a page card are scaled up from it.)
                 const quadBox = pageTile ? pageTile.closest(".section-tiles-quad") : null;
                 const side = quadBox ? Math.floor((quadBox.clientWidth - 2 * spec.fieldGap) / 3 - 0.01) : pageTile ? pageTile.offsetWidth : (boxes.length > 0 ? boxes[0].offsetWidth : null);
+                // (The Inventory's tiles fill their row to the last pixel, its last tile 12px before the bar (owner, 2026-11-10): squares of the page tile's side
+                // or a little more, never more than one tile and gap shared across the row.)
+                const fills = !!grid.closest(".capability-overview-scroll");
                 for (const box of boxes) {
-                    if (side !== null && (!rules.near(rect(box).width, side, tolerance) || !rules.near(rect(box).height, side, tolerance))) {
+                    if (fills && side !== null) {
+                        const w = rect(box).width;
+                        if (!rules.near(w, rect(box).height, tolerance) || w < side - tolerance || w > side + (side + spec.fieldGap) / Math.max(1, Math.floor((grid.clientWidth + spec.fieldGap) / (side + spec.fieldGap))) + tolerance) {
+                            fail("card tiles are squares of the page tile's side", box, { width: w, height: rect(box).height, side, fills });
+                        }
+                    } else if (side !== null && (!rules.near(rect(box).width, side, tolerance) || !rules.near(rect(box).height, side, tolerance))) {
                         fail("card tiles are squares of the page tile's side", box, { width: rect(box).width, height: rect(box).height, side });
                     }
                     const title = box.querySelector(".section-tile-title");
