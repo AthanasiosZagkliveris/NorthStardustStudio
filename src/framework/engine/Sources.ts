@@ -96,7 +96,7 @@ export interface Source {
  * `ac` label directly before a two-letter country code).
  */
 const ACCEPTED_TOP_LABELS = ["gov", "edu"];
-const ACCEPTED_COUNTRY_SECOND_LABELS = ["gov", "edu", "ac"];
+const ACCEPTED_COUNTRY_SECOND_LABELS = ["gov", "edu", "ac", "govt"];
 
 /**
  * Named domains accepted one by one: official bodies whose domains
@@ -114,7 +114,9 @@ const ACCEPTED_DOMAINS = [
     "openstax.org",       // OpenStax, Rice University: author-named open textbooks only
     "oecd.org",           // OECD, intergovernmental statistics
     "ecb.europa.eu",      // European Central Bank (also covered by europa.eu)
-    "bankofengland.co.uk" // Bank of England
+    "bankofengland.co.uk", // Bank of England
+    "ontario.ca",         // Government of Ontario (its e-Laws)
+    "un.org"              // United Nations, incl. its Statistics Division
 ];
 
 /** The host of a URL, lower-cased and without "www."; empty when it is not a URL. */
@@ -515,6 +517,127 @@ export const SOURCES = {
         publisher: "SEC (company filing)",
         url: "https://www.sec.gov/Archives/edgar/data/1520118/000147793225007253/R15.htm",
         checked: "2026-10-12"
+    },
+
+    /* THE WORKS THE "Based on:" LINES OF THE "i" NAME (owner, 2026-11-10: "Should I add Osterwalder, and the other works named this way, to the References so
+       every 'Based on' line links? - Yes"). Each checked on its page on 2026-11-10; a book or an article by its university library or business-school record. */
+
+    elementsOfValue: {
+        authors: ["Almquist, E.", "Senior, J.", "Bloch, N."],
+        year: "2016",
+        title: "The Elements of Value",
+        in: "Harvard Business Review",
+        details: "September 2016",
+        publisher: "Harvard Business School Publishing",
+        url: "https://hbsp.harvard.edu/product/R1609C-PDF-ENG",
+        checked: "2026-11-10"
+    },
+
+    b2bElementsOfValue: {
+        authors: ["Almquist, E.", "Cleghorn, J.", "Sherer, L."],
+        year: "2018",
+        title: "The B2B Elements of Value",
+        in: "Harvard Business Review",
+        details: "March-April 2018",
+        publisher: "Harvard Business School Publishing",
+        url: "https://hbsp.harvard.edu/product/R1802D-PDF-ENG",
+        checked: "2026-11-10"
+    },
+
+    valuePropositionDesign: {
+        authors: ["Osterwalder, A.", "Pigneur, Y.", "Bernarda, G.", "Smith, A."],
+        year: "2014",
+        title: "Value Proposition Design: How to Create Products and Services Customers Want",
+        details: "Hoboken, NJ: Wiley (Ulster University Library record)",
+        publisher: "Wiley",
+        url: "https://catalogue.library.ulster.ac.uk/items/1418575",
+        checked: "2026-11-10"
+    },
+
+    marketingManagement: {
+        authors: ["Kotler, P.", "Keller, K.L.", "Chernev, A."],
+        year: "2022",
+        title: "Marketing Management",
+        details: "16th global edn. Harlow: Pearson (Ulster University Library record)",
+        publisher: "Pearson",
+        url: "https://catalogue.library.ulster.ac.uk/items/1508547",
+        checked: "2026-11-10"
+    },
+
+    householdComposition: {
+        authors: ["Office for National Statistics"],
+        year: "2023",
+        title: "Household composition classifications: Census 2021",
+        publisher: "Office for National Statistics",
+        url: "https://www.ons.gov.uk/census/census2021dictionary/variablesbytopic/demographyvariablescensus2021/householdcomposition/classifications",
+        checked: "2026-11-10"
+    },
+
+    isco08: {
+        authors: ["International Labour Office"],
+        year: "2012",
+        title: "International Standard Classification of Occupations: ISCO-08",
+        details: "Geneva: ILO (United Nations Statistics Division classification record)",
+        publisher: "International Labour Office",
+        url: "https://unstats.un.org/unsd/classifications/Family/Detail/1067",
+        checked: "2026-11-10"
+    },
+
+    ukConsumerContracts: {
+        authors: ["UK Government"],
+        year: "2013",
+        title: "The Consumer Contracts (Information, Cancellation and Additional Charges) Regulations 2013, regulation 28",
+        details: "SI 2013/3134",
+        publisher: "legislation.gov.uk",
+        url: "https://www.legislation.gov.uk/uksi/2013/3134/regulation/28",
+        checked: "2026-11-10"
+    },
+
+    euConsumerRights: {
+        authors: ["European Parliament and Council of the European Union"],
+        year: "2011",
+        title: "Directive 2011/83/EU on consumer rights",
+        details: "Official Journal of the European Union, L 304",
+        publisher: "EUR-Lex",
+        url: "https://eur-lex.europa.eu/eli/dir/2011/83/oj",
+        checked: "2026-11-10"
+    },
+
+    ftcCoolingOff: {
+        authors: ["Federal Trade Commission"],
+        year: "2024",
+        title: "Rule Concerning Cooling-Off Period for Sales Made at Homes or at Certain Other Locations, 16 CFR Part 429",
+        details: "Washington, DC: U.S. Government Publishing Office",
+        publisher: "U.S. Government Publishing Office",
+        url: "https://www.govinfo.gov/content/pkg/CFR-2024-title16-vol1/pdf/CFR-2024-title16-vol1-part429.pdf",
+        checked: "2026-11-10"
+    },
+
+    ontarioConsumerProtection: {
+        authors: ["Government of Ontario"],
+        year: "2002",
+        title: "Consumer Protection Act, 2002, S.O. 2002, c. 30, Sched. A",
+        publisher: "Government of Ontario",
+        url: "https://www.ontario.ca/laws/statute/02c30",
+        checked: "2026-11-10"
+    },
+
+    acccDoorToDoor: {
+        authors: ["Australian Competition and Consumer Commission"],
+        year: "n.d.",
+        title: "Telemarketing and door-to-door sales",
+        publisher: "ACCC",
+        url: "https://www.accc.gov.au/business/selling-products-and-services/telemarketing-and-door-to-door-sales",
+        checked: "2026-11-10"
+    },
+
+    nzUninvitedSales: {
+        authors: ["Commerce Commission New Zealand"],
+        year: "n.d.",
+        title: "Door-to-door and telemarketing sales",
+        publisher: "Commerce Commission",
+        url: "https://comcom.govt.nz/consumers/dealing-with-typical-situations/mobile-traders-and-door-to-door-sales/door-to-door-and-telemarketing-sales",
+        checked: "2026-11-10"
     }
 
 } satisfies Record<string, Source>;
