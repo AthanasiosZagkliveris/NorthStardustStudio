@@ -43,11 +43,7 @@ jobs:
       - name: Typecheck
         run: npx tsc --noEmit
 
-      # Must exit 0. The one currently-known, currently-open bug
-      # (see docs/ai/outstanding-findings.md) is encoded as an
-      # `it.fails` test, not an ordinary failing one, specifically so
-      # this step stays a hard gate with no standing exception to
-      # remember -- see the Toolchain and Verification Playbook.
+      # Must exit 0: a hard gate (the playbook lists no expected failures today).
       - name: Unit tests
         run: npm test
 

@@ -12,6 +12,7 @@ One tree, edited in place. There is no separate build tree and no sync step.
 - Build, test and lint configuration lives at the repository root only: `package.json`, `tsconfig.json`, `vite.config.ts`, `vitest.config.ts`, `index.html`. Nothing inside `src/` configures the build.
 - Scripts: `tools/scripts/` (`tokens/`, `lint/`, `layout-check/`, `library/`, `catalogue/`, `docs/`, `cards/`, `export/`); the catalogue's own measures, probes, scans and exports are in `tools/catalogue/`. Each script is run through an `npm run` name (read `package.json`).
 - Desktop shell: `src-tauri/` (Tauri 2). The web build in `dist/` is what Tauri packages.
+- Working files: pictures made for a report go to `exports/` (ignored); the main folder holds no pictures (`/*.png` is ignored), and the assistants' working folders (`.scratch/`, `.superpowers/`, `claude-project/`) are ignored too.
 
 ## Verify a change, in order
 
@@ -46,6 +47,10 @@ To rewrite the examples after an interface change: `UPDATE_EXAMPLES=1 npx vitest
 ## The app files alone
 
 `npm run export:app` copies the app's own files (no tests, documents, tools or catalogue) into `exports/app/` (ignored by git) and builds them there; `-- --clean` also installs in that folder alone. It fails, naming the file, if an app file imports something that was left out. See `docs/design/current/25-folder-plan.md`.
+
+## Before every commit
+
+A git hook (`.githooks/pre-commit`) runs the three quick checks, about 15 seconds: `npx tsc --noEmit`, `npm run lint:css` and `npm run docs:check`. A failure stops the commit. Git finds the hook through `core.hooksPath`, which `npm install` sets (the `prepare` script). Never skip it (`--no-verify`): fix what it reports.
 
 ## Continuous integration
 
