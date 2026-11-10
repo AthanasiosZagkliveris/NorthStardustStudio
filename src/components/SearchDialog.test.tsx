@@ -139,7 +139,7 @@ describe("the search box's look", () => {
         expect(cells).toContain(".search-dialog { background-color: var(--bg-card-tint);");
         const search = stylesheet("search.css");
         expect(search).toContain("border-radius: var(--radius-lg);");
-        expect(search).toContain("box-shadow: 0 24px 56px var(--shadow-18), 0 8px 20px var(--shadow-12);");
+        expect(search).toContain("box-shadow: var(--shadow-drop);");
         expect(search).toContain("font-size: var(--font-body);");
         // (No colour of its own: every colour is a token, in light, dark and sepia.)
         expect(search).not.toMatch(/#[0-9a-f]{3,6}\b|rgba?\(/i);

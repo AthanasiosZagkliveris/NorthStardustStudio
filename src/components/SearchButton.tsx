@@ -49,7 +49,7 @@ export default function SearchButton() {
                 aria-haspopup="dialog"
                 aria-expanded={open}
                 onClick={start}>
-                <svg className="header-tool-icon" viewBox="0 0 20 20" aria-hidden="true">
+                <svg className="header-tool-icon" viewBox="0.42 0.42 19.41 19.41" aria-hidden="true">
                     <circle cx="8.5" cy="8.5" r="5.25" fill="none" stroke="currentColor" strokeWidth="1.5" />
                     <path d="M12.5 12.5l4.5 4.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                 </svg>
