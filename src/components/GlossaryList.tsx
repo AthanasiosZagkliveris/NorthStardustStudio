@@ -168,6 +168,12 @@ export default function GlossaryList({ organizationIds, target, onCitation }: {
                 <ResponsibilityFilter
                     off={new Set([...off, ...organisationsOff, ...lettersOff])}
                     options={[...kinds, ...organisations, ...(ranges.length > 1 ? ranges.map(range => range.label) : [])]}
+                    // (On the Landing page, with its Organisations, the options stand under folded categories; owner, 2026-11-10.)
+                    groups={organisations.length > 0 ? [
+                        { name: "Kinds of term", options: kinds },
+                        { name: "Organisations", options: organisations },
+                        { name: "Letters", options: ranges.length > 1 ? ranges.map(range => range.label) : [] }
+                    ] : undefined}
                     label="Choose which terms show"
                     onToggle={(option) => kinds.includes(option)
                         ? setOff(current => toggled(current, option))

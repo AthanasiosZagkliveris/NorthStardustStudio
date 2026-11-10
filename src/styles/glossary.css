@@ -393,3 +393,12 @@
     border-top:1px solid var(--line-sheet);
 
 }
+
+/* THE FUNNEL'S FOLDED CATEGORIES (owner, 2026-11-10): each a FoldHead, its ticks under it, the categories 8px apart as the ticks are. */
+.responsibility-filter-group{
+
+    display:flex;
+    flex-direction:column;
+    gap:var(--gap-8);
+
+}
