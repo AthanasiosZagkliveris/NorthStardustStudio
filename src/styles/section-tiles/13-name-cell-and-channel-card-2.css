@@ -678,3 +678,28 @@ label:has(> input[type="checkbox"]) > :not(input) {
     }
 
 }
+
+/* K14's competitors under an option, a bullet each (owner, 2026-11-10: "under its option make a bullet list"): the tile lists' bullet, hanging. */
+.business-foundation-tick-source-list {
+
+    display: flex;
+    flex-direction: column;
+
+}
+
+.business-foundation-tick-source-list > span {
+
+    position: relative;
+
+    padding-left: 1em;
+
+}
+
+.business-foundation-tick-source-list > span::before {
+
+    content: "\2022";
+
+    position: absolute;
+    left: 0.2em;
+
+}

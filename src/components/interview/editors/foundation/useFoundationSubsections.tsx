@@ -240,7 +240,11 @@ export function useFoundationSubsections(earlier: Earlier) {
         const fromOpenings = differentiationFromOpenings(segment.competitors);
         // (Beside each Differentiation the K10 ticks argue for, the competitors it came from: owner, 2026-11-09.)
         const sources = differentiationSources(segment.competitors);
-        const sourceNote = (id: string) => sources[id]?.length ? "from " + namesInSentence(sources[id]) : undefined;
+        // (A bullet list under the option, a competitor a line; owner, 2026-11-10: "under its option make a bullet list".)
+        const sourceNote = (id: string) => sources[id]?.length
+            ? <span className="business-foundation-tick-source-list">{sources[id].map(name => <span key={name}>{name}</span>)}</span>
+            : undefined;
+        const sourceText = (id: string) => sources[id]?.length ? "from " + namesInSentence(sources[id]) : undefined;
         const positioningOrder = { customerType: identity?.relationships ?? [], audience: identity?.audience ?? [], buyerCategory: identity?.buyerCategory ?? [], endUser: identity?.endUser ?? [], purpose: identity?.purpose ?? [] };
         const stageLimit = choiceLimit(asked.stage, "outcome");
 
@@ -250,11 +254,11 @@ export function useFoundationSubsections(earlier: Earlier) {
             // (K14 stands under its section's title, "Differentiation": its label asks the question rather than repeating the title.)
             const label = question.id === "differentiation" ? "How will you stand apart?" : question.label;
             // (K14's options: those the K10 ticks argue for first, the most ticked first; then Positioning's order.)
-            const options = question.id === "differentiation" ? [...differentiationOptionsFor(positioningOrder, chosen)].sort((a, b) => (fromOpenings.includes(a.id) ? fromOpenings.indexOf(a.id) : fromOpenings.length) - (fromOpenings.includes(b.id) ? fromOpenings.indexOf(b.id) : fromOpenings.length)).map(option => ({ ...option, note: sourceNote(option.id) }))
+            const options = question.id === "differentiation" ? [...differentiationOptionsFor(positioningOrder, chosen)].sort((a, b) => (fromOpenings.includes(a.id) ? fromOpenings.indexOf(a.id) : fromOpenings.length) - (fromOpenings.includes(b.id) ? fromOpenings.indexOf(b.id) : fromOpenings.length)).map(option => ({ ...option, note: sourceNote(option.id), noteText: sourceText(option.id) }))
                 : question.id === "u-outcome" ? userOutcomeOptionsFor(positioningOrder)
                     : segmentOptions(question, segment.questions, asked);
             // (On a radio, the note stands in the option's words: its accessible name says both.)
-            const radioOptions = (options as readonly { id: string; label: string; note?: string }[]).map(option => option.note ? { ...option, label: <>{option.label}<span className="business-foundation-tick-source">{option.note}</span></>, name: option.label + ", " + option.note } : option);
+            const radioOptions = (options as readonly { id: string; label: string; note?: ReactNode; noteText?: string }[]).map(option => option.note ? { ...option, label: <>{option.label}<span className="business-foundation-tick-source">{option.note}</span></>, name: option.label + ", " + (option.noteText ?? "") } : option);
             const choose = (next: string[]) => updateSegment(segmentIndex, {
                 questions: segmentSettle(segmentChoose(question, segment.questions, next), asked)
             });
