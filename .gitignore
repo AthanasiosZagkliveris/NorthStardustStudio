@@ -53,3 +53,7 @@ exports/
 # Working folders of the assistant sessions
 .superpowers/
 .scratch/
+claude-project/
+
+# Pictures made for a report go to exports/ (ignored); none is kept in the main folder
+/*.png
