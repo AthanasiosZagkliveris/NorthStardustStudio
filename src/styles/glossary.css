@@ -124,7 +124,8 @@
 .glossary-bar .responsibility-filter-panel,
 .workbook-tools .responsibility-filter-panel{
 
-    border:1px solid var(--line-box);
+    /* (No stroke: the one dropdown card, as every menu's; owner, 2026-11-10.) */
+    border:0;
 
     background:var(--bg-surface);
 

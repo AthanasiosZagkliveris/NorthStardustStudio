@@ -475,7 +475,7 @@
 
     z-index:20;
 
-    margin-top:4px;
+    margin-top:6px;
 
     display:flex;
 
@@ -485,12 +485,14 @@
 
     padding:4px;
 
-    border:1px solid var(--box-border);
+    /* THE ONE DROPDOWN CARD (layout rules, "The dropdown list"; owner, 2026-11-10: "Everything should be consistent"): the option list's card --
+       no stroke, the boxes' inset light and shade, its drop shadow, 6px under its button -- for every menu a button opens (a sort, Export). */
+    border:0;
     border-radius:var(--radius-lg);
 
     background:var(--bg-surface);
 
-    box-shadow:0 8px 24px var(--shadow-ink-18);
+    box-shadow:var(--box-inset), 0 12px 28px var(--shadow-ink-18);
 
 }
 
