@@ -361,11 +361,12 @@ body {
   /* (Shorter, owner 21:06: "I do not like it too long"; and with no hard line, 21:07: "the transparency should change gradually": no tight layer, every layer
      blurred at least four times its offset, each fainter, so the shade rises from clear to its deepest without an edge.) */
   /* (More blur, owner 21:12: "Can you blur the drop shadows?": each layer blurred further on the same small offset.) */
-  /* (Spread with no limit and fading smoothly, owner 21:14-21:15: "Let the shadows spread"; "the shadows cut off, and they are not faint smoothly": five layers,
-     each twice as far and as blurred as the one before, all faint, so the shade thins out evenly into the page with no end to see.) */
-  --shadow-drop: 0 1px 4px color-mix(in srgb, var(--shadow-ink-08) 50%, transparent), 0 2px 8px color-mix(in srgb, var(--shadow-ink-08) 50%, transparent), 0 4px 16px color-mix(in srgb, var(--shadow-ink-08) 50%, transparent), 0 8px 32px color-mix(in srgb, var(--shadow-ink-08) 50%, transparent), 0 16px 64px color-mix(in srgb, var(--shadow-ink-08) 50%, transparent);
-  --shadow-menu: 0 1px 3px color-mix(in srgb, var(--shadow-ink-08) 45%, transparent), 0 2px 6px color-mix(in srgb, var(--shadow-ink-08) 45%, transparent), 0 4px 12px color-mix(in srgb, var(--shadow-ink-08) 45%, transparent), 0 8px 24px color-mix(in srgb, var(--shadow-ink-08) 45%, transparent), 0 16px 48px color-mix(in srgb, var(--shadow-ink-08) 45%, transparent);
-  --shadow-tile-lift: 0 1px 3px color-mix(in srgb, var(--shadow-ink-08) 45%, transparent), 0 2px 6px color-mix(in srgb, var(--shadow-ink-08) 45%, transparent), 0 4px 12px color-mix(in srgb, var(--shadow-ink-08) 45%, transparent), 0 8px 24px color-mix(in srgb, var(--shadow-ink-08) 45%, transparent);
+  /* (Short and smooth, a haze rather than a ring, owner 21:18: "I want the shadows short and smooth, spread as dust noise, not as bands around defined
+     forms": one soft shadow, pulled in by a negative spread so it does not trace the box's outline, its blur wide against its reach, so it settles under
+     the box as a diffuse haze and thins out within about 16px.) */
+  --shadow-drop: 0 8px 28px -8px var(--shadow-ink-16);
+  --shadow-menu: 0 6px 20px -6px var(--shadow-ink-16);
+  --shadow-tile-lift: 0 4px 16px -6px var(--shadow-ink-16);
   /* (Both end in clear: one blur only, wide against its offset, its colour faint; a tile lifted under the pointer takes the menu's.) */
   /* THE LINE BETWEEN TWO BANDS (owner, 2026-11-10: "a divider line (12px, 1px, 12px) with a light colour (the card's tint colour)"): 1px in a light step of the card's own hue, the bands' 12px on each side of it. */
   --band-divider: color-mix(in srgb, hsl(var(--strategy-theme-hue, 220) var(--theme-bg-ink)) 30%, hsl(var(--strategy-theme-hue, 220) var(--theme-bg-inner)));
