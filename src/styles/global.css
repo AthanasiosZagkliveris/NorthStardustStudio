@@ -329,6 +329,8 @@ body {
   /* THE CELL'S FILL is a warm off-white in light (owner, 2026-11-09), which pairs with the near-black text and spares the eyes the glare of pure white. Its edge
      is the soft light and shade alone: the 1px edge tried that evening was taken away by the owner ("Remove the thin darker inset edge"). */
   --cell-fill: #faf9f6;
+  /* THE ICON IN A BUTTON: one size for every one (the header tools, Export, the funnel, the calendar, the link symbol; owner, 2026-11-10). */
+  --icon-size: 24px;
   --cell-inset-recess: inset 2px 2px 3px var(--cell-shade), inset -2px -2px 3px var(--cell-light);
   /* The "+" box's fill: the darker tone of the tile's hue (the card's hue at this saturation and lightness). */
   --plus-fill-saturation: 36%;

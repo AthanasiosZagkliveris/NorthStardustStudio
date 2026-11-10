@@ -13,7 +13,7 @@ const FunnelButton = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTMLButt
             className={"plus-box plus-box-small funnel-box" + (className ? " " + className : "")}
             data-active={active ? "" : undefined}
         >
-            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
                 <path d="M4 5h16l-6.2 7.4V19l-3.6-2v-4.6z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
             </svg>
         </button>

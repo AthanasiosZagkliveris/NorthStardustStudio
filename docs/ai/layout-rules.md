@@ -89,6 +89,7 @@ below are these, made measurable.
 | `--plus-fill-saturation` / `--plus-fill-lightness` | 36% / 38% (sepia 34% / 36%; dark 42% / 68%) | the darker tone of a tile's hue: the stroke and the "+" of a "+" box at rest, its fill under the pointer (the hue is the tile's own) |
 | `--cell-light` / `--cell-shade` / `--cell-inset` | white 50% / black 12% (dark: white 7% / black 45%; sepia: cream 55% / brown 14%) / `inset 2px 2px 3px light, inset -2px -2px 3px shade` | THE EDGE OF A CELL (an input, a picker, a text box, a name cell, the x) in an opened card of page 3: the lighter twin of the box's edge, no stroke |
 | `--cell-fill` | #faf9f6 (dark and sepia: their surface) | THE CELL'S FILL (owner, 2026-11-09): a warm off-white in light, so no cell is pure white; its edge stays the soft light and shade (a 1px edge reaching 3:1 was tried and taken away by the owner the same evening) |
+| `--icon-size` | 24px | THE ICON IN A BUTTON (owner, 2026-11-10: "The icons in the buttons should all be the same size (24 px)"): the header tools' icons, Export's, the reading mode's options, the funnel's; the calendar and the link symbol were 24 already |
 | `--floating-scrim` / `--floating-caption-ink` | transparent / per theme | a floating card never darkens the page (a dialog does: `--bg-overlay`); the ink of the box names standing over it (13.1:1 dark, 5.7 light, 6.4 sepia over the worst pixel behind a name) |
 | `--section-tile-min` | 120px | the smallest a section tile gets: a group too narrow for three of them wraps to fewer across |
 | `--control-xs` | 80px | XS width step |
