@@ -472,3 +472,29 @@
     color:var(--text-muted);
 
 }
+
+/* THE BUSINESS DOCUMENTS' TABS IN THE CARD'S HUE (owner, 2026-11-10: "make the tags colours ... match the card's hue tint"): a tab not chosen stands on the
+   card's tint, as the Workbook's rows do, its words in the card's ink; the chosen one is the document's own sheet, framed in the card's edge. */
+.workbook .workbook-section .tab-list{
+
+    border-bottom-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
+
+}
+
+.workbook .workbook-section .tab-list-tab{
+
+    border-color:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent)) 30%, transparent);
+
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) 70%, var(--bg-surface));
+
+    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
+
+}
+
+.workbook .workbook-section .tab-list-tab-active{
+
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
+
+    background:var(--bg-surface);
+
+}
