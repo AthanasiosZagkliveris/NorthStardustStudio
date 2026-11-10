@@ -742,3 +742,17 @@
     font-size: inherit;
 
 }
+
+/* A FUNNEL'S WINDOW IS A DROPDOWN CARD (owner, 2026-11-10: "Make sure the drop down cards, follow the rules and style (cell and text colour, gaps)"): its
+   ticks and orders in the text colour, as every list's rows (the option list, the menus), its folded categories' heads in the one caps title colour. */
+.capability-overview-menu {
+
+    color: var(--text-default);
+
+}
+
+.capability-overview-menu .capability-overview-menu-head > strong {
+
+    color: var(--caps-title-color, var(--text-muted));
+
+}
