@@ -1410,3 +1410,18 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
     background:var(--band-divider);
 
 }
+
+/* A legal requirement's rows in the order they are drawn (the Type moved first): the light line stands between the Type and the Reference, not over the
+   Type under the card's head (owner, 2026-11-10: "all the floated cards ... should use the same components and rules": the Expense card in the same
+   section has no line under its head). */
+.floating-card-body .legal-entity-grid-requirement > .legal-entity-field-side{
+
+    border-top:0;
+
+}
+
+.floating-card-body .legal-entity-grid-requirement > :first-child:not(.legal-entity-field-side){
+
+    border-top:1px solid var(--band-divider);
+
+}
