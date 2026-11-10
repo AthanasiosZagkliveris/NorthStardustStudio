@@ -818,7 +818,7 @@ describe("the page's cards and titles", () => {
         expect(global).toMatch(/--font-small: 14px;/);
         const css = stylesheet("section-tiles.css");
         expect(css).toMatch(/\.business-capability > \.business-foundation-card:not\(\.section-tile-dialog\) \.answer-column-label \{[^}]*font-size: var\(--font-h2\);/);
-        expect(css).toMatch(/\.business-capability-tiles-section > \.business-engagement-section-head \.field-group-title,\s*\.section-tile-dialog-body > div > \.business-engagement-section-head \.field-group-title \{[^}]*font-size: var\(--font-h3\);/);
+        expect(css).toMatch(/\.business-capability-tiles-section > \.business-engagement-section-head \.field-group-title,\s*\.section-tile-dialog-body > div > \.business-engagement-section-head \.field-group-title,\s*\.workbook-head > \.business-engagement-section-head \.field-group-title \{[^}]*font-size: var\(--font-h3\);/);
     });
 
 });
