@@ -14,6 +14,7 @@ Status: **log**, started 2026-10-14, updated 2026-11-09. The rows of sections 4.
 
 | Dates | What happened |
 |---|---|
+| 2026-11-10 | **No drop shadow on the Workbook (owner, Thanos, 10:04: yes to dropping both shadows on the Workbook only).** Its panel and its rail's tab stand flat on the page; a real dialog keeps its shadow (glossary.css). Layout rules 22.37. |
 | 2026-11-10 | **The Strategy's nested cards swap two tints again, each with its edge (owner, Thanos, 09:50: "In the nested cards, swap the same colour, and keep their wireframes").** The Goal and the Metric on the Objective's tint, the Objective on the Theme's, every card's 1px edge kept; the steps of 09:17 are gone (10-segment-card-2.css). |
 | 2026-11-10 | **Every menu in the one dropdown card (owner, Thanos, 09:41: "Everything should be consistent. Follow the rules and use only the existing components").** The sort and Export menus (`.strategy-sort-menu`) and the funnel's ticks now draw the option list's card: no stroke, the boxes' inset light and shade, its drop shadow, 6px under the button; a MenuOption row drops the 0.1em tracking every button has, so it reads as the list's rows do. Layout rules, the dropdown list. |
 | 2026-11-10 | **The Workbook rows in two closer steps (owner, Thanos, 09:28: "The colour difference in the content can be smaller. Now it seems too light and too dark").** The rows alternate 3% and 7% of the card's ink over the cell's fill (were the bare fill and 12%), still lighter than the card (glossary.css). |

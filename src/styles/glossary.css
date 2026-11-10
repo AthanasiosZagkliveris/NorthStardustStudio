@@ -405,3 +405,12 @@
     gap:var(--gap-8);
 
 }
+
+/* NO DROP SHADOW ON THE WORKBOOK (owner, 2026-11-10: yes to "dropping both shadows on the Workbook only and keeping them on real dialogs"): its panel is a
+   page of its own, over nothing, so neither the panel nor its rail's tab lifts off the page; a real dialog keeps its shadow. */
+.workbook .workbook-panel,
+.workbook .bullet-rail{
+
+    box-shadow:none !important;
+
+}
