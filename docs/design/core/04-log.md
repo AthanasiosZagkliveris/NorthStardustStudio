@@ -14,6 +14,7 @@ Status: **log**, started 2026-10-14, updated 2026-11-09. The rows of sections 4.
 
 | Dates | What happened |
 |---|---|
+| 2026-11-10 | **No hard line in a shadow (owner, Thanos, 21:07: "just I do not like the harsh line, the transparency should change gradually").** The tight inner layer (1px down, 2px of blur) drew the edge; every layer is now blurred at least four times its offset and fainter than the one inside it, so the shade rises from clear to its deepest with no line. |
 | 2026-11-10 | **The layered shadows shorter (owner, Thanos, 21:06: "I do not like it too long").** The same layers, reaching about 12-16px from the box (a dialog's 20px at its faintest). |
 | 2026-11-10 | **The drop shadows layered (owner, Thanos, 21:04: "Make it to gradually get darker from transparent to more opaque, and add some blur").** Each shadow is three or four soft layers, each wider and fainter than the last (--shadow-drop, --shadow-menu, --shadow-tile-lift in global.css), so the shade deepens gradually towards its box and blurs away to clear. Checked in the browser on the Export menu, the header and a grown tile. |
 | 2026-11-10 | **The drop shadows faint and gentle (owner, Thanos, 21:02: "I like it to faint gently").** Wide and faint rather than short: --shadow-drop 0 12px 40px at 12%, --shadow-menu 0 8px 28px at 8%, a grown tile 0 6px 20px at 8%; faint enough that where one meets an edge no line shows. Checked in the browser: a grown tile beside its card's edge, the header and the Export menu. |
