@@ -1451,3 +1451,32 @@ label:has(> input[type="checkbox"]:not(:disabled)):hover > :not(input),
 :root[data-theme="dark"] :is(.business-foundation-card, .section-tile-dialog, .legal-entity-card, .floating-card-body) {
   --band-divider: var(--card-band-ink);
 }
+
+/* THE DUST SHADOW, ON TRIAL (owner, 2026-11-10: "I want the shadows short and smooth, spread as dust noise, not as bands around defined forms"; "let's
+   try it"): the menus, the funnel windows and a tile grown under the pointer cast their shadow through #dust-shadow (DustShadowFilters.tsx) -- their own
+   shape blurred, set a little lower and sprinkled with fine noise -- in place of the box shadow, which keeps only its inset light and shade. */
+.strategy-sort-menu.strategy-sort-menu,
+.option-picker-list.option-picker-list,
+.responsibility-filter-panel.responsibility-filter-panel {
+
+    box-shadow: var(--box-inset);
+
+    filter: url(#dust-shadow);
+
+}
+
+.section-tile-slot:hover > .section-tile.section-tile,
+.card-tile-slot:hover > .section-tile.section-tile {
+
+    box-shadow: var(--box-inset);
+
+    filter: url(#dust-shadow);
+
+}
+
+[data-tiles-settled] .section-tile-slot:hover > .section-tile.section-tile,
+[data-tiles-settled] .card-tile-slot:hover > .section-tile.section-tile {
+
+    filter: none;
+
+}
