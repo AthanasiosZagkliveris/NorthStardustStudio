@@ -248,23 +248,9 @@ body:has(.section-tile-overlay) .app-header {
 
 }
 
-/* The top band throws a soft drop shadow on what scrolls under it: as dust (DustShadowFilters.tsx, #dust-grain), a soft band under the header, grained,
-   in place of a box shadow (owner, 2026-11-10: "spread as dust noise, not as bands around defined forms"; "let's try it"). */
-.app-header::after {
+/* The top band throws a soft drop shadow on what scrolls under it. */
+.app-header {
 
-    content: "";
-
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 100%;
-
-    height: 20px;
-
-    pointer-events: none;
-
-    background: linear-gradient(to bottom, var(--shadow-ink-16), transparent);
-
-    filter: url(#dust-grain);
+    box-shadow: var(--shadow-menu);
 
 }
