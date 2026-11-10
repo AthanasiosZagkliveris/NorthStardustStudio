@@ -35,6 +35,32 @@
 
 /* ---------- The plan, as a page ---------- */
 
+/* THE PAGE UNDER THE TABS (owner, 2026-11-10, 18:27: "Connect the tags with the content as a solid page with page tags"): the tabs stand on the page's top
+   edge, the chosen one open into it (its ground, no line under it), and the page holds the chosen document, the Canvas and the Forecast as the Plan, in
+   one frame. The Plan is drawn on the page itself (no sheet of its own inside it). */
+.business-documents-page{
+
+    margin-top:calc(-1 * var(--gap-24));
+
+    padding:32px 40px;
+
+    border:1px solid var(--line-sheet);
+    border-top:none;
+    border-radius:0 0 var(--radius-lg) var(--radius-lg);
+
+    background:var(--bg-surface);
+
+}
+
+.business-documents-page > .business-document{
+
+    padding:0;
+
+    border:none;
+    border-radius:0;
+
+}
+
 .business-document{
 
     padding:32px 40px;

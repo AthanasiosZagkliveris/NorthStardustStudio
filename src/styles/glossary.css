@@ -500,3 +500,10 @@
     background:var(--bg-surface);
 
 }
+
+/* (The page under the tabs takes the same edge: the tabs' rule is its top, so the chosen tab and the page read as one sheet.) */
+.workbook .business-documents-page{
+
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
+
+}
