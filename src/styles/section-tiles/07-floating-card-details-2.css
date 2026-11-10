@@ -1378,3 +1378,18 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
     background: var(--tint-row-band);
 
 }
+
+/* THE LINE BETWEEN TWO BANDS, on every card and dialog (owner, 2026-11-10, a general rule): where one band follows another, a 1px line in a light step of
+   the card's hue (--band-divider) stands between them, each band keeping its 12px. */
+.legal-entity-audience .legal-entity-org-section + .legal-entity-org-section,
+.legal-entity-bands > .legal-entity-org-section + .legal-entity-org-section,
+.floating-card-body .legal-entity-grid-requirement > * + *,
+.floating-card-body .legal-entity-grid-expense-card > .legal-entity-field-wide,
+.column-tile-content .founders-profile .founder-band + .founder-band,
+.column-tile-content .founders-profile .founders-profile-row + .founders-profile-row > .founder-band:first-child,
+.floating-card-body .brand-style-card > .optional-field:last-child,
+.floating-card-body .brand-style-card > .brand-image-card-body:last-child > .optional-field:last-child {
+
+    border-top: 1px solid var(--band-divider);
+
+}

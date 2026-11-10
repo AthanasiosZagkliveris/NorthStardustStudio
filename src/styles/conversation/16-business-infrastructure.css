@@ -617,6 +617,18 @@
     justify-content:center;
 }
 
+/* (Its icon is a block at the one icon size, so it adds no line box of its own to the row it stands in.) */
+.funnel-box{
+    /* (No line box below it where it stands inline: the row it stands in is as tall as the box.) */
+    vertical-align:top;
+}
+
+.funnel-box > svg{
+    display:block;
+    width:var(--icon-size);
+    height:var(--icon-size);
+}
+
 /* A filter that leaves something out shows its box filled, as under the pointer. */
 .funnel-box[data-active]{
     border-color:transparent;

@@ -331,6 +331,8 @@ body {
   --cell-fill: #faf9f6;
   /* THE ICON IN A BUTTON: one size for every one (the header tools, Export, the funnel, the calendar, the link symbol; owner, 2026-11-10). */
   --icon-size: 24px;
+  /* THE LINE BETWEEN TWO BANDS (owner, 2026-11-10: "a divider line (12px, 1px, 12px) with a light colour (the card's tint colour)"): 1px in a light step of the card's own hue, the bands' 12px on each side of it. */
+  --band-divider: color-mix(in srgb, hsl(var(--strategy-theme-hue, 220) var(--theme-line-accent)) 28%, transparent);
   --cell-inset-recess: inset 2px 2px 3px var(--cell-shade), inset -2px -2px 3px var(--cell-light);
   /* The "+" box's fill: the darker tone of the tile's hue (the card's hue at this saturation and lightness). */
   --plus-fill-saturation: 36%;
