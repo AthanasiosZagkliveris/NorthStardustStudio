@@ -370,3 +370,26 @@
     background-color:var(--cell-fill);
 
 }
+
+/* THE REFERENCES' BANDS SIDE TO SIDE (owner, 2026-11-10: "Make the coloured bands side to side"): in the Workbook the references stand as the Review's
+   and the Glossary's rows do, one band against the next across the whole list, in one framed list, each with the 12px margin; the hanging indent stays. */
+.workbook .references-list{
+
+    gap:0;
+
+    border:1px solid var(--line-sheet);
+    border-radius:var(--radius-md);
+
+}
+
+.workbook .references-entry{
+
+    padding:var(--card-padding) var(--card-padding) var(--card-padding) calc(var(--card-padding) + 2em);
+
+}
+
+.workbook .references-entry + .references-entry{
+
+    border-top:1px solid var(--line-sheet);
+
+}
