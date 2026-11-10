@@ -99,8 +99,18 @@ export function FieldPageProvider({
         const observer = new MutationObserver(mark);
         observer.observe(root, { childList: true, subtree: true });
         const unsubscribe = NotepadService.subscribe(() => markNoted(root, value.organizationId));
+        // (A dialog and a floating card are drawn outside the page (in their own layer): what opens there is marked too, once it has drawn; owner,
+        // 2026-11-10: "Did you check the Notes effect in the browser?" -- a list linked in the SWOT dialog was left plain.)
+        let frame = 0;
+        const layers = new MutationObserver(() => {
+            cancelAnimationFrame(frame);
+            frame = requestAnimationFrame(() => markNoted(root, value.organizationId));
+        });
+        layers.observe(document.body, { childList: true });
         return () => {
             observer.disconnect();
+            layers.disconnect();
+            cancelAnimationFrame(frame);
             unsubscribe();
         };
     }, [value]);
@@ -237,20 +247,24 @@ function markNoted(root: HTMLElement, organizationId: string): void {
         .map(link => link.key as string)));
 
     const noted = new Set<HTMLElement>();
-    for (const holder of root.querySelectorAll<HTMLElement>("[data-field-key]")) {
+    // The page, and the dialogs and floating cards opened over it (drawn in their own layer, outside the page).
+    const scopes = [root, ...document.querySelectorAll<HTMLElement>(".section-tile-overlay, .floating-card-host")].filter(scope => scope === root || !root.contains(scope));
+    const holders = scopes.flatMap(scope => [...scope.querySelectorAll<HTMLElement>("[data-field-key]")]);
+    for (const holder of holders) {
         if (!keys.has(holder.dataset.fieldKey ?? "") || holder.closest("[hidden]")) {
             continue;
         }
         // (A page's tile is a card too: a note linked to it draws it so (owner, 2026-11-10: "Check and fix, in the notes panel, the linked parts").)
         const box = holder.matches(CARDS) || holder.matches(".section-tile") || holder.matches(NOTED_BOX)
             ? holder
-            : holder.querySelector<HTMLElement>(NOTED_BOX);
+            // (A list is marked as one box, the list's own, not its first line.)
+            : holder.querySelector<HTMLElement>(".numbered-list") ?? holder.querySelector<HTMLElement>(NOTED_BOX);
         if (box) {
             noted.add(box);
         }
     }
 
-    for (const element of root.querySelectorAll<HTMLElement>(".is-noted")) {
+    for (const element of scopes.flatMap(scope => [...scope.querySelectorAll<HTMLElement>(".is-noted")])) {
         if (!noted.has(element)) {
             element.classList.remove("is-noted");
             element.removeAttribute("aria-description");
