@@ -33,6 +33,10 @@ export function paintCardEnd(card: HTMLElement): void {
             card.style.backgroundRepeat = "";
             delete card.dataset.endGround;
         }
+        for (const inner of card.querySelectorAll<HTMLElement>("[data-end-ground]")) {
+            inner.style.removeProperty("background-image");
+            delete inner.dataset.endGround;
+        }
         return;
     }
     // A vertical divider that ends with the last band (the right column's own left border, as the Value Proposition's needs) runs on to the card's end, through
@@ -57,6 +61,23 @@ export function paintCardEnd(card: HTMLElement): void {
         card.style.backgroundSize = sizes.join(", ");
         card.style.backgroundRepeat = "no-repeat";
         card.dataset.endGround = ground;
+    }
+    // A box inside the card with a ground of its own that holds the last band and reaches below it (a Legal card's box, a Profile's card inside its floating
+    // body): its end is what shows, so it is painted from the band's foot down too (owner, 2026-11-10: "the last part of the floated cards should have the same
+    // colour as their last field").
+    for (let inner = last.parentElement; inner && inner !== card; inner = inner.parentElement) {
+        const own = getComputedStyle(inner).backgroundColor;
+        const opaque = own !== "transparent" && !/rgba\([^)]*,\s*0\)$/.test(own) && !/\/\s*0\)$/.test(own);
+        const r = inner.getBoundingClientRect();
+        if (!opaque || r.bottom <= lowest + 1) {
+            continue;
+        }
+        const at = Math.round((lowest - r.top - inner.clientTop) * 10) / 10;
+        const ownImage = "linear-gradient(to bottom, transparent " + at + "px, " + ground + " " + at + "px)";
+        if (inner.style.getPropertyValue("background-image") !== ownImage) {
+            inner.style.setProperty("background-image", ownImage, "important");
+            inner.dataset.endGround = ground;
+        }
     }
 }
 

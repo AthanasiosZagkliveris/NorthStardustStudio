@@ -1347,14 +1347,14 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     margin-left: calc(-1 * var(--card-padding));
     margin-right: calc(-1 * (var(--card-padding) + var(--card-x-column)));
 
-    /* (6px above and below its content: two bands keep the card's 12px between their rows, as before.) */
-    padding: calc(var(--space-cell) / 2) calc(var(--card-padding) + var(--card-x-column)) calc(var(--space-cell) / 2) var(--card-padding);
+    /* (12px above and below its content, as a channel card's sections: each band reads as a field of its own; owner, 2026-11-10.) */
+    padding: var(--space-cell) calc(var(--card-padding) + var(--card-x-column)) var(--space-cell) var(--card-padding);
 
 }
 
 .floating-card-body .legal-entity-grid-expense-card > :not(.legal-entity-field-wide) {
 
-    padding-bottom: calc(var(--space-cell) / 2);
+    padding-bottom: var(--space-cell);
 
 }
 
