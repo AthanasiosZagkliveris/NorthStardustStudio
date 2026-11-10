@@ -63,7 +63,8 @@
 
     transform: translateY(-3px);
 
-    box-shadow: 0 10px 25px var(--shadow-08);
+    /* (The app's one short lift: global.css, --shadow-menu.) */
+    box-shadow: var(--shadow-menu);
 }
 
 .landing-card:active {
