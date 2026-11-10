@@ -1435,3 +1435,12 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
     border-top:1px solid var(--band-divider);
 
 }
+
+/* An arrow standing in the page tab's list: filled with the tab's edge colour in its brighter version, its wire's (in every reading mode: the dark mode's own
+   arrow colour is more specific, so it is named here too); restored 2026-11-10, owner: "fill colour used to be like its wire". */
+.page-arrow.carousel-arrow.carousel-arrow-on-tab,
+:root[data-theme="dark"] .page-arrow.carousel-arrow.carousel-arrow-on-tab {
+
+    color: color-mix(in srgb, var(--tab-edge) 55%, white);
+
+}

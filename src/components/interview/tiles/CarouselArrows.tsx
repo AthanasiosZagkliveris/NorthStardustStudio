@@ -293,7 +293,9 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
     return (
         <>
             <NavArrow
-                className="page-arrow carousel-arrow"
+                // (Standing in the tab's list, the arrow takes the tab's edge colour as its fill, as it did before the list ran on round it; owner, 2026-11-10: "The
+                // carousel arrow in the card tag, fill colour used to be like its wire".)
+                className={"page-arrow carousel-arrow" + (slot && at.tab && at.side === "left" ? " carousel-arrow-on-tab" : "")}
                 data-completed={completedLayer(target.current) ? "" : undefined}
                 direction="previous"
                 label={"Previous " + step.what}
@@ -302,7 +304,7 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
                 onClick={step.previous}
             />
             <NavArrow
-                className="page-arrow carousel-arrow"
+                className={"page-arrow carousel-arrow" + (slot && at.tab && at.side === "right" ? " carousel-arrow-on-tab" : "")}
                 data-completed={completedLayer(target.current) ? "" : undefined}
                 direction="next"
                 label={"Next " + step.what}
