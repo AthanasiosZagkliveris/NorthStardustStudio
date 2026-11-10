@@ -354,6 +354,9 @@ body {
      control (a dropdown list, a menu, a funnel, a popover, a toast). */
   --shadow-drop: 0 18px 56px var(--shadow-ink-18);
   --shadow-menu: 0 10px 36px var(--shadow-ink-16);
+  /* (A page tile grown under the pointer: the same soft lift, kept within the card's 12-15px around its tiles, so the card's edge never cuts through it;
+     owner, 2026-11-10: "Can you do something to smooth this line effect? Like blur it?".) */
+  --shadow-tile-lift: 0 6px 12px var(--shadow-ink-16);
   /* (Both end in clear: one blur only, wide against its offset, its colour faint; a tile lifted under the pointer takes the menu's.) */
   /* THE LINE BETWEEN TWO BANDS (owner, 2026-11-10: "a divider line (12px, 1px, 12px) with a light colour (the card's tint colour)"): 1px in a light step of the card's own hue, the bands' 12px on each side of it. */
   --band-divider: color-mix(in srgb, hsl(var(--strategy-theme-hue, 220) var(--theme-bg-ink)) 30%, hsl(var(--strategy-theme-hue, 220) var(--theme-bg-inner)));
