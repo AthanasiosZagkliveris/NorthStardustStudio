@@ -1,6 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import TextLink from "../components/interview/fields/TextLink.tsx";
-import AddButton from "../components/controls/AddButton.tsx";
 import { useEffect, useState } from "react";
 
 import { capabilities, getCapabilityColor } from "../data/capabilities";
@@ -14,7 +13,6 @@ import { getCapabilityDescription } from "../framework/engine/CapabilityDescript
 import AppHeader from "../components/AppHeader";
 import AppFooter from "../components/AppFooter";
 import OrganizationCalendarPanel from "../components/OrganizationCalendarPanel";
-import { openWorkbook } from "../components/notepad/Notepad";
 
 import CapabilityList from "../components/CapabilityList";
 import SystemList from "../components/SystemList";
@@ -288,19 +286,6 @@ export default function SystemSelection() {
                                 statuses={systemStatuses}
                                 onSystemClick={handleSystemSelection}
                             />
-
-                            {/* What the four Foundation Systems add up to. */}
-                            {activeCapability === "foundation" && (
-                                <div className="workspace-documents">
-                                    <p className="workspace-documents-text">
-                                        Turn the Foundation answers into a Business Plan, a Business Model Canvas and a Financial Forecast.
-                                    </p>
-                                    <AddButton
-                                        onClick={() => openWorkbook(navigate, location, { tab: "documents" })}>
-                                        Business Documents
-                                    </AddButton>
-                                </div>
-                            )}
 
                         </section>
 

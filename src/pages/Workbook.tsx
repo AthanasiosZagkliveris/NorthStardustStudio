@@ -167,6 +167,17 @@ export default function Workbook() {
     // a proper framing"): its sections in one framed panel (CardShell, as a section dialog), the section's heading in it with its "i", the carousel arrows at
     // its sides going round the sections, and their bullets in the tab attached to the panel (CarouselArrows, as on every dialog).
     const panel = useRef<HTMLDivElement | null>(null);
+    // Another section opens at its top, by its bullet or by an arrow (owner, 2026-11-10: "when changing pages using the navigation arrows, the pages should
+    // appear their top part"); a term asked for scrolls to itself instead.
+    useEffect(() => {
+        if (target) {
+            return;
+        }
+        const body = panel.current?.querySelector<HTMLElement>(".section-tile-dialog-body");
+        if (body) {
+            body.scrollTop = 0;
+        }
+    }, [tab]);
     // (The row of the title holds the section's buttons at its right end: WorkbookTools.)
     const [toolsSlot, setToolsSlot] = useState<HTMLElement | null>(null);
     // The text size of the section (owner, 2026-11-10: "Add a letter-size option like the Inventory"): the Inventory's three steps, 14, 18 and 24px, kept while

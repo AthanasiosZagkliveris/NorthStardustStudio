@@ -469,35 +469,6 @@
 
 }
 
-/* The way to the Business Plan and Canvas, under the Foundation Systems. */
-.workspace-documents{
-
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--gap-12) 20px;
-
-    margin-top: 28px;
-    padding: 16px 20px;
-
-    border: 1px solid var(--line-sheet);
-    border-radius: 10px;
-
-    background: var(--bg-warm);
-
-}
-
-.workspace-documents-text{
-
-    margin: 0;
-    flex: 1 1 280px;
-
-    font-size: var(--font-body);
-    line-height: 1.5;
-    color: var(--text-secondary);
-
-}
-
 /* ==========================================================
    Continue where you left off
 ========================================================== */

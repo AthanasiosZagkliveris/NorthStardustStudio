@@ -272,9 +272,9 @@ describe("the Workbook, a whole page (owner, 2026-11-09)", () => {
         expect(tags()).toEqual(expect.arrayContaining(["Segment of Lumen", "Segment of Quillfield"]));
         act(() => { fireEvent.click(screen.getByRole("button", { name: "Choose which terms show" })); });
         // (Its options under folded categories, closed at first; owner, 2026-11-10.)
-        expect(screen.queryByRole("checkbox", { name: "Lumen" })).toBeNull();
-        act(() => { fireEvent.click(document.querySelector<HTMLElement>(".responsibility-filter-group:nth-child(2) .fold-head-name")!); });
-        act(() => { fireEvent.click(screen.getByRole("checkbox", { name: "Lumen" })); });
+        expect(screen.queryByRole("checkbox", { name: "Organisations: Lumen" })).toBeNull();
+        act(() => { fireEvent.click(screen.getByRole("button", { name: "Unfold Organisations" })); });
+        act(() => { fireEvent.click(screen.getByRole("checkbox", { name: "Organisations: Lumen" })); });
         expect(tags().length).toBeGreaterThan(0);
         expect(tags().every(tag => tag === "Segment of Quillfield")).toBe(true);
     });

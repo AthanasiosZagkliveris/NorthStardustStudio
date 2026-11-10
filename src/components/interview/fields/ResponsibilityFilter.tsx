@@ -2,7 +2,9 @@ import { useRef, useState, useLayoutEffect } from "react";
 
 import { usePopupDismiss } from "../../controls/PopupPanel.tsx";
 import TickField from "../../controls/TickField.tsx";
-import FoldHead from "../../controls/FoldHead.tsx";
+import MenuHead from "../tiles/MenuHead.tsx";
+import { BusinessTicks } from "../cards/BusinessCardFields.tsx";
+import "../../../styles/capability-overview.css";
 import FunnelButton from "../../controls/FunnelButton.tsx";
 
 /** What a founder's Responsibilities can be told apart by: where they stand (Infrastructure, Offerings) and what they are (Activities, Partners & Suppliers, Legal). */
@@ -75,15 +77,14 @@ export default function ResponsibilityFilter({
             {open && (
                 <div className="responsibility-filter-panel" role="group" aria-label={label}>
                     {groups
-                        ? groups.filter(group => group.options.length > 0).map(group => {
+                        // (The Inventory's folded categories: its MenuHead, its tick list, BusinessTicks; owner, 2026-11-10.)
+                        ? <div className="capability-overview-menu">{groups.filter(group => group.options.length > 0).map(group => {
                             const here = unfolded.has(group.name);
                             return (
-                                <div key={group.name} className="responsibility-filter-group">
-                                    <FoldHead
+                                <div key={group.name} className="capability-overview-menu-group">
+                                    <MenuHead
+                                        title={group.name}
                                         open={here}
-                                        label={group.name}
-                                        name={group.name}
-                                        count={group.options.filter(option => !off.has(option)).length + " of " + group.options.length}
                                         onToggle={() => setUnfolded(current => {
                                             const next = new Set(current);
                                             if (!next.delete(group.name)) {
@@ -92,14 +93,19 @@ export default function ResponsibilityFilter({
                                             return next;
                                         })}
                                     />
-                                    {here && group.options.map(option => (
-                                        <TickField key={option} className="responsibility-filter-option" checked={!off.has(option)} onChange={() => onToggle(option)}>
-                                            <span>{option}</span>
-                                        </TickField>
-                                    ))}
+                                    {here && (
+                                        <div className="capability-overview-menu-body">
+                                            <BusinessTicks
+                                                name={group.name}
+                                                options={group.options.map(option => ({ id: option, label: option }))}
+                                                chosen={group.options.filter(option => !off.has(option))}
+                                                onChange={(next) => group.options.filter(option => next.includes(option) === off.has(option)).forEach(onToggle)}
+                                            />
+                                        </div>
+                                    )}
                                 </div>
                             );
-                        })
+                        })}</div>
                         : options.map(option => (
                             <TickField key={option} className="responsibility-filter-option" checked={!off.has(option)} onChange={() => onToggle(option)}>
                                 <span>{option}</span>

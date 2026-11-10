@@ -7,6 +7,7 @@ import NumberCell from "../../controls/NumberCell.tsx";
 import MenuOption from "../../controls/MenuOption.tsx";
 import RadioChoice from "../../controls/RadioChoice.tsx";
 import FoldArrow from "../fields/FoldArrow.tsx";
+import MenuHead from "./MenuHead.tsx";
 import TileGrid from "./TileGrid.tsx";
 import { BUSINESS_COST_FREQUENCIES, BUSINESS_RESOURCE_STATUSES } from "../../../framework/engine/AnswerUtils.ts";
 import { OpenCardContext, plainTitle, tileName } from "./SectionTiles.tsx";
@@ -74,16 +75,6 @@ function FunnelPicker({ label, options, value, onChange }: { label: string; opti
             value={options.find(option => option.id === value)?.label ?? any}
             onChange={(next) => onChange(options.find(option => option.label === next)?.id ?? "")}
         />
-    );
-}
-
-/** A block's label in the funnel and its fold arrow (the title arrow of the section cards): the block is shown while the arrow points down. */
-function MenuHead({ title, open, onToggle, controls }: { title: string; open: boolean; onToggle: () => void; controls?: string }) {
-    return (
-        <div className="capability-overview-menu-head">
-            <strong>{title}</strong>
-            <FoldArrow variant="label" open={open} controls={controls} name={(open ? "Fold " : "Unfold ") + title} onToggle={onToggle} />
-        </div>
     );
 }
 

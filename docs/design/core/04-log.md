@@ -14,6 +14,9 @@ Status: **log**, started 2026-10-14, updated 2026-11-09. The rows of sections 4.
 
 | Dates | What happened |
 |---|---|
+| 2026-11-10 | **The Landing page Glossary funnel in the Inventory's folded categories (owner, Thanos, 12:01: "no need for the 2 of 2 ... or the underlines ... Use the same style with the inventory's folded categories").** Each category is the Inventory's MenuHead (its caps label and fold arrow; moved to its own file, `tiles/MenuHead.tsx`, shared by both) over the Inventory's tick list (BusinessTicks); no counts, no rules. |
+| 2026-11-10 | **The Workbook opens a section at its top (owner, Thanos, 12:01).** A bullet or an arrow scrolls the panel's body back to the top; a term asked for scrolls to itself. **The Business Documents' tab names keep their size** whatever the text size (the tab list undoes the section's scale). |
+| 2026-11-10 | **The Business Documents box is gone from the Foundation (owner, Thanos, 12:01: "Right now exists in the Workbook").** The Landing page's Foundation lists its four Systems; the documents open from the Workbook. |
 | 2026-11-10 | **The rail tabs' drop shadow blurred (owner, Thanos, 09:57: "Blur the drop shadows; right now, it creates a harsh line").** From 4px offset, 12px blur at 18% to 2px across, 6px down, 24px blur at 12%, so it fades with no edge (bullet-rail.css); the dialogs' shadow (0 16px 40px) was soft already. |
 | 2026-11-10 | **A text link on a coloured band takes the deeper blue.** The card audit found the Competitor card's "Add to text" at 4.2:1 on its note band once the bands took 12% of the card's ink; on the shared band (`.legal-entity-org-band`) every text link is now `--text-primary-deep`, 4.5:1 or more (text-links.css). |
 | 2026-11-10 | **No drop shadow on the Workbook (owner, Thanos, 10:04: yes to dropping both shadows on the Workbook only).** Its panel and its rail's tab stand flat on the page; a real dialog keeps its shadow (glossary.css). Layout rules 22.37. |
