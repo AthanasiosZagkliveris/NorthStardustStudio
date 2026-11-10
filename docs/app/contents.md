@@ -16,7 +16,7 @@ What each part of the app is for and what it holds is below. The rules of layout
 
 | System | Pages | What it records |
 |---|---|---|
-| 1. Identity | 1 Definition and Purpose (tiles: Organisation, the Positioning tile named by the business stage, Founders & Ownership; Purpose & Beliefs: Mission & Vision, Values & Principles, Philosophy & Manifesto), 2 Legal Entity (tiles: Capability, Registrations with its sub tiles Registration Numbers and Additional Legal Requirements, each listing what its dialog holds, Expenses) | Who the organisation is in law and in purpose |
+| 1. Identity | 1 Definition and Purpose (tiles: Organisation, the Positioning tile named by the business stage, Founders & Ownership; Purpose: Mission & Vision, Values & Principles, Philosophy & Manifesto), 2 Legal Entity (tiles: Capability, Registrations with its sub tiles Registration Numbers and Additional Legal Requirements, each listing what its dialog holds, Expenses) | Who the organisation is in law and in purpose |
 | 2. Brand | One page, Brand System: Ambassador (Aesthetics, Body Language, Communication & Voice, Imprint) and Style (Colours, Typography, Text Hierarchy, Icon & Logo, Brand Images) | How it looks |
 | 3. Business | 1 Foundation, 2 Customer Engagement, 3 Infrastructure & Capability, 4 Financial Foundation, 5 Sustainability | What it sells, to whom, with what, and whether the money works |
 | 4. Strategy | One page, Situation & Direction: Current Situation Analysis, SWOT Analysis, Strategic Compass, Strategic Period (its dates, the Roadmap tile, the Theme cards with their Goals, Objectives and Metrics) | Where it is heading |

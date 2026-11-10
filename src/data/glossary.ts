@@ -25,7 +25,7 @@ export interface AppTerm {
     sources?: readonly SourceId[];
     /** WHERE IN THE APP THE TERM IS USED (owner, 2026-11-10: "where in the app does this term exist"; "Clicking on it should direct the user to that specific
      *  field"): its System, its page (the section's number) and the part of it in words; the tile to open there and the field to bring into view (selectors). */
-    places?: readonly { system: number; page: number; part: string; tile?: string; field?: string; card?: "amortisationYears" | "usefulLife" }[];
+    places?: readonly { system: number; page: number; part: string; tile?: string; field?: string; card?: "amortisationYears" | "usefulLife"; has?: string }[];
 }
 
 export const APP_TERMS: readonly AppTerm[] = [
@@ -251,7 +251,7 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "vat-registration",
         term: "VAT registration",
-        places: [{ system: 1, page: 3, part: "Registrations, VAT", tile: "button.section-tile[data-field-key=\"1.3:legal-entity-registrations\"]", field: "[data-field-key$=\"registered-for-vat\"]" }],
+        places: [{ system: 1, page: 3, part: "Registrations, VAT", tile: "button.section-tile[data-field-key=\"1.3:legal-entity-registrations\"]", has: "VAT" }],
         meaning: "In the UK, a business must register for VAT once its VAT-taxable turnover goes over the threshold set by HMRC.",
         also: ["VAT", "VAT threshold"],
         sources: ["ukVatRegistration"]

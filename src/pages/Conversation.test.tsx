@@ -155,7 +155,7 @@ describe("Conversation records the last place worked", () => {
         expect(OrganizationService.getLastPlace(organization.id)).toEqual({ systemNumber: 1, sectionIndex: 2 });
         fireEvent.click(screen.getByRole("navigation", { name: "Pages" }).querySelectorAll(".bullet-rail-item")[1]);
 
-        // (The Definition and Purpose page holds the Definition chapter and the Purpose & Beliefs chapter: Philosophy & Manifesto's dialog opens, and the field in it is focused.)
+        // (The Definition and Purpose page holds the Definition chapter and the Purpose chapter: Philosophy & Manifesto's dialog opens, and the field in it is focused.)
         fireEvent.click(screen.getByRole("button", { name: /^Philosophy/ }));
         const card = document.querySelector<HTMLElement>(".column-tile-content[data-rail]")!;
         const field = card.querySelector<HTMLElement>("textarea, input")!;
@@ -211,16 +211,16 @@ describe("Conversation records the last place worked", () => {
 
     });
 
-    it("draws Purpose & Beliefs as three pair tiles, Mission & Vision saved in Definition under its own keys (doc 45)", () => {
+    it("draws Purpose as three pair tiles, Mission & Vision saved in Definition under its own keys (doc 45)", () => {
 
         const organization = OrganizationService.create("Quillfield");
         vi.spyOn(OrganizationService, "getSelected").mockReturnValue(organization.id);
 
         renderIdentity({ targetSectionNumber: 1, resume: {} });
 
-        // The two frames: Definition without Mission and Vision; Purpose & Beliefs with the three pairs, in their order.
+        // The two frames: Definition without Mission and Vision; Purpose with the three pairs, in their order.
         const heads = [...document.querySelectorAll(".tiles-frame-head")].map(head => head.textContent?.trim());
-        expect(heads).toEqual(["1. Definition", "2. Purpose & Beliefs"]);
+        expect(heads).toEqual(["1. Definition", "2. Purpose"]);
         const frames = [...document.querySelectorAll(".column-tiles-page")];
         const tilesOf = (frame: Element) => [...frame.querySelectorAll(".section-tile[data-tile]")].map(tile => tile.getAttribute("data-tile"));
         expect(tilesOf(frames[0])).not.toContain("mission");
@@ -389,7 +389,7 @@ describe("A System's opening screen", () => {
         renderOpening("identity");
 
         expect(Array.from(document.querySelectorAll(".intro-sentence strong")).map(name => name.textContent)).toEqual([
-            "Definition", "Purpose & Beliefs", "Legal Entity", "Founders Profile"
+            "Definition", "Purpose", "Legal Entity", "Founders Profile"
         ]);
         expect(document.querySelector(".intro-sentence")!.textContent).not.toContain("why do we exist");
 

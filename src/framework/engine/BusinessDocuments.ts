@@ -310,8 +310,8 @@ export function readFoundation(sessions: FoundationSessions, options?: { wholeOn
         legalEntity, foundersProfile, currency, format, drawings, business, strategy, foundationValue, segments,
         capability, engagement, financial, lines, position, revenuePage, outlook, name, calculated,
         definition: responseByTitle(sessions.identity, /^definition$/i),
-        // (The six texts of Purpose & Beliefs, doc 45: the Values, Principles, Philosophy and Manifesto are saved in its section; the Mission and Vision in Definition.)
-        ethics: responseByTitle(sessions.identity, /^purpose & beliefs$/i),
+        // (The six texts of Purpose, doc 45: the Values, Principles, Philosophy and Manifesto are saved in its section; the Mission and Vision in Definition.)
+        ethics: responseByTitle(sessions.identity, /^purpose( & beliefs)?$/i),
         ambassador: responseByTitle(sessions.brand, /ambassador/i),
         brandStyle: asBrandStyleValue(responseByType(sessions.brand, AnswerType.BrandStyle)),
         brandStyleValue: responseByType(sessions.brand, AnswerType.BrandStyle),

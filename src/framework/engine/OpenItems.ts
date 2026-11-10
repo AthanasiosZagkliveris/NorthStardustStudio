@@ -151,7 +151,7 @@ export function openItemsOf(
                     continue;
                 }
                 if (isAnswerEmpty(part.answer, values[part.id])) {
-                    // (On the Identity System the Mission and the Vision are saved in Definition and drawn in Purpose & Beliefs, Mission & Vision (doc 45): the item says where they are drawn; its key is the saved one.)
+                    // (On the Identity System the Mission and the Vision are saved in Definition and drawn in Purpose, Mission & Vision (doc 45): the item says where they are drawn; its key is the saved one.)
                     const drawnIn = noted && (part.id === "mission" || part.id === "vision")
                         ? session.getSections().find(candidate => candidate.answer?.parts?.some(other => other.id === "philosophy"))
                         : undefined;

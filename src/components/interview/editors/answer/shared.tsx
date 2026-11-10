@@ -176,7 +176,7 @@ export interface AnswerRendererProps {
 
     /**
      * The other sections of a page of several sections (PageGroups.ts), each with its saved answer and its saver, for a
-     * tile drawn in one frame from another section's answer: Purpose & Beliefs' Mission & Vision, saved in Definition
+     * tile drawn in one frame from another section's answer: Purpose' Mission & Vision, saved in Definition
      * (doc 45). Each answer keeps its own keys. Ignored by every other page.
      */
     pageSections?: readonly PageSectionAnswer[];

@@ -22,7 +22,7 @@
 
 **Structure:** Free Text
 
-## 02. Purpose & Beliefs
+## 02. Purpose
 
 **Layout:** Columns
 

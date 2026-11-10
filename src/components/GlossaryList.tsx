@@ -233,7 +233,7 @@ export default function GlossaryList({ organizationIds, target, onCitation }: {
                                                 return (
                                                     <Fragment key={place.system + "." + place.page + place.part}>
                                                         {at > 0 && "; "}
-                                                        <TextLink className="glossary-place" onClick={() => card ? openCard(navigate, card.organizationId, place.system, place.page, card.cardId) : openPage(navigate, place.system, place.page, place)}>
+                                                        <TextLink className="glossary-place" onClick={() => card ? openCard(navigate, card.organizationId, place.system, place.page, card.cardId, place.part.toLowerCase().replace(/[^a-z0-9]+/g, "-")) : openPage(navigate, place.system, place.page, place)}>
                                                             {pagePlace(place.system, place.page) + ", " + (card ? "the " + card.name + " card, " : "") + place.part}
                                                         </TextLink>
                                                     </Fragment>

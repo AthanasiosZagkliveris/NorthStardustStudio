@@ -841,10 +841,17 @@
    it in a related colour (blue like the link, and according the reading mode)"): a 3px frame in the links' own colour (--text-primary, set by each reading
    mode), drawn just inside the part's edge so no scrolling box cuts it, held, then fading out. An outline takes no room: nothing moves. A part lit by a
    Note keeps the Notes' orange. */
+/* ROUNDED, AND GLOWING AS THE TOTAL OWNERSHIP'S PILL (owner, 2026-11-10, 19:26: "Make the frames (from the links) have rounded corners, and give them a glow
+   effect like the Total Ownerships glowing effect"): the frame takes a card's corners (8px) and the pill's soft glow, 10px with 2px spread in its own colour
+   at 45%, both fading out together. */
 .jump-highlight{
 
-    outline:3px solid var(--text-primary);
-    outline-offset:-3px;
+    border-radius:var(--radius-lg);
+
+    outline:2px solid var(--text-primary);
+    outline-offset:0;
+
+    box-shadow:0 0 10px 2px color-mix(in srgb, var(--text-primary) 45%, transparent);
 
     animation:jump-highlight 2.4s ease-out forwards;
 
@@ -852,9 +859,15 @@
 
 @keyframes jump-highlight{
 
-    0%, 70%{ outline-color:var(--text-primary); }
+    0%, 70%{
+        outline-color:var(--text-primary);
+        box-shadow:0 0 10px 2px color-mix(in srgb, var(--text-primary) 45%, transparent);
+    }
 
-    100%{ outline-color:transparent; }
+    100%{
+        outline-color:transparent;
+        box-shadow:0 0 10px 2px transparent;
+    }
 
 }
 

@@ -30,7 +30,7 @@ A tile document is **one document for one tile or card**, in this order:
 |---|---|---|
 | Identity 1: Organisation | 37 | built (specification) |
 | Identity 1: Early Positioning (Core Market, Corporate and Portfolio by stage) | 38 | built (specification) |
-| Identity 1: Purpose & Beliefs (Mission, Vision, Philosophy, Values, Principles, Manifesto) | 45 | proposal |
+| Identity 1: Purpose (Mission, Vision, Philosophy, Values, Principles, Manifesto) | 45 | proposal |
 | Identity 2: Legal Entity (Founders & Ownership, Capability, Registrations, Expenses) | none (doc 26) | not yet |
 | Brand: Ambassador and Style (the nine tiles) | none | not yet |
 | Business 1: Segment Description | 35 | built (specification) |

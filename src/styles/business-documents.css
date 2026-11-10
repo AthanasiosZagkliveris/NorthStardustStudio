@@ -42,13 +42,21 @@
 
     margin-top:calc(-1 * var(--gap-24));
 
-    padding:32px 40px;
+    /* (The app's gaps: 24px inside, the double of the 12px step; owner, 2026-11-10, 19:26: "make sure the docs follow the proper gaps/margins".) */
+    padding:var(--gap-24);
 
+    /* ROUNDED AS EVERY CARD (owner, 2026-11-10, 19:26: "make their corners rounded"): its own top edge, under the tabs, the chosen tab open into it; the
+       corner under the first tab stays square while that tab is the chosen one, so the tab and the page meet as one edge. */
     border:1px solid var(--line-sheet);
-    border-top:none;
-    border-radius:0 0 var(--radius-lg) var(--radius-lg);
+    border-radius:var(--radius-lg);
 
     background:var(--bg-surface);
+
+}
+
+.business-documents-page[data-first-tab]{
+
+    border-top-left-radius:0;
 
 }
 
@@ -102,7 +110,7 @@
 
 .business-document .business-document-title{
 
-    margin:0 0 4px;
+    margin:0 0 var(--gap-6);
 
     font-size:var(--font-h2);
     line-height:1.25;
@@ -111,7 +119,7 @@
 
 .business-document h3{
 
-    margin:36px 0 12px;
+    margin:var(--gap-24) 0 var(--gap-12);
 
     padding-bottom:4px;
 
@@ -132,13 +140,13 @@
 
 .business-document h4{
 
-    margin:24px 0 8px;
+    margin:var(--gap-12) 0 var(--gap-6);
 
 }
 
 .business-document h5{
 
-    margin:18px 0 6px;
+    margin:var(--gap-12) 0 var(--gap-6);
 
     color:var(--text-secondary);
 
@@ -146,7 +154,7 @@
 
 .business-document p{
 
-    margin:0 0 12px;
+    margin:0 0 var(--gap-12);
 
 }
 

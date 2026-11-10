@@ -193,8 +193,13 @@
 /* (The term or reference a link asked for: framed in the links' blue, as every part a link lands on is; see .jump-highlight.) */
 .glossary-entry-target{
 
-    outline:3px solid var(--text-primary);
-    outline-offset:-3px;
+    /* (Inside the list's own box, which would cut a frame drawn outside: drawn just inside, rounded and glowing inward as a link's landing does.) */
+    border-radius:var(--radius-lg);
+
+    outline:2px solid var(--text-primary);
+    outline-offset:-2px;
+
+    box-shadow:inset 0 0 10px 2px color-mix(in srgb, var(--text-primary) 45%, transparent);
 
 }
 
@@ -495,5 +500,12 @@
 .workbook .business-documents-page{
 
     border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
+
+}
+
+/* (The tabs draw no rule of their own here: the page's rounded top edge is the line the tabs stand on; the chosen tab, a pixel over it, opens into it.) */
+.workbook .business-documents .tab-list{
+
+    border-bottom:none;
 
 }

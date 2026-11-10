@@ -233,7 +233,7 @@ export default function BusinessDocumentsView({ organizationId }: { organization
 
                 {/* ONE PAGE WITH ITS TABS (owner, 2026-11-10, 18:27: "Connect the tags with the content as a solid page with page tags"): the chosen document is
                     drawn on one sheet under the tabs, the chosen tab opening into it; the Plan's own sheet is that page. */}
-                <div className="business-documents-page" role="tabpanel" aria-label={documentId === "plan" ? "Business Plan" : documentId === "canvas" ? "Business Model Canvas" : "Financial Forecast"}>
+                <div className="business-documents-page" data-first-tab={documentId === "plan" ? "" : undefined} role="tabpanel" aria-label={documentId === "plan" ? "Business Plan" : documentId === "canvas" ? "Business Model Canvas" : "Financial Forecast"}>
 
                 {documentId === "canvas" && (
                     <div className="business-canvas-head">

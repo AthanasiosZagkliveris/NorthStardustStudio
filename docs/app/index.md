@@ -56,7 +56,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Item | Where in the app | Described in |
 |---|---|---|
 | Early Positioning (tile) | Identity › 1 Definition and Purpose; named by the business stage (Early, Core Market, Corporate & Portfolio Positioning) | Doc 38; doc 28, 8.2; doc 33 |
-| Ethics | See Purpose & Beliefs | Doc 45 |
+| Ethics | See Purpose | Doc 45 |
 | Examples | Organisations (home): Lumen & Loom Studio, Quillfield Automation | Doc 25 |
 | Expenses (Legal Entity) | Identity › 2 Legal Entity › Expenses | Doc 26 |
 
@@ -103,8 +103,8 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Manifesto | Identity › 1 Definition and Purpose › Purpose & Beliefs › Philosophy & Manifesto | Doc 45, 3.6 |
-| Mission | Identity › 1 Definition and Purpose › Purpose & Beliefs › Mission & Vision (saved in Definition) | Doc 45, 3.1 |
+| Manifesto | Identity › 1 Definition and Purpose › Purpose › Philosophy & Manifesto | Doc 45, 3.6 |
+| Mission | Identity › 1 Definition and Purpose › Purpose › Mission & Vision (saved in Definition) | Doc 45, 3.1 |
 
 ## N
 
@@ -127,10 +127,10 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Item | Where in the app | Described in |
 |---|---|---|
 | Partners & Suppliers | Business › 3 Infrastructure & Capability (both cards) | Page 3 |
-| Philosophy | Identity › 1 Definition and Purpose › Purpose & Beliefs › Philosophy & Manifesto | Doc 45, 3.5 |
+| Philosophy | Identity › 1 Definition and Purpose › Purpose › Philosophy & Manifesto | Doc 45, 3.5 |
 | Positioning (tile) | Identity › 1 Definition and Purpose; its name follows the business stage (see Early Positioning) | Doc 38 |
-| Principles | Identity › 1 Definition and Purpose › Purpose & Beliefs › Values & Principles | Doc 45, 3.4 |
-| Purpose & Beliefs | Identity › 1 Definition and Purpose, the second frame: Mission & Vision, Values & Principles, Philosophy & Manifesto | Doc 45 |
+| Principles | Identity › 1 Definition and Purpose › Purpose › Values & Principles | Doc 45, 3.4 |
+| Purpose | Identity › 1 Definition and Purpose, the second frame: Mission & Vision, Values & Principles, Philosophy & Manifesto | Doc 45 |
 | Profile | Business › 1 Foundation › Segment Description, the Profiles section under the Segment's boxes (a card that opens floating) | Doc 36; doc 28, 6.4 |
 
 ## R
@@ -171,6 +171,6 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Item | Where in the app | Described in |
 |---|---|---|
 | Value Proposition | Business › 1 Foundation › Value Proposition | Doc 42; doc 28, 6.7; page 1 |
-| Values | Identity › 1 Definition and Purpose › Purpose & Beliefs › Values & Principles | Doc 45, 3.3 |
-| Vision | Identity › 1 Definition and Purpose › Purpose & Beliefs › Mission & Vision (saved in Definition) | Doc 45, 3.2 |
+| Values | Identity › 1 Definition and Purpose › Purpose › Values & Principles | Doc 45, 3.3 |
+| Vision | Identity › 1 Definition and Purpose › Purpose › Mission & Vision (saved in Definition) | Doc 45, 3.2 |
 | Workbook | Header, wherever an Organisation is open, and the Landing page (one button, no count): the Workbook page (`/workbook`), sections Card Notes, Review, Glossary, References and Business Documents; on the Landing page Review (every Organisation), Glossary and References; Back or Escape returns | `contents.md`; layout rules 22.37 |

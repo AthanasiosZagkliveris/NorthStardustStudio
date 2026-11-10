@@ -33,7 +33,7 @@ Thinking Time: About 1–1.5 hr
 - Think five to ten years ahead. Describe the result; the steps belong in the Strategy.
 - Example: "Every home in the UK and Ireland has one throw it keeps for life."
 
-## 2. Purpose & Beliefs
+## 2. Purpose
 
 ### Philosophy
 

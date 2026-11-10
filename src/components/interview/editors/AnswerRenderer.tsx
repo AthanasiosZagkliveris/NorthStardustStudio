@@ -150,7 +150,7 @@ function MultiPartAnswerRenderer({
 
     }
 
-    // A column page of FOUR columns (Identity's Definition and Purpose & Beliefs, Brand's Ambassador): the page's tile system instead of four narrow columns.
+    // A column page of FOUR columns (Identity's Definition and Purpose, Brand's Ambassador): the page's tile system instead of four narrow columns.
     // Each tile carries its title and a line or two of what is in it; pressing it opens the column (its questions and its editor) in the tile's dialog.
     if (definition.columns && parts.length === 4) {
 
@@ -248,7 +248,7 @@ function MultiPartAnswerRenderer({
                     )
         );
 
-        // PURPOSE & BELIEFS (doc 45): the Identity System's second chapter draws its six texts as three pair tiles, Mission & Vision, Values & Principles,
+        // PURPOSE (doc 45): the Identity System's second chapter draws its six texts as three pair tiles, Mission & Vision, Values & Principles,
         // Philosophy & Manifesto. Mission and Vision are saved in Definition, the page's first section, under their own keys; Definition does not draw them.
         const holdsPurpose = (candidate: readonly (typeof parts)[number][] | undefined) => !!candidate?.some(part => part.id === "philosophy") && !!candidate?.some(part => part.id === "manifesto");
         const purposeHere = holdsPurpose(parts);

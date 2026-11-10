@@ -70,10 +70,12 @@ function scrollToElement(element: HTMLElement) {
 }
 
 export function land(target: HTMLElement) {
-    // (A part drawn by its children, with no box of its own -- a question's pair -- is framed by the band that holds it alone, else by its label row.)
-    const element = getComputedStyle(target).display !== "contents" ? target
-        : target.parentElement && target.parentElement.childElementCount === 1 ? target.parentElement
-            : target.firstElementChild instanceof HTMLElement ? target.firstElementChild : target;
+    // (A part drawn by its children, with no box of its own -- a question's pair, a frozen field -- is framed by the first box that holds it: its band.)
+    let element = target;
+    // (An empty marker that only carries the key -- a Financial page's section -- is framed by what holds it.)
+    while (element.parentElement && (getComputedStyle(element).display === "contents" || (element.childElementCount === 0 && !(element.textContent ?? "").trim() && !(element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement || element instanceof HTMLSelectElement)))) {
+        element = element.parentElement;
+    }
     /* Instant, and once more after the page settles: a page still
        laying itself out can move the card after the first scroll. */
     scrollToElement(element);

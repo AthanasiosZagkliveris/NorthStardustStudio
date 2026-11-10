@@ -223,7 +223,7 @@ function markControls(root: HTMLElement, page: FieldPageValue): void {
 
     for (const control of root.querySelectorAll<HTMLElement>(ANSWER_CONTROLS)) {
 
-        // (A part drawn from another section's answer has a page of its own inside this one, which marks it: Purpose & Beliefs' Mission & Vision.)
+        // (A part drawn from another section's answer has a page of its own inside this one, which marks it: Purpose' Mission & Vision.)
         if (control.closest(".field-page") !== pageOf(root)) {
             continue;
         }

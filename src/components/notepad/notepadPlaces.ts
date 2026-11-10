@@ -213,7 +213,7 @@ function lightNoted(field: HTMLElement) {
  * Opens a page of the open Organisation and, there, the part a Glossary term names (owner, 2026-11-10: "Clicking on it should direct the user to that
  * specific field"): the tile it is in (its dialog opens) and the field, brought into view and framed as a jump lands (`land`, jumpTo.ts).
  */
-export function openPage(navigate: Navigate, systemNumber: number, pageNumber: number, target: { tile?: string; field?: string } = {}): void {
+export function openPage(navigate: Navigate, systemNumber: number, pageNumber: number, target: { tile?: string; field?: string; has?: string } = {}): void {
     openLink(navigate, { id: "page", organizationId: OrganizationService.getSelected() ?? "", kind: "page", systemNumber, sectionNumber: pageNumber, label: "", place: "" });
     if (!target.tile && !target.field) {
         return;
@@ -224,8 +224,12 @@ export function openPage(navigate: Navigate, systemNumber: number, pageNumber: n
         if (tile) {
             await openTileDialog(tile);
         }
-        const field = target.field ? await waitFor(() => document.querySelector<HTMLElement>(target.field as string), 2500) : null;
-        const shown = field ?? (tile ? document.querySelector<HTMLElement>(".section-tile-dialog") : null);
+        // (The field asked for, as long as a page takes to draw; or, in the dialog, the small tile that names it: the VAT among the Registrations.)
+        const field = target.field ? await waitFor(() => document.querySelector<HTMLElement>(target.field as string)) : null;
+        const line = !field && target.has ? [...document.querySelectorAll<HTMLElement>(".section-tile-dialog .section-tile-list-line, .section-tile-dialog .section-tile-title")].find(text => (text.textContent ?? "").includes(target.has as string)) ?? null : null;
+        const slot = line ? line.closest<HTMLElement>(".section-tile-slot") : null;
+        const named = slot ? slot.querySelector<HTMLElement>("button.section-tile") ?? slot : line;
+        const shown = field ?? named ?? (tile ? document.querySelector<HTMLElement>(".section-tile-dialog") : null);
         if (shown) {
             land(shown);
         }
@@ -297,17 +301,29 @@ export function openLink(navigate: Navigate, link: NoteLink): void {
  * so the request is made again every 40 ms until the card floats
  * (up to 5 s), never after a fixed wait.
  */
-export function openCard(navigate: Navigate, organizationId: string, systemNumber: number, sectionNumber: number, cardId: string): void {
+export function openCard(navigate: Navigate, organizationId: string, systemNumber: number, sectionNumber: number, cardId: string, fieldEnd?: string): void {
     openLink(navigate, { id: cardId, organizationId, kind: "page", systemNumber, sectionNumber, label: "", place: "" });
     if (!cardId) {
         return;
     }
     void (async () => {
         await afterNavigation();
-        await waitFor(() => {
+        const card = await waitFor(() => {
             document.dispatchEvent(new CustomEvent("section-tiles:open", { detail: { card: cardId } }));
             return document.querySelector(".floating-card-host");
         });
+        // (A Glossary term's own field on the card, framed where it stands: owner, 2026-11-10, "The links on the Glossary open the related card, but they do
+        // not frame the specific part".)
+        if (card && fieldEnd) {
+            const field = await waitFor(() => [...document.querySelectorAll<HTMLElement>(".floating-card-host [data-field-key]")].find(element => (element.dataset.fieldKey ?? "").endsWith("/" + fieldEnd)), 2500);
+            if (field) {
+                (getComputedStyle(field).display === "contents" ? field.parentElement ?? field : field).scrollIntoView({ block: "center" });
+                land(field);
+            } else {
+                // (The card does not show the field now, as a card of another status: the card itself is framed.)
+                land(card.querySelector<HTMLElement>(".floating-card-body") ?? (card as HTMLElement));
+            }
+        }
     })();
 }
 
