@@ -917,7 +917,7 @@
 /* A box's title is a band on the primary fill with light letters (the inverse of the tinted question bands under it), in capitals as the other subtitles of the cards are (.dialog-heading-sub). */
 .business-segment-grid .business-segment-box > .legal-entity-org-section:first-child{
 
-    background:var(--bg-primary);
+    background:var(--card-band-ink, var(--bg-primary));
 
     /* The band ends at the title's own line: no strip of the card's ground under it. */
     padding-bottom:0;
@@ -1156,9 +1156,9 @@
 
     padding:8px var(--card-padding);
 
-    background:var(--bg-primary);
+    background:var(--card-band-ink, var(--bg-primary));
 
-    --info-fill:var(--bg-primary);
+    --info-fill:var(--card-band-ink, var(--bg-primary));
 
 }
 
@@ -1200,9 +1200,9 @@
 
 .business-segment-grid.business-segment-grid-single .business-segment-box > .legal-entity-org-section:first-child{
 
-    background:color-mix(in srgb, var(--bg-primary) 14%, transparent);
+    background:var(--tint-box-title, color-mix(in srgb, var(--bg-primary) 14%, transparent));
 
-    box-shadow:inset 4px 0 0 var(--bg-primary);
+    box-shadow:inset 4px 0 0 var(--card-band-ink, var(--bg-primary));
 
     --info-fill:transparent;
 

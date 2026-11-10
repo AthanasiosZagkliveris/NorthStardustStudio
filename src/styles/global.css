@@ -1392,3 +1392,17 @@ label:has(> input[type="checkbox"]:not(:disabled)):hover > :not(input),
   border-color: hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
   background: color-mix(in srgb, var(--tooltip-bg) 78%, hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent)));
 }
+
+
+/* THE BANDS IN THE CARD'S OWN HUE (owner, 2026-11-10: "Use the same Saturation and Light values as the app (cards and tiles), same as the channel card, but
+   adjust the hue accordingly; general rule"): the channel card tints its parts with 12% of its label colour, the hue at 28% saturation and 34% lightness;
+   every card and dialog does the same in its own hue. A section's title band is that colour itself, a box's title band 24% of it with the colour as its bar,
+   a question band 12% of it. Set where the hue is (the card, the dialog), so each takes its own. */
+.business-foundation-card,
+.section-tile-dialog,
+.legal-entity-card,
+.floating-card-body {
+  --card-band-ink: hsl(var(--strategy-theme-hue, 217) var(--theme-bg-ink));
+  --tint-row-band: color-mix(in srgb, var(--card-band-ink) 12%, transparent);
+  --tint-box-title: color-mix(in srgb, var(--card-band-ink) 24%, transparent);
+}
