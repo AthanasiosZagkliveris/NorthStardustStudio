@@ -84,7 +84,11 @@ export default function Workbook() {
     // Opened from the Landing page (or with no Organisation): its header, the total review, the Glossary and the References.
     const landing = state.total === true || !organizationId;
     // (The Business Documents are one Organisation's, as the Card Notes are: left out on the Landing page.)
-    const tabs = useMemo(() => (landing ? ["review", "glossary", "references"] as const : ["card-notes", "review", "glossary", "references", "documents"] as const)
+    // THE ORDER OF A REPORT (owner, 2026-11-10: "rearrange the order of the cards. Search online what order these Cards would follow"): the body first, then
+    // its conclusions, then the end matter -- references, glossary, appendices -- as university report guides set it (Notre Dame Australia, Western Sydney,
+    // Reading): the Business Documents (the body), the Review (what to look at again), the References, the Glossary, and the Card Notes (the working notes,
+    // an appendix).
+    const tabs = useMemo(() => (landing ? ["review", "references", "glossary"] as const : ["documents", "review", "references", "glossary", "card-notes"] as const)
         .map(id => ({ id: id as WorkbookTab, label: TAB_LABELS[id] })), [landing]);
     const first = (wanted?: WorkbookTab): WorkbookTab => wanted && tabs.some(entry => entry.id === wanted) ? wanted : tabs[0].id;
     const [tab, setTab] = useState<WorkbookTab>(() => first(state.tab));
